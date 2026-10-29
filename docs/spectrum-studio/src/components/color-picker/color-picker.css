@@ -1,0 +1,155 @@
+.colorPickerCanvas {
+  box-sizing: border-box;
+  display: block;
+  cursor: crosshair;
+  border-radius: 8px;
+}
+
+.colorPickerArea,
+.colorPickerSlider {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.colorPickerHandle {
+  position: absolute;
+  z-index: 3;
+  width: 16px;
+  height: 16px;
+  cursor: grab;
+  outline: none;
+}
+
+.colorPickerHandleDot {
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+  box-sizing: border-box;
+}
+
+.colorPickerHandle:focus-visible .colorPickerHandleDot {
+  outline: 2px solid #007aff;
+  outline-offset: 2px;
+}
+
+.colorPickerHandle:active .colorPickerHandleDot {
+  transform: scale(0.95);
+  transition: transform 100ms ease-in-out;
+}
+
+.colorPickerLoupe {
+  position: absolute;
+  left: 8px;
+  bottom: 20px;
+  z-index: 0;
+  width: 38px;
+  height: 48px;
+  margin-top: -48px;
+  margin-left: -19px;
+  pointer-events: none;
+  transform: translateY(16px);
+  transform-origin: bottom center;
+  opacity: 0;
+  transition: transform 100ms ease-in-out, opacity 125ms ease-in-out;
+}
+
+.colorPickerLoupe.is-visible {
+  z-index: 2;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.colorPickerLoupe svg {
+  display: block;
+  width: 38px;
+  height: 48px;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 30%)) drop-shadow(0 0 1px rgb(0 0 0 / 30%));
+}
+
+.colorPickerSliderCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+.colorPickerInteractionCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  opacity: 0;
+}
+.colorPickerContents {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.colorPickerControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.colorPickerStage {
+  min-width: 0;
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+
+.colorPickerAreaColumn,
+.colorPickerSliderColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.colorPickerSliderColumn {
+  align-items: center;
+}
+
+.colorPickerChannelFields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: fit-content;
+}
+
+.colorPickerChannels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.colorPickerChannel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.colorPickerChannelControls {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.colorPickerSlider-horizontal .colorPickerSliderCanvas {
+  width: 100%;
+  height: 24px;
+}
+
+.colorPickerSlider-vertical .colorPickerSliderCanvas {
+  width: 24px;
+  height: 100%;
+}

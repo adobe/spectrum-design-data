@@ -1,0 +1,122 @@
+---
+description: Build system
+globs: 
+alwaysApply: false
+---
+# Build Tools Rules
+
+## Vite Build Tool Requirements
+
+### Required: Use Vite as Build Tool
+All new web projects must use Vite as the build tool and development server.
+
+```yaml
+rule:
+  id: use-vite-build
+  pattern-either:
+    - pattern: |
+        "vite": "^[0-9]"
+    - pattern: |
+        "@vitejs/plugin-"
+  pattern-not: |
+    "webpack":|"parcel":|"rollup":
+  message: |
+    Use Vite as the build tool for development and production.
+    Visit https://vitejs.dev/ for documentation.
+  severity: error
+  languages: [json]
+```
+
+### Required: Vite Configuration File
+Projects must include a properly configured Vite configuration file.
+
+```yaml
+rule:
+  id: vite-config-presence
+  pattern-either:
+    - pattern: |
+        vite.config.ts
+    - pattern: |
+        vite.config.js
+  message: |
+    Project must include a Vite configuration file (vite.config.js/ts).
+    Example: https://vitejs.dev/config/
+  severity: error
+  languages: [javascript, typescript]
+```
+
+### Required: Vite Scripts in Package.json
+Package.json must include standard Vite scripts for development and building.
+
+```yaml
+rule:
+  id: vite-npm-scripts
+  pattern: |
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    }
+  message: |
+    Include standard Vite scripts in package.json for development and building.
+  severity: error
+  languages: [json]
+```
+
+### Required: Use Vite for Static Asset Handling
+Use Vite's built-in static asset handling capabilities.
+
+```yaml
+rule:
+  id: vite-asset-handling
+  pattern-either:
+    - pattern: |
+        import.meta.url
+    - pattern: |
+        new URL('path', import.meta.url)
+  message: |
+    Use Vite's asset handling features for importing static assets.
+    Example: new URL('./img.png', import.meta.url)
+  severity: warning
+  languages: [javascript, typescript]
+```
+
+### Best Practice: Use Vite Plugins
+Utilize official Vite plugins for framework integration.
+
+```yaml
+rule:
+  id: vite-plugins
+  pattern-either:
+    - pattern: |
+        "@vitejs/plugin-vue"
+    - pattern: |
+        "@vitejs/plugin-react"
+    - pattern: |
+        "@vitejs/plugin-legacy"
+  message: |
+    Use official Vite plugins for framework integration and browser support.
+  severity: warning
+  languages: [javascript, typescript]
+```
+
+### Required: Node.js Version Compatibility
+Ensure Node.js version compatibility with Vite requirements.
+
+```yaml
+rule:
+  id: vite-node-version
+  pattern: |
+    "engines": {
+      "node": ">=18"
+    }
+  message: |
+    Vite requires Node.js version 18+ or 20+.
+  severity: error
+  languages: [json]
+```
+
+## References
+- [Vite Documentation](mdc:https:/vitejs.dev/guide)
+- [Vite Config Reference](mdc:https:/vitejs.dev/config)
+- [Vite Plugins](mdc:https:/vitejs.dev/plugins) 

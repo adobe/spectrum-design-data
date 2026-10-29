@@ -1,0 +1,77 @@
+// Copyright 2026 Adobe. All rights reserved.
+import { Provider, ToastQueue } from "@react-spectrum/s2";
+import { useAtomValue } from "jotai";
+import BrowsingContext from "./pages/BrowsingContext";
+import { Blueline } from "./components/Blueline";
+import { DeletionToastProvider } from "./components/DeletionToastProvider";
+import { DevToolbar } from "./components/DevToolbar";
+import { appColorSchemeAtom } from "./features/modes/capabilities";
+import { useModeIntegrity } from "./features/modes/useModeIntegrity";
+import { useRuleIntegrity } from "./features/logic/useRuleIntegrity";
+import { usePaletteIntegrity } from "./features/color-system/paletteIntegrity";
+import { useDimensionArtifacts } from "./features/design-data/useDimensionArtifacts";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { persistenceIssuesAtom } from "./state/persist";
+import { ColorPickerDefaultsProvider } from "./components/color-picker/ColorPickerDefaults";
+import { colorOutputSettingsAtom } from "./features/color-system/state";
+import { useComparisonWork } from "./features/changelog/useComparisonWork";
+
+function ApplicationWork() {
+  const storageIssues = useAtomValue(persistenceIssuesAtom);
+  const notified = useRef(new Set<string>());
+  useEffect(() => {
+    notified.current = new Set(
+      [...notified.current].filter((issue) => storageIssues.includes(issue)),
+    );
+    for (const issue of storageIssues)
+      if (!notified.current.has(issue)) {
+        ToastQueue.negative(issue);
+        notified.current.add(issue);
+      }
+  }, [storageIssues]);
+  useModeIntegrity();
+  useRuleIntegrity();
+  usePaletteIntegrity();
+  useDimensionArtifacts();
+  useComparisonWork();
+  return null;
+}
+
+function App() {
+  const colorScheme = useAtomValue(appColorSchemeAtom);
+  const colorOutput = useAtomValue(colorOutputSettingsAtom);
+  useLayoutEffect(() => {
+    const body = document.body;
+    const previous = ["spectrum", "spectrum--light", "spectrum--dark"].map(
+      (name) => ({
+        name,
+        enabled: body.classList.contains(name),
+      }),
+    );
+    body.classList.add("spectrum");
+    body.classList.toggle("spectrum--light", colorScheme === "light");
+    body.classList.toggle("spectrum--dark", colorScheme === "dark");
+    return () => {
+      for (const { name, enabled } of previous)
+        body.classList.toggle(name, enabled);
+    };
+  }, [colorScheme]);
+
+  return (
+    <Provider
+      colorScheme={colorScheme}
+      UNSAFE_className={`spectrum spectrum--${colorScheme}`}
+    >
+      <DeletionToastProvider>
+        <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
+          <BrowsingContext />
+        </ColorPickerDefaultsProvider>
+      </DeletionToastProvider>
+      {import.meta.env.DEV && <Blueline />}
+      {import.meta.env.DEV && <DevToolbar />}
+      <ApplicationWork />
+    </Provider>
+  );
+}
+
+export default App;

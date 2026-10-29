@@ -1,0 +1,15 @@
+{
+  "extraKnownMarketplaces": {
+    "adobe-design": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:Adobe-Design/marketplace.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "designtech-core@adobe-design": true,
+    "designer-voice@adobe-design": true,
+    "spectrum-react@adobe-design": true
+  }
+}

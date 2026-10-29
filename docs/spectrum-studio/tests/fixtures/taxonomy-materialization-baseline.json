@@ -1,0 +1,14 @@
+{
+  "revision": "c84de71cec30d63bac6ee2034a7989cf47e751fc",
+  "reviewed": {
+    "preRadius": "3d7da6dad76f113e468beb440ffd0fde99f859c64d7de858113cf4048946c768",
+    "radius": "6e206a9970857960d982c68d8c7370b2916b432198c6291ac14a14dba9869cba",
+    "elevation": "537faf0f80ecc56878231975c7b1806b98f8a889b7d058bed8d9f3939e096437"
+  },
+  "invariants": {
+    "preRadius": "d37ec8b71ec6097f60a3cea721153f4503305fc12584b875f946f0529a85e2f5",
+    "radius": "4bbf8984ffc67c4ee659d3acbc473b0206fca0ffa0a3ddced7ca8364cef18070",
+    "elevation": "a5cdf7310423d86b4d33a05cce5233864008cb972fcb02b0b60af90c63ff444f"
+  },
+  "tokenRows": 3486
+}

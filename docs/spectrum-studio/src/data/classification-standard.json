@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "profileId": "spectrum-classification-v1-proposed",
+  "adoption": "proposed",
+  "gapId": "LTAX-011",
+  "representation": {
+    "profileId": "leonardo-flat-taxonomy-v1",
+    "normalization": "trim-lowercase-whole-value",
+    "textBinding": "registered-field-and-value-with-shared-definition",
+    "numericBinding": "typed-category-domain",
+    "termCardinality": "one",
+    "numericSharing": ["scaleIndex", "number"]
+  },
+  "reference": {
+    "repository": "adobe/spectrum-design-data",
+    "revision": "eba428d462bfb5a3288835cb6cf0dcb1c4dc93af"
+  },
+  "facets": [
+    { "key": "property", "name": "Property", "sourceKeys": ["property"], "question": "What characteristic is measured or styled?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "element", "name": "Element", "sourceKeys": ["element", "object"], "question": "What abstract, nonspecific styling target is addressed?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "attribute", "name": "Attribute", "sourceKeys": ["attribute"], "question": "What aspect of the target is addressed?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "prominence", "name": "Prominence", "sourceKeys": ["prominence", "visibility"], "question": "What visual emphasis is expressed, independently of shown or hidden behavior?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "role", "name": "Role", "sourceKeys": ["role", "colorRole"], "question": "What semantic intent does the styling communicate?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "interactiveContext", "name": "Interactive context", "sourceKeys": ["interactiveContext"], "question": "What persistent interactive condition applies?", "valueType": "string", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "scaleIndex", "name": "Scale index", "sourceKeys": ["scaleIndex"], "question": "What finite numeric coordinate identifies the source scale step?", "valueType": "number", "appliesTo": ["token", "source-reference"], "review": "accepted-direction" },
+    { "key": "number", "name": "Number", "sourceKeys": ["number"], "question": "What positive safe integer identifies the numbered choice or part?", "valueType": "number", "appliesTo": ["token", "component-part", "relationship"], "review": "accepted-direction" },
+    { "key": "colorName", "name": "Color name", "sourceKeys": ["colorName"], "question": "Which authored color source is referenced?", "valueType": "string", "appliesTo": ["token", "source-reference"], "review": "provisional" },
+    { "key": "surfaceName", "name": "Surface name", "sourceKeys": ["surfaceName"], "question": "Which authored surface source is referenced?", "valueType": "string", "appliesTo": ["token", "source-reference"], "review": "provisional" },
+    { "key": "foundationScale", "name": "Foundation scale", "sourceKeys": ["foundationScale"], "question": "Which authored scale is referenced?", "valueType": "string", "appliesTo": ["token", "source-reference"], "review": "provisional" }
+  ],
+  "concepts": [
+    { "id": "property:color", "facet": "property", "value": "Color", "definition": "A color value of the specified target and aspect; not a second color owner or a text-only quantity.", "examples": ["Visual Color", "Workflow-icon Color", "Background Color"], "counterexamples": ["Color as a token family or Element"] },
+    { "id": "property:opacity", "facet": "property", "value": "Opacity", "definition": "The degree of opacity of the specified target and aspect, under its declared value and unit contract.", "examples": ["Background Opacity"], "counterexamples": ["Opacity as an Attribute"] },
+    { "id": "property:size", "facet": "property", "value": "Size", "definition": "The nominal size of the declared target. For Text this is the nominal font size, not measured text width or height; its font metric and units must be explicit.", "examples": ["Text Size with explicit nominal font-size metric and px units"], "counterexamples": ["Measured text Width", "Measured text Height", "Unspecified font metric"] },
+    { "id": "property:padding", "facet": "property", "value": "Padding", "definition": "Inset space between a target boundary and its content. An axis or side is supplied explicitly when the measurement is directional.", "examples": ["Horizontal Padding with reviewed inset endpoints"], "counterexamples": ["Gap between siblings", "Unknown Edge-to measurement"] },
+    { "id": "element:text", "facet": "element", "value": "Text", "definition": "An abstract rendered text target, independent of a particular typographic component or component-owned part.", "examples": ["Text Size", "Text Color"], "counterexamples": ["Body as a Text subtype", "Unreviewed Content-area"] },
+    { "id": "element:visual", "facet": "element", "value": "Visual", "definition": "An abstract rendered visual or graphic target, independent of a particular component entity.", "examples": ["Visual Color"], "counterexamples": ["A component identity inferred from its illustration"] },
+    { "id": "element:workflow-icon", "facet": "element", "value": "Workflow-icon", "definition": "An abstract workflow icon target. Component-owned icon parts reference this single shared meaning.", "examples": ["A button icon part referencing Workflow-icon"], "counterexamples": ["A second Workflow-icon definition under Anatomy"] },
+    { "id": "element:ui-icon", "facet": "element", "value": "UI-icon", "definition": "An abstract system UI icon target, including chevrons, checkmarks and close icons. Component parts reference this single shared meaning.", "examples": ["A chevron part referencing UI-icon"], "counterexamples": ["Separate UI and Icon terms inferred by splitting the compound"] },
+    { "id": "element:bar", "facet": "element", "value": "Bar", "definition": "An abstract bar target, including a divider, progress bar or slider track; not the interactive handle.", "examples": ["Slider track", "Progress bar", "Divider"], "counterexamples": ["Slider handle"] },
+    { "id": "element:control", "facet": "element", "value": "Control", "definition": "An entire interactive element such as a switch, slider handle, checkbox or radio; not an old nesting role or an entire composite component by assumption.", "examples": ["Switch", "Slider handle", "Checkbox", "Radio"], "counterexamples": ["Slider track", "Unreviewed Segmented control Item"] },
+    { "id": "attribute:background", "facet": "attribute", "value": "Background", "definition": "The background aspect of the declared target, styled by a separate Property such as Color or Opacity.", "examples": ["Background Color", "Background Opacity"], "counterexamples": ["Background as a Property"] },
+    { "id": "attribute:border", "facet": "attribute", "value": "Border", "definition": "The boundary or border aspect of the declared target, styled by a separate Property such as Color or Opacity.", "examples": ["Border Color", "Border Opacity"], "counterexamples": ["Border as an Element"] },
+    { "id": "prominence:emphasized", "facet": "prominence", "value": "Emphasized", "definition": "Elevated visual emphasis, independent of Accent color intent, Selected condition and shown or hidden behavior.", "examples": ["Emphasized prominence with an independently declared color role"], "counterexamples": ["Hidden", "Selected as a synonym"] },
+    { "id": "role:accent", "facet": "role", "value": "Accent", "definition": "An accent color role; not a synonym for Emphasized prominence or Selected interactive context.", "examples": ["Accent Color"], "counterexamples": ["Accent inferred only from an isSelected option"] },
+    { "id": "interactive-context:selected", "facet": "interactiveContext", "value": "Selected", "definition": "A selected interactive condition, independent of visual prominence and semantic color role.", "examples": ["A selected control with an independently chosen prominence"], "counterexamples": ["Selected inferred only from an accent color value"] }
+  ],
+  "components": [
+    { "id": "component:body", "name": "Body", "group": "Typography", "elementIds": ["element:text"] },
+    { "id": "component:heading", "name": "Heading", "group": "Typography", "elementIds": ["element:text"] },
+    { "id": "component:detail", "name": "Detail", "group": "Typography", "elementIds": ["element:text"] },
+    { "id": "component:code", "name": "Code", "group": "Typography", "elementIds": ["element:text"] },
+    { "id": "component:button", "name": "Button", "group": "Controls", "elementIds": ["element:control"] },
+    { "id": "component:checkbox", "name": "Checkbox", "group": "Controls", "elementIds": ["element:control"] },
+    { "id": "component:slider", "name": "Slider", "group": "Controls", "elementIds": ["element:bar", "element:control"] }
+  ],
+  "retired": [
+    { "value": "Edge", "reason": "Retired boundary classification. Review the actual inset and axis before mapping to Padding." },
+    { "value": "Item", "reason": "Retired generic target. Define the real owned part or specific reusable pattern before mapping." },
+    { "value": "Substructure", "reason": "Retired generic nesting classification. Review the real pattern or component-owned part without inventing a replacement." },
+    { "value": "Content", "reason": "Old Object Content maps to Text only when the actual source context establishes a text target." },
+    { "value": "Fill", "reason": "Fill is Color of the actual target and aspect; the target must be established before migration." }
+  ],
+  "sourceReferenceKeys": ["colorName", "surfaceName", "foundationScale"],
+  "limitations": [
+    "This is a proposed shared profile, not an adopted upstream specification.",
+    "A matching spelling is not proof of meaning. Text bindings require the shared definition and reviewed facet/type; other definitions remain non-standard.",
+    "Source-reference categories remain provisional under EPIC-3.2; labels cannot imply semantic classifications.",
+    "Component catalog migration does not change saved native Element assignments automatically.",
+    "Focus and Hover concurrency, Focus ownership, Subtle/Subdued and remaining facets require explicit review.",
+    "Review annotations are derived and versioned export data, not extra canonical token concepts or saved mode values."
+  ]
+}

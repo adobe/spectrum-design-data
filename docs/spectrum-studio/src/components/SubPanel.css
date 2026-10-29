@@ -1,0 +1,88 @@
+.subPanel {
+  --sub-panel-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 var(--sub-panel-width);
+  width: var(--sub-panel-width);
+  /* Guards first paint and window resizes before the container is measured. */
+  min-width: 300px;
+  max-width: calc(100% - 300px);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  gap: 0;
+}
+
+.subPanelResizer {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 8px;
+  margin-inline: -4px;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+.subPanelResizer::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 3px;
+  width: 2px;
+  background-color: transparent;
+  transition: background-color 130ms ease-in-out;
+}
+
+.subPanelResizer:hover::after,
+.subPanelResizer[data-dragging]::after {
+  background-color: light-dark(rgb(0 0 0 / 0.2), rgb(255 255 255 / 0.3));
+}
+
+.subPanelResizer:focus-visible::after {
+  background-color: light-dark(rgb(59 99 251), rgb(86 129 255));
+}
+
+@media (forced-colors: active) {
+  .subPanelResizer:hover::after,
+  .subPanelResizer[data-dragging]::after,
+  .subPanelResizer:focus-visible::after {
+    background-color: Highlight;
+  }
+}
+
+.pageWithSubPanel {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pageMainContent {
+  flex-grow: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 8px;
+}
+
+/* .pageMainContent > div {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+} */
+
+.pageMainContent [role="tabpanel"] {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}

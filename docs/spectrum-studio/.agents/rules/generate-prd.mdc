@@ -1,0 +1,156 @@
+# Rule: Generating a Product Requirements Document (PRD)
+
+## Goal
+To guide an AI assistant in creating a detailed **Product Requirements Document (PRD)** in Markdown format, based on an initial user prompt.  
+The PRD should be clear, actionable, and suitable for a junior developer to understand and implement the feature.
+
+---
+
+## Process
+
+1. **Receive Initial Prompt:**  
+   The user provides a brief description or request for a new feature or functionality.
+
+2. **Ask Clarifying Questions:**  
+   Before writing the PRD, the AI **must** ask clarifying questions to gather sufficient detail.  
+   The goal is to understand the *“what”* and *“why”* of the feature, not necessarily the *“how”* (which the developer will figure out).  
+   Make sure to provide options in lettered or numbered lists so the user can respond easily with their selections.
+
+3. **Generate PRD:**  
+   Based on the initial prompt and the user’s answers to the clarifying questions, generate a PRD using the structure outlined below.
+
+4. **Save PRD:**  
+   Save the generated document as `prd-[feature-name].md` inside the `/tasks` directory.
+
+---
+
+## Clarifying Questions (Examples)
+
+The AI should adapt its questions based on the prompt, but here are some common areas to explore:
+
+- **Problem/Goal:**  
+  “What problem does this feature solve for the user?”  
+  “What is the main goal we want to achieve with this feature?”
+
+- **Target User:**  
+  “Who is the primary user of this feature?”
+
+- **Core Functionality:**  
+  “Can you describe the key actions a user should be able to perform with this feature?”
+
+- **User Stories:**  
+  “Could you provide a few user stories? (e.g., *As a [type of user], I want to [perform an action] so that [benefit].*)”
+
+- **Acceptance Criteria:**  
+  “How will we know when this feature is successfully implemented? What are the key success criteria?”
+
+- **Scope/Boundaries:**  
+  “Are there any specific things this feature *should not* do (non-goals)?”
+
+- **Data Requirements:**  
+  “What kind of data does this feature need to display or manipulate?”
+
+- **Design/UI:**  
+  “Are there any existing design mockups or UI guidelines to follow?”  
+  “Can you describe the desired look and feel?”
+
+- **Edge Cases:**  
+  “Are there any potential edge cases or error conditions we should consider?”
+
+---
+
+## PRD Structure
+
+The generated PRD should include the following sections:
+
+1. **Introduction/Overview:**  
+   Briefly describe the feature and the problem it solves. State the goal.
+
+2. **Goals:**  
+   List the specific, measurable objectives for this feature.
+
+3. **User Stories:**  
+   Detail the user narratives describing feature usage and benefits.
+
+4. **Functional Requirements:**  
+   List the specific functionalities the feature must have. Use clear, concise language (e.g., “The system must allow users to upload a profile picture.”).  
+   Number these requirements.
+
+5. **Non-Goals (Out of Scope):**  
+   Clearly state what this feature will *not* include to manage scope.
+
+6. **Design Considerations (Optional):**  
+   Link to mockups, describe UI/UX requirements, or mention relevant components/styles if applicable.
+
+7. **Technical Considerations (Optional):**  
+   Mention any known technical constraints, dependencies, or suggestions (e.g., “Should integrate with the existing Auth module.”).
+
+8. **Success Metrics:**  
+   Describe how success will be measured. Examples include:  
+   - Increase user engagement by 10%  
+   - Reduce customer support tickets related to this feature  
+   - Improve page load time by 15%
+
+9. **Open Questions:**  
+   List any remaining questions or areas needing further clarification.
+
+---
+
+## Target Audience
+
+The **Target Audience** section defines the intended users or stakeholders for this feature.  
+When generating the PRD, include the following elements:
+
+- **Primary User Persona:** Who the feature is designed for (e.g., “new users,” “power users,” “internal admins”).  
+- **User Context:** When and how this user interacts with the feature (e.g., onboarding flow, content creation, mobile experience).  
+- **User Needs & Pain Points:** What problems the feature addresses for this user group.  
+- **User Goals:** The key outcome the user expects to achieve.  
+- **Assumptions:** Any known user behaviors or environmental constraints (e.g., “Users will be logged in,” “Users access via mobile 80% of the time”).  
+
+This section should clearly establish *for whom* the feature is being built and *why their needs matter*.
+
+---
+
+## Tone & Style Guidelines
+
+- **Clarity:** Write for developers and PMs with minimal ambiguity.  
+- **Actionability:** Every requirement should be testable, measurable, or demonstrable.  
+- **Consistency:** Maintain a structured, numbered list format for requirements.  
+- **Neutrality:** Avoid speculative or marketing language — focus on objective requirements.  
+- **Conciseness:** Prefer short, precise sentences that can be easily read and referenced.
+
+---
+
+## Example Workflow
+
+1. **User Input:**  
+   “We need a way for users to reset their password through email.”
+
+2. **AI Asks Clarifying Questions:**  
+   - What problem does this solve?  
+   - Who will use this feature (end users, admins)?  
+   - Are there existing authentication components?  
+   - What security requirements should we meet?  
+   - What success criteria define completion?
+
+3. **User Answers:**  
+   - Solves user lockout issues.  
+   - Used by all registered users.  
+   - Must comply with password policy (min 8 chars, symbols, etc.).  
+   - Success = <2% support requests for password resets after launch.
+
+4. **AI Generates PRD:**  
+   Following the PRD structure, produces a document with goals, user stories, requirements, non-goals, etc.
+
+5. **AI Saves File:**  
+   Outputs file as `prd-password-reset.md`.
+
+---
+
+## Validation Rules
+
+- Ensure all sections are present, even if empty placeholders are needed.  
+- Confirm measurable success criteria are listed.  
+- Use Markdown headers (`##`) and bold key labels (`**Label:**`) for formatting.  
+- Avoid jargon or undefined acronyms.  
+- End with **Open Questions** or next steps for the team.

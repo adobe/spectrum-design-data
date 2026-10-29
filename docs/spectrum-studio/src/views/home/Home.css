@@ -1,0 +1,72 @@
+.homeUpdateBadge {
+  width: fit-content;
+}
+
+.homeHeader {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.homeHero { 
+  background-image: radial-gradient(circle farthest-side at 46.0% 0.0%, light-dark(var(--spectrum-red-300), var(--spectrum-red-100)) 0.0%, transparent 100.0%), radial-gradient(circle closest-corner at 30.0% 100.0%, light-dark(var(--spectrum-blue-300), var(--spectrum-blue-100)) 0.0%, transparent 100.0%), linear-gradient(121deg, light-dark(var(--spectrum-purple-300), var(--spectrum-purple-100)) 0.0%, transparent 100.0%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  gap: 0;
+}
+
+.homeHero h1 {
+  font-size: 48px;
+  font-weight: 800;
+}
+.homeHero p {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.homeHero h1,
+.homeHero h2,
+.homeHero h3,
+.homeHero h4,
+.homeHero h5,
+.homeHero h6,
+.homeHero p {
+  margin: 0.125em;
+  color: light-dark(rgba(0, 0, 0, 0.9), rgba(255, 255, 255, 0.9));
+}
+.homeHero h5,
+.homeHero h6,
+.homeHero p {
+  color: light-dark(rgba(0, 0, 0, 0.65), rgba(255, 255, 255, 0.7));
+}
+
+.homeQuickLink {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  text-decoration: none;
+}
+
+.homeCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-decoration: none;
+}
+
+.homeCardContent h2,
+.homeCardContent h3 {
+  margin-bottom: 0.25em;
+    text-decoration: none;
+}
+.homeCardContent p {
+  margin: 0;
+  text-decoration: none;
+}

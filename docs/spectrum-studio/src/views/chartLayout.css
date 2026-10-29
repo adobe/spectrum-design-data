@@ -1,0 +1,24 @@
+.chartViewContainer {
+  container: chart-view / inline-size;
+}
+
+.chartComparisonContainer {
+  container: chart-comparison / inline-size;
+}
+
+.chartComparisonGrid,
+.chartSingleGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container chart-view (width >= 1000px) {
+  .chartComparisonGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container chart-comparison (width >= 1000px) {
+  .chartComparisonGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

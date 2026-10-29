@@ -1,0 +1,34 @@
+.componentsLayout {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.componentContent, .componentSection {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 16px;
+}
+.componentContent { padding: 24px; min-height: 0; overflow: auto; }
+.componentSection { padding-block-start: 16px; }
+.componentForm { min-width: 0; width: 100%; max-width: 560px; padding-block: 16px; }
+.componentForm > * { min-width: 0; }
+.componentActions, .componentHeader, .componentCondition, .componentRowActions { display: flex; gap: 8px; align-items: start; }
+.componentActions { flex-wrap: wrap; }
+.componentHeader { justify-content: space-between; gap: 16px; }
+.componentRowActions { gap: 4px; align-items: center; }
+.componentHeader > div { min-width: 0; }
+.componentHeader > button { flex-shrink: 0; }
+.componentContent p, .componentContent dd { overflow-wrap: anywhere; margin-block: 4px; }
+.componentContent h2 { margin-block: 0 8px; }
+.componentCondition { display: grid; grid-template-columns: [field] minmax(0, 1fr); }
+.componentCondition > button { justify-self: start; }
+.componentStory { display: flex; height: 100vh; background: var(--spectrum-gray-25); color: var(--spectrum-gray-900); }
+.componentDescription { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (width < 800px) {
+  .componentsLayout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(280px, min(45vh, 360px)) minmax(0, 1fr); }
+  .componentContent { padding: 16px; }
+  .componentHeader { flex-direction: column; }
+}

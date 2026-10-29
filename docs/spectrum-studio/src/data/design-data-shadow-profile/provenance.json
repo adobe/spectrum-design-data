@@ -1,0 +1,17 @@
+{
+  "profileId": "spectrum-design-data-shadow-draft-v1",
+  "referenceRepository": "adobe/spectrum-design-data",
+  "referenceRevision": "838a6835b746f9d77b2697374408901f334d854e",
+  "formatVersion": "1.0.0-draft",
+  "specPackageVersion": "4.3.0",
+  "designDataPackageVersion": "3.2.5",
+  "license": "Apache-2.0",
+  "attribution": "Copyright 2026 Adobe. Schemas and LICENSE are unmodified copies from the pinned reference repository.",
+  "files": [
+    { "path": "token.schema.json", "source": "packages/design-data-spec/schemas/token.schema.json", "sha256": "a5f5143956b24856ab63e9ff897b82717612123c502feb2ae14d0ef4a956b0ef" },
+    { "path": "document-block.schema.json", "source": "packages/design-data-spec/schemas/document-block.schema.json", "sha256": "f024f9b3daa1abe4fc0e795597efb076f3ab897380e4471c61f5300d82438da7" },
+    { "path": "value-types/color.schema.json", "source": "packages/design-data-spec/schemas/value-types/color.schema.json", "sha256": "42591e74ddfa2b361a962d2ff5854e9ca49a752bfa9f32acd2aa20dd6da7bf47" },
+    { "path": "value-types/drop-shadow.schema.json", "source": "packages/design-data-spec/schemas/value-types/drop-shadow.schema.json", "sha256": "8f549d4c5daa4b8be52376e4bcf5cadf93eb1098bda8cae2a0f9af32d6a9f237" },
+    { "path": "LICENSE", "source": "LICENSE", "sha256": "981250df8283f951cb49f9cdcaa405d49e0313b0d4f3cd174d25f709f802cfba" }
+  ]
+}

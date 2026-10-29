@@ -1,0 +1,2456 @@
+{
+  "metadata": {
+    "copyright": "Copyright 2026 Adobe. All rights reserved.",
+    "repository": "adobe/spectrum-design-data",
+    "repositoryUrl": "https://github.com/adobe/spectrum-design-data",
+    "sourceRef": "SDS-16083-semantic-refinements",
+    "sourceCommit": "838a6835b746f9d77b2697374408901f334d854e",
+    "specVersion": "1.0.0-draft",
+    "hashAlgorithm": "SHA-256",
+    "sourceHashScope": "Original UTF-8 source file bytes at sourceCommit, including formatting and final newline.",
+    "payloadPolicy": "Declaration and schema documents are unchanged parsed JSON from the pinned source. Metadata is outside the canonical documents.",
+    "license": {
+      "spdx": "Apache-2.0",
+      "sourcePath": "LICENSE",
+      "sourceSha256": "981250df8283f951cb49f9cdcaa405d49e0313b0d4f3cd174d25f709f802cfba",
+      "sourceUrl": "https://github.com/adobe/spectrum-design-data/blob/838a6835b746f9d77b2697374408901f334d854e/LICENSE",
+      "text": "Apache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n\nTERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n1. Definitions.\n\n\"License\" shall mean the terms and conditions for use, reproduction,\nand distribution as defined by Sections 1 through 9 of this document.\n\n\"Licensor\" shall mean the copyright owner or entity authorized by\nthe copyright owner that is granting the License.\n\n\"Legal Entity\" shall mean the union of the acting entity and all\nother entities that control, are controlled by, or are under common\ncontrol with that entity. For the purposes of this definition,\n\"control\" means (i) the power, direct or indirect, to cause the\ndirection or management of such entity, whether by contract or\notherwise, or (ii) ownership of fifty percent (50%) or more of the\noutstanding shares, or (iii) beneficial ownership of such entity.\n\n\"You\" (or \"Your\") shall mean an individual or Legal Entity\nexercising permissions granted by this License.\n\n\"Source\" form shall mean the preferred form for making modifications,\nincluding but not limited to software source code, documentation\nsource, and configuration files.\n\n\"Object\" form shall mean any form resulting from mechanical\ntransformation or translation of a Source form, including but\nnot limited to compiled object code, generated documentation,\nand conversions to other media types.\n\n\"Work\" shall mean the work of authorship, whether in Source or\nObject form, made available under the License, as indicated by a\ncopyright notice that is included in or attached to the work\n(an example is provided in the Appendix below).\n\n\"Derivative Works\" shall mean any work, whether in Source or Object\nform, that is based on (or derived from) the Work and for which the\neditorial revisions, annotations, elaborations, or other modifications\nrepresent, as a whole, an original work of authorship. For the purposes\nof this License, Derivative Works shall not include works that remain\nseparable from, or merely link (or bind by name) to the interfaces of,\nthe Work and Derivative Works thereof.\n\n\"Contribution\" shall mean any work of authorship, including\nthe original version of the Work and any modifications or additions\nto that Work or Derivative Works thereof, that is intentionally\nsubmitted to Licensor for inclusion in the Work by the copyright owner\nor by an individual or Legal Entity authorized to submit on behalf of\nthe copyright owner. For the purposes of this definition, \"submitted\"\nmeans any form of electronic, verbal, or written communication sent\nto the Licensor or its representatives, including but not limited to\ncommunication on electronic mailing lists, source code control systems,\nand issue tracking systems that are managed by, or on behalf of, the\nLicensor for the purpose of discussing and improving the Work, but\nexcluding communication that is conspicuously marked or otherwise\ndesignated in writing by the copyright owner as \"Not a Contribution.\"\n\n\"Contributor\" shall mean Licensor and any individual or Legal Entity\non behalf of whom a Contribution has been received by Licensor and\nsubsequently incorporated within the Work.\n\n2. Grant of Copyright License. Subject to the terms and conditions of\nthis License, each Contributor hereby grants to You a perpetual,\nworldwide, non-exclusive, no-charge, royalty-free, irrevocable\ncopyright license to reproduce, prepare Derivative Works of,\npublicly display, publicly perform, sublicense, and distribute the\nWork and such Derivative Works in Source or Object form.\n\n3. Grant of Patent License. Subject to the terms and conditions of\nthis License, each Contributor hereby grants to You a perpetual,\nworldwide, non-exclusive, no-charge, royalty-free, irrevocable\n(except as stated in this section) patent license to make, have made,\nuse, offer to sell, sell, import, and otherwise transfer the Work,\nwhere such license applies only to those patent claims licensable\nby such Contributor that are necessarily infringed by their\nContribution(s) alone or by combination of their Contribution(s)\nwith the Work to which such Contribution(s) was submitted. If You\ninstitute patent litigation against any entity (including a\ncross-claim or counterclaim in a lawsuit) alleging that the Work\nor a Contribution incorporated within the Work constitutes direct\nor contributory patent infringement, then any patent licenses\ngranted to You under this License for that Work shall terminate\nas of the date such litigation is filed.\n\n4. Redistribution. You may reproduce and distribute copies of the\nWork or Derivative Works thereof in any medium, with or without\nmodifications, and in Source or Object form, provided that You\nmeet the following conditions:\n\n(a) You must give any other recipients of the Work or\nDerivative Works a copy of this License; and\n\n(b) You must cause any modified files to carry prominent notices\nstating that You changed the files; and\n\n(c) You must retain, in the Source form of any Derivative Works\nthat You distribute, all copyright, patent, trademark, and\nattribution notices from the Source form of the Work,\nexcluding those notices that do not pertain to any part of\nthe Derivative Works; and\n\n(d) If the Work includes a \"NOTICE\" text file as part of its\ndistribution, then any Derivative Works that You distribute must\ninclude a readable copy of the attribution notices contained\nwithin such NOTICE file, excluding those notices that do not\npertain to any part of the Derivative Works, in at least one\nof the following places: within a NOTICE text file distributed\nas part of the Derivative Works; within the Source form or\ndocumentation, if provided along with the Derivative Works; or,\nwithin a display generated by the Derivative Works, if and\nwherever such third-party notices normally appear. The contents\nof the NOTICE file are for informational purposes only and\ndo not modify the License. You may add Your own attribution\nnotices within Derivative Works that You distribute, alongside\nor as an addendum to the NOTICE text from the Work, provided\nthat such additional attribution notices cannot be construed\nas modifying the License.\n\nYou may add Your own copyright statement to Your modifications and\nmay provide additional or different license terms and conditions\nfor use, reproduction, or distribution of Your modifications, or\nfor any such Derivative Works as a whole, provided Your use,\nreproduction, and distribution of the Work otherwise complies with\nthe conditions stated in this License.\n\n5. Submission of Contributions. Unless You explicitly state otherwise,\nany Contribution intentionally submitted for inclusion in the Work\nby You to the Licensor shall be under the terms and conditions of\nthis License, without any additional terms or conditions.\nNotwithstanding the above, nothing herein shall supersede or modify\nthe terms of any separate license agreement you may have executed\nwith Licensor regarding such Contributions.\n\n6. Trademarks. This License does not grant permission to use the trade\nnames, trademarks, service marks, or product names of the Licensor,\nexcept as required for reasonable and customary use in describing the\norigin of the Work and reproducing the content of the NOTICE file.\n\n7. Disclaimer of Warranty. Unless required by applicable law or\nagreed to in writing, Licensor provides the Work (and each\nContributor provides its Contributions) on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\nimplied, including, without limitation, any warranties or conditions\nof TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\nPARTICULAR PURPOSE. You are solely responsible for determining the\nappropriateness of using or redistributing the Work and assume any\nrisks associated with Your exercise of permissions under this License.\n\n8. Limitation of Liability. In no event and under no legal theory,\nwhether in tort (including negligence), contract, or otherwise,\nunless required by applicable law (such as deliberate and grossly\nnegligent acts) or agreed to in writing, shall any Contributor be\nliable to You for damages, including any direct, indirect, special,\nincidental, or consequential damages of any character arising as a\nresult of this License or out of the use or inability to use the\nWork (including but not limited to damages for loss of goodwill,\nwork stoppage, computer failure or malfunction, or any and all\nother commercial damages or losses), even if such Contributor\nhas been advised of the possibility of such damages.\n\n9. Accepting Warranty or Additional Liability. While redistributing\nthe Work or Derivative Works thereof, You may choose to offer,\nand charge a fee for, acceptance of support, warranty, indemnity,\nor other liability obligations and/or rights consistent with this\nLicense. However, in accepting such obligations, You may act only\non Your own behalf and on Your sole responsibility, not on behalf\nof any other Contributor, and only if You agree to indemnify,\ndefend, and hold each Contributor harmless for any liability\nincurred by, or claims asserted against, such Contributor by reason\nof your accepting any such warranty or additional liability.\n\nEND OF TERMS AND CONDITIONS\n\nAPPENDIX: How to apply the Apache License to your work.\n\nTo apply the Apache License to your work, attach the following\nboilerplate notice, with the fields enclosed by brackets \"{}\"\nreplaced with your own identifying information. (Don't include\nthe brackets!)  The text should be enclosed in the appropriate\ncomment syntax for the file format. We also recommend that a\nfile or class name and description of purpose be included on the\nsame \"printed page\" as the copyright notice for easier\nidentification within third-party archives.\n\nCopyright 2026 Adobe\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
+    }
+  },
+  "declarations": [
+    {
+      "sourcePath": "packages/design-data/components/action-button.json",
+      "sourceSha256": "0c5721a40c8dcfff9ea188068762a0278dea779e054a1bc08f061693b929e6c4",
+      "document": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-button.json",
+        "specVersion": "1.0.0-draft",
+        "name": "action-button",
+        "displayName": "Action button",
+        "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
+        "meta": {
+          "category": "actions",
+          "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+        },
+        "implementations": [
+          {
+            "platform": "web",
+            "componentName": "ActionButton",
+            "package": "@spectrum-web-components/action-button",
+            "notes": "Spectrum Web Components custom element: sp-action-button."
+          },
+          {
+            "platform": "web",
+            "componentName": "ActionButton",
+            "package": "@react-spectrum/button"
+          }
+        ],
+        "documentBlocks": [
+          {
+            "type": "purpose",
+            "content": "Action buttons perform tasks or mark selections. They're suited for task-based workflows where buttons don't need to draw attention."
+          },
+          {
+            "type": "guideline",
+            "content": "Text overflow.\n\nWhen the action button text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover."
+          },
+          {
+            "type": "guideline",
+            "content": "Keyboard focus.\n\nAn action button can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+          },
+          {
+            "type": "guideline",
+            "content": "Use tooltips.\n\nIcon-only action buttons can be hard to identify. They should always show a tooltip upon hovering for a short period of time, displaying the name and possibly a keyboard shortcut."
+          },
+          {
+            "type": "guideline",
+            "content": "Isolated action buttons.\n\nIf you have an icon-only or text-only isolated action button, use the standard style to make sure it's more easily identifiable as a button."
+          },
+          {
+            "type": "guideline",
+            "content": "Only group related actions with a hold icon.\n\nWhen using a hold icon to switch actions, only group the actions that are part of the same family. Don't group unrelated actions just for the sake of saving space."
+          },
+          {
+            "type": "guideline",
+            "content": "Respect hold icon placement.\n\nIn left-to-right interfaces, the hold icon is always in the bottom right corner of the action button. It's a symbolic indicator that shows that a popover menu will appear on hold. Don't change the placement of the hold icon based on the design of the interface."
+          },
+          {
+            "type": "guideline",
+            "content": "When to use static black and static white.\n\nTo ensure maximum contrast with the background, use static black for light backgrounds and images, and use static white for dark backgrounds and images. Avoid placing static components on top of busy images with a lot of variance in contrast."
+          },
+          {
+            "type": "guideline",
+            "content": "Selected state text color.\n\nThe text color on the selected state of the over-background variant can be customized to match the background it's on. Use the background color for selected text when the action button is on a solid color, and is dark enough to meet a 4.5:1 contrast ratio with a white background (or black background, for the static black variant).\n\nUse black text when the button is on top of an image, or if the background is too low-contrast to meet the 4.5:1 contrast ratio."
+          }
+        ],
+        "options": {
+          "label": {
+            "type": "string"
+          },
+          "hideLabel": {
+            "type": "boolean",
+            "default": false
+          },
+          "icon": {
+            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+            "description": "Icon must be present if the label is not defined."
+          },
+          "size": {
+            "type": "string",
+            "default": "m",
+            "values": [
+              {
+                "value": "xs"
+              },
+              {
+                "value": "s"
+              },
+              {
+                "value": "m"
+              },
+              {
+                "value": "l"
+              },
+              {
+                "value": "xl"
+              }
+            ]
+          },
+          "isQuiet": {
+            "type": "boolean",
+            "default": false
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false
+          },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
+          "staticColor": {
+            "type": "string",
+            "description": "Static color must not be set for the default version of this component.",
+            "values": [
+              {
+                "value": "white"
+              },
+              {
+                "value": "black"
+              }
+            ]
+          },
+          "selectedTextColor": {
+            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+          },
+          "hasHoldIcon": {
+            "type": "boolean",
+            "default": false
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "states": [
+          {
+            "name": "hover",
+            "trigger": "interaction"
+          },
+          {
+            "name": "down",
+            "trigger": "interaction"
+          },
+          {
+            "name": "keyboard-focus",
+            "trigger": "interaction"
+          }
+        ],
+        "lifecycle": {
+          "introduced": "1.0.0-draft"
+        },
+        "accessibility": {
+          "role": "button",
+          "intents": [
+            "trigger"
+          ],
+          "focusable": true,
+          "keyboardIntents": [
+            "activate"
+          ],
+          "wcag": [
+            {
+              "criterion": "2.1.1",
+              "level": "A",
+              "title": "Keyboard"
+            },
+            {
+              "criterion": "4.1.2",
+              "level": "A",
+              "title": "Name, Role, Value"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourcePath": "packages/design-data/components/menu.json",
+      "sourceSha256": "3854d45dd855e13b05c57d9ffba33e42c101381d1a9485afc69a52827d107fbc",
+      "document": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/menu.json",
+        "specVersion": "1.0.0-draft",
+        "name": "menu",
+        "displayName": "Menu",
+        "description": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray.",
+        "meta": {
+          "category": "actions",
+          "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+        },
+        "documentBlocks": [
+          {
+            "type": "purpose",
+            "content": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray."
+          },
+          {
+            "type": "guideline",
+            "content": "A disabled menu item indicates that an option exists but isn’t available in the current context. This helps preserve layout consistency and signals that the action might be available later."
+          },
+          {
+            "type": "guideline",
+            "content": "An unavailable menu item signals that an option exists but isn’t accessible in the current scenario. This helps ensure the label remains visible and provides context about why the option is unavailable, or directions for how to make it available."
+          },
+          {
+            "type": "guideline",
+            "content": "Displays submenus in a collapsed, nested format within the parent menu container. Works with both popover and tray styles. When using a tray, set a fixed height to avoid disorienting shifts when items expand or collapse."
+          },
+          {
+            "type": "guideline",
+            "content": "Use a section header when a menu section requires a label or descriptor. Section headers are helpful when two or more sections differ in function or context, making it easier for users to understand the structure."
+          },
+          {
+            "type": "guideline",
+            "content": "When the selection option is enabled, the selection can be displayed using checkmarks, checkboxes or switches. Switches are more commonly used on mobile."
+          },
+          {
+            "type": "guideline",
+            "content": "A menu section has the options of single selection, multiple selection, or having no selection. By default, menu items have no selection, and perform an action on press."
+          },
+          {
+            "type": "guideline",
+            "content": "For single selection menu sections, menu items show a single checkmark to indicate the selected item. Multiple selection menu sections can display checkboxes or switches beside each menu item."
+          },
+          {
+            "type": "guideline",
+            "content": "Menus come in four different sizes: small, medium, large, and extra-large. Medium is the default and most commonly used. Menu sizes should correspond to the size of the menu trigger component (like an action button), and any embedded components (like switches) should follow suit."
+          },
+          {
+            "type": "guideline",
+            "content": "Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+          },
+          {
+            "type": "guideline",
+            "content": "A menu item can display a related value in the value area. Examples of values include the selected option from a submenu, a keyboard shortcut for the action, or other content that clarifies the menu item."
+          },
+          {
+            "type": "guideline",
+            "content": "Menu items can include description text to provide extra clarity beyond the label. Descriptions help users understand the action and make informed choices."
+          },
+          {
+            "type": "guideline",
+            "content": "Avoid cluttering items with repetitive details or promotional content."
+          },
+          {
+            "type": "guideline",
+            "content": "Menu items can include icons, but only when they add meaningful context — not just for decoration. Use icons when they have a strong, recognizable association with the label (like tool switching in a toolbar)."
+          },
+          {
+            "type": "guideline",
+            "content": "A menu item must include a label that clearly communicates the action or option it represents."
+          },
+          {
+            "type": "guideline",
+            "content": "On desktop, menus are shown in a popover by default. On mobile, popovers can be used when appropriate. Submenus cascade in a separate popover by default."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu item includes a submenu, a drill-in chevron appears at the end of the item to indicate that additional options are available."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu item leads to a different context, such as a new page or dialog, a link-out icon appears at the end of the item to indicate that the user will navigate away from the current view."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu is displayed within popovers, a submenu will appear adjacent to the parent menu item in a separate popover. The submenu popover is aligned with an offset to horizontally overlap the parent menu and vertically align the first submenu item with the parent menu item."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu is shown in a popover, any submenu appears in a separate popover next to the parent item. The submenu popover is positioned to overlap the parent menu horizontally, with vertical alignment that matches the first submenu item to its parent."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu is shown in a tray, selecting a parent item with a submenu replaces the tray’s content with the submenu. A back button labeled with the parent item’s title appears at the top of the tray to let users return to the previous menu level."
+          },
+          {
+            "type": "guideline",
+            "content": "A menu item can be navigated using a keyboard. The keyboard focus state takes the menu item’s visual hover state and adds a focus ring around the item."
+          },
+          {
+            "type": "guideline",
+            "content": "When a menu item’s label or description are too long for the available horizontal space, they wrap to form another line."
+          },
+          {
+            "type": "guideline",
+            "content": "Dividers appear between sections when two or more sections are used within the same menu."
+          },
+          {
+            "type": "guideline",
+            "content": "In Windows high contrast mode, menu items should display with default text color. Selected items should have the background and text colors defined for selected text."
+          },
+          {
+            "type": "guideline",
+            "content": "Menus should be sized according to the component being used as the menu trigger. All submenus within the menu should also be using the same size as the menu trigger."
+          },
+          {
+            "type": "guideline",
+            "content": "Following Adobe’s UX writing style, write menu items in sentence case unless they contain words that are branded terms."
+          },
+          {
+            "type": "guideline",
+            "content": "Don’t end a menu command with an ellipsis (…) unless it requires additional input to complete the action, typically in a dialog."
+          }
+        ],
+        "options": {
+          "container": {
+            "type": "string",
+            "values": [
+              {
+                "value": "popover"
+              },
+              {
+                "value": "tray"
+              }
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "icon": {
+            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+            "description": "Icon must be present if the label is not defined."
+          },
+          "description": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string",
+            "default": "m",
+            "values": [
+              {
+                "value": "s"
+              },
+              {
+                "value": "m"
+              },
+              {
+                "value": "l"
+              },
+              {
+                "value": "xl"
+              }
+            ]
+          },
+          "selectionMode": {
+            "type": "string",
+            "values": [
+              {
+                "value": "single"
+              },
+              {
+                "value": "multiple"
+              },
+              {
+                "value": "no selection"
+              }
+            ]
+          },
+          "selectionStyle": {
+            "type": "string",
+            "values": [
+              {
+                "value": "checkbox"
+              },
+              {
+                "value": "switch"
+              }
+            ]
+          },
+          "sectionHeader": {
+            "type": "string"
+          },
+          "isCollapsible": {
+            "type": "boolean",
+            "default": false
+          },
+          "isUnavailable": {
+            "type": "boolean",
+            "default": false
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "anatomy": [
+          {
+            "name": "item-label",
+            "description": "Label text of a menu item."
+          },
+          {
+            "name": "menu-item",
+            "description": "A single row within the menu.",
+            "contains": [
+              "icon",
+              "label",
+              "description",
+              "value",
+              "switch",
+              "checkbox",
+              "thumbnail",
+              "drill-in-chevron",
+              "link-out-icon"
+            ]
+          },
+          {
+            "name": "icon",
+            "description": "Leading icon of a menu item."
+          },
+          {
+            "name": "label",
+            "description": "Primary label text of a menu item."
+          },
+          {
+            "name": "description",
+            "description": "Secondary descriptive text of a menu item."
+          },
+          {
+            "name": "value",
+            "description": "Current value display of a menu item."
+          },
+          {
+            "name": "switch",
+            "description": "Switch control for a menu item with switch selection style."
+          },
+          {
+            "name": "checkbox",
+            "description": "Checkbox control for a menu item with checkbox selection style."
+          },
+          {
+            "name": "thumbnail",
+            "description": "Thumbnail image of a menu item."
+          },
+          {
+            "name": "drill-in-chevron",
+            "description": "Chevron indicating a menu item opens a sub-menu."
+          },
+          {
+            "name": "link-out-icon",
+            "description": "Icon indicating a menu item navigates to a new context."
+          }
+        ],
+        "states": [
+          {
+            "name": "hover",
+            "trigger": "interaction"
+          },
+          {
+            "name": "down",
+            "trigger": "interaction"
+          },
+          {
+            "name": "keyboard-focus",
+            "trigger": "interaction"
+          },
+          {
+            "name": "default",
+            "trigger": "prop"
+          },
+          {
+            "name": "disabled",
+            "trigger": "prop"
+          }
+        ],
+        "lifecycle": {
+          "introduced": "1.0.0-draft"
+        },
+        "accessibility": {
+          "role": "menu",
+          "intents": [
+            "select"
+          ],
+          "focusable": false,
+          "keyboardIntents": [
+            "navigate-options",
+            "activate",
+            "dismiss"
+          ],
+          "wcag": [
+            {
+              "criterion": "2.1.1",
+              "level": "A",
+              "title": "Keyboard"
+            },
+            {
+              "criterion": "4.1.2",
+              "level": "A",
+              "title": "Name, Role, Value"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "sourcePath": "packages/design-data-spec/schemas/component.schema.json",
+      "sourceSha256": "d0b0512527d062d17df5f804cde351070641f96d89114c1206804c5884e668cf",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+      "role": "component-root",
+      "dependencies": [
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/document-block.schema.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/accessibility.schema.json"
+      ],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+        "title": "Design data component declaration",
+        "description": "Layer 1 structural schema for a component declaration. Semantic cross-reference rules (component-name-exists, component-variant-valid, etc.) are Layer 2.",
+        "type": "object",
+        "required": [
+          "$id",
+          "name",
+          "displayName",
+          "meta"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string",
+            "format": "uri"
+          },
+          "specVersion": {
+            "type": "string",
+            "description": "Spec version this document targets (e.g. '1.0.0-draft')."
+          },
+          "$id": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical identifier for this component declaration."
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "minLength": 1,
+            "description": "Machine identifier (kebab-case). Must match the value used in token name-object 'component' fields."
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable component name (e.g. 'Button')."
+          },
+          "description": {
+            "type": "string",
+            "description": "Plain-text description of the component's purpose."
+          },
+          "meta": {
+            "$ref": "#/$defs/meta"
+          },
+          "implementations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/implementation"
+            },
+            "description": "Known platform implementations of this component. Foundation-owned canonical mappings; platform-specific overrides are not supported yet. See spec/component-format.md#implementations."
+          },
+          "options": {
+            "$ref": "#/$defs/optionsMap"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/slotDeclaration"
+            },
+            "description": "Named content injection points. See spec/component-format.md#slots."
+          },
+          "anatomy": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/anatomyPart"
+            },
+            "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/stateDeclaration"
+            },
+            "description": "Per-component state declarations. Full spec in spec/state-model.md (Phase 6.3)."
+          },
+          "lifecycle": {
+            "$ref": "#/$defs/lifecycle"
+          },
+          "tokenBindings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/tokenBinding"
+            },
+            "description": "Tokens this component uses, including foundation/structure tokens not scoped to the component in their name-object. See spec/component-format.md#token-bindings (Phase 6.7)."
+          },
+          "documentBlocks": {
+            "type": "array",
+            "items": {
+              "$ref": "document-block.schema.json"
+            },
+            "minItems": 1,
+            "description": "Typed prose blocks for this component. See spec/document-blocks.md (Phase 9)."
+          },
+          "accessibility": {
+            "$ref": "accessibility.schema.json",
+            "description": "Semantic accessibility vocabulary for this component. See spec/accessibility.md (Phase 7)."
+          }
+        },
+        "additionalProperties": false,
+        "$defs": {
+          "meta": {
+            "type": "object",
+            "required": [
+              "category",
+              "documentationUrl"
+            ],
+            "properties": {
+              "category": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Category id from @adobe/spectrum-design-data registry/categories.json. Advisory validation via SPEC-034."
+              },
+              "documentationUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL of the component's documentation page."
+              }
+            },
+            "additionalProperties": false
+          },
+          "implementation": {
+            "type": "object",
+            "required": [
+              "platform",
+              "componentName"
+            ],
+            "properties": {
+              "platform": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Target platform identifier (for example, 'web', 'ios', or 'android'). Multiple implementations may target the same platform when they have distinct packages."
+              },
+              "componentName": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Exported class, element, or component name used by the platform implementation."
+              },
+              "importPath": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Importable module or source path for a platform implementation."
+              },
+              "package": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Published package containing the platform implementation."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Optional implementation-specific usage or mapping notes."
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "importPath"
+                ]
+              },
+              {
+                "required": [
+                  "package"
+                ]
+              }
+            ],
+            "additionalProperties": false
+          },
+          "optionsMap": {
+            "type": "object",
+            "description": "Component API options. Each key is a camelCase option name; each value is an option descriptor.",
+            "additionalProperties": {
+              "$ref": "#/$defs/optionDescriptor"
+            }
+          },
+          "optionDescriptor": {
+            "type": "object",
+            "description": "Descriptor for a single component option. The `type` keyword follows JSON Schema conventions. Use `values` (not `enum`) to declare permitted values — the structured array allows per-value lifecycle metadata. Other JSON Schema keywords (default, description, pattern, minimum, maximum, items, properties, $ref) are permitted as needed.",
+            "$comment": "additionalProperties: true is required to allow JSON Schema passthrough keywords (pattern, minimum, etc.). This means the legacy `enum` keyword is silently accepted at Layer 1; SPEC-038 closes the gap at Layer 2 by warning when `enum` is present.",
+            "properties": {
+              "type": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "string",
+                      "boolean",
+                      "number",
+                      "integer",
+                      "object",
+                      "array",
+                      "null"
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "string",
+                        "boolean",
+                        "number",
+                        "integer",
+                        "object",
+                        "array",
+                        "null"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              },
+              "values": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/optionValue"
+                },
+                "description": "Exhaustive list of permitted values for this option, each with optional per-value metadata. Use this instead of the JSON Schema `enum` keyword so that lifecycle annotations can be attached to individual values. Consumed by SPEC-019 (variant validation) and SPEC-037 (deprecation cascade)."
+              },
+              "default": {
+                "description": "Default value when the option is not specified."
+              },
+              "description": {
+                "type": "string",
+                "description": "Plain-text description of what the option controls."
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri-reference",
+                "description": "Reference to a shared type schema."
+              }
+            },
+            "additionalProperties": true
+          },
+          "optionValue": {
+            "type": "object",
+            "required": [
+              "value"
+            ],
+            "description": "A single permitted value for a component option, with optional per-value metadata.",
+            "properties": {
+              "value": {
+                "description": "The permitted option value. Typically a string; the schema does not constrain the type so booleans and numbers remain expressible."
+              },
+              "description": {
+                "type": "string",
+                "description": "Plain-text description of what this value means."
+              },
+              "lifecycle": {
+                "$ref": "#/$defs/lifecycle",
+                "description": "Version lifecycle metadata for this value. Set lifecycle.deprecatedIn to signal that tokens referencing this value should migrate (SPEC-037)."
+              }
+            },
+            "additionalProperties": false
+          },
+          "slotDeclaration": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Slot identifier. Should come from the canonical slot vocabulary."
+              },
+              "description": {
+                "type": "string",
+                "description": "What content belongs in this slot."
+              },
+              "required": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether consumers must populate this slot."
+              }
+            },
+            "additionalProperties": false
+          },
+          "anatomyPart": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "description": "Named visible part of a component. Full spec in spec/anatomy-format.md (Phase 6.2).",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Anatomy part identifier (e.g. 'icon', 'label', 'handle')."
+              },
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean",
+                "default": false
+              },
+              "contains": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Anatomy part names nested within this part. SHOULD reference a `name` declared elsewhere in this component's anatomy array (see anatomy-contains-resolves)."
+              },
+              "documentBlocks": {
+                "type": "array",
+                "items": {
+                  "$ref": "document-block.schema.json"
+                },
+                "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+              },
+              "lifecycle": {
+                "$ref": "#/$defs/lifecycle",
+                "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecatedIn to signal that tokens referencing this part should migrate."
+              }
+            },
+            "additionalProperties": false
+          },
+          "stateDeclaration": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "description": "Per-component state declaration. Full spec in spec/state-model.md.",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "State identifier (e.g. 'hover', 'focus', 'disabled')."
+              },
+              "description": {
+                "type": "string"
+              },
+              "trigger": {
+                "type": "string",
+                "enum": [
+                  "prop",
+                  "interaction"
+                ],
+                "description": "'prop' for persistent prop-driven states (isDisabled); 'interaction' for runtime states (hover, focus, pressed)."
+              },
+              "precedence": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Resolution precedence; higher integer wins when multiple states are active simultaneously."
+              },
+              "layered": {
+                "type": "boolean",
+                "default": false,
+                "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+              },
+              "announce": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Screen-reader announcement hint for this state transition. See spec/accessibility.md."
+              },
+              "communicates": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Semantic meaning conveyed to AT when this state is active (e.g. 'expanded', 'disabled'). See spec/accessibility.md."
+              },
+              "blocksInteraction": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this state prevents all user interaction. See spec/accessibility.md."
+              },
+              "lifecycle": {
+                "$ref": "#/$defs/lifecycle",
+                "description": "Version lifecycle metadata for this state. Set lifecycle.deprecatedIn to signal that tokens referencing this state should migrate."
+              }
+            },
+            "additionalProperties": false
+          },
+          "tokenBinding": {
+            "type": "object",
+            "required": [
+              "token"
+            ],
+            "description": "A single token usage binding on a component declaration.",
+            "properties": {
+              "token": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Token name string. MUST resolve to a known token in the dataset (rule SPEC-027)."
+              },
+              "context": {
+                "type": "string",
+                "description": "Human-readable label for how this token is used in the component (maps to Figma Token Group label)."
+              }
+            },
+            "additionalProperties": false
+          },
+          "lifecycle": {
+            "type": "object",
+            "description": "Version lifecycle metadata, mirroring the token lifecycle pattern.",
+            "properties": {
+              "introduced": {
+                "type": "string",
+                "description": "Spec version when this component declaration was added (e.g. '1.0.0-draft')."
+              },
+              "deprecatedIn": {
+                "type": "string",
+                "description": "Spec version when this component was deprecated. Truthy = deprecated."
+              },
+              "deprecatedComment": {
+                "type": "string",
+                "description": "Human-readable explanation of the deprecation and migration path."
+              },
+              "replacedBy": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  }
+                ],
+                "description": "name value(s) of the replacement component(s)."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/relationship.schema.json",
+      "sourceSha256": "ee9232093d341b996bc88db18fc47bd2ca95df19cd22142126007598d5ecd2e8",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/relationship.schema.json",
+      "role": "ctr-array-root",
+      "dependencies": [
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/color.schema.json"
+      ],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/relationship.schema.json",
+        "title": "Component/Token Relationship (CTR) file",
+        "description": "Layer 1 — structural shape of a relationships/*.json file: a JSON array of Component/Token Relationship (CTR) entries. Graph rules (option-value validity, component/part/state existence, $ref resolution) are Layer 2. See spec/relationship-format.md.",
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/relationship"
+        },
+        "$defs": {
+          "lifecycle": {
+            "type": "object",
+            "description": "Version lifecycle metadata, mirroring the token/component lifecycle pattern (see token.schema.json).",
+            "properties": {
+              "introduced": {
+                "type": "string",
+                "description": "Spec version when this relationship was added (e.g. \"1.0.0-draft\")."
+              },
+              "deprecatedIn": {
+                "type": "string",
+                "description": "Spec version when the relationship was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+              },
+              "deprecatedComment": {
+                "type": "string",
+                "description": "Human-readable deprecation explanation and migration guidance."
+              },
+              "replacedBy": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "minItems": 1
+                  }
+                ],
+                "description": "UUID(s) of the replacement relationship(s). Array form requires deprecatedComment."
+              },
+              "plannedRemoval": {
+                "type": "string",
+                "description": "Spec version when the relationship will be removed."
+              }
+            },
+            "additionalProperties": false
+          },
+          "scope": {
+            "type": "object",
+            "description": "Explicit relationship context: which component, part, and property this CTR describes, plus any option-scoped narrowing. Layer 1 only enforces shape here — that `component.<part>` exists, that `options.<key>` values validate against the referenced component's declared option values, and that `property` matches a registered property term are Layer 2 rules (see spec/relationship-format.md).",
+            "required": [
+              "component",
+              "property"
+            ],
+            "properties": {
+              "component": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Component name (kebab-case). MUST match a declared component name (SPEC-051)."
+              },
+              "part": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Anatomy part name within the component. MUST match a declared anatomy part when present (SPEC-052)."
+              },
+              "property": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The stylistic attribute this relationship describes (e.g. color, width, padding)."
+              },
+              "options": {
+                "type": "object",
+                "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each key's value MUST validate against the referenced component's options.<key>.values (SPEC-053), except `state`, which is an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
+                "properties": {
+                  "state": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]*$"
+                    },
+                    "minItems": 1,
+                    "description": "Ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "ctrWithValue": {
+            "type": "object",
+            "required": [
+              "scope",
+              "value"
+            ],
+            "not": {
+              "required": [
+                "$ref"
+              ]
+            },
+            "dependentRequired": {
+              "setUuid": [
+                "legacyKey"
+              ],
+              "setSchema": [
+                "legacyKey"
+              ]
+            },
+            "properties": {
+              "specVersion": {
+                "const": "1.0.0-draft"
+              },
+              "scope": {
+                "$ref": "#/$defs/scope"
+              },
+              "context": {
+                "type": "string",
+                "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+              },
+              "$valueType": {
+                "type": "string",
+                "format": "uri-reference",
+                "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema."
+              },
+              "value": {
+                "description": "Literal value owned by this CTR; type narrowed by value-type schemas where applicable.",
+                "anyOf": [
+                  {
+                    "$ref": "value-types/color.schema.json"
+                  },
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              },
+              "uuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+              },
+              "lifecycle": {
+                "$ref": "#/$defs/lifecycle"
+              },
+              "private": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string",
+                "description": "Plain text describing the relationship's purpose."
+              },
+              "legacyKey": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Interim/transitional: pins the exact flat key written to legacy output (packages/tokens/src) for CTRs that must round-trip through the legacy generator. Not required for CTRs with no legacy counterpart. See spec/relationship-format.md#legacy-fields."
+              },
+              "setUuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Interim/transitional: identifies the legacy color-set entry this CTR belongs to, for color-set legacy output reconstruction. Only present alongside legacyKey."
+              },
+              "setSchema": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Interim/transitional: names the legacy color-set schema this CTR's set entry conforms to. Only present alongside setUuid."
+              }
+            },
+            "additionalProperties": false
+          },
+          "ctrWithRef": {
+            "type": "object",
+            "required": [
+              "scope",
+              "$ref"
+            ],
+            "not": {
+              "required": [
+                "value"
+              ]
+            },
+            "dependentRequired": {
+              "setUuid": [
+                "legacyKey"
+              ],
+              "setSchema": [
+                "legacyKey"
+              ]
+            },
+            "properties": {
+              "specVersion": {
+                "const": "1.0.0-draft"
+              },
+              "scope": {
+                "$ref": "#/$defs/scope"
+              },
+              "context": {
+                "type": "string",
+                "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+              },
+              "$valueType": {
+                "type": "string",
+                "format": "uri-reference",
+                "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a value validating against this schema."
+              },
+              "$ref": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Alias target. MUST resolve to a token or relationship UUID in the dataset (SPEC-055)."
+              },
+              "uuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+              },
+              "lifecycle": {
+                "$ref": "#/$defs/lifecycle"
+              },
+              "private": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string",
+                "description": "Plain text describing the relationship's purpose."
+              },
+              "legacyKey": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Interim/transitional: pins the exact flat key written to legacy output (packages/tokens/src) for CTRs that must round-trip through the legacy generator. Not required for CTRs with no legacy counterpart. See spec/relationship-format.md#legacy-fields."
+              },
+              "setUuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Interim/transitional: identifies the legacy color-set entry this CTR belongs to, for color-set legacy output reconstruction. Only present alongside legacyKey."
+              },
+              "setSchema": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Interim/transitional: names the legacy color-set schema this CTR's set entry conforms to. Only present alongside setUuid."
+              }
+            },
+            "additionalProperties": false
+          },
+          "relationship": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/$defs/ctrWithValue"
+              },
+              {
+                "$ref": "#/$defs/ctrWithRef"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/document-block.schema.json",
+      "sourceSha256": "f024f9b3daa1abe4fc0e795597efb076f3ab897380e4471c61f5300d82438da7",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/document-block.schema.json",
+      "role": "component-dependency",
+      "dependencies": [],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/document-block.schema.json",
+        "title": "Document block",
+        "description": "A typed prose block attachable to tokens, components, or anatomy parts. See spec/document-blocks.md.",
+        "type": "object",
+        "required": [
+          "type",
+          "content"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "purpose",
+              "guideline",
+              "accessibility",
+              "do-dont",
+              "examples"
+            ],
+            "description": "Block type. One of: purpose, guideline, accessibility, do-dont, examples."
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable prose for this block."
+          },
+          "agents": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional LLM-tuned rephrasing of content for agent consumption. Should differ from content."
+          },
+          "do": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Recommended practice. Meaningful only on do-dont blocks."
+          },
+          "dont": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Anti-pattern to avoid. Meaningful only on do-dont blocks."
+          }
+        },
+        "additionalProperties": false,
+        "if": {
+          "properties": {
+            "type": {
+              "const": "do-dont"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        "then": {
+          "anyOf": [
+            {
+              "required": [
+                "do"
+              ]
+            },
+            {
+              "required": [
+                "dont"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/accessibility.schema.json",
+      "sourceSha256": "05baab3c5af0aa15f3c889faa3a138942901923c02117aff5cdfd99eaba48586",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/accessibility.schema.json",
+      "role": "component-dependency",
+      "dependencies": [],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/accessibility.schema.json",
+        "title": "Accessibility declaration",
+        "description": "Semantic accessibility vocabulary for a component declaration. See spec/accessibility.md.",
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Semantic role from the canonical vocabulary (e.g. 'button', 'checkbox', 'dialog')."
+          },
+          "intents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "description": "Semantic interaction intents (e.g. 'trigger', 'select', 'expand')."
+          },
+          "focusable": {
+            "type": "boolean",
+            "description": "Whether the component receives keyboard focus via the Tab key by default."
+          },
+          "keyboardIntents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "description": "Keyboard interaction intents when focused (e.g. 'activate', 'expand', 'dismiss')."
+          },
+          "wcag": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/wcagEntry"
+            },
+            "uniqueItems": true,
+            "description": "Applicable WCAG 2.x success criteria."
+          }
+        },
+        "additionalProperties": false,
+        "$defs": {
+          "wcagEntry": {
+            "type": "object",
+            "required": [
+              "criterion",
+              "level"
+            ],
+            "properties": {
+              "criterion": {
+                "type": "string",
+                "pattern": "^[1-4]\\.[0-9]+\\.[0-9]+$",
+                "description": "WCAG 2.x criterion number (e.g. '1.3.1')."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "A",
+                  "AA",
+                  "AAA"
+                ],
+                "description": "WCAG conformance level."
+              },
+              "title": {
+                "type": "string",
+                "description": "Human-readable criterion title (e.g. 'Info and Relationships')."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/value-types/color.schema.json",
+      "sourceSha256": "42591e74ddfa2b361a962d2ff5854e9ca49a752bfa9f32acd2aa20dd6da7bf47",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/color.schema.json",
+      "role": "ctr-dependency",
+      "dependencies": [],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/color.schema.json",
+        "title": "Color value",
+        "description": "RGB or RGBA color string (aligned with legacy Spectrum token color pattern).",
+        "type": "string",
+        "pattern": "^rgba\\((([0-1]?[0-9]?[0-9]?|2[0-4][0-9]|25[0-5]),\\s?){3}(0|1|0?\\.\\d+)\\)|rgb\\(([0-1]?[0-9]?[0-9]?|2[0-4][0-9]|25[0-5]){1,3}(,\\s?\\d{1,3}%?){2}\\)$"
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/anatomy-part.schema.json",
+      "sourceSha256": "e10715c2a1e297a099b3239b043794b07789e1b812a3b26510e5b4bd5656df88",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/anatomy-part.schema.json",
+      "role": "standalone-part-validation",
+      "dependencies": [
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/document-block.schema.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json"
+      ],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/anatomy-part.schema.json",
+        "title": "Anatomy part declaration",
+        "description": "Layer 1 structural schema for a single anatomy part object within a component declaration. Semantic rules (component-anatomy-valid, anatomy-custom-part-documented, anatomy-part-name-unique, anatomy-requires-component, anatomy-contains-resolves) are Layer 2.",
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "minLength": 1,
+            "description": "Kebab-case anatomy part identifier. Must match the value used in token name-object 'anatomy' fields."
+          },
+          "description": {
+            "type": "string",
+            "description": "Plain-text description of the part's visual role and boundaries."
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this part is always rendered regardless of component configuration."
+          },
+          "contains": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "uniqueItems": true,
+            "description": "List of child anatomy part names nested within this part. SHOULD reference a `name` declared elsewhere in the same component's anatomy array; unresolved references are permitted (they may point at sub-component anatomy in layered designs) but rule anatomy-contains-resolves fires an advisory warning."
+          },
+          "documentBlocks": {
+            "type": "array",
+            "items": {
+              "$ref": "document-block.schema.json"
+            },
+            "minItems": 1,
+            "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+          },
+          "lifecycle": {
+            "$ref": "component.schema.json#/$defs/lifecycle",
+            "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "sourcePath": "packages/design-data-spec/schemas/state-declaration.schema.json",
+      "sourceSha256": "d3d38fc9eecc09317f819b84fd3c2c78ad11dea8f7a6c623d14dc9df12e78f30",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/state-declaration.schema.json",
+      "role": "standalone-state-validation",
+      "dependencies": [
+        "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json"
+      ],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/state-declaration.schema.json",
+        "title": "State declaration",
+        "description": "Layer 1 structural schema for a single state declaration object within a component declaration. Semantic rules (component-state-valid, state-custom-name-documented) are Layer 2.",
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "minLength": 1,
+            "description": "Kebab-case state identifier. Must match an element of the token name-object 'state' array."
+          },
+          "description": {
+            "type": "string",
+            "description": "Plain-text description of the state's semantics and the conditions under which it is active."
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "prop",
+              "interaction"
+            ],
+            "description": "'prop' for persistent prop-driven states (e.g. isDisabled); 'interaction' for transient runtime interaction states (hover, focus, pressed)."
+          },
+          "precedence": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Resolution precedence. Higher value wins when multiple non-layered states are active simultaneously. Defaults to 0 when omitted."
+          },
+          "layered": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, this state composes on top of the winning non-layered state rather than competing with it. Use for focus rings, selection overlays, and similar compositing states."
+          },
+          "lifecycle": {
+            "$ref": "component.schema.json#/$defs/lifecycle",
+            "description": "Version lifecycle metadata for this state. Set lifecycle.deprecated to signal that tokens referencing this state should migrate."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "sourcePath": "docs/site/public/schemas/types/workflow-icon.json",
+      "sourceSha256": "8ba42f1d88e55d91f5327cbbe273af567cbc3cd26fc5ecddadff010bff8fdf8b",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "role": "external-option-type",
+      "dependencies": [],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+        "type": "string",
+        "title": "workflow-icon",
+        "enum": [
+          "123",
+          "3DMaterials",
+          "ABC",
+          "AEMScreens",
+          "Actions",
+          "AdDisplay",
+          "AdPrint",
+          "Add",
+          "AddCircle",
+          "AddTo",
+          "AddToSelection",
+          "Airplane",
+          "Alert",
+          "AlertAdd",
+          "AlertCheck",
+          "AlertCircle",
+          "AlertCircleFilled",
+          "Algorithm",
+          "Alias",
+          "AlignBottom",
+          "AlignCenter",
+          "AlignLeft",
+          "AlignMiddle",
+          "AlignRight",
+          "AlignTop",
+          "Amusementpark",
+          "Anchor",
+          "AnchorSelect",
+          "Annotate",
+          "AnnotatePen",
+          "Answer",
+          "AnswerFavorite",
+          "App",
+          "AppRefresh",
+          "AppleFiles",
+          "ApplicationDelivery",
+          "ApproveReject",
+          "Apps",
+          "Archive",
+          "ArchiveRemove",
+          "ArrowDown",
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowUpRight",
+          "Artboard",
+          "Article",
+          "Asset",
+          "AssetCheck",
+          "AssetsAdded",
+          "AssetsDownloaded",
+          "AssetsExpired",
+          "AssetsLinkedPublished",
+          "AssetsModified",
+          "AssetsPublished",
+          "Asterisk",
+          "At",
+          "Attach",
+          "AttachmentExclude",
+          "Attributes",
+          "Audio",
+          "AutomatedSegment",
+          "Back",
+          "Back30Seconds",
+          "BackAndroid",
+          "Beaker",
+          "BeakerCheck",
+          "BeakerShare",
+          "Bell",
+          "BidRule",
+          "BidRuleAdd",
+          "Blower",
+          "Blur",
+          "Book",
+          "Bookmark",
+          "BookmarkSingle",
+          "BookmarkSingleOutline",
+          "BookmarkSmall",
+          "BookmarkSmallOutline",
+          "Boolean",
+          "Border",
+          "Box",
+          "BoxAdd",
+          "BoxExport",
+          "BoxImport",
+          "Brackets",
+          "BracketsSquare",
+          "Branch1",
+          "Branch2",
+          "Branch3",
+          "BranchCircle",
+          "BreadcrumbNavigation",
+          "Breakdown",
+          "BreakdownAdd",
+          "Briefcase",
+          "Browse",
+          "Brush",
+          "Bug",
+          "Building",
+          "BulkEditUsers",
+          "Button",
+          "CCLibrary",
+          "Calculator",
+          "Calendar",
+          "CalendarAdd",
+          "CalendarLocked",
+          "CalendarUnlocked",
+          "CallCenter",
+          "Camera",
+          "CameraFlip",
+          "CameraRefresh",
+          "Campaign",
+          "CampaignAdd",
+          "CampaignClose",
+          "CampaignDelete",
+          "CampaignEdit",
+          "Cancel",
+          "Capitals",
+          "Captcha",
+          "Car",
+          "Card",
+          "Channel",
+          "Chat",
+          "ChatAdd",
+          "CheckPause",
+          "Checkmark",
+          "CheckmarkCircle",
+          "CheckmarkCircleOutline",
+          "ChevronDoubleLeft",
+          "ChevronDoubleRight",
+          "ChevronDown",
+          "ChevronLeft",
+          "ChevronRight",
+          "ChevronUp",
+          "ChevronUpDown",
+          "Circle",
+          "CircleFilled",
+          "ClassicGridView",
+          "Clock",
+          "ClockCheck",
+          "CloneStamp",
+          "Close",
+          "CloseCaptions",
+          "CloseCircle",
+          "Cloud",
+          "CloudDisconnected",
+          "CloudError",
+          "CloudOutline",
+          "Code",
+          "Collection",
+          "CollectionAdd",
+          "CollectionAddTo",
+          "CollectionCheck",
+          "CollectionEdit",
+          "CollectionExclude",
+          "CollectionLink",
+          "ColorFill",
+          "ColorPalette",
+          "ColorWheel",
+          "ColumnSettings",
+          "ColumnTwoA",
+          "ColumnTwoB",
+          "ColumnTwoC",
+          "Comment",
+          "Compare",
+          "Compass",
+          "Condition",
+          "ConfidenceFour",
+          "ConfidenceOne",
+          "ConfidenceThree",
+          "ConfidenceTwo",
+          "Contrast",
+          "ConversionFunnel",
+          "Copy",
+          "CoverImage",
+          "CreditCard",
+          "Crop",
+          "CropLightning",
+          "CropRotate",
+          "Crosshairs",
+          "Curate",
+          "Cut",
+          "Dashboard",
+          "Data",
+          "DataAdd",
+          "DataBook",
+          "DataCheck",
+          "DataCorrelated",
+          "DataDownload",
+          "DataEdit",
+          "DataMapping",
+          "DataRefresh",
+          "DataRemove",
+          "DataSettings",
+          "DataUnavailable",
+          "DataUpload",
+          "DataUser",
+          "Date",
+          "DateInput",
+          "Deduplication",
+          "Delegate",
+          "Delete",
+          "DeleteOutline",
+          "Demographic",
+          "Deselect",
+          "DeselectCircular",
+          "DesktopAndMobile",
+          "DeviceDesktop",
+          "DeviceLaptop",
+          "DevicePhone",
+          "DevicePhoneRefresh",
+          "DevicePreview",
+          "DeviceRotateLandscape",
+          "DeviceRotatePortrait",
+          "DeviceTV",
+          "DeviceTablet",
+          "Devices",
+          "DistributeBottomEdge",
+          "DistributeHorizontalCenter",
+          "DistributeHorizontally",
+          "DistributeLeftEdge",
+          "DistributeRightEdge",
+          "DistributeSpaceHoriz",
+          "DistributeSpaceVert",
+          "DistributeTopEdge",
+          "DistributeVerticalCenter",
+          "DistributeVertically",
+          "Divide",
+          "DividePath",
+          "Document",
+          "DocumentFragment",
+          "DocumentFragmentGroup",
+          "DocumentOutline",
+          "DocumentRefresh",
+          "Dolly",
+          "Download",
+          "DownloadFromCloud",
+          "DownloadFromCloudOutline",
+          "Draft",
+          "DragHandle",
+          "Draw",
+          "Dropdown",
+          "Duplicate",
+          "Edit",
+          "EditCircle",
+          "EditExclude",
+          "EditIn",
+          "EditInLight",
+          "Education",
+          "Effects",
+          "Efficient",
+          "Ellipse",
+          "Email",
+          "EmailCancel",
+          "EmailCheck",
+          "EmailExclude",
+          "EmailExcludeOutline",
+          "EmailGear",
+          "EmailGearOutline",
+          "EmailKey",
+          "EmailKeyOutline",
+          "EmailLightning",
+          "EmailNotification",
+          "EmailOutline",
+          "EmailRefresh",
+          "EmailSchedule",
+          "Engagement",
+          "Erase",
+          "Event",
+          "EventExclude",
+          "EventShare",
+          "Events",
+          "ExcludeOverlap",
+          "Experience",
+          "ExperienceAdd",
+          "ExperienceAddTo",
+          "ExperienceExport",
+          "ExperienceImport",
+          "Export",
+          "ExportOriginal",
+          "Exposure",
+          "Extension",
+          "FacebookCoverImage",
+          "Fast",
+          "FastForward",
+          "FastForwardCircle",
+          "Feature",
+          "Feed",
+          "FeedAdd",
+          "FeedManagement",
+          "Feedback",
+          "FileAdd",
+          "FileCSV",
+          "FileCampaign",
+          "FileChart",
+          "FileCheckedOut",
+          "FileCode",
+          "FileData",
+          "FileEmail",
+          "FileExcel",
+          "FileFolder",
+          "FileGear",
+          "FileGlobe",
+          "FileHTML",
+          "FileImportant",
+          "FileJson",
+          "FileKey",
+          "FileMobile",
+          "FilePDF",
+          "FileShare",
+          "FileSingleWebPage",
+          "FileSpace",
+          "FileTemplate",
+          "FileTxt",
+          "FileUser",
+          "FileWord",
+          "FileWorkflow",
+          "FileXML",
+          "FileZip",
+          "FilingCabinet",
+          "Filmroll",
+          "FilmrollAutoAdd",
+          "Filter",
+          "FilterAdd",
+          "FilterCheck",
+          "FilterDelete",
+          "FilterEdit",
+          "FilterHeart",
+          "FilterRemove",
+          "FilterStar",
+          "FindAndReplace",
+          "Flag",
+          "FlagExclude",
+          "FlashAuto",
+          "FlashOff",
+          "FlashOn",
+          "Flashlight",
+          "FlashlightOff",
+          "FlashlightOn",
+          "FlipHorizontal",
+          "FlipVertical",
+          "Folder",
+          "Folder2Color",
+          "FolderAdd",
+          "FolderAddTo",
+          "FolderArchive",
+          "FolderDelete",
+          "FolderGear",
+          "FolderLocked",
+          "FolderOpen",
+          "FolderOpenOutline",
+          "FolderOutline",
+          "FolderRemove",
+          "FolderSearch",
+          "FolderUser",
+          "Follow",
+          "FollowOff",
+          "ForPlacementOnly",
+          "Forecast",
+          "Form",
+          "Forward",
+          "FullScreen",
+          "FullScreenExit",
+          "Function",
+          "Game",
+          "Gauge1",
+          "Gauge2",
+          "Gauge3",
+          "Gauge4",
+          "Gauge5",
+          "Gears",
+          "GearsAdd",
+          "GearsDelete",
+          "GearsEdit",
+          "GenderFemale",
+          "GenderMale",
+          "Gift",
+          "Globe",
+          "GlobeCheck",
+          "GlobeClock",
+          "GlobeEnter",
+          "GlobeExit",
+          "GlobeGrid",
+          "GlobeOutline",
+          "GlobeRemove",
+          "GlobeSearch",
+          "GlobeStrike",
+          "GlobeStrikeClock",
+          "Gradient",
+          "GraphArea",
+          "GraphAreaStacked",
+          "GraphBarHorizontal",
+          "GraphBarHorizontalAdd",
+          "GraphBarHorizontalStacked",
+          "GraphBarVertical",
+          "GraphBarVerticalAdd",
+          "GraphBarVerticalStacked",
+          "GraphBubble",
+          "GraphBullet",
+          "GraphConfidenceBands",
+          "GraphDonut",
+          "GraphDonutAdd",
+          "GraphGantt",
+          "GraphHistogram",
+          "GraphPathing",
+          "GraphPie",
+          "GraphProfitCurve",
+          "GraphScatter",
+          "GraphStream",
+          "GraphStreamRanked",
+          "GraphStreamRankedAdd",
+          "GraphSunburst",
+          "GraphTree",
+          "GraphTrend",
+          "GraphTrendAdd",
+          "GraphTrendAlert",
+          "Graphic",
+          "Group",
+          "Hammer",
+          "Hand",
+          "Hand0",
+          "Hand1",
+          "Hand2",
+          "Hand3",
+          "Hand4",
+          "Heal",
+          "Heart",
+          "Help",
+          "HelpOutline",
+          "Histogram",
+          "History",
+          "Home",
+          "Homepage",
+          "HotFixes",
+          "HotelBed",
+          "IdentityService",
+          "Image",
+          "ImageAdd",
+          "ImageAlbum",
+          "ImageAutoMode",
+          "ImageCarousel",
+          "ImageCheck",
+          "ImageCheckedOut",
+          "ImageMapCircle",
+          "ImageMapPolygon",
+          "ImageMapRectangle",
+          "ImageNext",
+          "ImageProfile",
+          "ImageSearch",
+          "ImageText",
+          "Images",
+          "Import",
+          "Inbox",
+          "Individual",
+          "Info",
+          "InfoOutline",
+          "IntersectOverlap",
+          "InvertAdj",
+          "Invite",
+          "Journey",
+          "JourneyAction",
+          "JourneyData",
+          "JourneyEvent",
+          "JourneyEvent2",
+          "JourneyReports",
+          "JourneyVoyager",
+          "JumpToTop",
+          "Key",
+          "KeyClock",
+          "KeyExclude",
+          "Keyboard",
+          "Label",
+          "LabelExclude",
+          "Labels",
+          "Landscape",
+          "Launch",
+          "Layers",
+          "LayersBackward",
+          "LayersBringToFront",
+          "LayersForward",
+          "LayersSendToBack",
+          "Light",
+          "Line",
+          "LineHeight",
+          "LinearGradient",
+          "Link",
+          "LinkCheck",
+          "LinkGlobe",
+          "LinkNav",
+          "LinkOff",
+          "LinkOut",
+          "LinkOutLight",
+          "LinkPage",
+          "LinkUser",
+          "Location",
+          "LocationBasedDate",
+          "LocationBasedEvent",
+          "LocationContribution",
+          "LockClosed",
+          "LockOpen",
+          "LogOut",
+          "Login",
+          "Looks",
+          "LoupeView",
+          "MBox",
+          "MagicWand",
+          "Magnify",
+          "Mailbox",
+          "MapView",
+          "MarginBottom",
+          "MarginLeft",
+          "MarginRight",
+          "MarginTop",
+          "MarketingActivities",
+          "Maximize",
+          "Measure",
+          "Menu",
+          "Merge",
+          "MergeLayers",
+          "Messenger",
+          "Minimize",
+          "MobileServices",
+          "ModernGridView",
+          "Money",
+          "Monitoring",
+          "Moon",
+          "More",
+          "MoreCircle",
+          "MoreSmall",
+          "MoreSmallList",
+          "MoreSmallListVert",
+          "MoreVertical",
+          "Move",
+          "MoveLeftRight",
+          "MoveTo",
+          "MoveUpDown",
+          "MovieCamera",
+          "Multiple",
+          "MultipleAdd",
+          "MultipleCheck",
+          "MultipleExclude",
+          "NamingOrder",
+          "NewItem",
+          "News",
+          "NewsAdd",
+          "NoEdit",
+          "Note",
+          "NoteAdd",
+          "OS",
+          "Offer",
+          "OfferDelete",
+          "OnAir",
+          "OpenIn",
+          "OpenInLight",
+          "OpenRecent",
+          "OpenRecentOutline",
+          "Orbit",
+          "Organisations",
+          "Organize",
+          "OutlinePath",
+          "PaddingBottom",
+          "PaddingLeft",
+          "PaddingRight",
+          "PaddingTop",
+          "PageBreak",
+          "PageExclude",
+          "PageGear",
+          "PageRule",
+          "PageShare",
+          "PageTag",
+          "PagesExclude",
+          "Pan",
+          "Panel",
+          "Paste",
+          "PasteHTML",
+          "PasteList",
+          "PasteText",
+          "Pattern",
+          "Pause",
+          "PauseCircle",
+          "Pawn",
+          "Pending",
+          "PeopleGroup",
+          "PersonalizationField",
+          "Perspective",
+          "PinOff",
+          "PinOn",
+          "Pivot",
+          "PlatformDataMapping",
+          "Play",
+          "PlayCircle",
+          "Plug",
+          "Polygon",
+          "PolygonSelect",
+          "PopIn",
+          "Portrait",
+          "Preset",
+          "Preview",
+          "Print",
+          "PrintPreview",
+          "Project",
+          "ProjectAdd",
+          "ProjectEdit",
+          "ProjectNameEdit",
+          "Promote",
+          "Properties",
+          "PropertiesCopy",
+          "PublishCheck",
+          "PublishPending",
+          "PublishReject",
+          "PublishRemove",
+          "PublishSchedule",
+          "PushNotification",
+          "Question",
+          "QuickSelect",
+          "RSS",
+          "RadialGradient",
+          "Rail",
+          "RailBottom",
+          "RailLeft",
+          "RailRight",
+          "RailRightClose",
+          "RailRightOpen",
+          "RailTop",
+          "RangeMask",
+          "RealTimeCustomerProfile",
+          "RectSelect",
+          "Rectangle",
+          "Redo",
+          "Refresh",
+          "RegionSelect",
+          "Relevance",
+          "Remove",
+          "RemoveCircle",
+          "Rename",
+          "Reorder",
+          "Replay",
+          "Replies",
+          "Reply",
+          "ReplyAll",
+          "Report",
+          "ReportAdd",
+          "Resize",
+          "Retweet",
+          "Reuse",
+          "Revenue",
+          "Revert",
+          "Rewind",
+          "RewindCircle",
+          "Ribbon",
+          "RotateCCW",
+          "RotateCCWBold",
+          "RotateCW",
+          "RotateCWBold",
+          "RotateLeft",
+          "RotateLeftOutline",
+          "RotateRight",
+          "RotateRightOutline",
+          "SMS",
+          "SMSKey",
+          "SMSLightning",
+          "SMSRefresh",
+          "SQLQuery",
+          "Sampler",
+          "Sandbox",
+          "SaveAsFloppy",
+          "SaveFloppy",
+          "SaveTo",
+          "SaveToLight",
+          "Scribble",
+          "Search",
+          "Seat",
+          "SeatAdd",
+          "Segmentation",
+          "Segments",
+          "Select",
+          "SelectAdd",
+          "SelectBox",
+          "SelectBoxAll",
+          "SelectCircular",
+          "SelectContainer",
+          "SelectGear",
+          "SelectIntersect",
+          "SelectSubtract",
+          "Selection",
+          "SelectionChecked",
+          "SelectionMove",
+          "Send",
+          "SentimentNegative",
+          "SentimentNeutral",
+          "SentimentPositive",
+          "Separator",
+          "Servers",
+          "Settings",
+          "Shapes",
+          "Share",
+          "ShareAndroid",
+          "ShareCheck",
+          "ShareLight",
+          "ShareWindows",
+          "Sharpen",
+          "Shield",
+          "Ship",
+          "Shop",
+          "ShoppingCart",
+          "ShowAllLayers",
+          "ShowMenu",
+          "ShowOneLayer",
+          "Shuffle",
+          "Slice",
+          "Slow",
+          "SmallCaps",
+          "Snapshot",
+          "SocialNetwork",
+          "SortOrderDown",
+          "SortOrderUp",
+          "Spam",
+          "Spellcheck",
+          "Spin",
+          "SplitView",
+          "SpotHeal",
+          "Stadium",
+          "Stage",
+          "Stamp",
+          "Star",
+          "StarOutline",
+          "Starburst",
+          "StepBackward",
+          "StepBackwardCircle",
+          "StepForward",
+          "StepForwardCircle",
+          "Stop",
+          "StopCircle",
+          "Stopwatch",
+          "Straighten",
+          "StraightenOutline",
+          "StrokeWidth",
+          "Subscribe",
+          "SubtractBackPath",
+          "SubtractFromSelection",
+          "SubtractFrontPath",
+          "SuccessMetric",
+          "Summarize",
+          "Survey",
+          "Switch",
+          "Sync",
+          "SyncRemove",
+          "Table",
+          "TableAdd",
+          "TableAndChart",
+          "TableColumnAddLeft",
+          "TableColumnAddRight",
+          "TableColumnMerge",
+          "TableColumnRemoveCenter",
+          "TableColumnSplit",
+          "TableEdit",
+          "TableHistogram",
+          "TableMergeCells",
+          "TableRowAddBottom",
+          "TableRowAddTop",
+          "TableRowMerge",
+          "TableRowRemoveCenter",
+          "TableRowSplit",
+          "TableSelectColumn",
+          "TableSelectRow",
+          "TagBold",
+          "TagItalic",
+          "TagUnderline",
+          "Target",
+          "Targeted",
+          "TaskList",
+          "Teapot",
+          "Temperature",
+          "TestAB",
+          "TestABEdit",
+          "TestABGear",
+          "TestABRemove",
+          "TestProfile",
+          "Text",
+          "TextAdd",
+          "TextAlignCenter",
+          "TextAlignJustify",
+          "TextAlignLeft",
+          "TextAlignRight",
+          "TextBaselineShift",
+          "TextBold",
+          "TextBulleted",
+          "TextBulletedAttach",
+          "TextBulletedHierarchy",
+          "TextBulletedHierarchyExclude",
+          "TextColor",
+          "TextDecrease",
+          "TextEdit",
+          "TextExclude",
+          "TextIncrease",
+          "TextIndentDecrease",
+          "TextIndentIncrease",
+          "TextItalic",
+          "TextKerning",
+          "TextLetteredLowerCase",
+          "TextLetteredUpperCase",
+          "TextNumbered",
+          "TextParagraph",
+          "TextRomanLowercase",
+          "TextRomanUppercase",
+          "TextSize",
+          "TextSizeAdd",
+          "TextSpaceAfter",
+          "TextSpaceBefore",
+          "TextStrikethrough",
+          "TextStroke",
+          "TextStyle",
+          "TextSubscript",
+          "TextSuperscript",
+          "TextTracking",
+          "TextUnderline",
+          "ThumbDown",
+          "ThumbDownOutline",
+          "ThumbUp",
+          "ThumbUpOutline",
+          "Tips",
+          "Train",
+          "TransferToPlatform",
+          "Transparency",
+          "Trap",
+          "TreeCollapse",
+          "TreeCollapseAll",
+          "TreeExpand",
+          "TreeExpandAll",
+          "TrendInspect",
+          "TrimPath",
+          "Trophy",
+          "Type",
+          "USA",
+          "Underline",
+          "Undo",
+          "Ungroup",
+          "Unlink",
+          "Unmerge",
+          "UploadToCloud",
+          "UploadToCloudOutline",
+          "User",
+          "UserActivity",
+          "UserAdd",
+          "UserAdmin",
+          "UserArrow",
+          "UserCheckedOut",
+          "UserDeveloper",
+          "UserEdit",
+          "UserExclude",
+          "UserGroup",
+          "UserLock",
+          "UserShare",
+          "UsersAdd",
+          "UsersExclude",
+          "UsersLock",
+          "UsersShare",
+          "Variable",
+          "VectorDraw",
+          "VideoCheckedOut",
+          "VideoFilled",
+          "VideoOutline",
+          "ViewAllTags",
+          "ViewBiWeek",
+          "ViewCard",
+          "ViewColumn",
+          "ViewDay",
+          "ViewDetail",
+          "ViewGrid",
+          "ViewList",
+          "ViewRow",
+          "ViewSingle",
+          "ViewStack",
+          "ViewWeek",
+          "ViewedMarkAs",
+          "Vignette",
+          "Visibility",
+          "VisibilityOff",
+          "Visit",
+          "VisitShare",
+          "VoiceOver",
+          "VolumeMute",
+          "VolumeOne",
+          "VolumeThree",
+          "VolumeTwo",
+          "Watch",
+          "WebPage",
+          "WebPages",
+          "Workflow",
+          "WorkflowAdd",
+          "Wrench",
+          "ZoomIn",
+          "ZoomOut"
+        ]
+      }
+    },
+    {
+      "sourcePath": "docs/site/public/schemas/types/hex-color.json",
+      "sourceSha256": "e4d48ab04bcae9f41f8e36e4e04dce46fcd9c3d2262b08dc803e0341f8aa48d0",
+      "id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
+      "role": "external-option-type",
+      "dependencies": [],
+      "document": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
+        "title": "hex-color",
+        "description": "Hexadecimal color code",
+        "type": "string",
+        "pattern": "/^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/"
+      }
+    }
+  ],
+  "validationNotes": [
+    "Register all schemas by their original $id using a Draft 2020-12 validator and URI/UUID formats. Disable network schema loading.",
+    "Validate each declarations[].document against component.schema.json. Validate relationship arrays separately against relationship.schema.json; no relationships or defaults are supplied here.",
+    "The component schema embeds its anatomy and state definitions. The standalone anatomy-part and state-declaration schemas are additional opt-in checks, not transitive root dependencies.",
+    "Component option descriptor $ref values are data during declaration validation. Validate actual icon/selectedTextColor option values separately against their external option schemas.",
+    "The original hex-color schema pattern includes JavaScript-style slash delimiters. It is preserved unchanged and rejects ordinary hex strings such as #ffffff under JSON Schema regex semantics.",
+    "No anatomy, boolean-condition mappings, state weights, relationship defaults, or application token references have been invented."
+  ]
+}

@@ -79,6 +79,16 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.local
+
+# Credentials: never track
+google-service-credentials.json
+
+# Spectrum Studio build and test output
+docs/spectrum-studio/storybook-static/
+docs/spectrum-studio/test-results/
+docs/spectrum-studio/playwright-report/
+docs/spectrum-studio/reports/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

@@ -1,0 +1,121 @@
+@import "@spectrum-css/tokens/dist/css/global-vars.css";
+@import "@spectrum-css/tokens/dist/css/light-vars.css";
+@import "@spectrum-css/tokens/dist/css/dark-vars.css";
+@import url("https://use.typekit.net/uma8ayv.css");
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: adobe-clean, sans-serif;
+  overflow: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, li, ol, dl {
+  color: var(--spectrum-gray-900, light-dark(black, white));
+}
+
+/* List reset only under #root. ToastContainer portals to document.body, so its <ol>
+   layout stays outside these selectors and keeps Spectrum padding. */
+#root ul *,
+#root ol *,
+#root li {
+  margin-top: 0 !important;
+  padding: 0;
+}
+
+@keyframes slide-out-left { to { transform: translateX(-40px); } }
+@keyframes slide-in-right { from { transform: translateX(40px); } }
+@keyframes slide-out-right { to { transform: translateX(40px); } }
+@keyframes slide-in-left { from { transform: translateX(-40px); } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes fade-in { from { opacity: 0; } }
+
+
+.dialog-title {
+  /* No view-transition-name here. Let it transition with the root to avoid text scaling artifacts. */
+  /* Intentionally empty - selector exists for documentation purposes */
+  display: inherit;
+}
+
+.dialog-content {
+  view-transition-name: dialog-content;
+}
+
+::view-transition-old(dialog-content) {
+  animation: 300ms ease-in-out both slide-out-left, 300ms ease-in-out both fade-out;
+}
+::view-transition-new(dialog-content) {
+  animation: 300ms ease-in-out both slide-in-right, 300ms ease-in-out both fade-in;
+}
+
+.transition-backward::view-transition-old(dialog-content) {
+  animation: 300ms ease-in-out both slide-out-right, 300ms ease-in-out both fade-out;
+}
+.transition-backward::view-transition-new(dialog-content) {
+  animation: 300ms ease-in-out both slide-in-left, 300ms ease-in-out both fade-in;
+}
+
+.advancedControlsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 0px;
+  border-top: 1px solid light-dark(rgb(0 0 0 / 0.12), rgb(255 255 255 / 0.15));
+}
+.advancedControlsSection:first-of-type {
+  border-top: none;
+}
+.advancedControlsGroup {
+  display: grid;
+  gap: 8px;
+}
+
+/* Three tracks: group label, field label, field. The nested fields element uses
+   subgrid so every row across every group lines up on the same two tracks. */
+.advancedControlsParent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 8px;
+  row-gap: 8px;
+  align-items: center;
+}
+.advancedControlsParentLabel {
+  grid-column: 1;
+  align-self: start;
+  padding-top: 5px;
+}
+.advancedControlsFields {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  row-gap: 8px;
+  align-items: center;
+}
+.advancedControlsFields > *:not(.advancedControlsFieldLabel) {
+  grid-column: 2;
+  min-width: 0;
+  width: 100%;
+}
+.advancedControlsFieldLabel {
+  grid-column: 1;
+  justify-self: start;
+}
+/* A field with no sub-label fills both remaining tracks. */
+.advancedControlsFields > .advancedControlsFieldWide {
+  grid-column: 1 / -1;
+}
+.advancedControlsFieldWide > * {
+  width: 100%;
+}

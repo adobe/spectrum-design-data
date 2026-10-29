@@ -1,0 +1,4300 @@
+{
+  "$schema": "./design-system.schema.json",
+  "schemaVersion": 1,
+  "dataset": {
+    "id": "leonardo-defaults",
+    "name": "Spectrum studio design system defaults",
+    "description": "Local authoring data; not a design-data export.",
+    "revision": 1
+  },
+  "system": {
+    "taxonomy": {
+      "schemaVersion": 1,
+      "categories": [
+        {
+          "id": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "key": "property",
+          "name": "Property",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "key": "colorName",
+          "name": "Color name",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "key": "surfaceName",
+          "name": "Surface name",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+          "key": "foundationScale",
+          "name": "Foundation scale",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "spacing",
+            "size",
+            "radius",
+            "elevation"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "key": "scaleIndex",
+          "name": "Scale index",
+          "description": "",
+          "valueType": "number",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "key": "position",
+          "name": "Position",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1001",
+          "key": "constraint",
+          "name": "Property constraint",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1002",
+          "key": "axis",
+          "name": "Orientation",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "key": "structure",
+          "name": "Structure",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "key": "size",
+          "name": "Size",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
+          "key": "tokenCategory",
+          "name": "Token category",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "key": "role",
+          "name": "Role",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+          "key": "affordance",
+          "name": "Affordance",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "key": "element",
+          "name": "Element",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+          "key": "visibility",
+          "name": "Visibility",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "key": "attribute",
+          "name": "Attribute",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "f65fecd0-3e68-4531-927d-cd52c203c0de",
+          "key": "density",
+          "name": "Density",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
+          "key": "shape",
+          "name": "Shape",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+          "key": "interactiveContext",
+          "name": "Interactive context",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "key": "interaction",
+          "name": "Interaction",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        },
+        {
+          "id": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "key": "number",
+          "name": "Number",
+          "description": "",
+          "valueType": "number",
+          "cardinality": "one",
+          "scopes": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures"
+          ],
+          "required": false,
+          "includeInProjections": true
+        }
+      ],
+      "terms": [
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1500",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "Extra small",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1501",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "Small",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1502",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "Medium",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1503",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "Large",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1504",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "Extra large",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1100",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "width",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1101",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "height",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1102",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "gap",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1103",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "padding",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1104",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "position",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1105",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "direction",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1200",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Left",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1201",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Center",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1202",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Right",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1203",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Top",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1204",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Middle",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1205",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Bottom",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1206",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Top left",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1207",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Top right",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1208",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Bottom right",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1209",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Bottom left",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1300",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1001",
+          "value": "Minimum",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1301",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1001",
+          "value": "Maximum",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1400",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1002",
+          "value": "Horizontal",
+          "description": ""
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1401",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1002",
+          "value": "Vertical",
+          "description": ""
+        },
+        {
+          "id": "39b46d90-7157-4a98-9902-723d72646617",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "elevation",
+          "description": ""
+        },
+        {
+          "id": "e809f072-65ad-4189-927c-5348330fc56c",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "radius",
+          "description": ""
+        },
+        {
+          "id": "73d1c87a-7ca9-4f40-9404-8ae65dc26833",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "color",
+          "description": ""
+        },
+        {
+          "id": "273990a0-e71e-4249-9628-7e8fa689747b",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "size",
+          "description": ""
+        },
+        {
+          "id": "dbadbe74-958a-4279-a3ca-fa701fd68866",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Illustrator Orange",
+          "description": ""
+        },
+        {
+          "id": "0df7cdd8-9c4e-4810-a782-2a55e0437735",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Photoshop Blue",
+          "description": ""
+        },
+        {
+          "id": "d9d3f003-9195-4ff1-b5c0-f2a9fe5aa2ba",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "XD Fuchsia",
+          "description": ""
+        },
+        {
+          "id": "a08500b8-abcd-47b2-8b46-b7660645dee0",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Dimension Green",
+          "description": ""
+        },
+        {
+          "id": "707d1415-cf90-4cbc-a469-ad2882aa492d",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "After Effects Indigo",
+          "description": ""
+        },
+        {
+          "id": "9a9ad842-2e75-4783-bf9d-f12d7e160e10",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "InDesign Magenta",
+          "description": ""
+        },
+        {
+          "id": "a323d4fe-336f-4034-b7a0-78d6db9f0e63",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Fire",
+          "description": ""
+        },
+        {
+          "id": "6587ba30-470c-4bb6-929b-e4a2d01ad010",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Meadow",
+          "description": ""
+        },
+        {
+          "id": "41f8cde0-c3a6-42e1-8d31-825a46fea568",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Seahawks",
+          "description": ""
+        },
+        {
+          "id": "4a855a54-2678-48e5-a42f-a1f7a4aaae54",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Rose",
+          "description": ""
+        },
+        {
+          "id": "5a325c5a-c590-4c8e-8aa0-a54bdb283f53",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Sunset",
+          "description": ""
+        },
+        {
+          "id": "e79cb365-125a-4803-b4b4-10b45a89c299",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Ice",
+          "description": ""
+        },
+        {
+          "id": "7a6d2983-1b83-42a7-a208-6f2011658e69",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Gray",
+          "description": ""
+        },
+        {
+          "id": "eee5c181-d6b6-49e6-89f6-be092ecfa957",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Silver",
+          "description": ""
+        },
+        {
+          "id": "9bd61eba-b96a-4f99-8dc4-cc5e9c996127",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Magenta",
+          "description": ""
+        },
+        {
+          "id": "17c6cccf-8bca-4a44-9b31-7be2cfdf8251",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Red",
+          "description": ""
+        },
+        {
+          "id": "ede41f6c-1d66-4dd5-ad5a-da4ce4cc1b02",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Cinnamon",
+          "description": ""
+        },
+        {
+          "id": "fc06767f-92c3-43cd-94f6-cffdc9bc3276",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Orange",
+          "description": ""
+        },
+        {
+          "id": "5462ba36-e280-4204-966a-c5b149cddfc4",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Brown",
+          "description": ""
+        },
+        {
+          "id": "07c48167-3989-4ca7-9336-fba4bc33f9e8",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Yellow",
+          "description": ""
+        },
+        {
+          "id": "63b31432-d201-4246-9b26-6ef44e2842e4",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Chartreuse",
+          "description": ""
+        },
+        {
+          "id": "12095729-736b-407f-88be-dd6925ca6658",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Celery",
+          "description": ""
+        },
+        {
+          "id": "f121a899-8eab-4c08-b570-cdcbf9e8b8fe",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Green",
+          "description": ""
+        },
+        {
+          "id": "93aa2820-60e6-444a-af66-c0eef8d85936",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Seafoam",
+          "description": ""
+        },
+        {
+          "id": "d45809d5-28f3-4c57-95ab-f19dbc6cc131",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Turquoise",
+          "description": ""
+        },
+        {
+          "id": "9aae9f95-789f-47f4-95db-8db0827f8ec1",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Cyan",
+          "description": ""
+        },
+        {
+          "id": "6bbab90f-8ed6-4b4f-a6fa-e6b5937c7615",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Blue",
+          "description": ""
+        },
+        {
+          "id": "da4e4b17-f061-47f9-bf6f-b07157630b63",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Indigo",
+          "description": ""
+        },
+        {
+          "id": "e10d5c03-e1d3-454c-a16b-366411451a5f",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Purple",
+          "description": ""
+        },
+        {
+          "id": "7a8e8191-2462-4faa-8985-0872067e8468",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Fuchsia",
+          "description": ""
+        },
+        {
+          "id": "8f12fa64-ca0c-43de-b013-0993f17c38a2",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Pink",
+          "description": ""
+        },
+        {
+          "id": "e1f91215-7b39-4203-90a9-3888154e7949",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "Wireframe",
+          "description": ""
+        },
+        {
+          "id": "21c7c377-e2e7-46e3-88f9-fc2071a3bb11",
+          "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "value": "bg",
+          "description": ""
+        },
+        {
+          "id": "9f6e525f-c9cd-4df5-b27f-5b7aa5373f05",
+          "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "value": "raised",
+          "description": ""
+        },
+        {
+          "id": "ccfdbc1d-60a4-4c7f-ac64-51961c2fa5e9",
+          "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "value": "Floating surface",
+          "description": ""
+        },
+        {
+          "id": "bb15ef9f-b7c0-468f-8e42-6f5055dad49b",
+          "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "value": "info",
+          "description": ""
+        },
+        {
+          "id": "913a377d-6046-4c7b-bfef-3544c4e338da",
+          "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+          "value": "error",
+          "description": ""
+        },
+        {
+          "id": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+          "value": "Global",
+          "description": ""
+        },
+        {
+          "id": "ead04990-42c3-4483-ba37-c77410f31c57",
+          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+          "value": "Base horizontal spacing",
+          "description": ""
+        },
+        {
+          "id": "240bd9ba-271a-405d-9514-a627942d6b42",
+          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+          "value": "Base gap",
+          "description": ""
+        },
+        {
+          "id": "14d24bdb-e1ad-4186-82e8-02cc953c5f05",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 20,
+          "description": ""
+        },
+        {
+          "id": "9585a8f9-fece-4d09-80e7-4d35b9065b31",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 40,
+          "description": ""
+        },
+        {
+          "id": "d31eba7a-58ac-4a41-afb7-499f5a17b3bd",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 60,
+          "description": ""
+        },
+        {
+          "id": "6adcf952-1eda-46be-843c-07b8bf9449e7",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 80,
+          "description": ""
+        },
+        {
+          "id": "7683d5ff-0c7a-4ee3-8331-2ab6e58e6d2b",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 100,
+          "description": ""
+        },
+        {
+          "id": "4b999385-eab3-4bfd-9fe0-09c7cc193ac0",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 200,
+          "description": ""
+        },
+        {
+          "id": "f9acab2c-2a23-4aa0-89c9-ebf303e20b97",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 300,
+          "description": ""
+        },
+        {
+          "id": "49516a12-88e0-4f5c-8c79-9eebd1e7becf",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 400,
+          "description": ""
+        },
+        {
+          "id": "af2d6b41-89db-441e-a60f-dfba5fce6f13",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 500,
+          "description": ""
+        },
+        {
+          "id": "063681f0-d562-4ec9-b95a-eb64a9824965",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 600,
+          "description": ""
+        },
+        {
+          "id": "744bfec4-6b92-4e5b-a45d-c417c8bed5cc",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 700,
+          "description": ""
+        },
+        {
+          "id": "8b16a9ea-ac98-4273-b6ba-a25c5720786b",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 800,
+          "description": ""
+        },
+        {
+          "id": "bc5ba35c-ad3b-4e49-b835-ccf4b3956d61",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 900,
+          "description": ""
+        },
+        {
+          "id": "e6dd3d1e-5aff-41f4-a431-b0fc9b9fca8d",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1000,
+          "description": ""
+        },
+        {
+          "id": "f3a22107-0720-4572-844e-67e399dfbed1",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1100,
+          "description": ""
+        },
+        {
+          "id": "0dfe2ee8-7a97-42cf-bd1e-48aa029b8eda",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1200,
+          "description": ""
+        },
+        {
+          "id": "40db7f8d-4579-4568-9717-7f5288120d6a",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1300,
+          "description": ""
+        },
+        {
+          "id": "ac897b2e-9e97-4196-bdda-99a6b6b2d289",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1400,
+          "description": ""
+        },
+        {
+          "id": "352546ff-4e57-4f13-b4cd-5719e39d4dc3",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 25,
+          "description": ""
+        },
+        {
+          "id": "e12e6d21-d5b1-4173-a243-80744956e9d4",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 50,
+          "description": ""
+        },
+        {
+          "id": "1bbfbce9-8ad1-4927-9335-4402146fd399",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 75,
+          "description": ""
+        },
+        {
+          "id": "f4639ad9-fd06-4e5e-8bf9-4c1ad072192b",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1500,
+          "description": ""
+        },
+        {
+          "id": "7f1c7704-2356-4bef-af3f-e60fc1bfd56d",
+          "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+          "value": 1600,
+          "description": ""
+        },
+        {
+          "id": "014d018b-da56-4a93-9190-753ad548a4c2",
+          "categoryId": "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
+          "value": "Spacing",
+          "description": ""
+        },
+        {
+          "id": "d20e0d12-0915-4d33-91f4-ba1b6272326f",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Positive",
+          "description": ""
+        },
+        {
+          "id": "b1529dac-f806-4cf4-828e-18053154d25f",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Negative",
+          "description": ""
+        },
+        {
+          "id": "c987efac-c9dd-413b-8f9d-973815d089e4",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Informative",
+          "description": ""
+        },
+        {
+          "id": "63da69ae-6929-4d6f-ae36-6750a5d315b0",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Warning",
+          "description": ""
+        },
+        {
+          "id": "bb9dd37e-a07f-4602-97df-faec059917c7",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Neutral",
+          "description": ""
+        },
+        {
+          "id": "6e32af80-32c2-4c5a-afb3-e8ed734543d3",
+          "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
+          "value": "Accent",
+          "description": ""
+        },
+        {
+          "id": "a5172f9f-230b-4be8-923c-e9c29e236d7f",
+          "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+          "value": "Drop-target",
+          "description": ""
+        },
+        {
+          "id": "f90152cb-85a8-4705-a687-42444c165906",
+          "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+          "value": "Focus-ring",
+          "description": ""
+        },
+        {
+          "id": "fd85e5ef-e972-4338-8926-408aa70d317f",
+          "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+          "value": "Selection-indicator",
+          "description": ""
+        },
+        {
+          "id": "ac4d88f1-5527-45cf-96e8-f2cc41c2e356",
+          "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+          "value": "Drag-handle",
+          "description": ""
+        },
+        {
+          "id": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Text",
+          "description": ""
+        },
+        {
+          "id": "44d05161-a960-4fed-ac11-723b4021cca0",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Visual",
+          "description": ""
+        },
+        {
+          "id": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Workflow-icon",
+          "description": ""
+        },
+        {
+          "id": "c8bb5451-b245-4de7-806a-ea006a15a1ae",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "UI-icon",
+          "description": ""
+        },
+        {
+          "id": "03556ff4-f6e6-48bd-89a8-91d9c78ce730",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Bar",
+          "description": ""
+        },
+        {
+          "id": "a34bad93-394a-4cfb-b0be-7c9a20121a8a",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Control",
+          "description": ""
+        },
+        {
+          "id": "e4673609-c0e2-4901-a8c5-575760c91268",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Pasteboard",
+          "description": ""
+        },
+        {
+          "id": "d0ebe9d1-5047-4c6a-b4ea-2b7c93247763",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Page",
+          "description": ""
+        },
+        {
+          "id": "fad3c19d-37af-42c3-91bb-ca66256a8319",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Section",
+          "description": ""
+        },
+        {
+          "id": "dc9261fa-bc9b-45c6-b33d-bbb52adfff25",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Artboard",
+          "description": ""
+        },
+        {
+          "id": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Surface",
+          "description": ""
+        },
+        {
+          "id": "1853e628-2844-45e9-8a8c-fe305d941f09",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Body",
+          "description": ""
+        },
+        {
+          "id": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Heading",
+          "description": ""
+        },
+        {
+          "id": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "value": "Component",
+          "description": ""
+        },
+        {
+          "id": "66bee4d1-0ec4-49c7-bb9d-652a18c28554",
+          "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+          "value": "Subtle",
+          "description": ""
+        },
+        {
+          "id": "c87612a6-a139-4ebd-a444-6a0937d3ba69",
+          "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+          "value": "Subdued",
+          "description": ""
+        },
+        {
+          "id": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a",
+          "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+          "value": "Emphasized",
+          "description": ""
+        },
+        {
+          "id": "157a59a8-44dd-4c1d-ac39-487201482d84",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Border",
+          "description": ""
+        },
+        {
+          "id": "d52e1d8b-48e0-4a02-9668-8c7cb5e25a62",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Background",
+          "description": ""
+        },
+        {
+          "id": "800c0491-1be2-462b-b59d-903646a1ae28",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Dash",
+          "description": ""
+        },
+        {
+          "id": "1c482aeb-cb4d-4a0b-a36b-109017829881",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Shadow",
+          "description": ""
+        },
+        {
+          "id": "e5643915-92be-4bf0-a173-9c5701342d8a",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Corner",
+          "description": ""
+        },
+        {
+          "id": "69d020c3-e3f0-475b-b906-7a937961e149",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Overlay",
+          "description": ""
+        },
+        {
+          "id": "bb4daecc-46ac-4f99-80d0-2bffc1d81343",
+          "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "value": "Gradient",
+          "description": ""
+        },
+        {
+          "id": "b9e315d9-ad01-46e4-8371-fa51af88fe53",
+          "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
+          "value": "Regular",
+          "description": ""
+        },
+        {
+          "id": "bf3202a6-0725-45da-a1b2-0e79ae284f42",
+          "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
+          "value": "Compact",
+          "description": ""
+        },
+        {
+          "id": "6bc36b92-e824-4946-8340-147d5cc95cc5",
+          "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
+          "value": "Spacious",
+          "description": ""
+        },
+        {
+          "id": "96e228e5-00f8-44f3-ace4-63d0e5067d44",
+          "categoryId": "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
+          "value": "Uniform",
+          "description": ""
+        },
+        {
+          "id": "50becbf0-9cf5-4df6-a656-dd9cb1d66a60",
+          "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+          "value": "Selected",
+          "description": ""
+        },
+        {
+          "id": "b22bd8a4-08c2-4186-ba99-cda3b29ad344",
+          "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+          "value": "Disabled",
+          "description": ""
+        },
+        {
+          "id": "f35609ce-cce8-422a-a504-fd4e7a92e792",
+          "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+          "value": "Loading",
+          "description": ""
+        },
+        {
+          "id": "7e0af4fe-fa80-4f0a-ab95-448324ee8e9a",
+          "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "value": "Default",
+          "description": ""
+        },
+        {
+          "id": "47dccbe1-70ac-4879-a770-93f292b48907",
+          "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "value": "Hover",
+          "description": ""
+        },
+        {
+          "id": "83361a0d-207e-43fc-83c9-259346571c22",
+          "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "value": "Focus",
+          "description": ""
+        },
+        {
+          "id": "1ef67476-ec27-4587-99b3-85512a392fa7",
+          "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "value": "Down",
+          "description": ""
+        },
+        {
+          "id": "e5660667-58fe-4c1c-b914-dfdef87116e0",
+          "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "value": "Drag",
+          "description": ""
+        },
+        {
+          "id": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Base",
+          "description": ""
+        },
+        {
+          "id": "8de84d9d-f5b9-41fb-a714-1a64e970aca1",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "List",
+          "description": ""
+        },
+        {
+          "id": "c0abaa73-3a65-4d2d-854e-410c098f86b0",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "List-item",
+          "description": ""
+        },
+        {
+          "id": "ac7d89f6-b1bb-476f-a03a-8e356017b4d2",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Container",
+          "description": ""
+        },
+        {
+          "id": "4402f568-5db9-4cee-93a3-e3e9421dd170",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Accessory",
+          "description": ""
+        },
+        {
+          "id": "9f9a1661-59c5-48c5-9a6a-0338e3cefd97",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Accessory-item",
+          "description": ""
+        },
+        {
+          "id": "09a56b81-da7a-4a40-a4be-bfcde9bd11d7",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Banner",
+          "description": ""
+        },
+        {
+          "id": "c36f68a9-0175-49d3-8495-222761fbe0a8",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Group",
+          "description": ""
+        },
+        {
+          "id": "809c6732-5e80-438c-9f7d-ce817894c0b1",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Field",
+          "description": ""
+        },
+        {
+          "id": "2241056b-4ca1-4a13-ab03-cdad385e1de7",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "Form",
+          "description": ""
+        },
+        {
+          "id": "aecefcb0-9505-4985-a297-d21e42113fd8",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+          "value": "App",
+          "description": ""
+        },
+        {
+          "id": "995ee216-3c2a-4269-bd5c-a3a9b474ead7",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Indent",
+          "description": ""
+        },
+        {
+          "id": "31d59200-639b-4c93-8fbf-fc7df5f0ce2a",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Opacity",
+          "description": ""
+        },
+        {
+          "id": "dbabc8b1-acf4-49da-817a-ec82cbb76796",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Length",
+          "description": ""
+        },
+        {
+          "id": "b44f2c34-0bd1-434a-bbdf-e76ff1faa47d",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Blur",
+          "description": ""
+        },
+        {
+          "id": "c8a9ce12-b5e9-4104-b9a4-cb4324ec80b8",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Offset",
+          "description": ""
+        },
+        {
+          "id": "56f9f8bd-2914-4c71-b4b9-1f1a3eb7c192",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Angle",
+          "description": ""
+        },
+        {
+          "id": "9f41e456-c913-40cd-8d21-f70f62c01524",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Step",
+          "description": ""
+        },
+        {
+          "id": "571849ff-8090-4cf2-b1ed-6ccae9bf82d1",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Aspect-ratio",
+          "description": ""
+        },
+        {
+          "id": "766c6a6a-b0b7-4b5a-b6c2-6cad686ddeab",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Thickness",
+          "description": ""
+        },
+        {
+          "id": "1fd3e56e-f57d-48ab-ba5b-09b6e42c0c0b",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Stop",
+          "description": ""
+        },
+        {
+          "id": "25628e5a-e4d7-4a41-adba-4fc01ab76343",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Line height",
+          "description": ""
+        },
+        {
+          "id": "845cdc7d-14e9-4e24-a69e-28d4968ec1dd",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "Unitless line height",
+          "description": ""
+        },
+        {
+          "id": "e0af254c-29c0-4898-8d7d-843831772822",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Start",
+          "description": ""
+        },
+        {
+          "id": "41f11fc2-0dca-4379-95d0-7fc082458f36",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "End",
+          "description": ""
+        },
+        {
+          "id": "58d98056-7c04-4915-91b7-3c11a14b7f09",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
+          "value": "Affixed",
+          "description": ""
+        },
+        {
+          "id": "82296acb-a06d-4e86-aa3b-fb33aea29b3b",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "3x-small",
+          "description": ""
+        },
+        {
+          "id": "bf90cb12-60ed-4f9e-8508-4f33501cd8c9",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "2x-small",
+          "description": ""
+        },
+        {
+          "id": "2d438e52-5d4e-4ab7-8126-45059bf5195d",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "2x-large",
+          "description": ""
+        },
+        {
+          "id": "d6748cb2-9ff0-4ef6-8848-fbdeb8377f73",
+          "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "value": "3x-large",
+          "description": ""
+        }
+      ],
+      "order": [
+        "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
+        "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+        "b07988e3-0510-4bf5-a531-86ea718b1003",
+        "11c250f8-e57b-436e-95b8-6296c2b89165",
+        "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+        "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+        "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+        "ca732a26-decb-4746-9afc-3567ec0d445e",
+        "b07988e3-0510-4bf5-a531-86ea718b1001",
+        "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "b07988e3-0510-4bf5-a531-86ea718b1002",
+        "b07988e3-0510-4bf5-a531-86ea718b1000",
+        "b07988e3-0510-4bf5-a531-86ea718b1004",
+        "f65fecd0-3e68-4531-927d-cd52c203c0de",
+        "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
+        "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+        "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+        "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+        "f0ba0ee1-786b-4cf5-ab99-85d8e167407e"
+      ],
+      "classifications": {}
+    },
+    "structures": {
+      "schemaVersion": 4,
+      "structures": [
+        {
+          "conceptId": "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
+          "name": "Base",
+          "elements": [
+            {
+              "id": "c664f132-52a1-4f10-8017-7a6a07e3149a",
+              "kind": "structureReference",
+              "structureId": "4a301dd7-5c2c-4406-b47a-2f04cfe90e43"
+            }
+          ],
+          "properties": [
+            {
+              "id": "bbd48116-81a7-869a-a911-ed011a715713",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "value": {
+                "kind": "sizing",
+                "preset": "hug"
+              }
+            },
+            {
+              "id": "2b534a8b-c48b-86fb-b458-09c39cd6e467",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "value": {
+                "kind": "sizing",
+                "preset": "hug"
+              }
+            },
+            {
+              "id": "91a1084b-0efa-86b1-85e6-db6df1801f4a",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1104",
+                "b07988e3-0510-4bf5-a531-86ea718b1002": "b07988e3-0510-4bf5-a531-86ea718b1400"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1200"
+              }
+            },
+            {
+              "id": "a39207d4-21b0-862f-9ee7-9afd907612b1",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1104",
+                "b07988e3-0510-4bf5-a531-86ea718b1002": "b07988e3-0510-4bf5-a531-86ea718b1401"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1203"
+              }
+            },
+            {
+              "id": "e40cbb13-d9c4-89e7-8e2d-0847807b3cbc",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1102"
+              },
+              "$ref": "7f5475d3-81f0-8e72-9ebd-4248ebced1bf"
+            },
+            {
+              "id": "c174732e-f2e5-8c4b-bbac-bbde1614c079",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1105"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1400"
+              }
+            },
+            {
+              "id": "755bfd85-0fc2-84a2-bb81-c0b067a586fc",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1103",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1202"
+              },
+              "$ref": "78716658-6c32-812a-ba6f-6d1f2f0c9604"
+            },
+            {
+              "id": "a6e9b02a-e8c6-8728-8550-80f3ff512e33",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1103",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1200"
+              },
+              "$ref": "78716658-6c32-812a-ba6f-6d1f2f0c9604"
+            },
+            {
+              "id": "49522d08-2bf4-83c1-846f-b07f096e278f",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1206"
+              },
+              "$ref": "75d83dbf-7659-87d8-b0b7-cb8c9229114f"
+            },
+            {
+              "id": "e7914d24-fd71-84d3-b3ee-99b16f9370a4",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1207"
+              },
+              "$ref": "75d83dbf-7659-87d8-b0b7-cb8c9229114f"
+            },
+            {
+              "id": "0eda8ebf-9420-8cdc-86cc-6b373b60f4f2",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1208"
+              },
+              "$ref": "75d83dbf-7659-87d8-b0b7-cb8c9229114f"
+            },
+            {
+              "id": "24965da8-f73a-8eec-8f33-df0c7aa58395",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "b07988e3-0510-4bf5-a531-86ea718b1209"
+              },
+              "$ref": "75d83dbf-7659-87d8-b0b7-cb8c9229114f"
+            }
+          ],
+          "generation": {
+            "nameRef": {
+              "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
+              "termId": "b5cf8569-078f-40b1-8207-dddddd3aa2a5"
+            },
+            "sizeTermIds": [
+              "b07988e3-0510-4bf5-a531-86ea718b1500",
+              "b07988e3-0510-4bf5-a531-86ea718b1501",
+              "b07988e3-0510-4bf5-a531-86ea718b1502",
+              "b07988e3-0510-4bf5-a531-86ea718b1503",
+              "b07988e3-0510-4bf5-a531-86ea718b1504"
+            ],
+            "applications": [
+              {
+                "id": "1f22343a-cd8a-4d8d-86db-8d642f426b65",
+                "ruleId": "rule-tshirt-sizing",
+                "targets": {
+                  "kind": "all"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "conceptId": "4a301dd7-5c2c-4406-b47a-2f04cfe90e43",
+          "name": "Text",
+          "properties": [
+            {
+              "id": "56fb7706-a3ed-8fc2-a2e3-fb6789c455ee",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "value": {
+                "kind": "sizing",
+                "preset": "hug"
+              }
+            },
+            {
+              "id": "ecb9179e-08eb-8f13-baeb-cbd9ac71e24c",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "value": {
+                "kind": "sizing",
+                "preset": "hug"
+              }
+            },
+            {
+              "id": "9754bef4-fc52-8061-a10d-7a71b23c40ed",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1104",
+                "b07988e3-0510-4bf5-a531-86ea718b1002": "b07988e3-0510-4bf5-a531-86ea718b1400"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1200"
+              }
+            },
+            {
+              "id": "efd4c970-b1b5-82d4-9548-0244b0f68497",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1104",
+                "b07988e3-0510-4bf5-a531-86ea718b1002": "b07988e3-0510-4bf5-a531-86ea718b1401"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1203"
+              }
+            },
+            {
+              "id": "d8183be7-d9ac-8cca-81dc-51aed1672711",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1105"
+              },
+              "value": {
+                "kind": "term",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1401"
+              }
+            },
+            {
+              "id": "824bca53-df81-81e1-a9de-6dedfead6ab9",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1102"
+              },
+              "$ref": "6a8b74e7-b814-8303-8a14-ce9da6959f97"
+            }
+          ],
+          "elements": [
+            {
+              "id": "74d52e1c-4358-4f80-811c-77f5dc57b84e",
+              "kind": "text",
+              "termId": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
+              "bindings": [
+                {
+                  "id": "bfc7808c-0671-8e71-9c23-6ea7f32a3e9d",
+                  "slot": "fontSize",
+                  "family": "typography",
+                  "$ref": "d38b5d12-0f6f-8790-8a29-47119838814d"
+                }
+              ]
+            },
+            {
+              "id": "9ff519d3-72b0-4a7e-a3b3-d2bd0737145b",
+              "kind": "text",
+              "termId": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
+              "bindings": [
+                {
+                  "id": "cb521cb8-2cc2-89c6-ad31-9b9a97d8cba7",
+                  "slot": "fontSize",
+                  "family": "typography",
+                  "$ref": "5cebb7fd-24ff-8b77-bfe7-b169d2d1854b"
+                }
+              ]
+            }
+          ],
+          "generation": {
+            "nameRef": {
+              "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+              "termId": "34e351e7-37c2-4df2-ac75-4f04e25272f3"
+            },
+            "sizeTermIds": [
+              "b07988e3-0510-4bf5-a531-86ea718b1500",
+              "b07988e3-0510-4bf5-a531-86ea718b1501",
+              "b07988e3-0510-4bf5-a531-86ea718b1502",
+              "b07988e3-0510-4bf5-a531-86ea718b1503",
+              "b07988e3-0510-4bf5-a531-86ea718b1504"
+            ],
+            "applications": [
+              {
+                "id": "47c9d1a5-0eec-4652-86a1-ddd14dab2d0c",
+                "ruleId": "rule-tshirt-sizing",
+                "targets": {
+                  "kind": "all"
+                },
+                "previewTargets": {
+                  "kind": "all"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "foundations": {
+      "color": {
+        "schemaVersion": 5,
+        "dataVisScales": [
+          {
+            "id": "data-vis-fire",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "a323d4fe-336f-4034-b7a0-78d6db9f0e63"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "fire-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "60e3a892-94ef-8759-9406-676895efa3a4"
+                }
+              },
+              {
+                "id": "fire-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "0a8f4100-3df9-845c-8c3a-0e1d6f53dce7"
+                }
+              },
+              {
+                "id": "fire-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "0c76d0b0-31ba-8224-8ac2-65f3d357c3f0"
+                }
+              },
+              {
+                "id": "fire-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "5ee3895b-0635-8c10-9c17-d61d3b0b1a7d"
+                }
+              },
+              {
+                "id": "fire-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "96db91b9-9388-836b-88ad-58a390814862"
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-vis-meadow",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "6587ba30-470c-4bb6-929b-e4a2d01ad010"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "meadow-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "60e3a892-94ef-8759-9406-676895efa3a4"
+                }
+              },
+              {
+                "id": "meadow-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "46b87cc2-77a1-8a50-a9c8-15d341627674"
+                }
+              },
+              {
+                "id": "meadow-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "cc0b3811-27dd-8673-a690-2324a8d26f92"
+                }
+              },
+              {
+                "id": "meadow-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "6e882cfe-428a-824d-a323-91f4eff76235"
+                }
+              },
+              {
+                "id": "meadow-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "9e26a1b7-2d42-81a5-9eb3-513519fe8993"
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-vis-seahawks",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "41f8cde0-c3a6-42e1-8d31-825a46fea568"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "seahawks-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "ac202315-8eed-81b6-9090-83f81773e03d"
+                }
+              },
+              {
+                "id": "seahawks-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "40a6ff3b-fc4b-823a-a98b-40a4e1f9801b"
+                }
+              },
+              {
+                "id": "seahawks-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "d5dd4455-19d5-845a-a3f8-4c33989d2cdb"
+                }
+              },
+              {
+                "id": "seahawks-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "3f625eac-9c07-8f6c-bc27-807365ccb25f"
+                }
+              },
+              {
+                "id": "seahawks-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "1e719b33-f508-82a0-9312-be4a5068eb2d"
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-vis-rose",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "4a855a54-2678-48e5-a42f-a1f7a4aaae54"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "rose-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "77227d9e-e212-84a7-950d-a2aba0432276"
+                }
+              },
+              {
+                "id": "rose-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "a1c11e55-9bf5-85be-a645-98bfb4690508"
+                }
+              },
+              {
+                "id": "rose-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "b31d9b8c-c1d6-87da-98e6-4c83093779de"
+                }
+              },
+              {
+                "id": "rose-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "072c5cf0-8c8a-8952-bbcc-fbe5c07537ba"
+                }
+              },
+              {
+                "id": "rose-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "a57588ca-7233-87eb-889e-8e5cd7a99c22"
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-vis-sunset",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "5a325c5a-c590-4c8e-8aa0-a54bdb283f53"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "sunset-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "a2f1d620-1535-8f5d-916e-86f7dd339446"
+                }
+              },
+              {
+                "id": "sunset-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "aebecd08-e802-82a4-b884-2f7a041c3549"
+                }
+              },
+              {
+                "id": "sunset-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "08dac398-2ca1-8759-9cbe-3ae94da95719"
+                }
+              },
+              {
+                "id": "sunset-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "cd3182a6-de92-8b18-894d-80e80ca8318b"
+                }
+              },
+              {
+                "id": "sunset-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "af5edbcf-d559-8158-b438-ee736c55fe12"
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-vis-ice",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "e79cb365-125a-4803-b4b4-10b45a89c299"
+            },
+            "kind": "sequential",
+            "points": [
+              {
+                "id": "ice-stop-1",
+                "position": 0,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "08bb5c6f-824b-89b8-ace3-051b481e8e27"
+                }
+              },
+              {
+                "id": "ice-stop-2",
+                "position": 0.25,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "051a3a81-4f01-8954-9f48-976266eef231"
+                }
+              },
+              {
+                "id": "ice-stop-3",
+                "position": 0.5,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "e27cf58b-cb38-8de7-bde6-9a78d6c7c61f"
+                }
+              },
+              {
+                "id": "ice-stop-4",
+                "position": 0.75,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "55c2450c-2397-8c80-bd23-541370a1b7fe"
+                }
+              },
+              {
+                "id": "ice-stop-5",
+                "position": 1,
+                "source": {
+                  "kind": "primitive-token",
+                  "tokenId": "af5edbcf-d559-8158-b438-ee736c55fe12"
+                }
+              }
+            ]
+          }
+        ],
+        "background": "#ffffff",
+        "backgroundScaleId": "scale-gray",
+        "backgroundLightness": 1,
+        "palette": [
+          {
+            "id": "illustrator-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "dbadbe74-958a-4279-a3ca-fa701fd68866"
+            },
+            "lightness": 0.7736,
+            "hue": 65.1,
+            "chroma": 43.4
+          },
+          {
+            "id": "photoshop-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "0df7cdd8-9c4e-4810-a782-2a55e0437735"
+            },
+            "lightness": 0.7081,
+            "hue": 245.8,
+            "chroma": 40.7
+          },
+          {
+            "id": "xd-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "d9d3f003-9195-4ff1-b5c0-f2a9fe5aa2ba"
+            },
+            "lightness": 0.747,
+            "hue": 330.1,
+            "chroma": 62.7
+          },
+          {
+            "id": "dimension-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "a08500b8-abcd-47b2-8b46-b7660645dee0"
+            },
+            "lightness": 0.849,
+            "hue": 131.7,
+            "chroma": 52.4
+          },
+          {
+            "id": "after-effects-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "707d1415-cf90-4cbc-a469-ad2882aa492d"
+            },
+            "lightness": 0.7258,
+            "hue": 282.1,
+            "chroma": 36.6
+          },
+          {
+            "id": "indesign-color",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "9a9ad842-2e75-4783-bf9d-f12d7e160e10"
+            },
+            "lightness": 0.6565,
+            "hue": 13.3,
+            "chroma": 58.7
+          }
+        ],
+        "scales": [
+          {
+            "id": "scale-gray",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "7a6d2983-1b83-42a7-a208-6f2011658e69"
+            },
+            "stops": [
+              {
+                "id": "stop-gray",
+                "lightness": 0.5692623996686854,
+                "hue": 0,
+                "chroma": 0
+              }
+            ],
+            "customContrasts": {
+              "steps": [
+                {
+                  "id": "contrast-gray-1",
+                  "value": 1,
+                  "oppositeValue": 1
+                },
+                {
+                  "id": "contrast-gray-2",
+                  "value": 1.07,
+                  "oppositeValue": 1.108
+                },
+                {
+                  "id": "contrast-gray-3",
+                  "value": 1.13,
+                  "oppositeValue": 1.198
+                },
+                {
+                  "id": "contrast-gray-4",
+                  "value": 1.2,
+                  "oppositeValue": 1.272
+                },
+                {
+                  "id": "contrast-gray-5",
+                  "value": 1.31,
+                  "oppositeValue": 1.389
+                },
+                {
+                  "id": "contrast-gray-6",
+                  "value": 1.4,
+                  "oppositeValue": 1.484
+                },
+                {
+                  "id": "contrast-gray-7",
+                  "value": 1.7,
+                  "oppositeValue": 1.802
+                },
+                {
+                  "id": "contrast-gray-8",
+                  "value": 3.23,
+                  "oppositeValue": 3.23
+                },
+                {
+                  "id": "contrast-gray-9",
+                  "value": 4.88,
+                  "oppositeValue": 5.469
+                },
+                {
+                  "id": "contrast-gray-10",
+                  "value": 8.06,
+                  "oppositeValue": 8.47
+                },
+                {
+                  "id": "contrast-gray-11",
+                  "value": 13.2,
+                  "oppositeValue": 13.638
+                },
+                {
+                  "id": "contrast-gray-12",
+                  "value": 18,
+                  "oppositeValue": 16.867
+                },
+                {
+                  "id": "contrast-gray-13",
+                  "value": 21,
+                  "oppositeValue": 18.883
+                }
+              ],
+              "baseContrastId": "contrast-gray-4",
+              "namingRuleId": "rule-standard-scale-naming"
+            }
+          },
+          {
+            "id": "scale-1",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "eee5c181-d6b6-49e6-89f6-be092ecfa957"
+            },
+            "stops": [
+              {
+                "id": "stop-2",
+                "lightness": 0,
+                "hue": 0,
+                "chroma": 0
+              }
+            ]
+          },
+          {
+            "id": "scale-3",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "9bd61eba-b96a-4f99-8dc4-cc5e9c996127"
+            },
+            "stops": [
+              {
+                "id": "stop-4",
+                "lightness": 0.6565,
+                "hue": 13.3,
+                "chroma": 58.7,
+                "paletteColorId": "indesign-color"
+              },
+              {
+                "id": "stop-5",
+                "lightness": 0.3981,
+                "hue": 10.6,
+                "chroma": 39.8
+              }
+            ]
+          },
+          {
+            "id": "scale-6",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "17c6cccf-8bca-4a44-9b31-7be2cfdf8251"
+            },
+            "stops": [
+              {
+                "id": "stop-7",
+                "lightness": 0.675,
+                "hue": 30.1,
+                "chroma": 53.3
+              },
+              {
+                "id": "stop-8",
+                "lightness": 0.5779,
+                "hue": 30.4,
+                "chroma": 51.1
+              },
+              {
+                "id": "stop-9",
+                "lightness": 0.3001,
+                "hue": 31.5,
+                "chroma": 25.5
+              }
+            ]
+          },
+          {
+            "id": "scale-10",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "ede41f6c-1d66-4dd5-ad5a-da4ce4cc1b02"
+            },
+            "stops": [
+              {
+                "id": "stop-11",
+                "lightness": 0.5781,
+                "hue": 46.1,
+                "chroma": 28.6
+              },
+              {
+                "id": "stop-12",
+                "lightness": 0.7733,
+                "hue": 50.7,
+                "chroma": 22.4
+              },
+              {
+                "id": "stop-13",
+                "lightness": 0.3155,
+                "hue": 40.7,
+                "chroma": 22
+              }
+            ]
+          },
+          {
+            "id": "scale-14",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "fc06767f-92c3-43cd-94f6-cffdc9bc3276"
+            },
+            "stops": [
+              {
+                "id": "stop-15",
+                "lightness": 0.7736,
+                "hue": 65.1,
+                "chroma": 43.4,
+                "paletteColorId": "illustrator-color"
+              },
+              {
+                "id": "stop-16",
+                "lightness": 0.7319,
+                "hue": 53,
+                "chroma": 46.5
+              },
+              {
+                "id": "stop-17",
+                "lightness": 0.49,
+                "hue": 42.3,
+                "chroma": 36.7
+              }
+            ]
+          },
+          {
+            "id": "scale-18",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "5462ba36-e280-4204-966a-c5b149cddfc4"
+            },
+            "stops": [
+              {
+                "id": "stop-19",
+                "lightness": 0.8034,
+                "hue": 76.3,
+                "chroma": 21
+              },
+              {
+                "id": "stop-20",
+                "lightness": 0.4893,
+                "hue": 76.5,
+                "chroma": 16.9
+              },
+              {
+                "id": "stop-21",
+                "lightness": 0.3895,
+                "hue": 74.5,
+                "chroma": 16.8
+              }
+            ]
+          },
+          {
+            "id": "scale-22",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "07c48167-3989-4ca7-9336-fba4bc33f9e8"
+            },
+            "stops": [
+              {
+                "id": "stop-23",
+                "lightness": 0.8681,
+                "hue": 94.1,
+                "chroma": 44.5
+              },
+              {
+                "id": "stop-24",
+                "lightness": 0.6102,
+                "hue": 73.5,
+                "chroma": 32.4
+              }
+            ]
+          },
+          {
+            "id": "scale-25",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "63b31432-d201-4246-9b26-6ef44e2842e4"
+            },
+            "stops": [
+              {
+                "id": "stop-26",
+                "lightness": 0.9265,
+                "hue": 116.7,
+                "chroma": 32
+              },
+              {
+                "id": "stop-27",
+                "lightness": 0.8658,
+                "hue": 121.2,
+                "chroma": 52.1
+              },
+              {
+                "id": "stop-28",
+                "lightness": 0.3564,
+                "hue": 119.8,
+                "chroma": 21.1
+              }
+            ]
+          },
+          {
+            "id": "scale-29",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "12095729-736b-407f-88be-dd6925ca6658"
+            },
+            "stops": [
+              {
+                "id": "stop-30",
+                "lightness": 0.849,
+                "hue": 131.7,
+                "chroma": 52.4,
+                "paletteColorId": "dimension-color"
+              },
+              {
+                "id": "stop-31",
+                "lightness": 0.2761,
+                "hue": 135.2,
+                "chroma": 20.2
+              }
+            ]
+          },
+          {
+            "id": "scale-32",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "f121a899-8eab-4c08-b570-cdcbf9e8b8fe"
+            },
+            "stops": [
+              {
+                "id": "stop-33",
+                "lightness": 0.7335,
+                "hue": 154.2,
+                "chroma": 44.5
+              },
+              {
+                "id": "stop-34",
+                "lightness": 0.3528,
+                "hue": 165.7,
+                "chroma": 18.4
+              },
+              {
+                "id": "stop-35",
+                "lightness": 0.9011,
+                "hue": 156.6,
+                "chroma": 20
+              }
+            ]
+          },
+          {
+            "id": "scale-36",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "93aa2820-60e6-444a-af66-c0eef8d85936"
+            },
+            "stops": [
+              {
+                "id": "stop-37",
+                "lightness": 0.9058,
+                "hue": 172.2,
+                "chroma": 16.7
+              },
+              {
+                "id": "stop-38",
+                "lightness": 0.7764,
+                "hue": 172.9,
+                "chroma": 36.8
+              },
+              {
+                "id": "stop-39",
+                "lightness": 0.3571,
+                "hue": 182.3,
+                "chroma": 16
+              }
+            ]
+          },
+          {
+            "id": "scale-40",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "d45809d5-28f3-4c57-95ab-f19dbc6cc131"
+            },
+            "stops": [
+              {
+                "id": "stop-41",
+                "lightness": 0.9116,
+                "hue": 196.1,
+                "chroma": 15.1
+              },
+              {
+                "id": "stop-42",
+                "lightness": 0.7495,
+                "hue": 205.4,
+                "chroma": 31.6
+              },
+              {
+                "id": "stop-43",
+                "lightness": 0.3425,
+                "hue": 205.2,
+                "chroma": 14.6
+              }
+            ]
+          },
+          {
+            "id": "scale-44",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "9aae9f95-789f-47f4-95db-8db0827f8ec1"
+            },
+            "stops": [
+              {
+                "id": "stop-45",
+                "lightness": 0.9013,
+                "hue": 226.4,
+                "chroma": 14.3
+              },
+              {
+                "id": "stop-46",
+                "lightness": 0.7081,
+                "hue": 245.8,
+                "chroma": 40.7,
+                "paletteColorId": "photoshop-color"
+              },
+              {
+                "id": "stop-47",
+                "lightness": 0.4404,
+                "hue": 233.6,
+                "chroma": 22.9
+              }
+            ]
+          },
+          {
+            "id": "scale-48",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "6bbab90f-8ed6-4b4f-a6fa-e6b5937c7615"
+            },
+            "stops": [
+              {
+                "id": "stop-49",
+                "lightness": 0.7893,
+                "hue": 258.6,
+                "chroma": 25.6
+              },
+              {
+                "id": "stop-50",
+                "lightness": 0.5335,
+                "hue": 266.7,
+                "chroma": 59.7
+              },
+              {
+                "id": "stop-51",
+                "lightness": 0.3224,
+                "hue": 265.9,
+                "chroma": 38.9
+              },
+              {
+                "id": "stop-52",
+                "lightness": 0.2409,
+                "hue": 268.7,
+                "chroma": 21.8
+              }
+            ]
+          },
+          {
+            "id": "scale-53",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "da4e4b17-f061-47f9-bf6f-b07157630b63"
+            },
+            "stops": [
+              {
+                "id": "stop-54",
+                "lightness": 0.7258,
+                "hue": 282.1,
+                "chroma": 36.6,
+                "paletteColorId": "after-effects-color"
+              },
+              {
+                "id": "stop-55",
+                "lightness": 0.5186,
+                "hue": 284,
+                "chroma": 62.7
+              },
+              {
+                "id": "stop-56",
+                "lightness": 0.3135,
+                "hue": 282.2,
+                "chroma": 46.7
+              }
+            ]
+          },
+          {
+            "id": "scale-57",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "e10d5c03-e1d3-454c-a16b-366411451a5f"
+            },
+            "stops": [
+              {
+                "id": "stop-58",
+                "lightness": 0.4844,
+                "hue": 300,
+                "chroma": 61.7
+              },
+              {
+                "id": "stop-59",
+                "lightness": 0.2799,
+                "hue": 299,
+                "chroma": 37.6
+              }
+            ]
+          },
+          {
+            "id": "scale-60",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "7a8e8191-2462-4faa-8985-0872067e8468"
+            },
+            "stops": [
+              {
+                "id": "stop-61",
+                "lightness": 0.747,
+                "hue": 330.1,
+                "chroma": 62.7,
+                "paletteColorId": "xd-color"
+              },
+              {
+                "id": "stop-62",
+                "lightness": 0.6114,
+                "hue": 321.9,
+                "chroma": 58.3
+              },
+              {
+                "id": "stop-63",
+                "lightness": 0.3176,
+                "hue": 319.5,
+                "chroma": 38.2
+              }
+            ]
+          },
+          {
+            "id": "scale-64",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "8f12fa64-ca0c-43de-b013-0993f17c38a2"
+            },
+            "stops": [
+              {
+                "id": "stop-65",
+                "lightness": 0.7274,
+                "hue": 343.2,
+                "chroma": 55
+              },
+              {
+                "id": "stop-66",
+                "lightness": 0.6254,
+                "hue": 347.5,
+                "chroma": 57.8
+              },
+              {
+                "id": "stop-67",
+                "lightness": 0.3245,
+                "hue": 350.4,
+                "chroma": 33.8
+              }
+            ]
+          },
+          {
+            "id": "scale-68",
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "e1f91215-7b39-4203-90a9-3888154e7949"
+            },
+            "stops": [
+              {
+                "id": "stop-69",
+                "lightness": 0.5521,
+                "hue": 264.1,
+                "chroma": 34.4
+              }
+            ]
+          }
+        ],
+        "contrasts": [
+          {
+            "id": "contrast-70",
+            "value": 1.06
+          },
+          {
+            "id": "contrast-71",
+            "value": 1.15
+          },
+          {
+            "id": "contrast-72",
+            "value": 1.32
+          },
+          {
+            "id": "contrast-73",
+            "value": 1.6
+          },
+          {
+            "id": "contrast-74",
+            "value": 2
+          },
+          {
+            "id": "contrast-75",
+            "value": 2.6
+          },
+          {
+            "id": "contrast-76",
+            "value": 3.22
+          },
+          {
+            "id": "contrast-77",
+            "value": 3.95
+          },
+          {
+            "id": "contrast-78",
+            "value": 4.79
+          },
+          {
+            "id": "contrast-79",
+            "value": 6.29
+          },
+          {
+            "id": "contrast-80",
+            "value": 7.9
+          },
+          {
+            "id": "contrast-81",
+            "value": 10
+          },
+          {
+            "id": "contrast-82",
+            "value": 12.3
+          },
+          {
+            "id": "contrast-83",
+            "value": 14.8
+          },
+          {
+            "id": "contrast-84",
+            "value": 17
+          },
+          {
+            "id": "contrast-85",
+            "value": 19.5
+          }
+        ],
+        "surfaces": [
+          {
+            "id": "surface-86",
+            "name": {
+              "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+              "termId": "21c7c377-e2e7-46e3-88f9-fc2071a3bb11"
+            },
+            "base": true,
+            "previewRole": "auto",
+            "showInPreview": true
+          },
+          {
+            "id": "surface-87",
+            "name": {
+              "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+              "termId": "9f6e525f-c9cd-4df5-b27f-5b7aa5373f05"
+            },
+            "source": "base",
+            "reference": "parent",
+            "contrast": 1.1,
+            "forceDark": false,
+            "expanded": false,
+            "previewRole": "auto",
+            "showInPreview": true
+          },
+          {
+            "id": "surface-88",
+            "name": {
+              "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+              "termId": "ccfdbc1d-60a4-4c7f-ac64-51961c2fa5e9"
+            },
+            "source": "base",
+            "reference": "base",
+            "contrast": 1.6,
+            "forceDark": false,
+            "expanded": false,
+            "previewRole": "auto",
+            "showInPreview": true
+          },
+          {
+            "id": "surface-89",
+            "name": {
+              "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+              "termId": "bb15ef9f-b7c0-468f-8e42-6f5055dad49b"
+            },
+            "reference": "parent",
+            "contrast": 1.15,
+            "forceDark": false,
+            "expanded": false,
+            "previewRole": "auto",
+            "showInPreview": true,
+            "sourceScaleId": "scale-48"
+          },
+          {
+            "id": "surface-90",
+            "name": {
+              "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+              "termId": "913a377d-6046-4c7b-bfef-3544c4e338da"
+            },
+            "reference": "parent",
+            "contrast": 1.15,
+            "forceDark": false,
+            "expanded": false,
+            "previewRole": "auto",
+            "showInPreview": true,
+            "sourceScaleId": "scale-6"
+          }
+        ],
+        "settings": {
+          "side": "auto",
+          "extOffset": 0.36,
+          "extSteep": -1,
+          "guardThreshold": 0.1,
+          "colorOutput": {
+            "authoringGamut": "srgb",
+            "outputFormat": "hex",
+            "mapOutputsToSrgb": false
+          },
+          "contrastReference": "light",
+          "polarityCompensation": 0,
+          "contrastMultiplier": 1
+        }
+      },
+      "typography": {
+        "schemaVersion": 8,
+        "scaleTypeId": "scale-type-typography",
+        "outputUnit": "rem",
+        "smallSizes": 2,
+        "largeSizes": 14,
+        "componentSize": "m",
+        "textZoom": 0,
+        "minTextSize": 9,
+        "maxTextSize": 200,
+        "textRoundingRuleId": "rule-text-size-rounding",
+        "lineHeightRoundingRuleId": "rule-line-height-rounding",
+        "lineHeights": [
+          {
+            "id": "body",
+            "defaultValue": 1.5,
+            "isAdaptive": true,
+            "hasAdaptiveSettings": true,
+            "adaptive": {
+              "interpolationId": "interpolation-cosine",
+              "from": 10,
+              "to": 32,
+              "outputAtFrom": 1.5,
+              "outputAtTo": 1.15
+            }
+          },
+          {
+            "id": "heading",
+            "defaultValue": 1.2,
+            "isAdaptive": true,
+            "hasAdaptiveSettings": true,
+            "adaptive": {
+              "interpolationId": "interpolation-cosine",
+              "from": 10,
+              "to": 32,
+              "outputAtFrom": 1.2,
+              "outputAtTo": 1.15
+            }
+          },
+          {
+            "id": "component",
+            "defaultValue": 1.2,
+            "isAdaptive": true,
+            "hasAdaptiveSettings": true,
+            "adaptive": {
+              "interpolationId": "interpolation-cosine",
+              "from": 10,
+              "to": 32,
+              "outputAtFrom": 1.2,
+              "outputAtTo": 1.15
+            }
+          }
+        ],
+        "previewLineHeightId": "body",
+        "iconography": {
+          "alignment": "line-height",
+          "baseSize": 16,
+          "lineHeightId": "component"
+        },
+        "metricNames": {
+          "font-size": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
+            }
+          },
+          "body-lineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "1853e628-2844-45e9-8a8c-fe305d941f09",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "1853e628-2844-45e9-8a8c-fe305d941f09",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "25628e5a-e4d7-4a41-adba-4fc01ab76343"
+            }
+          },
+          "heading-lineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "25628e5a-e4d7-4a41-adba-4fc01ab76343"
+            }
+          },
+          "component-lineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "25628e5a-e4d7-4a41-adba-4fc01ab76343"
+            }
+          },
+          "component-unitlessLineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "845cdc7d-14e9-4e24-a69e-28d4968ec1dd"
+            }
+          },
+          "body-unitlessLineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "1853e628-2844-45e9-8a8c-fe305d941f09",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "1853e628-2844-45e9-8a8c-fe305d941f09",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "845cdc7d-14e9-4e24-a69e-28d4968ec1dd"
+            }
+          },
+          "heading-unitlessLineHeight": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "845cdc7d-14e9-4e24-a69e-28d4968ec1dd"
+            }
+          },
+          "workflow-icon-size": {
+            "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+            "termId": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
+            "classification": {
+              "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
+              "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
+            }
+          }
+        }
+      },
+      "spacing": {
+        "schemaVersion": 4,
+        "scales": [
+          {
+            "id": "spacing-scale-1",
+            "name": {
+              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "classification": {
+                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2"
+              }
+            },
+            "scaleTypeId": "scale-type-spacing",
+            "below": 4,
+            "above": 13,
+            "parameters": {},
+            "roundingRuleId": "rule-spacing-rounding"
+          },
+          {
+            "id": "spacing-scale-af9cf747-5c46-41a8-b37c-1fe306f506c4",
+            "name": {
+              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+              "termId": "ead04990-42c3-4483-ba37-c77410f31c57",
+              "classification": {
+                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
+                "b07988e3-0510-4bf5-a531-86ea718b1003": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
+                "b07988e3-0510-4bf5-a531-86ea718b1002": "b07988e3-0510-4bf5-a531-86ea718b1400"
+              }
+            },
+            "scaleTypeId": "scale-type-typography",
+            "base": 10,
+            "below": 2,
+            "above": 2,
+            "parameters": {},
+            "roundingRuleId": "rule-custom-1c20be4c-12fe-4ed1-b816-168754166eb7",
+            "hideFromPublishing": true
+          },
+          {
+            "id": "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc",
+            "name": {
+              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+              "termId": "240bd9ba-271a-405d-9514-a627942d6b42",
+              "classification": {
+                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
+                "b07988e3-0510-4bf5-a531-86ea718b1003": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1102"
+              }
+            },
+            "scaleTypeId": "scale-type-typography",
+            "base": 6,
+            "below": 2,
+            "above": 2,
+            "parameters": {},
+            "roundingRuleId": "rule-whole-numbers",
+            "hideFromPublishing": true
+          }
+        ]
+      },
+      "elevation": {
+        "schemaVersion": 1,
+        "id": "cc5cbee1-3992-4605-98bb-d5221ff5ca5c",
+        "name": {
+          "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+          "termId": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
+          "classification": {
+            "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
+            "ca732a26-decb-4746-9afc-3567ec0d445e": "1c482aeb-cb4d-4a0b-a36b-109017829881"
+          }
+        },
+        "below": 0,
+        "above": 2,
+        "depth": 100,
+        "color": "#000000",
+        "layers": [
+          {
+            "id": "53e53f0d-0285-4c6a-b06f-1de92cf440b9",
+            "label": "Shadow 1",
+            "scaleTypeId": "scale-type-elevation-power",
+            "base": 4,
+            "scale": 2,
+            "opacity": 20
+          }
+        ]
+      },
+      "radius": {
+        "schemaVersion": 1,
+        "scales": [
+          {
+            "id": "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572",
+            "name": {
+              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c"
+              }
+            },
+            "scaleTypeId": "scale-type-radius",
+            "below": 2,
+            "above": 8,
+            "parameters": {},
+            "roundingRuleId": "rule-whole-numbers"
+          }
+        ]
+      },
+      "size": {
+        "schemaVersion": 2,
+        "scales": [
+          {
+            "id": "size-scale-1",
+            "name": {
+              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "classification": {
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
+              }
+            },
+            "scaleTypeId": "scale-type-size",
+            "below": 2,
+            "above": 12,
+            "parameters": {},
+            "roundingRuleId": "rule-whole-numbers"
+          }
+        ]
+      }
+    },
+    "modeSets": [
+      {
+        "id": "mode-set-color-scheme",
+        "key": "colorScheme",
+        "name": "Color scheme",
+        "description": "",
+        "iconId": "none",
+        "defaultModeId": "mode-light",
+        "authoringCapabilities": [
+          "color.backgroundLightness",
+          "elevation.depth",
+          "elevation.color",
+          "elevation.layerOpacities"
+        ],
+        "modes": [
+          {
+            "id": "mode-light",
+            "key": "light",
+            "name": "Light",
+            "description": "",
+            "iconId": "light",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {}
+          },
+          {
+            "id": "mode-dark",
+            "key": "dark",
+            "name": "Dark",
+            "description": "",
+            "iconId": "dark",
+            "platformIds": [
+              "react",
+              "ios",
+              "android"
+            ],
+            "foundations": {
+              "color": {
+                "backgroundLightness": 0
+              },
+              "elevation": {
+                "layerOpacities": {
+                  "53e53f0d-0285-4c6a-b06f-1de92cf440b9": 50
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "mode-set-contrast",
+        "key": "contrast",
+        "name": "Contrast",
+        "description": "",
+        "iconId": "contrast",
+        "defaultModeId": "mode-contrast-regular",
+        "authoringCapabilities": [
+          "color.contrastMultiplier"
+        ],
+        "modes": [
+          {
+            "id": "mode-contrast-regular",
+            "key": "regular",
+            "name": "Regular",
+            "description": "",
+            "iconId": "contrast",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {}
+          },
+          {
+            "id": "mode-contrast-high",
+            "key": "high",
+            "name": "High",
+            "description": "",
+            "iconId": "contrast",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {
+              "color": {
+                "contrastMultiplier": 2
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "mode-set-text-scaling",
+        "key": "textScaling",
+        "name": "Accessible text scaling",
+        "description": "",
+        "iconId": "textSize",
+        "defaultModeId": "mode-text-scaling-default",
+        "authoringCapabilities": [
+          "typography.textZoom"
+        ],
+        "modes": [
+          {
+            "id": "mode-text-scaling-default",
+            "key": "default",
+            "name": "Default",
+            "description": "",
+            "iconId": "textSize",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {}
+          },
+          {
+            "id": "mode-text-scaling-larger",
+            "key": "larger",
+            "name": "Larger",
+            "description": "",
+            "iconId": "textSize",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {
+              "typography": {
+                "textZoom": 2
+              }
+            }
+          },
+          {
+            "id": "mode-text-scaling-largest",
+            "key": "largest",
+            "name": "Largest",
+            "description": "",
+            "iconId": "textSize",
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
+            "foundations": {
+              "typography": {
+                "textZoom": 4
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "platforms": [
+      {
+        "id": "react",
+        "name": "React"
+      },
+      {
+        "id": "web-components",
+        "name": "Web components"
+      },
+      {
+        "id": "ios",
+        "name": "iOS"
+      },
+      {
+        "id": "android",
+        "name": "Android"
+      },
+      {
+        "id": "drover",
+        "name": "Drover"
+      },
+      {
+        "id": "qt",
+        "name": "QT"
+      }
+    ],
+    "adaptiveClaims": {
+      "typography.textZoom": "mode-set-text-scaling"
+    },
+    "tokenOverrides": {},
+    "interpolations": [
+      {
+        "id": "interpolation-cosine",
+        "name": "Cosine",
+        "description": "A smooth blend between local endpoints.",
+        "kind": "method",
+        "method": "cosine"
+      },
+      {
+        "id": "interpolation-linear",
+        "name": "Linear",
+        "description": "A straight blend between local endpoints.",
+        "kind": "method",
+        "method": "linear"
+      },
+      {
+        "id": "interpolation-exponential",
+        "name": "Exponential",
+        "description": "A proportional blend between positive local endpoints.",
+        "kind": "method",
+        "method": "exponential"
+      }
+    ],
+    "rules": [
+      {
+        "id": "rule-standard-scale-naming",
+        "name": "Standard scale naming",
+        "description": "Base 100, clean smaller indices, and increments of 100 above the base.",
+        "type": "scale-naming",
+        "locked": true,
+        "baseLabel": 100,
+        "aboveIncrement": 100,
+        "below": {
+          "kind": "automatic"
+        }
+      },
+      {
+        "id": "rule-whole-numbers",
+        "name": "Whole numbers",
+        "description": "Rounds to the nearest whole number. Used when a referenced rule is deleted.",
+        "locked": true,
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 1
+        },
+        "conditions": []
+      },
+      {
+        "id": "rule-no-rounding",
+        "name": "No rounding",
+        "description": "Leaves values unrounded.",
+        "locked": true,
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 0
+        },
+        "conditions": []
+      },
+      {
+        "id": "rule-text-size-rounding",
+        "name": "Text size rounding",
+        "description": "Even pixel sizes, with whole pixels below 12px.",
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 2
+        },
+        "conditions": [
+          {
+            "id": "condition-text-size-small",
+            "comparator": "lt",
+            "threshold": 12,
+            "outcome": {
+              "factor": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "rule-line-height-rounding",
+        "name": "Line height rounding",
+        "description": "Even pixel line heights and typographic spacing.",
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 2
+        },
+        "conditions": []
+      },
+      {
+        "id": "rule-spacing-rounding",
+        "name": "Spacing rounding",
+        "description": "Coarser increments as spacing values grow.",
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 32
+        },
+        "conditions": [
+          {
+            "id": "condition-spacing-2",
+            "comparator": "lt",
+            "threshold": 2,
+            "outcome": {
+              "factor": 1
+            }
+          },
+          {
+            "id": "condition-spacing-10",
+            "comparator": "lt",
+            "threshold": 10,
+            "outcome": {
+              "factor": 2
+            }
+          },
+          {
+            "id": "condition-spacing-28",
+            "comparator": "lt",
+            "threshold": 28,
+            "outcome": {
+              "factor": 4
+            }
+          },
+          {
+            "id": "condition-spacing-56",
+            "comparator": "lt",
+            "threshold": 56,
+            "outcome": {
+              "factor": 8
+            }
+          },
+          {
+            "id": "condition-spacing-96",
+            "comparator": "lt",
+            "threshold": 96,
+            "outcome": {
+              "factor": 16
+            }
+          },
+          {
+            "id": "condition-spacing-256",
+            "comparator": "lt",
+            "threshold": 256,
+            "outcome": {
+              "factor": 24
+            }
+          }
+        ]
+      },
+      {
+        "id": "rule-custom-1c20be4c-12fe-4ed1-b816-168754166eb7",
+        "name": "Small spacing rounding",
+        "description": "Whole numbers below 5 px; otherwise the nearest even number.",
+        "type": "rounding",
+        "depth": 1,
+        "defaultOutcome": {
+          "factor": 2
+        },
+        "conditions": [
+          {
+            "id": "condition-87bc0a87-354a-4e2e-849b-3cc3a6107691",
+            "comparator": "lt",
+            "threshold": 5,
+            "outcome": {
+              "factor": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "rule-tshirt-sizing",
+        "name": "T-shirt sizing",
+        "description": "Generates five sizes by moving along the available foundation tokens around Medium.",
+        "type": "tshirt-sizing",
+        "movement": "available-token",
+        "mappings": [
+          {
+            "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+            "offset": -2
+          },
+          {
+            "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+            "offset": -1
+          },
+          {
+            "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+            "offset": 0
+          },
+          {
+            "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+            "offset": 1
+          },
+          {
+            "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+            "offset": 2
+          }
+        ]
+      }
+    ],
+    "components": {
+      "schemaVersion": 2,
+      "components": [
+        {
+          "id": "a49e4b92-8dba-41a3-a704-d252258ce6df",
+          "optionOrder": [
+            "3559d597-d817-4244-94d0-75e59202619e",
+            "e41314fe-6b74-468a-a35b-583cd5e6ba03",
+            "ed99d21f-977f-44b8-a089-69bc2c11a1d0",
+            "42c6ea95-1cb4-44df-9920-1d28e3ea3746",
+            "93468e1b-251c-4394-9566-7cb3a59eb14e",
+            "cd1fb3c0-fd4e-463a-a6e0-2a516356d454",
+            "68c37bc4-70b5-45c0-823e-5322727375fd",
+            "c6b3e83a-3d2c-46fc-ad68-66a49bdf973a",
+            "6fb41039-7ba7-4d0d-ab30-db95224cd449",
+            "29413fb5-c2e7-465c-8ec7-1a707e7a84ae",
+            "2a7dc5ee-b9a6-42ed-8293-a8b206247c52"
+          ],
+          "declaration": {
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-button.json",
+            "specVersion": "1.0.0-draft",
+            "name": "action-button",
+            "displayName": "Action button",
+            "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
+            "meta": {
+              "category": "actions",
+              "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+            },
+            "implementations": [
+              {
+                "platform": "web",
+                "componentName": "ActionButton",
+                "package": "@spectrum-web-components/action-button",
+                "notes": "Spectrum Web Components custom element: sp-action-button."
+              },
+              {
+                "platform": "web",
+                "componentName": "ActionButton",
+                "package": "@react-spectrum/button"
+              }
+            ],
+            "documentBlocks": [
+              {
+                "type": "purpose",
+                "content": "Action buttons perform tasks or mark selections. They're suited for task-based workflows where buttons don't need to draw attention."
+              },
+              {
+                "type": "guideline",
+                "content": "Text overflow.\n\nWhen the action button text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover."
+              },
+              {
+                "type": "guideline",
+                "content": "Keyboard focus.\n\nAn action button can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+              },
+              {
+                "type": "guideline",
+                "content": "Use tooltips.\n\nIcon-only action buttons can be hard to identify. They should always show a tooltip upon hovering for a short period of time, displaying the name and possibly a keyboard shortcut."
+              },
+              {
+                "type": "guideline",
+                "content": "Isolated action buttons.\n\nIf you have an icon-only or text-only isolated action button, use the standard style to make sure it's more easily identifiable as a button."
+              },
+              {
+                "type": "guideline",
+                "content": "Only group related actions with a hold icon.\n\nWhen using a hold icon to switch actions, only group the actions that are part of the same family. Don't group unrelated actions just for the sake of saving space."
+              },
+              {
+                "type": "guideline",
+                "content": "Respect hold icon placement.\n\nIn left-to-right interfaces, the hold icon is always in the bottom right corner of the action button. It's a symbolic indicator that shows that a popover menu will appear on hold. Don't change the placement of the hold icon based on the design of the interface."
+              },
+              {
+                "type": "guideline",
+                "content": "When to use static black and static white.\n\nTo ensure maximum contrast with the background, use static black for light backgrounds and images, and use static white for dark backgrounds and images. Avoid placing static components on top of busy images with a lot of variance in contrast."
+              },
+              {
+                "type": "guideline",
+                "content": "Selected state text color.\n\nThe text color on the selected state of the over-background variant can be customized to match the background it's on. Use the background color for selected text when the action button is on a solid color, and is dark enough to meet a 4.5:1 contrast ratio with a white background (or black background, for the static black variant).\n\nUse black text when the button is on top of an image, or if the background is too low-contrast to meet the 4.5:1 contrast ratio."
+              }
+            ],
+            "options": {
+              "label": {
+                "type": "string"
+              },
+              "hideLabel": {
+                "type": "boolean",
+                "default": false
+              },
+              "icon": {
+                "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+                "description": "Icon must be present if the label is not defined."
+              },
+              "size": {
+                "type": "string",
+                "default": "m",
+                "values": [
+                  {
+                    "value": "xs"
+                  },
+                  {
+                    "value": "s"
+                  },
+                  {
+                    "value": "m"
+                  },
+                  {
+                    "value": "l"
+                  },
+                  {
+                    "value": "xl"
+                  }
+                ]
+              },
+              "isQuiet": {
+                "type": "boolean",
+                "default": false
+              },
+              "isSelected": {
+                "type": "boolean",
+                "default": false
+              },
+              "isEmphasized": {
+                "type": "boolean",
+                "default": false
+              },
+              "staticColor": {
+                "type": "string",
+                "description": "Static color must not be set for the default version of this component.",
+                "values": [
+                  {
+                    "value": "white"
+                  },
+                  {
+                    "value": "black"
+                  }
+                ]
+              },
+              "selectedTextColor": {
+                "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+              },
+              "hasHoldIcon": {
+                "type": "boolean",
+                "default": false
+              },
+              "isDisabled": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "states": [
+              {
+                "name": "hover",
+                "trigger": "interaction"
+              },
+              {
+                "name": "down",
+                "trigger": "interaction"
+              },
+              {
+                "name": "keyboard-focus",
+                "trigger": "interaction"
+              }
+            ],
+            "lifecycle": {
+              "introduced": "1.0.0-draft"
+            },
+            "accessibility": {
+              "role": "button",
+              "intents": [
+                "trigger"
+              ],
+              "focusable": true,
+              "keyboardIntents": [
+                "activate"
+              ],
+              "wcag": [
+                {
+                  "criterion": "2.1.1",
+                  "level": "A",
+                  "title": "Keyboard"
+                },
+                {
+                  "criterion": "4.1.2",
+                  "level": "A",
+                  "title": "Name, Role, Value"
+                }
+              ]
+            }
+          },
+          "assignments": [
+            {
+              "id": "cdc540c0-b23e-4d75-9036-97b4a2220dd0",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "a3d26224-1687-409a-a1dc-19d0d0d82e7e",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1103"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0f1628b6-c5f9-84f6-b265-49024c0e8875"
+            },
+            {
+              "id": "b8c8b474-05ca-4901-9c57-faf7dfca3665",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "e809f072-65ad-4189-927c-5348330fc56c"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0ffd9740-cb88-8383-a2a3-c851883355d9"
+            },
+            {
+              "id": "edb68386-1441-4b1b-8349-b9706916a4d4",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "31d59200-639b-4c93-8fbf-fc7df5f0ce2a"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": 1
+            },
+            {
+              "id": "f46abfed-9d6d-47bb-9450-dee7bb013b0c",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "73d1c87a-7ca9-4f40-9404-8ae65dc26833"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
+            },
+            {
+              "id": "58ae75d0-f68b-497e-b2ed-78557339b2ba",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "options": {
+                "size": "s"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": "24px"
+            },
+            {
+              "id": "f3f81c8e-4c6d-44e4-aff2-61914601473c",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "options": {
+                "size": "m"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": "32px"
+            }
+          ],
+          "identities": {
+            "parts": {},
+            "options": {
+              "label": "3559d597-d817-4244-94d0-75e59202619e",
+              "hideLabel": "e41314fe-6b74-468a-a35b-583cd5e6ba03",
+              "icon": "ed99d21f-977f-44b8-a089-69bc2c11a1d0",
+              "size": "42c6ea95-1cb4-44df-9920-1d28e3ea3746",
+              "isQuiet": "93468e1b-251c-4394-9566-7cb3a59eb14e",
+              "isSelected": "cd1fb3c0-fd4e-463a-a6e0-2a516356d454",
+              "isEmphasized": "68c37bc4-70b5-45c0-823e-5322727375fd",
+              "staticColor": "c6b3e83a-3d2c-46fc-ad68-66a49bdf973a",
+              "selectedTextColor": "6fb41039-7ba7-4d0d-ab30-db95224cd449",
+              "hasHoldIcon": "29413fb5-c2e7-465c-8ec7-1a707e7a84ae",
+              "isDisabled": "2a7dc5ee-b9a6-42ed-8293-a8b206247c52"
+            },
+            "states": {
+              "hover": "fda949aa-2ec2-47a8-8582-d13a3a68ee83",
+              "down": "3b4ccd95-11a1-4525-afd4-e038cca743f8",
+              "keyboard-focus": "1f00a519-7dc9-4704-8611-bbb650492559"
+            }
+          }
+        },
+        {
+          "id": "8384ccb3-68d0-445f-9420-3f05fc37f466",
+          "optionOrder": [
+            "c78f70e8-da40-4346-9ead-5cb3235e7f0a",
+            "a0dd6fa6-49ae-4998-934b-2efd91269920",
+            "58777770-d1a9-4542-adf7-bee517c3e704",
+            "8079193b-6438-4cba-a63c-fa69aa4fd3a3",
+            "ba8db80e-8750-457b-9fc5-4172bbfc9e14",
+            "1ed40242-6060-49f4-9944-66cad4b62bc2",
+            "fc2e2083-f80f-427f-9983-02932d4227d4",
+            "3ada13cc-792f-422c-86be-869fbb5b5e99",
+            "647063eb-d9e9-43b8-836d-0f4d337881df",
+            "a6994809-5064-4abf-8383-17b5452cd8a8",
+            "f43a9ee2-eec5-470a-8449-710ba8c73f74",
+            "95db1b33-25fe-4b9a-a2ca-fc568c4f60b1"
+          ],
+          "declaration": {
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/menu.json",
+            "specVersion": "1.0.0-draft",
+            "name": "menu",
+            "displayName": "Menu",
+            "description": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray.",
+            "meta": {
+              "category": "actions",
+              "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+            },
+            "documentBlocks": [
+              {
+                "type": "purpose",
+                "content": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray."
+              },
+              {
+                "type": "guideline",
+                "content": "A disabled menu item indicates that an option exists but isn’t available in the current context. This helps preserve layout consistency and signals that the action might be available later."
+              },
+              {
+                "type": "guideline",
+                "content": "An unavailable menu item signals that an option exists but isn’t accessible in the current scenario. This helps ensure the label remains visible and provides context about why the option is unavailable, or directions for how to make it available."
+              },
+              {
+                "type": "guideline",
+                "content": "Displays submenus in a collapsed, nested format within the parent menu container. Works with both popover and tray styles. When using a tray, set a fixed height to avoid disorienting shifts when items expand or collapse."
+              },
+              {
+                "type": "guideline",
+                "content": "Use a section header when a menu section requires a label or descriptor. Section headers are helpful when two or more sections differ in function or context, making it easier for users to understand the structure."
+              },
+              {
+                "type": "guideline",
+                "content": "When the selection option is enabled, the selection can be displayed using checkmarks, checkboxes or switches. Switches are more commonly used on mobile."
+              },
+              {
+                "type": "guideline",
+                "content": "A menu section has the options of single selection, multiple selection, or having no selection. By default, menu items have no selection, and perform an action on press."
+              },
+              {
+                "type": "guideline",
+                "content": "For single selection menu sections, menu items show a single checkmark to indicate the selected item. Multiple selection menu sections can display checkboxes or switches beside each menu item."
+              },
+              {
+                "type": "guideline",
+                "content": "Menus come in four different sizes: small, medium, large, and extra-large. Medium is the default and most commonly used. Menu sizes should correspond to the size of the menu trigger component (like an action button), and any embedded components (like switches) should follow suit."
+              },
+              {
+                "type": "guideline",
+                "content": "Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+              },
+              {
+                "type": "guideline",
+                "content": "A menu item can display a related value in the value area. Examples of values include the selected option from a submenu, a keyboard shortcut for the action, or other content that clarifies the menu item."
+              },
+              {
+                "type": "guideline",
+                "content": "Menu items can include description text to provide extra clarity beyond the label. Descriptions help users understand the action and make informed choices."
+              },
+              {
+                "type": "guideline",
+                "content": "Avoid cluttering items with repetitive details or promotional content."
+              },
+              {
+                "type": "guideline",
+                "content": "Menu items can include icons, but only when they add meaningful context — not just for decoration. Use icons when they have a strong, recognizable association with the label (like tool switching in a toolbar)."
+              },
+              {
+                "type": "guideline",
+                "content": "A menu item must include a label that clearly communicates the action or option it represents."
+              },
+              {
+                "type": "guideline",
+                "content": "On desktop, menus are shown in a popover by default. On mobile, popovers can be used when appropriate. Submenus cascade in a separate popover by default."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu item includes a submenu, a drill-in chevron appears at the end of the item to indicate that additional options are available."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu item leads to a different context, such as a new page or dialog, a link-out icon appears at the end of the item to indicate that the user will navigate away from the current view."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu is displayed within popovers, a submenu will appear adjacent to the parent menu item in a separate popover. The submenu popover is aligned with an offset to horizontally overlap the parent menu and vertically align the first submenu item with the parent menu item."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu is shown in a popover, any submenu appears in a separate popover next to the parent item. The submenu popover is positioned to overlap the parent menu horizontally, with vertical alignment that matches the first submenu item to its parent."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu is shown in a tray, selecting a parent item with a submenu replaces the tray’s content with the submenu. A back button labeled with the parent item’s title appears at the top of the tray to let users return to the previous menu level."
+              },
+              {
+                "type": "guideline",
+                "content": "A menu item can be navigated using a keyboard. The keyboard focus state takes the menu item’s visual hover state and adds a focus ring around the item."
+              },
+              {
+                "type": "guideline",
+                "content": "When a menu item’s label or description are too long for the available horizontal space, they wrap to form another line."
+              },
+              {
+                "type": "guideline",
+                "content": "Dividers appear between sections when two or more sections are used within the same menu."
+              },
+              {
+                "type": "guideline",
+                "content": "In Windows high contrast mode, menu items should display with default text color. Selected items should have the background and text colors defined for selected text."
+              },
+              {
+                "type": "guideline",
+                "content": "Menus should be sized according to the component being used as the menu trigger. All submenus within the menu should also be using the same size as the menu trigger."
+              },
+              {
+                "type": "guideline",
+                "content": "Following Adobe’s UX writing style, write menu items in sentence case unless they contain words that are branded terms."
+              },
+              {
+                "type": "guideline",
+                "content": "Don’t end a menu command with an ellipsis (…) unless it requires additional input to complete the action, typically in a dialog."
+              }
+            ],
+            "options": {
+              "container": {
+                "type": "string",
+                "values": [
+                  {
+                    "value": "popover"
+                  },
+                  {
+                    "value": "tray"
+                  }
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+                "description": "Icon must be present if the label is not defined."
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              },
+              "size": {
+                "type": "string",
+                "default": "m",
+                "values": [
+                  {
+                    "value": "s"
+                  },
+                  {
+                    "value": "m"
+                  },
+                  {
+                    "value": "l"
+                  },
+                  {
+                    "value": "xl"
+                  }
+                ]
+              },
+              "selectionMode": {
+                "type": "string",
+                "values": [
+                  {
+                    "value": "single"
+                  },
+                  {
+                    "value": "multiple"
+                  },
+                  {
+                    "value": "no selection"
+                  }
+                ]
+              },
+              "selectionStyle": {
+                "type": "string",
+                "values": [
+                  {
+                    "value": "checkbox"
+                  },
+                  {
+                    "value": "switch"
+                  }
+                ]
+              },
+              "sectionHeader": {
+                "type": "string"
+              },
+              "isCollapsible": {
+                "type": "boolean",
+                "default": false
+              },
+              "isUnavailable": {
+                "type": "boolean",
+                "default": false
+              },
+              "isDisabled": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "anatomy": [
+              {
+                "name": "item-label",
+                "description": "Label text of a menu item."
+              },
+              {
+                "name": "menu-item",
+                "description": "A single row within the menu.",
+                "contains": [
+                  "icon",
+                  "label",
+                  "description",
+                  "value",
+                  "switch",
+                  "checkbox",
+                  "thumbnail",
+                  "drill-in-chevron",
+                  "link-out-icon"
+                ]
+              },
+              {
+                "name": "icon",
+                "description": "Leading icon of a menu item."
+              },
+              {
+                "name": "label",
+                "description": "Primary label text of a menu item."
+              },
+              {
+                "name": "description",
+                "description": "Secondary descriptive text of a menu item."
+              },
+              {
+                "name": "value",
+                "description": "Current value display of a menu item."
+              },
+              {
+                "name": "switch",
+                "description": "Switch control for a menu item with switch selection style."
+              },
+              {
+                "name": "checkbox",
+                "description": "Checkbox control for a menu item with checkbox selection style."
+              },
+              {
+                "name": "thumbnail",
+                "description": "Thumbnail image of a menu item."
+              },
+              {
+                "name": "drill-in-chevron",
+                "description": "Chevron indicating a menu item opens a sub-menu."
+              },
+              {
+                "name": "link-out-icon",
+                "description": "Icon indicating a menu item navigates to a new context."
+              }
+            ],
+            "states": [
+              {
+                "name": "hover",
+                "trigger": "interaction"
+              },
+              {
+                "name": "down",
+                "trigger": "interaction"
+              },
+              {
+                "name": "keyboard-focus",
+                "trigger": "interaction"
+              },
+              {
+                "name": "default",
+                "trigger": "prop"
+              },
+              {
+                "name": "disabled",
+                "trigger": "prop"
+              }
+            ],
+            "lifecycle": {
+              "introduced": "1.0.0-draft"
+            },
+            "accessibility": {
+              "role": "menu",
+              "intents": [
+                "select"
+              ],
+              "focusable": false,
+              "keyboardIntents": [
+                "navigate-options",
+                "activate",
+                "dismiss"
+              ],
+              "wcag": [
+                {
+                  "criterion": "2.1.1",
+                  "level": "A",
+                  "title": "Keyboard"
+                },
+                {
+                  "criterion": "4.1.2",
+                  "level": "A",
+                  "title": "Name, Role, Value"
+                }
+              ]
+            }
+          },
+          "assignments": [
+            {
+              "id": "3293dbbc-41ac-4181-9d9b-764823eefa4b",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1101"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "9678ee7a-edec-4700-a5e6-ab92d8916779",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1103"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0f1628b6-c5f9-84f6-b265-49024c0e8875"
+            },
+            {
+              "id": "7de723d6-de5a-447c-8941-fa082e76fcb2",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "e809f072-65ad-4189-927c-5348330fc56c"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0ffd9740-cb88-8383-a2a3-c851883355d9"
+            },
+            {
+              "id": "b37894ca-b006-4963-a0fe-c3bbd8020b42",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "31d59200-639b-4c93-8fbf-fc7df5f0ce2a"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": 1
+            },
+            {
+              "id": "4f076c27-c0f7-4fcd-949e-64881056c788",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "adbf881c-f34d-42d1-aed7-94d53d81369a",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "11b19e6c-6a30-45e2-9517-9ef73d40dc30",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "eb5c5273-8efa-4dce-83b0-2730924ad24d",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "588a9ec0-6556-4146-ab8f-535f40c88686",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "7f7c1c4a-dce1-436d-9e4d-ce3fe6b25185",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "bcd1e5bf-7340-4018-8d82-a4a1c6bc7970",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "73d1c87a-7ca9-4f40-9404-8ae65dc26833"
+              },
+              "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
+            },
+            {
+              "id": "323d9ec7-b9a6-4493-a811-bcc34f9daccb",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "73d1c87a-7ca9-4f40-9404-8ae65dc26833"
+              },
+              "partId": "8191392f-cb8e-4e21-ae98-68ed4b14e66b",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
+            },
+            {
+              "id": "7be69b51-aa8a-4a69-b85c-bb8beb47b7c3",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "73d1c87a-7ca9-4f40-9404-8ae65dc26833"
+              },
+              "partId": "c3373799-9664-4807-96c4-921d0ac51b4d",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
+            },
+            {
+              "id": "3f0bd4b8-01a8-4a4a-b6d9-717d4427910e",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "f53b4839-0ceb-4c65-ac08-2350938f04e6",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "d944f1a0-fde1-422c-83e2-263098cb90cf",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "d7989363-3adf-45cf-bf28-50536fdad30e",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "bdfc7c87-90f4-43ff-8f66-4ab52b777d88",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "a9345596-0c5a-4b09-bd8c-cd27192c2434",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "1c73f6cd-8909-4d3a-8741-24676d27bd73",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "1270cf58-91d6-4d15-8959-200be18923ab",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "fafe20e1-23be-4749-829e-13cf865b40e1",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1100"
+              },
+              "partId": "4c81ed7e-d8ac-4b00-9f03-68c70c684acb",
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "0af99226-142c-8421-9716-3ddd4f0ec507"
+            },
+            {
+              "id": "b58e5811-789f-404d-8b6f-5c7d4a5aeeac",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "73d1c87a-7ca9-4f40-9404-8ae65dc26833"
+              },
+              "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
+              "options": {
+                "state": [
+                  "hover"
+                ]
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
+            },
+            {
+              "id": "f4e4f5b6-b3a4-46b3-a930-a722bbc1c496",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "31d59200-639b-4c93-8fbf-fc7df5f0ce2a"
+              },
+              "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
+              "options": {
+                "state": [
+                  "disabled"
+                ]
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": 0.5
+            },
+            {
+              "id": "3a338aed-a0ce-4cda-be54-614179cada28",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1103"
+              },
+              "partId": "eb5c5273-8efa-4dce-83b0-2730924ad24d",
+              "options": {
+                "size": "s"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": "4px"
+            },
+            {
+              "id": "d4984910-e465-4e7e-bf8b-329ea7ec8190",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1103"
+              },
+              "partId": "eb5c5273-8efa-4dce-83b0-2730924ad24d",
+              "options": {
+                "size": "m"
+              },
+              "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
+              "value": "8px"
+            },
+            {
+              "id": "9b6d126d-f79e-4a40-9b18-0d6548ad2a18",
+              "partId": "eb5c5273-8efa-4dce-83b0-2730924ad24d",
+              "property": {
+                "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+                "termId": "b07988e3-0510-4bf5-a531-86ea718b1102"
+              },
+              "$ref": "7845e428-219b-87e3-ac50-28f243d98891"
+            }
+          ],
+          "identities": {
+            "parts": {
+              "item-label": "adbf881c-f34d-42d1-aed7-94d53d81369a",
+              "menu-item": "eb5c5273-8efa-4dce-83b0-2730924ad24d",
+              "icon": "7f7c1c4a-dce1-436d-9e4d-ce3fe6b25185",
+              "label": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
+              "description": "8191392f-cb8e-4e21-ae98-68ed4b14e66b",
+              "value": "c3373799-9664-4807-96c4-921d0ac51b4d",
+              "switch": "f53b4839-0ceb-4c65-ac08-2350938f04e6",
+              "checkbox": "d7989363-3adf-45cf-bf28-50536fdad30e",
+              "thumbnail": "a9345596-0c5a-4b09-bd8c-cd27192c2434",
+              "drill-in-chevron": "1270cf58-91d6-4d15-8959-200be18923ab",
+              "link-out-icon": "4c81ed7e-d8ac-4b00-9f03-68c70c684acb"
+            },
+            "options": {
+              "container": "c78f70e8-da40-4346-9ead-5cb3235e7f0a",
+              "label": "a0dd6fa6-49ae-4998-934b-2efd91269920",
+              "icon": "58777770-d1a9-4542-adf7-bee517c3e704",
+              "description": "8079193b-6438-4cba-a63c-fa69aa4fd3a3",
+              "value": "ba8db80e-8750-457b-9fc5-4172bbfc9e14",
+              "size": "1ed40242-6060-49f4-9944-66cad4b62bc2",
+              "selectionMode": "fc2e2083-f80f-427f-9983-02932d4227d4",
+              "selectionStyle": "3ada13cc-792f-422c-86be-869fbb5b5e99",
+              "sectionHeader": "647063eb-d9e9-43b8-836d-0f4d337881df",
+              "isCollapsible": "a6994809-5064-4abf-8383-17b5452cd8a8",
+              "isUnavailable": "f43a9ee2-eec5-470a-8449-710ba8c73f74",
+              "isDisabled": "95db1b33-25fe-4b9a-a2ca-fc568c4f60b1"
+            },
+            "states": {
+              "hover": "1cf0b804-7772-4977-86d0-d4807de94e2f",
+              "down": "02774063-dd01-42bd-8160-561b5e198ee8",
+              "keyboard-focus": "4cadce7b-4756-4101-8a88-2e81b82291da",
+              "default": "770d3e9a-b6bb-45c2-a220-de9b24ed7d2e",
+              "disabled": "924eb3f5-b4d0-4400-94f6-31e6014e0c6a"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "authoringDefaults": {}
+}

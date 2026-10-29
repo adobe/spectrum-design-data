@@ -1,0 +1,90 @@
+[
+  {
+    "userTextZoom": 2,
+    "tokens": {
+      "font-size-50": 14, "body-lineHeight-50": 20, "heading-lineHeight-50": 16, "component-lineHeight-50": 16, "component-unitlessLineHeight-50": 1.1960313383207797,
+      "font-size-75": 16, "body-lineHeight-75": 24, "heading-lineHeight-75": 20, "component-lineHeight-75": 20, "component-unitlessLineHeight-75": 1.1913715183486322,
+      "font-size-100": 18, "body-lineHeight-100": 26, "heading-lineHeight-100": 22, "component-lineHeight-100": 22, "component-unitlessLineHeight-100": 1.1853853753250472,
+      "font-size-200": 20, "body-lineHeight-200": 28, "heading-lineHeight-200": 24, "component-lineHeight-200": 24, "component-unitlessLineHeight-200": 1.178557870956832,
+      "font-size-300": 22, "body-lineHeight-300": 28, "heading-lineHeight-300": 26, "component-lineHeight-300": 26, "component-unitlessLineHeight-300": 1.1714421290431678,
+      "font-size-400": 24, "body-lineHeight-400": 30, "heading-lineHeight-400": 28, "component-lineHeight-400": 28, "component-unitlessLineHeight-400": 1.164614624674953,
+      "font-size-500": 26, "body-lineHeight-500": 32, "heading-lineHeight-500": 30, "component-lineHeight-500": 30, "component-unitlessLineHeight-500": 1.158628481651368,
+      "font-size-600": 30, "body-lineHeight-600": 34, "heading-lineHeight-600": 34, "component-lineHeight-600": 34, "component-unitlessLineHeight-600": 1.1510126756596377,
+      "font-size-700": 34, "body-lineHeight-700": 40, "heading-lineHeight-700": 40, "component-lineHeight-700": 40, "component-unitlessLineHeight-700": 1.15,
+      "font-size-800": 38, "body-lineHeight-800": 44, "heading-lineHeight-800": 44, "component-lineHeight-800": 44, "component-unitlessLineHeight-800": 1.15,
+      "font-size-900": 42, "body-lineHeight-900": 48, "heading-lineHeight-900": 48, "component-lineHeight-900": 48, "component-unitlessLineHeight-900": 1.15,
+      "font-size-1000": 46, "body-lineHeight-1000": 52, "heading-lineHeight-1000": 52, "component-lineHeight-1000": 52, "component-unitlessLineHeight-1000": 1.15,
+      "font-size-1100": 50, "body-lineHeight-1100": 58, "heading-lineHeight-1100": 58, "component-lineHeight-1100": 58, "component-unitlessLineHeight-1100": 1.15,
+      "font-size-1200": 56, "body-lineHeight-1200": 64, "heading-lineHeight-1200": 64, "component-lineHeight-1200": 64, "component-unitlessLineHeight-1200": 1.15,
+      "font-size-1300": 62, "body-lineHeight-1300": 72, "heading-lineHeight-1300": 72, "component-lineHeight-1300": 72, "component-unitlessLineHeight-1300": 1.15,
+      "font-size-1400": 70, "body-lineHeight-1400": 80, "heading-lineHeight-1400": 80, "component-lineHeight-1400": 80, "component-unitlessLineHeight-1400": 1.15,
+      "font-size-1500": 78, "body-lineHeight-1500": 90, "heading-lineHeight-1500": 90, "component-lineHeight-1500": 90, "component-unitlessLineHeight-1500": 1.15
+    }
+  },
+  {
+    "userTextZoom": 0,
+    "tokens": {
+      "font-size-50": 11, "body-lineHeight-50": 16, "heading-lineHeight-50": 14, "component-lineHeight-50": 14, "component-unitlessLineHeight-50": 1.1997455360470233,
+      "font-size-75": 12, "body-lineHeight-75": 18, "heading-lineHeight-75": 14, "component-lineHeight-75": 14, "component-unitlessLineHeight-75": 1.1989873243403624,
+      "font-size-100": 14, "body-lineHeight-100": 20, "heading-lineHeight-100": 16, "component-lineHeight-100": 16, "component-unitlessLineHeight-100": 1.1960313383207797,
+      "font-size-200": 16, "body-lineHeight-200": 24, "heading-lineHeight-200": 20, "component-lineHeight-200": 20, "component-unitlessLineHeight-200": 1.1913715183486322,
+      "font-size-300": 18, "body-lineHeight-300": 26, "heading-lineHeight-300": 22, "component-lineHeight-300": 22, "component-unitlessLineHeight-300": 1.1853853753250472,
+      "font-size-400": 20, "body-lineHeight-400": 28, "heading-lineHeight-400": 24, "component-lineHeight-400": 24, "component-unitlessLineHeight-400": 1.178557870956832,
+      "font-size-500": 22, "body-lineHeight-500": 28, "heading-lineHeight-500": 26, "component-lineHeight-500": 26, "component-unitlessLineHeight-500": 1.1714421290431678,
+      "font-size-600": 26, "body-lineHeight-600": 32, "heading-lineHeight-600": 30, "component-lineHeight-600": 30, "component-unitlessLineHeight-600": 1.158628481651368,
+      "font-size-700": 28, "body-lineHeight-700": 34, "heading-lineHeight-700": 32, "component-lineHeight-700": 32, "component-unitlessLineHeight-700": 1.1539686616792204,
+      "font-size-800": 32, "body-lineHeight-800": 36, "heading-lineHeight-800": 36, "component-lineHeight-800": 36, "component-unitlessLineHeight-800": 1.15,
+      "font-size-900": 36, "body-lineHeight-900": 42, "heading-lineHeight-900": 42, "component-lineHeight-900": 42, "component-unitlessLineHeight-900": 1.15,
+      "font-size-1000": 40, "body-lineHeight-1000": 46, "heading-lineHeight-1000": 46, "component-lineHeight-1000": 46, "component-unitlessLineHeight-1000": 1.15,
+      "font-size-1100": 46, "body-lineHeight-1100": 52, "heading-lineHeight-1100": 52, "component-lineHeight-1100": 52, "component-unitlessLineHeight-1100": 1.15,
+      "font-size-1200": 52, "body-lineHeight-1200": 60, "heading-lineHeight-1200": 60, "component-lineHeight-1200": 60, "component-unitlessLineHeight-1200": 1.15,
+      "font-size-1300": 58, "body-lineHeight-1300": 66, "heading-lineHeight-1300": 66, "component-lineHeight-1300": 66, "component-unitlessLineHeight-1300": 1.15,
+      "font-size-1400": 64, "body-lineHeight-1400": 74, "heading-lineHeight-1400": 74, "component-lineHeight-1400": 74, "component-unitlessLineHeight-1400": 1.15,
+      "font-size-1500": 72, "body-lineHeight-1500": 82, "heading-lineHeight-1500": 82, "component-lineHeight-1500": 82, "component-unitlessLineHeight-1500": 1.15
+    }
+  },
+  {
+    "userTextZoom": -4,
+    "tokens": {
+      "font-size-50": 9, "body-lineHeight-50": 14, "heading-lineHeight-50": 10, "component-lineHeight-50": 10, "component-unitlessLineHeight-50": 1.2,
+      "font-size-75": 9, "body-lineHeight-75": 14, "heading-lineHeight-75": 10, "component-lineHeight-75": 10, "component-unitlessLineHeight-75": 1.2,
+      "font-size-100": 9, "body-lineHeight-100": 14, "heading-lineHeight-100": 10, "component-lineHeight-100": 10, "component-unitlessLineHeight-100": 1.2,
+      "font-size-200": 10, "body-lineHeight-200": 16, "heading-lineHeight-200": 12, "component-lineHeight-200": 12, "component-unitlessLineHeight-200": 1.2,
+      "font-size-300": 11, "body-lineHeight-300": 16, "heading-lineHeight-300": 14, "component-lineHeight-300": 14, "component-unitlessLineHeight-300": 1.1997455360470233,
+      "font-size-400": 12, "body-lineHeight-400": 18, "heading-lineHeight-400": 14, "component-lineHeight-400": 14, "component-unitlessLineHeight-400": 1.1989873243403624,
+      "font-size-500": 14, "body-lineHeight-500": 20, "heading-lineHeight-500": 16, "component-lineHeight-500": 16, "component-unitlessLineHeight-500": 1.1960313383207797,
+      "font-size-600": 16, "body-lineHeight-600": 24, "heading-lineHeight-600": 20, "component-lineHeight-600": 20, "component-unitlessLineHeight-600": 1.1913715183486322,
+      "font-size-700": 18, "body-lineHeight-700": 26, "heading-lineHeight-700": 22, "component-lineHeight-700": 22, "component-unitlessLineHeight-700": 1.1853853753250472,
+      "font-size-800": 20, "body-lineHeight-800": 28, "heading-lineHeight-800": 24, "component-lineHeight-800": 24, "component-unitlessLineHeight-800": 1.178557870956832,
+      "font-size-900": 22, "body-lineHeight-900": 28, "heading-lineHeight-900": 26, "component-lineHeight-900": 26, "component-unitlessLineHeight-900": 1.1714421290431678,
+      "font-size-1000": 24, "body-lineHeight-1000": 30, "heading-lineHeight-1000": 28, "component-lineHeight-1000": 28, "component-unitlessLineHeight-1000": 1.164614624674953,
+      "font-size-1100": 26, "body-lineHeight-1100": 32, "heading-lineHeight-1100": 30, "component-lineHeight-1100": 30, "component-unitlessLineHeight-1100": 1.158628481651368,
+      "font-size-1200": 30, "body-lineHeight-1200": 34, "heading-lineHeight-1200": 34, "component-lineHeight-1200": 34, "component-unitlessLineHeight-1200": 1.1510126756596377,
+      "font-size-1300": 34, "body-lineHeight-1300": 40, "heading-lineHeight-1300": 40, "component-lineHeight-1300": 40, "component-unitlessLineHeight-1300": 1.15,
+      "font-size-1400": 38, "body-lineHeight-1400": 44, "heading-lineHeight-1400": 44, "component-lineHeight-1400": 44, "component-unitlessLineHeight-1400": 1.15,
+      "font-size-1500": 42, "body-lineHeight-1500": 48, "heading-lineHeight-1500": 48, "component-lineHeight-1500": 48, "component-unitlessLineHeight-1500": 1.15
+    }
+  },
+  {
+    "userTextZoom": 8,
+    "tokens": {
+      "font-size-50": 32, "body-lineHeight-50": 36, "heading-lineHeight-50": 36, "component-lineHeight-50": 36, "component-unitlessLineHeight-50": 1.15,
+      "font-size-75": 34, "body-lineHeight-75": 40, "heading-lineHeight-75": 40, "component-lineHeight-75": 40, "component-unitlessLineHeight-75": 1.15,
+      "font-size-100": 36, "body-lineHeight-100": 42, "heading-lineHeight-100": 42, "component-lineHeight-100": 42, "component-unitlessLineHeight-100": 1.15,
+      "font-size-200": 38, "body-lineHeight-200": 44, "heading-lineHeight-200": 44, "component-lineHeight-200": 44, "component-unitlessLineHeight-200": 1.15,
+      "font-size-300": 42, "body-lineHeight-300": 48, "heading-lineHeight-300": 48, "component-lineHeight-300": 48, "component-unitlessLineHeight-300": 1.15,
+      "font-size-400": 44, "body-lineHeight-400": 50, "heading-lineHeight-400": 50, "component-lineHeight-400": 50, "component-unitlessLineHeight-400": 1.15,
+      "font-size-500": 46, "body-lineHeight-500": 52, "heading-lineHeight-500": 52, "component-lineHeight-500": 52, "component-unitlessLineHeight-500": 1.15,
+      "font-size-600": 50, "body-lineHeight-600": 58, "heading-lineHeight-600": 58, "component-lineHeight-600": 58, "component-unitlessLineHeight-600": 1.15,
+      "font-size-700": 54, "body-lineHeight-700": 62, "heading-lineHeight-700": 62, "component-lineHeight-700": 62, "component-unitlessLineHeight-700": 1.15,
+      "font-size-800": 58, "body-lineHeight-800": 66, "heading-lineHeight-800": 66, "component-lineHeight-800": 66, "component-unitlessLineHeight-800": 1.15,
+      "font-size-900": 62, "body-lineHeight-900": 72, "heading-lineHeight-900": 72, "component-lineHeight-900": 72, "component-unitlessLineHeight-900": 1.15,
+      "font-size-1000": 66, "body-lineHeight-1000": 76, "heading-lineHeight-1000": 76, "component-lineHeight-1000": 76, "component-unitlessLineHeight-1000": 1.15,
+      "font-size-1100": 70, "body-lineHeight-1100": 80, "heading-lineHeight-1100": 80, "component-lineHeight-1100": 80, "component-unitlessLineHeight-1100": 1.15,
+      "font-size-1200": 74, "body-lineHeight-1200": 86, "heading-lineHeight-1200": 86, "component-lineHeight-1200": 86, "component-unitlessLineHeight-1200": 1.15,
+      "font-size-1300": 80, "body-lineHeight-1300": 92, "heading-lineHeight-1300": 92, "component-lineHeight-1300": 92, "component-unitlessLineHeight-1300": 1.15,
+      "font-size-1400": 86, "body-lineHeight-1400": 98, "heading-lineHeight-1400": 98, "component-lineHeight-1400": 98, "component-unitlessLineHeight-1400": 1.15,
+      "font-size-1500": 92, "body-lineHeight-1500": 106, "heading-lineHeight-1500": 106, "component-lineHeight-1500": 106, "component-unitlessLineHeight-1500": 1.15
+    }
+  }
+]

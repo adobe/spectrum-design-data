@@ -1,0 +1,27 @@
+diff --git a/dist/private/virtualizer/Virtualizer.mjs b/dist/private/virtualizer/Virtualizer.mjs
+--- a/dist/private/virtualizer/Virtualizer.mjs
++++ b/dist/private/virtualizer/Virtualizer.mjs
+@@ -150,2 +150,5 @@
+         let layoutInfos = this.layout.getVisibleLayoutInfos(rect);
++        // Lazy layouts may measure more rows while resolving the visible range.
++        let contentSize = this.layout.getContentSize();
++        if (!this.contentSize.equals(contentSize)) this.contentSize = new (0, $cc8e610d5d6e3fe4$export$cb6da89c6af1a8ec)(contentSize.width, contentSize.height);
+         let map = new Map();
+diff --git a/dist/private/virtualizer/Virtualizer.cjs b/dist/private/virtualizer/Virtualizer.cjs
+--- a/dist/private/virtualizer/Virtualizer.cjs
++++ b/dist/private/virtualizer/Virtualizer.cjs
+@@ -156,2 +156,5 @@
+         let layoutInfos = this.layout.getVisibleLayoutInfos(rect);
++        // Lazy layouts may measure more rows while resolving the visible range.
++        let contentSize = this.layout.getContentSize();
++        if (!this.contentSize.equals(contentSize)) this.contentSize = new (0, $f9c934dfa703bb0a$exports.Size)(contentSize.width, contentSize.height);
+         let map = new Map();
+diff --git a/dist/private/virtualizer/Virtualizer.js b/dist/private/virtualizer/Virtualizer.js
+--- a/dist/private/virtualizer/Virtualizer.js
++++ b/dist/private/virtualizer/Virtualizer.js
+@@ -138,2 +138,5 @@
+         let layoutInfos = this.layout.getVisibleLayoutInfos(rect);
++        // Lazy layouts may measure more rows while resolving the visible range.
++        let contentSize = this.layout.getContentSize();
++        if (!this.contentSize.equals(contentSize)) this.contentSize = new (0, $266cbd2785be3a2c$export$cb6da89c6af1a8ec)(contentSize.width, contentSize.height);
+         let map = new Map();

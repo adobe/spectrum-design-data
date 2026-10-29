@@ -1,0 +1,25 @@
+/* S2 keeps unused disclosure buttons in layout even when they are invisible. */
+[data-component="NavSidebar"] [role="row"]:not([aria-expanded]) button[slot="chevron"] {
+  display: none;
+}
+
+.sidebarLabel {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 1;
+  transform: translateX(0px);
+  transition:
+    max-width 180ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 120ms linear,
+    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.sidebarLabel.is-collapsed {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-4px);
+}

@@ -1,0 +1,91 @@
+{
+  "version": "mohxki3f",
+  "releaseTag": "rules-2026.04.28.1777338695005",
+  "generated": "2026-04-28T01:11:35.067Z",
+  "lastUpdated": "2026-05-13T19:12:10.925Z",
+  "lastUpdateReleaseTag": "rules-2026.04.28.1777338695005",
+  "installedDomains": ["security-global", "security-lang"],
+  "files": {
+    "security-global/security-global-api.mdc": {
+      "sha256": "bc5510baa27b5aaa9998ed22a5cb35c8636eb20951eb1f4adca9fb2bd3b7cb9f",
+      "domain": "security-global"
+    },
+    "security-global/security-global-auth.mdc": {
+      "sha256": "46d4e0b6a5c0ac5693a6346b0df52a81066d9b4d6af93b1caffacde1cff65575",
+      "domain": "security-global"
+    },
+    "security-global/security-global-base.mdc": {
+      "sha256": "caa12169275a156517e6602213d54871c250d90e3ed56edb429d44ac63796936",
+      "domain": "security-global"
+    },
+    "security-global/security-global-data-protection.mdc": {
+      "sha256": "cd996de2e9bd366128ab45f04d96755340aa3949114734e0fb57d7f88b71d9fc",
+      "domain": "security-global"
+    },
+    "security-global/security-global-dangerous-flows.mdc": {
+      "sha256": "c1d5ef612881bd724362caba1d0295ffeee00ebf61f190cbd9399fcbd6683e35",
+      "domain": "security-global"
+    },
+    "security-global/security-global-dependency-mgmt.mdc": {
+      "sha256": "c7941d14cc884098112a6fa709c0cb7bd1bdd1e6bd4d81320aa86597885ea0c4",
+      "domain": "security-global"
+    },
+    "security-global/security-global-error-handling.mdc": {
+      "sha256": "41bff2ae7a4dce1eebd89b11a801a4a0d5f133568aeff117541b4eef932d5a57",
+      "domain": "security-global"
+    },
+    "security-global/security-global-injection-prevention.mdc": {
+      "sha256": "f375934ea9923e7951e4796acbe42676f7db783bb326adaaec3b996ad706211f",
+      "domain": "security-global"
+    },
+    "security-global/security-global-input-validation.mdc": {
+      "sha256": "b5eb90ff796e9d6eccbe4fb568e82e6b05d1e81df309426eaa6a7e6799c664e1",
+      "domain": "security-global"
+    },
+    "security-global/security-global-mcp-usage.mdc": {
+      "sha256": "9eea0468b8179d3e98bfc65dd246e1f77740d0500842e6ccce5bd11ab3d19ab2",
+      "domain": "security-global"
+    },
+    "security-global/security-global-output-encoding.mdc": {
+      "sha256": "c8e418e38ebb547675a0e9b731b42b5ee79312f91cee4267e9227613d5628748",
+      "domain": "security-global"
+    },
+    "security-global/security-global-pathtraversal-prevention.mdc": {
+      "sha256": "801cdea14c4b81a4fc3cf60883a4f28ab24d8e077a871f66e86590ed2dba455b",
+      "domain": "security-global"
+    },
+    "security-global/security-global-secure-configuration.mdc": {
+      "sha256": "1b6078fada5d8f435e57c14d936830b699f58b203fb1c4040e6703397a175c5d",
+      "domain": "security-global"
+    },
+    "security-global/security-global-snyk.mdc": {
+      "sha256": "924cec9c80203e8681704a5174207bab3b6f42a3630708dd7d7fccc4fde5e1b4",
+      "domain": "security-global"
+    },
+    "security-global/security-global-sql-usage.mdc": {
+      "sha256": "b2fcbc0a8c26625e0e2099c26e17a78ba3b01a98672a28f2fed817f71dd19b7e",
+      "domain": "security-global"
+    },
+    "security-global/security-global-ssrf-prevention.mdc": {
+      "sha256": "0aa1c358b7e89864b5b0e6f5e1ae28934dcc48a85039d470f1d25b116e96ea54",
+      "domain": "security-global"
+    },
+    "security-global/security-global-xxe-prevention.mdc": {
+      "sha256": "e9711b4f1db3b3c3146a21d17af4610209c4e56bb070e2c16c416c22e7fb5409",
+      "domain": "security-global"
+    },
+    "security-lang/security-lang-node.mdc": {
+      "sha256": "9019cc2470bbfc6d01c5c34aff42498a91b59ca9766a34a79de1ebe93cc6c587",
+      "domain": "security-lang"
+    },
+    "security-lang/security-lang-python.mdc": {
+      "sha256": "ed404b0b4c21e1ffd4cd9bd28222ac29f68027cdba2e767a9ca1ca13872141b4",
+      "domain": "security-lang"
+    }
+  },
+  "stats": {
+    "totalFiles": 19,
+    "missingFiles": 0,
+    "domains": 2
+  }
+}

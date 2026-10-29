@@ -1,0 +1,14 @@
+.designSectionPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.designTabList {
+  padding-inline-start: 20px;
+  padding-block: 8px 0;
+  border: 0 solid var(--spectrum-gray-300);
+  border-block-end-width: 1px;
+}
