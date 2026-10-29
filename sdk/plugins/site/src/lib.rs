@@ -71,7 +71,7 @@ pub fn write_site(
             .map_err(|e| format!("failed to read {}: {e}", recipe_path.display()))?;
         let recipe: serde_json::Value = serde_json::from_str(&text)
             .map_err(|e| format!("{} is not valid JSON: {e}", recipe_path.display()))?;
-        let (used, structural) = visual::recipe_options(&recipe);
+        let (used, structural) = visual::recipe_options_in(graph, &recipe, &c.name);
         let mut def = c.raw.clone();
         def["recipe"] = serde_json::json!({
             "sizeScale": recipe.get("sizeScale"),

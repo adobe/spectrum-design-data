@@ -3,16 +3,15 @@
     "action-button": 1
   },
   "SPEC-067": {
-    "action-button": 21,
-    "button": 74
+    "action-button": 1,
+    "button": 4
   },
   "SPEC-068": {
     "checkbox": 16
   },
   "SPEC-069": {
-    "action-button": 13,
     "badge": 2,
-    "button": 42
+    "button": 6
   },
   "SPEC-070": {
     "action-button": 1,

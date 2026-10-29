@@ -28,7 +28,7 @@ use std::path::PathBuf;
 use design_data_core::constraints::{read_constraints, Combination};
 use design_data_core::graph::TokenGraph;
 use design_data_core::visual::{
-    build_scene_cached, recipe_options, scene_to_svg, RenderRequest, SceneCache,
+    build_scene_cached, recipe_options_in, scene_to_svg, RenderRequest, SceneCache,
 };
 use serde_json::Value;
 
@@ -134,7 +134,9 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
     let d = data_dir();
     let recipe = read_json(d.join(format!("visuals/{name}.json")));
     let component = read_json(d.join(format!("components/{name}.json")));
-    let (used, _) = recipe_options(&recipe);
+    // Sorted, so the manifest does not depend on the order a recipe mentions its options.
+    let (mut used, _) = recipe_options_in(graph, &recipe, name);
+    used.sort();
     let options = component.get("options").and_then(Value::as_object);
 
     let domains: Vec<(String, Vec<Value>)> = used
