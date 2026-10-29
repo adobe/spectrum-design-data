@@ -314,6 +314,132 @@
         color: var(--muted);
         font-weight: 600;
       }
+      .cell.unsupported {
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #8a1f1f;
+        border: 1.5px dashed #d9a3a3;
+        border-radius: 10px;
+        padding: 6px 4px;
+        min-height: 40px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        align-self: stretch;
+        justify-self: stretch;
+      }
+      .stage.dark .cell.unsupported {
+        color: #f2b8b8;
+        border-color: #7a4a4a;
+      }
+      sup.fn {
+        font-size: 10px;
+        font-weight: 700;
+        color: #8a5a00;
+        margin-left: 2px;
+      }
+      button.cell.adv {
+        position: relative;
+      }
+      button.cell.adv sup.fn {
+        position: absolute;
+        top: 2px;
+        right: 6px;
+      }
+      .stage.dark sup.fn {
+        color: #f0c36a;
+      }
+      .matrix-wrap {
+        width: 100%;
+      }
+      .mnotes {
+        padding: 4px 20px 16px;
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: #444;
+      }
+      .stage.dark .mnotes {
+        color: #ddd;
+      }
+      .mnotes p {
+        margin: 0;
+      }
+      .unsupported-box {
+        background: #fff;
+        color: var(--fg);
+        border: 1px solid #e0b4b4;
+        border-left: 4px solid #c0392b;
+        border-radius: 10px;
+        padding: 16px 20px;
+        max-width: 520px;
+        margin: 24px;
+        display: grid;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .unsupported-box h4 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .unsupported-box p,
+      .support p {
+        margin: 0;
+      }
+      .support {
+        display: grid;
+        gap: 8px;
+        font-size: 12px;
+      }
+      .support:empty {
+        display: none;
+      }
+      .support .msg {
+        border-radius: 8px;
+        padding: 10px 12px;
+        display: grid;
+        gap: 6px;
+        background: #fbeeee;
+        border-left: 4px solid #c0392b;
+      }
+      .support .msg.err {
+        background: #fbeeee;
+        border-left-color: #c0392b;
+      }
+      .mnotes p.err b {
+        color: #8a1f1f;
+      }
+      .stage.dark .mnotes p.err b {
+        color: #f2b8b8;
+      }
+      .support .msg.adv {
+        background: #fdf6e3;
+        border-left-color: #c98a00;
+      }
+      .msg .src {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .fix {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .fix button {
+        font: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border: 1px solid #c8c8c8;
+        border-radius: 999px;
+        background: #fff;
+        cursor: pointer;
+      }
+      .fix button:hover {
+        border-color: var(--pink);
+      }
       .two {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -534,6 +660,13 @@
     <script type="module">
       import { backend } from "./backend.js";
       import { roundedPath, cssFontWeight } from "./visual-runtime.js";
+      import {
+        advisoriesOf,
+        errorsOf,
+        fixes,
+        matching,
+        readConstraints,
+      } from "./constraints.js";
       const $ = (id) => document.getElementById(id);
       const esc = (s) =>
         String(s ?? "")
@@ -560,6 +693,111 @@
 
       let C; // component definition + recipe summary
       let controlOpts; // option name -> {type, values, supported}
+      let constraints = []; // valid option constraints for C
+
+      // ---- option constraints: what the user is told --------------------------
+      const attr = (s) => esc(s).replace(/"/g, "&quot;");
+      const valText = (n, v) =>
+        v === true
+          ? humanize(n)
+          : v === false
+            ? `No ${humanize(n).toLowerCase()}`
+            : `${humanize(n)} ${v}`;
+      const whenText = (c) =>
+        Object.entries(c.when)
+          .map(([n, vals]) => `${humanize(n)} ${vals.join(" / ")}`)
+          .join(" · ");
+      // The options involved in a violated constraint, with their current values.
+      const comboText = (c, combo) =>
+        [
+          ...Object.keys(c.when),
+          ...Object.keys(c.require).filter(
+            (n) => c.require[n].oneOf && combo[n] != null,
+          ),
+        ]
+          .map((n) => valText(n, combo[n]))
+          .join(" · ");
+      const fixText = (c) =>
+        fixes(c)
+          .map(
+            (f) =>
+              `Use ${humanize(f.option).toLowerCase()} ${f.values.join(" or ")}.`,
+          )
+          .join(" ");
+      const fixButtons = (c) =>
+        fixes(c)
+          .filter((f) => controlOpts[f.option]?.supported)
+          .map(
+            (f) =>
+              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<button type="button" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</button>`).join("")}</div>`,
+          )
+          .join("");
+
+      // The option assignment a request stands for. Controls take the request's
+      // value, other options their default, and anything else is unknown.
+      function comboOf(req) {
+        const combo = {};
+        for (const [n, d] of Object.entries(C.options ?? {}))
+          if (d.default !== undefined) combo[n] = d.default;
+        for (const [n, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          let v;
+          if (n === "size") v = req.size;
+          else if (n === "label")
+            continue; // free text, never constrained by value
+          else {
+            v = req[`opt.${n}`];
+            if (type === "bool") v = v === true || v === "true";
+            else if (v === "") v = undefined;
+          }
+          combo[n] = v;
+        }
+        return combo;
+      }
+      const errorsFor = (req) => errorsOf(matching(constraints, comboOf(req)));
+
+      const explainHtml = (matches, combo) =>
+        matches
+          .map((c) =>
+            c.severity === "error"
+              ? `<div class="msg err"><p><b>Not supported: ${esc(comboText(c, combo))}.</b> ${esc(c.description ?? "")} ${esc(fixText(c))}</p>${fixButtons(c)}${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`
+              : `<div class="msg adv"><p><b>${esc(comboText(c, combo))} has no distinct design.</b> ${esc(c.description ?? "")}</p>${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`,
+          )
+          .join("");
+
+      // The status under the pickers, and a mark on picker values that would lead
+      // to a combination that is not supported.
+      function updateSupport(o) {
+        const combo = comboOf(o);
+        const matches = matching(constraints, combo);
+        $("support").innerHTML = matches.length
+          ? `<b>Current selection</b>${explainHtml(matches, combo)}`
+          : "";
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported || name === "size" || name === "label") continue;
+          const el = $(`opt-${name}`);
+          const bad = (v) =>
+            errorsOf(matching(constraints, { ...combo, [name]: v }));
+          if (type === "enum") {
+            for (const opt of el.options) {
+              const hit = opt.value === "" ? [] : bad(opt.value);
+              opt.dataset.label ??= opt.textContent;
+              opt.textContent =
+                opt.dataset.label + (hit.length ? " (not supported)" : "");
+              opt.title = hit[0]?.description ?? "";
+            }
+          } else {
+            const wrap = el.closest("label");
+            const now = new Set(errorsOf(matches).map((c) => c.index));
+            const hit = el.checked
+              ? []
+              : bad(true).filter((c) => !now.has(c.index));
+            wrap.title = hit[0]?.description ?? "";
+            wrap.querySelector("span").textContent =
+              humanize(name) + (hit.length ? " (not supported)" : "");
+          }
+        }
+      }
 
       // ---- scene -> SVG ------------------------------------------------------
       function nodeSvg(n) {
@@ -639,6 +877,9 @@
           }
           return `<label class="sw ${supported ? "" : "off"}"><span>${humanize(name)}</span><input type="checkbox" id="opt-${name}" ${dis} ${def.default ? "checked" : ""}/></label>`;
         };
+        rows.push(
+          '<div id="support" class="support" role="status" aria-live="polite"></div>',
+        );
         rows.push(
           mode("scheme", "Color scheme", [
             ["light", "Light"],
@@ -808,6 +1049,7 @@
         $("stage").dataset.mode = view.mode;
         $("state-wrap")?.classList.toggle("hidden", view.mode === "usage");
         $("back").classList.toggle("hidden", view.mode === "usage");
+        updateSupport(o);
         if (view.mode === "usage") await renderMatrix(o, token, opts);
         else await renderZoom(o, token, opts);
       }
@@ -867,6 +1109,18 @@
             }));
         if (controlOpts.isDisabled?.supported)
           colDefs.push({ label: "disabled", extra: { isDisabled: true } });
+        const reqFor = (c, extra) =>
+          withOpts(
+            { ...base, ...(c.state ? { state: c.state } : {}) },
+            { ...extra, ...c.extra },
+          );
+        // Combinations an error constraint rules out, by constraint, for the note.
+        const skipped = new Map();
+        const skip = (c, label) => {
+          if (!skipped.has(c.index)) skipped.set(c.index, { c, items: [] });
+          const e = skipped.get(c.index);
+          if (!e.items.includes(label)) e.items.push(label);
+        };
         const rows = [];
         const seen = new Set();
         for (const enums of product(rowEnums)) {
@@ -875,58 +1129,97 @@
               ...enums,
               ...Object.fromEntries(combo.map((n) => [n, true])),
             };
+            const parts = [...Object.values(enums), ...combo.map(humanize)];
+            const label = parts.join(" · ") || "Standard";
+            const errs = colDefs.map((c) => errorsFor(reqFor(c, extra)));
+            if (errs.every((e) => e.length)) {
+              for (const c of errs[0]) skip(c, label);
+              continue;
+            }
             // A disabled column is ignored so a combination that only differs
             // there (accent outline) isn't listed as its own row.
             const fps = [];
-            for (const c of colDefs) {
+            for (const [ci, c] of colDefs.entries()) {
               if (c.extra.isDisabled) continue;
               fps.push(
-                fingerprint(
-                  await getScene(
-                    withOpts(
-                      { ...base, ...(c.state ? { state: c.state } : {}) },
-                      { ...extra, ...c.extra },
-                    ),
-                  ),
-                ),
+                errs[ci].length
+                  ? "excluded"
+                  : fingerprint(await getScene(reqFor(c, extra))),
               );
             }
             const fp = fps.join("|");
             if (seen.has(fp)) continue;
             seen.add(fp);
-            const parts = [...Object.values(enums), ...combo.map(humanize)];
-            rows.push({ extra, label: parts.join(" · ") || "Standard" });
+            rows.push({ extra, label, errs });
           }
         }
-        const cols = colDefs.map((c) => c.label);
+        // A column left with no renderable cell is dropped.
+        const liveCols = colDefs
+          .map((c, ci) => ({ c, ci }))
+          .filter(({ ci }) => rows.some((r) => !r.errs[ci].length));
+        for (const row of rows)
+          for (const { c, ci } of colDefs.map((c, ci) => ({ c, ci })))
+            for (const e of row.errs[ci]) skip(e, `${row.label} · ${c.label}`);
+        const cols = liveCols.map(({ c }) => c.label);
         const reqs = [];
+        const advNums = new Map();
+        const advNum = (c) => {
+          if (!advNums.has(c.index))
+            advNums.set(c.index, { c, n: advNums.size + 1 });
+          return advNums.get(c.index).n;
+        };
         let html =
           "<span></span>" +
-          cols.map((c) => `<span class="h">${c}</span>`).join("");
+          cols.map((c) => `<span class="h">${esc(c)}</span>`).join("");
         for (const row of rows) {
           html += `<span class="rl">${esc(row.label)}</span>`;
-          let first;
-          for (const c of colDefs) {
-            const req = withOpts(
-              { ...base, ...(c.state ? { state: c.state } : {}) },
-              { ...row.extra, ...c.extra },
-            );
+          let first, firstCol;
+          for (const { c, ci } of liveCols) {
+            const errs = row.errs[ci];
+            if (errs.length) {
+              html += `<span class="cell unsupported" title="${attr(errs[0].description ?? "Not supported")}">Not supported</span>`;
+              continue;
+            }
+            const req = reqFor(c, row.extra);
             const s = await getScene(req);
             const fp = fingerprint(s);
-            first ??= fp;
+            if (first === undefined) {
+              first = fp;
+              firstCol = c;
+            }
             // Not defined for this variant: it would repeat the first column.
-            if (colEnum && fp === first && c !== colDefs[0]) {
+            if (colEnum && fp === first && c !== firstCol) {
               html += '<span class="cell na" aria-hidden="true">–</span>';
               continue;
             }
+            const advs = advisoriesOf(matching(constraints, comboOf(req)));
             reqs.push(req);
-            html += `<button type="button" class="cell" data-i="${reqs.length - 1}" aria-label="${esc(`${row.label}, ${c.label}`)}">${sceneSvg(s)}</button>`;
+            const mark = advs.length
+              ? `<sup class="fn" aria-hidden="true">${advs.map(advNum).join(",")}</sup>`
+              : "";
+            const aria = advs.length
+              ? `, no distinct design: ${advs.map((a) => a.description ?? whenText(a)).join(" ")}`
+              : "";
+            html += `<button type="button" class="cell${advs.length ? " adv" : ""}" data-i="${reqs.length - 1}" title="${attr(advs.map((a) => a.description ?? "").join(" "))}" aria-label="${attr(`${row.label}, ${c.label}${aria}`)}">${sceneSvg(s)}${mark}</button>`;
           }
         }
+        const notes = [...skipped.values()]
+          .map(
+            ({ c, items }) =>
+              `<p class="err"><b>Not supported, so not rendered:</b> ${esc(items.slice(0, 6).join(", "))}${items.length > 6 ? ` and ${items.length - 6} more` : ""}. ${esc(c.description ?? "")} ${esc(fixText(c))}</p>`,
+          )
+          .concat(
+            [...advNums.values()].map(
+              ({ c, n }) =>
+                `<p class="adv"><sup class="fn">${n}</sup> <b>${esc(whenText(c))}: no distinct design.</b> ${esc(c.description ?? "")}</p>`,
+            ),
+          )
+          .join("");
         if (token !== stageToken) return;
         cellReqs = reqs;
-        $("stage").innerHTML =
-          `<div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div>`;
+        $("stage").innerHTML = rows.length
+          ? `<div class="matrix-wrap"><div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div><div class="mnotes">${notes}</div></div>`
+          : `<div class="unsupported-box" id="matrix"><h4>No supported combinations to show</h4>${notes}</div>`;
         if (opts.animate && !reduced)
           $("matrix").animate(
             [
@@ -1008,6 +1301,15 @@
       };
 
       async function renderZoom(o, token, opts) {
+        const combo = comboOf(o);
+        const errs = errorsOf(matching(constraints, combo));
+        if (errs.length) {
+          $("anatomy-table").innerHTML = "";
+          $("tokens").innerHTML = "";
+          $("stage").innerHTML =
+            `<div class="unsupported-box"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</div>`;
+          return;
+        }
         const s = await getScene(o);
         if (token !== stageToken) return;
         const K = 4,
@@ -1240,6 +1542,7 @@
 
       async function load(name) {
         C = await backend.component(name);
+        constraints = readConstraints(C);
         renderPage();
         buildControls();
         await refresh();
@@ -1285,6 +1588,15 @@
       $("back").addEventListener("click", () => setMode("usage"));
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && view.mode !== "usage") setMode("usage");
+      });
+      // A suggested fix sets the option it names, then redraws.
+      document.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-fix-opt]");
+        if (!b) return;
+        const el = $(`opt-${b.dataset.fixOpt}`);
+        if (el?.type === "checkbox") el.checked = b.dataset.fixVal === "true";
+        else if (el) el.value = b.dataset.fixVal;
+        refresh();
       });
       $("stage").addEventListener("click", (e) => {
         const cell = e.target.closest("button.cell");

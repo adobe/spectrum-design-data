@@ -98,6 +98,9 @@ tasks:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm_bg.wasm"
       - "/packages/design-data-spec/conformance/**/*"
+      - "/packages/design-data/components/*.json"
+      - "/sdk/plugins/site/assets/*.js"
+      - "/sdk/core/tests/fixtures/*.json"
       - "pkg/web/**/*"
     deps:
       - build
