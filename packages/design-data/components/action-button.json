@@ -142,7 +142,7 @@
       "description": "Corner triangle that signals a popover menu opens on hold."
     },
     {
-      "name": "focus-ring",
+      "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus."
     }
   ],

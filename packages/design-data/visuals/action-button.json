@@ -324,7 +324,7 @@
         ]
       }
     },
-    "focus-ring": {
+    "focus-indicator": {
       "kind": "ring",
       "visibleWhen": {
         "states": ["keyboard-focus"]

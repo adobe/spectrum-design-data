@@ -458,7 +458,7 @@
     {
       "id": "focus-ring",
       "label": "Focus Ring",
-      "description": "Visual indication of interactive keyboard focus on any UI element",
+      "description": "Shared style class for the ring-shaped focus indicator, built from the focus-indicator tokens (color, gap, thickness). Not a token anatomy; tokens use focus-indicator.",
       "usedIn": ["tokens", "taxonomy"],
       "definition": {
         "superordinate": "structure",
