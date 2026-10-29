@@ -22,6 +22,7 @@ use design_data_figma as figma;
 const INDEX: &str = include_str!("../assets/index.html");
 const BACKEND: &str = include_str!("../assets/backend.js");
 const RUNTIME: &str = include_str!("../assets/visual-runtime.js");
+const CONSTRAINTS: &str = include_str!("../assets/constraints.js");
 
 /// Write the site for `components` (all when empty) to `out`. Returns the number
 /// of components that had a visual recipe.
@@ -97,6 +98,7 @@ pub fn write_site(
     write("index.html", INDEX)?;
     write("backend.js", BACKEND)?;
     write("visual-runtime.js", RUNTIME)?;
+    write("constraints.js", CONSTRAINTS)?;
     write(
         "data.json",
         &serde_json::to_string(&data).map_err(|e| e.to_string())?,
