@@ -9,7 +9,7 @@ Recipe lints and fixes for checkbox, switch and others; pressed scale includes n
 - **relationships**: strip the stray "S2 " prefix from contexts; add checkbox `Control`,
   disabled and error contexts; scope selected switch and radio-button records with
   `isSelected: true` (the schema allows boolean option values, the renderer maps them).
-- **visuals**: pressed parts scale nested children; checkbox `pressTarget` is `control`; `notVisual` lists options with no look.
+- **visuals**: pressed parts scale nested children; checkbox `pressTarget`; `notVisual` option list.
 - **validate**: SPEC-066 to SPEC-070 warn on uncovered options and states, token selectors a
   relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
   `recipe_lint_baseline` holds each recipe at its current warning count.
