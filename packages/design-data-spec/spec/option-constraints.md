@@ -62,12 +62,12 @@ Constraints are additive. They never change which values an option declares; the
 
 ## Rules
 
-Not yet added to `rules/rules.yaml`.
+| Rule     | Layer | Severity | Check                                                                                                                    |
+| -------- | ----- | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| SPEC-064 | 2     | error    | Every option name and value used in a constraint's `when` or `require` is declared in the component's `options`.         |
+| SPEC-065 | 2     | warning  | A visual recipe rule or relationship `scope.options` that matches *only* combinations excluded by an `error` constraint. |
 
-| Rule     | Layer | Severity | Check                                                                                                                  |
-| -------- | ----- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
-| SPEC-064 | 2     | error    | Every option name and value used in a constraint's `when` or `require` is declared in the component's `options`.       |
-| SPEC-065 | 2     | warning  | A visual recipe rule or relationship `scope.options` that matches only combinations excluded by an `error` constraint. |
+SPEC-064 is silent for value checks when an option declares no `values` list. SPEC-065 enumerates the combinations a rule matches; unpinned options range over their declared values (booleans over true and false), and an option with no known domain is never proven excluded. A rule that also matches a valid combination is not reported: a recipe that leaks onto an excluded combination while still serving a valid one is a recipe-scoping problem, not an SPEC-065 finding.
 
 Layer 1 (`component.schema.json`) checks the `constraints` shape only. It cannot check that names exist.
 

@@ -74,6 +74,8 @@ mod spec060;
 mod spec061;
 mod spec062;
 mod spec063;
+mod spec064;
+mod spec065;
 mod spec072;
 mod visual_util;
 
@@ -172,7 +174,7 @@ fn embedded_registry() -> &'static RegistryData {
 /// `ValidationReport::downgrade_rules` and bead spectrum-design-data-0jm.
 pub const COMPONENT_RULE_IDS: &[&str] = &[
     "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-027", "SPEC-031", "SPEC-035", "SPEC-040",
-    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054",
+    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054", "SPEC-064",
 ];
 
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
@@ -239,6 +241,8 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec061::Rule),
         Box::new(spec062::Rule),
         Box::new(spec063::Rule),
+        Box::new(spec064::Rule),
+        Box::new(spec065::Rule),
         Box::new(spec072::Rule),
     ]
 }

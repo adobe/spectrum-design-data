@@ -802,3 +802,32 @@ rules:
     message: "Relationship {scope} references {ref} twice, but the token has a {scale} counterpart ({counterpart}); point one record at it"
     spec_ref: spec/relationship-format.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-064
+    name: constraint-options-declared
+    severity: error
+    layer: 2
+    category: component
+    assert: >
+      Every option name used in a component constraint's `when` or `require` MUST be declared in
+      the component's `options`. Every value used there MUST appear in that option's `values`
+      list. Value checks are silent when the option declares no `values` list.
+    message: "Constraint option '{option}' is not declared on component '{component}'"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-065
+    name: recipe-targets-excluded-combination
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Only `error` constraints count. Unpinned options range over their declared values (booleans
+      over true and false); an option with no known domain is never proven excluded. A rule that
+      also matches a valid combination is not reported.
+    assert: >
+      A visual recipe rule (`when.options`) or relationship `scope.options` SHOULD NOT match only
+      combinations excluded by an `error` constraint on the component.
+    message: "Recipe rule for '{component}' matches only combinations excluded by an error constraint"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
