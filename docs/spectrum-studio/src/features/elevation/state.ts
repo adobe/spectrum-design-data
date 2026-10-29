@@ -5,7 +5,6 @@ import { editModeAtom } from "../../state/view/editMode";
 import { modeSetsAtom } from "../modes/state";
 import { activeModesAtom } from "../modes/selection";
 import { previewOverridesAtom } from "../modes/previewState";
-import { capabilityOwners } from "../modes/parameters";
 import { scaleTypesAtom } from "../logic/scaleTypeLibrary";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
 import { registeredSourceName } from "../taxonomy/naming";
@@ -31,37 +30,47 @@ import { assertStructureReferences } from "../structures/model";
 import { elevationReferenceIds } from "../tokens/primitiveIdentity";
 import { taxonomyContributionsEnabledAtom } from "../taxonomy/contributions";
 import { colorOutputSettingsAtom } from "../color-system/state";
+import { opacitySourceAtom } from "../opacity/state";
+import { DEFAULT_SHADOW_OPACITY_ID } from "../opacity/defaults";
+import type { OpacitySource } from "../opacity/generation";
+import { modeCombinations } from "../modes/combinations";
+import { scaleStepName } from "../scales/stepNames";
+import { registerAuthoringGuard } from "../../state/authoringGuards";
+import { isOpacityDocument } from "../opacity/model";
 
 function validateCandidate(
   document: ElevationDocument,
   sets: ModeSet[],
   formulas: ScaleType[],
+  opacitySource: OpacitySource,
 ) {
-  generateElevation(document, formulas);
-  for (const modeSet of sets)
-    for (const mode of modeSet.modes) {
-      generateElevation(
-        resolveElevationDocument(document, [mode], sets),
-        formulas,
-      );
-    }
+  for (const modes of modeCombinations(sets)) {
+    generateElevation(
+      resolveElevationDocument(document, modes, sets, {}, opacitySource),
+      formulas,
+    );
+  }
 }
 function registerSteps(
   document: ElevationDocument,
   taxonomy: TaxonomyDocument,
-  formulas: ScaleType[],
 ) {
+  if (!document.layers.length) return taxonomy;
   const category = taxonomy.categories.find(
     (category) =>
       category.key === "scaleIndex" && category.scopes.includes("elevation"),
   );
   if (!category)
     throw new Error("Elevation requires the registered Scale index category.");
-  for (const level of generateElevation(document, formulas))
+  for (
+    let position = 0;
+    position <= document.below + document.above;
+    position++
+  )
     taxonomy = registerTerm(
       taxonomy,
       category.id,
-      level.step,
+      scaleStepName(position - document.below, document.below),
       crypto.randomUUID(),
     );
   return taxonomy;
@@ -95,6 +104,24 @@ export const elevationDocumentAtom = atom(
         ),
         "elevation",
       );
+    registerAuthoringGuard("opacity-shadow-references", (get, updates) => {
+      const opacity = updates.get("foundations/opacity");
+      if (!isOpacityDocument(opacity)) return;
+      const candidate = updates.get("foundations/elevation");
+      const elevation = isElevationDocument(candidate)
+        ? candidate
+        : get(elevationDocumentAtom);
+      if (
+        elevation.layers.some(
+          (layer) =>
+            layer.opacityTokenId &&
+            !opacity.levels.some((level) => level.id === layer.opacityTokenId),
+        )
+      )
+        throw new Error(
+          "Choose another opacity token for the shadows using this level before removing it.",
+        );
+    });
     set(storedElevationAtom, next);
   },
 );
@@ -111,6 +138,7 @@ export const resolvedElevationAtom = atom((get) =>
     get(activeModesAtom),
     get(modeSetsAtom),
     get(previewOverridesAtom),
+    get(opacitySourceAtom),
   ),
 );
 export const generatedElevationAtom = atom((get) =>
@@ -135,7 +163,12 @@ export const updateElevationAtom = atom(
     if (!get(editModeAtom))
       throw new Error("Enter edit mode to change Elevation.");
     const candidate = { ...get(elevationDocumentAtom), ...patch };
-    validateCandidate(candidate, get(modeSetsAtom), get(scaleTypesAtom));
+    validateCandidate(
+      candidate,
+      get(modeSetsAtom),
+      get(scaleTypesAtom),
+      get(opacitySourceAtom),
+    );
     assertStructureReferences(
       get(structuresDocumentAtom),
       new Map(
@@ -146,11 +179,7 @@ export const updateElevationAtom = atom(
       ),
       "elevation",
     );
-    const taxonomy = registerSteps(
-      candidate,
-      get(taxonomyDocumentAtom),
-      get(scaleTypesAtom),
-    );
+    const taxonomy = registerSteps(candidate, get(taxonomyDocumentAtom));
     set(taxonomyDocumentAtom, taxonomy);
     set(elevationDocumentAtom, candidate);
   },
@@ -171,11 +200,28 @@ export const updateShadowLayerAtom = atom(
       ...document,
       layers: document.layers.map((layer) =>
         layer.id === input.id
-          ? { ...layer, ...input.patch, id: layer.id }
+          ? {
+              ...layer,
+              ...(input.patch.opacityTokenId !== undefined ||
+              input.patch.manualOpacity !== undefined
+                ? {
+                    opacity: undefined,
+                    opacityTokenId: undefined,
+                    manualOpacity: undefined,
+                  }
+                : {}),
+              ...input.patch,
+              id: layer.id,
+            }
           : layer,
       ),
     };
-    validateCandidate(candidate, get(modeSetsAtom), get(scaleTypesAtom));
+    validateCandidate(
+      candidate,
+      get(modeSetsAtom),
+      get(scaleTypesAtom),
+      get(opacitySourceAtom),
+    );
     set(elevationDocumentAtom, candidate);
   },
 );
@@ -197,15 +243,16 @@ export const addShadowLayerAtom = atom(null, (get, set) => {
     scaleTypeId: ELEVATION_POWER_FORMULA_ID,
     base: 4,
     scale: 2,
-    opacity: 20,
+    opacityTokenId: DEFAULT_SHADOW_OPACITY_ID,
   };
   const candidate = { ...document, layers: [...document.layers, layer] };
-  validateCandidate(candidate, get(modeSetsAtom), get(scaleTypesAtom));
-  const taxonomy = registerSteps(
+  validateCandidate(
     candidate,
-    get(taxonomyDocumentAtom),
+    get(modeSetsAtom),
     get(scaleTypesAtom),
+    get(opacitySourceAtom),
   );
+  const taxonomy = registerSteps(candidate, get(taxonomyDocumentAtom));
   set(taxonomyDocumentAtom, taxonomy);
   set(elevationDocumentAtom, candidate);
   return layer.id;
@@ -228,7 +275,6 @@ export const moveShadowLayerAtom = atom(
 export interface RemovedShadow {
   layer: ShadowLayer;
   index: number;
-  opacities: { setId: string; modeId: string; value: number }[];
 }
 export const removeShadowLayerAtom = atom(
   null,
@@ -252,33 +298,8 @@ export const removeShadowLayerAtom = atom(
       ),
       "elevation",
     );
-    const opacities: RemovedShadow["opacities"] = [];
-    set(
-      modeSetsAtom,
-      get(modeSetsAtom).map((modeSet) => ({
-        ...modeSet,
-        modes: modeSet.modes.map((mode) => {
-          const patch = mode.foundations.elevation;
-          if (patch?.layerOpacities?.[id] === undefined) return mode;
-          opacities.push({
-            setId: modeSet.id,
-            modeId: mode.id,
-            value: patch.layerOpacities[id],
-          });
-          const layerOpacities = { ...patch.layerOpacities };
-          delete layerOpacities[id];
-          return {
-            ...mode,
-            foundations: {
-              ...mode.foundations,
-              elevation: { ...patch, layerOpacities },
-            },
-          };
-        }),
-      })),
-    );
     set(elevationDocumentAtom, candidate);
-    return { layer: document.layers[index], index, opacities };
+    return { layer: document.layers[index], index };
   },
 );
 export const restoreShadowLayerAtom = atom(
@@ -294,112 +315,16 @@ export const restoreShadowLayerAtom = atom(
       throw new Error("This shadow cannot be restored.");
     const layers = [...document.layers];
     layers.splice(Math.min(removed.index, layers.length), 0, removed.layer);
-    const owner = capabilityOwners(get(modeSetsAtom))[
-      "elevation.layerOpacities"
-    ];
-    const modeSets = get(modeSetsAtom).map((modeSet) => ({
-      ...modeSet,
-      modes: modeSet.modes.map((mode) => {
-        const saved = removed.opacities.find(
-          (item) => item.setId === modeSet.id && item.modeId === mode.id,
-        );
-        return saved && owner === modeSet.id
-          ? {
-              ...mode,
-              foundations: {
-                ...mode.foundations,
-                elevation: {
-                  ...mode.foundations.elevation,
-                  layerOpacities: {
-                    ...mode.foundations.elevation?.layerOpacities,
-                    [removed.layer.id]: saved.value,
-                  },
-                },
-              },
-            }
-          : mode;
-      }),
-    }));
     const candidate = { ...document, layers };
-    validateCandidate(candidate, modeSets, get(scaleTypesAtom));
-    const taxonomy = registerSteps(
+    validateCandidate(
       candidate,
-      get(taxonomyDocumentAtom),
+      get(modeSetsAtom),
       get(scaleTypesAtom),
+      get(opacitySourceAtom),
     );
+    const taxonomy = registerSteps(candidate, get(taxonomyDocumentAtom));
     set(taxonomyDocumentAtom, taxonomy);
     set(elevationDocumentAtom, candidate);
-    set(modeSetsAtom, modeSets);
-  },
-);
-export const setShadowModeOpacityAtom = atom(
-  null,
-  (
-    get,
-    set,
-    input: {
-      modeSetId: string;
-      modeId: string;
-      layerId: string;
-      opacity?: number;
-    },
-  ) => {
-    if (!get(editModeAtom))
-      throw new Error("Enter edit mode to change shadow opacity.");
-    if (input.opacity !== undefined && !finiteRange(input.opacity, 0, 100))
-      throw new Error("Opacity must be between 0% and 100%.");
-    const sets = get(modeSetsAtom);
-    const owner = sets.find((modeSet) => modeSet.id === input.modeSetId);
-    if (
-      !owner ||
-      capabilityOwners(sets)["elevation.layerOpacities"] !== owner.id ||
-      !owner.modes.some((mode) => mode.id === input.modeId)
-    )
-      throw new Error("This mode does not manage shadow opacities.");
-    if (
-      !get(elevationDocumentAtom).layers.some(
-        (layer) => layer.id === input.layerId,
-      )
-    )
-      throw new Error("This shadow is no longer available.");
-    if (owner.defaultModeId === input.modeId) {
-      if (input.opacity === undefined)
-        throw new Error("The default shadow needs an opacity.");
-      set(updateShadowLayerAtom, {
-        id: input.layerId,
-        patch: { opacity: input.opacity },
-      });
-      return;
-    }
-    set(
-      modeSetsAtom,
-      sets.map((modeSet) =>
-        modeSet.id !== owner.id
-          ? modeSet
-          : {
-              ...modeSet,
-              modes: modeSet.modes.map((mode) => {
-                if (mode.id !== input.modeId) return mode;
-                const layerOpacities = {
-                  ...mode.foundations.elevation?.layerOpacities,
-                };
-                if (input.opacity === undefined)
-                  delete layerOpacities[input.layerId];
-                else layerOpacities[input.layerId] = input.opacity;
-                return {
-                  ...mode,
-                  foundations: {
-                    ...mode.foundations,
-                    elevation: {
-                      ...mode.foundations.elevation,
-                      layerOpacities,
-                    },
-                  },
-                };
-              }),
-            },
-      ),
-    );
   },
 );
 export const updateElevationModeParameterAtom = atom(
@@ -423,12 +348,18 @@ export const updateElevationModeParameterAtom = atom(
         "Choose a valid opaque color or Depth between 0% and 200%.",
       );
     generateElevation(
-      {
-        ...get(elevationDocumentAtom),
-        ...(input.parameterId === "elevation.depth"
-          ? { depth: Number(input.value) }
-          : { color: String(input.value) }),
-      },
+      resolveElevationDocument(
+        {
+          ...get(elevationDocumentAtom),
+          ...(input.parameterId === "elevation.depth"
+            ? { depth: Number(input.value) }
+            : { color: String(input.value) }),
+        },
+        get(activeModesAtom),
+        get(modeSetsAtom),
+        {},
+        get(opacitySourceAtom),
+      ),
       get(scaleTypesAtom),
     );
     const target = set(setActiveModeParameterAtom, input);

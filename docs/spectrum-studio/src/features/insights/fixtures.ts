@@ -10,16 +10,17 @@ const DIVERGENCE_TOTALS: Record<FoundationId, number> = {
   radius: 23,
   elevation: 22,
   motion: 20,
+  opacity: 17,
 };
 
 // Overridden token counts per platform, in DIVERGENCE_TOTALS foundation order.
 const DIVERGENCE_OVERRIDES: Record<string, number[]> = {
-  react: [4, 0, 1, 0, 0, 0, 0],
-  "web-components": [6, 1, 2, 1, 0, 1, 0],
-  ios: [31, 21, 12, 9, 4, 8, 6],
-  android: [24, 14, 9, 11, 2, 10, 5],
-  drover: [12, 3, 4, 2, 1, 2, 1],
-  qt: [40, 9, 15, 14, 6, 7, 9],
+  react: [4, 0, 1, 0, 0, 0, 0, 0],
+  "web-components": [6, 1, 2, 1, 0, 1, 0, 0],
+  ios: [31, 21, 12, 9, 4, 8, 6, 0],
+  android: [24, 14, 9, 11, 2, 10, 5, 0],
+  drover: [12, 3, 4, 2, 1, 2, 1, 0],
+  qt: [40, 9, 15, 14, 6, 7, 9, 0],
 };
 
 const divergenceCells: PlatformDivergenceCell[] = Object.entries(

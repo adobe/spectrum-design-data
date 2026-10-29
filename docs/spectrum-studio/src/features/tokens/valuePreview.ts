@@ -14,6 +14,7 @@ import {
 } from "../structures/vocabulary";
 
 export type ValuePreviewKind =
+  | "opacity"
   | "color"
   | "text-color"
   | "border-color"
@@ -160,6 +161,7 @@ export function sourceValuePreview(
   if (source.validationError) return unavailablePreview(source.validationError);
   if (source.valuePreview && value === source.value) return source.valuePreview;
   if (source.type === "elevation") return createValuePreview("shadow", value);
+  if (source.type === "opacity") return createValuePreview("opacity", value);
   const classification =
     source.projection?.classification ??
     source.taxonomySource?.governed ??
@@ -260,6 +262,15 @@ export function valuePreviewPresentation(
       message: "Preview text size must be finite and positive.",
     };
   const { kind, value } = preview;
+  if (kind === "opacity") {
+    const alpha = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(alpha) && alpha >= 0 && alpha <= 1
+      ? {
+          status: "ready",
+          styles: { backgroundColor: `rgb(0 0 0 / ${alpha})` },
+        }
+      : { status: "unavailable", message: "Opacity must be between 0 and 1." };
+  }
   if (kind === "font-weight") {
     const weight = typeof value === "number" ? value : Number(value);
     if (typeof value === "string" && ["normal", "bold"].includes(value))

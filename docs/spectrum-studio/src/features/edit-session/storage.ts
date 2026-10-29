@@ -6,10 +6,10 @@ import {
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
-export const AUTHORING_RECORD_VERSION = 14;
+export const AUTHORING_RECORD_VERSION = 15;
 
 export interface AuthoringRecord<T> {
-  version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+  version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
   working: T;
   saved: T;
   isEditing: boolean;
@@ -36,7 +36,7 @@ export function readAuthoringRecord<T>(
   validate: (value: unknown) => asserts value is T,
   upgrade?: (
     value: unknown,
-    version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13,
+    version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14,
   ) => unknown,
 ): AuthoringRecord<T> | null {
   if (typeof window === "undefined") return null;
@@ -58,6 +58,7 @@ export function readAuthoringRecord<T>(
       value.version !== 11 &&
       value.version !== 12 &&
       value.version !== 13 &&
+      value.version !== 14 &&
       value.version !== AUTHORING_RECORD_VERSION) ||
     typeof value.isEditing !== "boolean" ||
     !isFoundationModeAttachments(value.attachments) ||

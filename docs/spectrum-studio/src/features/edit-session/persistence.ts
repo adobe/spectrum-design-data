@@ -14,10 +14,14 @@ import {
 } from "../../state/persist";
 import { modeSelectionAtom } from "../modes/selection";
 import { upgradeComponentOrderSnapshot } from "./componentOrderUpgrade";
+import { upgradeOpacitySnapshot } from "./opacityUpgrade";
+import { opacityAxes } from "../opacity/generation";
+import { registerOpacityVocabulary } from "../taxonomy/opacityGovernance";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { initializeTshirtArtifactCache } from "../design-data/tshirtCacheState";
 import {
   assertStoredSnapshot,
+  isSnapshot,
   authoringSnapshotAtom,
   authoringSourceSnapshotAtom,
   captureAuthoringRecord,
@@ -93,11 +97,52 @@ export function initializeAuthoringPersistence(
       `${PERSISTENCE_ISSUE_PREFIXES[scope]} ${failure instanceof Error ? failure.message : String(failure)}`,
     );
   try {
+    const identities = new Map<string, string>();
+    let upgraded = false;
     const record = readAuthoringRecord(
       assertStoredSnapshot,
-      upgradeComponentOrderSnapshot,
+      (value, version) => {
+        upgraded = true;
+        const snapshot =
+          version === 14
+            ? value
+            : upgradeComponentOrderSnapshot(value, version);
+        if (!isSnapshot(snapshot) || !snapshot)
+          throw new Error("Stored authoring data is invalid or incomplete.");
+        const next = upgradeOpacitySnapshot(snapshot, identities);
+        if (next.taxonomy && next.opacity) {
+          next.taxonomy = registerOpacityVocabulary(
+            next.taxonomy,
+            next.opacity,
+            (value) => {
+              const key = `opacity:registry:${value}`;
+              const id = identities.get(key) ?? crypto.randomUUID();
+              identities.set(key, id);
+              return id;
+            },
+          );
+        }
+        return next;
+      },
     );
     if (record) {
+      if (upgraded) {
+        for (const [attachments, snapshot] of [
+          [record.attachments, record.working],
+          [record.savedAttachments, record.saved],
+        ] as const) {
+          for (const axis of opacityAxes({
+            opacity: snapshot.opacity,
+            colorSystem: snapshot.colorSystem,
+            modeSets: snapshot.modeSets,
+            browserTokenEdits: snapshot.browserTokenEdits,
+          })) {
+            attachments[axis.id] = [
+              ...new Set([...(attachments[axis.id] ?? []), "opacity" as const]),
+            ];
+          }
+        }
+      }
       buildTshirtArtifacts(record.saved, "saved");
       for (const [attachments, snapshot] of [
         [record.attachments, record.working],

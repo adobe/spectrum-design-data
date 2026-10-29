@@ -45,6 +45,10 @@ export interface NominalFontSizeMeasurement {
 }
 
 export interface BrowserTokenSource {
+  rowId?: string;
+  modeKey?: string;
+  /** The foundation resolver has already applied scoped value edits. */
+  resolvedValue?: { overridden: boolean; stale: boolean };
   id: string;
   type: TokenPanelId;
   groupId: string;
@@ -123,9 +127,11 @@ export function tokenValueText(
   token: Pick<
     BrowserTokenSource,
     "value" | "unit" | "displayUnit" | "validationError"
-  >,
+  > & { type?: string },
 ) {
   if (token.validationError) return token.validationError;
+  if (token.type === "opacity" && typeof token.value === "number")
+    return `${Math.round(token.value * 100)}%`;
   if (
     typeof token.value === "number" &&
     token.displayUnit &&
@@ -144,9 +150,10 @@ export function resolveBrowserTokens(
 ): BrowserToken[] {
   return sources.map((source) => {
     const edit = edits[source.id];
-    const modeValue = source.dataVis?.static
-      ? undefined
-      : edit?.values[modeKey];
+    const modeValue =
+      source.dataVis?.static || source.resolvedValue
+        ? undefined
+        : edit?.values[source.modeKey ?? modeKey];
     return {
       ...source,
       name: edit?.name ?? source.name,
@@ -155,13 +162,17 @@ export function resolveBrowserTokens(
       status: edit?.status ?? "draft",
       nameOverridden:
         edit?.name !== undefined || source.name !== source.generatedName,
-      valueOverridden: modeValue !== undefined || !!source.legacyOverridden,
+      valueOverridden:
+        modeValue !== undefined ||
+        !!source.legacyOverridden ||
+        !!source.resolvedValue?.overridden,
       stale:
         (modeValue !== undefined &&
           modeValue.baseline !== source.generatedValue) ||
         (edit?.nameBaseline !== undefined &&
           edit.nameBaseline !== source.generatedName) ||
-        !!source.legacyStale,
+        !!source.legacyStale ||
+        !!source.resolvedValue?.stale,
     };
   });
 }
@@ -286,7 +297,14 @@ function projectTokenBatch(
       document,
       token.id,
       token.taxonomyEvidence ?? {},
-      token.type as "colors" | "typography" | "spacing" | "size" | "radius",
+      token.type as
+        | "colors"
+        | "typography"
+        | "spacing"
+        | "size"
+        | "radius"
+        | "opacity"
+        | "elevation",
       token.taxonomySource,
     );
     if (token.validationError) projection.issues.push(token.validationError);
@@ -331,6 +349,7 @@ export function canBulkEditValue(tokens: BrowserToken[]) {
     tokens.every(
       (token) =>
         token.status !== "released" &&
+        (token.type === "opacity") === (first.type === "opacity") &&
         (token.type === "colors") === (first.type === "colors") &&
         token.unit === first.unit &&
         (token.displayUnit ?? token.unit) === (first.displayUnit ?? first.unit),
@@ -352,6 +371,14 @@ export function parseBrowserTokenValue(
     );
   if (token.type === "elevation")
     throw new Error("Edit complete shadows in the Elevation foundation.");
+  if (token.type === "opacity") {
+    const text = input.trim();
+    const value =
+      Number(text.replace(/%$/, "").trim()) / (text.endsWith("%") ? 100 : 1);
+    if (!text || !Number.isFinite(value) || value < 0 || value > 1)
+      throw new Error("Enter an opacity from 0% to 100%.");
+    return value;
+  }
   if (token.type === "colors") {
     const value = input.trim();
     try {
@@ -443,8 +470,13 @@ export function applyBrowserTokenEdits(
           : source,
         String(patch.value),
       );
-      if (value === source.value) delete edit.values[modeKey];
-      else edit.values[modeKey] = { value, baseline: source.generatedValue };
+      const key = source.modeKey ?? modeKey;
+      if (
+        value ===
+        (source.type === "opacity" ? source.generatedValue : source.value)
+      )
+        delete edit.values[key];
+      else edit.values[key] = { value, baseline: source.generatedValue };
     }
     if (
       Object.keys(edit.values).length ||

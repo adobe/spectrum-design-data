@@ -17,6 +17,20 @@ import {
 import { aliasBrowserTokens } from "../src/features/tokens/aliasBrowser";
 import type { BrowserToken } from "../src/features/tokens/browserModel";
 
+assert.deepEqual(
+  valuePreviewPresentation(createValuePreview("opacity", 0.125)),
+  { status: "ready", styles: { backgroundColor: "rgb(0 0 0 / 0.125)" } },
+);
+assert.equal(
+  sourceValuePreview({
+    type: "opacity",
+    groupId: "opacity",
+    value: 0,
+    unit: "",
+  }).kind,
+  "opacity",
+);
+
 const classification = (
   property: string,
   element?: string,

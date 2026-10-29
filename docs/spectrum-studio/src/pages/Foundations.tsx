@@ -4,6 +4,7 @@ import { SubPanelTabs } from "../components/SubPanelTabs";
 import { SECTIONS_SUBPANEL_TABS_STATE_KEY } from "../state/view/subPanelTabs";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { FoundationsColorPanel } from "../panels/foundations/FoundationsColorPanel";
+import { FoundationsOpacityPanel } from "../panels/foundations/FoundationsOpacityPanel";
 import { FoundationsCornerRadiusPanel } from "../panels/foundations/FoundationsCornerRadiusPanel";
 import { FoundationsElevationPanel } from "../panels/foundations/FoundationsElevationPanel";
 import { FoundationsMotionPanel } from "../panels/foundations/FoundationsMotionPanel";
@@ -35,6 +36,9 @@ import { DataVisElements } from "../views/color-system/data-vis/DataVisElements"
 import { DataVisAnalyze } from "../views/color-system/data-vis/DataVisAnalyze";
 import { DataVisCode } from "../views/color-system/data-vis/DataVisCode";
 import { CurrentColorOutputBoundary } from "../components/ColorOutputBoundary";
+import { OpacityElements } from "../views/opacity/OpacityElements";
+import { OpacityAnalyze } from "../views/opacity/OpacityAnalyze";
+import { OpacityCssExport } from "../views/opacity/OpacityCssExport";
 
 const ColorEvaluation = lazy(() =>
   import("../views/color-system/ColorEvaluation").then((module) => ({
@@ -80,6 +84,8 @@ export default function Foundations() {
       <RadiusElements />
     ) : selectedFoundationTab === "elevation" ? (
       <ElevationElements />
+    ) : selectedFoundationTab === "opacity" ? (
+      <OpacityElements />
     ) : (
       <Text>Coming soon</Text>
     );
@@ -106,6 +112,8 @@ export default function Foundations() {
       <RadiusAnalyze />
     ) : selectedFoundationTab === "elevation" ? (
       <ElevationAnalyze />
+    ) : selectedFoundationTab === "opacity" ? (
+      <OpacityAnalyze />
     ) : undefined;
   const code =
     selectedFoundationTab === "colors" ? (
@@ -124,6 +132,8 @@ export default function Foundations() {
       <TypographyCssExport />
     ) : selectedFoundationTab === "elevation" ? (
       <ElevationCssExport />
+    ) : selectedFoundationTab === "opacity" ? (
+      <OpacityCssExport />
     ) : (
       <Text>Coming soon</Text>
     );
@@ -151,7 +161,8 @@ export default function Foundations() {
               id: "opacity",
               label: "Opacity",
               icon: <CategoryIcon category="opacity" />,
-              content: <Text>TBD</Text>,
+              content: <FoundationsOpacityPanel />,
+              noPadding: true,
             },
             {
               id: "typography",
@@ -227,10 +238,7 @@ export default function Foundations() {
         <ViewSwitcher
           aria-label="Foundation sections"
           dataComponent="Foundations"
-          hasElementsSurface={
-            selectedFoundationTab !== "motion" &&
-            selectedFoundationTab !== "opacity"
-          }
+          hasElementsSurface={selectedFoundationTab !== "motion"}
           elements={elements}
           preview={<SampleApp />}
           analyze={analyze}
