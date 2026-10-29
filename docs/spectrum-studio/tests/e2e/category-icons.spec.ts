@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { resolveCategoryIcon } from "../../src/features/icons/categoryIcons";
 import { selectColorPanelSection } from "./colorPanelSection";
 import { enableEditMode } from "./editMode";
+import { selectMode } from "./modeControl";
 import { createDefaultSnapshot } from "../../src/features/edit-session/state";
 import {
   AUTHORING_RECORD_VERSION,
@@ -65,6 +66,26 @@ for (const width of [1280, 390]) {
     await expect(
       page.getByRole("tabpanel", { name: "Opacity", exact: true }),
     ).toHaveText("TBD");
+    const surface = page.locator(
+      '[data-component="Foundations"] [data-elements-surface]',
+    );
+    const backgrounds: string[] = [];
+    for (const mode of ["Light", "Dark"]) {
+      await page.setViewportSize({ width: 1280, height: 1000 });
+      await selectMode(page, mode);
+      await page.getByRole("radio", { name: "Elements", exact: true }).click();
+      await page.setViewportSize({ width, height: 1000 });
+      await page.getByRole("tab", { name: "Motion", exact: true }).click();
+      await expect(surface).toHaveText("Coming soon");
+      const background = await surface.evaluate(
+        (element) => getComputedStyle(element).backgroundColor,
+      );
+      backgrounds.push(background);
+      await tabs.nth(1).click();
+      await expect(surface).toHaveText("Coming soon");
+      await expect(surface).toHaveCSS("background-color", background);
+    }
+    expect(backgrounds[0]).not.toBe(backgrounds[1]);
     await tabs.nth(0).click();
     await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
   });
