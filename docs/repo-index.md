@@ -61,6 +61,7 @@ Repository housekeeping, release, taxonomy, and authoring tools. Not intended fo
 | [`templates/node-tool`](../templates/node-tool/) | `{{ name | kebab_case }}` | active | no | no | Template for scaffolding new Node.js tools. |
 | [`docs/markdown`](../docs/markdown/) | — | active | no | no | Generated markdown for docs-site chatbot indexing. Do not edit by hand. |
 | [`docs/proposals`](../docs/proposals/) | — | active | no | no | Design and process proposals for discussion. |
+| [`docs/spectrum-studio`](../docs/spectrum-studio/) | `@adobe/spectrum-studio` | active | no | no | Parametric authoring tool that generates Spectrum design data from foundations, modes, and rules. |
 
 ## Demos
 

@@ -425,6 +425,15 @@
       "summary": "Eleventy docs site for Spectrum Design Data."
     },
     {
+      "path": "docs/spectrum-studio",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Parametric authoring tool that generates Spectrum design data from foundations, modes, and rules."
+    },
+    {
       "path": "docs/visualizer",
       "kind": "package",
       "audience": "consumer",
