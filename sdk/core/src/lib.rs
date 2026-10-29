@@ -16,6 +16,7 @@ pub mod cache;
 pub mod cascade;
 pub mod compat;
 pub mod component;
+pub mod constraints;
 pub mod data_source;
 pub mod diff;
 pub mod discovery;
