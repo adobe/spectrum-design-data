@@ -14,4 +14,5 @@ Relationship fixes for checkbox and others; the pressed scale now includes neste
 - **visuals/checkbox.json**: bind to those contexts; `pressTarget` is now `control`.
 - **sdk/core, site runtime**: a pressed part's nested children scale with it.
 - **spec**: `pressTarget` scales nested parts.
+- **switch**: document that `isReadOnly` has no distinct visual (hover and press only).
 - Rendered output is unchanged except the selected+down fill and the pressed mark scale.
