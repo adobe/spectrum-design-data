@@ -106,6 +106,14 @@
   {
     "scope": {
       "component": "action-button",
+      "property": "component-size-maximum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "437f2e57-2aa6-41b5-bdcc-e4993dc42168"
+  },
+  {
+    "scope": {
+      "component": "action-button",
       "property": "corner-radius"
     },
     "context": "Rounding",
