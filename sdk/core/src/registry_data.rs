@@ -1179,16 +1179,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
       "id": "focus-indicator",
       "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
+      "description": "Visual indicator showing keyboard focus state on a component. Named for its intent, not its shape: it may be a ring or a side indicator. Its tokens are focus-indicator color, gap and thickness.",
       "usedIn": ["tokens"],
       "standaloneScope": true
     },

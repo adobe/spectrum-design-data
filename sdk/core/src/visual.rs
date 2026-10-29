@@ -2057,7 +2057,7 @@ mod tests {
         assert_ne!(hover.nodes[0].fill, default.nodes[0].fill);
         let focus = build_scene(&g, &recipe, &req(&["keyboard-focus"])).unwrap();
         assert!(focus.nodes.iter().any(|n| n.kind == "ring"));
-        assert!(scene_to_svg(&focus).contains("data-part=\"focus-ring\""));
+        assert!(scene_to_svg(&focus).contains("data-part=\"focus-indicator\""));
     }
 
     #[test]

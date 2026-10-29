@@ -341,7 +341,7 @@
         }
       }
     },
-    "focus-ring": {
+    "focus-indicator": {
       "kind": "ring",
       "visibleWhen": {
         "states": ["focus"]

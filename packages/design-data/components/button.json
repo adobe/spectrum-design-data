@@ -202,7 +202,7 @@
     },
     { "name": "label", "description": "Button text.", "required": true },
     {
-      "name": "focus-ring",
+      "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus."
     }
   ],

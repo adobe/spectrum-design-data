@@ -9,14 +9,16 @@ Recipe lints and fixes for checkbox, switch and others; pressed scale includes n
 - **relationships**: strip the stray "S2 " prefix from contexts; add checkbox `Control`,
   disabled and error contexts; scope selected switch and radio-button records with
   `isSelected: true` (the schema allows boolean option values, the renderer maps them).
-- **sdk/core, site runtime**: a pressed part's nested children scale with it.
-- **visuals**: checkbox `pressTarget` is `control`; `notVisual` lists options with no look.
+- **visuals**: pressed parts scale nested children; checkbox `pressTarget` is `control`; `notVisual` lists options with no look.
 - **validate**: SPEC-066 to SPEC-070 warn on uncovered options and states, token selectors a
   relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
   `recipe_lint_baseline` holds each recipe at its current warning count.
 - **spec**: authoring conventions in `component-visuals.md`; `notVisual` recipe field.
-- **sdk/core**: render snapshot test for every recipe; `SceneCache` makes matrix renders fast.
+- **sdk/core**: render snapshot test for every recipe; `SceneCache` speeds matrix renders.
 - **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
   badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
   `scope.options.state` adds states to the bound token.
-- **switch**: document that `isReadOnly` has no distinct visual (hover and press only).
+- **switch**: `isReadOnly` has no distinct visual (hover and press only).
+- **button, action-button**: colors, press perspective, hold-icon inset bind via relationships.
+- **focus-indicator**: the `focus-ring` anatomy, gap token and recipe parts are now
+  `focus-indicator` (legacy key `focus-ring-gap` kept).
