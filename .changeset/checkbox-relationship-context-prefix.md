@@ -18,4 +18,5 @@ Recipe lints and fixes for checkbox, switch and others; pressed scale includes n
 - **sdk/core**: render snapshot test for every recipe; `SceneCache` makes matrix renders fast.
 - **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
   badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
+  `scope.options.state` adds states to the bound token.
 - **switch**: document that `isReadOnly` has no distinct visual (hover and press only).
