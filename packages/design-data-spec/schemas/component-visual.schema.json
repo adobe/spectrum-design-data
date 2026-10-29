@@ -77,7 +77,7 @@
         "pressTarget": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "For the root: the part the press scale applies to. Defaults to the whole scene."
+          "description": "For the root: the part the press scale applies to, together with the parts nested inside it. Defaults to the whole scene."
         },
         "placement": {
           "type": "object",

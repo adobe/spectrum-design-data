@@ -53,7 +53,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
 | `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`). Unset draws a placeholder.                                                                                            |
-| `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Defaults to the whole scene.                                                                                        |
+| `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Parts nested inside it scale with it (a checkbox `control` scales its box and mark). Defaults to the whole scene.   |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
 ### Visual properties

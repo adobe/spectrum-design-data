@@ -467,8 +467,20 @@ export function renderScene(compiled, req) {
     const part = root.pressTarget ?? null;
     const t = nodes.find((n) => n.part === part) ?? nodes[0];
     const p = Math.min(Math.max(t.w * ratio, lo), hi);
+    // Parts nested inside the target, at any depth, scale together with it.
+    const nested = [];
+    const collect = (id) => {
+      for (const kid of parts[id]?.children ?? []) {
+        if (!nested.includes(kid)) {
+          nested.push(kid);
+          collect(kid);
+        }
+      }
+    };
+    if (part) collect(part);
     press = {
       part,
+      ...(nested.length ? { nested } : {}),
       scale: p / (p - z),
       cx: t.x + t.w / 2,
       cy: t.y + t.h / 2,
@@ -521,9 +533,23 @@ export function renderSvg(scene) {
     ? `<g transform="translate(${p.cx} ${p.cy}) scale(${p.scale}) translate(${-p.cx} ${-p.cy})">`
     : "";
   if (p && !p.part) s += pressOpen;
-  for (const n of scene.nodes) {
-    const pressed = p && p.part === n.part;
-    if (pressed) s += pressOpen;
+  // The scaled group wraps the target node and the nodes nested in it, which follow it.
+  let spanStart = -1;
+  let spanEnd = -1;
+  if (p?.part) {
+    spanStart = scene.nodes.findIndex((n) => n.part === p.part);
+    if (spanStart >= 0) {
+      spanEnd = spanStart;
+      while (
+        spanEnd + 1 < scene.nodes.length &&
+        (p.nested ?? []).includes(scene.nodes[spanEnd + 1].part)
+      ) {
+        spanEnd += 1;
+      }
+    }
+  }
+  for (const [i, n] of scene.nodes.entries()) {
+    if (i === spanStart) s += pressOpen;
     const toks = n.tokens.map((t) => `${t.prop}=${t.token}`).join(";");
     const attrs = `data-part="${esc(n.part)}" data-tokens="${esc(toks)}"`;
     const min = Math.min(n.w, n.h);
@@ -565,7 +591,7 @@ export function renderSvg(scene) {
       const r = min * 0.35;
       s += `<path ${attrs} d="M${cx - r} ${cy}H${cx + r}M${cx} ${cy - r}V${cy + r}" stroke="${esc(n.color ?? "currentColor")}" stroke-width="${Math.max(n.w / 10, 1)}" stroke-linecap="round" fill="none"/>`;
     }
-    if (pressed) s += "</g>";
+    if (i === spanEnd) s += "</g>";
   }
   return `${s}${p && !p.part ? "</g>" : ""}</svg>`;
 }
