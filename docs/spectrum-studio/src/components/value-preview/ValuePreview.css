@@ -26,6 +26,10 @@
   outline: 1px solid var(--spectrum-gray-400);
   outline-offset: -1px;
 }
+.valuePreviewShape-opacity {
+  outline: 1px solid var(--spectrum-gray-400);
+  outline-offset: -1px;
+}
 .valuePreviewShape-border-color,
 .valuePreviewShape-border-width {
   border: 2px solid var(--spectrum-gray-600);

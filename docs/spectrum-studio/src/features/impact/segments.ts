@@ -37,6 +37,7 @@ const CATEGORY_TONES: Record<ImpactCategory, BarTone> = {
   size: "yellow",
   radius: "magenta",
   elevation: "cyan",
+  opacity: "indigo",
   motion: "indigo",
   structures: "purple",
 };

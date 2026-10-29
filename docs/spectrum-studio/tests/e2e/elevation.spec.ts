@@ -201,7 +201,10 @@ test("Layer edits, ordering, deletion and Undo preserve complete values and UUID
   expect(
     (await record(page)).working.modeSets[0].modes[1].foundations.elevation
       ?.layerOpacities?.[original.layers[0].id],
-  ).toBe(50);
+  ).toBeUndefined();
+  expect((await record(page)).working.elevation!.layers[1].opacityTokenId).toBe(
+    original.layers[0].opacityTokenId,
+  );
 });
 test("Save, Cancel, reload and older records keep independent working and saved state", async ({
   page,
@@ -257,36 +260,44 @@ test("Save, Cancel, reload and older records keep independent working and saved 
   expect((await record(page)).working.elevation!.layers[0].id).toBe(id);
   expect((await record(page)).working.elevation!.layers[0].base).toBe(6);
 });
-test("Owned opacity uses the mode popover, chart controls stay temporary and CSS is complete", async ({
+test("Referenced opacity supports manual values, shared mode overrides and complete CSS", async ({
   page,
 }) => {
-  await seed(page);
+  const snapshot = createDefaultSnapshot();
+  const opacityId = snapshot.elevation!.layers[0].opacityTokenId!;
+  snapshot.browserTokenEdits![opacityId] = {
+    values: {
+      '[["mode-set-color-scheme","mode-dark"]]': {
+        value: 0.6,
+        baseline: 0.2,
+      },
+    },
+  };
+  await seed(page, snapshot);
   await elevation(page);
   await expect(
     page
       .locator('[data-component="ElevationEditor"]')
       .getByRole("textbox", { name: "Opacity (%)" }),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "Mode sets", exact: true }).click();
-  await page.getByRole("button", { name: "Edit Dark for elevation" }).click();
-  const dialog = page.getByRole("dialog", {
-    name: "Edit Dark for elevation",
-    exact: true,
-  });
-  const opacity = dialog.getByRole("textbox", {
-    name: "Shadow 1 opacity (%)",
-    exact: true,
-  });
-  await opacity.fill("60");
-  await opacity.press("Tab");
+  const opacity = page.getByRole("combobox", { name: "Opacity", exact: true });
+  await opacity.fill("Manual");
+  await page.getByRole("option", { name: /Manual percentage/ }).click();
+  await number(page, "Opacity (%) — manual", "40");
   await expect
     .poll(
       async () =>
-        (await record(page)).working.modeSets[0].modes[1].foundations.elevation!
-          .layerOpacities![createDefaultSnapshot().elevation!.layers[0].id],
+        (await record(page)).working.elevation!.layers[0].manualOpacity,
     )
-    .toBe(60);
-  await page.keyboard.press("Escape");
+    .toBe(0.4);
+  await opacity.fill("opacity-800");
+  await page.getByRole("option", { name: /opacity-800/ }).click();
+  await expect
+    .poll(
+      async () =>
+        (await record(page)).working.elevation!.layers[0].opacityTokenId,
+    )
+    .toBe(opacityId);
   await elevation(page, "Analyze");
   const before = (await record(page)).working;
   const chart = page.locator('[data-component="ElevationComparison"]');

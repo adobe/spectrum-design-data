@@ -78,6 +78,10 @@ import { elevationDocumentAtom } from "../elevation/state";
 import { ELEVATION_DEFAULTS } from "../elevation/defaults";
 import { elevationChanges, elevationTokenChanges } from "../elevation/changes";
 import { elevationOwnerIds } from "../elevation/output";
+import { opacityChanges, opacityTokenChanges } from "../opacity/changes";
+import { OPACITY_DEFAULTS } from "../opacity/defaults";
+import { opacityDocumentAtom } from "../opacity/state";
+import { restorePath } from "./contract";
 import {
   assertStructureReferences,
   assertStructureTaxonomy,
@@ -188,10 +192,10 @@ export const legacyChangeGroupsAtom = atom((get) => {
   );
   const edits = get(browserTokenEditsAtom);
   const combinations = get(savedBrowserTokensAtom);
-  const elevationItems = elevationChanges(
-    ELEVATION_DEFAULTS,
-    get(elevationDocumentAtom),
-  );
+  const elevationItems = [
+    ...elevationChanges(ELEVATION_DEFAULTS, get(elevationDocumentAtom)),
+    ...opacityChanges(OPACITY_DEFAULTS, get(opacityDocumentAtom)),
+  ];
   if (elevationItems.length) {
     const foundationGroup = groups.find((group) => group.id === "foundations");
     if (foundationGroup) {
@@ -244,9 +248,19 @@ export const legacyChangeGroupsAtom = atom((get) => {
       ...tshirtTokenChanges(shipped.bundle, variants.bundle),
     );
   tokenGroup.items.push(
+    ...opacityTokenChanges(combinations),
     ...elevationTokenChanges(
       combinations,
-      elevationOwnerIds(get(modeSetsAtom)),
+      elevationOwnerIds(
+        get(modeSetsAtom),
+        {
+          opacity: get(opacityDocumentAtom),
+          colorSystem: get(colorSystemDocumentAtom),
+          modeSets: get(modeSetsAtom),
+          browserTokenEdits: edits,
+        },
+        get(elevationDocumentAtom),
+      ),
     ),
   );
   for (const scale of get(colorSystemDocumentAtom).dataVisScales)
@@ -678,6 +692,17 @@ function restoreModeColorSource(
 }
 
 export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
+  if (item.sourceKind === "opacity") {
+    if (!get(editModeAtom))
+      throw new Error("Enter edit mode to revert opacity.");
+    let snapshot = get(authoringSnapshotAtom);
+    const shipped = { ...snapshot, opacity: structuredClone(OPACITY_DEFAULTS) };
+    for (const address of item.addresses ??
+      item.fields.flatMap((field) => (field.address ? [field.address] : [])))
+      snapshot = restorePath(snapshot, shipped, address);
+    set(restoreAuthoringSnapshotAtom, snapshot);
+    return;
+  }
   if (item.topic === "components") {
     const baseline = designSystemDefaults.system.components ?? EMPTY_COMPONENTS;
     const original = baseline.components.find(

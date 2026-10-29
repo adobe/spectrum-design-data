@@ -21,6 +21,7 @@ export type TokenPanelId =
   | "size"
   | "radius"
   | "elevation"
+  | "opacity"
   | "motion";
 export type TokenPanelViewMode = "semantic" | "primitive";
 
@@ -53,6 +54,16 @@ function placeholderDefinition(
 }
 
 export const tokenPanelRegistry: Record<TokenPanelId, TokenPanelDefinition> = {
+  opacity: {
+    id: "opacity",
+    label: "Opacity",
+    icon: createElement(getCategoryIcon("opacity")),
+    columns: tokenTableColumns,
+    canEditPrimitive: true,
+    canEditSemantic: false,
+    primitiveAdapter: () => ({ groups: [] }),
+    semanticAdapter: () => buildSemanticTokenTable("Opacity"),
+  },
   colors: {
     id: "colors",
     label: "Colors",

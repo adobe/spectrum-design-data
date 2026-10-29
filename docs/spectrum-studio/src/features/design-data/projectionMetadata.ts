@@ -13,6 +13,7 @@ import { structureGeneration } from "../structures/model";
 import { tokenStableKey, tokenUuid } from "../tokens/model";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { staticCategoricalTokenIds } from "../color-system/data-vis/frozenColors";
+import { OPACITY_PARAMETERS } from "../opacity/generation";
 
 const pointerPart = (value: string) =>
   value.replaceAll("~", "~0").replaceAll("/", "~1");
@@ -112,6 +113,24 @@ export function authoringOutputMetadata(
     ),
   );
   const typography = system.foundations.typography;
+  if (system.foundations.opacity) {
+    const opacity = recipe(
+      "opacity",
+      "/system/foundations/opacity",
+      "resolveOpacity",
+      [],
+    );
+    opacity.declaredBindings = OPACITY_PARAMETERS.map((modeParameterId) => ({
+      parameter: modeParameterId,
+      modeParameterId,
+      source: "authoring-dataset",
+      pointer: "/system/foundations/opacity/polarityCompensation",
+    }));
+    metadata.recipes.push(opacity);
+    metadata.limitations.push(
+      "Opacity uses the Studio-local opacity contract, not an upstream modern value-type schema (LTAX-002, LTAX-003, LTAX-005, LTAX-007, LTAX-016).",
+    );
+  }
   const formulaIndex = system.scaleTypes.findIndex(
     (formula) => formula.id === typography.scaleTypeId,
   );

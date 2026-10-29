@@ -23,11 +23,16 @@ export function isFoundationModeAttachments(
   );
 }
 
+export const FOUNDATION_MODE_ATTACHMENT_DEFAULTS: FoundationModeAttachments = {
+  "mode-set-color-scheme": ["opacity"],
+};
 export const foundationModeAttachmentsAtom = atom<FoundationModeAttachments>(
-  {},
+  structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
 );
 export const savedFoundationModeAttachmentsAtom =
-  atom<FoundationModeAttachments>({});
+  atom<FoundationModeAttachments>(
+    structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
+  );
 
 export function pruneFoundationModeAttachments(
   attachments: FoundationModeAttachments,

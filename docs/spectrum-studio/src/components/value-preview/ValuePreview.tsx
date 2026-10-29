@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ReactNode } from "react";
+import { useAtomValue } from "jotai";
 import {
   valuePreviewPresentation,
   type PreviewTextOptions,
@@ -7,6 +8,8 @@ import {
 } from "../../features/tokens/valuePreview";
 import { TextValuePreview } from "./TextValuePreview";
 import { IconValuePreview } from "./IconValuePreview";
+import { transparencyBackground } from "../transparencyBackground";
+import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import "./ValuePreview.css";
 
 export interface ValuePreviewProps extends PreviewTextOptions {
@@ -23,6 +26,7 @@ export function ValuePreview({
   icon,
   ...textOptions
 }: ValuePreviewProps) {
+  const appColorScheme = useAtomValue(appColorSchemeAtom);
   const presentation = valuePreviewPresentation(preview, textOptions);
   let error =
     presentation.status === "unavailable" ? presentation.message : undefined;
@@ -41,7 +45,14 @@ export function ValuePreview({
   }
   const kind = preview.kind;
   const styles =
-    presentation.status === "ready" ? presentation.styles : undefined;
+    presentation.status !== "ready"
+      ? undefined
+      : kind === "opacity" && preview.kind === "opacity"
+        ? transparencyBackground(
+            appColorScheme === "dark" ? "white" : "black",
+            Number(preview.value),
+          )
+        : presentation.styles;
   const isText = [
     "text-color",
     "font-size",

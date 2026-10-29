@@ -3,20 +3,17 @@ import type { Mode, ModeSet } from "../modes/model";
 import { capabilityOwners } from "../modes/parameters";
 import type { PreviewOverrides } from "../modes/previewState";
 import type { ElevationDocument } from "./model";
+import { resolveOpacity, type OpacitySource } from "../opacity/generation";
 
 export function resolveElevationDocument(
   document: ElevationDocument,
   modes: readonly Mode[],
   sets: readonly ModeSet[],
   preview: PreviewOverrides = {},
+  opacitySource?: OpacitySource,
 ): ElevationDocument {
   const owners = capabilityOwners(sets);
-  const patch = (
-    capability:
-      | "elevation.depth"
-      | "elevation.color"
-      | "elevation.layerOpacities",
-  ) => {
+  const patch = (capability: "elevation.depth" | "elevation.color") => {
     const owner = sets.find((set) => set.id === owners[capability]);
     const mode =
       owner &&
@@ -27,7 +24,10 @@ export function resolveElevationDocument(
       ? mode.foundations.elevation
       : undefined;
   };
-  const opacities = patch("elevation.layerOpacities")?.layerOpacities ?? {};
+  const opacity = document.layers.some((layer) => layer.opacityTokenId)
+    ? opacitySource && resolveOpacity(opacitySource, modes, preview)
+    : undefined;
+  if (opacity?.issues.length) throw new Error(opacity.issues.join(" "));
   return {
     ...document,
     depth: Number(
@@ -40,9 +40,23 @@ export function resolveElevationDocument(
         patch("elevation.color")?.color ??
         document.color,
     ),
-    layers: document.layers.map((layer) => ({
-      ...layer,
-      opacity: opacities[layer.id] ?? layer.opacity,
-    })),
+    layers: document.layers.map((layer) => {
+      if (!layer.opacityTokenId) return layer;
+      const level = opacity?.levels.find(
+        (level) => level.id === layer.opacityTokenId,
+      );
+      if (!level)
+        throw new Error(
+          `${layer.label}: its opacity token is unavailable. Choose another opacity token or a manual percentage.`,
+        );
+      const {
+        opacityTokenId: _reference,
+        manualOpacity: _manual,
+        ...rest
+      } = layer;
+      void _reference;
+      void _manual;
+      return { ...rest, opacity: level.value * 100 };
+    }),
   };
 }

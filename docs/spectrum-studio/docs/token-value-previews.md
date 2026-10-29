@@ -6,19 +6,20 @@ The exact value text remains beside the visual.
 
 ## Visuals
 
-| Meaning | Preview |
-|---|---|
-| Color without a more specific element; background color | Filled 24px square |
-| Text color | "Ag" in the supplied color |
-| Border color | Transparent square with a 2px colored border |
-| Border thickness | Transparent square with a gray-600 border at that thickness |
-| Text size, font weight, font family | "Ag" with the corresponding property |
-| Line height | "Ag" with a fuchsia-300 line box at the resolved height |
-| Icon size or color | Spectrum star with the corresponding property |
-| Spacing and generic size | Horizontal block at the supplied width |
-| Radius | 24px square with only its top-left corner rounded |
-| Complete shadow | 20px square with the complete shadow, preserving layer order |
-| Individual shadow property | 20px square with that property applied to a reference shadow |
+| Meaning                                                 | Preview                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| Color without a more specific element; background color | Filled 24px square                                            |
+| Text color                                              | "Ag" in the supplied color                                    |
+| Border color                                            | Transparent square with a 2px colored border                  |
+| Border thickness                                        | Transparent square with a gray-600 border at that thickness   |
+| Text size, font weight, font family                     | "Ag" with the corresponding property                          |
+| Line height                                             | "Ag" with a fuchsia-300 line box at the resolved height       |
+| Icon size or color                                      | Spectrum star with the corresponding property                 |
+| Spacing and generic size                                | Horizontal block at the supplied width                        |
+| Radius                                                  | 24px square with only its top-left corner rounded             |
+| Complete shadow                                         | 20px square with the complete shadow, preserving layer order  |
+| Opacity                                                 | Black or white ink at the effective alpha over a checkerboard |
+| Individual shadow property                              | 20px square with that property applied to a reference shadow  |
 
 Text defaults to 16px, weight 400, normal style, and the app font stack.
 `ValuePreview` and `TextValuePreview` accept optional font size, weight, style,

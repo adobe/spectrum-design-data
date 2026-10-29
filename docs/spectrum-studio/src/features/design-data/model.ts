@@ -4,6 +4,7 @@ import type { TypographyDocument } from "../typography/model";
 import type { SpacingDocument } from "../spacing/model";
 import type { SizeDocument } from "../size/model";
 import type { RadiusDocument } from "../radius/model";
+import type { OpacityDocument } from "../opacity/model";
 import type { ElevationDocument } from "../elevation/model";
 import type { CanonicalRadiusDocument } from "../taxonomy/naming";
 import type { ModeSet, AdaptiveClaims } from "../modes/model";
@@ -35,6 +36,7 @@ export interface DesignSystemDataset {
     taxonomy?: TaxonomyDocument;
     structures: StructuresDocument;
     foundations: {
+      opacity?: OpacityDocument;
       color: ColorSystemDocument;
       typography: TypographyDocument;
       spacing: SpacingDocument;
@@ -70,6 +72,7 @@ export interface CanonicalDesignSystemDataset extends Omit<
   system: Omit<DesignSystemDataset["system"], "foundations" | "taxonomy"> & {
     taxonomy: TaxonomyDocument;
     foundations: {
+      opacity?: OpacityDocument;
       color: CanonicalColorDocument;
       typography: CanonicalTypographyDocument;
       spacing: CanonicalSpacingDocument;
