@@ -94,6 +94,9 @@ pub struct Scene {
 pub struct Press {
     /// Part the scale applies to; the whole scene when absent.
     pub part: Option<String>,
+    /// Parts nested inside `part`, at any depth. They scale together with it.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub nested: Vec<String>,
     pub scale: f64,
     pub cx: f64,
     pub cy: f64,
@@ -1203,7 +1206,12 @@ pub fn build_scene(
                 .and_then(|t| nodes.iter().find(|n| n.part == t))
                 .unwrap_or(&nodes[0]);
             let p = (target.w * ratio).max(lo).min(hi);
+            let mut nested = Vec::new();
+            if let Some(t) = part.as_deref() {
+                collect_nested(parts, t, &mut nested);
+            }
             Some(Press {
+                nested,
                 scale: p / (p - z),
                 cx: target.x + target.w / 2.0,
                 cy: target.y + target.h / 2.0,
@@ -1268,6 +1276,20 @@ fn esc(s: &str) -> String {
         .replace('"', "&quot;")
 }
 
+/// Collect the parts nested inside `id` (its recipe `children`, at any depth).
+fn collect_nested(parts: &serde_json::Map<String, Value>, id: &str, out: &mut Vec<String>) {
+    let kids = parts
+        .get(id)
+        .and_then(|p| p.get("children"))
+        .and_then(Value::as_array);
+    for kid in kids.into_iter().flatten().filter_map(Value::as_str) {
+        if !out.iter().any(|o| o == kid) {
+            out.push(kid.to_string());
+            collect_nested(parts, kid, out);
+        }
+    }
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -1286,12 +1308,21 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     if let Some(p) = scene.press.as_ref().filter(|p| p.part.is_none()) {
         s.push_str(&press_open(p));
     }
-    for n in &scene.nodes {
-        let pressed = scene
-            .press
-            .as_ref()
-            .filter(|p| p.part.as_deref() == Some(n.part.as_str()));
-        if let Some(p) = pressed {
+    // The scaled group wraps the target node and the nodes nested in it, which follow it.
+    let press_span = scene.press.as_ref().and_then(|p| {
+        let start = scene
+            .nodes
+            .iter()
+            .position(|n| Some(n.part.as_str()) == p.part.as_deref())?;
+        let len = scene.nodes[start + 1..]
+            .iter()
+            .take_while(|n| p.nested.contains(&n.part))
+            .count();
+        Some((start, start + len, p))
+    });
+    for (i, n) in scene.nodes.iter().enumerate() {
+        let pressed = press_span.filter(|(start, _, _)| *start == i);
+        if let Some((_, _, p)) = pressed {
             s.push_str(&press_open(p));
         }
         let toks = n
@@ -1442,7 +1473,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             }
             _ => {}
         }
-        if pressed.is_some() {
+        if press_span.is_some_and(|(_, end, _)| end == i) {
             s.push_str("</g>");
         }
     }
@@ -1653,6 +1684,35 @@ mod tests {
 
         let focus = scene("m", &[], &["keyboard-focus"]);
         assert!(part(&focus, "focus-indicator").unwrap().x < part(&focus, "box").unwrap().x);
+    }
+
+    #[test]
+    fn checkbox_press_scales_the_control_with_its_mark() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/checkbox.json")).unwrap(),
+        )
+        .unwrap();
+        let mut r = req(&["down"]);
+        r.component = "checkbox".into();
+        r.size = "m".into();
+        r.label = "Label".into();
+        r.options.insert("isSelected".into(), Value::Bool(true));
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        let press = scene.press.as_ref().unwrap();
+        assert_eq!(press.part.as_deref(), Some("control"));
+        assert_eq!(press.nested, ["box", "checkmark", "dash"]);
+
+        let svg = scene_to_svg(&scene);
+        let (open, close) = (svg.find("<g transform").unwrap(), svg.find("</g>").unwrap());
+        let inside = &svg[open..close];
+        for part in ["control", "box", "checkmark"] {
+            assert!(inside.contains(&format!("data-part=\"{part}\"")), "{part}");
+        }
+        assert!(
+            !inside.contains("data-part=\"label\""),
+            "the label does not scale"
+        );
     }
 
     #[test]

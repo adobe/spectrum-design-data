@@ -1,10 +1,17 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-spec": patch
+"@adobe/design-data-wasm": patch
 ---
 
-Remove the stray "S2 " prefix from checkbox relationship contexts.
+Relationship fixes for checkbox and others; the pressed scale now includes nested parts.
 
-- **relationships/checkbox.json**: three contexts lose the prefix, for example
-  "S2 Control (size)" is now "Control (size)". This matches switch.
-- **visuals/checkbox.json**: recipe context references updated to match.
-- Rendered output is unchanged across all 1024 checked combinations.
+- **relationships**: strip the stray "S2 " prefix from contexts (checkbox, radio-button,
+  combo-box, text-area), matching switch.
+- **checkbox**: add the selected+down fill, `Control` border colors, `Control (disabled)`,
+  `Control (selected, disabled)`, `Control (error)` and `Control (selected, error)`;
+  drop the mis-named `Checkbox colors`.
+- **visuals/checkbox.json**: bind to those contexts; `pressTarget` is now `control`.
+- **sdk/core, site runtime**: a pressed part's nested children scale with it.
+- **spec**: `pressTarget` scales nested parts.
+- Rendered output is unchanged except the selected+down fill and the pressed mark scale.
