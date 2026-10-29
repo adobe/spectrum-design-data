@@ -209,9 +209,9 @@
           "when": {
             "states": ["down"]
           },
-          "token": {
+          "relationship": {
             "property": "component-size-maximum-perspective",
-            "state": "down"
+            "context": "Component size (down)"
           }
         }
       }
