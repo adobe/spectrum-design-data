@@ -158,6 +158,28 @@
       "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
+  "constraints": [
+    {
+      "when": { "style": "outline" },
+      "require": { "variant": ["primary", "secondary"] },
+      "severity": "error",
+      "description": "Outline style is only defined for primary and secondary.",
+      "source": "react-spectrum S2 Button.tsx"
+    },
+    {
+      "when": { "staticColor": ["white", "black"] },
+      "require": { "variant": ["primary", "secondary"] },
+      "severity": "advisory",
+      "description": "Static color only restyles primary and secondary; accent and negative render unchanged.",
+      "source": "react-spectrum S2 Button.tsx"
+    },
+    {
+      "when": { "isLabelHidden": true },
+      "require": { "icon": { "present": true } },
+      "severity": "error",
+      "description": "An icon-only button needs an icon."
+    }
+  ],
   "slots": [
     {
       "name": "default",

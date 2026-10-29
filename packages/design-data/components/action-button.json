@@ -109,6 +109,21 @@
     "hasHoldIcon": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "constraints": [
+    {
+      "when": { "hideLabel": true },
+      "require": { "icon": { "present": true } },
+      "severity": "error",
+      "description": "Icon must be present if the label is not defined."
+    },
+    {
+      "when": { "isEmphasized": true },
+      "require": { "isSelected": [true] },
+      "severity": "advisory",
+      "description": "Emphasis only changes the selected appearance.",
+      "source": "react-spectrum S2 ActionButton.tsx"
+    }
+  ],
   "anatomy": [
     {
       "name": "container",
