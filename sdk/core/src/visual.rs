@@ -129,9 +129,15 @@ struct Ctx<'a> {
     diags: Vec<String>,
 }
 
+/// Boolean options that act as an interaction state while true. Shared by `active_states`
+/// and `scoped_values`, so a relationship scoped by `isSelected: true` matches the same
+/// requests as one scoped by `state: ["selected"]`.
+const OPTION_STATES: &[(&str, &str)] = &[("isDisabled", "disabled"), ("isSelected", "selected")];
+
 /// Relationship records that carry their own `value` (a component-scoped token such as a
 /// switch track width), shaped as token records so they rank and resolve like tokens. The
-/// relationship's `options` become name fields, so `size`, `scale` and `state` filter them.
+/// relationship's `options` become name fields, so `size`, `scale` and `state` filter them;
+/// a true boolean option in `OPTION_STATES` adds its state.
 fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::TokenRecord> {
     graph
         .relationships
@@ -152,6 +158,20 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
                 .and_then(Value::as_object)
             {
                 name.extend(o.iter().map(|(k, v)| (k.clone(), v.clone())));
+                let mut states: Vec<Value> = match o.get("state") {
+                    Some(Value::Array(a)) => a.clone(),
+                    Some(v @ Value::String(_)) => vec![v.clone()],
+                    _ => Vec::new(),
+                };
+                for (opt, state) in OPTION_STATES {
+                    let on = o.get(*opt) == Some(&Value::Bool(true));
+                    if on && !states.iter().any(|s| s.as_str() == Some(state)) {
+                        states.push(Value::String((*state).into()));
+                    }
+                }
+                if !states.is_empty() {
+                    name.insert("state".into(), Value::Array(states));
+                }
             }
             let key = r
                 .raw
@@ -315,11 +335,10 @@ impl<'a> Ctx<'a> {
     /// Interaction states plus option-derived ones, with `default` when idle.
     fn active_states(&self) -> Vec<String> {
         let mut active = self.req.states.clone();
-        if self.option("isDisabled") == Value::Bool(true) {
-            active.push("disabled".into());
-        }
-        if self.option("isSelected") == Value::Bool(true) {
-            active.push("selected".into());
+        for (opt, state) in OPTION_STATES {
+            if self.option(opt) == Value::Bool(true) {
+                active.push((*state).into());
+            }
         }
         if self.req.states.is_empty() {
             active.push("default".into());
