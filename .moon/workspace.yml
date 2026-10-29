@@ -12,6 +12,7 @@ projects:
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
   hub-prototype: "docs/hub-prototype"
+  spectrum-studio: "docs/spectrum-studio"
   markdown-generator: "tools/markdown-generator"
   root: "."
   token-diff-generator: "tools/diff-generator"
