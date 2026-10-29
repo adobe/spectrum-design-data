@@ -15,4 +15,7 @@ Recipe lints and fixes for checkbox, switch and others; pressed scale includes n
   relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
   `recipe_lint_baseline` holds each recipe at its current warning count.
 - **spec**: authoring conventions in `component-visuals.md`; `notVisual` recipe field.
+- **sdk/core**: render snapshot test for every recipe; `SceneCache` makes matrix renders fast.
+- **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
+  badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
 - **switch**: document that `isReadOnly` has no distinct visual (hover and press only).

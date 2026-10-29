@@ -127,6 +127,8 @@ pub(crate) struct RelTarget<'a> {
     pub token: Option<&'a TokenRecord>,
     /// State ids the relationship selects, from the bound token or its own scope.
     pub states: Vec<String>,
+    /// Option names the relationship's `scope.options` pins (not `state`).
+    pub options: Vec<String>,
 }
 
 pub(crate) fn component_relationships<'a>(
@@ -168,11 +170,23 @@ pub(crate) fn component_relationships<'a>(
                     })
                     .unwrap_or_default(),
             };
+            let options = r
+                .raw
+                .pointer("/scope/options")
+                .and_then(Value::as_object)
+                .map(|o| {
+                    o.keys()
+                        .filter(|k| k.as_str() != "state")
+                        .cloned()
+                        .collect()
+                })
+                .unwrap_or_default();
             RelTarget {
                 property,
                 context,
                 token,
                 states,
+                options,
             }
         })
         .collect()
