@@ -105,7 +105,11 @@
     },
     "isEmphasized": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
-    "isReadOnly": { "type": "boolean", "default": false },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Behavior only: the switch keeps its default or selected appearance and does not respond to hover or press. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen."
+    },
     "hideLabel": { "type": "boolean", "default": false }
   },
   "anatomy": [
