@@ -43,6 +43,32 @@ async function icon(page: Page, category: string) {
 }
 
 for (const width of [1280, 390]) {
+  test(`Opacity foundation follows Colors and shows its placeholder at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/");
+    await navigate(page, "Foundations");
+    const tabs = page
+      .locator('[data-component="FoundationsLayout"]')
+      .getByRole("tablist", { name: "Foundation sections", exact: true })
+      .getByRole("tab");
+    await expect(tabs.nth(0)).toHaveAccessibleName("Colors");
+    await expect(tabs.nth(1)).toHaveAccessibleName("Opacity");
+    await expect(tabs.nth(2)).toHaveAccessibleName("Typography");
+    await expect(page.locator('[data-category="opacity"]')).toHaveAttribute(
+      "data-category-icon",
+      "ViewTransparency",
+    );
+    await tabs.nth(1).click();
+    await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect(
+      page.getByRole("tabpanel", { name: "Opacity", exact: true }),
+    ).toHaveText("TBD");
+    await tabs.nth(0).click();
+    await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+  });
+
   test(`Category workflow icons retain labels and behavior at ${width}px`, async ({
     page,
   }) => {
@@ -61,6 +87,7 @@ for (const width of [1280, 390]) {
     await navigate(page, "Foundations");
     for (const category of [
       "color",
+      "opacity",
       "typography",
       "spacing",
       "size",
