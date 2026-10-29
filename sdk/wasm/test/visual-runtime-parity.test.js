@@ -82,6 +82,11 @@ const badgeOptionSets = [
   { variant: "seafoam", style: "subtle", fixed: "right" },
   { variant: "notice", fixed: "bottom", label: false, icon: true },
   { variant: "neutral", isDisabled: true },
+  { variant: "celery", style: "bold" },
+  { variant: "celery", style: "subtle" },
+  { variant: "yellow", style: "outline" },
+  { variant: "notice", style: "outline" },
+  { variant: "accent", style: "outline" },
 ];
 
 const switchOptionSets = [
