@@ -33,10 +33,9 @@
         },
         "paddingInlineStart": [
           {
-            "token": {
-              "structure": "base",
-              "property": "padding-horizontal",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
             }
           },
           {
@@ -45,19 +44,17 @@
                 "hideLabel": true
               }
             },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
             }
           }
         ],
         "paddingInlineEnd": [
           {
-            "token": {
-              "structure": "base",
-              "property": "padding-horizontal",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
             }
           },
           {
@@ -66,25 +63,22 @@
                 "hideLabel": true
               }
             },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
             }
           }
         ],
         "gap": {
-          "token": {
-            "structure": "base",
-            "property": "gap",
-            "size": "{size}"
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (icon to label)"
           }
         },
         "cornerRadius": {
-          "token": {
+          "relationship": {
             "property": "corner-radius",
-            "role": "container",
-            "size": "{size}"
+            "context": "Rounding"
           }
         },
         "fill": [
@@ -435,8 +429,9 @@
       },
       "props": {
         "fontSize": {
-          "token": {
-            "property": "font-size-{sizeIndex}"
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
           }
         },
         "fontWeight": {
