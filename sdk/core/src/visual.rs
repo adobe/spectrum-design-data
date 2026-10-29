@@ -132,7 +132,8 @@ struct Ctx<'a> {
 /// Boolean options that act as an interaction state while true. Shared by `active_states`
 /// and `scoped_values`, so a relationship scoped by `isSelected: true` matches the same
 /// requests as one scoped by `state: ["selected"]`.
-const OPTION_STATES: &[(&str, &str)] = &[("isDisabled", "disabled"), ("isSelected", "selected")];
+pub(crate) const OPTION_STATES: &[(&str, &str)] =
+    &[("isDisabled", "disabled"), ("isSelected", "selected")];
 
 /// Relationship records that carry their own `value` (a component-scoped token such as a
 /// switch track width), shaped as token records so they rank and resolve like tokens. The
@@ -158,17 +159,7 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
                 .and_then(Value::as_object)
             {
                 name.extend(o.iter().map(|(k, v)| (k.clone(), v.clone())));
-                let mut states: Vec<Value> = match o.get("state") {
-                    Some(Value::Array(a)) => a.clone(),
-                    Some(v @ Value::String(_)) => vec![v.clone()],
-                    _ => Vec::new(),
-                };
-                for (opt, state) in OPTION_STATES {
-                    let on = o.get(*opt) == Some(&Value::Bool(true));
-                    if on && !states.iter().any(|s| s.as_str() == Some(state)) {
-                        states.push(Value::String((*state).into()));
-                    }
-                }
+                let states = scope_states(o);
                 if !states.is_empty() {
                     name.insert("state".into(), Value::Array(states));
                 }
@@ -562,8 +553,13 @@ impl<'a> Ctx<'a> {
 /// A token's `name.state` as individual state ids. Legacy compound ids such as
 /// `selected-key-focus` split into `selected` + `keyboard-focus`.
 fn token_states(t: &crate::graph::TokenRecord) -> Vec<String> {
+    name_states(t.raw.get("name"))
+}
+
+/// The state ids in a token `name` object (see `token_states`).
+pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
     let mut out = Vec::new();
-    let raw = match t.raw.get("name").and_then(|n| n.get("state")) {
+    let raw = match name.and_then(|n| n.get("state")) {
         Some(Value::String(s)) => vec![s.clone()],
         Some(Value::Array(a)) => a
             .iter()
@@ -584,6 +580,23 @@ fn token_states(t: &crate::graph::TokenRecord) -> Vec<String> {
         });
     }
     out
+}
+
+/// The states a relationship `scope.options` selects: its `state` entries plus the state of
+/// each true boolean option in `OPTION_STATES`.
+pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Value> {
+    let mut states: Vec<Value> = match options.get("state") {
+        Some(Value::Array(a)) => a.clone(),
+        Some(v @ Value::String(_)) => vec![v.clone()],
+        _ => Vec::new(),
+    };
+    for (opt, state) in OPTION_STATES {
+        let on = options.get(*opt) == Some(&Value::Bool(true));
+        if on && !states.iter().any(|s| s.as_str() == Some(state)) {
+            states.push(Value::String((*state).into()));
+        }
+    }
+    states
 }
 
 fn text_width(text: &str, font_size: f64) -> f64 {

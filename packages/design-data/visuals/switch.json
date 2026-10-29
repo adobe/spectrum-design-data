@@ -4,6 +4,7 @@
   "component": "switch",
   "root": "container",
   "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+  "notVisual": ["isReadOnly"],
   "parts": {
     "container": {
       "kind": "box",
