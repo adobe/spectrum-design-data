@@ -32,10 +32,9 @@
         },
         "paddingInlineStart": [
           {
-            "token": {
-              "structure": "base",
-              "property": "padding-horizontal",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-pill-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
             }
           },
           {
@@ -44,19 +43,17 @@
                 "isLabelHidden": true
               }
             },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-pill-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
             }
           }
         ],
         "paddingInlineEnd": [
           {
-            "token": {
-              "structure": "base",
-              "property": "padding-horizontal",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-pill-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
             }
           },
           {
@@ -65,18 +62,16 @@
                 "isLabelHidden": true
               }
             },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "{size}"
+            "relationship": {
+              "property": "component-pill-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
             }
           }
         ],
         "gap": {
-          "token": {
-            "structure": "base",
-            "property": "gap",
-            "size": "{size}"
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (icon to label)"
           }
         },
         "cornerRadius": {
@@ -745,9 +740,9 @@
                 "style": "outline"
               }
             },
-            "token": {
+            "relationship": {
               "property": "border-width",
-              "scaleIndex": 200
+              "context": "Border"
             }
           }
         ],
@@ -1014,8 +1009,9 @@
       },
       "props": {
         "fontSize": {
-          "token": {
-            "property": "font-size-{sizeIndex}"
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
           }
         },
         "fontWeight": {
