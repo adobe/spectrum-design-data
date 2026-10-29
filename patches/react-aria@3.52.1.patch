@@ -1,0 +1,27 @@
+diff --git a/dist/private/utils/runAfterTransition.mjs b/dist/private/utils/runAfterTransition.mjs
+--- a/dist/private/utils/runAfterTransition.mjs
++++ b/dist/private/utils/runAfterTransition.mjs
+@@ -39,3 +39,2 @@
+-            eventTarget.addEventListener('transitioncancel', onTransitionEnd, {
+-                once: true
+-            });
++            // More than one property can cancel, and child cancellations can bubble.
++            eventTarget.addEventListener('transitioncancel', onTransitionEnd);
+diff --git a/dist/private/utils/runAfterTransition.js b/dist/private/utils/runAfterTransition.js
+--- a/dist/private/utils/runAfterTransition.js
++++ b/dist/private/utils/runAfterTransition.js
+@@ -39,3 +39,2 @@
+-            eventTarget.addEventListener('transitioncancel', onTransitionEnd, {
+-                once: true
+-            });
++            // More than one property can cancel, and child cancellations can bubble.
++            eventTarget.addEventListener('transitioncancel', onTransitionEnd);
+diff --git a/dist/private/utils/runAfterTransition.cjs b/dist/private/utils/runAfterTransition.cjs
+--- a/dist/private/utils/runAfterTransition.cjs
++++ b/dist/private/utils/runAfterTransition.cjs
+@@ -45,3 +45,2 @@
+-            eventTarget.addEventListener('transitioncancel', onTransitionEnd, {
+-                once: true
+-            });
++            // More than one property can cancel, and child cancellations can bubble.
++            eventTarget.addEventListener('transitioncancel', onTransitionEnd);

@@ -1,0 +1,170 @@
+---
+description: Ensure only available Spectrum icons are used in the project
+globs: ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"]
+alwaysApply: false
+---
+
+# Spectrum Icons Usage Rule
+
+This rule ensures that only available Spectrum icons are used throughout the project, preventing broken icon imports and maintaining consistency.
+
+<rule>
+name: spectrum_icons_only
+description: Enforce usage of only available Spectrum icons from approved sources
+filters:
+  # Match React/TypeScript files that might contain icon imports
+  - type: file_extension
+    pattern: "\\.(tsx?|jsx?)$"
+  # Match icon import statements
+  - type: content
+    pattern: "import.*from.*['\"].*icons?.*['\"]"
+
+actions:
+
+- type: suggest
+  message: |
+
+  ## Available Icon Sources
+
+  ### 1. React Spectrum S2 Icons
+
+  ```typescript
+  // ✅ Correct usage
+  import Edit from "@react-spectrum/s2/icons/Edit";
+  import Contrast from "@react-spectrum/s2/icons/Contrast";
+  import FileText from "@react-spectrum/s2/icons/FileText";
+  import Folder from "@react-spectrum/s2/icons/Folder";
+  ```
+
+  ### 2. SWC React Workflow Icons
+
+  ```typescript
+  // ✅ Correct usage
+  import { IconHome } from "@swc-react/icons-workflow/Home";
+  import { IconAsset } from "@swc-react/icons-workflow/Asset";
+  import { IconApps } from "@swc-react/icons-workflow/Apps";
+  import { IconMore } from "@swc-react/icons-workflow/More";
+  import { IconSend } from "@swc-react/icons-workflow/Send";
+  import { IconLayers } from "@swc-react/icons-workflow/Layers";
+  import { IconAttach } from "@swc-react/icons-workflow/Attach";
+  import { IconMicrophone } from "@swc-react/icons-workflow/Microphone";
+  ```
+
+  ### 3. Custom SVG Icons (when Spectrum icons don't exist)
+
+  ```typescript
+  // ✅ Correct usage - custom icons as React components
+  import { IconAiChat } from "../../assets/svgs/iconAiChat.tsx";
+  import { IconCreate } from "../../assets/svgs/iconCreate.tsx";
+  import { IconCampaign } from "../../assets/svgs/iconCampaign.tsx";
+  ```
+
+  ## Icon Usage Guidelines
+  1. **Prefer Spectrum S2 icons first** - Check if the icon exists in `@react-spectrum/s2/icons`. S2 icons work natively in S2 components with no wrapper needed.
+  2. **Use custom SVG icons only when necessary** - When Spectrum doesn't have the needed icon
+  3. **Create proper React components** - Custom icons should be React components, not direct SVG imports
+  4. **Follow naming conventions** - Use PascalCase for icon component names
+  5. **Organize custom icons** - Place all custom SVG icons in `assets/svgs/` directory
+
+  ## Label text next to icons
+
+  When an S2 control shows an icon and visible label text together (for example `Button` with an icon slot and a caption), wrap the label in **`Text`** from `@react-spectrum/s2`. Do not leave raw text nodes as siblings of the icon. This keeps typography and layout aligned with Spectrum 2.
+
+  ```typescript
+  import { ActionButton, Button, Text } from "@react-spectrum/s2";
+  ```
+
+  ```tsx
+  // ✅ Correct: label wrapped in Text
+  <Button variant="secondary" size="M">
+    <IconSlotWrapper>
+      <IconHome />
+    </IconSlotWrapper>
+    <Text>Home</Text>
+  </Button>
+
+  // ❌ Wrong: raw text next to the icon
+  <Button variant="secondary" size="M">
+    <IconSlotWrapper>
+      <IconHome />
+    </IconSlotWrapper>
+    Home
+  </Button>
+  ```
+
+  Icon-only controls (no visible label) do not need `Text`. Controls that are text-only with no icon do not need `Text` for the label unless a pattern elsewhere in the product requires it.
+
+  ## CRITICAL: Wrapping non-S2 icons in S2 components
+
+  Any icon that does NOT come from `@react-spectrum/s2/icons` must be wrapped
+  with `IconSlotWrapper` when placed inside an S2 component (ActionButton,
+  ToggleButton, Button, etc.). This includes SWC workflow icons and custom SVG
+  icons. Without the wrapper, the button will appear stretched because S2
+  components use `:has([slot="icon"])` CSS selectors that non-S2 icons do not
+  satisfy.
+
+  ```typescript
+  import { IconSlotWrapper } from "../components/IconSlotWrapper";
+  ```
+
+  ```tsx
+  // ✅ Correct: S2 icon — no wrapper needed
+  <ActionButton isQuiet aria-label="Toggle color scheme">
+    <Contrast />
+  </ActionButton>
+
+  // ✅ Correct: Non-S2 icon wrapped with IconSlotWrapper
+  <ActionButton isQuiet aria-label="Home">
+    <IconSlotWrapper><IconHome /></IconSlotWrapper>
+  </ActionButton>
+
+  // ❌ Wrong: Non-S2 icon without wrapper — button will be stretched
+  <ActionButton isQuiet aria-label="Home">
+    <IconHome />
+  </ActionButton>
+  ```
+
+  See `docs/non-s2-icons-in-s2-components.md` for the full technical explanation.
+
+examples:
+
+- input: |
+  // ❌ Bad: Unknown icon library
+  import { FaHome } from "react-icons/fa";
+
+  // ❌ Bad: Direct SVG import  
+   import homeIcon from "./home.svg";
+
+  // ❌ Bad: Non-existent Spectrum icon
+  import CustomIcon from "@react-spectrum/s2/icons/CustomIcon";
+
+  // ❌ Bad: Non-S2 icon without IconSlotWrapper in S2 component
+  <ActionButton isQuiet aria-label="Home">
+  <IconHome />
+  </ActionButton>
+  output: |
+  // ✅ Good: Use available Spectrum icons
+  import { IconHome } from "@swc-react/icons-workflow/Home";
+  import { IconSlotWrapper } from "../components/IconSlotWrapper";
+
+  // ✅ Good: Custom icon as React component
+  import { IconCustom } from "../../assets/svgs/iconCustom.tsx";
+
+  // ✅ Good: Non-S2 icon wrapped for S2 component
+  <ActionButton isQuiet aria-label="Home">
+  <IconSlotWrapper><IconHome /></IconSlotWrapper>
+  </ActionButton>
+
+  // ✅ Good: icon + label — use Text for the label
+  import { Button, Text } from "@react-spectrum/s2";
+  <Button variant="secondary">
+  <IconSlotWrapper><IconHome /></IconSlotWrapper>
+  <Text>Home</Text>
+  </Button>
+
+metadata:
+priority: high
+version: 2.1
+category: icons
+enforcement: strict
+</rule>

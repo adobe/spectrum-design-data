@@ -1,0 +1,128 @@
+.homeHealthPillars,
+.homeAttentionList,
+.homeLegend,
+.homeTokenList,
+.homeDerivationList,
+.homeAccessibilityList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.homeHealthPillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+}
+
+.homeAttentionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.homeAttentionItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgb(128 128 128 / 0.2);
+}
+
+.homeAttentionItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.homeHeatmap {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+.homeHeatmap th:first-child {
+  width: 96px;
+}
+
+.homeHeatmapCell {
+  padding: 8px 2px;
+  border-radius: 4px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.homeLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+}
+
+.homeLegend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.homeLegendSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.homeTokenList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.homeTokenItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.homeDerivationList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.homeDerivationRow {
+  display: grid;
+  grid-template-columns: 110px 1fr 72px;
+  align-items: center;
+  gap: 12px;
+}
+
+.homeDerivationBar {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  gap: 1px;
+}
+
+.homeAccessibilityList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.homeCoverageTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.homeCoverageTable th,
+.homeCoverageTable td {
+  padding: 8px 12px 8px 0;
+}
+
+.homeCoverageTable tbody tr + tr {
+  border-top: 1px solid rgb(128 128 128 / 0.2);
+}

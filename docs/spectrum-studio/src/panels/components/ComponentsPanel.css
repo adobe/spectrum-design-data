@@ -1,0 +1,23 @@
+.componentList {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  gap: 16px;
+  padding: 16px;
+  overflow: auto;
+  border-inline-end: 1px solid var(--spectrum-gray-200);
+}
+.componentCatalogGroups, .componentCatalogGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 24px;
+}
+.componentCatalogGroup { gap: 0px; }
+@media (width < 800px) {
+  .componentList {
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--spectrum-gray-200);
+  }
+}

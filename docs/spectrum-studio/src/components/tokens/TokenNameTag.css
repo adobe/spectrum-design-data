@@ -1,0 +1,15 @@
+.tokenNameTag {
+  display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-inline: 5px;
+  border-radius: 4px;
+  background: var(--spectrum-gray-100);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}

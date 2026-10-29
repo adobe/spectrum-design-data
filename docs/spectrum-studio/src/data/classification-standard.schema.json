@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:spectrum:classification-standard:proposal:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profileId", "adoption", "gapId", "representation", "reference", "facets", "concepts", "components", "retired", "sourceReferenceKeys", "limitations"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profileId": { "const": "spectrum-classification-v1-proposed" },
+    "adoption": { "const": "proposed" },
+    "gapId": { "const": "LTAX-011" },
+    "representation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profileId", "normalization", "textBinding", "numericBinding", "termCardinality", "numericSharing"],
+      "properties": {
+        "profileId": { "const": "leonardo-flat-taxonomy-v1" },
+        "normalization": { "const": "trim-lowercase-whole-value" },
+        "textBinding": { "const": "registered-field-and-value-with-shared-definition" },
+        "numericBinding": { "const": "typed-category-domain" },
+        "termCardinality": { "const": "one" },
+        "numericSharing": { "const": ["scaleIndex", "number"] }
+      }
+    },
+    "reference": {
+      "type": "object", "additionalProperties": false, "required": ["repository", "revision"],
+      "properties": { "repository": { "const": "adobe/spectrum-design-data" }, "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" } }
+    },
+    "facets": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/facet" } },
+    "concepts": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/concept" } },
+    "components": { "type": "array", "items": { "$ref": "#/definitions/component" } },
+    "retired": { "type": "array", "items": { "$ref": "#/definitions/retired" } },
+    "sourceReferenceKeys": { "$ref": "#/definitions/texts" },
+    "limitations": { "$ref": "#/definitions/texts" }
+  },
+  "definitions": {
+    "text": { "type": "string", "pattern": "\\S" },
+    "texts": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/definitions/text" } },
+    "facet": {
+      "type": "object", "additionalProperties": false, "required": ["key", "name", "sourceKeys", "question", "valueType", "appliesTo", "review"],
+      "properties": {
+        "key": { "$ref": "#/definitions/text" }, "name": { "$ref": "#/definitions/text" },
+        "sourceKeys": { "type": "array", "allOf": [{ "$ref": "#/definitions/texts" }], "minItems": 1 }, "question": { "$ref": "#/definitions/text" },
+        "valueType": { "enum": ["string", "number"] },
+        "appliesTo": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["token", "component-part", "relationship", "source-reference"] } },
+        "review": { "enum": ["accepted-direction", "provisional"] }
+      }
+    },
+    "concept": {
+      "type": "object", "additionalProperties": false, "required": ["id", "facet", "value", "definition", "examples", "counterexamples"],
+      "properties": {
+        "id": { "$ref": "#/definitions/text" }, "facet": { "$ref": "#/definitions/text" }, "value": { "$ref": "#/definitions/text" }, "definition": { "$ref": "#/definitions/text" },
+        "examples": { "type": "array", "allOf": [{ "$ref": "#/definitions/texts" }], "minItems": 1 }, "counterexamples": { "type": "array", "allOf": [{ "$ref": "#/definitions/texts" }], "minItems": 1 }
+      }
+    },
+    "component": {
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "group", "elementIds"],
+      "properties": {
+        "id": { "$ref": "#/definitions/text" }, "name": { "$ref": "#/definitions/text" }, "group": { "$ref": "#/definitions/text" },
+        "elementIds": { "type": "array", "allOf": [{ "$ref": "#/definitions/texts" }], "minItems": 1 }
+      }
+    },
+    "retired": {
+      "type": "object", "additionalProperties": false, "required": ["value", "reason"],
+      "properties": { "value": { "$ref": "#/definitions/text" }, "reason": { "$ref": "#/definitions/text" } }
+    }
+  }
+}

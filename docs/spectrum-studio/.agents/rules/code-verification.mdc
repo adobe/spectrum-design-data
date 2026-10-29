@@ -1,0 +1,28 @@
+---
+description: Code verification and quality checks
+alwaysApply: true
+---
+
+# Code verification
+
+Verify changes with the narrowest check that covers them. Do not run the full
+lint and build after every edit. This project's `pnpm lint` and `pnpm build`
+chain type checks, coverage scripts, a data-vis bundle build, and ESLint, so
+running them repeatedly is slow.
+
+Use the `verify-change` skill (`.agents/skills/verify-change/SKILL.md`) to pick
+checks. The short version:
+
+1. **While working:** run the affected `tests/*.ts` script, and `pnpm typecheck`
+   if types or exports changed.
+2. **When a feature is complete:** run `pnpm lint` once, and `pnpm build` once
+   if build, bundling, or data-vis inputs changed.
+3. **Slow checks** (Playwright, performance chains, `test:data-vis`,
+   `test:prioritized-work`) run only when the change touches what they cover or
+   the user asks. Run each at most once, at the end.
+4. Fix every error the checks report before calling the task complete, then
+   re-run only the failing check.
+5. In the final message, list the checks run (with results) and the relevant
+   checks skipped (with the reason).
+
+Use `pnpm`, not `npm`.

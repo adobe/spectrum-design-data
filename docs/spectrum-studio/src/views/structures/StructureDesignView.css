@@ -1,0 +1,31 @@
+.structureDesignWork {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.structureDesignCanvas {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.structureDesignStage {
+  position: absolute;
+  inset: 32px;
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
+  overflow: auto;
+}
+
+.structureDesignEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 16px;
+}

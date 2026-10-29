@@ -1,0 +1,27 @@
+.taxonomyView {
+  container: taxonomy / inline-size;
+}
+
+.taxonomyColumns {
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+}
+
+.taxonomyFieldPair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.taxonomyView [role="alert"] {
+  overflow-wrap: anywhere;
+}
+
+@container taxonomy (width < 720px) {
+  .taxonomyColumns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container taxonomy (width < 440px) {
+  .taxonomyFieldPair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

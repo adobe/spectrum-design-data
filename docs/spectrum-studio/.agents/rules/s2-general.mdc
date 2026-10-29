@@ -1,0 +1,75 @@
+---
+alwaysApply: true
+---
+
+# Spectrum 2 design system
+
+**CRITICAL**: Use sentence case for everything. Only use title case when it clarifies that we’re speaking about a specific, official entity (such as a title or name).
+
+## Accessiblity
+
+- This project has to be WCAG 2.2 AA compliant
+
+## Attention hierarchy
+
+- Prioritize a single focal point of high attention on a page. Refrain from adding multiple high-attention elements.
+- Common component sizes are XL, L, M, S, and XS, where M is the default size. Component sizes can be mixed to create hierarchy. Larger components draw more attention.
+- Button variants from high attention to low attention: accent, primary, secondary, action button, icon-only action button, quet icon-only action button.
+
+## Color
+
+- Gray-25, gray-50, and gray-75 are reserved for background layers.
+- Gray-100, gray-200, and gray-300 are reserved for lower contrast component background progressions or borders.
+- Gray-800 and gray-900 are reserved for higher contrast component backgrounds such as text and active borders. This ensures that components are always visible, regardless of the background color.
+- There are differences in how backgrounds should be colored depending on the use cases of the interface. For webpages or browsing context it's gray-25, gray-50, and gray-25 with dropshadow being the top-most layer. For tools or editing context it's gray-100, gray-50, gray-25, and gray-25 with dropshadow being the top-most layer.
+
+## Typography
+
+- Heading is the largest item on the page, reserved for the broadest message.
+- Title is used for essential text items on the page, such as wayfinding or context-setting.
+- Body is primarily used for blocks of text, and for the text within many Spectrum components.
+- Detail is for supportive elements like labels and metadata.
+
+- The weight of Heading is ExtraBold
+- The weight of titles, file names, user names, and button labels is Bold.
+- The weight of action buttons, badges, and tags, is Medium
+- The weight of body text, or any content that's entered by users, is editable, or longer in form (for example, text fields and text areas).
+
+- Body text has a line height of 1.5x, while Detail text has a line height of 1.3x
+
+## Object styles
+
+- There are 3 rounding styles: default(8px), small(4px), and full(object height/2)
+- There are 2 rounding styles for containers only: 10px and 16px
+- Nested objects should alway have smaller rounding than their direct parents
+
+- There are 2 Border sizes: medium(2px, default) and small(1px), small is generally used for table cells only.
+- Use large border (4px) for long form content.
+
+## Spacing
+
+- Instead of dividers, spacing is used as the primary way to group and divide content. Different spacing values establish rhythm and create hierarchy within a page.
+- Use CSS grids to divide content at the top level and use flex box for everything else.
+- 16px for padding in general
+- 32px is the step adove 16px for padding
+- 40px is the step above 32px for padding
+
+## Nested panel accordions
+
+- Use `NestedPanelAccordion` from `src/components/NestedPanelAccordion.tsx` for accordions inside foundation panel sections or cards.
+- It keeps the S2 accordion small and quiet, with `layer-1` background, `lg` corners and 8 px padding on the accordion root, including the collapsed header.
+- Keep `AccordionItemPanel` free of duplicate nested background, corner and padding styles. Use an inner layout for field spacing.
+- Keep top-level foundation accordions unchanged. Native S2 item composition and expansion props remain available through the wrapper.
+
+## Foundation cards
+
+- Apply `foundationCardStyles` from `src/components/foundationCardStyles.ts` to foundation scale cards and line-height cards.
+- The shared appearance uses a transparent background, 1 px `gray-200` border, S2 `default` corners and `neutral` text.
+- Keep layout, padding, previews and interaction behavior in the consuming component. Do not duplicate or override the shared appearance there.
+
+## Editing popovers
+
+- Let the S2 `Popover` own the available width. Apply `popoverDialogStyles` from `src/components/popoverLayout.ts` to a React Aria `Dialog` inside it; do not give the dialog a wider fixed width.
+- Use `padding="none"` on the popover when its dialog or editing sections already provide padding.
+- Wrap control rows and size interactive canvases to their actual available space. Do not hide horizontal overflow to mask a sizing problem.
+- Keep the dialog's height content-driven. Let the popover provide vertical scrolling when the viewport is too short rather than adding a second fixed-height scrolling dialog.

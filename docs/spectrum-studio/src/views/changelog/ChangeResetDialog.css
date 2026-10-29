@@ -1,0 +1,22 @@
+.changeResetContents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.changeResetContents p {
+  margin: 0;
+}
+
+.changeResetChoice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.changeResetChoice > p {
+  padding-inline-start: 28px;
+  font-size: 0.875em;
+}

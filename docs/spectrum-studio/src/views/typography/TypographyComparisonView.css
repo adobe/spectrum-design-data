@@ -1,0 +1,3 @@
+.typographyComparisonGrid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 550px), 1fr));
+}

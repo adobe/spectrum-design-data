@@ -1,0 +1,44 @@
+.analysisView {
+  padding: 24px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  min-width: 0;
+}
+
+.analysisHeading, .analysisToolbar, .analysisPagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.analysisHeading h1 { margin: 0; }
+.analysisHeading > :last-child { margin-inline-start: auto; }
+.analysisProvenance, .analysisLimitations, .analysisError { overflow-wrap: anywhere; }
+.analysisMetrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-block: 20px; }
+.analysisMetrics strong { display: block; font-size: 24px; }
+.analysisResults { overflow-x: auto; }
+.analysisResults > * { min-width: 650px; }
+.analysisPagination { justify-content: flex-end; margin-block: 12px; }
+.analysisEvidence { border-block: 1px solid var(--spectrum-gray-300); padding-block: 16px; }
+.analysisEvidence pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.analysisLimitations { margin-block: 24px; }
+.analysisLimitations h2, .analysisEvidence h2 { font-size: 18px; }
+.analysisCoverageSummary { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-block: 24px; }
+.analysisCoverageSummary > div { min-width: 0; padding: 16px; background: var(--spectrum-gray-100); border-radius: 10px; }
+.analysisCoverageSummary strong { font-size: 24px; }
+.analysisCoverageGroups { display: grid; gap: 8px; margin-block: 16px 32px; }
+.analysisCoverageGroup { display: grid; grid-template-columns: minmax(160px, 1fr) minmax(220px, 2fr) auto; gap: 20px; align-items: center; padding: 16px; border-bottom: 1px solid var(--spectrum-gray-300); }
+.analysisCoverageGroup > * { min-width: 0; }
+.analysisCoverageGroup h3, .analysisCoverageSummary h3 { margin-top: 0; }
+.analysisCoverageGroup p { margin-block: 8px; overflow-wrap: anywhere; }
+.analysisCoverageDetail { margin-block: 24px; }
+.analysisCoverageNotice { color: var(--spectrum-gray-700); overflow-wrap: anywhere; }
+
+@media (max-width: 600px) {
+  .analysisView { padding: 12px; }
+  .analysisToolbar > * { max-width: 100%; }
+  .analysisCoverageGroup { grid-template-columns: 1fr; gap: 8px; }
+}

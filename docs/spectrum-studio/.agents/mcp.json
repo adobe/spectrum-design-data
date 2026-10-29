@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "figma": {
+      "url": "http://127.0.0.1:3845/mcp",
+      "headers": {}
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "design-platform-services": {
+      "url": "http://127.0.0.1:3886/mcp",
+      "headers": {}
+    },
+    "React Spectrum (S2)": {
+      "command": "npx @react-spectrum/mcp@latest",
+      "env": {},
+      "args": []
+    }
+  }
+}

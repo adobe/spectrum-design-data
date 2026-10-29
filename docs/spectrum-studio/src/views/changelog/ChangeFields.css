@@ -1,0 +1,67 @@
+.changeFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-block: 8px 0;
+  font-size: 0.875em;
+}
+
+.changeFieldGroup {
+  display: grid;
+  grid-template-columns: minmax(64px, 88px) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.changeFieldGroup dt {
+  padding-block: 6px;
+}
+
+.changeFieldGroup dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.changeFieldRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px;
+  align-items: start;
+  min-width: 0;
+}
+
+.changeFieldContext {
+  grid-column: 1 / -1;
+  padding-block-start: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.changeFieldValues {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-block: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.changeFieldBefore {
+  color: var(--spectrum-red-900);
+}
+
+.changeFieldAfter {
+  color: var(--spectrum-green-900);
+}
+
+.changeFieldResetReason {
+  grid-column: 1 / -1;
+  font-size: 0.85em;
+}
+
+@media (width < 380px) {
+  .changeFieldGroup {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}

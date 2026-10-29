@@ -1,0 +1,56 @@
+.typographyPreviewHeader {
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.typographyPreviewHeader > header {
+  min-width: 360px;
+}
+
+.typographyElement {
+  display: grid;
+  align-items: baseline;
+  gap: 16px;
+  padding: 0;
+  min-width: 0;
+  border-bottom: 1px solid var(--elements-preview-divider, var(--spectrum-gray-200));
+  color: var(--elements-preview-foreground, light-dark(black, white));
+}
+
+.typographyElementMeta {
+  min-width: 0;
+}
+
+.typographyElementValue {
+  text-align: right;
+}
+
+.typographyElementValue[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.typographyElementIcon {
+  align-self: center;
+  justify-self: center;
+  line-height: 0;
+}
+
+.typographyElementValueDetail {
+  font-style: italic;
+  display: block;
+}
+
+.typographyElementIconHeading {
+  text-align: center;
+}
+
+.typographyElementHeader {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--elements-preview-divider, var(--spectrum-gray-300));
+  font-weight: 600;
+}
+
+.typographyElementSample {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

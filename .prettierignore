@@ -1,0 +1,18 @@
+# Spectrum Studio: files that its own scripts generate or compare byte for byte
+docs/spectrum-studio/dist/
+docs/spectrum-studio/storybook-static/
+docs/spectrum-studio/public/
+docs/spectrum-studio/src/data/**/*.json
+docs/spectrum-studio/tests/fixtures/**/*.json
+docs/spectrum-studio/src/features/icons/*.generated.ts
+
+# Spectrum Studio: tests assert on the literal text of these source files
+docs/spectrum-studio/src/assets/svgs/PaddingIcons.tsx
+docs/spectrum-studio/src/panels/structures/StructureEditorPanel.tsx
+docs/spectrum-studio/src/components/AdaptiveControlsMenu.tsx
+docs/spectrum-studio/src/components/TopBar.tsx
+docs/spectrum-studio/src/views/tokens/TokenBrowserView.tsx
+docs/spectrum-studio/src/components/fields/DividableComboBox.tsx
+docs/spectrum-studio/src/features/modes/icons.ts
+docs/spectrum-studio/src/views/structures/StructureElementPreview.tsx
+docs/spectrum-studio/src/views/SampleApp.tsx

@@ -1,0 +1,38 @@
+---
+description: Keep every persisted design-data feature represented in Changes.
+alwaysApply: true
+---
+
+# Change-log parity
+
+Before implementing a feature that adds, removes, or changes design data:
+
+- Register its domain in `src/features/changelog/registry.ts`. Extend the shared
+  comparison contract rather than adding a separate count, baseline, or closure status.
+- Check every nested authored field, optional field, union variant, collection,
+  mode-specific value, and generated output. Schema markers, immutable identities,
+  recovery baselines, caches, and view preferences need explicit exclusion reasons.
+- Changes compares working data, including unsaved edits, with shipped defaults.
+  Selected modes and temporary previews do not change its inventories. Save/Cancel
+  and saved/reference accounting retain their separate lifecycle meanings.
+- System impact counts authored data only. Generated outputs belong in Token impact.
+  Additions/removals use union identities. Do not count compatibility aliases or
+  presentation/evaluation samples as canonical token concepts.
+- Declare stable field/context identities, truthful generated/manual classification,
+  typed previews, source dependencies, availability, and reset capabilities.
+- Source resets must preserve unrelated edits and use validated lifecycle owners.
+  Generated resets require explicit supported override or upstream selection.
+  Never guess a source, bypass a formula lock, or add an unsupported semantic override.
+- Missing or invalid output is unavailable, not zero; keep known source comparisons
+  visible. Do not silently reduce a percentage denominator.
+- Add tests for field mutations, additions/removals, exact counts and percentages,
+  narrow resets, dependency rejection, Save/Cancel/reload, and preview exclusion.
+  Run browser integration after the major feature is complete; assert no page errors.
+- Run `pnpm check:changelog-coverage` and affected Changes/impact tests. A schema-shape
+  change requires explicit adapter/reset/fixture review before updating its independent
+  shape pin. Updating a fingerprint alone does not establish coverage.
+
+Link relevant model/accounting changes to the canonical design-data gap register.
+Local coverage, product approval, upstream alignment, RFC acceptance, and manual
+architecture review remain separate. Do not refresh historic output/reference pins
+or mark an alignment gap closed merely because Changes tests pass.

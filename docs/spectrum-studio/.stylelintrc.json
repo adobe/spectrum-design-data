@@ -1,0 +1,15 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "selector-class-pattern": [
+      "^(is-)?[a-z][a-zA-Z]{2,}(-[a-zA-Z0-9]+)?$",
+      {
+        "message": "Class names must be camelCase (optionally with an is-* state prefix or a -modifier suffix), e.g. \"sideNavItem\", \"is-collapsed\", \"bentoCard-colSpan2\". This keeps hand-authored classes readable and distinct from generated/hashed classes."
+      }
+    ],
+    "custom-property-pattern": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "media-feature-range-notation": null
+  }
+}

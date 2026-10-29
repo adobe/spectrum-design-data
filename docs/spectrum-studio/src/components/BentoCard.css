@@ -1,0 +1,20 @@
+.bentoCard-colSpan2 {
+  grid-column: span 2;
+}
+
+.bentoCard-colSpan3 {
+  grid-column: span 3;
+}
+
+.bentoCard-colSpan4 {
+  grid-column: span 4;
+}
+
+.bentoCard-rowSpan2 {
+  grid-row: span 2;
+}
+
+.bentoCard-quiet {
+  padding: 0;
+  background-color: transparent;
+}

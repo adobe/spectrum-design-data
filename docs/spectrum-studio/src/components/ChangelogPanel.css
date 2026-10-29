@@ -1,0 +1,57 @@
+/* Match Spectrum's Disclosure title hover/pressed fills, but cover the whole header. */
+.changelogTopicHeader:hover,
+.changelogTopicHeader:has(button[slot="trigger"][data-focus-visible]) {
+  background-color: light-dark(#00000017, #ffffff1c);
+}
+
+.changelogTopicHeader:has(button[slot="trigger"][data-pressed]) {
+  background-color: light-dark(#00000026, #ffffff2b);
+}
+
+.changelogTopicHeader button[slot="trigger"] {
+  background-color: transparent;
+}
+
+.changesTabs {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.changesTabList {
+  padding-inline: 16px;
+}
+
+.changesOverviewPanel,
+.changesLogPanel {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  max-height: calc(100vh - 148px);
+}
+
+.changesOverviewPanel {
+  gap: 16px;
+  padding: 16px;
+}
+
+.changelogValueSide {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.changesUnavailable {
+  padding: 12px;
+  border-bottom: 1px solid var(--spectrum-gray-200);
+  overflow-wrap: anywhere;
+  max-height: 180px;
+  overflow: auto;
+  flex-shrink: 0;
+}
+
+.changesUnavailable p {
+  margin-block: 0 8px;
+}

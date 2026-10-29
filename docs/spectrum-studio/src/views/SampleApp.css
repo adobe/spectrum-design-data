@@ -1,0 +1,101 @@
+.sampleAppWrapper {
+  --action-bar-offset: 40px;
+
+  width: 100%;
+  height: calc(100% + var(--action-bar-offset));
+  padding-top: var(--action-bar-offset);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:hsla(210,33%,45%,1);
+  background-image:
+    radial-gradient(at 68% 52%, hsla(34,23%,46%,1) 0px, transparent 50%),
+    radial-gradient(at 20% 36%, hsla(289,33%,57%,1) 0px, transparent 50%),
+    radial-gradient(at 90% 84%, hsla(192,32%,35%,1) 0px, transparent 50%),
+    radial-gradient(at 91% 0%, hsla(319,36%,40%,1) 0px, transparent 50%),
+    radial-gradient(at 92% 20%, hsla(237,82%,23%,1) 0px, transparent 50%);
+}
+
+.sampleApp {
+  min-height: 560px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--sample-canvas);
+  margin: 80px;
+  border-radius: 16px;
+  border-width: 1px;
+  border-style: solid;
+  /* border-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.4)); */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+              0 8px 16px rgba(0, 0, 0, 0.05),
+              0 24px 24px rgba(0, 0, 0, 0.05);
+}
+
+.sampleAppBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sampleAppBrandMark {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--sample-accent);
+}
+
+.sampleAppNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sampleAppSidebarFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.sampleAppArtwork {
+  min-height: 160px;
+  aspect-ratio: 1.25;
+}
+
+.sampleAppDetailArtwork {
+  width: min(78%, 560px);
+  aspect-ratio: 1.15;
+  border-radius: 8px;
+  filter: brightness(var(--sample-brightness)) contrast(var(--sample-contrast)) saturate(var(--sample-saturation));
+  box-shadow: 0 18px 48px color-mix(in srgb, #000 30%, transparent);
+}
+
+.sampleAppInspectorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+@container (max-width: 760px) {
+  .sampleApp {
+    min-height: 500px;
+  }
+
+  .sampleApp [data-sample-part="app"] {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .sampleApp [data-sample-part="sidebar"] {
+    padding: 16px 8px;
+  }
+
+  .sampleApp [data-sample-part="content"] {
+    padding: 16px;
+  }
+
+  .sampleApp [data-sample-part="detail"] {
+    grid-template-columns: 1fr;
+  }
+}

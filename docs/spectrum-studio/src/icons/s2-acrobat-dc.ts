@@ -1,0 +1,9 @@
+// Copyright 2026 Adobe. All rights reserved.
+import { createIconsFromGlob } from "../utils/createIconsFromGlob";
+
+const svgs = import.meta.glob(
+  "/node_modules/@a4u/a4u-s2-acrobat-dc/assets/svg/S2_Icon_*_20_N.svg",
+  { eager: true, query: "?raw", import: "default" },
+) as Record<string, string>;
+
+export const s2AcrobatDcIcons = createIconsFromGlob(svgs);

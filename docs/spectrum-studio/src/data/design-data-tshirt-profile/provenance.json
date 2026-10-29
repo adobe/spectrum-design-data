@@ -1,0 +1,27 @@
+{
+  "profileId": "spectrum-design-data-tshirt-subset-v1",
+  "referenceRepository": "adobe/spectrum-design-data",
+  "referenceRevision": "eba428d462bfb5a3288835cb6cf0dcb1c4dc93af",
+  "formatVersion": "1.0.0-draft",
+  "specPackageVersion": "4.5.0",
+  "designDataPackageVersion": "3.4.0",
+  "license": "Apache-2.0",
+  "attribution": "Copyright 2026 Adobe. Reference files are unmodified. Byte-identical schemas and LICENSE are shared with the older shadow profile without changing its pin.",
+  "files": [
+    { "path": "../design-data-shadow-profile/token.schema.json", "source": "packages/design-data-spec/schemas/token.schema.json", "sha256": "a5f5143956b24856ab63e9ff897b82717612123c502feb2ae14d0ef4a956b0ef" },
+    { "path": "../design-data-shadow-profile/document-block.schema.json", "source": "packages/design-data-spec/schemas/document-block.schema.json", "sha256": "f024f9b3daa1abe4fc0e795597efb076f3ab897380e4471c61f5300d82438da7" },
+    { "path": "../design-data-shadow-profile/value-types/color.schema.json", "source": "packages/design-data-spec/schemas/value-types/color.schema.json", "sha256": "42591e74ddfa2b361a962d2ff5854e9ca49a752bfa9f32acd2aa20dd6da7bf47" },
+    { "path": "../design-data-shadow-profile/value-types/drop-shadow.schema.json", "source": "packages/design-data-spec/schemas/value-types/drop-shadow.schema.json", "sha256": "8f549d4c5daa4b8be52376e4bcf5cadf93eb1098bda8cae2a0f9af32d6a9f237" },
+    { "path": "../design-data-shadow-profile/LICENSE", "source": "LICENSE", "sha256": "981250df8283f951cb49f9cdcaa405d49e0313b0d4f3cd174d25f709f802cfba" },
+    { "path": "field.schema.json", "source": "packages/design-data-spec/schemas/field.schema.json", "sha256": "eceb6ce16273b4b58166afb0ba5f09c512a902728ccd3da062212ffeeec0958b" },
+    { "path": "fields/structure.json", "source": "packages/design-data/fields/structure.json", "sha256": "86bf25db2e968c12e8697dca55ee4b0fd1c95f02d14f292ca70c828e6f4566ff" },
+    { "path": "fields/size.json", "source": "packages/design-data/fields/size.json", "sha256": "e28ebdde11b1c01ac855e858d666933ea7b61ba7c1ade04b8c15173b6ec1db46" },
+    { "path": "fields/property.json", "source": "packages/design-data/fields/property.json", "sha256": "92754d5b07f20d54f7765f4cff1d030bbaefa7a88d2c1dcf8202e636935fb965" },
+    { "path": "fields/position.json", "source": "packages/design-data/fields/position.json", "sha256": "12c7b1db98c7e44045e6b33caf0e66cb243577c93fd308bf44cc68c3b7fb81b7" },
+    { "path": "fields/orientation.json", "source": "packages/design-data/fields/orientation.json", "sha256": "9a8ad59126f5cfba569c8975b1fcac3675cedc419756c3b7ced6056fb0ba8ee4" },
+    { "path": "fields/scaleIndex.json", "source": "packages/design-data/fields/scaleIndex.json", "sha256": "e50b0272eabffea4c496c22078f14968d6e216dd5e6ba23191c9e14934505d00" },
+    { "path": "registry/sizes.json", "source": "packages/design-data/registry/sizes.json", "sha256": "c6fee752b5e6b288adff25e0c0184d5b80631f62e147bb0abd23b5681b992bfb" },
+    { "path": "registry/positions.json", "source": "packages/design-data/registry/positions.json", "sha256": "6bfcb94e1314640add82ac83e07ccc1f6af9a37d20ba462c1501abe57f2b76c8" },
+    { "path": "registry/property-terms.json", "source": "packages/design-data/registry/property-terms.json", "sha256": "c91f0fc67488cd2c5e711e2133d383a0d8e2e0667a6fcf7544a3855a1f79dca3" }
+  ]
+}

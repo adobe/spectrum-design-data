@@ -1,0 +1,52 @@
+.structurePermutations {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px;
+  overflow: auto;
+}
+
+.structurePermutations > h1 {
+  margin: 0 0 16px;
+  font-size: 24px;
+}
+
+.structurePermutationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  align-items: start;
+  gap: 16px;
+}
+
+.structurePermutation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--spectrum-gray-300);
+  border-radius: 12px;
+  background: var(--spectrum-gray-100);
+}
+
+.structurePermutation > h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.structurePermutationStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 240px;
+  min-width: 0;
+  overflow: auto;
+}
+
+.structurePermutationsEmpty {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}

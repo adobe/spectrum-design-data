@@ -1,0 +1,83 @@
+.colorEvaluationSwatch {
+  background-color: var(--sw);
+  color: contrast-color(var(--sw));
+}
+
+.colorEvaluationSwatchText {
+  color: contrast-color(var(--sw));
+}
+
+.colorEvaluationValue,
+.colorEvaluationDeviation,
+.colorEvaluationContrast {
+  position: absolute;
+  z-index: 1;
+  line-height: 1;
+  font-size: 14px;
+}
+
+.colorEvaluationOverride {
+  position: absolute;
+  z-index: 2;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.colorEvaluationValue {
+  top: 7px;
+  right: 11px;
+  left: 11px;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.colorEvaluationDeviation,
+.colorEvaluationContrast {
+  bottom: 7px;
+  opacity: 0.6;
+}
+
+.colorEvaluationDeviation {
+  left: 11px;
+  text-align: left;
+}
+
+.colorEvaluationContrast {
+  right: 11px;
+  text-align: right;
+}
+
+.colorEvaluationScale {
+  contain: paint style;
+}
+
+.colorEvaluationPaletteContent {
+  width: max-content;
+  min-width: max-content;
+}
+
+.colorEvaluationPaletteContent > .colorEvaluationScale,
+.colorEvaluationComparisonRow {
+  width: max-content;
+  min-width: 100%;
+}
+
+.colorEvaluationOverrideDiff {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 12px;
+  row-gap: 4px;
+  align-items: baseline;
+}
+
+.colorEvaluationOverrideDiffHeader {
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.colorEvaluationOverrideTrigger {
+  display: inline-flex;
+}
