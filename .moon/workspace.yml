@@ -10,6 +10,7 @@ projects:
   visualizer: "docs/visualizer"
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
+  spectrum-studio: "docs/spectrum-studio"
   markdown-generator: "tools/markdown-generator"
   root: "."
   token-diff-generator: "tools/diff-generator"

@@ -1,0 +1,100 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+$schema: "https://moonrepo.dev/schemas/project.json"
+stack: frontend
+layer: application
+fileGroups:
+  sources:
+    - "src/**/*"
+    - "scripts/**/*"
+    - "public/**/*"
+    - "index.html"
+  configs:
+    - "*.config.{js,ts}"
+    - "tsconfig*.json"
+    - "package.json"
+    - ".storybook/**/*"
+tasks:
+  # TypeScript, category-icon and changelog-coverage checks (CI).
+  typecheck:
+    command:
+      - pnpm
+      - run
+      - typecheck
+    inputs:
+      - "@globs(sources)"
+      - "@globs(configs)"
+      - "tests/**/*"
+      - "docs/**/*"
+      - "/pnpm-lock.yaml"
+  # Full `pnpm lint` (typecheck plus ESLint). Local only: ESLint reports existing
+  # errors tracked in docs/known-debt.md (DEBT-032). Move to CI once they are fixed.
+  lint:
+    command:
+      - pnpm
+      - run
+      - lint
+    options:
+      cache: false
+      runInCI: false
+  # Curated checks: the `test:*` scripts that pass (see `test:ci` in package.json).
+  # Failing checks are tracked in docs/known-debt.md and stay local until fixed.
+  test:
+    command:
+      - pnpm
+      - run
+      - test:ci
+    inputs:
+      - "@globs(sources)"
+      - "@globs(configs)"
+      - "tests/**/*"
+      - "docs/**/*"
+      - "/pnpm-lock.yaml"
+  # Production build, including the data-vis adapter bundle.
+  build:
+    command:
+      - pnpm
+      - run
+      - build
+    inputs:
+      - "@globs(sources)"
+      - "@globs(configs)"
+      - "/pnpm-lock.yaml"
+    outputs:
+      - "dist/"
+      - "public/data-vis/data-vis.js"
+  # Local development server (HTTPS).
+  dev:
+    command:
+      - pnpm
+      - run
+      - dev
+    options:
+      persistent: true
+      runInCI: false
+  # Playwright end-to-end checks. Need browsers installed, so local only.
+  e2e:
+    command:
+      - pnpm
+      - run
+      - test:e2e
+    options:
+      cache: false
+      runInCI: false
+  # Storybook interaction checks. Need browsers installed, so local only.
+  e2e-storybook:
+    command:
+      - pnpm
+      - run
+      - test:e2e:storybook
+    options:
+      cache: false
+      runInCI: false
