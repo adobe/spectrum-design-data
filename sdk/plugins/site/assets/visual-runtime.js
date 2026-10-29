@@ -33,6 +33,13 @@ const num = (r) => {
 const textWidth = (text, fontSize) =>
   [...text].length * fontSize * AVG_ADVANCE_EM;
 
+// `true` also matches any non-empty string, e.g. an icon name; an unset option
+// matches `false`.
+const matches = (have) => (want) =>
+  have === want ||
+  (have === null && want === false) ||
+  (want === true && typeof have === "string" && have !== "");
+
 function makeCtx(compiled, req) {
   const options = { ...compiled.optionDefaults, ...req.options };
   const states = req.states ?? [];
@@ -60,11 +67,7 @@ function makeCtx(compiled, req) {
     }
     for (const [k, want] of Object.entries(when.options ?? {})) {
       const have = option(k);
-      // `true` also matches any non-empty string, e.g. an icon name.
-      const ok =
-        have === want ||
-        (have === null && want === false) ||
-        (want === true && typeof have === "string" && have !== "");
+      const ok = (Array.isArray(want) ? want : [want]).some(matches(have));
       if (!ok) return null;
       score++;
     }
