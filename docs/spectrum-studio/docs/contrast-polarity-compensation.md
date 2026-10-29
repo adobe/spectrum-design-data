@@ -10,6 +10,33 @@ The effective value at any background is a log-scale blend between the authored 
 
 Implementation: `src/features/color-system/polarity.ts`, applied as a pre-pass in `resolveColorDocument`.
 
+## Opacity
+
+Foundations > Opacity has its own compensation setting, initially 0%.
+It shares Color scheme modes but does not use Color's compensation setting or
+Overall contrast multiplier. The Light endpoint retains the authored alpha.
+The Dark endpoint converts white-over-black alpha into contrast, applies the
+existing perceptual curve, then converts back to alpha. Intermediate backgrounds
+blend those alpha values using the existing background polarity weight.
+Resolved values are rounded to whole percentages (two decimal places as alpha)
+after compensation and manual overrides. At full compensation, 10% becomes 19%
+and 44% becomes 53%. Saved inputs retain their original precision.
+This does not equalize Light and Dark contrast.
+
+Light-side edits change the authored level. Dark-side edits create a visible
+manual token override; Reset returns it to the generated value. Add and remove
+affect the shared list. Only Sort orders levels by their authored percentages
+and renumbers them from opacity-100 in increments of 100. References follow
+the level's stable identity, not its name or percentage.
+
+Elements swatches use the preview surface's CSS foreground: black on light
+backgrounds and white on dark backgrounds, independently of app appearance.
+Their opacity reveals the preview background. The editor ramp keeps its
+checkerboard and uses ink based on app appearance. Analyze measures black
+over pure white for Light and white over pure black for Dark. Its progression,
+WCAG 2 contrast and opacity-percentage charts use the same effective token
+values. App appearance never changes those values or the measurements.
+
 ## Overall contrast
 
 **Overall contrast** (0–300%) scales every contrast after polarity compensation, using Spectrum studio's formula: `(c − 1) × m + 1`, capped at 21:1. 1:1 stays fixed, so at 200% 1.06 → 1.12 and 4.5 → 8. It also applies to surface contrasts. Contrast slider edits divide the multiplier back out before polarity routing.
@@ -21,8 +48,16 @@ It's a mode parameter. The default Contrast mode set uses 100% for Regular and 2
 The CSS library emits **precomputed values per color scheme mode**:
 
 ```css
-:root { --bg: …; --contrast-100: 1.06; --surface-contrast-raised: 1.100; }
-[data-color-scheme="dark"] { --bg: …; --contrast-100: 1.12; --surface-contrast-raised: 1.180; }
+:root {
+  --bg: …;
+  --contrast-100: 1.06;
+  --surface-contrast-raised: 1.1;
+}
+[data-color-scheme="dark"] {
+  --bg: …;
+  --contrast-100: 1.12;
+  --surface-contrast-raised: 1.18;
+}
 ```
 
 `:root` holds the default mode; other modes override only background and contrast variables. All tint math stays shared.
@@ -30,11 +65,26 @@ The CSS library emits **precomputed values per color scheme mode**:
 Contrast variables are emitted **before** the overall contrast multiplier, which is applied at paint time:
 
 ```css
-:root { --contrast-multiplier: 1; }
-[data-contrast="regular"] { --contrast-multiplier: 1; }
-[data-contrast="high"] { --contrast-multiplier: 2; }
-@media (prefers-contrast: more) { :root:not([data-contrast]) { --contrast-multiplier: 2; } }
-.color-scale-blue.color-contrast-100 { --_c: min(21, calc((var(--contrast-100) - 1) * var(--contrast-multiplier) + 1)); }
+:root {
+  --contrast-multiplier: 1;
+}
+[data-contrast="regular"] {
+  --contrast-multiplier: 1;
+}
+[data-contrast="high"] {
+  --contrast-multiplier: 2;
+}
+@media (prefers-contrast: more) {
+  :root:not([data-contrast]) {
+    --contrast-multiplier: 2;
+  }
+}
+.color-scale-blue.color-contrast-100 {
+  --_c: min(
+    21,
+    calc((var(--contrast-100) - 1) * var(--contrast-multiplier) + 1)
+  );
+}
 ```
 
 An explicit `data-contrast` attribute always wins over the OS preference.

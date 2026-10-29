@@ -51,8 +51,12 @@ import { resolveBrowserColorToken } from "./colorResolution";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
 import { categoricalBrowserSources } from "../color-system/data-vis/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
+import { browserOpacitySources } from "../opacity/output";
+import { opacityAxes } from "../opacity/generation";
+import type { OpacityDocument } from "../opacity/model";
 
 export interface AliasAuthoringSource {
+  opacity?: OpacityDocument;
   colorSystem: ColorSystemDocument;
   typography: TypographyDocument;
   spacing: DimensionDocument;
@@ -110,6 +114,7 @@ export function completeAliasSource(
     );
   }
   return {
+    opacity: value.opacity,
     colorSystem,
     typography,
     spacing,
@@ -216,6 +221,8 @@ export function canonicalAliasRows(
       source.elevation,
       modes,
       source.modeSets,
+      undefined,
+      source,
     );
     const levels = generateElevation(
       elevation,
@@ -223,6 +230,7 @@ export function canonicalAliasRows(
       colors.settings.colorOutput,
     );
     const sources = [
+      ...browserOpacitySources(source, modes, source.taxonomy),
       ...browserSourcesFromOutputs(
         generatedColors,
         isFoundationPublished(typography) ? typeValues : [],
@@ -298,6 +306,8 @@ export function canonicalAliasRows(
           if (capabilities["color.scales"])
             owned.add(capabilities["color.scales"]);
         }
+      } else if (token.type === "opacity") {
+        for (const axis of opacityAxes(source)) owned.add(axis.id);
       } else if (token.type === "typography") {
         own("typography.textZoom");
         const value = typeValues.find((item) =>
@@ -309,7 +319,12 @@ export function canonicalAliasRows(
           `authoring-typography:v1:${token.groupId}:${value.position}`,
         );
       } else if (token.type === "elevation") {
-        for (const axis of elevationOwnerIds(source.modeSets)) owned.add(axis);
+        for (const axis of elevationOwnerIds(
+          source.modeSets,
+          source,
+          source.elevation,
+        ))
+          owned.add(axis);
         const level = levels.find((item) => item.id === token.id)!;
         id = primitiveReferenceId(
           "elevation",
@@ -357,7 +372,10 @@ export function canonicalAliasRows(
       const row = {
         id,
         context,
-        rowId: tokenUuid(`canonical-token-row:v1:${id}:${context}`),
+        rowId:
+          token.type === "opacity"
+            ? token.rowId!
+            : tokenUuid(`canonical-token-row:v1:${id}:${context}`),
         name: token.name,
         token,
         ...(token.dataVis?.static && { compatibleModes }),

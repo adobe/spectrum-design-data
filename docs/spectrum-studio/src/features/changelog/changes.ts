@@ -69,6 +69,7 @@ export type FoundationKind =
   | "size-scale"
   | "radius-scale"
   | "elevation"
+  | "opacity"
   | "mode-set"
   | "mode"
   | "rule"

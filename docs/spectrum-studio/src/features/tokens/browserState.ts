@@ -56,6 +56,11 @@ import { rulesAtom } from "../logic/library";
 import { generatedCategoricalSourcesAtom } from "../color-system/data-vis/state";
 import { editStaticMemberOverrides } from "../color-system/data-vis/frozenColors";
 import { normalizeBrowserColorOutputs } from "./colorOutput";
+import { opacityDocumentAtom, opacitySourceAtom } from "../opacity/state";
+import { browserOpacitySources } from "../opacity/output";
+import { synchronizeOpacityRows } from "../opacity/generation";
+import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import { activeModesAtom } from "../modes/selection";
 export { browserSourcesFromOutputs } from "./browserSources";
 
 export const browserModeContextAtom = atom((get) => {
@@ -109,6 +114,12 @@ export const browserTokenSourcesAtom = atom((get): BrowserTokenSource[] => {
       get(taxonomyDocumentAtom),
     ),
     ...get(generatedCategoricalSourcesAtom),
+    ...browserOpacitySources(
+      get(opacitySourceAtom),
+      get(activeModesAtom),
+      get(taxonomyDocumentAtom),
+      get(previewOverridesAtom),
+    ),
   ];
 });
 
@@ -200,7 +211,14 @@ export const editBrowserTokensAtom = atom(
       const projected = projectClassification(
         taxonomy,
         input.patch.classification,
-        source.type as "colors" | "typography" | "spacing" | "size" | "radius",
+        source.type as
+          | "colors"
+          | "typography"
+          | "spacing"
+          | "size"
+          | "radius"
+          | "opacity"
+          | "elevation",
       );
       if (projected.issues.length) throw new Error(projected.issues.join("\n"));
       const next = {
@@ -297,6 +315,30 @@ export const editBrowserTokensAtom = atom(
         input.modeKey,
         input.patch,
       );
+      const opacity = sources.some(
+        (source) => source.type === "opacity" && input.ids.includes(source.id),
+      )
+        ? synchronizeOpacityRows({
+            opacity: get(opacityDocumentAtom),
+            colorSystem: get(colorSystemDocumentAtom),
+            modeSets: get(modeSetsAtom),
+            browserTokenEdits: edits,
+          })
+        : undefined;
+      if (opacity && opacity !== get(opacityDocumentAtom)) {
+        // Scoped opacity edits may add axes; persist their rows with the edit.
+        const updates = new Map<string, unknown>([
+          ["tokens/browser/edits", edits],
+          ["foundations/opacity", opacity],
+        ]);
+        if (nextTaxonomy) updates.set("registry/taxonomy", nextTaxonomy);
+        withValidatedAuthoringUpdates(get, updates, () => {
+          if (nextTaxonomy) set(taxonomyDocumentAtom, nextTaxonomy);
+          set(browserTokenEditsAtom, edits);
+          set(opacityDocumentAtom, opacity);
+        });
+        return;
+      }
       if (nextTaxonomy) set(taxonomyDocumentAtom, nextTaxonomy);
       set(browserTokenEditsAtom, edits);
       return;

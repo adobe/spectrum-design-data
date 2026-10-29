@@ -20,6 +20,7 @@ import {
 import type { ElevationDocument } from "../../features/elevation/model";
 import type { Mode, ModeSet } from "../../features/modes/model";
 import type { PreviewOverrides } from "../../features/modes/previewState";
+import type { OpacitySource } from "../../features/opacity/generation";
 import "../chartLayout.css";
 
 const panel = style({
@@ -44,18 +45,20 @@ export function ElevationComparison({
   modeSets,
   activeModes,
   preview = {},
+  opacitySource,
 }: {
   document: ElevationDocument;
   modeSets: ModeSet[];
   activeModes: Mode[];
   preview?: PreviewOverrides;
+  opacitySource?: OpacitySource;
 }) {
   const [metric, setMetric] = useState<ElevationMetric>("blur");
   const [compare, setCompare] = useState(false);
   const [modeIds, setModeIds] = useState<string[]>([]);
   const [showValues, setShowValues] = useState(false);
   const valuesId = useId();
-  const owner = elevationComparisonOwner(metric, modeSets);
+  const owner = elevationComparisonOwner(metric, modeSets, opacitySource);
   const layerIds = document.layers.map((layer) => layer.id);
   let error = "";
   let series: ReturnType<typeof elevationComparisonSeries> = [];
@@ -69,6 +72,7 @@ export function ElevationComparison({
       compare,
       modeIds,
       preview,
+      opacitySource,
     );
   } catch (failure) {
     error = failure instanceof Error ? failure.message : String(failure);

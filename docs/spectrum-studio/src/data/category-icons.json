@@ -75,6 +75,7 @@
     "source.size-scale": "size",
     "source.radius-scale": "radius",
     "source.elevation": "elevation",
+    "source.opacity": "opacity",
     "source.mode": "modes",
     "source.mode-set": "modes",
     "source.adaptive-claim": "modes",

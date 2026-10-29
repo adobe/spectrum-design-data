@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { designSystemDefaults } from "../../src/data/defaults";
 import { generateElevation } from "../../src/features/elevation/generate";
+import { resolveElevationDocument } from "../../src/features/elevation/resolution";
 import { createRule } from "../../src/features/logic/model";
 import { generateDimensionScale } from "../../src/features/scales/foundation";
 import {
@@ -54,7 +55,16 @@ export function tshirtFixtureReferences(source: TshirtAuthoringSource) {
       radius: dimensions("radius"),
       elevation: {
         document: source.elevation,
-        levels: generateElevation(source.elevation, source.scaleTypes),
+        levels: generateElevation(
+          resolveElevationDocument(
+            source.elevation,
+            [],
+            source.modeSets,
+            {},
+            source,
+          ),
+          source.scaleTypes,
+        ),
       },
     },
     source.taxonomy,
@@ -79,6 +89,7 @@ export function createTshirtFixture(
     size: defaults.foundations.size,
     radius: defaults.foundations.radius,
     elevation: defaults.foundations.elevation,
+    opacity: defaults.foundations.opacity,
     taxonomy: defaults.taxonomy,
     rules: defaults.rules,
     scaleTypes: defaults.scaleTypes,

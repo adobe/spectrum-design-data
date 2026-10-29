@@ -206,6 +206,7 @@ export function FoundationModeSettings({
           <div className={stack}>
             {unclaimedControl}
             {attached.length > 0 &&
+              foundation !== "opacity" &&
               !AUTHORING_CAPABILITY_OPTIONS.some(
                 (option) => option.foundation === foundation,
               ) && (

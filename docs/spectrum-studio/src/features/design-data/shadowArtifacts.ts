@@ -38,6 +38,7 @@ import {
   type DraftShadowLayer,
 } from "./shadowValue";
 import type { ColorOutputSettings } from "../color-system/outputSettings";
+import type { OpacitySource } from "../opacity/generation";
 export {
   SHADOW_VALUE_TYPE,
   ShadowArtifactError,
@@ -71,6 +72,7 @@ export interface ShadowArtifactSource {
   formulas: readonly ScaleType[];
   modeSets: readonly ModeSet[];
   colorOutput?: ColorOutputSettings;
+  opacitySource?: OpacitySource;
 }
 export interface ShadowLineage {
   uuid: string;
@@ -166,7 +168,6 @@ function sourceAxes(source: ShadowArtifactSource): ModeSet[] {
       for (const capability of [
         "elevation.depth",
         "elevation.color",
-        "elevation.layerOpacities",
       ] as const) {
         if (
           modeOverridesCapability(mode, capability) &&
@@ -187,9 +188,17 @@ function sourceAxes(source: ShadowArtifactSource): ModeSet[] {
   });
   if (normalized.corrections.length)
     fail(`invalid mode ownership: ${normalized.corrections.join("; ")}`);
-  const owners = elevationOwnerIds(source.modeSets);
+  const owners = elevationOwnerIds(
+    source.modeSets,
+    source.elevation.layers.some((layer) => layer.opacityTokenId)
+      ? source.opacitySource && {
+          ...source.opacitySource,
+          modeSets: [...source.modeSets],
+        }
+      : undefined,
+    source.elevation,
+  );
   const axes = source.modeSets.filter((set) => owners.has(set.id));
-  const layerIds = new Set(source.elevation.layers.map((layer) => layer.id));
   for (const axis of axes) {
     if (reservedNameFields.has(axis.key))
       fail(`mode key "${axis.key}" conflicts with a semantic name field.`);
@@ -202,15 +211,6 @@ function sourceAxes(source: ShadowArtifactSource): ModeSet[] {
       axis.modes.map((mode) => mode.key),
       `/modeSets/${axis.id}/modes/key`,
     );
-    for (const mode of axis.modes) {
-      if (
-        Object.keys(mode.foundations.elevation?.layerOpacities ?? {}).some(
-          (id) => !layerIds.has(id),
-        )
-      ) {
-        fail(`${axis.key}/${mode.key}: unresolved shadow layer.`);
-      }
-    }
   }
   return axes;
 }
@@ -261,6 +261,11 @@ export function buildShadowArtifacts(
       source.elevation,
       modes,
       source.modeSets,
+      {},
+      source.opacitySource && {
+        ...source.opacitySource,
+        modeSets: [...source.modeSets],
+      },
     );
     for (const level of generateElevation(
       resolved,

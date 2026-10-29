@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ComponentSize } from "../foundations/componentSizes";
 import type { ElevationDocument } from "../elevation/model";
+import type { OpacityDocument } from "../opacity/model";
 import { generateElevation } from "../elevation/generate";
 import { elevationOwnerIds } from "../elevation/output";
 import { resolveElevationDocument } from "../elevation/resolution";
@@ -71,6 +72,7 @@ export type {
 export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   structures?: StructuresDocument;
   elevation?: ElevationDocument;
+  opacity?: OpacityDocument;
 }
 interface SourceContext {
   kind: TshirtSemanticRow["kind"];
@@ -276,7 +278,7 @@ function buildTshirtBatch(
       });
       contexts.set(key, evaluated);
     }
-  const owners = elevationOwnerIds(snapshot.modeSets);
+  const owners = elevationOwnerIds(snapshot.modeSets, snapshot, elevation);
   const axes = snapshot.modeSets.filter((set) => owners.has(set.id));
   const needsElevation = [...groupsByStructure.values()].some((groups) =>
     groups.some((group) => group.property === "shadow"),
@@ -295,6 +297,8 @@ function buildTshirtBatch(
           elevation,
           modes,
           snapshot.modeSets,
+          {},
+          snapshot,
         );
         return {
           kind: "binding",

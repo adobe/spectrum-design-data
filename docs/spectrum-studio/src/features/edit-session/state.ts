@@ -91,6 +91,7 @@ import { ADAPTIVE_CLAIM_DEFAULTS } from "../modes/adaptive";
 import { PLATFORM_DEFAULTS } from "../platforms/state";
 import {
   foundationModeAttachmentsAtom,
+  FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
   savedFoundationModeAttachmentsAtom,
   pruneFoundationModeAttachments,
 } from "../../state/view/foundationModeAttachments";
@@ -164,6 +165,9 @@ import {
   matchesComponentContrastWitness,
 } from "../components/contrastWitness";
 import { componentColorWitnessAtom } from "../components/colorWitness";
+import { opacityDocumentAtom } from "../opacity/state";
+import { OPACITY_DEFAULTS } from "../opacity/defaults";
+import { isOpacityDocument, type OpacityDocument } from "../opacity/model";
 
 export interface EditSessionSnapshot {
   components?: ComponentsDocument;
@@ -177,6 +181,7 @@ export interface EditSessionSnapshot {
   size?: SizeDocument;
   radius?: RadiusDocument;
   elevation?: ElevationDocument;
+  opacity?: OpacityDocument;
   structures?: StructuresDocument;
   /** Optional so snapshots saved before Rules existed stay valid. */
   rules?: Rule[];
@@ -207,6 +212,7 @@ export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
     (snapshot.radius === undefined || isRadiusDocument(snapshot.radius)) &&
     (snapshot.elevation === undefined ||
       isElevationDocument(snapshot.elevation)) &&
+    (snapshot.opacity === undefined || isOpacityDocument(snapshot.opacity)) &&
     (snapshot.structures === undefined ||
       isStructuresDocument(snapshot.structures)) &&
     (snapshot.rules === undefined || isRuleList(snapshot.rules)) &&
@@ -301,6 +307,7 @@ function captureSourceSnapshot(get: Getter): EditSessionSnapshot {
     size: get(sizeDocumentAtom),
     radius: get(radiusDocumentAtom),
     elevation: get(elevationDocumentAtom),
+    opacity: get(opacityDocumentAtom),
     structures: get(structuresDocumentAtom),
     rules: get(rulesAtom),
     scaleTypes: get(scaleTypesAtom),
@@ -346,6 +353,7 @@ export function createDefaultSnapshot(): EditSessionSnapshot {
     size: structuredClone(SIZE_DEFAULTS),
     radius: structuredClone(RADIUS_DEFAULTS),
     elevation: structuredClone(ELEVATION_DEFAULTS),
+    opacity: structuredClone(OPACITY_DEFAULTS),
     structures: structuredClone(designSystemDefaults.system.structures),
     rules: structuredClone([...RULE_DEFAULTS]),
     scaleTypes: structuredClone([...SCALE_TYPE_DEFAULTS]),
@@ -369,6 +377,7 @@ export function assertStoredSnapshot(
     !value.size ||
     !value.radius ||
     !value.elevation ||
+    !value.opacity ||
     !value.structures ||
     !value.rules ||
     !value.scaleTypes ||
@@ -452,7 +461,22 @@ export function assertStoredSnapshot(
   resolveDimensionSourceNames(value.size, value.taxonomy, "size");
   resolveDimensionSourceNames(value.radius, value.taxonomy, "radius");
   registeredSourceName(value.taxonomy, value.elevation.name, "elevation");
-  generateElevation(value.elevation, value.scaleTypes);
+  const opacitySource = {
+    opacity: value.opacity,
+    colorSystem: value.colorSystem,
+    modeSets: value.modeSets,
+    browserTokenEdits: value.browserTokenEdits,
+  };
+  generateElevation(
+    resolveElevationDocument(
+      value.elevation,
+      [],
+      value.modeSets,
+      {},
+      opacitySource,
+    ),
+    value.scaleTypes,
+  );
   if (
     Object.entries(value.browserTokenEdits).some(
       ([id, edit]) =>
@@ -473,7 +497,13 @@ export function assertStoredSnapshot(
         throw new Error("Stored mode references an unavailable shadow.");
       }
       generateElevation(
-        resolveElevationDocument(value.elevation, [mode], value.modeSets),
+        resolveElevationDocument(
+          value.elevation,
+          [mode],
+          value.modeSets,
+          {},
+          opacitySource,
+        ),
         value.scaleTypes,
       );
     }
@@ -610,6 +640,7 @@ export const restoreAuthoringSnapshotAtom = atom(
       if (snapshot.size) set(sizeDocumentAtom, snapshot.size);
       if (snapshot.radius) set(radiusDocumentAtom, snapshot.radius);
       if (snapshot.elevation) set(elevationDocumentAtom, snapshot.elevation);
+      if (snapshot.opacity) set(opacityDocumentAtom, snapshot.opacity);
       set(structuresDocumentAtom, snapshot.structures!);
       if (
         JSON.stringify(_get(componentsDocumentAtom)) !==
@@ -754,16 +785,22 @@ export const resetAllAuthoringAtom = atom(null, (get, set) => {
       working: snapshot,
       saved: snapshot,
       isEditing: get(editModeAtom),
-      attachments: {},
-      savedAttachments: {},
+      attachments: structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
+      savedAttachments: structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
     },
     true,
   );
   set(restoreAuthoringSnapshotAtom, snapshot);
   set(componentDraftRevisionAtom, (revision) => revision + 1);
   set(editSessionSnapshotAtom, structuredClone(snapshot));
-  set(foundationModeAttachmentsAtom, {});
-  set(savedFoundationModeAttachmentsAtom, {});
+  set(
+    foundationModeAttachmentsAtom,
+    structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
+  );
+  set(
+    savedFoundationModeAttachmentsAtom,
+    structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
+  );
   set(clearPersistenceIssuesAtom, "authoring");
 });
 
@@ -774,6 +811,7 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "foundations/size": "size",
   "foundations/radius": "radius",
   "foundations/elevation": "elevation",
+  "foundations/opacity": "opacity",
   "design/structures": "structures",
   "registry/taxonomy": "taxonomy",
   "modes/mode-sets": "modeSets",

@@ -10,6 +10,7 @@ import { modeSetsAtom } from "../../features/modes/state";
 import { buildElevationCss } from "../../features/elevation/output";
 import { scaleTypesAtom } from "../../features/logic/scaleTypeLibrary";
 import { colorOutputSettingsAtom } from "../../features/color-system/state";
+import { opacitySourceAtom } from "../../features/opacity/state";
 
 const container = style({
   display: "flex",
@@ -25,11 +26,19 @@ export function ElevationCssExport() {
   const sets = useAtomValue(modeSetsAtom);
   const formulas = useAtomValue(scaleTypesAtom);
   const colorOutput = useAtomValue(colorOutputSettingsAtom);
+  const opacitySource = useAtomValue(opacitySourceAtom);
   const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
   let css = "",
     error = "";
   try {
-    css = buildElevationCss(document, registry, sets, formulas, colorOutput);
+    css = buildElevationCss(
+      document,
+      registry,
+      sets,
+      formulas,
+      colorOutput,
+      opacitySource,
+    );
   } catch (failure) {
     error = failure instanceof Error ? failure.message : String(failure);
   }

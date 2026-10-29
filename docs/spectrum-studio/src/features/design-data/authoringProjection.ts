@@ -24,6 +24,7 @@ export function projectSnapshot(
           taxonomy: snapshot.taxonomy ?? defaults.system.taxonomy,
           structures: snapshot.structures ?? defaults.system.structures,
           foundations: {
+            ...(snapshot.opacity && { opacity: snapshot.opacity }),
             color: snapshot.colorSystem,
             typography: snapshot.typography,
             spacing: snapshot.spacing ?? defaults.system.foundations.spacing,

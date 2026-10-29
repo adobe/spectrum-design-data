@@ -54,6 +54,11 @@ import {
 } from "../../features/color-system/surfaceGeneration";
 import { useAtom } from "jotai";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
+import {
+  alignedSwatchCellStyles as swatchStyles,
+  alignedSwatchLabelStyles as tokenStyles,
+} from "./alignedSwatchStyles";
+import { AlignedSwatchRow } from "./AlignedSwatchRow";
 import { elementsSurfaceStyle } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
 import "./ColorEvaluation.css";
@@ -63,7 +68,6 @@ import {
 } from "../../features/color-system/contrastSteps";
 import { rulesAtom } from "../../features/logic/library";
 
-const swatchWidth: number = 130;
 const layoutStyles = style({
   display: "flex",
   flexDirection: "column",
@@ -95,39 +99,6 @@ const paletteStyles = style({
   paddingStart: 16,
   paddingEnd: 16,
   overflow: "auto",
-});
-const comparisonRowStyles = style({ display: "flex", minWidth: "max" });
-const rowLabelStyles = style({
-  display: "flex",
-  alignItems: "center",
-  flexShrink: 0,
-  width: 84,
-  paddingStart: 8,
-  font: "detail",
-  opacity: 0.7,
-});
-const swatchRowStyles = style({ display: "flex", flexGrow: 1 });
-const swatchStyles = style({
-  position: "relative",
-  display: "flex",
-  flexShrink: 0,
-  width: swatchWidth,
-  height: 64,
-  overflow: "hidden",
-});
-const tokenRowStyles = style({ display: "flex", minWidth: "max" });
-const tokenScaleStyles = style({
-  display: "flex",
-  alignItems: "baseline",
-  flexShrink: 0,
-  width: 84,
-  paddingStart: 8,
-  fontWeight: "bold",
-});
-const tokenStyles = style({
-  flexShrink: 0,
-  width: swatchWidth,
-  textAlign: "center",
 });
 const evaluationToolbarStyles = style({
   //   position: "sticky",
@@ -303,10 +274,9 @@ function PaletteRow({
   ) => React.ReactNode;
 }) {
   return (
-    <div className={`${comparisonRowStyles} colorEvaluationComparisonRow`}>
-      <Text UNSAFE_className={String(rowLabelStyles)}>{label}</Text>
-      <div className={swatchRowStyles}>{contrasts.map(render)}</div>
-    </div>
+    <AlignedSwatchRow label={label} className="colorEvaluationComparisonRow">
+      {contrasts.map(render)}
+    </AlignedSwatchRow>
   );
 }
 
@@ -512,10 +482,11 @@ const EvaluationPalette = memo(function EvaluationPalette({
               key={scale.id}
               className={`${scaleStyles} colorEvaluationScale`}
             >
-              <div className={tokenRowStyles}>
-                <Text UNSAFE_className={String(tokenScaleStyles)}>
-                  {scale.name}
-                </Text>
+              <AlignedSwatchRow
+                label={scale.name}
+                isScaleLabel
+                className="colorEvaluationComparisonRow"
+              >
                 {contrasts.map((contrast, index) => (
                   <Text
                     key={contrast.id}
@@ -524,7 +495,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                     {contrastStepIndex(index, scale, rules)}
                   </Text>
                 ))}
-              </div>
+              </AlignedSwatchRow>
               <div>
                 <PaletteRow
                   label=""

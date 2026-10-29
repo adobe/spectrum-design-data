@@ -36,6 +36,12 @@
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
             },
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
+            },
             "adaptiveClaims": {
               "type": "object",
               "additionalProperties": {
@@ -46,12 +52,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Interpolation"
-              }
-            },
-            "modeSets": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ModeSet"
               }
             },
             "tokenOverrides": {
@@ -69,6 +69,9 @@
             "foundations": {
               "type": "object",
               "properties": {
+                "opacity": {
+                  "$ref": "#/definitions/OpacityDocument"
+                },
                 "color": {
                   "$ref": "#/definitions/CanonicalColorDocument"
                 },
@@ -1420,135 +1423,6 @@
         "name"
       ]
     },
-    "Interpolation": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/MethodInterpolation"
-        },
-        {
-          "$ref": "#/definitions/ExpressionInterpolation"
-        }
-      ]
-    },
-    "MethodInterpolation": {
-      "description": "A reusable blending method. Input and output endpoints belong to each consumer.",
-      "type": "object",
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "method"
-        },
-        "method": {
-          "$ref": "#/definitions/InterpolationMethod"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "description",
-        "id",
-        "kind",
-        "method",
-        "name"
-      ]
-    },
-    "InterpolationMethod": {
-      "enum": [
-        "cosine",
-        "exponential",
-        "linear"
-      ],
-      "type": "string"
-    },
-    "ExpressionInterpolation": {
-      "description": "value → value formula. Variables: `x` and the parameter ids.",
-      "type": "object",
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "expression"
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/FormulaParameter"
-          }
-        },
-        "expression": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "description",
-        "expression",
-        "id",
-        "kind",
-        "name",
-        "parameters"
-      ]
-    },
-    "FormulaParameter": {
-      "description": "A named numeric input shared by formulas and interpolations.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "default": {
-          "type": "number"
-        },
-        "min": {
-          "type": "number"
-        },
-        "max": {
-          "type": "number"
-        },
-        "step": {
-          "type": "number"
-        },
-        "adaptable": {
-          "description": "Whether a foundation may bind this part to a mode parameter.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "adaptable",
-        "default",
-        "id",
-        "label",
-        "step"
-      ]
-    },
     "ModeSet": {
       "type": "object",
       "properties": {
@@ -1817,6 +1691,135 @@
       },
       "additionalProperties": false
     },
+    "Interpolation": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/MethodInterpolation"
+        },
+        {
+          "$ref": "#/definitions/ExpressionInterpolation"
+        }
+      ]
+    },
+    "MethodInterpolation": {
+      "description": "A reusable blending method. Input and output endpoints belong to each consumer.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "method"
+        },
+        "method": {
+          "$ref": "#/definitions/InterpolationMethod"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "id",
+        "kind",
+        "method",
+        "name"
+      ]
+    },
+    "InterpolationMethod": {
+      "enum": [
+        "cosine",
+        "exponential",
+        "linear"
+      ],
+      "type": "string"
+    },
+    "ExpressionInterpolation": {
+      "description": "value → value formula. Variables: `x` and the parameter ids.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "expression"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormulaParameter"
+          }
+        },
+        "expression": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "expression",
+        "id",
+        "kind",
+        "name",
+        "parameters"
+      ]
+    },
+    "FormulaParameter": {
+      "description": "A named numeric input shared by formulas and interpolations.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "default": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "adaptable": {
+          "description": "Whether a foundation may bind this part to a mode parameter.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "adaptable",
+        "default",
+        "id",
+        "label",
+        "step"
+      ]
+    },
     "TokenOverride": {
       "type": "object",
       "properties": {
@@ -2027,6 +2030,7 @@
       "enum": [
         "colors",
         "elevation",
+        "opacity",
         "radius",
         "size",
         "spacing",
@@ -2065,6 +2069,53 @@
       "type": [
         "string",
         "number"
+      ]
+    },
+    "OpacityDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "polarityCompensation": {
+          "type": "number"
+        },
+        "levels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OpacityLevel"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "levels",
+        "polarityCompensation",
+        "schemaVersion"
+      ]
+    },
+    "OpacityLevel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rows",
+        "value"
       ]
     },
     "CanonicalColorDocument": {
@@ -3239,7 +3290,14 @@
         "scale": {
           "type": "number"
         },
+        "opacityTokenId": {
+          "type": "string"
+        },
+        "manualOpacity": {
+          "type": "number"
+        },
         "opacity": {
+          "description": "Historical percentage input, decoded only to upgrade older saved data.",
           "type": "number"
         }
       },
@@ -3248,7 +3306,6 @@
         "base",
         "id",
         "label",
-        "opacity",
         "scale",
         "scaleTypeId"
       ]
@@ -3285,6 +3342,12 @@
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
             },
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
+            },
             "adaptiveClaims": {
               "type": "object",
               "additionalProperties": {
@@ -3295,12 +3358,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Interpolation"
-              }
-            },
-            "modeSets": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ModeSet"
               }
             },
             "tokenOverrides": {
@@ -3318,6 +3375,9 @@
             "foundations": {
               "type": "object",
               "properties": {
+                "opacity": {
+                  "$ref": "#/definitions/OpacityDocument"
+                },
                 "color": {
                   "$ref": "#/definitions/CanonicalColorDocument"
                 },

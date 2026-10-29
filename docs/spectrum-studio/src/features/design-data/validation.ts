@@ -39,6 +39,7 @@ import { availablePrimitiveReferences } from "../tokens/primitiveIdentity";
 import { dataVisSourceIssues } from "../color-system/data-vis/references";
 import { assertComponentDocument } from "../components/validation";
 import { isColorOutputSettings } from "../color-system/outputSettings";
+import { isOpacityDocument } from "../opacity/model";
 
 const validateShape = new Ajv({
   allErrors: true,
@@ -64,6 +65,7 @@ export function canonicalDesignSystemDataset(
     system: {
       ...dataset.system,
       foundations: {
+        ...(foundations.opacity && { opacity: foundations.opacity }),
         color: canonicalColorDocument(foundations.color),
         spacing: canonicalDimensionDocument(foundations.spacing),
         size: canonicalDimensionDocument(foundations.size),
@@ -103,6 +105,9 @@ export function composeDesignSystemDefaults(
         ...dataset.system,
         taxonomy,
         foundations: {
+          ...(dataset.system.foundations.opacity && {
+            opacity: dataset.system.foundations.opacity,
+          }),
           color: resolveColorSourceNames(
             {
               ...dataset.system.foundations.color,
@@ -159,6 +164,11 @@ export function composeDesignSystemDefaults(
   const issues: string[] = taxonomyIssues(result.system.taxonomy).map(
     (issue) => `/system/taxonomy: ${issue}`,
   );
+  if (
+    result.system.foundations.opacity &&
+    !isOpacityDocument(result.system.foundations.opacity)
+  )
+    issues.push("/system/foundations/opacity: invalid opacity configuration");
   if (result.system.components) {
     try {
       assertComponentDocument(result.system.components, taxonomy);
@@ -189,7 +199,22 @@ export function composeDesignSystemDefaults(
         "elevation",
       );
       generateElevation(
-        result.system.foundations.elevation,
+        {
+          ...result.system.foundations.elevation,
+          layers: result.system.foundations.elevation.layers.map((layer) => {
+            if (!layer.opacityTokenId) return layer;
+            const level = result.system.foundations.opacity?.levels.find(
+              (level) => level.id === layer.opacityTokenId,
+            );
+            if (!level)
+              throw new Error(
+                `${layer.label}: unresolved opacity token "${layer.opacityTokenId}".`,
+              );
+            const { opacityTokenId: _reference, ...manual } = layer;
+            void _reference;
+            return { ...manual, manualOpacity: level.value };
+          }),
+        },
         result.system.scaleTypes,
       );
     } catch (failure) {

@@ -29,7 +29,7 @@ export const AUTHORING_CAPABILITIES = [
   "typography.textZoom",
   "elevation.depth",
   "elevation.color",
-  "elevation.layerOpacities",
+  "elevation.layerOpacities", // Historical decoding only; upgraded to opacity references.
 ] as const;
 export type AuthoringCapability = (typeof AUTHORING_CAPABILITIES)[number];
 /** A mode's patch for one stop: literal channels, or a palette link that takes precedence over them. */

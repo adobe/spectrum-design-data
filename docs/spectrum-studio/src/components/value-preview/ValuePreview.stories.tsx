@@ -1,6 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "@storybook/test";
+import { createStore, Provider } from "jotai";
+import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import { createValuePreview } from "../../features/tokens/valuePreview";
 import { valuePreviewExamples } from "../../../tests/fixtures/value-preview";
 import { ValuePreview } from "./ValuePreview";
@@ -106,5 +108,43 @@ export const RemLength: Story = {
   args: {
     preview: createValuePreview("font-size", "1.5rem"),
     label: "Relative text size",
+  },
+};
+
+function opacityStore(scheme: "light" | "dark") {
+  const store = createStore();
+  store.set(appColorSchemeAtom, scheme);
+  return store;
+}
+
+export const Opacity: Story = {
+  args: { preview: createValuePreview("opacity", 0.4), label: "Opacity" },
+  render: (args) => (
+    <div style={{ display: "flex", gap: 16 }}>
+      {(["light", "dark"] as const).map((scheme) => (
+        <Provider key={scheme} store={opacityStore(scheme)}>
+          <ValuePreview {...args} label={`Opacity ${scheme}`} />
+        </Provider>
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const light = canvas
+      .getByRole("img", { name: "Opacity light" })
+      .querySelector<HTMLElement>(".valuePreviewShape");
+    const dark = canvas
+      .getByRole("img", { name: "Opacity dark" })
+      .querySelector<HTMLElement>(".valuePreviewShape");
+    await expect(light?.style.backgroundImage).toContain(
+      "repeating-conic-gradient",
+    );
+    await expect(light?.style.backgroundImage).toMatch(
+      /rgba?\(0,? 0,? 0,? \/? ?0\.4\)/,
+    );
+    await expect(dark?.style.backgroundImage).toMatch(
+      /rgba?\(255,? 255,? 255,? \/? ?0\.4\)/,
+    );
+    canvasElement.dataset.playComplete = "true";
   },
 };

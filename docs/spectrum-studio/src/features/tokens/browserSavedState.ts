@@ -83,6 +83,10 @@ import type { ElevationDocument } from "../elevation/model";
 import { savedTshirtArtifactsAtom } from "../design-data/tshirtState";
 import { colorSourceTokenIds } from "./colorGeneration";
 import { normalizeBrowserColorOutputs } from "./colorOutput";
+import type { OpacityDocument } from "../opacity/model";
+import { OPACITY_DEFAULTS } from "../opacity/defaults";
+import { opacityDocumentAtom } from "../opacity/state";
+import { browserOpacitySources } from "../opacity/output";
 
 function savedSources(
   color: ColorSystemDocument,
@@ -100,6 +104,7 @@ function savedSources(
   elevation: ElevationDocument = ELEVATION_DEFAULTS,
   edits: BrowserTokenEdits = {},
   { includeColors = true }: { includeColors?: boolean } = {},
+  opacity?: OpacityDocument,
 ) {
   const library = spacing.pendingRules
     ? [...rules, ...spacing.pendingRules]
@@ -129,6 +134,11 @@ function savedSources(
       )
     : [];
   return [
+    ...browserOpacitySources(
+      { opacity, colorSystem: color, modeSets: sets, browserTokenEdits: edits },
+      modes,
+      registry,
+    ),
     ...browserSourcesFromOutputs(
       colors,
       generateTypography(
@@ -183,7 +193,12 @@ function savedSources(
     ...browserElevationSources(
       elevation,
       generateElevation(
-        resolveElevationDocument(elevation, modes, sets),
+        resolveElevationDocument(elevation, modes, sets, undefined, {
+          opacity,
+          colorSystem: color,
+          modeSets: sets,
+          browserTokenEdits: edits,
+        }),
         scaleTypes,
         document.settings.colorOutput,
       ),
@@ -219,6 +234,8 @@ export function browserSourcesForSnapshot(
     snapshot.radius ?? RADIUS_DEFAULTS,
     snapshot.elevation ?? ELEVATION_DEFAULTS,
     snapshot.browserTokenEdits ?? {},
+    {},
+    snapshot.opacity,
   );
 }
 
@@ -241,6 +258,12 @@ export const savedBrowserTokensAtom = atom((get) => {
     defaults,
     defaultModes,
     {},
+    designSystemDefaults.system.taxonomy,
+    RADIUS_DEFAULTS,
+    ELEVATION_DEFAULTS,
+    {},
+    {},
+    OPACITY_DEFAULTS,
   );
   const edits = get(browserTokenEditsAtom);
   return combinations.map((modes) => {
@@ -260,6 +283,8 @@ export const savedBrowserTokensAtom = atom((get) => {
       get(radiusDocumentAtom),
       get(elevationDocumentAtom),
       edits,
+      {},
+      get(opacityDocumentAtom),
     );
     const baselineModes = defaults
       .map(
@@ -280,6 +305,12 @@ export const savedBrowserTokensAtom = atom((get) => {
       defaults,
       baselineModes,
       {},
+      designSystemDefaults.system.taxonomy,
+      RADIUS_DEFAULTS,
+      ELEVATION_DEFAULTS,
+      {},
+      {},
+      OPACITY_DEFAULTS,
     );
     const finalUiValues = new Map(
       sources
@@ -342,6 +373,7 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
       snapshot.elevation ?? ELEVATION_DEFAULTS,
       snapshot.browserTokenEdits,
       { includeColors: false },
+      snapshot.opacity,
     ).map((token) => token.id),
     ...generated.bundle.semantics.map((row) => row.conceptId),
   ]);
@@ -372,6 +404,7 @@ export const browserTokenImpactRecordsAtom = atom(
           metadataChanged: false,
         };
         let scopeKey = combination.modeKey;
+        if (token.type === "opacity") scopeKey = token.modeKey!;
         if (token.dataVis) {
           const scale = get(colorSystemDocumentAtom).dataVisScales.find(
             (scale) => scale.id === token.dataVis!.scaleId,
@@ -403,7 +436,16 @@ export const browserTokenImpactRecordsAtom = atom(
           );
         }
         if (token.type === "elevation") {
-          const axes = elevationOwnerIds(get(modeSetsAtom));
+          const axes = elevationOwnerIds(
+            get(modeSetsAtom),
+            {
+              opacity: get(opacityDocumentAtom),
+              colorSystem: get(colorSystemDocumentAtom),
+              modeSets: get(modeSetsAtom),
+              browserTokenEdits: edits,
+            },
+            get(elevationDocumentAtom),
+          );
           const selection = Object.fromEntries(
             JSON.parse(combination.modeKey) as [string, string][],
           );

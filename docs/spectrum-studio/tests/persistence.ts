@@ -258,7 +258,9 @@ assert.deepEqual(
   [],
   "Reset all removes existing edits instead of replaying testing changes.",
 );
-assert.deepEqual(afterRefresh.get(foundationModeAttachmentsAtom), {});
+assert.deepEqual(afterRefresh.get(foundationModeAttachmentsAtom), {
+  "mode-set-color-scheme": ["opacity"],
+});
 assert.equal(
   afterRefresh.get(appColorSchemeAtom),
   "dark",

@@ -7,7 +7,7 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "1d2c4a1f5824a82a3916503b9f2ca8c6b510e374f295e27a213921f301c620e4";
+  "49645ba58e0278a12589d0eb9ec9b4dcc5e6fb090b847dd5ed6fb823a4110ff4";
 const schemaMetadata = new Set([
   "title",
   "description",

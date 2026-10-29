@@ -5,7 +5,7 @@ import { createStore } from "jotai";
 import { ELEVATION_DEFAULTS } from "../src/features/elevation/defaults";
 import { ELEVATION_LINEAR_FORMULA_ID } from "../src/features/elevation/formulas";
 import {
-  generateElevation,
+  generateElevation as generateResolvedElevation,
   hasDuplicateElevationLevels,
   shadowCss,
 } from "../src/features/elevation/generate";
@@ -19,7 +19,6 @@ import {
   moveShadowLayerAtom,
   updateElevationAtom,
   updateElevationModeParameterAtom,
-  setShadowModeOpacityAtom,
 } from "../src/features/elevation/state";
 import { editModeAtom } from "../src/state/view/editMode";
 import { designSystemDefaults } from "../src/data/defaults";
@@ -27,9 +26,13 @@ import { upgradeElevationSnapshot } from "../src/features/edit-session/elevation
 import {
   createDefaultSnapshot,
   assertStoredSnapshot,
+  authoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { browserTokenImpactRecordsAtom } from "../src/features/tokens/browserSavedState";
-import { browserTokensAtom } from "../src/features/tokens/browserState";
+import {
+  browserTokensAtom,
+  browserTokenSourcesAtom,
+} from "../src/features/tokens/browserState";
 import { modeSetsAtom } from "../src/features/modes/state";
 import { buildElevationCss } from "../src/features/elevation/output";
 import {
@@ -51,6 +54,28 @@ import { detachFoundationModeSetAtom } from "../src/features/modes/foundationAtt
 import { modeSelectionAtom } from "../src/features/modes/selection";
 import { LEGACY_TYPOGRAPHY_METRICS } from "./fixtures/legacyTypography";
 import { registeredSourceName } from "../src/features/taxonomy/naming";
+import type { ElevationDocument } from "../src/features/elevation/model";
+import { DEFAULT_SHADOW_OPACITY_ID } from "../src/features/opacity/defaults";
+import {
+  opacitySourceAtom,
+  updateOpacityLevelAtom,
+  resetOpacityOverrideAtom,
+} from "../src/features/opacity/state";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { compareAuthoring } from "../src/features/changelog/registry";
+import { comparePrimitiveTokens } from "../src/features/changelog/tokenComparison";
+import { generatedResetOptions } from "../src/features/changelog/resetPlans";
+
+const source = {
+  opacity: designSystemDefaults.system.foundations.opacity,
+  colorSystem: designSystemDefaults.system.foundations.color,
+  modeSets: designSystemDefaults.system.modeSets,
+};
+function generateElevation(document: ElevationDocument) {
+  return generateResolvedElevation(
+    resolveElevationDocument(document, [], source.modeSets, {}, source),
+  );
+}
 
 const document = structuredClone(ELEVATION_DEFAULTS);
 const levels = generateElevation(document);
@@ -112,7 +137,7 @@ assert.deepEqual(generateElevation({ ...document, layers: [] }), []);
 for (const patch of [
   { scale: 0.5 },
   { base: -1 },
-  { opacity: 101 },
+  { opacityTokenId: undefined, manualOpacity: 1.01 },
   { base: Infinity },
   { scaleTypeId: "missing" },
 ]) {
@@ -164,13 +189,14 @@ assert.equal(shadowCss(multiple[0]).split(", ").length, 2);
 const sets = structuredClone(designSystemDefaults.system.modeSets);
 const dark = sets[0].modes.find((mode) => mode.id === "mode-dark")!;
 assert.equal(
-  generateElevation(resolveElevationDocument(document, [dark], sets))[0]
-    .shadows[0].opacity,
-  0.5,
+  generateElevation(
+    resolveElevationDocument(document, [dark], sets, {}, source),
+  )[0].shadows[0].opacity,
+  0.2,
 );
 assert.equal(
   generateElevation(
-    resolveElevationDocument(document, [sets[0].modes[0]], sets),
+    resolveElevationDocument(document, [sets[0].modes[0]], sets, {}, source),
   )[0].shadows[0].opacity,
   0.2,
 );
@@ -197,6 +223,9 @@ const css = buildElevationCss(
   document,
   designSystemDefaults.system.taxonomy,
   sets,
+  undefined,
+  undefined,
+  source,
 );
 assert(css.includes("--surface-shadow-100: 0 4px 4px 0"));
 assert(css.includes('[data-color-scheme="light"]'));
@@ -206,6 +235,9 @@ assert.equal(
     { ...document, hideFromPublishing: true },
     designSystemDefaults.system.taxonomy,
     sets,
+    undefined,
+    undefined,
+    source,
   ),
   "",
 );
@@ -214,11 +246,14 @@ assert.equal(
     { ...document, layers: [] },
     designSystemDefaults.system.taxonomy,
     sets,
+    undefined,
+    undefined,
+    source,
   ),
   "",
 );
 assert.equal(elevationComparisonOwner("blur", sets), undefined);
-assert.equal(elevationComparisonOwner("opacity", sets)?.id, sets[0].id);
+assert.equal(elevationComparisonOwner("opacity", sets, source)?.id, sets[0].id);
 const comparison = elevationComparisonSeries(
   document,
   sets,
@@ -227,11 +262,13 @@ const comparison = elevationComparisonSeries(
   [layer.id],
   true,
   [dark.id],
+  {},
+  source,
 );
 assert.equal(comparison.length, 2);
 assert.deepEqual(
   comparison.map((line) => line.points[0].value),
-  [20, 50],
+  [20, 20],
 );
 const extra = structuredClone(sets[1]);
 extra.id = "unrelated-axis";
@@ -380,7 +417,7 @@ modeStore.set(updateShadowLayerAtom, {
   id: layer.id,
   patch: { base: Number.MAX_VALUE },
 });
-modeStore.set(modeSelectionAtom, { colorScheme: dark.id });
+modeStore.set(modeSelectionAtom, { [sets[0].id]: dark.id });
 assert.throws(
   () =>
     modeStore.set(updateElevationModeParameterAtom, {
@@ -412,21 +449,18 @@ assert.equal(
   4,
   "A layer cannot invalidate a different mode.",
 );
-modeStore.set(setShadowModeOpacityAtom, {
-  modeSetId: sets[0].id,
-  modeId: dark.id,
-  layerId: layer.id,
-  opacity: 60,
+modeStore.set(updateOpacityLevelAtom, {
+  id: DEFAULT_SHADOW_OPACITY_ID,
+  value: 0.6,
 });
-const savedOpacity =
-  modeStore.get(modeSetsAtom)[0].modes[1].foundations.elevation!
-    .layerOpacities![layer.id];
+const savedOpacity = structuredClone(
+  modeStore.get(browserTokenEditsAtom)[DEFAULT_SHADOW_OPACITY_ID],
+);
 const previewBaseline = structuredClone(modeStore.get(elevationDocumentAtom));
 modeStore.set(previewOverridesAtom, { "elevation.depth": 50 });
 assert.deepEqual(modeStore.get(elevationDocumentAtom), previewBaseline);
-assert.equal(
-  modeStore.get(modeSetsAtom)[0].modes[1].foundations.elevation!
-    .layerOpacities![layer.id],
+assert.deepEqual(
+  modeStore.get(browserTokenEditsAtom)[DEFAULT_SHADOW_OPACITY_ID],
   savedOpacity,
 );
 const offsetLines = elevationComparisonSeries(
@@ -438,6 +472,7 @@ const offsetLines = elevationComparisonSeries(
   true,
   [dark.id],
   { "elevation.depth": 50 },
+  modeStore.get(opacitySourceAtom),
 );
 assert.deepEqual(
   offsetLines.map((line) => line.points[0].value),
@@ -490,6 +525,8 @@ assert.equal(
     tokenRevertStore.get(elevationDocumentAtom),
     [dark],
     sets,
+    {},
+    tokenRevertStore.get(opacitySourceAtom),
   ).layers.find((layer) => layer.id === newLayerId)!.opacity,
   20,
   "New layers do not acquire invented Dark overrides.",
@@ -497,29 +534,61 @@ assert.equal(
 const modifiedModes = structuredClone(tokenRevertStore.get(modeSetsAtom));
 modifiedModes[0].modes[1].foundations.color!.backgroundLightness = 0.25;
 tokenRevertStore.set(modeSetsAtom, modifiedModes);
-tokenRevertStore.set(setShadowModeOpacityAtom, {
-  modeSetId: sets[0].id,
-  modeId: dark.id,
-  layerId: layer.id,
-  opacity: 60,
+tokenRevertStore.set(modeSelectionAtom, { [sets[0].id]: dark.id });
+tokenRevertStore.set(updateOpacityLevelAtom, {
+  id: DEFAULT_SHADOW_OPACITY_ID,
+  value: 0.6,
 });
-const generatedChange = tokenRevertStore
-  .get(changeGroupsAtom)
-  .flatMap((group) => group.items)
-  .find((item) => item.topic === "tokens" && item.id.startsWith("elevation-"))!;
+const snapshot = tokenRevertStore.get(authoringSnapshotAtom);
+const shipped = createDefaultSnapshot();
+const generatedChange = comparePrimitiveTokens(
+  shipped,
+  snapshot,
+  compareAuthoring(shipped, snapshot),
+).items.find((item) => item.id.startsWith("elevation-"))!;
 assert(generatedChange);
-tokenRevertStore.set(revertChangeItemAtom, generatedChange);
-assert.deepEqual(tokenRevertStore.get(elevationDocumentAtom), document);
+const generatedField = generatedChange.fields.find(
+  (field) => field.tokenValue,
+)!;
+assert(generatedField);
+const resetChoices = generatedResetOptions(
+  generatedChange,
+  generatedField,
+  tokenRevertStore
+    .get(browserTokenSourcesAtom)
+    .find((token) => token.id === generatedField.tokenValue!.tokenId),
+  snapshot,
+);
+assert.match(resetChoices[0].disabledReason!, /Elevation foundation/);
+assert.equal(resetChoices[0].plan, undefined);
+assert(
+  resetChoices.some((choice) => choice.plan?.kind === "source"),
+  "Generated shadows offer their changed sources, not invented per-mode shadow overrides.",
+);
+const beforeOverrideReset = structuredClone(
+  tokenRevertStore.get(elevationDocumentAtom),
+);
+tokenRevertStore.set(resetOpacityOverrideAtom, DEFAULT_SHADOW_OPACITY_ID);
+assert.deepEqual(
+  tokenRevertStore.get(elevationDocumentAtom),
+  beforeOverrideReset,
+  "Resetting a supported opacity override preserves shadow structure and references.",
+);
 assert.equal(
-  tokenRevertStore.get(modeSetsAtom)[0].modes[1].foundations.elevation!
-    .layerOpacities![layer.id],
-  50,
+  resolveElevationDocument(
+    beforeOverrideReset,
+    [dark],
+    tokenRevertStore.get(modeSetsAtom),
+    {},
+    tokenRevertStore.get(opacitySourceAtom),
+  ).layers[0].opacity,
+  20,
 );
 assert.equal(
   tokenRevertStore.get(modeSetsAtom)[0].modes[1].foundations.color!
     .backgroundLightness,
   0.25,
-  "Generated-shadow revert preserves other foundations.",
+  "Opacity override reset preserves other foundations.",
 );
 console.log(
   "Elevation math, identity, mode, lifecycle and upgrade checks passed.",

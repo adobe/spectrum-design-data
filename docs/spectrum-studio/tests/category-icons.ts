@@ -14,6 +14,9 @@ assert.deepEqual(validateCategoryIcons(config), []);
 assert.deepEqual(resolveCategoryIcon("opacity"), {
   iconName: "ViewTransparency",
 });
+assert.deepEqual(resolveCategoryIcon("source.opacity"), {
+  iconName: "ViewTransparency",
+});
 for (const [category, iconName] of Object.entries(config.categories)) {
   assert.deepEqual(resolveCategoryIcon(category), { iconName });
   assert.deepEqual(resolveCategoryIcon(` ${category.toUpperCase()} `), {

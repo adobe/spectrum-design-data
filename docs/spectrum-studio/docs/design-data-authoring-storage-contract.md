@@ -15,6 +15,31 @@ meanings. Scoped reset plans are validated before applying through the existing
 restore owner; generated reset choices do not add semantic override support or
 change the storage envelope. See [Changes comparison contract](archive/changelog-plan.md).
 
+## Opacity and shadow references
+
+Authoring envelope version 15 stores the opacity foundation in both working and
+saved snapshots. Each level has a persistent concept UUID and separate mode-row
+UUIDs. New mode contexts allocate rows during an authoring change, not during
+preview or export. Equal Light and Dark values remain two explicit mode values.
+New/reset systems contain 17 levels, from 2% through 100%, producing 17 concepts
+and 34 Color scheme values. Compensation starts at 0%.
+
+Shadows reference an opacity concept or use an explicit manual alpha. New/reset
+shadows reference the 20% level, initially opacity-800. Older records preserve
+their shadow values in every existing mode. The upgrade reuses a level only
+when its complete mode-value pattern matches, otherwise adding a level with
+visible mode overrides. Working and saved sources share identity allocation
+without losing their different values. Removed modes are not recreated.
+The old shadow-opacity mode patches are removed after conversion.
+
+Opacity participates in Changes, scoped resets, Impact, token browsing, native
+JSON, CSS and local cascade output. CSS uses normalized unitless values such as
+`--opacity-100: 0.02`. Complete-shadow artifacts remain literal shadow values;
+they do not introduce a nested opacity-reference format.
+The opacity artifact is explicitly local: the current modern reference has no
+opacity value-type schema, and numeric scale indices retain LTAX-003's known
+contract difference. Local output does not establish upstream conformance.
+
 ## Automatic persistence and validation
 
 Automatic persistence observes a coherent set of raw working/saved source
@@ -22,7 +47,7 @@ references, editing state and foundation-mode attachments. After 200 ms without
 a newer request, a browser worker prepares aliases, validates both snapshots
 through the existing stored-snapshot validator and prunes attachments through
 their existing owner. It returns the same authoring envelope to the existing
-byte-comparing storage writer; no new data fields or storage keys are introduced.
+byte-comparing storage writer; preparation does not create separate storage keys.
 
 A replaced request is cancelled, and its result cannot write after a newer edit,
 Save, Cancel or reset. Explicit persistence flushing and page close still capture,
@@ -1392,16 +1417,16 @@ foundation changes nor materialized token assignments.
 
 ## Current implementation versus intended behavior
 
-| Responsibility | Current source evidence | Remaining gap |
-| --- | --- | --- |
-| Persist foundation edits | `src/state/persist.ts`; `src/features/scales/foundationState.ts`; color/typography state | Native documents persist, not yet the proposed commit-ready foundation artifact contract |
-| Persist libraries, modes and overrides | Logic/mode state, `tokens/overrides.ts`, `tokens/browserEdits.ts` | Native intent exists; future artifact serialization/reference versions remain to be specified |
-| Save and Cancel | `src/features/edit-session/state.ts` | Saved source snapshot exists; no paired persistent generated-token artifact lifecycle |
-| Generate dimension output | `foundationState.ts:48–54` and current spacing/size generators | Derived atoms produce output in memory, not stored design-data tokens |
-| Generate/edit token browser output | `src/features/tokens/browserState.ts:31–37`, `browserSources.ts`, `browserModel.ts` | Presentation rows/edits are not a spec-validated persisted token collection |
-| Color cascade output | `src/features/tokens/cascadeExport.ts` | Existing generated representation is not proof that every domain/token/profile is conformant |
-| Authoring/output Analysis | `src/features/design-data/projection.ts`, `materialization.ts` | Reporting projections and samples are not the materialization/persistence implementation |
-| General persistence | `src/state/persist.ts`; `src/features/edit-session/storage.ts` and `persistence.ts` | One versioned working/saved record; coalesced working writes and immediate Save/Cancel/Reset. Failures are surfaced; invalid records are preserved. Future artifact persistence remains separate |
+| Responsibility                         | Current source evidence                                                                  | Remaining gap                                                                                                                                                                                    |
+| -------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Persist foundation edits               | `src/state/persist.ts`; `src/features/scales/foundationState.ts`; color/typography state | Native documents persist, not yet the proposed commit-ready foundation artifact contract                                                                                                         |
+| Persist libraries, modes and overrides | Logic/mode state, `tokens/overrides.ts`, `tokens/browserEdits.ts`                        | Native intent exists; future artifact serialization/reference versions remain to be specified                                                                                                    |
+| Save and Cancel                        | `src/features/edit-session/state.ts`                                                     | Saved source snapshot exists; no paired persistent generated-token artifact lifecycle                                                                                                            |
+| Generate dimension output              | `foundationState.ts:48–54` and current spacing/size generators                           | Derived atoms produce output in memory, not stored design-data tokens                                                                                                                            |
+| Generate/edit token browser output     | `src/features/tokens/browserState.ts:31–37`, `browserSources.ts`, `browserModel.ts`      | Presentation rows/edits are not a spec-validated persisted token collection                                                                                                                      |
+| Color cascade output                   | `src/features/tokens/cascadeExport.ts`                                                   | Existing generated representation is not proof that every domain/token/profile is conformant                                                                                                     |
+| Authoring/output Analysis              | `src/features/design-data/projection.ts`, `materialization.ts`                           | Reporting projections and samples are not the materialization/persistence implementation                                                                                                         |
+| General persistence                    | `src/state/persist.ts`; `src/features/edit-session/storage.ts` and `persistence.ts`      | One versioned working/saved record; coalesced working writes and immediate Save/Cancel/Reset. Failures are surfaced; invalid records are preserved. Future artifact persistence remains separate |
 
 This packet does not claim those gaps were solved by R1–R4. Existing native shape
 validators, round-trip fixtures and generator reproduction are useful evidence,
@@ -1409,17 +1434,17 @@ not the proposed foundational schema or full design-data token validation.
 
 ## Decision dispositions
 
-| Decision | Disposition | What may proceed / what remains open |
-| --- | --- | --- |
-| D-01 artifact separation | **Local direction approved** | Foundation authoring artifacts and token output stay separate. Final layout, schema URI authority and format are still provisional |
-| D-02 identity/references | **Local direction approved** | Preserve existing IDs and use explicit scope/revision references. Exact encoding and necessary token identity adaptation still need review |
-| D-03 evaluation contract | **Concrete application design pending** | Reuse existing generators; no new evaluator. Select/profile the actual source→token contract before claiming conformance |
-| D-04 units/permissions | **Policy pending** | Review known base-binding and neutral-point boundaries as part of real authoring validation. No runtime change or silently adopted bypass |
-| D-05 invalid/unsupported behavior | **Detailed behavior proposed below** | Persisting a draft is distinct from producing validated tokens. Failure handling must preserve work, but the exact runtime policy needs approval |
-| D-06 upgrades/baselines | **Local direction approved** | Retain baselines and require reviewed upgrades; no automatic override rebasing or semantic migration |
-| D-07 taxonomy ownership | **Unresolved** | PR #1454 remains prospective evidence; no draft catalog adoption, global rename or accepted new trigger-placement rule |
-| D-08 canonical emission/layers | **Partly constrained, still unresolved** | Retain approved R3 distinctions. No automatic Cartesian emission, default/wildcard inference or substitute layer resolver |
-| Working-token persistence timing | **Approved** | Update from working source while editing, not only on Save; Cancel restores source and triggers matching token regeneration; exclude previews |
+| Decision                          | Disposition                              | What may proceed / what remains open                                                                                                             |
+| --------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| D-01 artifact separation          | **Local direction approved**             | Foundation authoring artifacts and token output stay separate. Final layout, schema URI authority and format are still provisional               |
+| D-02 identity/references          | **Local direction approved**             | Preserve existing IDs and use explicit scope/revision references. Exact encoding and necessary token identity adaptation still need review       |
+| D-03 evaluation contract          | **Concrete application design pending**  | Reuse existing generators; no new evaluator. Select/profile the actual source→token contract before claiming conformance                         |
+| D-04 units/permissions            | **Policy pending**                       | Review known base-binding and neutral-point boundaries as part of real authoring validation. No runtime change or silently adopted bypass        |
+| D-05 invalid/unsupported behavior | **Detailed behavior proposed below**     | Persisting a draft is distinct from producing validated tokens. Failure handling must preserve work, but the exact runtime policy needs approval |
+| D-06 upgrades/baselines           | **Local direction approved**             | Retain baselines and require reviewed upgrades; no automatic override rebasing or semantic migration                                             |
+| D-07 taxonomy ownership           | **Unresolved**                           | PR #1454 remains prospective evidence; no draft catalog adoption, global rename or accepted new trigger-placement rule                           |
+| D-08 canonical emission/layers    | **Partly constrained, still unresolved** | Retain approved R3 distinctions. No automatic Cartesian emission, default/wildcard inference or substitute layer resolver                        |
+| Working-token persistence timing  | **Approved**                             | Update from working source while editing, not only on Save; Cancel restores source and triggers matching token regeneration; exclude previews    |
 
 The application purpose is approved. D-03–D-05 are not permission to narrow the
 whole product to dimensions or replace native live-editor recovery with a new
@@ -1487,18 +1512,18 @@ the authoring/features layer, not an Analysis view or a production backend.
 
 ### Editing, Save, Cancel, reload and failures
 
-| Event | Proposed behavior consistent with approved direction |
-| --- | --- |
-| Edit foundation/library/binding/override | Existing native draft persistence continues. Generate and validate a matching working artifact pair; persist it after coalescing successful generation |
-| Temporary adaptive preview | Keep current preview behavior in memory; do not replace durable foundation/token artifacts |
-| Save | Existing source baseline is updated. Valid matching working artifacts become eligible for the saved commit candidate; durable working output alone does not imply saved status |
-| Cancel | Restore the existing saved source snapshot and regenerate/persist its matching output; suppress completion of discarded working jobs |
-| Revert an authored edit | Use existing source/edit resolvers, then regenerate; do not patch an independent generated-token store directly |
-| Reload | Validate/hydrate native source and edit baseline. Validate cache envelopes and source/profile fingerprints; rebuild missing or outdated artifacts without resetting authored work |
+| Event                                      | Proposed behavior consistent with approved direction                                                                                                                                                 |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Edit foundation/library/binding/override   | Existing native draft persistence continues. Generate and validate a matching working artifact pair; persist it after coalescing successful generation                                               |
+| Temporary adaptive preview                 | Keep current preview behavior in memory; do not replace durable foundation/token artifacts                                                                                                           |
+| Save                                       | Existing source baseline is updated. Valid matching working artifacts become eligible for the saved commit candidate; durable working output alone does not imply saved status                       |
+| Cancel                                     | Restore the existing saved source snapshot and regenerate/persist its matching output; suppress completion of discarded working jobs                                                                 |
+| Revert an authored edit                    | Use existing source/edit resolvers, then regenerate; do not patch an independent generated-token store directly                                                                                      |
+| Reload                                     | Validate/hydrate native source and edit baseline. Validate cache envelopes and source/profile fingerprints; rebuild missing or outdated artifacts without resetting authored work                    |
 | Invalid/unsupported source or token result | Preserve the draft. Keep the last valid artifact pair associated with its original source/profile and label it stale/not commit-ready; never present it as generated from the invalid current source |
-| Storage quota/unavailable storage | Keep state correct in memory and expose failure to persist the artifact; do not claim durable success or clear unrelated storage |
-| Profile/schema upgrade | Require explicit compatibility/migration review. Retain old source evidence and baselines; do not silently rebase overrides or normalize meaning |
-| Future commit to design-data | Use a saved, validated, source-matching foundation/token candidate. No automatic commit/push, backend or credential change is authorized here |
+| Storage quota/unavailable storage          | Keep state correct in memory and expose failure to persist the artifact; do not claim durable success or clear unrelated storage                                                                     |
+| Profile/schema upgrade                     | Require explicit compatibility/migration review. Retain old source evidence and baselines; do not silently rebase overrides or normalize meaning                                                     |
+| Future commit to design-data               | Use a saved, validated, source-matching foundation/token candidate. No automatic commit/push, backend or credential change is authorized here                                                        |
 
 Validation/export eligibility should not silently replace existing Save semantics.
 Whether invalid authored drafts may be saved while remaining ineligible for commit
