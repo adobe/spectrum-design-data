@@ -12,7 +12,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -20,7 +20,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -28,7 +28,7 @@
       "component": "combo-box",
       "property": "component-top-to-workflow-icon-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -36,7 +36,7 @@
       "component": "combo-box",
       "property": "component-top-to-workflow-icon-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -44,7 +44,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -52,7 +52,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -60,7 +60,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -68,7 +68,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -76,7 +76,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-50"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
@@ -84,7 +84,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-50"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
@@ -92,7 +92,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-100"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
@@ -100,7 +100,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-100"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {

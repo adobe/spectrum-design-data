@@ -52,15 +52,15 @@
   "tokenBindings": [
     {
       "token": "neutral-content-color-selected-default",
-      "context": "S2 Control (selected, non emphasized)"
+      "context": "Control (selected, non emphasized)"
     },
     {
       "token": "neutral-content-color-selected-hover",
-      "context": "S2 Control (selected, non emphasized)"
+      "context": "Control (selected, non emphasized)"
     },
     {
       "token": "neutral-content-color-selected-key-focus",
-      "context": "S2 Control (selected, non emphasized)"
+      "context": "Control (selected, non emphasized)"
     }
   ],
   "accessibility": {
