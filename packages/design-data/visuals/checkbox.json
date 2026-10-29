@@ -69,13 +69,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "S2 Control (size)"
+            "context": "Control (size)"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "S2 Control (size)"
+            "context": "Control (size)"
           }
         }
       }
@@ -130,7 +130,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "S2 Control (selected, non emphasized)"
+              "context": "Control (selected, non emphasized)"
             }
           },
           {
@@ -141,7 +141,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "S2 Control (selected, non emphasized)"
+              "context": "Control (selected, non emphasized)"
             }
           },
           {
