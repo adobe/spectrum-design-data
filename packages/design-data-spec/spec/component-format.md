@@ -208,6 +208,10 @@ Example with a deprecated option value:
 }
 ```
 
+### Constraints
+
+A component MAY declare `constraints`, an array of if-then rules restricting which option value combinations are valid. Each rule has `when`, `require`, and `severity` (`error` or `advisory`), and optionally `description` and `source`. Layer 1 checks shape only. See [Option constraints](option-constraints.md).
+
 ## Slots
 
 The `slots` block declares the component's named **content injection points** — the positions where consumers place child content. Slot declarations are derived from the cross-platform audit in [`audits/slots.audit.md`](../audits/slots.audit.md).

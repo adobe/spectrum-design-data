@@ -95,6 +95,15 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isError": { "type": "boolean", "default": false }
   },
+  "constraints": [
+    {
+      "when": { "isIndeterminate": true },
+      "require": { "isSelected": [false] },
+      "severity": "advisory",
+      "description": "An indeterminate checkbox overrides selection; isSelected has no visual effect.",
+      "source": "react-spectrum S2 Checkbox.tsx"
+    }
+  ],
   "anatomy": [
     {
       "name": "container",
