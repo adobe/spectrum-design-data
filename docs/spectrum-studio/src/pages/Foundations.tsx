@@ -227,7 +227,10 @@ export default function Foundations() {
         <ViewSwitcher
           aria-label="Foundation sections"
           dataComponent="Foundations"
-          hasElementsSurface={selectedFoundationTab !== "motion"}
+          hasElementsSurface={
+            selectedFoundationTab !== "motion" &&
+            selectedFoundationTab !== "opacity"
+          }
           elements={elements}
           preview={<SampleApp />}
           analyze={analyze}
