@@ -120,7 +120,7 @@ impl Resolved {
 }
 
 /// A candidate token with the component options its relationship pins (`None`: none) and the
-/// states that relationship adds to the token's own (its `scope.options.state`).
+/// states it pins (its `scope.options.state`; empty: use the token's own `name.state`).
 type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>, Vec<String>);
 
 /// A relationship's `$ref` with the component options and states it pins.
@@ -423,7 +423,8 @@ impl<'a> Ctx<'a> {
         self.pick_with_states(cands.into_iter().map(|t| (t, Vec::new())).collect())
     }
 
-    /// [`Self::pick`] for candidates that carry extra states (a relationship's own).
+    /// [`Self::pick`] for candidates that carry states of their own (a relationship's
+    /// `scope.options.state`), which replace the token's `name.state`.
     fn pick_with_states<'g>(
         &self,
         cands: Vec<(&'g crate::graph::TokenRecord, Vec<String>)>,
@@ -432,8 +433,11 @@ impl<'a> Ctx<'a> {
         let active = self.active_states();
         fit.iter()
             .find(|(t, extra)| {
-                let mut st = token_states(t);
-                st.extend(extra.iter().cloned());
+                let st = if extra.is_empty() {
+                    token_states(t)
+                } else {
+                    extra.clone()
+                };
                 !st.is_empty() && st.iter().all(|x| active.contains(x))
             })
             .or_else(|| fit.first())
@@ -658,8 +662,8 @@ impl<'a> Ctx<'a> {
 /// state, `scale` and `colorScheme` are modes.
 const RELATIONSHIP_RESERVED_OPTIONS: &[&str] = &["state", "scale", "colorScheme"];
 
-/// State ids a relationship's `scope.options.state` adds to its token's own, normalized like a
-/// token `name.state` (so `key-focus` is `keyboard-focus`).
+/// State ids a relationship's `scope.options.state` pins, normalized like a token
+/// `name.state` (so `key-focus` is `keyboard-focus`). They replace the token's own.
 fn scope_state_ids(scope: Option<&Value>) -> Vec<String> {
     let state = scope
         .and_then(|s| s.get("options"))
@@ -706,7 +710,7 @@ pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
             out.push("selected".to_string());
         }
         let r = rest.unwrap_or(&s);
-        out.push(if r == "key-focus" {
+        out.push(if r == "key-focus" || r == "focus" {
             "keyboard-focus".into()
         } else {
             r.to_string()
@@ -774,6 +778,60 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
     walk(recipe, false, &mut used, &mut structural);
     if recipe.get("sizeScale").is_some() && !used.iter().any(|u| u == "size") {
         used.push("size".into());
+    }
+    (used, structural)
+}
+
+/// [`recipe_options`] for a recipe bound to a component's data: it also counts the component
+/// options pinned (`scope.options`) by the relationships the recipe binds, since a recipe
+/// that moves its conditions into relationships no longer names those options itself.
+pub fn recipe_options_in(
+    graph: &TokenGraph,
+    recipe: &Value,
+    component: &str,
+) -> (Vec<String>, Vec<String>) {
+    let (mut used, structural) = recipe_options(recipe);
+    let mut contexts: Vec<String> = Vec::new();
+    fn walk(v: &Value, out: &mut Vec<String>) {
+        match v {
+            Value::Array(a) => a.iter().for_each(|x| walk(x, out)),
+            Value::Object(o) => {
+                if let Some(c) = o
+                    .get("relationship")
+                    .and_then(|r| r.get("context"))
+                    .and_then(Value::as_str)
+                {
+                    out.push(c.trim().to_string());
+                }
+                o.values().for_each(|x| walk(x, out));
+            }
+            _ => {}
+        }
+    }
+    walk(recipe, &mut contexts);
+    let declared: Vec<&str> = graph
+        .components
+        .iter()
+        .find(|c| c.name == component)
+        .and_then(|c| c.raw.get("options"))
+        .and_then(Value::as_object)
+        .map(|o| o.keys().map(String::as_str).collect())
+        .unwrap_or_default();
+    for r in &graph.relationships {
+        let comp = r.raw.pointer("/scope/component").and_then(Value::as_str);
+        let ctx = r.raw.get("context").and_then(Value::as_str).map(str::trim);
+        if comp != Some(component) || !ctx.is_some_and(|c| contexts.iter().any(|x| x == c)) {
+            continue;
+        }
+        let Some(opts) = r.raw.pointer("/scope/options").and_then(Value::as_object) else {
+            continue;
+        };
+        for key in opts.keys() {
+            let reserved = RELATIONSHIP_RESERVED_OPTIONS.contains(&key.as_str());
+            if !reserved && declared.contains(&key.as_str()) && !used.contains(key) {
+                used.push(key.clone());
+            }
+        }
     }
     (used, structural)
 }
@@ -891,8 +949,11 @@ fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
         .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
         .into_iter()
         .map(|(t, (options, extra))| {
-            let mut states = token_states(t);
-            states.extend(extra);
+            let states = if extra.is_empty() {
+                token_states(t)
+            } else {
+                extra
+            };
             let mut c = serde_json::json!({
                 "value": cx.terminal(t),
                 "token": Ctx::token_label(t),
@@ -2120,7 +2181,7 @@ mod tests {
             .as_array()
             .unwrap()
             .iter()
-            .any(|e| !e["candidates"].as_array().unwrap().is_empty()));
+            .any(|e| e["candidates"].as_array().is_some_and(|c| !c.is_empty())));
         let (used, structural) = recipe_options(&recipe);
         assert!(used.contains(&"isPending".to_string()));
         assert!(structural.contains(&"isPending".to_string()));

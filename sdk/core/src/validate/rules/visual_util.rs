@@ -156,31 +156,20 @@ pub(crate) fn component_relationships<'a>(
                 .get("$ref")
                 .and_then(Value::as_str)
                 .and_then(|rf| graph.resolve_alias_key(rf));
-            let mut states = match token {
-                Some(t) => crate::visual::name_states(t.raw.get("name")),
-                None => r
-                    .raw
-                    .pointer("/scope/options")
-                    .and_then(Value::as_object)
-                    .map(|o| {
-                        crate::visual::scope_states(o)
-                            .iter()
-                            .filter_map(|v| v.as_str().map(String::from))
-                            .collect()
-                    })
-                    .unwrap_or_default(),
+            let pinned: Vec<String> = r
+                .raw
+                .pointer("/scope/options")
+                .and_then(Value::as_object)
+                .map(crate::visual::scope_states)
+                .unwrap_or_default()
+                .iter()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect();
+            // A pinned relationship state replaces the bound token's own states.
+            let states = match token {
+                Some(t) if pinned.is_empty() => crate::visual::name_states(t.raw.get("name")),
+                _ => pinned,
             };
-            if token.is_some() {
-                states.extend(
-                    r.raw
-                        .pointer("/scope/options")
-                        .and_then(Value::as_object)
-                        .map(crate::visual::scope_states)
-                        .unwrap_or_default()
-                        .iter()
-                        .filter_map(|v| v.as_str().map(String::from)),
-                );
-            }
             let options = r
                 .raw
                 .pointer("/scope/options")

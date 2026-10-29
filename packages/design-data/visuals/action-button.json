@@ -83,174 +83,12 @@
         },
         "fill": [
           {
-            "token": {
-              "colorFamily": "gray",
-              "scaleIndex": 100,
-              "property": "color"
-            }
-          },
-          {
             "when": {
               "options": {
                 "isQuiet": true
               }
             },
             "value": "transparent"
-          },
-          {
-            "when": {
-              "states": ["hover"]
-            },
-            "token": {
-              "colorFamily": "gray",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "states": ["down"]
-            },
-            "token": {
-              "colorFamily": "gray",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background (selected, non emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "black"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 100,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "black"
-              },
-              "states": ["hover"]
-            },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "black"
-              },
-              "states": ["down"]
-            },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "white"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 100,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "white"
-              },
-              "states": ["hover"]
-            },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "white"
-              },
-              "states": ["down"]
-            },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 200,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background (disabled)"
-            },
-            "priority": 10
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true,
-                "staticColor": "black"
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background (disabled, black)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true,
-                "staticColor": "white"
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background (disabled, white)"
-            }
           },
           {
             "when": {
@@ -265,13 +103,78 @@
           {
             "when": {
               "options": {
+                "isQuiet": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "staticColor": ["black", "white"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
                 "isPending": true
               }
             },
-            "priority": 10,
             "relationship": {
               "property": "color",
-              "context": "Background (disabled)"
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isPending": false,
+                "isQuiet": true,
+                "isSelected": false
+              },
+              "states": ["hover"]
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isPending": false,
+                "isQuiet": true,
+                "isSelected": false
+              },
+              "states": ["down"]
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
             }
           }
         ],
@@ -332,84 +235,15 @@
         },
         "color": [
           {
-            "token": {
-              "legacyKey": "neutral-content-color-default"
-            }
-          },
-          {
-            "when": {
-              "states": ["hover"]
-            },
-            "token": {
-              "legacyKey": "neutral-content-color-hover"
-            }
-          },
-          {
-            "when": {
-              "states": ["down"]
-            },
-            "token": {
-              "legacyKey": "neutral-content-color-down"
-            }
-          },
-          {
             "when": {
               "options": {
-                "isSelected": true
+                "isPending": false
               }
             },
             "relationship": {
               "property": "color",
-              "context": "Label, icon, and hold icon (selected, non emphasized)"
+              "context": "Icon"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Label, icon, and hold icon (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "black"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 800,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "white"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 800,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label, icon, and hold icon (disabled)"
-            },
-            "priority": 10
           }
         ]
       },
@@ -442,84 +276,16 @@
         },
         "color": [
           {
-            "token": {
-              "legacyKey": "neutral-content-color-default"
-            }
-          },
-          {
-            "when": {
-              "states": ["hover"]
-            },
-            "token": {
-              "legacyKey": "neutral-content-color-hover"
-            }
-          },
-          {
-            "when": {
-              "states": ["down"]
-            },
-            "token": {
-              "legacyKey": "neutral-content-color-down"
-            }
-          },
-          {
             "when": {
               "options": {
-                "isSelected": true
+                "hideLabel": false,
+                "isPending": false
               }
             },
             "relationship": {
               "property": "color",
-              "context": "Label, icon, and hold icon (selected, non emphasized)"
+              "context": "Label"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Label, icon, and hold icon (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "black"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 800,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "staticColor": "white"
-              }
-            },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 800,
-              "property": "color"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label, icon, and hold icon (disabled)"
-            },
-            "priority": 10
           }
         ]
       }
@@ -546,44 +312,16 @@
       "props": {
         "color": [
           {
-            "token": {
-              "legacyKey": "neutral-content-color-default"
-            }
-          },
-          {
             "when": {
               "options": {
-                "isSelected": true
+                "hasHoldIcon": true,
+                "isPending": false
               }
             },
             "relationship": {
               "property": "color",
-              "context": "Label, icon, and hold icon (selected, non emphasized)"
+              "context": "Hold icon"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Label, icon, and hold icon (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label, icon, and hold icon (disabled)"
-            },
-            "priority": 10
           }
         ]
       }

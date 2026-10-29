@@ -135,3 +135,35 @@ fn compiled_candidates_carry_the_relationship_state() {
     assert_eq!(hover.len(), 1, "{cands:?}");
     assert_eq!(hover[0]["value"], "rgb(2, 2, 2)");
 }
+
+#[test]
+fn a_pinned_state_replaces_the_tokens_own_state() {
+    // gray-900 carries the state `default` and is reused at keyboard-focus. Its own state
+    // must not be required as well: if it were, nothing would match, and the fallback
+    // (the first candidate by name) would give gray-800 instead.
+    let mut g = graph();
+    if let Some(t) = g.tokens.get_mut("gray-900") {
+        t.raw["name"]["state"] = json!(["default"]);
+    }
+    g.relationships.push(relationship(
+        2,
+        "gray-900",
+        Some(json!({"state": ["keyboard-focus"]})),
+    ));
+    let req = RenderRequest {
+        component: "widget".into(),
+        size: "m".into(),
+        states: vec!["keyboard-focus".into()],
+        mode: mode(),
+        ..Default::default()
+    };
+    let scene = build_scene(&g, &recipe(), &req).unwrap();
+    let fill = scene
+        .nodes
+        .iter()
+        .find(|n| n.part == "box")
+        .unwrap()
+        .fill
+        .clone();
+    assert_eq!(fill.as_deref(), Some("rgb(2, 2, 2)"));
+}
