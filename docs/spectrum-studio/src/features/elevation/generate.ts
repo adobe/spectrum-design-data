@@ -24,6 +24,17 @@ export function generateElevation(
     (_, position) => {
       const index = position - document.below;
       const shadows = document.layers.map((layer) => {
+        if (layer.opacityTokenId)
+          throw new Error(
+            `${layer.label}: resolve its opacity token before generating shadows.`,
+          );
+        const opacity =
+          layer.manualOpacity ??
+          (layer.opacity === undefined ? undefined : layer.opacity / 100);
+        if (opacity === undefined)
+          throw new Error(
+            `${layer.label}: choose an opacity token or a manual percentage.`,
+          );
         const formula = ELEVATION_FORMULAS.find(
           (formula) => formula.id === layer.scaleTypeId,
         );
@@ -50,7 +61,7 @@ export function generateElevation(
             `${layer.label}: a shadow could not be calculated. Reduce its base, scale or level range.`,
           );
         const color = new Color(document.color);
-        color.alpha = layer.opacity / 100;
+        color.alpha = opacity;
         return {
           layerId: layer.id,
           offsetX: 0 as const,
@@ -60,7 +71,7 @@ export function generateElevation(
           color: colorOutput
             ? serializeOutputColor(color, colorOutput)
             : color.toString({ precision: 12 }),
-          opacity: layer.opacity / 100,
+          opacity,
           inset: false as const,
         };
       });

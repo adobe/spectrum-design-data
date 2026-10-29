@@ -6,18 +6,17 @@ import type { PreviewOverrides } from "../modes/previewState";
 import { generateElevation } from "./generate";
 import { resolveElevationDocument } from "./resolution";
 import type { ElevationDocument } from "./model";
+import { opacityAxes, type OpacitySource } from "../opacity/generation";
 
 export type ElevationMetric = "blur" | "offsetY" | "opacity";
 export function elevationComparisonOwner(
   metric: ElevationMetric,
   sets: readonly ModeSet[],
+  opacitySource?: OpacitySource,
 ) {
-  const capability =
-    metric === "offsetY"
-      ? "elevation.depth"
-      : metric === "opacity"
-        ? "elevation.layerOpacities"
-        : undefined;
+  if (metric === "opacity")
+    return opacitySource ? opacityAxes(opacitySource)[0] : undefined;
+  const capability = metric === "offsetY" ? "elevation.depth" : undefined;
   const ownerId = capability && capabilityOwners(sets)[capability];
   return sets.find((set) => set.id === ownerId);
 }
@@ -30,9 +29,10 @@ export function elevationComparisonSeries(
   compareModes: boolean,
   modeIds: readonly string[],
   preview: PreviewOverrides = {},
+  opacitySource?: OpacitySource,
 ): GraphSeries[] {
   const owner = compareModes
-    ? elevationComparisonOwner(metric, sets)
+    ? elevationComparisonOwner(metric, sets, opacitySource)
     : undefined;
   const contexts = owner
     ? owner.modes
@@ -68,7 +68,13 @@ export function elevationComparisonSeries(
   if (owner && metric === "offsetY") delete overrides["elevation.depth"];
   return contexts.flatMap((context) => {
     const values = generateElevation(
-      resolveElevationDocument(document, context.modes, sets, overrides),
+      resolveElevationDocument(
+        document,
+        context.modes,
+        sets,
+        overrides,
+        opacitySource,
+      ),
     );
     return layers.map((layer, index) => ({
       id: `${layer.id}:${context.id}`,

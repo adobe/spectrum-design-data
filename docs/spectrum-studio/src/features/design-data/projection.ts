@@ -55,6 +55,7 @@ import {
 } from "../tokens/aliasTargets";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { componentRelationships } from "../components/projection";
+import { opacityRows, opacityOutputIssues } from "../opacity/output";
 
 function overrideEvidence(row: BrowserToken): Partial<AnalysisRecord> {
   return row.nameOverridden || row.valueOverridden
@@ -209,6 +210,7 @@ export function projectAuthoringDataset(
         size: system.foundations.size,
         radius: system.foundations.radius,
         elevation: system.foundations.elevation,
+        opacity: system.foundations.opacity,
         taxonomy: system.taxonomy,
         structures: system.structures,
         rules: system.rules,
@@ -385,6 +387,58 @@ export function projectAuthoringDataset(
       );
     }
     const combinations = modeCombinations(axes);
+    errors.push(
+      ...opacityOutputIssues({
+        opacity: system.foundations.opacity,
+        colorSystem: system.foundations.color,
+        modeSets: system.modeSets,
+        browserTokenEdits: browserEdits,
+      }),
+    );
+    for (const row of opacityRows(
+      {
+        opacity: system.foundations.opacity,
+        colorSystem: system.foundations.color,
+        modeSets: system.modeSets,
+        browserTokenEdits: browserEdits,
+      },
+      system.taxonomy,
+    )) {
+      if (!row.uuid || row.issues.length) {
+        errors.push(...row.issues);
+        continue;
+      }
+      add(
+        "tokens",
+        row.uuid,
+        row.name,
+        row.value,
+        "/system/foundations/opacity",
+        {
+          identity: row.uuid,
+          conceptId: row.conceptId,
+          context: row.context,
+          structuredName: {
+            property: "opacity",
+            scaleIndex: row.scaleIndex,
+            ...row.context,
+          },
+          classification: "generated",
+          ...(row.value !== row.generatedValue && {
+            overrides: { generatedValue: row.generatedValue },
+          }),
+        },
+      );
+      observe(
+        row.uuid,
+        "opacity",
+        row.context,
+        "serialized-context",
+        browserEdits[row.conceptId]?.values[row.modeKey]
+          ? [browserAssignmentId(row.conceptId, row.modeKey)]
+          : [],
+      );
+    }
     for (const modes of combinations) {
       const context = contextForModes(axes, modes);
       const modeValues = resolveModeParameterValues(
@@ -399,7 +453,18 @@ export function projectAuthoringDataset(
       const elevationSources = browserElevationSources(
         elevation,
         generateElevation(
-          resolveElevationDocument(elevation, modes, system.modeSets),
+          resolveElevationDocument(
+            elevation,
+            modes,
+            system.modeSets,
+            {},
+            {
+              opacity: system.foundations.opacity,
+              colorSystem: system.foundations.color,
+              modeSets: system.modeSets,
+              browserTokenEdits: browserEdits,
+            },
+          ),
           system.scaleTypes,
           system.foundations.color.settings.colorOutput,
         ),

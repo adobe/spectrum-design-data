@@ -1,57 +1,88 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ActionButton, Text, ToastQueue } from "@react-spectrum/s2";
-import { useAtomValue, useSetAtom } from "jotai";
+import { Text } from "@react-spectrum/s2";
+import { useAtomValue } from "jotai";
 import { EditableNumberField } from "../../components/editable";
-import {
-  elevationDocumentAtom,
-  setShadowModeOpacityAtom,
-} from "../../features/elevation/state";
-import type { Mode, ModeSet } from "../../features/modes/model";
+import { TokenComboBox } from "../../components/fields/TokenComboBox";
+import type { ShadowLayer } from "../../features/elevation/model";
+import { opacityResultAtom } from "../../features/opacity/state";
 
 export function ShadowOpacityControls({
-  modeSet,
-  mode,
+  layer,
+  isReadOnly,
+  onChange,
 }: {
-  modeSet: ModeSet;
-  mode: Mode;
+  layer: ShadowLayer;
+  isReadOnly: boolean;
+  onChange: (patch: Partial<Omit<ShadowLayer, "id">>) => void;
 }) {
-  const document = useAtomValue(elevationDocumentAtom);
-  const update = useSetAtom(setShadowModeOpacityAtom);
-  const change = (layerId: string, opacity?: number) => {
-    try {
-      update({ modeSetId: modeSet.id, modeId: mode.id, layerId, opacity });
-    } catch (failure) {
-      ToastQueue.negative(
-        failure instanceof Error ? failure.message : String(failure),
-      );
-    }
-  };
+  const result = useAtomValue(opacityResultAtom);
+  const token = result.levels.find(
+    (level) => level.id === layer.opacityTokenId,
+  );
+  const manual =
+    layer.manualOpacity ??
+    (layer.opacity === undefined ? undefined : layer.opacity / 100);
+  const issue =
+    result.issues.join(" ") ||
+    (layer.opacityTokenId && !token
+      ? "This opacity token is unavailable. Choose another token or a manual percentage."
+      : undefined);
+  if (isReadOnly)
+    return (
+      <Text>
+        {token
+          ? `${token.name}: ${token.value * 100}%`
+          : manual !== undefined
+            ? `Opacity: ${manual * 100}% (manual)`
+            : issue}
+      </Text>
+    );
   return (
     <>
-      {!document.layers.length && <Text>Add a shadow to set its opacity.</Text>}
-      {document.layers.map((layer) => (
-        <div key={layer.id}>
-          <EditableNumberField
-            label={`${layer.label} opacity (%)`}
-            minValue={0}
-            maxValue={100}
-            value={
-              mode.id === modeSet.defaultModeId
-                ? layer.opacity
-                : (mode.foundations.elevation?.layerOpacities?.[layer.id] ??
-                  layer.opacity)
-            }
-            onChange={(value) => change(layer.id, value)}
-          />
-          {mode.id !== modeSet.defaultModeId &&
-            mode.foundations.elevation?.layerOpacities?.[layer.id] !==
-              undefined && (
-              <ActionButton size="S" onPress={() => change(layer.id)}>
-                Use default opacity
-              </ActionButton>
-            )}
-        </div>
-      ))}
+      <TokenComboBox
+        label="Opacity"
+        selectedKey={layer.opacityTokenId ?? "manual"}
+        options={[
+          {
+            id: "manual",
+            kind: "preset",
+            name: "Manual percentage",
+            displayValue: "Manual",
+          },
+          ...result.levels.map((level) => ({
+            id: level.id,
+            kind: "token" as const,
+            name: level.name,
+            displayValue: `${level.value * 100}%`,
+          })),
+        ]}
+        error={issue}
+        onChange={(id) => {
+          if (id === "manual")
+            onChange({
+              opacityTokenId: undefined,
+              opacity: undefined,
+              manualOpacity: token?.value ?? manual ?? 0.2,
+            });
+          else if (id)
+            onChange({
+              opacityTokenId: id,
+              manualOpacity: undefined,
+              opacity: undefined,
+            });
+        }}
+      />
+      {manual !== undefined && !layer.opacityTokenId && (
+        <EditableNumberField
+          label="Opacity (%) — manual"
+          value={manual * 100}
+          minValue={0}
+          maxValue={100}
+          onChange={(value) =>
+            onChange({ manualOpacity: value / 100, opacity: undefined })
+          }
+        />
+      )}
     </>
   );
 }

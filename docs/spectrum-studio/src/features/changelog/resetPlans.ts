@@ -3,6 +3,7 @@ import { atom } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import {
   foundationModeAttachmentsAtom,
+  FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
   isFoundationModeAttachments,
   type FoundationModeAttachments,
 } from "../../state/view/foundationModeAttachments";
@@ -343,7 +344,9 @@ export function generatedResetOptions(
           shippedValue: value.shippedValue,
           expectedSource: structuredClone(contextualSource),
           expectedEdit: structuredClone(
-            snapshot.browserTokenEdits?.[value.tokenId]?.values[context.key],
+            snapshot.browserTokenEdits?.[value.tokenId]?.values[
+              contextualSource.modeKey ?? context.key
+            ],
           ),
         },
       };
@@ -383,7 +386,7 @@ export function prepareChangeReset(
   if (plan.kind === "source") {
     const shipped: ResetSnapshot = {
       ...createDefaultSnapshot(),
-      attachments: {},
+      attachments: structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
     };
     // Check every address against the original before applying overlapping object/field restores.
     for (const address of plan.addresses)
@@ -404,7 +407,9 @@ export function prepareChangeReset(
       !source ||
       !sameValue(source, plan.expectedSource) ||
       !sameValue(
-        working.browserTokenEdits?.[plan.tokenId]?.values[plan.modeKey],
+        working.browserTokenEdits?.[plan.tokenId]?.values[
+          source?.modeKey ?? plan.modeKey
+        ],
         plan.expectedEdit,
       )
     ) {

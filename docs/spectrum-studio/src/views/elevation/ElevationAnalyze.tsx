@@ -5,6 +5,7 @@ import { elevationDocumentAtom } from "../../features/elevation/state";
 import { modeSetsAtom } from "../../features/modes/state";
 import { activeModesAtom } from "../../features/modes/selection";
 import { previewOverridesAtom } from "../../features/modes/previewState";
+import { opacitySourceAtom } from "../../features/opacity/state";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import { ElevationComparison } from "./ElevationComparison";
 
@@ -22,6 +23,7 @@ export function ElevationAnalyze() {
   const modeSets = useAtomValue(modeSetsAtom);
   const activeModes = useAtomValue(activeModesAtom);
   const preview = useAtomValue(previewOverridesAtom);
+  const opacitySource = useAtomValue(opacitySourceAtom);
   return (
     <div
       className={`${container} chartComparisonContainer`}
@@ -33,6 +35,7 @@ export function ElevationAnalyze() {
         modeSets={modeSets}
         activeModes={activeModes}
         preview={preview}
+        opacitySource={opacitySource}
       />
     </div>
   );

@@ -27,6 +27,8 @@ import type {
 } from "./model";
 import { isJsonValue } from "./model";
 import { assertShadowValue } from "../design-data/shadowValue";
+import { opacityRows, opacityOutputIssues } from "../opacity/output";
+import type { OpacityDocument } from "../opacity/model";
 import { assertComponentValueType } from "./validation";
 import {
   componentColorInput,
@@ -54,6 +56,7 @@ export type ComponentToken = ComponentTokenMetadata &
     | { outputError: ColorOutputError; value?: never }
   );
 export type ComponentTokenSource = TshirtAuthoringSource & {
+  opacity?: OpacityDocument;
   colorSystem: CascadeExportInput["base"];
   tokenOverrides: CascadeExportInput["overrides"];
 };
@@ -188,6 +191,26 @@ function buildComponentTokenCatalog(
     });
   }
   const scaleColors: PreparedScaleColors[] = [];
+  if (source.opacity) {
+    const issues = opacityOutputIssues(source);
+    if (issues.length) throw new Error(issues.join(" "));
+  }
+  for (const row of opacityRows(source, taxonomy)) {
+    if (!row.uuid || row.issues.length)
+      throw new Error(
+        row.issues.join(" ") || "Opacity row identity is unavailable.",
+      );
+    add({
+      id: row.uuid,
+      name: row.name,
+      property: "opacity",
+      value: row.value,
+      displayValue: `${row.value * 100}%`,
+      context: row.context,
+      ownerId: row.conceptId,
+      kind: "primitive",
+    });
+  }
   const colors =
     witnessedComponentColors(colorWitness, source) ??
     buildComponentColorTokens(
@@ -203,6 +226,7 @@ function buildComponentTokenCatalog(
     formulas: source.scaleTypes,
     modeSets: source.modeSets,
     colorOutput: source.colorSystem.settings.colorOutput,
+    opacitySource: source,
   });
   for (const token of shadows.tokens) {
     if (!isJsonValue(token.value) || token.value === null)

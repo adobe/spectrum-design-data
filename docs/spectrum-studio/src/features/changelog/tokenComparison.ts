@@ -21,6 +21,8 @@ import {
   selectionForModes,
 } from "../modes/combinations";
 import { elevationOwnerIds } from "../elevation/output";
+import { opacityAxes } from "../opacity/generation";
+import { opacityOutputIssues } from "../opacity/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { isFoundationPublished } from "../foundations/types";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
@@ -86,8 +88,15 @@ function scopeKey(
         scale,
       ))
         axes.add(axis);
+  } else if (token.type === "opacity") {
+    for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
   } else if (token.type === "elevation") {
-    for (const axis of elevationOwnerIds(snapshot.modeSets)) axes.add(axis);
+    for (const axis of elevationOwnerIds(
+      snapshot.modeSets,
+      snapshot,
+      snapshot.elevation,
+    ))
+      axes.add(axis);
   } else if (token.type === "colors" && !token.paletteColorId) {
     for (const key of [
       "color.backgroundScaleId",
@@ -140,6 +149,8 @@ function projectPrimitiveRows(
   snapshot: EditSessionSnapshot,
   other: EditSessionSnapshot,
 ): Map<string, Map<string, ValueRow>> {
+  const opacityIssues = opacityOutputIssues(snapshot);
+  if (opacityIssues.length) throw new Error(opacityIssues.join(" "));
   const axes = snapshot.modeSets.filter((axis) => axis.modes.length);
   if (modeCombinationCount(axes) > 4096) {
     throw new Error(
@@ -323,8 +334,22 @@ function dependencyPaths(
           ),
         );
     }
+  } else if (token.type === "opacity") {
+    paths.push(["opacity", "levels", { key: "id", id: token.id }]);
+    paths.push(["opacity", "polarityCompensation"]);
+    paths.push(["colorSystem", "backgroundLightness"]);
+    paths.push(["colorSystem", "backgroundScaleId"]);
   } else if (token.type === "elevation") {
     paths.push(["elevation"]);
+    for (const layer of snapshot.elevation?.layers ?? [])
+      if (layer.opacityTokenId) {
+        paths.push([
+          "opacity",
+          "levels",
+          { key: "id", id: layer.opacityTokenId },
+        ]);
+        paths.push(["opacity", "polarityCompensation"]);
+      }
     for (const layer of snapshot.elevation?.layers ?? [])
       paths.push(entity("scaleTypes", undefined, layer.scaleTypeId));
   } else if (
@@ -357,7 +382,9 @@ function dependencyPaths(
       "modes",
       { key: "id", id: modeId },
       "foundations",
-      token.type === "colors" ? "color" : token.type,
+      token.type === "colors" || token.type === "opacity"
+        ? "color"
+        : token.type,
     ]);
   const classification =
     token.taxonomySource?.governed ?? token.projection?.classification ?? {};
@@ -451,8 +478,8 @@ export function comparePrimitiveTokens(
         dependencies.push(
           ...dependencyPaths(next.token, working, next.modeKey),
         );
-      const edit =
-        next && working.browserTokenEdits?.[id]?.values[next.modeKey];
+      const editKey = next?.token.modeKey ?? next?.modeKey;
+      const edit = editKey && working.browserTokenEdits?.[id]?.values[editKey];
       const legacy = working.tokenOverrides[id];
       const staticScale = next?.token.dataVis?.static
         ? working.colorSystem.dataVisScales.find(
@@ -480,7 +507,7 @@ export function comparePrimitiveTokens(
             }
           : !next?.token.dataVis?.static && edit
             ? {
-                path: ["browserTokenEdits", id, "values", next!.modeKey],
+                path: ["browserTokenEdits", id, "values", editKey!],
                 expected: edit,
               }
             : !next?.token.dataVis?.static && legacy?.value !== undefined

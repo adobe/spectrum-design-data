@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom } from "jotai";
+import { atom, type Getter, type Setter } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { capabilityOwners, parameterOwners } from "./parameters";
 import {
@@ -30,6 +30,10 @@ import {
   restoreTokenModeValues,
   type RemovedTokenModeValues,
 } from "./tokenValueCleanup";
+import { opacityDocumentAtom } from "../opacity/state";
+import { synchronizeOpacityRows } from "../opacity/generation";
+import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import type { BrowserTokenEdits } from "../tokens/browserModel";
 
 interface RemovedModeTokenValues {
   values: RemovedTokenModeValues;
@@ -59,6 +63,33 @@ export const modeSetsAtom = persistedAtom<ModeSet[]>({
   migrate: migrateModeSets,
 });
 
+function writeModeSources(
+  get: Getter,
+  set: Setter,
+  modeSets: ModeSet[],
+  edits: BrowserTokenEdits = get(browserTokenEditsAtom),
+) {
+  const opacity = synchronizeOpacityRows({
+    opacity: get(opacityDocumentAtom),
+    colorSystem: get(colorSystemDocumentAtom),
+    modeSets,
+    browserTokenEdits: edits,
+  })!;
+  withValidatedAuthoringUpdates(
+    get,
+    new Map<string, unknown>([
+      ["modes/mode-sets", modeSets],
+      ["tokens/browser/edits", edits],
+      ["foundations/opacity", opacity],
+    ]),
+    () => {
+      set(modeSetsAtom, modeSets);
+      set(browserTokenEditsAtom, edits);
+      set(opacityDocumentAtom, opacity);
+    },
+  );
+}
+
 export const addModeSetAtom = atom(null, (get, set, modeSet: ModeSet) => {
   const owners = capabilityOwners(get(modeSetsAtom));
   if (
@@ -78,7 +109,7 @@ export const addModeSetAtom = atom(null, (get, set, modeSet: ModeSet) => {
     ...get(modeSetsAtom),
     { ...modeSet, defaultModeId: next.defaultModeId },
   ]);
-  set(modeSetsAtom, [...get(modeSetsAtom), next]);
+  writeModeSources(get, set, [...get(modeSetsAtom), next]);
 });
 
 export const replaceModeSetAtom = atom(null, (get, set, modeSet: ModeSet) => {
@@ -114,8 +145,7 @@ export const replaceModeSetAtom = atom(null, (get, set, modeSet: ModeSet) => {
     ? removeTokenModeValues(get(browserTokenEditsAtom), next.id, removedModes)
         .edits
     : undefined;
-  set(modeSetsAtom, sets);
-  if (edits) set(browserTokenEditsAtom, edits);
+  writeModeSources(get, set, sets, edits);
 });
 
 export const removeModeSetAtom = atom(null, (get, set, id: string) => {
@@ -134,11 +164,12 @@ export const removeModeSetAtom = atom(null, (get, set, id: string) => {
     clearPreviewParametersAtom,
     owned.filter((capability) => capability.startsWith("elevation.")),
   );
-  set(
-    modeSetsAtom,
+  writeModeSources(
+    get,
+    set,
     get(modeSetsAtom).filter((item) => item.id !== id),
+    edits.edits,
   );
-  set(browserTokenEditsAtom, edits.edits);
   set(releaseModeSetClaimsAtom, id);
   const attachments = { ...get(foundationModeAttachmentsAtom) };
   delete attachments[id];
@@ -194,8 +225,7 @@ export const restoreModeSetAtom = atom(
           input.tokenValues.values,
         )
       : undefined;
-    set(modeSetsAtom, next);
-    if (edits) set(browserTokenEditsAtom, edits);
+    writeModeSources(get, set, next, edits);
     if (input.claims) set(restoreModeSetClaimsAtom, input.claims);
     if (input.attachments)
       set(foundationModeAttachmentsAtom, (current) => ({

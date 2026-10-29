@@ -11,6 +11,24 @@ test.afterEach(({ page }) => {
   expect(errors.get(page)).toEqual([]);
 });
 
+test("Opacity token previews use checkerboards in both appearances", async ({
+  page,
+}) => {
+  await page.goto(
+    "/iframe.html?id=components-value-preview--opacity&viewMode=story",
+  );
+  await expect(page.locator("#storybook-root")).toHaveAttribute(
+    "data-play-complete",
+    "true",
+  );
+  await expect(
+    page.getByRole("img", { name: "Opacity light", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("img", { name: "Opacity dark", exact: true }),
+  ).toBeVisible();
+});
+
 for (const appearance of ["light", "dark"])
   for (const width of [1280, 390]) {
     test(`Classified-value gallery renders exact values in ${appearance} at ${width}px`, async ({

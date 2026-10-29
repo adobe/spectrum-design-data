@@ -37,6 +37,7 @@ import {
   ELEVATION_POWER_FORMULA_ID,
 } from "../../features/elevation/formulas";
 import { useRequestedFieldFocus } from "../../components/fields/useRequestedFieldFocus";
+import { ShadowOpacityControls } from "./ShadowOpacityControls";
 
 const stack = style({
   display: "flex",
@@ -85,7 +86,6 @@ export interface ElevationEditorProps {
 function ShadowFields({
   layer,
   isReadOnly,
-  owned,
   onLayerChange,
   focusName,
   onNameFocused,
@@ -161,16 +161,11 @@ function ShadowFields({
         step={layer.scaleTypeId === ELEVATION_POWER_FORMULA_ID ? 0.1 : 1}
         onChange={(scale) => onLayerChange(layer.id, { scale })}
       />
-      {!owned?.["elevation.layerOpacities"] && (
-        <EditableNumberField
-          label="Opacity (%)"
-          isReadOnly={isReadOnly}
-          value={layer.opacity}
-          minValue={0}
-          maxValue={100}
-          onChange={(opacity) => onLayerChange(layer.id, { opacity })}
-        />
-      )}
+      <ShadowOpacityControls
+        layer={layer}
+        isReadOnly={isReadOnly}
+        onChange={(patch) => onLayerChange(layer.id, patch)}
+      />
     </div>
   );
 }
