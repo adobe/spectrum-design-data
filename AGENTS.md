@@ -95,7 +95,7 @@ cp -rf source dest          # NOT: cp -r source dest
 
 Beads sync to Jira (`DNA` project) weekly. Use the `beads-jira-sync` skill (`.ai/skills/beads-jira-sync/SKILL.md`) for the sync, initiative labels, the initiative list, and key lookups.
 
-* Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label, one per epic.
+* Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label, one per epic. Create new beads with `--parent <epic>` so work rolls up to an initiative; environment and personal-tooling tasks are exempt. The sync reports closed work with no initiative.
 * **Sprints**: the sync assigns sprints itself. Closed beads go to the sprint containing their close date, `in_progress` beads go to the active sprint, and open beads stay in the backlog. Jira rejects adds to closed sprints, so work closed in an already-closed sprint is skipped.
 * Sprints run two weeks on the `Data System Scrum Board` and are opened and closed by hand in Jira. Before a weekly sync, check that the active sprint covers today's date. If it is stale, close it and any sprints that have passed (oldest first), then start the current one, or the sync will file work into the wrong sprint.
 * Completing a sprint sets its completion date to the day it was closed, so close stale sprints promptly.
