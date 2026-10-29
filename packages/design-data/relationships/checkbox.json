@@ -154,6 +154,14 @@
   {
     "scope": {
       "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "966c56d0-4461-45e7-9e20-0277f2111a34"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -556,6 +564,102 @@
       "component": "checkbox",
       "property": "content-color"
     },
+    "context": "Control",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (selected, disabled)",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (selected, disabled)",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "color"
+    },
+    "context": "Control (selected, disabled)",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (selected, disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
     "context": "Control (selected, emphasized)",
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
   },
@@ -602,18 +706,66 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "color"
+      "property": "content-color"
     },
-    "context": "Checkbox colors",
-    "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538"
+    "context": "Control (error)",
+    "$ref": "2a1b0c71-c3a4-4f4c-a625-346e026853e5"
   },
   {
     "scope": {
       "component": "checkbox",
-      "property": "color"
+      "property": "content-color"
     },
-    "context": "Checkbox colors",
-    "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2"
+    "context": "Control (error)",
+    "$ref": "ff90152d-86bf-4a34-9a7e-ede61966bda0"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (error)",
+    "$ref": "f760cc99-ebec-4d34-931e-5621aef995a0"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (error)",
+    "$ref": "03a7aa1f-9493-4054-bb21-eb10e593da73"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (selected, error)",
+    "$ref": "2a1b0c71-c3a4-4f4c-a625-346e026853e5"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (selected, error)",
+    "$ref": "ff90152d-86bf-4a34-9a7e-ede61966bda0"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (selected, error)",
+    "$ref": "f760cc99-ebec-4d34-931e-5621aef995a0"
+  },
+  {
+    "scope": {
+      "component": "checkbox",
+      "property": "content-color"
+    },
+    "context": "Control (selected, error)",
+    "$ref": "03a7aa1f-9493-4054-bb21-eb10e593da73"
   },
   {
     "scope": {

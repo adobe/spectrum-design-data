@@ -4,7 +4,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "407304fc-7c74-4427-9032-b44ab03c07ce"
   },
   {
@@ -12,7 +12,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "90a2b18a-61c7-40d8-926c-d6b18a641010"
   },
   {
@@ -20,7 +20,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "9de5b045-532c-48ef-872e-bd3c22f89a41"
   },
   {
@@ -28,7 +28,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "2eef4003-e666-48e7-b25b-8c50063ce400"
   },
   {
@@ -36,7 +36,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8"
   },
   {
@@ -44,7 +44,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "23d0a4aa-693d-4b79-b942-3898f9cf0b80"
   },
   {
@@ -52,7 +52,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4"
   },
   {
@@ -60,7 +60,7 @@
       "component": "radio-button",
       "property": "size"
     },
-    "context": "S2 Control (size)",
+    "context": "Control (size)",
     "$ref": "cc041f48-aaa4-4c20-8990-599e0c56134e"
   },
   {
@@ -68,7 +68,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
@@ -76,7 +76,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
@@ -84,7 +84,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
@@ -92,7 +92,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
@@ -100,7 +100,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -108,7 +108,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -116,7 +116,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -124,7 +124,7 @@
       "component": "radio-button",
       "property": "space-between"
     },
-    "context": "S2 Spacing (top edge to control)",
+    "context": "Spacing (top edge to control)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {

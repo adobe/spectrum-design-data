@@ -1268,7 +1268,7 @@
       "component": "text-area",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -1276,7 +1276,7 @@
       "component": "text-area",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -1284,7 +1284,7 @@
       "component": "text-area",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -1292,7 +1292,7 @@
       "component": "text-area",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {

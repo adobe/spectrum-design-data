@@ -60,7 +60,7 @@
           }
         }
       },
-      "pressTarget": "box"
+      "pressTarget": "control"
     },
     "control": {
       "kind": "box",
@@ -175,10 +175,9 @@
                 "isError": true
               }
             },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 900
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, error)"
             },
             "priority": 5
           },
@@ -189,10 +188,9 @@
                 "isError": true
               }
             },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 900
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, error)"
             },
             "priority": 5
           },
@@ -205,7 +203,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Label (disabled)"
+              "context": "Control (selected, disabled)"
             },
             "priority": 10
           },
@@ -218,106 +216,16 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Label (disabled)"
+              "context": "Control (selected, disabled)"
             },
             "priority": 10
-          },
-          {
-            "when": {
-              "states": ["hover"],
-              "options": {
-                "isSelected": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["down"],
-              "options": {
-                "isSelected": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["keyboard-focus"],
-              "options": {
-                "isSelected": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["hover"],
-              "options": {
-                "isIndeterminate": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["down"],
-              "options": {
-                "isIndeterminate": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["keyboard-focus"],
-              "options": {
-                "isIndeterminate": true,
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
           }
         ],
         "stroke": [
           {
             "relationship": {
               "property": "content-color",
-              "context": "Label"
+              "context": "Control"
             }
           },
           {
@@ -326,54 +234,11 @@
                 "isError": true
               }
             },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 900
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (error)"
             },
             "priority": 5
-          },
-          {
-            "when": {
-              "states": ["hover"],
-              "options": {
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["down"],
-              "options": {
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
-          },
-          {
-            "when": {
-              "states": ["keyboard-focus"],
-              "options": {
-                "isError": true
-              }
-            },
-            "token": {
-              "property": "color",
-              "colorRole": "negative",
-              "scaleIndex": 1000
-            },
-            "priority": 6
           },
           {
             "when": {
@@ -383,7 +248,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Label (disabled)"
+              "context": "Control (disabled)"
             },
             "priority": 10
           }
