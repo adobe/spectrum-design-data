@@ -21,7 +21,7 @@ use crate::graph::TokenGraph;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, error, expand_selector, has_template, size_entries, walk_objects,
+    component_of, error, expand_selector, has_template, size_entries, tokens_matching, walk_objects,
 };
 
 pub struct Rule;
@@ -34,39 +34,8 @@ fn relationship_exists(graph: &TokenGraph, component: &str, property: &str, cont
     })
 }
 
-fn name_matches(name: &Value, sel: &Map<String, Value>) -> bool {
-    sel.iter().all(|(k, want)| match name.get(k) {
-        Some(Value::Array(a)) => a.contains(want),
-        Some(have) => have == want,
-        None => false,
-    })
-}
-
 fn token_exists(graph: &TokenGraph, sel: &Map<String, Value>) -> bool {
-    let find = |sel: &Map<String, Value>| {
-        graph
-            .tokens
-            .values()
-            .any(|t| t.raw.get("name").is_some_and(|n| name_matches(n, sel)))
-    };
-    if find(sel) {
-        return true;
-    }
-    // A bare `font-size-{n}` style property may also be encoded as property + scaleIndex.
-    let Some((base, idx)) = sel
-        .get("property")
-        .and_then(Value::as_str)
-        .and_then(|p| p.rsplit_once('-'))
-    else {
-        return false;
-    };
-    let Ok(i) = idx.parse::<u64>() else {
-        return false;
-    };
-    let mut alt = sel.clone();
-    alt.insert("property".into(), Value::String(base.into()));
-    alt.insert("scaleIndex".into(), Value::from(i));
-    find(&alt)
+    !tokens_matching(graph, sel).is_empty()
 }
 
 impl ValidationRule for Rule {

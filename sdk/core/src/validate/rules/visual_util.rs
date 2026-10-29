@@ -10,9 +10,9 @@
 
 //! Shared helpers for the visual-recipe rules (SPEC-060..063).
 
-use serde_json::Value;
+use serde_json::{Map, Value};
 
-use crate::graph::{ComponentRecord, TokenGraph, VisualRecord};
+use crate::graph::{ComponentRecord, TokenGraph, TokenRecord, VisualRecord};
 use crate::report::{Diagnostic, Severity};
 
 /// The declared component a recipe names, if any.
@@ -41,6 +41,151 @@ pub(crate) fn error(
 }
 
 /// Call `f` with a JSON-pointer path for every object nested under `value`.
+pub(crate) fn diagnostic(
+    rule_id: &str,
+    visual: &VisualRecord,
+    instance_path: &str,
+    severity: Severity,
+    message: String,
+) -> Diagnostic {
+    Diagnostic {
+        file: visual.file.clone(),
+        token: None,
+        rule_id: Some(rule_id.to_string()),
+        severity,
+        message,
+        instance_path: Some(instance_path.to_string()),
+        schema_path: None,
+    }
+}
+
+pub(crate) fn warning(
+    rule_id: &str,
+    visual: &VisualRecord,
+    instance_path: &str,
+    message: String,
+) -> Diagnostic {
+    diagnostic(rule_id, visual, instance_path, Severity::Warning, message)
+}
+
+pub(crate) fn info(
+    rule_id: &str,
+    visual: &VisualRecord,
+    instance_path: &str,
+    message: String,
+) -> Diagnostic {
+    diagnostic(rule_id, visual, instance_path, Severity::Info, message)
+}
+
+/// Whether a token `name` object carries every field of a selector. A scalar selector
+/// value matches an array-valued name field that contains it.
+pub(crate) fn name_matches(name: &Value, sel: &Map<String, Value>) -> bool {
+    sel.iter().all(|(k, want)| match name.get(k) {
+        Some(Value::Array(a)) => a.contains(want),
+        Some(have) => have == want,
+        None => false,
+    })
+}
+
+/// Tokens a `token` selector matches. A bare `font-size-{n}` style property also matches
+/// the property + scaleIndex encoding.
+pub(crate) fn tokens_matching<'a>(
+    graph: &'a TokenGraph,
+    sel: &Map<String, Value>,
+) -> Vec<&'a TokenRecord> {
+    let find = |sel: &Map<String, Value>| -> Vec<&'a TokenRecord> {
+        graph
+            .tokens
+            .values()
+            .filter(|t| t.raw.get("name").is_some_and(|n| name_matches(n, sel)))
+            .collect()
+    };
+    let found = find(sel);
+    if !found.is_empty() {
+        return found;
+    }
+    let Some((base, idx)) = sel
+        .get("property")
+        .and_then(Value::as_str)
+        .and_then(|p| p.rsplit_once('-'))
+    else {
+        return found;
+    };
+    let Ok(i) = idx.parse::<u64>() else {
+        return found;
+    };
+    let mut alt = sel.clone();
+    alt.insert("property".into(), Value::String(base.into()));
+    alt.insert("scaleIndex".into(), Value::from(i));
+    find(&alt)
+}
+
+/// One relationship on a component, with the token it binds (when it has a `$ref`).
+pub(crate) struct RelTarget<'a> {
+    pub property: String,
+    pub context: Option<String>,
+    pub token: Option<&'a TokenRecord>,
+    /// State ids the relationship selects, from the bound token or its own scope.
+    pub states: Vec<String>,
+}
+
+pub(crate) fn component_relationships<'a>(
+    graph: &'a TokenGraph,
+    component: &str,
+) -> Vec<RelTarget<'a>> {
+    graph
+        .relationships
+        .iter()
+        .filter(|r| r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component))
+        .map(|r| {
+            let property = r
+                .raw
+                .pointer("/scope/property")
+                .and_then(Value::as_str)
+                .unwrap_or_default()
+                .to_string();
+            let context = r
+                .raw
+                .get("context")
+                .and_then(Value::as_str)
+                .map(|c| c.trim().to_string());
+            let token = r
+                .raw
+                .get("$ref")
+                .and_then(Value::as_str)
+                .and_then(|rf| graph.resolve_alias_key(rf));
+            let states = match token {
+                Some(t) => crate::visual::name_states(t.raw.get("name")),
+                None => r
+                    .raw
+                    .pointer("/scope/options")
+                    .and_then(Value::as_object)
+                    .map(|o| {
+                        crate::visual::scope_states(o)
+                            .iter()
+                            .filter_map(|v| v.as_str().map(String::from))
+                            .collect()
+                    })
+                    .unwrap_or_default(),
+            };
+            RelTarget {
+                property,
+                context,
+                token,
+                states,
+            }
+        })
+        .collect()
+}
+
+/// Whether a token has been deprecated.
+pub(crate) fn is_deprecated(token: &TokenRecord) -> bool {
+    token
+        .raw
+        .pointer("/lifecycle/deprecatedIn")
+        .is_some_and(|v| !v.is_null())
+}
+
 pub(crate) fn walk_objects(value: &Value, path: &str, f: &mut dyn FnMut(&str, &Value)) {
     match value {
         Value::Object(map) => {
@@ -118,4 +263,83 @@ pub(crate) fn option_values(option: &Value) -> Option<Vec<Value>> {
             .map(|v| v.get("value").cloned().unwrap_or_else(|| v.clone()))
             .collect()
     })
+}
+
+#[cfg(test)]
+pub(crate) mod test_util {
+    use std::path::PathBuf;
+
+    use serde_json::{json, Value};
+
+    use crate::graph::{
+        ComponentRecord, Layer, RelationshipRecord, TokenGraph, TokenRecord, VisualRecord,
+    };
+    use crate::registry::RegistryData;
+    use crate::report::Diagnostic;
+    use crate::validate::rule::{ValidationContext, ValidationRule};
+
+    /// A token record keyed by `key`; `lifecycle` is merged into the raw record.
+    pub fn token(key: &str, name: Value, lifecycle: Option<Value>) -> TokenRecord {
+        let mut raw = json!({ "name": name, "value": "1px" });
+        if let Some(l) = lifecycle {
+            raw["lifecycle"] = l;
+        }
+        TokenRecord {
+            name: key.into(),
+            file: PathBuf::from("tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: Some(key.into()),
+            alias_target: None,
+            raw,
+            layer: Layer::Foundation,
+        }
+    }
+
+    pub fn graph(
+        component: Value,
+        relationships: Vec<Value>,
+        tokens: Vec<TokenRecord>,
+        recipes: Vec<(&str, Value)>,
+    ) -> TokenGraph {
+        let mut g = TokenGraph::default();
+        let name = component["name"].as_str().unwrap_or("switch").to_string();
+        g.components.push(ComponentRecord {
+            name,
+            file: PathBuf::from("dataset.json"),
+            raw: component,
+            layer: Layer::Foundation,
+        });
+        for (i, raw) in relationships.into_iter().enumerate() {
+            g.relationships.push(RelationshipRecord {
+                file: PathBuf::from("relationships.json"),
+                index: i,
+                uuid: None,
+                raw,
+            });
+        }
+        for t in tokens {
+            g.tokens.insert(t.name.clone(), t);
+        }
+        for (component, raw) in recipes {
+            g.visuals.push(VisualRecord {
+                component: component.into(),
+                file: PathBuf::from(format!("visuals/{component}.json")),
+                raw,
+            });
+        }
+        g
+    }
+
+    pub fn run(rule: &dyn ValidationRule, g: &TokenGraph) -> Vec<Diagnostic> {
+        let exceptions = std::collections::HashSet::new();
+        let registry = RegistryData::embedded();
+        let ctx = ValidationContext {
+            graph: g,
+            naming_exceptions: &exceptions,
+            registry,
+            manifest: None,
+        };
+        rule.validate(&ctx)
+    }
 }

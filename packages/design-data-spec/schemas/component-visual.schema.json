@@ -26,6 +26,12 @@
       "pattern": "^[a-z][a-z0-9-]*$",
       "description": "Key of the root part in `parts`."
     },
+    "notVisual": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
+    },
     "sizeScale": {
       "type": "object",
       "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors.",

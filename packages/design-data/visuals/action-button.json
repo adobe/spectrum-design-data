@@ -10,6 +10,7 @@
     "l": 200,
     "xl": 300
   },
+  "notVisual": ["icon"],
   "parts": {
     "container": {
       "kind": "box",
