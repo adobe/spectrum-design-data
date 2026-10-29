@@ -1,0 +1,38 @@
+{
+  "status": "recorded-draft-example-not-target-conformance",
+  "path": "packages/design-data/tokens/semantic-color-palette.tokens.json",
+  "pointer": "/59",
+  "baseRevision": "282fc49fb452534367f58632eca6f5e75c234f9c",
+  "headRevision": "fa714564eaa33bc37f905fad64162d60d6a48087",
+  "baseFileSha256": "8b518fa4a6ea7a8a874ecd49ba87bb721aaddb306a52473165f40a89d0114d71",
+  "headFileSha256": "4a49bddf3acdb51f5df4230bc22cc0ef1dc0d53e117da8390af98886d070b6b3",
+  "before": {
+    "name": {
+      "colorRole": "negative",
+      "variant": "subdued",
+      "property": "background-color",
+      "state": ["default"],
+      "legacyKey": "negative-subdued-background-color-default"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "30fa3891-135b-405a-bf0f-3cc17f711079",
+    "uuid": "a553db3e-a051-4023-87eb-da6545b983b2",
+    "lifecycle": { "deprecatedIn": "13.0.0" },
+    "conceptId": "2ca34d44-1fb9-48d7-9333-2c79e0dc7ab8"
+  },
+  "after": {
+    "name": {
+      "colorRole": "negative",
+      "property": "color",
+      "legacyKey": "negative-subdued-background-color-default",
+      "visibility": "subdued",
+      "attribute": "background",
+      "interaction": ["default"]
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "30fa3891-135b-405a-bf0f-3cc17f711079",
+    "uuid": "a553db3e-a051-4023-87eb-da6545b983b2",
+    "lifecycle": { "deprecatedIn": "13.0.0" },
+    "conceptId": "2ca34d44-1fb9-48d7-9333-2c79e0dc7ab8"
+  }
+}

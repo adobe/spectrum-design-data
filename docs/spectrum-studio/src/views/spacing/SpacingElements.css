@@ -1,0 +1,40 @@
+/* Grid columns mirror the typography Elements view: index, value, sample. */
+.spacingElement {
+  display: grid;
+  grid-template-columns: minmax(64px, 0.5fr) minmax(90px, 0.5fr) minmax(0, 10fr);
+  align-items: center;
+  gap: 16px;
+  min-width: 280px;
+  color: var(--elements-preview-foreground, light-dark(black, white));
+}
+
+.spacingElementHeader {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--elements-preview-divider, var(--spectrum-gray-300));
+}
+
+.spacingElementMeta {
+  min-width: 0;
+}
+
+.spacingElementValue {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.spacingElementSample {
+  min-width: 0;
+}
+
+/* Height matches the contextual evaluation color swatches. */
+.spacingElementBar {
+  height: 40px;
+  background-color: var(--elements-preview-foreground, light-dark(black, white));
+}
+
+.spacingScaleList {
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  min-width: 0;
+}

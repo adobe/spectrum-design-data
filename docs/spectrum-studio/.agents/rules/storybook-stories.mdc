@@ -1,0 +1,72 @@
+---
+description: "Use when creating or reviewing Storybook configuration or component stories. Ask for story approval before creating a story for a new unique component."
+globs:
+  - "**/*.stories.@(ts|tsx|mdx)"
+  - ".storybook/**/*"
+  - "src/components/**/*"
+alwaysApply: false
+---
+
+# Storybook story standards
+
+## Approval
+
+Before creating a Storybook story for a new unique component, ask the user whether they want a story. Do not create one automatically. Once approved, create the story alongside the component unless the user requests a different fixture location.
+
+## Project alignment
+
+- Use the Vite React Storybook framework already used by this repository.
+- Keep Storybook isolated from application routing, production Jotai state, backend services, and page-level layout.
+- Use the existing React Spectrum `Provider` in decorators when Spectrum components or theme behavior are involved.
+- Preserve the project’s TypeScript strictness, Vite macros, CSS conventions, sentence-case UI copy, and accessibility requirements.
+- Prefer React Spectrum controls and semantics for controls; use custom fixtures only for behavior the component actually owns.
+
+## Story structure
+
+- Use CSF3 with typed `Meta` and `StoryObj` definitions.
+- Use public component props as args whenever possible.
+- Use deterministic initial values and controlled harnesses for controlled components.
+- Use `fn()` for callback args and make stateful harnesses update the displayed value so stories exercise real controlled behavior.
+- Give stories clear sentence-case names based on behavior or state, not implementation details.
+- Keep stories small and composable. Do not create a story for every permutation when a representative matrix covers the behavior.
+
+## Required coverage
+
+For a new interactive component, cover the meaningful states rather than only the default:
+
+- Default state and primary workflow.
+- Boundary or constrained values.
+- Invalid or fallback input when the component accepts external input.
+- Relevant light and dark theme states.
+- Important mode, size, density, or variant changes.
+- Keyboard and pointer behavior for custom interactive surfaces.
+- Disabled, empty, loading, or error states when supported by the public API.
+
+For the color picker specifically, include sRGB, Display P3, OKLCH, cartesian, polar, dark theme, invalid input, hidden gamut control, popover opening, canvas dimensions, keyboard editing, and parser-safe output.
+
+## Interaction and accessibility
+
+- Use Storybook `play` functions for deterministic interaction checks.
+- Assert accessible names, roles, focus movement, keyboard operation, and meaningful state changes.
+- Do not use screenshots as the only verification for interactive behavior.
+- Avoid arbitrary timeouts; wait on visible state, role changes, or stable DOM conditions.
+- Capture page errors and relevant console errors in integration checks.
+- Keep interaction checks independent of network, authentication, current app placement, and dev overlays.
+
+## Visual and performance checks
+
+- Add explicit layout parameters or decorators so stories are inspectable at desktop and narrow viewports.
+- Verify canvas or fixed-format controls have stable dimensions and are nonblank when rendering is part of the component contract.
+- Keep expensive rendering memoized and avoid story wrappers that cause unrelated rerenders.
+- Treat performance warnings as diagnostics unless the component has a documented hard budget; add targeted performance assertions only when they are stable across environments.
+
+## Completion checklist
+
+Before considering a story set complete:
+
+1. Run the project lint and build checks.
+2. Run the Storybook static build.
+3. Run the story interaction checks.
+4. Inspect the important stories in light and dark themes at desktop and narrow sizes.
+5. Keep application E2E coverage focused on application integration; do not duplicate every Storybook interaction test there.
+6. Do not add stories for unrelated components unless the user asks for them.

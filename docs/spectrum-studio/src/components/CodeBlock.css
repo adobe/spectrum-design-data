@@ -1,0 +1,69 @@
+.code-block-chunk {
+  display: block;
+  content-visibility: auto;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: light-dark(rgb(110, 110, 110), rgb(140, 140, 140));
+}
+
+.token.punctuation {
+  color: light-dark(rgb(90, 90, 90), rgb(170, 170, 170));
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: light-dark(rgb(24, 100, 224), rgb(105, 155, 255));
+}
+
+.token.boolean,
+.token.number {
+  color: light-dark(rgb(198, 84, 8), rgb(240, 150, 90));
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: light-dark(rgb(30, 130, 76), rgb(110, 200, 150));
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.token.variable {
+  color: light-dark(rgb(150, 90, 20), rgb(210, 160, 90));
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: light-dark(rgb(150, 50, 190), rgb(200, 130, 230));
+}
+
+.token.function,
+.token.class-name {
+  color: light-dark(rgb(15, 130, 140), rgb(90, 200, 210));
+}
+
+.token.regex,
+.token.important {
+  color: light-dark(rgb(190, 60, 60), rgb(230, 120, 120));
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}

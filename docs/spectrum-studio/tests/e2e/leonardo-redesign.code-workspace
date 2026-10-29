@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../../Git/react-spectrum"
+		},
+		{
+			"path": "../../../../../Git/spectrum-design-data"
+		},
+		{
+			"path": "../../../../../Git/token-model"
+		},
+		{
+			"path": "../../../../../Git/spectrum-density"
+		},
+		{
+			"path": "../../../../../Desktop/transparent-color-proto"
+		},
+		{
+			"path": "../../../../../Git/leonardo"
+		}
+	],
+	"settings": {}
+}

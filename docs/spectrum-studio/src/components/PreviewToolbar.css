@@ -1,0 +1,51 @@
+.previewControlMeasure {
+  position: fixed;
+  inset-inline-start: -10000px;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
+  width: max-content;
+  display: flex;
+  gap: 16px;
+}
+
+.previewModeMeasure {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.previewToolbar > * {
+  flex-shrink: 0;
+}
+
+.previewToolbarAnchor {
+  position: absolute;
+  inset-inline: 12px;
+  top: 12px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.previewToolbar {
+  pointer-events: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.previewToolbarHeader {
+  flex: 1 1 240px;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.previewToolbarInline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}

@@ -1,0 +1,38 @@
+.radiusSample {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  background: var(--spectrum-gray-300);
+  color: var(--spectrum-gray-900);
+  font-size: 10px;
+}
+
+.radiusScaleList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.radiusElement {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.radiusElementDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-wrap: anywhere;
+}

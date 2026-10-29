@@ -1,0 +1,8 @@
+.iconSampleMenuMeasurement {
+  position: fixed;
+  visibility: hidden;
+  pointer-events: none;
+  width: max-content;
+  font-size: 14px;
+  white-space: nowrap;
+}

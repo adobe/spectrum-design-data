@@ -1,0 +1,37 @@
+diff --git a/unplugin-macros.js b/unplugin-macros.js
+index ac56f3169a941a95a2898eff63f08c38b6777b51..25eb35b9dffaa60f348608f03597951705d2eb5e 100644
+--- a/unplugin-macros.js
++++ b/unplugin-macros.js
+@@ -14,7 +14,6 @@ const types = {
+ };
+ 
+ let assets = new Map();
+-let assetsByFile = new Map();
+ let packageManager = new NodePackageManager(new NodeFS(), process.cwd());
+ let watch = new Map();
+ 
+@@ -30,16 +29,6 @@ module.exports = createUnplugin(() => {
+         return;
+       }
+ 
+-      // Remove old assets.
+-      let currentAssets = assetsByFile.get(filePath);
+-      if (currentAssets) {
+-        for (let asset of currentAssets) {
+-          assets.delete(asset);
+-        }
+-      }
+-      currentAssets = [];
+-      assetsByFile.set(filePath, currentAssets);
+-
+       let imports = [];
+       let res = await transform(types[path.extname(filePath)], filePath, code, async (_err, src, exportName, args, loc) => {
+         let mod;
+@@ -77,7 +66,6 @@ module.exports = createUnplugin(() => {
+               hash.update(asset.content);
+               let id = `macro-${hash.digest('hex')}.${asset.type}`;
+               assets.set(id, asset);
+-              currentAssets.push(id);
+               imports.push(`import "${id}";`);
+ 
+               // Generate a source map that maps each line of the asset to the original macro call.

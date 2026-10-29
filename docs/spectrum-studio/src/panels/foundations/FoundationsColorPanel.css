@@ -1,0 +1,21 @@
+.colorPanelSlider output {
+  width: auto !important;
+  min-width: 0 !important;
+  white-space: nowrap;
+}
+
+.colorControlsTabs {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.colorControlsTabPanel {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}

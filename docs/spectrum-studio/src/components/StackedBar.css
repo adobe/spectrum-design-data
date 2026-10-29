@@ -1,0 +1,20 @@
+.stackedBar {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+}
+
+.stackedBarSegment {
+  flex-basis: 0;
+  min-width: 4px;
+}
+
+.stackedBarSegment:first-child {
+  border-start-start-radius: 6px;
+  border-end-start-radius: 6px;
+}
+
+.stackedBarSegment:last-child {
+  border-start-end-radius: 6px;
+  border-end-end-radius: 6px;
+}

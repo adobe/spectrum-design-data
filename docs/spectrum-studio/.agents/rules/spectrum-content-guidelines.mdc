@@ -1,0 +1,216 @@
+---
+alwaysApply: false
+---
+
+# Spectrum content guidelines
+
+These rules summarize Spectrum guidance for voice and tone, grammar, inclusive writing, readability, visuals, terminology, error messaging, and onboarding content. Apply them to product UI copy, documentation, notifications, and supporting assets. For deeper detail, consult the linked Spectrum pages in each section.
+
+## Quick checklist (hard constraints)
+
+- Use sentence case. Do not use exclamation points, emojis, ampersands, plus signs, or decorative punctuation.
+- Address the user in second person and prefer active voice.
+- Keep copy concise: one or two short sentences for toasts and errors; labels should be brief action verbs.
+- Target roughly sixth-grade readability.
+- Spell out zero through nine; use numerals for 10+, currency, and timestamps. Insert commas in large numbers.
+- Reuse terminology from the in-product word list. Do not coin new terms.
+- Choose one tone using the decision tree below and keep it consistent within a flow.
+- When UI is involved, map messages to the correct Spectrum 2 component per the component mapping for messages.
+- Avoid directional language; structure instructions by steps rather than by position.
+
+## Acceptance criteria
+
+- No banned punctuation or emoji: `/!+|[&+]|(:\\)|\\(:|😊|👍|❤️)|\\.\\.\\.|\\.{2,}/` must not match.
+- Uses second person and sentence case; active voice unless softening sensitive notices.
+- Length is appropriate to context (labels ≤ 4 words; toasts/errors ≤ 2 sentences).
+- Contains a clear action or outcome when relevant (e.g., “Try again”, “Contact your admin”).
+- Uses the appropriate S2 component when presented in UI (per the mapping below).
+- Terms match the in-product word list; no unexplained jargon or new naming.
+- Selects a single, appropriate tone from the decision tree and does not mix tones.
+
+### Conflict resolution
+
+- If copy style conflicts with component semantics or accessibility, prefer correct component semantics and accessibility first, then adapt copy within these rules.
+- If brevity conflicts with clarity or localization, prefer clarity and localization readiness.
+
+## Examples
+
+- Before: “Click here to upload…”  
+  After: “Select a file to upload.”
+
+- Before: “Please Enter Your Phone Number”  
+  After: “Enter your phone number.”
+
+- Before: “Oops, something went wrong…”  
+  After: “We couldn’t save your changes. Try again.”
+
+## Copy templates
+
+Success toast (motivational/helpful)
+
+```markdown
+{Outcome in past tense}. {Optional next step}.
+```
+
+Error (supportive)
+
+```markdown
+What happened: {plain-language issue}.
+What you can do: {next step}. {Optional brief cause or context}.
+```
+
+Confirmation dialog (instructive)
+
+```markdown
+Title: {Action}
+Body: This {action} can’t be undone. {One-clause impact}.
+Primary: {Action}
+Secondary: Cancel
+```
+
+## Voice and tone
+
+- Spectrum uses a single product voice built on three principles ([voice and tone](https://spectrum.adobe.com/page/voice-and-tone/)):
+  - **Rational** – clear, understandable language, backed by research; avoid trendy or opinionated wording.
+  - **Friendly** – honest, responsible; vary sentence structure and acknowledge user emotions.
+  - **Focused** – concise and simple; only name new concepts when necessary.
+- Tone moves along a documented spectrum. Match the user’s context and risk level to these attitudes:
+
+| Tone         | Attitude & behaviors                          | Use cases                                    | Example phrase                                   |
+| ------------ | --------------------------------------------- | -------------------------------------------- | ------------------------------------------------ |
+| Motivational | Positive, encouraging, celebratory            | Achievements, milestones, first-time success | "Great job! You've successfully published..."    |
+| Helpful      | Polite, respectful, efficient                 | General assistance, tooltips, guidance       | "To get started, select a template..."           |
+| Instructive  | Neutral, direct, step-based                   | Tutorials, how-tos, form instructions        | "Enter your email address, then click Next."     |
+| Reassuring   | Professional, reliable, calming               | Processing, loading, temporary issues        | "This may take a moment. We'll notify you..."    |
+| Supportive   | Concerned, empathetic, guiding through issues | Errors, failures, data loss prevention       | "We couldn't save your changes. Let's fix this." |
+
+Pick the position (or adjacent blend) that fits the moment, and stay consistent within a flow.
+
+### Tone selection decision tree
+
+```
+If critical error/data loss risk → Supportive tone
+If routine task/instruction → Instructive tone
+If achievement/success → Motivational tone
+If waiting/processing → Reassuring tone
+If general interaction → Helpful tone
+```
+
+## Grammar and mechanics
+
+Follow the full [grammar and mechanics](https://spectrum.adobe.com/page/grammar-and-mechanics/) reference:
+
+- **Style baseline**
+  - **[HIGH PRIORITY]** Sentence case for nearly everything; title case only for official names. Avoid all caps except for acronyms or required file extensions.
+  - **[HIGH PRIORITY]** Default to AP style unless a component spec says otherwise.
+  - **[HIGH PRIORITY]** Prefer active voice; reserve passive voice for softening sensitive notices.
+  - **[HIGH PRIORITY]** Address users in second person. Use first person only when the interface is quoting the user, and rely on singular they whenever gender is unknown.
+  - **[HIGH PRIORITY]** Avoid using punctuation as decoration or as a substitute for words. Skip emoji, ampersands, plus signs, slashes, and exclamation points in UI strings.
+  - **[MEDIUM PRIORITY]** Use simple verb tenses so content is concise, scannable, and easier to localize.
+  - **[MEDIUM PRIORITY]** Use common contractions (you're, we'll, it's) to stay conversational.
+- **Punctuation**
+  - **[MEDIUM PRIORITY]** Use serial commas.
+  - **[LOW PRIORITY]** Use colons to introduce lists, em dashes (with spaces) for related thoughts, en dashes for ranges, smart quotation marks for quoted text or asset names, and parentheses for supplementary info.
+
+  ### Common patterns to avoid
+
+  ```
+  Avoid: /!+/ (exclamation points)
+  Avoid: /[&+]/ (ampersands, plus signs as conjunctions)
+  Avoid: /:\)|\(:|😊|👍|❤️/ (emoticons/emojis)
+  Avoid: /\.{2,}/ (ellipses for trailing off)
+  ```
+
+- **Abbreviations, numbers, dates, and times**
+  - Use K/M/B for thousands, millions, billions, with a space between the number and unit (e.g., 71 M records).
+  - Spell out zero through nine in running copy; use numerals for 10+, currency, timestamps, and measurements. Insert commas in large numbers.
+  - Follow Spectrum’s recommendations for relative, elapsed, and remaining time labels, HH:MM:SS timestamps, and plain-language time zones (convert to the user’s zone when possible).
+- **Lists**
+  - Introduce lists with a phrase plus colon, keep entries parallel, capitalize the first word, and choose bullets for unordered ideas or numerals for sequences.
+
+## Inclusive UX writing
+
+The [inclusive UX writing overview](https://spectrum.adobe.com/page/inclusive-ux-writing/) explains why inclusion is a business, brand, and accessibility imperative.
+
+- Tie language decisions to accessibility standards (WCAG, WAI-ARIA) and collaborate with design so the entire experience—not only the copy—is inclusive.
+- Use the page as a hub: it links to detailed sub-guides (writing about people, readability, visuals) and provides external resources (NCDJ, Conscious Style Guide, 18F, etc.) that should inform decisions.
+- Highlight the risks of non-inclusive language when making product choices: it limits reach, damages perception, and hinders hiring and retention.
+
+## Writing about people
+
+Spectrum’s [people guidance](https://spectrum.adobe.com/page/writing-about-people/) centers compassion, specificity, and respect.
+
+- Lead with people, not conditions or labels, and include traits only when they matter to the task.
+- Choose terminology with historical awareness. Avoid appropriating language from marginalized communities, and do not rely on stereotypes or proxy statements (e.g., assuming financial means).
+- Be transparent about why sensitive information is collected, allow custom responses, and consider downstream use in machine learning systems.
+- Apply the identity-specific sections:
+  - **Disability** – use neutral descriptors, avoid metaphors that equate disability with negative traits, and portray more types of people as typical.
+  - **Race and class** – be precise about ethnicity or region, avoid idioms with racist origins, and design/write so all cultures appear as common.
+  - **Gender and sexuality** – default to gender-neutral wording, distinguish sex vs. gender, only ask for data when essential, and teach AI systems about global identities.
+
+## Writing for readability
+
+The [readability guidance](https://spectrum.adobe.com/page/writing-for-readability/) focuses on helping the widest range of people succeed.
+
+- Write for roughly a sixth-grade reading level; test content with readability tools and revise when it trends higher.
+- Choose plain, globally recognizable words. Avoid internal jargon or slang unless you explain it on first use, and skip idioms entirely.
+- Organize content deliberately:
+  - **Layout** – left-align running text (mirrors for RTL), avoid full justification, and rely on spacing over decorative dividers.
+  - **Grammar and mechanics** – sentence case and consistent punctuation improve scanning.
+  - **Interactions** – prevent destructive actions (avoid Clear/Reset), allow saving, and use progressive disclosure to limit cognitive load.
+  - **Localization** – explain branded or technical terms, spell out acronyms on first use, and plan for text expansion.
+
+## Writing with visuals
+
+Per [writing with visuals](https://spectrum.adobe.com/page/writing-with-visuals/):
+
+- Do not rely on visuals, color, or icons to carry meaning. Describe actions, outcomes, and tasks in text.
+- Avoid directional language (left, right, above). Structure instructions chronologically or by task steps instead.
+- Prevent errors by using predictable labels and consistent navigation patterns.
+- Minimize new naming. Every coined term adds cognitive load; reuse existing names unless a new one is absolutely required.
+- Provide purposeful alt text. Follow Spectrum’s patterns for photographs, UI imagery, instructional graphics, and decorative assets (mark decorative images so assistive tech skips them). Supply captions or transcripts for audio/video assets.
+
+## In-product word list
+
+- The [in-product word list](https://spectrum.adobe.com/page/in-product-word-list/) is a living glossary of preferred and avoided terms.
+- Always check the table for canonical wording, capitalization, spacing, and usage notes before writing new copy or coining terms.
+- Favor action verbs such as Create, Share, and Export; avoid vague alternatives unless the glossary explicitly allows them.
+- Use the same wording across UI, docs, and education materials so users build reliable recognition (and localization teams can reuse translations).
+
+## Writing for errors
+
+Adopt the full [error guidelines](https://spectrum.adobe.com/page/writing-for-errors/):
+
+- **Prevent first** – design flows that eliminate or auto-resolve errors whenever possible.
+- **Pick the right component** – align alert dialogs, banners, inline alerts, help text, and toasts with their documented consequence/complication/action levels.
+- **Structure** – when space allows, cover what happened, the underlying cause (if helpful), and how to fix it or what the product is doing.
+- **Voice and tone** – keep messages rational, and focused; use plain language, never blame the user, and apologize only when the system truly caused harm.
+- **Specific yet reusable** – tailor content to the scenario but use generic, localizable phrasing. Include error codes only if the audience can act on them.
+
+### Component mapping for messages
+
+```
+- Critical errors (data loss, security) → AlertDialog with variant="destructive"
+- Success messages → Toast with variant="positive"
+- Warnings → InlineAlert with variant="notice"
+- Info/tips → InlineAlert with variant="informative"
+- Field validation → Built-in errorMessage prop on form components
+- System status → Banner at page level
+```
+
+## PR checklist
+
+- Sentence case, second person, active voice.
+- No banned punctuation/emoji (see acceptance criteria regex).
+- Tone matches the decision tree; consistent within the flow.
+- Uses S2 components per the mapping when UI is involved.
+- Aligns terms with the in-product word list; no new coined terms.
+- Concise length: labels ≤ 4 words; toasts/errors ≤ 2 short sentences.
+
+## Writing for onboarding
+
+Use the [onboarding guidance](https://spectrum.adobe.com/page/writing-for-onboarding/) when planning education and adoption flows.
+
+- **Plan intentionally** – reflect what users already know, clarify why they are there, sequence topics logically, keep tutorials focused on a single tool or technique, limit flows to roughly ten steps, and set expectations (outcome, timing, prerequisites) up front.
+- **Communicate supportively** – use lightweight, encouraging language; introduce jargon only with definitions; avoid pointing directly at UI chrome unless essential; personalize when possible; and prefer in-product learning experiences over forcing users into a browser.
+- **Choose the right pattern** – Spectrum highlights banners, cards, coach marks, empty states, modals, tooltips, tours, triggered elements, tutorials, and video demos. Select the pattern that matches the information density and desired level of interruption, and explain why users should engage with it.

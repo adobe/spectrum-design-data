@@ -1,0 +1,5191 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+This rule takes a natural language description of a chart and outputs the valid react-spectrum-charts components. The JSON schema for react-spectrum-charts is included below. Output must conform to the schema provided below.
+
+"rsc", "RSC", "spectrum-charts", "spectrum charts, "react spectrum charts" are all terms that refer to "react-spectrum-charts".
+
+The library for react-spectrum-charts is called "@adobe/react-spectrum-charts".
+
+
+Here is the JSON schema for the react-spectrum-charts API.
+```
+{
+  "$ref": "#/definitions/ChartProps",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AggregateMethod": {
+      "description": "trendline methods that use a joinaggregate transform",
+      "enum": [
+        "average",
+        "median"
+      ],
+      "type": "string"
+    },
+    "AreaElement": {
+      "$ref": "#/definitions/React.ReactElement%3CAreaProps%2CReact.JSXElementConstructor%3CAreaProps%3E%3E"
+    },
+    "AreaProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3C(ChartPopoverElement%7CChartTooltipElement)%3E"
+        },
+        "color": {
+          "description": "Key in the data that is used as the color facet",
+          "type": "string"
+        },
+        "dimension": {
+          "description": "Data field that the metric is trended against (x-axis for horizontal orientation)",
+          "type": "string"
+        },
+        "metric": {
+          "description": "Key in the data that is used as the metric",
+          "type": "string"
+        },
+        "metricEnd": {
+          "description": "Data field for the end of the area",
+          "type": "string"
+        },
+        "metricStart": {
+          "description": "Data field for the start of the area",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "opacity": {
+          "description": "Optional field used to set the area opacity",
+          "type": "number"
+        },
+        "order": {
+          "description": "Optional field used to set the stack order of the area (higher order = stacked on top/right)",
+          "type": "string"
+        },
+        "padding": {
+          "description": "Sets the horizontal padding, this is a ratio from 0 to 1 for categorical scales (point) and a pixel value for continuous scales (time, linear)",
+          "type": "number"
+        },
+        "scaleType": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "Sets the type of scale that should be used for the trend"
+        }
+      },
+      "type": "object"
+    },
+    "AxisAnnotationChildElement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        }
+      ]
+    },
+    "AxisAnnotationElement": {
+      "$ref": "#/definitions/React.ReactElement%3CAxisAnnotationProps%2CReact.JSXElementConstructor%3CAxisAnnotationProps%3E%3E"
+    },
+    "AxisAnnotationFormat": {
+      "enum": [
+        "span",
+        "summary"
+      ],
+      "type": "string"
+    },
+    "AxisAnnotationProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3CAxisAnnotationChildElement%3E"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "the color to use for the annotation icon and span lines if a color isn't specified in options or multiple annotations fall in the same icon"
+        },
+        "dataKey": {
+          "description": "data field where the annotation ids are listed for each data point",
+          "type": "string"
+        },
+        "format": {
+          "$ref": "#/definitions/AxisAnnotationFormat",
+          "description": "show annotations as a horizontal span of icons or a single summary icon"
+        },
+        "name": {
+          "description": "unique name for this annotation",
+          "type": "string"
+        },
+        "offset": {
+          "description": "how far from the bottom of the chart do the annotations display",
+          "type": "number"
+        },
+        "options": {
+          "description": "options specific to each annotation in the data",
+          "items": {
+            "$ref": "#/definitions/Option"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "AxisChildElement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AxisAnnotationElement"
+        },
+        {
+          "$ref": "#/definitions/ReferenceLineElement"
+        }
+      ]
+    },
+    "AxisElement": {
+      "$ref": "#/definitions/React.ReactElement%3CAxisProps%2CReact.JSXElementConstructor%3CAxisProps%3E%3E"
+    },
+    "AxisProps": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "description": "Adds a baseline rule for this axis",
+          "type": "boolean"
+        },
+        "baselineOffset": {
+          "description": "Adds an offset to the baseline. If basline is false then this prop is ignored. If baseline is drawn relative to a categorical axis, this prop is ignored",
+          "type": "number"
+        },
+        "children": {
+          "$ref": "#/definitions/Children%3CAxisChildElement%3E",
+          "description": "Child components that add supplemental content to the axis"
+        },
+        "currencyCode": {
+          "description": "Override the currency symbol from the chart locale with a specific currency code.\n\n⚠️ Limited Support: Support for and changes to this prop will be limited. Only use this if you need to override the currency symbol from the chart locale.\n\n**Important:** This prop requires 'currencyLocale' prop to take effect.",
+          "type": "string"
+        },
+        "currencyLocale": {
+          "description": "Set the locale for currency formatting (affects symbol position and spacing).\n\n⚠️ Limited Support: Support for and changes to this prop will be limited. Only use this if you need to override the currency locale formatting from the chart locale.\n\n**Important:** This prop requires 'currencyCode' prop to take effect.\n\nExample: 'en-US' ($100) vs 'de-DE' (100 $)",
+          "type": "string"
+        },
+        "granularity": {
+          "$ref": "#/definitions/Granularity",
+          "description": "Sets the granularity of the primary axis labels for time axis. If this axis is not for a time axis, this prop is ignored."
+        },
+        "grid": {
+          "description": "Displays gridlines at each tick location",
+          "type": "boolean"
+        },
+        "hideDefaultLabels": {
+          "description": "Hides the axis labels. If labels have been explicitly added using the `labels` prop, these will still be visible",
+          "type": "boolean"
+        },
+        "labelAlign": {
+          "$ref": "#/definitions/LabelAlign",
+          "description": "Sets the alignment of axis labels"
+        },
+        "labelFontWeight": {
+          "$ref": "#/definitions/FontWeight",
+          "description": "Sets the font weight of axis labels"
+        },
+        "labelFormat": {
+          "$ref": "#/definitions/LabelFormat",
+          "description": "Sets the format of the axis labels"
+        },
+        "labelOrientation": {
+          "$ref": "#/definitions/Orientation",
+          "description": "Sets the orientation of the label. Defaults to horizontal."
+        },
+        "labels": {
+          "description": "Explicityly sets the axis labels (controlled). Providing a Label object allows for more control over the label display.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Label"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "numberFormat": {
+          "$ref": "#/definitions/NumberFormat",
+          "description": "d3 number format specifier. Only valid if labelFormat is linear or undefined.\n\nsee  {@link  https://d3js.org/d3-format#locale_format }"
+        },
+        "position": {
+          "$ref": "#/definitions/Position",
+          "description": "Sets the where the axis is placed on the chart"
+        },
+        "range": {
+          "description": "The minimum and maximum values for the axis, for example: `[-10, 10]`.\n\nNote: This prop is only supported for axes with `linear` or `time` scale types.",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "subLabels": {
+          "description": "Adds sublabels below the axis lables",
+          "items": {
+            "$ref": "#/definitions/SubLabel"
+          },
+          "type": "array"
+        },
+        "tickMinStep": {
+          "description": "The minimum desired step between axis ticks, in terms of scale domain values. For example, a value of 1 indicates that ticks should not be less than 1 unit apart. https://vega.github.io/vega/docs/axes/\n\nNote: This prop is only supported for linear axes.",
+          "type": "number"
+        },
+        "ticks": {
+          "description": "Displays ticks at each label location",
+          "type": "boolean"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Sets the axis title"
+        },
+        "truncateLabels": {
+          "description": "If the text is wider than the bandwidth that is labels, it will be truncated so that it stays within that bandwidth.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "type": "object"
+    },
+    "BarAnnotationElement": {
+      "$ref": "#/definitions/React.ReactElement%3CBarAnnotationProps%2CReact.JSXElementConstructor%3CBarAnnotationProps%3E%3E"
+    },
+    "BarAnnotationProps": {
+      "additionalProperties": false,
+      "properties": {
+        "style": {
+          "$ref": "#/definitions/BarAnnotationStyleOptions",
+          "deprecated": true
+        },
+        "textKey": {
+          "description": "The key in the data that has the text to display",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BarAnnotationStyleOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "BarElement": {
+      "$ref": "#/definitions/React.ReactElement%3CBarProps%2CReact.JSXElementConstructor%3CBarProps%3E%3E"
+    },
+    "BarProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3C(BarAnnotationElement%7CChartPopoverElement%7CChartTooltipElement%7CTrendlineElement)%3E"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ColorFacet"
+            },
+            {
+              "$ref": "#/definitions/DualFacet"
+            }
+          ],
+          "description": "Bar color or key in the data that is used as the color facet"
+        },
+        "dimension": {
+          "description": "Data field used for the bar categories (x-axis for a vertical bar)",
+          "type": "string"
+        },
+        "dimensionDataType": {
+          "description": "Data type field used for the bar categories (x-axis for a vertical bar)",
+          "type": "string"
+        },
+        "dualMetricAxis": {
+          "description": "Whether to scale the last series in the data separately using the secondary metric axis",
+          "type": "boolean"
+        },
+        "groupedPadding": {
+          "description": "Sets the inner padding between bars in a group",
+          "type": "number"
+        },
+        "hasSquareCorners": {
+          "description": "Should the top-left and top-right corners of the bars be square? Round by default",
+          "type": "boolean"
+        },
+        "lineType": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LineTypeFacet"
+            },
+            {
+              "$ref": "#/definitions/DualFacet"
+            }
+          ],
+          "description": "Line type or key in the data that is used as the line type facet"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/LineWidth",
+          "description": "Border width of the bar"
+        },
+        "metric": {
+          "description": "Key in the data that is used as the metric",
+          "type": "string"
+        },
+        "metricAxis": {
+          "description": "Axis that the metric is trended against (y-axis for a vertical bar)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "onClick": {
+          "$ref": "#/definitions/OnClickCallback",
+          "description": "Callback that will be run when a point/section is clicked"
+        },
+        "opacity": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OpacityFacet"
+            },
+            {
+              "$ref": "#/definitions/DualFacet"
+            }
+          ],
+          "description": "Opacity or key in the data that is used as the opacity facet"
+        },
+        "order": {
+          "description": "Optional field used to set the stack order of the bar (higher order = higher on bar)",
+          "type": "string"
+        },
+        "orientation": {
+          "$ref": "#/definitions/Orientation",
+          "description": "The direction of the bars. Defaults to \"vertical\"."
+        },
+        "paddingOuter": {
+          "description": "Sets the chart area padding, this is a ratio between 0 and 1 (https://vega.github.io/vega/docs/scales/#band)",
+          "type": "number"
+        },
+        "paddingRatio": {
+          "description": "Sets inner padding (https://vega.github.io/vega/docs/scales/#band)",
+          "type": "number"
+        },
+        "trellis": {
+          "description": "The data field used for the trellis categories",
+          "type": "string"
+        },
+        "trellisOrientation": {
+          "$ref": "#/definitions/Orientation",
+          "description": "Orientation of the trellis. Only applicable if `trellis` is also defined. Defaults to \"horizontal\"."
+        },
+        "trellisPadding": {
+          "description": "Padding between trellis groups; ratio between 0 and 1 (https://vega.github.io/vega/docs/scales/#band). Only applicable if `trellis` is also defined. Defaults to 0.2.",
+          "type": "number"
+        },
+        "type": {
+          "$ref": "#/definitions/BarType",
+          "description": "Bar type."
+        }
+      },
+      "type": "object"
+    },
+    "BarType": {
+      "enum": [
+        "dodged",
+        "stacked"
+      ],
+      "type": "string"
+    },
+    "CSSModule": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "ChartColors": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Colors"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/Colors"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "ChartPopoverElement": {
+      "$ref": "#/definitions/React.ReactElement%3CChartPopoverProps%2CReact.JSXElementConstructor%3CChartPopoverProps%3E%3E"
+    },
+    "ChartPopoverOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "UNSAFE_highlightBy": {
+          "anyOf": [
+            {
+              "const": "series",
+              "type": "string"
+            },
+            {
+              "const": "dimension",
+              "type": "string"
+            },
+            {
+              "const": "item",
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Sets which marks should be highlighted when a popover is visible.  This feature is incomplete."
+        },
+        "containerPadding": {
+          "description": "The placement padding that should be applied between the popover and its surrounding container",
+          "type": "number"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            }
+          ],
+          "description": "Height of the popover"
+        },
+        "maxHeight": {
+          "description": "Maximum height of the popover",
+          "type": "number"
+        },
+        "maxWidth": {
+          "description": "Maximum width of the popover",
+          "type": "number"
+        },
+        "minHeight": {
+          "description": "Minimum height of the popover",
+          "type": "number"
+        },
+        "minWidth": {
+          "description": "Minimum width of the popover",
+          "type": "number"
+        },
+        "onOpenChange": {
+          "$comment": "(isOpen: boolean) => void",
+          "description": "handler that is called when the popover's open state changes",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "isOpen": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "isOpen"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "rightClick": {
+          "description": "Whether the popover should be shown on right click",
+          "type": "boolean"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            }
+          ],
+          "description": "Width of the popover"
+        }
+      },
+      "type": "object"
+    },
+    "ChartPopoverProps": {
+      "additionalProperties": false,
+      "description": "Props for the ChartPopover component",
+      "properties": {
+        "UNSAFE_highlightBy": {
+          "anyOf": [
+            {
+              "const": "series",
+              "type": "string"
+            },
+            {
+              "const": "dimension",
+              "type": "string"
+            },
+            {
+              "const": "item",
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Sets which marks should be highlighted when a popover is visible.  This feature is incomplete."
+        },
+        "children": {
+          "$ref": "#/definitions/PopoverHandler",
+          "description": "Callback used to control the content rendered in the popover"
+        },
+        "containerPadding": {
+          "description": "The placement padding that should be applied between the popover and its surrounding container",
+          "type": "number"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            }
+          ],
+          "description": "Height of the popover"
+        },
+        "maxHeight": {
+          "description": "Maximum height of the popover",
+          "type": "number"
+        },
+        "maxWidth": {
+          "description": "Maximum width of the popover",
+          "type": "number"
+        },
+        "minHeight": {
+          "description": "Minimum height of the popover",
+          "type": "number"
+        },
+        "minWidth": {
+          "description": "Minimum width of the popover",
+          "type": "number"
+        },
+        "onOpenChange": {
+          "$comment": "(isOpen: boolean) => void",
+          "description": "handler that is called when the popover's open state changes",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "isOpen": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "isOpen"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "rightClick": {
+          "description": "Whether the popover should be shown on right click",
+          "type": "boolean"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            }
+          ],
+          "description": "Width of the popover"
+        }
+      },
+      "type": "object"
+    },
+    "ChartSymbolShape": {
+      "anyOf": [
+        {
+          "const": "rounded-square",
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/SymbolShape"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "ChartTooltipElement": {
+      "$ref": "#/definitions/React.ReactElement%3CChartTooltipProps%2CReact.JSXElementConstructor%3CChartTooltipProps%3E%3E"
+    },
+    "ChartTooltipProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/TooltipHandler",
+          "description": "Callback that displays the tooltip content"
+        },
+        "excludeDataKeys": {
+          "description": "The keys in the data that will disable the tooltip if they have truthy values",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "highlightBy": {
+          "anyOf": [
+            {
+              "const": "series",
+              "type": "string"
+            },
+            {
+              "const": "dimension",
+              "type": "string"
+            },
+            {
+              "const": "item",
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Sets which marks should be highlighted when a tooltip is visible"
+        }
+      },
+      "type": "object"
+    },
+    "ChildElement<(AreaElement|AxisElement|BarElement|DonutElement|ComboElement|LegendElement|LineElement|ScatterElement|TitleElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AreaElement"
+        },
+        {
+          "$ref": "#/definitions/AxisElement"
+        },
+        {
+          "$ref": "#/definitions/BarElement"
+        },
+        {
+          "$ref": "#/definitions/DonutElement"
+        },
+        {
+          "$ref": "#/definitions/ComboElement"
+        },
+        {
+          "$ref": "#/definitions/LegendElement"
+        },
+        {
+          "$ref": "#/definitions/LineElement"
+        },
+        {
+          "$ref": "#/definitions/ScatterElement"
+        },
+        {
+          "$ref": "#/definitions/TitleElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<(BarAnnotationElement|ChartPopoverElement|ChartTooltipElement|TrendlineElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BarAnnotationElement"
+        },
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "$ref": "#/definitions/TrendlineElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<(ChartPopoverElement|ChartTooltipElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<(ChartPopoverElement|ChartTooltipElement|DonutSummaryElement|SegmentLabelElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "$ref": "#/definitions/DonutSummaryElement"
+        },
+        {
+          "$ref": "#/definitions/SegmentLabelElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<AxisAnnotationChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AxisAnnotationChildElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<AxisChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/defsChildElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<ChartPopoverElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<ChartTooltipElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+         ,
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<ComboChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ComboChildElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<TrendlineChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TrendlineChildElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type":     ]
+    },
+    "ChildElement<alias-1610080226-935-1046-1610080226-0-1330>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "$ref": "#/definitions/ScatterPathElement"
+        },
+        {
+          "$ref": "#/definitions/TrendlineElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "ChildElement<alias-594871244-949-1057-594871244-0-1438>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "$ref": "#/definitions/ChartPopoverElement"
+        },
+        {
+          "$ref": "#/definitions/MetricRangeElement"
+        },
+        {
+          "$ref": "#/definitions/TrendlineElement"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": false,
+          "type": "object"
+        }
+      ]
+    },
+    "Children<(AreaElement|AxisElement|BarElement|DonutElement|ComboElement|LegendElement|LineElement|ScatterElement|TitleElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3C(AreaElement%7CAxisElement%7CBarElement%7CDonutElement%7CComboElement%7CLegendElement%7CLineElement%7CScatterElement%7CTitleElement)%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3C(AreaElement%7CAxisElement%7CBarElement%7CDonutElement%7CComboElement%7CLegendElement%7CLineElement%7CScatterElement%7CTitleElement)%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<(BarAnnotationElement|ChartPopoverElement|ChartTooltipElement|TrendlineElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3C(BarAnnotationElement%7CChartPopoverElement%7CChartTooltipElement%7CTrendlineElement)%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3C(BarAnnotationElement%7CChartPopoverElement%7CChartTooltipElement%7CTrendlineElement)%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<(ChartPopoverElement|ChartTooltipElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3C(ChartPopoverElement%7CChartTooltipElement)%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3C(ChartPopoverElement%7CChartTooltipElement)%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<(ChartPopoverElement|ChartTooltipElement|DonutSummaryElement|SegmentLabelElement)>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3C(ChartPopoverElement%7CChartTooltipElement%7CDonutSummaryElement%7CSegmentLabelElement)%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3C(ChartPopoverElement%7CChartTooltipElement%7CDonutSummaryElement%7CSegmentLabelElement)%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<AxisAnnotationChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CAxisAnnotationChildElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CAxisAnnotationChildElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<AxisChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CAxisChildElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CAxisChildElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<ChartPopoverElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CChartPopoverElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CChartPopoverElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<ChartTooltipElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CChartTooltipElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CChartTooltipElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<ComboChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CComboChildElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CComboChildElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<TrendlineChildElement>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3CTrendlineChildElement%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3CTrendlineChildElement%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<alias-1610080226-935-1046-1610080226-0-1330>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3Calias-1610080226-935-1046-1610080226-0-1330%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3Calias-1610080226-935-1046-1610080226-0-1330%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Children<alias-594871244-949-1057-594871244-0-1438>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChildElement%3Calias-594871244-949-1057-594871244-0-1438%3E"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/ChildElement%3Calias-594871244-949-1057-594871244-0-1438%3E"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "ColorFacet": {
+      "$ref": "#/definitions/FacetRef%3C(SpectrumVizColor%7Cstring)%3E"
+    },
+    "ColorScale": {
+      "enum": [
+        "categorical6",
+        "categorical12",
+        "categorical16",
+        "divergentOrangeYellowSeafoam5",
+        "divergentOrangeYellowSeafoam9",
+        "divergentOrangeYellowSeafoam15",
+        "divergentRedBlue5",
+        "divergentRedBlue9",
+        "divergentRedBlue15",
+        "divergentRedYellowBlue5",
+        "divergentRedYellowBlue9",
+        "divergentRedYellowBlue15",
+        "sequentialCerulean5",
+        "sequentialCerulean9",
+        "sequentialCerulean16",
+        "sequentialForest5",
+        "sequentialForest9",
+        "sequentialForest16",
+        "sequentialMagma5",
+        "sequentialMagma9",
+        "sequentialMagma16",
+        "sequentialRose5",
+        "sequentialRose9",
+        "sequentialRose16",
+        "sequentialViridis5",
+        "sequentialViridis9",
+        "sequentialViridis16"
+      ],
+      "type": "string"
+    },
+    "ColorScheme": {
+      "enum": [
+        "light",
+        "dark"
+      ],
+      "type": "string"
+    },
+    "ColorValueV6": {
+      "enum": [
+        "gray-50",
+        "gray-75",
+        "gray-100",
+        "gray-200",
+        "gray-300",
+        "gray-400",
+        "gray-500",
+        "gray-600",
+        "gray-700",
+        "gray-800",
+        "gray-900",
+        "red-100",
+        "red-200",
+        "red-300",
+        "red-400",
+        "red-500",
+        "red-600",
+        "red-700",
+        "red-800",
+        "red-900",
+        "red-1000",
+        "red-1100",
+        "red-1200",
+        "red-1300",
+        "red-1400",
+        "orange-100",
+        "orange-200",
+        "orange-300",
+        "orange-400",
+        "orange-500",
+        "orange-600",
+        "orange-700",
+        "orange-800",
+        "orange-900",
+        "orange-1000",
+        "orange-1100",
+        "orange-1200",
+        "orange-1300",
+        "orange-1400",
+        "yellow-100",
+        "yellow-200",
+        "yellow-300",
+        "yellow-400",
+        "yellow-500",
+        "yellow-600",
+        "yellow-700",
+        "yellow-800",
+        "yellow-900",
+        "yellow-1000",
+        "yellow-1100",
+        "yellow-1200",
+        "yellow-1300",
+        "yellow-1400",
+        "chartreuse-100",
+        "chartreuse-200",
+        "chartreuse-300",
+        "chartreuse-400",
+        "chartreuse-500",
+        "chartreuse-600",
+        "chartreuse-700",
+        "chartreuse-800",
+        "chartreuse-900",
+        "chartreuse-1000",
+        "chartreuse-1100",
+        "chartreuse-1200",
+        "chartreuse-1300",
+        "chartreuse-1400",
+        "celery-100",
+        "celery-200",
+        "celery-300",
+        "celery-400",
+        "celery-500",
+        "celery-600",
+        "celery-700",
+        "celery-800",
+        "celery-900",
+        "celery-1000",
+        "celery-1100",
+        "celery-1200",
+        "celery-1300",
+        "celery-1400",
+        "green-100",
+        "green-200",
+        "green-300",
+        "green-400",
+        "green-500",
+        "green-600",
+        "green-700",
+        "green-800",
+        "green-900",
+        "green-1000",
+        "green-1100",
+        "green-1200",
+        "green-1300",
+        "green-1400",
+        "seafoam-100",
+        "seafoam-200",
+        "seafoam-300",
+        "seafoam-400",
+        "seafoam-500",
+        "seafoam-600",
+        "seafoam-700",
+        "seafoam-800",
+        "seafoam-900",
+        "seafoam-1000",
+        "seafoam-1100",
+        "seafoam-1200",
+        "seafoam-1300",
+        "seafoam-1400",
+        "cyan-100",
+        "cyan-200",
+        "cyan-300",
+        "cyan-400",
+        "cyan-500",
+        "cyan-600",
+        "cyan-700",
+        "cyan-800",
+        "cyan-900",
+        "cyan-1000",
+        "cyan-1100",
+        "cyan-1200",
+        "cyan-1300",
+        "cyan-1400",
+        "blue-100",
+        "blue-200",
+        "blue-300",
+        "blue-400",
+        "blue-500",
+        "blue-600",
+        "blue-700",
+        "blue-800",
+        "blue-900",
+        "blue-1000",
+        "blue-1100",
+        "blue-1200",
+        "blue-1300",
+        "blue-1400",
+        "indigo-100",
+        "indigo-200",
+        "indigo-300",
+        "indigo-400",
+        "indigo-500",
+        "indigo-600",
+        "indigo-700",
+        "indigo-800",
+        "indigo-900",
+        "indigo-1000",
+        "indigo-1100",
+        "indigo-1200",
+        "indigo-1300",
+        "indigo-1400",
+        "purple-100",
+        "purple-200",
+        "purple-300",
+        "purple-400",
+        "purple-500",
+        "purple-600",
+        "purple-700",
+        "purple-800",
+        "purple-900",
+        "purple-1000",
+        "purple-1100",
+        "purple-1200",
+        "purple-1300",
+        "purple-1400",
+        "fuchsia-100",
+        "fuchsia-200",
+        "fuchsia-300",
+        "fuchsia-400",
+        "fuchsia-500",
+        "fuchsia-600",
+        "fuchsia-700",
+        "fuchsia-800",
+        "fuchsia-900",
+        "fuchsia-1000",
+        "fuchsia-1100",
+        "fuchsia-1200",
+        "fuchsia-1300",
+        "fuchsia-1400",
+        "magenta-100",
+        "magenta-200",
+        "magenta-300",
+        "magenta-400",
+        "magenta-500",
+        "magenta-600",
+        "magenta-700",
+        "magenta-800",
+        "magenta-900",
+        "magenta-1000",
+        "magenta-1100",
+        "magenta-1200",
+        "magenta-1300",
+        "magenta-1400",
+        "negative",
+        "notice",
+        "positive",
+        "informative"
+      ],
+      "type": "string"
+    },
+    "Colors": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ColorScale"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/SpectrumColor"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "ComboChildElement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BarElement"
+        },
+        {
+          "$ref": "#/definitions/LineElement"
+        }
+      ]
+    },
+    "ComboElement": {
+      "$ref": "#/definitions/React.ReactElement%3CComboProps%2CReact.JSXElementConstructor%3CComboProps%3E%3E"
+    },
+    "ComboProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3CComboChildElement%3E"
+        },
+        "dimension": {
+          "description": "Data field that the metrics are trended against (x-axis for horizontal orientation)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Datum": {
+      "properties": {
+        "rscGroupData": {
+          "items": {
+            "$ref": "#/definitions/Datum"
+          },
+          "type": "array"
+        },
+        "rscMarkId": {
+          "type": "number"
+        },
+        "rscSeriesId": {
+          "type": "string"
+        },
+        "rscTrendlineValue": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "rscMarkId",
+        "rscSeriesId"
+      ],
+      "type": "object"
+    },
+    "DonutElement": {
+      "$ref": "#/definitions/React.ReactElement%3CDonutProps%2CReact.JSXElementConstructor%3CDonutProps%3E%3E"
+    },
+    "DonutProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3C(ChartPopoverElement%7CChartTooltipElement%7CDonutSummaryElement%7CSegmentLabelElement)%3E"
+        },
+        "color": {
+          "description": "Key in the data that is used as the color facet",
+          "type": "string"
+        },
+        "holeRatio": {
+          "description": "Ratio of the donut inner radius / donut outer radius. 0 is a pie chart. 0.85 is the default.",
+          "type": "number"
+        },
+        "isBoolean": {
+          "description": "Determines if the center metric should be displayed as a percent. if true, data should only be two data points, which sum to 1 Also, if true, will display the first datapoint as a percent",
+          "type": "boolean"
+        },
+        "metric": {
+          "description": "Key in the data that is used as the metric",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "startAngle": {
+          "description": "Start angle of the donut in radians (0 is top dead center, and default)",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "DonutSummaryElement": {
+      "$ref": "#/definitions/React.ReactElement%3CDonutSummaryProps%2CReact.JSXElementConstructor%3CDonutSummaryProps%3E%3E"
+    },
+    "DonutSummaryProps": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "Label for the metric summary",
+          "type": "string"
+        },
+        "numberFormat": {
+          "$ref": "#/definitions/NumberFormat",
+          "description": "d3 number format specifier. Sets the number format for the summary value.\n\nsee  {@link  https://d3js.org/d3-format#locale_format }"
+        }
+      },
+      "type": "object"
+    },
+    "DualFacet": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "FacetRef<(SpectrumVizColor|string)>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3C(SpectrumVizColor%7Cstring)%3E"
+        }
+      ]
+    },
+    "FacetRef<ChartSymbolShape>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3CChartSymbolShape%3E"
+        }
+      ]
+    },
+    "FacetRef<LineType>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3CLineType%3E"
+        }
+      ]
+    },
+    "FacetRef<LineWidth>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3CLineWidth%3E"
+        }
+      ]
+    },
+    "FacetRef<PathWidth>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3CPathWidth%3E"
+        }
+      ]
+    },
+    "FacetRef<SymbolSize>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3CSymbolSize%3E"
+        }
+      ]
+    },
+    "FacetRef<number>": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StaticValue%3Cnumber%3E"
+        }
+      ]
+    },
+    "FontWeight": {
+      "enum": [
+        "normal",
+        "bold",
+        "lighter",
+        "bolder",
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900
+      ],
+      "type": [
+        "string",
+        "number"
+      ]
+    },
+    "Granularity": {
+      "enum": [
+        "second",
+        "minute",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "type": "string"
+    },
+    "Height": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
+    "HighlightedItem": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "items": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "Icon": {
+      "enum": [
+        "date",
+        "sentimentNegative",
+        "sentimentNeutral",
+        "sentimentPositive"
+      ],
+      "type": "string"
+    },
+    "InteractionMode": {
+      "enum": [
+        "nearest",
+        "item"
+      ],
+      "type": "string"
+    },
+    "Label": {
+      "additionalProperties": false,
+      "properties": {
+        "align": {
+          "$ref": "#/definitions/LabelAlign",
+          "description": "Alignment of the label, defaults to center"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/FontWeight",
+          "description": "Font weight of the label, defaults to normal"
+        },
+        "label": {
+          "description": "Sets the display value of the label, if undefined, the value will be the label",
+          "type": "string"
+        },
+        "value": {
+          "description": "The axis value that this label is anchored to",
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "LabelAlign": {
+      "description": "`center` will set the align to `center` for horizontal axes and the baseline to `middle` for vertical axes.\n\n`start` will set the align to `left` for horizontal axes and the baseline to `top` for vertical axes.\n\n`end` will set the align to `right` for horizontal axes and the baseline to `bottom` for vertical axes.",
+      "enum": [
+        "center",
+        "start",
+        "end"
+      ],
+      "type": "string"
+    },
+    "LabelFormat": {
+      "enum": [
+        "duration",
+        "linear",
+        "percentage",
+        "time"
+      ],
+      "type": "string"
+    },
+    "LegendDescription": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "seriesName": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "seriesName",
+        "description"
+      ],
+      "type": "object"
+    },
+    "LegendElement": {
+      "$ref": "#/definitions/React.ReactElement%3CLegendProps%2CReact.JSXElementConstructor%3CLegendProps%3E%3E"
+    },
+    "LegendLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "maxLength": {
+          "type": "number"
+        },
+        "seriesName": {
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "required": [
+        "seriesName",
+        "label"
+      ],
+      "type": "object"
+    },
+    "LegendProps": {
+      "additionalProperties": false,
+      "properties": {
+        "chartPopovers": {
+          "items": {
+            "$ref": "#/definitions/ChartPopoverOptions"
+          },
+          "type": "array"
+        },
+        "children": {
+          "$ref": "#/definitions/Children%3CChartPopoverElement%3E"
+        },
+        "color": {
+          "$ref": "#/definitions/ColorFacet",
+          "description": "color or key in the data that is used as the color facet for the symbols"
+        },
+        "defaultHiddenSeries": {
+          "description": "series that should be hidden by default (uncontrolled)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "descriptions": {
+          "description": "descriptions for each of the series",
+          "items": {
+            "$ref": "#/definitions/LegendDescription"
+          },
+          "type": "array"
+        },
+        "hiddenEntries": {
+          "description": "series names to hide from the legend",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "highlight": {
+          "description": "whether or not to include highlight interactions (controlled)",
+          "type": "boolean"
+        },
+        "isToggleable": {
+          "description": "allows the user to hide/show series by clicking on the legend entry (uncontrolled)",
+          "type": "boolean"
+        },
+        "keys": {
+          "description": "keys from the data to generate the legend for. Defaults to all keys used to facet the data.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "labelLimit": {
+          "description": "max width in pixels before truncating a legend label",
+          "type": "number"
+        },
+        "legendLabels": {
+          "description": "labels for each of the series",
+          "items": {
+            "$ref": "#/definitions/LegendLabel"
+          },
+          "type": "array"
+        },
+        "lineType": {
+          "$ref": "#/definitions/LineTypeFacet",
+          "description": "line type or key in the data that is used as the line type facet for the symbols"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/LineWidthFacet",
+          "description": "line type or key in the data that is used as the line type facet for the symbols"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "onClick": {
+          "$comment": "(seriesName: string) => void",
+          "description": "callback that will be run when a legend item is selected",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "seriesName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "seriesName"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "onMouseOut": {
+          "$comment": "(seriesName: string) => void",
+          "description": "callback that will be run when mousing out of a legend item",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "seriesName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "seriesName"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "onMouseOver": {
+          "$comment": "(seriesName: string) => void",
+          "description": "callback that will be run when mousing over a legend item",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "seriesName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "seriesName"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "opacity": {
+          "$ref": "#/definitions/OpacityFacet",
+          "description": "opacity or key in the data that is used as the opacity facet for the symbols"
+        },
+        "position": {
+          "$ref": "#/definitions/Position",
+          "description": "where the legend should be displayed"
+        },
+        "symbolShape": {
+          "$ref": "#/definitions/SymbolShapeFacet",
+          "description": "customize the legend symbol shape"
+        },
+        "title": {
+          "description": "legend title",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LineElement": {
+      "$ref": "#/definitions/React.ReactElement%3CLineProps%2CReact.JSXElementConstructor%3CLineProps%3E%3E"
+    },
+    "LineProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3Calias-594871244-949-1057-594871244-0-1438%3E"
+        },
+        "color": {
+          "$ref": "#/definitions/ColorFacet",
+          "description": "Line color or key in the data that is used as the color facet"
+        },
+        "dimension": {
+          "description": "Data field that the value is trended against (x-axis)",
+          "type": "string"
+        },
+        "interactionMode": {
+          "$ref": "#/definitions/InteractionMode",
+          "description": "Sets the interaction mode for the line"
+        },
+        "isMethodLast": {
+          "description": "Sparkline's method is last - meaning that last element of data has the static point",
+          "type": "boolean"
+        },
+        "isSparkline": {
+          "description": "Line to be interpreted and rendered as a sparkline. For example, Changes the fill of static points.",
+          "type": "boolean"
+        },
+        "lineType": {
+          "$ref": "#/definitions/LineTypeFacet",
+          "description": "Line type or key in the data that is used as the line type facet"
+        },
+        "metric": {
+          "description": "Key in the data that is used as the metric",
+          "type": "string"
+        },
+        "metricAxis": {
+          "description": "Axis that the metric is trended against (y-axis)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "onClick": {
+          "$ref": "#/definitions/OnClickCallback",
+          "description": "Callback that will be run when a point/section is clicked"
+        },
+        "opacity": {
+          "$ref": "#/definitions/OpacityFacet",
+          "description": "Opacity or key in the data that is used as the opacity facet"
+        },
+        "padding": {
+          "description": "Sets the chart area padding, this is a ratio from 0 to 1 for categorical scales (point) and a pixel value for continuous scales (time, linear)",
+          "type": "number"
+        },
+        "pointSize": {
+          "type": "number"
+        },
+        "scaleType": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "Sets the type of scale that should be used for the trend"
+        },
+        "staticPoint": {
+          "description": "Key in the data that if it exists and the value resolves to true for each data object, a point will be drawn for that data point on the line.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LineType": {
+      "anyOf": [
+        {
+          "const": "solid",
+          "type": "string"
+        },
+        {
+          "const": "dashed",
+          "type": "string"
+        },
+        {
+          "const": "dotted",
+          "type": "string"
+        },
+        {
+          "const": "dotDash",
+          "type": "string"
+        },
+        {
+          "const": "shortDash",
+          "type": "string"
+        },
+        {
+          "const": "longDash",
+          "type": "string"
+        },
+        {
+          "const": "twoDash",
+          "type": "string"
+        },
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      ],
+      "description": "Stroke dasharray for the line.\n\nsolid: null, dashed: 7 4, dotted: 2 3, dotDash: 2 3 7 4, shortDash: 3 4, longDash: 11 4, twoDash: 5 2 11 2"
+    },
+    "LineTypeFacet": {
+      "$ref": "#/definitions/FacetRef%3CLineType%3E"
+    },
+    "LineTypes": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/definitions/LineType"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "items": {
+              "$ref": "#/definitions/LineType"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "LineWidth": {
+      "anyOf": [
+        {
+          "const": "XS",
+          "type": "string"
+        },
+        {
+          "const": "S",
+          "type": "string"
+        },
+        {
+          "const": "M",
+          "type": "string"
+        },
+        {
+          "const": "L",
+          "type": "string"
+        },
+        {
+          "const": "XL",
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "Width of line in pixels\n\nXS: 1px, S: 1.5px, M: 2px, L: 3px, XL: 4px"
+    },
+    "LineWidthFacet": {
+      "$ref": "#/definitions/FacetRef%3CLineWidth%3E"
+    },
+    "Locale": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "$ref": "#/definitions/NumberLocale"
+        },
+        "time": {
+          "$ref": "#/definitions/TimeLocale"
+        }
+      },
+      "type": "object"
+    },
+    "LocaleCode": {
+      "description": "locale code used for default number and time locales",
+      "enum": [
+        "ar-EG",
+        "ar-SY",
+        "ca-ES",
+        "cs-CZ",
+        "da-DK",
+        "de-CH",
+        "de-DE",
+        "en-CA",
+        "en-GB",
+        "en-US",
+        "es-ES",
+        "es-MX",
+        "fi-FI",
+        "fr-CA",
+        "fr-FR",
+        "he-IL",
+        "hu-HU",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "mk-MK",
+        "nl-NL",
+        "pl-PL",
+        "pt-BR",
+        "ru-RU",
+        "sv-SE",
+        "uk-UA",
+        "zh-CN"
+      ],
+      "type": "string"
+    },
+    "MetricRangeElement": {
+      "$ref": "#/definitions/React.ReactElement%3CMetricRangeProps%2CReact.JSXElementConstructor%3CMetricRangeProps%3E%3E"
+    },
+    "MetricRangeProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3CChartTooltipElement%3E"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The color of the metric line and range. If undefined, will default to the color of the series that it represents."
+        },
+        "displayOnHover": {
+          "description": "Whether the metric range should only be visible when hovering over the parent line",
+          "type": "boolean"
+        },
+        "lineType": {
+          "$ref": "#/definitions/LineType",
+          "description": "The line type of the metric line. (dashed, solid, etc..)"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/LineWidth",
+          "description": "The line width of the metric line."
+        },
+        "metric": {
+          "description": "The key for the metric value in the data",
+          "type": "string"
+        },
+        "metricEnd": {
+          "description": "The key for the upper range in the data",
+          "type": "string"
+        },
+        "metricStart": {
+          "description": "The key for the lower range in the data",
+          "type": "string"
+        },
+        "rangeOpacity": {
+          "description": "The opacity of the area around the metric",
+          "type": "number"
+        },
+        "scaleAxisToFit": {
+          "description": "Boolean indicating whether or not the y-axis should expand to include the entire metric range (if necessary).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "metricEnd",
+        "metricStart"
+      ],
+      "type": "object"
+    },
+    "NumberFormat": {
+      "type": "string"
+    },
+    "NumberLocale": {
+      "additionalProperties": false,
+      "description": "Locale definition for formatting numbers.",
+      "properties": {
+        "currency": {
+          "$ref": "#/definitions/Vector2%3Cstring%3E",
+          "description": "The currency prefix and suffix (e.g., [\"$\", \"\"])."
+        },
+        "decimal": {
+          "description": "The decimal point (e.g., \".\").",
+          "type": "string"
+        },
+        "grouping": {
+          "description": "The array of group sizes (e.g., [3]), cycled as needed.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "minus": {
+          "description": "The minus sign (defaults to hyphen-minus, \"-\").",
+          "type": "string"
+        },
+        "nan": {
+          "description": "The not-a-number value (defaults to \"NaN\").",
+          "type": "string"
+        },
+        "numerals": {
+          "$ref": "#/definitions/Vector10%3Cstring%3E",
+          "description": "An array of ten strings to replace the numerals 0-9."
+        },
+        "percent": {
+          "description": "The percent sign (defaults to \"%\").",
+          "type": "string"
+        },
+        "thousands": {
+          "description": "The group separator (e.g., \",\").",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decimal",
+        "thousands",
+        "grouping",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "NumberLocaleCode": {
+      "description": "locale code used for default number locales",
+      "enum": [
+        "ar-AE",
+        "ar-BH",
+        "ar-DJ",
+        "ar-DZ",
+        "ar-EG",
+        "ar-IL",
+        "ar-IQ",
+        "ar-JO",
+        "ar-KM",
+        "ar-KW",
+        "ar-LB",
+        "ar-LY",
+        "ar-MA",
+        "ar-OM",
+        "ar-PS",
+        "ar-QA",
+        "ar-SA",
+        "ar-SD",
+        "ar-SO",
+        "ar-SS",
+        "ar-SY",
+        "ar-TD",
+        "ar-TN",
+        "ar-YE",
+        "ca-ES",
+        "cs-CZ",
+        "da-DK",
+        "de-CH",
+        "de-DE",
+        "en-CA",
+        "en-GB",
+        "en-IE",
+        "en-IN",
+        "en-US",
+        "es-BO",
+        "es-ES",
+        "es-MX",
+        "fi-FI",
+        "fr-CA",
+        "fr-FR",
+        "he-IL",
+        "hu-HU",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "mk-MK",
+        "nl-NL",
+        "pl-PL",
+        "pt-BR",
+        "pt-PT",
+        "ru-RU",
+        "sl-SI",
+        "sv-SE",
+        "uk-UA",
+        "zh-CN"
+      ],
+      "type": "string"
+    },
+    "OnClickCallback": {
+      "$comment": "(datum: Datum) => void",
+      "properties": {
+        "namedArgs": {
+          "additionalProperties": false,
+          "properties": {
+            "datum": {
+              "$ref": "#/definitions/Datum"
+            }
+          },
+          "required": [
+            "datum"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Opacities": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "OpacityFacet": {
+      "$ref": "#/definitions/FacetRef%3Cnumber%3E"
+    },
+    "Option": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The color of the icon and range lines"
+        },
+        "id": {
+          "description": "The id of the annotation to apply these options to",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "Orientation": {
+      "enum": [
+        "vertical",
+        "horizontal"
+      ],
+      "type": "string"
+    },
+    "Padding": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "bottom": {
+              "type": "number"
+            },
+            "left": {
+              "type": "number"
+            },
+            "right": {
+              "type": "number"
+            },
+            "top": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "PathWidth": {
+      "anyOf": [
+        {
+          "const": "XS",
+          "type": "string"
+        },
+        {
+          "const": "S",
+          "type": "string"
+        },
+        {
+          "const": "M",
+          "type": "string"
+        },
+        {
+          "const": "L",
+          "type": "string"
+        },
+        {
+          "const": "XL",
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "Width of the trail in pixels\n\nXS: 6px, S: 8px, M: 10px, L: 12px, XL: 16px"
+    },
+    "PathWidthFacet": {
+      "$ref": "#/definitions/FacetRef%3CPathWidth%3E"
+    },
+    "PopoverHandler": {
+      "$comment": "(datum: Datum, close: () => void) => ReactNode",
+      "properties": {
+        "namedArgs": {
+          "additionalProperties": false,
+          "properties": {
+            "close": {
+              "$comment": "() => void"
+            },
+            "datum": {
+              "$ref": "#/definitions/Datum"
+            }
+          },
+          "required": [
+            "datum",
+            "close"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Position": {
+      "enum": [
+        "left",
+        "right",
+        "top",
+        "bottom"
+      ],
+      "type": "string"
+    },
+    "React.JSXElementConstructor<AreaProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AreaProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AreaProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<AxisAnnotationProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AxisAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AxisAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<AxisProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AxisProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/AxisProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<BarAnnotationProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/BarAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/BarAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<BarProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/BarProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/BarProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ChartPopoverProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ChartPopoverProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ChartPopoverProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ChartTooltipProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ChartTooltipProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ChartTooltipProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ComboProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ComboProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ComboProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<DonutProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/DonutProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/DonutProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<DonutSummaryProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/DonutSummaryProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/DonutSummaryProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<LegendProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/LegendProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/LegendProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<LineProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/LineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/LineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<MetricRangeProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/MetricRangeProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/MetricRangeProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ReferenceLineProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ReferenceLineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ReferenceLineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ScatterPathProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ScatterPathProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ScatterPathProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<ScatterProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ScatterProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/ScatterProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<SegmentLabelProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/SegmentLabelProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/SegmentLabelProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<TitleProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TitleProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TitleProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<TrendlineAnnotationProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TrendlineAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TrendlineAnnotationProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.JSXElementConstructor<TrendlineProps>": {
+      "anyOf": [
+        {
+          "$comment": "(\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}\n             */\n            deprecatedLegacyContext?: any) => ReactNode",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TrendlineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "$comment": "new (\n            props: P,\n            /**\n             * @deprecated\n             *\n             * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}\n             */\n            deprecatedLegacyContext?: any) => Component<any, any>",
+          "properties": {
+            "namedArgs": {
+              "additionalProperties": false,
+              "properties": {
+                "deprecatedLegacyContext": {
+                  "deprecated": true
+                },
+                "props": {
+                  "$ref": "#/definitions/TrendlineProps"
+                }
+              },
+              "required": [
+                "props"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "description": "Represents any user-defined component, either as a function or a class.\n\nSimilar to  {@link  ComponentType } , but without extra properties like  {@link  FunctionComponent.defaultProps defaultProps  }  and  {@link  ComponentClass.contextTypes contextTypes } ."
+    },
+    "React.ReactElement<AreaProps,React.JSXElementConstructor<AreaProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything thatred, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/AreaProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CAreaProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<AxisAnnotationProps,React.JSXElementConstructor<AxisAnnotationProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/AxisAnnotationProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CAxisAnnotationProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<AxisProps,React.JSXElementConstructor<AxisProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/AxisProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CAxisProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<BarAnnotationProps,React.JSXElementConstructor<BarAnnotationProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/BarAnnotationProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CBarAnnotationProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<BarProps,React.JSXElementConstructor<BarProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/BarProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CBarProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ChartPopoverProps,React.JSXElementConstructor<ChartPopoverProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ChartPopoverProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CChartPopoverProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ChartTooltipProps,React.JSXElementConstructor<ChartTooltipProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ChartTooltipProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CChartTooltipProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ComboProps,React.JSXElementConstructor<ComboProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ComboProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CComboProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<DonutProps,React.JSXElementConstructor<DonutProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/DonutProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CDonutProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<DonutSummaryProps,React.JSXElementConstructor<DonutSummaryProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/DonutSummaryProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CDonutSummaryProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<LegendProps,React.JSXElementConstructor<LegendProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/LegendProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CLegendProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<LineProps,React.JSXElementConstructor<LineProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/LineProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CLineProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<MetricRangeProps,React.JSXElementConstructor<MetricRangeProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/MetricRangeProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CMetricRangeProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ReferenceLineProps,React.JSXElementConstructor<ReferenceLineProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ReferenceLineProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CReferenceLineProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ScatterPathProps,React.JSXElementConstructor<ScatterPathProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ScatterPathProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CScatterPathProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<ScatterProps,React.JSXElementConstructor<ScatterProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/ScatterProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CScatterProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<SegmentLabelProps,React.JSXElementConstructor<SegmentLabelProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/SegmentLabelProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CSegmentLabelProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<TitleProps,React.JSXElementConstructor<TitleProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/TitleProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CTitleProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "React.ReactElement<Trendops,React.JSXElementConstructor<TrendlineAnnotationProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/TrendlineAnnotationProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CTrendlineAnnotationProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "k"type": "object"
+    },
+    "React.ReactElement<TrendlineProps,React.JSlineProps>>": {
+      "additionalProperties": false,
+      "description": "Represents a JSX element.\n\nWhere  {@link  ReactNode }  represents everything that can be rendered, `ReactElement` only represents JSX.",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "props": {
+          "$ref": "#/definitions/TrendlineProps"
+        },
+        "type": {
+          "$ref": "#/definitions/React.JSXElementConstructor%3CTrendlineProps%3E"
+        }
+      },
+      "required": [
+        "type",
+        "props",
+        "key"
+      ],
+      "type": "object"
+    },
+    "ReferenceLineElement": {
+      "$ref": "#/definitions/React.ReactElement%3CReferenceLineProps%2CReact.JSXElementConstructor%3CReferenceLineProps%3E%3E"
+    },
+    "ReferenceLineProps": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The color of the reference line."
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Icon"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Adds an icon as the reference line label on the axis."
+        },
+        "iconColor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Color of the icon."
+        },
+        "label": {
+          "description": "Axis text label. If not provided, the default label will be displayed.",
+          "type": "string"
+        },
+        "labelColor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Color of the label."
+        },
+        "labelFontWeight": {
+          "$ref": "#/definitions/FontWeight",
+          "description": "Font weight of the label."
+        },
+        "layer": {
+          "description": "Specifies what layer the reference line should be drawn on. `front` will render the reference line infront of other marks. `back` will draw the refence line behind other marks.",
+          "enum": [
+            "back",
+            "front"
+          ],
+          "type": "string"
+        },
+        "position": {
+          "description": "Position the line on the value, or between the previous/next value. Only supported in Bar visualizations.",
+          "enum": [
+            "before",
+            "after",
+            "center"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "The value on the axis where the reference line should be drawn.",
+          "type": [
+            "number",
+            "string"
+          ]
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "RegressionMethod": {
+      "description": "trendline methods that use a regression transform",
+      "type": "string"
+    },
+    "RichChartProps": {
+      "additionalProperties": false,
+      "properties": {
+        "backgroundColor": {
+          "description": "Background color of the chart.",
+          "type": "string"
+        },
+        "children": {
+          "$ref": "#/definitions/Children%3C(AreaElement%7CAxisElement%7CBarElement%7CDonutElement%7CComboElement%7CLegendElement%7CLineElement%7CScatterElement%7CTitleElement)%3E"
+        },
+        "colorScheme": {
+          "$ref": "#/definitions/ColorScheme",
+          "description": "react-spectrum color scheme."
+        },
+        "colors": {
+          "$ref": "#/definitions/ChartColors",
+          "description": "Color scale. Defaults to the `categorical16' color scale."
+        },
+        "data": {
+          "items": {
+            "$ref": "#/definitions/SimpleData"
+          },
+          "type": "array"
+        },
+        "dataTestId": {
+          "description": "Test id",
+          "type": "string"
+        },
+        "debug": {
+          "description": "Enables debug mode which will console log things like the generated vega spec and the datums for tooltips.",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "Chart description. Sets the aria-label attribute for the chart container.",
+          "type": "string"
+        },
+        "emptyStateText": {
+          "description": "Optional text to display when the data set is empty and loading is complete.",
+          "type": "string"
+        },
+        "height": {
+          "$ref": "#/definitions/Height",
+          "description": "Chart height"
+        },
+        "hiddenSeries": {
+          "description": "Series names to hide from the chart (controlled).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "highlightedItem": {
+          "$ref": "#/definitions/HighlightedItem",
+          "description": "Data item id or ids that should be highlighted on the chart (controlled). Be sure to supply an `idKey` where each data point has a unique ID if you are using controlled highlighting of items."
+        },
+        "highlightedSeries": {
+          "description": "Series name to highlight on the chart (controlled).",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "idKey": {
+          "description": "Data key that contains a unique ID for each data point in the array.",
+          "type": "string"
+        },
+        "lineTypes": {
+          "$ref": "#/definitions/LineTypes",
+          "description": "Line type scale."
+        },
+        "lineWidths": {
+          "description": "Line width scale.",
+          "items": {
+            "$ref": "#/definitions/LineWidth"
+          },
+          "type": "array"
+        },
+        "loading": {
+          "description": "Loading state. If true, a spinner will render in place of the chart.",
+          "type": "boolean"
+        },
+        "locale": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Locale"
+            },
+            {
+              "$ref": "#/definitions/LocaleCode"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "number": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/NumberLocaleCode"
+                    },
+                    {
+                      "$ref": "#/definitions/NumberLocale"
+                    }
+                  ]
+                },
+                "time": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/TimeLocaleCode"
+                    },
+                    {
+                      "$ref": "#/definitions/TimeLocale"
+                    }
+                  ]
+                }
+              },
+              "type": "object"
+            }
+          ],
+          "description": "Number and time locales to use"
+        },
+        "maxHeight": {
+          "description": "Maximum height of the chart",
+          "type": "number"
+        },
+        "maxWidth": {
+          "description": "Maximum chart width",
+          "type": "number"
+        },
+        "minHeight": {
+          "description": "Minimum height of the chart",
+          "type": "number"
+        },
+        "minWidth": {
+          "description": "Minimum chart width.",
+          "type": "number"
+        },
+        "opacities": {
+          "$ref": "#/definitions/Opacities",
+          "description": "Opacity scale"
+        },
+        "padding": {
+          "$ref": "#/definitions/Padding",
+          "description": "Chart padding"
+        },
+        "renderer": {
+          "description": "Method to use for rendering the chart. 'canvas' is ideal for large data sets.",
+          "enum": [
+            "svg",
+            "canvas"
+          ],
+          "type": "string"
+        },
+        "symbolShapes": {
+          "$ref": "#/definitions/SymbolShapes",
+          "description": "Symbol shape scale."
+        },
+        "symbolSizes": {
+          "description": "Symbol size scale. Values define the min and max size in that order.",
+          "items": {
+            "$ref": "#/definitions/SymbolSize"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "theme": {
+          "$ref": "#/definitions/Theme",
+          "description": "react-spectrum theme. This sets the react-spectrum theming on tooltips and popovers."
+        },
+        "title": {
+          "description": "Chart title. If the `Title` component is provided as a child, the component will override this prop.",
+          "type": "string"
+        },
+        "tooltipAnchor": {
+          "$ref": "#/definitions/TooltipAnchor",
+          "description": "Sets what the tooltip should be anchored to. Defaults to `cursor`."
+        },
+        "tooltipPlacement": {
+          "$ref": "#/definitions/TooltipPlacement",
+          "description": "The placement of the tooltip with respect to the mark. Only applicable if `tooltipAnchor = 'mark'`."
+        },
+        "width": {
+          "$ref": "#/definitions/Width",
+          "description": "Chart width"
+        }
+      },
+      "required": [
+        "data",
+        "children"
+      ],
+      "type": "object"
+    },
+    "ScaleType": {
+      "enum": [
+        "linear",
+        "point",
+        "time",
+        "band"
+      ],
+      "type": "string"
+    },
+    "ScatterElement": {
+      "$ref": "#/definitions/React.ReactElement%3CScatterProps%2CReact.JSXElementConstructor%3CScatterProps%3E%3E"
+    },
+    "ScatterPathElement": {
+      "$ref": "#/definitions/React.ReactElement%3CScatterPathProps%2CReact.JSXElementConstructor%3CScatterPathProps%3E%3E"
+    },
+    "ScatterPathProps": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The color of the links."
+        },
+        "groupBy": {
+          "description": "Data keys that should be used to create the groups that get connected by links.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "opacity": {
+          "description": "The opacity of the links.",
+          "type": "number"
+        },
+        "pathWidth": {
+          "$ref": "#/definitions/PathWidthFacet",
+          "description": "The width on the links. Link width can vary by point."
+        }
+      },
+      "type": "object"
+    },
+    "ScatterProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3Calias-1610080226-935-1046-1610080226-0-1330%3E"
+        },
+        "color": {
+          "$ref": "#/definitions/ColorFacet",
+          "description": "point fill and stroke color uses a key in the data that will map to the color scale or a static color value"
+        },
+        "colorScaleType": {
+          "description": "type of color scale that should be used for the points use ordinal if the key used for `color` maps to string values ('UT', 'CA', 'NY', etc.) use linear if the key used for `color` maps to numeric values (0, 1, 2, etc.)",
+          "enum": [
+            "linear",
+            "ordinal"
+          ],
+          "type": "string"
+        },
+        "dimension": {
+          "description": "data key for the x-axis",
+          "type": "string"
+        },
+        "dimensionScaleType": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "scale type of the x-axis see https://vega.github.io/vega/docs/scales/#types for more information"
+        },
+        "lineType": {
+          "$ref": "#/definitions/LineTypeFacet",
+          "description": "line type of the point border uses a key in the data that will map to the line type scale or a static line type value"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/LineWidthFacet",
+          "description": "line width of the point border uses a key in the data that will map to the line width scale or a static line width value"
+        },
+        "metric": {
+          "description": "Key in the data that is used as the metric",
+          "type": "string"
+        },
+        "name": {
+          "description": "Sets the name of the component.",
+          "type": "string"
+        },
+        "opacity": {
+          "$ref": "#/definitions/OpacityFacet",
+          "description": "point fill and stroke opacity uses a key in the data that will map to the opacity scale or a opacity value"
+        },
+        "size": {
+          "$ref": "#/definitions/SymbolSizeFacet",
+          "description": "point size uses a key in the data that will map to the size scale (linear) or a static size value"
+        }
+      },
+      "type": "object"
+    },
+    "SegmentLabelElement": {
+      "$ref": "#/definitions/React.ReactElement%3CSegmentLabelProps%2CReact.JSXElementConstructor%3CSegmentLabelProps%3E%3E"
+    },
+    "SegmentLabelProps": {
+      "additionalProperties": false,
+      "properties": {
+        "labelKey": {
+          "description": "Sets the key in the data that has the segment label. Defaults to the `color` key set on the `Donut` is undefined.",
+          "type": "string"
+        },
+        "percent": {
+          "description": "Shows the donut segment percentage",
+          "type": "boolean"
+        },
+        "value": {
+          "description": "Shows the donut segment metric value",
+          "type": "boolean"
+        },
+        "valueFormat": {
+          "default": "'standardNumber'\n\nsee {@link https://d3js.org/d3-format#locale_format}",
+          "description": "d3 number format specifier. Sets the number format for the segment metric value.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SimpleData": {
+      "additionalProperties": {},
+      "type": "object"
+    },
+    "SpectrumColor": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ColorValueV6"
+        },
+        {
+          "$ref": "#/definitions/SpectrumVizColor"
+        },
+        {
+          "$ref": "#/definitions/StaticColorValue"
+        }
+      ]
+    },
+    "SpectrumVizColor": {
+      "enum": [
+        "divergent-orange-yellow-seafoam-100",
+        "divergent-orange-yellow-seafoam-200",
+        "divergent-orange-yellow-seafoam-300",
+        "divergent-orange-yellow-seafoam-400",
+        "divergent-orange-yellow-seafoam-500",
+        "divergent-orange-yellow-seafoam-600",
+        "divergent-orange-yellow-seafoam-700",
+        "divergent-orange-yellow-seafoam-800",
+        "divergent-orange-yellow-seafoam-900",
+        "divergent-orange-yellow-seafoam-1000",
+        "divergent-orange-yellow-seafoam-1100",
+        "divergent-orange-yellow-seafoam-1200",
+        "divergent-orange-yellow-seafoam-1300",
+        "divergent-orange-yellow-seafoam-1400",
+        "divergent-orange-yellow-seafoam-1500",
+        "divergent-red-yellow-blue-100",
+        "divergent-red-yellow-blue-200",
+        "divergent-red-yellow-blue-300",
+        "divergent-red-yellow-blue-400",
+        "divergent-red-yellow-blue-500",
+        "divergent-red-yellow-blue-600",
+        "divergent-red-yellow-blue-700",
+        "divergent-red-yellow-blue-800",
+        "divergent-re-900",
+        "divergent-red-yellow-blue-1000",
+        "divergent-red-yellow-blue-1100",
+        "divergent-red-yellow-blue-1200",
+        "divergent-red-yellow-blue-1300",
+        "divergent-red-yellow-blue-1400",
+        "divergent-red-yellow-blue-1500",
+        "divergent-red-blue-100",
+        "divergent-red-blue-200",
+        "divergent-red-blue-300",
+        "divergent-red-blue-400",
+        "divergent-red-blue-500",
+        "divergent-red-blue-600",
+        "divergent-red-blue-700",
+        "divergent-red-blue-800",
+        "divergent-red-blue-900",
+        "divergent-red-blue-1000",
+        "divergent-red-blue-1100",
+        "divergent-red-blue-1200",
+        "divergent-red-blue-1300",
+        "divergent-red-blue-1400",
+        "divergent-red-blue-1500",
+        "sequential-viridis-100",
+        "sequential-viridis-200",
+        "sequential-viridis-300",
+        "sequential-viridis-400",
+        "sequential-viridis-500",
+        "sequential-viridis-600",
+        "sequential-viridis-700",
+        "sequential-viridis-800",
+        "sequential-viridis-900",
+        "sequential-viridis-1000",
+        "sequential-viridis-1100",
+        "sequential-viridis-1200",
+        "sequential-viridis-1300",
+        "sequential-viridis-1400",
+        "sequential-viridis-1500",
+        "sequential-viridis-1600",
+        "sequential-magma-100",
+        "sequential-magma-200",
+        "sequential-magma-300",
+        "sequential-magma-400",
+        "sequential-magma-500",
+        "sequential-magma-600",
+        "sequential-magma-700",
+        "sequential-magma-800",
+        "sequential-magma-900",
+        "sequential-magma-1000",
+        "sequential-magma-1100",
+        "sequential-magma-1200",
+        "sequential-magma-1300",
+        "sequential-magma-1400",
+        "sequential-magma-1500",
+        "sequential-magma-1600",
+        "sequential-rose-100",
+        "sequential-rose-200",
+        "sequential-rose-300",
+        "sequential-rose-400",
+        "sequential-rose-500",
+        "sequential-rose-600",
+        "sequential-rose-700",
+        "sequential-rose-800",
+        "sequential-rose-900",
+        "sequential-rose-1000",
+        "sequential-rose-1100",
+        "sequential-rose-1200",
+        "sequential-rose-1300",
+        "sequential-rose-1400",
+        "sequential-rose-1500",
+        "sequential-rose-1600",
+        "seq        "sequential-cerulean-200",
+        "sequential-cerulean-300",
+        "sequential-cerulean-400",
+        "sequential-cerulean-500",
+        "sequential-cerulean-600",
+        "sequential-cerulean-700",
+        "sequential-cerulean-800",
+        "sequential-cerulean-900",
+        "sequential-cerulean-1000",
+        "sequential-cerulean-1100",
+        "sequential-cerulean-1200",
+        "sequential-cerulean-1300",
+        "sequential-cerulean-1400",
+        "sequential-cerulean-1500",
+        "sequential-cerulean-1600",
+        "sequential-forest-100",
+        "sequential-forest-200",
+        "sequential-forest-300",
+        "sequential-forequential-forest-500",
+        "sequential-forest-600",
+        "s      "sequential-forest-800",
+        "sequential-forest-900",
+        "sequential-forest-1000",
+        "sequential-forest-1100",
+        "sequential-forest-1200",
+        "sequential-forest-1300",
+        "sequential-forest-1400",
+        "sequential-forest-1500",
+        "sequential-forest-1600",
+        "categorical-100",
+        "categorical-200",
+        "categorical-300",
+        "categorical-400",
+        "categorical-500",
+        "categorical-600",
+        "categorical-700",
+        "categorical-800",
+        "categorical-900",
+        "categorical-1000",
+        "categorical-1100",
+        "categorical-1200",
+        "categorical-1300",
+        "categorical-1400",
+        "categorical-1500",
+        "categorical-1600"
+      ],
+      "type": "string"
+    },
+    "StaticColorValue": {
+      "enum": [
+        "static-white",
+        "static-black",
+        "static-gray-50",
+        "static-gray-75",
+        "static-gray-100",
+        "static-gray-200",
+        "static-gray-300",
+        "static-gray-400",
+        "static-gray-500",
+        "static-gray-600",
+        "static-gray-700",
+        "static-gray-800",
+        "static-gray-900",
+        "static-red-100",
+        "static-red-200",
+        "static-red-300",
+        "static-red-400",
+        "static-red-500",
+        "static-red-600",
+        "static-red-700",
+        "static-red-800",
+        "static-red-900",
+        "static-red-1000",
+        "static-red-1100",
+        "static-red-1200",
+        "static-red-1300",
+        "static-red-1400",
+        "static-orange-100",
+        "static-orange-200",
+        "static-orange-300",
+        "static-orange-400",
+        "static-orange-500",
+        "static-orange-600",
+        "static-orange-700",
+        "static-orange-800",
+        "static-orange-900",
+        "static-orange-1000",
+        "static-orange-1100",
+        "static-orange-1200",
+        "static-orange-1300",
+        "static-orange-1400",
+        "static-yellow-100",
+        "static-yellow-200",
+        "static-yellow-300",
+        "static-yellow-400",
+        "static-yellow-500",
+        "static-yellow-600",
+        "static-yellow-700",
+        "static-yellow-800",
+        "static-yellow-900",
+        "static-yellow-1000",
+        "static-yellow-1100",
+        "static-yellow-1200",
+        "static-yellow-1300",
+        "static-yellow-1400",
+        "static-chartreuse-100",
+        "static-chartreuse-200",
+        "static-chartreuse-300",
+        "static-chartreuse-400",
+        "static-chartreuse-500",
+        "static-chartreuse-600",
+        "static-chartreuse-700",
+        "static-chartreuse-800",
+        "static-chartreuse-900",
+        "static-chartreuse-1000",
+        "static-chartreuse-1100",
+        "static-chartreuse-1200",
+        "static-chartreuse-1300",
+        "static-chartreuse-1400",
+        "static-celery-100",
+        "static-celery-200",
+        "static-celery-300",
+        "static-celery-400",
+        "static-celery-500",
+        "static-celery-600",
+        "static-celery-700",
+        "static-celery-800",
+        "static-celery-900",
+        "static-celery-1000",
+        "static-celery-1100",
+        "static-celery-1200",
+        "static-celery-1300",
+        "static-celery-1400",
+        "static-green-100",
+        "static-green-200",
+        "static-green-300",
+        "static-green-400",
+        "static-green-500",
+        "static-green-600",
+        "static-green-700",
+        "static-green-800",
+        "static-green-900",
+green-1000",
+        "static-green-1100",
+        "static-green-1200",
+        "static-green-1300",
+        "static-green-1400",
+        "static-seafoam-100",
+        "static-seafoam-200",
+        "static-seafoam-300",
+        "static-seafoam-400",
+        "static-seafoam-500",
+        "static-seafoam-600",
+        "static-seafoam-700",
+        "static-seafoam-800",
+        "static-seafoam-900",
+        "static-seafoam-1000",
+        "static-seafoam-1100",
+        "static-seafoam-1200",
+        "static-seafoam-1300",
+        "static-seafoam-1400",
+        "static-cyan-100",
+        "static-cyan-200",
+        "static-cyan-300",
+        "static-cyan-400",
+        "static-cyan-500",
+        "static-cyan-600",
+        "static-cyan-700",
+        "static-cyan-800",
+        "static-cyan-900",
+        "static-cyan-1000",
+        "static-cyan-1100",
+        "static-cyan-1200",
+        "static-cyan-1300",
+        "static-cyan-1400",
+        "static-blue-100",
+        "static-blue-200",
+        "static-blue-300",
+        "static-blue-400",
+        "static-blue-500",
+        "static-blue-600",
+        "static-blue-700",
+        "static-blue-800",
+        "static-blue-900",
+        "static-blue-1000",
+        "static-blue-1100",
+        "static-blue-1200",
+        "static-blue-1300",
+        "static-blue-1400",
+        "static-indigo-100",
+        "static-indigo-200",
+        "static-indigo-300",
+        "static-indigo-400",
+        "static-indigo-500",
+        "static-indigo-600",
+        "static-indigo-700",
+        "static-indigo-800",
+        "static-indigo-900",
+        "static-indigo-1000",
+        "static-indigo-1100",
+        "static-indigo-1200",
+        "static-indigo-1300",
+        "static-indigo-1400",
+        "static-pruple-100",
+        "static-pruple-200",
+        "static-pruple-300",
+        "static-pruple-400",
+        "static-pruple-500",
+        "static-pruple-600",
+        "static-pruple-700",
+        "static-pruple-800",
+        "static-pruple-900",
+        "static-pruple-1000",
+        "static-pruple-1100",
+        "static-pruple-1200",
+        "static-pruple-1300",
+        "static-pruple-1400",
+        "static-fuchsia-100",
+        "static-fuchsia-200",
+        "static-fuchsia-300",
+        "static-fuchsia-400",
+        "static-fuchsia-500",
+        "static-fuchsia-600",
+        "static-fuchsia-700",
+        "static-fuchsia-800",
+        "static-fuchsia-900",
+        "static-fuchsia-1000",
+        "static-fuchsia-1100",
+        "static-fuchsia-1200",
+        "static-fuchsia-1300",
+        "static-fuchsia-1400",
+        "static-magenta-100",
+        "static-magenta-200",
+        "static-magenta-300",
+        "static-magenta-400",
+        "static-magenta-500",
+        "static-magenta-600",
+        "static-magenta-700",
+        "static-magenta-800",
+        "static-magenta-900",
+        "static-magenta-1000",
+        "static-magenta-1100",
+        "static-magenta-1200",
+        "static-magenta-1300",
+        "static-magenta-1400"
+      ],
+      "type": "string"
+    },
+    "StaticValue<(SpectrumVizColor|string)>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumVizColor"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<ChartSymbolShape>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/ChartSymbolShape"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<LineType>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/LineType"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<LineWidth>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/LineWidth"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<PathWidth>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/PathWidth"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<SymbolSize>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/SymbolSize"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "StaticValue<number>": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "SubLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "align": {
+          "$ref": "#/definitions/LabelAlign",
+          "description": "Alignment of the label, defaults to center"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/FontWeight",
+          "description": "Font weight of the label, defaults to normal"
+        },
+        "subLabel": {
+          "description": "The display value of the sublabel",
+          "type": "string"
+        },
+        "value": {
+          "description": "The axis value that this sublabel is anchored to",
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "subLabel"
+      ],
+      "type": "object"
+    },
+    "SymbolShape": {
+      "type": "string"
+    },
+    "SymbolShapeFacet": {
+      "$ref": "#/definitions/FacetRef%3CChartSymbolShape%3E"
+    },
+    "SymbolShapes": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/definitions/ChartSymbolShape"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "items": {
+              "$ref": "#/definitions/ChartSymbolShape"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "SymbolSize": {
+      "anyOf": [
+        {
+          "const": "XS",
+          "type": "string"
+        },
+        {
+          "const": "S",
+          "type": "string"
+        },
+        {
+          "const": "M",
+          "type": "string"
+        },
+        {
+          "const": "L",
+          "type": "string"
+        },
+        {
+          "const": "XL",
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "Width of the symbol in pixels\n\nXS: 6px, S: 8px, M: 10px, L: 12px, XL: 16px"
+    },
+    "SymbolSizeFacet": {
+      "$ref": "#/definitions/FacetRef%3CSymbolSize%3E"
+    },
+    "Theme": {
+      "additionalProperties": false,
+      "description": "A theme object defines CSS variables for a theme, across multiple color schemes and scales.",
+      "properties": {
+        "dark": {
+          "$ref": "#/definitions/CSSModule",
+          "description": "CSS module defining the variables for the dark color scheme."
+        },
+        "global": {
+          "$ref": "#/definitions/CSSModule",
+          "description": "CSS module defining the global variables, which do not change between color schemes/scales."
+        },
+        "large": {
+          "$ref": "#/definitions/CSSModule",
+          "description": "CSS module defining the variables for the large scale."
+        },
+        "light": {
+          "$ref": "#/definitions/CSSModule",
+          "description": "CSS module defining the variables for the light color scheme."
+        },
+        "medium": {
+          "$ref": "#/definitions/CSSModule",
+          "description": "CSS module defining the variables for the medium scale."
+        }
+      },
+      "type": "object"
+    },
+    "TimeLocale": {
+      "additionalProperties": false,
+      "description": "Locale definition for formatting dates and times.",
+      "properties": {
+        "date": {
+          "description": "The date (%x) format specifier (e.g., \"%m/%d/%Y\").",
+          "type": "string"
+        },
+        "dateTime": {
+          "description": "The date and time (%c) format specifier (e.g., \"%a %b %e %X %Y\").",
+          "type": "string"
+        },
+        "days": {
+          "$ref": "#/definitions/Vector7%3Cstring%3E",
+          "description": "The full names of the weekdays, starting with Sunday."
+        },
+        "months": {
+          "$ref": "#/definitions/Vector12%3Cstring%3E",
+          "description": "The full names of the months (starting with January)."
+        },
+        "periods": {
+          "$ref": "#/definitions/Vector2%3Cstring%3E",
+          "description": "The A.M. and P.M. equivalents (e.g., [\"AM\", \"PM\"])."
+        },
+        "shortDays": {
+          "$ref": "#/definitions/Vector7%3Cstring%3E",
+          "description": "The abbreviated names of the weekdays, starting with Sunday."
+        },
+        "shortMonths": {
+          "$ref": "#/definitions/Vector12%3Cstring%3E",
+          "description": "The abbreviated names of the months (starting with January)."
+        },
+        "time": {
+          "description": "The time (%X) format specifier (e.g., \"%H:%M:%S\").",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dateTime",
+        "date",
+        "time",
+        "periods",
+        "days",
+        "shortDays",
+        "months",
+        "shortMonths"
+      ],
+      "type": "object"
+    },
+    "TimeLocaleCode": {
+      "description": "locale code used for default time locales",
+      "enum": [
+        "ar-EG",
+        "ar-SY",
+        "ca-ES",
+        "cs-CZ",
+        "da-DK",
+        "de-CH",
+        "de-DE",
+        "en-CA",
+        "en-GB",
+        "en-US",
+        "es-ES",
+        "es-MX",
+        "fa-IR",
+        "fi-FI",
+        "fr-CA",
+        "fr-FR",
+        "he-IL",
+        "hr-HR",
+        "hu-HU",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "mk-MK",
+        "nb-NO",
+        "nl-BE",
+        "nl-NL",
+        "pl-PL",
+        "pt-BR",
+        "ru-RU",
+        "sv-SE",
+        "tr-TR",
+        "uk-UA",
+        "zh-CN",
+        "zh-TW"
+      ],
+      "type": "string"
+    },
+    "TitleElement": {
+      "$ref": "#/definitions/React.ReactElement%3CTitleProps%2CReact.JSXElementConstructor%3CTitleProps%3E%3E"
+    },
+    "TitleOrient": {
+      "enum": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "type": "string"
+    },
+    "TitlePosition": {
+      "enum": [
+        "start",
+        "middle",
+        "end"
+      ],
+      "type": "string"
+    },
+    "TitleProps": {
+      "additionalProperties": false,
+      "properties": {
+        "fontWeight": {
+          "$ref": "#/definitions/FontWeight",
+          "description": "The title font weight"
+        },
+        "orient": {
+          "$ref": "#/definitions/TitleOrient",
+          "description": "The location of the title relative to the chart"
+        },
+        "position": {
+          "$ref": "#/definitions/TitlePosition",
+          "description": "The title position"
+        },
+        "text": {
+          "description": "The title text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "type": "object"
+    },
+    "TooltipAnchor": {
+      "enum": [
+        "cursor",
+        "mark"
+      ],
+      "type": "string"
+    },
+    "TooltipHandler": {
+      "$comment": "(datum: Datum) => ReactNode",
+      "properties": {
+        "namedArgs": {
+          "additionalProperties": false,
+          "properties": {
+            "datum": {
+              "$ref": "#/definitions/Datum"
+            }
+          },
+          "required": [
+            "datum"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "TooltipPlacement": {
+      "enum": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "type": "string"
+    },
+    "TrendlineAnnotationElement": {
+      "$ref": "#/definitions/React.ReactElement%3CTrendlineAnnotationProps%2CReact.JSXElementConstructor%3CTrendlineAnnotationProps%3E%3E"
+    },
+    "TrendlineAnnotationProps": {
+      "additionalProperties": false,
+      "properties": {
+        "badge": {
+          "description": "Adds a badge around the annotation",
+          "type": "boolean"
+        },
+        "dimensionValue": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "const": "start",
+              "type": "string"
+            },
+            {
+              "const": "end",
+              "type": "string"
+            }
+          ],
+          "description": "where along the dimension scale to label the trendline value"
+        },
+        "numberFormat": {
+          "description": "d3 number format specifier. Only valid if labelFormat is linear or undefined.",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "text that will be prepended to the trendline value",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TrendlineChildElement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ChartTooltipElement"
+        },
+        {
+          "$ref": "#/definitions/TrendlineAnnotationElement"
+        }
+      ]
+    },
+    "TrendlineElement": {
+      "$ref": "#/definitions/React.ReactElement%3CTrendlineProps%2CReact.JSXElementConstructor%3CTrendlineProps%3E%3E"
+    },
+    "TrendlineMethod": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AggregateMethod"
+        },
+        {
+          "$ref": "#/definitions/RegressionMethod"
+        },
+        {
+          "$ref": "#/definitions/WindowMethod"
+        }
+      ],
+      "description": "avaliable methods for generating a trendline"
+    },
+    "TrendlineProps": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "$ref": "#/definitions/Children%3CTrendlineChildElement%3E"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SpectrumColor"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The line color of the trendline. If undefined, will default to the color of the series that it represents."
+        },
+        "dimensionExtent": {
+          "description": "The dimenstion range to draw the trendline for. If undefined, the value will default to the value of dimensionRange.\n\nIf 'domain' is used as a start or end value, this will extrapolate the trendline out to the beginning and end of the chart domain respectively.\n\nIf null is used as a start or end value, the trendline will be be drawn from the first data point to the last data point respectively.",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "const": "domain",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "dimensionRange": {
+          "description": "The dimension range that the statistical transform should be calculated for. If undefined, the value will default to [null, null]\n\nIf the start or end values are null, then the dimension range will not be bounded for the start or end respectively.",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "displayOnHover": {
+          "description": "Whether the trendline should only be visible when hovering over the parent line",
+          "type": "boolean"
+        },
+        "excludeDataKeys": {
+          "description": "Data points where these keys have truthy values will not be included in the trendline calculation",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "highlightRawPoint": {
+          "description": "If there is a tooltip on this trendline, then this will highlight the raw point in addition to the hovered trendline point.",
+          "type": "boolean"
+        },
+        "lineType": {
+          "$ref": "#/definitions/LineType",
+          "description": "The line type of the trend line."
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/LineWidth",
+          "description": "The line width of the trend line."
+        },
+        "method": {
+          "$ref": "#/definitions/TrendlineMethod",
+          "description": "The type of statistical transform that will be calculated."
+        },
+        "opacity": {
+          "description": "The opacity of the trendlines",
+          "type": "number"
+        },
+        "orientation": {
+          "$ref": "#/definitions/Orientation",
+          "description": "Orientation of the trendline. Only supported on scatter plots."
+        }
+      },
+      "type": "object"
+    },
+    "Vector10<string>": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 10,
+      "type": "array"
+    },
+    "Vector12<string>": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 12,
+      "type": "array"
+    },
+    "Vector2<string>": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "Vector7<string>": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 7,
+      "minItems": 7,
+      "type": "array"
+    },
+    "Width": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "const": "auto",
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "WindowMethod": {
+      "description": "trendline methods that use a window transform",
+      "type": "string"
+    }
+  }
+}
+```

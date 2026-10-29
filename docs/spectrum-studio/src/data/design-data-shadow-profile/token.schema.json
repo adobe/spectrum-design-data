@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/token.schema.json",
+  "title": "Design data token",
+  "description": "Layer 1 — structural token shape (name + value or alias). Graph rules are Layer 2.",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/tokenWithValue"
+    },
+    {
+      "$ref": "#/$defs/tokenWithRef"
+    }
+  ],
+  "$defs": {
+    "nameObject": {
+      "type": "object",
+      "description": "Structured token identity. Semantic fields describe identity and structure; mode-set fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional mode-set keys MUST be strings.",
+      "required": ["property"],
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic: the stylistic attribute being defined (e.g. color, width, padding, gap)."
+        },
+        "component": {
+          "type": "string",
+          "description": "Semantic: component scope (e.g. button, checkbox)."
+        },
+        "structure": {
+          "type": "string",
+          "description": "Semantic: reusable visual pattern (e.g. base, container, list). Distinct from component."
+        },
+        "substructure": {
+          "type": "string",
+          "description": "Semantic: child within a parent structure (e.g. item in list-item)."
+        },
+        "anatomy": {
+          "type": "string",
+          "description": "Semantic: visible named part of a component (e.g. handle, icon, label)."
+        },
+        "object": {
+          "type": "string",
+          "description": "Semantic: styling surface (e.g. background, border, edge, visual)."
+        },
+        "variant": {
+          "type": "string",
+          "description": "Semantic: variant within a component (e.g. accent, negative, primary)."
+        },
+        "state": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1,
+          "description": "Semantic: interactive or semantic state, as an ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+        },
+        "qualifier": {
+          "type": "string",
+          "description": "Semantic: behavioral or layout modifier that narrows a property/anatomy without being a state, variant, or position (e.g. stacked, multiline, precision, collapsed, expanded, drag, highlight)."
+        },
+        "orientation": {
+          "type": "string",
+          "description": "Semantic: direction or order (e.g. vertical, horizontal)."
+        },
+        "position": {
+          "type": "string",
+          "description": "Semantic: location relative to another object (e.g. affixed, top, bottom)."
+        },
+        "size": {
+          "type": "string",
+          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from the `scale` mode set."
+        },
+        "density": {
+          "type": "string",
+          "description": "Semantic: space within or around component parts (e.g. spacious, compact)."
+        },
+        "shape": {
+          "type": "string",
+          "description": "Semantic: overall component shape (e.g. uniform)."
+        },
+        "role": {
+          "type": "string",
+          "description": "Semantic: an object's role within a nesting relationship (e.g. container, control), distinct from `size`."
+        },
+        "from": {
+          "type": "string",
+          "description": "Semantic: starting endpoint of a space-between measurement (e.g. top, edge, text). Paired with `to`; used with property `space-between`."
+        },
+        "to": {
+          "type": "string",
+          "description": "Semantic: ending endpoint of a space-between measurement (e.g. text, visual, control). Paired with `from`; used with property `space-between`."
+        },
+        "colorScheme": {
+          "type": "string",
+          "description": "Mode set: color scheme mode (e.g. light, dark, wireframe)."
+        },
+        "scale": {
+          "type": "string",
+          "description": "Mode set: platform density scale (e.g. desktop, mobile)."
+        },
+        "contrast": {
+          "type": "string",
+          "description": "Mode set: contrast level (e.g. regular, high)."
+        },
+        "legacyKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Escape hatch: pins the exact flat key written to legacy output (packages/tokens/src), overriding reconstruction from the rest of this name object. Use when correcting or extending a token's decomposition would otherwise change its published legacy key."
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "description": "Version lifecycle metadata, mirroring the component lifecycle pattern (see component.schema.json).",
+      "properties": {
+        "introduced": {
+          "type": "string",
+          "description": "Spec version when this token was added (e.g. \"1.0.0-draft\")."
+        },
+        "deprecatedIn": {
+          "type": "string",
+          "description": "Spec version when the token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+        },
+        "deprecatedComment": {
+          "type": "string",
+          "description": "Human-readable deprecation explanation and migration guidance."
+        },
+        "replacedBy": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecatedComment."
+        },
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenWithValue": {
+      "type": "object",
+      "required": ["name", "value"],
+      "not": {
+        "required": ["$ref"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema (rule SPEC-016)."
+        },
+        "value": {
+          "description": "Literal value; type narrowed by value-type schemas where applicable.",
+          "anyOf": [
+            {
+              "$ref": "value-types/color.schema.json"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
+          "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenWithRef": {
+      "type": "object",
+      "required": ["name", "$ref"],
+      "not": {
+        "required": ["value"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a token whose value validates against this schema."
+        },
+        "$ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Alias target. In cascade format: the target token's UUID (canonical, rename-proof, resolved via uuid_index — Layer 2). In the legacy transition format: the target's kebab-case name slug."
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
+          "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentBinding": {
+      "type": "object",
+      "required": ["component"],
+      "description": "A single component usage binding on a token — the reverse of tokenBindings on the component.",
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Component name (kebab-case). MUST match a declared component name."
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this token is used in the component."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
