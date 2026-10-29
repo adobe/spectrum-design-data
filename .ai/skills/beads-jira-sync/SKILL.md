@@ -35,6 +35,8 @@ The sync assigns sprints itself (`operations/sprints.ts`): closed beads go to th
 
 ## Initiative linking
 
+New beads get `bd create --parent <epic>`. Work with no labeled ancestor epic never reaches an initiative or a status update. The sync prints the count of beads closed in the last 30 days with no initiative; reparent them with `bd update <id> --parent <epic>`. Environment and personal-tooling tasks (MCP config, local TUI setup) are exempt.
+
 Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label. One initiative per epic; omit the label if none fits.
 
 * New epic: `bd create -t epic -l initiative:DNA-XXXX ...`
