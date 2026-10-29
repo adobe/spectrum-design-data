@@ -1,5 +1,12 @@
 # @adobe/component-options-editor
 
+## 0.0.0-size-token-taxonomy-20261029173424
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@0.0.0-size-token-taxonomy-20261029173424
+
 ## 1.1.67
 
 ### Patch Changes
