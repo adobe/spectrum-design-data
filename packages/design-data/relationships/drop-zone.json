@@ -533,6 +533,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "428px",
     "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
-    "legacyKey": "drop-zone-width"
+    "legacyKey": "drop-zone-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-width-* scale.",
+      "replacedBy": "5f5773d3-e2d0-431b-b461-f472499a7a1f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 187 of the mapping sheet."
   }
 ]

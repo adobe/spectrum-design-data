@@ -545,6 +545,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "accordion",
     "uuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-minimum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -556,7 +558,8 @@
         "value": "250px",
         "uuid": "ae8169fe-1672-4e95-87a5-344ec4d7f163"
       }
-    }
+    },
+    "renamed": "list-item-minimum-width-medium"
   },
   "accordion-small-top-to-text-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

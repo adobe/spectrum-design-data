@@ -1263,7 +1263,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2.5,
     "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66",
-    "legacyKey": "combo-box-minimum-width-multiplier"
+    "legacyKey": "combo-box-minimum-width-multiplier",
+    "lifecycle": {
+      "replacedBy": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00"
+    }
   },
   {
     "scope": {

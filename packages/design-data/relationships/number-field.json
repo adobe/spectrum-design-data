@@ -1435,7 +1435,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.25,
     "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
-    "legacyKey": "number-field-minimum-width-multiplier"
+    "legacyKey": "number-field-minimum-width-multiplier",
+    "lifecycle": {
+      "replacedBy": "cd95b6dd-25af-47f8-b79e-32ba79bf2463"
+    }
   },
   {
     "scope": {
@@ -1636,7 +1639,10 @@
     "uuid": "c5796762-5837-4600-92e0-5f11364ce471",
     "legacyKey": "number-field-with-stepper-minimum-width-extra-large",
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1653,7 +1659,10 @@
     "uuid": "9da98fb6-a90a-4805-8969-88d4a8958157",
     "legacyKey": "number-field-with-stepper-minimum-width-extra-large",
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1670,7 +1679,10 @@
     "uuid": "ce84b84a-2036-4041-a121-31f69963bf6c",
     "legacyKey": "number-field-with-stepper-minimum-width-large",
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1687,7 +1699,10 @@
     "uuid": "71530ba4-3eb9-4136-b1d2-a28ae5ddf034",
     "legacyKey": "number-field-with-stepper-minimum-width-large",
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1704,7 +1719,10 @@
     "uuid": "c7f0b058-d896-4acb-9aac-d073682f8546",
     "legacyKey": "number-field-with-stepper-minimum-width-medium",
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1721,7 +1739,10 @@
     "uuid": "4268fc6a-118d-4b3b-a581-b2ab8a503f21",
     "legacyKey": "number-field-with-stepper-minimum-width-medium",
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1738,7 +1759,10 @@
     "uuid": "fcd3bdc5-5685-4b14-9ed7-7fd7bb11b584",
     "legacyKey": "number-field-with-stepper-minimum-width-small",
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1755,6 +1779,9 @@
     "uuid": "08801f40-08ab-47df-82b8-e9cb8a63e3aa",
     "legacyKey": "number-field-with-stepper-minimum-width-small",
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   }
 ]

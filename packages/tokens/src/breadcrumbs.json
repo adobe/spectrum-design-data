@@ -59,6 +59,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "breadcrumbs",
     "uuid": "060266b1-4ac4-4392-8554-fc1304bd3572",
+    "deprecated": true,
+    "deprecated_comment": "Fully derived from content + gap; not an independent value, no token needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

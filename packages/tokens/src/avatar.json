@@ -21,6 +21,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -32,12 +34,15 @@
         "value": "28px",
         "uuid": "a2833b95-ba74-4caf-89e6-8294465d2780"
       }
-    }
+    },
+    "renamed": "visual-size-100"
   },
   "avatar-size-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "14e022bd-1525-42ca-a3d1-333f92da11e6",
+    "deprecated": true,
+    "deprecated_comment": "remapped from -1000 to -800",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -49,12 +54,15 @@
         "value": "72px",
         "uuid": "c723eb21-c020-40d5-a225-5857c8b4f0c9"
       }
-    }
+    },
+    "renamed": "visual-size-800"
   },
   "avatar-size-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "a8ae28c2-1047-45e7-9d21-36d92a6eb58d",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -72,6 +80,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "b73ade5d-ac65-40f9-a403-8974891e3212",
+    "deprecated": true,
+    "deprecated_comment": "remapped from -1200 to -900",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -83,12 +93,15 @@
         "value": "88px",
         "uuid": "49075645-054f-4b42-8b8a-7fa4971b2ca9"
       }
-    }
+    },
+    "renamed": "visual-size-900"
   },
   "avatar-size-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "0784e2ac-d40b-4021-9435-08b80a7fe61c",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -106,6 +119,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "dde08dc2-14a2-4eed-b02d-8ae0dffcb80f",
+    "deprecated": true,
+    "deprecated_comment": "remapped from -1400 to -1000",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -117,12 +132,15 @@
         "value": "104px",
         "uuid": "c46a76c1-77af-4e15-96e1-9e7f16000de5"
       }
-    }
+    },
+    "renamed": "visual-size-1000"
   },
   "avatar-size-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "268105fd-2308-4e1e-8f3a-822f32559250",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -140,6 +158,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "ad82e875-4243-4665-93b9-91aef258b164",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -151,12 +171,15 @@
         "value": "32px",
         "uuid": "7bfa97a1-39a8-4a30-af13-31ce1393098a"
       }
-    }
+    },
+    "renamed": "visual-size-200"
   },
   "avatar-size-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "3c458169-051a-473d-9b68-af84803a74e6",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -168,12 +191,15 @@
         "value": "36px",
         "uuid": "b0bd14f7-9642-4e20-90c4-68f38a53e72c"
       }
-    }
+    },
+    "renamed": "visual-size-300"
   },
   "avatar-size-400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -185,12 +211,15 @@
         "value": "40px",
         "uuid": "44237baf-1128-445d-8337-a943c6ac0019"
       }
-    }
+    },
+    "renamed": "visual-size-400"
   },
   "avatar-size-50": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -202,12 +231,15 @@
         "value": "20px",
         "uuid": "6f6fae3d-eafd-41d7-a863-b2f0b57240ab"
       }
-    }
+    },
+    "renamed": "visual-size-50"
   },
   "avatar-size-500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -219,12 +251,15 @@
         "value": "44px",
         "uuid": "db33d97e-15e4-4248-a8cf-4b69d745a2e0"
       }
-    }
+    },
+    "renamed": "visual-size-500"
   },
   "avatar-size-600": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "5329cf23-d3ec-4513-8aaa-06f36eafd06e",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -242,6 +277,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "47ef5b99-9965-40ab-98e2-1f188023a5f9",
+    "deprecated": true,
+    "deprecated_comment": "remapped from -700 to -600",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -253,12 +290,15 @@
         "value": "52px",
         "uuid": "0bec4f0f-efb2-44f9-a131-28f8fe248c40"
       }
-    }
+    },
+    "renamed": "visual-size-600"
   },
   "avatar-size-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "88990423-8f5c-486b-9c7d-969db3d82cbb",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -270,12 +310,15 @@
         "value": "24px",
         "uuid": "f23636e9-93e2-444d-a95b-1311a7e074f3"
       }
-    }
+    },
+    "renamed": "visual-size-75"
   },
   "avatar-size-800": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "b5158bd5-8349-4330-84f1-7b900119366f",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -293,6 +336,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "avatar",
     "uuid": "7bdd8cdd-fb68-48de-b5bd-ce1e05cf3403",
+    "deprecated": true,
+    "deprecated_comment": "remapped from -900 to -700",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -304,7 +349,8 @@
         "value": "64px",
         "uuid": "e774036a-23b9-4d74-b878-5d8edf20355f"
       }
-    }
+    },
+    "renamed": "visual-size-700"
   },
   "avatar-to-avatar-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

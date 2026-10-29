@@ -31,10 +31,19 @@ test("Single set properties shouldn't be deprecated", async (t) => {
   t.deepEqual(failingTokens, []);
 });
 
+// Sets that intentionally keep identical values across scales per design request.
+const intentionallyUniformSets = new Set([
+  "tooltip-tip-height",
+  "tooltip-tip-width",
+]);
+
 test("Sets should have unique values", async (t) => {
   const tokens = await getAllTokens();
   const result = Object.keys(tokens).filter((tokenName) => {
     const token = tokens[tokenName];
+    if (intentionallyUniformSets.has(tokenName)) {
+      return false;
+    }
     if (Object.hasOwn(token, "sets") && !isDeprecated(token)) {
       const setValues = Object.keys(token.sets).reduce(
         (accumulator, currentValue) =>

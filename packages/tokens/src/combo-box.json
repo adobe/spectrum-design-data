@@ -3,7 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "combo-box",
     "value": 2.5,
-    "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66"
+    "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66",
+    "renamed": "aspect-ratio-700"
   },
   "combo-box-quiet-minimum-width-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",

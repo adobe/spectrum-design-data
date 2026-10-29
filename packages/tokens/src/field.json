@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "field",
     "uuid": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "288px",
         "uuid": "068a256a-8dfc-4616-bdc1-8895441ba90b"
       }
-    }
+    },
+    "renamed": "field-width-extra-large"
   },
   "field-default-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "field",
     "uuid": "4b7418ca-2384-4470-bfca-d8f742681740",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "272px",
         "uuid": "88dfd273-555a-49bc-9271-a63ad45964e2"
       }
-    }
+    },
+    "renamed": "field-width-large"
   },
   "field-default-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "field",
     "uuid": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,12 +56,15 @@
         "value": "256px",
         "uuid": "db379ff6-9ef2-44ee-9fce-32f1a53d68da"
       }
-    }
+    },
+    "renamed": "field-width-medium"
   },
   "field-default-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "field",
     "uuid": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -65,7 +76,8 @@
         "value": "240px",
         "uuid": "976298d3-326f-43da-aa71-bbd2dc1fad3d"
       }
-    }
+    },
+    "renamed": "field-width-small"
   },
   "field-edge-to-border-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -243,51 +255,15 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{field-width-small}",
+        "value": "{field-default-width-small}",
         "uuid": "096ddcb7-5afd-416f-9a11-4275556c4b52"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{field-width-small}",
+        "value": "{field-default-width-small}",
         "uuid": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2"
       }
     },
     "renamed": "field-default-width-medium"
-  },
-  "field-width-extra-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "field",
-    "value": "{field-default-width-extra-large}",
-    "uuid": "a903b595-ffe8-43ae-af9b-7b6577191dc5",
-    "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-extra-large instead.",
-    "renamed": "field-default-width-extra-large"
-  },
-  "field-width-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "field",
-    "value": "{field-default-width-large}",
-    "uuid": "cc43e053-1255-403f-aaf5-2182f5438592",
-    "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-large instead.",
-    "renamed": "field-default-width-large"
-  },
-  "field-width-medium": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "field",
-    "value": "{field-default-width-medium}",
-    "uuid": "935927d3-b25e-468a-999a-938643901e50",
-    "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
-    "renamed": "field-default-width-medium"
-  },
-  "field-width-small": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "field",
-    "value": "{field-default-width-small}",
-    "uuid": "d316d676-b4cf-4d16-b89c-63ef1d969861",
-    "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-small instead.",
-    "renamed": "field-default-width-small"
   }
 }
