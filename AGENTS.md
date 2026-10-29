@@ -8,7 +8,7 @@ Shared rules and skills live in `.ai/` (see [.ai/README.md](.ai/README.md)). Edi
 
 ## Repository Rules
 
-* **pnpm\@10.17.1** only (never npm or yarn); **moon** for tasks (`moon run <project>:<task>`, `moon query projects`); **AVA** for JS tests; Node \~20.12; ESM throughout.
+* **pnpm\@10.17.1** only (never npm or yarn); **moon** for tasks (`moon run <project>:<task>`, `moon query projects`); **AVA** for JS tests; Node 22.12 toolchain (packages support >=20.12); ESM throughout.
 * **Changesets**: `pnpm changeset` for every user-facing change. Body ≤ 20 lines; verify with `node tools/changeset-linter/src/cli.js check --fail-on-warnings`. Details: `.ai/rules/changesets.md`.
 * **Conventional commits** (`type(scope): description`, `!` for breaking), enforced by commitlint.
 * **Copyright**: every new file starts with `Copyright YYYY Adobe. All rights reserved.` (current year, language-appropriate comment style). License: Apache-2.0.
