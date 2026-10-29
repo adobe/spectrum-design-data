@@ -837,7 +837,7 @@
       "part": "indicator",
       "property": "width",
       "options": {
-        "state": ["selected"]
+        "isSelected": true
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
