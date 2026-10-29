@@ -148,6 +148,12 @@ export default function Foundations() {
               noPadding: true,
             },
             {
+              id: "opacity",
+              label: "Opacity",
+              icon: <CategoryIcon category="opacity" />,
+              content: <Text>TBD</Text>,
+            },
+            {
               id: "typography",
               label: "Typography",
               icon: <CategoryIcon category="typography" />,
