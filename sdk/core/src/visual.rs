@@ -221,10 +221,10 @@ impl<'a> Ctx<'a> {
         if let Some(opts) = when.get("options").and_then(Value::as_object) {
             for (k, want) in opts {
                 let have = self.option(k);
-                // `true` also matches any non-empty string, e.g. an icon name.
-                let ok = have == *want
-                    || (have.is_null() && *want == Value::Bool(false))
-                    || (*want == Value::Bool(true) && have.as_str().is_some_and(|v| !v.is_empty()));
+                let ok = match want {
+                    Value::Array(any) => any.iter().any(|w| option_matches(&have, w)),
+                    w => option_matches(&have, w),
+                };
                 if !ok {
                     return None;
                 }
@@ -566,6 +566,14 @@ fn token_states(t: &crate::graph::TokenRecord) -> Vec<String> {
 
 fn text_width(text: &str, font_size: f64) -> f64 {
     text.chars().count() as f64 * font_size * AVG_ADVANCE_EM
+}
+
+/// Whether an option value satisfies one wanted value. `true` also matches any
+/// non-empty string, e.g. an icon name; an unset option matches `false`.
+fn option_matches(have: &Value, want: &Value) -> bool {
+    have == want
+        || (have.is_null() && *want == Value::Bool(false))
+        || (*want == Value::Bool(true) && have.as_str().is_some_and(|v| !v.is_empty()))
 }
 
 /// Option names a recipe reads, split into those that gate part visibility
@@ -1713,6 +1721,40 @@ mod tests {
 
     fn part<'a>(s: &'a Scene, id: &str) -> Option<&'a SceneNode> {
         s.nodes.iter().find(|n| n.part == id)
+    }
+
+    #[test]
+    fn option_conditions_accept_an_array_of_values() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft",
+            "component": "action-button",
+            "root": "box",
+            "sizeScale": { "m": 100 },
+            "parts": { "box": { "kind": "box", "props": {
+                "width": { "value": 40 },
+                "height": { "value": 20 },
+                "fill": [
+                    { "value": "red" },
+                    { "when": { "options": { "variant": ["a", "b"] } }, "value": "blue" },
+                    { "when": { "options": { "variant": "b", "flag": true } }, "value": "green" }
+                ]
+            } } }
+        });
+        let fill = |opts: &[(&str, Value)]| {
+            let scene = build_scene(&g, &recipe, &with(opts)).unwrap();
+            scene.nodes[0].fill.clone()
+        };
+        let v = |s: &str| Value::String(s.into());
+        assert_eq!(fill(&[]).as_deref(), Some("red"));
+        assert_eq!(fill(&[("variant", v("a"))]).as_deref(), Some("blue"));
+        assert_eq!(fill(&[("variant", v("b"))]).as_deref(), Some("blue"));
+        assert_eq!(fill(&[("variant", v("c"))]).as_deref(), Some("red"));
+        // An array is one condition, so a two-condition entry still outranks it.
+        assert_eq!(
+            fill(&[("variant", v("b")), ("flag", Value::Bool(true))]).as_deref(),
+            Some("green")
+        );
     }
 
     #[test]

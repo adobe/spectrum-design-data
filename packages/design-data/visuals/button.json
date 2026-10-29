@@ -245,7 +245,8 @@
           {
             "when": {
               "options": {
-                "variant": "accent"
+                "variant": "accent",
+                "style": "fill"
               }
             },
             "token": {
@@ -255,7 +256,8 @@
           {
             "when": {
               "options": {
-                "variant": "accent"
+                "variant": "accent",
+                "style": "fill"
               },
               "states": ["hover"]
             },
@@ -266,7 +268,8 @@
           {
             "when": {
               "options": {
-                "variant": "accent"
+                "variant": "accent",
+                "style": "fill"
               },
               "states": ["down"]
             },
@@ -277,7 +280,8 @@
           {
             "when": {
               "options": {
-                "variant": "negative"
+                "variant": "negative",
+                "style": "fill"
               }
             },
             "token": {
@@ -287,7 +291,8 @@
           {
             "when": {
               "options": {
-                "variant": "negative"
+                "variant": "negative",
+                "style": "fill"
               },
               "states": ["hover"]
             },
@@ -298,7 +303,8 @@
           {
             "when": {
               "options": {
-                "variant": "negative"
+                "variant": "negative",
+                "style": "fill"
               },
               "states": ["down"]
             },
@@ -365,6 +371,126 @@
           {
             "when": {
               "options": {
+                "staticColor": "white",
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
                 "isDisabled": true,
                 "style": "fill"
               }
@@ -384,6 +510,38 @@
               }
             },
             "value": "transparent",
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true,
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true,
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            },
             "priority": 10
           }
         ],
@@ -477,6 +635,7 @@
             "when": {
               "options": {
                 "staticColor": "white",
+                "variant": "primary",
                 "style": "outline"
               }
             },
@@ -489,7 +648,22 @@
           {
             "when": {
               "options": {
+                "staticColor": "white",
+                "variant": "secondary",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 300,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
                 "staticColor": "black",
+                "variant": "primary",
                 "style": "outline"
               }
             },
@@ -502,12 +676,58 @@
           {
             "when": {
               "options": {
+                "staticColor": "black",
+                "variant": "secondary",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 300,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
                 "isDisabled": true,
                 "style": "outline"
               }
             },
             "token": {
               "colorFamily": "gray",
+              "scaleIndex": 300,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true,
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 300,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true,
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
               "scaleIndex": 300,
               "property": "color"
             },
@@ -657,6 +877,7 @@
             "when": {
               "options": {
                 "staticColor": "white",
+                "variant": ["primary", "secondary"],
                 "style": "outline"
               }
             },
@@ -670,6 +891,7 @@
             "when": {
               "options": {
                 "staticColor": "black",
+                "variant": ["primary", "secondary"],
                 "style": "outline"
               }
             },
@@ -683,6 +905,7 @@
             "when": {
               "options": {
                 "staticColor": "white",
+                "variant": "secondary",
                 "style": "fill"
               }
             },
@@ -696,6 +919,7 @@
             "when": {
               "options": {
                 "staticColor": "black",
+                "variant": "secondary",
                 "style": "fill"
               }
             },
@@ -741,6 +965,36 @@
             },
             "token": {
               "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
               "scaleIndex": 400,
               "property": "color"
             },
@@ -838,6 +1092,7 @@
             "when": {
               "options": {
                 "staticColor": "white",
+                "variant": ["primary", "secondary"],
                 "style": "outline"
               }
             },
@@ -851,6 +1106,7 @@
             "when": {
               "options": {
                 "staticColor": "black",
+                "variant": ["primary", "secondary"],
                 "style": "outline"
               }
             },
@@ -864,6 +1120,7 @@
             "when": {
               "options": {
                 "staticColor": "white",
+                "variant": "secondary",
                 "style": "fill"
               }
             },
@@ -877,6 +1134,7 @@
             "when": {
               "options": {
                 "staticColor": "black",
+                "variant": "secondary",
                 "style": "fill"
               }
             },
@@ -922,6 +1180,36 @@
             },
             "token": {
               "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": ["primary", "secondary"],
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
               "scaleIndex": 400,
               "property": "color"
             },
@@ -972,12 +1260,40 @@
         "states": ["focus"]
       },
       "props": {
-        "stroke": {
-          "relationship": {
-            "property": "color",
-            "context": "Focus indicator"
+        "stroke": [
+          {
+            "relationship": {
+              "property": "color",
+              "context": "Focus indicator"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": ["primary", "secondary"]
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": ["primary", "secondary"]
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
           }
-        },
+        ],
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
