@@ -301,11 +301,9 @@
       "placement": {
         "anchor": "bottom-end",
         "inset": {
-          "token": {
-            "structure": "accessory",
-            "property": "gap",
-            "position": "affixed",
-            "size": "{size}"
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (edge to hold icon)"
           }
         }
       },
