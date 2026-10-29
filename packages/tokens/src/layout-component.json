@@ -1141,7 +1141,9 @@
     "component": "gripper-icon",
     "value": "24px",
     "uuid": "e6f95e88-636d-4d3a-8966-8c811dc697d6",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use bar-thickness-small instead.",
+    "renamed": "bar-thickness-small"
   },
   "link-out-icon-size-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

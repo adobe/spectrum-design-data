@@ -1623,7 +1623,9 @@
     "value": "24px",
     "uuid": "e6f95e88-636d-4d3a-8966-8c811dc697d6",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "deprecatedComment": "Use bar-thickness-small instead.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
     "conceptId": "c9651edd-6744-4018-a585-2a134c675bac"
   },
