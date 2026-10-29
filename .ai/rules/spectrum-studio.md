@@ -1,0 +1,15 @@
+---
+description: Spectrum Studio package rules (working rules, test scoping, design-data diagnostics, Changes parity)
+globs: docs/spectrum-studio/**
+---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# Spectrum Studio
+
+Read `docs/spectrum-studio/AGENTS.md` before changing anything under `docs/spectrum-studio/`. It holds the working rules, the domain map, and the skills and rules in `docs/spectrum-studio/.agents/`.
+
+* The package keeps `tsx` check scripts and Playwright instead of AVA, and keeps its debt in `docs/known-debt.md` instead of beads. The root rules otherwise apply.
+* Differences from design-data are diagnostics, never failures. Do not add load-time throws or alignment gates.
+* Changes that touch persisted design data must keep Changes parity.
+* Run the narrowest check first (`pnpm test:<name>`, then `pnpm typecheck`). `pnpm test:ci` runs the curated CI set.
