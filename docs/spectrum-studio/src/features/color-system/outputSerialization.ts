@@ -44,9 +44,11 @@ function serializeRgb(
   }
   const suffix = alpha === 1 ? "" : ` / ${number(alpha)}`;
   const clamped = channels.map((value) => Math.min(1, Math.max(0, value)));
-  return outputGamut(settings) === "srgb"
-    ? `rgb(${clamped.map((value) => number(value * 255)).join(" ")}${suffix})`
-    : `color(${outputGamut(settings)} ${clamped.map(number).join(" ")}${suffix})`;
+  if (outputGamut(settings) === "srgb") {
+    const rgb = clamped.map((value) => number(value * 255)).join(", ");
+    return alpha === 1 ? `rgb(${rgb})` : `rgba(${rgb}, ${number(alpha)})`;
+  }
+  return `color(${outputGamut(settings)} ${clamped.map(number).join(" ")}${suffix})`;
 }
 
 /** In-gamut opaque RGB needs conversion, but no gamut mapping or Color object. */
