@@ -263,6 +263,10 @@ export function referenceRecords(
       source,
       pointer,
       classification: "authored",
+      ...(object(entry.lifecycle) &&
+        typeof entry.lifecycle.deprecatedIn === "string" && {
+          lifecycle: { deprecatedIn: entry.lifecycle.deprecatedIn },
+        }),
       ...(object(entry.name) ? { structuredName: entry.name } : {}),
       ...(identity ? { identity } : {}),
       ...(typeof entry.conceptId === "string"

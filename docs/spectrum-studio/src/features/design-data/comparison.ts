@@ -25,8 +25,14 @@ import {
   type InventoryStatus,
 } from "./coverage";
 import { assessGaps, gapsMarkdown, type GapResult } from "./gaps";
+import {
+  assessPalette,
+  paletteMarkdown,
+  type PaletteAssessment,
+} from "./paletteAssessment";
 
 export interface AnalysisRecord {
+  lifecycle?: { deprecatedIn?: string };
   taxonomy?: import("../taxonomy/model").TaxonomyProjection;
   id: string;
   category: string;
@@ -112,6 +118,7 @@ export interface AnalysisFinding {
 }
 
 export interface AnalysisReport {
+  palette?: PaletteAssessment;
   gaps?: GapResult[];
   schemaVersion: 1;
   /** Additive, independently versioned assessment; output fields remain report v1. */
@@ -623,6 +630,7 @@ export function compareDesignData(
       : {}),
     materialization: materializationReport(app, reference),
     coverage: buildCoverage(app, reference, findings),
+    palette: assessPalette(app, reference, mappings),
     inputs: { app: app.source, reference: reference.source },
     valid: !findings.some(
       (finding) => finding.classification === "invalid-input",
@@ -719,6 +727,7 @@ export function reportMarkdown(report: AnalysisReport): string {
     `Report schema version: ${report.schemaVersion}. Mapping version: ${text(report.mappingVersion)}.`,
     "",
     ...(report.coverage ? [coverageMarkdown(report.coverage), ""] : []),
+    ...(report.palette ? [paletteMarkdown(report.palette), ""] : []),
     ...(report.gaps ? [gapsMarkdown(report.gaps), ""] : []),
     "## Input provenance",
     "",
@@ -802,6 +811,16 @@ export function reportWithFreshness(
   return {
     ...report,
     freshness,
+    ...(report.palette && {
+      palette: {
+        ...report.palette,
+        freshness,
+        ...(freshness === "stale" && {
+          assessable: false,
+          completionPercent: null,
+        }),
+      },
+    }),
     ...(freshness === "stale" && report.gaps
       ? {
           gaps: report.gaps.map((result) => ({

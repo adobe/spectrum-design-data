@@ -15,7 +15,125 @@ active Vite mode, and reads an optional server-only `DESIGN_DATA_SDK` override.
 Missing/unreadable checkout responses show an explicit connection/configuration
 problem and suppress coverage charts, rather than presenting absence as 0% coverage.
 
-## Stored terms and displayed labels
+## What the percentages mean
+
+### Primitive palette completion
+
+The **Primitive palette** view compares non-deprecated records from
+`tokens/color-palette.tokens.json`, including private records. Gray is the first
+worked family; the same assessment covers the rest of the palette. Semantic and
+component colors are outside this scope.
+
+Palette assessment v1 is an additive report section, shared by Analysis,
+JSON, Markdown, and the CLI. Existing coverage and technical findings retain
+their meanings and their existing comparison policy.
+
+- **Represented:** a unique counterpart exists for at least one mode row in a
+  reference concept. Classification matching or a reviewed pair establishes the
+  counterpart; matching labels and equal colors do not.
+- **Classification aligned:** every required row has the canonical
+  classifications, or a scoped accepted exception.
+- **Exact mode values:** uniquely paired rows have equal normalized colors,
+  independently of their classification outcome.
+- **100% aligned:** identity and classifications align, and values match exactly
+  in every required reference context.
+- **Close enough:** identity and classifications align, every required context is
+  represented, and each value is exact or within the color tolerance below.
+  At least one value is not exact.
+- **Not aligned:** a required counterpart is missing, classifications differ
+  without an accepted exception, or a color exceeds the tolerance.
+- **Unable to evaluate:** identity is ambiguous, a color cannot be resolved, or
+  required comparison evidence is unavailable. This is not a successful match.
+- **Complete:** a concept has confirmed identity, aligned classifications, and
+  exact values in every reference context. Missing Wireframe or other required
+  contexts prevents completion even if Light and Dark match. This existing
+  percentage remains an **exact-completion** measure; close-enough concepts are
+  counted separately rather than presented as exact matches.
+
+Completion divides complete concepts by all eligible reference concepts, not
+just matched concepts. Partial/unavailable inventories, uncertain identities,
+and stale evidence suppress the percentage. Zero reference concepts is not 0%.
+App-only rows do not increase completion. Excluded deprecated rows retain their
+IDs and reasons in the report.
+
+Shipped editor defaults are the official baseline. Saved and working comparisons
+are provisional and do not replace it. Temporary adaptive preview controls are
+not the required-context inventory.
+
+Exact color equality uses concrete-color parsing and XYZ D65 conversion plus
+alpha, without gamut mapping, clipping, 8-bit quantization, or compositing.
+Equivalent hex/RGB notation can match. A 32-machine-epsilon conversion-roundoff
+allowance, scaled by the larger of one and the channel magnitude, covers
+floating-point conversion noise only. Near-but-unequal colors remain different
+in the exact-equality result, while receiving a separate alignment tier.
+Delta E 2000 is reported only as explanatory information. Invalid/unresolved
+colors are unassessable, not equal strings. The older technical audit's
+perceptual tolerance does not establish palette completion.
+
+The **Close enough** color tolerance is an absolute difference of at most **1
+per R, G and B channel**, measured on the 0–255 sRGB scale. For example,
+`rgb(217, 217, 217)` is close enough to `rgb(218, 218, 218)`. A difference of 2 in
+even one channel is not aligned. Channels are converted at full precision, not
+rounded, clipped or gamut-mapped to make them pass. Both colors must be within
+sRGB for this tolerance to apply; equivalent wide-gamut colors can still match
+exactly under the existing rule. Opacity must match, allowing only conversion
+round-off, not an alpha tolerance. This policy applies to all primitive palette
+families, not just Gray. It does not change generator settings, color values,
+classification matching, missing-mode handling or the technical audit.
+
+Analysis, CLI JSON and Markdown share the tier results, counts and policy.
+The report retains exact equality alongside the tier and includes per-channel
+differences where the sRGB tolerance is applicable.
+
+Classifications are compared before any field translations are excused.
+Existing `colorName`/`contrastValue` mappings can identify a counterpart, but
+do not make those fields canonical `colorFamily`/numeric `scaleIndex`.
+Reference color-family vocabulary and declared mode/default contexts are
+checked. A mode name is never guessed from display text.
+
+An exception must have an explicit pair in the existing gap register's
+`expected` list whose optional `nameFields` scope exactly matches the reviewed
+mapping's field translations. Existing pairs without a field scope do not waive
+classification differences.
+Only those translated fields with equal normalized values are covered.
+Counting it as accepted also requires an accepted linked RFC, the current
+clean reference revision, no blockers, and current review of manual criteria.
+Drafted, submitted, stale, and unverified exceptions remain outstanding.
+There is no second acceptance register and no exception for arbitrary unequal
+color values.
+
+The `studio-palette-label-v1` counterpart profile handles the current editor's
+registered `colorFamily` labels, legacy `colorName` labels, and numeric
+`scaleIndex`. It uses exact,
+unambiguous reference registry label/ID entries, never case folding or display
+name parsing. Raw label and field differences still prevent classification
+alignment unless the scoped exception requirements above are satisfied.
+Relevant alignment work remains tracked by LTAX-002, LTAX-003, and LTAX-011;
+this comparison does not close those entries or refresh their review pins.
+
+Expand a concept to compare **App → Design-data**, one property at a time.
+Field-name differences and term-value differences appear separately. Shared
+classification differences appear once, with mode labels when they vary.
+Color values have previews for every required mode, including missing modes.
+The view links to Registry review and the existing exception register; these
+links do not apply fixes, record a decision, or accept an exception.
+
+Technical evidence is collapsed separately: counterpart rationale, diagnostics,
+Delta E, source locations, UUIDs, and override provenance. Downloadable reports
+retain the structured evidence. Missing override evidence means unknown
+provenance, not proof the value was formula-generated.
+
+The Registry's shipped color classification key is now `colorFamily`, matching
+design-data. Version-15 stored working and saved snapshots upgrade that field
+without changing category IDs, term IDs, token IDs, term values, or generated
+colors. A conflicting authored `colorFamily` category is reported without
+overwriting the stored record. Legacy internal generator names remain separate
+from exported classification keys. Renaming a field alone does not establish
+alignment: its term values and required contexts must also match.
+The proposed classification standard and historical review pins are unchanged.
+Their diagnostics remain independent of this field rename.
+
+### Stored terms and displayed labels
 
 Studio stores string classification terms in lowercase, including custom terms.
 Numeric terms stay numeric. Category keys, UUIDs, references, descriptions, and
@@ -38,7 +156,8 @@ compatibility-alias planner retains the old name. For example,
 Failed upgrades report an error without replacing the stored record.
 
 Fresh and reset defaults use RGB output. Existing saves retain their chosen format;
-legacy sRGB settings still migrate to Hex. Matching output notation alone does not establish matching color values.
+legacy sRGB settings still migrate to Hex. Exact palette agreement and
+close-enough tolerance remain separate results, regardless of output notation.
 
 sRGB output uses design-data's comma-separated notation: `rgb(255, 255, 255)`
 for opaque colors and `rgba(0, 0, 0, 0.08)` when alpha is below one. This changes
@@ -51,7 +170,7 @@ The default Wireframe foundation is an ordinary color scale with one seed,
 stop, and term IDs and uses shared contrast steps to generate its ramp. This does
 not implement a Wireframe mode, and storage upgrades do not add it to old saves.
 
-## What the percentages mean
+### Existing inventory coverage
 
 - **Confirmed coverage:** unique reference identities/rows with a counterpart under
   an existing reviewed mapping or exact identity, divided by the reference inventory.
@@ -98,11 +217,13 @@ keeps the existing findings, provenance, evidence and downloads as supporting de
 
 ## Scope and verification
 
-The shared report adds optional independently versioned `coverage.schemaVersion: 1`;
-outer report v1 and its existing metrics/findings remain intact. CLI and page use the
-same calculations and JSON/Markdown summaries. No new mappings, authoring/generator/
-storage behavior, Home metric, accepted schema, upstream data import or health score
-is introduced. Existing native/proposed-schema boundaries remain explicit.
+The shared report adds optional independently versioned `coverage.schemaVersion: 1`
+and `palette.schemaVersion: 1`; outer report v1 and its existing metrics/findings
+remain intact. CLI and page use the same calculations and JSON/Markdown summaries.
+The palette counterpart profile and explicit Registry field upgrade are described
+above. Neither changes generator parameters, accepts a schema, imports upstream
+token data, or adds a Home metric or health score. Existing native/proposed-schema
+boundaries remain explicit.
 
 Verification includes 27 non-SDK unit commands, lint/typechecks/build, new overview
 and stale/partial tests at the normal viewport with mobile overflow checks, and 22

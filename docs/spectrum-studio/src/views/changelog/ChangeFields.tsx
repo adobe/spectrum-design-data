@@ -15,10 +15,18 @@ import "./ChangeFields.css";
 export interface ChangeFieldsProps {
   item: ChangeItem;
   editing: boolean;
-  onReset: (field: ChangeField) => void;
+  onReset?: (field: ChangeField) => void;
+  beforeLabel?: string;
+  afterLabel?: string;
 }
 
-export function ChangeFields({ item, editing, onReset }: ChangeFieldsProps) {
+export function ChangeFields({
+  item,
+  editing,
+  onReset,
+  beforeLabel,
+  afterLabel,
+}: ChangeFieldsProps) {
   const prefix = useId();
   const groups = groupChangedFields(item.fields);
   const row = (field: ChangeField, index: number) => {
@@ -36,6 +44,7 @@ export function ChangeFields({ item, editing, onReset }: ChangeFieldsProps) {
         <span className="changeFieldValues">
           {field.before !== undefined && (
             <span className="changelogValueSide changeFieldBefore">
+              {beforeLabel && <span>{beforeLabel}:</span>}
               {field.beforePreview && (
                 <ValuePreview preview={field.beforePreview} />
               )}
@@ -47,6 +56,7 @@ export function ChangeFields({ item, editing, onReset }: ChangeFieldsProps) {
           )}
           {field.after !== undefined && (
             <span className="changelogValueSide changeFieldAfter">
+              {afterLabel && <span>{afterLabel}:</span>}
               {field.afterPreview && (
                 <ValuePreview preview={field.afterPreview} />
               )}
@@ -70,18 +80,20 @@ export function ChangeFields({ item, editing, onReset }: ChangeFieldsProps) {
             </span>
           )}
         </span>
-        <span title={disabledReason}>
-          <ActionButton
-            isQuiet
-            isDisabled={!!disabledReason}
-            aria-describedby={disabledReason ? reasonId : undefined}
-            aria-label={`Reset ${name}`}
-            onPress={() => onReset(field)}
-          >
-            <Revert />
-          </ActionButton>
-        </span>
-        {disabledReason && (
+        {onReset && (
+          <span title={disabledReason}>
+            <ActionButton
+              isQuiet
+              isDisabled={!!disabledReason}
+              aria-describedby={disabledReason ? reasonId : undefined}
+              aria-label={`Reset ${name}`}
+              onPress={() => onReset(field)}
+            >
+              <Revert />
+            </ActionButton>
+          </span>
+        )}
+        {onReset && disabledReason && (
           <span id={reasonId} className="changeFieldResetReason">
             {disabledReason}
           </span>

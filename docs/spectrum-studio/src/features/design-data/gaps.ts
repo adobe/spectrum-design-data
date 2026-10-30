@@ -1,6 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import registerData from "../../data/design-data-gaps.json" with { type: "json" };
-import type { AnalysisFinding, AnalysisInput } from "./comparison";
+import type {
+  AnalysisFinding,
+  AnalysisInput,
+  ReviewedMapping,
+} from "./comparison";
 import { architectureRegistry } from "./assessmentRegistry";
 import Ajv from "ajv";
 
@@ -49,7 +53,12 @@ export interface GapEntry {
       | "rejected";
     link?: string;
   };
-  expected: { app: string; reference: string; rationale: string }[];
+  expected: {
+    app: string;
+    reference: string;
+    rationale: string;
+    nameFields?: ReviewedMapping["nameFields"];
+  }[];
   criteria: GapCriterion[];
   blockers: string[];
   history: { date: string; event: string; evidence: string[] }[];
@@ -132,7 +141,25 @@ export const gapRegisterSchema = {
         ),
         expected: {
           type: "array",
-          items: record({ app: text, reference: text, rationale: text }),
+          items: record(
+            {
+              app: text,
+              reference: text,
+              rationale: text,
+              nameFields: {
+                type: "object",
+                minProperties: 1,
+                additionalProperties: record(
+                  {
+                    reference: text,
+                    normalization: { const: "integer" },
+                  },
+                  ["normalization"],
+                ),
+              },
+            },
+            ["nameFields"],
+          ),
         },
         criteria: {
           type: "array",
