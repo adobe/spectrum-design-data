@@ -5,3 +5,6 @@ import "@spectrum-web-components/theme/spectrum-two/scale-medium.js";
 import "@spectrum-web-components/picker/sp-picker.js";
 import "@spectrum-web-components/menu/sp-menu-item.js";
 import "@spectrum-web-components/switch/sp-switch.js";
+import "@spectrum-web-components/status-light/sp-status-light.js";
+import "@spectrum-web-components/help-text/sp-help-text.js";
+import "@spectrum-web-components/button/sp-button.js";
