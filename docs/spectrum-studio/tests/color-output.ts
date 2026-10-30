@@ -215,7 +215,10 @@ for (const authoringGamut of COLOR_GAMUTS)
         );
       }
     }
-assert.deepEqual(migrateLegacyColorOutput("srgb"), DEFAULT_COLOR_OUTPUT);
+assert.deepEqual(migrateLegacyColorOutput("srgb"), {
+  ...DEFAULT_COLOR_OUTPUT,
+  outputFormat: "hex",
+});
 assert.equal(migrateLegacyColorOutput("oklch").authoringGamut, "srgb");
 assert.equal(migrateLegacyColorOutput("oklch").outputFormat, "oklch");
 assert.throws(() => migrateLegacyColorOutput("unknown"), /Unsupported legacy/);
@@ -228,7 +231,7 @@ assert.equal(
   false,
 );
 const changed = updateColorOutputSettings(
-  { ...DEFAULT_COLOR_OUTPUT },
+  { ...DEFAULT_COLOR_OUTPUT, outputFormat: "hex" },
   { authoringGamut: "rec2020" },
 );
 assert.equal(changed.settings.outputFormat, "rgb");

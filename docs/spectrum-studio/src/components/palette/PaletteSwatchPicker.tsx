@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { ActionButton, ColorSwatch, Text } from "@react-spectrum/s2";
 import {
   ColorSwatchPicker,
@@ -68,9 +69,9 @@ export function PaletteSwatchPicker({
           <ColorSwatch
             color={linked.hex}
             size="S"
-            aria-label={linked.color.name}
+            aria-label={termLabel(linked.color.name)}
           />
-          <Text>Linked to {linked.color.name}</Text>
+          <Text>Linked to {termLabel(linked.color.name)}</Text>
           {!isReadOnly && (
             <ActionButton isQuiet onPress={onUnlink}>
               Unlink
@@ -95,7 +96,7 @@ export function PaletteSwatchPicker({
             <ColorSwatch
               key={swatch.color.id}
               color={swatch.hex}
-              aria-label={swatch.color.name}
+              aria-label={termLabel(swatch.color.name)}
             />
           ))}
         </ColorSwatchPicker>

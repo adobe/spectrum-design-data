@@ -361,7 +361,7 @@ for (const schemaVersion of [1, 2])
   }
 assert.equal(
   serializeOutputColor(new Color("#000000"), DEFAULT_COLOR_OUTPUT),
-  "#000000",
+  "rgb(0, 0, 0)",
 );
 const elevation = { ...baseline.elevation!, color: "color(rec2020 0 1 0)" };
 const elevationBefore = structuredClone(elevation);

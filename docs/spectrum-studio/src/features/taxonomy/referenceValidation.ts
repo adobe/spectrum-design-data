@@ -34,6 +34,7 @@ export function validateReferencedTaxonomy(
   colorWitness: ComponentColorWitness | null = null,
 ) {
   const { previous, snapshot, sources, tokens } = source;
+  document = updateTaxonomy(previous, document);
   const {
     colorSystem: color,
     typography,

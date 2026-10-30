@@ -2,6 +2,7 @@
 import type { Classification, DimensionScope, TaxonomyDocument } from "./model";
 import type { TaxonomyNameReference } from "./naming";
 import { classificationFromValues } from "./orderedVocabulary";
+import { taxonomyValueKey } from "./model";
 
 export interface ClassifiedNameReference extends TaxonomyNameReference {
   classification?: Classification;
@@ -72,7 +73,7 @@ export function upgradeDimensionName(
   const classification =
     mapping?.scope === scope &&
     reference.termId === mapping.termId &&
-    value === shippedLabel
+    taxonomyValueKey(value ?? "") === taxonomyValueKey(shippedLabel)
       ? classificationFromValues(taxonomy, mapping.values)
       : dimensionNameClassification(scope, reference, taxonomy);
   return { ...reference, classification };
@@ -134,7 +135,10 @@ export function upgradeMetricName(
   const term = taxonomy.terms.find((term) => term.id === reference.termId);
   if (!term)
     throw new Error(`Typography metric ${metricId} has an unavailable name.`);
-  if (mapping?.termId === reference.termId && term.value === metricId) {
+  if (
+    mapping?.termId === reference.termId &&
+    taxonomyValueKey(term.value) === taxonomyValueKey(metricId)
+  ) {
     const classification = classificationFromValues(taxonomy, {
       element: mapping.element,
       property: mapping.property,
@@ -172,7 +176,7 @@ export function upgradeElevationName(
   const classification = classificationFromValues(taxonomy, values);
   if (
     reference.termId !== "0d8d551f-3797-4c69-abd5-e111a4f799b9" ||
-    term?.value !== "Elevation scale"
+    taxonomyValueKey(term?.value ?? "") !== "elevation scale"
   ) {
     classification[reference.categoryId] = reference.termId;
   }

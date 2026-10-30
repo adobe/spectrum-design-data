@@ -1,5 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
+  isUnchangedTermInput,
+  termLabel,
+} from "../../features/taxonomy/termPresentation";
+import {
   ActionButton,
   Button,
   ColorSwatch,
@@ -87,14 +91,15 @@ export function PaletteColorRow({
   const [valueError, setValueError] = useState<string | null>(null);
   const hex = paletteColorHex(color, outputGamut);
   const notices = [
-    duplicateOf && `Same color as ${duplicateOf} in the output format.`,
+    duplicateOf &&
+      `Same color as ${termLabel(duplicateOf ?? "")} in the output format.`,
     usedByCount > 0 &&
       `Used by ${usedByCount} color scale ${usedByCount === 1 ? "stop" : "stops"}.`,
   ].filter(Boolean);
 
   function commitName() {
     if (draft === null) return;
-    if (draft.trim() === color.name) {
+    if (isUnchangedTermInput(draft, color.name)) {
       setDraft(null);
       setNameError(null);
       return;
@@ -107,10 +112,16 @@ export function PaletteColorRow({
   if (isReadOnly) {
     return (
       <div className={readOnlyStyles}>
-        <ColorSwatch color={hex} size="L" aria-label={`${color.name} color`} />
-        <Text>{color.name}</Text>
+        <ColorSwatch
+          color={hex}
+          size="L"
+          aria-label={`${termLabel(color.name)} color`}
+        />
+        <Text>{termLabel(color.name)}</Text>
         {duplicateOf && (
-          <span className={detailStyles}>Same color as {duplicateOf}.</span>
+          <span className={detailStyles}>
+            Same color as {termLabel(duplicateOf ?? "")}.
+          </span>
         )}
       </div>
     );
@@ -120,18 +131,18 @@ export function PaletteColorRow({
     <div className={rowStyles}>
       <DialogTrigger>
         <Button
-          aria-label={`Edit value of ${color.name}`}
+          aria-label={`Edit value of ${termLabel(color.name)}`}
           UNSAFE_className={String(swatchButtonStyles)}
         >
           <ColorSwatch
             color={hex}
             size="L"
-            aria-label={`${color.name} color`}
+            aria-label={`${termLabel(color.name)} color`}
           />
         </Button>
         <Popover size="M" padding="none" placement="right">
           <Dialog
-            aria-label={`${color.name} value`}
+            aria-label={`${termLabel(color.name)} value`}
             className={`${popoverDialogStyles} ${popoverStyles}`}
           >
             <ColorPickerContents
@@ -164,7 +175,7 @@ export function PaletteColorRow({
           : (nameEditor ?? (
               <TextField
                 aria-label="Palette color name"
-                value={draft ?? color.name}
+                value={draft ?? termLabel(color.name)}
                 onChange={setDraft}
                 onBlur={commitName}
                 onKeyDown={(event) => {
@@ -176,14 +187,16 @@ export function PaletteColorRow({
               />
             ))}
         {typeof nameEditor !== "function" && notices.length > 0 && (
-          <ContextualHelp aria-label={`Help for palette color ${color.name}`}>
+          <ContextualHelp
+            aria-label={`Help for palette color ${termLabel(color.name)}`}
+          >
             <Content>{notices.join(" ")}</Content>
           </ContextualHelp>
         )}
       </div>
       <ActionButton
         isQuiet
-        aria-label={`Delete palette color ${color.name}`}
+        aria-label={`Delete palette color ${termLabel(color.name)}`}
         onPress={onDelete}
       >
         <Delete />

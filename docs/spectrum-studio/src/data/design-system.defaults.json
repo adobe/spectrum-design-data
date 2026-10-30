@@ -33,8 +33,8 @@
         },
         {
           "id": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "key": "colorName",
-          "name": "Color name",
+          "key": "colorFamily",
+          "name": "Color family",
           "description": "",
           "valueType": "string",
           "cardinality": "one",
@@ -401,31 +401,31 @@
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1500",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "value": "Extra small",
+          "value": "extra small",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1501",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "value": "Small",
+          "value": "small",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1502",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "value": "Medium",
+          "value": "medium",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1503",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "value": "Large",
+          "value": "large",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1504",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "value": "Extra large",
+          "value": "extra large",
           "description": ""
         },
         {
@@ -467,85 +467,85 @@
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1200",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Left",
+          "value": "left",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1201",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Center",
+          "value": "center",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1202",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Right",
+          "value": "right",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1203",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Top",
+          "value": "top",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1204",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Middle",
+          "value": "middle",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1205",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Bottom",
+          "value": "bottom",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1206",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Top left",
+          "value": "top left",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1207",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Top right",
+          "value": "top right",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1208",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Bottom right",
+          "value": "bottom right",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1209",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Bottom left",
+          "value": "bottom left",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1300",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1001",
-          "value": "Minimum",
+          "value": "minimum",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1301",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1001",
-          "value": "Maximum",
+          "value": "maximum",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1400",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1002",
-          "value": "Horizontal",
+          "value": "horizontal",
           "description": ""
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1401",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1002",
-          "value": "Vertical",
+          "value": "vertical",
           "description": ""
         },
         {
@@ -575,193 +575,193 @@
         {
           "id": "dbadbe74-958a-4279-a3ca-fa701fd68866",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Illustrator Orange",
+          "value": "illustrator orange",
           "description": ""
         },
         {
           "id": "0df7cdd8-9c4e-4810-a782-2a55e0437735",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Photoshop Blue",
+          "value": "photoshop blue",
           "description": ""
         },
         {
           "id": "d9d3f003-9195-4ff1-b5c0-f2a9fe5aa2ba",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "XD Fuchsia",
+          "value": "xd fuchsia",
           "description": ""
         },
         {
           "id": "a08500b8-abcd-47b2-8b46-b7660645dee0",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Dimension Green",
+          "value": "dimension green",
           "description": ""
         },
         {
           "id": "707d1415-cf90-4cbc-a469-ad2882aa492d",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "After Effects Indigo",
+          "value": "after effects indigo",
           "description": ""
         },
         {
           "id": "9a9ad842-2e75-4783-bf9d-f12d7e160e10",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "InDesign Magenta",
+          "value": "indesign magenta",
           "description": ""
         },
         {
           "id": "a323d4fe-336f-4034-b7a0-78d6db9f0e63",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Fire",
+          "value": "fire",
           "description": ""
         },
         {
           "id": "6587ba30-470c-4bb6-929b-e4a2d01ad010",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Meadow",
+          "value": "meadow",
           "description": ""
         },
         {
           "id": "41f8cde0-c3a6-42e1-8d31-825a46fea568",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Seahawks",
+          "value": "seahawks",
           "description": ""
         },
         {
           "id": "4a855a54-2678-48e5-a42f-a1f7a4aaae54",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Rose",
+          "value": "rose",
           "description": ""
         },
         {
           "id": "5a325c5a-c590-4c8e-8aa0-a54bdb283f53",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Sunset",
+          "value": "sunset",
           "description": ""
         },
         {
           "id": "e79cb365-125a-4803-b4b4-10b45a89c299",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Ice",
+          "value": "ice",
           "description": ""
         },
         {
           "id": "7a6d2983-1b83-42a7-a208-6f2011658e69",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Gray",
+          "value": "gray",
           "description": ""
         },
         {
           "id": "eee5c181-d6b6-49e6-89f6-be092ecfa957",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Silver",
+          "value": "silver",
           "description": ""
         },
         {
           "id": "9bd61eba-b96a-4f99-8dc4-cc5e9c996127",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Magenta",
+          "value": "magenta",
           "description": ""
         },
         {
           "id": "17c6cccf-8bca-4a44-9b31-7be2cfdf8251",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Red",
+          "value": "red",
           "description": ""
         },
         {
           "id": "ede41f6c-1d66-4dd5-ad5a-da4ce4cc1b02",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Cinnamon",
+          "value": "cinnamon",
           "description": ""
         },
         {
           "id": "fc06767f-92c3-43cd-94f6-cffdc9bc3276",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Orange",
+          "value": "orange",
           "description": ""
         },
         {
           "id": "5462ba36-e280-4204-966a-c5b149cddfc4",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Brown",
+          "value": "brown",
           "description": ""
         },
         {
           "id": "07c48167-3989-4ca7-9336-fba4bc33f9e8",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Yellow",
+          "value": "yellow",
           "description": ""
         },
         {
           "id": "63b31432-d201-4246-9b26-6ef44e2842e4",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Chartreuse",
+          "value": "chartreuse",
           "description": ""
         },
         {
           "id": "12095729-736b-407f-88be-dd6925ca6658",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Celery",
+          "value": "celery",
           "description": ""
         },
         {
           "id": "f121a899-8eab-4c08-b570-cdcbf9e8b8fe",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Green",
+          "value": "green",
           "description": ""
         },
         {
           "id": "93aa2820-60e6-444a-af66-c0eef8d85936",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Seafoam",
+          "value": "seafoam",
           "description": ""
         },
         {
           "id": "d45809d5-28f3-4c57-95ab-f19dbc6cc131",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Turquoise",
+          "value": "turquoise",
           "description": ""
         },
         {
           "id": "9aae9f95-789f-47f4-95db-8db0827f8ec1",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Cyan",
+          "value": "cyan",
           "description": ""
         },
         {
           "id": "6bbab90f-8ed6-4b4f-a6fa-e6b5937c7615",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Blue",
+          "value": "blue",
           "description": ""
         },
         {
           "id": "da4e4b17-f061-47f9-bf6f-b07157630b63",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Indigo",
+          "value": "indigo",
           "description": ""
         },
         {
           "id": "e10d5c03-e1d3-454c-a16b-366411451a5f",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Purple",
+          "value": "purple",
           "description": ""
         },
         {
           "id": "7a8e8191-2462-4faa-8985-0872067e8468",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Fuchsia",
+          "value": "fuchsia",
           "description": ""
         },
         {
           "id": "8f12fa64-ca0c-43de-b013-0993f17c38a2",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Pink",
+          "value": "pink",
           "description": ""
         },
         {
           "id": "e1f91215-7b39-4203-90a9-3888154e7949",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
-          "value": "Wireframe",
+          "value": "wireframe",
           "description": ""
         },
         {
@@ -779,7 +779,7 @@
         {
           "id": "ccfdbc1d-60a4-4c7f-ac64-51961c2fa5e9",
           "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
-          "value": "Floating surface",
+          "value": "floating surface",
           "description": ""
         },
         {
@@ -797,19 +797,19 @@
         {
           "id": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
           "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "Global",
+          "value": "global",
           "description": ""
         },
         {
           "id": "ead04990-42c3-4483-ba37-c77410f31c57",
           "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "Base horizontal spacing",
+          "value": "base horizontal spacing",
           "description": ""
         },
         {
           "id": "240bd9ba-271a-405d-9514-a627942d6b42",
           "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "Base gap",
+          "value": "base gap",
           "description": ""
         },
         {
@@ -959,439 +959,439 @@
         {
           "id": "014d018b-da56-4a93-9190-753ad548a4c2",
           "categoryId": "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
-          "value": "Spacing",
+          "value": "spacing",
           "description": ""
         },
         {
           "id": "d20e0d12-0915-4d33-91f4-ba1b6272326f",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Positive",
+          "value": "positive",
           "description": ""
         },
         {
           "id": "b1529dac-f806-4cf4-828e-18053154d25f",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Negative",
+          "value": "negative",
           "description": ""
         },
         {
           "id": "c987efac-c9dd-413b-8f9d-973815d089e4",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Informative",
+          "value": "informative",
           "description": ""
         },
         {
           "id": "63da69ae-6929-4d6f-ae36-6750a5d315b0",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Warning",
+          "value": "warning",
           "description": ""
         },
         {
           "id": "bb9dd37e-a07f-4602-97df-faec059917c7",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Neutral",
+          "value": "neutral",
           "description": ""
         },
         {
           "id": "6e32af80-32c2-4c5a-afb3-e8ed734543d3",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "Accent",
+          "value": "accent",
           "description": ""
         },
         {
           "id": "a5172f9f-230b-4be8-923c-e9c29e236d7f",
           "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
-          "value": "Drop-target",
+          "value": "drop-target",
           "description": ""
         },
         {
           "id": "f90152cb-85a8-4705-a687-42444c165906",
           "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
-          "value": "Focus-ring",
+          "value": "focus-ring",
           "description": ""
         },
         {
           "id": "fd85e5ef-e972-4338-8926-408aa70d317f",
           "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
-          "value": "Selection-indicator",
+          "value": "selection-indicator",
           "description": ""
         },
         {
           "id": "ac4d88f1-5527-45cf-96e8-f2cc41c2e356",
           "categoryId": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
-          "value": "Drag-handle",
+          "value": "drag-handle",
           "description": ""
         },
         {
           "id": "34e351e7-37c2-4df2-ac75-4f04e25272f3",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Text",
+          "value": "text",
           "description": ""
         },
         {
           "id": "44d05161-a960-4fed-ac11-723b4021cca0",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Visual",
+          "value": "visual",
           "description": ""
         },
         {
           "id": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Workflow-icon",
+          "value": "workflow-icon",
           "description": ""
         },
         {
           "id": "c8bb5451-b245-4de7-806a-ea006a15a1ae",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "UI-icon",
+          "value": "ui-icon",
           "description": ""
         },
         {
           "id": "03556ff4-f6e6-48bd-89a8-91d9c78ce730",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Bar",
+          "value": "bar",
           "description": ""
         },
         {
           "id": "a34bad93-394a-4cfb-b0be-7c9a20121a8a",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Control",
+          "value": "control",
           "description": ""
         },
         {
           "id": "e4673609-c0e2-4901-a8c5-575760c91268",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Pasteboard",
+          "value": "pasteboard",
           "description": ""
         },
         {
           "id": "d0ebe9d1-5047-4c6a-b4ea-2b7c93247763",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Page",
+          "value": "page",
           "description": ""
         },
         {
           "id": "fad3c19d-37af-42c3-91bb-ca66256a8319",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Section",
+          "value": "section",
           "description": ""
         },
         {
           "id": "dc9261fa-bc9b-45c6-b33d-bbb52adfff25",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Artboard",
+          "value": "artboard",
           "description": ""
         },
         {
           "id": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Surface",
+          "value": "surface",
           "description": ""
         },
         {
           "id": "1853e628-2844-45e9-8a8c-fe305d941f09",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Body",
+          "value": "body",
           "description": ""
         },
         {
           "id": "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Heading",
+          "value": "heading",
           "description": ""
         },
         {
           "id": "ac662c53-df93-4c8a-aecd-2981b2446d67",
           "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
-          "value": "Component",
+          "value": "component",
           "description": ""
         },
         {
           "id": "66bee4d1-0ec4-49c7-bb9d-652a18c28554",
           "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
-          "value": "Subtle",
+          "value": "subtle",
           "description": ""
         },
         {
           "id": "c87612a6-a139-4ebd-a444-6a0937d3ba69",
           "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
-          "value": "Subdued",
+          "value": "subdued",
           "description": ""
         },
         {
           "id": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a",
           "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
-          "value": "Emphasized",
+          "value": "emphasized",
           "description": ""
         },
         {
           "id": "157a59a8-44dd-4c1d-ac39-487201482d84",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Border",
+          "value": "border",
           "description": ""
         },
         {
           "id": "d52e1d8b-48e0-4a02-9668-8c7cb5e25a62",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Background",
+          "value": "background",
           "description": ""
         },
         {
           "id": "800c0491-1be2-462b-b59d-903646a1ae28",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Dash",
+          "value": "dash",
           "description": ""
         },
         {
           "id": "1c482aeb-cb4d-4a0b-a36b-109017829881",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Shadow",
+          "value": "shadow",
           "description": ""
         },
         {
           "id": "e5643915-92be-4bf0-a173-9c5701342d8a",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Corner",
+          "value": "corner",
           "description": ""
         },
         {
           "id": "69d020c3-e3f0-475b-b906-7a937961e149",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Overlay",
+          "value": "overlay",
           "description": ""
         },
         {
           "id": "bb4daecc-46ac-4f99-80d0-2bffc1d81343",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
-          "value": "Gradient",
+          "value": "gradient",
           "description": ""
         },
         {
           "id": "b9e315d9-ad01-46e4-8371-fa51af88fe53",
           "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
-          "value": "Regular",
+          "value": "regular",
           "description": ""
         },
         {
           "id": "bf3202a6-0725-45da-a1b2-0e79ae284f42",
           "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
-          "value": "Compact",
+          "value": "compact",
           "description": ""
         },
         {
           "id": "6bc36b92-e824-4946-8340-147d5cc95cc5",
           "categoryId": "f65fecd0-3e68-4531-927d-cd52c203c0de",
-          "value": "Spacious",
+          "value": "spacious",
           "description": ""
         },
         {
           "id": "96e228e5-00f8-44f3-ace4-63d0e5067d44",
           "categoryId": "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
-          "value": "Uniform",
+          "value": "uniform",
           "description": ""
         },
         {
           "id": "50becbf0-9cf5-4df6-a656-dd9cb1d66a60",
           "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
-          "value": "Selected",
+          "value": "selected",
           "description": ""
         },
         {
           "id": "b22bd8a4-08c2-4186-ba99-cda3b29ad344",
           "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
-          "value": "Disabled",
+          "value": "disabled",
           "description": ""
         },
         {
           "id": "f35609ce-cce8-422a-a504-fd4e7a92e792",
           "categoryId": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
-          "value": "Loading",
+          "value": "loading",
           "description": ""
         },
         {
           "id": "7e0af4fe-fa80-4f0a-ab95-448324ee8e9a",
           "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
-          "value": "Default",
+          "value": "default",
           "description": ""
         },
         {
           "id": "47dccbe1-70ac-4879-a770-93f292b48907",
           "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
-          "value": "Hover",
+          "value": "hover",
           "description": ""
         },
         {
           "id": "83361a0d-207e-43fc-83c9-259346571c22",
           "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
-          "value": "Focus",
+          "value": "focus",
           "description": ""
         },
         {
           "id": "1ef67476-ec27-4587-99b3-85512a392fa7",
           "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
-          "value": "Down",
+          "value": "down",
           "description": ""
         },
         {
           "id": "e5660667-58fe-4c1c-b914-dfdef87116e0",
           "categoryId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
-          "value": "Drag",
+          "value": "drag",
           "description": ""
         },
         {
           "id": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Base",
+          "value": "base",
           "description": ""
         },
         {
           "id": "8de84d9d-f5b9-41fb-a714-1a64e970aca1",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "List",
+          "value": "list",
           "description": ""
         },
         {
           "id": "c0abaa73-3a65-4d2d-854e-410c098f86b0",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "List-item",
+          "value": "list-item",
           "description": ""
         },
         {
           "id": "ac7d89f6-b1bb-476f-a03a-8e356017b4d2",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Container",
+          "value": "container",
           "description": ""
         },
         {
           "id": "4402f568-5db9-4cee-93a3-e3e9421dd170",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Accessory",
+          "value": "accessory",
           "description": ""
         },
         {
           "id": "9f9a1661-59c5-48c5-9a6a-0338e3cefd97",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Accessory-item",
+          "value": "accessory-item",
           "description": ""
         },
         {
           "id": "09a56b81-da7a-4a40-a4be-bfcde9bd11d7",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Banner",
+          "value": "banner",
           "description": ""
         },
         {
           "id": "c36f68a9-0175-49d3-8495-222761fbe0a8",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Group",
+          "value": "group",
           "description": ""
         },
         {
           "id": "809c6732-5e80-438c-9f7d-ce817894c0b1",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Field",
+          "value": "field",
           "description": ""
         },
         {
           "id": "2241056b-4ca1-4a13-ab03-cdad385e1de7",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "Form",
+          "value": "form",
           "description": ""
         },
         {
           "id": "aecefcb0-9505-4985-a297-d21e42113fd8",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
-          "value": "App",
+          "value": "app",
           "description": ""
         },
         {
           "id": "995ee216-3c2a-4269-bd5c-a3a9b474ead7",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Indent",
+          "value": "indent",
           "description": ""
         },
         {
           "id": "31d59200-639b-4c93-8fbf-fc7df5f0ce2a",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Opacity",
+          "value": "opacity",
           "description": ""
         },
         {
           "id": "dbabc8b1-acf4-49da-817a-ec82cbb76796",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Length",
+          "value": "length",
           "description": ""
         },
         {
           "id": "b44f2c34-0bd1-434a-bbdf-e76ff1faa47d",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Blur",
+          "value": "blur",
           "description": ""
         },
         {
           "id": "c8a9ce12-b5e9-4104-b9a4-cb4324ec80b8",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Offset",
+          "value": "offset",
           "description": ""
         },
         {
           "id": "56f9f8bd-2914-4c71-b4b9-1f1a3eb7c192",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Angle",
+          "value": "angle",
           "description": ""
         },
         {
           "id": "9f41e456-c913-40cd-8d21-f70f62c01524",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Step",
+          "value": "step",
           "description": ""
         },
         {
           "id": "571849ff-8090-4cf2-b1ed-6ccae9bf82d1",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Aspect-ratio",
+          "value": "aspect-ratio",
           "description": ""
         },
         {
           "id": "766c6a6a-b0b7-4b5a-b6c2-6cad686ddeab",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Thickness",
+          "value": "thickness",
           "description": ""
         },
         {
           "id": "1fd3e56e-f57d-48ab-ba5b-09b6e42c0c0b",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Stop",
+          "value": "stop",
           "description": ""
         },
         {
           "id": "25628e5a-e4d7-4a41-adba-4fc01ab76343",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Line height",
+          "value": "line height",
           "description": ""
         },
         {
           "id": "845cdc7d-14e9-4e24-a69e-28d4968ec1dd",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "Unitless line height",
+          "value": "unitless line height",
           "description": ""
         },
         {
           "id": "e0af254c-29c0-4898-8d7d-843831772822",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Start",
+          "value": "start",
           "description": ""
         },
         {
           "id": "41f11fc2-0dca-4379-95d0-7fc082458f36",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "End",
+          "value": "end",
           "description": ""
         },
         {
           "id": "58d98056-7c04-4915-91b7-3c11a14b7f09",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1000",
-          "value": "Affixed",
+          "value": "affixed",
           "description": ""
         },
         {
@@ -2637,9 +2637,9 @@
             "stops": [
               {
                 "id": "stop-69",
-                "lightness": 0.5521,
-                "hue": 264.1,
-                "chroma": 34.4
+                "lightness": 0.5520753942008068,
+                "hue": 264.09105380487955,
+                "chroma": 34.43888346780308
               }
             ]
           }
@@ -2785,7 +2785,7 @@
           "guardThreshold": 0.1,
           "colorOutput": {
             "authoringGamut": "srgb",
-            "outputFormat": "hex",
+            "outputFormat": "rgb",
             "mapOutputsToSrgb": false
           },
           "contrastReference": "light",

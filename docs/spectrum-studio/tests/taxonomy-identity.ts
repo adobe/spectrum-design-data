@@ -38,7 +38,7 @@ assert.deepEqual(
   "Defaults never mint or remap IDs on load.",
 );
 const category = baseline.categories.find(
-  (entry) => entry.key === "colorName",
+  (entry) => entry.key === "colorFamily",
 )!;
 const term = baseline.terms.find(
   (entry) =>
@@ -116,7 +116,7 @@ const added = registerTerm(
 );
 assert.equal(
   added.terms.find((entry) => entry.id === newTermId)?.value,
-  "Unique custom term",
+  "unique custom term",
 );
 assert.throws(
   () => registerTerm(customDocument, id, " RED ", crypto.randomUUID()),
@@ -146,7 +146,7 @@ assert.equal(
   projectClassification(renamedCategory, { [id]: newTermId }, "colors").flat[
     custom.key
   ],
-  "Unique custom term",
+  "unique custom term",
 );
 assert.deepEqual(
   renamedCategory.terms,
@@ -209,7 +209,7 @@ store.set(editReferencedTaxonomyAtom, renamed);
 const after = store
   .get(colorSystemDocumentAtom)
   .scales.find((entry) => entry.id === color.id)!;
-assert.equal(after.name, "Identity preserved hue");
+assert.equal(after.name, "identity preserved hue");
 assert.deepEqual(after.nameRef, color.nameRef);
 assert.deepEqual(after.stops, color.stops);
 const afterTokens = store.get(browserTokensAtom);

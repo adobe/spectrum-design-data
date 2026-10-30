@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { useState } from "react";
 import {
   Button,
@@ -294,7 +295,7 @@ export function TokenDetailsDialog({
                               </PickerItem>
                               {terms.map((term) => (
                                 <PickerItem key={term.id} id={term.id}>
-                                  {String(term.value)}
+                                  {termLabel(term.value)}
                                 </PickerItem>
                               ))}
                             </Picker>

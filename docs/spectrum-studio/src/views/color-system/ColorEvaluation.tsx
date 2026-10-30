@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
   Badge,
@@ -362,7 +363,7 @@ export function ColorEvaluation() {
               >
                 {document.surfaces.map((item) => (
                   <PickerItem key={item.id} id={item.id}>
-                    {item.name}
+                    {termLabel(item.name)}
                   </PickerItem>
                 ))}
               </Picker>
@@ -483,7 +484,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
               className={`${scaleStyles} colorEvaluationScale`}
             >
               <AlignedSwatchRow
-                label={scale.name}
+                label={termLabel(scale.name)}
                 isScaleLabel
                 className="colorEvaluationComparisonRow"
               >
@@ -515,7 +516,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                         showColorValue={showColorValue}
                         showContrast={showContrast}
                         override={override}
-                        overrideLabel={`${scale.name} ${contrastStepIndex(index, scale, rules)}`}
+                        overrideLabel={`${termLabel(scale.name)} ${contrastStepIndex(index, scale, rules)}`}
                         onResetOverride={
                           override
                             ? () => resetCurrent(override.uuid)

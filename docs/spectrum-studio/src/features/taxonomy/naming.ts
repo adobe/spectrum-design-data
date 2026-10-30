@@ -25,6 +25,7 @@ import {
   type TaxonomyScope,
 } from "./model";
 import { foundationNameSegment } from "./formatting";
+import { normalizeTermValue } from "./termPresentation";
 import {
   contrastStepIndex,
   scaleContrasts,
@@ -251,7 +252,7 @@ function reconcileName<T extends NamedSource>(
         ...next,
         terms: next.terms.map((term) =>
           term.id === reference!.termId
-            ? { ...term, value: source.name.trim() }
+            ? { ...term, value: normalizeTermValue(source.name) }
             : term,
         ),
       };

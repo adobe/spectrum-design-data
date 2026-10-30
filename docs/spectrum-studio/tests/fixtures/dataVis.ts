@@ -22,10 +22,11 @@ export function createDataVisSnapshot(categoricalCount = 2) {
   const store = createStore();
   store.set(restoreAuthoringSnapshotAtom, createDefaultSnapshot());
   const color = structuredClone(store.get(colorSystemDocumentAtom));
-  const blue = color.scales.find((scale) => scale.name === "Blue"),
-    orange = color.scales.find((scale) => scale.name === "Orange");
-  const gray = color.scales.find((scale) => scale.name === "Gray"),
-    green = color.scales.find((scale) => scale.name === "Green");
+  color.settings.colorOutput.outputFormat = "hex";
+  const blue = color.scales.find((scale) => scale.name === "blue"),
+    orange = color.scales.find((scale) => scale.name === "orange");
+  const gray = color.scales.find((scale) => scale.name === "gray"),
+    green = color.scales.find((scale) => scale.name === "green");
   const swatch = color.contrasts.find((step) => step.value >= 4.5);
   if (!blue || !orange || !gray || !green || !swatch)
     throw new Error("The data vis fixture needs its shipped UI sources.");

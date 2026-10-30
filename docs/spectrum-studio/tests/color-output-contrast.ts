@@ -113,7 +113,7 @@ const grayOutput = generateColors(grayData, bg181818, 21, {
   extSteep: 0.3,
 });
 assert.ok(grayOutput.opaque.css);
-assert.equal(grayOutput.opaque.css, "#ffffff");
+assert.equal(grayOutput.opaque.css, "rgb(255, 255, 255)");
 const grayContrast = measureOutputContrast(
   grayOutput.opaque.css,
   "#181818",

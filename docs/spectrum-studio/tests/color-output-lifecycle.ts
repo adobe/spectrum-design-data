@@ -58,7 +58,7 @@ for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
   };
   assert.equal(migrateColorSystemDocument(invalid, 4), null);
 }
-assert.equal(AUTHORING_RECORD_VERSION, 15);
+assert.equal(AUTHORING_RECORD_VERSION, 17);
 const store = createStore();
 const original = structuredClone(store.get(colorSystemDocumentAtom));
 assert.throws(
@@ -66,6 +66,7 @@ assert.throws(
   /Choose Edit/,
 );
 store.set(editModeAtom, true);
+store.set(updateColorOutputSettingsAtom, { outputFormat: "hex" });
 assert.match(
   store.set(updateColorOutputSettingsAtom, { authoringGamut: "rec2020" }) ?? "",
   /changed to RGB/,

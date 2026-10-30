@@ -20,6 +20,7 @@ import {
 import { typographyDocumentAtom } from "../typography/state";
 import { typographyTokenGroups } from "../typography/typographyTokens";
 import { dataVisSourceId } from "../color-system/data-vis/identity";
+import { normalizeTermValue } from "./termPresentation";
 
 export const taxonomyFoundationSourcesAtom = atom((get) => [
   ...get(colorSystemDocumentAtom).palette.map((source) => ({
@@ -100,7 +101,9 @@ export const editFoundationNameAtom = atom(
       : source.nameRef;
     const value = input.termId
       ? registeredSourceName(get(taxonomyDocumentAtom), reference, source.scope)
-      : input.value?.trim();
+      : input.value === undefined
+        ? undefined
+        : normalizeTermValue(input.value);
     if (!value) throw new Error("Enter a source name.");
     if (source.scope === "elevation") {
       if (input.termId)

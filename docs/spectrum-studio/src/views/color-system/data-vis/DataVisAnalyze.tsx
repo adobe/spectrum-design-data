@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../../features/taxonomy/termPresentation";
 import { ActionButton, PickerItem, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtom, useAtomValue } from "jotai";
@@ -69,7 +70,7 @@ export function DataVisAnalyze() {
                 id={display.definition.id}
                 key={display.definition.id}
               >
-                {display.definition.name}
+                {termLabel(display.definition.name)}
               </PickerItem>
             ))}
           </Picker>
@@ -244,7 +245,7 @@ function Analysis({
       )}
       <ScaleGraph
         kind="numeric"
-        label={`${display.definition.name} ${metricNames[metric].toLowerCase()}`}
+        label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()}`}
         series={[
           {
             id: display.definition.id,

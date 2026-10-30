@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { ActionButton, PickerItem, Text, ToastQueue } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -293,7 +294,7 @@ function ScaleEditorContent({
         try {
           remove(scale.id);
           notifyDeleted(
-            `${sentenceCase(foundation.noun)} scale ${scale.name}`,
+            `${sentenceCase(foundation.noun)} scale ${termLabel(scale.name)}`,
             () => {
               try {
                 restore({ scale, index });
@@ -326,9 +327,9 @@ function ScaleEditorContent({
               <PickerItem
                 key={candidate.id}
                 id={candidate.id}
-                textValue={candidate.name}
+                textValue={termLabel(candidate.name)}
               >
-                {candidate.name}
+                {termLabel(candidate.name)}
               </PickerItem>
             ))}
           </Picker>

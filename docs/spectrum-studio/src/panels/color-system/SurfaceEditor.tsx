@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
   Checkbox,
@@ -87,14 +88,14 @@ export function SurfaceEditor() {
         return (
           <div key={surface.id} className={rowStyles}>
             <div className={actionStyles}>
-              <Text>{surface.name}</Text>
+              <Text>{termLabel(surface.name)}</Text>
               <EditOnly>
                 <ActionButton
                   isQuiet
-                  aria-label={`Delete surface ${surface.name}`}
+                  aria-label={`Delete surface ${termLabel(surface.name)}`}
                   onPress={() => {
                     removeSurface(surface.id);
-                    notifyDeleted(`Surface ${surface.name}`, () =>
+                    notifyDeleted(`Surface ${termLabel(surface.name)}`, () =>
                       restoreSurface({ surface, index }),
                     );
                   }}

@@ -11,6 +11,7 @@ import { useAtomValue } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { useRegisteredSourceName } from "../../features/taxonomy/useRegisteredSourceName";
 import { useRequestedFieldFocus } from "../../components/fields/useRequestedFieldFocus";
+import { termLabel } from "../../features/taxonomy/termPresentation";
 
 export function SourceNameEditor({
   sourceId,
@@ -82,14 +83,14 @@ export function SourceNameEditor({
         description={contextualHelp === undefined ? named.help : undefined}
       >
         {(term) => (
-          <ComboBoxItem id={term.id} textValue={String(term.value)}>
-            {String(term.value)}
+          <ComboBoxItem id={term.id} textValue={termLabel(term.value)}>
+            {termLabel(term.value)}
           </ComboBoxItem>
         )}
       </ComboBox>
       {contextualHelp !== undefined && (
         <ContextualHelp
-          aria-label={`Help for palette color ${named.source.name}`}
+          aria-label={`Help for palette color ${termLabel(named.source.name)}`}
         >
           <Content>
             {[named.help, contextualHelp].filter(Boolean).join(" ")}

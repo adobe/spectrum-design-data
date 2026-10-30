@@ -309,12 +309,7 @@ export const addContinuousDataVisAtom = atom(
     const names = new Set(
       get(taxonomyDocumentAtom).terms.map((term) => term.value),
     );
-    while (
-      names.has(
-        `${kind === "sequential" ? "Sequential" : "Diverging"} ${number}`,
-      )
-    )
-      number++;
+    while (names.has(`${kind} ${number}`)) number++;
     const createPoint = (
       position: number,
       scaleId: string,
@@ -327,7 +322,7 @@ export const addContinuousDataVisAtom = atom(
     });
     const scale: ContinuousDataVisScale = {
       id: crypto.randomUUID(),
-      name: `${kind === "sequential" ? "Sequential" : "Diverging"} ${number}`,
+      name: `${kind} ${number}`,
       kind,
       points:
         kind === "sequential"

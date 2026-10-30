@@ -5,6 +5,7 @@ import { useMemo, type ComponentProps } from "react";
 import type { ColorSystemDocument } from "../../features/color-system/model";
 import { buildScaleData } from "../../features/color-system/scaleGeneration";
 import { EditablePicker } from "../editable";
+import { termLabel } from "../../features/taxonomy/termPresentation";
 
 interface ColorScalePickerProps extends Omit<
   ComponentProps<typeof EditablePicker>,
@@ -48,7 +49,7 @@ export function ColorScalePicker({
     () =>
       document.scales.map((scale) => ({
         id: scale.id,
-        name: scale.name,
+        name: termLabel(scale.name),
         gradient: `linear-gradient(to right, ${buildScaleData(
           scale,
           document.settings.colorOutput,
