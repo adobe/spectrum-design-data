@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../../features/taxonomy/termPresentation";
 import {
   ActionButton,
   Button,
@@ -221,7 +222,7 @@ export function DataVisPanel() {
                   throw new Error("Choose a supported data vis scale type.");
                 let index = 1;
                 const names = new Set(taxonomy.terms.map((term) => term.value));
-                while (names.has(`Categorical ${index}`)) index++;
+                while (names.has(`categorical ${index}`)) index++;
                 const id = crypto.randomUUID();
                 setDraft({ id, name: `Categorical ${index}` });
                 setFocusId(id);
@@ -251,7 +252,7 @@ export function DataVisPanel() {
         >
           <Button UNSAFE_className={`${foundationCardStyles} ${card}`}>
             <ScaleColorPreview colors={[]} label="New categorical scale" />
-            <Text>{draft.name}</Text>
+            <Text>{termLabel(draft.name)}</Text>
           </Button>
           <Popover
             placement={narrow ? "bottom start" : "right"}
@@ -347,7 +348,7 @@ export function DataVisPanel() {
                             openingId === scale.id ? newScaleTrigger : undefined
                           }
                           UNSAFE_className={`${foundationCardStyles} ${card}`}
-                          aria-label={`Open ${scale.name} data vis scale`}
+                          aria-label={`Open ${termLabel(scale.name)} data vis scale`}
                         >
                           <ScaleColorPreview
                             colors={colors}
@@ -360,10 +361,10 @@ export function DataVisPanel() {
                               scale.kind === "sequential" ? "oklch" : undefined
                             }
                             continuous={scale.kind !== "categorical"}
-                            label={`${scale.name} colors`}
+                            label={`${termLabel(scale.name)} colors`}
                             background={background}
                           />
-                          <Text styles={cardName}>{scale.name}</Text>
+                          <Text styles={cardName}>{termLabel(scale.name)}</Text>
                         </Button>
                         <Popover
                           placement={narrow ? "bottom start" : "right"}
@@ -371,7 +372,7 @@ export function DataVisPanel() {
                           padding="none"
                         >
                           <Dialog
-                            aria-label={`Edit ${scale.name} data vis scale`}
+                            aria-label={`Edit ${termLabel(scale.name)} data vis scale`}
                             className={`${dialog} ${scale.kind === "categorical" ? "" : continuousEditorViewport}`}
                           >
                             <SourceNameEditor
@@ -413,7 +414,7 @@ export function DataVisPanel() {
                               <StaticCategoricalEditor scale={scale} />
                             ) : readOnly ? (
                               <>
-                                <h2>{scale.name}</h2>
+                                <h2>{termLabel(scale.name)}</h2>
                                 <Text>
                                   Linked categorical colors. Enter edit mode to
                                   change the selection.
@@ -421,7 +422,7 @@ export function DataVisPanel() {
                                 <ScaleColorPreview
                                   colors={colors}
                                   continuous={false}
-                                  label={`${scale.name} selected colors`}
+                                  label={`${termLabel(scale.name)} selected colors`}
                                   background={background}
                                 />
                                 {scale.members.map((member, index) => (
@@ -487,12 +488,12 @@ export function DataVisPanel() {
                         <ActionButton
                           isQuiet
                           styles={deleteButton}
-                          aria-label={`Delete data vis scale ${scale.name}`}
+                          aria-label={`Delete data vis scale ${termLabel(scale.name)}`}
                           onPress={() => {
                             try {
                               const undo = remove(scale.id);
                               notifyDeleted(
-                                `Data vis scale ${scale.name}`,
+                                `Data vis scale ${termLabel(scale.name)}`,
                                 () => {
                                   try {
                                     restore(undo);
@@ -1016,7 +1017,7 @@ function StaticCategoricalEditor({
           return frozenColorValue(color);
         })}
         continuous={false}
-        label={`${scale.name} Static colors`}
+        label={`${termLabel(scale.name)} Static colors`}
         background={dataVisBackground(effective)}
       />
       <Picker

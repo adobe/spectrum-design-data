@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   useCallback,
   useEffect,
@@ -204,7 +205,9 @@ export function TaxonomyEditor({
     (term) => term.categoryId === category.id,
   );
   const filteredTerms = terms.filter((term) =>
-    String(term.value).toLowerCase().includes(search.toLowerCase()),
+    `${term.value} ${termLabel(term.value)}`
+      .toLowerCase()
+      .includes(search.toLowerCase()),
   );
   const rows =
     editable && newTerm ? [...filteredTerms, newTerm] : filteredTerms;
@@ -684,14 +687,18 @@ export function TaxonomyEditor({
                   <Cell>{null}</Cell>
                 </Row>
               ) : (
-                <Row id={term.id} aria-label={String(term.value)}>
+                <Row id={term.id} aria-label={termLabel(term.value)}>
                   {(["value", "description"] as const).map((field) =>
                     editable ? (
                       <EditableCell
                         key={field}
-                        textValue={String(term[field])}
+                        textValue={
+                          field === "value"
+                            ? termLabel(term.value)
+                            : String(term[field])
+                        }
                         onCancel={cancelValidation}
-                        aria-label={`Edit ${term.value} ${field === "value" ? "term" : "description"}`}
+                        aria-label={`Edit ${termLabel(term.value)} ${field === "value" ? "term" : "description"}`}
                         onSubmit={(event) => {
                           event.preventDefault();
                         }}
@@ -741,7 +748,9 @@ export function TaxonomyEditor({
                         <div className={cellStyles}>
                           <div className={termValueStyles}>
                             <span>
-                              {String(term[field]) || "No description"}
+                              {field === "value"
+                                ? termLabel(term.value)
+                                : String(term[field]) || "No description"}
                             </span>
                             {field === "value" &&
                               termReviews.get(term.id)?.status !==
@@ -753,7 +762,7 @@ export function TaxonomyEditor({
                           </div>
                           <ActionButton
                             slot="edit"
-                            aria-label={`Edit ${term.value} ${field === "value" ? "term" : "description"}`}
+                            aria-label={`Edit ${termLabel(term.value)} ${field === "value" ? "term" : "description"}`}
                           >
                             <Edit />
                           </ActionButton>
@@ -762,7 +771,11 @@ export function TaxonomyEditor({
                     ) : (
                       <Cell key={field}>
                         <div className={termValueStyles}>
-                          <span>{String(term[field]) || "No description"}</span>
+                          <span>
+                            {field === "value"
+                              ? termLabel(term.value)
+                              : String(term[field]) || "No description"}
+                          </span>
                           {field === "value" &&
                             termReviews.get(term.id)?.status !== "standard" && (
                               <Badge variant="notice" fillStyle="subtle">
@@ -793,7 +806,7 @@ export function TaxonomyEditor({
                         <div
                           className={reviewDetailStyles}
                           role="region"
-                          aria-label={`${term.value} classification review`}
+                          aria-label={`${termLabel(term.value)} classification review`}
                           tabIndex={0}
                         >
                           {termReviews.get(term.id)
@@ -814,7 +827,7 @@ export function TaxonomyEditor({
                           <ActionButton
                             isQuiet
                             size="S"
-                            aria-label={`Delete ${term.value}`}
+                            aria-label={`Delete ${termLabel(term.value)}`}
                             onPress={() =>
                               setPending({
                                 document: {
@@ -823,7 +836,7 @@ export function TaxonomyEditor({
                                     (item) => item.id !== term.id,
                                   ),
                                 },
-                                message: `Delete ${term.value}? Referenced terms require explicit remapping first.`,
+                                message: `Delete ${termLabel(term.value)}? Referenced terms require explicit remapping first.`,
                                 destructive: true,
                               })
                             }

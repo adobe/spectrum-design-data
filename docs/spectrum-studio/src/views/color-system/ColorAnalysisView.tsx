@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
   Badge,
@@ -289,7 +290,7 @@ export function ColorAnalysisView({
                   >
                     {document.scales.map((scale) => (
                       <PickerItem key={scale.id} id={scale.id}>
-                        {scale.name}
+                        {termLabel(scale.name)}
                       </PickerItem>
                     ))}
                   </Picker>
@@ -305,7 +306,7 @@ export function ColorAnalysisView({
                   >
                     {document.surfaces.map((item) => (
                       <PickerItem key={item.id} id={item.id}>
-                        {item.name}
+                        {termLabel(item.name)}
                       </PickerItem>
                     ))}
                   </Picker>
@@ -357,7 +358,7 @@ export function ColorAnalysisView({
                 >
                   {document.scales.map((scale) => (
                     <PickerItem key={scale.id} id={scale.id}>
-                      {scale.name}
+                      {termLabel(scale.name)}
                     </PickerItem>
                   ))}
                 </Picker>
@@ -383,7 +384,7 @@ export function ColorAnalysisView({
                     percent(sample.lightness),
                   ],
                 }))}
-                label={`${valuesScale.name} trajectory values`}
+                label={`${termLabel(valuesScale.name)} trajectory values`}
               />
               <ValuesTable
                 headings={[
@@ -408,13 +409,13 @@ export function ColorAnalysisView({
                     key.inGamut ? "In gamut" : "Outside output gamut",
                   ],
                 }))}
-                label={`${valuesScale.name} scale key values`}
+                label={`${termLabel(valuesScale.name)} scale key values`}
               />
             </>
           ) : (
             output.profile && (
               <ValuesTable
-                label={`${reference?.name} output values`}
+                label={`${termLabel(reference?.name ?? "")} output values`}
                 headings={[
                   "Scale index",
                   "Authored target",
@@ -481,7 +482,7 @@ function Chromaticity({
       ? scales.flatMap((scale) =>
           scale.keys.map((color, index) => ({
             id: `${scale.id}:${color.id}`,
-            label: `${scale.name}, key ${index + 1}`,
+            label: `${termLabel(scale.name)}, key ${index + 1}`,
             color,
           })),
         )
@@ -490,7 +491,7 @@ function Chromaticity({
             ? [
                 {
                   id: scale.id,
-                  label: `${scale.name}, cross-section`,
+                  label: `${termLabel(scale.name)}, cross-section`,
                   color: slice.color,
                 },
               ]
@@ -500,7 +501,7 @@ function Chromaticity({
   const seriesFor = (channel: "hue" | "chroma"): NumericSeries[] =>
     scales.map((scale) => ({
       id: scale.id,
-      label: scale.name,
+      label: termLabel(scale.name),
       points:
         channel === "hue"
           ? splitHueSamples(scale.samples)

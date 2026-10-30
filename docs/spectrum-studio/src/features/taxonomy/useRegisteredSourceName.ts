@@ -8,6 +8,7 @@ import {
 } from "./sourceState";
 import { taxonomyValueKey } from "./model";
 import { editModeAtom } from "../../state/view/editMode";
+import { isUnchangedTermInput, termLabel } from "./termPresentation";
 
 export function useRegisteredSourceName(
   sourceId: string,
@@ -44,7 +45,7 @@ export function useRegisteredSourceName(
   ).length;
   function commit() {
     if (!editable || draft === null || !source) return;
-    if (draft.trim() === source.name) {
+    if (isUnchangedTermInput(draft, source.name)) {
       setDraft(null);
       setError("");
       return;
@@ -74,7 +75,7 @@ export function useRegisteredSourceName(
   return {
     source,
     terms,
-    input: draft ?? source?.name ?? "",
+    input: draft ?? (source ? termLabel(source.name) : ""),
     error,
     commit,
     choose,

@@ -6,6 +6,7 @@ import { editModeAtom } from "../../state/view/editMode";
 import {
   assertTaxonomy,
   isTaxonomyDocument,
+  normalizeTaxonomyTerms,
   updateTaxonomy,
   type TaxonomyDocument,
 } from "./model";
@@ -30,7 +31,9 @@ export const taxonomyDocumentAtom = atom(
       | ((previous: TaxonomyDocument) => TaxonomyDocument),
   ) => {
     const previous = get(stored);
-    const next = typeof update === "function" ? update(previous) : update;
+    const next = normalizeTaxonomyTerms(
+      typeof update === "function" ? update(previous) : update,
+    );
     assertTaxonomy(next);
     if (get(taxonomyContributionsEnabledAtom))
       assertStructureTaxonomy(get(structuresDocumentAtom), next);

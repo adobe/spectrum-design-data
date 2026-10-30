@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { Text } from "@react-spectrum/s2";
 import {
   addRadiusScaleAtom,
@@ -31,7 +32,10 @@ const foundation: DimensionFoundationBinding = {
     const value = values.find((value) => value.index === 0)?.value ?? NaN;
     return (
       <div className="radiusElement">
-        <RadiusSample radius={value} label={`${scale.name} base preview`} />
+        <RadiusSample
+          radius={value}
+          label={`${termLabel(scale.name)} base preview`}
+        />
         <Text>
           {Number.isFinite(value) && value >= 0
             ? `Base: ${value}px`

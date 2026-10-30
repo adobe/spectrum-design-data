@@ -55,7 +55,12 @@ const terms = (
   categoryId: string,
   entries: [string, string][],
 ): TaxonomyTerm[] =>
-  entries.map(([id, value]) => ({ id, categoryId, value, description: "" }));
+  entries.map(([id, value]) => ({
+    id,
+    categoryId,
+    value: value.toLowerCase(),
+    description: "",
+  }));
 
 export const STRUCTURE_TERMS = [
   ...terms(STRUCTURE_CATEGORY_IDS.property, [

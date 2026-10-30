@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   AccordionItem,
   AccordionItemPanel,
@@ -82,7 +83,7 @@ export function DimensionScaleCard({
   return (
     <section
       className={`${foundationCardStyles} ${cardStyles}`}
-      aria-label={`${scale.name} ${noun} scale`}
+      aria-label={`${termLabel(scale.name)} ${noun} scale`}
       data-component="DimensionScaleCard"
       data-dimension-scale={scale.id}
     >
@@ -93,7 +94,7 @@ export function DimensionScaleCard({
             {" "}
             <ActionButton
               isQuiet
-              aria-label={`Delete ${noun} scale ${scale.name}`}
+              aria-label={`Delete ${noun} scale ${termLabel(scale.name)}`}
               isDisabled={!canDelete}
               onPress={onDelete}
             >
@@ -106,7 +107,7 @@ export function DimensionScaleCard({
         <span
           className={previewStyles}
           role="img"
-          aria-label={`${scale.name} preview: ${values.map((value) => value.value).join(", ")}`}
+          aria-label={`${termLabel(scale.name)} preview: ${values.map((value) => value.value).join(", ")}`}
         >
           <NumericScaleRamp values={values.map((value) => value.value)} />
         </span>

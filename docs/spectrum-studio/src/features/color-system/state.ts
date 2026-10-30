@@ -120,13 +120,13 @@ const namedColorSystemDocumentAtom = withTaxonomyContributions(
     ...document.scales.flatMap((source) => [
       {
         sourceId: taxonomyColorSourceId(source.id),
-        field: "colorName",
+        field: "colorFamily",
         value: source.name,
       },
     ]),
     ...document.palette.map((source) => ({
       sourceId: taxonomyPaletteSourceId(source.id),
-      field: "colorName",
+      field: "colorFamily",
       value: source.name,
     })),
     ...document.surfaces.map((surface) => ({
@@ -136,7 +136,7 @@ const namedColorSystemDocumentAtom = withTaxonomyContributions(
     })),
     ...document.dataVisScales.map((source) => ({
       sourceId: dataVisSourceId(source.id),
-      field: "colorName",
+      field: "colorFamily",
       value: source.name,
     })),
   ],

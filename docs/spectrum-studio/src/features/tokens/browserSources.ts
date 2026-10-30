@@ -85,7 +85,7 @@ function sourceBatch(
         legacyStale: token.stale,
         taxonomyEvidence: {
           property: "color",
-          colorName: token.generated.name.colorName,
+          colorFamily: token.generated.name.colorName,
           ...(token.generated.name.contrastValue
             ? { contrastLabel: token.generated.name.contrastValue }
             : {}),

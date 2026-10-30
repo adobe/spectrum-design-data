@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue } from "jotai";
@@ -57,11 +58,11 @@ export function RadiusElements() {
               id={`${scale.id}-radius-heading`}
               className={style({ font: "title", margin: 0 })}
             >
-              {scale.name}
+              {termLabel(scale.name)}
             </h3>
             <ul
               className="radiusScaleList"
-              aria-label={`${scale.name} radius values`}
+              aria-label={`${termLabel(scale.name)} radius values`}
             >
               {values.map((value) => (
                 <li key={value.step} className="radiusElement">

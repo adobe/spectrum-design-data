@@ -248,7 +248,7 @@ assert.equal(projected[0].value, source.value);
 assert.equal(projected[0].name, "red-color-100");
 assert.deepEqual(
   groupBrowserCards(projected).map((group) => group.label),
-  ["red"],
+  ["Red"],
 );
 const tree = taxonomyTokenTree(projected);
 assert.equal(
@@ -278,7 +278,7 @@ const wordProjection = projectClassification(
 );
 assert.equal(wordProjection.name, "my-orange-color-100");
 assert.deepEqual(wordProjection.segments[0].termIds, [ids.words]);
-assert.deepEqual(wordProjection.segments[0].values, ["My Orange"]);
+assert.deepEqual(wordProjection.segments[0].values, ["my orange"]);
 const formattedCollision = projectBrowserTokens(
   resolveBrowserTokens(
     [source, { ...source, id: "formatted-second" }],
@@ -504,7 +504,7 @@ const colorSource = renameStore
   .get(browserTokenSourcesAtom)
   .find(
     (token) =>
-      token.taxonomyEvidence?.colorName === "red" &&
+      token.taxonomyEvidence?.colorFamily === "red" &&
       token.taxonomyEvidence?.contrastLabel,
   )!;
 const reviewed = renameStore.get(taxonomyDocumentAtom);

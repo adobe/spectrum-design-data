@@ -25,6 +25,7 @@ import {
   type TypographyUnit,
 } from "../../features/typography/units";
 import { useRequestedFieldFocus } from "../../components/fields/useRequestedFieldFocus";
+import { isUnchangedTermInput } from "../../features/taxonomy/termPresentation";
 
 const stack = style({
   display: "flex",
@@ -119,7 +120,9 @@ export function LineHeightCard({
           errorMessage={nameError}
           validationBehavior="aria"
           onBlur={() => {
-            if (draftName !== name)
+            if (isUnchangedTermInput(draftName, name))
+              setDraft({ source: name, readOnly: isReadOnly, value: name });
+            else
               setDraft({
                 source: name,
                 readOnly: isReadOnly,

@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { normalizeTermValue, termLabel } from "../../features/taxonomy/termPresentation";
 import { AccordionItem, AccordionItemPanel, AccordionItemTitle, Button, ComboBox, ComboBoxItem, ComboBoxSection, Divider, SegmentedControl, SegmentedControlItem, Text, ToggleButton, ToggleButtonGroup, ToastQueue } from "@react-spectrum/s2";
 import { CategoryIcon } from "../../components/CategoryIcon";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
@@ -43,8 +44,8 @@ export function StructureEditorPanel({ structure, references, layout, isReadOnly
   const [commitError, setCommitError] = useState<string | undefined>();
   const resolved = resolveStructure(structure, references, layout);
   const namingTerm = taxonomy?.terms.find((term) => term.id === structure.generation?.nameRef?.termId);
-  const [namingInput, setNamingInput] = useState(String(namingTerm?.value ?? ""));
-  useEffect(() => setNamingInput(String(namingTerm?.value ?? "")), [namingTerm?.value]);
+  const [namingInput, setNamingInput] = useState(termLabel(namingTerm?.value ?? ""));
+  useEffect(() => setNamingInput(termLabel(namingTerm?.value ?? "")), [namingTerm?.value]);
   const nameTokens = (input: { termId?: string | null; createName?: string }) => {
     try { onTokenNaming?.(input); setCommitError(undefined); }
     catch (failure) {
@@ -96,9 +97,9 @@ export function StructureEditorPanel({ structure, references, layout, isReadOnly
           styles={showAsStyles} onSelectionChange={(key) => { if (typeof key === "string") nameTokens({ termId: key }); }}>
           {[{ id: VARIANT_CATEGORY_IDS.structure, label: "Structure terms" }, { id: ELEMENT_CATEGORY_ID, label: "Element terms" }].map((category) =>
             <ComboBoxSection key={category.id} aria-label={category.label}>{taxonomy.terms.filter((term) => term.categoryId === category.id).map((term) =>
-              <ComboBoxItem key={term.id} id={term.id} textValue={String(term.value)}>{String(term.value)}</ComboBoxItem>)}</ComboBoxSection>)}
+              <ComboBoxItem key={term.id} id={term.id} textValue={termLabel(term.value)}>{termLabel(term.value)}</ComboBoxItem>)}</ComboBoxSection>)}
         </ComboBox>
-        {!isReadOnly && <Button variant="secondary" size="S" isDisabled={!namingInput.trim() || namingInput.trim() === namingTerm?.value}
+        {!isReadOnly && <Button variant="secondary" size="S" isDisabled={!namingInput.trim() || normalizeTermValue(namingInput) === namingTerm?.value || namingInput === termLabel(namingTerm?.value ?? "")}
           onPress={() => nameTokens({ createName: namingInput })}>Create Structure term</Button>}
       </div>}
       <div><Text>Show as</Text><SegmentedControl aria-label="Show as" isJustified selectedKey={displayMode} styles={showAsStyles}

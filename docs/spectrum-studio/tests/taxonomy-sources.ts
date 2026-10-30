@@ -52,7 +52,7 @@ for (const scope of ["colors", "typography", "spacing", "size"]) {
           : "size",
   );
   if (scope === "spacing")
-    assert.equal(source.projection!.flat.tokenCategory, "Spacing");
+    assert.equal(source.projection!.flat.tokenCategory, "spacing");
   const before = store.get(taxonomyDocumentAtom);
   assert.throws(
     () =>

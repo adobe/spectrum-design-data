@@ -111,16 +111,22 @@ function compiled(id: string) {
 
 select("light");
 const pool = store.get(dataVisPrimitiveColorsAtom);
+const historical = structuredClone(snapshot);
+historical.colorSystem.settings.colorOutput.outputFormat = "hex";
+const historicalStore = createStore();
+historicalStore.set(restoreAuthoringSnapshotAtom, historical);
+historicalStore.set(modeSelectionAtom, store.get(modeSelectionAtom));
+const historicalPool = historicalStore.get(dataVisPrimitiveColorsAtom);
 const lightDocument = store.get(resolvedColorSystemDocumentAtom);
 const backgroundLuminance = luminance(resolvedBackgroundLinear(lightDocument));
 assert.ok(pool.every((color) => !color.error && !color.hidden));
 assert.deepEqual(
   base.dataVisScales.map((scale) => scale.name),
-  sequentialDefaults.map((scale) => scale.name),
+  sequentialDefaults.map((scale) => scale.name.toLowerCase()),
 );
 for (const expected of sequentialDefaults) {
   const scale = base.dataVisScales.find(
-    (scale) => scale.name === expected.name,
+    (scale) => scale.name === expected.name.toLowerCase(),
   )!;
   assert.ok(isDataVisScale(scale));
   assert.equal(scale.id, `data-vis-${expected.name.toLowerCase()}`);
@@ -136,7 +142,7 @@ for (const expected of sequentialDefaults) {
   const term = snapshot.taxonomy.terms.find(
     (term) => term.id === scale.nameRef!.termId,
   );
-  assert.equal(term?.value, expected.name);
+  assert.equal(term?.value, expected.name.toLowerCase());
   assert.equal(term?.categoryId, scale.nameRef.categoryId);
   assert.equal(
     snapshot.taxonomy.terms.filter(
@@ -170,7 +176,14 @@ for (const expected of sequentialDefaults) {
     assert.ok(token);
     assert.equal(token.name, tokenName);
     const corrected = correctedLightValues.get(tokenName);
-    assert.equal(token.value, corrected ?? lightValue);
+    const historicalValue = historicalPool.find(
+      (token) => token.id === tokenId,
+    )!.value;
+    assert.equal(
+      historicalValue,
+      corrected ?? lightValue,
+      "Historical correction evidence uses its original Hex-output profile.",
+    );
     if (corrected) {
       if (token.origin.kind !== "ui-swatch")
         throw new Error("Expected a generated UI color correction.");
@@ -198,7 +211,7 @@ for (const expected of sequentialDefaults) {
       for (const offset of [1, 3, 5]) {
         assert(
           Math.abs(
-            parseInt(token.value.slice(offset, offset + 2), 16) -
+            parseInt(historicalValue.slice(offset, offset + 2), 16) -
               parseInt(lightValue.slice(offset, offset + 2), 16),
           ) <= 1,
           "Corrections must stay within one byte step per channel.",
@@ -206,7 +219,7 @@ for (const expected of sequentialDefaults) {
       }
       verifiedCorrections.add(tokenName);
     }
-    const nearest = pool
+    const nearest = historicalPool
       .map((candidate) => ({
         id: candidate.id,
         distance: deltaE2000(
@@ -218,7 +231,7 @@ for (const expected of sequentialDefaults) {
     assert.equal(
       tokenId,
       nearest.id,
-      `${expected.name} ${index * 25}% uses the nearest published Light-mode output.`,
+      `${expected.name} ${index * 25}% retains its nearest published Light-mode source from the original Hex-output profile.`,
     );
     assert.equal(compiled(scale.id).evaluate(index / 4), token.value);
   }
@@ -367,23 +380,23 @@ store.set(editBrowserTokensAtom, {
 });
 assert.equal(
   compiled(fire.id).evaluate(0.5),
-  "#123456",
+  "rgb(18, 52, 86)",
   "A final UI-token override updates Fire exactly.",
 );
 assert.equal(
   createDataVisRuntime(
     buildDataVisSourcePacket(captureSnapshot(store.get)),
   ).continuous(fire.id)(0.5),
-  "#123456",
+  "rgb(18, 52, 86)",
 );
 select("dark");
 assert.notEqual(
   compiled(fire.id).evaluate(0.5),
-  "#123456",
+  "rgb(18, 52, 86)",
   "The manual source value stays scoped to its authored modes.",
 );
 select("light");
-assert.equal(compiled(fire.id).evaluate(0.5), "#123456");
+assert.equal(compiled(fire.id).evaluate(0.5), "rgb(18, 52, 86)");
 assert.deepEqual(
   store.get(colorSystemDocumentAtom).dataVisScales,
   base.dataVisScales,
@@ -507,7 +520,7 @@ for (const scale of base.dataVisScales) {
     "Revert restores each shipped recipe and its order.",
   );
 }
-const legacyFire = structuredClone(snapshot);
+const legacyFire = structuredClone(historical);
 legacyFire.colorSystem.dataVisScales = [
   {
     ...fire,
@@ -539,7 +552,7 @@ assert.deepEqual(
   sequentialDefaults[0].stops.map((_, index) =>
     createDataVisRuntime(
       buildDataVisSourcePacket(captureSnapshot(previousStore.get)),
-    ).continuous("Fire")(index / 4),
+    ).continuous(fire.name)(index / 4),
   ),
   sequentialDefaults[0].stops.map(([value]) => value),
   "Earlier saved Fire still renders its original exact colors.",

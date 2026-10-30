@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { BrowserToken } from "../tokens/browserModel";
 import type { TaxonomyProjection } from "./model";
+import { termLabel } from "./termPresentation";
 export interface TaxonomyTreeItem {
   id: string;
   label: string;
@@ -48,7 +49,7 @@ export function taxonomyTokenTree(tokens: BrowserToken[]): TaxonomyTreeItem[] {
       if (!branch) {
         branch = {
           id,
-          label: `${segment.categoryName}: ${segment.values.join(", ")}`,
+          label: `${segment.categoryName}: ${segment.values.map(termLabel).join(", ")}`,
           segment,
           children: [],
         };

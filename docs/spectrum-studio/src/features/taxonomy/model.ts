@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { kebabCaseNameFormatter, serializeTaxonomyPath } from "./formatting";
 import { numericValuesMayBeShared, taxonomyValueIssue } from "./valueDomains";
+import { normalizeTermValue } from "./termPresentation";
 
 export type DimensionScope = "spacing" | "size" | "radius";
 export const DIMENSION_SCOPES = ["spacing", "size", "radius"] as const;
@@ -63,6 +64,17 @@ export interface TaxonomyProjection {
 }
 export const taxonomyValueKey = (value: TaxonomyValue) =>
   String(value).trim().toLowerCase();
+export function normalizeTaxonomyTerms(
+  document: TaxonomyDocument,
+): TaxonomyDocument {
+  const terms = document.terms.map((term) => {
+    const value = normalizeTermValue(term.value);
+    return value === term.value ? term : { ...term, value };
+  });
+  return terms.every((term, index) => term === document.terms[index])
+    ? document
+    : { ...document, terms };
+}
 export const taxonomySurfaceSourceId = (id: string) => `surface:${id}`;
 export const taxonomyColorSourceId = (id: string) => `color-scale:${id}`;
 export const taxonomyPaletteSourceId = (id: string) => `palette:${id}`;
@@ -485,6 +497,7 @@ export function registerTerm(
   value: TaxonomyValue,
   id: string,
 ): TaxonomyDocument {
+  value = normalizeTermValue(value);
   const category = document.categories.find((item) => item.id === categoryId);
   if (!category) throw new Error("Choose an available Registry category.");
   const issue = taxonomyValueIssue(category, value);
@@ -537,6 +550,7 @@ export function updateTaxonomy(
   previous: TaxonomyDocument,
   next: TaxonomyDocument,
 ): TaxonomyDocument {
+  next = normalizeTaxonomyTerms(next);
   assertTaxonomy(next);
   if (next.categories.some((category) => category.cardinality !== "one"))
     throw new Error(

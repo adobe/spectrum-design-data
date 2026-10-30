@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../taxonomy/termPresentation";
 import { concreteColor } from "../color-system/data-vis/colors";
 import type { GeneratedShadow } from "../elevation/model";
 import type { TokenPanelId } from "./view/tokenPanelRegistry";
@@ -242,7 +243,7 @@ export function groupBrowserCards(tokens: BrowserToken[]) {
     const label = token.alias
       ? "Compatibility aliases"
       : segment
-        ? segment.values.join(", ")
+        ? segment.values.map(termLabel).join(", ")
         : "Unresolved classification";
     const id = token.alias
       ? "aliases"

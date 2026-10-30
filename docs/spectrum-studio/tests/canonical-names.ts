@@ -105,14 +105,14 @@ store.set(spacingDocumentAtom, {
 });
 assert.equal(
   store.get(sizeDocumentAtom).scales[0].name,
-  "Universal",
+  "universal",
   "A shared registry rename changes every consuming source.",
 );
 assert.equal(
   store
     .get(taxonomyDocumentAtom)
     .terms.find((term) => term.id === reference.termId)?.value,
-  "Universal",
+  "universal",
 );
 assert.deepEqual(store.get(spacingDocumentAtom).scales[0].nameRef, reference);
 assert.deepEqual(
@@ -131,10 +131,10 @@ store.set(spacingDocumentAtom, {
 store.set(cancelEditAtom);
 assert.equal(
   store.get(spacingDocumentAtom).scales[0].name,
-  "Universal",
+  "universal",
   "Cancel uses this page's most recent Save baseline.",
 );
-assert.equal(store.get(sizeDocumentAtom).scales[0].name, "Universal");
+assert.equal(store.get(sizeDocumentAtom).scales[0].name, "universal");
 
 const colors = store.get(colorSystemDocumentAtom);
 const before = store.get(taxonomyDocumentAtom);
@@ -154,7 +154,7 @@ store.set(enterEditModeAtom);
 const paletteId = store.set(addPaletteColorAtom);
 const red = store
   .get(colorSystemDocumentAtom)
-  .scales.find((source) => source.name === "Red")!;
+  .scales.find((source) => source.name === "red")!;
 store.set(editFoundationNameAtom, {
   id: `palette:${paletteId}`,
   termId: red.nameRef!.termId,
@@ -172,11 +172,11 @@ store.set(editFoundationNameAtom, {
 const renamed = store.get(colorSystemDocumentAtom);
 assert.equal(
   renamed.scales.find((source) => source.id === red.id)!.name,
-  "Tangerine",
+  "tangerine",
 );
 assert.equal(
   renamed.palette.find((source) => source.id === paletteId)!.name,
-  "Tangerine",
+  "tangerine",
 );
 assert.deepEqual(
   renamed.scales.find((source) => source.id === red.id)!.stops,
@@ -227,7 +227,7 @@ const artifact = await buildDimensionArtifacts(
 assert.deepEqual(artifact.foundation.source.spacing.scales[0].name, reference);
 assert.equal(
   designSystemDefaults.system.foundations.spacing.scales[0].name,
-  "Global",
+  "global",
   "Session changes never mutate shipped default data.",
 );
 console.log(
