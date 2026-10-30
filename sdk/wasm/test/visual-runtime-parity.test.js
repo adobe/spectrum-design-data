@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -24,19 +24,18 @@ const cli = existsSync(bin)
 execFileSync(cli[0], cli[1], { cwd: repo, stdio: "pipe" });
 
 const data = JSON.parse(readFileSync(join(out, "data.json"), "utf8"));
+const readJson = (path) => JSON.parse(readFileSync(join(repo, path), "utf8"));
 const load = (component) => ({
   component,
   compiled: data.compiled[component],
-  recipe: JSON.parse(
-    readFileSync(
-      join(repo, `packages/design-data/visuals/${component}.json`),
-      "utf8",
-    ),
-  ),
+  recipe: readJson(`packages/design-data/visuals/${component}.json`),
+  schema: readJson(`packages/design-data/components/${component}.json`),
 });
-const subjects = ["action-button", "badge", "button", "checkbox", "switch"].map(
-  load,
-);
+const subjects = readdirSync(join(repo, "packages/design-data/visuals"))
+  .filter((f) => f.endsWith(".json"))
+  .map((f) => f.slice(0, -".json".length))
+  .sort()
+  .map(load);
 
 const close = (a, b, path = "") => {
   if (typeof a === "number" && typeof b === "number") {
@@ -53,93 +52,106 @@ const close = (a, b, path = "") => {
   return a === b || `${path}: ${JSON.stringify(a)} !== ${JSON.stringify(b)}`;
 };
 
-const buttonOptionSets = [
-  {},
-  { variant: "primary", style: "outline" },
-  { variant: "secondary", style: "outline", isDisabled: true },
-  { variant: "negative", isPending: true },
-  { variant: "primary", isLabelHidden: true },
-  { variant: "secondary", staticColor: "white" },
-  { style: "outline", staticColor: "black" },
-];
+const FULL = process.env.VISUAL_PARITY_FULL === "1";
+const RANDOM_SAMPLE = 8;
+const schemes = ["light", "dark", "wireframe"];
+const scales = ["desktop", "mobile"];
 
-const actionOptionSets = [
-  {},
-  { isDisabled: true },
-  { isPending: true },
-  { isQuiet: true, isSelected: true },
-  { isQuiet: true, isDisabled: true },
-  { hasHoldIcon: true, hideLabel: true },
-  { isEmphasized: true, staticColor: "white" },
-];
+// Option axes come from the component data: booleans are false/true, enums are
+// every declared value plus unset. Free-form options (label, icon, size, ...)
+// are not enumerable and are covered by extraCases instead.
+const axesFor = ({ options }) =>
+  Object.entries(options)
+    .filter(([name]) => name !== "size")
+    .flatMap(([name, def]) => {
+      if (def.type === "boolean") return [[name, [false, true]]];
+      if (def.type === "string" && def.values?.length) {
+        return [[name, [undefined, ...def.values.map((v) => v.value)]]];
+      }
+      return [];
+    });
 
-const badgeOptionSets = [
-  {},
-  { variant: "informative", style: "outline", icon: true },
-  { variant: "negative", style: "subtle", icon: true },
-  { variant: "celery", fixed: "left" },
-  { variant: "fuchsia", style: "outline", fixed: "top", icon: true },
-  { variant: "seafoam", style: "subtle", fixed: "right" },
-  { variant: "notice", fixed: "bottom", label: false, icon: true },
-  { variant: "neutral", isDisabled: true },
-  { variant: "celery", style: "bold" },
-  { variant: "celery", style: "subtle" },
-  { variant: "yellow", style: "outline" },
-  { variant: "notice", style: "outline" },
-  { variant: "accent", style: "outline" },
-];
+const product = (axes) =>
+  axes.reduce(
+    (sets, [name, values]) =>
+      sets.flatMap((set) =>
+        values.map((v) => (v === undefined ? set : { ...set, [name]: v })),
+      ),
+    [{}],
+  );
 
-const switchOptionSets = [
-  {},
-  { isSelected: true },
-  { isSelected: true, isEmphasized: true },
-  { isDisabled: true },
-  { isSelected: true, isEmphasized: true, isDisabled: true },
-  { hideLabel: true, isSelected: true },
-];
-
-const checkboxOptionSets = [
-  {},
-  { isSelected: true },
-  { isIndeterminate: true },
-  { isSelected: true, isIndeterminate: true },
-  { isSelected: true, isEmphasized: true },
-  { isIndeterminate: true, isEmphasized: true },
-  { isError: true },
-  { isSelected: true, isError: true },
-  { isIndeterminate: true, isError: true, isEmphasized: true },
-  { isDisabled: true },
-  { isSelected: true, isDisabled: true },
-  { isIndeterminate: true, isDisabled: true, isError: true },
-  { label: false, isSelected: true },
-];
-
-const optionSetsFor = {
-  button: buttonOptionSets,
-  checkbox: checkboxOptionSets,
-  badge: badgeOptionSets,
-  switch: switchOptionSets,
+const mulberry32 = (seed) => () => {
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 };
 
-for (const { component, compiled, recipe } of subjects) {
-  const optionSets = optionSetsFor[component] ?? actionOptionSets;
-  const stateSets =
-    component === "badge"
-      ? [[]]
-      : [
-          [],
-          ["hover"],
-          ["down"],
-          [component === "button" ? "focus" : "keyboard-focus"],
-        ];
+const sampleOptionSets = (axes) => {
+  const sets = new Map();
+  const add = (o) => sets.set(JSON.stringify(o), o);
+  add({});
+  for (const [name, values] of axes) {
+    for (const v of values) if (v !== undefined) add({ [name]: v });
+  }
+  const rand = mulberry32(0x5eed);
+  for (let i = 0; i < RANDOM_SAMPLE; i++) {
+    const o = {};
+    for (const [name, values] of axes) {
+      const v = values[Math.floor(rand() * values.length)];
+      if (v !== undefined) o[name] = v;
+    }
+    add(o);
+  }
+  return [...sets.values()];
+};
 
-  test(`${component}: JS runtime matches the WASM renderer across modes, sizes, states and options`, (t) => {
+const stateSetsFor = ({ states = [] }) => [
+  [],
+  ...states.filter((s) => s.name !== "disabled").map((s) => [s.name]),
+];
+
+// Specific behaviors that must always run, whatever the sample draws.
+const extraCases = {
+  badge: [
+    { variant: "informative", style: "outline", icon: true },
+    { variant: "fuchsia", style: "outline", fixed: "top", icon: true },
+    { variant: "notice", fixed: "bottom", label: false, icon: true },
+  ],
+  checkbox: [
+    { label: false, isSelected: true },
+    { isIndeterminate: true, isDisabled: true, isError: true },
+  ],
+  switch: [
+    { isSelected: true, isEmphasized: true, isDisabled: true },
+    { hideLabel: true, isSelected: true },
+  ],
+  "action-button": [{ hasHoldIcon: true, hideLabel: true, isQuiet: true }],
+};
+
+const firstDiff = (a, b) => {
+  let i = 0;
+  while (i < a.length && a[i] === b[i]) i++;
+  return i;
+};
+
+for (const { component, compiled, recipe, schema } of subjects) {
+  test(`${component}: JS runtime SVG matches the WASM renderer (${FULL ? "full matrix" : "sample"})`, (t) => {
+    t.truthy(compiled, `${component}: no compiled entry in site data.json`);
+    const axes = axesFor(schema);
+    const optionSets = FULL ? product(axes) : sampleOptionSets(axes);
+    const seen = new Set(optionSets.map((o) => JSON.stringify(o)));
+    for (const o of extraCases[component] ?? []) {
+      if (!seen.has(JSON.stringify(o))) optionSets.push(o);
+    }
+    const stateSets = stateSetsFor(schema);
+    const sizes = Object.keys(compiled.sizeScale);
     const ds = Dataset.embedded();
     let n = 0;
     try {
-      for (const size of Object.keys(compiled.sizeScale)) {
-        for (const colorScheme of ["light", "dark", "wireframe"]) {
-          for (const scale of ["desktop", "mobile"]) {
+      for (const size of sizes) {
+        for (const colorScheme of schemes) {
+          for (const scale of scales) {
             for (const states of stateSets) {
               for (const options of optionSets) {
                 const req = {
@@ -150,10 +162,25 @@ for (const { component, compiled, recipe } of subjects) {
                   mode: { colorScheme, scale },
                   label: "Label",
                 };
-                const expected = JSON.parse(ds.renderScene(recipe, req));
-                const r = close(renderScene(compiled, req), expected);
-                if (r !== true) return t.fail(`${JSON.stringify(req)}\n${r}`);
+                const expected = ds.renderSvg(recipe, req);
+                const scene = renderScene(compiled, req);
+                const actual = renderSvg(scene);
                 n++;
+                if (actual !== expected) {
+                  const at = firstDiff(actual, expected);
+                  const sceneDiff = close(
+                    scene,
+                    JSON.parse(ds.renderScene(recipe, req)),
+                  );
+                  return t.fail(
+                    `component=${component} size=${size} scheme=${colorScheme} scale=${scale}\n` +
+                      `states=${JSON.stringify(states)} options=${JSON.stringify(options)}\n` +
+                      `first differing offset: ${at}\n` +
+                      `js:   ${JSON.stringify(actual.slice(Math.max(0, at - 40), at + 80))}\n` +
+                      `wasm: ${JSON.stringify(expected.slice(Math.max(0, at - 40), at + 80))}\n` +
+                      `scene diff: ${sceneDiff === true ? "none" : sceneDiff}`,
+                  );
+                }
               }
             }
           }
@@ -162,42 +189,7 @@ for (const { component, compiled, recipe } of subjects) {
     } finally {
       ds.free();
     }
-    t.is(
-      n,
-      Object.keys(compiled.sizeScale).length *
-        3 *
-        2 *
-        stateSets.length *
-        optionSets.length,
-    );
-  });
-
-  test(`${component}: renderSvg matches the WASM SVG for a scene`, (t) => {
-    const ds = Dataset.embedded();
-    try {
-      const req = {
-        component,
-        size: "l",
-        states: component === "badge" ? [] : ["hover"],
-        options:
-          component === "button"
-            ? { style: "outline", variant: "secondary" }
-            : component === "badge"
-              ? {
-                  variant: "informative",
-                  style: "outline",
-                  fixed: "left",
-                  icon: true,
-                }
-              : component === "switch"
-                ? { isSelected: true, isEmphasized: true }
-                : { hasHoldIcon: true },
-        mode: { colorScheme: "dark", scale: "desktop" },
-        label: "Save",
-      };
-      t.is(renderSvg(renderScene(compiled, req)), ds.renderSvg(recipe, req));
-    } finally {
-      ds.free();
-    }
+    t.log(`${component}: ${n} renders, 0 differences`);
+    t.true(n > 0);
   });
 }
