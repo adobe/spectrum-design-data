@@ -683,6 +683,15 @@
               <sp-action-button
                 quiet
                 size="s"
+                id="z-labels"
+                toggles
+                label="Larger labels"
+                title="Larger labels (L)"
+                >Aa</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
                 id="z-full"
                 label="Full screen"
                 title="Full screen (F)"
@@ -1077,12 +1086,24 @@
       // The stage is a window onto #world. The usage matrix is plain HTML that we
       // scale with a CSS transform. Anatomy and specs are redrawn at the chosen zoom
       // instead, so their labels keep one readable size at any zoom.
-      const SIGMA = 1; // screen pixels per layout unit in the anatomy drawing
+      // Screen pixels per layout unit in the anatomy drawing. The labels are drawn at 14 and
+      // 13 layout units, so this is also their size: compact labels are 10px, large 14px.
+      const SIGMA_COMPACT = 0.714,
+        SIGMA_LARGE = 1;
+      const LABELS_KEY = "hub-large-labels";
+      const savedLarge = (() => {
+        try {
+          return localStorage.getItem(LABELS_KEY) === "1";
+        } catch {
+          return false;
+        }
+      })();
       const ZMIN = 0.1,
         ZMAX = 8,
         MARGIN = 28,
         GUTTER = 16;
       const vp = {
+        sigma: savedLarge ? SIGMA_LARGE : SIGMA_COMPACT,
         kind: "grid", // "grid" (matrix) or "diagram" (anatomy and specs)
         z: 1, // 1 is actual size
         tx: 0,
@@ -1146,12 +1167,12 @@
           const fits = (K) => {
             const b = bboxFor(diagramInner(s, K));
             return (
-              b.width + 2 * GUTTER <= (vw - 2 * MARGIN) / SIGMA &&
-              b.height + 2 * GUTTER <= (vh - 2 * MARGIN) / SIGMA
+              b.width + 2 * GUTTER <= (vw - 2 * MARGIN) / vp.sigma &&
+              b.height + 2 * GUTTER <= (vh - 2 * MARGIN) / vp.sigma
             );
           };
-          let lo = ZMIN / SIGMA,
-            hi = ZMAX / SIGMA;
+          let lo = ZMIN / vp.sigma,
+            hi = ZMAX / vp.sigma;
           if (fits(hi)) lo = hi;
           else
             for (let i = 0; i < 12; i++) {
@@ -1159,9 +1180,9 @@
               if (fits(mid)) lo = mid;
               else hi = mid;
             }
-          vp.z = clampZ(lo * SIGMA);
+          vp.z = clampZ(lo * vp.sigma);
         }
-        const K = vp.z / SIGMA;
+        const K = vp.z / vp.sigma;
         const inner = diagramInner(s, K);
         const b = bboxFor(inner);
         const vbx = b.x - GUTTER,
@@ -1171,11 +1192,11 @@
         vp.vbx = vbx;
         vp.vby = vby;
         setWorld(
-          `<svg class="zoom" role="group" aria-label="${attr(`${C.displayName} anatomy and token specs`)}" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * SIGMA}" height="${vbh * SIGMA}">${inner}</svg>`,
+          `<svg class="zoom" role="group" aria-label="${attr(`${C.displayName} anatomy and token specs`)}" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * vp.sigma}" height="${vbh * vp.sigma}">${inner}</svg>`,
         );
         if (vp.fit) {
-          vp.tx = (vw - vbw * SIGMA) / 2;
-          vp.ty = (vh - vbh * SIGMA) / 2;
+          vp.tx = (vw - vbw * vp.sigma) / 2;
+          vp.ty = (vh - vbh * vp.sigma) / 2;
         }
         paint();
         if (from?.width && !reduced) {
@@ -1203,6 +1224,32 @@
         return { x: vbx, y: vby };
       }
 
+      // Switch label size. A fitted view refits; otherwise the point at the centre of the
+      // stage stays there.
+      function setLabels(large) {
+        try {
+          localStorage.setItem(LABELS_KEY, large ? "1" : "0");
+        } catch {}
+        $("z-labels").selected = large;
+        const next = large ? SIGMA_LARGE : SIGMA_COMPACT;
+        if (next === vp.sigma) return;
+        if (vp.kind !== "diagram" || vp.fit) {
+          vp.sigma = next;
+          if (vp.kind === "diagram") drawDiagram();
+          return;
+        }
+        const [px, py] = centre();
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
+        vp.sigma = next;
+        const vb = drawDiagram();
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
+        paint();
+      }
+
       function fitView() {
         vp.fit = true;
         if (vp.kind === "grid") afterGrid();
@@ -1226,14 +1273,14 @@
           paint();
           return;
         }
-        const K = vp.z / SIGMA;
-        const sx = ((px - vp.tx) / SIGMA + vp.vbx - PAD_X) / K,
-          sy = ((py - vp.ty) / SIGMA + vp.vby - PAD_Y) / K;
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
         vp.z = nz;
         const vb = drawDiagram();
-        const K2 = vp.z / SIGMA;
-        vp.tx = px - (PAD_X + sx * K2 - vb.x) * SIGMA;
-        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * SIGMA;
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
         paint();
       }
       const centre = () => {
@@ -1329,6 +1376,7 @@
           0: fitView,
           1: () => zoomTo(1, ...centre()),
           f: toggleFull,
+          l: () => setLabels(!$("z-labels").selected),
           ArrowLeft: () => panBy(big, 0),
           ArrowRight: () => panBy(-big, 0),
           ArrowUp: () => panBy(0, big),
@@ -1344,6 +1392,10 @@
       $("z-out").addEventListener("click", () => step(0.8));
       $("z-level").addEventListener("click", () => zoomTo(1, ...centre()));
       $("z-fit").addEventListener("click", fitView);
+      $("z-labels").addEventListener("change", () =>
+        setLabels($("z-labels").selected),
+      );
+      $("z-labels").selected = savedLarge;
       $("z-full").addEventListener("click", toggleFull);
 
       function toggleFull() {
@@ -1466,6 +1518,7 @@
         if (opts.refit) vp.fit = true;
         $("state-wrap")?.classList.toggle("hidden", view.mode === "usage");
         $("back").classList.toggle("hidden", view.mode === "usage");
+        $("z-labels").disabled = view.mode === "usage";
         updateSupport(o);
         if (view.mode === "usage") await renderMatrix(o, token, opts);
         else await renderZoom(o, token, opts);
