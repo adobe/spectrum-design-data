@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   Button,
   Menu,
@@ -40,7 +41,7 @@ export function AddStructureElement({
     ][]
   ).flatMap(([kind, type]) => {
     const term = taxonomy.terms.find((term) => term.id === type.termId);
-    return term ? [{ kind, label: String(term.value) }] : [];
+    return term ? [{ kind, label: termLabel(term.value) }] : [];
   });
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={onOpenChange}>

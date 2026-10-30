@@ -99,7 +99,7 @@ const original = structuredClone([orange, red100, red200]);
 const singleton = display([orange]);
 assert.equal(singleton.length, 1);
 assert.equal(singleton[0].id, orange.id);
-assert.equal(singleton[0].label, "Illustrator Orange color");
+assert.equal(singleton[0].label, "Illustrator orange color");
 assert.equal(singleton[0].token, orange);
 assert.equal(singleton[0].children.length, 0);
 assert.equal(singleton[0].sourcePathIds.length, 2);
@@ -107,7 +107,7 @@ assert.equal(singleton[0].sourcePathIds.length, 2);
 const branching = display([red100, red200, orange]);
 assert.deepEqual(
   branching.map((row) => row.label),
-  ["Red color", "Illustrator Orange color"],
+  ["Red color", "Illustrator orange color"],
 );
 assert.deepEqual(
   branching[0].children.map((row) => row.label),
@@ -131,7 +131,7 @@ const properties = display([red, opacity]);
 assert.equal(properties[0].label, "Red");
 assert.deepEqual(
   properties[0].children.map((row) => row.label),
-  ["color", "opacity"],
+  ["Color", "Opacity"],
 );
 const prefix = display([red, red100, red200]);
 assert.equal(prefix[0].id, red.id);
@@ -163,7 +163,7 @@ const reversed = display(
 );
 assert.deepEqual(
   reversed.map((row) => row.label),
-  ["100 color Red", "200 color Red"],
+  ["100 color red", "200 color red"],
 );
 const fractional = token("fractional", "red-color-minus-0-5", [
   color("Red"),
@@ -350,7 +350,7 @@ assert.equal(
 
 const grid = groupBrowserCards([orange, red100, red200]);
 assert.deepEqual(grid.map((group) => group.label).sort(), [
-  "Illustrator Orange",
+  "Illustrator orange",
   "Red",
 ]);
 assert.deepEqual(

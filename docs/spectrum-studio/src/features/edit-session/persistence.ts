@@ -1,4 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { upgradeColorFamilySnapshot } from "./colorFamilyUpgrade";
+import { upgradeTermCasingSnapshot } from "./termCasingUpgrade";
 import { atom, getDefaultStore, type Getter } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
@@ -102,6 +104,11 @@ export function initializeAuthoringPersistence(
     const record = readAuthoringRecord(
       assertStoredSnapshot,
       (value, version) => {
+        if (version === 15 || version === 16) {
+          if (!isSnapshot(value) || !value)
+            throw new Error("Stored authoring data is invalid or incomplete.");
+          return upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(value));
+        }
         upgraded = true;
         const snapshot =
           version === 14
@@ -122,7 +129,7 @@ export function initializeAuthoringPersistence(
             },
           );
         }
-        return next;
+        return upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(next));
       },
     );
     if (record) {

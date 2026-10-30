@@ -234,7 +234,7 @@ const white = sources.find(
     candidate.type === "colors" &&
     !candidate.paletteColorId &&
     !candidate.dataVis &&
-    candidate.value === "#ffffff",
+    candidate.value === "rgb(255, 255, 255)",
 )!;
 assert.ok(white);
 const colorNotation = structuredClone(shipped);

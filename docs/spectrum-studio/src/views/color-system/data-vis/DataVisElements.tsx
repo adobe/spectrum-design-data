@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../../features/taxonomy/termPresentation";
 import { Badge, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue } from "jotai";
@@ -59,7 +60,7 @@ export function DataVisElements() {
             : undefined;
         return (
           <section className={section} key={display.definition.id}>
-            <h2>{display.definition.name}</h2>
+            <h2>{termLabel(display.definition.name)}</h2>
             <Badge variant="neutral">{display.definition.kind}</Badge>
             {display.definition.kind === "categorical" &&
               (checks.status === "loading" ? (
@@ -102,7 +103,7 @@ export function DataVisElements() {
                       : undefined
                   }
                   continuous={!!display.continuous}
-                  label={`${display.definition.name} colors`}
+                  label={`${termLabel(display.definition.name)} colors`}
                 />
                 <div
                   className={values}
@@ -110,7 +111,7 @@ export function DataVisElements() {
                     background: dataVisBackground(document),
                     padding: 12,
                   }}
-                  aria-label={`${display.definition.name} swatches`}
+                  aria-label={`${termLabel(display.definition.name)} swatches`}
                 >
                   {display.observations.map((observation) => (
                     <span
@@ -124,7 +125,7 @@ export function DataVisElements() {
                   ))}
                 </div>
                 <DataVisExamples
-                  name={display.definition.name}
+                  name={termLabel(display.definition.name)}
                   colors={display.observations.map(
                     (observation) => observation.value,
                   )}

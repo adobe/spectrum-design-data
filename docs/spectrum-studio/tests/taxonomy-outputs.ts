@@ -52,7 +52,7 @@ assert.deepEqual(
   })),
 );
 const palette = canonical.tokens.find(
-  (token) => token.name.colorName === "Illustrator Orange",
+  (token) => token.name.colorFamily === "illustrator orange",
 )!;
 assert(palette);
 assert.equal(palette.name.property, "color");
@@ -63,7 +63,7 @@ assert(
     .every((token) => typeof token.name.scaleIndex === "number"),
 );
 const floating = snapshot.colorSystem.surfaces.find(
-  (surface) => surface.name === "Floating surface",
+  (surface) => surface.name === "floating surface",
 )!;
 assert.equal(
   projectClassification(
@@ -116,9 +116,9 @@ assert.equal(dimension.schemaVersion, 3);
 assert.deepEqual(
   dimension.tokens.find(
     (token) =>
-      token.name.tokenCategory === "Spacing" && token.name.scaleIndex === 100,
+      token.name.tokenCategory === "spacing" && token.name.scaleIndex === 100,
   )!.name,
-  { tokenCategory: "Spacing", scaleIndex: 100 },
+  { tokenCategory: "spacing", scaleIndex: 100 },
 );
 const renamed = withLineHeightName(
   snapshot.typography,

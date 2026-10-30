@@ -15,6 +15,7 @@ import {
   formatTypographyNumber,
 } from "../../typography/units";
 import { dimensionIssues } from "../../scales/issues";
+import { termLabel } from "../../taxonomy/termPresentation";
 
 export function parseColorTokenDisplayName(displayName: string): TokenName {
   const separatorIndex = displayName.lastIndexOf("-");
@@ -86,7 +87,7 @@ export function buildSpacingPrimitiveTable(
       .filter(({ scale }) => isFoundationPublished(scale))
       .map(({ scale, values }) => ({
         id: `${prefix}-${scale.id}`,
-        label: scale.name,
+        label: termLabel(scale.name),
         rows: values.map((value) => ({
           id: `${prefix}-${scale.id}-${value.step}`,
           cells: {

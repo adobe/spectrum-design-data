@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   Checkbox,
   Heading,
@@ -99,7 +100,7 @@ export function ContextualEvaluation() {
       <div key={surface.id} className={leafStyles}>
         <div className={swatchStyles} style={{ backgroundColor: color }} />
         <Text>
-          {surface.name} · {surface.contrast ?? 1}:1
+          {termLabel(surface.name)} · {surface.contrast ?? 1}:1
         </Text>
       </div>
     );
@@ -125,11 +126,12 @@ export function ContextualEvaluation() {
         className={contextStyles}
         style={{ backgroundColor: color }}
       >
-        <Heading level={3}>{surface.name}</Heading>
+        <Heading level={3}>{termLabel(surface.name)}</Heading>
         <div className={swatchStyles} style={{ backgroundColor: color }} />
         {showMeta && (
           <Text UNSAFE_className={String(metaStyles)}>
-            Scale: {scale.name} · Contrast: {contrast.value}:1 · Depth: {depth}
+            Scale: {termLabel(scale.name)} · Contrast: {contrast.value}:1 ·
+            Depth: {depth}
           </Text>
         )}
         {applied.map((item) => renderLeaf(item, color))}

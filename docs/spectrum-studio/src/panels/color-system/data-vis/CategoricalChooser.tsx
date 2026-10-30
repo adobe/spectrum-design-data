@@ -35,6 +35,11 @@ import {
 } from "../../../features/color-system/data-vis/resolution";
 import { useRequestedFieldFocus } from "../../../components/fields/useRequestedFieldFocus";
 import { ScaleColorPreview } from "../../../views/color-system/ScaleColorPreview";
+import {
+  isUnchangedTermInput,
+  normalizeTermValue,
+  termLabel,
+} from "../../../features/taxonomy/termPresentation";
 
 const stack = style({ display: "flex", flexDirection: "column", gap: 16 });
 const row = style({
@@ -85,8 +90,11 @@ export function CategoricalChooser(props: CategoricalChooserProps) {
     !!props.focusName && !props.initial,
     props.onNameFocused,
   );
-  const [name, setName] = useState(props.name);
-  const authoredName = props.initial ? props.name : name;
+  const [name, setName] = useState<string | null>(null);
+  const authoredName =
+    props.initial || name === null || isUnchangedTermInput(name, props.name)
+      ? props.name
+      : normalizeTermValue(name);
   const [preferences, setPreferences] = useState(() =>
     structuredClone(
       props.initial?.preferences ?? DEFAULT_CATEGORICAL_PREFERENCES,
@@ -200,7 +208,7 @@ export function CategoricalChooser(props: CategoricalChooserProps) {
       {!props.initial && (
         <TextField
           label="Scale name"
-          value={name}
+          value={name ?? termLabel(props.name)}
           onChange={setName}
           isRequired
           ref={nameRef}

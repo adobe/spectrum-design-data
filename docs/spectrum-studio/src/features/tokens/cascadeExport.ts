@@ -358,7 +358,7 @@ export function buildCascadeTokenInventory(
             classify(
               rowUuid(token.uuid),
               token.uuid,
-              { property: "color", colorName: token.name.colorName },
+              { property: "color", colorFamily: token.name.colorName },
               !!overrides[token.uuid]?.name ||
                 browserEdits[token.uuid]?.name !== undefined,
               governedColorContext(
@@ -405,7 +405,7 @@ export function buildCascadeTokenInventory(
             classify(
               rowUuid(token.uuid),
               token.uuid,
-              { property: "color", colorName: token.name.colorName },
+              { property: "color", colorFamily: token.name.colorName },
               !!overrides[token.uuid]?.name ||
                 browserEdits[token.uuid]?.name !== undefined,
               governedColorContext(
@@ -426,7 +426,7 @@ export function buildCascadeTokenInventory(
           classify(
             rowUuid(token.uuid),
             token.uuid,
-            { property: "color", colorName: token.name.colorName },
+            { property: "color", colorFamily: token.name.colorName },
             resolved.nameOverridden,
             governedColorContext(
               base,
@@ -459,7 +459,7 @@ export function buildCascadeTokenInventory(
             conceptId: conceptIdFor(seed),
             name: {
               property: "contrast-ratio",
-              colorName: sanitizeTokenName(scale.name),
+              colorFamily: sanitizeTokenName(scale.name),
               contrastValue: String(contrastStepIndex(index, scale, rules)),
               ...modeFields,
             },
@@ -490,7 +490,11 @@ export function buildCascadeTokenInventory(
               classify(
                 uuid,
                 id,
-                { property: "color", colorName: scale.name, number: index + 1 },
+                {
+                  property: "color",
+                  colorFamily: scale.name,
+                  number: index + 1,
+                },
                 false,
                 governedDataVisContext(base, taxonomy, scale.id, member.id),
               );
@@ -498,7 +502,7 @@ export function buildCascadeTokenInventory(
               id,
               {
                 property: "color",
-                colorName: sanitizeTokenName(scale.name),
+                colorFamily: sanitizeTokenName(scale.name),
                 number: String(index + 1),
               },
               failure,
@@ -510,7 +514,7 @@ export function buildCascadeTokenInventory(
               memberAxes.get(id)!,
               uuid,
               {
-                colorName: sanitizeTokenName(scale.name),
+                colorFamily: sanitizeTokenName(scale.name),
                 number: String(index + 1),
               },
               !!scale.staticColors,
@@ -552,7 +556,7 @@ export function buildCascadeTokenInventory(
             classify(
               uuid,
               id,
-              { property: "color", colorName: scale.name, number: index + 1 },
+              { property: "color", colorFamily: scale.name, number: index + 1 },
               resolved.nameOverridden,
               governedDataVisContext(base, taxonomy, scale.id, member.id),
             );
@@ -561,7 +565,7 @@ export function buildCascadeTokenInventory(
             memberAxes.get(id)!,
             uuid,
             {
-              colorName: sanitizeTokenName(scale.name),
+              colorFamily: sanitizeTokenName(scale.name),
               number: String(index + 1),
             },
             !!scale.staticColors,
@@ -572,7 +576,7 @@ export function buildCascadeTokenInventory(
             name: {
               ...canonicalName(uuid, {
                 property: "color",
-                colorName: sanitizeTokenName(scale.name),
+                colorFamily: sanitizeTokenName(scale.name),
                 number: String(index + 1),
               }),
               ...fields,
@@ -612,7 +616,7 @@ export function buildCascadeTokenInventory(
       classify(
         token.uuid,
         token.uuid,
-        { property: "color", colorName: token.name.colorName },
+        { property: "color", colorFamily: token.name.colorName },
         !!browserEdits[token.uuid]?.name,
         governedColorContext(
           base,
@@ -631,7 +635,7 @@ export function buildCascadeTokenInventory(
       conceptId: conceptIdFor(token.uuid),
       name: canonicalName(token.uuid, {
         property: "color",
-        colorName: token.name.colorName,
+        colorFamily: token.name.colorName,
       }),
       value: token.value,
     });

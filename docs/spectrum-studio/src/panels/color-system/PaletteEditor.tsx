@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { ActionButton, Text, ToastQueue } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -104,7 +105,7 @@ export function PaletteEditor() {
               try {
                 const removed = removeColor(color.id);
                 if (removed)
-                  notifyDeleted(`Palette color ${color.name}`, () =>
+                  notifyDeleted(`Palette color ${termLabel(color.name)}`, () =>
                     restoreColor(removed),
                   );
               } catch (failure) {

@@ -12,7 +12,7 @@ export interface ColorOutputSettings {
 
 export const DEFAULT_COLOR_OUTPUT: Readonly<ColorOutputSettings> = {
   authoringGamut: "srgb",
-  outputFormat: "hex",
+  outputFormat: "rgb",
   mapOutputsToSrgb: false,
 };
 
@@ -78,7 +78,7 @@ export function updateColorOutputSettings(
 }
 
 export function migrateLegacyColorOutput(value: unknown): ColorOutputSettings {
-  if (value === "srgb") return { ...DEFAULT_COLOR_OUTPUT };
+  if (value === "srgb") return { ...DEFAULT_COLOR_OUTPUT, outputFormat: "hex" };
   if (value === "display-p3")
     return {
       authoringGamut: "display-p3",

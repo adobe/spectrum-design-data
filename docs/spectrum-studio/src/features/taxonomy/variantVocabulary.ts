@@ -5,6 +5,7 @@ import {
 } from "../foundations/componentSizes";
 import {
   assertTaxonomy,
+  normalizeTaxonomyTerms,
   taxonomyValueKey,
   type TaxonomyCategory,
   type TaxonomyDocument,
@@ -37,7 +38,7 @@ export const VARIANT_CATEGORIES: TaxonomyCategory[] = [
 export const SIZE_TERMS: TaxonomyTerm[] = COMPONENT_SIZES.map((size) => ({
   id: SIZE_TERM_IDS[size.id],
   categoryId: VARIANT_CATEGORY_IDS.size,
-  value: size.label,
+  value: size.label.toLowerCase(),
   description: "",
 }));
 
@@ -95,5 +96,5 @@ export function upgradeVariantVocabulary(
     }
   }
   assertTaxonomy(next);
-  return next;
+  return normalizeTaxonomyTerms(next);
 }

@@ -37,7 +37,7 @@ const projection = (values: Record<string, string | number>) =>
   projectClassification(
     defaults,
     classificationFromValues(defaults, values),
-    values.colorName || values.surfaceName
+    values.colorFamily || values.surfaceName
       ? "colors"
       : values.tokenCategory
         ? "spacing"
@@ -87,7 +87,7 @@ for (const [fields, expected] of [
     "floating-surface-color",
   ],
   [
-    { colorName: "Illustrator Orange", property: "color" },
+    { colorFamily: "Illustrator Orange", property: "color" },
     "illustrator-orange-color",
   ],
 ] as [Record<string, string | number>, string][]) {
@@ -124,7 +124,7 @@ const collision = structuredClone(initial);
 collision.terms.push({
   id: crypto.randomUUID(),
   categoryId: collision.categories.find(
-    (category) => category.key === "colorName",
+    (category) => category.key === "colorFamily",
   )!.id,
   value: "Body",
   description: "",
@@ -132,7 +132,7 @@ collision.terms.push({
 assert.throws(() => upgradeOrderedVocabulary(collision), /owned|ownership/);
 const multiTerm = structuredClone(initial);
 const colors = multiTerm.categories.find(
-  (category) => category.key === "colorName",
+  (category) => category.key === "colorFamily",
 )!;
 colors.cardinality = "ordered";
 multiTerm.classifications = {

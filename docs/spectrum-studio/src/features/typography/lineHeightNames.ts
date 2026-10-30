@@ -12,6 +12,7 @@ import {
   registeredSourceName,
 } from "../taxonomy/naming";
 import { classificationFromValues } from "../taxonomy/orderedVocabulary";
+import { normalizeTermValue } from "../taxonomy/termPresentation";
 
 export function lineHeightName(
   document: TypographyDocument,
@@ -21,7 +22,7 @@ export function lineHeightName(
   const reference = document.metricNames[`${id}-lineHeight`];
   if (!reference) throw new Error("This line height has no registered name.");
   return registeredSourceName(registry, reference, "typography").replace(
-    /-lineHeight$/,
+    /-lineheight$/i,
     "",
   );
 }
@@ -47,7 +48,7 @@ export function withLineHeightName(
   id: string,
   name: string,
 ) {
-  const trimmed = name.trim();
+  const trimmed = normalizeTermValue(name);
   if (!trimmed) throw new Error("Enter a line height name.");
   const categoryId = registry.categories.find(
     (category) => category.key === "element",
@@ -61,9 +62,9 @@ export function withLineHeightName(
   if (existing && unitless && existing.termId !== unitless.termId) {
     const terms = taxonomy.terms.map((term) =>
       term.id === existing.termId
-        ? { ...term, value: `${trimmed}-lineHeight` }
+        ? { ...term, value: `${trimmed}-lineheight` }
         : term.id === unitless.termId
-          ? { ...term, value: `${trimmed}-unitlessLineHeight` }
+          ? { ...term, value: `${trimmed}-unitlesslineheight` }
           : term,
     );
     taxonomy = { ...taxonomy, terms };

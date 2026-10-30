@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { TaxonomyTreeItem } from "../../taxonomy/tree";
 import type { BrowserToken } from "../browserModel";
+import { termLabel } from "../../taxonomy/termPresentation";
 
 export interface TokenTablePresentationRow {
   id: string;
@@ -30,7 +31,7 @@ export function compactTokenTableTree(
     }
 
     let endpoint = item;
-    const labels = [item.segment.values.join(", ")];
+    const labels = [item.segment.values.map(termLabel).join(", ")];
     const sourcePathIds = [item.id];
     while (
       !endpoint.token &&
@@ -38,7 +39,7 @@ export function compactTokenTableTree(
       endpoint.children[0].segment
     ) {
       endpoint = endpoint.children[0];
-      labels.push(endpoint.segment!.values.join(", "));
+      labels.push(endpoint.segment!.values.map(termLabel).join(", "));
       sourcePathIds.push(endpoint.id);
     }
 
@@ -48,7 +49,9 @@ export function compactTokenTableTree(
     const token =
       endpoint.token ??
       (endpoints.length === 1 ? endpoints[0].token : undefined);
-    const label = labels.join(" ");
+    const label = labels
+      .map((label, index) => (index ? label.toLowerCase() : label))
+      .join(" ");
     const context = [...ancestors, label];
     return {
       id: token?.id ?? endpoint.id,

@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
   Button,
@@ -221,7 +222,7 @@ export function ScaleStopEditor() {
               >
                 <Button
                   ref={openingId === scale.id ? newScaleTrigger : undefined}
-                  aria-label={scale.name}
+                  aria-label={termLabel(scale.name)}
                   UNSAFE_className={`${foundationCardStyles} ${scaleTriggerStyles}`}
                   onPress={() => {
                     setEditBase(false);
@@ -231,10 +232,10 @@ export function ScaleStopEditor() {
                 >
                   <ScaleColorPreview
                     colors={rampColors}
-                    label={`${scale.name} colors`}
+                    label={`${termLabel(scale.name)} colors`}
                   />
                   <Text UNSAFE_className={String(scaleNameStyles)}>
-                    {scale.name}
+                    {termLabel(scale.name)}
                   </Text>
                 </Button>
                 <Popover
@@ -243,7 +244,7 @@ export function ScaleStopEditor() {
                   placement={isNarrow ? "bottom start" : "right"}
                 >
                   <Dialog
-                    aria-label={`Edit ${scale.name} scale`}
+                    aria-label={`Edit ${termLabel(scale.name)} scale`}
                     className={popoverDialogStyles}
                   >
                     <ScaleControls
@@ -282,7 +283,7 @@ export function ScaleStopEditor() {
               <EditOnly>
                 <ActionButton
                   isQuiet
-                  aria-label={`Delete scale ${scale.name}`}
+                  aria-label={`Delete scale ${termLabel(scale.name)}`}
                   isDisabled={colorDocument.scales.length <= 1}
                   onPress={() => {
                     const currentIndex = colorDocument.scales.findIndex(
@@ -296,7 +297,7 @@ export function ScaleStopEditor() {
                       ToastQueue.negative(result.error);
                       return;
                     }
-                    notifyDeleted(`Color scale ${scale.name}`, () =>
+                    notifyDeleted(`Color scale ${termLabel(scale.name)}`, () =>
                       restoreScale(
                         result.removedScale ?? { scale, index: currentIndex },
                       ),
@@ -463,7 +464,7 @@ function ScaleControls({
           Scale names and stop additions or removals apply to all modes.
         </Text>
       )}
-      {/* <Heading slot="title" level={2}>{`${scale.name}`}</Heading> */}
+      {/* <Heading slot="title" level={2}>{`${termLabel(scale.name)}`}</Heading> */}
       {allowStructure && (
         <SourceNameEditor
           sourceId={taxonomyColorSourceId(scale.id)}

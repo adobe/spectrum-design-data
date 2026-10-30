@@ -15,6 +15,42 @@ active Vite mode, and reads an optional server-only `DESIGN_DATA_SDK` override.
 Missing/unreadable checkout responses show an explicit connection/configuration
 problem and suppress coverage charts, rather than presenting absence as 0% coverage.
 
+## Stored terms and displayed labels
+
+Studio stores string classification terms in lowercase, including custom terms.
+Numeric terms stay numeric. Category keys, UUIDs, references, descriptions, and
+free-text labels are not lowercased. Entry casing does not create a second term.
+Spaces and hyphens remain distinct in storage.
+
+Ordinary labels, menus, and term pickers use the shared `termLabel` helper:
+`illustrator-orange` appears as **Illustrator orange**. Editing drafts retain
+what the person types until commit. Merely leaving a formatted input, or changing
+only its casing, does not rename its term or replace its hyphens with spaces.
+Analysis differences, technical evidence, generated token names, code, and downloads
+keep exact raw values rather than these display labels.
+
+Version-17 storage upgrades both saved and working terms. It keeps IDs and
+references, preserves independent edits, and resolves foundation label copies from
+the Registry. Where lowercasing changes token-name serialization, the existing
+compatibility-alias planner retains the old name. For example,
+`InDesign Magenta` becomes `indesign magenta`, and the old
+`in-design-magenta-...` names remain aliases for the same token IDs.
+Failed upgrades report an error without replacing the stored record.
+
+Fresh and reset defaults use RGB output. Existing saves retain their chosen format;
+legacy sRGB settings still migrate to Hex. Matching output notation alone does not establish matching color values.
+
+sRGB output uses design-data's comma-separated notation: `rgb(255, 255, 255)`
+for opaque colors and `rgba(0, 0, 0, 0.08)` when alpha is below one. This changes
+notation only; channel precision and color calculations are unchanged.
+Display P3 and Rec 2020 retain the space-separated `color(...)` syntax required
+by CSS. Matching notation alone does not establish matching color values.
+
+The default Wireframe foundation is an ordinary color scale with one seed,
+`rgb(72, 110, 194)`, represented internally in OKLCh. It retains its existing scale,
+stop, and term IDs and uses shared contrast steps to generate its ramp. This does
+not implement a Wireframe mode, and storage upgrades do not add it to old saves.
+
 ## What the percentages mean
 
 - **Confirmed coverage:** unique reference identities/rows with a counterpart under

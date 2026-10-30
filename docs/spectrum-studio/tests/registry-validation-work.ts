@@ -21,6 +21,7 @@ import {
 import type { TaxonomyDocument } from "../src/features/taxonomy/model";
 import { componentTokenCatalogWithColorWitness } from "../src/features/components/references";
 import { componentColorWitnessAtom } from "../src/features/components/colorWitness";
+import { normalizeTaxonomyTerms } from "../src/features/taxonomy/model";
 
 const store = createStore();
 store.set(enterEditModeAtom);
@@ -207,8 +208,8 @@ assert.equal(
 store.set(editReferencedTaxonomyAtom, candidate);
 assert.deepEqual(
   captureSnapshot(store.get),
-  { ...before, taxonomy: candidate },
-  "Prepared acceptance changes only the exact proposed Registry.",
+  { ...before, taxonomy: normalizeTaxonomyTerms(candidate) },
+  "Prepared acceptance changes only the proposed Registry, with normalized term values.",
 );
 assert.deepEqual(
   store.get(componentColorWitnessAtom),
@@ -226,7 +227,7 @@ assert.deepEqual(
 );
 const next = store.get(referencedTaxonomySourceAtom);
 assert.notEqual(next, source);
-assert.deepEqual(next.previous, candidate);
+assert.deepEqual(next.previous, normalizeTaxonomyTerms(candidate));
 assert.equal(
   currentTaxonomyValidation(failed, next),
   undefined,

@@ -25,6 +25,7 @@ import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import "./TypographyElements.css";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { lineHeightName } from "../../features/typography/lineHeightNames";
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { EditablePicker } from "../../components/editable";
 import { IconSamplePicker } from "../../components/fields/IconSamplePicker";
 import { useIconSample } from "../../features/icons/useIconSample";
@@ -177,10 +178,12 @@ export function TypographyElements() {
               <EditablePicker
                 label="Sample line height"
                 selectedKey={document.previewLineHeightId}
-                displayValue={lineHeightName(
-                  document,
-                  registry,
-                  document.previewLineHeightId,
+                displayValue={termLabel(
+                  lineHeightName(
+                    document,
+                    registry,
+                    document.previewLineHeightId,
+                  ),
                 )}
                 onSelectionChange={(key) => {
                   if (key != null) update({ previewLineHeightId: String(key) });
@@ -188,7 +191,7 @@ export function TypographyElements() {
               >
                 {document.lineHeights.map((card) => (
                   <PickerItem id={card.id} key={card.id}>
-                    {lineHeightName(document, registry, card.id)}
+                    {termLabel(lineHeightName(document, registry, card.id))}
                   </PickerItem>
                 ))}
               </EditablePicker>

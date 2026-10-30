@@ -54,6 +54,7 @@ import { RoundingRulePicker } from "../../components/logic/RoundingRulePicker";
 import { authoringCapabilityOwnersAtom } from "../../features/modes/capabilities";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { lineHeightName } from "../../features/typography/lineHeightNames";
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   formatTypographyLength,
   fromTypographyUnit,
@@ -111,7 +112,8 @@ export function FoundationsTypographyPanel() {
   };
   const patch = (values: Partial<TypographyDocument>) =>
     attempt(() => update(values));
-  const name = (id: string) => lineHeightName(document, registry, id);
+  const name = (id: string) =>
+    termLabel(lineHeightName(document, registry, id));
   const unit = document.outputUnit;
   if (!formula) throw new Error("The shared Type scale is unavailable.");
 

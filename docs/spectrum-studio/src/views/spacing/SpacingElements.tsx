@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue, type Atom } from "jotai";
@@ -76,14 +77,14 @@ export function DimensionElements({
               id={`${noun}-${scale.id}-heading`}
               className={style({ font: "title", margin: 0 })}
             >
-              {scale.name}
+              {termLabel(scale.name)}
             </h3>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Physical sample lengths may require keyboard scrolling. */}
             <div
               className="spacingScaleList"
               role="list"
               tabIndex={0}
-              aria-label={`${scale.name} ${noun} values`}
+              aria-label={`${termLabel(scale.name)} ${noun} values`}
             >
               <div
                 className="spacingElement spacingElementHeader"

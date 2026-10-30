@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { termLabel } from "../../features/taxonomy/termPresentation";
 import { useId, useState } from "react";
 import { v4 as uuid } from "uuid";
 import {
@@ -219,7 +220,7 @@ export function ComponentAssignmentEditor({
             >
               {properties.map((term) => (
                 <PickerItem key={term.id} id={term.id}>
-                  {String(term.value)}
+                  {termLabel(term.value)}
                 </PickerItem>
               ))}
             </Picker>
