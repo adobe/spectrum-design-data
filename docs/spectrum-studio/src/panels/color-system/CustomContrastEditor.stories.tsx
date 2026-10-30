@@ -50,8 +50,7 @@ function Controlled(args: CustomContrastEditorProps) {
                 step.id === action.stepId
                   ? {
                       ...step,
-                      [action.opposite ? "oppositeValue" : "value"]:
-                        action.value,
+                      value: action.value,
                     }
                   : step,
               ),
@@ -98,13 +97,9 @@ export const GraySequence: Story = {
     await userEvent.type(ratio, "1.07012345");
     await userEvent.tab();
     await expect(ratio).toHaveValue("1.07012345");
-    const opposite = canvas.getByRole("textbox", {
-      name: "Opposite contrast 50",
-    });
-    await userEvent.clear(opposite);
-    await userEvent.type(opposite, "1.108");
-    await userEvent.tab();
-    await expect(opposite).toHaveValue("1.108");
+    await expect(
+      canvas.queryByRole("textbox", { name: "Opposite contrast 50" }),
+    ).not.toBeInTheDocument();
     canvasElement.dataset.playComplete = "true";
   },
 };

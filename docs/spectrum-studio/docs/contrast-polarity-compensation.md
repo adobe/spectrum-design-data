@@ -117,8 +117,8 @@ This seed is within [LTAX-002](design-data-gap-register.md); it does not change
 reference alignment or manual acceptance.
 
 The mode set owning **Overall contrast** owns custom main-ratio patches too.
-In its default mode, edit the list, base, rule, authored main values and optional
-opposite values. Nondefault modes edit main ratios only; missing patches inherit
+In its default mode and reference polarity, edit the list, base, rule and starting
+ratios. Nondefault Contrast modes edit main ratios only; missing patches inherit
 the scale's authored value, and **Reset** removes the patch. Names, step IDs,
 base and rule stay shared. Color-stop ownership is separate. Temporary Color
 previews and read-only authoring disable these controls.
@@ -132,6 +132,22 @@ combinations receive precomputed custom ratios before paint-time multiplication.
 An explicit Contrast attribute takes precedence over the OS preference.
 Fractional indices use the existing numeric taxonomy formatter in CSS names:
 index `0.25` becomes suffix `0-25`, keeping selectors and custom properties valid.
+
+With the default Contrast mode selected, the scale editor follows the current
+background polarity. Light-reference systems edit the starting ratios in Light.
+In Dark, the same fields show polarity-adjusted ratios, or **Mode override**
+when a manual target exists. Editing a Dark value preserves the Light starting
+ratio; **Reset** removes the manual target and restores the calculation from
+that starting ratio and the shared polarity-compensation setting. The overall
+contrast multiplier still applies afterward.
+
+There is no separate **Opposite contrast** field or **Use compensation** action
+in the custom-step editor. Existing `oppositeValue` records remain the compatible
+storage format for these manual targets. Their values and continuous-background
+interpolation are preserved; the editor reverses that interpolation when writing
+a Dark edit. This does not migrate them into named-mode patches: the target
+continues to apply on the opposite side of the reference polarity. Temporary
+previews cannot author overrides.
 
 **Use shared contrast steps** confirms removal of custom configuration and its
 mode patches. Removing steps or scales cleans affected overrides and aliases;

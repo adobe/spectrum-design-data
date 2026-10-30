@@ -8,36 +8,41 @@ import {
 } from "../../features/color-system/state";
 import {
   editCustomContrastsAtom,
+  customContrastEditingContextAtom,
   restoreCustomContrastsAtom,
 } from "../../features/color-system/customContrastState";
 import { useDeletionToast } from "../../components/deletionToastContext";
 import { rulesAtom } from "../../features/logic/library";
-import { modeSetsAtom } from "../../features/modes/state";
-import { parameterOwners } from "../../features/modes/parameters";
-import {
-  modeSelectionAtom,
-  resolveActiveMode,
-} from "../../features/modes/selection";
 import { previewOverridesAtom } from "../../features/modes/previewState";
+import { effectiveContrast } from "../../features/color-system/polarity";
 import { CustomContrastEditor } from "./CustomContrastEditor";
 
 export function CustomContrastControls({ scaleId }: { scaleId: string }) {
   const base = useAtomValue(colorSystemDocumentAtom);
   const resolved = useAtomValue(resolvedColorSystemDocumentAtom);
   const rules = useAtomValue(rulesAtom);
-  const sets = useAtomValue(modeSetsAtom);
-  const selection = useAtomValue(modeSelectionAtom);
+  const context = useAtomValue(customContrastEditingContextAtom);
   const preview = useAtomValue(previewOverridesAtom);
   const readOnly = useIsReadOnly();
   const edit = useSetAtom(editCustomContrastsAtom);
   const restore = useSetAtom(restoreCustomContrastsAtom);
   const { notifyDeleted } = useDeletionToast();
   const scale = base.scales.find((scale) => scale.id === scaleId);
-  const owner = sets.find(
-    (axis) => axis.id === parameterOwners(sets)["color.contrastMultiplier"],
-  );
-  const mode = owner && resolveActiveMode(owner, selection);
-  const isMode = !!mode && mode.id !== owner?.defaultModeId;
+  const values = context.opposite
+    ? Object.fromEntries(
+        (scale?.customContrasts?.steps ?? []).map((step) => [
+          step.id,
+          effectiveContrast(step, context.polarity),
+        ]),
+      )
+    : undefined;
+  const patches = context.opposite
+    ? Object.fromEntries(
+        (scale?.customContrasts?.steps ?? [])
+          .filter((step) => step.oppositeValue !== undefined)
+          .map((step) => [step.id, effectiveContrast(step, context.polarity)]),
+      )
+    : context.mode?.foundations.color?.scaleContrasts?.[scaleId];
   function run(action: Parameters<typeof edit>[0]) {
     try {
       const undo = edit(action);
@@ -69,13 +74,13 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
         scale={scale}
         rules={rules}
         onAction={run}
-        modeLabel={isMode ? `${owner?.name}: ${mode.name}` : undefined}
+        modeLabel={context.modeLabel}
+        values={values}
+        inheritanceLabel={context.opposite ? "Polarity adjusted" : "Inherited"}
         disabled={
           readOnly || Object.keys(preview).some((id) => id.startsWith("color."))
         }
-        patches={
-          isMode ? mode.foundations.color?.scaleContrasts?.[scaleId] : undefined
-        }
+        patches={patches}
         effective={
           resolved.scales.find((scale) => scale.id === scaleId)?.customContrasts
             ?.steps

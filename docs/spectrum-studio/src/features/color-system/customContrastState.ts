@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
-import { colorSystemDocumentAtom } from "./state";
+import { colorSystemDocumentAtom, cssBaseDocumentAtom } from "./state";
 import { assertCustomContrastNaming } from "./contrastSteps";
 import type { ColorScale, ContrastToken } from "./model";
 import { rulesAtom } from "../logic/library";
@@ -22,6 +22,44 @@ import type { BrowserTokenEdits } from "../tokens/browserModel";
 import { aliasesAtom } from "../tokens/aliasState";
 import type { AliasDocument } from "../tokens/aliases";
 import { captureSnapshot } from "../edit-session/state";
+import {
+  contrastForEffectiveEdit,
+  editsOppositeValue,
+  polarityContext,
+} from "./polarity";
+
+export const customContrastEditingContextAtom = atom((get) => {
+  const sets = get(modeSetsAtom);
+  const owners = parameterOwners(sets);
+  const owner = sets.find(
+    (axis) => axis.id === owners["color.contrastMultiplier"],
+  );
+  const mode = owner && resolveActiveMode(owner, get(modeSelectionAtom));
+  const modeOverride = mode && mode.id !== owner?.defaultModeId;
+  const polarity = polarityContext(get(cssBaseDocumentAtom));
+  const opposite = !modeOverride && editsOppositeValue(polarity);
+  const backgroundOwner = sets.find(
+    (axis) => axis.id === owners["color.backgroundLightness"],
+  );
+  const backgroundMode =
+    backgroundOwner &&
+    resolveActiveMode(backgroundOwner, get(modeSelectionAtom));
+  return {
+    owner,
+    mode: modeOverride ? mode : undefined,
+    polarity,
+    opposite,
+    modeLabel: modeOverride
+      ? `${owner?.name}: ${mode.name}`
+      : opposite
+        ? backgroundOwner && backgroundMode
+          ? `${backgroundOwner.name}: ${backgroundMode.name}`
+          : polarity.reference === "light"
+            ? "Dark background"
+            : "Light background"
+        : undefined,
+  };
+});
 
 export type CustomContrastAction =
   | { kind: "enable"; scaleId: string }
@@ -35,7 +73,6 @@ export type CustomContrastAction =
       scaleId: string;
       stepId: string;
       value: number;
-      opposite?: boolean;
     }
   | { kind: "reset"; scaleId: string; stepId: string };
 
@@ -67,19 +104,13 @@ export const editCustomContrastsAtom = atom(
     const scale = document.scales.find((scale) => scale.id === action.scaleId);
     if (!scale) throw new Error("This color scale is unavailable.");
     const sets = get(modeSetsAtom);
-    const owner = sets.find(
-      (axis) => axis.id === parameterOwners(sets)["color.contrastMultiplier"],
+    const { owner, mode, polarity, opposite } = get(
+      customContrastEditingContextAtom,
     );
-    const mode = owner && resolveActiveMode(owner, get(modeSelectionAtom));
-    const isMode = mode && mode.id !== owner?.defaultModeId;
-    if (isMode) {
+    if (mode && owner) {
       if (action.kind !== "value" && action.kind !== "reset")
         throw new Error(
           "Choose the default Contrast mode to change the step list or naming.",
-        );
-      if (action.kind === "value" && action.opposite)
-        throw new Error(
-          "Modes override main ratios only. Edit opposite values in the default Contrast mode.",
         );
       if (
         !scale.customContrasts?.steps.some((step) => step.id === action.stepId)
@@ -119,6 +150,49 @@ export const editCustomContrastsAtom = atom(
               },
         ),
       );
+      return;
+    }
+    if (opposite) {
+      if (action.kind !== "value" && action.kind !== "reset")
+        throw new Error(
+          "Choose the reference color scheme to change the step list or naming.",
+        );
+      if (
+        !scale.customContrasts?.steps.some((step) => step.id === action.stepId)
+      )
+        throw new Error("This custom step is unavailable.");
+      if (
+        action.kind === "value" &&
+        (!Number.isFinite(action.value) ||
+          action.value < 1 ||
+          action.value > 21)
+      )
+        throw new Error("Enter a contrast ratio between 1 and 21.");
+      set(colorSystemDocumentAtom, {
+        ...document,
+        scales: document.scales.map((candidate) =>
+          candidate.id !== scale.id || !candidate.customContrasts
+            ? candidate
+            : {
+                ...candidate,
+                customContrasts: {
+                  ...candidate.customContrasts,
+                  steps: candidate.customContrasts.steps.map((step) => {
+                    if (step.id !== action.stepId) return step;
+                    if (action.kind === "value")
+                      return contrastForEffectiveEdit(
+                        step,
+                        action.value,
+                        polarity,
+                      );
+                    const next = { ...step };
+                    delete next.oppositeValue;
+                    return next;
+                  }),
+                },
+              },
+        ),
+      });
       return;
     }
     let custom = scale.customContrasts;
@@ -172,10 +246,7 @@ export const editCustomContrastsAtom = atom(
               action.value > 21
             )
               throw new Error("Enter a contrast ratio between 1 and 21.");
-            return {
-              ...step,
-              [action.opposite ? "oppositeValue" : "value"]: action.value,
-            };
+            return { ...step, value: action.value };
           }),
         };
       }

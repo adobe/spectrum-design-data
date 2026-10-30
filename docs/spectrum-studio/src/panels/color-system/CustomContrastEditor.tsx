@@ -38,6 +38,8 @@ export interface CustomContrastEditorProps {
   modeLabel?: string;
   disabled?: boolean;
   patches?: Readonly<Record<string, number>>;
+  values?: Readonly<Record<string, number>>;
+  inheritanceLabel?: string;
   effective?: readonly ContrastToken[];
   onAction: (action: CustomContrastAction) => void;
 }
@@ -48,6 +50,8 @@ export function CustomContrastEditor({
   modeLabel,
   disabled = false,
   patches,
+  values,
+  inheritanceLabel = "Inherited",
   effective,
   onAction: run,
 }: CustomContrastEditorProps) {
@@ -117,7 +121,9 @@ export function CustomContrastEditor({
                 <div className={row}>
                   <NumberField
                     label={`Contrast ${label}`}
-                    value={patches?.[step.id] ?? step.value}
+                    value={
+                      values?.[step.id] ?? patches?.[step.id] ?? step.value
+                    }
                     minValue={1}
                     maxValue={21}
                     step={0.00000001}
@@ -152,7 +158,7 @@ export function CustomContrastEditor({
                 <Text>
                   {isMode
                     ? patches?.[step.id] === undefined
-                      ? "Inherited"
+                      ? inheritanceLabel
                       : "Mode override"
                     : step.id === custom.baseContrastId
                       ? "Base swatch"
@@ -160,37 +166,6 @@ export function CustomContrastEditor({
                   {effective?.[index] &&
                     ` · Effective ${effective[index].value.toFixed(2)}:1`}
                 </Text>
-                {!isMode && (
-                  <div className={row}>
-                    <NumberField
-                      label={`Opposite contrast ${label}`}
-                      value={step.oppositeValue}
-                      minValue={1}
-                      maxValue={21}
-                      step={0.00000001}
-                      formatOptions={{ maximumFractionDigits: 8 }}
-                      isDisabled={disabled}
-                      onChange={(value) =>
-                        run({
-                          kind: "value",
-                          scaleId,
-                          stepId: step.id,
-                          value,
-                          opposite: true,
-                        })
-                      }
-                    />
-                    <Button
-                      variant="secondary"
-                      isDisabled={disabled || step.oppositeValue === undefined}
-                      onPress={() =>
-                        run({ kind: "reset", scaleId, stepId: step.id })
-                      }
-                    >
-                      Use compensation
-                    </Button>
-                  </div>
-                )}
               </div>
             );
           })}

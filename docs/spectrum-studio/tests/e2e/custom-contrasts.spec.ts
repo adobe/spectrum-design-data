@@ -12,11 +12,7 @@ import {
   createDefaultSnapshot,
   restoreAuthoringSnapshotAtom,
 } from "../../src/features/edit-session/state";
-import {
-  grayDarkRatios,
-  grayIndices,
-  grayLightRatios,
-} from "../fixtures/grayDefaults";
+import { grayIndices, grayLightRatios } from "../fixtures/grayDefaults";
 import {
   colorSchemeDocumentsAtom,
   contrastModesAtom,
@@ -114,7 +110,7 @@ test("shipped Gray is first, has the exact Light/Dark ratios, and appears in Eva
         name: `Opposite contrast ${label}`,
         exact: true,
       }),
-    ).toHaveValue(String(grayDarkRatios[index]));
+    ).toHaveCount(0);
   }
   await closeGray(page);
   await expect(
@@ -133,9 +129,20 @@ test("shipped Gray is first, has the exact Light/Dark ratios, and appears in Eva
   await selectMode(page, "Dark");
   const darkControls = await openGray(page);
   await expect(darkControls).toContainText("Effective 1.27:1");
+  const defaults = createDefaultSnapshot();
+  const darkMode = defaults.modeSets
+    .find((axis) => axis.key === "colorScheme")!
+    .modes.find((mode) => mode.key === "dark")!;
+  const darkTarget = resolveColorDocument(
+    defaults.colorSystem,
+    [darkMode],
+    undefined,
+    { applyMultiplier: false, modeSets: defaults.modeSets },
+  ).scales.find((scale) => scale.id === "scale-gray")!.customContrasts!.steps[3]
+    .value;
   await expect(
     darkControls.getByRole("textbox", { name: "Contrast 100", exact: true }),
-  ).toHaveValue("1.2");
+  ).toHaveValue(String(Number(darkTarget.toFixed(8))));
   await closeGray(page);
   await page.getByRole("radio", { name: "Code", exact: true }).click();
   await expect(page.getByRole("button", { name: "Copy CSS" })).toBeEnabled({
