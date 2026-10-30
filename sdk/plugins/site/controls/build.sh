@@ -18,6 +18,8 @@ pnpm add --ignore-workspace --save-exact \
   @spectrum-web-components/status-light@1.12.5 \
   @spectrum-web-components/help-text@1.12.5 \
   @spectrum-web-components/button@1.12.5 \
+  @spectrum-web-components/action-button@1.12.5 \
+  @spectrum-web-components/icons-workflow@1.12.5 \
   esbuild@0.28.2
 npx esbuild entry.js --bundle --minify --format=esm --target=es2022 \
   --legal-comments=none --outfile="$here/../assets/spectrum-controls.js"
