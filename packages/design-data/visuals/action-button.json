@@ -373,15 +373,15 @@
           }
         },
         "trackColor": {
-          "token": {
-            "colorFamily": "gray",
-            "scaleIndex": 300,
-            "property": "color"
+          "relationship": {
+            "property": "color",
+            "context": "Progress track"
           }
         },
         "color": {
-          "token": {
-            "legacyKey": "accent-content-color-default"
+          "relationship": {
+            "property": "color",
+            "context": "Progress"
           }
         }
       }

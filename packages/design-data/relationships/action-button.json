@@ -3243,5 +3243,37 @@
     },
     "context": "Hold icon",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
   }
 ]

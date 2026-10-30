@@ -4033,5 +4033,53 @@
     },
     "context": "Label",
     "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
   }
 ]
