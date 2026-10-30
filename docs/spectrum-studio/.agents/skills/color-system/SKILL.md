@@ -32,6 +32,27 @@ becomes tokens is in `tokens`. Longer references: `docs/contrast-polarity-compen
 Contrast steps are editable only in the default Color context (no preview active); a scale's own
 `customContrasts` are the exception that allows per-scale main-ratio overrides in Contrast modes.
 
+### Custom contrast editing and reset
+
+With the default Contrast mode selected, the custom-step editor follows the current background
+polarity. For Light-reference systems, Light edits the starting ratio. Dark shows the
+polarity-adjusted ratio, or **Mode override** when a manual target exists. Editing Dark retains
+the Light starting ratio; **Reset** removes the manual target and restores the calculation from
+the starting ratio and shared polarity-compensation setting. The overall contrast multiplier
+applies afterward.
+
+Do not reintroduce separate **Opposite contrast** fields or **Use compensation** buttons.
+Existing `oppositeValue` records remain the compatible storage for manual opposite-polarity
+targets, not named-mode patches. Preserve their continuous-background interpolation and use
+`contrastForEffectiveEdit` to reverse it when storing an edit. Use
+`customContrastEditingContextAtom` for the edit destination; do not infer it separately in a UI.
+Nondefault Contrast modes retain their existing main-ratio patch behavior. Temporary Color
+previews cannot author overrides.
+
+Regression checks: `tests/custom-contrast-polarity.ts` (included in `test:polarity`) and
+`tests/e2e/custom-contrast-polarity.spec.ts` cover inheritance, exact Dark edits, scoped reset,
+and Save/Cancel/reload.
+
 ## One resolution pipeline
 
 `resolveColorDocument(base, modes, preview, options)` (`resolution.ts`) is the single place the
