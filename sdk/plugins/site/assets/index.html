@@ -1077,7 +1077,7 @@
       // The stage is a window onto #world. The usage matrix is plain HTML that we
       // scale with a CSS transform. Anatomy and specs are redrawn at the chosen zoom
       // instead, so their labels keep one readable size at any zoom.
-      const SIGMA = 0.62; // screen pixels per layout unit in the anatomy drawing
+      const SIGMA = 1; // screen pixels per layout unit in the anatomy drawing
       const ZMIN = 0.1,
         ZMAX = 8,
         MARGIN = 28,
@@ -1171,7 +1171,7 @@
         vp.vbx = vbx;
         vp.vby = vby;
         setWorld(
-          `<svg class="zoom" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * SIGMA}" height="${vbh * SIGMA}">${inner}</svg>`,
+          `<svg class="zoom" role="group" aria-label="${attr(`${C.displayName} anatomy and token specs`)}" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * SIGMA}" height="${vbh * SIGMA}">${inner}</svg>`,
         );
         if (vp.fit) {
           vp.tx = (vw - vbw * SIGMA) / 2;
@@ -1709,16 +1709,38 @@
       });
 
       // Anatomy callouts and spec dimension lines share one zoomed component.
-      const SPEC_LINE = "#4da3f0",
+      // Lines and borders are 3:1 or better against the light, dark and static-color
+      // stages (WCAG 1.4.11); label text is #222 on white or #1f2d3d on a pale fill.
+      const SPEC_LINE = "#2f80d0",
         SPEC_EDGE = "#2f80d0";
+      const LABEL_PX = 14,
+        TOKEN_PX = 13,
+        PILL_H = 32;
+      const measure = (() => {
+        const ctx = document.createElement("canvas").getContext("2d");
+        const cache = new Map();
+        return (text, mono) => {
+          const key = `${mono ? "m" : "p"}${text}`;
+          if (!cache.has(key)) {
+            ctx.font = mono
+              ? `${TOKEN_PX}px ui-monospace, Menlo, monospace`
+              : `500 ${LABEL_PX}px "adobe-clean-spectrum-vf", "Adobe Clean", "Source Sans 3", -apple-system, "Segoe UI", sans-serif`;
+            cache.set(key, ctx.measureText(text).width);
+          }
+          return cache.get(key);
+        };
+      })();
+      const pillW = (text, mono) => Math.ceil(measure(text, mono)) + 28;
+      // A label: x is its left, middle or right edge by anchor, y its vertical centre.
+      // The text sits at the centre of the box, which is sized from the measured text.
       const pill = (x, y, text, color, mono, anchor = "start") => {
-        const w = text.length * (mono ? 9 : 6.8) + 24;
+        const w = pillW(text, mono);
         const left =
           anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
         const box = mono
-          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="9"`
-          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="12"`;
-        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - 14}" width="${w}" height="28" ${box}/><text x="${left + 11}" y="${y + 5}" font-size="${mono ? 14 : 12}" fill="${mono ? "#1f2d3d" : color}">${esc(text)}</text></g>`;
+          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="10"`
+          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="${PILL_H / 2}"`;
+        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - PILL_H / 2}" width="${w}" height="${PILL_H}" ${box}/><text x="${left + w / 2}" y="${y}" dy="0.34em" text-anchor="middle" font-size="${mono ? TOKEN_PX : LABEL_PX}"${mono ? "" : ' font-weight="500"'} fill="${mono ? "#1f2d3d" : "#222"}">${esc(text)}</text></g>`;
       };
 
       async function renderZoom(o, token, opts) {
@@ -1769,12 +1791,18 @@
         const placed = parts.map(([a, n]) => {
           const isRoot = n === root;
           const up = isRoot || i++ % 2 === 0;
-          const [x, y] = P(n, isRoot ? 0.1 : 0.5, isRoot ? 0 : up ? 0 : 1);
+          // A rounded container's anchor sits past its corner curve, on the straight edge.
+          const rad = n.radii?.[0] ?? n.radius ?? 0;
+          const fx = isRoot
+            ? Math.min(0.5, Math.max(0.1, (rad + 4) / n.w))
+            : 0.5;
+          const [x, y] = P(n, fx, isRoot ? 0 : up ? 0 : 1);
           const cx = n.x + n.w / 2 - (root.x + root.w / 2);
           const dx = isRoot
             ? -70
             : Math.max(-80, Math.min(80, cx * K * 0.5 + (up ? 20 : -20)));
-          return { a, x, y, dx, up };
+          const label = humanize(a.name.replace(/-/g, " "));
+          return { a, x, y, dx, up, label, w: pillW(label, false) };
         });
         // Labels on one side keep a minimum spacing, so parts that share a center
         // (a switch's control, track and handle) do not stack their labels.
@@ -1783,13 +1811,26 @@
             .filter((c) => c.up === side)
             .sort((p, q) => p.x + p.dx - (q.x + q.dx));
           for (let j = 1; j < row.length; j++) {
-            const min = row[j - 1].x + row[j - 1].dx + 96;
+            const min =
+              row[j - 1].x + row[j - 1].dx + (row[j - 1].w + row[j].w) / 2 + 12;
             if (row[j].x + row[j].dx < min) row[j].dx = min - row[j].x;
           }
         }
-        const callouts = placed.map(({ a, x, y, dx, up }) => {
-          const dy = up ? -60 : 60;
-          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx - 8, y + dy, humanize(a.name.replace(/-/g, " ")), "#d83790")}</g>`;
+        const rowY = {
+          true:
+            Math.min(
+              P(root, 0, 0)[1],
+              ...placed.filter((c) => c.up).map((c) => c.y),
+            ) - 64,
+          false:
+            Math.max(
+              P(root, 1, 1)[1],
+              ...placed.filter((c) => !c.up).map((c) => c.y),
+            ) + 64,
+        };
+        const callouts = placed.map(({ a, x, y, dx, up, label }) => {
+          const dy = rowY[up] - y;
+          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx, y + dy, label, "#d83790", false, "middle")}</g>`;
         });
 
         const B = SPEC_LINE;
@@ -1925,7 +1966,7 @@
           );
         }
 
-        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap"><g class="ov ov-anatomy">${callouts.join("")}</g><g class="ov ov-specs">${out.join("")}</g></g>`;
+        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
       }
 
       // ---- page chrome --------------------------------------------------------
@@ -1980,6 +2021,8 @@
           .forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== t));
         if (prev !== "usage" && t !== "usage") {
           $("stage").dataset.mode = t;
+          vp.fit = true;
+          drawDiagram();
         } else {
           await refresh({ from, animate: t === "usage", refit: true });
         }
