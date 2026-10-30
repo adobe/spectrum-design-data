@@ -45,6 +45,7 @@ Plans that were done are in [archive/](archive/README.md). The gap register and
 | --- | --- |
 | [rfcs/taxonomy-ownership-and-projections.md](rfcs/taxonomy-ownership-and-projections.md) | LTAX-001 to LTAX-004 |
 | [rfcs/classification-standard-and-migration.md](rfcs/classification-standard-and-migration.md) | LTAX-011 |
+| [rfcs/foundation-recipes-and-stable-identity.md](rfcs/foundation-recipes-and-stable-identity.md) | Recipe storage and UUID-preserving migration proposal; DEBT-017 remains open |
 
 ## Other
 
