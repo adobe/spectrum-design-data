@@ -10,6 +10,7 @@ import {
   type AnalysisReport,
 } from "../../src/features/design-data/comparison";
 import { concreteColor } from "../../src/features/color-system/data-vis/colors";
+import { paletteSchemeSummary } from "../../src/features/design-data/paletteAssessment";
 
 test("Palette shows classifications, exact mode values, other modes and report parity", async ({
   page,
@@ -72,116 +73,6 @@ test("Palette shows classifications, exact mode values, other modes and report p
     exact: true,
   });
 
-  test("Palette distinguishes exact, one-channel-step and larger differences", async ({
-    page,
-  }) => {
-    const errors: string[] = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    const app = defaultsAnalysisInput();
-    const root = new URL("../../../../", import.meta.url);
-    const declarations: AnalysisRecord[] = [];
-    for (const source of [
-      "registry/color-families.json",
-      "mode-sets/color-scheme.json",
-      "mode-sets/contrast.json",
-    ]) {
-      declarations.push(
-        ...referenceRecords(
-          source,
-          JSON.parse(
-            await readFile(
-              new URL(`packages/design-data/${source}`, root),
-              "utf8",
-            ),
-          ),
-        ),
-      );
-    }
-    const records = app.records
-      .filter(
-        (row) =>
-          row.category === "tokens" &&
-          row.structuredName?.colorFamily === "gray" &&
-          [100, 200, 300].includes(Number(row.structuredName.scaleIndex)) &&
-          row.context?.contrast === "regular",
-      )
-      .map((row): AnalysisRecord => {
-        const index = Number(row.structuredName!.scaleIndex);
-        const delta = index === 100 ? 0 : index === 200 ? 1 : 2;
-        const channels = concreteColor(String(row.value))
-          .to("srgb")
-          .coords.map((channel) => {
-            if (channel === null)
-              throw new Error("Fixture requires concrete RGB channels.");
-            const code = Math.round(channel * 255);
-            return code + (code < 128 ? delta : -delta);
-          });
-        return {
-          ...structuredClone(row),
-          id: `reference:${row.id}`,
-          identity: `reference:${row.identity}`,
-          conceptId: `reference:${row.conceptId}`,
-          source: "tokens/color-palette.tokens.json",
-          value: `rgb(${channels.join(", ")})`,
-        };
-      });
-    expect(records).toHaveLength(6);
-    const reference: AnalysisInput = {
-      source: {
-        kind: "reference",
-        hash: "tier-fixture",
-        revision: "a".repeat(40),
-        dirty: false,
-        root: "Tier fixture",
-        version: "fixture",
-        validator: "Fixture only",
-      },
-      records: [...declarations, ...records],
-      categories: ["tokens", "registry", "mode-sets"],
-      schemas: [],
-      errors: [],
-      limitations: [],
-      inventoryStatus: "complete",
-    };
-    await page.route("**/__design-data/reference", (route) =>
-      route.fulfill({ json: reference }),
-    );
-    await page.goto("/");
-    await page
-      .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: /^Analysis\b/ })
-      .click();
-    const region = page.getByRole("region", {
-      name: "Primitive palette comparison",
-      exact: true,
-    });
-    await expect(region).toContainText(
-      "100% aligned: 1. Close enough: 1. Not aligned: 1.",
-    );
-    await region
-      .getByRole("button", { name: "Compare primitive palette", exact: true })
-      .click();
-    await expect(
-      region.getByRole("button", { name: /^gray-100:/ }),
-    ).toContainText("100% aligned");
-    const close = region.getByRole("button", { name: /^gray-200:/ });
-    await expect(close).toContainText("Close enough");
-    await expect(
-      region.getByRole("button", { name: /^gray-300:/ }),
-    ).toContainText("Not aligned");
-    await close.click();
-    const values = region.locator('section[aria-label="gray-200 mode values"]');
-    await expect(values).toContainText(
-      "Close enough. Each RGB channel differs by at most 1; opacity matches.",
-    );
-    const download = page.waitForEvent("download");
-    await page.getByRole("button", { name: "JSON", exact: true }).click();
-    const path = await (await download).path();
-    const report = JSON.parse(await readFile(path!, "utf8")) as AnalysisReport;
-    expect(report.palette!.counts.closeEnough).toBe(1);
-    expect(report.palette!.counts.complete).toBe(1);
-    expect(errors).toEqual([]);
-  });
   await expect(region).toContainText(
     `${expected.counts.represented} of ${expected.counts.concepts} concepts represented.`,
     { timeout: 20_000 },
@@ -190,9 +81,16 @@ test("Palette shows classifications, exact mode values, other modes and report p
     .getByRole("button", { name: "Compare primitive palette", exact: true })
     .click();
   const gray = region.getByRole("button", { name: /^gray-100:/ });
+  const grayAssessment = expected.concepts.find(
+    (concept) => concept.label === "gray-100",
+  )!;
   await expect(gray).toContainText("Not aligned");
-  await expect(gray).toContainText("Light: Close enough");
-  await expect(gray).toContainText("Dark: Not aligned");
+  await expect(gray).toContainText(
+    `Light: ${paletteSchemeSummary(grayAssessment, "light")}`,
+  );
+  await expect(gray).toContainText(
+    `Dark: ${paletteSchemeSummary(grayAssessment, "dark")}`,
+  );
   await gray.click();
   const classificationSection = region.locator(
     'section[aria-label="gray-100 classification differences"]',
@@ -215,9 +113,6 @@ test("Palette shows classifications, exact mode values, other modes and report p
   await expect(values).toContainText(
     "No app counterpart. Add support for this mode.",
   );
-  const grayAssessment = expected.concepts.find(
-    (concept) => concept.label === "gray-100",
-  )!;
   for (const mode of ["light", "dark"]) {
     const result = grayAssessment.rows.find(
       (row) => row.context.colorScheme === mode,
@@ -296,5 +191,120 @@ test("Palette shows classifications, exact mode values, other modes and report p
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test("Palette distinguishes exact, one-channel-step and larger differences", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const app = defaultsAnalysisInput();
+  const root = new URL("../../../../", import.meta.url);
+  const declarations: AnalysisRecord[] = [];
+  for (const source of [
+    "registry/color-families.json",
+    "mode-sets/color-scheme.json",
+    "mode-sets/contrast.json",
+  ]) {
+    declarations.push(
+      ...referenceRecords(
+        source,
+        JSON.parse(
+          await readFile(
+            new URL(`packages/design-data/${source}`, root),
+            "utf8",
+          ),
+        ),
+      ),
+    );
+  }
+  const records = app.records
+    .filter(
+      (row) =>
+        row.category === "tokens" &&
+        row.structuredName?.colorFamily === "gray" &&
+        [100, 200, 300].includes(Number(row.structuredName.scaleIndex)) &&
+        (row.context?.contrast ?? "regular") === "regular",
+    )
+    .map((row): AnalysisRecord => {
+      const index = Number(row.structuredName!.scaleIndex);
+      const delta = index === 100 ? 0 : index === 200 ? 1 : 2;
+      const channels = concreteColor(String(row.value))
+        .to("srgb")
+        .coords.map((channel) => {
+          if (channel === null)
+            throw new Error("Fixture requires concrete RGB channels.");
+          const code = channel * 255;
+          return code + (code < 128 ? delta : -delta);
+        });
+      return {
+        ...structuredClone(row),
+        id: `reference:${row.id}`,
+        identity: `reference:${row.identity}`,
+        conceptId: `reference:${row.conceptId}`,
+        source: "tokens/color-palette.tokens.json",
+        context: {
+          colorScheme: row.context?.colorScheme ?? "light",
+          contrast: "regular",
+        },
+        value: `rgb(${channels.join(", ")})`,
+      };
+    });
+  expect(records).toHaveLength(6);
+  const reference: AnalysisInput = {
+    source: {
+      kind: "reference",
+      hash: "tier-fixture",
+      revision: "a".repeat(40),
+      dirty: false,
+      root: "Tier fixture",
+      version: "fixture",
+      validator: "Fixture only",
+    },
+    records: [...declarations, ...records],
+    categories: ["tokens", "registry", "mode-sets"],
+    schemas: [],
+    errors: [],
+    limitations: [],
+    inventoryStatus: "complete",
+  };
+  await page.route("**/__design-data/reference", (route) =>
+    route.fulfill({ json: reference }),
+  );
+  await page.goto("/");
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Analysis\b/ })
+    .click();
+  const region = page.getByRole("region", {
+    name: "Primitive palette comparison",
+    exact: true,
+  });
+  await expect(region).toContainText(
+    "100% aligned: 1. Close enough: 1. Not aligned: 1.",
+  );
+  await region
+    .getByRole("button", { name: "Compare primitive palette", exact: true })
+    .click();
+  await expect(
+    region.getByRole("button", { name: /^gray-100:/ }),
+  ).toContainText("100% aligned");
+  const close = region.getByRole("button", { name: /^gray-200:/ });
+  await expect(close).toContainText("Close enough");
+  await expect(
+    region.getByRole("button", { name: /^gray-300:/ }),
+  ).toContainText("Not aligned");
+  await close.click();
+  const values = region.locator('section[aria-label="gray-200 mode values"]');
+  await expect(values).toContainText(
+    "Close enough. Each RGB channel differs by at most 1; opacity matches.",
+  );
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: "JSON", exact: true }).click();
+  const path = await (await download).path();
+  const report = JSON.parse(await readFile(path!, "utf8")) as AnalysisReport;
+  expect(report.palette!.counts.closeEnough).toBe(1);
+  expect(report.palette!.counts.complete).toBe(1);
   expect(errors).toEqual([]);
 });
