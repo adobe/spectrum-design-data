@@ -170,7 +170,7 @@ const formatted = {
 };
 assert.equal(
   resolveBrowserColorToken(manual, {}, "[]", formatted).value,
-  "rgb(0 0 0)",
+  "rgb(0, 0, 0)",
 );
 assert.equal(
   manual.value,
@@ -190,7 +190,7 @@ formatStore.set(restoreAuthoringSnapshotAtom, formatSnapshot);
 assert.equal(
   formatStore.get(browserTokensAtom).find((row) => row.id === token.uuid)
     ?.value,
-  "rgb(0 0 0)",
+  "rgb(0, 0, 0)",
 );
 assert.ok(
   formatStore
@@ -198,7 +198,7 @@ assert.ok(
     .every(
       (context) =>
         context.tokens.find((row) => row.id === token.uuid)?.value ===
-        "rgb(0 0 0)",
+        "rgb(0, 0, 0)",
     ),
 );
 

@@ -113,6 +113,39 @@ async function record(
   );
 }
 
+test("sRGB output uses design-data notation in generated code and color views", async ({
+  page,
+}) => {
+  const snapshot = createDefaultSnapshot();
+  snapshot.components!.components = snapshot.components!.components.map(
+    (component) => ({ ...component, assignments: [] }),
+  );
+  await seed(page, snapshot);
+  await navigate(page, "Platforms");
+  await choose(page, "Color format", "Hex");
+  await choose(page, "Color format", "RGB");
+  await colors(page, "Color scales");
+  await page.getByRole("button", { name: "Gray", exact: true }).click();
+  const dialog = page.getByRole("dialog", {
+    name: "Edit Gray scale",
+    exact: true,
+  });
+  await expect(dialog).toBeVisible();
+  await dialog.press("Escape");
+  await expect(dialog).toHaveCount(0);
+  for (const view of ["Elements", "Analyze", "Code"]) {
+    await page.getByRole("radio", { name: view, exact: true }).click();
+    await expect(
+      page.locator(`[data-view="${view.toLowerCase()}"]`),
+    ).toBeVisible();
+  }
+  const code = page.locator('[data-view="code"] pre');
+  await expect(code).toContainText(/rgb\([\d.]+, [\d.]+, [\d.]+\)/);
+  await expect(code).not.toContainText(
+    /rgb\([\d.]+ [\d.]+ [\d.]+(?: \/ [\d.]+)?\)/,
+  );
+});
+
 test("shared settings synchronize, preserve sources, save, cancel and reload", async ({
   page,
 }) => {
