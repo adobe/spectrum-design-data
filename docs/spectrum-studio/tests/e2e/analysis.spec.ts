@@ -216,11 +216,11 @@ test("Analysis filters extension and confirmed-pair field/type diagnostics witho
   const token = defaultsAnalysisInput().records.find(
     (record) =>
       record.structuredName?.property === "color" &&
-      record.structuredName.colorName,
+      record.structuredName.colorFamily,
   );
   expect(token).toBeDefined();
   const structuredName = { ...token!.structuredName, contrastValue: 100 };
-  delete structuredName.colorName;
+  delete structuredName.colorFamily;
   const reference = fixture();
   reference.records = [
     {
