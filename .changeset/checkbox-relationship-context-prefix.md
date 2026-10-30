@@ -12,13 +12,13 @@ Recipe lints and fixes for checkbox, switch and others; pressed scale includes n
 - **visuals**: pressed parts scale nested children; checkbox `pressTarget`; `notVisual` option list.
 - **validate**: SPEC-066 to SPEC-070 warn on uncovered options and states, token selectors a
   relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
+  SPEC-072 flags a duplicated relationship whose token has a scale counterpart.
   `recipe_lint_baseline` holds each recipe at its current warning count.
 - **spec**: authoring conventions in `component-visuals.md`; `notVisual` recipe field.
-- **sdk/core**: render snapshot test for every recipe; `SceneCache` speeds matrix renders.
 - **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
   badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
   `scope.options.state` adds states to the bound token.
-- **switch**: `isReadOnly` has no distinct visual (hover and press only).
-- **button, action-button**: colors, press perspective, hold-icon inset bind via relationships.
+- **button, action-button**: colors, press perspective, hold-icon inset bind via relationships;
+  a render snapshot test covers every recipe; 103 duplicate records point at mobile tokens.
 - **focus-indicator**: the `focus-ring` anatomy, gap token and recipe parts are now
   `focus-indicator` (legacy key `focus-ring-gap` kept).
