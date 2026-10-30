@@ -9,6 +9,7 @@ import {
   DisclosurePanel,
   DisclosureTitle,
   Heading,
+  Link,
   Picker,
   PickerItem,
   ProgressBar,
@@ -39,6 +40,16 @@ import {
 } from "../../features/design-data/comparison";
 import { useAnalysisWork } from "../../features/design-data/useAnalysisWork";
 import { gapRegisterLoadIssues } from "../../features/design-data/gaps";
+import {
+  paletteAlignmentLabel,
+  paletteSchemeSummary,
+} from "../../features/design-data/paletteAssessment";
+import { ChangeFields } from "../changelog/ChangeFields";
+import {
+  paletteClassificationChanges,
+  paletteValueChanges,
+  paletteContextLabel,
+} from "./palettePresentation";
 import type { AnalysisDataset } from "../../features/design-data/analysisWork";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 import {
@@ -95,6 +106,7 @@ export default function AnalysisView() {
   const [coverageUnit, setCoverageUnit] = useState<CoverageUnit>("concepts");
   const [coverageGroup, setCoverageGroup] = useState<string>();
   const [coverageOffset, setCoverageOffset] = useState(0);
+  const [paletteFamily, setPaletteFamily] = useState("gray");
   const [plane, setPlane] = useState<AssessmentPlane>("generated-output");
   const [reference, setReference] = useState<AnalysisInput>();
   const previousReference = useRef<AnalysisInput | undefined>(undefined);
@@ -230,6 +242,8 @@ export default function AnalysisView() {
   const visible = findings.slice(offset, offset + 50);
   const selected = rows.find((row) => row.id === evidence);
   const coverage = report?.coverage;
+  const palette = report?.palette;
+  const paletteCurrent = palette?.assessable && !staleReference;
   const referenceUnavailable =
     reference?.inventoryStatus === "unavailable" ||
     (reference?.records.length === 0 && Boolean(reference.errors.length));
@@ -377,7 +391,7 @@ export default function AnalysisView() {
   return (
     <section className="analysisView" data-component="Analysis">
       <header className="analysisHeading">
-        <Heading level={1}>Analysis</Heading>
+        <Heading level={1}>Migration analysis</Heading>
         <Badge variant={status === "live" ? "positive" : "notice"}>
           {view === "details"
             ? status
@@ -399,6 +413,10 @@ export default function AnalysisView() {
           <Refresh />
         </ActionButton>
       </header>
+      <Text>
+        For evaluating coverage as we migrate from temporary app data to
+        confirmed design-data equivalents.
+      </Text>
       <div className="analysisToolbar">
         <Picker
           label="Analysis view"
@@ -406,6 +424,7 @@ export default function AnalysisView() {
           onSelectionChange={(key) => setView(String(key))}
         >
           <PickerItem id="overview">Coverage overview</PickerItem>
+          <PickerItem id="palette">Primitive palette</PickerItem>
           <PickerItem id="schemas">Schema and model gaps</PickerItem>
           <PickerItem id="details">Detailed comparison</PickerItem>
           <PickerItem id="gaps">Alignment gap register</PickerItem>
@@ -514,6 +533,285 @@ export default function AnalysisView() {
         error={work.error}
         onRetry={work.retry}
       >
+        {palette && (view === "overview" || view === "palette") && (
+          <section aria-label="Primitive palette comparison">
+            <Heading level={2}>Primitive palette</Heading>
+            <p>
+              {palette.baseline === "shipped defaults"
+                ? "Shipped defaults baseline."
+                : "Provisional comparison. This does not replace the shipped defaults baseline."}{" "}
+              {paletteCurrent && palette.completionPercent !== null
+                ? `${Number(palette.completionPercent.toFixed(2))}% complete (exact matches).`
+                : "Completion percentage unavailable."}
+            </p>
+            <p>
+              {palette.counts.represented} of {palette.counts.concepts} concepts
+              represented. {palette.counts.classificationAligned}{" "}
+              classifications aligned. {palette.counts.complete} concepts
+              complete. {palette.counts.equalRows} of {palette.counts.rows} mode
+              values match exactly.
+            </p>
+            <p>
+              100% aligned: {palette.counts.exactAligned}. Close enough:{" "}
+              {palette.counts.closeEnough}. Not aligned:{" "}
+              {palette.counts.notAligned}. Unable to evaluate:{" "}
+              {palette.counts.unassessable}.
+            </p>
+            <p>
+              Close enough means each R, G and B channel differs by at most 1 on
+              the 0–255 sRGB scale, with matching opacity.{" "}
+              {palette.counts.closeRows} mode values meet this tolerance but are
+              not exact matches. Classifications and every required mode must
+              still align.
+            </p>
+            <p>
+              A represented counterpart is not proof of correct classifications
+              or values. Completion requires every reference mode, including
+              modes beyond Light and Dark. Deprecated rows excluded:{" "}
+              {palette.counts.excludedDeprecated}.
+            </p>
+            {!paletteCurrent && (
+              <p role="status">
+                These are observed results, not a current completion score.
+                Check the inventory and reference status.
+              </p>
+            )}
+            {palette.issues.map((issue) => (
+              <p key={issue}>{issue}</p>
+            ))}
+            {view === "overview" ? (
+              <Button variant="secondary" onPress={() => setView("palette")}>
+                Compare primitive palette
+              </Button>
+            ) : (
+              <>
+                <Picker
+                  label="Palette family"
+                  selectedKey={paletteFamily}
+                  onSelectionChange={(key) => setPaletteFamily(String(key))}
+                >
+                  <PickerItem id="all">All families</PickerItem>
+                  {[
+                    ...new Set([
+                      "gray",
+                      ...palette.concepts.map((concept) => concept.family),
+                    ]),
+                  ]
+                    .sort()
+                    .map((family) => (
+                      <PickerItem key={family} id={family}>
+                        {family}
+                      </PickerItem>
+                    ))}
+                </Picker>
+                {palette.concepts
+                  .filter(
+                    (concept) =>
+                      paletteFamily === "all" ||
+                      concept.family === paletteFamily,
+                  )
+                  .map((concept) => {
+                    const classificationChanges =
+                      paletteClassificationChanges(concept);
+                    return (
+                      <Disclosure key={concept.id}>
+                        <DisclosureTitle>
+                          {concept.label}:{" "}
+                          {paletteAlignmentLabel(concept.alignment)}. Light:{" "}
+                          {paletteSchemeSummary(concept, "light")}. Dark:{" "}
+                          {paletteSchemeSummary(concept, "dark")}.
+                        </DisclosureTitle>
+                        <DisclosurePanel>
+                          {!concept.identityCertain && (
+                            <p>
+                              Concept identity is unconfirmed. This concept
+                              cannot count as complete.
+                            </p>
+                          )}
+                          <section
+                            aria-label={`${concept.label} classification differences`}
+                          >
+                            <Heading level={3}>Classifications</Heading>
+                            {classificationChanges.fields.length ? (
+                              <>
+                                <ChangeFields
+                                  item={classificationChanges}
+                                  editing={false}
+                                  beforeLabel="App"
+                                  afterLabel="Design-data"
+                                />
+                                <p>
+                                  Use the design-data terms, or review an
+                                  exception if the difference is intentional.
+                                </p>
+                                <div className="analysisToolbar">
+                                  <Link href="#registry">Review Registry</Link>
+                                  <Button
+                                    variant="secondary"
+                                    onPress={() => setView("gaps")}
+                                  >
+                                    Review exceptions
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              <p>
+                                {concept.rows.every(
+                                  (row) => row.classification === "aligned",
+                                )
+                                  ? "Classifications match."
+                                  : "Classification comparison needs review. Open technical evidence for details."}
+                              </p>
+                            )}
+                          </section>
+                          <section aria-label={`${concept.label} mode values`}>
+                            <Heading level={3}>Mode values</Heading>
+                            <ChangeFields
+                              item={paletteValueChanges(concept)}
+                              editing={false}
+                              beforeLabel="App"
+                              afterLabel="Design-data"
+                            />
+                            {concept.rows.map((row) => (
+                              <p key={row.reference.id}>
+                                {paletteContextLabel(row.context)}:{" "}
+                                {row.counterpart === "not matched"
+                                  ? "No app counterpart. Add support for this mode."
+                                  : row.counterpart === "ambiguous"
+                                    ? "Multiple counterparts. Review classifications before comparing values."
+                                    : row.valueAlignment === "exact"
+                                      ? "100% aligned. Values match exactly."
+                                      : row.valueAlignment === "close"
+                                        ? "Close enough. Each RGB channel differs by at most 1; opacity matches."
+                                        : row.valueAlignment === "different"
+                                          ? "Not aligned. Review the color foundation parameters or an explicit override."
+                                          : (row.valueReason ??
+                                            "Value comparison unavailable.")}
+                              </p>
+                            ))}
+                          </section>
+                          {concept.rows.some(
+                            (row) => row.exceptions.length > 0,
+                          ) && (
+                            <section aria-label={`${concept.label} exceptions`}>
+                              {concept.rows.flatMap((row) =>
+                                row.exceptions.map((exception) => (
+                                  <p
+                                    key={`${row.reference.id}:${exception.id}`}
+                                  >
+                                    {exception.accepted
+                                      ? "Accepted exception"
+                                      : "Proposed or unverified exception"}
+                                    : {exception.id}, {exception.link}
+                                  </p>
+                                )),
+                              )}
+                            </section>
+                          )}
+                          <Disclosure>
+                            <DisclosureTitle>
+                              Technical evidence
+                            </DisclosureTitle>
+                            <DisclosurePanel>
+                              <p>Reference concept: {concept.id}</p>
+                              {concept.rows.map((row) => (
+                                <section
+                                  key={row.reference.id}
+                                  aria-label={`${concept.label} ${paletteContextLabel(row.context)} evidence`}
+                                >
+                                  <Heading level={4}>
+                                    {paletteContextLabel(row.context)}
+                                  </Heading>
+                                  {row.mapping && (
+                                    <p>
+                                      Counterpart evidence:{" "}
+                                      {row.mapping.rationale}
+                                    </p>
+                                  )}
+                                  {row.issues.map((issue) => (
+                                    <p key={issue}>{issue}</p>
+                                  ))}
+                                  {row.deltaE2000 !== undefined && (
+                                    <p>
+                                      Visual distance (Delta E 2000):{" "}
+                                      {Number(row.deltaE2000.toPrecision(6))}.
+                                      Informational only.
+                                    </p>
+                                  )}
+                                  {row.rgbChannelDifferences && (
+                                    <p>
+                                      RGB channel differences (0–255):{" "}
+                                      {row.rgbChannelDifferences
+                                        .map(
+                                          (value, index) =>
+                                            `${["R", "G", "B"][index]} ${Number(value.toFixed(6))}`,
+                                        )
+                                        .join(", ")}
+                                      .
+                                    </p>
+                                  )}
+                                  <p>
+                                    Override evidence:{" "}
+                                    {row.app?.overrides
+                                      ? "Recorded in the downloadable report."
+                                      : "Not recorded in this projection."}
+                                  </p>
+                                  <p className="analysisProvenance">
+                                    App:{" "}
+                                    {row.app
+                                      ? `${row.app.source}${row.app.pointer}`
+                                      : "Not matched"}
+                                    . Design-data: {row.reference.source}
+                                    {row.reference.pointer}. UUID:{" "}
+                                    {row.reference.identity ?? "Unavailable"}.
+                                  </p>
+                                </section>
+                              ))}
+                            </DisclosurePanel>
+                          </Disclosure>
+                        </DisclosurePanel>
+                      </Disclosure>
+                    );
+                  })}
+                <Disclosure>
+                  <DisclosureTitle>
+                    Inventory and source evidence
+                  </DisclosureTitle>
+                  <DisclosurePanel>
+                    <p className="analysisProvenance">
+                      Reference revision: {palette.sources.reference.revision}.
+                      Content hash: {palette.sources.reference.hash}. Worktree:{" "}
+                      {palette.sources.reference.dirty === null
+                        ? "unknown"
+                        : palette.sources.reference.dirty
+                          ? "dirty"
+                          : "clean"}
+                      .
+                    </p>
+                    <p className="analysisProvenance">
+                      Editor content hash: {palette.sources.app.hash}.
+                    </p>
+                    <p>
+                      Only non-deprecated primitive palette reference records
+                      are included. App-only rows do not increase completion.
+                    </p>
+                    {palette.excluded.map((row) => (
+                      <p key={row.id}>
+                        {row.id}: {row.reason}
+                      </p>
+                    ))}
+                    {palette.appOnly.map((row) => (
+                      <p key={row.id}>
+                        App only: {row.name}. {row.source}
+                        {row.pointer}
+                      </p>
+                    ))}
+                  </DisclosurePanel>
+                </Disclosure>
+              </>
+            )}
+          </section>
+        )}
         {referenceUnavailable && view === "overview" && (
           <section aria-label="Reference connection unavailable">
             <Heading level={2}>Design-data could not be loaded</Heading>
