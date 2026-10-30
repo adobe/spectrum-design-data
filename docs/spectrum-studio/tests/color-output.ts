@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import Color from "colorjs.io";
 import {
   COLOR_FORMATS,
@@ -90,6 +91,67 @@ for (const authoringGamut of ["display-p3", "rec2020"] as const) {
       );
     }
 }
+for (const [input, expected] of [
+  ["rgb(255 255 255)", "rgb(255, 255, 255)"],
+  ["rgb(245 249 255)", "rgb(245, 249, 255)"],
+  ["rgb(0 0 0 / 0.08)", "rgba(0, 0, 0, 0.08)"],
+  ["rgb(18 52 86 / 0)", "rgba(18, 52, 86, 0)"],
+  ["rgb(1.25 2.5 3.75 / 0.125)", "rgba(1.25, 2.5, 3.75, 0.125)"],
+] as const) {
+  const serialized = serializeOutputColor(new Color(input), {
+    ...DEFAULT_COLOR_OUTPUT,
+    outputFormat: "rgb",
+  });
+  assert.equal(
+    serialized,
+    expected,
+    "sRGB uses the canonical comma-separated RGB/RGBA notation.",
+  );
+  assert.equal(
+    serializeOutputColor(new Color(serialized), {
+      ...DEFAULT_COLOR_OUTPUT,
+      outputFormat: "rgb",
+    }),
+    expected,
+    "Already canonical RGB and RGBA output stays unchanged.",
+  );
+}
+for (const file of ["color-palette", "color-aliases"]) {
+  const reference: unknown = JSON.parse(
+    readFileSync(
+      new URL(
+        `../../../packages/design-data/tokens/${file}.tokens.json`,
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  assert(Array.isArray(reference));
+  const values = reference.flatMap((token: unknown) =>
+    token !== null &&
+    typeof token === "object" &&
+    "value" in token &&
+    typeof token.value === "string" &&
+    /^rgba?\(/.test(token.value)
+      ? [token.value]
+      : [],
+  );
+  assert(
+    values.length > 0,
+    `${file} must provide canonical RGB formatting evidence.`,
+  );
+  for (const value of values) {
+    assert.equal(
+      serializeOutputColor(new Color(value), {
+        ...DEFAULT_COLOR_OUTPUT,
+        outputFormat: "rgb",
+      }),
+      value,
+      `${file}: preserve canonical RGB/RGBA notation exactly.`,
+    );
+  }
+}
+
 for (const gamut of COLOR_GAMUTS) {
   assert.deepEqual(gamutClamp(0, 0.5, 140, gamut), [0, 0, 0]);
   assert.deepEqual(gamutClamp(1, 0.5, 140, gamut), [1, 1, 1]);
@@ -186,7 +248,7 @@ assert.equal(
     ...DEFAULT_COLOR_OUTPUT,
     outputFormat: "rgb",
   }),
-  "rgb(0 0 0)",
+  "rgb(0, 0, 0)",
 );
 assert.equal(
   serializeOutputColor(new Color("#fff"), {
