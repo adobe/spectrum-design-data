@@ -399,16 +399,14 @@
         display: none;
       }
       .support .msg {
-        border-radius: 8px;
-        padding: 10px 12px;
         display: grid;
-        gap: 6px;
-        background: #fbeeee;
-        border-left: 4px solid #c0392b;
+        gap: 4px;
       }
-      .support .msg.err {
-        background: #fbeeee;
-        border-left-color: #c0392b;
+      .support h5 {
+        margin: 0;
+      }
+      sp-theme {
+        background: transparent;
       }
       .mnotes p.err b {
         color: #8a1f1f;
@@ -416,32 +414,11 @@
       .stage.dark .mnotes p.err b {
         color: #f2b8b8;
       }
-      .support .msg.adv {
-        background: #fdf6e3;
-        border-left-color: #c98a00;
-      }
-      .msg .src {
-        font-size: 11px;
-        color: var(--muted);
-      }
       .fix {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
         align-items: center;
-      }
-      .fix button {
-        font: inherit;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border: 1px solid #c8c8c8;
-        border-radius: 999px;
-        background: #fff;
-        cursor: pointer;
-      }
-      .fix button:hover {
-        border-color: var(--pink);
       }
       .two {
         display: grid;
@@ -739,7 +716,7 @@
           .filter((f) => controlOpts[f.option]?.supported)
           .map(
             (f) =>
-              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<button type="button" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</button>`).join("")}</div>`,
+              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<sp-button size="s" variant="secondary" treatment="outline" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</sp-button>`).join("")}</div>`,
           )
           .join("");
 
@@ -770,8 +747,8 @@
         matches
           .map((c) =>
             c.severity === "error"
-              ? `<div class="msg err"><p><b>Not supported: ${esc(comboText(c, combo))}.</b> ${esc(c.description ?? "")} ${esc(fixText(c))}</p>${fixButtons(c)}${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`
-              : `<div class="msg adv"><p><b>${esc(comboText(c, combo))} has no distinct design.</b> ${esc(c.description ?? "")}</p>${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`,
+              ? `<div class="msg"><sp-status-light size="m" variant="negative">Not supported: ${esc(comboText(c, combo))}</sp-status-light><sp-help-text size="s" variant="negative">${esc(c.description ?? "")} ${esc(fixText(c))}</sp-help-text>${fixButtons(c)}${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`
+              : `<div class="msg"><sp-status-light size="m" variant="notice">${esc(comboText(c, combo))} has no distinct design</sp-status-light><sp-help-text size="s">${esc(c.description ?? "")}</sp-help-text>${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`,
           )
           .join("");
 
@@ -781,7 +758,7 @@
         const combo = comboOf(o);
         const matches = matching(constraints, combo);
         $("support").innerHTML = matches.length
-          ? `<b>Current selection</b>${explainHtml(matches, combo)}`
+          ? `<h5>Current selection</h5>${explainHtml(matches, combo)}`
           : "";
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported || name === "size" || name === "label") continue;
@@ -1343,7 +1320,7 @@
           $("anatomy-table").innerHTML = "";
           $("tokens").innerHTML = "";
           $("stage").innerHTML =
-            `<div class="unsupported-box"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</div>`;
+            `<div class="unsupported-box"><sp-theme system="spectrum-two" color="light" scale="medium"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</sp-theme></div>`;
           return;
         }
         const s = await getScene(o);
@@ -1627,7 +1604,7 @@
       });
       // A suggested fix sets the option it names, then redraws.
       document.addEventListener("click", (e) => {
-        const b = e.target.closest("button[data-fix-opt]");
+        const b = e.target.closest("[data-fix-opt]");
         if (!b) return;
         const el = $(`opt-${b.dataset.fixOpt}`);
         if (isSwitch(el)) el.checked = b.dataset.fixVal === "true";
