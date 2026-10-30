@@ -361,10 +361,9 @@
                 "variant": ["primary", "secondary"]
               }
             },
-            "token": {
-              "colorFamily": "transparent-white",
-              "scaleIndex": 1000,
-              "property": "color"
+            "relationship": {
+              "property": "color",
+              "context": "Static white – Focus indicator"
             }
           },
           {
@@ -374,10 +373,9 @@
                 "variant": ["primary", "secondary"]
               }
             },
-            "token": {
-              "colorFamily": "transparent-black",
-              "scaleIndex": 1000,
-              "property": "color"
+            "relationship": {
+              "property": "color",
+              "context": "Static black – Focus indicator"
             }
           }
         ],
