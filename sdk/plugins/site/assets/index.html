@@ -35,7 +35,7 @@
       }
       .shell {
         display: grid;
-        grid-template-columns: 240px minmax(0, 880px) 220px;
+        grid-template-columns: 240px minmax(0, 1000px) 220px;
         gap: 24px;
         justify-content: center;
         padding: 16px;
@@ -114,15 +114,18 @@
       }
       .live {
         display: grid;
-        grid-template-columns: 1fr 260px;
+        grid-template-columns: minmax(0, 1fr) 216px;
+        gap: 28px;
         margin-top: 16px;
-        overflow: hidden;
+        padding: 24px 28px 24px 24px;
+        border-radius: 32px;
       }
       .stage {
         min-height: 280px;
         display: grid;
         place-items: center;
-        background-color: #fff;
+        border-radius: 24px;
+        background-color: #f8f8f8;
         background-image: radial-gradient(#d0d0d0 1px, transparent 1px);
         background-size: 16px 16px;
         transition: background-color 0.2s;
@@ -209,17 +212,30 @@
         cursor: pointer;
       }
       .controls {
-        border-left: 1px solid var(--line);
-        padding: 16px;
+        position: sticky;
+        top: 16px;
+        align-self: start;
+        padding: 8px 0;
         display: grid;
-        gap: 12px;
+        gap: 20px;
         align-content: start;
+        background: transparent;
       }
       .controls label.f {
         display: grid;
-        gap: 4px;
-        font-size: 12px;
+        gap: 6px;
+        font-size: 14px;
         color: var(--muted);
+      }
+      .controls sp-picker {
+        width: 100%;
+      }
+      .controls .switches {
+        display: grid;
+        gap: 4px;
+      }
+      .controls h5 {
+        margin: 8px 0 0;
       }
       select {
         font: inherit;
@@ -228,19 +244,6 @@
         border-radius: 8px;
         background: #fff;
         color: var(--fg);
-      }
-      .sw {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .sw input {
-        width: 36px;
-        height: 20px;
-        accent-color: #222;
-      }
-      .sw.off {
-        opacity: 0.4;
       }
       .note {
         font-size: 11px;
@@ -621,7 +624,13 @@
               &larr; Back to all variants
             </button>
           </div>
-          <div class="controls" id="controls"></div>
+          <sp-theme
+            class="controls"
+            id="controls"
+            system="spectrum-two"
+            color="light"
+            scale="medium"
+          ></sp-theme>
         </div>
 
         <div class="tabs" id="tabs">
@@ -657,6 +666,7 @@
       </aside>
     </div>
 
+    <script type="module" src="spectrum-controls.js"></script>
     <script type="module">
       import { backend } from "./backend.js";
       import { roundedPath, cssFontWeight } from "./visual-runtime.js";
@@ -779,21 +789,20 @@
           const bad = (v) =>
             errorsOf(matching(constraints, { ...combo, [name]: v }));
           if (type === "enum") {
-            for (const opt of el.options) {
-              const hit = opt.value === "" ? [] : bad(opt.value);
+            for (const opt of el.querySelectorAll("sp-menu-item")) {
+              const hit = opt.value === NONE ? [] : bad(opt.value);
               opt.dataset.label ??= opt.textContent;
               opt.textContent =
                 opt.dataset.label + (hit.length ? " (not supported)" : "");
               opt.title = hit[0]?.description ?? "";
             }
           } else {
-            const wrap = el.closest("label");
             const now = new Set(errorsOf(matches).map((c) => c.index));
             const hit = el.checked
               ? []
               : bad(true).filter((c) => !now.has(c.index));
-            wrap.title = hit[0]?.description ?? "";
-            wrap.querySelector("span").textContent =
+            el.title = hit[0]?.description ?? "";
+            el.textContent =
               humanize(name) + (hit.length ? " (not supported)" : "");
           }
         }
@@ -835,8 +844,10 @@
         const used = new Set(C.recipe.used);
         controlOpts = {};
         const rows = [];
+        const picker = (id, title, values, value, extra = "") =>
+          `<label class="f ${extra}" id="${id}-wrap">${title}<sp-picker id="${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
         const mode = (id, title, values) =>
-          `<label class="f">${title}<select id="${id}">${values.map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></label>`;
+          picker(id, title, values, values[0][0]);
         for (const [name, def] of Object.entries(opts)) {
           // Label text and icon presence become toggles when the recipe reads them.
           const presence = name === "label" || def.$ref;
@@ -871,15 +882,15 @@
           const dis = supported ? "" : "disabled";
           if (type === "enum") {
             const vals = def.values.map((v) => v.value ?? v);
-            const none =
-              def.default === undefined ? '<option value="">None</option>' : "";
-            return `<label class="f ${supported ? "" : "off"}">${humanize(name)}<select id="opt-${name}" ${dis}>${none}${vals.map((v) => `<option value="${v}" ${v === def.default ? "selected" : ""}>${v}</option>`).join("")}</select></label>`;
+            const items = (
+              def.default === undefined ? [[NONE, "None"]] : []
+            ).concat(vals.map((v) => [v, shown(name, v)]));
+            const label = humanize(name);
+            const sel = def.default === undefined ? NONE : def.default;
+            return `<label class="f ${supported ? "" : "off"}">${label}<sp-picker id="opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
           }
-          return `<label class="sw ${supported ? "" : "off"}"><span>${humanize(name)}</span><input type="checkbox" id="opt-${name}" ${dis} ${def.default ? "checked" : ""}/></label>`;
+          return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
-        rows.push(
-          '<div id="support" class="support" role="status" aria-live="polite"></div>',
-        );
         rows.push(
           mode("scheme", "Color scheme", [
             ["light", "Light"],
@@ -892,25 +903,31 @@
             ["mobile", "Mobile"],
           ]),
         );
-        rows.push(
-          order
-            .filter((n) => controlOpts[n].supported)
-            .map(ctl)
-            .join(""),
-        );
+        const group = (names) => {
+          const enums = names.filter((n) => controlOpts[n].type === "enum");
+          const bools = names.filter((n) => controlOpts[n].type !== "enum");
+          return (
+            enums.map(ctl).join("") +
+            (bools.length
+              ? `<div class="switches">${bools.map(ctl).join("")}</div>`
+              : "")
+          );
+        };
+        rows.push(group(order.filter((n) => controlOpts[n].supported)));
         const unsupported = order.filter((n) => !controlOpts[n].supported);
         if (unsupported.length)
-          rows.push(
-            `<h5>Not in the recipe yet</h5>${unsupported.map(ctl).join("")}`,
-          );
+          rows.push(`<h5>Not in the recipe yet</h5>${group(unsupported)}`);
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
-            `<label class="f hidden" id="state-wrap">State<select id="state"><option value="">default</option>${stateNames.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></label>`,
+            `<label class="f hidden" id="state-wrap">State<sp-picker id="state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
           );
+        rows.push(
+          '<div id="support" class="support" role="status" aria-live="polite"></div>',
+        );
         $("controls").innerHTML = rows.join("");
         $("controls")
-          .querySelectorAll("select, input")
+          .querySelectorAll("sp-picker, sp-switch")
           .forEach((e) =>
             e.addEventListener("change", async () => {
               await enableDependency(e);
@@ -919,20 +936,39 @@
           );
       }
 
+      // sp-picker has no empty value, so "no selection" travels as a sentinel.
+      const NONE = "__none";
+      const SIZES = {
+        xs: "Extra small",
+        s: "Small",
+        m: "Medium",
+        l: "Large",
+        xl: "Extra large",
+      };
+      const shown = (name, v) =>
+        name === "size" && SIZES[v]
+          ? SIZES[v]
+          : String(v).charAt(0).toUpperCase() + String(v).slice(1);
+      const read = (el) => (el.value === NONE ? "" : el.value);
+      const write = (el, v) => {
+        el.value = v === "" || v === undefined ? NONE : v;
+      };
+      const isSwitch = (el) => el?.localName === "sp-switch";
+
       function liveOptions() {
         const o = {
           name: C.name,
-          scheme: $("scheme").value,
-          scale: $("scale").value,
+          scheme: read($("scheme")),
+          scale: read($("scale")),
           label: "Label",
         };
-        if (view.mode !== "usage" && $("state")?.value)
-          o.state = $("state").value;
+        if (view.mode !== "usage" && $("state") && read($("state")))
+          o.state = read($("state"));
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
-          if (name === "size") o.size = el.value;
-          else o[`opt.${name}`] = type === "bool" ? el.checked : el.value;
+          if (name === "size") o.size = read(el);
+          else o[`opt.${name}`] = type === "bool" ? el.checked : read(el);
           if (name === "label" && !el.checked) o.label = "";
         }
         return o;
@@ -973,21 +1009,21 @@
 
       // Copy a request back into the controls so the zoomed view matches the clicked cell.
       function syncControls(req) {
-        for (const k of ["scheme", "scale"]) if (req[k]) $(k).value = req[k];
+        for (const k of ["scheme", "scale"]) if (req[k]) write($(k), req[k]);
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
           if (name === "size") {
-            if (req.size) el.value = req.size;
+            if (req.size) write(el, req.size);
           } else if (name === "label") {
             el.checked = req.label !== "";
           } else if (type === "bool") {
             el.checked = !!req[`opt.${name}`];
           } else if (req[`opt.${name}`] !== undefined) {
-            el.value = req[`opt.${name}`];
+            write(el, req[`opt.${name}`]);
           }
         }
-        if ($("state")) $("state").value = req.state ?? "";
+        if ($("state")) write($("state"), req.state ?? "");
       }
 
       // With no cell chosen, zoom to the configuration that shows the most parts.
@@ -1594,8 +1630,8 @@
         const b = e.target.closest("button[data-fix-opt]");
         if (!b) return;
         const el = $(`opt-${b.dataset.fixOpt}`);
-        if (el?.type === "checkbox") el.checked = b.dataset.fixVal === "true";
-        else if (el) el.value = b.dataset.fixVal;
+        if (isSwitch(el)) el.checked = b.dataset.fixVal === "true";
+        else if (el) write(el, b.dataset.fixVal);
         refresh();
       });
       $("stage").addEventListener("click", (e) => {
