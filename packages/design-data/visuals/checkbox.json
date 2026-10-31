@@ -12,7 +12,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["control", "label"],
+      "children": ["box", "label"],
       "props": {
         "direction": {
           "value": "row"
@@ -60,11 +60,11 @@
           }
         }
       },
-      "pressTarget": "control"
+      "pressTarget": "box"
     },
-    "control": {
+    "box": {
       "kind": "box",
-      "children": ["box", "checkmark", "dash"],
+      "children": ["checkmark", "dash"],
       "props": {
         "width": {
           "relationship": {
@@ -77,12 +77,7 @@
             "property": "size",
             "context": "Control (size)"
           }
-        }
-      }
-    },
-    "box": {
-      "kind": "box",
-      "props": {
+        },
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
