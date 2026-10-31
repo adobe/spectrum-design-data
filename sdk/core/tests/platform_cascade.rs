@@ -268,10 +268,7 @@ fn the_first_overridden_from_is_kept_when_a_token_is_overridden_twice() {
 #[test]
 fn an_override_that_changes_the_value_type_is_an_error() {
     let r = apply(json!([{"target": "u-gray-light", "value": 42}]));
-    assert!(matches!(
-        r,
-        Err(design_data_core::CoreError::ParseError(_))
-    ));
+    assert!(matches!(r, Err(design_data_core::CoreError::ParseError(_))));
 }
 
 #[test]
