@@ -9,7 +9,8 @@ import {
 import { TextValuePreview } from "./TextValuePreview";
 import { IconValuePreview } from "./IconValuePreview";
 import { transparencyBackground } from "../transparencyBackground";
-import { appColorSchemeAtom } from "../../state/view/appAppearance";
+import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
+import type { ElementsSurfaceStyle } from "../../features/color-system/previewSurface";
 import "./ValuePreview.css";
 
 export interface ValuePreviewProps extends PreviewTextOptions {
@@ -17,6 +18,43 @@ export interface ValuePreviewProps extends PreviewTextOptions {
   label?: string;
   large?: boolean;
   icon?: ReactNode;
+  fillSurface?: boolean;
+  children?: ReactNode;
+  opacitySurface?: ElementsSurfaceStyle;
+}
+
+function OpacityShape({
+  value,
+  surface: localSurface,
+}: {
+  value: number;
+  surface?: ElementsSurfaceStyle;
+}) {
+  const authoredSurface = useAtomValue(elementsSurfaceStyleAtom);
+  const surface = localSurface ?? authoredSurface;
+  const colors = {
+    "--checkerboard-theme-base": surface["--checkerboard-base"],
+    "--checkerboard-theme-alternate": surface["--checkerboard-alternate"],
+    ...(localSurface && {
+      "--checkerboard-base": localSurface["--checkerboard-base"],
+      "--checkerboard-alternate": localSurface["--checkerboard-alternate"],
+    }),
+  };
+  return (
+    <span
+      aria-hidden="true"
+      className="valuePreviewShape valuePreviewShape-opacity"
+      style={{
+        ...colors,
+        ...transparencyBackground(
+          localSurface
+            ? localSurface["--elements-preview-foreground"]
+            : `var(--elements-preview-foreground, ${surface["--elements-preview-foreground"]})`,
+          value,
+        ),
+      }}
+    />
+  );
 }
 
 export function ValuePreview({
@@ -24,9 +62,11 @@ export function ValuePreview({
   label,
   large = false,
   icon,
+  fillSurface = false,
+  children,
+  opacitySurface,
   ...textOptions
 }: ValuePreviewProps) {
-  const appColorScheme = useAtomValue(appColorSchemeAtom);
   const presentation = valuePreviewPresentation(preview, textOptions);
   let error =
     presentation.status === "unavailable" ? presentation.message : undefined;
@@ -45,14 +85,7 @@ export function ValuePreview({
   }
   const kind = preview.kind;
   const styles =
-    presentation.status !== "ready"
-      ? undefined
-      : kind === "opacity" && preview.kind === "opacity"
-        ? transparencyBackground(
-            appColorScheme === "dark" ? "white" : "black",
-            Number(preview.value),
-          )
-        : presentation.styles;
+    presentation.status !== "ready" ? undefined : presentation.styles;
   const isText = [
     "text-color",
     "font-size",
@@ -63,12 +96,12 @@ export function ValuePreview({
   const isIcon = kind === "icon-color" || kind === "icon-size";
   return (
     <span
-      className={`valuePreview${large ? " valuePreviewLarge" : ""}`}
+      className={`valuePreview${large ? " valuePreviewLarge" : ""}${fillSurface ? " valuePreviewFillSurface" : ""}`}
       data-value-preview={kind}
       data-preview-unavailable={error ? true : undefined}
-      role={label ? "img" : undefined}
+      role={label ? (children ? "group" : "img") : undefined}
       aria-label={label ? `${label}${error ? `: ${error}` : ""}` : undefined}
-      aria-hidden={!label && !error ? true : undefined}
+      aria-hidden={!label && !error && !children ? true : undefined}
       title={error ?? label}
     >
       {error ? (
@@ -83,6 +116,8 @@ export function ValuePreview({
         <TextValuePreview {...textOptions} style={styles} />
       ) : isIcon ? (
         <IconValuePreview icon={icon} style={styles} />
+      ) : preview.kind === "opacity" ? (
+        <OpacityShape value={Number(preview.value)} surface={opacitySurface} />
       ) : (
         <span
           aria-hidden="true"
@@ -90,6 +125,7 @@ export function ValuePreview({
           style={styles}
         />
       )}
+      {children}
     </span>
   );
 }

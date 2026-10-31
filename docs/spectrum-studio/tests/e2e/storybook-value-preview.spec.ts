@@ -29,6 +29,90 @@ test("Opacity token previews use checkerboards in both appearances", async ({
   ).toBeVisible();
 });
 
+test("Checkerboards and opacity ink follow authored modes, not Studio appearance", async ({
+  page,
+}) => {
+  await page.goto(
+    "/iframe.html?id=components-value-preview--opacity-surfaces&viewMode=story",
+  );
+  const theme = page
+    .getByRole("img", { name: "Theme opacity", exact: true })
+    .locator(".valuePreviewShape");
+  const local = page
+    .getByRole("img", { name: "Local opacity", exact: true })
+    .locator(".valuePreviewShape");
+  const colors = (sample: typeof theme) =>
+    sample.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        theme: style.getPropertyValue("--checkerboard-theme-base").trim(),
+        local: style.getPropertyValue("--checkerboard-base").trim(),
+        alternate: style.getPropertyValue("--checkerboard-alternate").trim(),
+        image: style.backgroundImage,
+      };
+    });
+
+  await expect(theme).toBeVisible();
+  await expect(local).toBeVisible();
+  const initialTheme = await colors(theme);
+  expect(initialTheme.image).toMatch(
+    /linear-gradient\(color\(srgb 0 0 0 \/ 0\.4\)/,
+  );
+  const initialLocal = await colors(local);
+  expect(initialTheme.theme).not.toBe("");
+  expect(initialLocal.local).toBe("#f0f0f0");
+  expect(initialLocal.alternate).not.toBe(initialLocal.local);
+  expect(initialLocal.image).toContain("repeating-conic-gradient");
+  await page.getByRole("button", { name: "Toggle appearance" }).click();
+  expect((await colors(theme)).theme).toBe(initialTheme.theme);
+  expect((await colors(theme)).image).toBe(initialTheme.image);
+  await page.getByRole("button", { name: "Toggle authored mode" }).click();
+  await expect
+    .poll(async () => (await colors(theme)).theme)
+    .not.toBe(initialTheme.theme);
+  expect((await colors(local)).local).toBe(initialLocal.local);
+  const darkImage = (await colors(theme)).image;
+  expect(darkImage).toMatch(/linear-gradient\(color\(srgb 1 1 1 \/ 0\.4\)/);
+  expect(darkImage).not.toBe(initialTheme.image);
+  await page
+    .getByRole("button", { name: "Adjust authored background" })
+    .click();
+  await expect
+    .poll(async () => (await colors(theme)).image)
+    .not.toBe(darkImage);
+  await page.getByRole("button", { name: "Toggle local background" }).click();
+  await expect.poll(async () => (await colors(local)).local).toBe("#202020");
+  expect((await colors(local)).image).not.toBe(initialLocal.image);
+});
+
+test("Opacity ramps use the same theme checkerboard", async ({ page }) => {
+  for (const appearance of ["light", "dark"]) {
+    await page.goto(
+      `/iframe.html?id=views-shared-marker-ramp--opacity&viewMode=story&globals=colorScheme:${appearance}`,
+    );
+    const ramp = page.getByRole("img", { name: "Opacity ramp", exact: true });
+    await expect(ramp).toBeVisible();
+    const theme = await page
+      .locator("[data-preview-theme-surface]")
+      .first()
+      .evaluate((element) => getComputedStyle(element).backgroundColor);
+    await expect
+      .poll(() =>
+        ramp.evaluate((element) =>
+          getComputedStyle(element)
+            .getPropertyValue("--checkerboard-theme-base")
+            .trim(),
+        ),
+      )
+      .toBe(theme);
+    expect(
+      await ramp.evaluate(
+        (element) => getComputedStyle(element).backgroundImage,
+      ),
+    ).toContain("repeating-conic-gradient");
+  }
+});
+
 for (const appearance of ["light", "dark"])
   for (const width of [1280, 390]) {
     test(`Classified-value gallery renders exact values in ${appearance} at ${width}px`, async ({

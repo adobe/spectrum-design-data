@@ -55,7 +55,7 @@
     "test:color-output": "tsx tests/color-output.ts && tsx tests/color-output-contrast.ts && tsx tests/color-output-lifecycle.ts && tsx tests/color-output-ownership.ts",
     "test:foundation-creation": "tsx tests/foundation-creation.ts",
     "test:tokens": "tsx tests/tokens.ts",
-    "test:value-preview": "tsx tests/value-preview.ts && tsx tests/changelog-preview.ts",
+    "test:value-preview": "tsx tests/preview-surface.ts && tsx tests/opacity-preview-modes.ts && tsx tests/value-preview.ts && tsx tests/changelog-preview.ts",
     "test:taxonomy": "tsx tests/taxonomy.ts",
     "test:taxonomy-projection": "tsx tests/taxonomy-projection-batch.ts",
     "test:registry-projection": "tsx tests/registry-projection.ts && tsx tests/registry-validation-work.ts && pnpm test:term-policy",

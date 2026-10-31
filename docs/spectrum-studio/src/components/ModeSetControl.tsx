@@ -10,6 +10,7 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue, useSetAtom } from "jotai";
 import { MODE_ICONS } from "../features/modes/icons";
 import type { ModeSet } from "../features/modes/model";
+import { modeSetUsesOptionIcons } from "../features/modes/controlPresentation";
 import {
   CUSTOM_MODE_KEY,
   displayedModeIdsAtom,
@@ -32,20 +33,39 @@ export function ModeSetControl({ modeSet }: { modeSet: ModeSet }) {
   const displayedModeIds = useAtomValue(displayedModeIdsAtom);
   const resetMode = useSetAtom(resetModeAtom);
 
+  return (
+    <ModeSetPicker
+      modeSet={modeSet}
+      selectedKey={displayedModeIds[modeSet.key] ?? CUSTOM_MODE_KEY}
+      onSelectionChange={(modeId) =>
+        resetMode({ modeSetKey: modeSet.key, modeId })
+      }
+    />
+  );
+}
+
+export function ModeSetPicker({
+  modeSet,
+  selectedKey,
+  onSelectionChange,
+}: {
+  modeSet: ModeSet;
+  selectedKey: string;
+  onSelectionChange: (modeId: string) => void;
+}) {
   if (modeSet.modes.length < 2) return null;
 
-  const displayedKey = displayedModeIds[modeSet.key] ?? CUSTOM_MODE_KEY;
+  const displayedKey = selectedKey;
   const isCustom = displayedKey === CUSTOM_MODE_KEY;
   const label = isCustom ? `${modeSet.name}, custom` : modeSet.name;
   const modeSetIcon =
     modeSet.iconId && modeSet.iconId !== "none"
       ? MODE_ICONS[modeSet.iconId]
       : null;
-  // Icons are all-or-nothing so a set with partial icons stays legible.
-  const showIcons =
-    !modeSetIcon && modeSet.modes.every((mode) => mode.iconId !== "none");
-  const onSelectionChange = (key: unknown) =>
-    resetMode({ modeSetKey: modeSet.key, modeId: String(key) });
+  const showIcons = modeSetUsesOptionIcons(modeSet);
+  const selectMode = (key: unknown) => {
+    if (key !== null) onSelectionChange(String(key));
+  };
 
   if (modeSet.modes.length === 2) {
     const control = (
@@ -53,7 +73,7 @@ export function ModeSetControl({ modeSet }: { modeSet: ModeSet }) {
       <SegmentedControl
         aria-label={label}
         selectedKey={displayedKey}
-        onSelectionChange={onSelectionChange}
+        onSelectionChange={selectMode}
       >
         {modeSet.modes.map((mode) => (
           <SegmentedControlItem
@@ -85,7 +105,7 @@ export function ModeSetControl({ modeSet }: { modeSet: ModeSet }) {
       labelPosition={modeSetIcon ? "side" : undefined}
       placeholder="Custom"
       selectedKey={isCustom ? null : displayedKey}
-      onSelectionChange={onSelectionChange}
+      onSelectionChange={selectMode}
       UNSAFE_style={modeSetIcon ? { alignItems: "center" } : undefined}
     >
       {modeSet.modes.map((mode) => (
