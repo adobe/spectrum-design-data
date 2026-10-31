@@ -319,4 +319,5 @@ The platform manifest is the Layer 2 context document. For Layer 3 (product-laye
 
 * [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)
 * [#625 — Token Authoring Workflow](https://github.com/adobe/spectrum-design-data/discussions/625)
+* [Artifact moves](artifact-moves.md) — promoting and demoting one artifact between a platform and the foundation
 * [Schema-override spike](manifest-schema-override-spike.md) — why the manifest cascade does not allow platform overrides of Layer-1 schemas
