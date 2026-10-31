@@ -413,3 +413,15 @@ fn no_platform_leaves_visuals_unchanged() {
     f.visuals = vec![visual("button", "box")];
     assert_eq!(f.visuals[0].layer, Layer::Foundation);
 }
+
+// --- componentAliases (p6ga.8.35) ---
+
+#[test]
+fn canonical_component_follows_the_active_platform_alias_only() {
+    let mut g = foundation();
+    assert_eq!(g.canonical_component("button"), "button");
+    g.apply_platform_manifest(&json!({ "componentAliases": { "button": "button-ios" } }))
+        .unwrap();
+    assert_eq!(g.canonical_component("button"), "button-ios");
+    assert_eq!(g.canonical_component("badge"), "badge");
+}

@@ -8,28 +8,28 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                                           | Supported?                                                   | Field                             | Applies to                                   |
-| ------------------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | -------------------------------------------- |
-| Remove / exclude                                                    | Yes                                                          | `exclude`                         | Tokens only                                  |
-| Include / whitelist                                                 | Yes                                                          | `include`                         | Tokens only                                  |
-| Override value (type-preserving)                                    | Yes                                                          | `overrides[].value`               | Tokens only                                  |
-| Override → re-alias                                                 | Yes                                                          | `overrides[].$ref`                | Tokens only                                  |
-| Add new tokens (may alias via `$ref`)                               | Yes                                                          | `extensions/tokens/`              | Tokens                                       |
-| Add / replace components                                            | Yes                                                          | `extensions/components/`          | Components                                   |
-| Add / replace field declarations                                    | Yes                                                          | `extensions/fields/`              | Fields                                       |
-| Add / replace guideline documents                                   | Yes                                                          | `extensions/guidelines/`          | Guidelines                                   |
-| Declare / replace platform-local mode set                           | Yes                                                          | `extensions/mode-sets/`           | Mode sets                                    |
-| Add / remove / retarget a single mode; remove a set                 | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                                    |
-| Add relationships/CTRs; override/remove by `uuid`                   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)                         |
-| Add / remove naming exceptions                                      | Yes                                                          | `namingExceptions`                | Naming validation                            |
-| Annotate existing terminology (cannot add new ids)                  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
-| Upsert / remove own implementation mappings                         | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
-| Add / replace a component's visual recipe (planned)                 | Planned, not yet implemented                                 | `extensions/visuals/`             | Visual recipes                               |
-| Alias a foundation component name to a platform component (planned) | Planned, not yet implemented                                 | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
-| Restrict allowed mode-set values                                    | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
-| Reformat name serialization                                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
-| Override/remove/alias translations                                  | No                                                           | —                                 | —                                            |
-| Override Layer-1 schemas                                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                                            |
+| Operation                                                 | Supported?                                                   | Field                             | Applies to                                   |
+| --------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | -------------------------------------------- |
+| Remove / exclude                                          | Yes                                                          | `exclude`                         | Tokens only                                  |
+| Include / whitelist                                       | Yes                                                          | `include`                         | Tokens only                                  |
+| Override value (type-preserving)                          | Yes                                                          | `overrides[].value`               | Tokens only                                  |
+| Override → re-alias                                       | Yes                                                          | `overrides[].$ref`                | Tokens only                                  |
+| Add new tokens (may alias via `$ref`)                     | Yes                                                          | `extensions/tokens/`              | Tokens                                       |
+| Add / replace components                                  | Yes                                                          | `extensions/components/`          | Components                                   |
+| Add / replace field declarations                          | Yes                                                          | `extensions/fields/`              | Fields                                       |
+| Add / replace guideline documents                         | Yes                                                          | `extensions/guidelines/`          | Guidelines                                   |
+| Declare / replace platform-local mode set                 | Yes                                                          | `extensions/mode-sets/`           | Mode sets                                    |
+| Add / remove / retarget a single mode; remove a set       | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                                    |
+| Add relationships/CTRs; override/remove by `uuid`         | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)                         |
+| Add / remove naming exceptions                            | Yes                                                          | `namingExceptions`                | Naming validation                            |
+| Annotate existing terminology (cannot add new ids)        | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
+| Upsert / remove own implementation mappings               | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
+| Add / replace a component's visual recipe                 | Yes (loaded into the graph; renderers read it later)         | `extensions/visuals/`             | Visual recipes                               |
+| Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers do not read it yet    | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
+| Restrict allowed mode-set values                          | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
+| Reformat name serialization                               | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
+| Override/remove/alias translations                        | No                                                           | —                                 | —                                            |
+| Override Layer-1 schemas                                  | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                                            |
 
 ## Manifest document
 
@@ -55,7 +55,7 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 | `extensionsDir`       | string          | Path (relative to the manifest) to the platform's `extensions/` directory. Default: `"extensions"`. See [`extensions/` directory](#extensions-directory) below.                                             |
 | `namingExceptions`    | object          | Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.                                                                                 |
 | `formatting`          | object          | Rules for serializing structured name objects into platform-specific token name strings.                                                                                                                    |
-| `componentAliases`    | object          | **Planned, not yet implemented** (`manifest.schema.json` rejects it today). Maps a foundation component name to a component the platform declares. See [`componentAliases`](#componentaliases).             |
+| `componentAliases`    | object          | Maps a foundation component name to a component the platform declares. See [`componentAliases`](#componentaliases).                                                                                         |
 | `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                                                                       |
 
 ### `include` / `exclude`
@@ -118,7 +118,7 @@ extensions/
   guidelines/             <topic>.json         one guideline per file
   platform-extensions/   <platform>-<registry>.json
   implementations/       <component>.json      one component's implementation rows
-  visuals/               <component>.json      one visual recipe per file (planned)
+  visuals/               <component>.json      one visual recipe per file
 ```
 
 **NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
@@ -274,7 +274,7 @@ a different `implementation` id are never modified or removed.
 
 ### `componentAliases`
 
-**PROPOSED, not implemented** ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
+The field, `TokenGraph::canonical_component` and SPEC-081 are implemented; `render`, `site`, WASM render and recipe lookup do not call it yet ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
 
 * **Applies to** commands that show a component by its user-facing name: `render`, `site`, WASM render and recipe lookup. The name resolves to the target.
 * **Does not apply to** `query`, `validate`, `diff` and `export`, which inspect data under real names. `query` prints a one-line hint when it names an aliased component.
