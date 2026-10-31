@@ -1,24 +1,18 @@
 // Copyright 2026 Adobe. All rights reserved.
-import {
-  ActionButton,
-  Badge,
-  Divider,
-  Text,
-  ToastQueue,
-} from "@react-spectrum/s2";
+import { useNotify } from "../../components/notifications/notificationContext";
+import { ActionButton, Badge, Divider, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Revert from "@react-spectrum/s2/icons/Revert";
 import Sort from "@react-spectrum/s2/icons/Sort";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { useState } from "react";
 import {
   EditableSlider,
   EditOnly,
   useIsReadOnly,
 } from "../../components/editable";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import {
   addOpacityLevelAtom,
   opacityDocumentAtom,
@@ -71,25 +65,17 @@ function firstValue(value: number | number[]) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function report(failure: unknown) {
-  ToastQueue.negative(
-    failure instanceof Error ? failure.message : String(failure),
-  );
-}
-
 export function FoundationsOpacityPanel() {
+  const notify = useNotify();
   const document = useAtomValue(opacityDocumentAtom);
   const result = useAtomValue(opacityResultAtom);
   const appColorScheme = useAtomValue(appColorSchemeAtom);
   const readOnly = useIsReadOnly();
   const updateSettings = useSetAtom(updateOpacitySettingsAtom);
   const updateLevel = useSetAtom(updateOpacityLevelAtom);
-  const addLevel = useSetAtom(addOpacityLevelAtom);
   const sortLevels = useSetAtom(sortOpacityLevelsAtom);
-  const removeLevel = useSetAtom(removeOpacityLevelAtom);
   const resetOverride = useSetAtom(resetOpacityOverrideAtom);
-  const restoreLevel = useSetAtom(restoreOpacityLevelAtom);
-  const { notifyDeleted } = useDeletionToast();
+  const store = useStore();
   const [focusedId, setFocusedId] = useState<string | null>(null);
 
   return (
@@ -108,7 +94,7 @@ export function FoundationsOpacityPanel() {
             try {
               updateSettings(firstValue(value));
             } catch (failure) {
-              report(failure);
+              notify.error(failure);
             }
           }}
         />
@@ -122,11 +108,9 @@ export function FoundationsOpacityPanel() {
           <div className={actionStyles}>
             <ActionButton
               onPress={() => {
-                try {
-                  addLevel();
-                } catch (failure) {
-                  report(failure);
-                }
+                notify.added("opacityLevel", () =>
+                  store.set(addOpacityLevelAtom),
+                );
               }}
             >
               <Add />
@@ -137,7 +121,7 @@ export function FoundationsOpacityPanel() {
                 try {
                   sortLevels();
                 } catch (failure) {
-                  report(failure);
+                  notify.error(failure);
                 }
               }}
             >
@@ -190,7 +174,7 @@ export function FoundationsOpacityPanel() {
                           value: firstValue(value),
                         });
                       } catch (failure) {
-                        report(failure);
+                        notify.error(failure);
                       }
                     }}
                   />
@@ -207,7 +191,7 @@ export function FoundationsOpacityPanel() {
                             try {
                               resetOverride(level.id);
                             } catch (failure) {
-                              report(failure);
+                              notify.error(failure);
                             }
                           }}
                         >
@@ -220,20 +204,18 @@ export function FoundationsOpacityPanel() {
                     <ActionButton
                       isQuiet
                       aria-label={`Remove opacity ${level.scaleIndex}`}
-                      onPress={() => {
-                        try {
-                          const removed = removeLevel(level.id);
-                          notifyDeleted(`Opacity ${level.scaleIndex}`, () => {
-                            try {
-                              restoreLevel(removed);
-                            } catch (failure) {
-                              report(failure);
-                            }
-                          });
-                        } catch (failure) {
-                          report(failure);
-                        }
-                      }}
+                      onPress={() =>
+                        notify.remove({
+                          kind: "opacityLevel",
+                          noun: `Opacity ${level.scaleIndex}`,
+                          run: (store) =>
+                            store.set(removeOpacityLevelAtom, level.id),
+                          undo: (removed) => {
+                            if (removed)
+                              store.set(restoreOpacityLevelAtom, removed);
+                          },
+                        })
+                      }
                     >
                       <Delete />
                     </ActionButton>

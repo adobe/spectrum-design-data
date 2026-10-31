@@ -1,10 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   AccordionItem,
   AccordionItemPanel,
   AccordionItemTitle,
   PickerItem,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 import { NumberField } from "../../components/fields/NumberField";
@@ -63,6 +63,7 @@ export function TypeScaleFields({
   onChange: (formula: ScaleType) => void;
   children?: ReactNode;
 }) {
+  const notify = useNotify();
   const adaptation = formula.textSizeAdaptation;
   if (formula.kind !== "type-scale" || !adaptation)
     throw new Error("Choose the shared Type scale.");
@@ -76,7 +77,7 @@ export function TypeScaleFields({
         base: { ...formula.base, default: fromTypographyUnit(value, unit) },
       });
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }

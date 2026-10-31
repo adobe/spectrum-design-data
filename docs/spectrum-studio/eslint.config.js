@@ -29,6 +29,23 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@react-spectrum/s2",
+              importNames: ["ToastQueue", "ToastContainer"],
+              message:
+                "Use useNotify() from components/notifications. See .agents/rules/notifications.mdc.",
+            },
+          ],
+        },
+      ],
     },
+  },
+  {
+    files: ["src/components/notifications/NotificationProvider.tsx"],
+    rules: { "no-restricted-imports": "off" },
   },
 );

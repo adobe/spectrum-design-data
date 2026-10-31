@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   ActionButton,
   DialogTrigger,
@@ -42,7 +43,7 @@ import {
   resolvedElevationAtom,
   updateElevationModeParameterAtom,
 } from "../../features/elevation/state";
-import { ToastQueue } from "@react-spectrum/s2";
+
 import { popoverDialogStyles } from "../../components/popoverLayout";
 
 const bodyStyles = style({
@@ -62,6 +63,7 @@ function AuthoringParameter({
   parameter: FoundationParameterDefinition;
   focusOnMount: boolean;
 }) {
+  const notify = useNotify();
   const color = useAtomValue(resolvedColorSystemDocumentAtom);
   const typography = useAtomValue(resolvedTypographyDocumentAtom);
   const elevation = useAtomValue(resolvedElevationAtom);
@@ -109,7 +111,7 @@ function AuthoringParameter({
               break;
           }
         } catch (failure) {
-          ToastQueue.negative(
+          notify.error(
             failure instanceof Error ? failure.message : String(failure),
           );
         }

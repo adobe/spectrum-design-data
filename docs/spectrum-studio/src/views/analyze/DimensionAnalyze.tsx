@@ -35,7 +35,7 @@ const gridStyle = style({
 export interface DimensionAnalyzeProps {
   /** Heading and lowercase noun, such as `Spacing` and `spacing`. */
   title: string;
-  noun: string;
+  noun: "spacing" | "size" | "radius";
   generatedAtom: Atom<
     { scale: DimensionScale; values: GeneratedDimensionValue[] }[]
   >;
@@ -75,6 +75,7 @@ export function DimensionAnalyze({
             key={scale.id}
             noun={noun}
             input={{
+              valueType: noun,
               scale,
               values,
               rules,

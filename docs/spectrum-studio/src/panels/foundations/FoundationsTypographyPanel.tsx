@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   AccordionItem,
   AccordionItemHeader,
@@ -15,12 +16,11 @@ import {
   LabeledValue,
   PickerItem,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { Picker } from "../../components/fields/Picker";
 import Add from "@react-spectrum/s2/icons/Add";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { useState } from "react";
 import {
   addLineHeightAtom,
@@ -62,7 +62,6 @@ import {
   toTypographyUnit,
   TYPOGRAPHY_UNITS,
 } from "../../features/typography/units";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import { FoundationModeSettings } from "./FoundationModeSettings";
 import { TypeScaleFields } from "../typography/TypeScaleFields";
 import { LineHeightCard } from "../typography/LineHeightCard";
@@ -78,6 +77,7 @@ const panel = style({ padding: 0 });
 const note = style({ font: "body-sm", color: "neutral-subdued", margin: 0 });
 
 export function FoundationsTypographyPanel() {
+  const notify = useNotify();
   const isReadOnly = useIsReadOnly();
   const document = useAtomValue(typographyDocumentAtom);
   const resolved = useAtomValue(resolvedTypographyDocumentAtom);
@@ -90,19 +90,14 @@ export function FoundationsTypographyPanel() {
   const update = useSetAtom(updateTypographyAtom);
   const replaceFormula = useSetAtom(replaceScaleTypeAtom);
   const updateTextZoom = useSetAtom(updateTextZoomAtom);
-  const add = useSetAtom(addLineHeightAtom);
+  const store = useStore();
   const rename = useSetAtom(renameLineHeightAtom);
-  const remove = useSetAtom(removeLineHeightAtom);
-  const restore = useSetAtom(restoreLineHeightAtom);
-  const { notifyDeleted } = useDeletionToast();
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [replacementId, setReplacementId] = useState<string | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(new Set(["font-sizes"]));
   const report = (failure: unknown) =>
-    ToastQueue.negative(
-      failure instanceof Error ? failure.message : String(failure),
-    );
+    notify.error(failure instanceof Error ? failure.message : String(failure));
   const attempt = (action: () => void) => {
     try {
       action();
@@ -120,11 +115,14 @@ export function FoundationsTypographyPanel() {
   function deleteCard(id: string, replacement?: string) {
     attempt(() => {
       const label = name(id);
-      const removed = remove({ id, replacementId: replacement });
+      notify.remove({
+        kind: "lineHeight",
+        noun: `Line height ${label}`,
+        run: (store) =>
+          store.set(removeLineHeightAtom, { id, replacementId: replacement }),
+        undo: (removed) => store.set(restoreLineHeightAtom, removed),
+      });
       setRemovingId(null);
-      notifyDeleted(`Line height ${label}`, () =>
-        attempt(() => restore(removed)),
-      );
     });
   }
   const lineHeightChoices = document.lineHeights.map((card) => (
@@ -191,12 +189,14 @@ export function FoundationsTypographyPanel() {
           <RoundingRulePicker
             labelPosition="side"
             label="Text size rounding"
+            valueTypes={["font-size", "workflow-icon-size"]}
             ruleId={document.textRoundingRuleId}
             onChange={(textRoundingRuleId) => patch({ textRoundingRuleId })}
           />
           <RoundingRulePicker
             labelPosition="side"
             label="Line height rounding"
+            valueType="line-height"
             ruleId={document.lineHeightRoundingRuleId}
             onChange={(lineHeightRoundingRuleId) =>
               patch({ lineHeightRoundingRuleId })
@@ -249,8 +249,10 @@ export function FoundationsTypographyPanel() {
               aria-label="Add line height"
               onPress={() =>
                 attempt(() => {
-                  const id = add();
-                  setFocusId(id);
+                  const id = notify.added("lineHeight", () =>
+                    store.set(addLineHeightAtom),
+                  );
+                  if (id) setFocusId(id);
                   setExpanded((keys) => new Set([...keys, "line-heights"]));
                 })
               }
