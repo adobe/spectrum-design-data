@@ -14,8 +14,8 @@ bar with Add horizontally centered. Both remain overlays and do not affect Hug m
 Add temporarily hides directly over an existing child so it cannot block child
 selection; keyboard focus reveals it again and an open menu keeps its location.
 Every insertion button is keyboard accessible. A child selects its editing
-panel. Clicking the Structure background, pressing Escape in the canvas, or
-choosing Structure settings returns to the layout panel. Readonly mode permits
+panel. Clicking the Structure background, selecting Main structure in Layers,
+or pressing Escape in the canvas returns to the layout panel. Readonly mode permits
 child inspection.
 
 ## Bindings and preview samples
@@ -29,10 +29,15 @@ insertion order, glyph changes and Bar orientation do not remint them.
 | Text | Nominal Typography font size; pixel or unitless line height | Fixed `Text` sample |
 | Workflow-icon | Size or Typography icon size, applied to both dimensions | Public S2 glyph, initially Home |
 | UI-icon | Size or Typography icon size, applied to both dimensions | Small public S2 glyph subset, initially ChevronDown |
-| Visual | Independent Size width and height | Bundled local placeholder |
+| Visual | Independent Size width and height, with minimum and maximum constraints on each | Bundled local placeholder |
 | Bar | Size length and thickness | Registry horizontal/vertical orientation |
 
 Unassigned fields show explicit preview samples, not numeric authoring overrides.
+Structure and element Appearance panels use the same configurable controls.
+Selecting a leaf shows only its supported fields, without a heading, description,
+back button or delete action. Elements are removed from Layers.
+Visual constraints use existing Size tokens and are preserved by Save, Cancel,
+reload, and Changes reset. A minimum cannot exceed the corresponding maximum.
 Typography reference IDs reuse the existing canonical identity based on metric
 ownership and mathematical position. Display indices and labels may change
 without reminting references. Pixel and unitless line heights have different
@@ -54,12 +59,19 @@ An application's existing `targets` select **layout tokens**. The additive
 Custom retains exact binding IDs. Older All applications keep All preview
 intent. Older Custom applications start with no child targets.
 
-Both paths use the existing T-shirt traversal, including available-token and
+Both paths use the shared Generator traversal, including available-token and
 numeric-index movement and visible nearest-source warnings. Preview-only
 applications need no generated rows or emitted Structure name. Child references
 never enter semantic grouping, token arrays, aliases or primitive lineage.
 With layout inputs unchanged, Base retains its exact 15 semantic concepts and
 15 actual unbound values, not just equivalent counts.
+
+Generator options use Registry Size-term IDs, including custom terms. Existing
+five-size outputs retain their short keys; custom options retain their term UUID
+as identity. A Structure's selected terms must exist in every applied Generator.
+Token-type exclusions keep layout anchors and saved preview targets intact.
+Typography preview eligibility uses the bound metric, not its slot label.
+Only active targets overlap; exclusions never clear an authored selection.
 
 ## Persistence, dependencies and review
 
@@ -113,7 +125,9 @@ location rather than inserting at a stale boundary.
 
 Permutations request the parent's displayed size from each source. A source
 uses its own rules, not the parent's rule a second time. Unsupported sizes use
-the nearest supported size, preferring Medium on a tie, with a visible warning.
+the source's attached Generator option order to find the nearest supported size,
+preferring Medium on a tie, with a visible warning. Unrelated Generators in the
+library do not determine the fallback order.
 An intermediate source passes its effective size to its descendants.
 
 The card's Name is a local label. Token naming separately chooses an existing

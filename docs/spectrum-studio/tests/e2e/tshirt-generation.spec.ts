@@ -258,7 +258,7 @@ test("New Base defaults preserve an existing saved design without Structures or 
   const existing = createDefaultSnapshot();
   existing.structures!.structures = [];
   existing.rules = existing.rules!.filter(
-    (rule) => rule.type !== "tshirt-sizing",
+    (rule) => rule.type !== "tshirt-sizing" && rule.type !== "generator",
   );
   await seed(page, existing);
   await navigate(page, "Design");
@@ -279,7 +279,7 @@ test("Create a reusable rule, stage an application and enable shared size permut
   const fixture = createTshirtFixture({ unattached: true });
   const snapshot = snapshotFor(fixture);
   snapshot.rules = snapshot.rules!.filter(
-    (rule) => rule.type !== "tshirt-sizing",
+    (rule) => rule.type !== "tshirt-sizing" && rule.type !== "generator",
   );
   snapshot.structures!.structures[0].generation = {
     sizeTermIds: [SIZE_TERM_IDS.m],
@@ -294,7 +294,7 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .getByRole("button", { name: "Add generation rule", exact: true })
     .click();
   await expect(page.getByRole("dialog")).toContainText(
-    "Create a T-shirt sizing rule in Logic first.",
+    "Create a Generator rule in Logic first.",
   );
   await expect(
     page.getByRole("dialog").getByRole("button", { name: "Apply" }),
@@ -310,11 +310,9 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .getByRole("textbox", { name: "Name", exact: true })
     .fill("Adjacent sizes");
   await dialog.getByRole("button", { name: /Type$/ }).click();
-  await page
-    .getByRole("option", { name: "T-shirt sizing", exact: true })
-    .click();
+  await page.getByRole("option", { name: "Generator", exact: true }).click();
   await expect(
-    dialog.getByRole("textbox", { name: /^Medium offset(?: |$)/ }),
+    dialog.getByRole("textbox", { name: /^Medium token offset(?: |$)/ }),
   ).toHaveAttribute("readonly");
   await dialog
     .getByRole("button", { name: /Move along the scale by$/ })
@@ -323,7 +321,7 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .getByRole("option", { name: "Numeric scale index", exact: true })
     .click();
   const representative = dialog.getByRole("combobox", {
-    name: "Representative Medium token",
+    name: "Default value",
   });
   await representative.fill(fixture.anchor.name);
   await page
@@ -331,7 +329,7 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .filter({ has: page.getByTitle(fixture.anchor.name, { exact: true }) })
     .click();
   await expect(
-    dialog.getByRole("grid", { name: "T-shirt mapping preview" }),
+    dialog.getByRole("grid", { name: "Generator preview" }),
   ).toContainText(
     fixture.references.find(
       (reference) =>
@@ -347,13 +345,12 @@ test("Create a reusable rule, stage an application and enable shared size permut
           (rule) => rule.name === "Adjacent sizes",
         )?.type,
     )
-    .toBe("tshirt-sizing");
+    .toBe("generator");
   const rule = (await record(page)).working.rules!.find(
     (rule) => rule.name === "Adjacent sizes",
   )!;
-  expect(rule.type).toBe("tshirt-sizing");
-  if (rule.type !== "tshirt-sizing")
-    throw new Error("Expected a T-shirt sizing rule.");
+  expect(rule.type).toBe("generator");
+  if (rule.type !== "generator") throw new Error("Expected a Generator rule.");
   expect(rule.mappings.map((mapping) => mapping.offset)).toEqual([
     -200, -100, 0, 100, 200,
   ]);
@@ -526,7 +523,7 @@ test("Saved semantics share inspection, pinned export, cache and source-directed
     .click();
   await page
     .getByRole("dialog")
-    .getByRole("textbox", { name: /^Large offset(?: |$)/ })
+    .getByRole("textbox", { name: /^Large token offset(?: |$)/ })
     .fill("2");
   await page
     .getByRole("dialog")

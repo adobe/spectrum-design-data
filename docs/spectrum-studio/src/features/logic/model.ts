@@ -1,10 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { COMPONENT_SIZES } from "../foundations/componentSizes";
 import { SIZE_TERM_IDS } from "../taxonomy/variantVocabulary";
+import { isRuleApplicability, type RuleApplicability } from "./applicability";
 
-export const RULES_SCHEMA_VERSION = 2;
+export const RULES_SCHEMA_VERSION = 3;
 
-export type RuleType = "rounding" | "tshirt-sizing" | "scale-naming";
+export type RuleType =
+  | "rounding"
+  | "tshirt-sizing"
+  | "generator"
+  | "scale-naming"
+  | "conditional";
 export type Comparator = "lt" | "lte" | "gt" | "gte";
 
 export const COMPARATORS: readonly {
@@ -46,6 +52,7 @@ interface RuleBase {
   description: string;
   /** Built-in rules other data falls back to; they cannot be edited or deleted. */
   locked?: boolean;
+  applicability?: RuleApplicability;
 }
 
 export interface RoundingRule
@@ -61,9 +68,10 @@ export interface TshirtSizeMapping {
   offset: number;
 }
 export interface TshirtSizingRule extends RuleBase {
-  type: "tshirt-sizing";
+  type: "tshirt-sizing" | "generator";
   movement: TshirtMovement;
   mappings: TshirtSizeMapping[];
+  defaultTermId?: string;
 }
 export interface ScaleNamingRule extends RuleBase {
   type: "scale-naming";
@@ -71,7 +79,41 @@ export interface ScaleNamingRule extends RuleBase {
   aboveIncrement: number;
   below: { kind: "automatic" } | { kind: "fixed"; increment: number };
 }
-export type Rule = RoundingRule | TshirtSizingRule | ScaleNamingRule;
+export interface RuleCondition {
+  id: string;
+  kind: "condition";
+  source: "taxonomy" | "mode";
+  sourceId: string;
+  matcher: "is" | "is-not";
+  valueId: string;
+}
+export interface RuleConditionGroup {
+  id: string;
+  kind: "group";
+  operator: "and" | "or";
+  children: RuleConditionNode[];
+}
+export type RuleConditionNode = RuleCondition | RuleConditionGroup;
+export interface TokenOffsetOutcome {
+  offset: number;
+}
+export interface ConditionalBranch {
+  id: string;
+  when: RuleConditionGroup;
+  then: TokenOffsetOutcome;
+}
+export interface ConditionalRule extends RuleBase {
+  type: "conditional";
+  when: RuleConditionGroup;
+  branches: ConditionalBranch[];
+  otherwise: TokenOffsetOutcome;
+}
+export type Rule =
+  | RoundingRule
+  | TshirtSizingRule
+  | ScaleNamingRule
+  | ConditionalRule;
+export const INTERACTION_COLORS_RULE_ID = "rule-interaction-state-colors";
 export const STANDARD_SCALE_NAMING_RULE_ID = "rule-standard-scale-naming";
 
 export const WHOLE_NUMBERS_RULE_ID = "rule-whole-numbers";
@@ -114,6 +156,51 @@ export function isRule(value: unknown): value is Rule {
     typeof rule.description === "string" &&
     (rule.locked === undefined || typeof rule.locked === "boolean");
   if (!common) return false;
+  if (
+    rule.type &&
+    rule.applicability !== undefined &&
+    !isRuleApplicability(rule.applicability, rule.type)
+  )
+    return false;
+  if (rule.type === "generator") {
+    return (
+      (rule.movement === "available-token" ||
+        rule.movement === "scale-index") &&
+      Object.keys(rule).every((key) =>
+        [
+          "id",
+          "name",
+          "description",
+          "locked",
+          "type",
+          "movement",
+          "mappings",
+          "defaultTermId",
+          "applicability",
+        ].includes(key),
+      ) &&
+      Array.isArray(rule.mappings) &&
+      rule.mappings.length > 0 &&
+      new Set(rule.mappings.map((mapping) => mapping?.termId)).size ===
+        rule.mappings.length &&
+      rule.mappings.every(
+        (mapping) =>
+          mapping &&
+          typeof mapping.termId === "string" &&
+          !!mapping.termId.trim() &&
+          Number.isSafeInteger(mapping.offset) &&
+          Object.keys(mapping).every(
+            (key) => key === "termId" || key === "offset",
+          ),
+      ) &&
+      rule.mappings.some(
+        (mapping) =>
+          mapping.termId === rule.defaultTermId && mapping.offset === 0,
+      ) &&
+      rule.applicability !== undefined
+    );
+  }
+  if (rule.type === "conditional") return isConditionalBody(rule);
   if (rule.type === "scale-naming") {
     return (
       Number.isFinite(rule.baseLabel) &&
@@ -142,6 +229,8 @@ export function isRule(value: unknown): value is Rule {
           "type",
           "movement",
           "mappings",
+          "applicability",
+          "defaultTermId",
         ].includes(key),
       ) &&
       COMPONENT_SIZES.every((size) => {
@@ -165,6 +254,77 @@ export function isRule(value: unknown): value is Rule {
     isRoundingOutcome(rule.defaultOutcome) &&
     Array.isArray(rule.conditions) &&
     rule.conditions.every(isCondition)
+  );
+}
+
+function isConditionalBody(rule: Partial<ConditionalRule>): boolean {
+  if (!Array.isArray(rule.branches) || !isOffset(rule.otherwise)) return false;
+  const ids = new Set<string>();
+  const claim = (id: unknown) => {
+    if (typeof id !== "string" || !id.trim() || ids.has(id)) return false;
+    ids.add(id);
+    return true;
+  };
+  const groups: unknown[] = [rule.when];
+  for (const branch of rule.branches) {
+    if (!branch || !claim(branch.id) || !isOffset(branch.then)) return false;
+    groups.push(branch.when);
+  }
+  const pending: unknown[] = [...groups];
+  if (
+    groups.some(
+      (group) =>
+        !group ||
+        typeof group !== "object" ||
+        !("kind" in group) ||
+        group.kind !== "group",
+    )
+  )
+    return false;
+  while (pending.length) {
+    const node = pending.pop();
+    if (
+      !node ||
+      typeof node !== "object" ||
+      !("id" in node) ||
+      !claim(node.id) ||
+      !("kind" in node)
+    )
+      return false;
+    if (node.kind === "group") {
+      if (
+        !("operator" in node) ||
+        !["and", "or"].includes(String(node.operator)) ||
+        !("children" in node) ||
+        !Array.isArray(node.children)
+      )
+        return false;
+      pending.push(...node.children);
+    } else if (node.kind === "condition") {
+      if (
+        !("source" in node) ||
+        !["taxonomy", "mode"].includes(String(node.source)) ||
+        !("sourceId" in node) ||
+        typeof node.sourceId !== "string" ||
+        !node.sourceId.trim() ||
+        !("valueId" in node) ||
+        typeof node.valueId !== "string" ||
+        !node.valueId.trim() ||
+        !("matcher" in node) ||
+        !["is", "is-not"].includes(String(node.matcher))
+      )
+        return false;
+    } else return false;
+  }
+  return true;
+}
+
+function isOffset(value: unknown): value is TokenOffsetOutcome {
+  return (
+    !!value &&
+    typeof value === "object" &&
+    "offset" in value &&
+    Number.isSafeInteger(value.offset)
   );
 }
 
@@ -199,9 +359,22 @@ export function createTshirtMappings(
 
 export function createRule(type?: "rounding"): RoundingRule;
 export function createRule(type: "tshirt-sizing"): TshirtSizingRule;
+export function createRule(type: "generator"): TshirtSizingRule;
 export function createRule(type: "scale-naming"): ScaleNamingRule;
+export function createRule(type: "conditional"): ConditionalRule;
 export function createRule(type: RuleType): Rule;
 export function createRule(type: RuleType = "rounding"): Rule {
+  if (type === "conditional")
+    return {
+      id: `rule-custom-${crypto.randomUUID()}`,
+      name: "New rule",
+      description: "",
+      type,
+      when: createRuleGroup(),
+      branches: [],
+      otherwise: { offset: 0 },
+      applicability: { kind: "specific", types: ["color", "opacity"] },
+    };
   if (type === "scale-naming")
     return {
       id: `rule-custom-${crypto.randomUUID()}`,
@@ -211,8 +384,9 @@ export function createRule(type: RuleType = "rounding"): Rule {
       baseLabel: 100,
       aboveIncrement: 100,
       below: { kind: "automatic" },
+      applicability: { kind: "all" },
     };
-  if (type === "tshirt-sizing")
+  if (type === "tshirt-sizing" || type === "generator")
     return {
       id: `rule-custom-${crypto.randomUUID()}`,
       name: "New rule",
@@ -220,6 +394,18 @@ export function createRule(type: RuleType = "rounding"): Rule {
       type,
       movement: "available-token",
       mappings: createTshirtMappings("available-token"),
+      ...(type === "generator" && {
+        defaultTermId: SIZE_TERM_IDS.m,
+        applicability: {
+          kind: "specific" as const,
+          types: [
+            "spacing",
+            "size",
+            "font-size",
+            "radius",
+          ] as import("./applicability").RuleValueType[],
+        },
+      }),
     };
   return {
     id: `rule-custom-${crypto.randomUUID()}`,
@@ -229,6 +415,18 @@ export function createRule(type: RuleType = "rounding"): Rule {
     depth: 1,
     defaultOutcome: { factor: 1 },
     conditions: [],
+    applicability: { kind: "all" },
+  };
+}
+
+export function createRuleGroup(
+  operator: "and" | "or" = "and",
+): RuleConditionGroup {
+  return {
+    id: `group-${crypto.randomUUID()}`,
+    kind: "group",
+    operator,
+    children: [],
   };
 }
 
@@ -236,5 +434,5 @@ export function isRoundingRule(value: Rule): value is RoundingRule {
   return value.type === "rounding";
 }
 export function isTshirtRule(value: Rule): value is TshirtSizingRule {
-  return value.type === "tshirt-sizing";
+  return value.type === "tshirt-sizing" || value.type === "generator";
 }

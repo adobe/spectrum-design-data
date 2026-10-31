@@ -3,6 +3,7 @@ import { designSystemDefaults } from "../../src/data/defaults";
 import { generateTypography } from "../../src/features/typography/typographyGeneration";
 import { generateDimensionScale } from "../../src/features/scales/foundation";
 import { generateElevation } from "../../src/features/elevation/generate";
+import { resolveElevationDocument } from "../../src/features/elevation/resolution";
 import { primitiveReferencesFromOutputs } from "../../src/features/tokens/primitiveReferences";
 import {
   createElement,
@@ -34,7 +35,17 @@ export function createElementFixture() {
       elevation: {
         document: system.foundations.elevation,
         levels: generateElevation(
-          system.foundations.elevation,
+          resolveElevationDocument(
+            system.foundations.elevation,
+            [],
+            system.modeSets,
+            {},
+            {
+              opacity: system.foundations.opacity,
+              colorSystem: system.foundations.color,
+              modeSets: system.modeSets,
+            },
+          ),
           system.scaleTypes,
         ),
       },
@@ -60,7 +71,7 @@ export function createElementFixture() {
     "Element template",
     "d0000000-0000-4000-8000-000000000001",
   );
-  const rule = system.rules.find((rule) => rule.type === "tshirt-sizing")!;
+  const rule = system.rules.find((rule) => rule.type === "generator")!;
   structure.generation = {
     sizeTermIds: Object.values(SIZE_TERM_IDS),
     applications: [],

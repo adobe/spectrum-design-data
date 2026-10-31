@@ -1,6 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { COMPONENT_SIZES } from "../foundations/componentSizes";
-import { isRule, type Rule, type TshirtSizingRule } from "../logic/model";
+import {
+  isRule,
+  isTshirtRule,
+  type Rule,
+  type TshirtSizingRule,
+} from "../logic/model";
+import { generatorSizeKey } from "../logic/generator";
+import { ruleAppliesTo } from "../logic/applicability";
 import { resolveTshirtRule } from "../logic/tshirt";
 import { canonicalJson } from "../design-data/canonicalJson";
 import { foundationNameSegment } from "../taxonomy/formatting";
@@ -12,11 +18,7 @@ import {
   type TaxonomyDocument,
 } from "../taxonomy/model";
 import { registeredSourceName } from "../taxonomy/naming";
-import {
-  SIZE_TERM_IDS,
-  VARIANT_CATEGORY_IDS,
-  sizeFromTerm,
-} from "../taxonomy/variantVocabulary";
+import { VARIANT_CATEGORY_IDS } from "../taxonomy/variantVocabulary";
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
 import {
   structureGeneration,
@@ -46,9 +48,7 @@ export interface StructureTokenGroup {
   orientation?: string;
 }
 export const structureSizes = (structure: Structure) =>
-  COMPONENT_SIZES.filter((size) =>
-    structureGeneration(structure).sizeTermIds.includes(SIZE_TERM_IDS[size.id]),
-  ).map((size) => size.id);
+  structureGeneration(structure).sizeTermIds.map(generatorSizeKey);
 export const eligibleStructureBindings = (structure: Structure) =>
   structure.properties.filter(
     (binding): binding is StructureReferenceBinding =>
@@ -152,12 +152,23 @@ export function appliedStructureBindings(
     for (const binding of bindings) {
       const previous = assigned.get(binding.id);
       const slot = structureSlot(binding)!;
-      if (previous)
+      const family = structureSlotDefinition(slot).family;
+      const active =
+        !!family && family !== "typography" && ruleAppliesTo(rule, family);
+      if (previous && active)
         throw new Error(
           `${structure.name} - ${structureSlotDefinition(slot).label}: applications overlap. Use disjoint custom targets or remove one application.`,
         );
-      assigned.set(binding.id, application.id);
-      result.push({ binding, slot, application, rule });
+      if (active) {
+        assigned.set(binding.id, application.id);
+        const inactive = result.findIndex(
+          (item) => item.binding.id === binding.id,
+        );
+        if (inactive >= 0) result.splice(inactive, 1);
+        result.push({ binding, slot, application, rule });
+      } else if (!result.some((item) => item.binding.id === binding.id)) {
+        result.push({ binding, slot, application, rule });
+      }
     }
   }
   return result;
@@ -173,6 +184,7 @@ function equivalent(
       mappings: [...rule.mappings].sort((a, b) =>
         a.termId.localeCompare(b.termId),
       ),
+      applicability: rule.applicability ?? { kind: "all" },
     });
   return (
     left.binding.$ref === right.binding.$ref &&
@@ -281,7 +293,7 @@ export function assertGenerationReferences(
   references: readonly PrimitiveReference[],
 ) {
   for (const rule of rules)
-    if (rule.type === "tshirt-sizing" && !isRule(rule))
+    if (isTshirtRule(rule) && !isRule(rule))
       throw new Error("A T-shirt rule has invalid settings.");
   for (const item of appliedStructureBindings(structure, rules)) {
     const reference = references.find(
@@ -297,8 +309,15 @@ export function assertGenerationReferences(
       );
     }
   }
-  if (
-    structureGeneration(structure).sizeTermIds.some((id) => !sizeFromTerm(id))
-  )
-    throw new Error("Choose supported T-shirt size terms.");
+  for (const application of structureGeneration(structure).applications) {
+    const rule = resolveTshirtRule(rules, application.ruleId);
+    if (
+      structureGeneration(structure).sizeTermIds.some(
+        (id) => !rule.mappings.some((mapping) => mapping.termId === id),
+      )
+    )
+      throw new Error(
+        `${structure.name}: a selected Size option is not mapped by ${rule.name}. Add the option or choose a replacement.`,
+      );
+  }
 }

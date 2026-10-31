@@ -17,15 +17,21 @@ export interface RuleTypeDefinition {
 
 export const RULE_TYPES: readonly RuleTypeDefinition[] = [
   {
+    id: "conditional",
+    label: "Conditional",
+    description: "Selects a token offset using taxonomy and mode conditions.",
+    isAvailable: true,
+  },
+  {
     id: "rounding",
     label: "Rounding",
     description: "Rounds values to a factor, with conditions for value ranges.",
     isAvailable: true,
   },
   {
-    id: "tshirt-sizing",
-    label: "T-shirt sizing",
-    description: "Generates semantic size variants from a Medium anchor.",
+    id: "generator",
+    label: "Generator",
+    description: "Generates Size options from a default token.",
     isAvailable: true,
   },
   {
@@ -56,14 +62,18 @@ export function summarizeRoundingRule(rule: RoundingRule) {
 }
 
 export function summarizeRule(rule: Rule) {
+  if (rule.type === "conditional")
+    return `${rule.branches.length} conditional branches · Otherwise offset ${rule.otherwise.offset}`;
   if (rule.type === "rounding") return summarizeRoundingRule(rule);
   if (rule.type === "scale-naming")
     return `Base ${rule.baseLabel} · Above +${rule.aboveIncrement} · Below ${rule.below.kind === "automatic" ? "automatic" : `+${rule.below.increment}`}`;
   return (
-    COMPONENT_SIZES.map(
-      (size) =>
-        `${size.label}: ${rule.mappings.find((mapping) => mapping.termId === SIZE_TERM_IDS[size.id])?.offset ?? "invalid"}`,
-    ).join(" / ") +
+    rule.mappings
+      .map(
+        (mapping) =>
+          `${COMPONENT_SIZES.find((size) => SIZE_TERM_IDS[size.id] === mapping.termId)?.label ?? "Option"}: ${mapping.offset}`,
+      )
+      .join(" / ") +
     (rule.movement === "scale-index" ? " (scale index)" : " (available tokens)")
   );
 }

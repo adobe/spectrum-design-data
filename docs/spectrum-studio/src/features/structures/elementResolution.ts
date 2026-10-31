@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { CSSProperties } from "react";
-import type { ComponentSize } from "../foundations/componentSizes";
+import { ruleAppliesToReference } from "../logic/applicability";
 import type { Rule } from "../logic/model";
 import { resolveTshirtRule, tshirtMappings } from "../logic/tshirt";
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
@@ -27,9 +27,27 @@ export function templateTargets(application: StructureRuleApplication) {
       : { kind: "custom" as const, bindingIds: [] })
   );
 }
+export function hasCustomElementTargets(
+  structure: Structure,
+  elementId: string,
+) {
+  const element = leafElements(structure).find((item) => item.id === elementId);
+  if (!element) return false;
+  const ids = new Set(element.bindings.map((binding) => binding.id));
+  return structureGeneration(structure).applications.some((application) => {
+    const targets = templateTargets(application);
+    return (
+      targets.kind === "custom" && targets.bindingIds.some((id) => ids.has(id))
+    );
+  });
+}
 export function appliedElementBindings(
   structure: Structure,
   rules: readonly Rule[],
+  references: readonly Pick<
+    PrimitiveReference,
+    "id" | "family" | "metricId" | "unit"
+  >[] = [],
 ) {
   const bindings = leafElements(structure).flatMap((element) =>
     element.bindings.map((binding) => ({ element, binding })),
@@ -49,14 +67,24 @@ export function appliedElementBindings(
               );
             return found;
           });
-    return selected.map((item) => {
-      if (claimed.has(item.binding.id))
-        throw new Error(
-          "Element preview rules overlap. Choose disjoint preview properties.",
+    return selected
+      .filter((item) => {
+        const reference = references.find(
+          (reference) => reference.id === item.binding.$ref,
         );
-      claimed.add(item.binding.id);
-      return { ...item, application, rule };
-    });
+        if (reference) return ruleAppliesToReference(rule, reference);
+        return item.binding.family === "size"
+          ? ruleAppliesToReference(rule, { family: "size" })
+          : !rule.applicability || rule.applicability.kind === "all";
+      })
+      .map((item) => {
+        if (claimed.has(item.binding.id))
+          throw new Error(
+            "Element preview rules overlap. Choose disjoint preview properties.",
+          );
+        claimed.add(item.binding.id);
+        return { ...item, application, rule };
+      });
   });
 }
 export interface ResolvedElement {
@@ -70,12 +98,12 @@ export function resolveElements(
   structure: Structure,
   references: readonly PrimitiveReference[],
   rules: readonly Rule[],
-  size: ComponentSize = "m",
+  size: string = "m",
 ): ResolvedElement[] {
   let applied: ReturnType<typeof appliedElementBindings> = [];
   let applicationError = "";
   try {
-    applied = appliedElementBindings(structure, rules);
+    applied = appliedElementBindings(structure, rules, references);
   } catch (failure) {
     applicationError =
       failure instanceof Error ? failure.message : String(failure);
@@ -150,6 +178,17 @@ export function resolveElements(
           `${ELEMENT_TYPES[element.kind].label} ${ELEMENT_SLOT_LABELS[binding.slot]}: ${failure instanceof Error ? failure.message : String(failure)}`,
         );
       }
+    }
+    for (const [minimum, maximum] of [
+      ["minWidth", "maxWidth"],
+      ["minHeight", "maxHeight"],
+    ] as const) {
+      const min = styles[minimum],
+        max = styles[maximum];
+      if (typeof min === "number" && typeof max === "number" && min > max)
+        issues.push(
+          `${ELEMENT_TYPES[element.kind].label}: ${ELEMENT_SLOT_LABELS[minimum]} must not exceed ${ELEMENT_SLOT_LABELS[maximum].toLowerCase()}.`,
+        );
     }
     return { element, styles, issues, warnings, targets };
   });

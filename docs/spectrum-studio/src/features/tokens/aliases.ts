@@ -15,6 +15,7 @@ export interface AliasDocument {
 
 export interface AliasTarget {
   id: string;
+  rowId?: string;
   name: string;
   context: string;
   compatibleModes?: Readonly<Record<string, readonly string[]>>;

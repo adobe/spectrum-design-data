@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { ComponentSize } from "../foundations/componentSizes";
 import type { ElevationDocument } from "../elevation/model";
 import type { OpacityDocument } from "../opacity/model";
 import { generateElevation } from "../elevation/generate";
 import { elevationOwnerIds } from "../elevation/output";
 import { resolveElevationDocument } from "../elevation/resolution";
 import { tshirtMappings } from "../logic/tshirt";
+import { generatorOutputName, generatorSizeKey } from "../logic/generator";
 import { generateDimensionScale } from "../scales/foundation";
 import { clampScaleRange } from "../scales/stepNames";
 import { dimensionIssues } from "../scales/issues";
@@ -53,6 +53,7 @@ import {
   exactDimensionValue,
   exactShadowValue,
   formatTshirtName,
+  GENERATOR_PROFILE,
   type TshirtTokenRecord,
 } from "./tshirtProfile";
 import type { TshirtArtifactBundle, TshirtSemanticRow } from "./tshirtTypes";
@@ -63,6 +64,7 @@ import {
   TSHIRT_NAMING_FIELDS,
 } from "./tshirtProfile";
 import { withTaxonomyProjection } from "../taxonomy/model";
+import { appendStructureVariantArtifacts } from "./structureVariantArtifacts";
 export type {
   TshirtArtifactBundle,
   TshirtSemanticRow,
@@ -73,6 +75,8 @@ export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   structures?: StructuresDocument;
   elevation?: ElevationDocument;
   opacity?: OpacityDocument;
+  interpolations?: import("../scales/interpolationDefinition").Interpolation[];
+  tokenOverrides?: import("../tokens/model").TokenOverrideMap;
 }
 interface SourceContext {
   kind: TshirtSemanticRow["kind"];
@@ -134,7 +138,11 @@ export function buildTshirtArtifacts(
 ): TshirtArtifactBundle {
   return snapshot.taxonomy
     ? withTaxonomyProjection(snapshot.taxonomy, () =>
-        buildTshirtBatch(snapshot, sourceKind),
+        appendStructureVariantArtifacts(
+          snapshot,
+          buildTshirtBatch(snapshot, sourceKind),
+          buildTshirtBatch,
+        ),
       )
     : buildTshirtBatch(snapshot, sourceKind);
 }
@@ -182,14 +190,48 @@ function buildTshirtBatch(
   const emitting = structures.structures.filter(
     (structure) => groupsByStructure.get(structure.conceptId)?.length,
   );
+  const sizeIds = [
+    ...new Set(
+      emitting.flatMap(
+        (structure) => structureGeneration(structure).sizeTermIds,
+      ),
+    ),
+  ];
+  if (
+    sizeIds.some(
+      (id) =>
+        generatorOutputName(id, taxonomy) !== generatorSizeKey(id) ||
+        generatorSizeKey(id) === id,
+    )
+  ) {
+    bundle.profile = structuredClone(GENERATOR_PROFILE);
+    bundle.vocabulary.sizes = sizeIds.map((id) => ({
+      id,
+      label: String(taxonomy.terms.find((term) => term.id === id)!.value),
+      value: generatorOutputName(id, taxonomy),
+    }));
+    bundle.vocabulary.elements = [];
+    bundle.fields.push(structuredClone(ELEMENT_NAMING_FIELD));
+    bundle.fields = bundle.fields.map((field) =>
+      "name" in field && field.name === "size"
+        ? { ...field, registry: "extensions/registry/sizes.json" }
+        : field,
+    );
+  }
   if (
     emitting.some(
       (source) =>
         structureGeneration(source).nameRef?.categoryId === ELEMENT_CATEGORY_ID,
     )
   ) {
-    bundle.profile = structuredClone(TSHIRT_COMPOSITION_PROFILE);
-    bundle.fields.push(structuredClone(ELEMENT_NAMING_FIELD));
+    if (!bundle.vocabulary.sizes)
+      bundle.profile = structuredClone(TSHIRT_COMPOSITION_PROFILE);
+    if (
+      !bundle.fields.some(
+        (field) => "name" in field && field.name === "element",
+      )
+    )
+      bundle.fields.push(structuredClone(ELEMENT_NAMING_FIELD));
     bundle.vocabulary.elements = [];
   }
   if (!emitting.length) return bundle;
@@ -389,7 +431,7 @@ function buildTshirtBatch(
               property: group.property,
               ...(group.orientation && { orientation: group.orientation }),
               ...(group.position && { position: group.position }),
-              size: mapping.size,
+              size: generatorOutputName(mapping.termId, taxonomy),
               ...context.context,
             },
             ...(mapping.target.family === "elevation" && {
@@ -439,7 +481,8 @@ function buildTshirtBatch(
           };
           if (
             taxonomy.classifications[conceptId] ||
-            snapshot.browserTokenEdits?.[conceptId]
+            (snapshot.browserTokenEdits?.[conceptId] &&
+              !snapshot.browserTokenEdits[conceptId].authoring)
           )
             throw new Error(
               "Generated variants cannot have direct token or classification overrides. Edit their source, Structure or rule.",
@@ -514,7 +557,11 @@ function buildTshirtBatch(
     throw new Error(
       "Generated semantic identities collide. Review Structure names and grouping.",
     );
-  assertTshirtGraph(bundle.tokens);
+  assertTshirtGraph(
+    bundle.tokens,
+    undefined,
+    bundle.vocabulary.sizes?.map((term) => term.value),
+  );
   const declared = new Set(
     bundle.fields.flatMap((field) =>
       "name" in field && typeof field.name === "string" ? [field.name] : [],
@@ -559,8 +606,9 @@ function buildTshirtBatch(
 export function selectedTshirtRows(
   bundle: TshirtArtifactBundle,
   structureId: string,
-  size: ComponentSize,
+  size: string,
   selection: Record<string, string>,
+  options?: Record<string, string>,
 ) {
   const context = Object.fromEntries(
     bundle.modeSets.map((axis) => [
@@ -575,6 +623,9 @@ export function selectedTshirtRows(
     (row) =>
       row.structureId === structureId &&
       row.size === size &&
+      (!row.optionId ||
+        options === undefined ||
+        (!!row.propertyId && options[row.propertyId] === row.optionId)) &&
       Object.entries(row.context).every(
         ([key, value]) => context[key] === value,
       ),
@@ -592,16 +643,18 @@ export function selectedTshirtRows(
 
 export function tshirtPreview(
   structure: Structure,
-  size: ComponentSize,
+  size: string,
   bundle: TshirtArtifactBundle,
   selection: Record<string, string>,
   references: readonly PrimitiveReference[],
+  options: Record<string, string> = {},
 ) {
   const rows = selectedTshirtRows(
     bundle,
     structure.conceptId,
     size,
     selection,
+    options,
   ).map((row) => liveTshirtRow(row, references));
   const assignments = new Map(
     rows.flatMap((row) =>
@@ -621,7 +674,7 @@ export function tshirtPreview(
     (row): PrimitiveReference => ({
       ...row.target,
       id: row.token.uuid,
-      name: formatTshirtName(row.token.name),
+      name: row.canonicalName ?? formatTshirtName(row.token.name),
     }),
   );
   return {
@@ -645,7 +698,9 @@ export function liveTshirtRow(
   const value =
     target.family === "elevation"
       ? exactShadowValue(target.shadows ?? [])
-      : exactDimensionValue(target.value);
+      : target.unit === "multiplier"
+        ? String(target.value)
+        : exactDimensionValue(target.value);
   return {
     ...row,
     target,

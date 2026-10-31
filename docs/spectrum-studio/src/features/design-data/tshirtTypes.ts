@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { ComponentSize } from "../foundations/componentSizes";
 import type { TshirtVariantMapping } from "../logic/tshirt";
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
+import type { Classification } from "../taxonomy/model";
 import type {
   TSHIRT_PROFILE,
   TSHIRT_COMPOSITION_PROFILE,
@@ -15,7 +15,7 @@ export interface TshirtDiagnostic {
   structureId: string;
   bindingIds: string[];
   ruleIds: string[];
-  size: ComponentSize;
+  size: string;
   requested: number;
   actual: number;
   targetId: string;
@@ -23,15 +23,18 @@ export interface TshirtDiagnostic {
 }
 
 export interface TshirtSemanticRow {
+  propertyId?: string;
+  optionId?: string;
+  canonicalName?: string;
   token: TshirtTokenRecord;
   conceptId: string;
-  classification: Record<string, string>;
+  classification: Classification;
   structureId: string;
   structureName: string;
   bindingIds: string[];
   applicationIds: string[];
   ruleIds: string[];
-  size: ComponentSize;
+  size: string;
   target: PrimitiveReference;
   context: Record<string, string>;
   selection: Record<string, string>;
@@ -40,7 +43,11 @@ export interface TshirtSemanticRow {
 }
 
 export interface TshirtArtifactBundle {
-  profile: typeof TSHIRT_PROFILE | typeof TSHIRT_COMPOSITION_PROFILE;
+  profile:
+    | typeof TSHIRT_PROFILE
+    | typeof TSHIRT_COMPOSITION_PROFILE
+    | typeof import("./tshirtProfile").GENERATOR_PROFILE
+    | typeof import("./tshirtProfile").TSHIRT_VARIANTS_PROFILE;
   sourceKind: "shipped" | "saved" | "working";
   tokens: TshirtTokenRecord[];
   semantics: TshirtSemanticRow[];
@@ -60,6 +67,7 @@ export interface TshirtArtifactBundle {
   vocabulary: {
     structures: { id: string; label: string; value: string }[];
     elements?: { id: string; label: string; value: string }[];
+    sizes?: { id: string; label: string; value: string }[];
     foundationScales: { sourceId: string; label: string; value: string }[];
     physicalPositions: string[];
   };

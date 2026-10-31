@@ -19,7 +19,7 @@ binding semantics are in the `modes` skill; token output is in `tokens`.
   collide with spacing, size and color scales. Do not rename either side.
 - **Interpolation**: a reusable named shape (a method or an expression). It replaces the old word
   "curve". `InterpolationMethod` is `linear`, `cosine` or `exponential`.
-- **Rule**: a reusable policy referenced by id: `rounding`, `scale-naming` or `tshirt-sizing`.
+- **Rule**: a reusable policy referenced by id: `rounding`, `scale-naming`, `generator` or `conditional`. `tshirt-sizing` remains a legacy discriminator.
 - **Binding**: the link from a formula part to a mode parameter. **Dimension scale**: a formula plus
   the range, overrides and bindings of one scale in spacing, size or radius.
 
@@ -78,9 +78,19 @@ typography temporarily (`AGENTS.md`).
   `roundingRuleId` on each scale. Built-in rules are `locked`.
 - **Scale naming**: base label, above increment, and automatic or fixed below-base increments; used
   by color scales with custom contrast steps. Standard rule: `STANDARD_SCALE_NAMING_RULE`.
-- **T-shirt sizing**: maps component sizes to registry size terms, with movement `available-token` or
-  `scale-index`. This belongs to EPIC-5.1 and Structures; it must build on product component size
-  (EPIC-2.5). Keep to what is documented here and ask before changing it.
+- **Generator**: ordered Registry Size terms and integer offsets, with `available-token` or
+  `scale-index` movement and one explicit zero-offset default. Custom options use Registry UUIDs;
+  unchanged shipped sizes retain their legacy output keys. `generator.ts` owns conversion and
+  rebasing. This bounded EPIC-5.1 slice does not migrate global typography component-size ownership.
+- **Conditional**: nested shared predicates and ordered exclusive outcomes with Otherwise.
+  This authoring/preview slice is not attached to Structures or generated token output.
+
+`logic/applicability.ts` owns operation capabilities and user-selected token value types.
+All means operation-compatible types. Call its shared predicates for pickers, previews,
+generation and affected uses; typography requires actual metric metadata. Rounding consumers
+pass typed context to `applyRoundingRule`; excluded types return raw values without clearing
+bindings. Legacy snapshots upgrade to All in authoring envelope 20, independently for saved
+and working data. New example restrictions must not overwrite old authored rules.
 
 Every rule is referenced by id. `logic/consumers.ts` (`ruleConsumers`, `consumersOf`,
 `draftRuleImpact`, `reassignConsumers`) finds every consumer so an edit shows its impact and a

@@ -2,6 +2,147 @@
   "schemaVersion": 1,
   "gaps": [
     {
+      "id": "LTAX-019",
+      "title": "Registry Size generators and typed rule applicability",
+      "links": ["GAP-006", "JTC-003", "JTC-005"],
+      "kind": "app-capability",
+      "direction": "app-to-reference",
+      "owner": "leonardo",
+      "scope": "Authoring envelope 20: Registry-backed Generator options, explicit rebased default, operation-compatible token value types, retained inactive bindings, typed rounding, atomic Registry/rule/Structure/component edits and custom Size compatibility envelope 4. Global typography component-size ownership and automatic conditional execution remain outside this slice.",
+      "profile": "reference-checkout",
+      "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": { "status": "needed" },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-019-C1",
+          "description": "Review legacy output equality, independent saved/working upgrades, typed exclusions, explicit overlaps, custom options/default rebasing and component-reference replacement.",
+          "check": "manual",
+          "evidence": [
+            "tests/generator-rules.ts",
+            "src/features/logic/applicability.ts",
+            "src/features/edit-session/generatorRulesUpgrade.ts"
+          ]
+        },
+        {
+          "id": "LTAX-019-C2",
+          "description": "Review inline transactions, shared Registry edits, Changes/reset parity and custom Size vocabulary round trips. Local verification does not establish an upstream derivation representation.",
+          "check": "manual",
+          "evidence": [
+            "tests/e2e/generator-rules.spec.ts",
+            "tests/e2e/storybook-tshirt.spec.ts",
+            "docs/design-data-authoring-storage-contract.md",
+            "docs/structure-element-templates.md"
+          ]
+        }
+      ],
+      "blockers": [
+        "No accepted upstream Generator or applicability contract",
+        "Custom Size outputs use an explicitly non-conforming app-owned profile",
+        "Global typography component-size ownership remains separate"
+      ],
+      "history": []
+    },
+    {
+      "id": "LTAX-018",
+      "title": "Conditional rule authoring and local evaluation",
+      "links": ["GAP-006", "JTC-003", "JTC-005"],
+      "kind": "app-capability",
+      "direction": "app-to-reference",
+      "owner": "leonardo",
+      "scope": "Conditional rules with shared nested And/Or predicates, stable taxonomy/mode references, ordered exclusive token-offset outcomes, local preview and authoring envelope 19. This authoring-only slice creates no generated token concepts or mode-value inventory and does not apply rules to Structures or exported tokens.",
+      "profile": "reference-checkout",
+      "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": { "status": "needed" },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-018-C1",
+          "description": "Review shared predicate scope, single-result If/Otherwise semantics, stable reference diagnostics, inline transactions, endpoint warnings and unchanged specialized rule behavior.",
+          "check": "manual",
+          "evidence": [
+            "tests/conditional-rules.ts",
+            "tests/e2e/conditional-rules.spec.ts",
+            "tests/e2e/storybook-conditional-rules.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-018-C2",
+          "description": "Review independent legacy working/saved upgrades, deletion preservation, nested source Changes and scoped resets. Local checks do not establish an upstream rule-derivation representation.",
+          "check": "manual",
+          "evidence": [
+            "src/features/edit-session/conditionalRulesUpgrade.ts",
+            "tests/conditional-rules.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
+      ],
+      "blockers": [
+        "No accepted upstream conditional-rule derivation contract",
+        "Generated-token and Structure application are outside this slice"
+      ],
+      "history": []
+    },
+    {
+      "id": "LTAX-017",
+      "title": "Structure properties and sparse variant semantics",
+      "links": ["JTC-009", "JTC-010"],
+      "kind": "app-capability",
+      "direction": "app-to-reference",
+      "owner": "leonardo",
+      "scope": "Structures schema 5 and envelope 18: reusable property definitions, shared layer topology, option-local visibility/order/bindings, temporary boolean previews, explicit Registry classifications, sparse root/leaf semantic outputs, and optional Visual width/height constraints. Structure and leaf Appearance share configurable controls. Local output uses leonardo-structure-variants-v3 and compatibility envelope 3. No upstream variants or anatomy contract is claimed.",
+      "profile": "reference-checkout",
+      "revision": "838a6835b746f9d77b2697374408901f334d854e",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": { "status": "needed" },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-017-C1",
+          "description": "Review shared layers, conflict handling, explicit Registry selection/creation, all-or-none size migration, saved/working independence, scoped Undo/reset and preview exclusions.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-variants.ts",
+            "tests/structure-variant-state.ts",
+            "tests/persistence.ts"
+          ]
+        },
+        {
+          "id": "LTAX-017-C2",
+          "description": "Review sparse semantic inventories, stable stored random identities, minimal owned mode contexts, Registry-ordered names, unitless values, unchanged default tokens and compatibility round trips.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-variant-tokens.ts",
+            "src/features/design-data/structureVariantArtifacts.ts",
+            "src/features/design-data/structureVariantLeaves.ts"
+          ]
+        },
+        {
+          "id": "LTAX-017-C3",
+          "description": "Review application and focused Storybook interactions, keyboard ordering, selection, light/dark and narrow layouts. Local checks do not record manual or upstream acceptance.",
+          "check": "manual",
+          "evidence": [
+            "src/panels/structures/StructureProperties.stories.tsx",
+            "src/panels/structures/StructureLayers.stories.tsx",
+            "tests/e2e/structure-variants.spec.ts",
+            "tests/e2e/storybook-structure-variants.spec.ts"
+          ]
+        }
+      ],
+      "blockers": [
+        "No accepted upstream variant-property or Structure-to-anatomy representation",
+        "Leaf variant values are generated literals in a local profile",
+        "Registry classifications currently project one term per category",
+        "Mode identity preallocation and semantic output each have an explicit 20,000-row limit"
+      ],
+      "history": []
+    },
+    {
       "id": "LTAX-016",
       "title": "Changes parity and authored impact coverage",
       "links": ["GAP-006", "JTC-003", "JTC-005"],
@@ -16,20 +157,58 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-016-C1", "description": "Review authored ownership, working/shipped union denominators, generated/manual distinctions, unavailable states and future field-registration requirements", "check": "manual", "evidence": [] },
-        { "id": "LTAX-016-C2", "description": "Review narrow source resets, context-specific supported overrides, explicit upstream choices and preserved saved/reference lifecycle boundaries", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-016-C1",
+          "description": "Review authored ownership, working/shipped union denominators, generated/manual distinctions, unavailable states and future field-registration requirements",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-016-C2",
+          "description": "Review narrow source resets, context-specific supported overrides, explicit upstream choices and preserved saved/reference lifecycle boundaries",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["No explicit manual architecture review or upstream alignment acceptance", "Local schema-shape and mutation tests are not a freshly mapped upstream dataset coverage assessment"],
+      "blockers": [
+        "No explicit manual architecture review or upstream alignment acceptance",
+        "Local schema-shape and mutation tests are not a freshly mapped upstream dataset coverage assessment"
+      ],
       "history": [
         {
           "date": "2026-10-14",
           "event": "User approved the bounded parity architecture slice, working-versus-shipped baseline, authored-only System impact, stable union accounting, context-scoped supported override choices, precise source resets, and future feature coverage rules. Product decisions are separate from manual criteria, historical output pins, reference-content evidence and RFC acceptance.",
-          "evidence": ["docs/archive/changelog-plan.md", "src/features/changelog/registry.ts", "tests/changelog-coverage.ts", "tests/changelog-parity.ts", "tests/changelog-resets.ts", "tests/changelog-presentation.ts"]
+          "evidence": [
+            "docs/archive/changelog-plan.md",
+            "src/features/changelog/registry.ts",
+            "tests/changelog-coverage.ts",
+            "tests/changelog-parity.ts",
+            "tests/changelog-resets.ts",
+            "tests/changelog-presentation.ts"
+          ]
         },
         {
           "date": "2026-10-14",
           "event": "Local implementation verified: Changes, coverage, impact, value-preview and affected persistence/Size/Component/alias/t-shirt/shadow/color-output checks passed; type checking, lint, production and Storybook builds passed; 15 app and 13 Storybook browser paths passed with empty page-error assertions. The semantic-source regression validates real Registry identities and excludes unrelated scales by stable address. Contrast-invalid shipped overrides are rejected atomically and selected preview modes do not change system-wide impact. Broader Modes/Typography/Spacing/Radius/Elevation runs retain existing fixture limitations described in the implementation contract. Local verification does not satisfy manual review, upstream alignment or RFC acceptance; reference revision and manual criteria remain unchanged.",
-          "evidence": ["docs/archive/changelog-plan.md", "tests/changelog-coverage.ts", "tests/changelog-parity.ts", "tests/changelog-resets.ts", "tests/changelog-presentation.ts", "tests/impact.ts", "tests/persistence.ts", "tests/size.ts", "tests/components-lifecycle.ts", "tests/taxonomy-alias-integration.ts", "tests/tshirt-integration.ts", "tests/shadow-artifacts.ts", "tests/color-output-contrast.ts", "tests/color-output-ownership.ts", "tests/e2e/changelog.spec.ts", "tests/e2e/value-preview.spec.ts", "tests/e2e/storybook-changelog.spec.ts"]
+          "evidence": [
+            "docs/archive/changelog-plan.md",
+            "tests/changelog-coverage.ts",
+            "tests/changelog-parity.ts",
+            "tests/changelog-resets.ts",
+            "tests/changelog-presentation.ts",
+            "tests/impact.ts",
+            "tests/persistence.ts",
+            "tests/size.ts",
+            "tests/components-lifecycle.ts",
+            "tests/taxonomy-alias-integration.ts",
+            "tests/tshirt-integration.ts",
+            "tests/shadow-artifacts.ts",
+            "tests/color-output-contrast.ts",
+            "tests/color-output-ownership.ts",
+            "tests/e2e/changelog.spec.ts",
+            "tests/e2e/value-preview.spec.ts",
+            "tests/e2e/storybook-changelog.spec.ts"
+          ]
         }
       ]
     },
@@ -48,20 +227,60 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-015-C1", "description": "Review shared settings lifecycle, source preservation, formatted contrast failures and exact output agreement across consumers", "check": "manual", "evidence": [] },
-        { "id": "LTAX-015-C2", "description": "Accept a pinned upstream representation contract for modern CSS gamut/format output and compound shadows", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-015-C1",
+          "description": "Review shared settings lifecycle, source preservation, formatted contrast failures and exact output agreement across consumers",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-015-C2",
+          "description": "Accept a pinned upstream representation contract for modern CSS gamut/format output and compound shadows",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Local CSS validity is not upstream schema acceptance", "No explicit architecture review or submitted/accepted RFC"],
+      "blockers": [
+        "Local CSS validity is not upstream schema acceptance",
+        "No explicit architecture review or submitted/accepted RFC"
+      ],
       "history": [
         {
           "date": "2026-10-14",
           "event": "Implemented the approved local architecture slice: one Color 5/envelope 13 saved configuration, independent legacy working/saved upgrades, sRGB/P3/Rec 2020 authoring, RGB/OKLCh/Hex/HSL output, optional sRGB appearance mapping and source-preserving picker defaults. Native checks cover 1260 final opaque/alpha contrast cases, typed blocked output, retained references and saved identities, Changes recovery, shared browser/export values, pinned shadow-field agreement and output-policy cache invalidation. Adaptive CSS uses correct XYZ coordinates, binary side decisions, bounded numerical margins, exact endpoint handling and base-surface repair; declared background/custom-target combinations are preflighted together. The gamut/format and nested-surface matrices pass Chromium, Firefox and WebKit; all five integrated Chromium paths and eight focused stories pass. The integrated WebKit custom-source transition still reports an unfiltered ResizeObserver error; temporary diagnostics and unsuccessful sizing changes were removed rather than masking it. Existing Radius materialization-pin and retired typographyMetric fixtures remain outside this slice. Builds and local evidence are not manual architecture acceptance, fresh upstream representation evidence, alignment disposition or RFC adoption.",
-          "evidence": ["tests/color-output.ts", "tests/color-output-contrast.ts", "tests/color-output-lifecycle.ts", "tests/color-output-ownership.ts", "tests/changelog.ts", "tests/data-vis-editors.ts", "tests/e2e/color-output.spec.ts", "tests/e2e/storybook-color-output.spec.ts", "docs/design-data-authoring-storage-contract.md", "docs/color-system-data-vis.md", "docs/design-data-target-contract.md"]
+          "evidence": [
+            "tests/color-output.ts",
+            "tests/color-output-contrast.ts",
+            "tests/color-output-lifecycle.ts",
+            "tests/color-output-ownership.ts",
+            "tests/changelog.ts",
+            "tests/data-vis-editors.ts",
+            "tests/e2e/color-output.spec.ts",
+            "tests/e2e/storybook-color-output.spec.ts",
+            "docs/design-data-authoring-storage-contract.md",
+            "docs/color-system-data-vis.md",
+            "docs/design-data-target-contract.md"
+          ]
         },
         {
           "date": "2026-10-14",
           "event": "Completed scoped local verification and resolved both previously recorded implementation blockers. Native ramp and palette algorithms are retained when wide-to-sRGB mapping is off; changing notation no longer introduces unrelated appearance mapping. All 30 original nearest-token selections, including Seahawks, are unchanged. Thirteen explicitly pinned final Hex corrections prove the historical output was below target, meet the serialized target and remain within one byte step per channel; original selection fixtures and authored IDs are unchanged. Continuous editors now have a stable scrolling viewport, removing the actual overlay resize feedback without filtering page errors. Three repeated WebKit source-switch/resize runs, all 15 integrated Chromium/Firefox/WebKit paths and eight approved Storybook paths pass. The full data vis suite, 1260 strict final-contrast checks, directly affected color/Changes/persistence/impact/shadow checks, typecheck, lint and production builds pass. Saved token-concept and mode-value denominators are unchanged; temporary previews and browser samples are not saved edits. Local implementation is verified, but no manual criteria, fresh upstream reference assessment, alignment disposition or RFC acceptance are inferred.",
-          "evidence": ["tests/color-output.ts", "tests/color-output-contrast.ts", "tests/color-output-lifecycle.ts", "tests/color-output-ownership.ts", "tests/fire-defaults.ts", "tests/fixtures/sequentialDefaults.ts", "tests/changelog.ts", "tests/persistence.ts", "tests/impact.ts", "tests/shadow-artifacts.ts", "tests/e2e/color-output.spec.ts", "tests/e2e/storybook-color-output.spec.ts", "docs/color-system-data-vis.md", "docs/design-data-authoring-storage-contract.md"]
+          "evidence": [
+            "tests/color-output.ts",
+            "tests/color-output-contrast.ts",
+            "tests/color-output-lifecycle.ts",
+            "tests/color-output-ownership.ts",
+            "tests/fire-defaults.ts",
+            "tests/fixtures/sequentialDefaults.ts",
+            "tests/changelog.ts",
+            "tests/persistence.ts",
+            "tests/impact.ts",
+            "tests/shadow-artifacts.ts",
+            "tests/e2e/color-output.spec.ts",
+            "tests/e2e/storybook-color-output.spec.ts",
+            "docs/color-system-data-vis.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
         }
       ]
     },
@@ -77,23 +296,66 @@
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "verified",
       "disposition": "intentional difference",
-      "rfc": { "status": "drafted", "link": "docs/rfcs/taxonomy-ownership-and-projections.md" },
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/taxonomy-ownership-and-projections.md"
+      },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-001-C1", "description": "Review exact global ownership, trim/case normalization, and numeric/text collisions", "check": "manual", "evidence": [] },
-        { "id": "LTAX-001-C2", "description": "Upstream acceptance of intentional departure from allowed cross-category reuse", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-001-C1",
+          "description": "Review exact global ownership, trim/case normalization, and numeric/text collisions",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-001-C2",
+          "description": "Upstream acceptance of intentional departure from allowed cross-category reuse",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Current upstream explicitly permits cross-category word reuse; no RFC is submitted or accepted"],
+      "blockers": [
+        "Current upstream explicitly permits cross-category word reuse; no RFC is submitted or accepted"
+      ],
       "history": [
-        { "date": "2026-10-06", "event": "User approved strict Spectrum studio policy, not upstream adoption", "evidence": ["docs/rfcs/taxonomy-ownership-and-projections.md"] },
-        { "date": "2026-10-06", "event": "Local implementation verified: strict exact ownership, numeric/text collisions, foundation atomicity and desktop/narrow/mobile Registry checks. Test evidence is not manual architecture or upstream acceptance.", "evidence": ["tests/taxonomy.ts", "tests/palette.ts", "tests/e2e/taxonomy.spec.ts"] },
-        { "date": "2026-10-11", "event": "Superseding approved contract preserves global text ownership but permits numeric Scale index/Number reuse with distinct category-owned UUIDs. Scale index is finite/open; Number is a positive safe integer. Same-category duplicates and numeric strings still conflict. Focused category-aware lookup, default-vocabulary and unsupported-import checks pass. This does not change upstream policy or satisfy manual criteria.", "evidence": ["tests/taxonomy-value-domains.ts", "tests/taxonomy-ordered-vocabulary.ts", "tests/taxonomy.ts", "docs/archive/token-taxonomy-order-plan.md"] }
+        {
+          "date": "2026-10-06",
+          "event": "User approved strict Spectrum studio policy, not upstream adoption",
+          "evidence": ["docs/rfcs/taxonomy-ownership-and-projections.md"]
+        },
+        {
+          "date": "2026-10-06",
+          "event": "Local implementation verified: strict exact ownership, numeric/text collisions, foundation atomicity and desktop/narrow/mobile Registry checks. Test evidence is not manual architecture or upstream acceptance.",
+          "evidence": [
+            "tests/taxonomy.ts",
+            "tests/palette.ts",
+            "tests/e2e/taxonomy.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Superseding approved contract preserves global text ownership but permits numeric Scale index/Number reuse with distinct category-owned UUIDs. Scale index is finite/open; Number is a positive safe integer. Same-category duplicates and numeric strings still conflict. Focused category-aware lookup, default-vocabulary and unsupported-import checks pass. This does not change upstream policy or satisfy manual criteria.",
+          "evidence": [
+            "tests/taxonomy-value-domains.ts",
+            "tests/taxonomy-ordered-vocabulary.ts",
+            "tests/taxonomy.ts",
+            "docs/archive/token-taxonomy-order-plan.md"
+          ]
+        }
       ]
     },
     {
       "id": "LTAX-002",
       "title": "Shared ordered names and token hierarchy",
-      "links": ["GAP-004", "GAP-005", "GAP-006", "GAP-008", "JTC-008", "JTC-002"],
+      "links": [
+        "GAP-004",
+        "GAP-005",
+        "GAP-006",
+        "GAP-008",
+        "JTC-008",
+        "JTC-002"
+      ],
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
@@ -102,26 +364,159 @@
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "verified",
       "disposition": "not assessed",
-      "rfc": { "status": "drafted", "link": "docs/rfcs/taxonomy-ownership-and-projections.md" },
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/taxonomy-ownership-and-projections.md"
+      },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-002-C1", "description": "Review shared names/tree behavior, custom-color rule-derived indices and stable swatch identity, export guardrails and all consumer round-trips", "check": "manual", "evidence": [] },
-        { "id": "LTAX-002-C2", "description": "Accept global order policy while acknowledging existing serialization.position and formatting", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-002-C1",
+          "description": "Review shared names/tree behavior, custom-color rule-derived indices and stable swatch identity, export guardrails and all consumer round-trips",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-002-C2",
+          "description": "Accept global order policy while acknowledging existing serialization.position and formatting",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Explicit review and reference-policy acceptance remain required", "Compatibility packets and dimension v3 are local profiles, not accepted upstream schema/resolver contracts; pinned T-shirt/shadow serializers remain separate"],
+      "blockers": [
+        "Explicit review and reference-policy acceptance remain required",
+        "Compatibility packets and dimension v3 are local profiles, not accepted upstream schema/resolver contracts; pinned T-shirt/shadow serializers remain separate"
+      ],
       "history": [
-        { "date": "2026-10-06", "event": "Architecture slice started against reviewed Spectrum studio baseline cca2d9b", "evidence": [] },
-        { "date": "2026-10-06", "event": "Local implementation verified: shared ordered names/tree, identity and legacy output fingerprint preservation, migration/export guards, durable Save/Cancel/reload, saved denominator regression/staleness, and Analysis JSON/Markdown/UI parity. Manual acceptance and reference SDK conformance remain unassessed.", "evidence": ["tests/taxonomy.ts", "tests/persistence.ts", "tests/design-data-materialization.ts", "tests/design-data-coverage.ts", "tests/design-data-gaps.ts", "tests/e2e/taxonomy.spec.ts", "tests/e2e/tokens.spec.ts"] },
-        { "date": "2026-10-06", "event": "Superseding user decision: checked-in canonical name references are the only durable authority; Save/Cancel are page-session baselines and reload restores defaults. Foundation properties, metrics and steps are governed, without classification overrides. Shared kebab formatting preserves reference/token IDs; excluded Property collisions remain diagnostic. Canonical output fingerprint replaces legacy cached-name/tint evidence. Saved denominators remain concept/mode scoped; no manual alignment or RFC acceptance is inferred.", "evidence": ["tests/canonical-names.ts", "tests/taxonomy-sources.ts", "tests/persistence.ts", "tests/design-data-materialization.ts", "tests/e2e/taxonomy-sources.spec.ts", "tests/e2e/dimension-schema-hmr.spec.ts", "tests/e2e/taxonomy.spec.ts"] },
-        { "date": "2026-10-06", "event": "Registry presentation corrected to the existing Logic layout, with horizontal tabs, quiet category actions, grouped fields and standard dialogs. Screenshots reviewed at 1280, 800 and 390 pixels; 16 integrated browser checks passed with no page errors. No model, saved denominator or alignment-disposition change.", "evidence": ["tests/e2e/taxonomy.spec.ts", "tests/e2e/tokens.spec.ts"] },
-        { "date": "2026-10-07", "event": "Superseding user direction: accepted working authoring changes and last-saved baseline persist together across refresh. Cancel restores the last save; confirmed Reset all replaces both with shipped defaults. UUID ownership, native schemas, generation, scoped denominators, alignment disposition and RFC acceptance remain unchanged. App appearance, mode selections, drafts and adaptive previews are not authored token assignments.", "evidence": ["src/features/edit-session/storage.ts", "tests/persistence.ts", "tests/mode-ui.ts"] },
-        { "date": "2026-10-08", "event": "User-approved Spacing/Size inline cards retain Registry-backed names, shared rename propagation, immutable references, overrides and durable Save/Cancel/reload. Two checked-in unpublished spacing examples and one rounding rule extend fresh/reset source inventories without merging existing saved records or adding published dimension concepts. Local model, interaction and output checks support this slice; the exact materialization pin was reviewed against committed defaults before refresh. Reference policy, manual criteria and RFC acceptance remain unassessed.", "evidence": ["tests/dimension-analysis.ts", "tests/canonical-names.ts", "tests/persistence.ts", "tests/design-data-materialization.ts", "tests/e2e/dimension-foundations.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-09", "event": "User-approved minimum Radius slice adds a published Global scale with shared UUID-backed naming, unchanged source/reference identities, durable Save/Cancel and an explicit version-1 to version-2 working/saved upgrade. Missing Radius dependencies are added without merging earlier spacing examples or losing existing edits. Default inventory gains 11 Radius concepts and 11 scoped baseline mode-values; temporary samples are not counted. Removing only Radius source/formula/output records reproduces the prior exact materialization pin; existing output remains unchanged. Proposed dimension profile v2 is local, not upstream conformance. Reference revision, manual acceptance, disposition and RFC state remain unchanged.", "evidence": ["tests/radius.ts", "tests/design-data-materialization.ts", "tests/e2e/radius.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-09", "event": "The approved Elevation slice adds one Registry-backed scale with stable layer and mathematical-index identities. Shared Registry renames change projected names without changing complete values or UUIDs. Both pre-Radius and Radius output pins are reproduced after removing only the new Elevation records and mode wiring; complete new output is pinned separately. Three concepts and six owner-scoped values are distinct from 36 Cartesian Analysis samples. LTAX-007 tracks the compound-shadow mapping; no manual or upstream acceptance is inferred.", "evidence": ["tests/elevation.ts", "tests/design-data-materialization.ts", "tests/e2e/elevation.spec.ts"] },
-        { "date": "2026-10-11", "event": "User-approved architecture slice integrates the requested one-term group vocabulary/order, conditional Property, explicit default foundation mappings and durable v6 working/saved upgrades. Future Save alone creates direct compatibility aliases; own-name reuse, deletion/revert, Cancel/reload, unavailable-context cleanup and collision blocking are tested. Canonical exports resolve exact emitted primitive targets, with hidden-source semantics as literals. Compatibility Analysis/Changes are separate from canonical concept/mode-value accounting. All three historic c84de71 pins were reproduced before extracting naming-only invariants; 3,486 prior token rows retain IDs, values, units, contexts and generation/mode wiring. This is local implementation evidence, not reference-content coverage, manual architecture acceptance or RFC acceptance.", "evidence": ["tests/taxonomy-foundation-names.ts", "tests/taxonomy-outputs.ts", "tests/taxonomy-alias-integration.ts", "tests/aliases-persistence.ts", "tests/token-aliases.ts", "tests/design-data-materialization.ts", "tests/fixtures/taxonomy-materialization-baseline.json", "tests/design-data-coverage.ts", "docs/rfcs/taxonomy-ownership-and-projections.md"] },
-        { "date": "2026-10-11", "event": "Completed five focused Registry editing paths and five alias/order/color browser paths on localhost:5173. Desktop and 390 px checks cover draft focus/validation, S2 editable-cell submit/cancel, shared rename identity, read-only restrictions, Save-only aliases, direct export targets, selection exclusion, deletion/Cancel/reload, own-name reuse, collision rejection without saved-graph advancement, and saved global order/hierarchy. All assert empty page-error lists; screenshots inspected. The existing Tokens table is width-constrained so narrow layouts can scroll to Actions; the app header is not redesigned. Bounded unit/schema/report checks, lint and build pass. Test execution neither satisfies manual review criteria nor changes canonical denominator policy or upstream acceptance.", "evidence": ["tests/e2e/taxonomy-editing.spec.ts", "tests/e2e/taxonomy-aliases.spec.ts", "tests/taxonomy-alias-integration.ts", "tests/design-data-portable-contract.ts", "tests/design-data-gaps.ts", "docs/archive/token-taxonomy-order-plan.md"] },
-        { "date": "2026-10-12", "event": "Corrected a shipped-catalog omission: canonical projections already used the approved mappings, but eight unused compound Typography metric seeds, the unused typography Property placeholder and the invented Elevation scale seed remained. Fresh/reset defaults retire those ten records, retain native metric keys and the approved source-name group order, and point Elevation to the existing Surface Element with Shadow Attribute. Older Elevation recovery installs all explicit reference dependencies. Current saved/working vocabulary is preserved; only confirmed Reset all replaces it with defaults. Exact raw-default UUID/mapping assertions, explicit legacy fixtures, persistence/reset and three desktop/narrow Registry/Foundation browser paths pass with empty page-error lists. Historic non-naming materialization invariants and all 3,486 token rows remain unchanged. Native Structure slots retain required terms. No concept/mode-value denominator, reference revision, manual acceptance, alignment disposition or RFC status changes.", "evidence": ["tests/defaults.ts", "tests/taxonomy-foundation-names.ts", "tests/fixtures/legacyTypography.ts", "tests/elevation.ts", "tests/persistence.ts", "tests/e2e/taxonomy-defaults.spec.ts", "tests/design-data-materialization.ts", "docs/archive/token-taxonomy-order-plan.md"] },
-        { "date": "2026-10-12", "event": "The approved custom-color minimum adds optional scale-owned contrast lists, base-swatches and reusable numeric naming rules without changing shared-list output. Labels are derived; scale/step identities, inherited mode patches and generated classification remain distinct. Envelope v7 adds only the standard rule to working/saved snapshots independently. Save retains unambiguous compatibility names and reports names reused by other renumbered custom swatches. Concept changes remain scale-scoped; aliases and working previews do not enlarge saved denominators. Focused checks cover the 13-step Gray and unchanged 16-step shared fixture, lifecycle, schema and output consumers. Reference revision, alignment disposition, manual criteria and RFC acceptance are unchanged; stale retired-category fixtures are not alignment evidence.", "evidence": ["tests/custom-contrasts.ts", "tests/token-aliases.ts", "tests/e2e/custom-contrasts.spec.ts", "tests/e2e/storybook-custom-contrasts.spec.ts", "docs/contrast-polarity-compensation.md", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "date": "2026-10-06",
+          "event": "Architecture slice started against reviewed Spectrum studio baseline cca2d9b",
+          "evidence": []
+        },
+        {
+          "date": "2026-10-06",
+          "event": "Local implementation verified: shared ordered names/tree, identity and legacy output fingerprint preservation, migration/export guards, durable Save/Cancel/reload, saved denominator regression/staleness, and Analysis JSON/Markdown/UI parity. Manual acceptance and reference SDK conformance remain unassessed.",
+          "evidence": [
+            "tests/taxonomy.ts",
+            "tests/persistence.ts",
+            "tests/design-data-materialization.ts",
+            "tests/design-data-coverage.ts",
+            "tests/design-data-gaps.ts",
+            "tests/e2e/taxonomy.spec.ts",
+            "tests/e2e/tokens.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-06",
+          "event": "Superseding user decision: checked-in canonical name references are the only durable authority; Save/Cancel are page-session baselines and reload restores defaults. Foundation properties, metrics and steps are governed, without classification overrides. Shared kebab formatting preserves reference/token IDs; excluded Property collisions remain diagnostic. Canonical output fingerprint replaces legacy cached-name/tint evidence. Saved denominators remain concept/mode scoped; no manual alignment or RFC acceptance is inferred.",
+          "evidence": [
+            "tests/canonical-names.ts",
+            "tests/taxonomy-sources.ts",
+            "tests/persistence.ts",
+            "tests/design-data-materialization.ts",
+            "tests/e2e/taxonomy-sources.spec.ts",
+            "tests/e2e/dimension-schema-hmr.spec.ts",
+            "tests/e2e/taxonomy.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-06",
+          "event": "Registry presentation corrected to the existing Logic layout, with horizontal tabs, quiet category actions, grouped fields and standard dialogs. Screenshots reviewed at 1280, 800 and 390 pixels; 16 integrated browser checks passed with no page errors. No model, saved denominator or alignment-disposition change.",
+          "evidence": ["tests/e2e/taxonomy.spec.ts", "tests/e2e/tokens.spec.ts"]
+        },
+        {
+          "date": "2026-10-07",
+          "event": "Superseding user direction: accepted working authoring changes and last-saved baseline persist together across refresh. Cancel restores the last save; confirmed Reset all replaces both with shipped defaults. UUID ownership, native schemas, generation, scoped denominators, alignment disposition and RFC acceptance remain unchanged. App appearance, mode selections, drafts and adaptive previews are not authored token assignments.",
+          "evidence": [
+            "src/features/edit-session/storage.ts",
+            "tests/persistence.ts",
+            "tests/mode-ui.ts"
+          ]
+        },
+        {
+          "date": "2026-10-08",
+          "event": "User-approved Spacing/Size inline cards retain Registry-backed names, shared rename propagation, immutable references, overrides and durable Save/Cancel/reload. Two checked-in unpublished spacing examples and one rounding rule extend fresh/reset source inventories without merging existing saved records or adding published dimension concepts. Local model, interaction and output checks support this slice; the exact materialization pin was reviewed against committed defaults before refresh. Reference policy, manual criteria and RFC acceptance remain unassessed.",
+          "evidence": [
+            "tests/dimension-analysis.ts",
+            "tests/canonical-names.ts",
+            "tests/persistence.ts",
+            "tests/design-data-materialization.ts",
+            "tests/e2e/dimension-foundations.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-09",
+          "event": "User-approved minimum Radius slice adds a published Global scale with shared UUID-backed naming, unchanged source/reference identities, durable Save/Cancel and an explicit version-1 to version-2 working/saved upgrade. Missing Radius dependencies are added without merging earlier spacing examples or losing existing edits. Default inventory gains 11 Radius concepts and 11 scoped baseline mode-values; temporary samples are not counted. Removing only Radius source/formula/output records reproduces the prior exact materialization pin; existing output remains unchanged. Proposed dimension profile v2 is local, not upstream conformance. Reference revision, manual acceptance, disposition and RFC state remain unchanged.",
+          "evidence": [
+            "tests/radius.ts",
+            "tests/design-data-materialization.ts",
+            "tests/e2e/radius.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-09",
+          "event": "The approved Elevation slice adds one Registry-backed scale with stable layer and mathematical-index identities. Shared Registry renames change projected names without changing complete values or UUIDs. Both pre-Radius and Radius output pins are reproduced after removing only the new Elevation records and mode wiring; complete new output is pinned separately. Three concepts and six owner-scoped values are distinct from 36 Cartesian Analysis samples. LTAX-007 tracks the compound-shadow mapping; no manual or upstream acceptance is inferred.",
+          "evidence": [
+            "tests/elevation.ts",
+            "tests/design-data-materialization.ts",
+            "tests/e2e/elevation.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "User-approved architecture slice integrates the requested one-term group vocabulary/order, conditional Property, explicit default foundation mappings and durable v6 working/saved upgrades. Future Save alone creates direct compatibility aliases; own-name reuse, deletion/revert, Cancel/reload, unavailable-context cleanup and collision blocking are tested. Canonical exports resolve exact emitted primitive targets, with hidden-source semantics as literals. Compatibility Analysis/Changes are separate from canonical concept/mode-value accounting. All three historic c84de71 pins were reproduced before extracting naming-only invariants; 3,486 prior token rows retain IDs, values, units, contexts and generation/mode wiring. This is local implementation evidence, not reference-content coverage, manual architecture acceptance or RFC acceptance.",
+          "evidence": [
+            "tests/taxonomy-foundation-names.ts",
+            "tests/taxonomy-outputs.ts",
+            "tests/taxonomy-alias-integration.ts",
+            "tests/aliases-persistence.ts",
+            "tests/token-aliases.ts",
+            "tests/design-data-materialization.ts",
+            "tests/fixtures/taxonomy-materialization-baseline.json",
+            "tests/design-data-coverage.ts",
+            "docs/rfcs/taxonomy-ownership-and-projections.md"
+          ]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Completed five focused Registry editing paths and five alias/order/color browser paths on localhost:5173. Desktop and 390 px checks cover draft focus/validation, S2 editable-cell submit/cancel, shared rename identity, read-only restrictions, Save-only aliases, direct export targets, selection exclusion, deletion/Cancel/reload, own-name reuse, collision rejection without saved-graph advancement, and saved global order/hierarchy. All assert empty page-error lists; screenshots inspected. The existing Tokens table is width-constrained so narrow layouts can scroll to Actions; the app header is not redesigned. Bounded unit/schema/report checks, lint and build pass. Test execution neither satisfies manual review criteria nor changes canonical denominator policy or upstream acceptance.",
+          "evidence": [
+            "tests/e2e/taxonomy-editing.spec.ts",
+            "tests/e2e/taxonomy-aliases.spec.ts",
+            "tests/taxonomy-alias-integration.ts",
+            "tests/design-data-portable-contract.ts",
+            "tests/design-data-gaps.ts",
+            "docs/archive/token-taxonomy-order-plan.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Corrected a shipped-catalog omission: canonical projections already used the approved mappings, but eight unused compound Typography metric seeds, the unused typography Property placeholder and the invented Elevation scale seed remained. Fresh/reset defaults retire those ten records, retain native metric keys and the approved source-name group order, and point Elevation to the existing Surface Element with Shadow Attribute. Older Elevation recovery installs all explicit reference dependencies. Current saved/working vocabulary is preserved; only confirmed Reset all replaces it with defaults. Exact raw-default UUID/mapping assertions, explicit legacy fixtures, persistence/reset and three desktop/narrow Registry/Foundation browser paths pass with empty page-error lists. Historic non-naming materialization invariants and all 3,486 token rows remain unchanged. Native Structure slots retain required terms. No concept/mode-value denominator, reference revision, manual acceptance, alignment disposition or RFC status changes.",
+          "evidence": [
+            "tests/defaults.ts",
+            "tests/taxonomy-foundation-names.ts",
+            "tests/fixtures/legacyTypography.ts",
+            "tests/elevation.ts",
+            "tests/persistence.ts",
+            "tests/e2e/taxonomy-defaults.spec.ts",
+            "tests/design-data-materialization.ts",
+            "docs/archive/token-taxonomy-order-plan.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "The approved custom-color minimum adds optional scale-owned contrast lists, base-swatches and reusable numeric naming rules without changing shared-list output. Labels are derived; scale/step identities, inherited mode patches and generated classification remain distinct. Envelope v7 adds only the standard rule to working/saved snapshots independently. Save retains unambiguous compatibility names and reports names reused by other renumbered custom swatches. Concept changes remain scale-scoped; aliases and working previews do not enlarge saved denominators. Focused checks cover the 13-step Gray and unchanged 16-step shared fixture, lifecycle, schema and output consumers. Reference revision, alignment disposition, manual criteria and RFC acceptance are unchanged; stale retired-category fixtures are not alignment evidence.",
+          "evidence": [
+            "tests/custom-contrasts.ts",
+            "tests/token-aliases.ts",
+            "tests/e2e/custom-contrasts.spec.ts",
+            "tests/e2e/storybook-custom-contrasts.spec.ts",
+            "docs/contrast-polarity-compensation.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ]
     },
     {
@@ -138,12 +533,41 @@
       "disposition": "not assessed",
       "rfc": { "status": "needed" },
       "expected": [],
-      "criteria": [{ "id": "LTAX-003-C1", "description": "Pinned upstream schema and catalog agree on numeric scaleIndex, with conformance fixtures", "check": "manual", "evidence": [] }],
-      "blockers": ["Separate upstream contract resolution; local proposed dimension profile is not upstream conformance"],
+      "criteria": [
+        {
+          "id": "LTAX-003-C1",
+          "description": "Pinned upstream schema and catalog agree on numeric scaleIndex, with conformance fixtures",
+          "check": "manual",
+          "evidence": []
+        }
+      ],
+      "blockers": [
+        "Separate upstream contract resolution; local proposed dimension profile is not upstream conformance"
+      ],
       "history": [
-        { "date": "2026-10-06", "event": "Tracked separately from ordering and uniqueness", "evidence": ["docs/rfcs/taxonomy-ownership-and-projections.md"] },
-        { "date": "2026-10-11", "event": "Read-only pinned source audit distinguishes integer catalog, string-only additional name schema fields and SDK as_i64 behavior. Local dimension v3 preserves typed finite coordinates and Registry-projected fields, including explicit negative/fraction/exponent formatting. Local checks do not resolve the upstream disagreement; blocked implementation and unassessed disposition remain unchanged.", "evidence": ["tests/taxonomy-value-domains.ts", "tests/taxonomy-outputs.ts", "docs/archive/token-taxonomy-order-plan.md", "docs/rfcs/taxonomy-ownership-and-projections.md"] },
-        { "date": "2026-10-12", "event": "Optional custom-color naming derives positive numeric indices from a base and rule, independently of contrast ratios. Local Gray naming and native/CSS checks do not resolve the pinned upstream numeric/string schema/catalog disagreement or establish SDK conformance. Blocked implementation, reference revision and unassessed disposition remain unchanged.", "evidence": ["tests/custom-contrasts.ts", "docs/contrast-polarity-compensation.md"] }
+        {
+          "date": "2026-10-06",
+          "event": "Tracked separately from ordering and uniqueness",
+          "evidence": ["docs/rfcs/taxonomy-ownership-and-projections.md"]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Read-only pinned source audit distinguishes integer catalog, string-only additional name schema fields and SDK as_i64 behavior. Local dimension v3 preserves typed finite coordinates and Registry-projected fields, including explicit negative/fraction/exponent formatting. Local checks do not resolve the upstream disagreement; blocked implementation and unassessed disposition remain unchanged.",
+          "evidence": [
+            "tests/taxonomy-value-domains.ts",
+            "tests/taxonomy-outputs.ts",
+            "docs/archive/token-taxonomy-order-plan.md",
+            "docs/rfcs/taxonomy-ownership-and-projections.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Optional custom-color naming derives positive numeric indices from a base and rule, independently of contrast ratios. Local Gray naming and native/CSS checks do not resolve the pinned upstream numeric/string schema/catalog disagreement or establish SDK conformance. Blocked implementation, reference revision and unassessed disposition remain unchanged.",
+          "evidence": [
+            "tests/custom-contrasts.ts",
+            "docs/contrast-polarity-compensation.md"
+          ]
+        }
       ]
     },
     {
@@ -160,11 +584,32 @@
       "disposition": "not assessed",
       "rfc": { "status": "not required" },
       "expected": [],
-      "criteria": [{ "id": "LTAX-004-C1", "description": "Execute version-corresponding SDK formatting conformance against declared manifest", "check": "manual", "evidence": [] }],
-      "blockers": ["No supported executed SDK formatting evidence in this slice; upstream execution is prohibited"],
+      "criteria": [
+        {
+          "id": "LTAX-004-C1",
+          "description": "Execute version-corresponding SDK formatting conformance against declared manifest",
+          "check": "manual",
+          "evidence": []
+        }
+      ],
+      "blockers": [
+        "No supported executed SDK formatting evidence in this slice; upstream execution is prohibited"
+      ],
       "history": [
-        { "date": "2026-10-06", "event": "Specification support is not promoted to SDK implementation", "evidence": [] },
-        { "date": "2026-10-11", "event": "Local preview, Tokens, CSS, canonical packet and dimension names share Registry order and whole-name kebab formatting. A future Platform setting remains documented only. Reference naming/formatting source inspection at the checkout and separate PR #1454 head is not executed SDK conformance and cannot satisfy this manual criterion.", "evidence": ["tests/taxonomy-outputs.ts", "docs/archive/token-taxonomy-order-plan.md", "docs/rfcs/taxonomy-ownership-and-projections.md"] }
+        {
+          "date": "2026-10-06",
+          "event": "Specification support is not promoted to SDK implementation",
+          "evidence": []
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Local preview, Tokens, CSS, canonical packet and dimension names share Registry order and whole-name kebab formatting. A future Platform setting remains documented only. Reference naming/formatting source inspection at the checkout and separate PR #1454 head is not executed SDK conformance and cannot satisfy this manual criterion.",
+          "evidence": [
+            "tests/taxonomy-outputs.ts",
+            "docs/archive/token-taxonomy-order-plan.md",
+            "docs/rfcs/taxonomy-ownership-and-projections.md"
+          ]
+        }
       ]
     },
     {
@@ -182,20 +627,119 @@
       "rfc": { "status": "not required" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-005-C1", "description": "Review declared-default matching versus SDK wildcard/base fallback without changing the application's resolution contract", "check": "manual", "evidence": [] },
-        { "id": "LTAX-005-C2", "description": "Review supported capabilities and explicit assignment coverage separately from interface-only attachments and unused mode declarations", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-005-C1",
+          "description": "Review declared-default matching versus SDK wildcard/base fallback without changing the application's resolution contract",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-005-C2",
+          "description": "Review supported capabilities and explicit assignment coverage separately from interface-only attachments and unused mode declarations",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Pinned specification and SDK differ on omitted mode-field matching; no manual resolution-contract acceptance is recorded", "Direct overrides are limited to Color, Typography and Elevation capabilities; Spacing, Size and Radius use explicit bindings, and Motion remains a placeholder"],
+      "blockers": [
+        "Pinned specification and SDK differ on omitted mode-field matching; no manual resolution-contract acceptance is recorded",
+        "Direct overrides are limited to Color, Typography and Elevation capabilities; Spacing, Size and Radius use explicit bindings, and Motion remains a placeholder"
+      ],
       "history": [
-        { "date": "2026-10-07", "event": "User approved a bounded UI/storage update retaining native schemas and base-plus-overrides behavior after read-only comparison with pinned mode-set specification and SDK cascade source. Implementation evidence does not establish upstream conformance or manual architecture acceptance.", "evidence": ["tests/mode-ui.ts", "tests/persistence.ts"] },
-        { "date": "2026-10-07", "event": "Completed the scoped Preview controls, independent app appearance, shared foundation mode panels, supported override editors and durable working/saved lifecycle. State checks and application/Storybook interactions verify ownership, base/default routing, identity stability, temporary-preview exclusion, storage recovery and desktop/narrow layouts with no page errors. Interface attachments do not add assignments or alter coverage denominators. Manual reference acceptance remains unassessed; the materialization fingerprint check reproduces the same unrelated failure at committed baseline 943ab12.", "evidence": ["tests/mode-ui.ts", "tests/persistence.ts", "tests/e2e/foundation-modes.spec.ts", "tests/e2e/storybook-foundation-modes.spec.ts", "tests/design-data-materialization.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-07", "event": "User-directed UI refinement gives enabled mode variables a single foundation authoring location in their owning mode popovers, including shared-default editing. Normal panels retain unclaimed settings and shared structural controls. This presentation-only change does not alter native schemas, mode payloads, storage, generation, assignment denominators or reference acceptance.", "evidence": ["tests/mode-ui.ts", "tests/e2e/foundation-modes.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-07", "event": "User-directed one-click foundation-card deletion clears scoped overrides, adaptive claims, previews, bindings and explicit token value assignments while preserving shared/default values, stable identities and other foundations. Cascade output removes detached axes rather than deduplicating equal values; remaining dependencies and scoped assignments stay explicit. Units and application/Storybook checks cover cleanup, flat Color and dimension output, Save/Cancel/refresh and content-sized lists at desktop/narrow widths with no page errors. Saved/shipped impact and Analysis evaluation-sample denominator policies are unchanged; manual reference acceptance and existing blockers remain unassessed.", "evidence": ["tests/mode-ui.ts", "tests/e2e/foundation-modes.spec.ts", "tests/e2e/storybook-foundation-modes.spec.ts", "tests/persistence.ts", "tests/impact.ts", "tests/design-data-coverage.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-07", "event": "User-directed foundation Add flow uses a medium S2 menu and staged small variable-selection dialog before committing a card. Existing-set setup preserves live mode values, identities and other foundation settings; new sets remain drafts through creation and variable selection. Mode-row Edit now exposes only values. Selection-only cards retain switching without Edit actions. Local state and application/Storybook checks cover setup Apply/Cancel, ownership conflicts, creation cancellation, keyboard actions and layouts. Native schemas, reference-resolution acceptance and denominator policies are unchanged.", "evidence": ["tests/mode-ui.ts", "tests/e2e/foundation-modes.spec.ts", "tests/e2e/storybook-foundation-modes.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-08", "event": "Dimension Analysis now compares explicit bindings by one connected variable at a time, holding other resolved settings fixed. Named modes retain equal-valued identities and authored defaults; sampled ranges include off-grid defaults. Static scales omit adaptive controls, while hidden setup controls retain binding and neutral-point behavior. Local selections and chart samples neither mutate authoring/preferences nor create saved concepts, assignments or mode-value denominator entries. Application and isolated Storybook evidence retains empty page-error checks. Pinned resolution-contract blockers and manual acceptance remain unchanged.", "evidence": ["tests/dimension-analysis.ts", "tests/e2e/dimension-foundations.spec.ts", "tests/e2e/storybook-dimension-foundations.spec.ts", "tests/design-data-coverage.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-09", "event": "Radius reuses the existing dimension evaluator, inline authoring controls and responsive per-scale Analyze charts; adaptive setup stays hidden and no new mode capabilities are introduced. User-directed refinement makes numeric Radius fields edit shared formula defaults without creating local overrides or showing Revert; range, rounding and publishing stay per scale, and Spacing/Size keep their override controls. Existing stored overrides survive until an explicit edit to that part; binding neutral points, formula locks and Save/Cancel remain covered. Unbound impact counts one baseline per concept, bindings count only owning axes including equal-valued mode identities, and explicit assignments retain full contexts. Zero is valid; negative raw/rounded or nonfinite Radius output is an explicit error, not successful publication. Fixed 56 px single-corner samples and desktop/narrow application/Storybook paths collect page errors. Existing Color/Typography resolution and other-domain denominator policies remain unchanged; manual reference acceptance is not inferred.", "evidence": ["tests/radius.ts", "tests/changelog.ts", "tests/design-data-coverage.ts", "tests/e2e/radius.spec.ts", "tests/e2e/storybook-radius.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-09", "event": "Elevation adds one-owner Depth, opaque color and sparse UUID-keyed layer opacity overrides. Shared defaults, missing-patch inheritance, deletion/Undo cleanup, detachment and temporary chart/preview exclusions are locally verified. Version-3 authoring records upgrade working and saved independently without recreating absent Color scheme or Dark identities. Existing Color/Typography resolution and unused-axis denominator policies remain intact. This extends supported capabilities, not manual reference acceptance.", "evidence": ["tests/elevation.ts", "tests/mode-ui.ts", "tests/persistence.ts", "tests/e2e/elevation.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-12", "event": "Custom-color main-ratio patches reuse the Overall contrast owner, without a new capability or ownership through Color scale stops. Missing patches inherit; reset removes intent; structure, base and labels stay shared. Resolution applies owned patches before polarity and multiplication once. Default/nondefault editing, simultaneous stop/ratio patches, deletion/Undo ownership guards and foundation detachment have focused local checks. CSS declares Color scheme/Contrast combinations with explicit attributes taking precedence over OS contrast preference. These generated values do not create concepts or manual-token assignments; absent sets are not recreated by v7 upgrades. Existing pinned resolver disagreement, manual criteria, disposition and RFC state remain unchanged.", "evidence": ["tests/custom-contrasts.ts", "tests/e2e/custom-contrasts.spec.ts", "tests/e2e/storybook-custom-contrasts.spec.ts", "tests/mode-ui.ts", "docs/contrast-polarity-compensation.md", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "date": "2026-10-07",
+          "event": "User approved a bounded UI/storage update retaining native schemas and base-plus-overrides behavior after read-only comparison with pinned mode-set specification and SDK cascade source. Implementation evidence does not establish upstream conformance or manual architecture acceptance.",
+          "evidence": ["tests/mode-ui.ts", "tests/persistence.ts"]
+        },
+        {
+          "date": "2026-10-07",
+          "event": "Completed the scoped Preview controls, independent app appearance, shared foundation mode panels, supported override editors and durable working/saved lifecycle. State checks and application/Storybook interactions verify ownership, base/default routing, identity stability, temporary-preview exclusion, storage recovery and desktop/narrow layouts with no page errors. Interface attachments do not add assignments or alter coverage denominators. Manual reference acceptance remains unassessed; the materialization fingerprint check reproduces the same unrelated failure at committed baseline 943ab12.",
+          "evidence": [
+            "tests/mode-ui.ts",
+            "tests/persistence.ts",
+            "tests/e2e/foundation-modes.spec.ts",
+            "tests/e2e/storybook-foundation-modes.spec.ts",
+            "tests/design-data-materialization.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-07",
+          "event": "User-directed UI refinement gives enabled mode variables a single foundation authoring location in their owning mode popovers, including shared-default editing. Normal panels retain unclaimed settings and shared structural controls. This presentation-only change does not alter native schemas, mode payloads, storage, generation, assignment denominators or reference acceptance.",
+          "evidence": [
+            "tests/mode-ui.ts",
+            "tests/e2e/foundation-modes.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-07",
+          "event": "User-directed one-click foundation-card deletion clears scoped overrides, adaptive claims, previews, bindings and explicit token value assignments while preserving shared/default values, stable identities and other foundations. Cascade output removes detached axes rather than deduplicating equal values; remaining dependencies and scoped assignments stay explicit. Units and application/Storybook checks cover cleanup, flat Color and dimension output, Save/Cancel/refresh and content-sized lists at desktop/narrow widths with no page errors. Saved/shipped impact and Analysis evaluation-sample denominator policies are unchanged; manual reference acceptance and existing blockers remain unassessed.",
+          "evidence": [
+            "tests/mode-ui.ts",
+            "tests/e2e/foundation-modes.spec.ts",
+            "tests/e2e/storybook-foundation-modes.spec.ts",
+            "tests/persistence.ts",
+            "tests/impact.ts",
+            "tests/design-data-coverage.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-07",
+          "event": "User-directed foundation Add flow uses a medium S2 menu and staged small variable-selection dialog before committing a card. Existing-set setup preserves live mode values, identities and other foundation settings; new sets remain drafts through creation and variable selection. Mode-row Edit now exposes only values. Selection-only cards retain switching without Edit actions. Local state and application/Storybook checks cover setup Apply/Cancel, ownership conflicts, creation cancellation, keyboard actions and layouts. Native schemas, reference-resolution acceptance and denominator policies are unchanged.",
+          "evidence": [
+            "tests/mode-ui.ts",
+            "tests/e2e/foundation-modes.spec.ts",
+            "tests/e2e/storybook-foundation-modes.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-08",
+          "event": "Dimension Analysis now compares explicit bindings by one connected variable at a time, holding other resolved settings fixed. Named modes retain equal-valued identities and authored defaults; sampled ranges include off-grid defaults. Static scales omit adaptive controls, while hidden setup controls retain binding and neutral-point behavior. Local selections and chart samples neither mutate authoring/preferences nor create saved concepts, assignments or mode-value denominator entries. Application and isolated Storybook evidence retains empty page-error checks. Pinned resolution-contract blockers and manual acceptance remain unchanged.",
+          "evidence": [
+            "tests/dimension-analysis.ts",
+            "tests/e2e/dimension-foundations.spec.ts",
+            "tests/e2e/storybook-dimension-foundations.spec.ts",
+            "tests/design-data-coverage.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-09",
+          "event": "Radius reuses the existing dimension evaluator, inline authoring controls and responsive per-scale Analyze charts; adaptive setup stays hidden and no new mode capabilities are introduced. User-directed refinement makes numeric Radius fields edit shared formula defaults without creating local overrides or showing Revert; range, rounding and publishing stay per scale, and Spacing/Size keep their override controls. Existing stored overrides survive until an explicit edit to that part; binding neutral points, formula locks and Save/Cancel remain covered. Unbound impact counts one baseline per concept, bindings count only owning axes including equal-valued mode identities, and explicit assignments retain full contexts. Zero is valid; negative raw/rounded or nonfinite Radius output is an explicit error, not successful publication. Fixed 56 px single-corner samples and desktop/narrow application/Storybook paths collect page errors. Existing Color/Typography resolution and other-domain denominator policies remain unchanged; manual reference acceptance is not inferred.",
+          "evidence": [
+            "tests/radius.ts",
+            "tests/changelog.ts",
+            "tests/design-data-coverage.ts",
+            "tests/e2e/radius.spec.ts",
+            "tests/e2e/storybook-radius.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-09",
+          "event": "Elevation adds one-owner Depth, opaque color and sparse UUID-keyed layer opacity overrides. Shared defaults, missing-patch inheritance, deletion/Undo cleanup, detachment and temporary chart/preview exclusions are locally verified. Version-3 authoring records upgrade working and saved independently without recreating absent Color scheme or Dark identities. Existing Color/Typography resolution and unused-axis denominator policies remain intact. This extends supported capabilities, not manual reference acceptance.",
+          "evidence": [
+            "tests/elevation.ts",
+            "tests/mode-ui.ts",
+            "tests/persistence.ts",
+            "tests/e2e/elevation.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Custom-color main-ratio patches reuse the Overall contrast owner, without a new capability or ownership through Color scale stops. Missing patches inherit; reset removes intent; structure, base and labels stay shared. Resolution applies owned patches before polarity and multiplication once. Default/nondefault editing, simultaneous stop/ratio patches, deletion/Undo ownership guards and foundation detachment have focused local checks. CSS declares Color scheme/Contrast combinations with explicit attributes taking precedence over OS contrast preference. These generated values do not create concepts or manual-token assignments; absent sets are not recreated by v7 upgrades. Existing pinned resolver disagreement, manual criteria, disposition and RFC state remain unchanged.",
+          "evidence": [
+            "tests/custom-contrasts.ts",
+            "tests/e2e/custom-contrasts.spec.ts",
+            "tests/e2e/storybook-custom-contrasts.spec.ts",
+            "tests/mode-ui.ts",
+            "docs/contrast-polarity-compensation.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ]
     },
     {
@@ -213,9 +757,39 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-007-C1", "description": "Review complete shadow semantics, fixed formula shapes, layer/index identities and all consumer outputs", "check": "manual", "evidence": ["tests/elevation.ts", "tests/design-data-materialization.ts", "tests/e2e/elevation.spec.ts", "tests/e2e/storybook-elevation.spec.ts"] },
-        { "id": "LTAX-007-C2", "description": "Review saved/shipped ownership, version-aware upgrades, scoped six-value denominator, preview exclusions and supported mode lifecycle", "check": "manual", "evidence": ["tests/elevation.ts", "tests/e2e/elevation.spec.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "id": "LTAX-007-C3", "description": "Review the pinned spectrum-design-data-shadow-draft-v1 literal outset mapping: ordered five-field arrays, exact generated px/color/alpha, stable owner-scoped UUIDs, envelope-plus-value validation and explicit unsupported-value failures. Local test: test:shadow-artifacts. Schema checks are not registry, resolver, full-dataset or RFC acceptance.", "check": "manual", "evidence": ["src/features/design-data/shadowArtifacts.ts", "src/data/design-data-shadow-profile/provenance.json", "tests/shadow-artifacts.ts", "docs/design-data-target-contract.md", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "id": "LTAX-007-C1",
+          "description": "Review complete shadow semantics, fixed formula shapes, layer/index identities and all consumer outputs",
+          "check": "manual",
+          "evidence": [
+            "tests/elevation.ts",
+            "tests/design-data-materialization.ts",
+            "tests/e2e/elevation.spec.ts",
+            "tests/e2e/storybook-elevation.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-007-C2",
+          "description": "Review saved/shipped ownership, version-aware upgrades, scoped six-value denominator, preview exclusions and supported mode lifecycle",
+          "check": "manual",
+          "evidence": [
+            "tests/elevation.ts",
+            "tests/e2e/elevation.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "id": "LTAX-007-C3",
+          "description": "Review the pinned spectrum-design-data-shadow-draft-v1 literal outset mapping: ordered five-field arrays, exact generated px/color/alpha, stable owner-scoped UUIDs, envelope-plus-value validation and explicit unsupported-value failures. Local test: test:shadow-artifacts. Schema checks are not registry, resolver, full-dataset or RFC acceptance.",
+          "check": "manual",
+          "evidence": [
+            "src/features/design-data/shadowArtifacts.ts",
+            "src/data/design-data-shadow-profile/provenance.json",
+            "tests/shadow-artifacts.ts",
+            "docs/design-data-target-contract.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ],
       "blockers": [
         "No explicit manual or upstream composite-shadow mapping acceptance is recorded.",
@@ -224,8 +798,34 @@
         "LTAX-003's string/numeric scale-index disagreement, legacy-only structural/DTCG dispatch, standalone-color restrictions, alpha quantization and mode-aware reference resolution remain interoperability limits. Literal-only local checks do not establish SDK or complete dataset conformance; generated WASM execution evidence is unavailable."
       ],
       "history": [
-        { "date": "2026-10-09", "event": "Approved bounded Elevation architecture slice locally verified: zero to eight layers, Power/Linear progression, atomic invalid-mode rejection, sparse opacity inheritance, deletion/Undo, saved-data upgrades, source/token reverts, scoped accounting and complete browser-parsed layered CSS. Seven application checks and four desktop/narrow light/dark Storybook matrices pass with empty page-error lists; affected Radius and Color smoke paths pass. Type/lint and application/Storybook builds pass. Existing output pins remain reproducible. Test evidence is not a manual review record, RFC acceptance or upstream composite-shadow conformance.", "evidence": ["tests/elevation.ts", "tests/e2e/elevation.spec.ts", "tests/e2e/storybook-elevation.spec.ts", "tests/design-data-materialization.ts", "tests/persistence.ts", "tests/changelog.ts", "tests/impact.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-09", "event": "User approved a behind-the-scenes draft shadow adapter after pinned-reference research confirmed native ordered composites. The adapter preserves generator literals, fractional px, alpha, layer order, scoped modes and stable native identities; rejects invalid sources and unsupported values atomically; and snapshots exact Apache-2.0 schemas with hashes. Local shadow, native Elevation, materialization and coverage checks pass, preserving three shipped concepts and six owner-scoped values. No editor, CSS, saved-data, comparison-owner, denominator, reference-repository or RFC changes are included. Local implementation evidence does not accept the manual criteria or change alignment/RFC state.", "evidence": ["src/features/design-data/shadowArtifacts.ts", "src/data/design-data-shadow-profile/provenance.json", "tests/shadow-artifacts.ts", "tests/elevation.ts", "tests/design-data-materialization.ts", "tests/design-data-coverage.ts", "docs/design-data-target-contract.md", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "date": "2026-10-09",
+          "event": "Approved bounded Elevation architecture slice locally verified: zero to eight layers, Power/Linear progression, atomic invalid-mode rejection, sparse opacity inheritance, deletion/Undo, saved-data upgrades, source/token reverts, scoped accounting and complete browser-parsed layered CSS. Seven application checks and four desktop/narrow light/dark Storybook matrices pass with empty page-error lists; affected Radius and Color smoke paths pass. Type/lint and application/Storybook builds pass. Existing output pins remain reproducible. Test evidence is not a manual review record, RFC acceptance or upstream composite-shadow conformance.",
+          "evidence": [
+            "tests/elevation.ts",
+            "tests/e2e/elevation.spec.ts",
+            "tests/e2e/storybook-elevation.spec.ts",
+            "tests/design-data-materialization.ts",
+            "tests/persistence.ts",
+            "tests/changelog.ts",
+            "tests/impact.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-09",
+          "event": "User approved a behind-the-scenes draft shadow adapter after pinned-reference research confirmed native ordered composites. The adapter preserves generator literals, fractional px, alpha, layer order, scoped modes and stable native identities; rejects invalid sources and unsupported values atomically; and snapshots exact Apache-2.0 schemas with hashes. Local shadow, native Elevation, materialization and coverage checks pass, preserving three shipped concepts and six owner-scoped values. No editor, CSS, saved-data, comparison-owner, denominator, reference-repository or RFC changes are included. Local implementation evidence does not accept the manual criteria or change alignment/RFC state.",
+          "evidence": [
+            "src/features/design-data/shadowArtifacts.ts",
+            "src/data/design-data-shadow-profile/provenance.json",
+            "tests/shadow-artifacts.ts",
+            "tests/elevation.ts",
+            "tests/design-data-materialization.ts",
+            "tests/design-data-coverage.ts",
+            "docs/design-data-target-contract.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ]
     },
     {
@@ -243,8 +843,33 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-006-C1", "description": "Review shared formula ownership, local adaptive mappings, stable dual-family identity and selected-unit numeric consistency", "check": "manual", "evidence": ["tests/typography-architecture.ts", "tests/typography.ts", "tests/typography-tokens.ts", "tests/scales.ts", "tests/e2e/typography-panel.spec.ts", "tests/e2e/typography-text-zoom-reference.spec.ts", "tests/e2e/storybook-typography.spec.ts"] },
-        { "id": "LTAX-006-C2", "description": "Review publishing-only visibility, coherent working/saved lifecycle and concept/mode-value denominator effects against the pinned reference profile", "check": "manual", "evidence": ["tests/typography-architecture.ts", "tests/persistence.ts", "tests/impact.ts", "tests/e2e/typography-panel.spec.ts", "tests/e2e/foundation-modes.spec.ts", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "id": "LTAX-006-C1",
+          "description": "Review shared formula ownership, local adaptive mappings, stable dual-family identity and selected-unit numeric consistency",
+          "check": "manual",
+          "evidence": [
+            "tests/typography-architecture.ts",
+            "tests/typography.ts",
+            "tests/typography-tokens.ts",
+            "tests/scales.ts",
+            "tests/e2e/typography-panel.spec.ts",
+            "tests/e2e/typography-text-zoom-reference.spec.ts",
+            "tests/e2e/storybook-typography.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-006-C2",
+          "description": "Review publishing-only visibility, coherent working/saved lifecycle and concept/mode-value denominator effects against the pinned reference profile",
+          "check": "manual",
+          "evidence": [
+            "tests/typography-architecture.ts",
+            "tests/persistence.ts",
+            "tests/impact.ts",
+            "tests/e2e/typography-panel.spec.ts",
+            "tests/e2e/foundation-modes.spec.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ],
       "blockers": [
         "No explicit manual architecture or upstream mapping acceptance is recorded.",
@@ -268,28 +893,76 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-008-C1", "description": "Review local Structure slots, Registry identities and usage counts, stable primitive references, and the public S2 editor controls. Local checks: test:structures, test:primitive-references, and the focused application/Storybook suites; passing checks do not record manual acceptance.", "check": "manual", "evidence": [] },
-        { "id": "LTAX-008-C2", "description": "Review durable working/saved upgrade and restore, destructive dependency protection, authored change/revert behavior, and unchanged token-concept/mode-value denominators.", "check": "manual", "evidence": [] },
-        { "id": "LTAX-008-C3", "description": "Resolve upstream Structure/anatomy and semantic-reference mapping separately; local authoring UUIDs and preview checks are not upstream schema or RFC acceptance.", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-008-C1",
+          "description": "Review local Structure slots, Registry identities and usage counts, stable primitive references, and the public S2 editor controls. Local checks: test:structures, test:primitive-references, and the focused application/Storybook suites; passing checks do not record manual acceptance.",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-008-C2",
+          "description": "Review durable working/saved upgrade and restore, destructive dependency protection, authored change/revert behavior, and unchanged token-concept/mode-value denominators.",
+          "check": "manual",
+          "evidence": []
+        },
+        {
+          "id": "LTAX-008-C3",
+          "description": "Resolve upstream Structure/anatomy and semantic-reference mapping separately; local authoring UUIDs and preview checks are not upstream schema or RFC acceptance.",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Upstream Structure versus anatomy mapping remains an open roadmap decision.", "No manual architecture, reference-schema, or RFC acceptance is recorded; pinned evidence is not a freshly executed upstream assessment."],
+      "blockers": [
+        "Upstream Structure versus anatomy mapping remains an open roadmap decision.",
+        "No manual architecture, reference-schema, or RFC acceptance is recorded; pinned evidence is not a freshly executed upstream assessment."
+      ],
       "history": [
         {
           "date": "2026-10-09",
           "event": "Completed the user-approved EPIC-4.1/4.3 architecture slice. Local model, reference, persistence, Registry, Changes, materialization and coverage checks verify classified slot identity, live hidden-inclusive output, coherent version-four working/saved upgrades, destructive dependency guards, and unchanged published token-concept/mode-value denominators. Structure bindings use the canonical Registry source-count and pre-save validation owners, including alignment term-value references. Manual criteria, upstream revision, disposition and RFC state remain unchanged.",
-          "evidence": ["tests/structures.ts", "tests/primitive-references.ts", "tests/persistence.ts", "tests/taxonomy.ts", "tests/taxonomy-identity.ts", "tests/taxonomy-sources.ts", "tests/changelog.ts", "tests/impact.ts", "tests/design-data-materialization.ts", "tests/design-data-coverage.ts", "docs/design-data-authoring-storage-contract.md"]
+          "evidence": [
+            "tests/structures.ts",
+            "tests/primitive-references.ts",
+            "tests/persistence.ts",
+            "tests/taxonomy.ts",
+            "tests/taxonomy-identity.ts",
+            "tests/taxonomy-sources.ts",
+            "tests/changelog.ts",
+            "tests/impact.ts",
+            "tests/design-data-materialization.ts",
+            "tests/design-data-coverage.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
         },
         {
           "date": "2026-10-09",
           "event": "Twelve focused application/navigation checks, ten approved-component Storybook checks and 23 affected foundation browser regressions pass with empty page-error assertions. Coverage includes every layout field, native keyboard selection, exact preview geometry, constraints and later-conflict repair, shared/Mixed editing, source/step protection in all four foundation surfaces, Registry usage/rename/removal, Save/refresh/Cancel, and light/dark/narrow token controls. Narrow optional fields move Clear below the input without changing saved bindings. Lint, production and Storybook builds pass. A development-only ResizeObserver notification appeared during earlier Storybook runs; no control failure or browser page error was observed. Local evidence does not establish an upstream mapped denominator, fresh SDK execution, manual architecture acceptance or RFC acceptance.",
-          "evidence": ["tests/e2e/structures.spec.ts", "tests/e2e/view-switcher.spec.ts", "tests/e2e/storybook-structures.spec.ts", "tests/e2e/dimension-foundations.spec.ts", "tests/e2e/radius.spec.ts", "tests/e2e/elevation.spec.ts", "src/components/fields/TokenComboBox.stories.tsx", "docs/design-data-target-contract.md"]
+          "evidence": [
+            "tests/e2e/structures.spec.ts",
+            "tests/e2e/view-switcher.spec.ts",
+            "tests/e2e/storybook-structures.spec.ts",
+            "tests/e2e/dimension-foundations.spec.ts",
+            "tests/e2e/radius.spec.ts",
+            "tests/e2e/elevation.spec.ts",
+            "src/components/fields/TokenComboBox.stories.tsx",
+            "docs/design-data-target-contract.md"
+          ]
         }
       ]
     },
     {
       "id": "LTAX-009",
       "title": "T-shirt rules and generated Structure semantics",
-      "links": ["GAP-005", "GAP-008", "JTC-003", "JTC-006", "JTC-007", "JTC-008", "JTC-009", "JTC-010"],
+      "links": [
+        "GAP-005",
+        "GAP-008",
+        "JTC-003",
+        "JTC-006",
+        "JTC-007",
+        "JTC-008",
+        "JTC-009",
+        "JTC-010"
+      ],
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
@@ -301,10 +974,55 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-009-C1", "description": "Review V-01/02/03/07/08/15: complete five-size rule mappings, Structure size ownership, irregular/numeric traversal, direction-based nearest ties, disjoint targets and complete grouping. Local checks are not manual acceptance.", "check": "manual", "evidence": ["tests/tshirt-sizing.ts", "tests/tshirt-integration.ts", "tests/logic.ts", "tests/base-structure-defaults.ts"] },
-        { "id": "LTAX-009-C2", "description": "Review V-04/05/06/12/16/17/18: exact px and complete shadows, real emitted alias targets, name/context/UUID uniqueness, declared extensions, identity continuity and visible diagnostics at the feature pin.", "check": "manual", "evidence": ["src/data/design-data-tshirt-profile/provenance.json", "tests/tshirt-sizing.ts", "tests/shadow-artifacts.ts", "docs/design-data-target-contract.md"] },
-        { "id": "LTAX-009-C3", "description": "Review V-09/10/11/14/20: independent version-five working/saved migration, atomic applications, coherent Save/Cancel/Undo, cache freshness, saved concept and required-context denominators, source-only editing and unchanged primitive/rounding contracts.", "check": "manual", "evidence": ["tests/tshirt-integration.ts", "tests/persistence.ts", "tests/structures.ts", "tests/design-data-materialization.ts", "tests/design-data-coverage.ts", "tests/base-structure-defaults.ts"] },
-        { "id": "LTAX-009-C4", "description": "Review V-13/19 application and three approved Storybook surfaces after both feature parts are complete, including keyboard, light/dark, desktop/narrow, retained ComboBox behavior and empty page-error assertions. Native canonical display stays distinct from pinned export-name validation.", "check": "manual", "evidence": ["src/panels/logic/TshirtSizingRuleEditor.stories.tsx", "src/panels/structures/StructureRuleDialog.stories.tsx", "src/views/structures/StructurePermutationsView.stories.tsx", "tests/e2e/tshirt-generation.spec.ts", "tests/e2e/storybook-tshirt.spec.ts", "tests/e2e/structures.spec.ts", "tests/e2e/storybook-structures.spec.ts"] }
+        {
+          "id": "LTAX-009-C1",
+          "description": "Review V-01/02/03/07/08/15: complete five-size rule mappings, Structure size ownership, irregular/numeric traversal, direction-based nearest ties, disjoint targets and complete grouping. Local checks are not manual acceptance.",
+          "check": "manual",
+          "evidence": [
+            "tests/tshirt-sizing.ts",
+            "tests/tshirt-integration.ts",
+            "tests/logic.ts",
+            "tests/base-structure-defaults.ts"
+          ]
+        },
+        {
+          "id": "LTAX-009-C2",
+          "description": "Review V-04/05/06/12/16/17/18: exact px and complete shadows, real emitted alias targets, name/context/UUID uniqueness, declared extensions, identity continuity and visible diagnostics at the feature pin.",
+          "check": "manual",
+          "evidence": [
+            "src/data/design-data-tshirt-profile/provenance.json",
+            "tests/tshirt-sizing.ts",
+            "tests/shadow-artifacts.ts",
+            "docs/design-data-target-contract.md"
+          ]
+        },
+        {
+          "id": "LTAX-009-C3",
+          "description": "Review V-09/10/11/14/20: independent version-five working/saved migration, atomic applications, coherent Save/Cancel/Undo, cache freshness, saved concept and required-context denominators, source-only editing and unchanged primitive/rounding contracts.",
+          "check": "manual",
+          "evidence": [
+            "tests/tshirt-integration.ts",
+            "tests/persistence.ts",
+            "tests/structures.ts",
+            "tests/design-data-materialization.ts",
+            "tests/design-data-coverage.ts",
+            "tests/base-structure-defaults.ts"
+          ]
+        },
+        {
+          "id": "LTAX-009-C4",
+          "description": "Review V-13/19 application and three approved Storybook surfaces after both feature parts are complete, including keyboard, light/dark, desktop/narrow, retained ComboBox behavior and empty page-error assertions. Native canonical display stays distinct from pinned export-name validation.",
+          "check": "manual",
+          "evidence": [
+            "src/panels/logic/TshirtSizingRuleEditor.stories.tsx",
+            "src/panels/structures/StructureRuleDialog.stories.tsx",
+            "src/views/structures/StructurePermutationsView.stories.tsx",
+            "tests/e2e/tshirt-generation.spec.ts",
+            "tests/e2e/storybook-tshirt.spec.ts",
+            "tests/e2e/structures.spec.ts",
+            "tests/e2e/storybook-structures.spec.ts"
+          ]
+        }
       ],
       "blockers": [
         "The closed token schema rejects conceptId despite written-spec requirements; concept identity remains separate lineage, not an upstream resolution of that conflict.",
@@ -314,10 +1032,56 @@
         "No explicit manual architecture or RFC acceptance is recorded. Working previews, equal values, endpoint reuse and unrelated Cartesian samples cannot close this entry; missing or stale reference evidence remains unassessable."
       ],
       "history": [
-        { "date": "2026-10-11", "event": "User approved the bounded two-part architecture slice and D-01 through D-20, including the current-main pin, Structure-owned sizes, complete rule mappings, nearest warnings, governed names and deferred direct semantic overrides. Product decisions are separate from manual alignment/RFC acceptance.", "evidence": ["docs/archive/tshirt-size-generation-plan.md"] },
-        { "date": "2026-10-11", "event": "Implemented one shared semantic generation path with pure mapping/profile tests, atomic Structure authoring, independent version-five migration, scoped saved semantic denominators, guarded Tokens editing, emitted-target inspection/export and rebuildable source-hashed artifacts. Fresh defaults remain unattached and add no published semantic concepts. The original primitive materialization pins and older profiles remain independently checked.", "evidence": ["tests/tshirt-sizing.ts", "tests/tshirt-integration.ts", "tests/persistence.ts", "tests/structures.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-11", "event": "Completed local verification after both feature parts and integration were implemented: five feature application workflows plus three retained Structure checks, 18 approved T-shirt Storybook checks plus 13 existing control regressions, affected native generation/persistence/reporting checks, lint and production/Storybook builds pass. Browser paths assert empty page-error lists; light/dark desktop/narrow controls and generated previews were inspected. The application dialog shares one draft and error state across Spectrum's content/footer slots. Save/reload/Cancel, disjoint/stale target repair, Remove/Undo, exact hidden literals and visibility-to-alias transitions are exercised in the actual app. Native Registry naming remains separate from pinned bundle formatting. This verifies the bounded local implementation, not a freshly mapped upstream dataset denominator, full SDK/cascade interoperability, manual architecture acceptance or RFC acceptance.", "evidence": ["tests/e2e/tshirt-generation.spec.ts", "tests/e2e/structures.spec.ts", "tests/e2e/storybook-tshirt.spec.ts", "tests/e2e/storybook-structures.spec.ts", "tests/tshirt-sizing.ts", "tests/tshirt-integration.ts", "tests/persistence.ts", "tests/design-data-materialization.ts", "tests/design-data-coverage.ts", "tests/changelog.ts", "tests/impact.ts", "docs/archive/tshirt-size-generation-plan.md"] },
-        { "date": "2026-10-12", "event": "Added user-directed shipped Base and an editable adjacent-token sizing rule with XS through XL enabled. Exact native UUID bindings use Hug dimensions without constraints, left/top alignment, Base Gap, horizontal-only Base padding and uniform radius; unspecified top/bottom padding and elevation remain absent. The shipped/fresh saved semantic baseline increases from zero to 15 concepts and 15 actual unbound values: ten live hidden-spacing literals and five published-radius aliases to real emitted rows. Fresh startup, Reset all, Changes, saved impact and Structure/Logic reverts share the shipped defaults instead of an empty-library assumption. Existing saved designs are not merged with Base. Focused native and light/dark application checks cover exact references, all size geometry, refresh and preserved empty saved designs with empty page-error lists. An explicit before/after native dataset comparison retains every existing primitive source/value/identity/context and evaluation-sample count; historical review hashes are not re-pinned. This default addition does not establish fresh reference-content coverage, SDK/cascade execution, manual architecture or RFC acceptance, and does not add product-default fields.", "evidence": ["src/data/design-system.defaults.json", "tests/base-structure-defaults.ts", "tests/e2e/tshirt-generation.spec.ts", "tests/tshirt-integration.ts", "tests/structures.ts", "tests/radius.ts", "tests/tokens.ts", "tests/changelog.ts", "docs/design-data-authoring-storage-contract.md", "docs/archive/tshirt-size-generation-plan.md"] }
+        {
+          "date": "2026-10-11",
+          "event": "User approved the bounded two-part architecture slice and D-01 through D-20, including the current-main pin, Structure-owned sizes, complete rule mappings, nearest warnings, governed names and deferred direct semantic overrides. Product decisions are separate from manual alignment/RFC acceptance.",
+          "evidence": ["docs/archive/tshirt-size-generation-plan.md"]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Implemented one shared semantic generation path with pure mapping/profile tests, atomic Structure authoring, independent version-five migration, scoped saved semantic denominators, guarded Tokens editing, emitted-target inspection/export and rebuildable source-hashed artifacts. Fresh defaults remain unattached and add no published semantic concepts. The original primitive materialization pins and older profiles remain independently checked.",
+          "evidence": [
+            "tests/tshirt-sizing.ts",
+            "tests/tshirt-integration.ts",
+            "tests/persistence.ts",
+            "tests/structures.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-11",
+          "event": "Completed local verification after both feature parts and integration were implemented: five feature application workflows plus three retained Structure checks, 18 approved T-shirt Storybook checks plus 13 existing control regressions, affected native generation/persistence/reporting checks, lint and production/Storybook builds pass. Browser paths assert empty page-error lists; light/dark desktop/narrow controls and generated previews were inspected. The application dialog shares one draft and error state across Spectrum's content/footer slots. Save/reload/Cancel, disjoint/stale target repair, Remove/Undo, exact hidden literals and visibility-to-alias transitions are exercised in the actual app. Native Registry naming remains separate from pinned bundle formatting. This verifies the bounded local implementation, not a freshly mapped upstream dataset denominator, full SDK/cascade interoperability, manual architecture acceptance or RFC acceptance.",
+          "evidence": [
+            "tests/e2e/tshirt-generation.spec.ts",
+            "tests/e2e/structures.spec.ts",
+            "tests/e2e/storybook-tshirt.spec.ts",
+            "tests/e2e/storybook-structures.spec.ts",
+            "tests/tshirt-sizing.ts",
+            "tests/tshirt-integration.ts",
+            "tests/persistence.ts",
+            "tests/design-data-materialization.ts",
+            "tests/design-data-coverage.ts",
+            "tests/changelog.ts",
+            "tests/impact.ts",
+            "docs/archive/tshirt-size-generation-plan.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Added user-directed shipped Base and an editable adjacent-token sizing rule with XS through XL enabled. Exact native UUID bindings use Hug dimensions without constraints, left/top alignment, Base Gap, horizontal-only Base padding and uniform radius; unspecified top/bottom padding and elevation remain absent. The shipped/fresh saved semantic baseline increases from zero to 15 concepts and 15 actual unbound values: ten live hidden-spacing literals and five published-radius aliases to real emitted rows. Fresh startup, Reset all, Changes, saved impact and Structure/Logic reverts share the shipped defaults instead of an empty-library assumption. Existing saved designs are not merged with Base. Focused native and light/dark application checks cover exact references, all size geometry, refresh and preserved empty saved designs with empty page-error lists. An explicit before/after native dataset comparison retains every existing primitive source/value/identity/context and evaluation-sample count; historical review hashes are not re-pinned. This default addition does not establish fresh reference-content coverage, SDK/cascade execution, manual architecture or RFC acceptance, and does not add product-default fields.",
+          "evidence": [
+            "src/data/design-system.defaults.json",
+            "tests/base-structure-defaults.ts",
+            "tests/e2e/tshirt-generation.spec.ts",
+            "tests/tshirt-integration.ts",
+            "tests/structures.ts",
+            "tests/radius.ts",
+            "tests/tokens.ts",
+            "tests/changelog.ts",
+            "docs/design-data-authoring-storage-contract.md",
+            "docs/archive/tshirt-size-generation-plan.md"
+          ]
+        }
       ]
     },
     {
@@ -335,12 +1099,71 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-010-C1", "description": "Review DV-01/02/03/04/05/06/08: independent native upgrades, unchanged UI output, arbitrary contrast targets, exact final-token links, bounded sequential OKLCh/diverging OKLab functions, shorter hue, alpha/gamut precision and sampling isolation.", "check": "manual", "evidence": ["tests/data-vis-contracts.ts", "tests/data-vis-generation.ts", "tests/data-vis-interpolation.ts"] },
-        { "id": "LTAX-010-C2", "description": "Review DV-09/10/11/12/13/15: final-UI-only candidate scope, CIEDE2000/CVD references, fixed membership, bounded deterministic search and cancellation. Aesthetic scores and simulations are not certification.", "check": "manual", "evidence": ["tests/data-vis-categorical.ts", "tests/data-vis-analysis-worker.ts", "docs/third-party/data-vis-notices.md"] },
-        { "id": "LTAX-010-C3", "description": "Review DV-17/18/19: replacement-before-deletion, Save/Cancel/Undo and stable finite member identities with saved owner-scoped concept/mode-value accounting. Continuous samples contribute zero concepts.", "check": "manual", "evidence": ["tests/data-vis-integration.ts", "tests/data-vis-lifecycle-accounting.ts"] },
-        { "id": "LTAX-010-C4", "description": "Review DV-20: native finite-color mapping and source-closed adapter/export profiles against the pinned reference; record explicit architecture and RFC acceptance separately from local test evidence.", "check": "manual", "evidence": ["tests/data-vis-export.ts", "docs/color-system-data-vis.md"] },
-        { "id": "LTAX-010-C5", "description": "Review DV-07/14/16/21/22: chart-owned sample data, separate normal/simulated measurement semantics, explicit manual warnings, actual application and isolated story interactions, light/dark narrow comparison access and retained color surfaces with empty page-error assertions. Local execution does not establish manual acceptance.", "check": "manual", "evidence": ["tests/e2e/data-vis.spec.ts", "tests/e2e/storybook-data-vis.spec.ts", "tests/e2e/custom-contrasts.spec.ts", "tests/e2e/color-system-smoke.spec.ts", "tests/e2e/color-analysis.spec.ts", "docs/color-system-data-vis.md"] },
-        { "id": "LTAX-010-C6", "description": "Review the approved editor refinement: shared selectable gradient stops, published-primitive-only TokenComboBox, independent Color 4/Modes 9 upgrades composed under envelope 10, atomic current/default capture and Adaptive restoration for all three types, shared Static categorical Tokens edits, retained dormant mode records, actual captured baselines and stable member identities. Assess saved concept/mode-value effects through existing owners; local execution is not manual acceptance.", "check": "manual", "evidence": ["tests/data-vis-editors.ts", "tests/data-vis-export.ts", "tests/data-vis-lifecycle-accounting.ts", "tests/e2e/data-vis.spec.ts", "tests/e2e/storybook-data-vis.spec.ts", "docs/color-system-data-vis.md", "docs/design-data-authoring-storage-contract.md"] }
+        {
+          "id": "LTAX-010-C1",
+          "description": "Review DV-01/02/03/04/05/06/08: independent native upgrades, unchanged UI output, arbitrary contrast targets, exact final-token links, bounded sequential OKLCh/diverging OKLab functions, shorter hue, alpha/gamut precision and sampling isolation.",
+          "check": "manual",
+          "evidence": [
+            "tests/data-vis-contracts.ts",
+            "tests/data-vis-generation.ts",
+            "tests/data-vis-interpolation.ts"
+          ]
+        },
+        {
+          "id": "LTAX-010-C2",
+          "description": "Review DV-09/10/11/12/13/15: final-UI-only candidate scope, CIEDE2000/CVD references, fixed membership, bounded deterministic search and cancellation. Aesthetic scores and simulations are not certification.",
+          "check": "manual",
+          "evidence": [
+            "tests/data-vis-categorical.ts",
+            "tests/data-vis-analysis-worker.ts",
+            "docs/third-party/data-vis-notices.md"
+          ]
+        },
+        {
+          "id": "LTAX-010-C3",
+          "description": "Review DV-17/18/19: replacement-before-deletion, Save/Cancel/Undo and stable finite member identities with saved owner-scoped concept/mode-value accounting. Continuous samples contribute zero concepts.",
+          "check": "manual",
+          "evidence": [
+            "tests/data-vis-integration.ts",
+            "tests/data-vis-lifecycle-accounting.ts"
+          ]
+        },
+        {
+          "id": "LTAX-010-C4",
+          "description": "Review DV-20: native finite-color mapping and source-closed adapter/export profiles against the pinned reference; record explicit architecture and RFC acceptance separately from local test evidence.",
+          "check": "manual",
+          "evidence": [
+            "tests/data-vis-export.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "id": "LTAX-010-C5",
+          "description": "Review DV-07/14/16/21/22: chart-owned sample data, separate normal/simulated measurement semantics, explicit manual warnings, actual application and isolated story interactions, light/dark narrow comparison access and retained color surfaces with empty page-error assertions. Local execution does not establish manual acceptance.",
+          "check": "manual",
+          "evidence": [
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/storybook-data-vis.spec.ts",
+            "tests/e2e/custom-contrasts.spec.ts",
+            "tests/e2e/color-system-smoke.spec.ts",
+            "tests/e2e/color-analysis.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "id": "LTAX-010-C6",
+          "description": "Review the approved editor refinement: shared selectable gradient stops, published-primitive-only TokenComboBox, independent Color 4/Modes 9 upgrades composed under envelope 10, atomic current/default capture and Adaptive restoration for all three types, shared Static categorical Tokens edits, retained dormant mode records, actual captured baselines and stable member identities. Assess saved concept/mode-value effects through existing owners; local execution is not manual acceptance.",
+          "check": "manual",
+          "evidence": [
+            "tests/data-vis-editors.ts",
+            "tests/data-vis-export.ts",
+            "tests/data-vis-lifecycle-accounting.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/storybook-data-vis.spec.ts",
+            "docs/color-system-data-vis.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        }
       ],
       "blockers": [
         "The pinned reference has no accepted continuous colormap recipe, native primitive source-link, Static capture or JavaScript adapter contract.",
@@ -348,20 +1171,134 @@
         "No explicit manual architecture or RFC acceptance is recorded. Missing or stale reference evidence remains unassessable."
       ],
       "history": [
-        { "date": "2026-10-12", "event": "Implemented the approved local architecture slice: Color 3/Modes 8/envelope 8 with empty shipped data vis defaults; bounded continuous recipes; exact final UI links; deterministic categorical suggestions and yielded CIEDE2000/CVD checks; native Number-ordinal member identities; scoped lifecycle/accounting; Elements/Analyze/Code and the separate source-closed ESM adapter. Focused native/worker/lifecycle/export checks are recorded separately from final integrated browser evidence. No historical review fingerprint is repinned: the new Color schema/collection and concurrent shipped defaults are non-naming source changes. This does not establish reference-content coverage, manual architecture or RFC acceptance.", "evidence": ["tests/data-vis-contracts.ts", "tests/data-vis-generation.ts", "tests/data-vis-categorical.ts", "tests/data-vis-integration.ts", "tests/data-vis-analysis-worker.ts", "tests/data-vis-lifecycle-accounting.ts", "tests/data-vis-export.ts", "docs/color-system-data-vis.md"] },
-        { "date": "2026-10-12", "event": "Completed local verification of the bounded slice: the full data vis engine/worker/lifecycle/compiled-export suite, 13 focused application workflows including all eight new data vis paths, 11 Storybook checks including all eight new data vis paths, full type/lint checks and application/adapter/Storybook builds pass. Browser paths assert empty page-error lists; application paths also reject artifact-failure notices. Coverage includes actual worker suggestions, eight-decimal main/opposite entry, precise positions, exact named links and manual member values, mode inheritance and atomic destination Apply/Cancel, source protection, native Browser rows, paginated normal/CVD comparisons, Save/Cancel/Undo/reload/reset and actual browser Display-P3 adapter evaluation. Light/dark narrow controls and swatches were visually reviewed. The comparison table retains a nonshrinking 400-pixel viewport and the narrow path checks usable height and horizontal Delta E access; isolated dark stories use the real Spectrum background. The pure ESM adapter is 119.88 kB uncompressed and 38.76 kB gzip, below its 150000-byte budget. Broader legacy/default/projection/reference/SDK failures remain documented, not repaired through retired vocabulary, silent source fallback or historical repinning. This verifies only local implementation: disposition stays not assessed, RFC stays needed, and manual architecture acceptance and fresh upstream-content/resolved-value conformance remain unestablished.", "evidence": ["tests/data-vis-contracts.ts", "tests/data-vis-generation.ts", "tests/data-vis-categorical.ts", "tests/data-vis-integration.ts", "tests/data-vis-analysis-worker.ts", "tests/data-vis-lifecycle-accounting.ts", "tests/data-vis-export.ts", "tests/e2e/data-vis.spec.ts", "tests/e2e/storybook-data-vis.spec.ts", "tests/e2e/custom-contrasts.spec.ts", "tests/e2e/color-system-smoke.spec.ts", "tests/e2e/color-analysis.spec.ts", "tests/e2e/storybook-custom-contrasts.spec.ts", "docs/color-system-data-vis.md"] },
-        { "date": "2026-10-13", "event": "Implemented the user-approved compact editor and reversible Static slice: every published Palette/UI/categorical primitive can supply a continuous point, while categorical suggestions remain final-UI-only. Color 4/Modes 9 upgrade working/saved records independently under the version-nine data vis migration, now composed by the complete envelope 10. Shared gradient handles replace the point picker; uncommon controls stay under More options. All three types support atomic current/default capture, independent Static continuous stops, retained Adaptive recipes and dormant scoped member edits. Static categorical Tokens overrides have real captured baselines, shared active values and compatible existing scoped aliases. Shipped data vis defaults remain empty; continuous definitions/samples add zero concepts, categorical identities remain stable, and saved Static members have one active shared mode-value row rather than dormant Adaptive rows. Existing comparison/accounting owners remain authoritative.", "evidence": ["tests/data-vis-editors.ts", "tests/data-vis-integration.ts", "tests/data-vis-lifecycle-accounting.ts", "tests/data-vis-export.ts", "docs/color-system-data-vis.md", "docs/design-data-authoring-storage-contract.md"] },
-        { "date": "2026-10-13", "event": "Verified the refinement and later user-directed sequential OKLCh correction locally: all nine data vis suites, independent expected polar coordinates in the actual compiled runtime, retained color/saved-edit regressions, complete type/lint/schema checks, production/adapter/Storybook builds, 27 isolated-production application paths across full and targeted runs, and 11 approved existing story checks pass. Paths cover primitive source families and legacy mode links, pointer/keyboard/readonly gradients, current/default/Cancel Static choices, all-type restoration, shared Display-P3/alpha Tokens edits, Save/reload and dormant values, normal Color Scale Editor/Evaluation and light/dark narrow comparisons with empty page-error assertions. Sequential generation and panel/Elements CSS use shorter-hue OKLCh; neutral hue, alpha and output-gamut serialization are tested, while diverging keeps its previous OKLab output. The pure ESM artifact is 128455 bytes, below its 150000-byte budget, with purity and license checks retained. No source pin or historical fingerprint is repinned, no unrelated legacy failure is repaired, and local execution does not establish fresh upstream resolved-value coverage, manual architecture acceptance or RFC acceptance; disposition remains not assessed and RFC remains needed.", "evidence": ["tests/data-vis-interpolation.ts", "tests/data-vis-editors.ts", "tests/data-vis-export.ts", "tests/data-vis-contracts.ts", "tests/data-vis-generation.ts", "tests/data-vis-categorical.ts", "tests/data-vis-integration.ts", "tests/data-vis-analysis-worker.ts", "tests/data-vis-lifecycle-accounting.ts", "tests/e2e/data-vis.spec.ts", "tests/e2e/storybook-data-vis.spec.ts", "tests/e2e/color-system-smoke.spec.ts", "tests/e2e/color-analysis.spec.ts", "tests/e2e/custom-contrasts.spec.ts", "tests/e2e/storybook-custom-contrasts.spec.ts", "docs/color-system-data-vis.md"] },
-        { "date": "2026-10-13", "event": "The final combined immutable-production run passes all 27 application paths. An additional 390-pixel app check validates actual popup bounds and fully visible Hex entry after scrolling, rather than using internal width or DOM visibility as a proxy. It uses the focused Foundation surface with navigation collapsed, Change log closed and the success notification dismissed; overall app-header redesign is outside this slice. Light/dark narrow editor stories and application screenshots were inspected. All paths require empty page-error lists. These are local UX/regression checks, not manual alignment or accessibility certification.", "evidence": ["tests/e2e/data-vis.spec.ts", "tests/e2e/storybook-data-vis.spec.ts", "tests/e2e/color-system-smoke.spec.ts", "tests/e2e/color-analysis.spec.ts", "tests/e2e/custom-contrasts.spec.ts"] },
-        { "date": "2026-10-13", "event": "Added the user-requested shipped Fire sequential scale with five exact Static colors at evenly spaced positions and a retained independent-key Adaptive recipe. Fresh/reset defaults include Fire without merging it into existing saved designs. Foundation impact now compares actual shipped data vis parameters, including removed sources, and item Revert restores a shipped recipe rather than always deleting it. Existing comparison owners verify clean fresh baselines, exact colors across modes/contrast, identical UI/token output and concept/mode-value denominators, source-closed runtime parity, and reset/revert behavior. Fire adds authored continuous inputs, not primitive concepts or manual token assignments. Local evidence is scoped to LTAX-010-C1/C3/C6; direction, owner, profile/revision, blockers, manual criteria, unassessed alignment and needed RFC remain unchanged. No historical fingerprint is repinned.", "evidence": ["src/data/design-system.defaults.json", "tests/fire-defaults.ts", "tests/data-vis-contracts.ts", "tests/data-vis-integration.ts", "tests/e2e/data-vis.spec.ts", "docs/color-system-data-vis.md"] },
-        { "date": "2026-10-13", "event": "Implemented the superseding user-approved defaults-only catalog: Fire, Meadow, Seahawks, Rose, Sunset and Ice each have five ordered exact primitive-token points. Sources were chosen once by CIEDE2000 against all published Light-mode primitive outputs at normal contrast and shipped default modes, including Palette and Wireframe; stable IDs break ties and remain fixed through later edits and modes. Fire retains its identities but no longer ships Static colors. Existing saved/working designs, including captured Fire, remain unchanged until confirmed Reset all. Native checks verify all 30 nearest IDs and initial values, exact final-token resolution without a second contrast adjustment, live mode/contrast and Palette edit/rename propagation, source protection, shared runtime/export parity, clean shipped baselines and item Revert. Continuous inputs add no token concepts or mode-value denominator rows and do not create manual token assignments. Scoped evidence/check owners are LTAX-010-C1/C3/C4/C6 and the sequential-defaults, data-vis, token, change-log and impact checks; browser evidence is recorded separately. Historical Static-Fire evidence, direction, owner, pinned profile/revision, blockers, manual criteria, unassessed alignment and needed RFC are unchanged. No manual acceptance or upstream conformance is inferred.", "evidence": ["src/data/design-system.defaults.json", "tests/fixtures/sequentialDefaults.ts", "tests/fire-defaults.ts", "tests/data-vis-contracts.ts", "tests/e2e/data-vis.spec.ts", "docs/color-system-data-vis.md"] },
-        { "date": "2026-10-13", "event": "Verified the token-linked catalog locally with all ten data vis/default suites, retained token/change-log/impact and governed-name checks, type/lint/schema checks and a production build. Eight combined production browser paths assert empty page-error lists and cover every stop in all six Light/Dark editors, exact rendered token colors, Palette edit/reload propagation, actionable UI-scale deletion protection, empty saved-design creation, compiled-adapter Save/Cancel/reload/Reset boundaries, and retained Color Scale Editor/gamut/Evaluation views. The tightly coupled whole-UI-scale removal guard now recognizes all primitive-token consumers before token-record cleanup; native checks preserve authored manual values and snapshots on rejection. This is scoped LTAX-010-C1/C3/C4/C5/C6 implementation evidence only. Dark-mode lightness warnings remain visible rather than changing the fixed chosen links. Existing direction, owner, pinned revision/profile, unassessed alignment, RFC-needed state, manual criteria and upstream blockers are unchanged.", "evidence": ["src/features/color-system/data-vis/references.ts", "tests/fire-defaults.ts", "tests/e2e/data-vis.spec.ts", "tests/e2e/color-system-smoke.spec.ts", "tests/e2e/color-analysis.spec.ts", "docs/color-system-data-vis.md"] }
+        {
+          "date": "2026-10-12",
+          "event": "Implemented the approved local architecture slice: Color 3/Modes 8/envelope 8 with empty shipped data vis defaults; bounded continuous recipes; exact final UI links; deterministic categorical suggestions and yielded CIEDE2000/CVD checks; native Number-ordinal member identities; scoped lifecycle/accounting; Elements/Analyze/Code and the separate source-closed ESM adapter. Focused native/worker/lifecycle/export checks are recorded separately from final integrated browser evidence. No historical review fingerprint is repinned: the new Color schema/collection and concurrent shipped defaults are non-naming source changes. This does not establish reference-content coverage, manual architecture or RFC acceptance.",
+          "evidence": [
+            "tests/data-vis-contracts.ts",
+            "tests/data-vis-generation.ts",
+            "tests/data-vis-categorical.ts",
+            "tests/data-vis-integration.ts",
+            "tests/data-vis-analysis-worker.ts",
+            "tests/data-vis-lifecycle-accounting.ts",
+            "tests/data-vis-export.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Completed local verification of the bounded slice: the full data vis engine/worker/lifecycle/compiled-export suite, 13 focused application workflows including all eight new data vis paths, 11 Storybook checks including all eight new data vis paths, full type/lint checks and application/adapter/Storybook builds pass. Browser paths assert empty page-error lists; application paths also reject artifact-failure notices. Coverage includes actual worker suggestions, eight-decimal main/opposite entry, precise positions, exact named links and manual member values, mode inheritance and atomic destination Apply/Cancel, source protection, native Browser rows, paginated normal/CVD comparisons, Save/Cancel/Undo/reload/reset and actual browser Display-P3 adapter evaluation. Light/dark narrow controls and swatches were visually reviewed. The comparison table retains a nonshrinking 400-pixel viewport and the narrow path checks usable height and horizontal Delta E access; isolated dark stories use the real Spectrum background. The pure ESM adapter is 119.88 kB uncompressed and 38.76 kB gzip, below its 150000-byte budget. Broader legacy/default/projection/reference/SDK failures remain documented, not repaired through retired vocabulary, silent source fallback or historical repinning. This verifies only local implementation: disposition stays not assessed, RFC stays needed, and manual architecture acceptance and fresh upstream-content/resolved-value conformance remain unestablished.",
+          "evidence": [
+            "tests/data-vis-contracts.ts",
+            "tests/data-vis-generation.ts",
+            "tests/data-vis-categorical.ts",
+            "tests/data-vis-integration.ts",
+            "tests/data-vis-analysis-worker.ts",
+            "tests/data-vis-lifecycle-accounting.ts",
+            "tests/data-vis-export.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/storybook-data-vis.spec.ts",
+            "tests/e2e/custom-contrasts.spec.ts",
+            "tests/e2e/color-system-smoke.spec.ts",
+            "tests/e2e/color-analysis.spec.ts",
+            "tests/e2e/storybook-custom-contrasts.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "Implemented the user-approved compact editor and reversible Static slice: every published Palette/UI/categorical primitive can supply a continuous point, while categorical suggestions remain final-UI-only. Color 4/Modes 9 upgrade working/saved records independently under the version-nine data vis migration, now composed by the complete envelope 10. Shared gradient handles replace the point picker; uncommon controls stay under More options. All three types support atomic current/default capture, independent Static continuous stops, retained Adaptive recipes and dormant scoped member edits. Static categorical Tokens overrides have real captured baselines, shared active values and compatible existing scoped aliases. Shipped data vis defaults remain empty; continuous definitions/samples add zero concepts, categorical identities remain stable, and saved Static members have one active shared mode-value row rather than dormant Adaptive rows. Existing comparison/accounting owners remain authoritative.",
+          "evidence": [
+            "tests/data-vis-editors.ts",
+            "tests/data-vis-integration.ts",
+            "tests/data-vis-lifecycle-accounting.ts",
+            "tests/data-vis-export.ts",
+            "docs/color-system-data-vis.md",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "Verified the refinement and later user-directed sequential OKLCh correction locally: all nine data vis suites, independent expected polar coordinates in the actual compiled runtime, retained color/saved-edit regressions, complete type/lint/schema checks, production/adapter/Storybook builds, 27 isolated-production application paths across full and targeted runs, and 11 approved existing story checks pass. Paths cover primitive source families and legacy mode links, pointer/keyboard/readonly gradients, current/default/Cancel Static choices, all-type restoration, shared Display-P3/alpha Tokens edits, Save/reload and dormant values, normal Color Scale Editor/Evaluation and light/dark narrow comparisons with empty page-error assertions. Sequential generation and panel/Elements CSS use shorter-hue OKLCh; neutral hue, alpha and output-gamut serialization are tested, while diverging keeps its previous OKLab output. The pure ESM artifact is 128455 bytes, below its 150000-byte budget, with purity and license checks retained. No source pin or historical fingerprint is repinned, no unrelated legacy failure is repaired, and local execution does not establish fresh upstream resolved-value coverage, manual architecture acceptance or RFC acceptance; disposition remains not assessed and RFC remains needed.",
+          "evidence": [
+            "tests/data-vis-interpolation.ts",
+            "tests/data-vis-editors.ts",
+            "tests/data-vis-export.ts",
+            "tests/data-vis-contracts.ts",
+            "tests/data-vis-generation.ts",
+            "tests/data-vis-categorical.ts",
+            "tests/data-vis-integration.ts",
+            "tests/data-vis-analysis-worker.ts",
+            "tests/data-vis-lifecycle-accounting.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/storybook-data-vis.spec.ts",
+            "tests/e2e/color-system-smoke.spec.ts",
+            "tests/e2e/color-analysis.spec.ts",
+            "tests/e2e/custom-contrasts.spec.ts",
+            "tests/e2e/storybook-custom-contrasts.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "The final combined immutable-production run passes all 27 application paths. An additional 390-pixel app check validates actual popup bounds and fully visible Hex entry after scrolling, rather than using internal width or DOM visibility as a proxy. It uses the focused Foundation surface with navigation collapsed, Change log closed and the success notification dismissed; overall app-header redesign is outside this slice. Light/dark narrow editor stories and application screenshots were inspected. All paths require empty page-error lists. These are local UX/regression checks, not manual alignment or accessibility certification.",
+          "evidence": [
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/storybook-data-vis.spec.ts",
+            "tests/e2e/color-system-smoke.spec.ts",
+            "tests/e2e/color-analysis.spec.ts",
+            "tests/e2e/custom-contrasts.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "Added the user-requested shipped Fire sequential scale with five exact Static colors at evenly spaced positions and a retained independent-key Adaptive recipe. Fresh/reset defaults include Fire without merging it into existing saved designs. Foundation impact now compares actual shipped data vis parameters, including removed sources, and item Revert restores a shipped recipe rather than always deleting it. Existing comparison owners verify clean fresh baselines, exact colors across modes/contrast, identical UI/token output and concept/mode-value denominators, source-closed runtime parity, and reset/revert behavior. Fire adds authored continuous inputs, not primitive concepts or manual token assignments. Local evidence is scoped to LTAX-010-C1/C3/C6; direction, owner, profile/revision, blockers, manual criteria, unassessed alignment and needed RFC remain unchanged. No historical fingerprint is repinned.",
+          "evidence": [
+            "src/data/design-system.defaults.json",
+            "tests/fire-defaults.ts",
+            "tests/data-vis-contracts.ts",
+            "tests/data-vis-integration.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "Implemented the superseding user-approved defaults-only catalog: Fire, Meadow, Seahawks, Rose, Sunset and Ice each have five ordered exact primitive-token points. Sources were chosen once by CIEDE2000 against all published Light-mode primitive outputs at normal contrast and shipped default modes, including Palette and Wireframe; stable IDs break ties and remain fixed through later edits and modes. Fire retains its identities but no longer ships Static colors. Existing saved/working designs, including captured Fire, remain unchanged until confirmed Reset all. Native checks verify all 30 nearest IDs and initial values, exact final-token resolution without a second contrast adjustment, live mode/contrast and Palette edit/rename propagation, source protection, shared runtime/export parity, clean shipped baselines and item Revert. Continuous inputs add no token concepts or mode-value denominator rows and do not create manual token assignments. Scoped evidence/check owners are LTAX-010-C1/C3/C4/C6 and the sequential-defaults, data-vis, token, change-log and impact checks; browser evidence is recorded separately. Historical Static-Fire evidence, direction, owner, pinned profile/revision, blockers, manual criteria, unassessed alignment and needed RFC are unchanged. No manual acceptance or upstream conformance is inferred.",
+          "evidence": [
+            "src/data/design-system.defaults.json",
+            "tests/fixtures/sequentialDefaults.ts",
+            "tests/fire-defaults.ts",
+            "tests/data-vis-contracts.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "date": "2026-10-13",
+          "event": "Verified the token-linked catalog locally with all ten data vis/default suites, retained token/change-log/impact and governed-name checks, type/lint/schema checks and a production build. Eight combined production browser paths assert empty page-error lists and cover every stop in all six Light/Dark editors, exact rendered token colors, Palette edit/reload propagation, actionable UI-scale deletion protection, empty saved-design creation, compiled-adapter Save/Cancel/reload/Reset boundaries, and retained Color Scale Editor/gamut/Evaluation views. The tightly coupled whole-UI-scale removal guard now recognizes all primitive-token consumers before token-record cleanup; native checks preserve authored manual values and snapshots on rejection. This is scoped LTAX-010-C1/C3/C4/C5/C6 implementation evidence only. Dark-mode lightness warnings remain visible rather than changing the fixed chosen links. Existing direction, owner, pinned revision/profile, unassessed alignment, RFC-needed state, manual criteria and upstream blockers are unchanged.",
+          "evidence": [
+            "src/features/color-system/data-vis/references.ts",
+            "tests/fire-defaults.ts",
+            "tests/e2e/data-vis.spec.ts",
+            "tests/e2e/color-system-smoke.spec.ts",
+            "tests/e2e/color-analysis.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        }
       ]
     },
     {
       "id": "LTAX-011",
       "title": "Shared classification standard and explicit non-standard instances",
-      "links": ["GAP-008", "JTC-002", "JTC-008", "JTC-009", "JTC-010", "JTC-011"],
+      "links": [
+        "GAP-008",
+        "JTC-002",
+        "JTC-008",
+        "JTC-009",
+        "JTC-010",
+        "JTC-011"
+      ],
       "kind": "spec-schema",
       "direction": "joint",
       "owner": "joint",
@@ -370,13 +1307,55 @@
       "revision": "eba428d462bfb5a3288835cb6cf0dcb1c4dc93af",
       "implementation": "verified",
       "disposition": "not assessed",
-      "rfc": { "status": "drafted", "link": "docs/rfcs/classification-standard-and-migration.md" },
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/classification-standard-and-migration.md"
+      },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-011-C1", "description": "Review the closed shared definition/category/representation contract, abstract Element versus Component ownership, typed numeric exception, Property/Attribute, nominal Text Size and Prominence distinctions. Local executable fixtures do not establish manual acceptance.", "check": "manual", "evidence": ["src/data/classification-standard.json", "src/data/classification-standard.schema.json", "tests/classification-standard.ts"] },
-        { "id": "LTAX-011-C2", "description": "Review exhaustive frozen source occurrence coverage and original-record/hash/UUID/value/type/order/reference preservation independently for main and proposal. Resolve or retain explicit fix dispositions for every dependent use and the three user-deferred investigations.", "check": "manual", "evidence": ["docs/rfcs/classification-standard-and-migration.md"] },
-        { "id": "LTAX-011-C3", "description": "Review visible per-instance warnings, structurally valid native editing/Save/Cancel/reload/revert/reset, strict standard-export rejection and clearly labeled full compatibility preservation across taxonomy and generated-bundle downloads.", "check": "manual", "evidence": ["tests/classification-state.ts", "src/data/classification-review.schema.json", "tests/e2e/classification-standard.spec.ts", "tests/e2e/taxonomy-aliases.spec.ts", "tests/e2e/typography-panel.spec.ts", "tests/e2e/tshirt-generation.spec.ts", "tests/e2e/storybook-token-browser.spec.ts"] },
-        { "id": "LTAX-011-C4", "description": "Review proposed versus adopted status, stale evidence handling, all downstream schema/SDK/query/naming/DTO consumers and unchanged saved concept/mode-value/alias accounting. No equal values, preview rows, unrelated counts or local tests can close alignment.", "check": "manual", "evidence": ["docs/rfcs/classification-standard-and-migration.md", "tests/classification-standard.ts", "tests/classification-state.ts", "tests/design-data-coverage.ts", "tests/changelog.ts", "tests/impact.ts"] }
+        {
+          "id": "LTAX-011-C1",
+          "description": "Review the closed shared definition/category/representation contract, abstract Element versus Component ownership, typed numeric exception, Property/Attribute, nominal Text Size and Prominence distinctions. Local executable fixtures do not establish manual acceptance.",
+          "check": "manual",
+          "evidence": [
+            "src/data/classification-standard.json",
+            "src/data/classification-standard.schema.json",
+            "tests/classification-standard.ts"
+          ]
+        },
+        {
+          "id": "LTAX-011-C2",
+          "description": "Review exhaustive frozen source occurrence coverage and original-record/hash/UUID/value/type/order/reference preservation independently for main and proposal. Resolve or retain explicit fix dispositions for every dependent use and the three user-deferred investigations.",
+          "check": "manual",
+          "evidence": ["docs/rfcs/classification-standard-and-migration.md"]
+        },
+        {
+          "id": "LTAX-011-C3",
+          "description": "Review visible per-instance warnings, structurally valid native editing/Save/Cancel/reload/revert/reset, strict standard-export rejection and clearly labeled full compatibility preservation across taxonomy and generated-bundle downloads.",
+          "check": "manual",
+          "evidence": [
+            "tests/classification-state.ts",
+            "src/data/classification-review.schema.json",
+            "tests/e2e/classification-standard.spec.ts",
+            "tests/e2e/taxonomy-aliases.spec.ts",
+            "tests/e2e/typography-panel.spec.ts",
+            "tests/e2e/tshirt-generation.spec.ts",
+            "tests/e2e/storybook-token-browser.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-011-C4",
+          "description": "Review proposed versus adopted status, stale evidence handling, all downstream schema/SDK/query/naming/DTO consumers and unchanged saved concept/mode-value/alias accounting. No equal values, preview rows, unrelated counts or local tests can close alignment.",
+          "check": "manual",
+          "evidence": [
+            "docs/rfcs/classification-standard-and-migration.md",
+            "tests/classification-standard.ts",
+            "tests/classification-state.ts",
+            "tests/design-data-coverage.ts",
+            "tests/changelog.ts",
+            "tests/impact.ts"
+          ]
+        }
       ],
       "blockers": [
         "The shared classification profile is proposed, not submitted or accepted upstream; no manual architecture review record is present.",
@@ -386,8 +1365,33 @@
         "Complete upstream authoring-schema, SDK/query/DTO migration and publication remain separate acceptance work; upstream SDK execution is not authorized."
       ],
       "history": [
-        { "date": "2026-10-12", "event": "User-approved classification directions and non-standard editing/compatibility/standard-export policy encoded in a separately versioned executable proposal. Existing native identities, values, source schemas, mode owners, generation and saved denominators are preserved. Implementation evidence, alignment disposition and RFC acceptance stay separate.", "evidence": ["docs/rfcs/classification-standard-and-migration.md", "src/features/taxonomy/standardization.ts", "src/features/taxonomy/reviewedExport.ts"] },
-        { "date": "2026-10-12", "event": "Verified the bounded local proposal/review layer and separate non-mutating upstream proof. Every retained alias/context is flagged separately; authored and generated font-size sources share explicit nominal measurement metadata. Frozen main/proposal reconcile 129666/129272 exact occurrences and all twelve primary families, preserve original bytes/records/types/order/references and retain 79011/78880 non-standard blockers; 30 proof tests and strict TypeScript pass. Local classification, aliases, persistence, coverage, saved change/impact owners, desktop/narrow Registry/export and color workflows, and existing export stories pass with empty browser page-error lists. Five consecutive 390 px workflows verify both description edits, bounded rows and keyboard access to all review reasons. The helper waits for Spectrum's virtualized table to restore pointer events after scrolling; it does not force clicks. Typography compatibility downloads preserve publishing visibility without removing authoring previews. Narrow export controls retain a usable token collection after reload. Full type/lint and production build pass. Historic fixture failures are documented, not silently repaired or repinned. Implementation is verified only within this declared slice; disposition remains not assessed and RFC drafted, with no manual review, upstream schema/SDK migration, publication or adoption.", "evidence": ["docs/rfcs/classification-standard-and-migration.md", "tests/classification-standard.ts", "tests/classification-state.ts", "tests/e2e/classification-standard.spec.ts", "tests/e2e/taxonomy-aliases.spec.ts", "tests/e2e/typography-panel.spec.ts", "tests/e2e/tshirt-generation.spec.ts", "tests/e2e/storybook-token-browser.spec.ts", "tests/persistence.ts", "tests/design-data-coverage.ts", "tests/changelog.ts", "tests/impact.ts"] }
+        {
+          "date": "2026-10-12",
+          "event": "User-approved classification directions and non-standard editing/compatibility/standard-export policy encoded in a separately versioned executable proposal. Existing native identities, values, source schemas, mode owners, generation and saved denominators are preserved. Implementation evidence, alignment disposition and RFC acceptance stay separate.",
+          "evidence": [
+            "docs/rfcs/classification-standard-and-migration.md",
+            "src/features/taxonomy/standardization.ts",
+            "src/features/taxonomy/reviewedExport.ts"
+          ]
+        },
+        {
+          "date": "2026-10-12",
+          "event": "Verified the bounded local proposal/review layer and separate non-mutating upstream proof. Every retained alias/context is flagged separately; authored and generated font-size sources share explicit nominal measurement metadata. Frozen main/proposal reconcile 129666/129272 exact occurrences and all twelve primary families, preserve original bytes/records/types/order/references and retain 79011/78880 non-standard blockers; 30 proof tests and strict TypeScript pass. Local classification, aliases, persistence, coverage, saved change/impact owners, desktop/narrow Registry/export and color workflows, and existing export stories pass with empty browser page-error lists. Five consecutive 390 px workflows verify both description edits, bounded rows and keyboard access to all review reasons. The helper waits for Spectrum's virtualized table to restore pointer events after scrolling; it does not force clicks. Typography compatibility downloads preserve publishing visibility without removing authoring previews. Narrow export controls retain a usable token collection after reload. Full type/lint and production build pass. Historic fixture failures are documented, not silently repaired or repinned. Implementation is verified only within this declared slice; disposition remains not assessed and RFC drafted, with no manual review, upstream schema/SDK migration, publication or adoption.",
+          "evidence": [
+            "docs/rfcs/classification-standard-and-migration.md",
+            "tests/classification-standard.ts",
+            "tests/classification-state.ts",
+            "tests/e2e/classification-standard.spec.ts",
+            "tests/e2e/taxonomy-aliases.spec.ts",
+            "tests/e2e/typography-panel.spec.ts",
+            "tests/e2e/tshirt-generation.spec.ts",
+            "tests/e2e/storybook-token-browser.spec.ts",
+            "tests/persistence.ts",
+            "tests/design-data-coverage.ts",
+            "tests/changelog.ts",
+            "tests/impact.ts"
+          ]
+        }
       ]
     },
     {
@@ -405,12 +1409,47 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-012-C1", "description": "Review typed child identities, canonical Typography/Size references, pixel versus unitless precision, destructive dependency protection and ordered public-S2 editing. Local check: test:structure-elements; no manual acceptance is inferred.", "check": "manual", "evidence": ["tests/structure-elements.ts", "tests/primitive-references.ts", "docs/structure-element-templates.md"] },
-        { "id": "LTAX-012-C2", "description": "Review independent saved/working envelope-10 upgrades, Edit/Save/Cancel/reload, confirmed target cleanup/Undo, authoring changes/reverts and exact full Base bundle preservation. Child previews add zero token concepts, aliases, actual mode values or Cartesian samples.", "check": "manual", "evidence": ["tests/structure-elements.ts", "tests/base-structure-defaults.ts", "tests/e2e/structure-elements.spec.ts"] },
-        { "id": "LTAX-012-C3", "description": "Review shared Design/measurement/Permutations rendering, keyboard and pointer insertion, readonly/error states and approved light/dark desktop/narrow stories with empty page-error assertions.", "check": "manual", "evidence": ["tests/e2e/structure-elements.spec.ts", "tests/e2e/storybook-structure-elements.spec.ts"] },
-        { "id": "LTAX-012-C4", "description": "Resolve the upstream Structure-to-anatomy mapping and proposed classification adoption separately; native template dependencies are not synthetic token occurrences or emitted anatomy records.", "check": "manual", "evidence": [] }
+        {
+          "id": "LTAX-012-C1",
+          "description": "Review typed child identities, canonical Typography/Size references, pixel versus unitless precision, destructive dependency protection and ordered public-S2 editing. Local check: test:structure-elements; no manual acceptance is inferred.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-elements.ts",
+            "tests/primitive-references.ts",
+            "docs/structure-element-templates.md"
+          ]
+        },
+        {
+          "id": "LTAX-012-C2",
+          "description": "Review independent saved/working envelope-10 upgrades, Edit/Save/Cancel/reload, confirmed target cleanup/Undo, authoring changes/reverts and exact full Base bundle preservation. Child previews add zero token concepts, aliases, actual mode values or Cartesian samples.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-elements.ts",
+            "tests/base-structure-defaults.ts",
+            "tests/e2e/structure-elements.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-012-C3",
+          "description": "Review shared Design/measurement/Permutations rendering, keyboard and pointer insertion, readonly/error states and approved light/dark desktop/narrow stories with empty page-error assertions.",
+          "check": "manual",
+          "evidence": [
+            "tests/e2e/structure-elements.spec.ts",
+            "tests/e2e/storybook-structure-elements.spec.ts"
+          ]
+        },
+        {
+          "id": "LTAX-012-C4",
+          "description": "Resolve the upstream Structure-to-anatomy mapping and proposed classification adoption separately; native template dependencies are not synthetic token occurrences or emitted anatomy records.",
+          "check": "manual",
+          "evidence": []
+        }
       ],
-      "blockers": ["Upstream Structure/anatomy mapping remains undecided; no manual architecture acceptance record is present.", "UI-icon previews use a limited public S2 glyph subset, not a separately installed UI-icon collection. Control is deferred.", "Local implementation checks do not establish fresh upstream content, schema/SDK conformance, classification adoption or reference coverage."],
+      "blockers": [
+        "Upstream Structure/anatomy mapping remains undecided; no manual architecture acceptance record is present.",
+        "UI-icon previews use a limited public S2 glyph subset, not a separately installed UI-icon collection. Control is deferred.",
+        "Local implementation checks do not establish fresh upstream content, schema/SDK conformance, classification adoption or reference coverage."
+      ],
       "history": [
         {
           "date": "2026-10-13",
@@ -447,12 +1486,48 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-013-C1", "description": "Review typed references, source graph guards, independent labels/naming and Direction assignments. Local tests do not record manual acceptance.", "check": "manual", "evidence": ["tests/structure-references.ts"] },
-        { "id": "LTAX-013-C2", "description": "Review source-owned rules, five Text gap concepts, unchanged Base rows, zero output per instance and actual saved/shipped denominators.", "check": "manual", "evidence": ["tests/structure-references.ts", "tests/base-structure-defaults.ts"] },
-        { "id": "LTAX-013-C3", "description": "Review schema-4/envelope-11 independent migration, persistence and protected removal/revert, plus versioned local Element naming compatibility export.", "check": "manual", "evidence": ["src/features/edit-session/structureCompositionUpgrade.ts", "src/features/taxonomy/generatedReviewExport.ts", "src/data/design-data-tshirt-profile/provenance.json", "tests/persistence.ts"] },
-        { "id": "LTAX-013-C4", "description": "Review grouped insertion, inert source navigation, Direction geometry, independent explicit naming, live source changes/fallbacks, nested constraints, Save/reload/Undo, confirmed reset and compatibility downloads in the app and approved stories. Empty page-error assertions and local execution are not manual acceptance.", "check": "manual", "evidence": ["tests/e2e/structure-references.spec.ts", "tests/e2e/storybook-structure-references.spec.ts", "src/views/structures/ReusableStructures.stories.tsx"] }
+        {
+          "id": "LTAX-013-C1",
+          "description": "Review typed references, source graph guards, independent labels/naming and Direction assignments. Local tests do not record manual acceptance.",
+          "check": "manual",
+          "evidence": ["tests/structure-references.ts"]
+        },
+        {
+          "id": "LTAX-013-C2",
+          "description": "Review source-owned rules, five Text gap concepts, unchanged Base rows, zero output per instance and actual saved/shipped denominators.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-references.ts",
+            "tests/base-structure-defaults.ts"
+          ]
+        },
+        {
+          "id": "LTAX-013-C3",
+          "description": "Review schema-4/envelope-11 independent migration, persistence and protected removal/revert, plus versioned local Element naming compatibility export.",
+          "check": "manual",
+          "evidence": [
+            "src/features/edit-session/structureCompositionUpgrade.ts",
+            "src/features/taxonomy/generatedReviewExport.ts",
+            "src/data/design-data-tshirt-profile/provenance.json",
+            "tests/persistence.ts"
+          ]
+        },
+        {
+          "id": "LTAX-013-C4",
+          "description": "Review grouped insertion, inert source navigation, Direction geometry, independent explicit naming, live source changes/fallbacks, nested constraints, Save/reload/Undo, confirmed reset and compatibility downloads in the app and approved stories. Empty page-error assertions and local execution are not manual acceptance.",
+          "check": "manual",
+          "evidence": [
+            "tests/e2e/structure-references.spec.ts",
+            "tests/e2e/storybook-structure-references.spec.ts",
+            "src/views/structures/ReusableStructures.stories.tsx"
+          ]
+        }
       ],
-      "blockers": ["Upstream Structure/anatomy mapping remains undecided.", "Element naming profile is a declared local extension, not upstream adoption.", "No manual architecture or RFC acceptance record is present."],
+      "blockers": [
+        "Upstream Structure/anatomy mapping remains undecided.",
+        "Element naming profile is a declared local extension, not upstream adoption.",
+        "No manual architecture or RFC acceptance record is present."
+      ],
       "history": [
         {
           "date": "2026-10-13",
@@ -492,10 +1567,43 @@
       "rfc": { "status": "needed" },
       "expected": [],
       "criteria": [
-        { "id": "LTAX-014-C1", "description": "Review pinned declaration/CTR schemas, complete Action Button/Menu declarations, app-authored row provenance, identity-preserving round trips, typed XOR values and explicit schema limitations. Local check: test:components.", "check": "manual", "evidence": ["src/data/design-data-component-profile/bundle.json", "tests/components.ts"] },
-        { "id": "LTAX-014-C2", "description": "Review emitted UUID/context/type validation, reference/deletion protection, independent working/saved migrations through envelope 14, explicit name application, Save/Cancel/reload/revert, exact option-order field counts and field-level resets preserving unrelated edits. Authored relationships and drafts add zero token concepts, mode values or overrides.", "check": "manual", "evidence": ["tests/components-lifecycle.ts", "tests/persistence.ts", "src/features/edit-session/componentOrderUpgrade.ts", "docs/design-data-authoring-storage-contract.md"] },
-        { "id": "LTAX-014-C3", "description": "Review grouped public-S2 ListViews, icon tabs, immediately editable definitions with derived read-only machine names, dialog entry, explicit literal acceptance, draft cancellation and navigation, read-only guards, all five keyboard and pointer ordering surfaces, precise Changes resets invalidating stale drafts, desktop/narrow and light/dark app/story paths with empty page-error assertions. Local evidence is not a manual acceptance record.", "check": "manual", "evidence": ["tests/e2e/components.spec.ts", "tests/e2e/storybook-components.spec.ts", "src/components/fields/TokenComboBox.stories.tsx", "src/views/components/ComponentDataView.stories.tsx"] },
-        { "id": "LTAX-014-C4", "description": "Resolve native Structure-to-anatomy mapping and shared option groups independently. Local schema checks do not establish effective-appearance/state resolution, upstream adoption or manual architecture/RFC acceptance.", "check": "manual", "evidence": ["docs/design-data-target-contract.md"] }
+        {
+          "id": "LTAX-014-C1",
+          "description": "Review pinned declaration/CTR schemas, complete Action Button/Menu declarations, app-authored row provenance, identity-preserving round trips, typed XOR values and explicit schema limitations. Local check: test:components.",
+          "check": "manual",
+          "evidence": [
+            "src/data/design-data-component-profile/bundle.json",
+            "tests/components.ts"
+          ]
+        },
+        {
+          "id": "LTAX-014-C2",
+          "description": "Review emitted UUID/context/type validation, reference/deletion protection, independent working/saved migrations through envelope 14, explicit name application, Save/Cancel/reload/revert, exact option-order field counts and field-level resets preserving unrelated edits. Authored relationships and drafts add zero token concepts, mode values or overrides.",
+          "check": "manual",
+          "evidence": [
+            "tests/components-lifecycle.ts",
+            "tests/persistence.ts",
+            "src/features/edit-session/componentOrderUpgrade.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
+        },
+        {
+          "id": "LTAX-014-C3",
+          "description": "Review grouped public-S2 ListViews, icon tabs, immediately editable definitions with derived read-only machine names, dialog entry, explicit literal acceptance, draft cancellation and navigation, read-only guards, all five keyboard and pointer ordering surfaces, precise Changes resets invalidating stale drafts, desktop/narrow and light/dark app/story paths with empty page-error assertions. Local evidence is not a manual acceptance record.",
+          "check": "manual",
+          "evidence": [
+            "tests/e2e/components.spec.ts",
+            "tests/e2e/storybook-components.spec.ts",
+            "src/components/fields/TokenComboBox.stories.tsx",
+            "src/views/components/ComponentDataView.stories.tsx"
+          ]
+        },
+        {
+          "id": "LTAX-014-C4",
+          "description": "Resolve native Structure-to-anatomy mapping and shared option groups independently. Local schema checks do not establish effective-appearance/state resolution, upstream adoption or manual architecture/RFC acceptance.",
+          "check": "manual",
+          "evidence": ["docs/design-data-target-contract.md"]
+        }
       ],
       "blockers": [
         "No explicit manual architecture or RFC acceptance record is present.",
@@ -505,8 +1613,29 @@
         "Native Structure-to-anatomy mapping and global shared option groups remain open."
       ],
       "history": [
-        { "date": "2026-10-14", "event": "Bounded local MVP verified: complete example declarations, schema/CTR round trips, exact emitted references and required contexts, atomic source/Registry rejection, safe formula fallback, independent migrations, Save/Cancel/reset/revert and separate saved/shipped accounting. Five app and eight story paths assert no page errors; retained Structure/sizing, lifecycle, lint and builds pass. Broader legacy/default fixture failures remain outside this slice. This is local implementation evidence, not manual architecture acceptance, upstream alignment or RFC closure.", "evidence": ["tests/components.ts", "tests/components-lifecycle.ts", "tests/persistence.ts", "tests/e2e/components.spec.ts", "tests/e2e/storybook-components.spec.ts"] },
-        { "date": "2026-10-20", "event": "Components redesign locally verified: grouped native selection, five icon tabs, direct definition editing and generated machine-name preview, S2 editing dialogs, UUID-backed option ordering and all five keyboard/pointer reorder surfaces, cancellation, independent historical working/saved upgrades, exact Changes field reset invalidating stale drafts and unchanged token impact. Nine app and eight story paths assert no page errors. Existing broader Changes-label and token-dependency fixture assertions remain outside this presentation slice. Alignment stays not assessed and RFC needed; no manual acceptance is implied.", "evidence": ["tests/components.ts", "tests/components-lifecycle.ts", "tests/persistence.ts", "tests/e2e/components.spec.ts", "tests/e2e/storybook-components.spec.ts", "src/features/components/ordering.ts"] }
+        {
+          "date": "2026-10-14",
+          "event": "Bounded local MVP verified: complete example declarations, schema/CTR round trips, exact emitted references and required contexts, atomic source/Registry rejection, safe formula fallback, independent migrations, Save/Cancel/reset/revert and separate saved/shipped accounting. Five app and eight story paths assert no page errors; retained Structure/sizing, lifecycle, lint and builds pass. Broader legacy/default fixture failures remain outside this slice. This is local implementation evidence, not manual architecture acceptance, upstream alignment or RFC closure.",
+          "evidence": [
+            "tests/components.ts",
+            "tests/components-lifecycle.ts",
+            "tests/persistence.ts",
+            "tests/e2e/components.spec.ts",
+            "tests/e2e/storybook-components.spec.ts"
+          ]
+        },
+        {
+          "date": "2026-10-20",
+          "event": "Components redesign locally verified: grouped native selection, five icon tabs, direct definition editing and generated machine-name preview, S2 editing dialogs, UUID-backed option ordering and all five keyboard/pointer reorder surfaces, cancellation, independent historical working/saved upgrades, exact Changes field reset invalidating stale drafts and unchanged token impact. Nine app and eight story paths assert no page errors. Existing broader Changes-label and token-dependency fixture assertions remain outside this presentation slice. Alignment stays not assessed and RFC needed; no manual acceptance is implied.",
+          "evidence": [
+            "tests/components.ts",
+            "tests/components-lifecycle.ts",
+            "tests/persistence.ts",
+            "tests/e2e/components.spec.ts",
+            "tests/e2e/storybook-components.spec.ts",
+            "src/features/components/ordering.ts"
+          ]
+        }
       ]
     }
   ]

@@ -8,6 +8,10 @@ import { rulesAtom } from "../../features/logic/library";
 import { activePageAtom } from "../../state/view/navigation";
 import { Picker } from "../fields/Picker";
 import { useIsReadOnly } from "../editable";
+import {
+  ruleAppliesTo,
+  type RuleValueType,
+} from "../../features/logic/applicability";
 
 export interface RoundingRulePickerProps {
   label: string;
@@ -16,6 +20,8 @@ export interface RoundingRulePickerProps {
   ruleId: string;
   onChange: (ruleId: string) => void;
   showDisabledControl?: boolean;
+  valueType?: RuleValueType;
+  valueTypes?: readonly RuleValueType[];
 }
 
 export function RoundingRulePicker({
@@ -25,9 +31,14 @@ export function RoundingRulePicker({
   ruleId,
   onChange,
   showDisabledControl = false,
+  valueType,
+  valueTypes,
 }: RoundingRulePickerProps) {
+  const contexts = valueTypes ?? (valueType ? [valueType] : []);
+  const applies = (rule: Parameters<typeof ruleAppliesTo>[0]) =>
+    !contexts.length || contexts.some((type) => ruleAppliesTo(rule, type));
   const rules = useAtomValue(rulesAtom).filter(
-    (rule) => rule.type === "rounding",
+    (rule) => rule.type === "rounding" && (rule.id === ruleId || applies(rule)),
   );
   const setActivePage = useSetAtom(activePageAtom);
   const selectedRule = rules.find((rule) => rule.id === ruleId) ?? rules[0];
@@ -45,6 +56,7 @@ export function RoundingRulePicker({
     children: rules.map((rule) => (
       <PickerItem key={rule.id} id={rule.id} textValue={rule.name}>
         {rule.name}
+        {!applies(rule) ? " (inactive)" : ""}
       </PickerItem>
     )),
   };
@@ -56,7 +68,11 @@ export function RoundingRulePicker({
       ) : (
         <EditablePicker
           {...pickerProps}
-          displayValue={selectedRule?.name ?? "No rounding rule"}
+          displayValue={
+            selectedRule
+              ? `${selectedRule.name}${!applies(selectedRule) ? " (inactive)" : ""}`
+              : "No rounding rule"
+          }
         />
       )}
       <ActionButton

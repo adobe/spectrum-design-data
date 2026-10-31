@@ -23,6 +23,8 @@ export function structureFields(structure: Structure): Map<string, string> {
   const generation = structureGeneration(structure);
   return new Map([
     ["name", structure.name],
+    ["description", structure.description ?? ""],
+    ["editor", canonicalJson(structure.editor ?? null)],
     ["nameRef", canonicalJson(generation.nameRef ?? null)],
     ["sizes", canonicalJson([...generation.sizeTermIds].sort())],
     [
@@ -121,6 +123,21 @@ export function structureChanges(
       latestName = latest ? structureName(latest, registry) : undefined;
     if (originalName !== latestName)
       fields.push({ key: "Name", before: originalName, after: latestName });
+    if ((original?.description ?? "") !== (latest?.description ?? ""))
+      fields.push({
+        key: "Description",
+        before: original?.description,
+        after: latest?.description,
+      });
+    if (
+      canonicalJson(original?.editor ?? null) !==
+      canonicalJson(latest?.editor ?? null)
+    )
+      fields.push({
+        key: "Properties and layer differences",
+        before: original?.editor ? canonicalJson(original.editor) : undefined,
+        after: latest?.editor ? canonicalJson(latest.editor) : undefined,
+      });
     for (const slot of STRUCTURE_SLOT_KEYS) {
       const left = original ? structureSelection(original, slot) : null;
       const right = latest ? structureSelection(latest, slot) : null;

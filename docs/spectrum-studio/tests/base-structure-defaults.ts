@@ -90,7 +90,7 @@ assert.equal(
 const sizingRule = system.rules.find(
   (rule) => rule.id === generation.applications[0].ruleId,
 );
-assert.ok(sizingRule?.type === "tshirt-sizing");
+assert.ok(sizingRule?.type === "generator");
 assert.equal(sizingRule.movement, "available-token");
 assert.deepEqual(sizingRule.mappings, createTshirtMappings("available-token"));
 

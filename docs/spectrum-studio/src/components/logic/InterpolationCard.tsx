@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { ActionButton, Badge, Text } from "@react-spectrum/s2";
+import { useNotify } from "../notifications/notificationContext";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import Lock from "@react-spectrum/s2/icons/Lock";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useDeletionToast } from "../deletionToastContext";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { EditOnly } from "../editable";
 import { replaceInterpolationAtom } from "../../features/logic/scaleTypeLibrary";
 import {
@@ -71,21 +71,33 @@ export function InterpolationCard({
   interpolation: Interpolation;
 }) {
   const replaceInterpolation = useSetAtom(replaceInterpolationAtom);
-  const removeInterpolation = useSetAtom(removeInterpolationWithFallbackAtom);
-  const restoreInterpolation = useSetAtom(
-    restoreInterpolationWithConsumersAtom,
-  );
+  const store = useStore();
+  const notify = useNotify();
   const consumers = useAtomValue(interpolationConsumersAtom).filter(
     (consumer) => consumer.interpolationId === interpolation.id,
   );
-  const { notifyDeleted } = useDeletionToast();
 
   function deleteInterpolation() {
-    const removed = removeInterpolation(interpolation.id);
-    if (removed)
-      notifyDeleted(`Interpolation ${interpolation.name}`, () =>
-        restoreInterpolation(removed),
-      );
+    notify.remove({
+      kind: "interpolation",
+      noun: interpolation.name,
+      run: (store) => {
+        const removed = store.set(
+          removeInterpolationWithFallbackAtom,
+          interpolation.id,
+        );
+        return (
+          removed ?? {
+            ok: false as const,
+            error: "This interpolation is no longer available.",
+          }
+        );
+      },
+      undo: (removed) => {
+        if (!("ok" in removed))
+          store.set(restoreInterpolationWithConsumersAtom, removed);
+      },
+    });
   }
 
   return (

@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../notifications/notificationContext";
 import {
   Button,
   ButtonGroup,
@@ -11,7 +12,6 @@ import {
   Text,
   TextArea,
   TextField,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue } from "jotai";
@@ -74,6 +74,7 @@ export function InterpolationEditorDialog({
   onSave,
   onDelete,
 }: InterpolationEditorDialogProps) {
+  const notify = useNotify();
   const [draft, setDraft] = useState<Interpolation>(createDraft);
   const library = useAtomValue(interpolationsAtom);
   const trimmedName = draft.name.trim();
@@ -89,9 +90,7 @@ export function InterpolationEditorDialog({
       `${formatPreview(input)} → ${formatPreview(evaluateInterpolation(draft, input))}`,
   );
   const report = (failure: unknown) =>
-    ToastQueue.negative(
-      failure instanceof Error ? failure.message : String(failure),
-    );
+    notify.error(failure instanceof Error ? failure.message : String(failure));
 
   return (
     <DialogTrigger

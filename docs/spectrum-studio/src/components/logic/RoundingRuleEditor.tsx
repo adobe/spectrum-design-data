@@ -2,8 +2,6 @@
 import {
   Cell,
   Column,
-  NumberField,
-  Picker,
   PickerItem,
   Row,
   TableBody,
@@ -13,11 +11,19 @@ import {
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useState } from "react";
-import { roundToFactor } from "../../features/foundations/rounding";
+import { NumberField } from "../fields/NumberField";
+import { Picker } from "../fields/Picker";
+import { TokenComboBox } from "../fields/TokenComboBox";
+import {
+  ruleAppliesToReference,
+  referenceValueType,
+} from "../../features/logic/applicability";
+import type { PrimitiveReference } from "../../features/tokens/primitiveReferences";
 import {
   evaluateConditions,
   lintConditions,
   sampleInputs,
+  applyRoundingRule,
 } from "../../features/logic/evaluate";
 import {
   ROUNDING_DEPTHS,
@@ -64,23 +70,43 @@ export interface RoundingRuleEditorProps {
   rule: RoundingRule;
   onChange: (rule: RoundingRule) => void;
   isReadOnly?: boolean;
+  references?: readonly PrimitiveReference[];
+  onEditingChange?: (editing: boolean) => void;
 }
 
 export function RoundingRuleEditor({
   rule,
   onChange,
   isReadOnly = false,
+  references = [],
+  onEditingChange,
 }: RoundingRuleEditorProps) {
   const [testValue, setTestValue] = useState(12.5);
+  const [selected, setSelected] = useState<string | null>(null);
+  const eligible = references.filter(
+    (reference) =>
+      ruleAppliesToReference(rule, reference) &&
+      typeof reference.value === "number",
+  );
+  const token = eligible.find((reference) => reference.id === selected);
+  const value = typeof token?.value === "number" ? token.value : testValue;
+  const context = token
+    ? referenceValueType(token)
+    : rule.applicability?.kind === "specific"
+      ? rule.applicability.types[0]
+      : "size";
   const lint = lintConditions(rule.conditions);
-  const match = evaluateConditions(rule, testValue);
-  const samples = sampleInputs(rule);
+  const match = evaluateConditions(rule, value);
+  const samples = [...new Set([value, ...sampleInputs(rule)])].sort(
+    (a, b) => a - b,
+  );
 
   return (
     <div className={sectionStyles} data-component="RoundingRuleEditor">
       <div className={rowStyles}>
         <Picker
-          label="Depth"
+          label="Precision"
+          labelPosition="top"
           isDisabled={isReadOnly}
           selectedKey={String(rule.depth)}
           onSelectionChange={(key) =>
@@ -100,6 +126,7 @@ export function RoundingRuleEditor({
         </Picker>
         <NumberField
           label="Default factor"
+          labelPosition="top"
           description="Used when no condition matches. 0 means no rounding."
           minValue={0}
           isReadOnly={isReadOnly}
@@ -122,6 +149,7 @@ export function RoundingRuleEditor({
         unreachableIds={lint.unreachable}
         matchedId={match.conditionId}
         isReadOnly={isReadOnly}
+        onEditingChange={onEditingChange}
       />
       {!lint.defaultReachable && (
         <p className={noteStyles}>
@@ -130,13 +158,31 @@ export function RoundingRuleEditor({
       )}
 
       <h4 className={titleStyles}>Preview</h4>
-      <div className={rowStyles}>
-        <NumberField
-          label="Test value"
-          value={testValue}
-          onChange={(value) => Number.isFinite(value) && setTestValue(value)}
-          step={0.1}
+      {eligible.length > 0 && (
+        <TokenComboBox
+          label="Default value"
+          selectedKey={selected}
+          onChange={setSelected}
+          options={eligible.map((reference) => ({
+            id: reference.id,
+            kind: "token",
+            name: reference.name,
+            displayValue: reference.displayValue,
+            hidden: reference.hidden,
+            error: reference.error,
+          }))}
         />
+      )}
+      <div className={rowStyles}>
+        {!token && (
+          <NumberField
+            label="Test value"
+            labelPosition="top"
+            value={testValue}
+            onChange={(value) => Number.isFinite(value) && setTestValue(value)}
+            step={0.1}
+          />
+        )}
         <p
           className={resultStyles}
           aria-live="polite"
@@ -144,8 +190,8 @@ export function RoundingRuleEditor({
         >
           <Text>
             {describeMatch(rule, match.conditionId)} · factor{" "}
-            {formatFactor(match.outcome.factor)} · {testValue} →{" "}
-            {roundToFactor(testValue, match.outcome.factor, rule.depth)}
+            {formatFactor(match.outcome.factor)} · {value} →{" "}
+            {applyRoundingRule(rule, value, context)}
           </Text>
         </p>
       </div>
@@ -158,7 +204,7 @@ export function RoundingRuleEditor({
           <Column isRowHeader>Value</Column>
           <Column>Matched</Column>
           <Column>Factor</Column>
-          <Column>Result</Column>
+          <Column>Output</Column>
         </TableHeader>
         <TableBody>
           {samples.map((value) => {
@@ -168,9 +214,7 @@ export function RoundingRuleEditor({
                 <Cell>{value}</Cell>
                 <Cell>{describeMatch(rule, sample.conditionId)}</Cell>
                 <Cell>{formatFactor(sample.outcome.factor)}</Cell>
-                <Cell>
-                  {roundToFactor(value, sample.outcome.factor, rule.depth)}
-                </Cell>
+                <Cell>{applyRoundingRule(rule, value, context)}</Cell>
               </Row>
             );
           })}

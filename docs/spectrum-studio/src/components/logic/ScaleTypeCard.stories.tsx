@@ -5,7 +5,7 @@ import {
   createScaleType,
   SCALE_TYPE_DEFAULTS,
 } from "../../features/scales/scaleType";
-import { DeletionToastProvider } from "../DeletionToastProvider";
+import { NotificationProvider } from "../notifications/NotificationProvider";
 import { ScaleTypeCard } from "./ScaleTypeCard";
 
 const meta = {
@@ -14,11 +14,11 @@ const meta = {
   parameters: { layout: "padded" },
   decorators: [
     (Story) => (
-      <DeletionToastProvider>
+      <NotificationProvider>
         <div style={{ maxWidth: 520 }}>
           <Story />
         </div>
-      </DeletionToastProvider>
+      </NotificationProvider>
     ),
   ],
   args: { scaleType: SCALE_TYPE_DEFAULTS[0] },

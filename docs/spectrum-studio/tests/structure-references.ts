@@ -37,6 +37,7 @@ import {
   structureBinding,
   structureTaxonomyAssignments,
   assignStructure,
+  STRUCTURES_SCHEMA_VERSION,
 } from "../src/features/structures/model";
 import {
   STRUCTURE_TERM_IDS as terms,
@@ -70,7 +71,7 @@ import {
 const snapshot = createDefaultSnapshot();
 assertStoredSnapshot(snapshot);
 const [base, text] = snapshot.structures!.structures;
-assert.equal(snapshot.structures!.schemaVersion, 4);
+assert.equal(snapshot.structures!.schemaVersion, STRUCTURES_SCHEMA_VERSION);
 assert.equal(snapshot.structures!.structures.length, 2);
 assert.equal(text.name, "Text");
 assert.equal(base.elements?.length, 1);
@@ -305,9 +306,7 @@ assert.throws(
   () => assertStructureGraph([base, text, text]),
   /unique identities/,
 );
-const originalRule = snapshot.rules!.find(
-  (rule) => rule.type === "tshirt-sizing",
-)!;
+const originalRule = snapshot.rules!.find((rule) => rule.type === "generator")!;
 const parentRule = {
   ...originalRule,
   id: "rule-parent-only",

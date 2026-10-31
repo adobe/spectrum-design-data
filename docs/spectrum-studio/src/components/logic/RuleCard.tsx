@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ActionButton, Badge, Text, ToastQueue } from "@react-spectrum/s2";
+import { useNotify } from "../notifications/notificationContext";
+import { ActionButton, Badge, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import Lock from "@react-spectrum/s2/icons/Lock";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useDeletionToast } from "../deletionToastContext";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { EditOnly } from "../editable";
 import type { Rule } from "../../features/logic/model";
 import { ruleTypeLabel } from "../../features/logic/registry";
@@ -14,6 +14,7 @@ import {
   replaceRuleAtom,
   restoreRuleAtom,
   ruleConsumersAtom,
+  saveGeneratorDraftAtom,
 } from "../../features/logic/state";
 import { RuleEditorDialog } from "./RuleEditorDialog";
 import { UsedByTags } from "./UsedByTags";
@@ -48,20 +49,19 @@ export function RuleCard({ rule, index }: { rule: Rule; index: number }) {
     (consumer) => consumer.ruleId === rule.id,
   );
   const replaceRule = useSetAtom(replaceRuleAtom);
-  const removeRule = useSetAtom(removeRuleAtom);
-  const restoreRule = useSetAtom(restoreRuleAtom);
-  const { notifyDeleted } = useDeletionToast();
+  const saveGenerator = useSetAtom(saveGeneratorDraftAtom);
+  const store = useStore();
+  const notify = useNotify();
 
   function deleteRule() {
-    try {
-      const removed = removeRule(rule.id);
-      if (removed)
-        notifyDeleted(`Rule ${rule.name}`, () => restoreRule(removed));
-    } catch (failure) {
-      ToastQueue.negative(
-        failure instanceof Error ? failure.message : String(failure),
-      );
-    }
+    notify.remove({
+      kind: "rule",
+      noun: rule.name,
+      run: (store) => store.set(removeRuleAtom, rule.id),
+      undo: (removed) => {
+        if (removed) store.set(restoreRuleAtom, removed);
+      },
+    });
   }
 
   return (
@@ -96,7 +96,9 @@ export function RuleCard({ rule, index }: { rule: Rule; index: number }) {
                 }
                 title="Edit rule"
                 createDraft={() => structuredClone(rule)}
-                onSave={replaceRule}
+                onSave={(rule, edit) =>
+                  edit ? saveGenerator({ rule, edit }) : replaceRule(rule)
+                }
                 onDelete={deleteRule}
               />
               <ActionButton

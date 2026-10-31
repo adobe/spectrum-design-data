@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "@storybook/test";
 import { type MethodInterpolation } from "../../features/scales/interpolationDefinition";
-import { DeletionToastProvider } from "../DeletionToastProvider";
+import { NotificationProvider } from "../notifications/NotificationProvider";
 import { InterpolationCard } from "./InterpolationCard";
 
 const bodyLineHeight: MethodInterpolation = {
@@ -19,11 +19,11 @@ const meta = {
   parameters: { layout: "padded" },
   decorators: [
     (Story) => (
-      <DeletionToastProvider>
+      <NotificationProvider>
         <div style={{ maxWidth: 440 }}>
           <Story />
         </div>
-      </DeletionToastProvider>
+      </NotificationProvider>
     ),
   ],
   args: { interpolation: bodyLineHeight },

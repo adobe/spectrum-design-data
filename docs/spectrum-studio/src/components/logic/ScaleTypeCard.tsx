@@ -4,7 +4,7 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useDeletionToast } from "../deletionToastContext";
+import { useNotify } from "../notifications/notificationContext";
 import { EditOnly, useIsReadOnly } from "../editable";
 import {
   deleteScaleTypeAtom,
@@ -58,16 +58,19 @@ export function ScaleTypeCard({ scaleType }: { scaleType: ScaleType }) {
     (consumer) => consumer.scaleTypeId === scaleType.id,
   );
   const setEditing = useSetAtom(editingScaleTypeIdAtom);
-  const deleteFormula = useSetAtom(deleteScaleTypeAtom);
   const restoreFormula = useSetAtom(restoreScaleTypeAtom);
   const isReadOnly = useIsReadOnly();
-  const { notifyDeleted } = useDeletionToast();
+  const notify = useNotify();
   const overridable = overridablePartLabels(scaleType);
 
   function deleteScaleType() {
-    const removed = deleteFormula(scaleType.id);
-    if (removed)
-      notifyDeleted(`Formula ${scaleType.name}`, () => restoreFormula(removed));
+    notify.remove({
+      kind: "formula",
+      run: (store) => store.set(deleteScaleTypeAtom, scaleType.id),
+      undo: (removed) => {
+        if (removed) restoreFormula(removed);
+      },
+    });
   }
 
   return (
