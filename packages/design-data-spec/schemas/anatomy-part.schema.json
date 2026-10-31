@@ -21,6 +21,12 @@
       "default": false,
       "description": "Whether this part is always rendered regardless of component configuration."
     },
+    "states": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "description": "Declared component states in which this part is drawn (for example focus for a focus indicator). Absent means the part can appear in any state. Each entry should match a `states[].name` declared on the component."
+    },
     "contains": {
       "type": "array",
       "items": {

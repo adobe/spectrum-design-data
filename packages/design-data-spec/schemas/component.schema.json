@@ -68,6 +68,20 @@
       },
       "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
     },
+    "anatomyReview": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["draft", "reviewed"] },
+        "reviewedIn": {
+          "type": "string",
+          "description": "Version in which the anatomy was last reviewed against the anatomy definition."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "description": "Review status of this component's anatomy. Absent means draft. See spec/anatomy-format.md#review-checklist."
+    },
     "states": {
       "type": "array",
       "items": {
@@ -327,6 +341,12 @@
         "required": {
           "type": "boolean",
           "default": false
+        },
+        "states": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Declared component states in which this part is drawn. Absent means any state."
         },
         "contains": {
           "type": "array",
