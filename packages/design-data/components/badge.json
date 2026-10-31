@@ -152,6 +152,11 @@
     { "name": "icon", "description": "Optional leading icon." },
     { "name": "label", "description": "Badge text." }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No part changes. Badge is not focusable, so no focus-indicator; icon and label are optional (icon-only badge)."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }
