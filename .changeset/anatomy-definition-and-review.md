@@ -13,8 +13,8 @@ Define what an anatomy part is and review the first five components against it.
 - New optional `presentIn` lists the states a part is present in. Not allowed on a required part.
 - New optional `anatomyReview` on a component records `draft` or `reviewed`.
 - New info rule SPEC-073 lists components with relationships but no anatomy, or draft anatomy.
-- New warning SPEC-074: a part's `presentIn` states must be declared on the component.
-- New warning SPEC-075: a recipe's `visibleWhen.states` must agree with the part's `presentIn`.
+- New error SPEC-074: a part's `presentIn` states must be declared on the component.
+- New error SPEC-075: a recipe's `visibleWhen.states` must agree with the part's `presentIn`.
 
 **Data:**
 

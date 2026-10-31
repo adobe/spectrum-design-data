@@ -10,14 +10,14 @@
 
 //! SPEC-075: visual-present-in-matches-anatomy
 //!
-//! A recipe part's `visibleWhen.states` SHOULD agree with the `presentIn` of the
+//! A recipe part's `visibleWhen.states` MUST agree with the `presentIn` of the
 //! anatomy part of the same name. Today a focus indicator's visibility lives in the
 //! recipe, while the anatomy says where the part is present; this keeps the two from
 //! drifting. State names are compared after the engine's normalization.
 //!
 //! `visibleWhen.states` means every listed state must be active, while `presentIn`
 //! means any listed state. They agree when each lists one state, so a difference is a
-//! warning only when neither side lists more than one. Otherwise the difference is
+//! an error only when neither side lists more than one. Otherwise the difference is
 //! reported at info level, because the two readings can legitimately differ.
 
 use std::collections::BTreeSet;
@@ -98,7 +98,7 @@ impl ValidationRule for Rule {
                         " (visibleWhen.states means all, presentIn means any; check they intend the same)",
                     )
                 } else {
-                    (Severity::Warning, "")
+                    (Severity::Error, "")
                 };
                 out.push(diagnostic(
                     self.id(),
@@ -166,7 +166,7 @@ mod tests {
             json!({"kind": "ring", "visibleWhen": {"states": ["hover"]}}),
         );
         assert_eq!(d.len(), 1);
-        assert_eq!(d[0].severity, Severity::Warning);
+        assert_eq!(d[0].severity, Severity::Error);
         assert!(d[0].message.contains("visible in hover"));
         assert!(d[0].message.contains("lists keyboard-focus"));
     }
@@ -182,7 +182,7 @@ mod tests {
         let anatomy_only = check(anatomy(Some(json!(["focus"]))), json!({"kind": "ring"}));
         assert_eq!(anatomy_only.len(), 1);
         assert!(anatomy_only[0].message.contains("visible in no states"));
-        assert_eq!(anatomy_only[0].severity, Severity::Warning);
+        assert_eq!(anatomy_only[0].severity, Severity::Error);
     }
 
     #[test]

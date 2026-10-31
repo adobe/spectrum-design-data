@@ -105,19 +105,19 @@ Relationship `context` is free text today (for example `Background (selected, em
 
 The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot read other files, so cross-file checks against component and relationship data are Layer 2 rules. They run only when the recipe catalog is loaded (`design-data validate --visuals-path`) and are skipped when no component catalog is loaded.
 
-| Rule     | Checks                                                                                                                                                                                 |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `around` and `pressTarget` resolve    |
-| SPEC-061 | `when` and `visibleWhen` options exist with allowed values and types; states exist on the component                                                                                    |
-| SPEC-062 | `relationship` selectors resolve to a record scoped to the component; `token` selectors match a token (`{size}` and `{sizeIndex}` expand over `sizeScale` first)                       |
-| SPEC-063 | `sizeScale` keys equal the component's `size` option values                                                                                                                            |
-| SPEC-066 | Warning. Every option and state the component declares drives the recipe or is listed in `notVisual`; `notVisual` names are declared and unused                                        |
-| SPEC-067 | Warning. A `token` selector does not bind a token that one of the component's relationships already binds                                                                              |
-| SPEC-068 | Warning. A literal does not supply a color or a non-zero size (layout keywords, `transparent`, zero and ratio radii are fine)                                                          |
-| SPEC-069 | Warning. A `token` or `relationship` selector does not resolve only to deprecated tokens (extends SPEC-058 to recipes)                                                                 |
-| SPEC-070 | Warning. Recipes name the focus ring part (`kind: "ring"`) alike                                                                                                                       |
-| SPEC-071 | Info. Counts relationship contexts of the component that the recipe never binds                                                                                                        |
-| SPEC-075 | Warning. A part's `visibleWhen.states` agrees with the `presentIn` of its anatomy part (info when either lists more than one state; see [Anatomy format](anatomy-format.md#presentin)) |
+| Rule     | Checks                                                                                                                                                                               |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `around` and `pressTarget` resolve  |
+| SPEC-061 | `when` and `visibleWhen` options exist with allowed values and types; states exist on the component                                                                                  |
+| SPEC-062 | `relationship` selectors resolve to a record scoped to the component; `token` selectors match a token (`{size}` and `{sizeIndex}` expand over `sizeScale` first)                     |
+| SPEC-063 | `sizeScale` keys equal the component's `size` option values                                                                                                                          |
+| SPEC-066 | Warning. Every option and state the component declares drives the recipe or is listed in `notVisual`; `notVisual` names are declared and unused                                      |
+| SPEC-067 | Warning. A `token` selector does not bind a token that one of the component's relationships already binds                                                                            |
+| SPEC-068 | Warning. A literal does not supply a color or a non-zero size (layout keywords, `transparent`, zero and ratio radii are fine)                                                        |
+| SPEC-069 | Warning. A `token` or `relationship` selector does not resolve only to deprecated tokens (extends SPEC-058 to recipes)                                                               |
+| SPEC-070 | Warning. Recipes name the focus ring part (`kind: "ring"`) alike                                                                                                                     |
+| SPEC-071 | Info. Counts relationship contexts of the component that the recipe never binds                                                                                                      |
+| SPEC-075 | Error. A part's `visibleWhen.states` agrees with the `presentIn` of its anatomy part (info when either lists more than one state; see [Anatomy format](anatomy-format.md#presentin)) |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 

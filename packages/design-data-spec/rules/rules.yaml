@@ -943,16 +943,15 @@ rules:
 
   - id: SPEC-074
     name: anatomy-present-in-declared
-    severity: warning
+    severity: error
     layer: 2
     category: reference-integrity
     note: >
       The anatomy version of SPEC-054. State names are compared after normalization, so
       `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists `presentIn`
-      on a component that declares no states is also reported. Warning while anatomy is
-      unreviewed; planned to become an error after the review pass.
+      on a component that declares no states is also reported.
     assert: >
-      Every entry of an anatomy part's `presentIn` SHOULD match a state declared on the same
+      Every entry of an anatomy part's `presentIn` MUST match a state declared on the same
       component.
     message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
     spec_ref: spec/anatomy-format.md#presentin
@@ -960,16 +959,16 @@ rules:
 
   - id: SPEC-075
     name: visual-present-in-matches-anatomy
-    severity: warning
+    severity: error
     layer: 2
     category: component
     note: >
       Keeps a recipe's `visibleWhen.states` and the anatomy's `presentIn` from drifting. States
       are compared after normalization. `visibleWhen.states` means every listed state, and
-      `presentIn` means any listed state, so a difference is a warning only when neither side
+      `presentIn` means any listed state, so a difference is an error only when neither side
       lists more than one state; otherwise it is reported at info level.
     assert: >
-      For a recipe part that is also an anatomy part, the recipe's `visibleWhen.states` SHOULD
+      For a recipe part that is also an anatomy part, the recipe's `visibleWhen.states` MUST
       equal the anatomy part's `presentIn`.
     message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
     spec_ref: spec/anatomy-format.md#presentin
