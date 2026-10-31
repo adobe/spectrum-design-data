@@ -134,7 +134,7 @@
     { "name": "icon", "description": "Workflow icon shown before the label." },
     {
       "name": "progress",
-      "description": "Progress circle that replaces the content while pending."
+      "description": "Progress indicator shown in place of the icon and label while an action is pending."
     },
     { "name": "label", "description": "Text label." },
     {
@@ -143,9 +143,15 @@
     },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn outside the container for keyboard focus."
+      "description": "Outline drawn outside the container for keyboard focus.",
+      "states": ["keyboard-focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "focus-indicator is state-only; progress kept (styled by action-button, option-driven); hold-icon kept (registry term, own style)."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
