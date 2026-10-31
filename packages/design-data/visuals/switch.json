@@ -8,7 +8,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["control", "label"],
+      "children": ["track", "label"],
       "pressTarget": "handle",
       "props": {
         "direction": { "value": "row" },
@@ -48,21 +48,16 @@
         }
       }
     },
-    "control": {
+    "track": {
       "kind": "box",
-      "children": ["track", "handle"],
+      "children": ["handle"],
       "props": {
         "width": {
           "relationship": { "property": "width", "context": "Track (size)" }
         },
         "height": {
           "relationship": { "property": "height", "context": "Track (size)" }
-        }
-      }
-    },
-    "track": {
-      "kind": "box",
-      "props": {
+        },
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",

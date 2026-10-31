@@ -107,20 +107,15 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Row that holds the control and the label.",
+      "description": "Row that holds the box and the label.",
       "required": true,
-      "contains": ["control", "label"]
-    },
-    {
-      "name": "control",
-      "description": "The whole check control: the box and the mark drawn inside it. Sizes the control and hosts the painted box; the renderer needs it, so it is flagged for removal.",
-      "required": true,
-      "contains": ["box", "checkmark", "dash"]
+      "contains": ["box", "label"]
     },
     {
       "name": "box",
-      "description": "Rounded square. Its border is drawn while the checkbox is unselected; it is filled when selected or indeterminate.",
-      "required": true
+      "description": "Rounded square. Its border is drawn while the checkbox is unselected; it is filled when selected or indeterminate. Holds the checkmark and dash.",
+      "required": true,
+      "contains": ["checkmark", "dash"]
     },
     {
       "name": "checkmark",
@@ -138,9 +133,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Reviewed; stays draft. control is a render-only wrapper (a flowed box cannot paint, so a sized wrapper hosts the painted box); remove it once the renderer paints flowed boxes. focus-indicator made state-only and no longer nested in control."
+    "notes": "control removed (a grouping with no style of its own); its size moved to box, which now holds the marks. focus-indicator is state-only."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

@@ -874,7 +874,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -891,7 +891,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -908,7 +908,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -925,7 +925,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -942,7 +942,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -959,7 +959,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -976,7 +976,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -993,7 +993,7 @@
   {
     "scope": {
       "component": "checkbox",
-      "part": "control",
+      "part": "box",
       "property": "size",
       "options": {
         "scale": "mobile",

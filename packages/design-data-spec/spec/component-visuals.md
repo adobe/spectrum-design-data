@@ -54,7 +54,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
 | `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`). Unset draws a placeholder.                                                                                            |
-| `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Parts nested inside it scale with it (a checkbox `control` scales its box and mark). Defaults to the whole scene.   |
+| `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Parts nested inside it scale with it (a checkbox `box` scales with its mark). Defaults to the whole scene.          |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
 ### Visual properties
@@ -73,7 +73,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
 
-**Nested boxes.** A flowed `box` child may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes and draws its `glyph`; the checkbox uses this for its checkmark and dash.
+**Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes and draws its `glyph`; the checkbox uses this for its checkmark and dash.
 
 ### Value sources
 
@@ -128,7 +128,7 @@ These are the conventions the lints above enforce, plus the decisions made while
 2. **Bind current tokens.** Do not bind a deprecated token (SPEC-069; SPEC-058 covers relationships). When the only token is deprecated, bind it and record the gap, so the lint keeps showing it.
 3. **Selection is an option, not a state.** Model "selected" as the `isSelected` option and scope relationships with `options.isSelected: true`. The renderer treats `isSelected` as the `selected` state and `isDisabled` as `disabled` when choosing between tokens that carry a state.
 4. **Cover the component.** Every option and state the component declares either changes the recipe or is listed in `notVisual` (SPEC-066). `notVisual` records a deliberate absence, for example `isReadOnly` (it only suppresses hover and press) or `icon` until a shared icon registry exists.
-5. **Press scales the part the design scales.** Set `pressTarget` to the part the design source scales when pressed: the checkbox scales its `control` (box and mark), the switch scales its `handle`. Parts nested inside the target scale with it, and the label does not.
+5. **Press scales the part the design scales.** Set `pressTarget` to the part the design source scales when pressed: the checkbox scales its `box` (with its mark), the switch scales its `handle`. Parts nested inside the target scale with it, and the label does not.
 6. **Priorities.** Disabled overrides interaction states with `priority: 10` (11 where a more specific disabled case must win). Error uses `priority: 5`.
 7. **Relationship contexts are the design token group label,** with no `S1` or `S2` prefix, and the same label names the same concept in every component (for example `Control (disabled)`).
 8. **Name the focus ring part alike** across recipes (SPEC-070).

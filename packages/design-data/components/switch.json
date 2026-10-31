@@ -115,24 +115,20 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Row that holds the control and the label.",
+      "description": "Row that holds the track and the label.",
       "required": true,
-      "contains": ["control", "label"]
-    },
-    {
-      "name": "control",
-      "description": "The whole on/off control: the track and its handle. Sizes the control and hosts the painted track; the renderer needs it, so it is flagged for removal.",
-      "required": true,
-      "contains": ["track", "handle"]
+      "contains": ["track", "label"]
     },
     {
       "name": "track",
-      "description": "Pill-shaped background. Its border is drawn while the switch is off.",
-      "required": true
+      "description": "Pill-shaped background. Its border is drawn while the switch is off. Holds the handle.",
+      "required": true,
+      "contains": ["handle"]
     },
     {
       "name": "handle",
-      "description": "Circle that sits at the start of the track when off and at the end when on."
+      "description": "Circle that sits at the start of the track when off and at the end when on.",
+      "required": true
     },
     { "name": "label", "description": "Text label." },
     {
@@ -142,9 +138,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Reviewed; stays draft. control is a render-only wrapper (a flowed box cannot paint, so a sized wrapper hosts the painted track); remove it once the renderer paints flowed boxes. focus-indicator made state-only and no longer nested in control."
+    "notes": "control removed (a grouping with no style of its own); its size moved to track, which now holds the handle. focus-indicator is state-only."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

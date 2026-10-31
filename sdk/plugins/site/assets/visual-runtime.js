@@ -271,6 +271,8 @@ export function renderScene(compiled, req) {
       fontWeight: null,
       color: color ? color.value : null,
       stroke: null,
+      fill: null,
+      strokeWidth: 0,
       radius: null,
       tokens,
     };
@@ -283,6 +285,16 @@ export function renderScene(compiled, req) {
       c.h = num(bh) ?? 0;
       c.radius = rp(part, "cornerRadius");
       track(c.tokens, "cornerRadius", c.radius);
+      // A flowed box paints itself and hosts its children, like a nested box.
+      const bfill = rp(part, "fill");
+      const bstroke = rp(part, "stroke");
+      const bsw = rp(part, "strokeWidth");
+      track(c.tokens, "fill", bfill);
+      track(c.tokens, "stroke", bstroke);
+      track(c.tokens, "strokeWidth", bsw);
+      c.fill = bfill ? bfill.value : null;
+      c.stroke = bstroke ? bstroke.value : null;
+      c.strokeWidth = num(bsw) ?? 0;
     } else if (kind === "icon" || kind === "progress") {
       const w = rp(part, "width");
       const ih = rp(part, "height");
@@ -348,7 +360,9 @@ export function renderScene(compiled, req) {
     const cy0 = oy + (h - c.h) / 2;
     nodes.push(
       node(c.id, c.kind, cx0, cy0, c.w, c.h, {
+        fill: c.fill,
         stroke: c.stroke,
+        stroke_width: c.strokeWidth,
         radius: c.kind === "box" ? px(c.radius, c.h) : 0,
         text: c.text,
         font_size: c.fontSize,
