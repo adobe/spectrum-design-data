@@ -125,7 +125,7 @@ Facts checked in the source, and one experiment.
 
 Load errors, not Layer 2 rules: file name differs from `component`; unknown `extensions` subdirectory (already an error).
 
-Rule ids 079 to 081 are provisional (077 and 078 are reserved elsewhere); SPEC-076 is the last id in `rules.yaml` today.
+Rule ids 079 to 081 are provisional (077 and 078 are reserved by [Artifact moves](../../packages/design-data-spec/spec/artifact-moves.md#detecting-a-half-finished-move)); SPEC-076 is the last id in `rules.yaml` today.
 
 **Severity of SPEC-079.** A **warning for one minor version**, then an error (review decision). `rules.yaml` records the planned promotion. A platform recipe is new, so it should start clean, but the warning period lets the first platform recipes land while the renderer gaps (D6) close. `validate-platform-recipes.mjs` fails on SPEC-079 regardless of severity, so CI never lets a gap through; the period only affects the exit code of a plain `validate`.
 
