@@ -26,6 +26,12 @@
       "pattern": "^[a-z][a-z0-9-]*$",
       "description": "Key of the root part in `parts`."
     },
+    "notVisual": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
+    },
     "sizeScale": {
       "type": "object",
       "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors.",
@@ -70,10 +76,14 @@
           "pattern": "^[a-z][a-z0-9-]*$",
           "description": "For a ring: the part it outlines. Defaults to the root."
         },
+        "glyph": {
+          "enum": ["checkmark", "dash"],
+          "description": "For an icon nested in a box: the built-in glyph to draw. Unset draws a placeholder."
+        },
         "pressTarget": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "For the root: the part the press scale applies to. Defaults to the whole scene."
+          "description": "For the root: the part the press scale applies to, together with the parts nested inside it. Defaults to the whole scene."
         },
         "placement": {
           "type": "object",

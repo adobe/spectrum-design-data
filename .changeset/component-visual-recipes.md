@@ -7,12 +7,10 @@
 Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 
 - **spec/component-visuals.md**: draft RFC and schema; `design-data:validate` checks recipes.
-- **visuals/action-button.json**: pilot recipe binding parts to tokens.
-- **components/action-button.json**: declares anatomy (incl. `progress`) and `isPending`.
+- **action-button**: pilot recipe `visuals/action-button.json`; adds `progress`, `isPending`.
 - **sdk (core, cli)**: `render` makes SVG; `compile_recipe` pre-binds tokens.
 - **sdk/wasm**: `Dataset.renderScene` and `Dataset.renderSvg` render recipes in the browser.
-- **visuals/button.json**: variant, style, state, and static color recipe for `button`.
-- **components/button.json**: adds container, progress, and focus-ring anatomy and a `down` state.
+- **button**: `visuals/button.json` recipe (variant, style, state, static color); `down` state.
 - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
 - **badge**: recipe and anatomy; removes the `isDisabled` option (the design has no disabled badge).
 - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
@@ -22,3 +20,4 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 - **switch**: `visuals/switch.json` recipe, anatomy, `hideLabel`, and 15 color relationships.
 - **sdk/core, site**: nested box layout, `around` ring, `pressTarget`, component-scoped sizes.
 - **spec rules**: SPEC-060..063 check recipes against components (`validate --visuals-path`).
+- **checkbox**: `visuals/checkbox.json` recipe, anatomy, `box`/`dash` terms; `glyph` draws marks.

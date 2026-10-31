@@ -1109,7 +1109,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "xl"
       }
@@ -1127,7 +1127,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "xl"
       }
@@ -1145,7 +1145,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "l"
       }
@@ -1163,7 +1163,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "l"
       }
@@ -1181,7 +1181,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "m"
       }
@@ -1199,7 +1199,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "m"
       }
@@ -1217,7 +1217,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "s"
       }
@@ -1235,7 +1235,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "s"
       }

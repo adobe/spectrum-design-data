@@ -47,6 +47,13 @@
     "options": {
       "$ref": "#/$defs/optionsMap"
     },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/optionConstraint"
+      },
+      "description": "Rules restricting which option value combinations are valid. See spec/option-constraints.md."
+    },
     "slots": {
       "type": "array",
       "items": {
@@ -156,6 +163,54 @@
       "additionalProperties": {
         "$ref": "#/$defs/optionDescriptor"
       }
+    },
+    "optionConstraint": {
+      "type": "object",
+      "description": "If-then rule over option values. Layer 1 checks shape only; that names and values are declared in `options` is Layer 2.",
+      "required": ["when", "require", "severity"],
+      "properties": {
+        "when": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "number", "boolean"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "number", "boolean"] }
+              }
+            ]
+          },
+          "description": "Option conditions (ANDed). A literal matches that value; an array matches any of its values."
+        },
+        "require": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "number", "boolean"] }
+              },
+              {
+                "type": "object",
+                "required": ["present"],
+                "properties": { "present": { "type": "boolean" } },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "description": "What matching combinations must satisfy: permitted values, or { present } for presence."
+        },
+        "severity": {
+          "enum": ["error", "advisory"]
+        },
+        "description": { "type": "string" },
+        "source": { "type": "string" }
+      },
+      "additionalProperties": false
     },
     "optionDescriptor": {
       "type": "object",

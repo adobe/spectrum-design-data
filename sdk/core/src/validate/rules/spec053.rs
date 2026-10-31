@@ -65,7 +65,7 @@ impl ValidationRule for Rule {
                     continue;
                 }
                 let Some(field_val) = val.as_str() else {
-                    continue; // Layer 1 catches non-string option values
+                    continue; // boolean option values (isSelected: true) have no values[] to match
                 };
 
                 let Some(declared) = crate::validate::rules::component_option_values(comp, key)
@@ -180,6 +180,15 @@ mod tests {
         let diags = run(
             json!({"scope": {"component": "button", "property": "color", "options": {"isDisabled": "true"}}, "value": "#fff"}),
             json!({"name": "button", "options": {"isDisabled": {"type": "boolean"}}}),
+        );
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn boolean_option_value_skipped() {
+        let diags = run(
+            json!({"scope": {"component": "switch", "property": "size", "options": {"isSelected": true}}, "value": "10px"}),
+            json!({"name": "switch", "options": {"isSelected": {"type": "boolean"}}}),
         );
         assert!(diags.is_empty());
     }

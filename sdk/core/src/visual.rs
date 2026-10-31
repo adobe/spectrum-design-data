@@ -73,6 +73,9 @@ pub struct SceneNode {
     pub font_size: f64,
     pub font_weight: Option<String>,
     pub color: Option<String>,
+    /// Built-in glyph an `icon` node draws (`checkmark`, `dash`); unset draws the placeholder.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub glyph: Option<String>,
     pub tokens: Vec<TokenRef>,
 }
 
@@ -91,6 +94,9 @@ pub struct Scene {
 pub struct Press {
     /// Part the scale applies to; the whole scene when absent.
     pub part: Option<String>,
+    /// Parts nested inside `part`, at any depth. They scale together with it.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub nested: Vec<String>,
     pub scale: f64,
     pub cx: f64,
     pub cy: f64,
@@ -123,9 +129,16 @@ struct Ctx<'a> {
     diags: Vec<String>,
 }
 
+/// Boolean options that act as an interaction state while true. Shared by `active_states`
+/// and `scoped_values`, so a relationship scoped by `isSelected: true` matches the same
+/// requests as one scoped by `state: ["selected"]`.
+pub(crate) const OPTION_STATES: &[(&str, &str)] =
+    &[("isDisabled", "disabled"), ("isSelected", "selected")];
+
 /// Relationship records that carry their own `value` (a component-scoped token such as a
 /// switch track width), shaped as token records so they rank and resolve like tokens. The
-/// relationship's `options` become name fields, so `size`, `scale` and `state` filter them.
+/// relationship's `options` become name fields, so `size`, `scale` and `state` filter them;
+/// a true boolean option in `OPTION_STATES` adds its state.
 fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::TokenRecord> {
     graph
         .relationships
@@ -146,6 +159,10 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
                 .and_then(Value::as_object)
             {
                 name.extend(o.iter().map(|(k, v)| (k.clone(), v.clone())));
+                let states = scope_states(o);
+                if !states.is_empty() {
+                    name.insert("state".into(), Value::Array(states));
+                }
             }
             let key = r
                 .raw
@@ -184,6 +201,10 @@ impl<'a> Ctx<'a> {
 
     /// An unset `label` option follows the request label: empty means icon-only.
     fn option(&self, name: &str) -> Value {
+        // The request's size is the `size` option, so conditions can switch on it.
+        if name == "size" {
+            return Value::String(self.req.size.clone());
+        }
         self.req
             .options
             .get(name)
@@ -214,10 +235,10 @@ impl<'a> Ctx<'a> {
         if let Some(opts) = when.get("options").and_then(Value::as_object) {
             for (k, want) in opts {
                 let have = self.option(k);
-                // `true` also matches any non-empty string, e.g. an icon name.
-                let ok = have == *want
-                    || (have.is_null() && *want == Value::Bool(false))
-                    || (*want == Value::Bool(true) && have.as_str().is_some_and(|v| !v.is_empty()));
+                let ok = match want {
+                    Value::Array(any) => any.iter().any(|w| option_matches(&have, w)),
+                    w => option_matches(&have, w),
+                };
                 if !ok {
                     return None;
                 }
@@ -305,11 +326,10 @@ impl<'a> Ctx<'a> {
     /// Interaction states plus option-derived ones, with `default` when idle.
     fn active_states(&self) -> Vec<String> {
         let mut active = self.req.states.clone();
-        if self.option("isDisabled") == Value::Bool(true) {
-            active.push("disabled".into());
-        }
-        if self.option("isSelected") == Value::Bool(true) {
-            active.push("selected".into());
+        for (opt, state) in OPTION_STATES {
+            if self.option(opt) == Value::Bool(true) {
+                active.push((*state).into());
+            }
         }
         if self.req.states.is_empty() {
             active.push("default".into());
@@ -533,8 +553,13 @@ impl<'a> Ctx<'a> {
 /// A token's `name.state` as individual state ids. Legacy compound ids such as
 /// `selected-key-focus` split into `selected` + `keyboard-focus`.
 fn token_states(t: &crate::graph::TokenRecord) -> Vec<String> {
+    name_states(t.raw.get("name"))
+}
+
+/// The state ids in a token `name` object (see `token_states`).
+pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
     let mut out = Vec::new();
-    let raw = match t.raw.get("name").and_then(|n| n.get("state")) {
+    let raw = match name.and_then(|n| n.get("state")) {
         Some(Value::String(s)) => vec![s.clone()],
         Some(Value::Array(a)) => a
             .iter()
@@ -557,8 +582,33 @@ fn token_states(t: &crate::graph::TokenRecord) -> Vec<String> {
     out
 }
 
+/// The states a relationship `scope.options` selects: its `state` entries plus the state of
+/// each true boolean option in `OPTION_STATES`.
+pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Value> {
+    let mut states: Vec<Value> = match options.get("state") {
+        Some(Value::Array(a)) => a.clone(),
+        Some(v @ Value::String(_)) => vec![v.clone()],
+        _ => Vec::new(),
+    };
+    for (opt, state) in OPTION_STATES {
+        let on = options.get(*opt) == Some(&Value::Bool(true));
+        if on && !states.iter().any(|s| s.as_str() == Some(state)) {
+            states.push(Value::String((*state).into()));
+        }
+    }
+    states
+}
+
 fn text_width(text: &str, font_size: f64) -> f64 {
     text.chars().count() as f64 * font_size * AVG_ADVANCE_EM
+}
+
+/// Whether an option value satisfies one wanted value. `true` also matches any
+/// non-empty string, e.g. an icon name; an unset option matches `false`.
+fn option_matches(have: &Value, want: &Value) -> bool {
+    have == want
+        || (have.is_null() && *want == Value::Bool(false))
+        || (*want == Value::Bool(true) && have.as_str().is_some_and(|v| !v.is_empty()))
 }
 
 /// Option names a recipe reads, split into those that gate part visibility
@@ -958,6 +1008,7 @@ pub fn build_scene(
         font_size: 0.0,
         font_weight: None,
         color: None,
+        glyph: None,
         tokens: container_tokens,
     }];
 
@@ -1000,6 +1051,7 @@ pub fn build_scene(
             font_size: c.font_size,
             font_weight: c.font_weight,
             color: c.color,
+            glyph: None,
             tokens: c.tokens,
         };
         if c.kind == "box" {
@@ -1019,6 +1071,35 @@ pub fn build_scene(
             let mut tokens = Vec::new();
             let nw = rp(&mut cx, np, "width");
             let nh = rp(&mut cx, np, "height");
+            if np.get("kind").and_then(Value::as_str) == Some("icon") {
+                // An icon inside a box is centered on both axes and draws its `glyph`.
+                let color = rp(&mut cx, np, "color");
+                track(&mut tokens, "width", &nw);
+                track(&mut tokens, "height", &nh);
+                track(&mut tokens, "color", &color);
+                let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
+                let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(w2);
+                nodes.push(SceneNode {
+                    part: nid,
+                    kind: "icon".into(),
+                    x: cx0 + (cw - w2) / 2.0,
+                    y: cy0 + (ch - h2) / 2.0,
+                    w: w2,
+                    h: h2,
+                    fill: None,
+                    stroke: None,
+                    stroke_width: 0.0,
+                    radius: 0.0,
+                    radii: None,
+                    text: None,
+                    font_size: 0.0,
+                    font_weight: None,
+                    color: color.map(|c| c.value),
+                    glyph: np.get("glyph").and_then(Value::as_str).map(String::from),
+                    tokens,
+                });
+                continue;
+            }
             let nfill = rp(&mut cx, np, "fill");
             let nstroke = rp(&mut cx, np, "stroke");
             let nsw = rp(&mut cx, np, "strokeWidth");
@@ -1059,6 +1140,7 @@ pub fn build_scene(
                 font_size: 0.0,
                 font_weight: None,
                 color: None,
+                glyph: None,
                 tokens,
             });
         }
@@ -1089,6 +1171,7 @@ pub fn build_scene(
             font_size: 0.0,
             font_weight: None,
             color: color.map(|c| c.value),
+            glyph: None,
             tokens,
         });
     }
@@ -1129,6 +1212,7 @@ pub fn build_scene(
             font_size: 0.0,
             font_weight: None,
             color: None,
+            glyph: None,
             tokens,
         });
     }
@@ -1154,7 +1238,12 @@ pub fn build_scene(
                 .and_then(|t| nodes.iter().find(|n| n.part == t))
                 .unwrap_or(&nodes[0]);
             let p = (target.w * ratio).max(lo).min(hi);
+            let mut nested = Vec::new();
+            if let Some(t) = part.as_deref() {
+                collect_nested(parts, t, &mut nested);
+            }
             Some(Press {
+                nested,
                 scale: p / (p - z),
                 cx: target.x + target.w / 2.0,
                 cy: target.y + target.h / 2.0,
@@ -1219,6 +1308,20 @@ fn esc(s: &str) -> String {
         .replace('"', "&quot;")
 }
 
+/// Collect the parts nested inside `id` (its recipe `children`, at any depth).
+fn collect_nested(parts: &serde_json::Map<String, Value>, id: &str, out: &mut Vec<String>) {
+    let kids = parts
+        .get(id)
+        .and_then(|p| p.get("children"))
+        .and_then(Value::as_array);
+    for kid in kids.into_iter().flatten().filter_map(Value::as_str) {
+        if !out.iter().any(|o| o == kid) {
+            out.push(kid.to_string());
+            collect_nested(parts, kid, out);
+        }
+    }
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -1237,12 +1340,21 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     if let Some(p) = scene.press.as_ref().filter(|p| p.part.is_none()) {
         s.push_str(&press_open(p));
     }
-    for n in &scene.nodes {
-        let pressed = scene
-            .press
-            .as_ref()
-            .filter(|p| p.part.as_deref() == Some(n.part.as_str()));
-        if let Some(p) = pressed {
+    // The scaled group wraps the target node and the nodes nested in it, which follow it.
+    let press_span = scene.press.as_ref().and_then(|p| {
+        let start = scene
+            .nodes
+            .iter()
+            .position(|n| Some(n.part.as_str()) == p.part.as_deref())?;
+        let len = scene.nodes[start + 1..]
+            .iter()
+            .take_while(|n| p.nested.contains(&n.part))
+            .count();
+        Some((start, start + len, p))
+    });
+    for (i, n) in scene.nodes.iter().enumerate() {
+        let pressed = press_span.filter(|(start, _, _)| *start == i);
+        if let Some((_, _, p)) = pressed {
             s.push_str(&press_open(p));
         }
         let toks = n
@@ -1348,6 +1460,32 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor"))
                 );
             }
+            "icon" if matches!(n.glyph.as_deref(), Some("checkmark" | "dash")) => {
+                let color = esc(n.color.as_deref().unwrap_or("currentColor"));
+                if n.glyph.as_deref() == Some("dash") {
+                    let _ = write!(
+                        s,
+                        "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{color}\"/>",
+                        n.x,
+                        n.y,
+                        n.w,
+                        n.h,
+                        n.h / 2.0
+                    );
+                } else {
+                    let sw = (n.w * 0.16).max(1.0);
+                    let _ = write!(
+                        s,
+                        "<path {attrs} d=\"M{} {}L{} {}L{} {}\" stroke=\"{color}\" stroke-width=\"{sw}\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>",
+                        n.x + n.w * 0.1,
+                        n.y + n.h * 0.55,
+                        n.x + n.w * 0.38,
+                        n.y + n.h * 0.82,
+                        n.x + n.w * 0.9,
+                        n.y + n.h * 0.2
+                    );
+                }
+            }
             "icon" => {
                 // Built-in placeholder glyph (a plus) sized to the part box.
                 let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
@@ -1367,7 +1505,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             }
             _ => {}
         }
-        if pressed.is_some() {
+        if press_span.is_some_and(|(_, end, _)| end == i) {
             s.push_str("</g>");
         }
     }
@@ -1497,6 +1635,119 @@ mod tests {
     }
 
     #[test]
+    fn checkbox_box_marks_and_colors_follow_the_options() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/checkbox.json")).unwrap(),
+        )
+        .unwrap();
+        let scene = |size: &str, opts: &[&str], states: &[&str]| {
+            let mut r = req(states);
+            r.component = "checkbox".into();
+            r.size = size.into();
+            r.label = "Label".into();
+            for o in opts {
+                r.options.insert((*o).into(), Value::Bool(true));
+            }
+            build_scene(&g, &recipe, &r).unwrap()
+        };
+        let part = |s: &Scene, p: &str| s.nodes.iter().find(|n| n.part == p).cloned();
+
+        let off = scene("m", &[], &[]);
+        assert!(off.diagnostics.is_empty(), "{:?}", off.diagnostics);
+        let (control, b) = (part(&off, "control").unwrap(), part(&off, "box").unwrap());
+        assert_eq!(
+            (control.w, control.h, b.radius, b.stroke_width),
+            (16.0, 16.0, 4.0, 2.0)
+        );
+        assert_eq!(b.fill.as_deref(), Some("rgb(255, 255, 255)"));
+        assert_eq!(b.stroke.as_deref(), Some("rgb(41, 41, 41)"));
+        assert!(part(&off, "checkmark").is_none() && part(&off, "dash").is_none());
+        let label = part(&off, "label").unwrap();
+        assert_eq!(
+            label.x - (control.x + control.w),
+            6.0,
+            "control to label gap"
+        );
+
+        let on = scene("m", &["isSelected"], &[]);
+        assert!(on.diagnostics.is_empty(), "{:?}", on.diagnostics);
+        let (b, mark) = (part(&on, "box").unwrap(), part(&on, "checkmark").unwrap());
+        assert_eq!(
+            (b.stroke_width, b.fill.as_deref()),
+            (0.0, Some("rgb(41, 41, 41)"))
+        );
+        assert_eq!((mark.w, mark.glyph.as_deref()), (10.0, Some("checkmark")));
+        assert_eq!(mark.x + mark.w / 2.0, b.x + b.w / 2.0, "mark is centered");
+        assert_eq!(mark.color.as_deref(), Some("rgb(255, 255, 255)"));
+
+        let both = scene("m", &["isSelected", "isIndeterminate"], &[]);
+        assert!(
+            part(&both, "checkmark").is_none(),
+            "indeterminate wins over selected"
+        );
+        let dash = part(&both, "dash").unwrap();
+        assert_eq!(
+            (dash.w, dash.h, dash.glyph.as_deref()),
+            (7.5, 1.25, Some("dash"))
+        );
+
+        let accent = scene("m", &["isSelected", "isEmphasized"], &[]);
+        assert_eq!(
+            part(&accent, "box").unwrap().fill.as_deref(),
+            Some("rgb(59, 99, 251)")
+        );
+        let error = scene("m", &["isSelected", "isError", "isEmphasized"], &[]);
+        assert_eq!(
+            part(&error, "box").unwrap().fill.as_deref(),
+            Some("rgb(215, 50, 32)")
+        );
+        let disabled = scene("m", &["isSelected", "isDisabled", "isError"], &[]);
+        assert_eq!(
+            part(&disabled, "box").unwrap().fill.as_deref(),
+            Some("rgb(198, 198, 198)")
+        );
+
+        for (size, control, mark) in [("s", 14.0, 8.0), ("l", 18.0, 10.0), ("xl", 20.0, 12.0)] {
+            let s = scene(size, &["isSelected"], &[]);
+            assert_eq!(part(&s, "control").unwrap().w, control, "{size} control");
+            assert_eq!(part(&s, "checkmark").unwrap().w, mark, "{size} checkmark");
+        }
+
+        let focus = scene("m", &[], &["keyboard-focus"]);
+        assert!(part(&focus, "focus-indicator").unwrap().x < part(&focus, "box").unwrap().x);
+    }
+
+    #[test]
+    fn checkbox_press_scales_the_control_with_its_mark() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/checkbox.json")).unwrap(),
+        )
+        .unwrap();
+        let mut r = req(&["down"]);
+        r.component = "checkbox".into();
+        r.size = "m".into();
+        r.label = "Label".into();
+        r.options.insert("isSelected".into(), Value::Bool(true));
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        let press = scene.press.as_ref().unwrap();
+        assert_eq!(press.part.as_deref(), Some("control"));
+        assert_eq!(press.nested, ["box", "checkmark", "dash"]);
+
+        let svg = scene_to_svg(&scene);
+        let (open, close) = (svg.find("<g transform").unwrap(), svg.find("</g>").unwrap());
+        let inside = &svg[open..close];
+        for part in ["control", "box", "checkmark"] {
+            assert!(inside.contains(&format!("data-part=\"{part}\"")), "{part}");
+        }
+        assert!(
+            !inside.contains("data-part=\"label\""),
+            "the label does not scale"
+        );
+    }
+
+    #[test]
     fn badge_fixed_edge_squares_corners_and_maps_weight() {
         let (g, _) = load();
         let recipe: Value = serde_json::from_str(
@@ -1562,6 +1813,40 @@ mod tests {
 
     fn part<'a>(s: &'a Scene, id: &str) -> Option<&'a SceneNode> {
         s.nodes.iter().find(|n| n.part == id)
+    }
+
+    #[test]
+    fn option_conditions_accept_an_array_of_values() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft",
+            "component": "action-button",
+            "root": "box",
+            "sizeScale": { "m": 100 },
+            "parts": { "box": { "kind": "box", "props": {
+                "width": { "value": 40 },
+                "height": { "value": 20 },
+                "fill": [
+                    { "value": "red" },
+                    { "when": { "options": { "variant": ["a", "b"] } }, "value": "blue" },
+                    { "when": { "options": { "variant": "b", "flag": true } }, "value": "green" }
+                ]
+            } } }
+        });
+        let fill = |opts: &[(&str, Value)]| {
+            let scene = build_scene(&g, &recipe, &with(opts)).unwrap();
+            scene.nodes[0].fill.clone()
+        };
+        let v = |s: &str| Value::String(s.into());
+        assert_eq!(fill(&[]).as_deref(), Some("red"));
+        assert_eq!(fill(&[("variant", v("a"))]).as_deref(), Some("blue"));
+        assert_eq!(fill(&[("variant", v("b"))]).as_deref(), Some("blue"));
+        assert_eq!(fill(&[("variant", v("c"))]).as_deref(), Some("red"));
+        // An array is one condition, so a two-condition entry still outranks it.
+        assert_eq!(
+            fill(&[("variant", v("b")), ("flag", Value::Bool(true))]).as_deref(),
+            Some("green")
+        );
     }
 
     #[test]

@@ -787,6 +787,128 @@ rules:
     message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
+  - id: SPEC-064
+    name: constraint-options-declared
+    severity: error
+    layer: 2
+    category: component
+    assert: >
+      Every option name used in a component constraint's `when` or `require` MUST be declared in
+      the component's `options`. Every value used there MUST appear in that option's `values`
+      list. Value checks are silent when the option declares no `values` list.
+    message: "Constraint option '{option}' is not declared on component '{component}'"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-065
+    name: recipe-targets-excluded-combination
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Only `error` constraints count. Unpinned options range over their declared values (booleans
+      over true and false); an option with no known domain is never proven excluded. A rule that
+      also matches a valid combination is not reported.
+    assert: >
+      A visual recipe rule (`when.options`) or relationship `scope.options` SHOULD NOT match only
+      combinations excluded by an `error` constraint on the component.
+    message: "Recipe rule for '{component}' matches only combinations excluded by an error constraint"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-066
+    name: visual-covers-component
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A name counts as used when a `when` or `visibleWhen` condition names it, when a token the
+      recipe binds carries the state, or when it is implied: `size` by `sizeScale`, `label` by a
+      text part, and `isDisabled` or `isSelected` by the `disabled` or `selected` states (and the
+      reverse). New recipes MUST be free of this warning; existing recipes are held at a baseline.
+    assert: >
+      Every option and state a component declares SHOULD either affect its visual recipe or be
+      listed in the recipe's `notVisual` array. A `notVisual` name MUST be declared by the
+      component and SHOULD NOT also be used by the recipe.
+    message: "Option '{option}' of '{component}' does not affect the recipe; use it in a condition or list it in notVisual"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-067
+    name: visual-prefers-relationship
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      Relationships carry the component scope and the design-token group label, so a recipe
+      binds through them by default. Use a `token` selector only when no relationship covers the
+      value.
+    assert: >
+      A `token` selector in a visual recipe SHOULD NOT bind a token that one of the component's
+      relationships already binds.
+    message: "Token selector {selector} is also bound by relationship {relationship}; bind it through the relationship"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-068
+    name: visual-literal-discouraged
+    severity: warning
+    layer: 2
+    category: tech-debt
+    note: >
+      Layout keywords (`direction`, `align`, `justify`), `transparent` and `none` colors, zero
+      widths and ratio radii (`relativeTo`) are fine as literals.
+    assert: >
+      A literal (`{"value": ...}`) in a visual recipe SHOULD NOT supply a color or a non-zero
+      size; a token or relationship describes it, or one should be added.
+    message: "Literal {value} for '{prop}' on part '{part}'; bind a token or relationship instead"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-069
+    name: visual-token-not-deprecated
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      Extends SPEC-058, which checks relationship `$ref` values, to the bindings a recipe draws
+      with.
+    assert: >
+      A `token` or `relationship` selector in a visual recipe SHOULD NOT resolve only to
+      deprecated tokens (those with `lifecycle.deprecatedIn`).
+    message: "{selector} resolves only to deprecated tokens (for example '{token}', deprecated in {version})"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-070
+    name: visual-ring-names-agree
+    severity: warning
+    layer: 2
+    category: naming-consistency
+    note: >
+      A shared name lets tools, relationships and docs treat the focus ring alike across
+      components. The rule reports the disagreement, not which name wins.
+    assert: >
+      Visual recipes SHOULD give the focus ring part (`kind: "ring"`) the same name.
+    message: "Focus ring part is named '{name}' here but '{other}' in other recipes; recipes should name it alike"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-071
+    name: visual-relationship-contexts-used
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      Unused contexts are not errors: relationships describe the component beyond its recipe.
+      The count shows how much of the component's token data a recipe still has to cover.
+    assert: >
+      A visual recipe reports how many of its component's relationship contexts the recipe
+      never binds.
+    message: "{n} of {total} relationship contexts of '{component}' have no binding in this recipe, for example {sample}"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
   - id: SPEC-072
     name: relationship-duplicate-ref-scale-counterpart
     severity: warning

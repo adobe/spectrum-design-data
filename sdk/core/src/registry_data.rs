@@ -1137,6 +1137,18 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "box",
+      "label": "Box",
+      "description": "Rounded square that holds a mark (e.g., a checkbox)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Short horizontal bar icon element, e.g. the indeterminate mark of a checkbox",
+      "usedIn": ["component-schemas"]
+    },
+    {
       "id": "stepper",
       "label": "Stepper",
       "description": "Increment/decrement control in number-field",

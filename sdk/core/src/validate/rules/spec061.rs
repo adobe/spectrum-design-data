@@ -78,23 +78,32 @@ impl ValidationRule for Rule {
                             ));
                             continue;
                         };
-                        if def.get("type").and_then(Value::as_str) == Some("boolean")
-                            && !want.is_boolean()
-                        {
-                            out.push(error(
-                                self.id(),
-                                v,
-                                &opath,
-                                format!("Option '{name}' of '{comp_name}' is boolean but the condition uses {want}"),
-                            ));
-                        } else if let Some(allowed) = option_values(def) {
-                            if !allowed.contains(want) {
+                        let is_bool = def.get("type").and_then(Value::as_str) == Some("boolean");
+                        let allowed = option_values(def);
+                        // An array means "any of"; check every element.
+                        let wanted = match want {
+                            Value::Array(any) => any.iter().collect::<Vec<_>>(),
+                            one => vec![one],
+                        };
+                        for want in wanted {
+                            if is_bool && !want.is_boolean() {
                                 out.push(error(
                                     self.id(),
                                     v,
                                     &opath,
-                                    format!("Option '{name}' of '{comp_name}' has no value {want}"),
+                                    format!("Option '{name}' of '{comp_name}' is boolean but the condition uses {want}"),
                                 ));
+                            } else if let Some(allowed) = allowed.as_ref().filter(|_| !is_bool) {
+                                if !allowed.contains(want) {
+                                    out.push(error(
+                                        self.id(),
+                                        v,
+                                        &opath,
+                                        format!(
+                                            "Option '{name}' of '{comp_name}' has no value {want}"
+                                        ),
+                                    ));
+                                }
                             }
                         }
                     }
@@ -189,6 +198,35 @@ mod tests {
         let d = run(recipe(json!({"options": {"variant": "neon"}}), json!({})));
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("neon"));
+    }
+
+    #[test]
+    fn array_of_declared_values_passes() {
+        let r = recipe(
+            json!({"options": {"variant": ["accent", "primary"], "isDisabled": [true, false]}}),
+            json!({}),
+        );
+        assert!(run(r).is_empty());
+    }
+
+    #[test]
+    fn array_with_an_undeclared_value_errors() {
+        let d = run(recipe(
+            json!({"options": {"variant": ["primary", "neon"]}}),
+            json!({}),
+        ));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("neon"));
+    }
+
+    #[test]
+    fn array_with_a_non_boolean_for_a_boolean_option_errors() {
+        let d = run(recipe(
+            json!({"options": {"isDisabled": [true, "yes"]}}),
+            json!({}),
+        ));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("boolean"));
     }
 
     #[test]

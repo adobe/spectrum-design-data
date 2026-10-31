@@ -33,13 +33,24 @@ const num = (r) => {
 const textWidth = (text, fontSize) =>
   [...text].length * fontSize * AVG_ADVANCE_EM;
 
+// `true` also matches any non-empty string, e.g. an icon name; an unset option
+// matches `false`.
+const matches = (have) => (want) =>
+  have === want ||
+  (have === null && want === false) ||
+  (want === true && typeof have === "string" && have !== "");
+
 function makeCtx(compiled, req) {
   const options = { ...compiled.optionDefaults, ...req.options };
   const states = req.states ?? [];
   const mode = req.mode ?? {};
   // An unset `label` option follows the request label: empty means icon-only.
+  // The request's size is the `size` option, so conditions can switch on it.
   const option = (name) =>
-    options[name] ?? (name === "label" ? (req.label ?? "").length > 0 : null);
+    name === "size"
+      ? req.size
+      : (options[name] ??
+        (name === "label" ? (req.label ?? "").length > 0 : null));
 
   const active = [...states];
   if (option("isDisabled") === true) active.push("disabled");
@@ -56,11 +67,7 @@ function makeCtx(compiled, req) {
     }
     for (const [k, want] of Object.entries(when.options ?? {})) {
       const have = option(k);
-      // `true` also matches any non-empty string, e.g. an icon name.
-      const ok =
-        have === want ||
-        (have === null && want === false) ||
-        (want === true && typeof have === "string" && have !== "");
+      const ok = (Array.isArray(want) ? want : [want]).some(matches(have));
       if (!ok) return null;
       score++;
     }
@@ -347,6 +354,31 @@ export function renderScene(compiled, req) {
       const tokens = [];
       const nw = rp(np, "width");
       const nh = rp(np, "height");
+      if (np.kind === "icon") {
+        const color = rp(np, "color");
+        track(tokens, "width", nw);
+        track(tokens, "height", nh);
+        track(tokens, "color", color);
+        const w2 = num(nw) ?? c.w;
+        const h2 = num(nh) ?? w2;
+        const extra = {
+          color: color ? color.value : null,
+          tokens,
+        };
+        if (np.glyph) extra.glyph = np.glyph;
+        nodes.push(
+          node(
+            nid,
+            "icon",
+            cx0 + (c.w - w2) / 2,
+            cy0 + (c.h - h2) / 2,
+            w2,
+            h2,
+            extra,
+          ),
+        );
+        continue;
+      }
       const nfill = rp(np, "fill");
       const nstroke = rp(np, "stroke");
       const nsw = rp(np, "strokeWidth");
@@ -435,8 +467,20 @@ export function renderScene(compiled, req) {
     const part = root.pressTarget ?? null;
     const t = nodes.find((n) => n.part === part) ?? nodes[0];
     const p = Math.min(Math.max(t.w * ratio, lo), hi);
+    // Parts nested inside the target, at any depth, scale together with it.
+    const nested = [];
+    const collect = (id) => {
+      for (const kid of parts[id]?.children ?? []) {
+        if (!nested.includes(kid)) {
+          nested.push(kid);
+          collect(kid);
+        }
+      }
+    };
+    if (part) collect(part);
     press = {
       part,
+      ...(nested.length ? { nested } : {}),
       scale: p / (p - z),
       cx: t.x + t.w / 2,
       cy: t.y + t.h / 2,
@@ -489,9 +533,23 @@ export function renderSvg(scene) {
     ? `<g transform="translate(${p.cx} ${p.cy}) scale(${p.scale}) translate(${-p.cx} ${-p.cy})">`
     : "";
   if (p && !p.part) s += pressOpen;
-  for (const n of scene.nodes) {
-    const pressed = p && p.part === n.part;
-    if (pressed) s += pressOpen;
+  // The scaled group wraps the target node and the nodes nested in it, which follow it.
+  let spanStart = -1;
+  let spanEnd = -1;
+  if (p?.part) {
+    spanStart = scene.nodes.findIndex((n) => n.part === p.part);
+    if (spanStart >= 0) {
+      spanEnd = spanStart;
+      while (
+        spanEnd + 1 < scene.nodes.length &&
+        (p.nested ?? []).includes(scene.nodes[spanEnd + 1].part)
+      ) {
+        spanEnd += 1;
+      }
+    }
+  }
+  for (const [i, n] of scene.nodes.entries()) {
+    if (i === spanStart) s += pressOpen;
     const toks = n.tokens.map((t) => `${t.prop}=${t.token}`).join(";");
     const attrs = `data-part="${esc(n.part)}" data-tokens="${esc(toks)}"`;
     const min = Math.min(n.w, n.h);
@@ -517,13 +575,23 @@ export function renderSvg(scene) {
       const r = min / 2 - min / 18;
       const sw = Math.max(min / 9, 1);
       s += `<g ${attrs} fill="none" stroke-width="${sw}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${esc(n.stroke ?? "none")}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${esc(n.color ?? "currentColor")}" stroke-linecap="round"/></g>`;
+    } else if (
+      n.kind === "icon" &&
+      (n.glyph === "checkmark" || n.glyph === "dash")
+    ) {
+      const color = esc(n.color ?? "currentColor");
+      if (n.glyph === "dash") {
+        s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.h / 2}" fill="${color}"/>`;
+      } else {
+        s += `<path ${attrs} d="M${n.x + n.w * 0.1} ${n.y + n.h * 0.55}L${n.x + n.w * 0.38} ${n.y + n.h * 0.82}L${n.x + n.w * 0.9} ${n.y + n.h * 0.2}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+      }
     } else if (n.kind === "icon") {
       const cx = n.x + n.w / 2;
       const cy = n.y + n.h / 2;
       const r = min * 0.35;
       s += `<path ${attrs} d="M${cx - r} ${cy}H${cx + r}M${cx} ${cy - r}V${cy + r}" stroke="${esc(n.color ?? "currentColor")}" stroke-width="${Math.max(n.w / 10, 1)}" stroke-linecap="round" fill="none"/>`;
     }
-    if (pressed) s += "</g>";
+    if (i === spanEnd) s += "</g>";
   }
   return `${s}${p && !p.part ? "</g>" : ""}</svg>`;
 }

@@ -95,6 +95,46 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isError": { "type": "boolean", "default": false }
   },
+  "constraints": [
+    {
+      "when": { "isIndeterminate": true },
+      "require": { "isSelected": [false] },
+      "severity": "advisory",
+      "description": "An indeterminate checkbox overrides selection; isSelected has no visual effect.",
+      "source": "react-spectrum S2 Checkbox.tsx"
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the control and the label.",
+      "required": true,
+      "contains": ["control", "label"]
+    },
+    {
+      "name": "control",
+      "description": "The whole check control: the box and the mark drawn inside it.",
+      "required": true,
+      "contains": ["box", "checkmark", "dash", "focus-indicator"]
+    },
+    {
+      "name": "box",
+      "description": "Rounded square. Its border is drawn while the checkbox is unselected."
+    },
+    {
+      "name": "checkmark",
+      "description": "Mark drawn inside the box while the checkbox is selected."
+    },
+    {
+      "name": "dash",
+      "description": "Mark drawn inside the box while the checkbox is indeterminate; it replaces the checkmark."
+    },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the box for keyboard focus."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

@@ -34,7 +34,9 @@ const load = (component) => ({
     ),
   ),
 });
-const subjects = ["action-button", "badge", "button", "switch"].map(load);
+const subjects = ["action-button", "badge", "button", "checkbox", "switch"].map(
+  load,
+);
 
 const close = (a, b, path = "") => {
   if (typeof a === "number" && typeof b === "number") {
@@ -73,7 +75,7 @@ const actionOptionSets = [
 
 const badgeOptionSets = [
   {},
-  { variant: "info", style: "outline", icon: true },
+  { variant: "informative", style: "outline", icon: true },
   { variant: "negative", style: "subtle", icon: true },
   { variant: "celery", fixed: "left" },
   { variant: "fuchsia", style: "outline", fixed: "top", icon: true },
@@ -91,8 +93,25 @@ const switchOptionSets = [
   { hideLabel: true, isSelected: true },
 ];
 
+const checkboxOptionSets = [
+  {},
+  { isSelected: true },
+  { isIndeterminate: true },
+  { isSelected: true, isIndeterminate: true },
+  { isSelected: true, isEmphasized: true },
+  { isIndeterminate: true, isEmphasized: true },
+  { isError: true },
+  { isSelected: true, isError: true },
+  { isIndeterminate: true, isError: true, isEmphasized: true },
+  { isDisabled: true },
+  { isSelected: true, isDisabled: true },
+  { isIndeterminate: true, isDisabled: true, isError: true },
+  { label: false, isSelected: true },
+];
+
 const optionSetsFor = {
   button: buttonOptionSets,
+  checkbox: checkboxOptionSets,
   badge: badgeOptionSets,
   switch: switchOptionSets,
 };
@@ -159,7 +178,12 @@ for (const { component, compiled, recipe } of subjects) {
           component === "button"
             ? { style: "outline", variant: "secondary" }
             : component === "badge"
-              ? { variant: "info", style: "outline", fixed: "left", icon: true }
+              ? {
+                  variant: "informative",
+                  style: "outline",
+                  fixed: "left",
+                  icon: true,
+                }
               : component === "switch"
                 ? { isSelected: true, isEmphasized: true }
                 : { hasHoldIcon: true },

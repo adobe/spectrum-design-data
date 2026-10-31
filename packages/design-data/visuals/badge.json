@@ -187,7 +187,7 @@
           {
             "when": {
               "options": {
-                "variant": "info"
+                "variant": "informative"
               }
             },
             "token": {
@@ -197,7 +197,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "subtle"
               }
             },
@@ -702,7 +702,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "outline"
               }
             },
@@ -773,7 +773,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "outline"
               }
             },
@@ -845,7 +845,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "outline"
               }
             },
@@ -928,7 +928,8 @@
         "color": [
           {
             "token": {
-              "colorFamily": "white",
+              "colorFamily": "transparent-static-white",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -939,7 +940,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -950,7 +952,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -961,7 +964,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -972,7 +976,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -983,7 +988,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1003,7 +1009,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "subtle"
               }
             },
@@ -1328,7 +1334,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "outline"
               }
             },
@@ -1415,7 +1421,8 @@
         "color": [
           {
             "token": {
-              "colorFamily": "white",
+              "colorFamily": "transparent-static-white",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1426,7 +1433,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1437,7 +1445,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1448,7 +1457,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1459,7 +1469,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1470,7 +1481,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1490,7 +1502,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "subtle"
               }
             },
@@ -1815,7 +1827,7 @@
           {
             "when": {
               "options": {
-                "variant": "info",
+                "variant": "informative",
                 "style": "outline"
               }
             },

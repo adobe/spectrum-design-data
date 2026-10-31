@@ -1,0 +1,87 @@
+{
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions"
+      },
+      "options": {
+        "variant": {
+          "type": "string",
+          "values": [
+            {
+              "value": "primary"
+            },
+            {
+              "value": "accent"
+            }
+          ]
+        },
+        "style": {
+          "type": "string",
+          "values": [
+            {
+              "value": "fill"
+            },
+            {
+              "value": "outline"
+            }
+          ]
+        },
+        "isLabelHidden": {
+          "type": "boolean"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "constraints": [
+        {
+          "when": {
+            "style": "outline"
+          },
+          "require": {
+            "variant": ["primary"]
+          },
+          "severity": "error"
+        },
+        {
+          "when": {
+            "isLabelHidden": true
+          },
+          "require": {
+            "icon": {
+              "present": true
+            }
+          },
+          "severity": "error"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "button",
+        "property": "background-color",
+        "options": {
+          "variant": "accent"
+        }
+      },
+      "value": "#ff0000"
+    },
+    {
+      "scope": {
+        "component": "button",
+        "property": "background-color",
+        "options": {
+          "style": "outline",
+          "variant": "primary"
+        }
+      },
+      "value": "#ff0000"
+    }
+  ]
+}

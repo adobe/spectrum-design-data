@@ -71,6 +71,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Taxonomy](taxonomy.md)                             | Concept categories, vocabulary, formatting, anatomy vs objects.                                                                                       |
 | [Registry](registry.md)                             | Named value collections for vocabulary validation; three-registry boundary (anatomy, token objects, categories) and packaging.                        |
 | [Component format](component-format.md)             | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ state-model.md), lifecycle.                                           |
+| [Option constraints](option-constraints.md)         | If-then rules restricting valid option combinations on a component.                                                                                   |
 | [Anatomy format](anatomy-format.md)                 | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025.                                              |
 | [State model](state-model.md)                       | State declarations: trigger semantics, precedence algorithm, canonical vocabulary, SPEC-022/SPEC-026.                                                 |
 | [Cascade](cascade.md)                               | Layers, specificity, resolution algorithm.                                                                                                            |
