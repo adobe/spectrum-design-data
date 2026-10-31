@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useEffect, useRef } from "react";
 import { useAtomValueRawSync, useSetAtom } from "jotai";
-import { ToastQueue } from "@react-spectrum/s2";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { DimensionArtifactRepository } from "./dimensionArtifactRepository";
 import { dimensionArtifactPublicationAtom } from "./dimensionArtifactState";
 import { dimensionArtifactRequestAtom } from "./artifactSources";
@@ -13,6 +13,7 @@ import type {
 
 /** Always mounted: in-memory generation does not depend on opening Analysis. */
 export function useDimensionArtifacts() {
+  const notify = useNotify();
   const input = useAtomValueRawSync(dimensionArtifactRequestAtom);
   const publish = useSetAtom(dimensionArtifactPublicationAtom);
   const repository = useRef<DimensionArtifactRepository | undefined>(undefined);
@@ -29,7 +30,7 @@ export function useDimensionArtifacts() {
           publish(state);
           const issue =
             state.status === "stale" ? (state.issues.at(-1) ?? "") : "";
-          if (issue && issue !== lastError.current) ToastQueue.negative(issue);
+          if (issue && issue !== lastError.current) notify.error(issue);
           lastError.current = issue;
         },
         150,
@@ -51,5 +52,5 @@ export function useDimensionArtifacts() {
       window.removeEventListener("pagehide", flush);
       current.cancel();
     };
-  }, [input, publish]);
+  }, [input, notify, publish]);
 }

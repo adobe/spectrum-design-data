@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../components/notifications/notificationContext";
 import { atom } from "jotai";
 import { AlertDialog, DialogContainer } from "@react-spectrum/s2";
 import { editModeAtom } from "../state/view/editMode";
@@ -30,6 +31,7 @@ const referencesAtom = atom((get) => {
 });
 
 export default function Components() {
+  const notify = useNotify();
   const document = useAtomValue(componentsDocumentAtom);
   const taxonomy = useAtomValue(taxonomyDocumentAtom);
   const catalog = useAtomValue(componentCatalogAtom);
@@ -75,11 +77,11 @@ export default function Components() {
       <DialogContainer onDismiss={() => navigation.setPending(undefined)}>
         {navigation.pending && (
           <AlertDialog
-            title="Discard unapplied changes?"
+            title="Discard unapplied changes"
             variant="warning"
-            primaryActionLabel="Discard changes"
+            primaryActionLabel="Discard"
             cancelLabel="Keep editing"
-            onPrimaryAction={navigation.discard}
+            onPrimaryAction={() => notify.quietly(navigation.discard)}
           >
             Your definition edits have not been applied. Discard them to
             continue.

@@ -3,7 +3,6 @@ import { Provider } from "@react-spectrum/s2";
 import { useAtomValue } from "jotai";
 import BrowsingContext from "./pages/BrowsingContext";
 import { Blueline } from "./components/Blueline";
-import { DeletionToastProvider } from "./components/DeletionToastProvider";
 import { NotificationProvider } from "./components/notifications/NotificationProvider";
 import { useNotify } from "./components/notifications/notificationContext";
 import { DevToolbar } from "./components/DevToolbar";
@@ -68,11 +67,9 @@ function App() {
     >
       <PreviewSurfaceProvider colorScheme={colorScheme}>
         <NotificationProvider>
-          <DeletionToastProvider>
-            <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
-              <BrowsingContext />
-            </ColorPickerDefaultsProvider>
-          </DeletionToastProvider>
+          <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
+            <BrowsingContext />
+          </ColorPickerDefaultsProvider>
           {import.meta.env.DEV && <Blueline />}
           {import.meta.env.DEV && <DevToolbar />}
           <ApplicationWork />

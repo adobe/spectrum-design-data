@@ -1,10 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ActionButton, ToastQueue } from "@react-spectrum/s2";
+import { ActionButton } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useDeletionToast } from "./deletionToastContext";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
+import { useNotify } from "./notifications/notificationContext";
 import { MODE_ICONS } from "../features/modes/icons";
 import { cloneModeSet, type Mode, type ModeSet } from "../features/modes/model";
 import {
@@ -118,10 +118,9 @@ export function ModeSetCard({
   const attachments = useAtomValue(foundationModeAttachmentsAtom);
   const parameterOwners = useAtomValue(effectiveParameterOwnersAtom);
   const foundationDocuments = useAtomValue(foundationDocumentsAtom);
-  const removeModeSet = useSetAtom(removeModeSetAtom);
   const replaceModeSet = useSetAtom(replaceModeSetAtom);
-  const restoreModeSet = useSetAtom(restoreModeSetAtom);
-  const { notifyDeleted } = useDeletionToast();
+  const store = useStore();
+  const notify = useNotify();
   const modeSetIcon =
     modeSet.iconId && modeSet.iconId !== "none"
       ? MODE_ICONS[modeSet.iconId]
@@ -147,29 +146,27 @@ export function ModeSetCard({
   }
 
   function deleteModeSet() {
-    try {
-      const claims = claimsForModeSet(adaptiveClaims, modeSet.id);
-      const tokenValues = removeModeSet(modeSet.id);
-      notifyDeleted(`Mode set ${modeSet.name}`, () => {
-        try {
-          restoreModeSet({
-            modeSet,
-            index,
-            claims,
-            attachments: attachments[modeSet.id],
-            tokenValues,
-          });
-        } catch (error) {
-          ToastQueue.negative(
-            error instanceof Error ? error.message : String(error),
-          );
-        }
-      });
-    } catch (error) {
-      ToastQueue.negative(
-        error instanceof Error ? error.message : String(error),
-      );
-    }
+    const claims = claimsForModeSet(adaptiveClaims, modeSet.id);
+    notify.remove({
+      kind: "modeSet",
+      noun: modeSet.name,
+      run: (store) => ({
+        tokenValues: store.set(removeModeSetAtom, modeSet.id),
+        claims,
+        attachments: attachments[modeSet.id],
+        modeSet,
+        index,
+      }),
+      undo: (removed) => {
+        store.set(restoreModeSetAtom, {
+          modeSet: removed.modeSet,
+          index: removed.index,
+          claims: removed.claims,
+          attachments: removed.attachments,
+          tokenValues: removed.tokenValues,
+        });
+      },
+    });
   }
 
   return (

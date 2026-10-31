@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   ActionButton,
   Badge,
@@ -13,7 +14,6 @@ import {
   TabPanel,
   Tabs,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -32,7 +32,6 @@ import {
   removeContrastOverridesAtom,
   removeContrastTokenAtom,
   resetOppositeContrastAtom,
-  restoreContrastTokenAtom,
   contrastTokensAtom,
   sortContrastTokensAtom,
   updateContrastTokenAtom,
@@ -48,7 +47,6 @@ import {
   MAX_CONTRAST_MULTIPLIER,
   multiplyContrast,
 } from "../../features/color-system/polarity";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import { ContrastRamp } from "../../views/color-system/ContrastRamp";
 import {
   EditableSlider,
@@ -134,6 +132,7 @@ function backgroundLightnessColor(value: number) {
 }
 
 export function FoundationsColorPanel() {
+  const notify = useNotify();
   const [selectedTab, setSelectedTab] = useAtom(colorPanelTabAtom);
   const colorDocument = useAtomValue(resolvedColorSystemDocumentAtom);
   const modeOwners = useAtomValue(authoringCapabilityOwnersAtom);
@@ -152,10 +151,7 @@ export function FoundationsColorPanel() {
   const canEditContrasts = useAtomValue(canEditContrastStepsAtom);
   const updateContrast = useSetAtom(updateContrastTokenAtom);
   const addContrast = useSetAtom(addContrastTokenAtom);
-  const removeContrast = useSetAtom(removeContrastTokenAtom);
-  const restoreContrast = useSetAtom(restoreContrastTokenAtom);
   const sortContrasts = useSetAtom(sortContrastTokensAtom);
-  const { notifyDeleted } = useDeletionToast();
   const [focusedContrastId, setFocusedContrastId] = useState<string | null>(
     null,
   );
@@ -208,9 +204,7 @@ export function FoundationsColorPanel() {
             UNSAFE_className={String(resolvedColorSwatchButtonStyles)}
             onPress={async () => {
               await navigator.clipboard.writeText(resolvedBackground.css);
-              ToastQueue.neutral(
-                `${resolvedBackground.css} copied to clipboard`,
-              );
+              notify.copied();
             }}
           >
             <ColorSwatch
@@ -282,7 +276,7 @@ export function FoundationsColorPanel() {
                     try {
                       addContrast();
                     } catch (failure) {
-                      ToastQueue.negative(
+                      notify.error(
                         failure instanceof Error
                           ? failure.message
                           : String(failure),
@@ -392,25 +386,14 @@ export function FoundationsColorPanel() {
                             isDisabled={!canEditContrasts}
                             aria-label={`Remove contrast ${authored.value}`}
                             onPress={() => {
-                              const documentIndex = authoredContrasts.findIndex(
-                                (item) => item.id === contrast.id,
-                              );
-                              try {
-                                removeContrast(contrast.id);
-                              } catch (failure) {
-                                ToastQueue.negative(
-                                  failure instanceof Error
-                                    ? failure.message
-                                    : String(failure),
-                                );
-                                return;
-                              }
-                              notifyDeleted(`Contrast ${authored.value}`, () =>
-                                restoreContrast({
-                                  contrast: authored,
-                                  index: documentIndex,
-                                }),
-                              );
+                              notify.remove({
+                                kind: "customContrastStep",
+                                run: (store) =>
+                                  store.set(
+                                    removeContrastTokenAtom,
+                                    contrast.id,
+                                  ),
+                              });
                             }}
                           >
                             <Delete />

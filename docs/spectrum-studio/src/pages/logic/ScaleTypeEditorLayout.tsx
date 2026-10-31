@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   ActionButton,
   Button,
@@ -7,7 +8,6 @@ import {
   Heading,
   InlineAlert,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import ChevronLeft from "@react-spectrum/s2/icons/ChevronLeft";
@@ -89,6 +89,7 @@ export function ScaleTypeEditorLayout({
 }: {
   scaleTypeId: string;
 }) {
+  const notify = useNotify();
   const isNew = scaleTypeId === NEW_SCALE_TYPE_ID;
   const library = useAtomValue(scaleTypesAtom);
   const consumers = useAtomValue(scaleTypeConsumersAtom).filter(
@@ -146,11 +147,16 @@ export function ScaleTypeEditorLayout({
     if (!draft) return;
     const next = { ...draft, name: trimmedName };
     try {
-      if (isNew) addScaleType(next);
-      else replaceScaleType(next);
+      if (isNew) {
+        const added = notify.added("formula", () => {
+          addScaleType(next);
+          return true;
+        });
+        if (!added) return;
+      } else replaceScaleType(next);
       close();
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }

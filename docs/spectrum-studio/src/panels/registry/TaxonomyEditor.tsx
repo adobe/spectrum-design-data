@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   useCallback,
@@ -150,6 +151,7 @@ export function TaxonomyEditor({
   categoryReview?: StandardizationOccurrence;
   validationSource: ReferencedTaxonomySource;
 }) {
+  const notify = useNotify();
   const [committing, startCommit] = useTransition();
   const validation = useTaxonomyValidation(validationSource, committing);
   const cancelDraftValidation = validation.cancel;
@@ -200,6 +202,8 @@ export function TaxonomyEditor({
     document: TaxonomyDocument;
     message: string;
     destructive?: boolean;
+    deleteKind?: "term" | "taxonomyCategory";
+    deleteNoun?: string;
   }>();
   const terms = document.terms.filter(
     (term) => term.categoryId === category.id,
@@ -879,13 +883,46 @@ export function TaxonomyEditor({
           <AlertDialog
             title={
               pending.destructive
-                ? "Delete from taxonomy?"
+                ? `Delete ${pending.deleteKind === "term" ? "term" : "category"}`
                 : "Review taxonomy change"
             }
             variant={pending.destructive ? "destructive" : "confirmation"}
-            primaryActionLabel="Confirm taxonomy change"
-            cancelLabel="Cancel taxonomy change"
-            onPrimaryAction={() => commit(pending.document)}
+            primaryActionLabel={pending.destructive ? "Delete" : "Apply change"}
+            cancelLabel="Cancel"
+            onPrimaryAction={() => {
+              if (pending.destructive) {
+                notify.remove({
+                  kind: pending.deleteKind ?? "term",
+                  noun: pending.deleteNoun,
+                  local: true,
+                  confirmed: true,
+                  run: () => {
+                    const failure = commit(pending.document);
+                    return failure
+                      ? { ok: false as const, error: failure }
+                      : document;
+                  },
+                  undo: (previous) => {
+                    if ("ok" in previous) return;
+                    const failure = commit(previous);
+                    if (failure) throw new Error(failure);
+                  },
+                });
+              } else {
+                const addedTerm = pending.document.terms.some(
+                  (term) =>
+                    !document.terms.some((current) => current.id === term.id),
+                );
+                const run = () => {
+                  const failure = commit(pending.document);
+                  return failure
+                    ? { ok: false as const, error: failure }
+                    : true;
+                };
+                if (addedTerm) notify.added("term", run);
+                else notify.edit(run);
+              }
+            }}
           >
             {pending.message}
           </AlertDialog>

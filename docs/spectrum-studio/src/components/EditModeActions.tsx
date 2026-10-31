@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "./notifications/notificationContext";
 import {
   ActionButton,
   AlertDialog,
@@ -6,7 +7,6 @@ import {
   DialogTrigger,
   ProgressCircle,
   Text,
-  ToastQueue,
   Tooltip,
   TooltipTrigger,
 } from "@react-spectrum/s2";
@@ -47,6 +47,7 @@ const notificationBadgeStyles = style({
 });
 
 export function EditModeActions() {
+  const notify = useNotify();
   const cancelEdit = useSetAtom(cancelEditAtom);
   const saveEdit = useSetAtom(saveEditAtom);
   const submitForReview = useSetAtom(submitForReviewAtom);
@@ -63,7 +64,7 @@ export function EditModeActions() {
     try {
       action();
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }
@@ -75,10 +76,10 @@ export function EditModeActions() {
         <Button variant="secondary">Cancel</Button>
         <AlertDialog
           variant="destructive"
-          title="Discard all edits?"
-          primaryActionLabel="Discard edits"
+          title="Discard all edits"
+          primaryActionLabel="Discard"
           cancelLabel="Keep editing"
-          onPrimaryAction={() => perform(cancelEdit)}
+          onPrimaryAction={() => perform(() => notify.quietly(cancelEdit))}
         >
           Cancelling discards changes since your last save and restores the
           saved data.
@@ -104,7 +105,7 @@ export function EditModeActions() {
             perform(() => {
               const result = saveEdit();
               if (result.skippedAliases.length)
-                ToastQueue.info(
+                notify.info(
                   `Saved. ${result.skippedAliases.length} previous step names now belong to other swatches, so compatibility aliases were not kept for those names.`,
                 );
             })

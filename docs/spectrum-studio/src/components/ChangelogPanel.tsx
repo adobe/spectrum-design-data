@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "./notifications/notificationContext";
 import {
   Accordion,
   AccordionItem,
@@ -17,7 +18,6 @@ import {
   TabPanel,
   Tabs,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "./CategoryIcon";
@@ -147,6 +147,7 @@ export function ChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
 }
 
 function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
+  const notify = useNotify();
   const comparison = useAtomValue(asyncComparisonAtom);
   const value =
     comparison.status === "ready"
@@ -201,7 +202,7 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
     try {
       action();
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }
@@ -363,13 +364,13 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
             </Button>
             <AlertDialog
               variant="destructive"
-              title="Reset all changes?"
-              primaryActionLabel="Reset all"
+              title="Reset all changes"
+              primaryActionLabel="Reset"
               onPrimaryAction={() => {
                 try {
-                  resetAll();
+                  notify.quietly(resetAll);
                 } catch (failure) {
-                  ToastQueue.negative(
+                  notify.error(
                     failure instanceof Error
                       ? failure.message
                       : String(failure),
