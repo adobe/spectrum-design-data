@@ -287,3 +287,41 @@ fn ctr_only_tokens_group_by_scale_mode() {
     let modes: Vec<_> = token.modes.keys().map(String::as_str).collect();
     assert_eq!(modes, ["desktop", "mobile"]);
 }
+
+/// p6ga.8.29: an override keeps its token's colour-scheme siblings in one variable,
+/// whether or not its value differs from the light value.
+#[test]
+fn overridden_color_token_keeps_all_its_modes() {
+    let color = |scheme: &str, value: &str, uuid: &str| {
+        (
+            uuid.to_string(),
+            PathBuf::from("color-aliases.tokens.json"),
+            serde_json::json!({
+                "name": {"legacyKey": "seafoam-800", "colorScheme": scheme},
+                "$schema": "https://example.test/color.json",
+                "value": value,
+                "uuid": uuid,
+            }),
+        )
+    };
+    for override_value in ["rgb(9, 144, 120)", "rgb(1, 2, 3)"] {
+        let mut graph = TokenGraph::from_pairs(vec![
+            color("light", "rgb(9, 144, 120)", "u-light"),
+            color("dark", "rgb(8, 134, 112)", "u-dark"),
+            color("wireframe", "rgb(93, 127, 201)", "u-wire"),
+        ]);
+        graph
+            .apply_platform_manifest(&serde_json::json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "platform": "fixture",
+                "exclude": ["colorScheme=wireframe"],
+                "overrides": [{"target": "u-dark", "value": override_value}],
+            }))
+            .unwrap();
+        let tokens = export_tokens(&graph).unwrap();
+        let token = tokens.iter().find(|t| t.name == "seafoam-800").unwrap();
+        let modes: Vec<_> = token.modes.keys().map(String::as_str).collect();
+        assert_eq!(modes, ["dark", "light"], "override value {override_value}");
+    }
+}
