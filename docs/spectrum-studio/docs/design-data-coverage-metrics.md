@@ -161,7 +161,7 @@ close-enough tolerance remain separate results, regardless of output notation.
 
 sRGB output uses design-data's comma-separated notation: `rgb(255, 255, 255)`
 for opaque colors and `rgba(0, 0, 0, 0.08)` when alpha is below one. This changes
-notation only; channel precision and color calculations are unchanged.
+notation; the shared serializer emits whole-number sRGB channels.
 Display P3 and Rec 2020 retain the space-separated `color(...)` syntax required
 by CSS. Matching notation alone does not establish matching color values.
 

@@ -60,11 +60,29 @@ actions:
   ```
 
   ## Icon Usage Guidelines
+  **Reuse semantic category icons first.** For project concepts, use `CategoryIcon` from `src/components/CategoryIcon.ts` (or `getCategoryIcon` when a component type is required). `src/data/category-icons.json` is the single mapping source: `"modes"` currently maps to `Filters`, and `"tokens"` to `Channel`. Do not hardcode a similar glyph or duplicate the mapping in a component.
+
   1. **Prefer Spectrum S2 icons first** - Check if the icon exists in `@react-spectrum/s2/icons`. S2 icons work natively in S2 components with no wrapper needed.
   2. **Use custom SVG icons only when necessary** - When Spectrum doesn't have the needed icon
   3. **Create proper React components** - Custom icons should be React components, not direct SVG imports
   4. **Follow naming conventions** - Use PascalCase for icon component names
   5. **Organize custom icons** - Place all custom SVG icons in `assets/svgs/` directory
+
+  ## Authored mode-set icons
+
+  Use `modeSetGroupIconId` from `src/features/modes/controlPresentation.ts`
+  for menu entries representing a whole mode set. It prefers the set's own
+  icon, then the default mode's icon only when the existing
+  `modeSetUsesOptionIcons` rule permits unique option icons. Render the ID
+  with `MODE_ICONS` from `src/features/modes/icons.ts`; use
+  `<CategoryIcon category="modes" />` when it returns `"none"`.
+  This keeps authored identity separate from temporary preview selection.
+  Do not repeat this precedence or select the first/current mode in menus.
+
+  In the conditional builder's Add condition menu, Mode set uses `"modes"`;
+  Token category uses `"tokens"`. Token-category submenu entries are text-only
+  because repeating the same icon adds no distinction. Keep icon-plus-label content
+  in the S2 icon slot plus `Text`, not raw text beside an icon.
 
   ## Label text next to icons
 
