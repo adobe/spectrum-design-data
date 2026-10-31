@@ -119,8 +119,43 @@ impl Resolved {
     }
 }
 
+/// A candidate token with the component options its relationship pins (`None`: none) and the
+/// states it pins (its `scope.options.state`; empty: use the token's own `name.state`).
+type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>, Vec<String>);
+
+/// A relationship's `$ref` with the component options and states it pins.
+type PinnedRef = (String, Option<Value>, Vec<String>);
+
+/// Memoized token lookups shared across renders of one graph. A token selector's
+/// candidates do not depend on the request, so a matrix of renders can reuse them.
+#[derive(Default)]
+pub struct SceneCache {
+    /// Selector (templates expanded) → keys into `TokenGraph::tokens`.
+    tokens: std::cell::RefCell<HashMap<String, Vec<String>>>,
+    /// Component, property, context → the `$ref` of each matching relationship and the
+    /// component options its `scope.options` pins (see `RELATIONSHIP_RESERVED_OPTIONS`).
+    relationships: std::cell::RefCell<HashMap<String, Vec<PinnedRef>>>,
+    /// Component → its relationship-owned scoped values (see `scoped_values`).
+    scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
+}
+
+impl SceneCache {
+    fn scoped(
+        &self,
+        graph: &TokenGraph,
+        component: &str,
+    ) -> std::rc::Rc<Vec<crate::graph::TokenRecord>> {
+        self.scoped
+            .borrow_mut()
+            .entry(component.to_string())
+            .or_insert_with(|| std::rc::Rc::new(scoped_values(graph, component)))
+            .clone()
+    }
+}
+
 struct Ctx<'a> {
     graph: &'a TokenGraph,
+    cache: &'a SceneCache,
     req: &'a RenderRequest,
     size_index: String,
     option_defaults: HashMap<String, Value>,
@@ -337,17 +372,17 @@ impl<'a> Ctx<'a> {
         active
     }
 
-    /// Mode-compatible candidates, best fit first. Candidates that contradict the
-    /// mode context are dropped; ties prefer the fewest extra name fields.
-    fn rank<'g>(
+    /// Mode-compatible candidates, best fit first, each kept with its extra data. Candidates
+    /// that contradict the mode context are dropped; ties prefer the fewest extra name fields.
+    fn rank_by<'g, X>(
         &self,
-        cands: Vec<&'g crate::graph::TokenRecord>,
-    ) -> Vec<&'g crate::graph::TokenRecord> {
+        cands: Vec<(&'g crate::graph::TokenRecord, X)>,
+    ) -> Vec<(&'g crate::graph::TokenRecord, X)> {
         let mut mctx = self.mode_ctx();
         mctx.insert("size".into(), self.req.size.clone());
         let mut fit: Vec<_> = cands
             .into_iter()
-            .filter(|t| {
+            .filter(|(t, _)| {
                 mctx.iter().all(|(k, v)| {
                     match t
                         .raw
@@ -361,7 +396,7 @@ impl<'a> Ctx<'a> {
                 })
             })
             .collect();
-        fit.sort_by(|a, b| {
+        fit.sort_by(|(a, _), (b, _)| {
             let sa = name_ctx_score(&a.raw, &mctx);
             let sb = name_ctx_score(&b.raw, &mctx);
             let ea = a
@@ -385,15 +420,28 @@ impl<'a> Ctx<'a> {
         &self,
         cands: Vec<&'g crate::graph::TokenRecord>,
     ) -> Option<&'g crate::graph::TokenRecord> {
-        let fit = self.rank(cands);
+        self.pick_with_states(cands.into_iter().map(|t| (t, Vec::new())).collect())
+    }
+
+    /// [`Self::pick`] for candidates that carry states of their own (a relationship's
+    /// `scope.options.state`), which replace the token's `name.state`.
+    fn pick_with_states<'g>(
+        &self,
+        cands: Vec<(&'g crate::graph::TokenRecord, Vec<String>)>,
+    ) -> Option<&'g crate::graph::TokenRecord> {
+        let fit = self.rank_by(cands);
         let active = self.active_states();
         fit.iter()
-            .copied()
-            .find(|t| {
-                let st = token_states(t);
+            .find(|(t, extra)| {
+                let st = if extra.is_empty() {
+                    token_states(t)
+                } else {
+                    extra.clone()
+                };
                 !st.is_empty() && st.iter().all(|x| active.contains(x))
             })
-            .or_else(|| fit.first().copied())
+            .or_else(|| fit.first())
+            .map(|(t, _)| *t)
     }
 
     fn terminal(&self, rec: &crate::graph::TokenRecord) -> Option<String> {
@@ -450,68 +498,127 @@ impl<'a> Ctx<'a> {
             sel_obj.insert("property".into(), Value::String(p));
         }
         let graph = self.graph;
-        let find = |sel: &serde_json::Map<String, Value>| -> Vec<&'a crate::graph::TokenRecord> {
+        // The key holds the selector with every template expanded: its candidates depend on
+        // the request size, but the selector reported in diagnostics keeps its templates.
+        let mut keyed = sel_obj.clone();
+        for v in keyed.values_mut() {
+            if let Value::String(t) = v {
+                *t = self.template(t);
+            }
+        }
+        let key = Value::Object(keyed).to_string();
+        if let Some(keys) = self.cache.tokens.borrow().get(&key) {
+            let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
+            return Some((cands, sel_obj));
+        }
+        let find = |sel: &serde_json::Map<String, Value>| -> Vec<String> {
             graph
                 .tokens
-                .values()
-                .filter(|t| {
+                .iter()
+                .filter(|(_, t)| {
                     t.raw
                         .get("name")
                         .is_some_and(|n| self.matches_selector(n, sel))
                 })
+                .map(|(k, _)| k.clone())
                 .collect()
         };
-        let mut cands = find(&sel_obj);
+        let mut keys = find(&sel_obj);
         // A bare `font-size-{n}` style property may also be encoded as property + scaleIndex.
-        if cands.is_empty() {
+        if keys.is_empty() {
             if let Some(Value::String(p)) = sel_obj.get("property") {
                 if let Some((base, idx)) = p.rsplit_once('-') {
                     if let Ok(i) = idx.parse::<u64>() {
                         let mut alt = sel_obj.clone();
                         alt.insert("property".into(), Value::String(base.into()));
                         alt.insert("scaleIndex".into(), Value::from(i));
-                        cands = find(&alt);
+                        keys = find(&alt);
                     }
                 }
             }
         }
+        let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
+        self.cache.tokens.borrow_mut().insert(key, keys);
         Some((cands, sel_obj))
     }
 
-    /// Tokens bound to this component by a relationship, plus its templated
-    /// property and trimmed context.
-    fn relationship_cands(
-        &self,
-        rel: &Value,
-    ) -> Option<(Vec<&'a crate::graph::TokenRecord>, String, String)> {
+    /// Tokens bound to this component by a relationship, each with the component options its
+    /// relationship pins, plus the templated property and trimmed context.
+    fn relationship_cands(&self, rel: &Value) -> Option<(Vec<Candidate<'a>>, String, String)> {
         let property = self.template(rel.get("property")?.as_str()?);
         let context = rel.get("context")?.as_str()?.trim().to_string();
-        let mut cands = Vec::new();
-        for r in &self.graph.relationships {
-            let scope = r.raw.get("scope");
-            let comp = scope
-                .and_then(|s| s.get("component"))
-                .and_then(Value::as_str);
-            let p = scope
-                .and_then(|s| s.get("property"))
-                .and_then(Value::as_str);
-            let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
-            if comp == Some(&self.req.component)
-                && p == Some(property.as_str())
-                && c == Some(context.as_str())
-            {
-                if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                    if let Some(t) = self.graph.resolve_alias_key(rf) {
-                        cands.push(t);
-                    } else if let Some(t) =
-                        self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf))
-                    {
-                        cands.push(t);
+        let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
+        let cached = self.cache.relationships.borrow().get(&key).cloned();
+        let refs = cached.unwrap_or_else(|| {
+            let declared: Vec<&str> = self
+                .graph
+                .components
+                .iter()
+                .find(|c| c.name == self.req.component)
+                .and_then(|c| c.raw.get("options"))
+                .and_then(Value::as_object)
+                .map(|o| o.keys().map(String::as_str).collect())
+                .unwrap_or_default();
+            let mut refs = Vec::new();
+            for r in &self.graph.relationships {
+                let scope = r.raw.get("scope");
+                let comp = scope
+                    .and_then(|s| s.get("component"))
+                    .and_then(Value::as_str);
+                let p = scope
+                    .and_then(|s| s.get("property"))
+                    .and_then(Value::as_str);
+                let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
+                if comp == Some(&self.req.component)
+                    && p == Some(property.as_str())
+                    && c == Some(context.as_str())
+                {
+                    if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
+                        refs.push((
+                            rf.to_string(),
+                            pinned_options(scope, &declared),
+                            scope_state_ids(scope),
+                        ));
                     }
                 }
             }
+            self.cache
+                .relationships
+                .borrow_mut()
+                .insert(key, refs.clone());
+            refs
+        });
+        let mut cands = Vec::new();
+        for (rf, options, states) in &refs {
+            if let Some(t) = self.graph.resolve_alias_key(rf) {
+                cands.push((t, options.clone(), states.clone()));
+            } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
+                cands.push((t, options.clone(), states.clone()));
+            }
         }
         Some((cands, property, context))
+    }
+
+    /// Keep the relationships whose pinned options match the request, preferring the ones
+    /// that pin the most options. A relationship with no pinned options is the default:
+    /// it is used only when no more specific one matches.
+    fn select_by_options<'g>(
+        &self,
+        cands: Vec<Candidate<'g>>,
+    ) -> Vec<(&'g crate::graph::TokenRecord, Vec<String>)> {
+        let scored: Vec<(usize, &crate::graph::TokenRecord, Vec<String>)> = cands
+            .into_iter()
+            .filter_map(|(t, opts, states)| {
+                let when = opts.map(|o| serde_json::json!({ "options": o }));
+                self.when_score(when.as_ref()).map(|s| (s, t, states))
+            })
+            .collect();
+        let best = scored.iter().map(|(s, ..)| *s).max().unwrap_or(0);
+        scored
+            .into_iter()
+            .filter(|(s, ..)| *s == best)
+            .map(|(_, t, states)| (t, states))
+            .collect()
     }
 
     fn resolve_token(&mut self, prop: &str, sel: &Value) -> Option<Resolved> {
@@ -534,7 +641,8 @@ impl<'a> Ctx<'a> {
 
     fn resolve_relationship(&mut self, prop: &str, rel: &Value) -> Option<Resolved> {
         let (cands, property, context) = self.relationship_cands(rel)?;
-        let Some(rec) = self.pick(cands) else {
+        let cands = self.select_by_options(cands);
+        let Some(rec) = self.pick_with_states(cands) else {
             self.diags.push(format!(
                 "{prop}: no relationship '{property}' / '{context}'"
             ));
@@ -548,6 +656,35 @@ impl<'a> Ctx<'a> {
             chain: self.alias_chain(rec),
         })
     }
+}
+
+/// `scope.options` keys a relationship never pins as a component option: `state` is a token
+/// state, `scale` and `colorScheme` are modes.
+const RELATIONSHIP_RESERVED_OPTIONS: &[&str] = &["state", "scale", "colorScheme"];
+
+/// State ids a relationship's `scope.options.state` pins, normalized like a token
+/// `name.state` (so `key-focus` is `keyboard-focus`). They replace the token's own.
+fn scope_state_ids(scope: Option<&Value>) -> Vec<String> {
+    let state = scope
+        .and_then(|s| s.get("options"))
+        .and_then(|o| o.get("state"));
+    name_states(state.map(|v| serde_json::json!({ "state": v })).as_ref())
+}
+
+/// The component options a relationship's `scope.options` pins, or `None` when it pins none.
+/// Keys the component does not declare as options are ignored.
+fn pinned_options(scope: Option<&Value>, declared: &[&str]) -> Option<Value> {
+    let options = scope
+        .and_then(|s| s.get("options"))
+        .and_then(Value::as_object)?;
+    let pinned: serde_json::Map<String, Value> = options
+        .iter()
+        .filter(|(k, _)| {
+            !RELATIONSHIP_RESERVED_OPTIONS.contains(&k.as_str()) && declared.contains(&k.as_str())
+        })
+        .map(|(k, v)| (k.clone(), v.clone()))
+        .collect();
+    (!pinned.is_empty()).then_some(Value::Object(pinned))
 }
 
 /// A token's `name.state` as individual state ids. Legacy compound ids such as
@@ -573,7 +710,7 @@ pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
             out.push("selected".to_string());
         }
         let r = rest.unwrap_or(&s);
-        out.push(if r == "key-focus" {
+        out.push(if r == "key-focus" || r == "focus" {
             "keyboard-focus".into()
         } else {
             r.to_string()
@@ -645,6 +782,60 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
     (used, structural)
 }
 
+/// [`recipe_options`] for a recipe bound to a component's data: it also counts the component
+/// options pinned (`scope.options`) by the relationships the recipe binds, since a recipe
+/// that moves its conditions into relationships no longer names those options itself.
+pub fn recipe_options_in(
+    graph: &TokenGraph,
+    recipe: &Value,
+    component: &str,
+) -> (Vec<String>, Vec<String>) {
+    let (mut used, structural) = recipe_options(recipe);
+    let mut contexts: Vec<String> = Vec::new();
+    fn walk(v: &Value, out: &mut Vec<String>) {
+        match v {
+            Value::Array(a) => a.iter().for_each(|x| walk(x, out)),
+            Value::Object(o) => {
+                if let Some(c) = o
+                    .get("relationship")
+                    .and_then(|r| r.get("context"))
+                    .and_then(Value::as_str)
+                {
+                    out.push(c.trim().to_string());
+                }
+                o.values().for_each(|x| walk(x, out));
+            }
+            _ => {}
+        }
+    }
+    walk(recipe, &mut contexts);
+    let declared: Vec<&str> = graph
+        .components
+        .iter()
+        .find(|c| c.name == component)
+        .and_then(|c| c.raw.get("options"))
+        .and_then(Value::as_object)
+        .map(|o| o.keys().map(String::as_str).collect())
+        .unwrap_or_default();
+    for r in &graph.relationships {
+        let comp = r.raw.pointer("/scope/component").and_then(Value::as_str);
+        let ctx = r.raw.get("context").and_then(Value::as_str).map(str::trim);
+        if comp != Some(component) || !ctx.is_some_and(|c| contexts.iter().any(|x| x == c)) {
+            continue;
+        }
+        let Some(opts) = r.raw.pointer("/scope/options").and_then(Value::as_object) else {
+            continue;
+        };
+        for key in opts.keys() {
+            let reserved = RELATIONSHIP_RESERVED_OPTIONS.contains(&key.as_str());
+            if !reserved && declared.contains(&key.as_str()) && !used.contains(key) {
+                used.push(key.clone());
+            }
+        }
+    }
+    (used, structural)
+}
+
 /// Pre-resolve every token and relationship binding in a recipe so a renderer needs
 /// no token graph. Each binding becomes a `candidates` list (`{value, token, states}`,
 /// best mode fit first) per `size|colorScheme|scale`; the renderer only applies the
@@ -677,6 +868,7 @@ pub fn compile_recipe(
         .unwrap_or_default();
 
     let scoped = scoped_values(graph, component);
+    let cache = SceneCache::default();
     let mut variants = serde_json::Map::new();
     for (size, idx) in scale {
         for mode in modes {
@@ -688,6 +880,7 @@ pub fn compile_recipe(
             };
             let cx = Ctx {
                 graph,
+                cache: &cache,
                 req: &req,
                 size_index: value_to_string(idx).unwrap_or_default(),
                 option_defaults: HashMap::new(),
@@ -736,10 +929,10 @@ fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
     let Some(obj) = entry.as_object_mut() else {
         return;
     };
-    let cands = if let Some(sel) = obj.get("token") {
+    let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
         cx.token_cands(sel).map(|(c, sel_obj)| {
             (
-                c,
+                c.into_iter().map(|t| (t, None, Vec::new())).collect(),
                 format!("{prop}: no token matches {}", Value::Object(sel_obj)),
             )
         })
@@ -753,15 +946,24 @@ fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
     obj.remove("relationship");
     let (cands, miss) = cands.unwrap_or_default();
     let list: Vec<Value> = cx
-        .rank(cands)
+        .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
         .into_iter()
-        .map(|t| {
-            serde_json::json!({
+        .map(|(t, (options, extra))| {
+            let states = if extra.is_empty() {
+                token_states(t)
+            } else {
+                extra
+            };
+            let mut c = serde_json::json!({
                 "value": cx.terminal(t),
                 "token": Ctx::token_label(t),
                 "chain": cx.alias_chain(t),
-                "states": token_states(t),
-            })
+                "states": states,
+            });
+            if let Some(o) = options {
+                c["options"] = o;
+            }
+            c
         })
         .collect();
     obj.insert("candidates".into(), Value::Array(list));
@@ -773,6 +975,17 @@ pub fn build_scene(
     graph: &TokenGraph,
     recipe: &Value,
     req: &RenderRequest,
+) -> Result<Scene, String> {
+    build_scene_cached(graph, recipe, req, &SceneCache::default())
+}
+
+/// Like [`build_scene`], reusing token lookups from `cache`. Use one cache per graph when
+/// rendering many requests (a matrix); results are identical.
+pub fn build_scene_cached(
+    graph: &TokenGraph,
+    recipe: &Value,
+    req: &RenderRequest,
+    cache: &SceneCache,
 ) -> Result<Scene, String> {
     let size_index = recipe
         .get("sizeScale")
@@ -791,9 +1004,10 @@ pub fn build_scene(
                 .collect()
         })
         .unwrap_or_default();
-    let scoped = scoped_values(graph, &req.component);
+    let scoped = cache.scoped(graph, &req.component);
     let mut cx = Ctx {
         graph,
+        cache,
         req,
         size_index,
         option_defaults,
@@ -1748,6 +1962,68 @@ mod tests {
     }
 
     #[test]
+    fn relationship_options_pick_the_default_or_the_most_specific_override() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/badge.json")).unwrap(),
+        )
+        .unwrap();
+        let label_color = |variant: &str, style: &str| {
+            let mut r = req(&[]);
+            r.component = "badge".into();
+            r.label = "Label".into();
+            r.options
+                .insert("variant".into(), Value::String(variant.into()));
+            r.options
+                .insert("style".into(), Value::String(style.into()));
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            let label = scene.nodes.iter().find(|n| n.part == "label").unwrap();
+            label
+                .tokens
+                .iter()
+                .find(|t| t.prop == "color")
+                .unwrap()
+                .token
+                .clone()
+        };
+        let white = "color-transparent-static-white-1000";
+        let black = "color-transparent-static-black-1000";
+        let gray = "color-gray-1000-light";
+        assert_eq!(
+            label_color("accent", "bold"),
+            white,
+            "no override: the default"
+        );
+        assert_eq!(
+            label_color("fuchsia", "outline"),
+            white,
+            "default for most outlines"
+        );
+        assert_eq!(label_color("celery", "bold"), black, "light variant, bold");
+        assert_eq!(
+            label_color("yellow", "outline"),
+            black,
+            "light variant, outline"
+        );
+        assert_eq!(
+            label_color("accent", "subtle"),
+            gray,
+            "subtle overrides the default"
+        );
+        assert_eq!(
+            label_color("celery", "subtle"),
+            gray,
+            "style, not variant, wins"
+        );
+        assert_eq!(
+            label_color("notice", "outline"),
+            gray,
+            "two pinned options beat the default"
+        );
+    }
+
+    #[test]
     fn badge_fixed_edge_squares_corners_and_maps_weight() {
         let (g, _) = load();
         let recipe: Value = serde_json::from_str(
@@ -1781,7 +2057,7 @@ mod tests {
         assert_ne!(hover.nodes[0].fill, default.nodes[0].fill);
         let focus = build_scene(&g, &recipe, &req(&["keyboard-focus"])).unwrap();
         assert!(focus.nodes.iter().any(|n| n.kind == "ring"));
-        assert!(scene_to_svg(&focus).contains("data-part=\"focus-ring\""));
+        assert!(scene_to_svg(&focus).contains("data-part=\"focus-indicator\""));
     }
 
     #[test]
@@ -1905,7 +2181,7 @@ mod tests {
             .as_array()
             .unwrap()
             .iter()
-            .any(|e| !e["candidates"].as_array().unwrap().is_empty()));
+            .any(|e| e["candidates"].as_array().is_some_and(|c| !c.is_empty())));
         let (used, structural) = recipe_options(&recipe);
         assert!(used.contains(&"isPending".to_string()));
         assert!(structural.contains(&"isPending".to_string()));

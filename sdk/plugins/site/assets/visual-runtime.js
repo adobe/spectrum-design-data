@@ -86,11 +86,24 @@ function makeCtx(compiled, req) {
       (c) => c.states.length > 0 && c.states.every((s) => active.includes(s)),
     ) ?? cands[0];
 
+  // Keep the relationships whose pinned options match the request, preferring the ones that
+  // pin the most options. A candidate with no `options` is the default: used only when no
+  // more specific one matches. Mirrors `select_by_options` in Rust.
+  const selectByOptions = (cands) => {
+    const scored = [];
+    for (const c of cands) {
+      const score = c.options ? whenScore({ options: c.options }) : 0;
+      if (score !== null) scored.push([score, c]);
+    }
+    const best = Math.max(0, ...scored.map(([score]) => score));
+    return scored.filter(([score]) => score === best).map(([, c]) => c);
+  };
+
   const withRel = (r, entry) =>
     r && entry.relativeTo ? { ...r, relativeTo: entry.relativeTo } : r;
 
   const resolveCands = (entry) => {
-    const rec = pick(entry.candidates);
+    const rec = pick(selectByOptions(entry.candidates));
     if (!rec) {
       if (entry.miss) diags.push(entry.miss);
       return undefined;

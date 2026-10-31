@@ -5769,8 +5769,9 @@
   },
   {
     "name": {
-      "anatomy": "focus-ring",
-      "property": "gap"
+      "anatomy": "focus-indicator",
+      "property": "gap",
+      "legacyKey": "focus-ring-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",

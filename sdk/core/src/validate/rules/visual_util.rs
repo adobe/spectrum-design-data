@@ -127,6 +127,8 @@ pub(crate) struct RelTarget<'a> {
     pub token: Option<&'a TokenRecord>,
     /// State ids the relationship selects, from the bound token or its own scope.
     pub states: Vec<String>,
+    /// Option names the relationship's `scope.options` pins (not `state`).
+    pub options: Vec<String>,
 }
 
 pub(crate) fn component_relationships<'a>(
@@ -154,25 +156,37 @@ pub(crate) fn component_relationships<'a>(
                 .get("$ref")
                 .and_then(Value::as_str)
                 .and_then(|rf| graph.resolve_alias_key(rf));
+            let pinned: Vec<String> = r
+                .raw
+                .pointer("/scope/options")
+                .and_then(Value::as_object)
+                .map(crate::visual::scope_states)
+                .unwrap_or_default()
+                .iter()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect();
+            // A pinned relationship state replaces the bound token's own states.
             let states = match token {
-                Some(t) => crate::visual::name_states(t.raw.get("name")),
-                None => r
-                    .raw
-                    .pointer("/scope/options")
-                    .and_then(Value::as_object)
-                    .map(|o| {
-                        crate::visual::scope_states(o)
-                            .iter()
-                            .filter_map(|v| v.as_str().map(String::from))
-                            .collect()
-                    })
-                    .unwrap_or_default(),
+                Some(t) if pinned.is_empty() => crate::visual::name_states(t.raw.get("name")),
+                _ => pinned,
             };
+            let options = r
+                .raw
+                .pointer("/scope/options")
+                .and_then(Value::as_object)
+                .map(|o| {
+                    o.keys()
+                        .filter(|k| k.as_str() != "state")
+                        .cloned()
+                        .collect()
+                })
+                .unwrap_or_default();
             RelTarget {
                 property,
                 context,
                 token,
                 states,
+                options,
             }
         })
         .collect()

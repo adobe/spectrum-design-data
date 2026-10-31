@@ -76,6 +76,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
                 for r in &rels {
                     if r.property == property && r.context.as_deref() == context {
                         used.states.extend(r.states.iter().cloned());
+                        used.options.extend(r.options.iter().cloned());
                     }
                 }
             }

@@ -114,6 +114,14 @@
   {
     "scope": {
       "component": "button",
+      "property": "component-size-maximum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "437f2e57-2aa6-41b5-bdcc-e4993dc42168"
+  },
+  {
+    "scope": {
+      "component": "button",
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
@@ -189,7 +197,7 @@
       "property": "component-pill-edge-to-visual-75"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce"
   },
   {
     "scope": {
@@ -205,7 +213,7 @@
       "property": "component-pill-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -221,7 +229,7 @@
       "property": "component-pill-edge-to-visual-200"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38"
   },
   {
     "scope": {
@@ -237,7 +245,7 @@
       "property": "component-pill-edge-to-visual-300"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674"
   },
   {
     "scope": {
@@ -253,7 +261,7 @@
       "property": "component-pill-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce"
   },
   {
     "scope": {
@@ -269,7 +277,7 @@
       "property": "component-pill-edge-to-text-100"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -285,7 +293,7 @@
       "property": "component-pill-edge-to-text-200"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38"
   },
   {
     "scope": {
@@ -301,7 +309,7 @@
       "property": "component-pill-edge-to-text-300"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674"
   },
   {
     "scope": {
@@ -757,78 +765,6 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "a5201034-a592-47c6-be78-050ae951043e"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
     "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65"
   },
   {
@@ -854,78 +790,6 @@
     },
     "context": "Icon",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "d2481a50-13a0-4f19-8faa-a1a215fee21d"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "648da867-549e-47c3-9312-e9cfda288705"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "b1104fe3-4965-411e-95d3-87f59cdbc756"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "3c2d5afe-fff4-487d-a312-000f738c8704"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "8565ec8e-2196-47ac-8636-40084acbfd4f"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "ce2e6ea6-c692-4cff-a2ac-f0c1c2e054ca"
   },
   {
     "scope": {
@@ -986,102 +850,6 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
-    },
-    "context": "Icon",
-    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Icon",
-    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Icon",
-    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
-  },
-  {
-    "scope": {
-      "component": "button",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1110,78 +878,6 @@
     },
     "context": "Icon",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
-    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
   },
   {
     "scope": {
@@ -1253,23 +949,7 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
     "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
   },
   {
     "scope": {
@@ -1341,23 +1021,7 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Background",
     "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color"
-    },
-    "context": "Border",
-    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
   },
   {
     "scope": {
@@ -1408,5 +1072,3014 @@
     "value": 2.25,
     "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358",
     "legacyKey": "button-minimum-width-multiplier"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent"
+      }
+    },
+    "context": "Background",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent"
+      }
+    },
+    "context": "Background",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent"
+      }
+    },
+    "context": "Background",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "a5201034-a592-47c6-be78-050ae951043e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "accent",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative"
+      }
+    },
+    "context": "Background",
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative"
+      }
+    },
+    "context": "Background",
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative"
+      }
+    },
+    "context": "Background",
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "d2481a50-13a0-4f19-8faa-a1a215fee21d"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "648da867-549e-47c3-9312-e9cfda288705"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "b1104fe3-4965-411e-95d3-87f59cdbc756"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "3c2d5afe-fff4-487d-a312-000f738c8704"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "8565ec8e-2196-47ac-8636-40084acbfd4f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "ce2e6ea6-c692-4cff-a2ac-f0c1c2e054ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "negative",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Background",
+    "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": [false, true],
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "fill",
+        "variant": "secondary"
+      }
+    },
+    "context": "Background",
+    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "fill",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Background",
+    "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": [false, true],
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "fill",
+        "variant": "secondary"
+      }
+    },
+    "context": "Background",
+    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "fill",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Background",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Background",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Background",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary"
+      }
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary"
+      }
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary"
+      }
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Background",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "fill",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "outline",
+        "variant": "primary"
+      }
+    },
+    "context": "Border",
+    "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": [false, true],
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "outline",
+        "variant": "secondary"
+      }
+    },
+    "context": "Border",
+    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "black",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Border",
+    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "outline",
+        "variant": "primary"
+      }
+    },
+    "context": "Border",
+    "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": [false, true],
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "outline",
+        "variant": "secondary"
+      }
+    },
+    "context": "Border",
+    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "staticColor": "white",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Border",
+    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary"
+      }
+    },
+    "context": "Border",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary"
+      }
+    },
+    "context": "Border",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary"
+      }
+    },
+    "context": "Border",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "primary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary"
+      }
+    },
+    "context": "Border",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary"
+      }
+    },
+    "context": "Border",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary"
+      }
+    },
+    "context": "Border",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Border",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Border",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Border",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": [false, true],
+        "style": "outline",
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Border",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "black",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "white",
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "white",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "black",
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "black",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "white",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Icon",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "black",
+        "style": ["fill", "outline"],
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "b769453b-586c-4dd2-b3a1-ddf5964160bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": [false, true],
+        "isPending": false,
+        "staticColor": "white",
+        "style": ["fill", "outline"],
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Icon",
+    "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "fill",
+        "variant": ["accent", "negative", "primary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "black",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Label",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "white",
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Label",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "white",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "black",
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Label",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "black",
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "white",
+        "style": "fill",
+        "variant": "primary"
+      }
+    },
+    "context": "Label",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Label",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Label",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary"
+      }
+    },
+    "context": "Label",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": "secondary",
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["hover"]
+      }
+    },
+    "context": "Label",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["down"]
+      }
+    },
+    "context": "Label",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": false,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": "outline",
+        "variant": ["primary", "secondary"],
+        "state": ["focus"]
+      }
+    },
+    "context": "Label",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative"]
+      }
+    },
+    "context": "Label",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "style": ["fill", "outline"],
+        "variant": ["accent", "negative", "primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "black",
+        "style": ["fill", "outline"],
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "b769453b-586c-4dd2-b3a1-ddf5964160bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color",
+      "options": {
+        "isDisabled": true,
+        "isLabelHidden": false,
+        "isPending": false,
+        "staticColor": "white",
+        "style": ["fill", "outline"],
+        "variant": ["primary", "secondary"]
+      }
+    },
+    "context": "Label",
+    "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress track",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Progress",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
   }
 ]

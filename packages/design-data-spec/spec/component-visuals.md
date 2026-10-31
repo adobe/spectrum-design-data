@@ -85,6 +85,8 @@ A property value is either one **value source** or an ordered list of **conditio
 
 Selector strings **MAY** contain `{size}` (the request's `size` option value, e.g. `m`) and `{sizeIndex}` (that size's entry in `sizeScale`). A scalar `token` selector value matches an array-valued name field that contains it (e.g. `"state": "disabled"` matches `["disabled"]`).
 
+**NORMATIVE:** A relationship may pin component options in its `scope.options` (a value, or an array of values that match when any listed value matches). For a `relationship` selector the renderer **MUST** keep only the matching relationships whose pinned options all match the request, and **MUST** prefer the ones that pin the most options. A relationship that pins no options is the default: it applies only when no relationship that pins options matches. Keys that are not declared options of the component, and the reserved keys `state`, `scale` and `colorScheme`, are not pinned options. A relationship's `scope.options.state` adds states to those of the token it binds, so a hover color that is a plain palette token can still be selected by state. This lets the component data, not the recipe, say which token applies under which options (for example a badge label is white by default, black for the light variants, and gray for subtle).
+
 **NORMATIVE:** `token` and `relationship` selectors yield a set of candidate tokens. The renderer **MUST** narrow the candidates with the request's mode context (for example `colorScheme`, `scale`) using the [cascade](cascade.md), and **MUST** report a diagnostic if zero or more than one candidate remains.
 
 A conditional entry is a value source plus `when`. A condition has optional `options` (option name → value, or array of values), `states` (state names that must all be active) and `modes` (mode-set name → mode). An array matches when any listed value matches, and counts as one condition.
@@ -122,7 +124,7 @@ SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are m
 
 These are the conventions the lints above enforce, plus the decisions made while adding the first five recipes. Follow them in a new recipe; a change to an existing recipe that breaks one needs a reason.
 
-1. **Bind through relationships.** A recipe takes a value from the component's relationships by default (SPEC-067). Use a `token` selector only when no relationship covers the value, and a literal only for layout keywords, `transparent`, zero, ratio radii or geometry no token describes (SPEC-068). If the token you need is missing, file the gap; do not hide it behind a literal.
+1. **Bind through relationships.** A recipe takes a value from the component's relationships by default (SPEC-067). Use a `token` selector only when no relationship covers the value, and a literal only for layout keywords, `transparent`, zero, ratio radii or geometry no token describes (SPEC-068). If the token you need is missing, file the gap; do not hide it behind a literal. Put option-dependent choices in the relationships, not in the recipe: pin `scope.options` on the relationship records (a default with no options, overrides that pin them) and bind the role once, so a variant added later is a data change.
 2. **Bind current tokens.** Do not bind a deprecated token (SPEC-069; SPEC-058 covers relationships). When the only token is deprecated, bind it and record the gap, so the lint keeps showing it.
 3. **Selection is an option, not a state.** Model "selected" as the `isSelected` option and scope relationships with `options.isSelected: true`. The renderer treats `isSelected` as the `selected` state and `isDisabled` as `disabled` when choosing between tokens that carry a state.
 4. **Cover the component.** Every option and state the component declares either changes the recipe or is listed in `notVisual` (SPEC-066). `notVisual` records a deliberate absence, for example `isReadOnly` (it only suppresses hover and press) or `icon` until a shared icon registry exists.
@@ -130,7 +132,7 @@ These are the conventions the lints above enforce, plus the decisions made while
 6. **Priorities.** Disabled overrides interaction states with `priority: 10` (11 where a more specific disabled case must win). Error uses `priority: 5`.
 7. **Relationship contexts are the design token group label,** with no `S1` or `S2` prefix, and the same label names the same concept in every component (for example `Control (disabled)`).
 8. **Name the focus ring part alike** across recipes (SPEC-070).
-9. **Prove a change.** After changing a recipe, a relationship or the renderer, render every option, state, size and color scheme combination before and after. Combinations the change should not touch must stay byte-identical.
+9. **Prove a change.** `sdk/core/tests/recipe_snapshots.rs` renders every valid option, state, size, color scheme and scale combination of every recipe and compares a hash per option set with `tests/fixtures/recipe-snapshots.json`. It also fails on any render diagnostic. After a recipe, relationship, token or renderer change, review the option sets it reports with `design-data render`, then regenerate with `UPDATE_RECIPE_SNAPSHOTS=1`. A new recipe is covered automatically.
 
 New recipes **MUST** be free of SPEC-066 to SPEC-070 warnings. Existing recipes are held at their baseline until they are migrated.
 
