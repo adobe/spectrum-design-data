@@ -1,0 +1,75 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "property": "color",
+        "variant": "neutral"
+      },
+      "value": "#292929",
+      "uuid": "aaaaaaaa-0071-4000-8000-000000000001"
+    },
+    {
+      "name": {
+        "property": "size",
+        "anatomy": "track"
+      },
+      "value": "16px",
+      "uuid": "aaaaaaaa-0071-4000-8000-000000000002"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch.json",
+      "name": "switch",
+      "displayName": "Switch",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+      },
+      "anatomy": [
+        {
+          "name": "track",
+          "description": "Background.",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "switch",
+        "property": "color"
+      },
+      "context": "Control",
+      "$ref": "aaaaaaaa-0071-4000-8000-000000000001"
+    },
+    {
+      "scope": {
+        "component": "switch",
+        "property": "size"
+      },
+      "context": "Track",
+      "$ref": "aaaaaaaa-0071-4000-8000-000000000002"
+    }
+  ],
+  "visuals": [
+    {
+      "component": "switch",
+      "root": "track",
+      "parts": {
+        "track": {
+          "kind": "box",
+          "props": {
+            "fill": {
+              "relationship": {
+                "property": "color",
+                "context": "Control"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
