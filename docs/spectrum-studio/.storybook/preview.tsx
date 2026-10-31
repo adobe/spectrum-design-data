@@ -3,6 +3,7 @@ import { Provider } from "@react-spectrum/s2";
 import type { Preview } from "@storybook/react";
 import "../src/index.css";
 import "../src/components/color-picker/color-picker.css";
+import { PreviewSurfaceProvider } from "../src/components/PreviewSurfaceProvider";
 
 const preview: Preview = {
   parameters: {
@@ -29,7 +30,11 @@ const preview: Preview = {
         colorScheme={context.globals.colorScheme ?? "light"}
         UNSAFE_className={`spectrum spectrum--${context.globals.colorScheme ?? "light"}`}
       >
-        <Story />
+        <PreviewSurfaceProvider
+          colorScheme={context.globals.colorScheme ?? "light"}
+        >
+          <Story />
+        </PreviewSurfaceProvider>
       </Provider>
     ),
   ],

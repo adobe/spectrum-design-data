@@ -1,9 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Provider, ToastQueue } from "@react-spectrum/s2";
+import { Provider } from "@react-spectrum/s2";
 import { useAtomValue } from "jotai";
 import BrowsingContext from "./pages/BrowsingContext";
 import { Blueline } from "./components/Blueline";
 import { DeletionToastProvider } from "./components/DeletionToastProvider";
+import { NotificationProvider } from "./components/notifications/NotificationProvider";
+import { useNotify } from "./components/notifications/notificationContext";
 import { DevToolbar } from "./components/DevToolbar";
 import { appColorSchemeAtom } from "./features/modes/capabilities";
 import { useModeIntegrity } from "./features/modes/useModeIntegrity";
@@ -15,9 +17,11 @@ import { persistenceIssuesAtom } from "./state/persist";
 import { ColorPickerDefaultsProvider } from "./components/color-picker/ColorPickerDefaults";
 import { colorOutputSettingsAtom } from "./features/color-system/state";
 import { useComparisonWork } from "./features/changelog/useComparisonWork";
+import { PreviewSurfaceProvider } from "./components/PreviewSurfaceProvider";
 
 function ApplicationWork() {
   const storageIssues = useAtomValue(persistenceIssuesAtom);
+  const notify = useNotify();
   const notified = useRef(new Set<string>());
   useEffect(() => {
     notified.current = new Set(
@@ -25,10 +29,10 @@ function ApplicationWork() {
     );
     for (const issue of storageIssues)
       if (!notified.current.has(issue)) {
-        ToastQueue.negative(issue);
+        notify.error(issue);
         notified.current.add(issue);
       }
-  }, [storageIssues]);
+  }, [notify, storageIssues]);
   useModeIntegrity();
   useRuleIntegrity();
   usePaletteIntegrity();
@@ -62,14 +66,18 @@ function App() {
       colorScheme={colorScheme}
       UNSAFE_className={`spectrum spectrum--${colorScheme}`}
     >
-      <DeletionToastProvider>
-        <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
-          <BrowsingContext />
-        </ColorPickerDefaultsProvider>
-      </DeletionToastProvider>
-      {import.meta.env.DEV && <Blueline />}
-      {import.meta.env.DEV && <DevToolbar />}
-      <ApplicationWork />
+      <PreviewSurfaceProvider colorScheme={colorScheme}>
+        <NotificationProvider>
+          <DeletionToastProvider>
+            <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
+              <BrowsingContext />
+            </ColorPickerDefaultsProvider>
+          </DeletionToastProvider>
+          {import.meta.env.DEV && <Blueline />}
+          {import.meta.env.DEV && <DevToolbar />}
+          <ApplicationWork />
+        </NotificationProvider>
+      </PreviewSurfaceProvider>
     </Provider>
   );
 }

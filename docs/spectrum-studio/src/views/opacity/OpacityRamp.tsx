@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { MarkerRamp } from "../color-system/MarkerRamp";
 import { transparencyRampBackground } from "../../components/transparencyBackground";
+import { usePreviewSurface } from "../../components/previewSurfaceContext";
 
 export function OpacityRamp({
   ink,
@@ -11,6 +12,8 @@ export function OpacityRamp({
   levels: readonly { id: string; value: number }[];
   focusedId: string | null;
 }) {
+  const surface = usePreviewSurface();
+  if (surface.status !== "ready") return <p role="status">{surface.message}</p>;
   return (
     <MarkerRamp
       label="Opacity ramp"
