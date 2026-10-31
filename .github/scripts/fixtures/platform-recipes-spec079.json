@@ -1,0 +1,11 @@
+{
+  "errors": [],
+  "warnings": [
+    {
+      "rule_id": "SPEC-079",
+      "file": "platforms/ios/extensions/visuals/button-ios.json",
+      "message": "binding does not resolve"
+    },
+    { "rule_id": "SPEC-080", "file": "x", "message": "info" }
+  ]
+}

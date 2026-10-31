@@ -12,89 +12,127 @@
  * CI guard for platform recipe coverage (spectrum-design-data-p6ga.8.2).
  *
  * For every `platforms/<id>/manifest.json`, runs
- * `design-data validate --platform <id> --visuals-path ...` and fails when SPEC-076
- * reports a recipe binding that resolves on the foundation but not under that platform.
+ * `design-data validate --platform <id> --visuals-path ...` and fails when
+ * - SPEC-076 reports a recipe binding that resolves on the foundation but not under
+ *   that platform, or
+ * - SPEC-079 reports a gap in a platform-owned recipe. SPEC-079 is a warning for one
+ *   minor version, so plain `validate` stays green; this guard fails anyway so a gap
+ *   cannot land during that period.
+ * SPEC-080 (info: a recipe replaces a foundation recipe) is not a gap. SPEC-081 (bad
+ * `componentAliases`) is an error, so `design-data:validate` already fails on it.
  * Every other diagnostic belongs to `design-data:validate` and is ignored here.
  *
- * Usage: node .github/scripts/validate-platform-recipes.mjs
+ * Usage: node .github/scripts/validate-platform-recipes.mjs [--report <file.json>]
+ * `--report` checks one saved `validate --format json` report instead of running the CLI.
  */
 
 import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const repoRoot = new URL("../..", import.meta.url).pathname;
-const platformsDir = join(repoRoot, "platforms");
-const dataDir = join(repoRoot, "packages", "design-data");
-const cli = join(repoRoot, "sdk", "target", "debug", "design-data");
+const GUARDED_RULES = new Set(["SPEC-076", "SPEC-079"]);
 
-if (!existsSync(cli)) {
-  console.error(
-    `design-data CLI not found at ${cli} — run \`moon run sdk:build\` first.`,
+export function findGaps(report) {
+  return [...report.errors, ...report.warnings].filter((d) =>
+    GUARDED_RULES.has(d.rule_id),
   );
-  process.exit(1);
 }
 
-const ids = readdirSync(platformsDir, { withFileTypes: true })
-  .filter(
-    (entry) =>
-      entry.isDirectory() &&
-      existsSync(join(platformsDir, entry.name, "manifest.json")),
-  )
-  .map((entry) => entry.name)
-  .sort();
-
-let failed = false;
-
-for (const id of ids) {
-  let output;
-  try {
-    output = execFileSync(
-      cli,
-      [
-        "validate",
-        "./tokens",
-        "--platform",
-        id,
-        "--components-path",
-        "./components",
-        "--relationships-path",
-        "./relationships",
-        "--visuals-path",
-        "./visuals",
-        "--components-report-only",
-        "--exceptions-path",
-        "./naming-exceptions.json",
-        "--format",
-        "json",
-      ],
-      { cwd: dataDir, encoding: "utf8", maxBuffer: 1 << 28 },
-    );
-  } catch (error) {
-    // `validate` exits 1 on unrelated errors but still prints the JSON report.
-    output = error.stdout;
-    if (!output) {
-      console.error(`${id}: validate failed to run: ${error.message}`);
-      failed = true;
-      continue;
-    }
-  }
-  const report = JSON.parse(output);
-  const gaps = [...report.errors, ...report.warnings].filter(
-    (d) => d.rule_id === "SPEC-076",
-  );
-  if (gaps.length === 0) {
-    console.log(`${id}: every recipe binding resolves`);
-    continue;
-  }
-  failed = true;
-  console.error(`${id}: ${gaps.length} recipe binding gap(s)`);
+function printGaps(label, gaps) {
+  console.error(`${label}: ${gaps.length} recipe binding gap(s)`);
   for (const gap of gaps) {
     console.error(`  ${gap.file} ${gap.message}`);
   }
 }
 
-if (failed) {
-  console.error("\nOne or more platforms drop tokens a recipe binds.");
-  process.exit(1);
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main();
+}
+
+function main() {
+  const reportIndex = process.argv.indexOf("--report");
+  if (reportIndex !== -1) {
+    const gaps = findGaps(
+      JSON.parse(readFileSync(process.argv[reportIndex + 1], "utf8")),
+    );
+    if (gaps.length === 0) {
+      console.log("report: every recipe binding resolves");
+      process.exit(0);
+    }
+    printGaps("report", gaps);
+    process.exit(1);
+  }
+
+  const repoRoot = new URL("../..", import.meta.url).pathname;
+  const platformsDir = join(repoRoot, "platforms");
+  const dataDir = join(repoRoot, "packages", "design-data");
+  const cli = join(repoRoot, "sdk", "target", "debug", "design-data");
+
+  if (!existsSync(cli)) {
+    console.error(
+      `design-data CLI not found at ${cli} — run \`moon run sdk:build\` first.`,
+    );
+    process.exit(1);
+  }
+
+  const ids = readdirSync(platformsDir, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isDirectory() &&
+        existsSync(join(platformsDir, entry.name, "manifest.json")),
+    )
+    .map((entry) => entry.name)
+    .sort();
+
+  let failed = false;
+
+  for (const id of ids) {
+    let output;
+    try {
+      output = execFileSync(
+        cli,
+        [
+          "validate",
+          "./tokens",
+          "--platform",
+          id,
+          "--components-path",
+          "./components",
+          "--relationships-path",
+          "./relationships",
+          "--visuals-path",
+          "./visuals",
+          "--components-report-only",
+          "--exceptions-path",
+          "./naming-exceptions.json",
+          "--format",
+          "json",
+        ],
+        { cwd: dataDir, encoding: "utf8", maxBuffer: 1 << 28 },
+      );
+    } catch (error) {
+      // `validate` exits 1 on unrelated errors but still prints the JSON report.
+      output = error.stdout;
+      if (!output) {
+        console.error(`${id}: validate failed to run: ${error.message}`);
+        failed = true;
+        continue;
+      }
+    }
+    const report = JSON.parse(output);
+    const gaps = findGaps(report);
+    if (gaps.length === 0) {
+      console.log(`${id}: every recipe binding resolves`);
+      continue;
+    }
+    failed = true;
+    printGaps(id, gaps);
+  }
+
+  if (failed) {
+    console.error("\nOne or more platforms drop tokens a recipe binds.");
+    process.exit(1);
+  }
 }
