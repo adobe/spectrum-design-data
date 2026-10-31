@@ -22,8 +22,10 @@ const toolbarStyles = style({
 
 export function PreviewToolbar({
   placement = "overlay",
+  showAdaptiveControls = true,
 }: {
   placement?: "overlay" | "header";
+  showAdaptiveControls?: boolean;
 }) {
   const sets = useAtomValue(modeSetsAtom);
   const displayed = useAtomValue(displayedModeIdsAtom);
@@ -36,13 +38,13 @@ export function PreviewToolbar({
     const area = wrapper.current,
       modeMeasure = modes.current,
       adaptiveMeasure = adaptive.current;
-    if (!area || !modeMeasure || !adaptiveMeasure) return;
+    if (!area || !modeMeasure) return;
     const measure = () => {
       const available = area.clientWidth - (placement === "overlay" ? 24 : 0);
       const modeWidth = modeMeasure.getBoundingClientRect().width;
-      const adaptiveWidth = adaptiveMeasure.getBoundingClientRect().width;
+      const adaptiveWidth = adaptiveMeasure?.getBoundingClientRect().width ?? 0;
       const iconWidth =
-        adaptiveMeasure.querySelector("button")?.getBoundingClientRect()
+        adaptiveMeasure?.querySelector("button")?.getBoundingClientRect()
           .height ?? 0;
       const gap = modeWidth && adaptiveWidth ? 16 : 0;
       setLayout(
@@ -54,12 +56,12 @@ export function PreviewToolbar({
       );
     };
     const observer = new ResizeObserver(measure);
-    [area, modeMeasure, adaptiveMeasure].forEach((element) =>
-      observer.observe(element),
-    );
+    [area, modeMeasure, adaptiveMeasure].forEach((element) => {
+      if (element) observer.observe(element);
+    });
     measure();
     return () => observer.disconnect();
-  }, [placement]);
+  }, [placement, showAdaptiveControls]);
   return (
     <div
       ref={wrapper}
@@ -83,7 +85,9 @@ export function PreviewToolbar({
         ) : (
           sets.map((set) => <ModeSetControl key={set.id} modeSet={set} />)
         )}
-        <AdaptiveControlsMenu isIconOnly={layout !== "full"} />
+        {showAdaptiveControls && (
+          <AdaptiveControlsMenu isIconOnly={layout !== "full"} />
+        )}
       </div>
       <div className="previewControlMeasure" aria-hidden inert>
         <div ref={modes} className="previewModeMeasure">
@@ -91,9 +95,11 @@ export function PreviewToolbar({
             <ModeSetControl key={set.id} modeSet={set} />
           ))}
         </div>
-        <div ref={adaptive}>
-          <AdaptiveControlsMenu />
-        </div>
+        {showAdaptiveControls && (
+          <div ref={adaptive}>
+            <AdaptiveControlsMenu />
+          </div>
+        )}
       </div>
     </div>
   );

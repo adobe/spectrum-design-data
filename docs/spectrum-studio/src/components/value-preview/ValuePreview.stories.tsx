@@ -6,6 +6,13 @@ import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import { createValuePreview } from "../../features/tokens/valuePreview";
 import { valuePreviewExamples } from "../../../tests/fixtures/value-preview";
 import { ValuePreview } from "./ValuePreview";
+import { ActionButton, Provider as SpectrumProvider } from "@react-spectrum/s2";
+import { useMemo, useState } from "react";
+import { PreviewSurfaceProvider } from "../PreviewSurfaceProvider";
+import { elementsSurfaceStyle } from "../../features/color-system/previewSurface";
+import { modeSelectionAtom } from "../../features/modes/selection";
+import { previewOverridesAtom } from "../../features/modes/previewState";
+import { renderedOutputLinear } from "../../features/color-system/outputContrast";
 
 const meta = {
   title: "Components/Value preview",
@@ -114,6 +121,9 @@ export const RemLength: Story = {
 function opacityStore(scheme: "light" | "dark") {
   const store = createStore();
   store.set(appColorSchemeAtom, scheme);
+  store.set(modeSelectionAtom, {
+    colorScheme: scheme === "dark" ? "mode-dark" : "mode-light",
+  });
   return store;
 }
 
@@ -123,7 +133,11 @@ export const Opacity: Story = {
     <div style={{ display: "flex", gap: 16 }}>
       {(["light", "dark"] as const).map((scheme) => (
         <Provider key={scheme} store={opacityStore(scheme)}>
-          <ValuePreview {...args} label={`Opacity ${scheme}`} />
+          <SpectrumProvider colorScheme={scheme}>
+            <PreviewSurfaceProvider colorScheme={scheme}>
+              <ValuePreview {...args} label={`Opacity ${scheme}`} />
+            </PreviewSurfaceProvider>
+          </SpectrumProvider>
         </Provider>
       ))}
     </div>
@@ -139,12 +153,73 @@ export const Opacity: Story = {
     await expect(light?.style.backgroundImage).toContain(
       "repeating-conic-gradient",
     );
-    await expect(light?.style.backgroundImage).toMatch(
-      /rgba?\(0,? 0,? 0,? \/? ?0\.4\)/,
-    );
-    await expect(dark?.style.backgroundImage).toMatch(
-      /rgba?\(255,? 255,? 255,? \/? ?0\.4\)/,
+    await expect(getComputedStyle(light!).backgroundImage).not.toBe(
+      getComputedStyle(dark!).backgroundImage,
     );
     canvasElement.dataset.playComplete = "true";
   },
+};
+
+function OpacitySurfaceExamples() {
+  const [scheme, setScheme] = useState<"light" | "dark">("light");
+  const [background, setBackground] = useState("#f0f0f0");
+  const [mode, setMode] = useState<"light" | "dark">("light");
+  const store = useMemo(() => opacityStore(mode), [mode]);
+  return (
+    <SpectrumProvider colorScheme={scheme}>
+      <PreviewSurfaceProvider colorScheme={scheme}>
+        <Provider store={store}>
+          <ActionButton
+            onPress={() => setMode(mode === "light" ? "dark" : "light")}
+          >
+            Toggle authored mode
+          </ActionButton>
+          <ActionButton
+            onPress={() =>
+              store.set(previewOverridesAtom, {
+                "color.backgroundLightness": 0.6,
+              })
+            }
+          >
+            Adjust authored background
+          </ActionButton>
+          <ActionButton
+            onPress={() => setScheme(scheme === "light" ? "dark" : "light")}
+          >
+            Toggle appearance
+          </ActionButton>
+          <ActionButton
+            onPress={() =>
+              setBackground(background === "#f0f0f0" ? "#202020" : "#f0f0f0")
+            }
+          >
+            Toggle local background
+          </ActionButton>
+          <ValuePreview
+            preview={createValuePreview("opacity", 0.4)}
+            label="Theme opacity"
+          />
+          <div
+            style={{
+              backgroundColor: background,
+              ...elementsSurfaceStyle({
+                css: background,
+                linear: renderedOutputLinear(background, background, "srgb"),
+                gamut: "srgb",
+              }),
+            }}
+          >
+            <ValuePreview
+              preview={createValuePreview("opacity", 0.4)}
+              label="Local opacity"
+            />
+          </div>
+        </Provider>
+      </PreviewSurfaceProvider>
+    </SpectrumProvider>
+  );
+}
+
+export const OpacitySurfaces: Story = {
+  render: () => <OpacitySurfaceExamples />,
 };

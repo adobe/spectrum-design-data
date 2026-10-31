@@ -4,26 +4,31 @@ import {
   style,
 } from "@react-spectrum/s2/style" with { type: "macro" };
 import type { CSSProperties } from "react";
+import {
+  previewThemeStyle,
+  usePreviewSurface,
+} from "../../components/previewSurfaceContext";
 
 const rampStyles = style({
   position: "relative",
   flexShrink: 0,
-  width: 64,
-  minHeight: 400,
-  height: "full",
+  width: { default: 64, isNarrow: 32 },
+  minHeight: { default: 400, isNarrow: 0 },
+  height: { default: "full", isNarrow: "auto" },
+  flexGrow: { default: 0, isNarrow: 1 },
   borderRadius: "default",
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: "gray-200",
-  boxShadow: "elevated",
+  boxShadow: { default: "elevated", isNarrow: "none" },
 });
 const rampContainerStyles = style({
-  position: "sticky",
-  top: 12,
+  position: { default: "sticky", isNarrow: "relative" },
+  top: { default: 12, isNarrow: 0 },
   alignSelf: "stretch",
   display: "flex",
   flexDirection: "column",
-  minHeight: 400,
+  minHeight: { default: 400, isNarrow: 0 },
 });
 const dotStyles = style({
   position: "absolute",
@@ -47,19 +52,23 @@ export function MarkerRamp({
   background,
   markers,
   focusedId,
+  variant = "default",
 }: {
   label: string;
   background: CSSProperties;
   markers: readonly { id: string; position: number }[];
   focusedId: string | null;
+  variant?: "default" | "narrow";
 }) {
+  const surface = usePreviewSurface();
   return (
-    <div className={rampContainerStyles}>
+    <div className={rampContainerStyles({ isNarrow: variant === "narrow" })}>
       <div
         role="img"
         aria-label={label}
-        className={rampStyles}
-        style={background}
+        className={rampStyles({ isNarrow: variant === "narrow" })}
+        data-ramp-variant={variant}
+        style={{ ...previewThemeStyle(surface), ...background }}
       >
         {markers.map((marker) => (
           <span

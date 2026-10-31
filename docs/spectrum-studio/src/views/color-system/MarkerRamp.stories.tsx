@@ -37,3 +37,17 @@ export const Narrow: Story = {
     ),
   ],
 };
+export const CompactContrast: Story = {
+  args: {
+    label: "Contrast lightness ramp",
+    background: { background: "linear-gradient(to bottom, white, black)" },
+    variant: "narrow",
+  },
+  decorators: [
+    (Story) => (
+      <div className={style({ display: "flex", height: 320 })}>
+        <Story />
+      </div>
+    ),
+  ],
+};

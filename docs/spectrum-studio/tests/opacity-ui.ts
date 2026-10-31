@@ -102,11 +102,22 @@ assert.equal(
 );
 
 const transparent = transparencyBackground("black", 0);
+for (const alpha of [0, 0.5, 1]) {
+  for (const ink of ["black", "white"] as const) {
+    const channels = ink === "black" ? "0 0 0" : "255 255 255";
+    assert.ok(
+      String(transparencyBackground(ink, alpha).backgroundImage).includes(
+        `rgb(${channels} / ${alpha})`,
+      ),
+      "The overlay retains the original ink and exact alpha.",
+    );
+  }
+}
 assert.equal(transparent.backgroundSize, "100% 100%, 16px 16px");
 assert.match(String(transparent.backgroundImage), /rgb\(0 0 0 \/ 0\)/);
 assert.match(
   String(transparent.backgroundImage),
-  /repeating-conic-gradient\(#E1E1E1 0% 25%, #fff 0% 50%\)/,
+  /repeating-conic-gradient\(var\(--checkerboard-alternate, var\(--checkerboard-theme-alternate\)\) 0% 25%, var\(--checkerboard-base, var\(--checkerboard-theme-base\)\) 0% 50%\)/,
 );
 assert.match(
   String(transparencyBackground("white", 1).backgroundImage),
