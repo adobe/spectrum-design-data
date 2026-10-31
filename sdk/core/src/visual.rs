@@ -42,7 +42,16 @@ pub struct RenderRequest {
 
 /// The label scenes and compiled recipes use for a token record.
 pub fn token_label(rec: &crate::graph::TokenRecord) -> String {
-    Ctx::token_label(rec)
+    let Some(name) = rec.raw.get("name").and_then(Value::as_object) else {
+        return rec.name.clone();
+    };
+    if let Some(k) = name.get("legacyKey").and_then(Value::as_str) {
+        return k.to_string();
+    }
+    name.values()
+        .filter_map(value_to_string)
+        .collect::<Vec<_>>()
+        .join("-")
 }
 
 /// A token a resolved value came from, kept for overlays and debugging.
@@ -126,10 +135,10 @@ type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>, Vec<String>)
 /// A relationship's `$ref` with the component options and states it pins.
 type PinnedRef = (String, Option<Value>, Vec<String>);
 
-/// Memoized token lookups shared across renders of one graph. A token selector's
-/// candidates do not depend on the request, so a matrix of renders can reuse them.
+/// Memoized graph lookups used while compiling variants. A token selector's candidates do
+/// not depend on the request, so variants of one recipe can reuse them.
 #[derive(Default)]
-pub struct SceneCache {
+struct Lookup {
     /// Selector (templates expanded) → keys into `TokenGraph::tokens`.
     tokens: std::cell::RefCell<HashMap<String, Vec<String>>>,
     /// Component, property, context → the `$ref` of each matching relationship and the
@@ -139,7 +148,7 @@ pub struct SceneCache {
     scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
 }
 
-impl SceneCache {
+impl Lookup {
     fn scoped(
         &self,
         graph: &TokenGraph,
@@ -153,14 +162,40 @@ impl SceneCache {
     }
 }
 
-struct Ctx<'a> {
+/// One recipe resolved against the token graph for one component, size and mode: every
+/// token and relationship binding is replaced by its ranked `candidates` (see
+/// [`compile_recipe`]). [`solve`] lays it out for any request of that size and mode without
+/// touching the graph.
+#[derive(Debug, Clone)]
+pub struct CompiledVariant {
+    root: String,
+    option_defaults: HashMap<String, Value>,
+    parts: serde_json::Map<String, Value>,
+}
+
+/// Compiled variants shared across renders of one graph, so a matrix of requests compiles
+/// each recipe, size and mode once. Use one cache per graph; results are identical to
+/// compiling every time.
+#[derive(Default)]
+pub struct SceneCache {
+    variants: std::cell::RefCell<HashMap<String, std::rc::Rc<CompiledVariant>>>,
+    lookup: Lookup,
+}
+
+/// Compile-time context: resolves selectors against the graph for one component, size and mode.
+struct CompileCx<'a> {
     graph: &'a TokenGraph,
-    cache: &'a SceneCache,
+    lookup: &'a Lookup,
     req: &'a RenderRequest,
     size_index: String,
-    option_defaults: HashMap<String, Value>,
     /// Component-scoped values that live in relationship files (see `scoped_values`).
     scoped: &'a [crate::graph::TokenRecord],
+}
+
+/// Solve-time context: picks among compiled candidates for one request.
+struct Ctx<'a> {
+    req: &'a RenderRequest,
+    option_defaults: &'a HashMap<String, Value>,
     diags: Vec<String>,
 }
 
@@ -228,12 +263,291 @@ fn value_to_string(v: &Value) -> Option<String> {
     }
 }
 
-impl<'a> Ctx<'a> {
+impl<'a> CompileCx<'a> {
     fn template(&self, s: &str) -> String {
         s.replace("{sizeIndex}", &self.size_index)
             .replace("{size}", &self.req.size)
     }
 
+    fn mode_ctx(&self) -> HashMap<String, String> {
+        self.req.mode.clone()
+    }
+
+    fn matches_selector(&self, name: &Value, sel: &serde_json::Map<String, Value>) -> bool {
+        sel.iter().all(|(k, want)| {
+            let want = match want {
+                Value::String(s) => Value::String(self.template(s)),
+                o => o.clone(),
+            };
+            match name.get(k) {
+                Some(Value::Array(a)) => a.contains(&want),
+                Some(have) => *have == want,
+                None => false,
+            }
+        })
+    }
+
+    /// Mode-compatible candidates, best fit first, each kept with its extra data. Candidates
+    /// that contradict the mode context are dropped; ties prefer the fewest extra name fields.
+    fn rank_by<'g, X>(
+        &self,
+        cands: Vec<(&'g crate::graph::TokenRecord, X)>,
+    ) -> Vec<(&'g crate::graph::TokenRecord, X)> {
+        let mut mctx = self.mode_ctx();
+        mctx.insert("size".into(), self.req.size.clone());
+        let mut fit: Vec<_> = cands
+            .into_iter()
+            .filter(|(t, _)| {
+                mctx.iter().all(|(k, v)| {
+                    match t
+                        .raw
+                        .get("name")
+                        .and_then(|n| n.get(k))
+                        .and_then(Value::as_str)
+                    {
+                        Some(have) => have == v,
+                        None => true,
+                    }
+                })
+            })
+            .collect();
+        fit.sort_by(|(a, _), (b, _)| {
+            let sa = name_ctx_score(&a.raw, &mctx);
+            let sb = name_ctx_score(&b.raw, &mctx);
+            let ea = a
+                .raw
+                .get("name")
+                .and_then(Value::as_object)
+                .map_or(0, |o| o.len());
+            let eb = b
+                .raw
+                .get("name")
+                .and_then(Value::as_object)
+                .map_or(0, |o| o.len());
+            sb.cmp(&sa).then(ea.cmp(&eb)).then(a.name.cmp(&b.name))
+        });
+        fit
+    }
+
+    fn terminal(&self, rec: &crate::graph::TokenRecord) -> Option<String> {
+        let mctx = self.mode_ctx();
+        let mut cur = rec;
+        for _ in 0..16 {
+            match &cur.alias_target {
+                Some(t) => cur = self.graph.resolve_alias_in_context(t, &mctx)?,
+                None => break,
+            }
+        }
+        cur.raw.get("value").and_then(value_to_string)
+    }
+
+    fn alias_chain(&self, rec: &crate::graph::TokenRecord) -> Vec<String> {
+        let mctx = self.mode_ctx();
+        let mut cur = rec;
+        let mut out = Vec::new();
+        for _ in 0..16 {
+            let Some(t) = &cur.alias_target else { break };
+            let Some(next) = self.graph.resolve_alias_in_context(t, &mctx) else {
+                break;
+            };
+            out.push(token_label(next));
+            cur = next;
+        }
+        out
+    }
+
+    /// Tokens matching a selector, plus the selector with its `property` templated.
+    fn token_cands(
+        &self,
+        sel: &Value,
+    ) -> Option<(
+        Vec<&'a crate::graph::TokenRecord>,
+        serde_json::Map<String, Value>,
+    )> {
+        let mut sel_obj = sel.as_object()?.clone();
+        if let Some(Value::String(p)) = sel_obj.get("property") {
+            let p = self.template(p);
+            sel_obj.insert("property".into(), Value::String(p));
+        }
+        let graph = self.graph;
+        // The key holds the selector with every template expanded: its candidates depend on
+        // the request size, but the selector reported in diagnostics keeps its templates.
+        let mut keyed = sel_obj.clone();
+        for v in keyed.values_mut() {
+            if let Value::String(t) = v {
+                *t = self.template(t);
+            }
+        }
+        let key = Value::Object(keyed).to_string();
+        if let Some(keys) = self.lookup.tokens.borrow().get(&key) {
+            let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
+            return Some((cands, sel_obj));
+        }
+        let find = |sel: &serde_json::Map<String, Value>| -> Vec<String> {
+            graph
+                .tokens
+                .iter()
+                .filter(|(_, t)| {
+                    t.raw
+                        .get("name")
+                        .is_some_and(|n| self.matches_selector(n, sel))
+                })
+                .map(|(k, _)| k.clone())
+                .collect()
+        };
+        let mut keys = find(&sel_obj);
+        // A bare `font-size-{n}` style property may also be encoded as property + scaleIndex.
+        if keys.is_empty() {
+            if let Some(Value::String(p)) = sel_obj.get("property") {
+                if let Some((base, idx)) = p.rsplit_once('-') {
+                    if let Ok(i) = idx.parse::<u64>() {
+                        let mut alt = sel_obj.clone();
+                        alt.insert("property".into(), Value::String(base.into()));
+                        alt.insert("scaleIndex".into(), Value::from(i));
+                        keys = find(&alt);
+                    }
+                }
+            }
+        }
+        let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
+        self.lookup.tokens.borrow_mut().insert(key, keys);
+        Some((cands, sel_obj))
+    }
+
+    /// Tokens bound to this component by a relationship, each with the component options its
+    /// relationship pins, plus the templated property and trimmed context.
+    fn relationship_cands(&self, rel: &Value) -> Option<(Vec<Candidate<'a>>, String, String)> {
+        let property = self.template(rel.get("property")?.as_str()?);
+        let context = rel.get("context")?.as_str()?.trim().to_string();
+        let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
+        let cached = self.lookup.relationships.borrow().get(&key).cloned();
+        let refs = cached.unwrap_or_else(|| {
+            let declared: Vec<&str> = self
+                .graph
+                .components
+                .iter()
+                .find(|c| c.name == self.req.component)
+                .and_then(|c| c.raw.get("options"))
+                .and_then(Value::as_object)
+                .map(|o| o.keys().map(String::as_str).collect())
+                .unwrap_or_default();
+            let mut refs = Vec::new();
+            for r in &self.graph.relationships {
+                let scope = r.raw.get("scope");
+                let comp = scope
+                    .and_then(|s| s.get("component"))
+                    .and_then(Value::as_str);
+                let p = scope
+                    .and_then(|s| s.get("property"))
+                    .and_then(Value::as_str);
+                let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
+                if comp == Some(&self.req.component)
+                    && p == Some(property.as_str())
+                    && c == Some(context.as_str())
+                {
+                    if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
+                        refs.push((
+                            rf.to_string(),
+                            pinned_options(scope, &declared),
+                            scope_state_ids(scope),
+                        ));
+                    }
+                }
+            }
+            self.lookup
+                .relationships
+                .borrow_mut()
+                .insert(key, refs.clone());
+            refs
+        });
+        let mut cands = Vec::new();
+        for (rf, options, states) in &refs {
+            if let Some(t) = self.graph.resolve_alias_key(rf) {
+                cands.push((t, options.clone(), states.clone()));
+            } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
+                cands.push((t, options.clone(), states.clone()));
+            }
+        }
+        Some((cands, property, context))
+    }
+
+    /// Replace a binding's `token`/`relationship` selector with its ranked `candidates`.
+    fn compile_source(&self, prop: &str, entry: &mut Value) {
+        let Some(obj) = entry.as_object_mut() else {
+            return;
+        };
+        let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
+            self.token_cands(sel).map(|(c, sel_obj)| {
+                (
+                    c.into_iter().map(|t| (t, None, Vec::new())).collect(),
+                    format!("{prop}: no token matches {}", Value::Object(sel_obj)),
+                )
+            })
+        } else if let Some(rel) = obj.get("relationship") {
+            self.relationship_cands(rel)
+                .map(|(c, p, ctx)| (c, format!("{prop}: no relationship '{p}' / '{ctx}'")))
+        } else {
+            return;
+        };
+        obj.remove("token");
+        obj.remove("relationship");
+        let (cands, miss) = cands.unwrap_or_default();
+        let list: Vec<Value> = self
+            .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
+            .into_iter()
+            .map(|(t, (options, extra))| {
+                let states = if extra.is_empty() {
+                    token_states(t)
+                } else {
+                    extra
+                };
+                let mut c = serde_json::json!({
+                    "value": self.terminal(t),
+                    "token": token_label(t),
+                    "chain": self.alias_chain(t),
+                    "states": states,
+                });
+                if let Some(o) = options {
+                    c["options"] = o;
+                }
+                c
+            })
+            .collect();
+        obj.insert("candidates".into(), Value::Array(list));
+        obj.insert("miss".into(), Value::String(miss));
+    }
+
+    /// Compile every binding of every part (`props` and a placement `inset`).
+    fn compile_parts(
+        &self,
+        parts: &serde_json::Map<String, Value>,
+    ) -> serde_json::Map<String, Value> {
+        let mut out_parts = parts.clone();
+        for part in out_parts.values_mut() {
+            if let Some(inset) = part.get_mut("placement").and_then(|p| p.get_mut("inset")) {
+                match inset {
+                    Value::Array(entries) => entries
+                        .iter_mut()
+                        .for_each(|e| self.compile_source("inset", e)),
+                    other => self.compile_source("inset", other),
+                }
+            }
+            if let Some(props) = part.get_mut("props").and_then(Value::as_object_mut) {
+                for (name, source) in props.iter_mut() {
+                    match source {
+                        Value::Array(entries) => entries
+                            .iter_mut()
+                            .for_each(|e| self.compile_source(name, e)),
+                        other => self.compile_source(name, other),
+                    }
+                }
+            }
+        }
+        out_parts
+    }
+}
+
+impl Ctx<'_> {
     /// An unset `label` option follows the request label: empty means icon-only.
     fn option(&self, name: &str) -> Value {
         // The request's size is the `size` option, so conditions can switch on it.
@@ -295,7 +609,21 @@ impl<'a> Ctx<'a> {
         self.when_score(part.get("visibleWhen")).is_some()
     }
 
-    fn eval(&mut self, prop: &str, source: Option<&Value>) -> Option<Resolved> {
+    /// Interaction states plus option-derived ones, with `default` when idle.
+    fn active_states(&self) -> Vec<String> {
+        let mut active = self.req.states.clone();
+        for (opt, state) in OPTION_STATES {
+            if self.option(opt) == Value::Bool(true) {
+                active.push((*state).into());
+            }
+        }
+        if self.req.states.is_empty() {
+            active.push("default".into());
+        }
+        active
+    }
+
+    fn eval(&mut self, source: Option<&Value>) -> Option<Resolved> {
         let source = source?;
         let chosen = match source {
             Value::Array(entries) => {
@@ -327,333 +655,74 @@ impl<'a> Ctx<'a> {
                 chain: Vec::new(),
             });
         }
-        let mut out = if let Some(sel) = chosen.get("token") {
-            self.resolve_token(prop, sel)
-        } else if let Some(rel) = chosen.get("relationship") {
-            self.resolve_relationship(prop, rel)
-        } else {
-            None
-        };
+        let mut out = self.resolve_candidates(chosen);
         if let Some(r) = out.as_mut() {
             r.relative_to = relative_to;
         }
         out
     }
 
-    fn mode_ctx(&self) -> HashMap<String, String> {
-        self.req.mode.clone()
-    }
-
-    fn matches_selector(&self, name: &Value, sel: &serde_json::Map<String, Value>) -> bool {
-        sel.iter().all(|(k, want)| {
-            let want = match want {
-                Value::String(s) => Value::String(self.template(s)),
-                o => o.clone(),
-            };
-            match name.get(k) {
-                Some(Value::Array(a)) => a.contains(&want),
-                Some(have) => *have == want,
-                None => false,
-            }
-        })
-    }
-
-    /// Interaction states plus option-derived ones, with `default` when idle.
-    fn active_states(&self) -> Vec<String> {
-        let mut active = self.req.states.clone();
-        for (opt, state) in OPTION_STATES {
-            if self.option(opt) == Value::Bool(true) {
-                active.push((*state).into());
-            }
-        }
-        if self.req.states.is_empty() {
-            active.push("default".into());
-        }
-        active
-    }
-
-    /// Mode-compatible candidates, best fit first, each kept with its extra data. Candidates
-    /// that contradict the mode context are dropped; ties prefer the fewest extra name fields.
-    fn rank_by<'g, X>(
-        &self,
-        cands: Vec<(&'g crate::graph::TokenRecord, X)>,
-    ) -> Vec<(&'g crate::graph::TokenRecord, X)> {
-        let mut mctx = self.mode_ctx();
-        mctx.insert("size".into(), self.req.size.clone());
-        let mut fit: Vec<_> = cands
-            .into_iter()
-            .filter(|(t, _)| {
-                mctx.iter().all(|(k, v)| {
-                    match t
-                        .raw
-                        .get("name")
-                        .and_then(|n| n.get(k))
-                        .and_then(Value::as_str)
-                    {
-                        Some(have) => have == v,
-                        None => true,
-                    }
-                })
+    /// Choose among a binding's compiled candidates: keep the ones whose pinned options match
+    /// the request (the most pinned options win; a candidate pinning none is the default),
+    /// then prefer one whose states agree with the request. The state preference only
+    /// narrows: if none agree, the best-ranked wins.
+    fn resolve_candidates(&mut self, entry: &Value) -> Option<Resolved> {
+        let cands = entry.get("candidates")?.as_array()?;
+        let scored: Vec<(usize, &Value)> = cands
+            .iter()
+            .filter_map(|c| {
+                let when = c
+                    .get("options")
+                    .map(|o| serde_json::json!({ "options": o }));
+                self.when_score(when.as_ref()).map(|s| (s, c))
             })
             .collect();
-        fit.sort_by(|(a, _), (b, _)| {
-            let sa = name_ctx_score(&a.raw, &mctx);
-            let sb = name_ctx_score(&b.raw, &mctx);
-            let ea = a
-                .raw
-                .get("name")
-                .and_then(Value::as_object)
-                .map_or(0, |o| o.len());
-            let eb = b
-                .raw
-                .get("name")
-                .and_then(Value::as_object)
-                .map_or(0, |o| o.len());
-            sb.cmp(&sa).then(ea.cmp(&eb)).then(a.name.cmp(&b.name))
-        });
-        fit
-    }
-
-    /// Pick the best-ranked candidate, preferring ones whose `state` agrees with the
-    /// request. The preference only narrows: if none agree, the best-ranked wins.
-    fn pick<'g>(
-        &self,
-        cands: Vec<&'g crate::graph::TokenRecord>,
-    ) -> Option<&'g crate::graph::TokenRecord> {
-        self.pick_with_states(cands.into_iter().map(|t| (t, Vec::new())).collect())
-    }
-
-    /// [`Self::pick`] for candidates that carry states of their own (a relationship's
-    /// `scope.options.state`), which replace the token's `name.state`.
-    fn pick_with_states<'g>(
-        &self,
-        cands: Vec<(&'g crate::graph::TokenRecord, Vec<String>)>,
-    ) -> Option<&'g crate::graph::TokenRecord> {
-        let fit = self.rank_by(cands);
+        let best = scored.iter().map(|(s, _)| *s).max().unwrap_or(0);
         let active = self.active_states();
-        fit.iter()
-            .find(|(t, extra)| {
-                let st = if extra.is_empty() {
-                    token_states(t)
-                } else {
-                    extra.clone()
-                };
-                !st.is_empty() && st.iter().all(|x| active.contains(x))
-            })
-            .or_else(|| fit.first())
-            .map(|(t, _)| *t)
-    }
-
-    fn terminal(&self, rec: &crate::graph::TokenRecord) -> Option<String> {
-        let mctx = self.mode_ctx();
-        let mut cur = rec;
-        for _ in 0..16 {
-            match &cur.alias_target {
-                Some(t) => cur = self.graph.resolve_alias_in_context(t, &mctx)?,
-                None => break,
-            }
-        }
-        cur.raw.get("value").and_then(value_to_string)
-    }
-
-    fn alias_chain(&self, rec: &crate::graph::TokenRecord) -> Vec<String> {
-        let mctx = self.mode_ctx();
-        let mut cur = rec;
-        let mut out = Vec::new();
-        for _ in 0..16 {
-            let Some(t) = &cur.alias_target else { break };
-            let Some(next) = self.graph.resolve_alias_in_context(t, &mctx) else {
-                break;
-            };
-            out.push(Self::token_label(next));
-            cur = next;
-        }
-        out
-    }
-
-    fn token_label(rec: &crate::graph::TokenRecord) -> String {
-        let Some(name) = rec.raw.get("name").and_then(Value::as_object) else {
-            return rec.name.clone();
-        };
-        if let Some(k) = name.get("legacyKey").and_then(Value::as_str) {
-            return k.to_string();
-        }
-        name.values()
-            .filter_map(value_to_string)
-            .collect::<Vec<_>>()
-            .join("-")
-    }
-
-    /// Tokens matching a selector, plus the selector with its `property` templated.
-    fn token_cands(
-        &self,
-        sel: &Value,
-    ) -> Option<(
-        Vec<&'a crate::graph::TokenRecord>,
-        serde_json::Map<String, Value>,
-    )> {
-        let mut sel_obj = sel.as_object()?.clone();
-        if let Some(Value::String(p)) = sel_obj.get("property") {
-            let p = self.template(p);
-            sel_obj.insert("property".into(), Value::String(p));
-        }
-        let graph = self.graph;
-        // The key holds the selector with every template expanded: its candidates depend on
-        // the request size, but the selector reported in diagnostics keeps its templates.
-        let mut keyed = sel_obj.clone();
-        for v in keyed.values_mut() {
-            if let Value::String(t) = v {
-                *t = self.template(t);
-            }
-        }
-        let key = Value::Object(keyed).to_string();
-        if let Some(keys) = self.cache.tokens.borrow().get(&key) {
-            let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
-            return Some((cands, sel_obj));
-        }
-        let find = |sel: &serde_json::Map<String, Value>| -> Vec<String> {
-            graph
-                .tokens
-                .iter()
-                .filter(|(_, t)| {
-                    t.raw
-                        .get("name")
-                        .is_some_and(|n| self.matches_selector(n, sel))
-                })
-                .map(|(k, _)| k.clone())
-                .collect()
-        };
-        let mut keys = find(&sel_obj);
-        // A bare `font-size-{n}` style property may also be encoded as property + scaleIndex.
-        if keys.is_empty() {
-            if let Some(Value::String(p)) = sel_obj.get("property") {
-                if let Some((base, idx)) = p.rsplit_once('-') {
-                    if let Ok(i) = idx.parse::<u64>() {
-                        let mut alt = sel_obj.clone();
-                        alt.insert("property".into(), Value::String(base.into()));
-                        alt.insert("scaleIndex".into(), Value::from(i));
-                        keys = find(&alt);
-                    }
-                }
-            }
-        }
-        let cands = keys.iter().filter_map(|k| graph.tokens.get(k)).collect();
-        self.cache.tokens.borrow_mut().insert(key, keys);
-        Some((cands, sel_obj))
-    }
-
-    /// Tokens bound to this component by a relationship, each with the component options its
-    /// relationship pins, plus the templated property and trimmed context.
-    fn relationship_cands(&self, rel: &Value) -> Option<(Vec<Candidate<'a>>, String, String)> {
-        let property = self.template(rel.get("property")?.as_str()?);
-        let context = rel.get("context")?.as_str()?.trim().to_string();
-        let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
-        let cached = self.cache.relationships.borrow().get(&key).cloned();
-        let refs = cached.unwrap_or_else(|| {
-            let declared: Vec<&str> = self
-                .graph
-                .components
-                .iter()
-                .find(|c| c.name == self.req.component)
-                .and_then(|c| c.raw.get("options"))
-                .and_then(Value::as_object)
-                .map(|o| o.keys().map(String::as_str).collect())
-                .unwrap_or_default();
-            let mut refs = Vec::new();
-            for r in &self.graph.relationships {
-                let scope = r.raw.get("scope");
-                let comp = scope
-                    .and_then(|s| s.get("component"))
-                    .and_then(Value::as_str);
-                let p = scope
-                    .and_then(|s| s.get("property"))
-                    .and_then(Value::as_str);
-                let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
-                if comp == Some(&self.req.component)
-                    && p == Some(property.as_str())
-                    && c == Some(context.as_str())
-                {
-                    if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                        refs.push((
-                            rf.to_string(),
-                            pinned_options(scope, &declared),
-                            scope_state_ids(scope),
-                        ));
-                    }
-                }
-            }
-            self.cache
-                .relationships
-                .borrow_mut()
-                .insert(key, refs.clone());
-            refs
-        });
-        let mut cands = Vec::new();
-        for (rf, options, states) in &refs {
-            if let Some(t) = self.graph.resolve_alias_key(rf) {
-                cands.push((t, options.clone(), states.clone()));
-            } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
-                cands.push((t, options.clone(), states.clone()));
-            }
-        }
-        Some((cands, property, context))
-    }
-
-    /// Keep the relationships whose pinned options match the request, preferring the ones
-    /// that pin the most options. A relationship with no pinned options is the default:
-    /// it is used only when no more specific one matches.
-    fn select_by_options<'g>(
-        &self,
-        cands: Vec<Candidate<'g>>,
-    ) -> Vec<(&'g crate::graph::TokenRecord, Vec<String>)> {
-        let scored: Vec<(usize, &crate::graph::TokenRecord, Vec<String>)> = cands
+        let fit: Vec<&Value> = scored
             .into_iter()
-            .filter_map(|(t, opts, states)| {
-                let when = opts.map(|o| serde_json::json!({ "options": o }));
-                self.when_score(when.as_ref()).map(|s| (s, t, states))
-            })
+            .filter(|(s, _)| *s == best)
+            .map(|(_, c)| c)
             .collect();
-        let best = scored.iter().map(|(s, ..)| *s).max().unwrap_or(0);
-        scored
-            .into_iter()
-            .filter(|(s, ..)| *s == best)
-            .map(|(_, t, states)| (t, states))
-            .collect()
-    }
-
-    fn resolve_token(&mut self, prop: &str, sel: &Value) -> Option<Resolved> {
-        let (cands, sel_obj) = self.token_cands(sel)?;
-        let Some(rec) = self.pick(cands) else {
-            self.diags.push(format!(
-                "{prop}: no token matches {}",
-                Value::Object(sel_obj)
-            ));
+        let chosen = fit
+            .iter()
+            .find(|c| {
+                let st = c.get("states").and_then(Value::as_array);
+                st.is_some_and(|st| {
+                    !st.is_empty()
+                        && st
+                            .iter()
+                            .all(|x| x.as_str().is_some_and(|x| active.iter().any(|a| a == x)))
+                })
+            })
+            .or_else(|| fit.first());
+        let Some(chosen) = chosen else {
+            if let Some(miss) = entry
+                .get("miss")
+                .and_then(Value::as_str)
+                .filter(|m| !m.is_empty())
+            {
+                self.diags.push(miss.to_string());
+            }
             return None;
         };
-        let value = self.terminal(rec)?;
         Some(Resolved {
-            value,
-            token: Self::token_label(rec),
+            value: chosen.get("value").and_then(value_to_string)?,
+            token: chosen
+                .get("token")
+                .and_then(Value::as_str)
+                .unwrap_or_default()
+                .to_string(),
             relative_to: None,
-            chain: self.alias_chain(rec),
-        })
-    }
-
-    fn resolve_relationship(&mut self, prop: &str, rel: &Value) -> Option<Resolved> {
-        let (cands, property, context) = self.relationship_cands(rel)?;
-        let cands = self.select_by_options(cands);
-        let Some(rec) = self.pick_with_states(cands) else {
-            self.diags.push(format!(
-                "{prop}: no relationship '{property}' / '{context}'"
-            ));
-            return None;
-        };
-        let value = self.terminal(rec)?;
-        Some(Resolved {
-            value,
-            token: Self::token_label(rec),
-            relative_to: None,
-            chain: self.alias_chain(rec),
+            chain: chosen
+                .get("chain")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|v| v.as_str().map(String::from))
+                        .collect()
+                })
+                .unwrap_or_default(),
         })
     }
 }
@@ -836,6 +905,22 @@ pub fn recipe_options_in(
     (used, structural)
 }
 
+/// A component's option defaults, from its component schema.
+fn component_option_defaults(graph: &TokenGraph, component: &str) -> HashMap<String, Value> {
+    graph
+        .components
+        .iter()
+        .find(|c| c.name == component)
+        .and_then(|c| c.raw.get("options"))
+        .and_then(Value::as_object)
+        .map(|o| {
+            o.iter()
+                .filter_map(|(k, v)| v.get("default").map(|d| (k.clone(), d.clone())))
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
 /// Pre-resolve every token and relationship binding in a recipe so a renderer needs
 /// no token graph. Each binding becomes a `candidates` list (`{value, token, states}`,
 /// best mode fit first) per `size|colorScheme|scale`; the renderer only applies the
@@ -854,21 +939,10 @@ pub fn compile_recipe(
         .get("parts")
         .and_then(Value::as_object)
         .ok_or("recipe has no parts")?;
-    let option_defaults: serde_json::Map<String, Value> = graph
-        .components
-        .iter()
-        .find(|c| c.name == component)
-        .and_then(|c| c.raw.get("options"))
-        .and_then(Value::as_object)
-        .map(|o| {
-            o.iter()
-                .filter_map(|(k, v)| v.get("default").map(|d| (k.clone(), d.clone())))
-                .collect()
-        })
-        .unwrap_or_default();
+    let option_defaults = component_option_defaults(graph, component);
 
-    let scoped = scoped_values(graph, component);
-    let cache = SceneCache::default();
+    let lookup = Lookup::default();
+    let scoped = lookup.scoped(graph, component);
     let mut variants = serde_json::Map::new();
     for (size, idx) in scale {
         for mode in modes {
@@ -878,42 +952,19 @@ pub fn compile_recipe(
                 mode: mode.clone(),
                 ..Default::default()
             };
-            let cx = Ctx {
+            let cx = CompileCx {
                 graph,
-                cache: &cache,
+                lookup: &lookup,
                 req: &req,
                 size_index: value_to_string(idx).unwrap_or_default(),
-                option_defaults: HashMap::new(),
                 scoped: &scoped,
-                diags: Vec::new(),
             };
-            let mut out_parts = parts.clone();
-            for part in out_parts.values_mut() {
-                if let Some(inset) = part.get_mut("placement").and_then(|p| p.get_mut("inset")) {
-                    match inset {
-                        Value::Array(entries) => entries
-                            .iter_mut()
-                            .for_each(|e| compile_source(&cx, "inset", e)),
-                        other => compile_source(&cx, "inset", other),
-                    }
-                }
-                if let Some(props) = part.get_mut("props").and_then(Value::as_object_mut) {
-                    for (name, source) in props.iter_mut() {
-                        match source {
-                            Value::Array(entries) => entries
-                                .iter_mut()
-                                .for_each(|e| compile_source(&cx, name, e)),
-                            other => compile_source(&cx, name, other),
-                        }
-                    }
-                }
-            }
             let key = format!(
                 "{size}|{}|{}",
                 mode.get("colorScheme").map_or("", String::as_str),
                 mode.get("scale").map_or("", String::as_str)
             );
-            variants.insert(key, Value::Object(out_parts));
+            variants.insert(key, Value::Object(cx.compile_parts(parts)));
         }
     }
     Ok(serde_json::json!({
@@ -925,52 +976,75 @@ pub fn compile_recipe(
     }))
 }
 
-fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
-    let Some(obj) = entry.as_object_mut() else {
-        return;
+/// Compile a recipe for the component, size and mode of `req` (the only parts of the
+/// request that need the token graph). `lookup` memoizes graph scans across variants.
+fn compile_variant(
+    graph: &TokenGraph,
+    recipe: &Value,
+    req: &RenderRequest,
+    lookup: &Lookup,
+) -> Result<CompiledVariant, String> {
+    let size_index = recipe
+        .get("sizeScale")
+        .and_then(|s| s.get(&req.size))
+        .and_then(value_to_string)
+        .ok_or_else(|| format!("recipe has no sizeScale entry for size '{}'", req.size))?;
+    let parts = recipe
+        .get("parts")
+        .and_then(Value::as_object)
+        .ok_or("recipe has no parts")?;
+    let root = recipe
+        .get("root")
+        .and_then(Value::as_str)
+        .ok_or("recipe has no root")?;
+    if !parts.contains_key(root) {
+        return Err("root part not found".into());
+    }
+    let scoped = lookup.scoped(graph, &req.component);
+    let cx = CompileCx {
+        graph,
+        lookup,
+        req,
+        size_index,
+        scoped: &scoped,
     };
-    let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
-        cx.token_cands(sel).map(|(c, sel_obj)| {
-            (
-                c.into_iter().map(|t| (t, None, Vec::new())).collect(),
-                format!("{prop}: no token matches {}", Value::Object(sel_obj)),
-            )
-        })
-    } else if let Some(rel) = obj.get("relationship") {
-        cx.relationship_cands(rel)
-            .map(|(c, p, ctx)| (c, format!("{prop}: no relationship '{p}' / '{ctx}'")))
-    } else {
-        return;
-    };
-    obj.remove("token");
-    obj.remove("relationship");
-    let (cands, miss) = cands.unwrap_or_default();
-    let list: Vec<Value> = cx
-        .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
-        .into_iter()
-        .map(|(t, (options, extra))| {
-            let states = if extra.is_empty() {
-                token_states(t)
-            } else {
-                extra
-            };
-            let mut c = serde_json::json!({
-                "value": cx.terminal(t),
-                "token": Ctx::token_label(t),
-                "chain": cx.alias_chain(t),
-                "states": states,
-            });
-            if let Some(o) = options {
-                c["options"] = o;
-            }
-            c
-        })
-        .collect();
-    obj.insert("candidates".into(), Value::Array(list));
-    obj.insert("miss".into(), Value::String(miss));
+    Ok(CompiledVariant {
+        root: root.into(),
+        option_defaults: component_option_defaults(graph, &req.component),
+        parts: cx.compile_parts(parts),
+    })
 }
 
-/// Resolve a recipe against the graph for one request and lay it out.
+impl SceneCache {
+    /// The compiled variant for `req`'s component, size and mode, compiling it on first use.
+    fn variant(
+        &self,
+        graph: &TokenGraph,
+        recipe: &Value,
+        req: &RenderRequest,
+    ) -> Result<std::rc::Rc<CompiledVariant>, String> {
+        use std::hash::{Hash, Hasher};
+        let mut modes: Vec<_> = req.mode.iter().collect();
+        modes.sort();
+        let mut hasher = std::collections::hash_map::DefaultHasher::new();
+        recipe.to_string().hash(&mut hasher);
+        let key = format!(
+            "{}\u{1f}{}\u{1f}{modes:?}\u{1f}{:016x}",
+            req.component,
+            req.size,
+            hasher.finish()
+        );
+        if let Some(v) = self.variants.borrow().get(&key) {
+            return Ok(v.clone());
+        }
+        let v = std::rc::Rc::new(compile_variant(graph, recipe, req, &self.lookup)?);
+        self.variants.borrow_mut().insert(key, v.clone());
+        Ok(v)
+    }
+}
+
+/// Resolve a recipe against the graph for one request and lay it out:
+/// [`compile_variant`] then [`solve`].
 pub fn build_scene(
     graph: &TokenGraph,
     recipe: &Value,
@@ -979,53 +1053,31 @@ pub fn build_scene(
     build_scene_cached(graph, recipe, req, &SceneCache::default())
 }
 
-/// Like [`build_scene`], reusing token lookups from `cache`. Use one cache per graph when
-/// rendering many requests (a matrix); results are identical.
+/// Like [`build_scene`], reusing compiled variants from `cache`. Use one cache per graph
+/// when rendering many requests (a matrix); results are identical.
 pub fn build_scene_cached(
     graph: &TokenGraph,
     recipe: &Value,
     req: &RenderRequest,
     cache: &SceneCache,
 ) -> Result<Scene, String> {
-    let size_index = recipe
-        .get("sizeScale")
-        .and_then(|s| s.get(&req.size))
-        .and_then(value_to_string)
-        .ok_or_else(|| format!("recipe has no sizeScale entry for size '{}'", req.size))?;
-    let option_defaults = graph
-        .components
-        .iter()
-        .find(|c| c.name == req.component)
-        .and_then(|c| c.raw.get("options"))
-        .and_then(Value::as_object)
-        .map(|o| {
-            o.iter()
-                .filter_map(|(k, v)| v.get("default").map(|d| (k.clone(), d.clone())))
-                .collect()
-        })
-        .unwrap_or_default();
-    let scoped = cache.scoped(graph, &req.component);
+    solve(&*cache.variant(graph, recipe, req)?, req)
+}
+
+/// Lay out a compiled variant for one request: choose candidates by state, option and
+/// `when`, then place the parts. A pure function of its arguments; it needs no token graph.
+/// `req` must have the size and mode the variant was compiled for.
+pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+    let parts = &variant.parts;
+    let root_id = variant.root.as_str();
+    let root = parts.get(root_id).ok_or("root part not found")?;
     let mut cx = Ctx {
-        graph,
-        cache,
         req,
-        size_index,
-        option_defaults,
-        scoped: &scoped,
+        option_defaults: &variant.option_defaults,
         diags: Vec::new(),
     };
-
-    let parts = recipe
-        .get("parts")
-        .and_then(Value::as_object)
-        .ok_or("recipe has no parts")?;
-    let root_id = recipe
-        .get("root")
-        .and_then(Value::as_str)
-        .ok_or("recipe has no root")?;
-    let root = parts.get(root_id).ok_or("root part not found")?;
     let rp = |cx: &mut Ctx, part: &Value, name: &str| -> Option<Resolved> {
-        cx.eval(name, part.get("props").and_then(|p| p.get(name)))
+        cx.eval(part.get("props").and_then(|p| p.get(name)))
     };
 
     let mut container_tokens = Vec::new();
@@ -1362,7 +1414,7 @@ pub fn build_scene_cached(
 
     for (id, part) in placed {
         let inset = cx
-            .eval("inset", part.get("placement").and_then(|p| p.get("inset")))
+            .eval(part.get("placement").and_then(|p| p.get("inset")))
             .and_then(|r| r.num())
             .unwrap_or(0.0);
         let size = 6.0;
