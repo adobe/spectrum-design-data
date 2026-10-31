@@ -300,3 +300,116 @@ fn legacy_output_carries_the_override_but_not_its_provenance() {
     assert!(out.contains("rgb(8, 8, 8)"), "override is exported: {out}");
     assert!(!out.contains("overridden"), "provenance leaked: {out}");
 }
+
+// --- extensions/visuals (p6ga.8.34) ---
+
+fn recipe(component: &str, root: &str) -> Value {
+    json!({
+        "component": component,
+        "root": root,
+        "parts": { root: { "kind": "box" } }
+    })
+}
+
+fn visual(component: &str, root: &str) -> design_data_core::graph::VisualRecord {
+    design_data_core::graph::VisualRecord {
+        component: component.into(),
+        file: PathBuf::from(format!("visuals/{component}.json")),
+        raw: recipe(component, root),
+        layer: Layer::Foundation,
+    }
+}
+
+/// Write a temp platform whose `extensions/visuals/` holds `files`, apply it to a
+/// foundation graph carrying a `button` recipe, and return the result.
+fn apply_visuals(
+    files: &[(&str, Value)],
+) -> (
+    Result<(), design_data_core::CoreError>,
+    TokenGraph,
+    tempfile::TempDir,
+) {
+    let dir = tempfile::tempdir().unwrap();
+    std::fs::write(
+        dir.path().join("manifest.json"),
+        r#"{"specVersion":"1.0.0-draft","platform":"fixture","foundationVersion":"1.0.0"}"#,
+    )
+    .unwrap();
+    let vdir = dir.path().join("extensions/visuals");
+    std::fs::create_dir_all(&vdir).unwrap();
+    for (name, v) in files {
+        std::fs::write(vdir.join(name), v.to_string()).unwrap();
+    }
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let resolved = ResolvedData {
+        tokens_root: PathBuf::from("tokens"),
+        schemas_root: root.join("../../packages/design-data-spec/schemas"),
+        mode_sets: None,
+        components: None,
+        fields: None,
+        guidelines: None,
+        relationships: None,
+        exceptions: None,
+        platform_manifest: Some(dir.path().join("manifest.json")),
+        provenance: Provenance::InRepo,
+    };
+    let mut g = foundation();
+    g.visuals = vec![visual("button", "box"), visual("badge", "box")];
+    let r = apply_configured(&mut g, &resolved).map(|_| ());
+    (r, g, dir)
+}
+
+#[test]
+fn a_platform_recipe_replaces_the_foundation_recipe_of_the_same_component() {
+    let (r, g, dir) = apply_visuals(&[("button.json", recipe("button", "ios-root"))]);
+    r.unwrap();
+    assert_eq!(g.visuals.len(), 2);
+    let b = g.visuals.iter().find(|v| v.component == "button").unwrap();
+    assert_eq!(b.layer, Layer::Platform);
+    assert_eq!(b.raw["root"], "ios-root");
+    assert!(b.file.starts_with(dir.path()));
+    let other = g.visuals.iter().find(|v| v.component == "badge").unwrap();
+    assert_eq!(other.layer, Layer::Foundation);
+}
+
+#[test]
+fn a_platform_only_recipe_is_added() {
+    let (r, g, _d) = apply_visuals(&[("button-ios.json", recipe("button-ios", "box"))]);
+    r.unwrap();
+    assert_eq!(g.visuals.len(), 3);
+    let v = g
+        .visuals
+        .iter()
+        .find(|v| v.component == "button-ios")
+        .unwrap();
+    assert_eq!(v.layer, Layer::Platform);
+}
+
+#[test]
+fn a_bad_visual_fragment_names_its_path() {
+    let (r, _g, _d) = apply_visuals(&[("button.json", json!({"component": "button"}))]);
+    let e = r.unwrap_err().to_string();
+    assert!(
+        e.contains("button.json") && e.contains("component-visual.schema.json"),
+        "{e}"
+    );
+}
+
+#[test]
+fn a_visual_file_name_must_match_its_component() {
+    let (r, _g, _d) = apply_visuals(&[("wrong.json", recipe("button", "box"))]);
+    let e = r.unwrap_err().to_string();
+    assert!(
+        e.contains("wrong.json") && e.contains("<component>.json"),
+        "{e}"
+    );
+}
+
+#[test]
+fn no_platform_leaves_visuals_unchanged() {
+    let (g, _) = platform();
+    assert!(g.visuals.is_empty());
+    let mut f = foundation();
+    f.visuals = vec![visual("button", "box")];
+    assert_eq!(f.visuals[0].layer, Layer::Foundation);
+}

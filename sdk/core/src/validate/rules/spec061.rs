@@ -158,6 +158,7 @@ mod tests {
             component: "button".into(),
             file: PathBuf::from("visuals/button.json"),
             raw: recipe,
+            layer: crate::graph::Layer::Foundation,
         });
         let exceptions = std::collections::HashSet::new();
         let ctx = ValidationContext {

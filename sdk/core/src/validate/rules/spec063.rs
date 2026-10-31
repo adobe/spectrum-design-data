@@ -104,6 +104,7 @@ mod tests {
             component: "button".into(),
             file: PathBuf::from("visuals/button.json"),
             raw: json!({"component": "button", "sizeScale": scale, "parts": {}}),
+            layer: crate::graph::Layer::Foundation,
         });
         let exceptions = std::collections::HashSet::new();
         let ctx = ValidationContext {

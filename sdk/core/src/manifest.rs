@@ -335,6 +335,7 @@ fn build_extensions_value(
         .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
         .chain(std::iter::once("relationships"))
         .chain(std::iter::once("mode-sets"))
+        .chain(std::iter::once("visuals"))
         .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
@@ -426,6 +427,42 @@ fn build_extensions_value(
                 items.into_iter().partition(|v| v.get("op").is_none());
             adds.extend(ops);
             out.insert("modeSets".to_string(), Value::Array(adds));
+        }
+    }
+
+    // visuals/ — one recipe per file, named <component>.json. Each entry keeps its
+    // fragment path so `VisualRecord.file` can point at it.
+    let visuals_dir = ext_root.join("visuals");
+    if visuals_dir.is_dir() {
+        let schema = schema_dir.join("component-visual.schema.json");
+        let mut items = Vec::new();
+        for f in discover_json_files(&visuals_dir)? {
+            let text = std::fs::read_to_string(&f).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to read extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            let recipe: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to parse extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            check_fragment(&f, &recipe, &schema)?;
+            let stem = f.file_stem().and_then(|s| s.to_str()).unwrap_or_default();
+            if recipe.get("component").and_then(|v| v.as_str()) != Some(stem) {
+                return Err(CoreError::ParseError(format!(
+                    "extension fragment {} has component {} but its file name must be \
+                     <component>.json",
+                    f.display(),
+                    recipe.get("component").unwrap_or(&Value::Null)
+                )));
+            }
+            items.push(serde_json::json!({ "file": f.to_string_lossy(), "recipe": recipe }));
+        }
+        if !items.is_empty() {
+            out.insert("visuals".to_string(), Value::Array(items));
         }
     }
 

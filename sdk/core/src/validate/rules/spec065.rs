@@ -239,6 +239,7 @@ mod tests {
             component: "button".into(),
             file: PathBuf::from("visuals/button.json"),
             raw: json!({"component": "button", "parts": {"root": {"rules": parts}}}),
+            layer: crate::graph::Layer::Foundation,
         });
         if let Some(o) = scope_options {
             g.relationships.push(RelationshipRecord {
