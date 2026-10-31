@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../components/notifications/notificationContext";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { editModeAtom } from "../state/view/editMode";
 import {
   browserModeContextAtom,
@@ -9,6 +10,7 @@ import {
 } from "../features/tokens/browserState";
 import { savedBrowserConceptIdsAtom } from "../features/tokens/browserSavedState";
 import { TokenDetailsDialog } from "../panels/tokens/TokenDetailsDialog";
+import { TokenInspectorContainer } from "../panels/tokens/TokenInspectorContainer";
 import type { TokenPanelId } from "../features/tokens/view/tokenPanelRegistry";
 import { TokenBrowserView } from "../views/tokens/TokenBrowserView";
 import { taxonomyDocumentAtom } from "../features/taxonomy/state";
@@ -47,6 +49,8 @@ function downloadJson(packet: unknown, name: string) {
 }
 
 export default function Tokens() {
+  const notify = useNotify();
+  const store = useStore();
   const tokens = useAtomValue(browserTokensAtom);
   const taxonomy = useAtomValue(taxonomyDocumentAtom);
   const generated = useAtomValue(workingTshirtArtifactsAtom);
@@ -57,7 +61,6 @@ export default function Tokens() {
   const mode = useAtomValue(browserModeContextAtom);
   const savedIds = useAtomValue(savedBrowserConceptIdsAtom);
   const editTokens = useSetAtom(editBrowserTokensAtom);
-  const deleteAlias = useSetAtom(deleteAliasAtom);
   const aliases = useAtomValue(aliasesAtom);
   const snapshot = useAtomValue(authoringSnapshotAtom);
   const [dialog, setDialog] = useState<{
@@ -219,7 +222,16 @@ export default function Tokens() {
           })
         }
       />
-      {dialog && (
+      {dialog && !dialog.bulk && (
+        <TokenInspectorContainer
+          key={dialog.ids[0]}
+          id={dialog.ids[0]}
+          onClose={() => setDialog(null)}
+          onOpenToken={openToken}
+          issues={classificationIssues.get(dialog.ids[0])}
+        />
+      )}
+      {dialog?.bulk && (
         <TokenDetailsDialog
           key={`${dialog.modeKey}:${dialog.ids.join(",")}`}
           tokens={tokens.filter((token) => dialog.ids.includes(token.id))}
@@ -233,7 +245,28 @@ export default function Tokens() {
             ),
           ]}
           onClose={() => setDialog(null)}
-          onDeleteAlias={deleteAlias}
+          onDeleteAlias={(id) =>
+            notify.remove({
+              kind: "alias",
+              run: (store) => {
+                const aliases = store.get(aliasesAtom);
+                const index = aliases.tokens.findIndex(
+                  (alias) => alias.id === id,
+                );
+                const alias = aliases.tokens[index];
+                store.set(deleteAliasAtom, id);
+                return { alias, index };
+              },
+              undo: ({ alias, index }) => {
+                if (!alias || index < 0) return;
+                const current = store.get(aliasesAtom);
+                if (current.tokens.some((item) => item.id === alias.id)) return;
+                const tokens = [...current.tokens];
+                tokens.splice(Math.min(index, tokens.length), 0, alias);
+                store.set(aliasesAtom, { ...current, tokens });
+              },
+            })
+          }
           onSave={(patch) =>
             editTokens({ ids: dialog.ids, modeKey: dialog.modeKey, patch })
           }

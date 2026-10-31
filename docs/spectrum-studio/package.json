@@ -18,7 +18,7 @@
     "build:data-vis": "vite build --config vite.data-vis.config.ts",
     "typecheck": "pnpm check:category-icons && pnpm check:changelog-coverage && tsc --project tsconfig.app.json --noEmit && tsc --project tsconfig.node.json --noEmit",
     "lint": "pnpm typecheck && eslint .",
-    "test:ci": "pnpm test:generator-rules && pnpm test:structure-variants && pnpm test:structure-padding-icons && pnpm test:primitive-references && pnpm test:design-data-portable-contract && pnpm test:dimension-artifacts && pnpm test:design-data-coverage && pnpm test:macros && pnpm test:sequential-defaults && pnpm test:data-vis-interpolation && pnpm test:color-analysis && pnpm test:polarity && pnpm test:opacity && pnpm test:color-picker && pnpm test:color-output && pnpm test:foundation-creation && pnpm test:value-preview && pnpm test:taxonomy-projection && pnpm test:registry-projection && pnpm test:virtualizer && pnpm test:transition-lifecycle && pnpm test:classification && pnpm test:taxonomy-identity && pnpm test:canonical-names && pnpm test:token-aliases && pnpm test:persistence && pnpm test:design-data-gaps && pnpm test:mode-combinations && pnpm test:mode-integrity && pnpm test:typography-reference && pnpm test:size && pnpm test:shadow-artifacts && pnpm test:logic && pnpm test:tshirt-sizing && pnpm test:tshirt-integration && pnpm test:scales && pnpm test:logic-formulas && pnpm test:changelog-coverage && pnpm test:components && pnpm test:impact && pnpm test:component-impact && pnpm test:typography-tokens && pnpm test:typography-analysis",
+    "test:ci": "pnpm test:generator-rules && pnpm test:structure-variants && pnpm test:token-dialog && pnpm test:structure-padding-icons && pnpm test:primitive-references && pnpm test:design-data-portable-contract && pnpm test:dimension-artifacts && pnpm test:design-data-coverage && pnpm test:macros && pnpm test:sequential-defaults && pnpm test:data-vis-interpolation && pnpm test:color-analysis && pnpm test:polarity && pnpm test:opacity && pnpm test:color-picker && pnpm test:color-output && pnpm test:foundation-creation && pnpm test:value-preview && pnpm test:taxonomy-projection && pnpm test:registry-projection && pnpm test:virtualizer && pnpm test:transition-lifecycle && pnpm test:classification && pnpm test:taxonomy-identity && pnpm test:canonical-names && pnpm test:token-aliases && pnpm test:persistence && pnpm test:design-data-gaps && pnpm test:mode-combinations && pnpm test:mode-integrity && pnpm test:typography-reference && pnpm test:size && pnpm test:shadow-artifacts && pnpm test:logic && pnpm test:tshirt-sizing && pnpm test:tshirt-integration && pnpm test:scales && pnpm test:logic-formulas && pnpm test:changelog-coverage && pnpm test:components && pnpm test:impact && pnpm test:component-impact && pnpm test:typography-tokens && pnpm test:typography-analysis",
     "schema:defaults": "tsx scripts/defaults-schema.ts",
     "test:defaults": "tsx scripts/defaults-schema.ts --check && tsx tests/defaults.ts",
     "test:base-structure-defaults": "tsx tests/base-structure-defaults.ts",
@@ -110,7 +110,8 @@
     "preview": "vite preview",
     "test:structure-variants": "tsx tests/structure-variants.ts && tsx tests/structure-variant-state.ts && tsx tests/structure-variant-tokens.ts",
     "test:conditional-rules": "tsx tests/conditional-rules.ts",
-    "test:generator-rules": "tsx tests/generator-rules.ts"
+    "test:generator-rules": "tsx tests/generator-rules.ts",
+    "test:token-dialog": "tsx tests/token-dialog.ts && tsx tests/token-dialog-integration.ts"
   },
   "dependencies": {
     "@react-spectrum/s2": "1.7.1",

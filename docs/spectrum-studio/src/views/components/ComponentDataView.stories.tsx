@@ -12,6 +12,7 @@ import { isTaxonomyDocument } from "../../features/taxonomy/model";
 import { ComponentDataView } from "./ComponentDataView";
 import { ComponentsPanel } from "../../panels/components/ComponentsPanel";
 import { useComponentNavigation } from "../../panels/components/useComponentNavigation";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { AlertDialog, DialogContainer } from "@react-spectrum/s2";
 
 const input: unknown = defaults.system.components;
@@ -65,6 +66,7 @@ const meta = {
     onSelect: fn(),
   },
   render: function Controlled(args) {
+    const notify = useNotify();
     const [current, setCurrent] = useState(args.document),
       [selected, setSelected] = useState(args.selected);
     const navigation = useComponentNavigation(args.editable, (id) => {
@@ -119,11 +121,11 @@ const meta = {
         <DialogContainer onDismiss={() => navigation.setPending(undefined)}>
           {navigation.pending && (
             <AlertDialog
-              title="Discard unapplied changes?"
+              title="Discard unapplied changes"
               variant="warning"
-              primaryActionLabel="Discard changes"
+              primaryActionLabel="Discard"
               cancelLabel="Keep editing"
-              onPrimaryAction={navigation.discard}
+              onPrimaryAction={() => notify.quietly(navigation.discard)}
             >
               Your definition edits have not been applied. Discard them to
               continue.

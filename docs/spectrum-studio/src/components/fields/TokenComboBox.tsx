@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../notifications/notificationContext";
 import {
   ActionButton,
   ComboBox,
   ComboBoxItem,
   ComboBoxSection,
   Text,
-  ToastQueue,
   type TextFieldRef,
 } from "@react-spectrum/s2";
 import Close from "@react-spectrum/s2/icons/Close";
@@ -76,6 +76,7 @@ export function TokenComboBox({
   menuWidth,
   customValue,
 }: TokenComboBoxProps) {
+  const notify = useNotify();
   if (
     menuWidth !== undefined &&
     (!Number.isFinite(menuWidth) || menuWidth <= 0)
@@ -302,7 +303,7 @@ export function TokenComboBox({
               option.error ||
               (isOptionAllowed && !isOptionAllowed(option))
             ) {
-              ToastQueue.negative(
+              notify.error(
                 option?.error ??
                   "This option is no longer available. Choose a compatible value.",
               );

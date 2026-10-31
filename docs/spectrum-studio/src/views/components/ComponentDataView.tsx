@@ -1,9 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useState } from "react";
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   ActionButton,
-  AlertDialog,
-  DialogContainer,
   LabeledValue,
   Tab,
   TabList,
@@ -88,7 +87,7 @@ export function ComponentDataView({
 }) {
   const [section, setSection] = useState("definitions");
   const [assignment, setAssignment] = useState<ComponentAssignment | "new">();
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const notify = useNotify();
   const [error, setError] = useState("");
   const component = document.components.find(
     (record) => record.id === selected,
@@ -99,7 +98,8 @@ export function ComponentDataView({
     const index = next.components.findIndex((entry) => entry.id === record.id);
     if (index < 0) next.components.unshift(record);
     else next.components[index] = record;
-    onCommit(next);
+    if (index < 0) notify.added("component", () => onCommit(next));
+    else onCommit(next);
     onSelect(record.id);
     setError("");
   };
@@ -153,7 +153,26 @@ export function ComponentDataView({
               <p>{component.declaration.description}</p>
             </div>
             {editable && (
-              <ActionButton onPress={() => setConfirmDelete(true)}>
+              <ActionButton
+                onPress={() => {
+                  if (!component) return;
+                  notify.remove({
+                    kind: "component",
+                    local: true,
+                    run: () => {
+                      onCommit({
+                        ...document,
+                        components: document.components.filter(
+                          (entry) => entry.id !== component.id,
+                        ),
+                      });
+                      return document;
+                    },
+                    undo: (previous) => onCommit(previous),
+                    onDone: () => onSelect(null),
+                  });
+                }}
+              >
                 <Delete />
                 <Text>Delete component</Text>
               </ActionButton>
@@ -423,35 +442,6 @@ export function ComponentDataView({
           onCancel={() => setAssignment(undefined)}
         />
       )}
-      <DialogContainer onDismiss={() => setConfirmDelete(false)}>
-        {confirmDelete && component && (
-          <AlertDialog
-            title="Delete component?"
-            variant="destructive"
-            primaryActionLabel="Delete component"
-            cancelLabel="Cancel deletion"
-            onPrimaryAction={() => {
-              try {
-                onCommit({
-                  ...document,
-                  components: document.components.filter(
-                    (entry) => entry.id !== component.id,
-                  ),
-                });
-                onSelect(null);
-                setConfirmDelete(false);
-              } catch (failure) {
-                setError(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
-            }}
-          >
-            Delete this component and its owned property assignments? Global
-            Cancel can restore your saved data.
-          </AlertDialog>
-        )}
-      </DialogContainer>
     </main>
   );
 }
