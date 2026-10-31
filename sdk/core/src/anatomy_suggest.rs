@@ -36,8 +36,9 @@ pub struct Candidate {
     pub evidence: Vec<String>,
     /// Checklist items this candidate does not yet satisfy.
     pub flags: Vec<String>,
-    /// Declared component states the part should list in `states`, when state-only.
-    pub states: Vec<String>,
+    /// Declared component states the part should list in `presentIn`, when state-only.
+    #[serde(rename = "presentIn")]
+    pub present_in: Vec<String>,
 }
 
 /// A phrase the generator saw and did not propose, with the reason.
@@ -345,13 +346,13 @@ pub fn suggest_component(graph: &TokenGraph, component: &str) -> Option<Suggesti
         if name == "text" {
             flags.push("may duplicate `label`, `title` or `value`; name the role".into());
         }
-        let mut states = Vec::new();
+        let mut present_in = Vec::new();
         if name == "focus-indicator" {
             match focus_states.iter().find(|n| n.as_str() == "focus") {
-                Some(f) => states.push(f.clone()),
+                Some(f) => present_in.push(f.clone()),
                 None => match focus_states.first() {
-                    Some(f) => states.push(f.clone()),
-                    None => flags.push("no declared focus state to list in `states`".into()),
+                    Some(f) => present_in.push(f.clone()),
+                    None => flags.push("no declared focus state to list in `presentIn`".into()),
                 },
             }
         }
@@ -360,7 +361,7 @@ pub fn suggest_component(graph: &TokenGraph, component: &str) -> Option<Suggesti
             registry: registry_hit,
             evidence: s.evidence.into_iter().collect(),
             flags,
-            states,
+            present_in,
         });
     }
     candidates
@@ -421,8 +422,8 @@ Nothing here is reviewed anatomy.\n",
         for c in &s.candidates {
             let reg = if c.registry { "registry" } else { "custom" };
             out.push_str(&format!("- `{}` ({reg})", c.name));
-            if !c.states.is_empty() {
-                out.push_str(&format!(" states: {}", c.states.join(", ")));
+            if !c.present_in.is_empty() {
+                out.push_str(&format!(" presentIn: {}", c.present_in.join(", ")));
             }
             out.push('\n');
             for e in &c.evidence {
@@ -517,7 +518,7 @@ mod tests {
             .iter()
             .find(|c| c.name == "focus-indicator")
             .unwrap();
-        assert_eq!(focus.states, ["keyboard-focus"]);
+        assert_eq!(focus.present_in, ["keyboard-focus"]);
         let ai = s
             .candidates
             .iter()

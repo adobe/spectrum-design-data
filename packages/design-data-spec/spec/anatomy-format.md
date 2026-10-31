@@ -19,7 +19,7 @@ An anatomy part is a **JSON object** that appears as an element of a component d
 | `name`        | string           | REQUIRED | Kebab-case identifier. **MUST** match the pattern `^[a-z][a-z0-9-]*$`.                                                   |
 | `description` | string           | OPTIONAL | Plain-text description of the part's visual role and boundaries.                                                         |
 | `required`    | boolean          | OPTIONAL | Whether this part is always rendered regardless of configuration. Default: `false`.                                      |
-| `states`      | array of strings | OPTIONAL | Declared component states in which the part is drawn. Absent means any state — see [`states`](#states).                  |
+| `presentIn`   | array of strings | OPTIONAL | Declared component states in which the part is present. Absent means any state — see [`presentIn`](#presentin).          |
 | `contains`    | array of strings | OPTIONAL | Informative list of child anatomy part names nested within this part (e.g. a `field` contains `["label", "help-text"]`). |
 | `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this anatomy part — see [lifecycle](#lifecycle).                                          |
 
@@ -92,13 +92,15 @@ A token is not required. A part with only fixed decisions (a corner triangle, sa
 
 ### State-only parts
 
-A part that appears only in some interaction states (the focus indicator) belongs in the default anatomy, because it is part of the component's design. Mark it with `states`. A part driven by an option instead (a checkmark while selected, a progress circle while pending) is simply optional; the visual recipe says when it shows with `visibleWhen.options`.
+A part that appears only in some interaction states (the focus indicator) belongs in the default anatomy, because it is part of the component's design. Mark it with `presentIn`. A part driven by an option instead (a checkmark while selected, a progress circle while pending) is simply optional; the visual recipe says when it shows with `visibleWhen.options`.
 
-#### `states`
+#### `presentIn`
 
-**OPTIONAL.** A list of declared component state names in which the part is drawn. Absent means the part can appear in any state. Each entry **SHOULD** match a `states[].name` declared on the same component, the same check recipes use for `visibleWhen.states` (SPEC-061). Conditions on options stay in the visual recipe; `states` is only for state names.
+**OPTIONAL.** A list of declared component state names in which the part is present. The part is drawn when **any** listed state is active, and not otherwise. Absent means the part can appear in any state. Each entry **SHOULD** match a `states[].name` declared on the same component (rule SPEC-074), and for a part that also appears in a visual recipe, the recipe's `visibleWhen.states` **SHOULD** agree (rule SPEC-075). Conditions on options stay in the visual recipe; `presentIn` is only for state names.
 
-**NORMATIVE:** A part with `states` **MUST NOT** also be `required: true`, because a required part draws in every state.
+`presentIn` says whether a part is present, not how it is styled. A color, border or size that changes with a state (a hover fill, a down scale) is not presence: it belongs in the relationships and the recipe, and **MUST NOT** be recorded on the part.
+
+**NORMATIVE:** A part with `presentIn` **MUST NOT** also be `required: true`, because a required part is present in every state. Layer 1 rejects the combination.
 
 State names follow the state registry. Use `focus` for the focus state.
 
@@ -142,7 +144,7 @@ Anatomy is hand-written and has to be reviewed against this chapter before recip
 4. Is it free of anything that exists only to make one renderer work?
 5. Does its name follow the naming rules, using a registry term when one fits?
 6. Is `required` correct for every configuration and every state?
-7. Does `states` list every state it appears in, and only those? (Required for state-only parts.)
+7. Does `presentIn` list every state the part is present in, and only those? (Required for state-only parts.) Is any state-dependent styling kept off the part?
 8. Does each `contains` entry describe visual enclosure?
 
 For the component:

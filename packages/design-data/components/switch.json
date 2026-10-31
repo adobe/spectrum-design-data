@@ -134,7 +134,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the track for keyboard focus.",
-      "states": ["keyboard-focus"]
+      "presentIn": ["keyboard-focus"]
     }
   ],
   "anatomyReview": {
