@@ -797,7 +797,9 @@ impl TokenGraph {
     ///    a graph key (legacy slug or cascade `"file:index"` key). Each override
     ///    MUST preserve the target token's value JSON type
     ///    (`spec/cascade.md` type safety / SPEC-006); a type change is a
-    ///    [`CoreError::ParseError`].
+    ///    [`CoreError::ParseError`]. The replaced record keeps every original field
+    ///    and gains `overriddenBy` (`{platform}` or `{manifest}`) and `overriddenFrom`
+    ///    (the first, foundation `value` or `$ref`).
     /// 3. `extensions.tokens` — net-new platform tokens inserted at
     ///    [`Layer::Platform`].
     /// 4. `modeSetRestrictions` — returned so the caller can seed a
@@ -851,8 +853,21 @@ impl TokenGraph {
                 };
                 let matches = self.resolve_override_targets(target)?;
                 for (shadowed_key, name_obj, orig_value, uuid) in matches {
-                    let mut synthetic = serde_json::Map::new();
-                    synthetic.insert("name".to_string(), name_obj);
+                    // Start from the foundation record so $schema, $valueType, lifecycle,
+                    // description and the rest survive the override (p6ga.8.9).
+                    let mut synthetic = match self.tokens.get(&shadowed_key).map(|r| &r.raw) {
+                        Some(Value::Object(m)) => m.clone(),
+                        _ => {
+                            let mut m = serde_json::Map::new();
+                            m.insert("name".to_string(), name_obj);
+                            m
+                        }
+                    };
+                    let previous = if let Some(v) = synthetic.get("value") {
+                        serde_json::json!({ "value": v })
+                    } else {
+                        serde_json::json!({ "$ref": synthetic.get("$ref") })
+                    };
                     if let Some(new_value) = entry.get("value") {
                         if let Some(orig) = &orig_value {
                             if json_kind(orig) != json_kind(new_value) {
@@ -864,8 +879,10 @@ impl TokenGraph {
                                 )));
                             }
                         }
+                        synthetic.remove("$ref");
                         synthetic.insert("value".to_string(), new_value.clone());
                     } else if let Some(ref_val) = entry.get("$ref") {
+                        synthetic.remove("value");
                         synthetic.insert("$ref".to_string(), ref_val.clone());
                     } else {
                         continue;
@@ -873,6 +890,14 @@ impl TokenGraph {
                     if let Some(u) = &uuid {
                         synthetic.insert("uuid".to_string(), Value::String(u.clone()));
                     }
+                    // Last override wins for the value; the first one's `overriddenFrom`
+                    // is kept so it always holds the foundation value.
+                    synthetic.entry("overriddenFrom").or_insert(previous);
+                    let by = match manifest.get("platform").and_then(|v| v.as_str()) {
+                        Some(p) => serde_json::json!({ "platform": p }),
+                        None => serde_json::json!({ "manifest": "manifest.json" }),
+                    };
+                    synthetic.insert("overriddenBy".to_string(), by);
                     let raw = Value::Object(synthetic);
                     let alias_target = raw.as_object().and_then(extract_alias_target);
                     // Reuse the shadowed record's own key so the override *replaces*

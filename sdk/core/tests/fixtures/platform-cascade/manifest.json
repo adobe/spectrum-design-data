@@ -1,0 +1,11 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture",
+  "foundationVersion": "1.0.0",
+  "include": ["property=color"],
+  "exclude": ["uuid=u-red", "uuid=u-blue"],
+  "overrides": [
+    { "target": "u-gray-light", "value": "rgb(2, 2, 2)" },
+    { "target": "u-blue", "value": "rgb(0, 0, 9)" }
+  ]
+}
