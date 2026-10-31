@@ -77,7 +77,7 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
