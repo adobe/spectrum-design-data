@@ -4,7 +4,8 @@
 "@adobe/design-data-wasm": patch
 ---
 
-Define what an anatomy part is and review the first five components against it.
+Define what an anatomy part is and review five components (here: button, action-button, badge;
+`flowed-box-paints`: checkbox, switch).
 
 **Spec:**
 
@@ -17,7 +18,6 @@ Define what an anatomy part is and review the first five components against it.
 - New error SPEC-075: a recipe's `visibleWhen.states` must agree with the part's `presentIn`.
 
 **Data:**
-
 - Button, action-button and badge anatomy are reviewed.
 - Button `label` is now optional. The focus indicator is state-only on all four.
 
