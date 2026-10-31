@@ -939,11 +939,11 @@ rules:
   - id: SPEC-081
     name: component-alias-valid
     severity: error
-    layer: 1
+    layer: 2
     category: reference-integrity
     note: >
-      PLANNED, not yet enforced. Needs the `componentAliases` manifest field, which
-      `manifest.schema.json` does not accept yet.
+      Runs only when a platform manifest is in scope. Reads the manifest's merged
+      `extensions.components` names and the foundation component catalog.
     assert: >
       Each `componentAliases` key MUST be a foundation component, its target MUST be a component
       the platform declares in `extensions/components/`, aliases MUST NOT chain or form a cycle,

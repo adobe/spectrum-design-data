@@ -34,6 +34,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-074` | SPEC-074 | Anatomy `presentIn` names an undeclared state (warning).              |
 | `invalid/SPEC-075` | SPEC-075 | Recipe and anatomy disagree on the states a part shows in (warning).  |
 | `invalid/SPEC-076` | SPEC-076 | A platform manifest drops a token a recipe binds (warning).           |
+| `invalid/SPEC-081` | SPEC-081 | A `componentAliases` entry is invalid (error).                        |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 
