@@ -774,17 +774,26 @@ pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
         _ => Vec::new(),
     };
     for s in raw {
-        let rest = s.strip_prefix("selected-");
-        if rest.is_some() {
-            out.push("selected".to_string());
-        }
-        let r = rest.unwrap_or(&s);
-        out.push(if r == "key-focus" || r == "focus" {
-            "keyboard-focus".into()
-        } else {
-            r.to_string()
-        });
+        out.extend(state_ids(&s));
     }
+    out
+}
+
+/// One state name as state ids: `selected-key-focus` splits into `selected` and
+/// `keyboard-focus`, and `focus` and `key-focus` are the same state as `keyboard-focus`.
+/// Shared with the validation rules that compare state names across data.
+pub(crate) fn state_ids(raw: &str) -> Vec<String> {
+    let mut out = Vec::new();
+    let rest = raw.strip_prefix("selected-");
+    if rest.is_some() {
+        out.push("selected".to_string());
+    }
+    let r = rest.unwrap_or(raw);
+    out.push(if r == "key-focus" || r == "focus" {
+        "keyboard-focus".into()
+    } else {
+        r.to_string()
+    });
     out
 }
 
