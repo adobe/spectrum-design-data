@@ -70,6 +70,65 @@ fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathB
     })
 }
 
+/// Who a configured platform manifest is: its `platform` id and a display name
+/// (registry label, else `platformVersion`, else the id).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PlatformIdentity {
+    pub id: String,
+    pub name: String,
+}
+
+/// The identity of the configured platform manifest, or `None` when no manifest is
+/// configured. A manifest without a `platform` field is identified by its directory name.
+pub fn platform_identity(resolved: &ResolvedData) -> Result<Option<PlatformIdentity>, CoreError> {
+    let Some(path) = resolved.platform_manifest.as_ref() else {
+        return Ok(None);
+    };
+    let manifest: Value = serde_json::from_str(&std::fs::read_to_string(path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            path.display()
+        ))
+    })?)
+    .map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            path.display()
+        ))
+    })?;
+    let id = manifest
+        .get("platform")
+        .and_then(Value::as_str)
+        .map(str::to_string)
+        .or_else(|| {
+            path.parent()
+                .and_then(Path::file_name)
+                .map(|n| n.to_string_lossy().into_owned())
+        })
+        .unwrap_or_else(|| "platform".to_string());
+    let label = locate_platform_implementations_registry(&resolved.schemas_root)
+        .and_then(|p| std::fs::read_to_string(p).ok())
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|r| {
+            r.get("values")?
+                .as_array()?
+                .iter()
+                .find(|v| v.get("id").and_then(Value::as_str) == Some(id.as_str()))?
+                .get("label")?
+                .as_str()
+                .map(str::to_string)
+        });
+    let name = label
+        .or_else(|| {
+            manifest
+                .get("platformVersion")
+                .and_then(Value::as_str)
+                .map(str::to_string)
+        })
+        .unwrap_or_else(|| id.clone());
+    Ok(Some(PlatformIdentity { id, name }))
+}
+
 /// Check a manifest's optional `platform` field against the
 /// platform-implementations registry, returning an advisory message when the id
 /// isn't recognized. `platform` is a SHOULD, not a MUST (`manifest.schema.json`

@@ -1015,7 +1015,7 @@ fn winners_to_dtcg_doc(
 fn load_visual_env(
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
-) -> miette::Result<(TokenGraph, PathBuf)> {
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: path,
         ..Default::default()
@@ -1033,6 +1033,12 @@ fn load_visual_env(
             .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
         graph = graph.with_relationships(rels);
     }
+    // Foundation→Platform cascade, after the relationships load so extension
+    // relationships layer onto them. A no-op when no platform is selected.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
     let visuals_dir = visuals_path.unwrap_or_else(|| {
         let sibling = |p: &Path| p.parent().map(|d| d.join("visuals"));
         [
@@ -1045,7 +1051,7 @@ fn load_visual_env(
         .find(|d| d.is_dir())
         .unwrap_or_else(|| PathBuf::from("visuals"))
     });
-    Ok((graph, visuals_dir))
+    Ok((graph, visuals_dir, platform))
 }
 
 /// Print candidate anatomy parts for review. Never writes component files.
@@ -1054,7 +1060,7 @@ fn run_anatomy_suggest(
     format: String,
     path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, _) = load_visual_env(path, None)?;
+    let (graph, _, _) = load_visual_env(path, None)?;
     let suggestions = if components.is_empty() {
         design_data_core::anatomy_suggest::suggest_all(&graph)
     } else {
@@ -1088,9 +1094,10 @@ fn run_site(
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, visuals_dir) = load_visual_env(path, visuals_path)?;
-    let count = design_data_site::write_site(&graph, &visuals_dir, &components, &out)
-        .map_err(|e| miette::miette!("{e}"))?;
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
+    let count =
+        design_data_site::write_site(&graph, &visuals_dir, &components, &out, platform.as_ref())
+            .map_err(|e| miette::miette!("{e}"))?;
     eprintln!("Wrote site for {count} component(s) to {}", out.display());
     Ok(ExitCode::SUCCESS)
 }
@@ -1109,7 +1116,7 @@ fn run_render(
     format: String,
     output: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, visuals_dir) = load_visual_env(path, visuals_path)?;
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
     let recipe_path = visuals_dir.join(format!("{component}.json"));
     let recipe: serde_json::Value = serde_json::from_str(
         &std::fs::read_to_string(&recipe_path)
@@ -1140,7 +1147,10 @@ fn run_render(
     };
     let scene = visual::build_scene(&graph, &recipe, &req).map_err(|e| miette::miette!(e))?;
     for d in &scene.diagnostics {
-        eprintln!("warning: {d}");
+        match &platform {
+            Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
+            None => eprintln!("warning: {d}"),
+        }
     }
     let svg = if format == "scene" {
         serde_json::to_string_pretty(&scene).into_diagnostic()?

@@ -24,6 +24,9 @@ const parse = (v) => (v === "true" ? true : v);
 export const backend = {
   components: async () => data.components,
 
+  // The platform this build was cascaded through ({id, name}); absent for the foundation.
+  platform: () => data.platform,
+
   // Figma collection and variable name for a token label, when it exports.
   figma: (label) => data.figma?.[label],
 
@@ -42,12 +45,18 @@ export const backend = {
       const opt = k.slice(4);
       if (opt in (data.byName[q.name].options ?? {})) options[opt] = parse(v);
     }
-    return renderScene(data.compiled[q.name], {
+    const scene = renderScene(data.compiled[q.name], {
       size: q.size ?? "m",
       states: q.state && q.state !== "default" ? [q.state] : [],
       options,
       mode: { colorScheme: q.scheme ?? "light", scale: q.scale ?? "desktop" },
       label: q.label ?? "Label",
     });
+    const id = data.platform?.id;
+    if (id)
+      scene.diagnostics = scene.diagnostics.map(
+        (d) => `platform '${id}': ${d}`,
+      );
+    return scene;
   },
 };
