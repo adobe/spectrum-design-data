@@ -602,26 +602,58 @@ fn catalog_export_into_reused_dir_removes_stale_files() {
     assert!(out.path().join("components/accordion.json").is_file());
 }
 
-/// p6ga.8.1: `render` applies the platform cascade. The iOS manifest's `include`
-/// whitelist drops tokens the button recipe binds, so the render names the platform in
-/// a warning; with no platform it stays silent.
+/// p6ga.8.1: `render` applies the platform cascade. A fixture platform that drops a token
+/// the button recipe binds makes the render name the platform in a warning; the real iOS
+/// manifest (p6ga.8.2) and no platform both stay silent.
 #[test]
 fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "fixture-drop",
+            "exclude": ["property=component-height-100"]
+        })
+        .to_string(),
+    )
+    .expect("write manifest");
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n[platforms]\nfixture-drop = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("write config");
     Command::cargo_bin("design-data")
         .expect("design-data binary")
-        .current_dir(repo_root())
-        .args(["render", "button", "--platform", "ios", "--format", "scene"])
+        .current_dir(project.path())
+        .args([
+            "render",
+            "button",
+            "--platform",
+            "fixture-drop",
+            "--format",
+            "scene",
+        ])
         .assert()
         .success()
         .stderr(contains(
-            "warning: platform 'ios': height: no relationship 'component-height-100'",
+            "warning: platform 'fixture-drop': height: no relationship 'component-height-100'",
         ));
 
-    Command::cargo_bin("design-data")
-        .expect("design-data binary")
-        .current_dir(repo_root())
-        .args(["render", "button", "--format", "scene"])
-        .assert()
-        .success()
-        .stderr(contains("warning").not());
+    for args in [
+        &["render", "button", "--platform", "ios", "--format", "scene"][..],
+        &["render", "button", "--format", "scene"][..],
+    ] {
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(repo_root())
+            .args(args)
+            .assert()
+            .success()
+            .stderr(contains("warning").not());
+    }
 }
