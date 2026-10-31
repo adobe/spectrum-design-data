@@ -119,7 +119,7 @@ const cellStyles = style({
 });
 const config = getColorSpaceConfig("OKlch", "cartesian");
 const channels = ["a", "b"] as const;
-const number = (value: number) => Number(value.toFixed(4)).toString();
+const number = (value: number) => Number(value.toFixed(2)).toString();
 const percent = (value: number) => `${number(value * 100)}%`;
 
 export interface ColorAnalysisViewProps {

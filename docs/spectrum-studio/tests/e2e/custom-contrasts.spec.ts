@@ -80,8 +80,16 @@ async function openGray(page: Page) {
     .getByRole("tabpanel", { name: "Colors", exact: true })
     .getByRole("button", { name: "Gray", exact: true })
     .click();
+  await page
+    .getByRole("button", { name: "Custom contrast steps", exact: true })
+    .click();
   const controls = page.getByRole("region", { name: "Custom contrast steps" });
   await expect(controls).toBeVisible();
+  const options = controls.getByRole("button", {
+    name: "More options",
+    exact: true,
+  });
+  if (await options.count()) await options.click();
   return controls;
 }
 async function closeGray(page: Page) {
@@ -163,12 +171,13 @@ test("author the 13-step Gray list, Save/reload, and preserve a shared 16-step s
   await seed(page, false);
   await foundations(page);
   const controls = await openGray(page);
-  await controls
-    .getByRole("checkbox", { name: "Use custom contrast steps" })
-    .focus();
-  await controls
-    .getByRole("checkbox", { name: "Use custom contrast steps" })
+  await page.getByRole("switch", { name: "Use custom contrast steps" }).focus();
+  await page
+    .getByRole("switch", { name: "Use custom contrast steps" })
     .press("Space");
+  await controls
+    .getByRole("button", { name: "More options", exact: true })
+    .click();
   await controls.getByRole("button", { name: /Base swatch$/ }).click();
   await page.getByRole("option", { name: /^400 \(/ }).click();
   for (const label of [1300, 1200, 1100])
@@ -376,15 +385,15 @@ test("Contrast modes edit only ratios, reset inheritance, and disable/Undo/Cance
   await selectMode(page, "Regular");
   await openGray(page);
   await page
-    .getByRole("region", { name: "Custom contrast steps" })
-    .getByRole("button", { name: "Use shared contrast steps" })
+    .getByRole("switch", { name: "Use custom contrast steps" })
+    .locator("xpath=ancestor::label")
     .click();
   await page
     .getByRole("alertdialog")
     .getByRole("button", { name: "Use shared steps" })
     .click();
   await expect(
-    page.getByRole("checkbox", { name: "Use custom contrast steps" }),
+    page.getByRole("switch", { name: "Use custom contrast steps" }),
   ).toBeVisible();
   await closeGray(page);
   await page.getByRole("button", { name: "Undo", exact: true }).click();

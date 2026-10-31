@@ -126,6 +126,26 @@ export function isPercentageChannel(channel: ChannelName, spaceId: string) {
   return (spaceId === "oklch" || spaceId === "oklab") && channel === "l";
 }
 
+export function channelFormatOptions(
+  channel: ChannelName,
+  spaceId: string,
+): Intl.NumberFormatOptions {
+  if (isPercentageChannel(channel, spaceId)) {
+    return { style: "percent", maximumFractionDigits: 2 };
+  }
+  if (channel === "h") {
+    return {
+      style: "unit",
+      unit: "degree",
+      unitDisplay: "narrow",
+      maximumFractionDigits: 2,
+    };
+  }
+  return {
+    maximumFractionDigits: spaceId === "srgb" && isRgbChannel(channel) ? 0 : 2,
+  };
+}
+
 export function colorChannelToFieldValue(
   channel: ChannelName,
   value: number,

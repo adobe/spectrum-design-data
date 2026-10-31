@@ -120,15 +120,22 @@ for (const width of [1600, 360]) {
     page,
   }) => {
     await selectColorPanelSection(page, "Color scales");
-    await page.getByRole("button", { name: "Red", exact: true }).click();
+    await page.setViewportSize({ width, height: 1100 });
+    await page
+      .getByRole("tabpanel", { name: "Colors", exact: true })
+      .getByRole("button", { name: "Red", exact: true })
+      .press("Enter");
     const dialog = page.getByRole("dialog", {
       name: "Edit Red scale",
       exact: true,
     });
-    await page.setViewportSize({ width, height: 1100 });
     await exercisePicker(page, dialog);
     await dialog
-      .getByRole("checkbox", { name: "Use custom contrast steps", exact: true })
+      .getByRole("switch", { name: "Use custom contrast steps", exact: true })
+      .locator("xpath=ancestor::label")
+      .click();
+    await dialog
+      .getByRole("button", { name: "Custom contrast steps", exact: true })
       .click();
     await expectContentsFit(dialog);
     await page.setViewportSize({ width, height: 450 });

@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../../components/notifications/notificationContext";
 import {
   AccordionItem,
   AccordionItemPanel,
@@ -7,7 +8,6 @@ import {
   Checkbox,
   NumberField,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { ColorPickerContents } from "../../../components/color-picker/ColorPickerContents";
@@ -106,6 +106,7 @@ export function DataVisPointControls({
   onReset,
   onAllModes,
 }: DataVisPointControlsProps) {
+  const notify = useNotify();
   if (staticColor)
     return (
       <StaticColorControls
@@ -189,9 +190,7 @@ export function DataVisPointControls({
                 });
               } else if (key === TOKEN_SOURCE) {
                 if (!firstToken) {
-                  ToastQueue.negative(
-                    "No published primitive colors are available.",
-                  );
+                  notify.error("No published primitive colors are available.");
                   return;
                 }
                 onSourceChange({
@@ -361,6 +360,7 @@ export function StaticColorControls({
   maximumPosition?: number;
   onPositionChange?: (position: number) => void;
 }) {
+  const notify = useNotify();
   const value = frozenColorValue(color);
   const firstToken = primitiveColors.find(
     (color) => !color.hidden && !color.error,
@@ -382,9 +382,7 @@ export function StaticColorControls({
           if (key === CUSTOM_SOURCE) onTokenChange?.(null);
           else {
             if (!firstToken) {
-              ToastQueue.negative(
-                "No published primitive colors are available.",
-              );
+              notify.error("No published primitive colors are available.");
               return;
             }
             onTokenChange?.(firstToken.id);

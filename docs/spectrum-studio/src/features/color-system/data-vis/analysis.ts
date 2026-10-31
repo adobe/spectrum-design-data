@@ -34,7 +34,7 @@ export function dataVisMetricPoints(
     return {
       x: observation.position,
       y: value,
-      label: `${observation.label}: ${value === null ? "no chromatic hue" : value.toFixed(4)}`,
+      label: `${observation.label}: ${value === null ? "no chromatic hue" : Number(value.toFixed(2))}`,
     };
   });
 }

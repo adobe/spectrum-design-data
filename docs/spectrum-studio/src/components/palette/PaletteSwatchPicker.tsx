@@ -1,10 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { ActionButton, ColorSwatch, Text } from "@react-spectrum/s2";
 import {
-  ColorSwatchPicker,
-  parseColor,
-} from "@react-spectrum/s2/ColorSwatchPicker";
+  ColorSwatch,
+  Text,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  TooltipTrigger,
+} from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useMemo } from "react";
 import type {
@@ -21,6 +24,7 @@ export interface PaletteSwatchPickerProps {
   onLink: (paletteColorId: string) => void;
   onUnlink: () => void;
   isReadOnly?: boolean;
+  presentation?: "default" | "swatches" | "link";
 }
 
 const sectionStyles = style({
@@ -35,12 +39,8 @@ const linkedRowStyles = style({
   alignItems: "center",
   gap: 8,
 });
-// Transparent matches no palette swatch, so nothing looks selected while unlinked.
-const NO_SELECTION = "#00000000";
-
-function swatchKey(hex: string) {
-  return parseColor(hex).toString("hex");
-}
+const swatchStyles = style({ padding: 0, minWidth: 0 });
+const groupStyles = style({ flexWrap: "wrap" });
 
 /** Lets a color stop reference a palette color; the stop follows the palette color when it changes. */
 export function PaletteSwatchPicker({
@@ -50,6 +50,7 @@ export function PaletteSwatchPicker({
   onLink,
   onUnlink,
   isReadOnly = false,
+  presentation = "default",
 }: PaletteSwatchPickerProps) {
   const swatches = useMemo(
     () => paletteSwatches(palette, outputGamut),
@@ -59,12 +60,21 @@ export function PaletteSwatchPicker({
   // Swatches must be unique, so colors that render identically to an earlier one are left out.
   const pickable = swatches.filter((swatch) => !swatch.duplicateOf);
 
-  if (!palette.length || (isReadOnly && !linked)) return null;
+  if (
+    !palette.length ||
+    (isReadOnly && !linked) ||
+    (presentation === "link" && !linked)
+  )
+    return null;
 
   return (
     <div className={sectionStyles}>
-      <span className={labelStyles}>Palette</span>
-      {linked && (
+      {presentation !== "link" && (
+        <span className={labelStyles}>
+          {presentation === "swatches" ? "Palette colors" : "Palette"}
+        </span>
+      )}
+      {linked && presentation !== "swatches" && (
         <div className={linkedRowStyles}>
           <ColorSwatch
             color={linked.hex}
@@ -72,34 +82,38 @@ export function PaletteSwatchPicker({
             aria-label={termLabel(linked.color.name)}
           />
           <Text>Linked to {termLabel(linked.color.name)}</Text>
-          {!isReadOnly && (
-            <ActionButton isQuiet onPress={onUnlink}>
-              Unlink
-            </ActionButton>
-          )}
         </div>
       )}
-      {!isReadOnly && (
-        <ColorSwatchPicker
+      {!isReadOnly && presentation !== "link" && (
+        <ToggleButtonGroup
           aria-label="Palette colors"
+          selectionMode="single"
           size="M"
-          rounding="default"
-          value={linked?.hex ?? NO_SELECTION}
-          onChange={(color) => {
-            const match = pickable.find(
-              (swatch) => swatchKey(swatch.hex) === color.toString("hex"),
-            );
-            if (match && match.color.id !== linkedId) onLink(match.color.id);
+          UNSAFE_className={String(groupStyles)}
+          selectedKeys={linked ? [linked.color.id] : []}
+          onSelectionChange={(keys) => {
+            const id = [...keys][0];
+            if (typeof id === "string") onLink(id);
+            else if (linkedId) onUnlink();
           }}
         >
           {pickable.map((swatch) => (
-            <ColorSwatch
-              key={swatch.color.id}
-              color={swatch.hex}
-              aria-label={termLabel(swatch.color.name)}
-            />
+            <TooltipTrigger key={swatch.color.id}>
+              <ToggleButton
+                id={swatch.color.id}
+                aria-label={termLabel(swatch.color.name)}
+                UNSAFE_className={String(swatchStyles)}
+              >
+                <ColorSwatch color={swatch.hex} size="M" />
+              </ToggleButton>
+              <Tooltip>
+                {swatch.color.id === linkedId
+                  ? "Click to unlink"
+                  : "Link to palette color"}
+              </Tooltip>
+            </TooltipTrigger>
           ))}
-        </ColorSwatchPicker>
+        </ToggleButtonGroup>
       )}
     </div>
   );

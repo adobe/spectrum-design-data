@@ -403,11 +403,11 @@ const exported = buildCascadeTokenExport({
 });
 const paletteRows = exported.tokens.filter(
   (row) =>
-    row.name.property === "color" && row.name.colorName === "brand-primary",
+    row.name.property === "color" && row.name.colorFamily === "brand-primary",
 );
 assert.equal(paletteRows.length, 1);
 assert.deepEqual(Object.keys(paletteRows[0].name).sort(), [
-  "colorName",
+  "colorFamily",
   "property",
 ]);
 

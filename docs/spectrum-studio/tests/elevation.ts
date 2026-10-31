@@ -185,7 +185,11 @@ const multiple = generateElevation({
 assert.equal(multiple.length, 3);
 assert.equal(multiple[0].id, levels[0].id);
 assert.equal(multiple[0].shadows.length, 2);
-assert.equal(shadowCss(multiple[0]).split(", ").length, 2);
+assert.equal(
+  [...shadowCss(multiple[0]).matchAll(/\b0 [\d.]+px [\d.]+px 0 /g)].length,
+  2,
+  "Layer separators must not be confused with commas inside RGB colors.",
+);
 const sets = structuredClone(designSystemDefaults.system.modeSets);
 const dark = sets[0].modes.find((mode) => mode.id === "mode-dark")!;
 assert.equal(

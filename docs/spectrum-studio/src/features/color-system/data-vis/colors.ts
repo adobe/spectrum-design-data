@@ -8,9 +8,9 @@ import {
 import { renderedOutputLinear } from "../outputContrast";
 import {
   clamp01,
+  colorOutputSettings,
   gamutClamp,
   oklabToOklch,
-  outputColorCss,
   renderGamutForOutput,
   toGamma,
   toLinear,
@@ -129,37 +129,29 @@ export function interpolatedOklchCss(
   alpha: number,
   output: OutputColorSpace,
 ): string {
-  return formatInterpolatedCss(lch, alpha, output, true);
+  return formatInterpolatedCss(lch, alpha, output);
 }
 
 function formatInterpolatedCss(
   [lightness, chroma, hue]: Oklch,
   alpha: number,
   output: OutputColorSpace,
-  precisePolarOutput = false,
 ): string {
   if (typeof output === "object") {
     const color = new Color("oklch", [clamp01(lightness), chroma, hue]);
     color.alpha = alpha;
     return serializeOutputColor(color, output);
   }
-  if (alpha <= 0) return "rgb(0 0 0 / 0)";
   const mapped = gamutClamp(
     clamp01(lightness),
     chroma,
     hue,
     renderGamutForOutput(output),
   );
-  if (precisePolarOutput && output === "oklch") {
-    // Coarse polar rounding can move a mapped color back outside the output gamut.
-    const color = new Color("srgb-linear", [...mapped]).to("oklch");
-    if (Number.isNaN(color.coords[2])) color.coords[2] = 0;
-    color.alpha = alpha;
-    return color.toString({ precision: 12 });
-  }
-  const css = outputColorCss(mapped, output);
-  if (alpha >= 1) return css;
-  const color = concreteColor(css);
+  const color = new Color(
+    `${colorJsSpace(renderGamutForOutput(output))}-linear`,
+    [...mapped],
+  );
   color.alpha = alpha;
-  return color.toString({ precision: 7 });
+  return serializeOutputColor(color, colorOutputSettings(output));
 }

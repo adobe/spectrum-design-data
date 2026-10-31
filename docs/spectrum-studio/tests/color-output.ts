@@ -13,7 +13,10 @@ import {
   updateColorOutputSettings,
   type ColorOutputSettings,
 } from "../src/features/color-system/outputSettings";
-import { serializeOutputColor } from "../src/features/color-system/outputSerialization";
+import {
+  serializeLinearOutputColor,
+  serializeOutputColor,
+} from "../src/features/color-system/outputSerialization";
 import {
   convertLinearGamut,
   gamutClamp,
@@ -22,6 +25,8 @@ import {
   toGamma,
   toLinear,
   xyzD65ToLinear,
+  outputColorCss,
+  linearToCss,
 } from "../src/features/color-system/colorMath";
 import { createColorDefaults } from "../src/data/defaults";
 import {
@@ -31,7 +36,26 @@ import {
 import {
   MAX_CHROMA,
   paletteColorLinear,
+  paletteColorCss,
 } from "../src/features/color-system/paletteValue";
+import { resolveScaleColorAtLightness } from "../src/features/color-system/scaleGeneration";
+import { resolveColorDocument } from "../src/features/color-system/resolution";
+import { createDefaultSnapshot } from "../src/features/edit-session/state";
+import { interpolatedOklchCss } from "../src/features/color-system/data-vis/colors";
+import { generateElevation } from "../src/features/elevation/generate";
+import { ELEVATION_DEFAULTS } from "../src/features/elevation/defaults";
+import { dataVisMetricPoints } from "../src/features/color-system/data-vis/analysis";
+import { ColorOutputError } from "../src/features/color-system/outputContrast";
+
+function assertOutputPrecision(css: string, settings: ColorOutputSettings) {
+  if (settings.outputFormat === "hex") {
+    assert.match(css, /^#[0-9a-f]{6}(?:[0-9a-f]{2})?$/);
+    return;
+  }
+  assert.doesNotMatch(css, /\d+\.\d{3}|(?:^|[\s,(])-0(?:\D|$)|\d[eE][+-]\d/);
+  if (settings.outputFormat === "rgb" && outputGamut(settings) === "srgb")
+    assert.match(css, /^rgba?\(\d+, \d+, \d+(?:, (?:0(?:\.\d{1,2})?|1))?\)$/);
+}
 
 const defaults = createColorDefaults();
 for (const authoringGamut of COLOR_GAMUTS)
@@ -91,67 +115,6 @@ for (const authoringGamut of ["display-p3", "rec2020"] as const) {
       );
     }
 }
-for (const [input, expected] of [
-  ["rgb(255 255 255)", "rgb(255, 255, 255)"],
-  ["rgb(245 249 255)", "rgb(245, 249, 255)"],
-  ["rgb(0 0 0 / 0.08)", "rgba(0, 0, 0, 0.08)"],
-  ["rgb(18 52 86 / 0)", "rgba(18, 52, 86, 0)"],
-  ["rgb(1.25 2.5 3.75 / 0.125)", "rgba(1.25, 2.5, 3.75, 0.125)"],
-] as const) {
-  const serialized = serializeOutputColor(new Color(input), {
-    ...DEFAULT_COLOR_OUTPUT,
-    outputFormat: "rgb",
-  });
-  assert.equal(
-    serialized,
-    expected,
-    "sRGB uses the canonical comma-separated RGB/RGBA notation.",
-  );
-  assert.equal(
-    serializeOutputColor(new Color(serialized), {
-      ...DEFAULT_COLOR_OUTPUT,
-      outputFormat: "rgb",
-    }),
-    expected,
-    "Already canonical RGB and RGBA output stays unchanged.",
-  );
-}
-for (const file of ["color-palette", "color-aliases"]) {
-  const reference: unknown = JSON.parse(
-    readFileSync(
-      new URL(
-        `../../../packages/design-data/tokens/${file}.tokens.json`,
-        import.meta.url,
-      ),
-      "utf8",
-    ),
-  );
-  assert(Array.isArray(reference));
-  const values = reference.flatMap((token: unknown) =>
-    token !== null &&
-    typeof token === "object" &&
-    "value" in token &&
-    typeof token.value === "string" &&
-    /^rgba?\(/.test(token.value)
-      ? [token.value]
-      : [],
-  );
-  assert(
-    values.length > 0,
-    `${file} must provide canonical RGB formatting evidence.`,
-  );
-  for (const value of values) {
-    assert.equal(
-      serializeOutputColor(new Color(value), {
-        ...DEFAULT_COLOR_OUTPUT,
-        outputFormat: "rgb",
-      }),
-      value,
-      `${file}: preserve canonical RGB/RGBA notation exactly.`,
-    );
-  }
-}
-
 for (const gamut of COLOR_GAMUTS) {
   assert.deepEqual(gamutClamp(0, 0.5, 140, gamut), [0, 0, 0]);
   assert.deepEqual(gamutClamp(1, 0.5, 140, gamut), [1, 1, 1]);
@@ -190,10 +153,18 @@ for (const authoringGamut of COLOR_GAMUTS)
         "color(display-p3 0 1 0)",
         "color(rec2020 1 0 0)",
         "rgb(20 40 60 / 0.5)",
+        "rgb(20.12345 40.23456 60.34567 / 0.999)",
+        "rgb(20.12345 40.23456 60.34567 / 0.001)",
       ]) {
         const original = new Color(input);
         const before = original.toString({ inGamut: false, precision: 15 });
         const serialized = serializeOutputColor(original, settings);
+        assertOutputPrecision(serialized, settings);
+        assert.equal(
+          serializeOutputColor(new Color(serialized), settings),
+          serialized,
+          "Opacity rounding is stable, including colors that round to opaque or transparent.",
+        );
         const parsed = new Color(serialized);
         assert(
           parsed.inGamut(
@@ -211,7 +182,7 @@ for (const authoringGamut of COLOR_GAMUTS)
         );
         assert(
           Math.abs(Number(parsed.alpha) - Number(original.alpha)) <=
-            (outputFormat === "hex" ? 1 / 255 : 1e-10),
+            (outputFormat === "hex" ? 1 / 255 : 0.005),
         );
       }
     }
@@ -253,6 +224,246 @@ assert.equal(
   }),
   "rgb(0, 0, 0)",
 );
+for (const [input, expected] of [
+  ["rgb(255 255 255)", "rgb(255, 255, 255)"],
+  ["rgb(245 249 255)", "rgb(245, 249, 255)"],
+  ["rgb(0 0 0 / 0.08)", "rgba(0, 0, 0, 0.08)"],
+  ["rgb(18 52 86 / 0)", "rgba(18, 52, 86, 0)"],
+  ["rgb(1.25 2.5 3.75 / 0.125)", "rgba(1, 3, 4, 0.13)"],
+  ["rgb(4.3851126 4.3851126 4.3851126)", "rgb(4, 4, 4)"],
+  ["rgb(254.6 0.49 127.5)", "rgb(255, 0, 128)"],
+] as const) {
+  const serialized = serializeOutputColor(
+    new Color(input),
+    DEFAULT_COLOR_OUTPUT,
+  );
+  assert.equal(
+    serialized,
+    expected,
+    "sRGB uses comma-separated notation with whole-number byte channels and two-decimal alpha.",
+  );
+  assert.equal(
+    serializeOutputColor(new Color(serialized), DEFAULT_COLOR_OUTPUT),
+    expected,
+    "Already canonical RGB and RGBA output stays unchanged.",
+  );
+}
+for (const file of ["color-palette", "color-aliases"]) {
+  const reference: unknown = JSON.parse(
+    readFileSync(
+      new URL(
+        `../../../packages/design-data/tokens/${file}.tokens.json`,
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  assert(Array.isArray(reference));
+  const values = reference.flatMap((token: unknown) =>
+    token !== null &&
+    typeof token === "object" &&
+    "value" in token &&
+    typeof token.value === "string" &&
+    /^rgba?\(/.test(token.value)
+      ? [token.value]
+      : [],
+  );
+  assert(
+    values.length > 0,
+    `${file} must provide canonical RGB formatting evidence.`,
+  );
+  for (const value of values) {
+    const source = new Color(value);
+    const [red, green, blue] = source
+      .to("srgb")
+      .coords.map((channel) => Math.round(Number(channel) * 255));
+    const alpha = Number(Number(source.alpha).toFixed(2));
+    const expected =
+      alpha === 1
+        ? `rgb(${red}, ${green}, ${blue})`
+        : `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+    assert.equal(
+      serializeOutputColor(source, DEFAULT_COLOR_OUTPUT),
+      expected,
+      `${file}: preserve canonical notation while applying Studio's output precision.`,
+    );
+  }
+}
+
+for (const authoringGamut of COLOR_GAMUTS)
+  for (const outputFormat of COLOR_FORMATS)
+    for (const mapOutputsToSrgb of [false, true]) {
+      const settings = { authoringGamut, outputFormat, mapOutputsToSrgb };
+      if (!isColorOutputSettings(settings)) continue;
+      for (const linear of [
+        [0, 0, 0],
+        [1, 1, 1],
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [0.0003, 0.123456789, 0.987654321],
+      ] as const) {
+        const space =
+          outputGamut(settings) === "display-p3" ? "p3" : outputGamut(settings);
+        const css = serializeLinearOutputColor(linear, settings);
+        assertOutputPrecision(css, settings);
+        assert.equal(
+          css,
+          serializeOutputColor(
+            new Color(`${space}-linear`, [...linear]),
+            settings,
+          ),
+          "The fast linear path and mapped path agree on rounding.",
+        );
+        assert(
+          new Color(css).inGamut(space, { epsilon: 1e-8 }),
+          `Rounding must stay in gamut: ${css}`,
+        );
+        assert.equal(
+          serializeOutputColor(new Color(css), settings),
+          css,
+          "Rounded output is stable when copied and parsed again.",
+        );
+      }
+    }
+
+const snapshot = createDefaultSnapshot();
+const colorModes = snapshot.modeSets.find((set) =>
+  set.authoringCapabilities?.includes("color.backgroundLightness"),
+)!;
+assert(colorModes);
+const darkMode = colorModes.modes.find(
+  (mode) => mode.id !== colorModes.defaultModeId,
+)!;
+darkMode.foundations.color = {
+  ...darkMode.foundations.color,
+  backgroundLightness: 0.123456789,
+};
+const authoredSnapshot = JSON.stringify(snapshot);
+for (const authoringGamut of COLOR_GAMUTS) {
+  for (const mapOutputsToSrgb of [false, true]) {
+    const resolved = resolveColorDocument(
+      snapshot.colorSystem,
+      [darkMode],
+      undefined,
+      {
+        modeSets: snapshot.modeSets,
+      },
+    );
+    const settings: ColorOutputSettings = {
+      authoringGamut,
+      outputFormat: "rgb",
+      mapOutputsToSrgb,
+    };
+    const document = {
+      ...resolved,
+      settings: { ...resolved.settings, colorOutput: settings },
+    };
+    const background = resolveScaleColorAtLightness(
+      document.scales.find((scale) => scale.id === document.backgroundScaleId)!,
+      document.backgroundLightness,
+      settings,
+    );
+    assert.equal(background.lightness, 0.123456789);
+    assertOutputPrecision(background.css, settings);
+    for (const color of document.palette)
+      assertOutputPrecision(paletteColorCss(color, settings), settings);
+  }
+}
+assert.equal(
+  JSON.stringify(snapshot),
+  authoredSnapshot,
+  "Formatting does not quantize authored mode or palette coordinates.",
+);
+for (const output of ["srgb", "display-p3", "rec2020", "oklch"] as const) {
+  const settings: ColorOutputSettings = {
+    authoringGamut: output === "oklch" ? "srgb" : output,
+    outputFormat:
+      output === "srgb" ? "hex" : output === "oklch" ? "oklch" : "rgb",
+    mapOutputsToSrgb: false,
+  };
+  const linear = [0.123456, 0.456789, 0.789123] as const;
+  assert.equal(
+    outputColorCss(linear, output),
+    serializeLinearOutputColor(linear, settings),
+  );
+  if (output !== "oklch")
+    assert.equal(
+      linearToCss(linear, output),
+      serializeLinearOutputColor(linear, settings),
+    );
+  assertOutputPrecision(
+    interpolatedOklchCss([0.654321, 0.123456, 123.456789], 0.654321, output),
+    settings,
+  );
+}
+const shadowDocument = {
+  ...structuredClone(ELEVATION_DEFAULTS),
+  color: "rgb(4.3851126 4.3851126 4.3851126)",
+  layers: ELEVATION_DEFAULTS.layers.map((layer) => ({
+    ...layer,
+    opacityTokenId: undefined,
+    manualOpacity: 0.123456,
+  })),
+};
+const shadowSource = JSON.stringify(shadowDocument);
+for (const level of generateElevation(shadowDocument))
+  for (const shadow of level.shadows)
+    assert.equal(shadow.color, "rgba(4, 4, 4, 0.12)");
+assert.equal(JSON.stringify(shadowDocument), shadowSource);
+for (const metric of ["lightness", "chroma", "hue", "contrast"] as const) {
+  const [point] = dataVisMetricPoints(
+    [
+      {
+        id: "sample",
+        label: "Sample",
+        position: 0.5,
+        value: "oklch(0.654321 0.123456 123.456789)",
+      },
+    ],
+    "#fff",
+    "srgb",
+    metric,
+  );
+  assert.notEqual(point.y, null);
+  assert.equal(point.label, `Sample: ${Number(point.y!.toFixed(2))}`);
+  assert.notEqual(
+    point.y,
+    Number(point.y!.toFixed(2)),
+    "Graph calculations retain full precision.",
+  );
+}
+assert.match(
+  new ColorOutputError({
+    requestedContrast: 4.5,
+    achievableContrast: 4.3851126,
+    gamut: "srgb",
+    background: "#ffffff",
+    source: "Sample",
+  }).message,
+  /achievable contrast is 4\.39:1/,
+);
+assert.equal(
+  serializeLinearOutputColor([1, 1, 1], DEFAULT_COLOR_OUTPUT),
+  "rgb(255, 255, 255)",
+  "The optimized linear path uses the same canonical notation.",
+);
+for (const authoringGamut of ["display-p3", "rec2020"] as const) {
+  const settings = { ...DEFAULT_COLOR_OUTPUT, authoringGamut };
+  assert.equal(
+    serializeOutputColor(new Color("srgb", [0, 0, 0], 0.5), settings),
+    `color(${authoringGamut} 0 0 0 / 0.5)`,
+    "Wide-gamut CSS keeps its required space-separated notation.",
+  );
+  assert.equal(
+    serializeOutputColor(new Color("srgb", [0, 0, 0], 0.5), {
+      ...settings,
+      mapOutputsToSrgb: true,
+    }),
+    "rgba(0, 0, 0, 0.5)",
+    "Mapping wide-gamut output to sRGB uses canonical RGBA notation.",
+  );
+}
 assert.equal(
   serializeOutputColor(new Color("#fff"), {
     ...DEFAULT_COLOR_OUTPUT,

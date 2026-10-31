@@ -34,7 +34,7 @@ export interface ColorOutputFailure {
 export class ColorOutputError extends Error {
   constructor(public readonly details: ColorOutputFailure) {
     super(
-      `${details.source} cannot reach ${details.requestedContrast}:1 contrast against ${details.background} in ${GAMUT_LABELS[details.gamut]}. The achievable contrast is ${details.achievableContrast.toFixed(4)}:1. Change the target, background or contrast side before exporting.`,
+      `${details.source} cannot reach ${details.requestedContrast}:1 contrast against ${details.background} in ${GAMUT_LABELS[details.gamut]}. The achievable contrast is ${details.achievableContrast.toFixed(2)}:1. Change the target, background or contrast side before exporting.`,
     );
     this.name = "ColorOutputError";
   }

@@ -1,7 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
+  AccordionItem,
+  AccordionItemPanel,
+  AccordionItemTitle,
   Button,
   Checkbox,
   DialogTrigger,
@@ -9,13 +13,12 @@ import {
   Popover,
   Text,
   TextField,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { Picker } from "../../components/fields/Picker";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
 import {
   type ComponentRef,
   useEffect,
@@ -30,7 +33,7 @@ import { GradientStopControl } from "../../components/color-picker/GradientStopC
 import { foundationCardStyles } from "../../components/foundationCardStyles";
 import { PaletteSwatchPicker } from "../../components/palette/PaletteSwatchPicker";
 import { resolvePaletteLinks } from "../../features/color-system/paletteReferences";
-import { useDeletionToast } from "../../components/deletionToastContext";
+import { paletteColorCss } from "../../features/color-system/paletteValue";
 import { EditOnly, useIsReadOnly } from "../../components/editable";
 import {
   gamutClamp,
@@ -73,6 +76,7 @@ import { CustomContrastControls } from "./CustomContrastControls";
 import { useNarrowScaleEditorViewport } from "../../components/useNarrowScaleEditorViewport";
 import { ScaleColorPreview } from "../../views/color-system/ScaleColorPreview";
 import { popoverDialogStyles } from "../../components/popoverLayout";
+import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 
 const editorStyles = style({
   display: "flex",
@@ -117,8 +121,15 @@ const rampEditorStyles = style({
   gap: 4,
 });
 const rampHintStyles = style({ font: "detail", color: "detail" });
+const keyColorsStyles = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+  minWidth: 0,
+});
 
 export function ScaleStopEditor() {
+  const notify = useNotify();
   const isNarrow = useNarrowScaleEditorViewport();
   const colorDocument = useAtomValue(resolvedColorSystemDocumentAtom);
   const baseDocument = useAtomValue(colorSystemDocumentAtom);
@@ -158,12 +169,9 @@ export function ScaleStopEditor() {
   const updateStop = useSetAtom(updateColorStopAtom);
   const applyToMode = useSetAtom(applyColorStopToModeAtom);
   const resetStop = useSetAtom(resetModeColorStopAtom);
-  const addScale = useSetAtom(addColorScaleAtom);
+  const store = useStore();
   const addStop = useSetAtom(addColorStopAtom);
   const removeStop = useSetAtom(removeColorStopAtom);
-  const removeScale = useSetAtom(removeColorScaleAtom);
-  const restoreScale = useSetAtom(restoreColorScaleAtom);
-  const { notifyDeleted } = useDeletionToast();
   const scopeIsBase = editBase || !isModeEdit;
   function editStop(update: {
     scaleId: string;
@@ -181,22 +189,19 @@ export function ScaleStopEditor() {
     updateStop({ ...update, scope: scopeIsBase ? "base" : "mode" });
   }
   return (
-    <div className={editorStyles}>
+    <div className={keyColorsStyles}>
       <EditOnly>
         <div className={scaleActionsStyles}>
           <ActionButton
-            onPress={() => {
-              try {
-                const id = addScale();
+            onPress={() =>
+              notify.added("colorScale", () => {
+                const id = store.set(addColorScaleAtom);
                 setEditBase(false);
                 setFocusId(id);
                 setOpeningId(id);
-              } catch (failure) {
-                ToastQueue.negative(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
-            }}
+                return id;
+              })
+            }
           >
             <Add />
             <Text>Add color scale</Text>
@@ -276,7 +281,6 @@ export function ScaleStopEditor() {
                       }
                       allowValues={!owner}
                     />
-                    <CustomContrastControls scaleId={scale.id} />
                   </Dialog>
                 </Popover>
               </DialogTrigger>
@@ -292,20 +296,27 @@ export function ScaleStopEditor() {
                     const fallback =
                       colorDocument.scales[currentIndex + 1] ??
                       colorDocument.scales[currentIndex - 1];
-                    const result = removeScale(scale.id);
-                    if (!result.ok) {
-                      ToastQueue.negative(result.error);
-                      return;
-                    }
-                    notifyDeleted(`Color scale ${termLabel(scale.name)}`, () =>
-                      restoreScale(
-                        result.removedScale ?? { scale, index: currentIndex },
-                      ),
-                    );
-                    if (scale.id === selectedScaleId) {
-                      setSelectedScaleId(fallback.id);
-                      setSelectedStopId(fallback.stops[0]?.id ?? null);
-                    }
+                    notify.remove({
+                      kind: "colorScale",
+                      noun: termLabel(scale.name),
+                      run: (store) => store.set(removeColorScaleAtom, scale.id),
+                      undo: (result) => {
+                        if (result.ok)
+                          store.set(
+                            restoreColorScaleAtom,
+                            result.removedScale ?? {
+                              scale,
+                              index: currentIndex,
+                            },
+                          );
+                      },
+                      onDone: () => {
+                        if (scale.id === selectedScaleId) {
+                          setSelectedScaleId(fallback.id);
+                          setSelectedStopId(fallback.stops[0]?.id ?? null);
+                        }
+                      },
+                    });
                   }}
                 >
                   <Delete />
@@ -432,9 +443,11 @@ function ScaleControls({
   allowStructure = true,
   allowValues = true,
 }: ScaleControlsProps) {
+  const notify = useNotify();
   const isReadOnly = useIsReadOnly();
   const updatePublishing = useSetAtom(updateColorScalePublishingAtom);
-  const colorDocument = editBase ? resolvePaletteLinks(baseDocument) : document;
+  const colorDocument =
+    editBase && !isReadOnly ? resolvePaletteLinks(baseDocument) : document;
   const scale = colorDocument.scales.find(
     (candidate) => candidate.id === scaleId,
   )!;
@@ -464,7 +477,6 @@ function ScaleControls({
           Scale names and stop additions or removals apply to all modes.
         </Text>
       )}
-      {/* <Heading slot="title" level={2}>{`${termLabel(scale.name)}`}</Heading> */}
       {allowStructure && (
         <SourceNameEditor
           sourceId={taxonomyColorSourceId(scale.id)}
@@ -484,7 +496,7 @@ function ScaleControls({
             try {
               updatePublishing({ scaleId: scale.id, hideFromPublishing });
             } catch (failure) {
-              ToastQueue.negative(
+              notify.error(
                 failure instanceof Error ? failure.message : String(failure),
               );
             }
@@ -493,143 +505,171 @@ function ScaleControls({
           Hide from publishing
         </Checkbox>
       )}
-      <div className={rampEditorStyles}>
-        {!isReadOnly && (
-          <Text UNSAFE_className={String(rampHintStyles)}>
-            {!allowValues
-              ? "Select a stop to remove. Edit stop values in Mode sets."
-              : allowStructure
-                ? "Click to edit, drag to move, double-click the ramp to add stops."
-                : "Select a stop to edit or drag to move it."}
-          </Text>
-        )}
-        <GradientStopControl
-          selectedId={selectedStop.id}
-          onSelect={onSelectedStopChange}
-          isReadOnly={isReadOnly}
-          disableReadOnlySelection
-          gradient={`linear-gradient(to right, ${buildScaleData(
-            scale,
-            colorDocument.settings.colorOutput,
-          )
-            .ramp.map((color) => color.css)
-            .join(", ")})`}
-          onAdd={
-            allowStructure
-              ? (lightness) => onAddStop({ scaleId: scale.id, lightness })
-              : undefined
-          }
-          onMove={
-            allowValues
-              ? (stopId, lightness) =>
-                  onUpdateStop({ scaleId: scale.id, stopId, lightness })
-              : undefined
-          }
-          stops={scale.stops.map((stop, index) => ({
-            id: stop.id,
-            position: stop.lightness,
-            movable: !stop.paletteColorId,
-            label: `Stop ${index + 1}, lightness ${Math.round(stop.lightness * 100)} percent`,
-            color: outputColorCss(
-              gamutClamp(
-                stop.lightness,
-                (stop.chroma / 100) * 0.4,
-                stop.hue,
-                renderGamutForOutput(colorDocument.settings.colorOutput),
-              ),
-              colorDocument.settings.colorOutput,
-            ),
-          }))}
-        />
-      </div>
-      {isReadOnly && allowValues && (
-        <PaletteSwatchPicker
-          isReadOnly
-          palette={colorDocument.palette}
-          outputGamut={colorDocument.settings.colorOutput}
-          linkedId={selectedStop.paletteColorId}
-          onLink={() => undefined}
-          onUnlink={() => undefined}
-        />
-      )}
-      <EditOnly>
-        {allowValues &&
-          modeName &&
-          !editBase &&
-          !isCustom &&
-          !!overriddenStopIds[selectedStop.id] && (
-            <ActionButton
-              onPress={() => onResetStop({ scaleId, stopId: selectedStop.id })}
-            >
-              Remove stop override
-            </ActionButton>
-          )}
-        {allowStructure && (
-          <div className={fieldRowStyles}>
-            <ActionButton onPress={() => onAddStop(scale.id)}>
-              Add stop
-            </ActionButton>
-            <ActionButton
-              aria-label="Remove selected stop"
-              isDisabled={scale.stops.length <= 1}
-              onPress={() => {
-                onRemoveStop({ scaleId: scale.id, stopId: selectedStop.id });
-                onSelectedStopChange(
-                  scale.stops.find((stop) => stop.id !== selectedStop.id)?.id ??
-                    null,
-                );
-              }}
-            >
-              Remove stop
-            </ActionButton>
-          </div>
-        )}
-        {allowValues && (
-          <PaletteSwatchPicker
-            palette={colorDocument.palette}
-            outputGamut={colorDocument.settings.colorOutput}
-            linkedId={selectedStop.paletteColorId}
-            onLink={(paletteColorId) =>
-              onUpdateStop({
-                scaleId: scale.id,
-                stopId: selectedStop.id,
-                paletteColorId,
-              })
-            }
-            onUnlink={() =>
-              onUpdateStop({
-                scaleId: scale.id,
-                stopId: selectedStop.id,
-                paletteColorId: null,
-              })
-            }
-          />
-        )}
-        {/* The palette color owns the value while linked; unlink to edit channels. */}
-        {allowValues && !selectedStop.paletteColorId && (
-          <ColorPickerContents
-            className={style({
-              backgroundColor: "gray-25",
-              padding: 16,
-              borderRadius: "lg",
-            })}
-            color={`oklch(${selectedStop.lightness} ${(selectedStop.chroma / 100) * 0.4} ${selectedStop.hue})`}
-            colorSpace="OKlch"
-            onChange={(_, parsedColor) => {
-              const [lightness, chroma, hue] = parsedColor
-                .to("oklch")
-                .coords.map(Number);
-              onUpdateStop({
-                scaleId: scale.id,
-                stopId: selectedStop.id,
-                lightness,
-                chroma: (chroma / 0.4) * 100,
-                hue: Number.isFinite(hue) ? hue : selectedStop.hue,
-              });
-            }}
-          />
-        )}
-      </EditOnly>
+      <NestedPanelAccordion
+        allowsMultipleExpanded={false}
+        defaultExpandedKeys={["key-colors"]}
+      >
+        <AccordionItem id="key-colors">
+          <AccordionItemTitle>Key colors</AccordionItemTitle>
+          <AccordionItemPanel>
+            <div className={editorStyles}>
+              <div className={rampEditorStyles}>
+                <GradientStopControl
+                  selectedId={selectedStop.id}
+                  onSelect={onSelectedStopChange}
+                  isReadOnly={isReadOnly}
+                  gradient={`linear-gradient(to right, ${buildScaleData(
+                    scale,
+                    colorDocument.settings.colorOutput,
+                  )
+                    .ramp.map((color) => color.css)
+                    .join(", ")})`}
+                  onAdd={
+                    allowStructure
+                      ? (lightness) =>
+                          onAddStop({ scaleId: scale.id, lightness })
+                      : undefined
+                  }
+                  onMove={
+                    allowValues
+                      ? (stopId, lightness) =>
+                          onUpdateStop({ scaleId: scale.id, stopId, lightness })
+                      : undefined
+                  }
+                  stops={scale.stops.map((stop, index) => ({
+                    id: stop.id,
+                    position: stop.lightness,
+                    movable: !stop.paletteColorId,
+                    label: `Stop ${index + 1}, lightness ${Math.round(stop.lightness * 100)} percent`,
+                    color: outputColorCss(
+                      gamutClamp(
+                        stop.lightness,
+                        (stop.chroma / 100) * 0.4,
+                        stop.hue,
+                        renderGamutForOutput(
+                          colorDocument.settings.colorOutput,
+                        ),
+                      ),
+                      colorDocument.settings.colorOutput,
+                    ),
+                  }))}
+                />
+                <Text UNSAFE_className={String(rampHintStyles)}>
+                  {isReadOnly
+                    ? "Select a stop to view its color."
+                    : !allowValues
+                      ? "Select a stop to remove. Edit stop values in Mode sets."
+                      : allowStructure
+                        ? "Double click ramp to add a stop"
+                        : "Select a stop to edit or drag to move it."}
+                </Text>
+              </div>
+              {isReadOnly && allowValues && (
+                <PaletteSwatchPicker
+                  isReadOnly
+                  palette={colorDocument.palette}
+                  outputGamut={colorDocument.settings.colorOutput}
+                  linkedId={selectedStop.paletteColorId}
+                  onLink={() => undefined}
+                  onUnlink={() => undefined}
+                />
+              )}
+              <EditOnly>
+                {allowStructure && (
+                  <div className={fieldRowStyles}>
+                    <ActionButton onPress={() => onAddStop(scale.id)}>
+                      <Add />
+                      <Text>Add stop</Text>
+                    </ActionButton>
+                    <ActionButton
+                      aria-label="Remove selected stop"
+                      isDisabled={scale.stops.length <= 1}
+                      onPress={() => {
+                        onRemoveStop({ scaleId, stopId: selectedStop.id });
+                        onSelectedStopChange(
+                          scale.stops.find(
+                            (stop) => stop.id !== selectedStop.id,
+                          )?.id ?? null,
+                        );
+                      }}
+                    >
+                      <Delete />
+                      <Text>Remove stop</Text>
+                    </ActionButton>
+                  </div>
+                )}
+                {allowValues && (
+                  <PaletteSwatchPicker
+                    presentation="swatches"
+                    palette={colorDocument.palette}
+                    outputGamut={colorDocument.settings.colorOutput}
+                    linkedId={selectedStop.paletteColorId}
+                    onLink={(paletteColorId) =>
+                      onUpdateStop({
+                        scaleId: scale.id,
+                        stopId: selectedStop.id,
+                        paletteColorId,
+                      })
+                    }
+                    onUnlink={() =>
+                      onUpdateStop({
+                        scaleId: scale.id,
+                        stopId: selectedStop.id,
+                        paletteColorId: null,
+                      })
+                    }
+                  />
+                )}
+                {allowValues && (
+                  <ColorPickerContents
+                    color={`oklch(${selectedStop.lightness} ${(selectedStop.chroma / 100) * 0.4} ${selectedStop.hue})`}
+                    colorSpace="OKlch"
+                    onChange={(_, parsedColor) => {
+                      const [lightness, chroma, hue] = parsedColor
+                        .to("oklch")
+                        .coords.map(Number);
+                      onUpdateStop({
+                        scaleId: scale.id,
+                        stopId: selectedStop.id,
+                        lightness,
+                        chroma: (chroma / 0.4) * 100,
+                        hue: Number.isFinite(hue) ? hue : selectedStop.hue,
+                      });
+                    }}
+                  />
+                )}
+              </EditOnly>
+              {isReadOnly && (
+                <TextField
+                  label="Color value"
+                  isReadOnly
+                  value={paletteColorCss(
+                    selectedStop,
+                    colorDocument.settings.colorOutput,
+                  )}
+                  styles={style({ width: "full", minWidth: 0 })}
+                />
+              )}
+              <EditOnly>
+                {allowValues &&
+                  modeName &&
+                  !editBase &&
+                  !isCustom &&
+                  !!overriddenStopIds[selectedStop.id] && (
+                    <ActionButton
+                      onPress={() =>
+                        onResetStop({ scaleId, stopId: selectedStop.id })
+                      }
+                    >
+                      Remove stop override
+                    </ActionButton>
+                  )}
+              </EditOnly>
+            </div>
+          </AccordionItemPanel>
+        </AccordionItem>
+        {allowStructure && <CustomContrastControls scaleId={scale.id} />}
+      </NestedPanelAccordion>
     </div>
   );
 }

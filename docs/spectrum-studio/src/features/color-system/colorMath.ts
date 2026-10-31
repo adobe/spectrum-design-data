@@ -18,7 +18,7 @@ export type OutputColorSpace = RgbGamut | "oklch" | ColorOutputSettings;
 export type Oklab = readonly [number, number, number];
 export type Oklch = readonly [number, number, number];
 
-export function formatColorNumber(value: number, decimals = 3) {
+export function formatColorNumber(value: number, decimals = 2) {
   const rounded = Number(value.toFixed(decimals));
   return Object.is(rounded, -0) ? "0" : String(rounded);
 }
@@ -111,8 +111,19 @@ export function linearToHex(color: LinearRgb, gamut: RgbGamut = "srgb") {
 }
 
 export function linearToCss(color: LinearRgb, gamut: RgbGamut = "srgb") {
-  if (gamut === "srgb") return linearToHex(color);
-  return `color(${gamut} ${color.map((channel) => formatColorNumber(clamp01(toGamma(channel, gamut)))).join(" ")})`;
+  return serializeLinearOutputColor(color, colorOutputSettings(gamut));
+}
+
+export function colorOutputSettings(
+  output: OutputColorSpace,
+): ColorOutputSettings {
+  if (typeof output === "object") return output;
+  return {
+    authoringGamut: output === "oklch" ? "srgb" : output,
+    outputFormat:
+      output === "srgb" ? "hex" : output === "oklch" ? "oklch" : "rgb",
+    mapOutputsToSrgb: false,
+  };
 }
 
 export function outputColorCss(
@@ -120,21 +131,13 @@ export function outputColorCss(
   output: OutputColorSpace = "srgb",
   inputGamut: RgbGamut = renderGamutForOutput(output),
 ) {
-  if (typeof output === "object") {
-    if (inputGamut === outputGamut(output))
-      return serializeLinearOutputColor(color, output);
-    return serializeOutputColor(
-      new Color(`${colorJsSpace(inputGamut)}-linear`, [...color]),
-      output,
-    );
-  }
-  if (output === "oklch") {
-    const [lightness, chroma, hue] = linearToOklch(
-      convertLinearGamut(color, inputGamut, "srgb"),
-    );
-    return `oklch(${formatColorNumber(lightness)} ${formatColorNumber(chroma)} ${formatColorNumber(hue)})`;
-  }
-  return linearToCss(color, output);
+  const settings = colorOutputSettings(output);
+  if (inputGamut === outputGamut(settings))
+    return serializeLinearOutputColor(color, settings);
+  return serializeOutputColor(
+    new Color(`${colorJsSpace(inputGamut)}-linear`, [...color]),
+    settings,
+  );
 }
 
 export function renderGamutForOutput(output: OutputColorSpace): RgbGamut {

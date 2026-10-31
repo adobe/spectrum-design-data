@@ -1,17 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import {
-  ActionButton,
-  Checkbox,
-  PickerItem,
-  Text,
-  ToastQueue,
-} from "@react-spectrum/s2";
-import { useAtomValue, useSetAtom } from "jotai";
+import { ActionButton, Checkbox, PickerItem, Text } from "@react-spectrum/s2";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import Add from "@react-spectrum/s2/icons/Add";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
-import { useDeletionToast } from "../../components/deletionToastContext";
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   EditableNumberField,
   EditablePicker,
@@ -58,31 +52,23 @@ const previewRoles: Array<{ id: SurfacePreviewRole; label: string }> = [
 export function SurfaceEditor() {
   const document = useAtomValue(colorSystemDocumentAtom);
   const resolvedDocument = useAtomValue(resolvedColorSystemDocumentAtom);
-  const addSurface = useSetAtom(addSurfaceAtom);
+  const store = useStore();
+  const notify = useNotify();
   const updateSurface = useSetAtom(updateSurfaceAtom);
-  const removeSurface = useSetAtom(removeSurfaceAtom);
-  const restoreSurface = useSetAtom(restoreSurfaceAtom);
-  const { notifyDeleted } = useDeletionToast();
   const isReadOnly = useIsReadOnly();
   return (
     <div className={editorStyles}>
       <EditOnly>
         <ActionButton
-          onPress={() => {
-            try {
-              addSurface();
-            } catch (failure) {
-              ToastQueue.negative(
-                failure instanceof Error ? failure.message : String(failure),
-              );
-            }
-          }}
+          onPress={() =>
+            notify.added("surface", () => store.set(addSurfaceAtom))
+          }
         >
           <Add />
           <Text>Add surface</Text>
         </ActionButton>
       </EditOnly>
-      {document.surfaces.map((surface, index) => {
+      {document.surfaces.map((surface) => {
         if (surface.base) return <Text key={surface.id}>Base surface</Text>;
         const maximumContrast = surface.expanded ? 12 : 3;
         return (
@@ -94,10 +80,34 @@ export function SurfaceEditor() {
                   isQuiet
                   aria-label={`Delete surface ${termLabel(surface.name)}`}
                   onPress={() => {
-                    removeSurface(surface.id);
-                    notifyDeleted(`Surface ${termLabel(surface.name)}`, () =>
-                      restoreSurface({ surface, index }),
-                    );
+                    notify.remove({
+                      kind: "surface",
+                      noun: termLabel(surface.name),
+                      run: (store) => {
+                        const currentIndex = store
+                          .get(colorSystemDocumentAtom)
+                          .surfaces.findIndex((item) => item.id === surface.id);
+                        if (currentIndex < 0)
+                          return {
+                            ok: false as const,
+                            error: "This surface is no longer available.",
+                          };
+                        store.set(removeSurfaceAtom, surface.id);
+                        const remains = store
+                          .get(colorSystemDocumentAtom)
+                          .surfaces.some((item) => item.id === surface.id);
+                        return remains
+                          ? {
+                              ok: false as const,
+                              error: "At least one surface must remain.",
+                            }
+                          : { surface, index: currentIndex };
+                      },
+                      undo: (removed) => {
+                        if (!("ok" in removed))
+                          store.set(restoreSurfaceAtom, removed);
+                      },
+                    });
                   }}
                 >
                   <Delete />
