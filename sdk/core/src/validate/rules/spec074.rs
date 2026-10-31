@@ -10,12 +10,11 @@
 
 //! SPEC-074: anatomy-present-in-declared
 //!
-//! Every entry of an anatomy part's `presentIn` SHOULD be a state the component
+//! Every entry of an anatomy part's `presentIn` MUST be a state the component
 //! declares. A part that lists an undeclared state is a dangling reference: the
 //! anatomy version of SPEC-054. State names are compared after the engine's own
 //! normalization (`focus`, `key-focus` and `keyboard-focus` are one state), so a
-//! component that declares `focus` can use any of those spellings. Warning for now,
-//! because anatomy is unreviewed; it tightens to an error after the review pass.
+//! component that declares `focus` can use any of those spellings.
 
 use std::collections::HashSet;
 
@@ -74,7 +73,7 @@ impl ValidationRule for Rule {
                         file: comp.file.clone(),
                         token: None,
                         rule_id: Some(self.id().to_string()),
-                        severity: Severity::Warning,
+                        severity: Severity::Error,
                         message: format!(
                             "Anatomy part '{part_name}' on component '{}' is present in state '{state}', but {why}",
                             comp.name
@@ -131,7 +130,7 @@ mod tests {
     fn warns_on_an_undeclared_state() {
         let d = run(comp(&["hover", "down"], &["focus"]));
         assert_eq!(d.len(), 1);
-        assert_eq!(d[0].severity, Severity::Warning);
+        assert_eq!(d[0].severity, Severity::Error);
         assert!(d[0].message.contains("state 'focus'"));
         assert!(d[0].message.contains("not a declared state"));
     }
