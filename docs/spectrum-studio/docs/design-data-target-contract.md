@@ -42,6 +42,21 @@ their editors or engines. `componentSize` stays in typography pending EPIC-2.5;
 spacing/size follow text zoom only through explicit bindings. Pure-CSS web output
 and the single existing generation path remain constraints.
 
+## Structure variant extension
+
+The Structures enhancement uses native property definitions and sparse option
+differences, separate from Component API properties. Non-boolean definitions
+reference explicit Registry terms. Boolean preview switches, layer ordering, and
+visibility do not generate tokens; changed token-backed bindings emit only their
+variant semantics. Default semantic rows retain their existing identities.
+
+`leonardo-structure-variants-v3` is a local output profile. Its compatibility
+envelope 3 preserves Registry classifications, generated root aliases, and literal
+leaf values, including unitless line heights. It does not represent upstream
+anatomy or establish an accepted variant-property schema. Authoring snapshots
+retain the non-token definitions; token-only exports do not round-trip them.
+LTAX-017 records these boundaries with alignment not assessed and RFC needed.
+
 ## Bounded component authoring profile
 
 The separately approved shared color-output slice uses Color schema 5 and

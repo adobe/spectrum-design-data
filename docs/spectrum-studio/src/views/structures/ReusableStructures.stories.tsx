@@ -143,6 +143,13 @@ function ReusableTemplate({
                 }}
               />
               <StructureEditorPanel
+                report={(failure) =>
+                  setLabelError(
+                    failure instanceof Error
+                      ? failure.message
+                      : String(failure),
+                  )
+                }
                 structure={source}
                 references={fixture.references}
                 layout={layout}

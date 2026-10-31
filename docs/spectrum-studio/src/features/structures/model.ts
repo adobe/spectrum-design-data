@@ -35,6 +35,8 @@ import {
 } from "./children";
 import { typographyReferenceCoordinates } from "../tokens/primitiveIdentity";
 import type { TypographyDocument } from "../typography/model";
+import { structureVariantIssues, type StructureEditorData } from "./variants";
+import { classificationIssues } from "../option-groups/model";
 
 export interface StructureRuleApplication {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -76,13 +78,15 @@ export interface Structure {
   properties: StructureBinding[];
   generation?: StructureGeneration;
   elements?: StructureChild[];
+  description?: string;
+  editor?: StructureEditorData;
 }
 export interface StructuresDocument {
   /** Earlier versions are accepted for lossless migration. */
-  schemaVersion: 1 | 2 | 3 | 4;
+  schemaVersion: 1 | 2 | 3 | 4 | 5;
   structures: Structure[];
 }
-export const STRUCTURES_SCHEMA_VERSION = 4;
+export const STRUCTURES_SCHEMA_VERSION = 5;
 export const EMPTY_STRUCTURES: StructuresDocument = {
   schemaVersion: STRUCTURES_SCHEMA_VERSION,
   structures: [],
@@ -273,13 +277,154 @@ function isSelection(value: Record<string, unknown>, slot: StructureSlot) {
     spec.termIds?.includes(literal.termId)
   );
 }
+function isStructureEditorData(value: unknown): value is StructureEditorData {
+  if (
+    !record(value) ||
+    !fields(value, [
+      "properties",
+      "visibility",
+      "visibilityBindings",
+      "overrides",
+      "semanticIdentities",
+    ]) ||
+    !Array.isArray(value.properties) ||
+    !record(value.visibility) ||
+    !record(value.visibilityBindings) ||
+    !record(value.overrides)
+  )
+    return false;
+  const identity = (id: unknown) =>
+    typeof id === "string" && taxonomyIdPattern.test(id);
+  if (
+    value.semanticIdentities !== undefined &&
+    (!record(value.semanticIdentities) ||
+      !Object.entries(value.semanticIdentities).every(
+        ([optionId, entries]) =>
+          identity(optionId) &&
+          record(entries) &&
+          Object.values(entries).every(
+            (entry) =>
+              record(entry) &&
+              fields(entry, ["conceptId", "rows"]) &&
+              identity(entry.conceptId) &&
+              record(entry.rows) &&
+              Object.values(entry.rows).every(identity),
+          ),
+      ))
+  )
+    return false;
+  const classification = (input: unknown) =>
+    record(input) &&
+    Object.entries(input).every(
+      ([key, assigned]) =>
+        identity(key) &&
+        (typeof assigned === "string"
+          ? identity(assigned)
+          : Array.isArray(assigned) && assigned.every(identity)),
+    );
+  if (
+    !Object.values(value.visibility).every(
+      (visible) => typeof visible === "boolean",
+    )
+  )
+    return false;
+  if (
+    !Object.values(value.visibilityBindings).every(
+      (binding) =>
+        record(binding) &&
+        fields(binding, ["propertyId", "inverted"]) &&
+        identity(binding.propertyId) &&
+        typeof binding.inverted === "boolean",
+    )
+  )
+    return false;
+  if (
+    !value.properties.every((property) => {
+      if (
+        !record(property) ||
+        !identity(property.id) ||
+        typeof property.name !== "string" ||
+        !property.name.trim()
+      )
+        return false;
+      if (property.kind === "boolean")
+        return (
+          fields(property, ["id", "kind", "name", "defaultValue"]) &&
+          typeof property.defaultValue === "boolean"
+        );
+      return (
+        property.kind === "variant" &&
+        fields(property, [
+          "id",
+          "kind",
+          "name",
+          "classification",
+          "defaultOptionId",
+          "options",
+        ]) &&
+        classification(property.classification) &&
+        identity(property.defaultOptionId) &&
+        Array.isArray(property.options) &&
+        property.options.length > 0 &&
+        property.options.every(
+          (option) =>
+            record(option) &&
+            fields(option, ["id", "name", "classification"]) &&
+            identity(option.id) &&
+            typeof option.name === "string" &&
+            !!option.name.trim() &&
+            classification(option.classification),
+        )
+      );
+    })
+  )
+    return false;
+  return Object.values(value.overrides).every((override) => {
+    if (
+      !record(override) ||
+      !fields(override, ["slots", "order", "visibility", "elements"])
+    )
+      return false;
+    if (
+      override.slots !== undefined &&
+      (!record(override.slots) ||
+        !Object.entries(override.slots).every(
+          ([slot, selected]) =>
+            STRUCTURE_SLOT_KEYS.includes(slot as StructureSlot) &&
+            (selected === null ||
+              (record(selected) &&
+                fields(selected, ["$ref", "value"]) &&
+                isSelection(selected, slot as StructureSlot))),
+        ))
+    )
+      return false;
+    if (
+      override.order !== undefined &&
+      (!Array.isArray(override.order) || !override.order.every(identity))
+    )
+      return false;
+    if (
+      override.visibility !== undefined &&
+      (!record(override.visibility) ||
+        !Object.values(override.visibility).every(
+          (visible) => typeof visible === "boolean",
+        ))
+    )
+      return false;
+    return (
+      override.elements === undefined ||
+      (record(override.elements) &&
+        Object.values(override.elements).every(isStructureElement))
+    );
+  });
+}
 export function isStructuresDocument(
   value: unknown,
 ): value is StructuresDocument {
   if (
     !record(value) ||
     !fields(value, ["schemaVersion", "structures"]) ||
-    ![1, 2, 3, STRUCTURES_SCHEMA_VERSION].includes(
+    ![1, 2, 3, 4, STRUCTURES_SCHEMA_VERSION].includes(
       Number(value.schemaVersion),
     ) ||
     !Array.isArray(value.structures)
@@ -296,6 +441,8 @@ export function isStructuresDocument(
         "properties",
         "generation",
         "elements",
+        "description",
+        "editor",
       ]) ||
       typeof structure.conceptId !== "string" ||
       !taxonomyIdPattern.test(structure.conceptId) ||
@@ -307,6 +454,16 @@ export function isStructuresDocument(
     )
       return false;
     ids.add(structure.conceptId);
+    if (
+      structure.description !== undefined &&
+      typeof structure.description !== "string"
+    )
+      return false;
+    if (
+      structure.editor !== undefined &&
+      !isStructureEditorData(structure.editor)
+    )
+      return false;
     const properties = structure.properties;
     if (structure.elements !== undefined) {
       if (!Array.isArray(structure.elements)) return false;
@@ -338,10 +495,7 @@ export function isStructuresDocument(
       slots.add(slot);
     }
     if (requiredSlots.some((slot) => !slots.has(slot))) return false;
-    if (
-      value.schemaVersion === STRUCTURES_SCHEMA_VERSION &&
-      !slots.has("direction")
-    )
+    if (Number(value.schemaVersion) >= 4 && !slots.has("direction"))
       return false;
     if (structure.generation !== undefined) {
       const generation = structure.generation;
@@ -349,13 +503,11 @@ export function isStructuresDocument(
         !record(generation) ||
         !fields(generation, ["nameRef", "sizeTermIds", "applications"]) ||
         !Array.isArray(generation.sizeTermIds) ||
-        !generation.sizeTermIds.includes(SIZE_TERM_IDS.m) ||
+        generation.sizeTermIds.length === 0 ||
         new Set(generation.sizeTermIds).size !==
           generation.sizeTermIds.length ||
         generation.sizeTermIds.some(
-          (id) =>
-            typeof id !== "string" ||
-            !Object.values(SIZE_TERM_IDS).includes(id),
+          (id) => typeof id !== "string" || !taxonomyIdPattern.test(id),
         ) ||
         !Array.isArray(generation.applications)
       )
@@ -475,6 +627,22 @@ export function assertStructureTaxonomy(
   assertStructures(document);
   assertStructureGraph(document.structures);
   for (const structure of document.structures) {
+    const optionIssues = [
+      ...structureVariantIssues(structure),
+      ...(structure.editor?.properties ?? []).flatMap((property) =>
+        property.kind === "boolean"
+          ? []
+          : [
+              ...classificationIssues(property.classification, taxonomy),
+              ...property.options.flatMap((option) =>
+                classificationIssues(option.classification, taxonomy),
+              ),
+            ],
+      ),
+    ];
+    if (optionIssues.length) throw new Error(optionIssues.join(" "));
+    for (const override of Object.values(structure.editor?.overrides ?? {}))
+      assertElementTaxonomy(Object.values(override.elements ?? {}), taxonomy);
     assertElementTaxonomy(leafElements(structure), taxonomy);
     const generation = structureGeneration(structure);
     for (const termId of generation.sizeTermIds) {
@@ -549,6 +717,32 @@ export function assertStructureReferences(
   typography?: TypographyDocument,
 ) {
   assertStructures(document);
+  for (const structure of document.structures) {
+    for (const override of Object.values(structure.editor?.overrides ?? {})) {
+      const option = assignStructure(
+        { ...structure, editor: undefined },
+        override.slots ?? {},
+      );
+      assertStructureReferences(
+        {
+          schemaVersion: STRUCTURES_SCHEMA_VERSION,
+          structures: [
+            {
+              ...option,
+              elements: (option.elements ?? []).map((child) =>
+                isLeaf(child)
+                  ? (override.elements?.[child.id] ?? child)
+                  : child,
+              ),
+            },
+          ],
+        },
+        available,
+        onlyFamily,
+        typography,
+      );
+    }
+  }
   for (const structure of document.structures)
     for (const binding of structure.properties) {
       if (!("$ref" in binding)) continue;
@@ -643,12 +837,23 @@ export function upgradeStructuresDocument(input: unknown): StructuresDocument {
   assertStructures(input);
   return {
     schemaVersion: STRUCTURES_SCHEMA_VERSION,
-    structures: input.structures.map((source) =>
-      assignStructure(source, {
+    structures: input.structures.map((source) => {
+      const previousGeneration = structureGeneration(source);
+      const normalized =
+        input.schemaVersion < 5 && previousGeneration.sizeTermIds.length > 1
+          ? {
+              ...source,
+              generation: {
+                ...previousGeneration,
+                sizeTermIds: Object.values(SIZE_TERM_IDS),
+              },
+            }
+          : source;
+      return assignStructure(normalized, {
         direction: structureSelection(source, "direction") ?? {
           value: { kind: "term", termId: terms.horizontal },
         },
-      }),
-    ),
+      });
+    }),
   };
 }

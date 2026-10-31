@@ -427,6 +427,7 @@ export const SPACING_SCALE_FIELDS = [
   "hideFromPublishing",
 ];
 export const ROUNDING_RULE_FIELDS = [
+  "applicability",
   "name",
   "description",
   "type",
@@ -435,6 +436,8 @@ export const ROUNDING_RULE_FIELDS = [
   "conditions",
 ];
 export const TSHIRT_RULE_FIELDS = [
+  "applicability",
+  "defaultTermId",
   "name",
   "description",
   "type",
@@ -442,6 +445,7 @@ export const TSHIRT_RULE_FIELDS = [
   "mappings",
 ];
 export const SCALE_NAMING_RULE_FIELDS = [
+  "applicability",
   "name",
   "description",
   "type",
@@ -450,6 +454,9 @@ export const SCALE_NAMING_RULE_FIELDS = [
   "below",
 ];
 export const RULE_FIELDS = [
+  "when",
+  "branches",
+  "otherwise",
   ...new Set([
     ...ROUNDING_RULE_FIELDS,
     ...TSHIRT_RULE_FIELDS,
@@ -457,11 +464,21 @@ export const RULE_FIELDS = [
   ]),
 ];
 export const ruleFields = (rule: Rule) =>
-  rule.type === "tshirt-sizing"
-    ? TSHIRT_RULE_FIELDS
-    : rule.type === "scale-naming"
-      ? SCALE_NAMING_RULE_FIELDS
-      : ROUNDING_RULE_FIELDS;
+  rule.type === "conditional"
+    ? [
+        "name",
+        "description",
+        "type",
+        "applicability",
+        "when",
+        "branches",
+        "otherwise",
+      ]
+    : rule.type === "tshirt-sizing" || rule.type === "generator"
+      ? TSHIRT_RULE_FIELDS
+      : rule.type === "scale-naming"
+        ? SCALE_NAMING_RULE_FIELDS
+        : ROUNDING_RULE_FIELDS;
 export const SCALE_TYPE_FIELDS = [
   "name",
   "description",

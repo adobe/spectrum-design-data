@@ -11,6 +11,7 @@ import {
 import { filterTokenTableData } from "./view/tokenTableModel";
 import {
   resolveSourceClassification,
+  projectClassification,
   withTaxonomyProjection,
   type Classification,
   type TaxonomyDocument,
@@ -24,7 +25,14 @@ import type {
   BrowserTokenEdit,
   BrowserTokenEdits,
   TokenValue,
+  TokenShadowLayer,
 } from "./browserEditTypes";
+import {
+  assignmentForMode,
+  compatibleTokenTypes,
+  isTokenAuthoring,
+  shadowText,
+} from "./tokenAssignments";
 import type { UiSwatchSource } from "../color-system/data-vis/model";
 import type { ValuePreviewDescriptor } from "./valuePreview";
 export {
@@ -46,6 +54,7 @@ export interface NominalFontSizeMeasurement {
 }
 
 export interface BrowserTokenSource {
+  originalSource?: BrowserTokenSource;
   rowId?: string;
   modeKey?: string;
   /** The foundation resolver has already applied scoped value edits. */
@@ -83,6 +92,13 @@ export interface BrowserTokenSource {
   valuePreview?: ValuePreviewDescriptor;
   semantic?: TshirtSemanticRow;
   alias?: AliasToken & { targetName: string };
+  referenceId?: string;
+  referenceName?: string;
+  literalShadows?: TokenShadowLayer[];
+  classificationOverride?: Classification;
+  classificationScope?: "structures";
+  manual?: boolean;
+  lifecycle?: NonNullable<BrowserTokenEdit["authoring"]>["lifecycle"];
 }
 
 export interface BrowserToken extends BrowserTokenSource {
@@ -148,8 +164,29 @@ export function resolveBrowserTokens(
   sources: BrowserTokenSource[],
   edits: BrowserTokenEdits,
   modeKey: string,
+  { includeManual = false }: { includeManual?: boolean } = {},
 ): BrowserToken[] {
-  return sources.map((source) => {
+  const allSources = [...sources];
+  for (const [id, edit] of Object.entries(edits)) {
+    const manual = edit.authoring?.manual;
+    if (!manual || allSources.some((source) => source.id === id)) continue;
+    const target = sources.find((source) => source.id === manual.targetId);
+    allSources.push({
+      id,
+      type: manual.type,
+      unit: manual.unit,
+      groupId: manual.groupId,
+      groupLabel: "Manual tokens",
+      name: id,
+      generatedName: id,
+      value: target?.value ?? "",
+      generatedValue: target?.value ?? "",
+      manual: true,
+      referenceId: manual.targetId,
+      classificationScope: manual.scope,
+    });
+  }
+  const tokens = allSources.map((source): BrowserToken => {
     const edit = edits[source.id];
     const modeValue =
       source.dataVis?.static || source.resolvedValue
@@ -157,6 +194,7 @@ export function resolveBrowserTokens(
         : edit?.values[source.modeKey ?? modeKey];
     return {
       ...source,
+      originalSource: source.originalSource ?? source,
       name: edit?.name ?? source.name,
       value: modeValue?.value ?? source.value,
       description: edit?.description ?? "",
@@ -174,8 +212,88 @@ export function resolveBrowserTokens(
           edit.nameBaseline !== source.generatedName) ||
         !!source.legacyStale ||
         !!source.resolvedValue?.stale,
+      classificationOverride: edit?.authoring?.classification,
+      lifecycle: edit?.authoring?.lifecycle,
     };
   });
+  const byId = new Map(tokens.map((token) => [token.id, token]));
+  const resolved = new Set<string>();
+  const visiting = new Set<string>();
+  function resolve(token: BrowserToken): BrowserToken {
+    if (resolved.has(token.id)) return token;
+    if (visiting.has(token.id))
+      throw new Error("Token references form a cycle.");
+    visiting.add(token.id);
+    const authoring = edits[token.id]?.authoring;
+    const frozen = authoring?.lifecycle?.frozen;
+    const assignment = frozen
+      ? assignmentForMode(frozen, modeKey)
+      : authoring && assignmentForMode(authoring.assignments, modeKey);
+    if (frozen && !assignment)
+      throw new Error(
+        "This deprecated token has no frozen value for the selected modes.",
+      );
+    const referenceId =
+      assignment?.kind === "reference"
+        ? assignment.targetId
+        : assignment
+          ? undefined
+          : token.referenceId;
+    if (referenceId) {
+      const target = byId.get(referenceId);
+      if (!target)
+        throw new Error("The referenced token is unavailable in these modes.");
+      if (!compatibleTokenTypes(token, target))
+        throw new Error(
+          "Choose a token with a compatible value type and unit.",
+        );
+      resolve(target);
+      if (target.validationError) throw new Error(target.validationError);
+      token.value = target.value;
+      token.literalShadows = target.literalShadows;
+      token.shadows = target.shadows;
+      token.referenceId = target.id;
+      token.referenceName = target.name;
+    } else if (assignment?.kind === "literal") {
+      if (token.type !== "elevation")
+        parseBrowserTokenValue(
+          { ...token, displayUnit: undefined, alias: undefined },
+          String(assignment.value),
+        );
+      else if (!assignment.shadows)
+        throw new Error("Complete shadow values require structured layers.");
+      token.value = assignment.shadows
+        ? shadowText(assignment.shadows)
+        : assignment.value;
+      token.literalShadows = assignment.shadows;
+      token.referenceId = undefined;
+      token.referenceName = undefined;
+      if (assignment.shadows) token.shadows = undefined;
+    }
+    if (assignment) {
+      token.valueOverridden = !frozen && !token.manual;
+      const baseline =
+        authoring?.baselines && assignmentForMode(authoring.baselines, modeKey);
+      token.stale ||=
+        baseline !== undefined && baseline !== token.generatedValue;
+      token.valuePreview = undefined;
+    }
+    visiting.delete(token.id);
+    resolved.add(token.id);
+    return token;
+  }
+  return tokens
+    .filter((token) => includeManual || !token.manual)
+    .map((token) => {
+      try {
+        return resolve(token);
+      } catch (failure) {
+        visiting.delete(token.id);
+        token.validationError =
+          failure instanceof Error ? failure.message : String(failure);
+        return token;
+      }
+    });
 }
 
 export function filterBrowserTokens(
@@ -264,8 +382,17 @@ export function projectBrowserTokens(
   tokens: BrowserToken[],
   document: TaxonomyDocument,
 ): BrowserToken[] {
-  return withTaxonomyProjection(document, () =>
+  const projected = withTaxonomyProjection(document, () =>
     projectTokenBatch(tokens, document),
+  );
+  const names = new Map(projected.map((token) => [token.id, token.name]));
+  return projected.map((token) =>
+    token.referenceId
+      ? {
+          ...token,
+          referenceName: names.get(token.referenceId) ?? token.referenceName,
+        }
+      : token,
   );
 }
 
@@ -285,6 +412,22 @@ function projectTokenBatch(
           issues: [],
         },
       };
+    if (token.classificationOverride) {
+      const projection = projectClassification(
+        document,
+        token.classificationOverride,
+        token.semantic || token.classificationScope === "structures"
+          ? "structures"
+          : token.type === "motion"
+            ? "size"
+            : token.type,
+      );
+      return {
+        ...token,
+        name: projection.issues.length ? token.name : projection.name,
+        projection,
+      };
+    }
     if (token.semantic && token.projection)
       return {
         ...token,
@@ -349,7 +492,7 @@ export function canBulkEditValue(tokens: BrowserToken[]) {
     !(tokens.length > 1 && tokens.some((token) => token.paletteColorId)) &&
     tokens.every(
       (token) =>
-        token.status !== "released" &&
+        token.status !== "deprecated" &&
         (token.type === "opacity") === (first.type === "opacity") &&
         (token.type === "colors") === (first.type === "colors") &&
         token.unit === first.unit &&
@@ -365,10 +508,6 @@ export function parseBrowserTokenValue(
   if (token.alias)
     throw new Error(
       "Aliases resolve their canonical token's value. Delete the alias or edit its source.",
-    );
-  if (token.semantic)
-    throw new Error(
-      "Edit generated variants through their Structure, rule or foundation source.",
     );
   if (token.type === "elevation")
     throw new Error("Edit complete shadows in the Elevation foundation.");
@@ -504,6 +643,8 @@ export function isBrowserTokenEdits(
       edit.nameBaseline !== undefined &&
       typeof edit.nameBaseline !== "string"
     )
+      return false;
+    if (edit.authoring !== undefined && !isTokenAuthoring(edit.authoring))
       return false;
     if (edit.description !== undefined && typeof edit.description !== "string")
       return false;

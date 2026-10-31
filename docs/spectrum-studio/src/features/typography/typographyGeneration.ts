@@ -124,6 +124,7 @@ export function generateLineHeight(
   const length = applyRoundingRule(
     resolveRule(rules, roundingRuleId),
     fontSize * multiplier,
+    "line-height",
   );
   if (!Number.isFinite(length) || length <= 0)
     throw new Error("Line height must generate a positive finite length.");
@@ -144,7 +145,11 @@ export function generateTypography(
     textZoom,
   );
   const ratio = settings.parameters.ratio;
-  const sizes = generateScale(settings, { rules, scaleTypes });
+  const sizes = generateScale(settings, {
+    rules,
+    scaleTypes,
+    valueType: "font-size",
+  });
   const icons =
     document.iconography.alignment === "text"
       ? generateScale(
@@ -155,7 +160,7 @@ export function generateTypography(
             textZoom,
             document.iconography.baseSize,
           ),
-          { rules, scaleTypes },
+          { rules, scaleTypes, valueType: "workflow-icon-size" },
         )
       : null;
   const constrain = (value: number) =>

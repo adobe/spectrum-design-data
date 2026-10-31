@@ -266,7 +266,7 @@ export function buildTypeScaleComparisons(
           options.interpolations,
           textZoom,
         ),
-        { scaleTypes: [formula], rules: options.rules },
+        { scaleTypes: [formula], rules: options.rules, valueType: "font-size" },
       );
       return {
         steps: points.map((point) => ({

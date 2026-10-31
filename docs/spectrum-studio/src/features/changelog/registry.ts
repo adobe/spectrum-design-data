@@ -179,6 +179,8 @@ export const FIELD_EXCLUSIONS: Readonly<Record<string, string>> = {
   baseline:
     "Recovery baseline for manual editing, not an independent authored value.",
   editedAt: "Edit timestamp, not design data.",
+  semanticIdentities:
+    "Stored random output identities; authored bindings and options own their Changes fields.",
 };
 export interface AuthoredSlot {
   id: string;
@@ -244,8 +246,40 @@ export function compareAuthoring(
       right: unknown,
       fieldPath: SourcePath,
       names: string[],
+      collectionOrder = false,
     ) {
-      if (record(left) || record(right)) {
+      const ruleMembers = (value: unknown): value is { id: string }[] =>
+        Array.isArray(value) &&
+        value.every(
+          (item: unknown) => record(item) && typeof item.id === "string",
+        );
+      if (
+        definition.category === "rules" &&
+        !collectionOrder &&
+        ruleMembers(left) &&
+        ruleMembers(right) &&
+        ["children", "branches"].includes(names.at(-1) ?? "")
+      ) {
+        const originals = new Map(left.map((item) => [item.id, item]));
+        const latest = new Map(right.map((item) => [item.id, item]));
+        for (const id of new Set([...originals.keys(), ...latest.keys()]))
+          walk(
+            originals.get(id),
+            latest.get(id),
+            [...fieldPath, { key: "id", id }],
+            [...names, String([...latest.keys()].indexOf(id) + 1)],
+          );
+        walk(left, right, fieldPath, [...names, "order"], true);
+        return;
+      }
+      const newStructureBinding =
+        definition.topic === "structures" &&
+        names[0] === "editor" &&
+        ["visibilityBindings", "elements", "slots"].includes(
+          names.at(-2) ?? "",
+        ) &&
+        (left === undefined || right === undefined);
+      if ((record(left) || record(right)) && !newStructureBinding) {
         const keys = new Set([
           ...Object.keys(record(left) ? left : {}),
           ...Object.keys(record(right) ? right : {}),
@@ -272,7 +306,13 @@ export function compareAuthoring(
         }
         return;
       }
-      const changed = !sameValue(left, right);
+      const changed =
+        collectionOrder && ruleMembers(left) && ruleMembers(right)
+          ? !sameValue(
+              left.map((item) => item.id),
+              right.map((item) => item.id),
+            )
+          : !sameValue(left, right);
       const pathStrings = fieldPath.filter(
         (part): part is string => typeof part === "string",
       );
@@ -284,7 +324,9 @@ export function compareAuthoring(
             ? pathStrings[foundationIndex + 1]
             : undefined;
       let manual =
-        names.includes("overrideValue") || names.includes("overrides");
+        names.includes("overrideValue") ||
+        (names.includes("overrides") &&
+          !(definition.topic === "structures" && names[0] === "editor"));
       if (
         definition.topic === "foundations" &&
         (names[0] === "base" || names[0] === "parameters")
@@ -335,7 +377,11 @@ export function compareAuthoring(
       fields.push({
         id: pathId(fieldPath),
         key,
-        address: { path: fieldPath, expected: right },
+        address: {
+          path: fieldPath,
+          expected: right,
+          ...(collectionOrder && { collectionOrder: true }),
+        },
         before: display(left),
         after: display(right),
         ...(previewKind &&

@@ -114,14 +114,26 @@ export function buildCanonicalTaxonomyExport(
 export function canonicalTaxonomyValue(
   row: CanonicalAliasRow,
   rows: readonly CanonicalAliasRow[],
-): { $ref: string } | { value: string | number; unit?: string } {
+):
+  | { $ref: string }
+  | {
+      value:
+        | string
+        | number
+        | import("../tokens/browserEditTypes").TokenShadowLayer[];
+      unit?: string;
+    } {
   const semantic = row.token.semantic;
-  if (semantic && "$ref" in semantic.token) {
+  if (row.token.referenceId) {
+    const selection = Object.fromEntries(
+      JSON.parse(row.context) as [string, string][],
+    );
     const targets = rows.filter(
       (candidate) =>
-        candidate.id === semantic.target.id &&
+        candidate.token.id === row.token.referenceId &&
         (JSON.parse(candidate.context) as [string, string][]).every(
-          ([axis, mode]) => semantic.selection[axis] === mode,
+          ([axis, mode]) =>
+            ({ ...semantic?.selection, ...selection })[axis] === mode,
         ),
     );
     if (targets.length !== 1)
@@ -130,6 +142,7 @@ export function canonicalTaxonomyValue(
       );
     return { $ref: targets[0].rowId };
   }
+  if (row.token.literalShadows) return { value: row.token.literalShadows };
   return {
     value: row.token.value,
     ...(row.token.unit && { unit: row.token.unit }),

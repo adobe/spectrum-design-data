@@ -8,6 +8,7 @@ import type {
   Rule,
 } from "./model";
 import { WHOLE_NUMBERS_RULE_ID } from "./model";
+import { ruleAppliesTo, type RuleValueType } from "./applicability";
 
 export function matchesComparator(
   comparator: Comparator,
@@ -39,12 +40,26 @@ export function evaluateConditions<TOutcome>(
   };
 }
 
-export function roundingFactorFor(rule: RoundingRule, raw: number) {
+export function roundingFactorFor(
+  rule: RoundingRule,
+  raw: number,
+  context?: RuleValueType,
+) {
+  if (
+    context
+      ? !ruleAppliesTo(rule, context)
+      : rule.applicability?.kind === "specific"
+  )
+    return 0;
   return evaluateConditions(rule, raw).outcome.factor;
 }
 
-export function applyRoundingRule(rule: RoundingRule, raw: number) {
-  return roundToFactor(raw, roundingFactorFor(rule, raw), rule.depth);
+export function applyRoundingRule(
+  rule: RoundingRule,
+  raw: number,
+  context?: RuleValueType,
+) {
+  return roundToFactor(raw, roundingFactorFor(rule, raw, context), rule.depth);
 }
 
 export function sampleInputs(rule: RoundingRule) {

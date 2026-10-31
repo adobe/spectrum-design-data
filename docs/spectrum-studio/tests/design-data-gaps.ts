@@ -15,7 +15,8 @@ import {
 import { emptyOutputMetadata } from "../src/features/design-data/materialization";
 
 assert.deepEqual(gapRegisterIssues(gapRegister), []);
-const revision = gapRegister.gaps[0].revision;
+const template = gapRegister.gaps.find((gap) => gap.id === "LTAX-002")!;
+const revision = template.revision;
 const row = (id: string): AnalysisRecord => ({
   id,
   category: "tokens",
@@ -62,9 +63,7 @@ const register: GapRegister = {
   schemaVersion: 1,
   gaps: [
     {
-      ...structuredClone(
-        gapRegister.gaps.find((gap) => gap.id === "LTAX-002")!,
-      ),
+      ...structuredClone(template),
       kind: "token-content",
       implementation: "verified",
       rfc: { status: "not required" },

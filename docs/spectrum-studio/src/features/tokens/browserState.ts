@@ -60,6 +60,11 @@ import { opacityDocumentAtom, opacitySourceAtom } from "../opacity/state";
 import { browserOpacitySources } from "../opacity/output";
 import { synchronizeOpacityRows } from "../opacity/generation";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import {
+  commitDialogDraft,
+  createDialogDraft,
+  dialogRowsForMode,
+} from "./dialogModel";
 import { activeModesAtom } from "../modes/selection";
 export { browserSourcesFromOutputs } from "./browserSources";
 
@@ -132,16 +137,19 @@ export const browserTokensAtom = atom((get) => {
     ...projectBrowserTokens(
       normalizeBrowserColorOutputs(
         resolveBrowserTokens(
-          get(browserTokenSourcesAtom),
+          [
+            ...get(browserTokenSourcesAtom),
+            ...get(semanticBrowserStateAtom).tokens,
+          ],
           get(browserTokenEditsAtom),
           get(browserModeContextAtom).key,
+          { includeManual: true },
         ),
         output,
         colors,
       ),
       get(taxonomyDocumentAtom),
     ),
-    ...get(semanticBrowserStateAtom).tokens,
   ];
   const aliases = get(aliasesAtom);
   if (!aliases.tokens.length) return tokens;
@@ -183,6 +191,50 @@ export const editBrowserTokensAtom = atom(
       throw new Error(
         "Aliases have no independent values or metadata to edit.",
       );
+    if (
+      input.patch.status !== undefined ||
+      input.ids.some((id) => get(browserTokenEditsAtom)[id]?.authoring)
+    ) {
+      const generated = get(workingTshirtArtifactsAtom);
+      if (generated.status !== "ready") throw new Error(generated.error);
+      const snapshot = get(authoringSnapshotAtom);
+      const rows = canonicalAliasRows(
+        completeAliasSource(snapshot),
+        generated.bundle,
+        "preserve-for-review",
+      );
+      const available = dialogRowsForMode(rows, input.modeKey);
+      let edits = get(browserTokenEditsAtom);
+      for (const id of new Set(input.ids)) {
+        const row = available.find((row) => row.token.id === id);
+        if (!row) throw new Error("The selected token is no longer available.");
+        const draft = createDialogDraft(row.token, input.modeKey);
+        if (input.patch.status !== undefined)
+          draft.deprecated = input.patch.status === "deprecated";
+        if (input.patch.description !== undefined)
+          draft.description = input.patch.description;
+        if (input.patch.classification !== undefined)
+          draft.classification = input.patch.classification;
+        if (input.patch.value !== undefined)
+          draft.assignments[row.context] = {
+            kind: "literal",
+            value: input.patch.value,
+          };
+        if (input.patch.name !== undefined)
+          throw new Error(
+            "Choose registered classification terms to change token names.",
+          );
+        edits = commitDialogDraft(draft, rows, edits, snapshot.taxonomy!);
+      }
+      withValidatedAuthoringUpdates(
+        get,
+        new Map([["tokens/browser/edits", edits]]),
+        () => {
+          set(browserTokenEditsAtom, edits);
+        },
+      );
+      return;
+    }
     if (
       get(semanticBrowserStateAtom).tokens.some((token) =>
         input.ids.includes(token.id),
@@ -371,7 +423,10 @@ export const editBrowserTokensAtom = atom(
 );
 
 export const resetBrowserTokenAtom = atom(null, (get, set, id: string) => {
-  if (get(semanticBrowserStateAtom).tokens.some((token) => token.id === id))
+  if (
+    get(semanticBrowserStateAtom).tokens.some((token) => token.id === id) &&
+    !get(browserTokenEditsAtom)[id]
+  )
     throw new Error("Generated variants have no direct overrides to reset.");
   if (!get(editModeAtom)) return;
   const next = { ...get(browserTokenEditsAtom) };

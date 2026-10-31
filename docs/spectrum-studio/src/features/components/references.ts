@@ -40,9 +40,17 @@ import {
   withPreparedScaleColors,
   type PreparedScaleColors,
 } from "./scaleColorWitness";
+import {
+  canonicalAliasRows,
+  completeAliasSource,
+} from "../tokens/aliasTargets";
+import { canonicalTokenModeKey } from "../tokens/browserModel";
+import { dialogRowsForMode } from "../tokens/dialogModel";
+import { projectShadowValue } from "../design-data/shadowValue";
 
 interface ComponentTokenMetadata {
   id: string;
+  browserId?: string;
   name: string;
   property: string;
   displayValue: string;
@@ -109,6 +117,9 @@ function buildComponentColorTokens(
     ...colors.tokens.map(
       (token): ComponentToken => ({
         id: token.uuid,
+        browserId: colors.colorReferences.find(
+          (row) => row.rowId === token.uuid,
+        )?.id,
         name:
           colors.taxonomy?.projections[token.uuid]?.name ??
           Object.values(token.name).join("-"),
@@ -177,6 +188,7 @@ function buildComponentTokenCatalog(
     const lineage = dimensions.lineage.find((row) => row.uuid === token.uuid)!;
     add({
       id: token.uuid,
+      browserId: `${lineage.domain}-${lineage.scaleId}-${lineage.step}`,
       name: lineage.displayName,
       property: lineage.domain,
       value: token.value,
@@ -202,6 +214,7 @@ function buildComponentTokenCatalog(
       );
     add({
       id: row.uuid,
+      browserId: row.conceptId,
       name: row.name,
       property: "opacity",
       value: row.value,
@@ -233,6 +246,8 @@ function buildComponentTokenCatalog(
       throw new Error("A shadow target has an invalid JSON value.");
     add({
       id: token.uuid,
+      browserId: shadows.lineage.find((row) => row.uuid === token.uuid)!
+        .conceptId,
       name: `${shadows.lineage.find((row) => row.uuid === token.uuid)!.foundationName}-${token.name.scaleIndex}`,
       property: "shadow",
       value: token.value,
@@ -256,6 +271,7 @@ function buildComponentTokenCatalog(
       throw new Error("A semantic component target cannot resolve to a value.");
     add({
       id: token.uuid,
+      browserId: row.conceptId,
       name: projectClassification(taxonomy, row.classification, "structures")
         .name,
       property: token.name.property,
@@ -266,7 +282,93 @@ function buildComponentTokenCatalog(
       kind: "semantic",
     });
   }
-  return { tokens: [...result.values()], colors, scaleColors };
+  if (
+    Object.values(source.browserTokenEdits ?? {}).some((edit) => edit.authoring)
+  ) {
+    const rows = canonicalAliasRows(
+      completeAliasSource(source),
+      variants,
+      "preserve-for-review",
+    );
+    for (const [id, componentToken] of result) {
+      if (!componentToken.browserId) continue;
+      const selection = Object.fromEntries(
+        source.modeSets.flatMap((axis) => {
+          const mode =
+            axis.modes.find(
+              (mode) => mode.key === componentToken.context[axis.key],
+            ) ?? axis.modes.find((mode) => mode.id === axis.defaultModeId);
+          return mode ? [[axis.id, mode.id]] : [];
+        }),
+      );
+      const row = dialogRowsForMode(
+        rows,
+        canonicalTokenModeKey(selection),
+      ).find((row) => row.token.id === componentToken.browserId);
+      if (!row) continue;
+      const token = row.token;
+      if (token.validationError) throw new Error(token.validationError);
+      const value =
+        token.type === "elevation"
+          ? (
+              token.literalShadows ?? projectShadowValue(token.shadows ?? [])
+            ).map((layer) => ({ ...layer }))
+          : typeof token.value === "number" && token.unit === "px"
+            ? `${token.value}px`
+            : token.value;
+      result.set(id, {
+        ...componentToken,
+        outputError: undefined,
+        value,
+        name: token.name,
+        displayValue:
+          typeof value === "object" ? canonicalJson(value) : String(value),
+      });
+    }
+    for (const row of rows.filter((row) => row.token.manual)) {
+      const token = row.token;
+      if (token.validationError) throw new Error(token.validationError);
+      const context = Object.fromEntries(
+        (JSON.parse(row.context) as [string, string][]).flatMap(
+          ([axisId, modeId]) => {
+            const axis = source.modeSets.find((axis) => axis.id === axisId);
+            const mode = axis?.modes.find((mode) => mode.id === modeId);
+            return axis && mode ? [[axis.key, mode.key]] : [];
+          },
+        ),
+      );
+      const value =
+        token.type === "elevation"
+          ? (
+              token.literalShadows ?? projectShadowValue(token.shadows ?? [])
+            ).map((layer) => ({ ...layer }))
+          : typeof token.value === "number" && token.unit === "px"
+            ? `${token.value}px`
+            : token.value;
+      add({
+        id: row.rowId,
+        browserId: token.id,
+        name: token.name,
+        property:
+          token.type === "colors"
+            ? "color"
+            : token.type === "elevation"
+              ? "shadow"
+              : token.type,
+        value,
+        displayValue:
+          typeof value === "object" ? canonicalJson(value) : String(value),
+        ownerId: token.id,
+        kind: "semantic",
+        context,
+      });
+    }
+  }
+  return {
+    tokens: [...result.values()],
+    colors: colors.map((token) => result.get(token.id)!),
+    scaleColors,
+  };
 }
 
 export function propertyValueIssue(

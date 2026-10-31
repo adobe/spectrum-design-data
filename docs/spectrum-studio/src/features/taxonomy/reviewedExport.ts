@@ -6,6 +6,10 @@ import { canonicalJson } from "../design-data/canonicalJson";
 import type { CanonicalAliasRow } from "../tokens/aliasTargets";
 import { aliasReferencePacket, type AliasDocument } from "../tokens/aliases";
 import {
+  tokenOutputMetadata,
+  tokenOutputDiagnostics,
+} from "../tokens/outputMetadata";
+import {
   assertTaxonomy,
   projectClassification,
   type Classification,
@@ -57,6 +61,7 @@ export interface ClassificationReviewExport {
     path?: TaxonomySegment[];
   } & ReturnType<typeof canonicalTaxonomyValue>)[];
   aliases: ReturnType<typeof aliasReferencePacket>;
+  diagnostics?: ReturnType<typeof tokenOutputDiagnostics>;
 }
 
 const validate = new Ajv({ allErrors: true, strict: true })
@@ -78,7 +83,10 @@ function usagesFor(
   aliases: AliasDocument,
 ): StandardizationUsage[] {
   const canonical: StandardizationUsage[] = rows.map((row) => {
-    const scope = row.token.semantic ? "structures" : row.token.type;
+    const scope =
+      row.token.semantic || row.token.classificationScope
+        ? "structures"
+        : row.token.type;
     const projection = row.token.projection;
     const computed =
       projection &&
@@ -163,6 +171,7 @@ function outputsFor(rows: readonly CanonicalAliasRow[]) {
         path: projection.segments,
       }),
       ...canonicalTaxonomyValue(row, rows),
+      ...tokenOutputMetadata(row, rows),
     };
   });
 }
@@ -211,6 +220,7 @@ export async function buildClassificationReviewExport(
     },
     tokens: outputsFor(source.records),
     aliases: aliasReferencePacket(source.aliases, source.records),
+    diagnostics: tokenOutputDiagnostics(source.records),
   };
   await assertClassificationReviewExport(packet);
   return packet;
@@ -261,6 +271,8 @@ export async function assertClassificationReviewExport(
       "Classification flags do not match every source occurrence.",
     );
   if (
+    canonicalJson(value.diagnostics ?? []) !==
+      canonicalJson(tokenOutputDiagnostics(value.source.records)) ||
     canonicalJson(value.tokens) !==
       canonicalJson(outputsFor(value.source.records)) ||
     canonicalJson(value.aliases) !==

@@ -1,9 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Button, DialogTrigger, Popover, Text } from "@react-spectrum/s2";
+import { Button, DialogTrigger, Popover } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { Dialog } from "react-aria-components";
 import { type ReactNode } from "react";
 import { foundationCardStyles } from "./foundationCardStyles";
+import { PreviewListItem } from "./PreviewListItem";
 import { useNarrowScaleEditorViewport } from "./useNarrowScaleEditorViewport";
 import { popoverDialogStyles } from "./popoverLayout";
 import "./ScaleEditor.css";
@@ -28,13 +29,18 @@ export function ScaleEditor({
         aria-label={label}
         UNSAFE_className={`scaleEditorTrigger ${foundationCardStyles}`}
       >
-        <span
-          aria-hidden="true"
-          className={`scaleEditorPreview ${style({ borderColor: "gray-200" })}`}
-        >
-          {preview}
-        </span>
-        <Text UNSAFE_className="scaleEditorName">{name}</Text>
+        <PreviewListItem
+          label={name}
+          labelClassName="scaleEditorName"
+          preview={
+            <span
+              aria-hidden="true"
+              className={`scaleEditorPreview ${style({ borderColor: "gray-200" })}`}
+            >
+              {preview}
+            </span>
+          }
+        />
       </Button>
       <Popover
         placement={isNarrow ? "bottom start" : "right"}

@@ -93,6 +93,24 @@ export const TSHIRT_COMPOSITION_PROFILE = {
   ],
 } as const;
 export const TSHIRT_NAMING_FIELDS = [...TSHIRT_FIELDS, ELEMENT_NAMING_FIELD];
+export const TSHIRT_VARIANTS_PROFILE = {
+  ...TSHIRT_COMPOSITION_PROFILE,
+  extensionId: "leonardo-structure-variants-v3",
+  gapId: "LTAX-017",
+  limitations: [
+    ...TSHIRT_COMPOSITION_PROFILE.limitations,
+    "Registry-classified sparse variant semantics and literal leaf values are local extensions, not an upstream variants contract.",
+  ],
+} as const;
+export const GENERATOR_PROFILE = {
+  ...TSHIRT_VARIANTS_PROFILE,
+  extensionId: "leonardo-size-generator-v4",
+  gapId: "LTAX-019",
+  limitations: [
+    ...TSHIRT_VARIANTS_PROFILE.limitations,
+    "Authored Size options and type applicability are app-owned Generator derivations, not an upstream rule contract.",
+  ],
+} as const;
 const ajv = new Ajv2020({
   allErrors: true,
   strict: true,
@@ -163,6 +181,7 @@ export function exactShadowValue(
 
 export function assertTshirtToken(
   value: unknown,
+  declaredSizes: readonly string[] = [],
 ): asserts value is TshirtTokenRecord {
   if (!validateToken(value))
     throw new Error(
@@ -182,7 +201,8 @@ export function assertTshirtToken(
     throw new Error(`Unmapped property "${value.name.property}".`);
   if (
     value.name.size &&
-    !sizes.values.some((size) => size.id === value.name.size)
+    !sizes.values.some((size) => size.id === value.name.size) &&
+    !declaredSizes.includes(value.name.size)
   )
     throw new Error("Unmapped T-shirt size.");
   if (
@@ -228,14 +248,34 @@ export function assertTshirtToken(
   }
 }
 
-export function assertTshirtGraph(tokens: readonly TshirtTokenRecord[]) {
+export function assertTshirtGraph(
+  tokens: readonly TshirtTokenRecord[],
+  canonicalName: (token: TshirtTokenRecord) => string | undefined = () =>
+    undefined,
+  declaredSizes: readonly string[] = [],
+) {
   const byId = new Map<string, TshirtTokenRecord>(),
     names = new Set<string>(),
     formatted = new Set<string>();
   for (const token of tokens) {
-    assertTshirtToken(token);
+    if (canonicalName(token)) {
+      if (!validateToken(token))
+        throw new Error(
+          `Invalid variant token: ${ajv.errorsText(validateToken.errors)}`,
+        );
+      if (
+        "value" in token &&
+        token.name.property !== "shadow" &&
+        (typeof token.value !== "string" ||
+          !/^(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?)(?:px)?$/i.test(token.value) ||
+          !Number.isFinite(Number(token.value.replace(/px$/, ""))))
+      )
+        throw new Error(
+          "Variant values must be finite non-negative lengths or unitless ratios.",
+        );
+    } else assertTshirtToken(token, declaredSizes);
     const name = canonicalJson(token.name);
-    const displayName = formatTshirtName(token.name);
+    const displayName = canonicalName(token) ?? formatTshirtName(token.name);
     if (byId.has(token.uuid) || names.has(name) || formatted.has(displayName))
       throw new Error(
         "Duplicate emitted token UUID, structured name or formatted name.",

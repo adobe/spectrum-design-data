@@ -12,7 +12,6 @@ import {
 const fixture = createElementFixture();
 function ControlledPanel(args: StructureElementEditorPanelProps) {
   const [element, setElement] = useState(args.element);
-  const [deleted, setDeleted] = useState(false);
   return (
     <div
       style={{
@@ -22,48 +21,40 @@ function ControlledPanel(args: StructureElementEditorPanelProps) {
         position: "relative",
       }}
     >
-      {deleted ? (
-        <p role="status">Element deleted</p>
-      ) : (
-        <StructureElementEditorPanel
-          {...args}
-          element={element}
-          onChange={(changes) => {
-            args.onChange(changes);
-            const reference = fixture.references.find(
-              (reference) => reference.id === changes.referenceId,
-            );
-            setElement((current) => ({
-              ...current,
-              ...(changes.glyph && { glyph: changes.glyph }),
-              ...(changes.orientation && { orientation: changes.orientation }),
-              bindings: changes.slot
-                ? [
-                    ...current.bindings.filter(
-                      (binding) => binding.slot !== changes.slot,
-                    ),
-                    ...(reference &&
-                    (reference.family === "size" ||
-                      reference.family === "typography")
-                      ? [
-                          {
-                            id: elementBindingId(current.id, changes.slot),
-                            slot: changes.slot,
-                            $ref: reference.id,
-                            family: reference.family,
-                          },
-                        ]
-                      : []),
-                  ]
-                : current.bindings,
-            }));
-          }}
-          onDelete={() => {
-            args.onDelete();
-            setDeleted(true);
-          }}
-        />
-      )}
+      <StructureElementEditorPanel
+        {...args}
+        element={element}
+        onChange={(changes) => {
+          args.onChange(changes);
+          const reference = fixture.references.find(
+            (reference) => reference.id === changes.referenceId,
+          );
+          setElement((current) => ({
+            ...current,
+            ...(changes.glyph && { glyph: changes.glyph }),
+            ...(changes.orientation && { orientation: changes.orientation }),
+            bindings: changes.slot
+              ? [
+                  ...current.bindings.filter(
+                    (binding) => binding.slot !== changes.slot,
+                  ),
+                  ...(reference &&
+                  (reference.family === "size" ||
+                    reference.family === "typography")
+                    ? [
+                        {
+                          id: elementBindingId(current.id, changes.slot),
+                          slot: changes.slot,
+                          $ref: reference.id,
+                          family: reference.family,
+                        },
+                      ]
+                    : []),
+                ]
+              : current.bindings,
+          }));
+        }}
+      />
     </div>
   );
 }
@@ -74,9 +65,8 @@ const meta = {
     element: fixture.create("text", 10),
     references: fixture.references,
     isReadOnly: false,
+    report: fn(),
     onChange: fn(),
-    onDelete: fn(),
-    onBack: fn(),
   },
   render: (args) => <ControlledPanel {...args} />,
 } satisfies Meta<typeof StructureElementEditorPanel>;
@@ -123,38 +113,37 @@ export const UiIcon: Story = {
 };
 export const Visual: Story = {
   args: { element: fixture.create("visual", 14) },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.queryByRole("button", { name: "Structure settings" }),
+    ).toBeNull();
+    await expect(
+      canvas.queryByRole("heading", { name: /^visual$/i }),
+    ).toBeNull();
+    await expect(
+      canvas.queryByRole("button", { name: "Delete element" }),
+    ).toBeNull();
+    await expect(canvas.getByRole("combobox", { name: "Width" })).toBeVisible();
+    await expect(
+      canvas.getByRole("combobox", { name: "Height" }),
+    ).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Constraints" }));
+    for (const name of [
+      "Minimum width",
+      "Minimum height",
+      "Maximum width",
+      "Maximum height",
+    ])
+      await expect(canvas.getByRole("combobox", { name })).toBeVisible();
+    await expect(
+      canvas.queryByRole("combobox", { name: "Font size" }),
+    ).toBeNull();
+    canvasElement.dataset.playComplete = "true";
+  },
 };
 export const ReadOnly: Story = {
   args: { element: fixture.create("text", 15, true), isReadOnly: true },
-};
-export const CustomDeletion: Story = {
-  args: { hasCustomTargets: true },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement),
-      body = within(canvasElement.ownerDocument.body);
-    await userEvent.click(
-      canvas.getByRole("button", { name: "Delete element" }),
-    );
-    const dialog = await body.findByRole("dialog");
-    await waitFor(() => expect(dialog).toBeVisible());
-    await userEvent.click(
-      within(dialog).getByRole("button", { name: "Cancel" }),
-    );
-    await expect(args.onDelete).not.toHaveBeenCalled();
-    await userEvent.click(
-      canvas.getByRole("button", { name: "Delete element" }),
-    );
-    await userEvent.click(
-      within(await body.findByRole("dialog")).getByRole("button", {
-        name: "Delete",
-      }),
-    );
-    await expect(args.onDelete).toHaveBeenCalledOnce();
-    await expect(canvas.getByRole("status")).toHaveTextContent(
-      "Element deleted",
-    );
-    canvasElement.dataset.playComplete = "true";
-  },
 };
 export const MissingReference: Story = {
   args: { element: fixture.create("text", 16, true), references: [] },

@@ -2,6 +2,10 @@
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import { upgradeColorFamilySnapshot } from "../src/features/edit-session/colorFamilyUpgrade";
+import { upgradeGeneratorRulesSnapshot } from "../src/features/edit-session/generatorRulesUpgrade";
+import { upgradeTermCasingSnapshot } from "../src/features/edit-session/termCasingUpgrade";
+import { upgradeStructureVariantsSnapshot } from "../src/features/edit-session/structureVariantsUpgrade";
+import { upgradeConditionalRulesSnapshot } from "../src/features/edit-session/conditionalRulesUpgrade";
 import { createDefaultSnapshot } from "../src/features/edit-session/state";
 import { buildCascadeTokenExport } from "../src/features/tokens/cascadeExport";
 import { modeSetDefaultMode } from "../src/features/modes/model";
@@ -145,12 +149,18 @@ const record = {
 data.set(AUTHORING_STORAGE_KEY, JSON.stringify(record));
 const store = createStore();
 let dispose = initializeAuthoringPersistence(store);
+const restoredSnapshot = (snapshot: typeof legacy) =>
+  upgradeGeneratorRulesSnapshot(
+    upgradeConditionalRulesSnapshot(
+      upgradeStructureVariantsSnapshot(
+        upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(snapshot)),
+      ),
+    ),
+  );
 assert.deepEqual(store.get(persistenceIssuesAtom), []);
-assert.deepEqual(
-  store.get(authoringSnapshotAtom),
-  upgradeColorFamilySnapshot(working),
-);
-assert.deepEqual(store.get(editSessionSnapshotAtom), upgraded);
+assert.deepEqual(store.get(authoringSnapshotAtom), restoredSnapshot(working));
+const restoredBaseline = restoredSnapshot(legacy);
+assert.deepEqual(store.get(editSessionSnapshotAtom), restoredBaseline);
 assert.equal(
   JSON.parse(data.get(AUTHORING_STORAGE_KEY)!).version,
   AUTHORING_RECORD_VERSION,
@@ -172,7 +182,7 @@ assert(
 store.set(cancelEditAtom);
 assert.deepEqual(
   store.get(authoringSnapshotAtom),
-  upgraded,
+  restoredBaseline,
   "Cancel uses the upgraded saved baseline.",
 );
 store.set(enterEditModeAtom);
@@ -197,7 +207,7 @@ for (const source of [
 store.set(cancelEditAtom);
 assert.deepEqual(
   store.get(authoringSnapshotAtom),
-  upgraded,
+  restoredBaseline,
   "Cancel removes newly contributed sources and terms.",
 );
 store.set(enterEditModeAtom);

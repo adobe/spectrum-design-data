@@ -1,27 +1,32 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   ActionButton,
   Checkbox,
   CheckboxGroup,
   Text,
   TextField,
-  ToastQueue,
   type TextFieldRef,
 } from "@react-spectrum/s2";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Add from "@react-spectrum/s2/icons/Add";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { PreviewListItem } from "../../components/PreviewListItem";
 import { foundationCardStyles } from "../../components/foundationCardStyles";
 import {
   structureGeneration,
   type Structure,
   type StructureRuleApplication,
 } from "../../features/structures/model";
-import { COMPONENT_SIZES } from "../../features/foundations/componentSizes";
+import { useAtomValue } from "jotai";
+import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
+import { VARIANT_CATEGORY_IDS } from "../../features/taxonomy/variantVocabulary";
+import { termLabel } from "../../features/taxonomy/termPresentation";
+import { generatorDefault } from "../../features/logic/generator";
 import { SIZE_TERM_IDS } from "../../features/taxonomy/variantVocabulary";
-import type { Rule } from "../../features/logic/model";
+import { isTshirtRule, type Rule } from "../../features/logic/model";
 import type { PrimitiveReference } from "../../features/tokens/primitiveReferences";
 import type { TshirtArtifactBundle } from "../../features/design-data/tshirtArtifacts";
 import { StructureRuleDialog } from "./StructureRuleDialog";
@@ -59,7 +64,7 @@ export interface StructureCardProps {
   isReadOnly: boolean;
   focusName?: boolean;
   onNameFocused?: () => void;
-  onRename: (name: string) => void;
+  onRename?: (name: string) => void;
   onDelete: () => void;
   rules?: readonly Rule[];
   references?: readonly PrimitiveReference[];
@@ -67,6 +72,7 @@ export interface StructureCardProps {
   onApplyRule?: (application: StructureRuleApplication) => void;
   onRemoveRule?: (application: StructureRuleApplication) => void;
   previewRule?: (application: StructureRuleApplication) => TshirtArtifactBundle;
+  preview?: ReactNode;
 }
 export function StructureCard({
   structure,
@@ -81,7 +87,28 @@ export function StructureCard({
   onApplyRule,
   onRemoveRule,
   previewRule,
+  preview,
 }: StructureCardProps) {
+  const notify = useNotify();
+  const taxonomy = useAtomValue(taxonomyDocumentAtom);
+  const generators = rules
+    .filter(isTshirtRule)
+    .filter((rule) =>
+      structureGeneration(structure).applications.some(
+        (application) => application.ruleId === rule.id,
+      ),
+    );
+  const defaults = generators.length
+    ? generators.map(generatorDefault)
+    : [SIZE_TERM_IDS.m];
+  const options = taxonomy.terms.filter(
+    (term) =>
+      term.categoryId === VARIANT_CATEGORY_IDS.size &&
+      (!generators.length ||
+        generators.every((rule) =>
+          rule.mappings.some((mapping) => mapping.termId === term.id),
+        )),
+  );
   const nameRef = useRef<TextFieldRef>(null);
   useLayoutEffect(() => {
     if (!focusName || isReadOnly) return;
@@ -100,15 +127,41 @@ export function StructureCard({
       : structure.name;
   const invalid = !value.trim();
   const commit = () => {
-    if (isReadOnly || invalid || value.trim() === structure.name) return;
+    if (isReadOnly || !onRename || invalid || value.trim() === structure.name)
+      return;
     try {
       onRename(value);
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }
   };
+  if (preview)
+    return (
+      <section
+        className={`${foundationCardStyles} structureListCard`}
+        data-component="StructureCard"
+        data-structure-id={structure.conceptId}
+      >
+        <PreviewListItem
+          preview={preview}
+          label={structure.name}
+          actions={
+            !isReadOnly && (
+              <ActionButton
+                size="S"
+                isQuiet
+                aria-label={`Delete structure ${structure.name}`}
+                onPress={onDelete}
+              >
+                <Delete />
+              </ActionButton>
+            )
+          }
+        />
+      </section>
+    );
   return (
     <section
       className={`${foundationCardStyles} ${cardStyles}`}
@@ -161,21 +214,21 @@ export function StructureCard({
           isDisabled={isReadOnly}
           onChange={(sizeTermIds) => {
             try {
-              onSizesChange([...new Set([SIZE_TERM_IDS.m, ...sizeTermIds])]);
+              onSizesChange([...new Set([...defaults, ...sizeTermIds])]);
             } catch (failure) {
-              ToastQueue.negative(
+              notify.error(
                 failure instanceof Error ? failure.message : String(failure),
               );
             }
           }}
         >
-          {COMPONENT_SIZES.map((size) => (
+          {options.map((term) => (
             <Checkbox
-              key={size.id}
-              value={SIZE_TERM_IDS[size.id]}
-              isDisabled={size.id === "m"}
+              key={term.id}
+              value={term.id}
+              isDisabled={defaults.includes(term.id)}
             >
-              {size.label}
+              {termLabel(term.value)}
             </Checkbox>
           ))}
         </CheckboxGroup>

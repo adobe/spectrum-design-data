@@ -96,6 +96,8 @@ export function createTshirtFixture(
     modeSets: defaults.modeSets,
     structures: defaults.structures,
     browserTokenEdits: {},
+    interpolations: defaults.interpolations,
+    tokenOverrides: defaults.tokenOverrides,
   };
   const rule = {
     ...createRule("tshirt-sizing"),

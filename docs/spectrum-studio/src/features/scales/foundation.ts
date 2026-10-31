@@ -147,13 +147,22 @@ export function generateDimensionScale(
   scaleTypes: readonly ScaleType[] = SCALE_TYPE_DEFAULTS,
   modeValues: ModeParameterValues = {},
 ): GeneratedDimensionValue[] {
-  return generateScale(scale, { rules, scaleTypes }, modeValues).map(
-    (value) => ({
-      ...value,
-      name: dimensionTokenName(prefix, scale.name, value.step),
-      scaleId: scale.id,
-    }),
-  );
+  return generateScale(
+    scale,
+    {
+      rules,
+      scaleTypes,
+      valueType:
+        prefix === "spacing" || prefix === "size" || prefix === "radius"
+          ? prefix
+          : undefined,
+    },
+    modeValues,
+  ).map((value) => ({
+    ...value,
+    name: dimensionTokenName(prefix, scale.name, value.step),
+    scaleId: scale.id,
+  }));
 }
 
 export type DimensionScaleIssue = ScaleIssue;

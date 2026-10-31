@@ -5,9 +5,11 @@ import { readdirSync, readFileSync } from "node:fs";
 import ts from "typescript";
 import schema from "../src/data/design-system.schema.json" with { type: "json" };
 
+// Conditional trees/outcomes are covered by conditional-rules.ts, including nested resets.
+// generator-rules.ts covers applicability, ordered mappings, default rebasing, atomic edits and scoped resets.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "49645ba58e0278a12589d0eb9ec9b4dcc5e6fb090b847dd5ed6fb823a4110ff4";
+  "e4297edab2eda06a9f20cf4f7cc0915a49ffdbddcd9868c5a7c785c2380a544f";
 const schemaMetadata = new Set([
   "title",
   "description",

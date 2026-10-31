@@ -26,11 +26,20 @@ import { opacityOutputIssues } from "../opacity/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { isFoundationPublished } from "../foundations/types";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
+import {
+  structureSlot,
+  structureBindingId,
+  STRUCTURE_SLOT_KEYS,
+} from "../structures/model";
 import type { TshirtSemanticRow } from "../design-data/tshirtTypes";
 import { formatTshirtName } from "../design-data/tshirtProfile";
 import { normalizeBrowserColorOutputs } from "../tokens/colorOutput";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { withTaxonomyProjection } from "../taxonomy/model";
+import {
+  compareEffectiveTokens,
+  hasEffectiveTokenEdits,
+} from "./effectiveTokenComparison";
 
 interface ValueRow {
   id: string;
@@ -416,6 +425,8 @@ export function comparePrimitiveTokens(
   working: EditSessionSnapshot,
   authored: AuthoringComparison,
 ): TokenComparison {
+  if (hasEffectiveTokenEdits(shipped, working))
+    return compareEffectiveTokens(shipped, working, authored, false);
   const before = primitiveRows(shipped, working),
     after = primitiveRows(working, shipped);
   const items: ChangeItem[] = [],
@@ -592,6 +603,8 @@ export function compareSemanticTokens(
   working: EditSessionSnapshot,
   authored: AuthoringComparison,
 ): TokenComparison {
+  if (hasEffectiveTokenEdits(shipped, working))
+    return compareEffectiveTokens(shipped, working, authored, true);
   const group = (snapshot: EditSessionSnapshot) => {
     const result = new Map<string, Map<string, TshirtSemanticRow>>();
     for (const row of buildTshirtArtifacts(snapshot).semantics) {
@@ -617,9 +630,14 @@ export function compareSemanticTokens(
       values: TokenImpactRecord["modeValues"] = [],
       referenceValues: TokenImpactRecord["modeValues"] = [];
     let referenceChanged = false;
-    const title = formatTshirtName((latest ?? original!).token.name);
-    const previousName = original && formatTshirtName(original.token.name),
-      nextName = latest && formatTshirtName(latest.token.name);
+    const title =
+      (latest ?? original!).canonicalName ??
+      formatTshirtName((latest ?? original!).token.name);
+    const previousName =
+        original &&
+        (original.canonicalName ?? formatTshirtName(original.token.name)),
+      nextName =
+        latest && (latest.canonicalName ?? formatTshirtName(latest.token.name));
     if (previousName !== nextName)
       fields.push({
         id: "name",
@@ -685,11 +703,71 @@ export function compareSemanticTokens(
           ...(old && { beforePreview: semanticPreview(old) }),
           ...(next && { afterPreview: semanticPreview(next) }),
         });
-      paths.push([
+      const ownerPath: SourcePath = [
         "structures",
         "structures",
         { key: "conceptId", id: row.structureId },
-      ]);
+      ];
+      if (row.optionId) {
+        paths.push(
+          [...ownerPath, "properties"],
+          [...ownerPath, "generation"],
+          [...ownerPath, "editor", "properties"],
+        );
+        const owner =
+          working.structures?.structures.find(
+            (structure) => structure.conceptId === row.structureId,
+          ) ??
+          shipped.structures?.structures.find(
+            (structure) => structure.conceptId === row.structureId,
+          );
+        for (const bindingId of row.bindingIds) {
+          const binding = owner?.properties.find(
+            (item) => item.id === bindingId,
+          );
+          const slot = binding
+            ? structureSlot(binding)
+            : STRUCTURE_SLOT_KEYS.find(
+                (slot) =>
+                  structureBindingId(row.structureId, slot) === bindingId,
+              );
+          if (slot)
+            paths.push([
+              ...ownerPath,
+              "editor",
+              "overrides",
+              row.optionId,
+              "slots",
+              slot,
+            ]);
+          else {
+            const element =
+              Object.values(
+                owner?.editor?.overrides[row.optionId]?.elements ?? {},
+              ).find((item) =>
+                item.bindings.some((binding) => binding.id === bindingId),
+              ) ??
+              owner?.elements?.find(
+                (item) =>
+                  item.kind !== "structureReference" &&
+                  item.bindings.some((binding) => binding.id === bindingId),
+              );
+            if (element)
+              paths.push(
+                [...ownerPath, "elements"],
+                [
+                  ...ownerPath,
+                  "editor",
+                  "overrides",
+                  row.optionId,
+                  "elements",
+                  element.id,
+                  "bindings",
+                ],
+              );
+          }
+        }
+      } else paths.push(ownerPath);
       for (const ruleId of row.ruleIds)
         paths.push(["rules", { key: "id", id: ruleId }]);
       if (row.target.family === "color") {
@@ -745,7 +823,11 @@ export function compareSemanticTokens(
       for (const [categoryId, termId] of Object.entries(row.classification)) {
         paths.push(
           ["taxonomy", "categories", { key: "id", id: categoryId }],
-          ["taxonomy", "terms", { key: "id", id: termId }],
+          ...(typeof termId === "string" ? [termId] : termId).map((id) => [
+            "taxonomy",
+            "terms",
+            { key: "id" as const, id },
+          ]),
         );
       }
       paths.push(

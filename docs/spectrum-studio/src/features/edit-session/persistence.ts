@@ -1,6 +1,4 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { upgradeColorFamilySnapshot } from "./colorFamilyUpgrade";
-import { upgradeTermCasingSnapshot } from "./termCasingUpgrade";
 import { atom, getDefaultStore, type Getter } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
@@ -16,6 +14,10 @@ import {
 } from "../../state/persist";
 import { modeSelectionAtom } from "../modes/selection";
 import { upgradeComponentOrderSnapshot } from "./componentOrderUpgrade";
+import { upgradeColorFamilySnapshot } from "./colorFamilyUpgrade";
+import { upgradeTermCasingSnapshot } from "./termCasingUpgrade";
+import { upgradeStructureVariantsSnapshot } from "./structureVariantsUpgrade";
+import { upgradeConditionalRulesSnapshot } from "./conditionalRulesUpgrade";
 import { upgradeOpacitySnapshot } from "./opacityUpgrade";
 import { opacityAxes } from "../opacity/generation";
 import { registerOpacityVocabulary } from "../taxonomy/opacityGovernance";
@@ -104,10 +106,27 @@ export function initializeAuthoringPersistence(
     const record = readAuthoringRecord(
       assertStoredSnapshot,
       (value, version) => {
+        if (version === 19) return value;
+        if (version === 18) {
+          if (!isSnapshot(value) || !value)
+            throw new Error("Stored authoring data is invalid or incomplete.");
+          return upgradeConditionalRulesSnapshot(value);
+        }
+        if (version === 17) {
+          if (!isSnapshot(value) || !value)
+            throw new Error("Stored authoring data is invalid or incomplete.");
+          return upgradeConditionalRulesSnapshot(
+            upgradeStructureVariantsSnapshot(value),
+          );
+        }
         if (version === 15 || version === 16) {
           if (!isSnapshot(value) || !value)
             throw new Error("Stored authoring data is invalid or incomplete.");
-          return upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(value));
+          return upgradeConditionalRulesSnapshot(
+            upgradeStructureVariantsSnapshot(
+              upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(value)),
+            ),
+          );
         }
         upgraded = true;
         const snapshot =
@@ -129,7 +148,11 @@ export function initializeAuthoringPersistence(
             },
           );
         }
-        return upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(next));
+        return upgradeConditionalRulesSnapshot(
+          upgradeStructureVariantsSnapshot(
+            upgradeTermCasingSnapshot(upgradeColorFamilySnapshot(next)),
+          ),
+        );
       },
     );
     if (record) {

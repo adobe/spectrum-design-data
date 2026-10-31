@@ -3,128 +3,400 @@
   "$id": "urn:spectrum:classification-review:proposal:1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "profileId", "exportKind", "standardConforming", "upstreamAdopted", "scope", "hashes", "standard", "source", "assessment", "tokens", "aliases"],
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "exportKind",
+    "standardConforming",
+    "upstreamAdopted",
+    "scope",
+    "hashes",
+    "standard",
+    "source",
+    "assessment",
+    "tokens",
+    "aliases"
+  ],
   "properties": {
     "schemaVersion": { "const": 1 },
     "profileId": { "const": "spectrum-classification-review-v1" },
     "exportKind": { "enum": ["standard-compliant", "compatibility"] },
     "standardConforming": { "type": "boolean" },
     "upstreamAdopted": { "const": false },
-    "scope": { "const": "Native taxonomy definitions, stored classifications, published token rows and compatibility alias uses across declared owner-scoped modes" },
+    "scope": {
+      "const": "Native taxonomy definitions, stored classifications, published token rows and compatibility alias uses across declared owner-scoped modes"
+    },
     "hashes": {
-      "type": "object", "additionalProperties": false, "required": ["sourceSha256", "standardSha256"],
-      "properties": { "sourceSha256": { "$ref": "#/definitions/hash" }, "standardSha256": { "$ref": "#/definitions/hash" } }
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceSha256", "standardSha256"],
+      "properties": {
+        "sourceSha256": { "$ref": "#/definitions/hash" },
+        "standardSha256": { "$ref": "#/definitions/hash" }
+      }
     },
     "standard": { "$ref": "urn:spectrum:classification-standard:proposal:1" },
     "source": {
-      "type": "object", "additionalProperties": false, "required": ["profileId", "datasetKind", "taxonomy", "records", "aliases", "usages"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profileId",
+        "datasetKind",
+        "taxonomy",
+        "records",
+        "aliases",
+        "usages"
+      ],
       "properties": {
-        "profileId": { "const": "leonardo-flat-taxonomy-v1" }, "datasetKind": { "const": "working" },
+        "profileId": { "const": "leonardo-flat-taxonomy-v1" },
+        "datasetKind": { "const": "working" },
         "taxonomy": { "type": "object" },
-        "records": { "type": "array", "items": { "$ref": "#/definitions/sourceRecord" } },
+        "records": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/sourceRecord" }
+        },
         "aliases": { "type": "object" },
-        "usages": { "type": "array", "items": { "$ref": "#/definitions/usage" } }
+        "usages": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/usage" }
+        }
       }
     },
     "assessment": { "$ref": "#/definitions/assessment" },
     "tokens": { "type": "array", "items": { "$ref": "#/definitions/output" } },
-    "aliases": { "type": "array", "items": { "$ref": "#/definitions/alias" } }
+    "aliases": { "type": "array", "items": { "$ref": "#/definitions/alias" } },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tokenId", "message"],
+        "properties": {
+          "tokenId": { "type": "string" },
+          "message": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
   },
   "allOf": [
     {
       "if": { "properties": { "exportKind": { "const": "compatibility" } } },
       "then": { "properties": { "standardConforming": { "const": false } } },
-      "else": { "properties": { "standardConforming": { "const": true }, "assessment": { "type": "object", "properties": { "completeStandardConformance": { "const": true } } } } }
+      "else": {
+        "properties": {
+          "standardConforming": { "const": true },
+          "assessment": {
+            "type": "object",
+            "properties": { "completeStandardConformance": { "const": true } }
+          }
+        }
+      }
     }
   ],
   "definitions": {
     "text": { "type": "string", "pattern": "\\S" },
     "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-    "uuid": { "type": "string", "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$" },
-    "taxonomyUuid": { "type": "string", "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$" },
+    "uuid": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+    },
+    "taxonomyUuid": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+    },
     "classification": {
       "type": "object",
-      "additionalProperties": { "oneOf": [{ "$ref": "#/definitions/taxonomyUuid" }, { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/definitions/taxonomyUuid" } }] }
+      "additionalProperties": {
+        "oneOf": [
+          { "$ref": "#/definitions/taxonomyUuid" },
+          {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "$ref": "#/definitions/taxonomyUuid" }
+          }
+        ]
+      }
     },
     "sourceRecord": {
-      "type": "object", "additionalProperties": false, "required": ["id", "rowId", "context", "name", "token"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rowId", "context", "name", "token"],
       "properties": {
-        "id": { "$ref": "#/definitions/text" }, "rowId": { "$ref": "#/definitions/uuid" }, "context": { "$ref": "#/definitions/text" }, "name": { "$ref": "#/definitions/text" }, "token": { "type": "object" }
+        "id": { "$ref": "#/definitions/text" },
+        "rowId": { "$ref": "#/definitions/uuid" },
+        "context": { "$ref": "#/definitions/text" },
+        "name": { "$ref": "#/definitions/text" },
+        "token": { "type": "object" }
       }
     },
     "usage": {
-      "type": "object", "additionalProperties": false, "required": ["id", "recordKind", "scope", "projectionIssues"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "recordKind", "scope", "projectionIssues"],
       "properties": {
-        "id": { "$ref": "#/definitions/text" }, "classification": { "$ref": "#/definitions/classification" },
+        "id": { "$ref": "#/definitions/text" },
+        "classification": { "$ref": "#/definitions/classification" },
         "recordKind": { "enum": ["token-usage", "alias-usage"] },
-        "scope": { "enum": ["colors", "typography", "spacing", "size", "radius", "elevation", "structures", "motion"] },
-        "projectionIssues": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+        "scope": {
+          "enum": [
+            "colors",
+            "typography",
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "structures",
+            "motion"
+          ]
+        },
+        "projectionIssues": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/text" }
+        },
         "measurement": {
-          "type": "object", "additionalProperties": false, "required": ["kind", "unit", "reference"],
-          "properties": { "kind": { "const": "nominal-font-size" }, "unit": { "enum": ["px", "rem", "em"] }, "reference": { "$ref": "#/definitions/text" } }
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "unit", "reference"],
+          "properties": {
+            "kind": { "const": "nominal-font-size" },
+            "unit": { "enum": ["px", "rem", "em"] },
+            "reference": { "$ref": "#/definitions/text" }
+          }
         }
       }
     },
     "issue": {
-      "type": "object", "additionalProperties": false, "required": ["code", "reason", "fix", "owner", "gapId"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "reason", "fix", "owner", "gapId"],
       "properties": {
-        "code": { "enum": ["unreviewed-term", "definition-review", "wrong-owner", "retired-term", "source-reference-review", "unsupported-facet", "facet-review", "multiple-terms", "missing-projection", "projection-review", "measurement-review"] },
-        "reason": { "$ref": "#/definitions/text" }, "fix": { "$ref": "#/definitions/text" }, "owner": { "const": "joint" }, "gapId": { "const": "LTAX-011" }
+        "code": {
+          "enum": [
+            "unreviewed-term",
+            "definition-review",
+            "wrong-owner",
+            "retired-term",
+            "source-reference-review",
+            "unsupported-facet",
+            "facet-review",
+            "multiple-terms",
+            "missing-projection",
+            "projection-review",
+            "measurement-review"
+          ]
+        },
+        "reason": { "$ref": "#/definitions/text" },
+        "fix": { "$ref": "#/definitions/text" },
+        "owner": { "const": "joint" },
+        "gapId": { "const": "LTAX-011" }
       }
     },
     "occurrence": {
-      "type": "object", "additionalProperties": false,
-      "required": ["id", "recordId", "recordKind", "pointer", "status", "fixRequired", "issues"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "recordId",
+        "recordKind",
+        "pointer",
+        "status",
+        "fixRequired",
+        "issues"
+      ],
       "properties": {
-        "id": { "$ref": "#/definitions/text" }, "recordId": { "$ref": "#/definitions/text" },
-        "recordKind": { "enum": ["category-definition", "term-definition", "stored-assignment", "token-usage", "alias-usage"] },
-        "pointer": { "type": "string", "pattern": "^/" }, "status": { "enum": ["standard", "non-standard"] },
-        "fixRequired": { "type": "boolean" }, "categoryId": { "$ref": "#/definitions/taxonomyUuid" }, "termId": { "$ref": "#/definitions/taxonomyUuid" },
-        "value": { "anyOf": [{ "type": "string" }, { "type": "number" }] }, "targetId": { "$ref": "#/definitions/text" },
-        "issues": { "type": "array", "items": { "$ref": "#/definitions/issue" } }
+        "id": { "$ref": "#/definitions/text" },
+        "recordId": { "$ref": "#/definitions/text" },
+        "recordKind": {
+          "enum": [
+            "category-definition",
+            "term-definition",
+            "stored-assignment",
+            "token-usage",
+            "alias-usage"
+          ]
+        },
+        "pointer": { "type": "string", "pattern": "^/" },
+        "status": { "enum": ["standard", "non-standard"] },
+        "fixRequired": { "type": "boolean" },
+        "categoryId": { "$ref": "#/definitions/taxonomyUuid" },
+        "termId": { "$ref": "#/definitions/taxonomyUuid" },
+        "value": { "anyOf": [{ "type": "string" }, { "type": "number" }] },
+        "targetId": { "$ref": "#/definitions/text" },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/issue" }
+        }
       },
-      "allOf": [{
-        "if": { "properties": { "status": { "const": "non-standard" } } },
-        "then": { "properties": { "fixRequired": { "const": true }, "issues": { "type": "array", "minItems": 1 } } },
-        "else": { "properties": { "fixRequired": { "const": false }, "issues": { "type": "array", "maxItems": 0 } } }
-      }]
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "non-standard" } } },
+          "then": {
+            "properties": {
+              "fixRequired": { "const": true },
+              "issues": { "type": "array", "minItems": 1 }
+            }
+          },
+          "else": {
+            "properties": {
+              "fixRequired": { "const": false },
+              "issues": { "type": "array", "maxItems": 0 }
+            }
+          }
+        }
+      ]
     },
     "assessment": {
-      "type": "object", "additionalProperties": false,
-      "required": ["schemaVersion", "profileId", "adoption", "gapId", "reference", "completeStandardConformance", "counts", "occurrences", "limitations"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "profileId",
+        "adoption",
+        "gapId",
+        "reference",
+        "completeStandardConformance",
+        "counts",
+        "occurrences",
+        "limitations"
+      ],
       "properties": {
-        "schemaVersion": { "const": 1 }, "profileId": { "const": "spectrum-classification-v1-proposed" }, "adoption": { "const": "proposed" }, "gapId": { "const": "LTAX-011" },
+        "schemaVersion": { "const": 1 },
+        "profileId": { "const": "spectrum-classification-v1-proposed" },
+        "adoption": { "const": "proposed" },
+        "gapId": { "const": "LTAX-011" },
         "reference": {
-          "type": "object", "additionalProperties": false, "required": ["repository", "revision"],
-          "properties": { "repository": { "const": "adobe/spectrum-design-data" }, "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" } }
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "revision"],
+          "properties": {
+            "repository": { "const": "adobe/spectrum-design-data" },
+            "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+          }
         },
         "completeStandardConformance": { "type": "boolean" },
         "counts": {
-          "type": "object", "additionalProperties": false, "required": ["occurrences", "standard", "nonStandard"],
-          "properties": { "occurrences": { "type": "integer", "minimum": 0 }, "standard": { "type": "integer", "minimum": 0 }, "nonStandard": { "type": "integer", "minimum": 0 } }
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["occurrences", "standard", "nonStandard"],
+          "properties": {
+            "occurrences": { "type": "integer", "minimum": 0 },
+            "standard": { "type": "integer", "minimum": 0 },
+            "nonStandard": { "type": "integer", "minimum": 0 }
+          }
         },
-        "occurrences": { "type": "array", "items": { "$ref": "#/definitions/occurrence" } },
-        "limitations": { "type": "array", "items": { "$ref": "#/definitions/text" } }
+        "occurrences": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/occurrence" }
+        },
+        "limitations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/text" }
+        }
       }
     },
     "output": {
-      "type": "object", "additionalProperties": false, "required": ["id", "conceptId", "context", "name"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "conceptId", "context", "name"],
       "properties": {
-        "id": { "$ref": "#/definitions/uuid" }, "conceptId": { "$ref": "#/definitions/text" }, "context": { "$ref": "#/definitions/text" }, "name": { "$ref": "#/definitions/text" },
-        "value": { "anyOf": [{ "type": "string" }, { "type": "number" }] }, "$ref": { "$ref": "#/definitions/uuid" }, "unit": { "$ref": "#/definitions/text" },
+        "id": { "$ref": "#/definitions/uuid" },
+        "conceptId": { "$ref": "#/definitions/text" },
+        "context": { "$ref": "#/definitions/text" },
+        "name": { "$ref": "#/definitions/text" },
+        "value": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "$ref": "#/definitions/shadow" }
+          ]
+        },
+        "$ref": { "$ref": "#/definitions/uuid" },
+        "unit": { "$ref": "#/definitions/text" },
+        "description": { "type": "string" },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "introduced": { "type": "string" },
+            "deprecatedIn": { "type": "string" },
+            "deprecatedComment": { "type": "string" },
+            "replacedBy": {
+              "oneOf": [
+                { "$ref": "#/definitions/uuid" },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "$ref": "#/definitions/uuid" }
+                }
+              ]
+            }
+          }
+        },
         "classification": { "$ref": "#/definitions/classification" },
-        "flatName": { "type": "object", "additionalProperties": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "array", "items": { "anyOf": [{ "type": "string" }, { "type": "number" }] } }] } },
+        "flatName": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              {
+                "type": "array",
+                "items": {
+                  "anyOf": [{ "type": "string" }, { "type": "number" }]
+                }
+              }
+            ]
+          }
+        },
         "path": { "type": "array", "items": { "type": "object" } }
       },
       "oneOf": [
-        { "properties": { "value": { "anyOf": [{ "type": "string" }, { "type": "number" }] } }, "required": ["value"] },
-        { "properties": { "$ref": { "$ref": "#/definitions/uuid" } }, "required": ["$ref"] }
+        {
+          "properties": {
+            "value": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "number" },
+                { "$ref": "#/definitions/shadow" }
+              ]
+            }
+          },
+          "required": ["value"]
+        },
+        {
+          "properties": { "$ref": { "$ref": "#/definitions/uuid" } },
+          "required": ["$ref"]
+        }
       ]
     },
+    "shadow": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["x", "y", "blur", "spread", "color"],
+        "properties": {
+          "x": { "type": "string" },
+          "y": { "type": "string" },
+          "blur": { "type": "string" },
+          "spread": { "type": "string" },
+          "color": { "type": "string" }
+        }
+      }
+    },
     "alias": {
-      "type": "object", "additionalProperties": false, "required": ["uuid", "aliasId", "name", "$ref", "context"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uuid", "aliasId", "name", "$ref", "context"],
       "properties": {
-        "uuid": { "$ref": "#/definitions/uuid" }, "aliasId": { "$ref": "#/definitions/uuid" }, "name": { "$ref": "#/definitions/text" }, "$ref": { "$ref": "#/definitions/uuid" }, "context": { "$ref": "#/definitions/text" }
+        "uuid": { "$ref": "#/definitions/uuid" },
+        "aliasId": { "$ref": "#/definitions/uuid" },
+        "name": { "$ref": "#/definitions/text" },
+        "$ref": { "$ref": "#/definitions/uuid" },
+        "context": { "$ref": "#/definitions/text" }
       }
     }
   }

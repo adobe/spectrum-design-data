@@ -3,10 +3,11 @@ import {
   isFoundationModeAttachments,
   type FoundationModeAttachments,
 } from "../../state/view/foundationModeAttachments";
+import { upgradeGeneratorRulesSnapshot } from "./generatorRulesUpgrade";
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
-export const AUTHORING_RECORD_VERSION = 17;
+export const AUTHORING_RECORD_VERSION = 20;
 
 export interface AuthoringRecord<T> {
   version:
@@ -26,7 +27,10 @@ export interface AuthoringRecord<T> {
     | 14
     | 15
     | 16
-    | 17;
+    | 17
+    | 18
+    | 19
+    | 20;
   working: T;
   saved: T;
   isEditing: boolean;
@@ -69,7 +73,10 @@ export function readAuthoringRecord<T>(
       | 13
       | 14
       | 15
-      | 16,
+      | 16
+      | 17
+      | 18
+      | 19,
   ) => unknown,
 ): AuthoringRecord<T> | null {
   if (typeof window === "undefined") return null;
@@ -94,6 +101,9 @@ export function readAuthoringRecord<T>(
       value.version !== 14 &&
       value.version !== 15 &&
       value.version !== 16 &&
+      value.version !== 17 &&
+      value.version !== 18 &&
+      value.version !== 19 &&
       value.version !== AUTHORING_RECORD_VERSION) ||
     typeof value.isEditing !== "boolean" ||
     !isFoundationModeAttachments(value.attachments) ||
@@ -105,11 +115,11 @@ export function readAuthoringRecord<T>(
   }
   const working =
     value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgrade(value.working, value.version)
+      ? upgradeGeneratorRulesSnapshot(upgrade(value.working, value.version))
       : value.working;
   const saved =
     value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgrade(value.saved, value.version)
+      ? upgradeGeneratorRulesSnapshot(upgrade(value.saved, value.version))
       : value.saved;
   validate(working);
   validate(saved);

@@ -1,5 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
+import { normalizeStructureEditorAfterReset } from "../structures/variants";
+import { rebaseGenerator } from "../logic/generator";
+import { isTshirtRule } from "../logic/model";
 import { editModeAtom } from "../../state/view/editMode";
 import {
   foundationModeAttachmentsAtom,
@@ -400,6 +403,39 @@ export function prepareChangeReset(
         ...address,
         expected: readPath(candidate, address.path),
       });
+    const defaultResets = new Set(
+      plan.addresses.flatMap(({ path }) => {
+        const identity = path[1];
+        return path.length === 3 &&
+          path[0] === "rules" &&
+          path[2] === "defaultTermId" &&
+          identity &&
+          typeof identity === "object" &&
+          "id" in identity
+          ? [identity.id]
+          : [];
+      }),
+    );
+    candidate.rules = candidate.rules?.map((rule) =>
+      defaultResets.has(rule.id) && isTshirtRule(rule) && rule.defaultTermId
+        ? rebaseGenerator(rule, rule.defaultTermId)
+        : rule,
+    );
+    if (
+      candidate.structures &&
+      plan.addresses.some((address) => address.path[0] === "structures")
+    )
+      candidate.structures = {
+        ...candidate.structures,
+        structures: candidate.structures.structures.map((structure) => {
+          if (!structure.editor) return structure;
+          const editor = normalizeStructureEditorAfterReset(structure.editor);
+          const restored = { ...structure };
+          if (editor) restored.editor = editor;
+          else delete restored.editor;
+          return restored;
+        }),
+      };
   } else if (plan.kind === "override") {
     assertResetContext(plan.modeKey, working);
     const source = sources.find((item) => item.id === plan.tokenId);

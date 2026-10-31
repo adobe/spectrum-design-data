@@ -46,7 +46,6 @@ import type { TokenOverrideMap } from "./model";
 import { resolveToken } from "./model";
 import { isFoundationPublished } from "../foundations/types";
 import type { TshirtArtifactBundle } from "../design-data/tshirtTypes";
-import { projectClassification } from "../taxonomy/model";
 import { resolveBrowserColorToken } from "./colorResolution";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
 import { categoricalBrowserSources } from "../color-system/data-vis/output";
@@ -54,6 +53,7 @@ import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { browserOpacitySources } from "../opacity/output";
 import { opacityAxes } from "../opacity/generation";
 import type { OpacityDocument } from "../opacity/model";
+import { semanticTokenSource } from "./semanticSource";
 
 export interface AliasAuthoringSource {
   opacity?: OpacityDocument;
@@ -136,7 +136,7 @@ export function canonicalAliasRows(
   source: AliasAuthoringSource,
   semantics?: TshirtArtifactBundle,
   projectionPolicy: "strict" | "preserve-for-review" = "strict",
-  { excludeColors = false } = {},
+  { excludeColors = false, includeUnpublished = false } = {},
 ): CanonicalAliasRow[] {
   const axes = source.modeSets.filter((axis) => axis.modes.length);
   if (modeCombinationCount(axes) > 4096)
@@ -233,7 +233,9 @@ export function canonicalAliasRows(
       ...browserOpacitySources(source, modes, source.taxonomy),
       ...browserSourcesFromOutputs(
         generatedColors,
-        isFoundationPublished(typography) ? typeValues : [],
+        includeUnpublished || isFoundationPublished(typography)
+          ? typeValues
+          : [],
         spacing,
         size,
         {
@@ -247,6 +249,7 @@ export function canonicalAliasRows(
           rules: source.rules,
         },
         radius,
+        { includeUnpublished },
       ),
       ...browserElevationSources(elevation, levels, source.taxonomy),
       ...(excludeColors
@@ -257,13 +260,110 @@ export function canonicalAliasRows(
             source.taxonomy,
           )),
     ];
-    for (const token of projectBrowserTokens(
-      resolveBrowserTokens(sources, source.browserTokenEdits, modeKey),
+    sources.push(
+      ...(semantics?.semantics ?? [])
+        .filter((row) => !excludeColors || row.target.family !== "color")
+        .filter((row) =>
+          Object.entries(row.selection).every(
+            ([axis, mode]) => selection[axis] === mode,
+          ),
+        )
+        .map((row) => semanticTokenSource(row, source.taxonomy)),
+    );
+    const effectiveTokens = projectBrowserTokens(
+      resolveBrowserTokens(sources, source.browserTokenEdits, modeKey, {
+        includeManual: true,
+      }),
       source.taxonomy,
-    )) {
+    );
+    const referenceAxes = (
+      id: string,
+      visited = new Set<string>(),
+    ): Set<string> => {
+      if (visited.has(id)) return new Set();
+      visited.add(id);
+      const target = effectiveTokens.find((token) => token.id === id);
+      if (!target) return new Set();
+      const result = new Set<string>();
+      const own = (parameter: string) => {
+        if (owners[parameter]) result.add(owners[parameter]);
+      };
+      if (target.semantic)
+        Object.keys(target.semantic.selection).forEach((axis) =>
+          result.add(axis),
+        );
+      else if (target.manual) {
+        const definition = source.browserTokenEdits[id]?.authoring?.manual;
+        if (definition)
+          referenceAxes(definition.targetId, visited).forEach((axis) =>
+            result.add(axis),
+          );
+      } else if (target.type === "colors" && !target.paletteColorId) {
+        if (target.dataVis) {
+          const scale = source.colorSystem.dataVisScales.find(
+            (scale) => scale.id === target.dataVis!.scaleId,
+          );
+          const member =
+            scale?.kind === "categorical"
+              ? scale.members.find(
+                  (member) => member.id === target.dataVis!.memberId,
+                )
+              : undefined;
+          if (scale && member)
+            categoricalMemberAxes(
+              scale.id,
+              member,
+              source.modeSets,
+              source.browserTokenEdits,
+              scale,
+            ).forEach((axis) => result.add(axis));
+        } else {
+          [
+            "color.backgroundScaleId",
+            "color.backgroundLightness",
+            "color.contrastMultiplier",
+          ].forEach(own);
+          if (capabilities["color.scales"])
+            result.add(capabilities["color.scales"]);
+        }
+      } else if (target.type === "typography") own("typography.textZoom");
+      else if (target.type === "elevation")
+        elevationOwnerIds(source.modeSets, source, source.elevation).forEach(
+          (axis) => result.add(axis),
+        );
+      else if (target.type === "opacity")
+        opacityAxes(source).forEach((axis) => result.add(axis.id));
+      else if (
+        target.type === "size" ||
+        target.type === "spacing" ||
+        target.type === "radius"
+      ) {
+        const scale = source[target.type].scales.find(
+          (scale) => scale.id === target.groupId,
+        );
+        Object.values(scale?.bindings ?? {}).forEach((binding) =>
+          own(binding.modeParameterId),
+        );
+      }
+      const edit = source.browserTokenEdits[id];
+      for (const key of [
+        ...Object.keys(edit?.values ?? {}),
+        ...Object.keys(edit?.authoring?.assignments ?? {}),
+        ...Object.keys(edit?.authoring?.lifecycle?.frozen ?? {}),
+      ])
+        (JSON.parse(key) as [string, string][]).forEach(([axis]) =>
+          result.add(axis),
+        );
+      if (target.referenceId)
+        referenceAxes(target.referenceId, visited).forEach((axis) =>
+          result.add(axis),
+        );
+      return result;
+    };
+    for (const token of effectiveTokens) {
       if (
-        token.validationError ||
-        (projectionPolicy === "strict" && token.projection?.issues.length)
+        projectionPolicy === "strict" &&
+        (token.validationError || token.projection?.issues.length)
       )
         throw new Error(
           `Cannot save alias targets for ${token.name}. ${token.validationError ?? token.projection?.issues.join(" ")}`,
@@ -273,7 +373,12 @@ export function canonicalAliasRows(
       const own = (parameter: string) => {
         if (owners[parameter]) owned.add(owners[parameter]);
       };
-      if (token.type === "colors" && !token.paletteColorId) {
+      if (token.manual) {
+        referenceAxes(token.id).forEach((axis) => owned.add(axis));
+      } else if (token.semantic) {
+        for (const axis of Object.keys(token.semantic.selection))
+          owned.add(axis);
+      } else if (token.type === "colors" && !token.paletteColorId) {
         if (token.dataVis) {
           const scale = source.colorSystem.dataVisScales.find(
             (scale) => scale.id === token.dataVis!.scaleId,
@@ -363,6 +468,13 @@ export function canonicalAliasRows(
         );
         for (const axis of Object.keys(edited)) owned.add(axis);
       }
+      for (const key of Object.keys(
+        source.browserTokenEdits[token.id]?.authoring?.assignments ?? {},
+      ))
+        for (const [axis] of JSON.parse(key) as [string, string][])
+          owned.add(axis);
+      if (token.referenceId)
+        referenceAxes(token.referenceId).forEach((axis) => owned.add(axis));
       const context = canonicalTokenModeKey(
         Object.fromEntries(
           Object.entries(selection).filter(([axis]) => owned.has(axis)),
@@ -390,58 +502,6 @@ export function canonicalAliasRows(
         );
       rows.set(key, row);
     }
-  }
-  for (const semantic of semantics?.semantics ?? []) {
-    const projection = projectClassification(
-      source.taxonomy,
-      semantic.classification,
-      "structures",
-    );
-    if (projectionPolicy === "strict" && projection.issues.length)
-      throw new Error(projection.issues.join(" "));
-    const context = canonicalTokenModeKey(
-      Object.fromEntries(
-        Object.entries(semantic.selection).filter(([axis]) =>
-          source.modeSets.some(
-            (item) =>
-              item.id === axis && semantic.context[item.key] !== undefined,
-          ),
-        ),
-      ),
-    );
-    const token: BrowserToken = {
-      id: semantic.conceptId,
-      type:
-        semantic.target.family === "color" ? "colors" : semantic.target.family,
-      groupId: semantic.structureId,
-      groupLabel: semantic.structureName,
-      name: projection.name,
-      generatedName: projection.name,
-      value: semantic.target.value,
-      generatedValue: semantic.target.value,
-      unit:
-        semantic.target.family === "elevation" ||
-        semantic.target.family === "color"
-          ? ""
-          : "px",
-      projection,
-      semantic,
-      shadows: semantic.target.shadows,
-      description: "",
-      status: "draft",
-      nameOverridden: false,
-      valueOverridden: false,
-      stale: false,
-    };
-    rows.set(JSON.stringify([semantic.conceptId, context]), {
-      id: semantic.conceptId,
-      name: token.name,
-      context,
-      rowId: tokenUuid(
-        `canonical-token-row:v1:${semantic.conceptId}:${context}`,
-      ),
-      token,
-    });
   }
   return [...rows.values()];
 }

@@ -18,12 +18,6 @@
             "structures": {
               "$ref": "#/definitions/StructuresDocument"
             },
-            "rules": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Rule"
-              }
-            },
             "platforms": {
               "type": "array",
               "items": {
@@ -35,6 +29,12 @@
             },
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rule"
+              }
             },
             "modeSets": {
               "type": "array",
@@ -141,12 +141,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "description",
-            "id",
-            "name",
-            "revision"
-          ]
+          "required": ["description", "id", "name", "revision"]
         }
       },
       "additionalProperties": false,
@@ -163,12 +158,7 @@
       "properties": {
         "schemaVersion": {
           "description": "Earlier versions are accepted for lossless migration.",
-          "enum": [
-            1,
-            2,
-            3,
-            4
-          ],
+          "enum": [1, 2, 3, 4, 5],
           "type": "number"
         },
         "structures": {
@@ -179,10 +169,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "schemaVersion",
-        "structures"
-      ]
+      "required": ["schemaVersion", "structures"]
     },
     "Structure": {
       "type": "object",
@@ -208,14 +195,16 @@
           "items": {
             "$ref": "#/definitions/StructureChild"
           }
+        },
+        "description": {
+          "type": "string"
+        },
+        "editor": {
+          "$ref": "#/definitions/StructureEditorData"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "conceptId",
-        "name",
-        "properties"
-      ]
+      "required": ["conceptId", "name", "properties"]
     },
     "StructureBinding": {
       "anyOf": [
@@ -243,11 +232,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "$ref",
-        "classification",
-        "id"
-      ]
+      "required": ["$ref", "classification", "id"]
     },
     "Classification": {
       "type": "object",
@@ -280,11 +265,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "classification",
-        "id",
-        "value"
-      ]
+      "required": ["classification", "id", "value"]
     },
     "StructureLiteral": {
       "anyOf": [
@@ -300,10 +281,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "kind",
-            "preset"
-          ]
+          "required": ["kind", "preset"]
         },
         {
           "type": "object",
@@ -317,18 +295,12 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "kind",
-            "termId"
-          ]
+          "required": ["kind", "termId"]
         }
       ]
     },
     "SizingPreset": {
-      "enum": [
-        "fill",
-        "hug"
-      ],
+      "enum": ["fill", "hug"],
       "type": "string"
     },
     "StructureGeneration": {
@@ -351,10 +323,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "applications",
-        "sizeTermIds"
-      ]
+      "required": ["applications", "sizeTermIds"]
     },
     "TaxonomyNameReference": {
       "type": "object",
@@ -373,10 +342,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "categoryId",
-        "termId"
-      ]
+      "required": ["categoryId", "termId"]
     },
     "StructureRuleApplication": {
       "type": "object",
@@ -399,9 +365,7 @@
                 }
               },
               "additionalProperties": false,
-              "required": [
-                "kind"
-              ]
+              "required": ["kind"]
             },
             {
               "type": "object",
@@ -418,10 +382,7 @@
                 }
               },
               "additionalProperties": false,
-              "required": [
-                "bindingIds",
-                "kind"
-              ]
+              "required": ["bindingIds", "kind"]
             }
           ]
         },
@@ -436,9 +397,7 @@
                 }
               },
               "additionalProperties": false,
-              "required": [
-                "kind"
-              ]
+              "required": ["kind"]
             },
             {
               "type": "object",
@@ -455,20 +414,13 @@
                 }
               },
               "additionalProperties": false,
-              "required": [
-                "bindingIds",
-                "kind"
-              ]
+              "required": ["bindingIds", "kind"]
             }
           ]
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "ruleId",
-        "targets"
-      ]
+      "required": ["id", "ruleId", "targets"]
     },
     "StructureChild": {
       "anyOf": [
@@ -506,21 +458,10 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "bindings",
-        "id",
-        "kind",
-        "termId"
-      ]
+      "required": ["bindings", "id", "kind", "termId"]
     },
     "ElementKind": {
-      "enum": [
-        "bar",
-        "text",
-        "uiIcon",
-        "visual",
-        "workflowIcon"
-      ],
+      "enum": ["bar", "text", "uiIcon", "visual", "workflowIcon"],
       "type": "string"
     },
     "ElementBinding": {
@@ -536,20 +477,12 @@
           "type": "string"
         },
         "family": {
-          "enum": [
-            "size",
-            "typography"
-          ],
+          "enum": ["size", "typography"],
           "type": "string"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "$ref",
-        "family",
-        "id",
-        "slot"
-      ]
+      "required": ["$ref", "family", "id", "slot"]
     },
     "ElementSlot": {
       "enum": [
@@ -557,6 +490,10 @@
         "height",
         "length",
         "lineHeight",
+        "maxHeight",
+        "maxWidth",
+        "minHeight",
+        "minWidth",
         "size",
         "thickness",
         "width"
@@ -578,256 +515,135 @@
         }
       },
       "additionalProperties": false,
+      "required": ["id", "kind", "structureId"]
+    },
+    "StructureEditorData": {
+      "type": "object",
+      "properties": {
+        "semanticIdentities": {
+          "$ref": "#/definitions/VariantSemanticIdentities"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionProperty"
+          }
+        },
+        "visibility": {
+          "$ref": "#/definitions/Record%3Cstring%2Cboolean%3E"
+        },
+        "visibilityBindings": {
+          "$ref": "#/definitions/Record%3Cstring%2CVisibilityBinding%3E"
+        },
+        "overrides": {
+          "$ref": "#/definitions/Record%3Cstring%2CStructureOptionOverrides%3E"
+        }
+      },
+      "additionalProperties": false,
       "required": [
-        "id",
-        "kind",
-        "structureId"
+        "overrides",
+        "properties",
+        "visibility",
+        "visibilityBindings"
       ]
     },
-    "Rule": {
+    "VariantSemanticIdentities": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "OptionProperty": {
       "anyOf": [
         {
-          "$ref": "#/definitions/RoundingRule"
+          "$ref": "#/definitions/BooleanProperty"
         },
         {
-          "$ref": "#/definitions/TshirtSizingRule"
-        },
-        {
-          "$ref": "#/definitions/ScaleNamingRule"
+          "$ref": "#/definitions/VariantProperty"
         }
       ]
     },
-    "RoundingRule": {
+    "BooleanProperty": {
       "type": "object",
       "properties": {
-        "type": {
-          "type": "string",
-          "const": "rounding"
-        },
-        "depth": {
-          "enum": [
-            1,
-            10,
-            100,
-            1000
-          ],
-          "type": "number"
-        },
         "id": {
           "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "boolean"
         },
         "name": {
           "type": "string"
         },
-        "description": {
+        "defaultValue": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["defaultValue", "id", "kind", "name"]
+    },
+    "VariantProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
           "type": "string"
         },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
+        "kind": {
+          "type": "string",
+          "const": "variant"
         },
-        "defaultOutcome": {
-          "$ref": "#/definitions/RoundingOutcome"
+        "name": {
+          "type": "string"
         },
-        "conditions": {
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "defaultOptionId": {
+          "type": "string"
+        },
+        "options": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Condition%3CRoundingOutcome%3E"
+            "$ref": "#/definitions/VariantOption"
           }
         }
       },
       "additionalProperties": false,
       "required": [
-        "conditions",
-        "defaultOutcome",
-        "depth",
-        "description",
+        "classification",
+        "defaultOptionId",
         "id",
+        "kind",
         "name",
-        "type"
+        "options"
       ]
     },
-    "RoundingOutcome": {
-      "description": "A factor of 0 leaves the value unrounded.",
+    "VariantOption": {
       "type": "object",
       "properties": {
-        "factor": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "factor"
-      ]
-    },
-    "Condition<RoundingOutcome>": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "comparator": {
-          "$ref": "#/definitions/Comparator"
-        },
-        "threshold": {
-          "type": "number"
-        },
-        "outcome": {
-          "$ref": "#/definitions/RoundingOutcome"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "comparator",
-        "id",
-        "outcome",
-        "threshold"
-      ]
-    },
-    "Comparator": {
-      "enum": [
-        "gt",
-        "gte",
-        "lt",
-        "lte"
-      ],
-      "type": "string"
-    },
-    "TshirtSizingRule": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "tshirt-sizing"
-        },
-        "movement": {
-          "$ref": "#/definitions/TshirtMovement"
-        },
-        "mappings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TshirtSizeMapping"
-          }
-        },
         "id": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
+        "classification": {
+          "$ref": "#/definitions/Classification"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "description",
-        "id",
-        "mappings",
-        "movement",
-        "name",
-        "type"
-      ]
+      "required": ["classification", "id", "name"]
     },
-    "TshirtMovement": {
-      "enum": [
-        "available-token",
-        "scale-index"
-      ],
-      "type": "string"
-    },
-    "TshirtSizeMapping": {
+    "Record<string,boolean>": {
       "type": "object",
-      "properties": {
-        "termId": {
-          "description": "Registry size-term UUID, not a display label.",
-          "type": "string"
-        },
-        "offset": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "offset",
-        "termId"
-      ]
+      "additionalProperties": false
     },
-    "ScaleNamingRule": {
+    "Record<string,VisibilityBinding>": {
       "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "scale-naming"
-        },
-        "baseLabel": {
-          "type": "number"
-        },
-        "aboveIncrement": {
-          "type": "number"
-        },
-        "below": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "automatic"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "fixed"
-                },
-                "increment": {
-                  "type": "number"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "increment",
-                "kind"
-              ]
-            }
-          ]
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "aboveIncrement",
-        "baseLabel",
-        "below",
-        "description",
-        "id",
-        "name",
-        "type"
-      ]
+      "additionalProperties": false
+    },
+    "Record<string,StructureOptionOverrides>": {
+      "type": "object",
+      "additionalProperties": false
     },
     "Platform": {
       "type": "object",
@@ -840,10 +656,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "name"
-      ]
+      "required": ["id", "name"]
     },
     "ComponentsDocument": {
       "type": "object",
@@ -860,10 +673,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "components",
-        "schemaVersion"
-      ]
+      "required": ["components", "schemaVersion"]
     },
     "ComponentRecord": {
       "type": "object",
@@ -891,11 +701,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "options",
-            "parts",
-            "states"
-          ]
+          "required": ["options", "parts", "states"]
         },
         "optionOrder": {
           "type": "array",
@@ -942,10 +748,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "category",
-            "documentationUrl"
-          ]
+          "required": ["category", "documentationUrl"]
         },
         "$schema": {
           "type": "string"
@@ -1021,12 +824,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "$id",
-        "displayName",
-        "meta",
-        "name"
-      ]
+      "required": ["$id", "displayName", "meta", "name"]
     },
     "JsonValue": {
       "anyOf": [
@@ -1043,12 +841,7 @@
           }
         },
         {
-          "type": [
-            "null",
-            "string",
-            "number",
-            "boolean"
-          ]
+          "type": ["null", "string", "number", "boolean"]
         }
       ]
     },
@@ -1075,12 +868,7 @@
             }
           },
           {
-            "type": [
-              "null",
-              "string",
-              "number",
-              "boolean"
-            ]
+            "type": ["null", "string", "number", "boolean"]
           }
         ]
       },
@@ -1126,9 +914,7 @@
               }
             },
             "additionalProperties": false,
-            "required": [
-              "value"
-            ]
+            "required": ["value"]
           }
         },
         "default": {
@@ -1146,12 +932,7 @@
               }
             },
             {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean"
-              ]
+              "type": ["null", "string", "number", "boolean"]
             }
           ]
         },
@@ -1210,9 +991,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "name"
-      ]
+      "required": ["name"]
     },
     "ComponentState": {
       "type": "object",
@@ -1224,10 +1003,7 @@
           "type": "string"
         },
         "trigger": {
-          "enum": [
-            "interaction",
-            "prop"
-          ],
+          "enum": ["interaction", "prop"],
           "type": "string"
         },
         "precedence": {
@@ -1253,9 +1029,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "name"
-      ]
+      "required": ["name"]
     },
     "DeclarationIdentities": {
       "type": "object",
@@ -1294,11 +1068,7 @@
               "$ref": "#/definitions/LiteralValue"
             }
           },
-          "required": [
-            "id",
-            "property",
-            "value"
-          ]
+          "required": ["id", "property", "value"]
         },
         {
           "additionalProperties": false,
@@ -1329,11 +1099,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "$ref",
-            "id",
-            "property"
-          ]
+          "required": ["$ref", "id", "property"]
         }
       ]
     },
@@ -1368,11 +1134,7 @@
           }
         },
         {
-          "type": [
-            "string",
-            "number",
-            "boolean"
-          ]
+          "type": ["string", "number", "boolean"]
         }
       ]
     },
@@ -1391,10 +1153,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "schemaVersion",
-        "tokens"
-      ]
+      "required": ["schemaVersion", "tokens"]
     },
     "AliasToken": {
       "type": "object",
@@ -1416,12 +1175,531 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "$ref",
-        "contexts",
-        "id",
-        "name"
+      "required": ["$ref", "contexts", "id", "name"]
+    },
+    "Rule": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ScaleNamingRule"
+        },
+        {
+          "$ref": "#/definitions/RoundingRule"
+        },
+        {
+          "$ref": "#/definitions/TshirtSizingRule"
+        },
+        {
+          "$ref": "#/definitions/ConditionalRule"
+        }
       ]
+    },
+    "ScaleNamingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "scale-naming"
+        },
+        "baseLabel": {
+          "type": "number"
+        },
+        "aboveIncrement": {
+          "type": "number"
+        },
+        "below": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "automatic"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "fixed"
+                },
+                "increment": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["increment", "kind"]
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind", "types"]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "aboveIncrement",
+        "baseLabel",
+        "below",
+        "description",
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "RoundingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rounding"
+        },
+        "depth": {
+          "enum": [1, 10, 100, 1000],
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind", "types"]
+            }
+          ]
+        },
+        "defaultOutcome": {
+          "$ref": "#/definitions/RoundingOutcome"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Condition%3CRoundingOutcome%3E"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conditions",
+        "defaultOutcome",
+        "depth",
+        "description",
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "RoundingOutcome": {
+      "description": "A factor of 0 leaves the value unrounded.",
+      "type": "object",
+      "properties": {
+        "factor": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["factor"]
+    },
+    "Condition<RoundingOutcome>": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "comparator": {
+          "$ref": "#/definitions/Comparator"
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "outcome": {
+          "$ref": "#/definitions/RoundingOutcome"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["comparator", "id", "outcome", "threshold"]
+    },
+    "Comparator": {
+      "enum": ["gt", "gte", "lt", "lte"],
+      "type": "string"
+    },
+    "TshirtSizingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": ["generator", "tshirt-sizing"],
+          "type": "string"
+        },
+        "movement": {
+          "$ref": "#/definitions/TshirtMovement"
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TshirtSizeMapping"
+          }
+        },
+        "defaultTermId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind", "types"]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": ["description", "id", "mappings", "movement", "name", "type"]
+    },
+    "TshirtMovement": {
+      "enum": ["available-token", "scale-index"],
+      "type": "string"
+    },
+    "TshirtSizeMapping": {
+      "type": "object",
+      "properties": {
+        "termId": {
+          "description": "Registry size-term UUID, not a display label.",
+          "type": "string"
+        },
+        "offset": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["offset", "termId"]
+    },
+    "ConditionalRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "conditional"
+        },
+        "when": {
+          "$ref": "#/definitions/RuleConditionGroup"
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConditionalBranch"
+          }
+        },
+        "otherwise": {
+          "$ref": "#/definitions/TokenOffsetOutcome"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": ["kind", "types"]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "branches",
+        "description",
+        "id",
+        "name",
+        "otherwise",
+        "type",
+        "when"
+      ]
+    },
+    "RuleConditionGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "group"
+        },
+        "operator": {
+          "enum": ["and", "or"],
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConditionNode"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": ["children", "id", "kind", "operator"]
+    },
+    "RuleConditionNode": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RuleCondition"
+        },
+        {
+          "$ref": "#/definitions/RuleConditionGroup"
+        }
+      ]
+    },
+    "RuleCondition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "condition"
+        },
+        "source": {
+          "enum": ["mode", "taxonomy"],
+          "type": "string"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "matcher": {
+          "enum": ["is", "is-not"],
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["id", "kind", "matcher", "source", "sourceId", "valueId"]
+    },
+    "ConditionalBranch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/definitions/RuleConditionGroup"
+        },
+        "then": {
+          "$ref": "#/definitions/TokenOffsetOutcome"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["id", "then", "when"]
+    },
+    "TokenOffsetOutcome": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["offset"]
     },
     "ModeSet": {
       "type": "object",
@@ -1482,14 +1760,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "defaultModeId",
-        "description",
-        "id",
-        "key",
-        "modes",
-        "name"
-      ]
+      "required": ["defaultModeId", "description", "id", "key", "modes", "name"]
     },
     "Mode": {
       "type": "object",
@@ -1727,20 +1998,10 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "description",
-        "id",
-        "kind",
-        "method",
-        "name"
-      ]
+      "required": ["description", "id", "kind", "method", "name"]
     },
     "InterpolationMethod": {
-      "enum": [
-        "cosine",
-        "exponential",
-        "linear"
-      ],
+      "enum": ["cosine", "exponential", "linear"],
       "type": "string"
     },
     "ExpressionInterpolation": {
@@ -1812,13 +2073,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "adaptable",
-        "default",
-        "id",
-        "label",
-        "step"
-      ]
+      "required": ["adaptable", "default", "id", "label", "step"]
     },
     "TokenOverride": {
       "type": "object",
@@ -1841,20 +2096,14 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "name",
-            "value"
-          ]
+          "required": ["name", "value"]
         },
         "editedAt": {
           "type": "string"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "baseline",
-        "editedAt"
-      ]
+      "required": ["baseline", "editedAt"]
     },
     "TokenName": {
       "description": "Lightweight subset of the Spectrum token format: a `name` object with\napp-specific keys, a `value`, and a stable `uuid`.",
@@ -1868,10 +2117,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "colorName",
-        "contrastValue"
-      ]
+      "required": ["colorName", "contrastValue"]
     },
     "BrowserTokenEdits": {
       "type": "object",
@@ -1889,10 +2135,7 @@
           "type": "string"
         },
         "status": {
-          "enum": [
-            "deprecated",
-            "draft"
-          ],
+          "enum": ["deprecated", "draft"],
           "type": "string"
         },
         "nameBaseline": {
@@ -1911,23 +2154,108 @@
               }
             },
             "additionalProperties": false,
-            "required": [
-              "baseline",
-              "value"
-            ]
+            "required": ["baseline", "value"]
           }
+        },
+        "authoring": {
+          "$ref": "#/definitions/TokenAuthoring"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "values"
-      ]
+      "required": ["values"]
     },
     "TokenValue": {
-      "type": [
-        "string",
-        "number"
-      ]
+      "type": ["string", "number"]
+    },
+    "TokenAuthoring": {
+      "type": "object",
+      "properties": {
+        "assignments": {
+          "$ref": "#/definitions/Record%3Cstring%2CTokenAssignment%3E"
+        },
+        "baselines": {
+          "$ref": "#/definitions/Record%3Cstring%2CTokenValue%3E"
+        },
+        "classification": {
+          "$ref": "#/definitions/Record%3Cstring%2Cstring%7Cstring%5B%5D%3E"
+        },
+        "manual": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "colors",
+                "elevation",
+                "opacity",
+                "radius",
+                "size",
+                "spacing",
+                "typography"
+              ],
+              "type": "string"
+            },
+            "unit": {
+              "enum": ["", "px"],
+              "type": "string"
+            },
+            "targetId": {
+              "type": "string"
+            },
+            "groupId": {
+              "type": "string"
+            },
+            "scope": {
+              "const": "structures",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": ["groupId", "targetId", "type", "unit"]
+        },
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "introduced": {
+              "type": "string"
+            },
+            "deprecatedIn": {
+              "type": "string"
+            },
+            "deprecatedComment": {
+              "type": "string"
+            },
+            "replacementIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "frozen": {
+              "$ref": "#/definitions/Record%3Cstring%2C%7Bkind%3A%22literal%22%3Bvalue%3ATokenValue%3Bshadows%3F%3ATokenShadowLayer%5B%5D%7Cundefined%3B%7D%3E"
+            }
+          },
+          "additionalProperties": false,
+          "required": ["deprecatedComment", "replacementIds"]
+        }
+      },
+      "additionalProperties": false,
+      "required": ["assignments"]
+    },
+    "Record<string,TokenAssignment>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Record<string,TokenValue>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Record<string,string|string[]>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Record<string,{kind:\"literal\";value:TokenValue;shadows?:TokenShadowLayer[]|undefined;}>": {
+      "type": "object",
+      "additionalProperties": false
     },
     "TaxonomyDocument": {
       "type": "object",
@@ -1987,17 +2315,11 @@
           "type": "string"
         },
         "valueType": {
-          "enum": [
-            "number",
-            "string"
-          ],
+          "enum": ["number", "string"],
           "type": "string"
         },
         "cardinality": {
-          "enum": [
-            "one",
-            "ordered"
-          ],
+          "enum": ["one", "ordered"],
           "type": "string"
         },
         "scopes": {
@@ -2058,18 +2380,10 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "categoryId",
-        "description",
-        "id",
-        "value"
-      ]
+      "required": ["categoryId", "description", "id", "value"]
     },
     "TaxonomyValue": {
-      "type": [
-        "string",
-        "number"
-      ]
+      "type": ["string", "number"]
     },
     "OpacityDocument": {
       "type": "object",
@@ -2089,11 +2403,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "levels",
-        "polarityCompensation",
-        "schemaVersion"
-      ]
+      "required": ["levels", "polarityCompensation", "schemaVersion"]
     },
     "OpacityLevel": {
       "type": "object",
@@ -2112,11 +2422,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "rows",
-        "value"
-      ]
+      "required": ["id", "rows", "value"]
     },
     "CanonicalColorDocument": {
       "type": "object",
@@ -2149,9 +2455,6 @@
           "type": "number",
           "const": 5
         },
-        "backgroundLightness": {
-          "type": "number"
-        },
         "contrasts": {
           "type": "array",
           "items": {
@@ -2163,6 +2466,9 @@
         },
         "backgroundScaleId": {
           "type": "string"
+        },
+        "backgroundLightness": {
+          "type": "number"
         },
         "settings": {
           "type": "object",
@@ -2183,10 +2489,7 @@
               "$ref": "#/definitions/ColorOutputSettings"
             },
             "contrastReference": {
-              "enum": [
-                "dark",
-                "light"
-              ],
+              "enum": ["dark", "light"],
               "type": "string"
             },
             "polarityCompensation": {
@@ -2242,13 +2545,7 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": [
-        "chroma",
-        "hue",
-        "id",
-        "lightness",
-        "name"
-      ]
+      "required": ["chroma", "hue", "id", "lightness", "name"]
     },
     "CanonicalNamedSource<ColorScale>": {
       "additionalProperties": false,
@@ -2256,6 +2553,9 @@
       "properties": {
         "id": {
           "type": "string"
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
         },
         "customContrasts": {
           "type": "object",
@@ -2274,14 +2574,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "baseContrastId",
-            "namingRuleId",
-            "steps"
-          ]
-        },
-        "hideFromPublishing": {
-          "type": "boolean"
+          "required": ["baseContrastId", "namingRuleId", "steps"]
         },
         "stops": {
           "type": "array",
@@ -2293,11 +2586,7 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "stops"
-      ]
+      "required": ["id", "name", "stops"]
     },
     "ContrastToken": {
       "type": "object",
@@ -2314,10 +2603,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "value"
-      ]
+      "required": ["id", "value"]
     },
     "ColorStop": {
       "type": "object",
@@ -2340,12 +2626,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "chroma",
-        "hue",
-        "id",
-        "lightness"
-      ]
+      "required": ["chroma", "hue", "id", "lightness"]
     },
     "CanonicalSurface": {
       "type": "object",
@@ -2366,11 +2647,11 @@
         "contrast": {
           "type": "number"
         },
+        "expanded": {
+          "type": "boolean"
+        },
         "reference": {
-          "enum": [
-            "base",
-            "parent"
-          ],
+          "enum": ["base", "parent"],
           "type": "string"
         },
         "sourceScaleId": {
@@ -2384,27 +2665,13 @@
         },
         "forceDark": {
           "type": "boolean"
-        },
-        "expanded": {
-          "type": "boolean"
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "name",
-        "previewRole",
-        "showInPreview"
-      ]
+      "required": ["id", "name", "previewRole", "showInPreview"]
     },
     "SurfacePreviewRole": {
-      "enum": [
-        "applied",
-        "auto",
-        "hidden",
-        "nest",
-        "once"
-      ],
+      "enum": ["applied", "auto", "hidden", "nest", "once"],
       "type": "string"
     },
     "CanonicalDataVisScale": {
@@ -2431,10 +2698,7 @@
           "type": "string"
         },
         "kind": {
-          "enum": [
-            "diverging",
-            "sequential"
-          ],
+          "enum": ["diverging", "sequential"],
           "type": "string"
         },
         "staticColors": {
@@ -2451,12 +2715,7 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "name",
-        "points"
-      ]
+      "required": ["id", "kind", "name", "points"]
     },
     "DataVisPoint": {
       "anyOf": [
@@ -2477,12 +2736,7 @@
               "$ref": "#/definitions/PointContrast"
             }
           },
-          "required": [
-            "contrast",
-            "id",
-            "position",
-            "source"
-          ]
+          "required": ["contrast", "id", "position", "source"]
         },
         {
           "additionalProperties": false,
@@ -2505,11 +2759,7 @@
               ]
             }
           },
-          "required": [
-            "id",
-            "position",
-            "source"
-          ]
+          "required": ["id", "position", "source"]
         }
       ]
     },
@@ -2527,10 +2777,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "color",
-            "kind"
-          ]
+          "required": ["color", "kind"]
         },
         {
           "type": "object",
@@ -2544,10 +2791,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "kind",
-            "scaleId"
-          ]
+          "required": ["kind", "scaleId"]
         }
       ]
     },
@@ -2565,11 +2809,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "chroma",
-        "hue",
-        "lightness"
-      ]
+      "required": ["chroma", "hue", "lightness"]
     },
     "PointContrast": {
       "type": "object",
@@ -2582,9 +2822,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "value"
-      ]
+      "required": ["value"]
     },
     "UiSwatchSource": {
       "type": "object",
@@ -2601,11 +2839,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "contrastId",
-        "kind",
-        "scaleId"
-      ]
+      "required": ["contrastId", "kind", "scaleId"]
     },
     "PrimitiveColorSource": {
       "type": "object",
@@ -2619,10 +2853,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "kind",
-        "tokenId"
-      ]
+      "required": ["kind", "tokenId"]
     },
     "FrozenColor": {
       "type": "object",
@@ -2644,10 +2875,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "value"
-      ]
+      "required": ["id", "value"]
     },
     "CanonicalNamedSource<CategoricalDataVisScale>": {
       "additionalProperties": false,
@@ -2683,13 +2911,7 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "members",
-        "name",
-        "preferences"
-      ]
+      "required": ["id", "kind", "members", "name", "preferences"]
     },
     "CategoricalMember": {
       "type": "object",
@@ -2702,10 +2924,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "id",
-        "source"
-      ]
+      "required": ["id", "source"]
     },
     "CategoricalPreferences": {
       "type": "object",
@@ -2749,9 +2968,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "kind"
-          ]
+          "required": ["kind"]
         },
         {
           "type": "object",
@@ -2765,35 +2982,20 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "count",
-            "kind"
-          ]
+          "required": ["count", "kind"]
         }
       ]
     },
     "CvdProfile": {
-      "enum": [
-        "achromatopsia",
-        "deuteranopia",
-        "protanopia",
-        "tritanopia"
-      ],
+      "enum": ["achromatopsia", "deuteranopia", "protanopia", "tritanopia"],
       "type": "string"
     },
     "PaletteStyle": {
-      "enum": [
-        "balanced",
-        "bold"
-      ],
+      "enum": ["balanced", "bold"],
       "type": "string"
     },
     "ContrastSide": {
-      "enum": [
-        "auto",
-        "dark",
-        "light"
-      ],
+      "enum": ["auto", "dark", "light"],
       "type": "string"
     },
     "ColorOutputSettings": {
@@ -2810,27 +3012,14 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "authoringGamut",
-        "mapOutputsToSrgb",
-        "outputFormat"
-      ]
+      "required": ["authoringGamut", "mapOutputsToSrgb", "outputFormat"]
     },
     "ColorGamut": {
-      "enum": [
-        "display-p3",
-        "rec2020",
-        "srgb"
-      ],
+      "enum": ["display-p3", "rec2020", "srgb"],
       "type": "string"
     },
     "ColorFormat": {
-      "enum": [
-        "hex",
-        "hsl",
-        "oklch",
-        "rgb"
-      ],
+      "enum": ["hex", "hsl", "oklch", "rgb"],
       "type": "string"
     },
     "TypographyDocument": {
@@ -2922,28 +3111,14 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": [
-        "font-size",
-        "workflow-icon-size"
-      ]
+      "required": ["font-size", "workflow-icon-size"]
     },
     "TypographyUnit": {
-      "enum": [
-        "em",
-        "pt",
-        "px",
-        "rem"
-      ],
+      "enum": ["em", "pt", "px", "rem"],
       "type": "string"
     },
     "ComponentSize": {
-      "enum": [
-        "l",
-        "m",
-        "s",
-        "xl",
-        "xs"
-      ],
+      "enum": ["l", "m", "s", "xl", "xs"],
       "type": "string"
     },
     "TypographyLineHeight": {
@@ -3017,10 +3192,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "alignment",
-            "baseSize"
-          ]
+          "required": ["alignment", "baseSize"]
         },
         {
           "type": "object",
@@ -3037,11 +3209,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "alignment",
-            "baseSize",
-            "lineHeightId"
-          ]
+          "required": ["alignment", "baseSize", "lineHeightId"]
         }
       ]
     },
@@ -3067,10 +3235,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "scales",
-        "schemaVersion"
-      ]
+      "required": ["scales", "schemaVersion"]
     },
     "CanonicalNamedSource<DimensionScale>": {
       "additionalProperties": false,
@@ -3145,11 +3310,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "method",
-        "modeParameterId",
-        "points"
-      ]
+      "required": ["method", "modeParameterId", "points"]
     },
     "BindingPoint": {
       "type": "object",
@@ -3164,10 +3325,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "at",
-        "value"
-      ]
+      "required": ["at", "value"]
     },
     "CanonicalSizeDocument": {
       "type": "object",
@@ -3191,10 +3349,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "scales",
-        "schemaVersion"
-      ]
+      "required": ["scales", "schemaVersion"]
     },
     "CanonicalRadiusDocument": {
       "type": "object",
@@ -3218,10 +3373,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "scales",
-        "schemaVersion"
-      ]
+      "required": ["scales", "schemaVersion"]
     },
     "ElevationDocument": {
       "type": "object",
@@ -3302,13 +3454,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "base",
-        "id",
-        "label",
-        "scale",
-        "scaleTypeId"
-      ]
+      "required": ["base", "id", "label", "scale", "scaleTypeId"]
     },
     "Record<string,never>": {
       "type": "object",
@@ -3324,12 +3470,6 @@
             "structures": {
               "$ref": "#/definitions/StructuresDocument"
             },
-            "rules": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Rule"
-              }
-            },
             "platforms": {
               "type": "array",
               "items": {
@@ -3341,6 +3481,12 @@
             },
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rule"
+              }
             },
             "modeSets": {
               "type": "array",
@@ -3454,12 +3600,7 @@
             }
           },
           "additionalProperties": false,
-          "required": [
-            "description",
-            "id",
-            "name",
-            "revision"
-          ]
+          "required": ["description", "id", "name", "revision"]
         }
       },
       "additionalProperties": false,
@@ -3510,22 +3651,10 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "base",
-        "description",
-        "id",
-        "kind",
-        "name",
-        "parameters"
-      ]
+      "required": ["base", "description", "id", "kind", "name", "parameters"]
     },
     "ScaleTypeKind": {
-      "enum": [
-        "expression",
-        "geometric",
-        "linear",
-        "type-scale"
-      ],
+      "enum": ["expression", "geometric", "linear", "type-scale"],
       "type": "string"
     },
     "ScaleTypeParameter": {
@@ -3560,14 +3689,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "adaptable",
-        "default",
-        "id",
-        "label",
-        "overridable",
-        "step"
-      ]
+      "required": ["adaptable", "default", "id", "label", "overridable", "step"]
     },
     "ScaleTypeBase": {
       "description": "The value at index 0. The formula supplies a default; a foundation may override it when allowed.",
@@ -3587,12 +3709,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "adaptable",
-        "default",
-        "overridable",
-        "step"
-      ]
+      "required": ["adaptable", "default", "overridable", "step"]
     },
     "TypeScaleAdaptation": {
       "type": "object",
@@ -3608,11 +3725,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "interpolationId",
-        "ratioAtLargest",
-        "ratioAtSmallest"
-      ]
+      "required": ["interpolationId", "ratioAtLargest", "ratioAtSmallest"]
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#"

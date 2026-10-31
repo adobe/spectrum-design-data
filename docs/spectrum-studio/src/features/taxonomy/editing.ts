@@ -21,7 +21,8 @@ import {
   structureSlotDefinition,
   structureTaxonomyAssignments,
 } from "../structures/model";
-import { SIZE_TERM_IDS, VARIANT_CATEGORY_IDS } from "./variantVocabulary";
+import { VARIANT_CATEGORY_IDS } from "./variantVocabulary";
+import { isTshirtRule } from "../logic/model";
 import { rulesAtom } from "../logic/library";
 import { workingTshirtArtifactsAtom } from "../design-data/tshirtState";
 import { captureSnapshot } from "../edit-session/state";
@@ -146,9 +147,9 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
       }));
     }),
     ...get(rulesAtom)
-      .filter((rule) => rule.type === "tshirt-sizing")
+      .filter(isTshirtRule)
       .flatMap((rule) =>
-        Object.values(SIZE_TERM_IDS).map((termId) => ({
+        rule.mappings.map(({ termId }) => ({
           id: `rule-size:${rule.id}:${termId}`,
           name: `${rule.name} size mapping`,
           scope: "structures" as const,
