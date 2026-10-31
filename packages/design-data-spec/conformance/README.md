@@ -7,17 +7,31 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 
 **Valid** baselines live under `valid/`.
 
-| Folder             | Rule     | Intent                                                           |
-| ------------------ | -------- | ---------------------------------------------------------------- |
-| `invalid/SPEC-001` | SPEC-001 | Alias target does not exist.                                     |
-| `invalid/SPEC-002` | SPEC-002 | Alias resolves to incompatible type (semantic).                  |
-| `invalid/SPEC-003` | SPEC-003 | Circular alias chain.                                            |
-| `invalid/SPEC-004` | SPEC-004 | Duplicate `uuid` across tokens.                                  |
-| `invalid/SPEC-005` | SPEC-005 | Mode set `default` not in `modes`.                               |
-| `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).                |
-| `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant.          |
-| `invalid/SPEC-064` | SPEC-064 | Constraint names an undeclared option or value.                  |
-| `invalid/SPEC-065` | SPEC-065 | Relationship scope matches only excluded combinations (warning). |
+| Folder             | Rule     | Intent                                                                |
+| ------------------ | -------- | --------------------------------------------------------------------- |
+| `invalid/SPEC-001` | SPEC-001 | Alias target does not exist.                                          |
+| `invalid/SPEC-002` | SPEC-002 | Alias resolves to incompatible type (semantic).                       |
+| `invalid/SPEC-003` | SPEC-003 | Circular alias chain.                                                 |
+| `invalid/SPEC-004` | SPEC-004 | Duplicate `uuid` across tokens.                                       |
+| `invalid/SPEC-005` | SPEC-005 | Mode set `default` not in `modes`.                                    |
+| `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).                     |
+| `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant.               |
+| `invalid/SPEC-060` | SPEC-060 | Recipe part is not a declared anatomy part.                           |
+| `invalid/SPEC-061` | SPEC-061 | Recipe condition names an undeclared option.                          |
+| `invalid/SPEC-062` | SPEC-062 | Recipe relationship selector matches no relationship.                 |
+| `invalid/SPEC-063` | SPEC-063 | `sizeScale` keys differ from the component's `size` values.           |
+| `invalid/SPEC-064` | SPEC-064 | Constraint names an undeclared option or value.                       |
+| `invalid/SPEC-065` | SPEC-065 | Relationship scope matches only excluded combinations (warning).      |
+| `invalid/SPEC-066` | SPEC-066 | Component option the recipe never uses (warning).                     |
+| `invalid/SPEC-067` | SPEC-067 | Recipe `token` selector duplicates a relationship (warning).          |
+| `invalid/SPEC-068` | SPEC-068 | Recipe supplies a literal size (warning).                             |
+| `invalid/SPEC-069` | SPEC-069 | Recipe binds only a deprecated token (warning).                       |
+| `invalid/SPEC-070` | SPEC-070 | Recipes name the focus ring part differently (warning).               |
+| `invalid/SPEC-071` | SPEC-071 | Relationship contexts the recipe never binds (info).                  |
+| `invalid/SPEC-072` | SPEC-072 | Relationship repeats a `$ref` that has a scale counterpart (warning). |
+| `invalid/SPEC-073` | SPEC-073 | Components without reviewed anatomy (info).                           |
+| `invalid/SPEC-074` | SPEC-074 | Anatomy `presentIn` names an undeclared state (warning).              |
+| `invalid/SPEC-075` | SPEC-075 | Recipe and anatomy disagree on the states a part shows in (warning).  |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 
