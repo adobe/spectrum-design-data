@@ -601,3 +601,27 @@ fn catalog_export_into_reused_dir_removes_stale_files() {
     assert!(!out.path().join("guidelines/tab-bar-ios.json").exists());
     assert!(out.path().join("components/accordion.json").is_file());
 }
+
+/// p6ga.8.1: `render` applies the platform cascade. The iOS manifest's `include`
+/// whitelist drops tokens the button recipe binds, so the render names the platform in
+/// a warning; with no platform it stays silent.
+#[test]
+fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(repo_root())
+        .args(["render", "button", "--platform", "ios", "--format", "scene"])
+        .assert()
+        .success()
+        .stderr(contains(
+            "warning: platform 'ios': height: no relationship 'component-height-100'",
+        ));
+
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(repo_root())
+        .args(["render", "button", "--format", "scene"])
+        .assert()
+        .success()
+        .stderr(contains("warning").not());
+}

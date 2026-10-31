@@ -290,6 +290,18 @@
         background: #fff;
         color: var(--fg);
       }
+      .diagnostics {
+        padding: 10px 14px;
+        font-size: 12px;
+        border-left: 3px solid #c9252d;
+      }
+      .diagnostics[hidden] {
+        display: none;
+      }
+      .diagnostics ul {
+        margin: 4px 0 0;
+        padding-left: 18px;
+      }
       .note {
         font-size: 11px;
         color: var(--muted);
@@ -640,6 +652,8 @@
           ><span class="badge ok">Design available</span>
         </header>
 
+        <div class="diagnostics card" id="diagnostics" role="status" hidden></div>
+
         <div class="live card" id="live-component">
           <div class="stagewrap">
             <div class="stage" id="stage" data-mode="usage" tabindex="0">
@@ -789,7 +803,21 @@
         );
         const key = JSON.stringify(q);
         if (!cache.has(key)) cache.set(key, backend.scene(q));
-        return cache.get(key);
+        const p = cache.get(key);
+        p.then(noteDiagnostics);
+        return p;
+      }
+
+      // Bindings that did not resolve (for a platform build, usually a token its
+      // include list dropped), shown rather than drawing nothing silently.
+      const seenDiagnostics = new Set();
+      function noteDiagnostics(scene) {
+        for (const d of scene?.diagnostics ?? []) seenDiagnostics.add(d);
+        const el = $("diagnostics");
+        el.hidden = seenDiagnostics.size === 0;
+        el.innerHTML = seenDiagnostics.size
+          ? `<strong>${seenDiagnostics.size} binding${seenDiagnostics.size === 1 ? "" : "s"} did not resolve</strong><ul>${[...seenDiagnostics].map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`
+          : "";
       }
 
       let C; // component definition + recipe summary
@@ -2046,6 +2074,8 @@
 
       async function load(name) {
         C = await backend.component(name);
+        seenDiagnostics.clear();
+        noteDiagnostics();
         constraints = readConstraints(C);
         renderPage();
         buildControls();
@@ -2118,7 +2148,7 @@
         const params = new URLSearchParams(location.search);
         const name = params.get("c") ?? list.find((c) => c.hasVisual).name;
         $("nav").innerHTML =
-          `<div><h4>React Spectrum</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
+          `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
         await load(name);
         const initial = params.get("tab");
         if (tabs.includes(initial) && initial !== "usage") {

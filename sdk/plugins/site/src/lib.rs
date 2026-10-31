@@ -15,6 +15,7 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use design_data_core::graph::TokenGraph;
+use design_data_core::manifest::PlatformIdentity;
 use design_data_core::naming::extract_legacy_key;
 use design_data_core::visual;
 use design_data_figma as figma;
@@ -32,6 +33,7 @@ pub fn write_site(
     visuals_dir: &Path,
     components: &[String],
     out: &Path,
+    platform: Option<&PlatformIdentity>,
 ) -> Result<usize, String> {
     let modes: Vec<HashMap<String, String>> = ["light", "dark", "wireframe"]
         .iter()
@@ -88,9 +90,12 @@ pub fn write_site(
     }
     list.sort_by(|a, b| a["displayName"].as_str().cmp(&b["displayName"].as_str()));
     let figma = figma_names(graph, &compiled)?;
-    let data = serde_json::json!({
+    let mut data = serde_json::json!({
         "components": list, "byName": by_name, "compiled": compiled, "figma": figma
     });
+    if let Some(p) = platform {
+        data["platform"] = serde_json::json!({ "id": p.id, "name": p.name });
+    }
 
     std::fs::create_dir_all(out).map_err(|e| format!("failed to create {}: {e}", out.display()))?;
     let write = |name: &str, body: &str| -> Result<(), String> {
