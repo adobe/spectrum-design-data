@@ -24,6 +24,7 @@ const BACKEND: &str = include_str!("../assets/backend.js");
 const RUNTIME: &str = include_str!("../assets/visual-runtime.js");
 const CONSTRAINTS: &str = include_str!("../assets/constraints.js");
 const CONTROLS: &str = include_str!("../assets/spectrum-controls.js");
+const NOTICES: &str = include_str!("../assets/THIRD-PARTY-NOTICES.txt");
 
 /// Write the site for `components` (all when empty) to `out`. Returns the number
 /// of components that had a visual recipe.
@@ -100,6 +101,7 @@ pub fn write_site(
     write("backend.js", BACKEND)?;
     write("visual-runtime.js", RUNTIME)?;
     write("spectrum-controls.js", CONTROLS)?;
+    write("THIRD-PARTY-NOTICES.txt", NOTICES)?;
     write("constraints.js", CONSTRAINTS)?;
     write(
         "data.json",
