@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { ColorScale, ColorSystemDocument } from "./model";
+import type { ColorScale, ColorSystemDocument, ContrastToken } from "./model";
 import type { Rule } from "../logic/model";
 import {
   STANDARD_SCALE_NAMING_RULE,
@@ -32,6 +32,12 @@ export function scaleContrasts(
   scale: ColorScale,
 ) {
   return scale.customContrasts?.steps ?? document.contrasts;
+}
+
+export function sortContrastSteps(
+  steps: readonly ContrastToken[],
+): ContrastToken[] {
+  return [...steps].sort((first, second) => first.value - second.value);
 }
 
 export function assertCustomContrastNaming(

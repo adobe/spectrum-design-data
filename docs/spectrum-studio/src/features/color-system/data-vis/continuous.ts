@@ -57,7 +57,7 @@ export function compileContinuousScale(
     .filter((point) => point.targetReached === false)
     .map(
       (point) =>
-        `Point ${Math.round(point.position * 100)}% cannot reach ${point.targetContrast}:1; its rendered contrast is ${point.actualContrast.toFixed(3)}:1.`,
+        `Point ${Math.round(point.position * 100)}% cannot reach ${point.targetContrast}:1; its rendered contrast is ${point.actualContrast.toFixed(2)}:1.`,
     );
   for (const point of points)
     if (

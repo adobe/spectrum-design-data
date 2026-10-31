@@ -85,7 +85,7 @@ export function DataVisComparisonTable({
                 }}
               />
             </Cell>
-            <Cell>{row.measurement.contrast.toFixed(3)}:1</Cell>
+            <Cell>{row.measurement.contrast.toFixed(2)}:1</Cell>
             <Cell>
               {row.wcagNonText === "not-applicable" ? (
                 "Simulation, not a WCAG result"

@@ -1,7 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useRef } from "react";
-import { gradientPointerPosition } from "./gradientStopPositions";
+import {
+  gradientPointerPosition,
+  isGradientDragIntentional,
+} from "./gradientStopPositions";
 
 export interface GradientStop {
   id: string;
@@ -67,6 +70,12 @@ export function GradientStopControl({
   disableReadOnlySelection = false,
 }: GradientStopControlProps) {
   const track = useRef<HTMLDivElement>(null);
+  const drag = useRef<{
+    pointerId: number;
+    startX: number;
+    position: number;
+    active: boolean;
+  } | null>(null);
   return (
     <div className={rootStyles} data-component="GradientStopControl">
       <div
@@ -93,9 +102,17 @@ export function GradientStopControl({
             style={{ left: `${stop.position * 100}%`, touchAction: "none" }}
             onClick={() => onSelect(stop.id)}
             onPointerDown={(event) => {
+              if (event.button !== 0 || !event.isPrimary) return;
               onSelect(stop.id);
-              if (!isReadOnly && onMove && stop.movable !== false)
+              if (!isReadOnly && onMove && stop.movable !== false) {
+                drag.current = {
+                  pointerId: event.pointerId,
+                  startX: event.clientX,
+                  position: stop.position,
+                  active: false,
+                };
                 event.currentTarget.setPointerCapture(event.pointerId);
+              }
             }}
             onPointerMove={(event) => {
               if (
@@ -106,9 +123,27 @@ export function GradientStopControl({
               )
                 return;
               const bounds = track.current?.getBoundingClientRect();
-              if (!bounds) return;
+              const gesture = drag.current;
+              if (!bounds || !gesture || gesture.pointerId !== event.pointerId)
+                return;
+              if (!gesture.active) {
+                if (
+                  !isGradientDragIntentional(
+                    event.pointerType,
+                    gesture.startX,
+                    event.clientX,
+                  )
+                )
+                  return;
+                gesture.active = true;
+              }
               const position = gradientPointerPosition(
-                event.clientX,
+                event.pointerType === "mouse"
+                  ? bounds.left +
+                      gesture.position * bounds.width +
+                      event.clientX -
+                      gesture.startX
+                  : event.clientX,
                 bounds.left,
                 bounds.width,
                 stop.minimum,
@@ -117,8 +152,15 @@ export function GradientStopControl({
               if (position !== stop.position) onMove(stop.id, position);
             }}
             onPointerUp={(event) => {
+              drag.current = null;
               if (event.currentTarget.hasPointerCapture(event.pointerId))
                 event.currentTarget.releasePointerCapture(event.pointerId);
+            }}
+            onLostPointerCapture={() => {
+              drag.current = null;
+            }}
+            onPointerCancel={() => {
+              drag.current = null;
             }}
             onKeyDown={(event) => {
               if (isReadOnly || !onMove || stop.movable === false) return;

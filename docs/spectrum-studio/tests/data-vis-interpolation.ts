@@ -104,7 +104,7 @@ assertColor(
 );
 assert.equal(
   sequence("rgb(255 0 0 / 0)", "rgb(0 0 255 / 0)").evaluate(0.5),
-  "rgb(0 0 0 / 0)",
+  "oklch(0% 0% 0 / 0)",
 );
 
 const positions = [
@@ -136,7 +136,7 @@ const diverging = compileContinuousScale(
   ],
   "oklch",
 );
-assertColor(diverging.evaluate(0.25), 0.7, 0.061, 60);
+assertColor(diverging.evaluate(0.25), 0.7, 0.06128, 60);
 assert.equal(diverging.evaluate(0.5), "oklch(0.8 0.08 100)");
 for (const output of ["srgb", "display-p3", "oklch"] as const) {
   const wide = compileContinuousScale(
@@ -160,7 +160,12 @@ for (const output of ["srgb", "display-p3", "oklch"] as const) {
       }),
       `${output} sample at ${position} escaped the output gamut: ${value}`,
     );
-    assert.ok(Math.abs(color.alpha - (0.4 + 0.4 * position)) < 0.000002);
+    const alpha = 0.4 + 0.4 * position;
+    const expectedAlpha =
+      output === "srgb"
+        ? Math.round(alpha * 255) / 255
+        : Number(alpha.toFixed(2));
+    assert.ok(Math.abs(color.alpha - expectedAlpha) < 1e-10);
   }
 }
 console.log(

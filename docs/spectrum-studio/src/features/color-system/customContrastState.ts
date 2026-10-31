@@ -2,7 +2,7 @@
 import { atom } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom, cssBaseDocumentAtom } from "./state";
-import { assertCustomContrastNaming } from "./contrastSteps";
+import { assertCustomContrastNaming, sortContrastSteps } from "./contrastSteps";
 import type { ColorScale, ContrastToken } from "./model";
 import { rulesAtom } from "../logic/library";
 import { STANDARD_SCALE_NAMING_RULE_ID } from "../logic/model";
@@ -65,6 +65,7 @@ export type CustomContrastAction =
   | { kind: "enable"; scaleId: string }
   | { kind: "disable"; scaleId: string }
   | { kind: "add"; scaleId: string }
+  | { kind: "sort"; scaleId: string }
   | { kind: "base"; scaleId: string; stepId: string }
   | { kind: "rule"; scaleId: string; ruleId: string }
   | { kind: "remove"; scaleId: string; stepId: string }
@@ -211,7 +212,12 @@ export const editCustomContrastsAtom = atom(
         custom = { ...custom, baseContrastId: action.stepId };
       else if (action.kind === "rule")
         custom = { ...custom, namingRuleId: action.ruleId };
-      else if (action.kind === "add") {
+      else if (action.kind === "sort") {
+        custom = {
+          ...custom,
+          steps: sortContrastSteps(custom.steps),
+        };
+      } else if (action.kind === "add") {
         const step: ContrastToken = {
           id: `contrast-custom-${crypto.randomUUID()}`,
           value: Math.min(21, custom.steps.at(-1)!.value + 0.5),

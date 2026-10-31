@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ColorPickerContents } from "./ColorPickerContents";
 import { ColorPickerDefaultsProvider } from "./ColorPickerDefaults";
 import { Button } from "@react-spectrum/s2";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import type { ColorGamut } from "../../features/color-system/outputSettings";
 
 const meta = {
@@ -50,6 +51,29 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("R × G", { exact: true })).toBeVisible();
+  },
+};
+
+export const CompactToolbar: Story = {
+  render: (args) => (
+    <div className={style({ width: "full", maxWidth: 320 })}>
+      <ControlledPicker {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const cartesian = canvas.getByRole("radio", { name: "Cartesian model" });
+    await expect(cartesian).toBeChecked();
+    await userEvent.click(cartesian);
+    await expect(cartesian).toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "Polar model" }));
+    await expect(cartesian).not.toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "Channels" }));
+    await expect(canvas.getByRole("slider", { name: "Hue" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("radio", { name: "Color area" }));
+    await expect(canvas.getByText("S × L", { exact: true })).toBeVisible();
+    await expect(args.onChange).not.toHaveBeenCalled();
+    canvasElement.dataset.playComplete = "true";
   },
 };
 

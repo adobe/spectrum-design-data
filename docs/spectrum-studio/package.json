@@ -51,7 +51,7 @@
     "test:polarity": "tsx tests/polarity.ts && tsx tests/custom-contrast-polarity.ts",
     "test:opacity": "tsx tests/opacity.ts && tsx tests/opacity-generation.ts && tsx tests/opacity-lifecycle.ts && tsx tests/opacity-persistence.ts && tsx tests/opacity-output.ts && tsx tests/opacity-integration.ts && tsx tests/elevation-opacity.ts && tsx tests/opacity-ui.ts",
     "test:contrast-multiplier": "tsx tests/contrast-multiplier.ts",
-    "test:color-picker": "tsx tests/color-picker.ts",
+    "test:color-picker": "tsx tests/color-picker.ts && tsx tests/color-scale-editor.ts",
     "test:color-output": "tsx tests/color-output.ts && tsx tests/color-output-contrast.ts && tsx tests/color-output-lifecycle.ts && tsx tests/color-output-ownership.ts",
     "test:foundation-creation": "tsx tests/foundation-creation.ts",
     "test:tokens": "tsx tests/tokens.ts",

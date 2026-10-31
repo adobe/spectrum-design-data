@@ -454,6 +454,19 @@ test("mode editing uses live overrides, saves, cancels and restores through refr
   const changed = await working(page);
   const termIds = changed.taxonomy!.terms.map((term) => term.id);
   await page.keyboard.press("Escape");
+  await selectMode(page, "Dark");
+  const background = page.getByRole("button", {
+    name: /^Copy resolved background color /,
+  });
+  const backgroundLabel = await background.getAttribute("aria-label");
+  expect(backgroundLabel).toMatch(
+    /^Copy resolved background color rgb\(\d+, \d+, \d+\)$/,
+  );
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  await background.click();
+  await expect
+    .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+    .toBe(backgroundLabel!.replace("Copy resolved background color ", ""));
   await page
     .getByRole("banner")
     .getByRole("button", { name: "Save", exact: true })
@@ -1096,7 +1109,7 @@ test("mode-specific scale stops preserve base values and source identities", asy
     structure.getByRole("textbox", { name: /^Lightness/ }),
   ).toHaveCount(0);
   await expect(
-    structure.getByRole("listbox", { name: "Palette colors" }),
+    structure.getByRole("radiogroup", { name: "Palette colors" }),
   ).toHaveCount(0);
   await expect(
     structure.getByRole("button", { name: "Edit base", exact: true }),

@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Button, Text, ToastQueue } from "@react-spectrum/s2";
+import { useNotify } from "../../../components/notifications/notificationContext";
+import { Button, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
@@ -27,6 +28,7 @@ function download(value: string, name: string, type: string) {
   URL.revokeObjectURL(url);
 }
 export function DataVisCode() {
+  const notify = useNotify();
   const source = useAtomValue(authoringSnapshotAtom),
     [error, setError] = useState("");
   const result = useMemo(() => {
@@ -129,7 +131,7 @@ const adjusted = runtime.withContext({contrastMultiplier: 1.25});`;
           onPress={async () => {
             try {
               await navigator.clipboard.writeText(json);
-              ToastQueue.neutral("Data vis packet copied");
+              notify.copied();
             } catch (failure) {
               setError(
                 failure instanceof Error ? failure.message : String(failure),

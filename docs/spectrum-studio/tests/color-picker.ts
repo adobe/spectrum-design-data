@@ -5,6 +5,7 @@ import {
   canvasToColor,
   colorToCanvas,
   colorChannelToFieldValue,
+  channelFormatOptions,
   createColorWithChannelValue,
   fieldValueToColorChannel,
   getColorSpaceConfig,
@@ -60,6 +61,32 @@ assert.equal(fieldValueToColorChannel("l", 0.31, "hsl"), 31);
 assert.equal(fieldValueToColorChannel("l", 31, "hsl"), 31);
 assert.equal(colorChannelToFieldValue("r", 0.5, "srgb"), 127.5);
 assert.equal(fieldValueToColorChannel("r", 128, "srgb"), 128 / 255);
+for (const [channel, spaceId, expected] of [
+  ["r", "srgb", "128"],
+  ["r", "p3", "50.12%"],
+  ["l", "oklch", "50.12%"],
+  ["c", "oklch", "0.12"],
+  ["a", "oklab", "-0.12"],
+  ["h", "hsl", "123.46°"],
+] as const) {
+  const value =
+    spaceId === "srgb"
+      ? 127.6
+      : channel === "h"
+        ? 123.456
+        : channel === "c"
+          ? 0.123456
+          : channel === "a"
+            ? -0.123456
+            : 0.50123456;
+  assert.equal(
+    new Intl.NumberFormat(
+      "en-US",
+      channelFormatOptions(channel, spaceId),
+    ).format(value),
+    expected,
+  );
+}
 
 const p3Rgb = { r: 0.2, g: 0.45, b: 0.8 };
 const p3Hsl = p3RgbToHsl(p3Rgb);

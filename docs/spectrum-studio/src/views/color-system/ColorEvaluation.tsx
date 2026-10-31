@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   ActionButton,
@@ -9,7 +10,6 @@ import {
   PickerItem,
   PickerSection,
   Text,
-  ToastQueue,
   Tooltip,
   TooltipTrigger,
 } from "@react-spectrum/s2";
@@ -404,6 +404,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
   input: ExtractAtomValue<typeof evaluationInputAtom>;
   resetToken: (uuid: string) => void;
 }) {
+  const notify = useNotify();
   const {
     document,
     scaleData,
@@ -447,7 +448,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
   );
   const resetCurrent = (uuid: string) => {
     if (store.get(evaluationInputAtom) !== input) {
-      ToastQueue.negative(
+      notify.error(
         "The preview is not current. Reset the token after its current value is available.",
       );
       return;

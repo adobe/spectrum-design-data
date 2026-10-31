@@ -8,7 +8,7 @@ import {
 } from "./outputSettings";
 
 export const COLOR_OUTPUT_MAPPING_METHOD = "css";
-export const COLOR_OUTPUT_PRECISION = 12;
+export const COLOR_OUTPUT_PRECISION = 2;
 
 function number(value: number) {
   if (!Number.isFinite(value))
@@ -40,15 +40,48 @@ function serializeRgb(
       Math.round(Math.min(1, Math.max(0, value)) * 255)
         .toString(16)
         .padStart(2, "0");
-    return `#${channels.map(byte).join("")}${alpha === 1 ? "" : byte(alpha)}`;
+    const opacity = byte(alpha);
+    return `#${channels.map(byte).join("")}${opacity === "ff" ? "" : opacity}`;
   }
   const suffix = alpha === 1 ? "" : ` / ${number(alpha)}`;
   const clamped = channels.map((value) => Math.min(1, Math.max(0, value)));
   if (outputGamut(settings) === "srgb") {
-    const rgb = clamped.map((value) => number(value * 255)).join(", ");
+    const rgb = clamped.map((value) => Math.round(value * 255)).join(", ");
     return alpha === 1 ? `rgb(${rgb})` : `rgba(${rgb}, ${number(alpha)})`;
   }
   return `color(${outputGamut(settings)} ${clamped.map(number).join(" ")}${suffix})`;
+}
+
+function serializeOklch(
+  lightness: number,
+  chroma: number,
+  hue: number,
+  suffix: string,
+  settings: ColorOutputSettings,
+) {
+  const roundedLightness = Number(number(lightness * 100)) / 100;
+  const roundedHue = Number(number(hue)) % 360;
+  // CSS defines 100% OKLCh chroma as 0.4. Quantize in percentage units.
+  const chromaTicks = 25_000;
+  let low = 0;
+  let high = Math.round(chroma * chromaTicks);
+  const space = colorJsSpace(outputGamut(settings));
+  const fits = (ticks: number) =>
+    new Color("oklch", [
+      roundedLightness,
+      ticks / chromaTicks,
+      roundedHue,
+    ]).inGamut(space, { epsilon: 1e-8 });
+  // Rounding near a gamut boundary must not put output back outside it.
+  if (!fits(high)) {
+    while (low < high) {
+      const middle = Math.ceil((low + high) / 2);
+      if (fits(middle)) low = middle;
+      else high = middle - 1;
+    }
+    high = low;
+  }
+  return `oklch(${number(roundedLightness * 100)}% ${number(high / 100)}% ${high === 0 ? "0" : number(roundedHue)}${suffix})`;
 }
 
 /** In-gamut opaque RGB needs conversion, but no gamut mapping or Color object. */
@@ -105,7 +138,10 @@ export function serializeOutputColor(
   settings: ColorOutputSettings,
 ): string {
   const color = mapOutputColor(source, settings);
-  const alpha = Number(color.alpha);
+  const alpha =
+    settings.outputFormat === "hex"
+      ? Number(color.alpha)
+      : Number(number(Number(color.alpha)));
   const suffix = alpha === 1 ? "" : ` / ${number(alpha)}`;
   if (settings.outputFormat === "hex" || settings.outputFormat === "rgb")
     return serializeRgb(coordinates(color), alpha, settings);
@@ -121,9 +157,9 @@ export function serializeOutputColor(
     const linear = coordinates(
       color.to(`${colorJsSpace(outputGamut(settings))}-linear`),
     );
-    return `oklch(${number(Math.cbrt(linear[0]))} 0 0${suffix})`;
+    return serializeOklch(Math.cbrt(linear[0]), 0, 0, suffix, settings);
   }
   if (!Number.isFinite(converted.coords[2])) converted.coords[2] = 0;
   const [lightness, chroma, hue] = coordinates(converted);
-  return `oklch(${number(lightness)} ${number(chroma)} ${number(hue)}${suffix})`;
+  return serializeOklch(lightness, chroma, hue, suffix, settings);
 }

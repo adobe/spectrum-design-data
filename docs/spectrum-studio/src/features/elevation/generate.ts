@@ -8,13 +8,16 @@ import {
   type ElevationDocument,
   type ElevationLevel,
 } from "./model";
-import type { ColorOutputSettings } from "../color-system/outputSettings";
+import {
+  DEFAULT_COLOR_OUTPUT,
+  type ColorOutputSettings,
+} from "../color-system/outputSettings";
 import { serializeOutputColor } from "../color-system/outputSerialization";
 
 export function generateElevation(
   document: ElevationDocument,
   formulas: readonly ScaleType[] = ELEVATION_FORMULAS,
-  colorOutput?: ColorOutputSettings,
+  colorOutput: ColorOutputSettings = DEFAULT_COLOR_OUTPUT,
 ): ElevationLevel[] {
   const issues = elevationIssues(document);
   if (issues.length) throw new Error(issues.join(" "));
@@ -68,9 +71,7 @@ export function generateElevation(
           offsetY,
           blur,
           spread: 0 as const,
-          color: colorOutput
-            ? serializeOutputColor(color, colorOutput)
-            : color.toString({ precision: 12 }),
+          color: serializeOutputColor(color, colorOutput),
           opacity,
           inset: false as const,
         };
