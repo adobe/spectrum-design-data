@@ -227,8 +227,8 @@ for (const appearance of ["light", "dark"]) {
     await page.getByRole("button", { name: "Save", exact: true }).click();
     await page.getByRole("button", { name: "Cancel", exact: true }).click();
     await page
-      .getByRole("alertdialog", { name: "Discard all edits?" })
-      .getByRole("button", { name: "Discard edits", exact: true })
+      .getByRole("alertdialog", { name: "Discard all edits", exact: true })
+      .getByRole("button", { name: "Discard", exact: true })
       .click();
     await expect(
       page
