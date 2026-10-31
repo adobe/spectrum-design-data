@@ -1,5 +1,17 @@
 # @adobe/design-data-tui
 
+## 0.20.2
+
+### Patch Changes
+
+- [#1573](https://github.com/adobe/spectrum-design-data/pull/1573) [`6c59c1f`](https://github.com/adobe/spectrum-design-data/commit/6c59c1ffc26ee80e11b1354c8e97d1479023af30) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `design-data figma export --platform` dropping the other color-scheme modes of an
+  overridden token.
+  - An override record carries `manifest.json` as its file, so the exporter grouped it apart from
+    its light and dark siblings and let it replace the whole variable.
+  - Overrides now group with their foundation siblings; the three iOS seafoam tokens keep their
+    dark value.
+  - Exports without `--platform` are unchanged.
+
 ## 0.20.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @adobe/spectrum-design-data
 
+## 3.7.1
+
+### Patch Changes
+
+- [#1572](https://github.com/adobe/spectrum-design-data/pull/1572) [`a60aeea`](https://github.com/adobe/spectrum-design-data/commit/a60aeea243b2ac4e812d46bbd9f7140c9f62f398) Thanks [@GarthDB](https://github.com/GarthDB)! - Point the second duplicate relationship at the mobile token in 17 components.
+
+  103 relationship records referenced the desktop token twice, so the mobile token was never
+  reachable through the relationship. The second record of each pair now references the token with
+  the same name and the mobile scale.
+
+  Components: accordion, combo-box, date-picker, drop-zone, list-view, menu, number-field, picker,
+  search-field, segmented-control, side-navigation, tag, tag-field, text-area, text-field, tooltip
+  and tree-view.
+
 ## 3.7.0
 
 ### Minor Changes
