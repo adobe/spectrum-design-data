@@ -88,7 +88,7 @@ const taxonomy = structuredClone(store.get(taxonomyDocumentAtom));
 const propertyId = baseline.components!.components[0].assignments.find(
   (row) =>
     taxonomy.terms.find((term) => term.id === row.property.termId)?.value ===
-    "Opacity",
+    "opacity",
 )!.property.termId;
 taxonomy.terms = taxonomy.terms.filter((term) => term.id !== propertyId);
 assert.throws(
