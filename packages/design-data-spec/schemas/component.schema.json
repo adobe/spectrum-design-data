@@ -342,11 +342,11 @@
           "type": "boolean",
           "default": false
         },
-        "states": {
+        "presentIn": {
           "type": "array",
           "items": { "type": "string" },
           "uniqueItems": true,
-          "description": "Declared component states in which this part is drawn. Absent means any state."
+          "description": "Declared component states in which this part is present; drawn when any is active. Absent means any state. Not for state-dependent styling."
         },
         "contains": {
           "type": "array",
@@ -363,6 +363,11 @@
           "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecatedIn to signal that tokens referencing this part should migrate."
         }
       },
+      "if": {
+        "required": ["required"],
+        "properties": { "required": { "const": true } }
+      },
+      "then": { "not": { "required": ["presentIn"] } },
       "additionalProperties": false
     },
     "stateDeclaration": {

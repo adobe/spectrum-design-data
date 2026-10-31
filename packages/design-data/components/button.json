@@ -207,7 +207,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus.",
-      "states": ["focus"]
+      "presentIn": ["focus"]
     }
   ],
   "anatomyReview": {

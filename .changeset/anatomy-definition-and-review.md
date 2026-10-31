@@ -10,7 +10,8 @@ Define what an anatomy part is and review the first five components against it.
 
 - `anatomy-format.md` says what counts as a part, how to name and nest parts, when a part
   is required, and what is not anatomy. It adds a review checklist.
-- New optional `states` on a part lists the states it appears in, such as the focus indicator.
+- New optional `presentIn` on a part lists the states it is present in, such as the focus indicator.
+  A required part cannot have `presentIn`.
 - New optional `anatomyReview` on a component records `draft` or `reviewed`.
 - New info rule SPEC-073 lists components with relationships but no anatomy, or draft anatomy.
 
