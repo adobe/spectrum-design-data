@@ -340,6 +340,7 @@ pub(crate) mod test_util {
                 component: component.into(),
                 file: PathBuf::from(format!("visuals/{component}.json")),
                 raw,
+                layer: crate::graph::Layer::Foundation,
             });
         }
         g

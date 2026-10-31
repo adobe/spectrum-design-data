@@ -133,8 +133,12 @@ pub struct RelationshipRecord {
 pub struct VisualRecord {
     /// The recipe's `component` field.
     pub component: String,
+    /// The recipe's source file (a platform fragment path for `Layer::Platform`).
     pub file: PathBuf,
     pub raw: Value,
+    /// `Foundation` for catalog recipes, `Platform` for `extensions/visuals` recipes.
+    #[serde(default)]
+    pub layer: Layer,
 }
 
 /// One mode set declaration (new spec shape), when present in a JSON file.
@@ -1035,6 +1039,33 @@ impl TokenGraph {
             }
         }
 
+        // 5c. extensions.visuals — platform-owned recipes replace the foundation
+        // recipe of the same component entirely (replace-only, proposal 014 D2).
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("visuals"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let (Some(file), Some(recipe)) = (
+                    entry.get("file").and_then(|v| v.as_str()),
+                    entry.get("recipe"),
+                ) else {
+                    continue;
+                };
+                let Some(component) = recipe.get("component").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = VisualRecord {
+                    component: component.to_string(),
+                    file: PathBuf::from(file),
+                    raw: recipe.clone(),
+                    layer: Layer::Platform,
+                };
+                upsert_by_key(&mut self.visuals, |v| v.component == component, record);
+            }
+        }
+
         // 6. extensions.platformExtensions — platform terminology keyed by
         // (platform, extends). Validate targets after mode-set edits below.
         if let Some(entries) = manifest
@@ -1869,6 +1900,7 @@ impl TokenGraph {
                     component: component.to_string(),
                     file: path,
                     raw: value,
+                    layer: Layer::Foundation,
                 });
             }
         }
