@@ -119,8 +119,19 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-071 | Info. Counts relationship contexts of the component that the recipe never binds                                                                                                             |
 | SPEC-075 | Error. A part's `visibleWhen.states` agrees with the `presentIn` of its anatomy part (info when either lists more than one state; see [Anatomy format](anatomy-format.md#presentin))        |
 | SPEC-076 | Warning. Runs only with a platform manifest (`validate --platform <id> --visuals-path`). Every binding that resolves on the foundation also resolves once the manifest's cascade is applied |
+| SPEC-079 | Warning, planned (not yet enforced). A platform-owned recipe renders over the request grid with no scene diagnostic. Promoted to an error one minor version after it ships                  |
+| SPEC-080 | Info, planned (not yet enforced). A platform recipe replaces the foundation recipe of the same component name                                                                               |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
+
+## Platform-owned recipes
+
+**PROPOSED, not implemented** (see [Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). Nothing loads `extensions/visuals/` yet.
+
+* **Location.** **NORMATIVE (when implemented):** A platform recipe is `extensions/visuals/<component>.json`, one recipe per file, in the platform's extensions directory (honoring `extensionsDir`, see [Manifest](manifest.md#extensions-directory)). The file name **MUST** equal `component`. It validates against the same recipe schema as a foundation recipe, so promoting or demoting it is a file move ([Artifact moves](artifact-moves.md)).
+* **Precedence.** A platform recipe **replaces** the foundation recipe of the same component name as a whole file. There is no layering. A foundation recipe stays the default for platforms that have none. A replaced recipe is a copy that can drift; SPEC-080 reports the pair.
+* **Resolution.** A recipe's selectors resolve against the platform-merged graph (the manifest's tokens, relationships, components and anatomy). A recipe replaces only the look; anatomy stays neutral, so a recipe may use only the parts the platform-merged component declares (SPEC-060).
+* **Validation.** `validate --platform <id>` runs SPEC-060 to SPEC-075 over platform-owned recipes against the platform-merged graph, plus SPEC-079 (every request in the grid renders). SPEC-076 keeps its foundation comparison and covers only foundation recipes the platform did not replace.
 
 ## Authoring conventions
 
