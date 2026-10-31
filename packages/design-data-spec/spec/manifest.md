@@ -75,7 +75,7 @@ An override **replaces** the foundation record for that platform's graph: the re
 
 | Field            | Value                                                                                                                                                                                                                                    |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "<manifest path>" }`.                                                                                                                |
+| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "manifest.json" }` (the literal file name; the manifest's real path is not recorded).                                                                                                                |
 | `overriddenFrom` | `{ "value": <foundation value> }` or `{ "$ref": <foundation $ref> }`. The first override's history is kept, so it is always the foundation value, even when a token is overridden more than once (the last override wins for the value). |
 
 These markers exist only on the platform's in-memory records. They are not written to token files and are **not** serialized in legacy output.
@@ -94,8 +94,8 @@ becomes worth adopting the moment a manifest is expected to move (incubating in 
 monorepo ahead of a hand-off to its owning team) or coexist with siblings.
 
 `platform`, when present, **SHOULD** match an id in the platform-implementations registry
-(distinct from the token-level `platforms.json` registry, which enumerates _device
-targets_ like `desktop`/`mobile`, not _implementations_ like `react-spectrum`).
+(distinct from the token-level `platforms.json` registry, which enumerates *device
+targets* like `desktop`/`mobile`, not *implementations* like `react-spectrum`).
 
 ### `extensions/` directory
 
@@ -125,45 +125,45 @@ or empty subdirectory contributes nothing and is not an error.
 
 **NORMATIVE:** Merge semantics by subdirectory:
 
-- **`tokens/`** — every `*.tokens.json` file is cascade-format (same shape as a foundation
+* **`tokens/`** — every `*.tokens.json` file is cascade-format (same shape as a foundation
   cascade token file) and **MUST** validate against `cascade-file.schema.json`. Files are
   **deep-merged** into one tokens object, in sorted path order. Entries **MAY** carry a `$ref`
   to alias an existing token instead of a literal value.
-- **`components/`, `fields/`, `guidelines/`, `mode-sets/`, `platform-extensions/`** — one artifact per file.
+* **`components/`, `fields/`, `guidelines/`, `mode-sets/`, `platform-extensions/`** — one artifact per file.
   Entries across all files in the subdirectory are concatenated, in sorted path order, and
   injected into the corresponding catalog **add-or-replace by name** (for
   `platform-extensions/`, by `termId`; see below). When two files declare the same name,
   **the entry from the later file (in sorted path order) wins.**
-- **`implementations/`** — one component's implementation rows per file, merged row-by-row into
+* **`implementations/`** — one component's implementation rows per file, merged row-by-row into
   that component's existing `implementations` array (never whole-array replaced). See
   [`extensions/implementations/`](#extensionsimplementations) below.
 
 **NORMATIVE:** Each fragment file **MUST** validate against its category's real JSON schema at
 load time — this is enforced reference-SDK behavior, not an aspirational goal:
 
-- **`components/`** → `component.schema.json`
-- **`fields/`** → `field.schema.json` (see [`extensions/fields/`](#extensionsfields) below)
-- **`guidelines/`** → `guideline.schema.json`
-- **`mode-sets/`** → `mode-set.schema.json` (see [`extensions/mode-sets/`](#extensionsmode-sets) below)
-- **`relationships/`** → `relationship.schema.json` (see the Add/Override/remove rules above)
-- **`platform-extensions/`** → `platform-extension.json` (see
+* **`components/`** → `component.schema.json`
+* **`fields/`** → `field.schema.json` (see [`extensions/fields/`](#extensionsfields) below)
+* **`guidelines/`** → `guideline.schema.json`
+* **`mode-sets/`** → `mode-set.schema.json` (see [`extensions/mode-sets/`](#extensionsmode-sets) below)
+* **`relationships/`** → `relationship.schema.json` (see the Add/Override/remove rules above)
+* **`platform-extensions/`** → `platform-extension.json` (see
   [`extensions/platform-extensions/`](#extensionsplatform-extensions) below)
-- **`implementations/`** → `implementation-mapping.schema.json` (see
+* **`implementations/`** → `implementation-mapping.schema.json` (see
   [`extensions/implementations/`](#extensionsimplementations) below)
-- **`tokens/`** → `cascade-file.schema.json` (see above)
+* **`tokens/`** → `cascade-file.schema.json` (see above)
 
 A fragment that fails validation against its category schema is a manifest error — the
 reference SDK rejects the load rather than silently skipping the malformed file.
 
-- **`relationships/`** — Component/Token Relationship (CTR) entries. Relationships have no
+* **`relationships/`** — Component/Token Relationship (CTR) entries. Relationships have no
   inherent stable key — only an optional `uuid` — so add and override/remove use different
   identity rules:
-  - **Add:** an entry with no `op` field is a full relationship object (validated against
+  * **Add:** an entry with no `op` field is a full relationship object (validated against
     `relationship.schema.json`), appended at the platform layer, in sorted path order.
-  - **Override / remove:** targeting an existing relationship **MUST** carry a `uuid`.
+  * **Override / remove:** targeting an existing relationship **MUST** carry a `uuid`.
     **NORMATIVE:** an entry with `"op": "override"` or `"op": "remove"` that omits `uuid` is a
     manifest error — the reference SDK rejects it rather than silently skipping it. `"op":
-"override"` also carries a `value` (the replacement relationship object); `"op": "remove"`
+    "override"` also carries a `value` (the replacement relationship object); `"op": "remove"`
     drops the matching record. Override/remove ops apply, in sorted path order, against the
     accumulated set of added relationships (across all files, foundation and platform-local).
 
@@ -181,23 +181,23 @@ Platform-local mode-set declarations and edits, injected into the mode-set catal
 platform's resolution. A mode set's `name` is its stable key (there is no separate `uuid`, unlike
 relationships) — every entry, add or op alike, identifies its target by `name`:
 
-- **Add / replace:** an entry with no `op` field is a full mode-set object (**NORMATIVE:** MUST
+* **Add / replace:** an entry with no `op` field is a full mode-set object (**NORMATIVE:** MUST
   validate against `mode-set.schema.json`, requiring `name`, `modes`, `default`). A `name` not
   already in the foundation catalog is a clean new platform axis (e.g. `interfaceLevel: [base,
-elevated]`); a `name` matching a foundation mode set replaces it, for this platform only — the
+  elevated]`); a `name` matching a foundation mode set replaces it, for this platform only — the
   foundation catalog is untouched.
-- **`"op": "addMode"`** — appends one mode value (`mode`) to an existing set, without restating its
+* **`"op": "addMode"`** — appends one mode value (`mode`) to an existing set, without restating its
   other modes. **NORMATIVE:** the target set (by `name`) MUST already exist and MUST NOT already
   contain `mode`; either condition failing is a manifest error.
-- **`"op": "removeMode"`** — drops one mode value (`mode`) from an existing set. **NORMATIVE:** the
+* **`"op": "removeMode"`** — drops one mode value (`mode`) from an existing set. **NORMATIVE:** the
   target MUST exist, MUST contain `mode`, `mode` MUST NOT be the set's current default (retarget the
   default first with `setDefault`), the set MUST have more than one mode remaining afterward, and no
   token in the resolved graph MAY still carry `mode` as that mode set's value — each violation is a
   manifest error. (This mirrors the reference SDK's authoring-time `remove_mode` guard, which checks
   the same "still referenced" condition against cascade token files.)
-- **`"op": "setDefault"`** — retargets an existing set's default mode (`default`). **NORMATIVE:**
+* **`"op": "setDefault"`** — retargets an existing set's default mode (`default`). **NORMATIVE:**
   the target MUST exist and `default` MUST already be one of its modes.
-- **`"op": "remove"`** — drops the whole set (by `name`) from this platform's resolution.
+* **`"op": "remove"`** — drops the whole set (by `name`) from this platform's resolution.
   **NORMATIVE:** the target MUST exist, and no token in the resolved graph MAY still carry this mode
   set's `name` as a key — either violation is a manifest error.
 
@@ -210,7 +210,7 @@ with `extensions/relationships/`'s override/remove ops above. `default ∈ modes
 concern for the resolved graph as a whole, enforced by SPEC-005 against whichever mode sets end up
 there, foundation or platform-declared alike.
 
-Contrast with `modeSetRestrictions` ([Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions)), a top-level manifest field that only _narrows_ the allowed values of an
+Contrast with `modeSetRestrictions` ([Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions)), a top-level manifest field that only *narrows* the allowed values of an
 existing mode set at resolution time — it cannot add, remove, or retarget a mode value, or declare
 a new axis.
 
@@ -254,17 +254,17 @@ manifest also owns its mappings, and they travel with the manifest when it is ej
 applied (so a fragment may target a platform-local component); an unknown component is a
 manifest error. Entries apply in array order, files in sorted path order.
 
-**NORMATIVE:** each entry has an _owner_: its own `implementation` field if present, otherwise
+**NORMATIVE:** each entry has an *owner*: its own `implementation` field if present, otherwise
 the manifest's top-level `platform` id. A manifest only matches rows its owner owns — rows
 stamped with the same `implementation` id, or unstamped foundation defaults. Rows stamped with
 a different `implementation` id are never modified or removed.
 
-- **Upsert** (no `op`) — a full implementation row. When the entry omits `implementation` and
+* **Upsert** (no `op`) — a full implementation row. When the entry omits `implementation` and
   the manifest declares `platform`, the stored row is stamped with that id. The row replaces the
   first existing row with the same `platform` and `componentName` that either carries the same
   `implementation` id, or is an unstamped foundation default sharing a `package` or `importPath`
   value. Otherwise it is appended.
-- **Remove** (`"op": "remove"`) — a selector of `componentName` plus any of `platform`,
+* **Remove** (`"op": "remove"`) — a selector of `componentName` plus any of `platform`,
   `implementation`, `package`, `importPath`. It deletes every owned row whose values equal every
   selector field given. A remove that matches no owned row is a manifest error.
 
@@ -317,6 +317,6 @@ The platform manifest is the Layer 2 context document. For Layer 3 (product-laye
 
 ## References
 
-- [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)
-- [#625 — Token Authoring Workflow](https://github.com/adobe/spectrum-design-data/discussions/625)
-- [Schema-override spike](manifest-schema-override-spike.md) — why the manifest cascade does not allow platform overrides of Layer-1 schemas
+* [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)
+* [#625 — Token Authoring Workflow](https://github.com/adobe/spectrum-design-data/discussions/625)
+* [Schema-override spike](manifest-schema-override-spike.md) — why the manifest cascade does not allow platform overrides of Layer-1 schemas
