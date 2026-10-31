@@ -69,15 +69,16 @@ Each override object **MUST** include enough information to identify a target to
 
 **NORMATIVE:** Overrides **MUST NOT** change the resolved type of the token (aligns with [Cascade — type safety](cascade.md)).
 
-An override is applied as a new **platform-layer** record, not an in-place edit of the
-foundation record it targets — the original foundation record is left untouched.
-[Query](query.md) reports records across all cascade layers, so a query over an overridden
-token's selector returns both the untouched foundation record and the new platform-layer
-record (e.g. an override on a `state=disabled` token increases the matching count by one,
-rather than replacing an existing match). Only [`resolve` / `resolve_property`](cascade.md)
-apply `Foundation < Platform < Product` precedence to select a single winner. Tooling that
-counts "tokens a platform ships" from `query` output should resolve first, or it will
-double-count overridden tokens.
+An override **replaces** the foundation record for that platform's graph: the replacement keeps the target's key and `uuid`, sits at the **platform** layer, and keeps every other field of the original record (`$schema`, `$valueType`, `lifecycle`, `description`, `conceptId`, and so on). Only `value` or `$ref` changes; an override that supplies `$ref` removes `value`, and one that supplies `value` removes `$ref`. The foundation package on disk is untouched. [Query](query.md) returns one record per token, and [`resolve` / `resolve_property`](cascade.md) still apply `Foundation < Platform < Product` precedence, so a platform override beats the foundation value and a product override beats both.
+
+**Provenance.** A replaced record carries two in-memory markers so tooling can tell where it came from:
+
+| Field            | Value                                                                                                                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "manifest.json" }` (the literal file name; the manifest's real path is not recorded).                                                                                                                |
+| `overriddenFrom` | `{ "value": <foundation value> }` or `{ "$ref": <foundation $ref> }`. The first override's history is kept, so it is always the foundation value, even when a token is overridden more than once (the last override wins for the value). |
+
+These markers exist only on the platform's in-memory records. They are not written to token files and are **not** serialized in legacy output.
 
 ### Identity fields
 
