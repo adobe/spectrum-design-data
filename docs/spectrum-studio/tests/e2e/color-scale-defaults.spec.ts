@@ -78,11 +78,8 @@ test("all six shipped links render and Orange follows a palette edit", async ({
     await stop.focus();
     await stop.press("Space");
     await expect(
-      dialog.getByText(`Linked to ${palette}`, { exact: true }),
-    ).toBeVisible();
-    await expect(
-      dialog.getByRole("button", { name: "Unlink", exact: true }),
-    ).toBeVisible();
+      dialog.getByRole("radio", { name: palette, exact: true }),
+    ).toBeChecked();
     await page.mouse.click(1500, 1050);
     await expect(dialog).toHaveCount(0);
   }
@@ -106,8 +103,8 @@ test("all six shipped links render and Orange follows a palette edit", async ({
     exact: true,
   });
   await expect(
-    dialog.getByText("Linked to Illustrator Orange", { exact: true }),
-  ).toBeVisible();
+    dialog.getByRole("radio", { name: "Illustrator Orange", exact: true }),
+  ).toBeChecked();
   await expect(
     dialog.getByRole("button", { name: /^Stop 1,/ }).locator("span"),
   ).toHaveCSS("background-color", "rgb(18, 52, 86)");
@@ -135,8 +132,8 @@ test("existing saved stops are not replaced by new shipped links", async ({
     exact: true,
   });
   await expect(
-    dialog.getByText("Linked to Illustrator Orange", { exact: true }),
-  ).toHaveCount(0);
+    dialog.getByRole("radio", { name: "Illustrator Orange", exact: true }),
+  ).not.toBeChecked();
   await expect(
     dialog.getByRole("textbox", { name: "Hex", exact: true }),
   ).toBeVisible();

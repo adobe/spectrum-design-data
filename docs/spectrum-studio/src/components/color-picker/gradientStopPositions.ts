@@ -1,4 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
+export function isGradientDragIntentional(
+  pointerType: string,
+  startX: number,
+  clientX: number,
+) {
+  return pointerType !== "mouse" || Math.abs(clientX - startX) >= 6;
+}
+
 export function gradientPointerPosition(
   clientX: number,
   left: number,

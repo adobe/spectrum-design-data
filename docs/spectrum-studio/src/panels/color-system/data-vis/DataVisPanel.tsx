@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../../components/notifications/notificationContext";
 import { termLabel } from "../../../features/taxonomy/termPresentation";
 import {
   ActionButton,
@@ -19,7 +20,6 @@ import {
   RadioGroup,
   Text,
   TextField,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -30,7 +30,6 @@ import { Dialog } from "react-aria-components";
 import { Picker } from "../../../components/fields/Picker";
 import { foundationCardStyles } from "../../../components/foundationCardStyles";
 import { useIsReadOnly } from "../../../components/editable";
-import { useDeletionToast } from "../../../components/deletionToastContext";
 import { useNarrowScaleEditorViewport } from "../../../components/useNarrowScaleEditorViewport";
 import { colorSystemDocumentAtom } from "../../../features/color-system/state";
 import { modeSetsAtom } from "../../../features/modes/state";
@@ -140,10 +139,8 @@ const kindLabel = (scale: Pick<DataVisScale, "kind">) =>
     : scale.kind === "diverging"
       ? "Diverging"
       : "Categorical";
-const report = (error: unknown) =>
-  ToastQueue.negative(error instanceof Error ? error.message : String(error));
-
 export function DataVisPanel() {
+  const notify = useNotify();
   const document = useAtomValue(colorSystemDocumentAtom),
     effective = useAtomValue(dataVisInputDocumentAtom);
   const background = dataVisBackground(effective);
@@ -175,30 +172,18 @@ export function DataVisPanel() {
   const [freezeFrom, setFreezeFrom] = useState("current");
   const setStatic = useSetAtom(setDataVisStaticAtom),
     undoStatic = useSetAtom(undoDataVisStaticAtom);
-  const add = useSetAtom(addContinuousDataVisAtom),
-    apply = useSetAtom(applyCategoricalDataVisAtom);
-  const remove = useSetAtom(removeDataVisScaleAtom),
-    restore = useSetAtom(restoreDataVisScaleAtom);
+  const apply = useSetAtom(applyCategoricalDataVisAtom);
+  const store = useStore();
   const [pending, setPending] = useAtom(pendingDataVisPointEditAtom),
     applyPending = useSetAtom(applyPendingDataVisPointEditAtom);
   const sets = useAtomValue(modeSetsAtom),
     [destination, setDestination] = useState(""),
     [newModeName, setNewModeName] = useState("");
   const pendingOwner = sets.find((axis) => axis.id === pending?.modeSetId);
-  const { notifyDeleted } = useDeletionToast();
   const staticUndo = (undo: StaticColorsUndo) =>
-    ToastQueue.info(
+    notify.info(
       undo.after ? "Static colors saved." : "Adaptive colors restored.",
-      {
-        actionLabel: "Undo",
-        onAction: () => {
-          try {
-            undoStatic(undo);
-          } catch (failure) {
-            report(failure);
-          }
-        },
-      },
+      () => undoStatic(undo),
     );
   return (
     <div className={stack} data-component="DataVisPanel">
@@ -213,9 +198,13 @@ export function DataVisPanel() {
             onAction={(kind) => {
               try {
                 if (kind === "sequential" || kind === "diverging") {
-                  const id = add(kind);
-                  setFocusId(id);
-                  setOpeningId(id);
+                  const id = notify.added("dataVisScale", () =>
+                    store.set(addContinuousDataVisAtom, kind),
+                  );
+                  if (id) {
+                    setFocusId(id);
+                    setOpeningId(id);
+                  }
                   return;
                 }
                 if (kind !== "categorical")
@@ -227,7 +216,7 @@ export function DataVisPanel() {
                 setDraft({ id, name: `Categorical ${index}` });
                 setFocusId(id);
               } catch (failure) {
-                report(failure);
+                notify.error(failure);
               }
             }}
           >
@@ -283,6 +272,7 @@ export function DataVisPanel() {
                     acknowledgeFailures,
                     signal,
                   });
+                  notify.added("dataVisScale", () => undefined);
                   setDraft(null);
                 }}
                 onCancel={() => setDraft(null)}
@@ -402,7 +392,7 @@ export function DataVisPanel() {
                                       setStatic({ scaleId: scale.id }),
                                     );
                                 } catch (failure) {
-                                  report(failure);
+                                  notify.error(failure);
                                 }
                               }}
                             >
@@ -490,22 +480,17 @@ export function DataVisPanel() {
                           styles={deleteButton}
                           aria-label={`Delete data vis scale ${termLabel(scale.name)}`}
                           onPress={() => {
-                            try {
-                              const undo = remove(scale.id);
-                              notifyDeleted(
-                                `Data vis scale ${termLabel(scale.name)}`,
-                                () => {
-                                  try {
-                                    restore(undo);
-                                  } catch (failure) {
-                                    report(failure);
-                                  }
-                                },
-                              );
-                              if (selectedId === scale.id) select(null);
-                            } catch (failure) {
-                              report(failure);
-                            }
+                            notify.remove({
+                              kind: "dataVisScale",
+                              noun: termLabel(scale.name),
+                              run: (store) =>
+                                store.set(removeDataVisScaleAtom, scale.id),
+                              undo: (removed) =>
+                                store.set(restoreDataVisScaleAtom, removed),
+                              onDone: () => {
+                                if (selectedId === scale.id) select(null);
+                              },
+                            });
                           }}
                         >
                           <Delete />
@@ -581,7 +566,7 @@ export function DataVisPanel() {
                     setFreezeChoice(null);
                     staticUndo(undo);
                   } catch (failure) {
-                    report(failure);
+                    notify.error(failure);
                   }
                 }}
               >
@@ -643,7 +628,7 @@ export function DataVisPanel() {
                     setDestination("");
                     setNewModeName("");
                   } catch (failure) {
-                    report(failure);
+                    notify.error(failure);
                   }
                 }}
               >
@@ -658,6 +643,7 @@ export function DataVisPanel() {
 }
 
 function PublishingControl({ scale }: { scale: DataVisScale }) {
+  const notify = useNotify();
   const edit = useSetAtom(editDataVisStructureAtom);
   return (
     <Checkbox
@@ -666,7 +652,7 @@ function PublishingControl({ scale }: { scale: DataVisScale }) {
         try {
           edit({ kind: "publishing", scaleId: scale.id, hideFromPublishing });
         } catch (failure) {
-          report(failure);
+          notify.error(failure);
         }
       }}
     >
@@ -676,6 +662,7 @@ function PublishingControl({ scale }: { scale: DataVisScale }) {
 }
 
 function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
+  const notify = useNotify();
   const store = useStore();
   const base = useAtomValue(colorSystemDocumentAtom),
     effective = useAtomValue(dataVisInputDocumentAtom);
@@ -690,11 +677,8 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
     [pointId, setPointId] = useState(scale.points[0].id);
   const edit = useSetAtom(editDataVisPointAtom),
     structure = useSetAtom(editDataVisStructureAtom);
-  const restorePoint = useSetAtom(restoreDataVisPointAtom),
-    { notifyDeleted } = useDeletionToast();
   const editStatic = useSetAtom(editDataVisStaticColorAtom),
     staticStops = useSetAtom(editDataVisStaticStopsAtom);
-  const undoStatic = useSetAtom(undoDataVisStaticAtom);
   const owners = capabilityOwners(sets);
   const modeFor = (capability: "color.scales" | "color.contrastMultiplier") => {
     const axis = sets.find((axis) => axis.id === owners[capability]),
@@ -741,7 +725,7 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
     try {
       callback();
     } catch (failure) {
-      report(failure);
+      notify.error(failure);
     }
   };
   const addStop = (position?: number) =>
@@ -835,28 +819,33 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
                     kind: "remove",
                     colorId: selected.id,
                   });
-                  notifyDeleted("Data vis color stop", () =>
-                    attempt(() => {
-                      undoStatic(result.undo);
-                      setPointId(selected.id);
-                    }),
-                  );
-                  setPointId(result.selectedId);
-                } else {
-                  const undo = structure({
-                    scaleId: scale.id,
-                    pointId: selected.id,
-                    kind: "remove-point",
-                    scope: "base",
-                  });
-                  if (undo)
-                    notifyDeleted("Data vis color stop", () =>
-                      attempt(() => {
-                        restorePoint(undo);
-                        setPointId(undo.point.id);
+                  notify.remove({
+                    kind: "dataVisColorStop",
+                    run: (store) =>
+                      store.set(editDataVisStaticStopsAtom, {
+                        scaleId: scale.id,
+                        kind: "remove",
+                        colorId: selected.id,
                       }),
-                    );
-                  setPointId(scale.points[0].id);
+                    undo: (removed) =>
+                      store.set(undoDataVisStaticAtom, removed.undo),
+                    onDone: () => setPointId(result.selectedId),
+                  });
+                } else {
+                  notify.remove({
+                    kind: "dataVisColorStop",
+                    run: (store) =>
+                      store.set(editDataVisStructureAtom, {
+                        scaleId: scale.id,
+                        pointId: selected.id,
+                        kind: "remove-point",
+                        scope: "base",
+                      }),
+                    undo: (undo) => {
+                      if (undo) store.set(restoreDataVisPointAtom, undo);
+                    },
+                    onDone: () => setPointId(scale.points[0].id),
+                  });
                 }
               })
             }
@@ -987,6 +976,7 @@ function StaticCategoricalEditor({
 }: {
   scale: CategoricalDataVisScale;
 }) {
+  const notify = useNotify();
   const document = useAtomValue(colorSystemDocumentAtom),
     primitives = useAtomValue(dataVisPrimitiveColorsAtom);
   const effective = useAtomValue(dataVisInputDocumentAtom),
@@ -1002,7 +992,7 @@ function StaticCategoricalEditor({
     try {
       callback();
     } catch (failure) {
-      report(failure);
+      notify.error(failure);
     }
   };
   return (

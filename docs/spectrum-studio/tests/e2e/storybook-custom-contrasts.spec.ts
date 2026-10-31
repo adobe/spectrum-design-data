@@ -1,6 +1,32 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { expect, test } from "@playwright/test";
 
+test("compact contrast ramp opts into 32px without changing the default ramp", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto(
+    "/iframe.html?id=views-shared-marker-ramp--compact-contrast&viewMode=story",
+  );
+  const narrow = page.getByRole("img", { name: "Contrast lightness ramp" });
+  expect(await narrow.evaluate((node) => getComputedStyle(node).width)).toBe(
+    "32px",
+  );
+  expect(
+    await narrow.evaluate((node) => node.getBoundingClientRect().height),
+  ).toBeGreaterThan(0);
+  await page.goto(
+    "/iframe.html?id=views-shared-marker-ramp--opacity&viewMode=story",
+  );
+  expect(
+    await page
+      .getByRole("img", { name: "Opacity ramp" })
+      .evaluate((node) => getComputedStyle(node).width),
+  ).toBe("64px");
+  expect(errors).toEqual([]);
+});
+
 for (const id of [
   "panels-scale-naming-rule--gray-sequence",
   "panels-custom-contrast-steps--gray-sequence",
@@ -55,6 +81,7 @@ test("invalid ranges, inherited/overridden ratios and read-only controls", async
   await page.goto(
     "/iframe.html?id=panels-custom-contrast-steps--read-only&viewMode=story",
   );
+  await page.getByRole("button", { name: "More options", exact: true }).click();
   await expect(
     page.getByRole("textbox", { name: "Contrast 100", exact: true }),
   ).toBeDisabled();

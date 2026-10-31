@@ -278,7 +278,7 @@ assert.equal(
 );
 assert.equal(rows.tokens.find((row) => row.uuid === id)!.value, "#111111");
 assert.equal(
-  rows.tokens.some((row) => row.name.colorName === "sequential-1"),
+  rows.tokens.some((row) => row.name.colorFamily === "sequential-1"),
   false,
 );
 assertStoredSnapshot(captureSnapshot(store.get));

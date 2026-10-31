@@ -1,32 +1,33 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ToastQueue } from "@react-spectrum/s2";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../../components/notifications/notificationContext";
+
+import { useAtomValue, useStore } from "jotai";
 import { useIsReadOnly } from "../../components/editable";
 import {
   colorSystemDocumentAtom,
   resolvedColorSystemDocumentAtom,
+  resolvedBackgroundAtom,
 } from "../../features/color-system/state";
 import {
   editCustomContrastsAtom,
   customContrastEditingContextAtom,
-  restoreCustomContrastsAtom,
+  type CustomContrastAction,
 } from "../../features/color-system/customContrastState";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import { rulesAtom } from "../../features/logic/library";
 import { previewOverridesAtom } from "../../features/modes/previewState";
 import { effectiveContrast } from "../../features/color-system/polarity";
 import { CustomContrastEditor } from "./CustomContrastEditor";
 
 export function CustomContrastControls({ scaleId }: { scaleId: string }) {
+  const notify = useNotify();
   const base = useAtomValue(colorSystemDocumentAtom);
   const resolved = useAtomValue(resolvedColorSystemDocumentAtom);
+  const background = useAtomValue(resolvedBackgroundAtom);
   const rules = useAtomValue(rulesAtom);
   const context = useAtomValue(customContrastEditingContextAtom);
   const preview = useAtomValue(previewOverridesAtom);
   const readOnly = useIsReadOnly();
-  const edit = useSetAtom(editCustomContrastsAtom);
-  const restore = useSetAtom(restoreCustomContrastsAtom);
-  const { notifyDeleted } = useDeletionToast();
+  const store = useStore();
   const scale = base.scales.find((scale) => scale.id === scaleId);
   const values = context.opposite
     ? Object.fromEntries(
@@ -43,30 +44,16 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
           .map((step) => [step.id, effectiveContrast(step, context.polarity)]),
       )
     : context.mode?.foundations.color?.scaleContrasts?.[scaleId];
-  function run(action: Parameters<typeof edit>[0]) {
-    try {
-      const undo = edit(action);
-      if (undo && (action.kind === "remove" || action.kind === "disable")) {
-        notifyDeleted(
-          action.kind === "remove"
-            ? "Custom contrast step"
-            : "Custom contrast steps",
-          () => {
-            try {
-              restore(undo);
-            } catch (failure) {
-              ToastQueue.negative(
-                failure instanceof Error ? failure.message : String(failure),
-              );
-            }
-          },
-        );
-      }
-    } catch (failure) {
-      ToastQueue.negative(
-        failure instanceof Error ? failure.message : String(failure),
-      );
+  if (readOnly && !scale?.customContrasts) return null;
+  function run(action: CustomContrastAction) {
+    if (action.kind === "remove" || action.kind === "disable") {
+      notify.remove({
+        kind: "customContrastStep",
+        run: (store) => store.set(editCustomContrastsAtom, action),
+      });
+      return;
     }
+    notify.edit(() => store.set(editCustomContrastsAtom, action));
   }
   return (
     scale && (
@@ -74,6 +61,9 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
         scale={scale}
         rules={rules}
         onAction={run}
+        background={background.hex}
+        side={resolved.settings.side}
+        sharedContrasts={resolved.contrasts}
         modeLabel={context.modeLabel}
         values={values}
         inheritanceLabel={context.opposite ? "Polarity adjusted" : "Inherited"}

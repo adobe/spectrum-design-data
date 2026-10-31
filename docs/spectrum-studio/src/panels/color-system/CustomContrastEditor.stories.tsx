@@ -2,6 +2,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
 import { useState } from "react";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 import {
   CustomContrastEditor,
   type CustomContrastEditorProps,
@@ -56,6 +58,20 @@ function Controlled(args: CustomContrastEditorProps) {
               ),
             },
           });
+        if (action.kind === "sort" && current.customContrasts)
+          setCurrent({
+            ...current,
+            customContrasts: {
+              ...current.customContrasts,
+              steps: [...current.customContrasts.steps].sort(
+                (a, b) => a.value - b.value,
+              ),
+            },
+          });
+        if (action.kind === "disable")
+          setCurrent({ ...current, customContrasts: undefined });
+        if (action.kind === "enable")
+          setCurrent({ ...current, customContrasts: scale.customContrasts });
       }}
     />
   );
@@ -67,8 +83,13 @@ const meta = {
   render: (args) => <Controlled {...args} />,
   decorators: [
     (Story) => (
-      <div style={{ width: "min(560px, 100%)" }}>
-        <Story />
+      <div className={style({ width: "full", maxWidth: 320 })}>
+        <NestedPanelAccordion
+          allowsMultipleExpanded={false}
+          defaultExpandedKeys={["custom-contrasts"]}
+        >
+          <Story />
+        </NestedPanelAccordion>
       </div>
     ),
   ],
@@ -78,6 +99,7 @@ type Story = StoryObj<typeof meta>;
 export const GraySequence: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "More options" }));
     await expect(
       canvas.getByText(
         "Names: 25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000",
@@ -86,9 +108,7 @@ export const GraySequence: Story = {
     await expect(
       canvas.getByRole("button", { name: "Remove 100" }),
     ).toBeDisabled();
-    await userEvent.click(
-      canvas.getByRole("button", { name: "Add contrast step" }),
-    );
+    await userEvent.click(canvas.getByRole("button", { name: "Add contrast" }));
     await expect(
       canvas.getByRole("textbox", { name: "Contrast 1100" }),
     ).toBeVisible();
@@ -108,6 +128,11 @@ export const ModeOverride: Story = {
     modeLabel: "Contrast: High contrast",
     patches: { "story-step-3": 5 },
   },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(
+      within(canvasElement).getByRole("button", { name: "More options" }),
+    );
+  },
 };
 export const ReadOnly: Story = { args: { disabled: true } };
 export const Shared: Story = {
@@ -117,7 +142,7 @@ export const Dark: Story = { globals: { colorScheme: "dark" } };
 export const Narrow: Story = {
   decorators: [
     (Story) => (
-      <div style={{ width: 280 }}>
+      <div className={style({ width: "full", maxWidth: 280 })}>
         <Story />
       </div>
     ),

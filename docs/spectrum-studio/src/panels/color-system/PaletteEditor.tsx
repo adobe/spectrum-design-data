@@ -1,12 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { ActionButton, Text, ToastQueue } from "@react-spectrum/s2";
+import { ActionButton, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { useMemo } from "react";
 import { PaletteColorRow } from "../../components/palette/PaletteColorRow";
-import { useDeletionToast } from "../../components/deletionToastContext";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { EditOnly, useIsReadOnly } from "../../components/editable";
 import { paletteSwatches } from "../../features/color-system/palette";
 import { paletteConsumers } from "../../features/color-system/paletteReferences";
@@ -34,11 +34,9 @@ export function PaletteEditor() {
   const baseDocument = useAtomValue(colorSystemDocumentAtom);
   const modeSets = useAtomValue(modeSetsAtom);
   const isReadOnly = useIsReadOnly();
-  const addColor = useSetAtom(addPaletteColorAtom);
+  const store = useStore();
+  const notify = useNotify();
   const updateColor = useSetAtom(updatePaletteColorAtom);
-  const removeColor = useSetAtom(removePaletteColorAtom);
-  const restoreColor = useSetAtom(restorePaletteColorAtom);
-  const { notifyDeleted } = useDeletionToast();
   const outputGamut = colorDocument.settings.colorOutput;
   const swatches = useMemo(
     () => paletteSwatches(colorDocument.palette, outputGamut),
@@ -50,15 +48,9 @@ export function PaletteEditor() {
       <EditOnly>
         <div>
           <ActionButton
-            onPress={() => {
-              try {
-                addColor();
-              } catch (failure) {
-                ToastQueue.negative(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
-            }}
+            onPress={() =>
+              notify.added("paletteColor", () => store.set(addPaletteColorAtom))
+            }
           >
             <Add />
             <Text>Add palette color</Text>
@@ -102,17 +94,14 @@ export function PaletteEditor() {
               return result.ok ? null : result.error;
             }}
             onDelete={() => {
-              try {
-                const removed = removeColor(color.id);
-                if (removed)
-                  notifyDeleted(`Palette color ${termLabel(color.name)}`, () =>
-                    restoreColor(removed),
-                  );
-              } catch (failure) {
-                ToastQueue.negative(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
+              notify.remove({
+                kind: "paletteColor",
+                noun: termLabel(color.name),
+                run: (store) => store.set(removePaletteColorAtom, color.id),
+                undo: (removed) => {
+                  if (removed) store.set(restorePaletteColorAtom, removed);
+                },
+              });
             }}
           />
         </div>

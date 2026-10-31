@@ -1,9 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { NumberField, Picker, PickerItem, TextField } from "@react-spectrum/s2";
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@react-spectrum/s2/SegmentedControl";
+  PickerItem,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@react-spectrum/s2";
+import { NumberField } from "../fields/NumberField";
+import { Picker } from "../fields/Picker";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../CategoryIcon";
 import Color from "colorjs.io";
@@ -14,6 +17,7 @@ import { ColorArea } from "./ColorArea";
 import { ColorSlider } from "./ColorSlider";
 import {
   colorChannelToFieldValue,
+  channelFormatOptions,
   createColorWithChannelValue,
   fieldValueToColorChannel,
   getChannelGamutRange,
@@ -46,29 +50,40 @@ const CHANNEL_NAMES: Record<string, string> = {
   c: "Chroma",
 };
 
+const toolbarStyles = style({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "end",
+  gap: 12,
+  minWidth: 0,
+});
+const pickerStyles = style({
+  minWidth: 0,
+  maxWidth: "full",
+  width: "auto",
+  flexGrow: 1,
+});
+const groupStyles = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 4,
+});
+const labelStyles = style({ font: "body-sm", color: "gray-700" });
+const fieldsStyles = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+  gap: 8,
+  width: "full",
+});
+const channelFieldStyles = style({
+  width: { default: "full", isInline: 70 },
+  minWidth: 0,
+  flexShrink: 0,
+});
+
 function channelName(channel: string, spaceId: string) {
   if (spaceId === "oklab" && channel === "b") return "Blue/yellow";
   return CHANNEL_NAMES[channel] ?? channel.toUpperCase();
-}
-
-function channelFormatOptions(
-  channel: ChannelName,
-  spaceId: string,
-): Intl.NumberFormatOptions {
-  if (isPercentageChannel(channel, spaceId)) {
-    return { style: "percent", maximumFractionDigits: 1 };
-  }
-  if (channel === "h") {
-    return {
-      style: "unit",
-      unit: "degree",
-      unitDisplay: "narrow",
-      maximumFractionDigits: 1,
-    };
-  }
-  return {
-    maximumFractionDigits: spaceId === "srgb" && isRgbChannel(channel) ? 0 : 3,
-  };
 }
 
 function channelStep(channel: ChannelName, spaceId: string) {
@@ -108,9 +123,7 @@ export function ColorPickerContents({
   const pickerRef = useRef<HTMLDivElement>(null);
   const [availableWidth, setAvailableWidth] = useState(0);
   const areaSize =
-    availableWidth > 0
-      ? Math.min(200, Math.max(1, Math.floor(availableWidth - 36)))
-      : 200;
+    availableWidth > 0 ? Math.max(1, Math.floor(availableWidth - 36)) : 200;
   const channelSliderSize =
     availableWidth > 0
       ? Math.min(200, Math.max(1, Math.floor(availableWidth - 82)))
@@ -248,15 +261,16 @@ export function ColorPickerContents({
   ) => (
     <NumberField
       key={channel}
-      aria-label={channelName(channel, config.id)}
+      aria-label={showLabel ? undefined : channelName(channel, config.id)}
       label={showLabel ? channelName(channel, config.id) : undefined}
+      labelPosition="top"
       value={value}
       minValue={displayMinimum}
       maxValue={displayMaximum}
       step={step}
       formatOptions={channelFormatOptions(channel, config.id)}
       hideStepper
-      styles={style({ width: 70 })}
+      styles={channelFieldStyles({ isInline: !showLabel })}
       onChange={(nextValue) =>
         updateChannel(channel, nextValue, minimum, maximum)
       }
@@ -271,42 +285,19 @@ export function ColorPickerContents({
         .join(" ")}
       style={wrapperStyle}
     >
-      <div className="colorPickerControls">
-        <Picker
-          isQuiet
-          label="Color space"
-          styles={style({
-            minWidth: 0,
-            maxWidth: "full",
-            width: "auto",
-            flexGrow: 1,
-            flexBasis: 120,
-          })}
-          selectedKey={colorSpace}
-          onSelectionChange={(key) =>
-            setColorSpace(String(key) as PickerColorSpace)
-          }
-        >
-          <PickerItem id="sRGB">sRGB</PickerItem>
-          <PickerItem id="Display P3">Display P3</PickerItem>
-          <PickerItem id="OKlch">OKLCH</PickerItem>
-        </Picker>
+      <div className={toolbarStyles}>
         {showGamutPicker && (
           <Picker
             isQuiet
             label="Gamut"
-            styles={style({
-              minWidth: 0,
-              maxWidth: "full",
-              width: "auto",
-              flexGrow: 1,
-              flexBasis: 120,
-            })}
+            labelPosition="top"
+            styles={pickerStyles}
             selectedKey={gamut}
             onSelectionChange={(key) => {
-              const nextGamut = String(key) as PickerGamut;
+              if (key !== "sRGB" && key !== "Display-P3" && key !== "Rec2020")
+                return;
               setHexDraft(null);
-              setGamut(nextGamut);
+              setGamut(key);
             }}
           >
             <PickerItem id="sRGB">sRGB</PickerItem>
@@ -314,32 +305,65 @@ export function ColorPickerContents({
             <PickerItem id="Rec2020">Rec 2020</PickerItem>
           </Picker>
         )}
-        <SegmentedControl
-          aria-label="Color model"
-          selectedKey={model}
-          onSelectionChange={(key) => setModel(String(key) as PickerModel)}
+        <Picker
+          isQuiet
+          label="Color space"
+          labelPosition="top"
+          styles={pickerStyles}
+          selectedKey={colorSpace}
+          onSelectionChange={(key) => {
+            if (key === "sRGB" || key === "Display P3" || key === "OKlch")
+              setColorSpace(key);
+          }}
         >
-          <SegmentedControlItem id="cartesian" aria-label="Cartesian model">
-            <CategoryIcon category="color-model.cartesian" />
-          </SegmentedControlItem>
-          <SegmentedControlItem id="polar" aria-label="Polar model">
-            <CategoryIcon category="color-model.polar" />
-          </SegmentedControlItem>
-        </SegmentedControl>
-        <SegmentedControl
-          aria-label="Color controls"
-          selectedKey={view}
-          onSelectionChange={(key) =>
-            setView(String(key) as "color-area" | "channels")
-          }
-        >
-          <SegmentedControlItem id="color-area" aria-label="Color area">
-            <CategoryIcon category="color-view.color-area" />
-          </SegmentedControlItem>
-          <SegmentedControlItem id="channels" aria-label="Channels">
-            <CategoryIcon category="color-view.channels" />
-          </SegmentedControlItem>
-        </SegmentedControl>
+          <PickerItem id="sRGB">sRGB</PickerItem>
+          <PickerItem id="Display P3">Display P3</PickerItem>
+          <PickerItem id="OKlch">OKLCH</PickerItem>
+        </Picker>
+        <div className={groupStyles}>
+          <span className={labelStyles}>Model</span>
+          <ToggleButtonGroup
+            aria-label="Color model"
+            size="S"
+            density="compact"
+            selectionMode="single"
+            disallowEmptySelection
+            selectedKeys={[model]}
+            onSelectionChange={(keys) => {
+              const key = [...keys][0];
+              if (key === "cartesian" || key === "polar") setModel(key);
+            }}
+          >
+            <ToggleButton id="cartesian" aria-label="Cartesian model">
+              <CategoryIcon category="color-model.cartesian" />
+            </ToggleButton>
+            <ToggleButton id="polar" aria-label="Polar model">
+              <CategoryIcon category="color-model.polar" />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <div className={groupStyles}>
+          <span className={labelStyles}>Controls</span>
+          <ToggleButtonGroup
+            aria-label="Color controls"
+            size="S"
+            density="compact"
+            selectionMode="single"
+            disallowEmptySelection
+            selectedKeys={[view]}
+            onSelectionChange={(keys) => {
+              const key = [...keys][0];
+              if (key === "color-area" || key === "channels") setView(key);
+            }}
+          >
+            <ToggleButton id="color-area" aria-label="Color area">
+              <CategoryIcon category="color-view.color-area" />
+            </ToggleButton>
+            <ToggleButton id="channels" aria-label="Channels">
+              <CategoryIcon category="color-view.channels" />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
       </div>
       {view === "channels" ? (
         <div className="colorPickerChannels">
@@ -398,7 +422,7 @@ export function ColorPickerContents({
               />
             </div>
           </div>
-          <div className="colorPickerChannelFields">
+          <div className={fieldsStyles}>
             {channelFields.map((field) => channelField(field, true))}
           </div>
         </>

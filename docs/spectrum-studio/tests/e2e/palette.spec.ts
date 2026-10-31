@@ -113,18 +113,17 @@ test("a color scale stop can link to a palette color and follows its changes", a
   await addPaletteColor(page, "Brand color");
 
   await openScale(page, "Red");
-  const palette = page.getByRole("listbox", { name: "Palette colors" });
-  await expect(palette.getByRole("option")).toHaveCount(
+  const palette = page.getByRole("radiogroup", { name: "Palette colors" });
+  await expect(palette.getByRole("radio")).toHaveCount(
     SHIPPED_PALETTE_COLORS + 1,
   );
   await expect(
     page.getByRole("button", { name: "Unlink", exact: true }),
   ).toHaveCount(0);
-  await palette.getByRole("option", { name: "Brand color" }).click();
-  await expect(page.getByText("Linked to Brand color")).toBeVisible();
+  await palette.getByRole("radio", { name: "Brand color" }).click();
   await expect(
-    page.getByRole("button", { name: "Unlink", exact: true }),
-  ).toBeVisible();
+    palette.getByRole("radio", { name: "Brand color" }),
+  ).toBeChecked();
   await page.keyboard.press("Escape");
 
   await openColorTab(page, "Palette");
@@ -180,7 +179,7 @@ test("a color scale stop can link to a palette color and follows its changes", a
   await openScale(page, "Red");
   await expect(page.getByText("Linked to Brand color")).toHaveCount(0);
   await expect(
-    page.getByRole("listbox", { name: "Palette colors" }).getByRole("option"),
+    page.getByRole("radiogroup", { name: "Palette colors" }).getByRole("radio"),
   ).toHaveCount(SHIPPED_PALETTE_COLORS);
 });
 

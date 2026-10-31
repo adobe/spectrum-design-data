@@ -87,7 +87,11 @@ import {
 import { rulesAtom } from "../logic/library";
 import { pruneCustomContrastPatches } from "./customContrastPatches";
 import type { ModeSet } from "../modes/model";
-import { scaleContrasts, assertCustomContrastNaming } from "./contrastSteps";
+import {
+  scaleContrasts,
+  assertCustomContrastNaming,
+  sortContrastSteps,
+} from "./contrastSteps";
 import { tokenStableKey, tokenUuid } from "../tokens/model";
 import {
   removeColorTokenRecords,
@@ -1398,9 +1402,7 @@ export const sortContrastTokensAtom = atom(null, (get, set) => {
   const document = get(colorSystemDocumentAtom);
   set(colorSystemDocumentAtom, {
     ...document,
-    contrasts: [...document.contrasts].sort(
-      (first, second) => first.value - second.value,
-    ),
+    contrasts: sortContrastSteps(document.contrasts),
   });
 });
 

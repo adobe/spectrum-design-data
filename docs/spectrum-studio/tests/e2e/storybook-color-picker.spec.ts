@@ -1,6 +1,18 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { expect, test } from "@playwright/test";
 
+test("compact toolbar keeps exactly one selection without changing the color", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto(
+    "/iframe.html?id=components-color-picker--compact-toolbar&viewMode=story",
+  );
+  await expect(page.locator('[data-play-complete="true"]')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test("renders the default color picker story without runtime errors", async ({
   page,
 }) => {
@@ -264,7 +276,7 @@ test("shows Hex only for sRGB gamut regardless of color space or model", async (
   await story.getByRole("option", { name: "Display P3", exact: true }).click();
   await expect(hex).toHaveCount(0);
   await story.getByRole("button", { name: /Gamut/ }).click();
-  await story.getByRole("option", { name: "Rec. 2020", exact: true }).click();
+  await story.getByRole("option", { name: "Rec 2020", exact: true }).click();
   await expect(hex).toHaveCount(0);
   await story.getByRole("button", { name: /Gamut/ }).click();
   await story.getByRole("option", { name: "sRGB", exact: true }).click();
