@@ -35,7 +35,7 @@
       }
       .shell {
         display: grid;
-        grid-template-columns: 240px minmax(0, 880px) 220px;
+        grid-template-columns: 240px minmax(0, 1000px) 220px;
         gap: 24px;
         justify-content: center;
         padding: 16px;
@@ -114,18 +114,77 @@
       }
       .live {
         display: grid;
-        grid-template-columns: 1fr 260px;
+        grid-template-columns: minmax(0, 1fr) 216px;
+        gap: 28px;
         margin-top: 16px;
-        overflow: hidden;
+        padding: 24px 28px 24px 24px;
+        border-radius: 32px;
       }
       .stage {
-        min-height: 280px;
-        display: grid;
-        place-items: center;
-        background-color: #fff;
+        height: 520px;
+        position: relative;
+        overflow: hidden;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        border-radius: 24px;
+        background-color: #f8f8f8;
         background-image: radial-gradient(#d0d0d0 1px, transparent 1px);
-        background-size: 16px 16px;
+        background-size: max(10px, calc(16px * var(--pz, 1)))
+          max(10px, calc(16px * var(--pz, 1)));
+        background-position: var(--px, 0) var(--py, 0);
         transition: background-color 0.2s;
+      }
+      .stage.panning {
+        cursor: grabbing;
+      }
+      .stage:focus-visible {
+        outline: 2px solid #4da3f0;
+        outline-offset: -2px;
+      }
+      #world {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: max-content;
+        transform-origin: 0 0;
+      }
+      .zoombar {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 4px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+      .zoombar #z-level {
+        min-width: 56px;
+      }
+      .live.fs {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        margin: 0;
+        border-radius: 0;
+        grid-template-columns: minmax(0, 1fr) 232px;
+        padding: 16px;
+        overflow: auto;
+      }
+      .live.fs .stage {
+        height: calc(100vh - 32px);
+      }
+      .live.fs .controls {
+        position: static;
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+      }
+      body.fs-open {
+        overflow: hidden;
       }
       .stage.dark {
         background-color: #2c2c2c;
@@ -137,18 +196,11 @@
       .stagewrap {
         position: relative;
         display: grid;
-      }
-      .stage {
-        overflow: hidden;
-      }
-      .stage[data-mode="anatomy"],
-      .stage[data-mode="specs"] {
-        min-height: 380px;
+        align-self: start;
+        min-width: 0;
       }
       .stage svg.zoom {
-        width: 100%;
-        height: auto;
-        max-height: 420px;
+        display: block;
         overflow: visible;
       }
       .ov {
@@ -183,13 +235,9 @@
       }
       .stage .matrix {
         padding: 20px 16px;
-        width: 100%;
-        grid-template-columns: 90px repeat(var(--cols, 4), minmax(0, 1fr));
-        gap: 4px;
-      }
-      .stage .matrix svg {
-        max-width: 100%;
-        height: auto;
+        width: max-content;
+        grid-template-columns: 120px repeat(var(--cols, 4), max-content);
+        gap: 4px 16px;
       }
       .stage.dark .matrix .h,
       .stage.dark .matrix .rl {
@@ -209,17 +257,30 @@
         cursor: pointer;
       }
       .controls {
-        border-left: 1px solid var(--line);
-        padding: 16px;
+        position: sticky;
+        top: 16px;
+        align-self: start;
+        padding: 8px 0;
         display: grid;
-        gap: 12px;
+        gap: 20px;
         align-content: start;
+        background: transparent;
       }
       .controls label.f {
         display: grid;
-        gap: 4px;
-        font-size: 12px;
+        gap: 6px;
+        font-size: 14px;
         color: var(--muted);
+      }
+      .controls sp-picker {
+        width: 100%;
+      }
+      .controls .switches {
+        display: grid;
+        gap: 4px;
+      }
+      .controls h5 {
+        margin: 8px 0 0;
       }
       select {
         font: inherit;
@@ -228,19 +289,6 @@
         border-radius: 8px;
         background: #fff;
         color: var(--fg);
-      }
-      .sw {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .sw input {
-        width: 36px;
-        height: 20px;
-        accent-color: #222;
-      }
-      .sw.off {
-        opacity: 0.4;
       }
       .note {
         font-size: 11px;
@@ -351,9 +399,10 @@
         color: #f0c36a;
       }
       .matrix-wrap {
-        width: 100%;
+        width: max-content;
       }
       .mnotes {
+        max-width: 640px;
         padding: 4px 20px 16px;
         display: grid;
         gap: 6px;
@@ -396,16 +445,14 @@
         display: none;
       }
       .support .msg {
-        border-radius: 8px;
-        padding: 10px 12px;
         display: grid;
-        gap: 6px;
-        background: #fbeeee;
-        border-left: 4px solid #c0392b;
+        gap: 4px;
       }
-      .support .msg.err {
-        background: #fbeeee;
-        border-left-color: #c0392b;
+      .support h5 {
+        margin: 0;
+      }
+      sp-theme {
+        background: transparent;
       }
       .mnotes p.err b {
         color: #8a1f1f;
@@ -413,32 +460,11 @@
       .stage.dark .mnotes p.err b {
         color: #f2b8b8;
       }
-      .support .msg.adv {
-        background: #fdf6e3;
-        border-left-color: #c98a00;
-      }
-      .msg .src {
-        font-size: 11px;
-        color: var(--muted);
-      }
       .fix {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
         align-items: center;
-      }
-      .fix button {
-        font: inherit;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border: 1px solid #c8c8c8;
-        border-radius: 999px;
-        background: #fff;
-        cursor: pointer;
-      }
-      .fix button:hover {
-        border-color: var(--pink);
       }
       .two {
         display: grid;
@@ -616,12 +642,73 @@
 
         <div class="live card" id="live-component">
           <div class="stagewrap">
-            <div class="stage" id="stage" data-mode="usage"></div>
+            <div class="stage" id="stage" data-mode="usage" tabindex="0">
+              <div id="world"></div>
+            </div>
+            <sp-theme
+              class="zoombar"
+              id="zoombar"
+              system="spectrum-two"
+              color="light"
+              scale="medium"
+              role="toolbar"
+              aria-label="Zoom"
+            >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-out"
+                label="Zoom out"
+                title="Zoom out (-)"
+                ><sp-icon-zoom-out slot="icon"></sp-icon-zoom-out
+              ></sp-action-button>
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-level"
+                title="Actual size (1)"
+                >100%</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-in"
+                label="Zoom in"
+                title="Zoom in (+)"
+                ><sp-icon-zoom-in slot="icon"></sp-icon-zoom-in
+              ></sp-action-button>
+              <sp-action-button quiet size="s" id="z-fit" title="Fit (0)"
+                >Fit</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-labels"
+                toggles
+                label="Larger labels"
+                title="Larger labels (L)"
+                >Aa</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-full"
+                label="Full screen"
+                title="Full screen (F)"
+                ><sp-icon-full-screen slot="icon"></sp-icon-full-screen
+              ></sp-action-button>
+            </sp-theme>
             <button class="back hidden" id="back" type="button">
               &larr; Back to all variants
             </button>
           </div>
-          <div class="controls" id="controls"></div>
+          <sp-theme
+            class="controls"
+            id="controls"
+            system="spectrum-two"
+            color="light"
+            scale="medium"
+          ></sp-theme>
         </div>
 
         <div class="tabs" id="tabs">
@@ -657,6 +744,20 @@
       </aside>
     </div>
 
+    <svg
+      id="probe"
+      aria-hidden="true"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        overflow: visible;
+        visibility: hidden;
+      "
+    ></svg>
+    <script type="module" src="spectrum-controls.js"></script>
     <script type="module">
       import { backend } from "./backend.js";
       import { roundedPath, cssFontWeight } from "./visual-runtime.js";
@@ -729,7 +830,7 @@
           .filter((f) => controlOpts[f.option]?.supported)
           .map(
             (f) =>
-              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<button type="button" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</button>`).join("")}</div>`,
+              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<sp-button size="s" variant="secondary" treatment="outline" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</sp-button>`).join("")}</div>`,
           )
           .join("");
 
@@ -760,8 +861,8 @@
         matches
           .map((c) =>
             c.severity === "error"
-              ? `<div class="msg err"><p><b>Not supported: ${esc(comboText(c, combo))}.</b> ${esc(c.description ?? "")} ${esc(fixText(c))}</p>${fixButtons(c)}${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`
-              : `<div class="msg adv"><p><b>${esc(comboText(c, combo))} has no distinct design.</b> ${esc(c.description ?? "")}</p>${c.source ? `<p class="src">Source: ${esc(c.source)}</p>` : ""}</div>`,
+              ? `<div class="msg"><sp-status-light size="m" variant="negative">Not supported: ${esc(comboText(c, combo))}</sp-status-light><sp-help-text size="s" variant="negative">${esc(c.description ?? "")} ${esc(fixText(c))}</sp-help-text>${fixButtons(c)}${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`
+              : `<div class="msg"><sp-status-light size="m" variant="notice">${esc(comboText(c, combo))} has no distinct design</sp-status-light><sp-help-text size="s">${esc(c.description ?? "")}</sp-help-text>${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`,
           )
           .join("");
 
@@ -771,7 +872,7 @@
         const combo = comboOf(o);
         const matches = matching(constraints, combo);
         $("support").innerHTML = matches.length
-          ? `<b>Current selection</b>${explainHtml(matches, combo)}`
+          ? `<h5>Current selection</h5>${explainHtml(matches, combo)}`
           : "";
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported || name === "size" || name === "label") continue;
@@ -779,21 +880,20 @@
           const bad = (v) =>
             errorsOf(matching(constraints, { ...combo, [name]: v }));
           if (type === "enum") {
-            for (const opt of el.options) {
-              const hit = opt.value === "" ? [] : bad(opt.value);
+            for (const opt of el.querySelectorAll("sp-menu-item")) {
+              const hit = opt.value === NONE ? [] : bad(opt.value);
               opt.dataset.label ??= opt.textContent;
               opt.textContent =
                 opt.dataset.label + (hit.length ? " (not supported)" : "");
               opt.title = hit[0]?.description ?? "";
             }
           } else {
-            const wrap = el.closest("label");
             const now = new Set(errorsOf(matches).map((c) => c.index));
             const hit = el.checked
               ? []
               : bad(true).filter((c) => !now.has(c.index));
-            wrap.title = hit[0]?.description ?? "";
-            wrap.querySelector("span").textContent =
+            el.title = hit[0]?.description ?? "";
+            el.textContent =
               humanize(name) + (hit.length ? " (not supported)" : "");
           }
         }
@@ -835,8 +935,10 @@
         const used = new Set(C.recipe.used);
         controlOpts = {};
         const rows = [];
+        const picker = (id, title, values, value, extra = "") =>
+          `<label class="f ${extra}" id="${id}-wrap">${title}<sp-picker id="${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
         const mode = (id, title, values) =>
-          `<label class="f">${title}<select id="${id}">${values.map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></label>`;
+          picker(id, title, values, values[0][0]);
         for (const [name, def] of Object.entries(opts)) {
           // Label text and icon presence become toggles when the recipe reads them.
           const presence = name === "label" || def.$ref;
@@ -871,15 +973,15 @@
           const dis = supported ? "" : "disabled";
           if (type === "enum") {
             const vals = def.values.map((v) => v.value ?? v);
-            const none =
-              def.default === undefined ? '<option value="">None</option>' : "";
-            return `<label class="f ${supported ? "" : "off"}">${humanize(name)}<select id="opt-${name}" ${dis}>${none}${vals.map((v) => `<option value="${v}" ${v === def.default ? "selected" : ""}>${v}</option>`).join("")}</select></label>`;
+            const items = (
+              def.default === undefined ? [[NONE, "None"]] : []
+            ).concat(vals.map((v) => [v, shown(name, v)]));
+            const label = humanize(name);
+            const sel = def.default === undefined ? NONE : def.default;
+            return `<label class="f ${supported ? "" : "off"}">${label}<sp-picker id="opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
           }
-          return `<label class="sw ${supported ? "" : "off"}"><span>${humanize(name)}</span><input type="checkbox" id="opt-${name}" ${dis} ${def.default ? "checked" : ""}/></label>`;
+          return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
-        rows.push(
-          '<div id="support" class="support" role="status" aria-live="polite"></div>',
-        );
         rows.push(
           mode("scheme", "Color scheme", [
             ["light", "Light"],
@@ -892,25 +994,31 @@
             ["mobile", "Mobile"],
           ]),
         );
-        rows.push(
-          order
-            .filter((n) => controlOpts[n].supported)
-            .map(ctl)
-            .join(""),
-        );
+        const group = (names) => {
+          const enums = names.filter((n) => controlOpts[n].type === "enum");
+          const bools = names.filter((n) => controlOpts[n].type !== "enum");
+          return (
+            enums.map(ctl).join("") +
+            (bools.length
+              ? `<div class="switches">${bools.map(ctl).join("")}</div>`
+              : "")
+          );
+        };
+        rows.push(group(order.filter((n) => controlOpts[n].supported)));
         const unsupported = order.filter((n) => !controlOpts[n].supported);
         if (unsupported.length)
-          rows.push(
-            `<h5>Not in the recipe yet</h5>${unsupported.map(ctl).join("")}`,
-          );
+          rows.push(`<h5>Not in the recipe yet</h5>${group(unsupported)}`);
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
-            `<label class="f hidden" id="state-wrap">State<select id="state"><option value="">default</option>${stateNames.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></label>`,
+            `<label class="f hidden" id="state-wrap">State<sp-picker id="state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
           );
+        rows.push(
+          '<div id="support" class="support" role="status" aria-live="polite"></div>',
+        );
         $("controls").innerHTML = rows.join("");
         $("controls")
-          .querySelectorAll("select, input")
+          .querySelectorAll("sp-picker, sp-switch")
           .forEach((e) =>
             e.addEventListener("change", async () => {
               await enableDependency(e);
@@ -919,20 +1027,39 @@
           );
       }
 
+      // sp-picker has no empty value, so "no selection" travels as a sentinel.
+      const NONE = "__none";
+      const SIZES = {
+        xs: "Extra small",
+        s: "Small",
+        m: "Medium",
+        l: "Large",
+        xl: "Extra large",
+      };
+      const shown = (name, v) =>
+        name === "size" && SIZES[v]
+          ? SIZES[v]
+          : String(v).charAt(0).toUpperCase() + String(v).slice(1);
+      const read = (el) => (el.value === NONE ? "" : el.value);
+      const write = (el, v) => {
+        el.value = v === "" || v === undefined ? NONE : v;
+      };
+      const isSwitch = (el) => el?.localName === "sp-switch";
+
       function liveOptions() {
         const o = {
           name: C.name,
-          scheme: $("scheme").value,
-          scale: $("scale").value,
+          scheme: read($("scheme")),
+          scale: read($("scale")),
           label: "Label",
         };
-        if (view.mode !== "usage" && $("state")?.value)
-          o.state = $("state").value;
+        if (view.mode !== "usage" && $("state") && read($("state")))
+          o.state = read($("state"));
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
-          if (name === "size") o.size = el.value;
-          else o[`opt.${name}`] = type === "bool" ? el.checked : el.value;
+          if (name === "size") o.size = read(el);
+          else o[`opt.${name}`] = type === "bool" ? el.checked : read(el);
           if (name === "label" && !el.checked) o.label = "";
         }
         return o;
@@ -954,6 +1081,345 @@
 
       // ---- stage: matrix (usage) <-> zoomed component (anatomy / specs) ------
       const view = { mode: "usage" };
+
+      // ---- stage viewport: pan, zoom, fit, full screen ------------------------
+      // The stage is a window onto #world. The usage matrix is plain HTML that we
+      // scale with a CSS transform. Anatomy and specs are redrawn at the chosen zoom
+      // instead, so their labels keep one readable size at any zoom.
+      // Screen pixels per layout unit in the anatomy drawing. The labels are drawn at 14 and
+      // 13 layout units, so this is also their size: compact labels are 10px, large 14px.
+      const SIGMA_COMPACT = 0.714,
+        SIGMA_LARGE = 1;
+      const LABELS_KEY = "hub-large-labels";
+      const savedLarge = (() => {
+        try {
+          return localStorage.getItem(LABELS_KEY) === "1";
+        } catch {
+          return false;
+        }
+      })();
+      const ZMIN = 0.1,
+        ZMAX = 8,
+        MARGIN = 28,
+        GUTTER = 16;
+      const vp = {
+        sigma: savedLarge ? SIGMA_LARGE : SIGMA_COMPACT,
+        kind: "grid", // "grid" (matrix) or "diagram" (anatomy and specs)
+        z: 1, // 1 is actual size
+        tx: 0,
+        ty: 0,
+        fit: true, // stays true until the user pans or zooms
+        scene: null,
+        vbx: 0,
+        vby: 0,
+      };
+      const clampZ = (z) => Math.min(ZMAX, Math.max(ZMIN, z));
+      const stageSize = () => ({
+        w: $("stage").clientWidth,
+        h: $("stage").clientHeight,
+      });
+      const setWorld = (html) => {
+        $("world").innerHTML = html;
+      };
+
+      function paint() {
+        const st = $("stage");
+        const sc = vp.kind === "grid" ? vp.z : 1;
+        $("world").style.transform =
+          `translate(${vp.tx}px, ${vp.ty}px) scale(${sc})`;
+        st.style.setProperty("--px", `${vp.tx}px`);
+        st.style.setProperty("--py", `${vp.ty}px`);
+        st.style.setProperty("--pz", String(sc));
+        $("z-level").textContent = `${Math.round(vp.z * 100)}%`;
+      }
+
+      function fitGrid() {
+        const { w, h } = stageSize();
+        const cw = $("world").offsetWidth,
+          ch = $("world").offsetHeight;
+        if (!cw || !ch) return;
+        vp.z = clampZ(
+          Math.min(2, (w - 2 * MARGIN) / cw, (h - 2 * MARGIN) / ch),
+        );
+        vp.tx = (w - cw * vp.z) / 2;
+        vp.ty = (h - ch * vp.z) / 2;
+      }
+      function afterGrid() {
+        if (vp.fit) fitGrid();
+        paint();
+      }
+
+      // Extents of the drawing at scene scale K, measured off screen.
+      function bboxFor(inner) {
+        const probe = $("probe");
+        probe.innerHTML = `<g>${inner}</g>`;
+        return probe.firstChild.getBBox();
+      }
+
+      // Draw the anatomy and specs view at the current zoom (or fit it first).
+      function drawDiagram(from) {
+        const s = vp.scene;
+        if (!s) return { x: 0, y: 0 };
+        const { w: vw, h: vh } = stageSize();
+        if (vp.fit) {
+          // The labels do not scale with the drawing, so the size is not linear in
+          // K: search for the largest K whose drawing fits the stage.
+          const fits = (K) => {
+            const b = bboxFor(diagramInner(s, K));
+            return (
+              b.width + 2 * GUTTER <= (vw - 2 * MARGIN) / vp.sigma &&
+              b.height + 2 * GUTTER <= (vh - 2 * MARGIN) / vp.sigma
+            );
+          };
+          let lo = ZMIN / vp.sigma,
+            hi = ZMAX / vp.sigma;
+          if (fits(hi)) lo = hi;
+          else
+            for (let i = 0; i < 12; i++) {
+              const mid = (lo + hi) / 2;
+              if (fits(mid)) lo = mid;
+              else hi = mid;
+            }
+          vp.z = clampZ(lo * vp.sigma);
+        }
+        const K = vp.z / vp.sigma;
+        const inner = diagramInner(s, K);
+        const b = bboxFor(inner);
+        const vbx = b.x - GUTTER,
+          vby = b.y - GUTTER,
+          vbw = b.width + 2 * GUTTER,
+          vbh = b.height + 2 * GUTTER;
+        vp.vbx = vbx;
+        vp.vby = vby;
+        setWorld(
+          `<svg class="zoom" role="group" aria-label="${attr(`${C.displayName} anatomy and token specs`)}" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * vp.sigma}" height="${vbh * vp.sigma}">${inner}</svg>`,
+        );
+        if (vp.fit) {
+          vp.tx = (vw - vbw * vp.sigma) / 2;
+          vp.ty = (vh - vbh * vp.sigma) / 2;
+        }
+        paint();
+        if (from?.width && !reduced) {
+          const svg = $("world").querySelector("svg");
+          const svgR = svg.getBoundingClientRect();
+          const k = svgR.width / vbw;
+          const sc = from.width / k / (s.width * K);
+          const tx = (from.left - svgR.left) / k - sc * (PAD_X - vbx);
+          const ty = (from.top - svgR.top) / k - sc * (PAD_Y - vby);
+          const zg = $("zg");
+          zg.style.transformOrigin = "0 0";
+          zg.animate(
+            [
+              { transform: `translate(${tx}px, ${ty}px) scale(${sc})` },
+              { transform: "none" },
+            ],
+            { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" },
+          );
+          $("ovwrap").animate([{ opacity: 0 }, { opacity: 1 }], {
+            delay: 260,
+            duration: 220,
+            fill: "backwards",
+          });
+        }
+        return { x: vbx, y: vby };
+      }
+
+      // Switch label size. A fitted view refits; otherwise the point at the centre of the
+      // stage stays there.
+      function setLabels(large) {
+        try {
+          localStorage.setItem(LABELS_KEY, large ? "1" : "0");
+        } catch {}
+        $("z-labels").selected = large;
+        const next = large ? SIGMA_LARGE : SIGMA_COMPACT;
+        if (next === vp.sigma) return;
+        if (vp.kind !== "diagram" || vp.fit) {
+          vp.sigma = next;
+          if (vp.kind === "diagram") drawDiagram();
+          return;
+        }
+        const [px, py] = centre();
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
+        vp.sigma = next;
+        const vb = drawDiagram();
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
+        paint();
+      }
+
+      function fitView() {
+        vp.fit = true;
+        if (vp.kind === "grid") afterGrid();
+        else drawDiagram();
+      }
+      function panBy(dx, dy) {
+        vp.fit = false;
+        vp.tx += dx;
+        vp.ty += dy;
+        paint();
+      }
+      // Zoom to nz, keeping the point under (px, py) in place.
+      function zoomTo(nz, px, py) {
+        nz = clampZ(nz);
+        if (nz === vp.z) return;
+        vp.fit = false;
+        if (vp.kind === "grid") {
+          vp.tx = px - ((px - vp.tx) * nz) / vp.z;
+          vp.ty = py - ((py - vp.ty) * nz) / vp.z;
+          vp.z = nz;
+          paint();
+          return;
+        }
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
+        vp.z = nz;
+        const vb = drawDiagram();
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
+        paint();
+      }
+      const centre = () => {
+        const { w, h } = stageSize();
+        return [w / 2, h / 2];
+      };
+      const step = (f) => zoomTo(vp.z * f, ...centre());
+
+      // Wheel and pinch redraw at most once per frame.
+      let queued = null;
+      function queueZoom(f, px, py) {
+        if (queued) {
+          queued.f *= f;
+          queued.px = px;
+          queued.py = py;
+          return;
+        }
+        queued = { f, px, py };
+        requestAnimationFrame(() => {
+          const q = queued;
+          queued = null;
+          zoomTo(vp.z * q.f, q.px, q.py);
+        });
+      }
+
+      $("stage").addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const r = $("stage").getBoundingClientRect();
+          const px = e.clientX - r.left,
+            py = e.clientY - r.top;
+          if (e.ctrlKey || e.metaKey)
+            queueZoom(
+              Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0025)),
+              px,
+              py,
+            );
+          else panBy(-e.deltaX, -e.deltaY);
+        },
+        { passive: false },
+      );
+
+      // Dragging pans. A short press still clicks a matrix cell.
+      let drag = null,
+        dragged = false;
+      $("stage").addEventListener("pointerdown", (e) => {
+        if (e.button !== 0) return;
+        drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
+      });
+      $("stage").addEventListener("pointermove", (e) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        const dx = e.clientX - drag.x,
+          dy = e.clientY - drag.y;
+        if (!drag.moved && Math.hypot(dx, dy) < 5) return;
+        if (!drag.moved) {
+          drag.moved = true;
+          $("stage").setPointerCapture(e.pointerId);
+          $("stage").classList.add("panning");
+        }
+        drag.x = e.clientX;
+        drag.y = e.clientY;
+        panBy(dx, dy);
+      });
+      const endDrag = (e) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        dragged = drag.moved;
+        drag = null;
+        $("stage").classList.remove("panning");
+        if (dragged) setTimeout(() => (dragged = false), 0);
+      };
+      $("stage").addEventListener("pointerup", endDrag);
+      $("stage").addEventListener("pointercancel", endDrag);
+      $("stage").addEventListener(
+        "click",
+        (e) => {
+          if (!dragged) return;
+          e.stopPropagation();
+          e.preventDefault();
+          dragged = false;
+        },
+        true,
+      );
+
+      $("stage").addEventListener("keydown", (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const big = e.shiftKey ? 160 : 40;
+        const keys = {
+          "+": () => step(1.25),
+          "=": () => step(1.25),
+          "-": () => step(0.8),
+          _: () => step(0.8),
+          0: fitView,
+          1: () => zoomTo(1, ...centre()),
+          f: toggleFull,
+          l: () => setLabels(!$("z-labels").selected),
+          ArrowLeft: () => panBy(big, 0),
+          ArrowRight: () => panBy(-big, 0),
+          ArrowUp: () => panBy(0, big),
+          ArrowDown: () => panBy(0, -big),
+        };
+        const act = keys[e.key];
+        if (!act) return;
+        e.preventDefault();
+        act();
+      });
+
+      $("z-in").addEventListener("click", () => step(1.25));
+      $("z-out").addEventListener("click", () => step(0.8));
+      $("z-level").addEventListener("click", () => zoomTo(1, ...centre()));
+      $("z-fit").addEventListener("click", fitView);
+      $("z-labels").addEventListener("change", () =>
+        setLabels($("z-labels").selected),
+      );
+      $("z-labels").selected = savedLarge;
+      $("z-full").addEventListener("click", toggleFull);
+
+      function toggleFull() {
+        const on = $("live-component").classList.toggle("fs");
+        document.body.classList.toggle("fs-open", on);
+        const icon = $("z-full").querySelector("[slot=icon]");
+        icon.replaceWith(
+          Object.assign(
+            document.createElement(
+              on ? "sp-icon-full-screen-exit" : "sp-icon-full-screen",
+            ),
+            { slot: "icon" },
+          ),
+        );
+        $("z-full").title = on ? "Exit full screen (Esc)" : "Full screen (F)";
+        $("stage").focus({ preventScroll: true });
+      }
+
+      // A bigger or smaller stage refits while the view is still "fit".
+      new ResizeObserver(() => {
+        if (!vp.fit) return;
+        if (vp.kind === "grid") afterGrid();
+        else drawDiagram();
+      }).observe($("stage"));
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
       let cellReqs = [];
 
@@ -973,21 +1439,21 @@
 
       // Copy a request back into the controls so the zoomed view matches the clicked cell.
       function syncControls(req) {
-        for (const k of ["scheme", "scale"]) if (req[k]) $(k).value = req[k];
+        for (const k of ["scheme", "scale"]) if (req[k]) write($(k), req[k]);
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
           if (name === "size") {
-            if (req.size) el.value = req.size;
+            if (req.size) write(el, req.size);
           } else if (name === "label") {
             el.checked = req.label !== "";
           } else if (type === "bool") {
             el.checked = !!req[`opt.${name}`];
           } else if (req[`opt.${name}`] !== undefined) {
-            el.value = req[`opt.${name}`];
+            write(el, req[`opt.${name}`]);
           }
         }
-        if ($("state")) $("state").value = req.state ?? "";
+        if ($("state")) write($("state"), req.state ?? "");
       }
 
       // With no cell chosen, zoom to the configuration that shows the most parts.
@@ -1045,10 +1511,14 @@
       async function refresh(opts = {}) {
         const token = ++stageToken;
         const o = liveOptions();
-        $("stage").className = `stage ${staticBg(o)}`;
+        const bg = staticBg(o);
+        $("stage").classList.toggle("dark", bg === "dark");
+        $("stage").classList.toggle("light", bg === "light");
         $("stage").dataset.mode = view.mode;
+        if (opts.refit) vp.fit = true;
         $("state-wrap")?.classList.toggle("hidden", view.mode === "usage");
         $("back").classList.toggle("hidden", view.mode === "usage");
+        $("z-labels").disabled = view.mode === "usage";
         updateSupport(o);
         if (view.mode === "usage") await renderMatrix(o, token, opts);
         else await renderZoom(o, token, opts);
@@ -1217,9 +1687,13 @@
           .join("");
         if (token !== stageToken) return;
         cellReqs = reqs;
-        $("stage").innerHTML = rows.length
-          ? `<div class="matrix-wrap"><div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div><div class="mnotes">${notes}</div></div>`
-          : `<div class="unsupported-box" id="matrix"><h4>No supported combinations to show</h4>${notes}</div>`;
+        vp.kind = "grid";
+        setWorld(
+          rows.length
+            ? `<div class="matrix-wrap"><div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div><div class="mnotes">${notes}</div></div>`
+            : `<div class="unsupported-box" id="matrix"><h4>No supported combinations to show</h4>${notes}</div>`,
+        );
+        afterGrid();
         if (opts.animate && !reduced)
           $("matrix").animate(
             [
@@ -1288,16 +1762,38 @@
       });
 
       // Anatomy callouts and spec dimension lines share one zoomed component.
-      const SPEC_LINE = "#4da3f0",
+      // Lines and borders are 3:1 or better against the light, dark and static-color
+      // stages (WCAG 1.4.11); label text is #222 on white or #1f2d3d on a pale fill.
+      const SPEC_LINE = "#2f80d0",
         SPEC_EDGE = "#2f80d0";
+      const LABEL_PX = 14,
+        TOKEN_PX = 13,
+        PILL_H = 32;
+      const measure = (() => {
+        const ctx = document.createElement("canvas").getContext("2d");
+        const cache = new Map();
+        return (text, mono) => {
+          const key = `${mono ? "m" : "p"}${text}`;
+          if (!cache.has(key)) {
+            ctx.font = mono
+              ? `${TOKEN_PX}px ui-monospace, Menlo, monospace`
+              : `500 ${LABEL_PX}px "adobe-clean-spectrum-vf", "Adobe Clean", "Source Sans 3", -apple-system, "Segoe UI", sans-serif`;
+            cache.set(key, ctx.measureText(text).width);
+          }
+          return cache.get(key);
+        };
+      })();
+      const pillW = (text, mono) => Math.ceil(measure(text, mono)) + 28;
+      // A label: x is its left, middle or right edge by anchor, y its vertical centre.
+      // The text sits at the centre of the box, which is sized from the measured text.
       const pill = (x, y, text, color, mono, anchor = "start") => {
-        const w = text.length * (mono ? 9 : 6.8) + 24;
+        const w = pillW(text, mono);
         const left =
           anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
         const box = mono
-          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="9"`
-          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="12"`;
-        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - 14}" width="${w}" height="28" ${box}/><text x="${left + 11}" y="${y + 5}" font-size="${mono ? 14 : 12}" fill="${mono ? "#1f2d3d" : color}">${esc(text)}</text></g>`;
+          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="10"`
+          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="${PILL_H / 2}"`;
+        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - PILL_H / 2}" width="${w}" height="${PILL_H}" ${box}/><text x="${left + w / 2}" y="${y}" dy="0.34em" text-anchor="middle" font-size="${mono ? TOKEN_PX : LABEL_PX}"${mono ? "" : ' font-weight="500"'} fill="${mono ? "#1f2d3d" : "#222"}">${esc(text)}</text></g>`;
       };
 
       async function renderZoom(o, token, opts) {
@@ -1306,17 +1802,35 @@
         if (errs.length) {
           $("anatomy-table").innerHTML = "";
           $("tokens").innerHTML = "";
-          $("stage").innerHTML =
-            `<div class="unsupported-box"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</div>`;
+          vp.kind = "grid";
+          setWorld(
+            `<div class="unsupported-box"><sp-theme system="spectrum-two" color="light" scale="medium"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</sp-theme></div>`,
+          );
+          afterGrid();
           return;
         }
         const s = await getScene(o);
         if (token !== stageToken) return;
-        const K = 4,
-          padX = 390,
-          pad = 110,
-          W = s.width * K + padX * 2,
-          H = s.height * K + pad * 2;
+        vp.scene = s;
+        vp.kind = "diagram";
+        $("anatomy-table").innerHTML =
+          "<tr><th>Part</th><th>Description</th></tr>" +
+          (C.anatomy ?? [])
+            .map(
+              (a) =>
+                `<tr><td>${esc(humanize(a.name.replace(/-/g, " ")))}${a.required ? "" : ' <span class="note">(optional)</span>'}</td><td>${esc(a.description ?? "")}</td></tr>`,
+            )
+            .join("");
+        renderTokens(s, o);
+        drawDiagram(opts.from);
+      }
+
+      // The drawing in layout units. K is how many layout units one scene pixel takes.
+      const PAD_X = 390,
+        PAD_Y = 110;
+      function diagramInner(s, K) {
+        const padX = PAD_X,
+          pad = PAD_Y;
         const P = (n, fx, fy) => [
           padX + (n.x + n.w * fx) * K,
           pad + (n.y + n.h * fy) * K,
@@ -1330,12 +1844,18 @@
         const placed = parts.map(([a, n]) => {
           const isRoot = n === root;
           const up = isRoot || i++ % 2 === 0;
-          const [x, y] = P(n, isRoot ? 0.1 : 0.5, isRoot ? 0 : up ? 0 : 1);
+          // A rounded container's anchor sits past its corner curve, on the straight edge.
+          const rad = n.radii?.[0] ?? n.radius ?? 0;
+          const fx = isRoot
+            ? Math.min(0.5, Math.max(0.1, (rad + 4) / n.w))
+            : 0.5;
+          const [x, y] = P(n, fx, isRoot ? 0 : up ? 0 : 1);
           const cx = n.x + n.w / 2 - (root.x + root.w / 2);
           const dx = isRoot
             ? -70
             : Math.max(-80, Math.min(80, cx * K * 0.5 + (up ? 20 : -20)));
-          return { a, x, y, dx, up };
+          const label = humanize(a.name.replace(/-/g, " "));
+          return { a, x, y, dx, up, label, w: pillW(label, false) };
         });
         // Labels on one side keep a minimum spacing, so parts that share a center
         // (a switch's control, track and handle) do not stack their labels.
@@ -1344,13 +1864,26 @@
             .filter((c) => c.up === side)
             .sort((p, q) => p.x + p.dx - (q.x + q.dx));
           for (let j = 1; j < row.length; j++) {
-            const min = row[j - 1].x + row[j - 1].dx + 96;
+            const min =
+              row[j - 1].x + row[j - 1].dx + (row[j - 1].w + row[j].w) / 2 + 12;
             if (row[j].x + row[j].dx < min) row[j].dx = min - row[j].x;
           }
         }
-        const callouts = placed.map(({ a, x, y, dx, up }) => {
-          const dy = up ? -60 : 60;
-          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx - 8, y + dy, humanize(a.name.replace(/-/g, " ")), "#d83790")}</g>`;
+        const rowY = {
+          true:
+            Math.min(
+              P(root, 0, 0)[1],
+              ...placed.filter((c) => c.up).map((c) => c.y),
+            ) - 64,
+          false:
+            Math.max(
+              P(root, 1, 1)[1],
+              ...placed.filter((c) => !c.up).map((c) => c.y),
+            ) + 64,
+        };
+        const callouts = placed.map(({ a, x, y, dx, up, label }) => {
+          const dy = rowY[up] - y;
+          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx, y + dy, label, "#d83790", false, "middle")}</g>`;
         });
 
         const B = SPEC_LINE;
@@ -1486,41 +2019,7 @@
           );
         }
 
-        $("stage").innerHTML =
-          `<svg class="zoom" viewBox="0 0 ${W} ${H}"><g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap"><g class="ov ov-anatomy">${callouts.join("")}</g><g class="ov ov-specs">${out.join("")}</g></g></svg>`;
-
-        if (opts.from?.width && !reduced) {
-          const svg = $("stage").querySelector("svg");
-          const k = svg.getBoundingClientRect().width / W;
-          const svgR = svg.getBoundingClientRect();
-          const sc = opts.from.width / k / (s.width * K);
-          const tx = (opts.from.left - svgR.left) / k - sc * padX;
-          const ty = (opts.from.top - svgR.top) / k - sc * pad;
-          const zg = $("zg");
-          zg.style.transformOrigin = "0 0";
-          zg.animate(
-            [
-              { transform: `translate(${tx}px, ${ty}px) scale(${sc})` },
-              { transform: "none" },
-            ],
-            { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" },
-          );
-          $("ovwrap").animate([{ opacity: 0 }, { opacity: 1 }], {
-            delay: 260,
-            duration: 220,
-            fill: "backwards",
-          });
-        }
-
-        $("anatomy-table").innerHTML =
-          "<tr><th>Part</th><th>Description</th></tr>" +
-          (C.anatomy ?? [])
-            .map(
-              (a) =>
-                `<tr><td>${esc(humanize(a.name.replace(/-/g, " ")))}${a.required ? "" : ' <span class="note">(optional)</span>'}</td><td>${esc(a.description ?? "")}</td></tr>`,
-            )
-            .join("");
-        renderTokens(s, o);
+        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
       }
 
       // ---- page chrome --------------------------------------------------------
@@ -1545,7 +2044,7 @@
         constraints = readConstraints(C);
         renderPage();
         buildControls();
-        await refresh();
+        await refresh({ refit: true });
       }
 
       const tabs = ["usage", "anatomy", "specs"];
@@ -1575,8 +2074,10 @@
           .forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== t));
         if (prev !== "usage" && t !== "usage") {
           $("stage").dataset.mode = t;
+          vp.fit = true;
+          drawDiagram();
         } else {
-          await refresh({ from, animate: t === "usage" });
+          await refresh({ from, animate: t === "usage", refit: true });
         }
         syncUrl();
       }
@@ -1587,15 +2088,17 @@
       });
       $("back").addEventListener("click", () => setMode("usage"));
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && view.mode !== "usage") setMode("usage");
+        if (e.key !== "Escape") return;
+        if ($("live-component").classList.contains("fs")) toggleFull();
+        else if (view.mode !== "usage") setMode("usage");
       });
       // A suggested fix sets the option it names, then redraws.
       document.addEventListener("click", (e) => {
-        const b = e.target.closest("button[data-fix-opt]");
+        const b = e.target.closest("[data-fix-opt]");
         if (!b) return;
         const el = $(`opt-${b.dataset.fixOpt}`);
-        if (el?.type === "checkbox") el.checked = b.dataset.fixVal === "true";
-        else if (el) el.value = b.dataset.fixVal;
+        if (isSwitch(el)) el.checked = b.dataset.fixVal === "true";
+        else if (el) write(el, b.dataset.fixVal);
         refresh();
       });
       $("stage").addEventListener("click", (e) => {
