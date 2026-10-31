@@ -10,6 +10,7 @@
 
 //! Design Data core library — validation, resolution, and tooling.
 
+pub mod anatomy_suggest;
 pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
