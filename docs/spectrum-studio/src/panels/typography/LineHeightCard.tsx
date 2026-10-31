@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   AccordionItem,
   AccordionItemHeader,
@@ -8,7 +9,6 @@ import {
   Checkbox,
   PickerItem,
   TextField,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 import { foundationCardStyles } from "../../components/foundationCardStyles";
@@ -72,6 +72,7 @@ export function LineHeightCard({
   onRename: (name: string) => string | undefined;
   onDelete: () => void;
 }) {
+  const notify = useNotify();
   const nameRef = useRequestedFieldFocus(
     focusName && !isReadOnly,
     onNameFocused,
@@ -94,7 +95,7 @@ export function LineHeightCard({
     try {
       changeMapping({ [key]: fromTypographyUnit(value, unit) });
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }

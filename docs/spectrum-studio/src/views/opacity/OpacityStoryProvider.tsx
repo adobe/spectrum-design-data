@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { Provider, type createStore } from "jotai";
 import type { ReactNode } from "react";
-import { DeletionToastProvider } from "../../components/DeletionToastProvider";
+import { NotificationProvider } from "../../components/notifications/NotificationProvider";
 
 export function OpacityStoryProvider({
   store,
@@ -14,7 +14,7 @@ export function OpacityStoryProvider({
 }) {
   const content = <Provider store={store}>{children}</Provider>;
   return deletionToast ? (
-    <DeletionToastProvider>{content}</DeletionToastProvider>
+    <NotificationProvider>{content}</NotificationProvider>
   ) : (
     content
   );

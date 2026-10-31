@@ -3,6 +3,7 @@ import { Button, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../components/notifications/notificationContext";
 import { ModeSetCard } from "../components/ModeSetCard";
 import { ModeSetEditorDialog } from "../components/ModeSetEditorDialog";
 import { EditOnly } from "../components/editable";
@@ -29,6 +30,7 @@ const listStyles = style({ display: "flex", flexDirection: "column", gap: 16 });
 const emptyStyles = style({ font: "body", color: "neutral-subdued" });
 
 export default function Modes() {
+  const notify = useNotify();
   const modeSets = useAtomValue(modeSetsAtom);
   const addModeSet = useSetAtom(addModeSetAtom);
 
@@ -47,7 +49,12 @@ export default function Modes() {
               }
               title="New mode set"
               createDraft={createModeSet}
-              onSave={(modeSet) => addModeSet(modeSet)}
+              onSave={(modeSet) =>
+                notify.added("modeSet", () => {
+                  addModeSet(modeSet);
+                  return true;
+                })
+              }
             />
           </EditOnly>
         </header>

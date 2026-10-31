@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "./notifications/notificationContext";
 import {
   ActionButton,
   Button,
@@ -15,7 +16,6 @@ import {
   Text,
   TextArea,
   TextField,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -127,6 +127,7 @@ export function ModeSetEditorDialog({
   initialFoundations,
   isStaged = false,
 }: ModeSetEditorDialogProps) {
+  const notify = useNotify();
   const platforms = useAtomValue(platformsAtom);
   const modeSets = useAtomValue(modeSetsAtom);
   const adaptiveClaims = useAtomValue(adaptiveClaimsAtom);
@@ -510,7 +511,7 @@ export function ModeSetEditorDialog({
                   }
                   close();
                 } catch (failure) {
-                  ToastQueue.negative(
+                  notify.error(
                     failure instanceof Error
                       ? failure.message
                       : String(failure),

@@ -1,9 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ToastQueue } from "@react-spectrum/s2";
+import { useNotify } from "../../components/notifications/notificationContext";
+
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useIsReadOnly } from "../../components/editable";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import { authoringCapabilityOwnersAtom } from "../../features/modes/capabilities";
 import {
   addShadowLayerAtom,
@@ -11,7 +11,6 @@ import {
   generatedElevationAtom,
   moveShadowLayerAtom,
   removeShadowLayerAtom,
-  restoreShadowLayerAtom,
   updateElevationAtom,
   updateShadowLayerAtom,
 } from "../../features/elevation/state";
@@ -19,6 +18,7 @@ import { hasDuplicateElevationLevels } from "../../features/elevation/generate";
 import { ElevationEditor } from "../elevation/ElevationEditor";
 
 export function FoundationsElevationPanel() {
+  const notify = useNotify();
   const document = useAtomValue(elevationDocumentAtom);
   const levels = useAtomValue(generatedElevationAtom);
   const owned = useAtomValue(authoringCapabilityOwnersAtom);
@@ -26,10 +26,7 @@ export function FoundationsElevationPanel() {
   const update = useSetAtom(updateElevationAtom);
   const layer = useSetAtom(updateShadowLayerAtom);
   const add = useSetAtom(addShadowLayerAtom);
-  const remove = useSetAtom(removeShadowLayerAtom);
-  const restore = useSetAtom(restoreShadowLayerAtom);
   const move = useSetAtom(moveShadowLayerAtom);
-  const { notifyDeleted } = useDeletionToast();
   const [error, setError] = useState<string>();
   const [focusId, setFocusId] = useState<string | null>(null);
   useEffect(() => {
@@ -44,7 +41,7 @@ export function FoundationsElevationPanel() {
       const message =
         failure instanceof Error ? failure.message : String(failure);
       setError(message);
-      ToastQueue.negative(message);
+      notify.error(message);
       return message;
     }
   };
@@ -68,11 +65,9 @@ export function FoundationsElevationPanel() {
       }
       onMove={(id, direction) => attempt(() => move({ id, direction }))}
       onRemove={(id) =>
-        attempt(() => {
-          const removed = remove(id);
-          notifyDeleted(removed.layer.label, () =>
-            attempt(() => restore(removed)),
-          );
+        notify.remove({
+          kind: "shadowLayer",
+          run: (store) => store.set(removeShadowLayerAtom, id),
         })
       }
     />

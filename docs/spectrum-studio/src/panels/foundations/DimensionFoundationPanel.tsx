@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { ActionButton, PickerItem, Text, ToastQueue } from "@react-spectrum/s2";
+import { ActionButton, PickerItem, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Edit from "@react-spectrum/s2/icons/Edit";
@@ -13,7 +14,6 @@ import {
 } from "jotai";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { DimensionValuePolicy } from "../../features/scales/issues";
-import { useDeletionToast } from "../../components/deletionToastContext";
 import { EditOnly, useIsReadOnly } from "../../components/editable";
 import { NumberField } from "../../components/fields/NumberField";
 import { Picker } from "../../components/fields/Picker";
@@ -47,7 +47,7 @@ import { DimensionScaleCard } from "./DimensionScaleCard";
 /** The atoms and wording of one foundation made of dimension scales, such as spacing or size. */
 export interface DimensionFoundationBinding {
   /** Lowercase noun used in labels: "spacing" or "size". */
-  noun: string;
+  noun: "spacing" | "size" | "radius";
   valuePolicy?: DimensionValuePolicy;
   preview?: (
     scale: DimensionScale,
@@ -114,6 +114,7 @@ function BaseValueField({
   scale: DimensionScale;
   scaleType: ScaleType;
 }) {
+  const notify = useNotify();
   const foundation = useFoundation();
   const isReadOnly = useIsReadOnly();
   const update = useSetAtom(foundation.updateScaleAtom);
@@ -185,7 +186,7 @@ function BaseValueField({
               value: next,
             });
           } catch (failure) {
-            ToastQueue.negative(
+            notify.error(
               failure instanceof Error ? failure.message : String(failure),
             );
           }
@@ -248,14 +249,12 @@ function ScaleEditorContent({
   focusName: boolean;
   onNameFocused: () => void;
 }) {
+  const notify = useNotify();
   const foundation = useFoundation();
   const isReadOnly = useIsReadOnly();
   const store = useStore();
   const update = useSetAtom(foundation.updateScaleAtom);
-  const remove = useSetAtom(foundation.removeScaleAtom);
-  const restore = useSetAtom(foundation.restoreScaleAtom);
   const updateFormulaPart = foundation.updateFormulaPartAtom;
-  const { notifyDeleted } = useDeletionToast();
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const scaleType = resolveScaleType(scaleTypes, scale.scaleTypeId);
   const setActivePage = useSetAtom(activePageAtom);
@@ -268,7 +267,7 @@ function ScaleEditorContent({
     try {
       update({ id: scale.id, patch: next });
     } catch (failure) {
-      ToastQueue.negative(
+      notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
     }
@@ -290,27 +289,14 @@ function ScaleEditorContent({
           onNameFocused={onNameFocused}
         />
       }
-      onDelete={() => {
-        try {
-          remove(scale.id);
-          notifyDeleted(
-            `${sentenceCase(foundation.noun)} scale ${termLabel(scale.name)}`,
-            () => {
-              try {
-                restore({ scale, index });
-              } catch (failure) {
-                ToastQueue.negative(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
-            },
-          );
-        } catch (failure) {
-          ToastQueue.negative(
-            failure instanceof Error ? failure.message : String(failure),
-          );
-        }
-      }}
+      onDelete={() =>
+        notify.remove({
+          kind: "dimensionScale",
+          noun: `${sentenceCase(foundation.noun)} scale ${termLabel(scale.name)}`,
+          run: (store) => store.set(foundation.removeScaleAtom, scale.id),
+          undo: () => store.set(foundation.restoreScaleAtom, { scale, index }),
+        })
+      }
       onPublishingChange={(hideFromPublishing) => patch({ hideFromPublishing })}
       formulaField={
         <div className={pickerRowStyles}>
@@ -365,7 +351,7 @@ function ScaleEditorContent({
                         value,
                       });
                     } catch (failure) {
-                      ToastQueue.negative(
+                      notify.error(
                         failure instanceof Error
                           ? failure.message
                           : String(failure),
@@ -407,6 +393,7 @@ function ScaleEditorContent({
       roundingField={
         <RoundingRulePicker
           label="Rounding"
+          valueType={foundation.noun}
           ruleId={scale.roundingRuleId}
           onChange={(roundingRuleId) => patch({ roundingRuleId })}
           showDisabledControl
@@ -424,8 +411,9 @@ export function DimensionFoundationPanel({
   foundation: DimensionFoundationBinding;
   componentName: string;
 }) {
+  const notify = useNotify();
   const document = useAtomValue(foundation.documentAtom);
-  const addScale = useSetAtom(foundation.addScaleAtom);
+  const store = useStore();
   const [focusId, setFocusId] = useState<string | null>(null);
 
   return (
@@ -437,13 +425,12 @@ export function DimensionFoundationPanel({
         <EditOnly>
           <ActionButton
             onPress={() => {
-              try {
-                setFocusId(addScale());
-              } catch (failure) {
-                ToastQueue.negative(
-                  failure instanceof Error ? failure.message : String(failure),
-                );
-              }
+              const id = notify.added(
+                "dimensionScale",
+                () => store.set(foundation.addScaleAtom),
+                { noun: `${sentenceCase(foundation.noun)} scale` },
+              );
+              if (id) setFocusId(id);
             }}
           >
             <Add />

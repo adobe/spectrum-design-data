@@ -1,9 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../components/notifications/notificationContext";
 import {
   SegmentedControl,
   SegmentedControlItem,
   Text,
-  ToastQueue,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../components/CategoryIcon";
@@ -108,6 +108,7 @@ interface ConfiguredViewSwitcherProps<View extends string> {
 export function ViewSwitcher<View extends string = ViewSwitcherView>(
   props: ViewSwitcherProps | ConfiguredViewSwitcherProps<View>,
 ) {
+  const notify = useNotify();
   const {
     "aria-label": ariaLabel = "Content views",
     dataComponent = "ViewSwitcher",
@@ -151,7 +152,7 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
                 (option) => option.id === key,
               );
               if (view) configuration.onSelectionChange(view.id);
-              else ToastQueue.negative("This content view is unavailable.");
+              else notify.error("This content view is unavailable.");
             } else if (
               key === "elements" ||
               key === "preview" ||
@@ -159,7 +160,7 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
               key === "code"
             )
               setSelectedView(key);
-            else ToastQueue.negative("This content view is unavailable.");
+            else notify.error("This content view is unavailable.");
           }}
         >
           {options.map((view) => (

@@ -1,12 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
-import {
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  Text,
-  ToastQueue,
-} from "@react-spectrum/s2";
+import { useNotify } from "../components/notifications/notificationContext";
+import { Tab, TabList, TabPanel, Tabs, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../components/CategoryIcon";
 import { useAtom } from "jotai";
@@ -29,6 +23,7 @@ const comingSoonStyles = style({
 const tabsStyles = style({ flexGrow: 1, minHeight: 0, minWidth: 0 });
 
 export default function Design() {
+  const notify = useNotify();
   const [section, setSection] = useAtom(designSectionAtom);
   const [view, setView] = useAtom(designViewAtom);
   const placeholder = (label: string) => (
@@ -50,7 +45,7 @@ export default function Design() {
               key === "structures"
             )
               setSection(key);
-            else ToastQueue.negative("This Design section is unavailable.");
+            else notify.error("This Design section is unavailable.");
           }}
         >
           <TabList UNSAFE_className="designTabList">

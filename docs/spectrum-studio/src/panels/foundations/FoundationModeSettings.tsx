@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { useNotify } from "../../components/notifications/notificationContext";
 import {
   Accordion,
   AccordionItem,
@@ -22,7 +23,6 @@ import {
   MenuSection,
   MenuTrigger,
   Text,
-  ToastQueue,
   Tooltip,
   TooltipTrigger,
 } from "@react-spectrum/s2";
@@ -107,6 +107,7 @@ export function FoundationModeSettings({
   expandedKeys?: Set<string>;
   onExpandedChange?: (keys: Set<string>) => void;
 }) {
+  const notify = useNotify();
   const editing = useAtomValue(editModeAtom);
   const sets = useAtomValue(modeSetsAtom);
   const foundations = useAtomValue(modeSetFoundationsAtom);
@@ -133,9 +134,7 @@ export function FoundationModeSettings({
   const category = FOUNDATIONS.find((item) => item.id === foundation);
   if (!category) throw new Error(`Unknown foundation "${foundation}".`);
   const report = (failure: unknown) =>
-    ToastQueue.negative(
-      failure instanceof Error ? failure.message : String(failure),
-    );
+    notify.error(failure instanceof Error ? failure.message : String(failure));
   return (
     <Accordion
       size="M"
@@ -388,7 +387,13 @@ export function FoundationModeSettings({
                     variant="accent"
                     onPress={() => {
                       try {
-                        apply({ ...setup, foundation });
+                        if (setup.isNew) {
+                          const added = notify.added("modeSet", () => {
+                            apply({ ...setup, foundation });
+                            return true;
+                          });
+                          if (!added) return;
+                        } else apply({ ...setup, foundation });
                         setExpanded(
                           (current) => new Set([...current, "mode-sets"]),
                         );

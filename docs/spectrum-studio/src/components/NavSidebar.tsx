@@ -49,9 +49,9 @@ const navItems: readonly NavSidebarItem[] = [
   },
   {
     id: "analysis",
-    label: "Analysis",
+    label: "Migration analysis",
     Icon: getCategoryIcon("analysis"),
-    status: "WTF",
+    status: "TMP",
     statusVariant: "negative",
   },
   {

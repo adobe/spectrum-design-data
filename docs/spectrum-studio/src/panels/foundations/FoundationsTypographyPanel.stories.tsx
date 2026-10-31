@@ -5,7 +5,7 @@ import { createStore, Provider } from "jotai";
 import { useState } from "react";
 import { FoundationsTypographyPanel } from "./FoundationsTypographyPanel";
 import { editModeAtom } from "../../state/view/editMode";
-import { DeletionToastProvider } from "../../components/DeletionToastProvider";
+import { NotificationProvider } from "../../components/notifications/NotificationProvider";
 
 function Fixture({ editing = true }: { editing?: boolean }) {
   const [store] = useState(() => {
@@ -15,11 +15,11 @@ function Fixture({ editing = true }: { editing?: boolean }) {
   });
   return (
     <Provider store={store}>
-      <DeletionToastProvider>
+      <NotificationProvider>
         <div style={{ width: "100%", maxWidth: 340 }}>
           <FoundationsTypographyPanel />
         </div>
-      </DeletionToastProvider>
+      </NotificationProvider>
     </Provider>
   );
 }
