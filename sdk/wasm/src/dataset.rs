@@ -124,6 +124,8 @@ enum DatasetSource {
 pub struct Dataset {
     graph: TokenGraph,
     source: DatasetSource,
+    /// Compiled visual recipes, reused across `renderScene` / `renderSvg` calls.
+    scenes: design_data_core::visual::SceneCache,
 }
 
 #[wasm_bindgen]
@@ -145,6 +147,7 @@ impl Dataset {
             Ok(Dataset {
                 graph,
                 source: DatasetSource::Embedded,
+                scenes: Default::default(),
             })
         }
         #[cfg(not(feature = "embedded"))]
@@ -188,6 +191,7 @@ impl Dataset {
         Ok(Dataset {
             graph,
             source: DatasetSource::InMemory,
+            scenes: Default::default(),
         })
     }
 
@@ -595,6 +599,7 @@ impl Dataset {
         let recipe: serde_json::Value = serde_wasm_bindgen::from_value(recipe).map_err(js_err)?;
         let request: design_data_core::visual::RenderRequest =
             serde_wasm_bindgen::from_value(request).map_err(js_err)?;
-        design_data_core::visual::build_scene(&self.graph, &recipe, &request).map_err(js_err)
+        design_data_core::visual::build_scene_cached(&self.graph, &recipe, &request, &self.scenes)
+            .map_err(js_err)
     }
 }
