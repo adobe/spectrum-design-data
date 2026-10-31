@@ -865,3 +865,20 @@ rules:
     message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
     spec_ref: spec/anatomy-format.md#presentin
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-075
+    name: visual-present-in-matches-anatomy
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Keeps a recipe's `visibleWhen.states` and the anatomy's `presentIn` from drifting. States
+      are compared after normalization. `visibleWhen.states` means every listed state, and
+      `presentIn` means any listed state, so a difference is a warning only when neither side
+      lists more than one state; otherwise it is reported at info level.
+    assert: >
+      For a recipe part that is also an anatomy part, the recipe's `visibleWhen.states` SHOULD
+      equal the anatomy part's `presentIn`.
+    message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
+    spec_ref: spec/anatomy-format.md#presentin
+    introduced_in: "1.0.0-draft"
