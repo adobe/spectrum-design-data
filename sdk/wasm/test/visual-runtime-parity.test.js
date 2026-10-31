@@ -1,7 +1,14 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,15 +20,21 @@ import {
 } from "../../plugins/site/assets/visual-runtime.js";
 
 const repo = fileURLToPath(new URL("../../../", import.meta.url));
-const bin = join(repo, "sdk/target/debug/design-data");
-const out = mkdtempSync(join(tmpdir(), "site-"));
-const cli = existsSync(bin)
-  ? [bin, ["site", "--out", out]]
-  : [
-      "cargo",
-      ["run", "-q", "-p", "design-data-cli", "--", "site", "--out", out],
-    ];
-execFileSync(cli[0], cli[1], { cwd: repo, stdio: "pipe" });
+// `moon run sdk-wasm:site-data` prebuilds data.json (cached by moon) and sets
+// VISUAL_PARITY_SITE_DIR; otherwise build the site here.
+const prebuilt = process.env.VISUAL_PARITY_SITE_DIR;
+let out = prebuilt;
+if (!prebuilt || !existsSync(join(prebuilt, "data.json"))) {
+  const bin = join(repo, "sdk/target/debug/design-data");
+  out = mkdtempSync(join(tmpdir(), "site-"));
+  const cli = existsSync(bin)
+    ? [bin, ["site", "--out", out]]
+    : [
+        "cargo",
+        ["run", "-q", "-p", "design-data-cli", "--", "site", "--out", out],
+      ];
+  execFileSync(cli[0], cli[1], { cwd: repo, stdio: "pipe" });
+}
 
 const data = JSON.parse(readFileSync(join(out, "data.json"), "utf8"));
 const readJson = (path) => JSON.parse(readFileSync(join(repo, path), "utf8"));
@@ -191,5 +204,79 @@ for (const { component, compiled, recipe, schema } of subjects) {
     }
     t.log(`${component}: ${n} renders, 0 differences`);
     t.true(n > 0);
+  });
+}
+
+// Golden scenes: checked-in SVGs so a change that alters both engines the same
+// way still shows up as a reviewable diff. Regenerate with VISUAL_PARITY_UPDATE=1.
+const goldenDir = join(repo, "sdk/wasm/test/fixtures/visual-golden");
+const goldenScenes = ({ options, states = [] }, compiled) => {
+  const names = Object.keys(options).filter((n) => n !== "size");
+  const pick = (fn) =>
+    Object.fromEntries(
+      names.flatMap((n) => {
+        const v = fn(options[n]);
+        return v === undefined ? [] : [[n, v]];
+      }),
+    );
+  const bools = (def) => (def.type === "boolean" ? true : undefined);
+  const enumAt = (i) => (def) => {
+    const vs = def.values?.map((v) => v.value);
+    return vs?.length ? vs.at(i) : undefined;
+  };
+  const size = options.size?.default ?? Object.keys(compiled.sizeScale)[0];
+  const state = states.find((s) => s.name !== "disabled")?.name;
+  const base = { size, label: "Label" };
+  return {
+    default: {
+      ...base,
+      states: [],
+      options: {},
+      mode: { colorScheme: "light", scale: "desktop" },
+    },
+    "all-on-dark-mobile": {
+      ...base,
+      states: state ? [state] : [],
+      options: { ...pick(enumAt(-1)), ...pick(bools) },
+      mode: { colorScheme: "dark", scale: "mobile" },
+    },
+    "first-values-wireframe": {
+      ...base,
+      states: [],
+      options: pick(enumAt(0)),
+      mode: { colorScheme: "wireframe", scale: "desktop" },
+    },
+  };
+};
+
+for (const { component, compiled, recipe, schema } of subjects) {
+  test(`${component}: both engines match the checked-in golden SVGs`, (t) => {
+    const ds = Dataset.embedded();
+    try {
+      for (const [name, scene] of Object.entries(
+        goldenScenes(schema, compiled),
+      )) {
+        const req = { component, ...scene };
+        const file = join(goldenDir, component, `${name}.svg`);
+        const wasm = ds.renderSvg(recipe, req);
+        if (process.env.VISUAL_PARITY_UPDATE === "1") {
+          mkdirSync(join(goldenDir, component), { recursive: true });
+          writeFileSync(file, wasm);
+        }
+        t.true(
+          existsSync(file),
+          `missing golden ${component}/${name}.svg; run with VISUAL_PARITY_UPDATE=1`,
+        );
+        const golden = readFileSync(file, "utf8");
+        t.is(wasm, golden, `wasm drifted from golden ${component}/${name}`);
+        t.is(
+          renderSvg(renderScene(compiled, req)),
+          golden,
+          `js drifted from golden ${component}/${name}`,
+        );
+      }
+    } finally {
+      ds.free();
+    }
   });
 }

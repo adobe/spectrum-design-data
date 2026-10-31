@@ -87,6 +87,33 @@ tasks:
       - cache-build
     toolchain: "system"
 
+  # Prebuild the component-explorer data.json used by the visual parity test, so
+  # moon caches it until the recipes, components, tokens or site code change.
+  site-data:
+    command: bash
+    args:
+      - -c
+      - >-
+        cd "$MOON_WORKSPACE_ROOT" &&
+        cargo run -q --manifest-path sdk/Cargo.toml -p design-data-cli -- site
+        --out "$MOON_WORKSPACE_ROOT/sdk/target/site-data"
+    inputs:
+      - "/sdk/core/src/**/*.rs"
+      - "/sdk/cli/src/**/*.rs"
+      - "/sdk/plugins/site/src/**/*"
+      - "/sdk/plugins/site/assets/*"
+      - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/components/*.json"
+      - "/packages/design-data/tokens/*.tokens.json"
+      - "/packages/design-data/relationships/*.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/fields/*.json"
+    outputs:
+      - "/sdk/target/site-data"
+    deps:
+      - sdk:codegen-check
+    toolchain: "system"
+
   # Run AVA parity tests against the compiled nodejs wasm package.
   test:
     command: [pnpm, ava, test]
@@ -102,8 +129,12 @@ tasks:
       - "/sdk/plugins/site/assets/*.js"
       - "/sdk/core/tests/fixtures/*.json"
       - "pkg/web/**/*"
+      - "test/fixtures/**/*"
+    env:
+      VISUAL_PARITY_SITE_DIR: "$workspaceRoot/sdk/target/site-data"
     deps:
       - build
+      - site-data
 
   ci:
     deps:
