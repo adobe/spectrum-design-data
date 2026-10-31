@@ -786,6 +786,7 @@ rules:
       `size` option.
     message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
     spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
   - id: SPEC-072
     name: relationship-duplicate-ref-scale-counterpart
     severity: warning

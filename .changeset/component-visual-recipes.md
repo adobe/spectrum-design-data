@@ -14,7 +14,7 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 - **visuals/button.json**: variant, style, state, and static color recipe for `button`.
 - **components/button.json**: adds container, progress, and focus-ring anatomy and a `down` state.
 - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
-- **badge**: `visuals/badge.json` recipe, anatomy; drops the unused `isDisabled` option.
+- **badge**: recipe and anatomy; removes the `isDisabled` option (the design has no disabled badge).
 - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
 - **sdk/plugins/site**: `design-data site --out <dir>` writes a static explorer (no WASM).
 - **sdk/plugins/figma**: `variable_names` maps tokens to Figma variable names offline.
