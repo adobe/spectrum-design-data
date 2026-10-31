@@ -216,19 +216,12 @@ pub fn load_formatting_config(
     Ok(Some(config))
 }
 
-/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
-/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
-/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
-///
-/// A no-op (empty map) when no manifest is configured. When the spec's
-/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
-/// schema violations return an error.
-pub fn apply_configured(
-    graph: &mut TokenGraph,
-    resolved: &ResolvedData,
-) -> Result<HashMap<String, Vec<String>>, CoreError> {
+/// Load the platform manifest declared in `.design-data.toml`, Layer 1 validated, with its
+/// `extensions/` directory merged in under `extensions` (the document
+/// [`TokenGraph::apply_platform_manifest`] expects). `None` when no manifest is configured.
+pub fn load_configured_manifest(resolved: &ResolvedData) -> Result<Option<Value>, CoreError> {
     let Some(manifest_path) = resolved.platform_manifest.as_ref() else {
-        return Ok(HashMap::new());
+        return Ok(None);
     };
     let text = std::fs::read_to_string(manifest_path).map_err(|e| {
         CoreError::ParseError(format!(
@@ -277,6 +270,23 @@ pub fn apply_configured(
             .insert("extensions".to_string(), ext);
     }
 
+    Ok(Some(manifest))
+}
+
+/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
+/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
+/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
+///
+/// A no-op (empty map) when no manifest is configured. When the spec's
+/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
+/// schema violations return an error.
+pub fn apply_configured(
+    graph: &mut TokenGraph,
+    resolved: &ResolvedData,
+) -> Result<HashMap<String, Vec<String>>, CoreError> {
+    let Some(manifest) = load_configured_manifest(resolved)? else {
+        return Ok(HashMap::new());
+    };
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
 }

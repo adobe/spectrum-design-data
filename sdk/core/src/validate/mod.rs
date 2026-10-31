@@ -125,6 +125,36 @@ pub fn validate_all_with_full_options(
     relationships_path: Option<&Path>,
     visuals_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
+    validate_all_with_platform(
+        data_path,
+        schema_registry,
+        naming_exceptions,
+        mode_sets_path,
+        components_path,
+        names_dir,
+        guidelines_path,
+        relationships_path,
+        visuals_path,
+        None,
+    )
+}
+
+/// [`validate_all_with_full_options`] with a platform manifest document. It replaces the
+/// `manifest.json` sibling of `data_path`, and SPEC-076 checks that every recipe binding
+/// resolves under it.
+#[allow(clippy::too_many_arguments)]
+pub fn validate_all_with_platform(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+    names_dir: Option<&Path>,
+    guidelines_path: Option<&Path>,
+    relationships_path: Option<&Path>,
+    visuals_path: Option<&Path>,
+    platform_manifest: Option<serde_json::Value>,
+) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let mut graph = TokenGraph::from_json_dir_with_names_and_catalogs(
         data_path,
@@ -149,7 +179,9 @@ pub fn validate_all_with_full_options(
         }
     }
     // Load manifest.json from the data directory when present.
-    let manifest: Option<serde_json::Value> = if data_path.is_dir() {
+    let manifest: Option<serde_json::Value> = if platform_manifest.is_some() {
+        platform_manifest
+    } else if data_path.is_dir() {
         let mp = data_path.join("manifest.json");
         if mp.is_file() {
             std::fs::read_to_string(&mp)

@@ -881,3 +881,21 @@ rules:
     message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
     spec_ref: spec/anatomy-format.md#presentin
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-076
+    name: visual-bindings-resolve-on-platform
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Runs only when a platform manifest is in scope (for example `design-data validate
+      --platform ios --visuals-path ...`). Renders each recipe on the foundation and with the
+      manifest's cascade applied, over every size, light and dark, desktop and mobile, each
+      interaction state and each option value, and reports the unresolved bindings that appear
+      only under the platform. A gap the foundation also has is not reported.
+    assert: >
+      Every token or relationship binding a visual recipe resolves on the foundation SHOULD also
+      resolve once the platform manifest's include, exclude, overrides and extensions are applied.
+    message: "Recipe for '{component}' binds something that resolves on the foundation but not under platform '{platform}': {binding}"
+    spec_ref: spec/manifest.md
+    introduced_in: "1.0.0-draft"
