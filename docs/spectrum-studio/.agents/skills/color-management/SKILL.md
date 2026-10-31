@@ -49,11 +49,26 @@ authored chroma goes to 125.
 ## Serialization
 
 `serializeOutputColor` and `serializeLinearOutputColor` (`outputSerialization.ts`) produce the
-final string in the user's format: up to 12 decimals, `0` for zero, `rgb(...)` for sRGB and
+final string in the user's format: whole-number 8-bit RGB channels (0–255) for sRGB,
+up to two decimal places for other numeric output, `0` for zero, `rgb(...)` for sRGB and
 `color(display-p3 ...)` or `color(rec2020 ...)` otherwise, eight-digit hex when alpha is not 1, and
 hue 0 for an achromatic OKLCh or HSL. They throw on a missing channel or invalid opacity, so
 callers on authored data must catch and show a visible error (`ColorOutputError` is the existing
 pattern). Do not format colors with `toString` or template strings for output.
+
+- sRGB is a color space, not a bit depth. Studio's RGB output uses 8 bits per channel:
+  24-bit RGB, or 32-bit RGBA when alpha is included. Round RGB channels with `Math.round`
+  after gamut mapping and conversion, including wide-gamut colors mapped to sRGB.
+- Use at most two fractional digits, trim trailing zeros, and avoid negative zero.
+  OKLCh lightness and chroma use CSS percentages (100% chroma is 0.4) so two decimals
+  retain small color differences. Rounded output must remain in the requested gamut.
+  Hex keeps byte rounding; alpha and HSL/wide-gamut numeric channels use two decimals.
+- Round only at output and display boundaries. Keep authored coordinates, conversions,
+  interpolation, picker change payloads and calculations at their existing precision.
+  Picker fields use `channelFormatOptions`: integer sRGB RGB, at most two decimals otherwise.
+  `serializePickerColor` is an internal edit payload, not a display/copy/export formatter.
+- Swatches, clipboard values, tokens and exports must share the output serializer and saved
+  gamut/format settings. Do not repair long values separately in clipboard handlers.
 
 ## Contrast is measured after formatting
 
@@ -80,6 +95,36 @@ for display code.
   settings and the resolved color document (`color-system`), so it stays in step with the app.
 - Local display or gamut choices in a picker never change the saved setting, and an open picker is
   not reset when the shared default changes.
+
+## Preview surfaces and transparency
+
+- Reuse `components/transparencyBackground.ts` for opacity checkerboards and
+  ramps. Never hard-code white/gray checkerboard squares in a caller.
+- `PreviewSurfaceProvider` resolves S2's theme-aware `layer-1` surface once per
+  appearance change. Keep it inside the S2 Provider. Its context supplies theme
+  fallback colors to generic checkerboard surfaces. Token opacity previews use
+  the authored-surface rules below instead of this interface-theme fallback.
+- Local preview surfaces use `checkerboardSurfaceStyle` from
+  `features/color-system/previewSurface.ts`; inherited local colors take
+  precedence over the theme fallback. Do not substitute global authored modes
+  for a dialog's local selection.
+- `contrastingLightness` uses OKLCH lightness: backgrounds at or above 0.50 get
+  an alternate square 0.10 darker; backgrounds below 0.50 get one 0.10 lighter.
+  `checkerboardColors` preserves the base and derives the alternate using the
+  existing parser and output gamut-mapping path.
+- This is a decorative lightness rule, not a text-contrast guarantee. Do not
+  replace `elementsSurfaceStyle`'s foreground contrast threshold or output
+  contrast measurements with it.
+- Use `ValuePreview`'s `fillSurface` for full-area opacity samples. Keep value
+  labels as foreground children; never apply opacity to their container.
+- Opacity ink and the default checkerboard surface follow the authored background,
+  not `appColorSchemeAtom`. `ValuePreview` uses `elementsSurfaceStyleAtom`, the
+  same resolved surface as Opacity Elements. This includes authored modes and
+  adaptive background changes.
+- Token dialogs pass an explicit `opacitySurface` resolved by `modePreviewSurface`
+  from their pinned color document and local named modes. Do not read global
+  adaptive overrides for that local preview. The shared `elementsSurfaceStyle`
+  function chooses black/white ink using the existing contrast threshold.
 
 ## Known debt and what not to copy
 

@@ -1,0 +1,75 @@
+---
+description: Toasts, delete confirmations, and Undo in spectrum-studio
+globs: src/**/*.tsx, src/**/*.ts
+alwaysApply: false
+---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# Notifications
+
+Every toast and every delete confirmation goes through `useNotify()`
+(`src/components/notifications/notificationContext.ts`). Only
+`NotificationProvider.tsx` may use `ToastQueue` or `ToastContainer`. The rules
+themselves live in code (`src/features/notifications/policy.ts`); this file
+explains them.
+
+## Which UI to use
+
+| User action | UI | Call |
+| --- | --- | --- |
+| Edits a value (name, number, color, toggle) | None. The Changes badge counts it | plain setter, or `notify.edit(run)` to report failures |
+| Adds an item (structure, component, scale, palette color, surface, mode set, formula, rule, interpolation, …) | Positive toast, no action | `notify.added(kind, run)` |
+| Creates a registry term as a side effect | Folded into the add toast; on its own, "Term added to registry" | automatic |
+| Adds or removes a small part (layer, element, property, binding, option, shadow layer, color stop) | None. Changes is the undo path | `notify.remove({ kind: <part kind>, … })` or plain setter |
+| Deletes an item that removes no exported names | Neutral toast with Undo | `notify.remove({ kind, run, undo })` |
+| Deletes anything that removes exported design-data names (token, alias, component, term in use, token-generating scale) | Destructive alert dialog, then neutral toast with Undo | `notify.remove(...)`. The dialog is chosen automatically |
+| Something fails | Negative toast | `notify.error(failure)` |
+| Copies to clipboard | Neutral "Copied to clipboard" | `notify.copied()` |
+| Discards or resets many edits | Destructive alert dialog, no toast | wrap the action in `notify.quietly` |
+
+`notify.remove` dry-runs the delete on a throwaway store and counts the exported
+token names it would remove. Any removed name means the dialog. Kinds with tier
+`api` always confirm. So `run` must take the store it is given:
+`run: (store) => store.set(removeXAtom, id)`. Use `local: true` when the delete
+only touches local editor state, and `confirmed: true` when the caller already
+showed its own dialog.
+
+## Wording
+
+- Toasts: noun plus past-tense verb, sentence case, no period. "Color scale
+  added", "Rule deleted", "Color scale added with one new registry term".
+- Dialog title: "Delete [thing]", never a question.
+- Dialog body: "Deleting this removes [count] tokens from the design data
+  output." or the kind's `impact` text.
+- Dialog buttons: the primary button repeats the verb ("Delete", "Discard",
+  "Reset"), and the secondary is "Cancel".
+- Spell out zero to nine. Use numerals for 10 and up.
+
+## Colors
+
+- Positive: adds.
+- Neutral: deletes and copies.
+- Info: neutral status messages.
+- Negative: errors only. Never use red for a successful delete.
+
+## One notification per action
+
+`notify` merges every notice raised inside one user action and shows only the
+highest-priority one (error, then delete, then add, then info). A repeated
+identical message replaces the visible toast. Never call two `notify` methods
+for one click, and never toast from inside a store atom.
+
+## Adding a new kind
+
+Add a row to `NOTIFICATION_KINDS` in `policy.ts` with a noun and a tier
+(`part`, `item`, or `api`). Give `api` kinds an `impact` sentence. Then use the
+kind at the callsite.
+
+## Enforcement
+
+- `pnpm test:notifications` runs `tests/notifications.ts` (rules) and
+  `tests/notification-usage.ts`. The usage check fails on `ToastQueue` outside
+  the provider and on question-mark alert dialog titles.
+- ESLint `no-restricted-imports` blocks `ToastQueue` and `ToastContainer`
+  imports.

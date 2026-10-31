@@ -191,7 +191,7 @@ Adopt the full [error guidelines](https://spectrum.adobe.com/page/writing-for-er
 
 ```
 - Critical errors (data loss, security) → AlertDialog with variant="destructive"
-- Success messages → Toast with variant="positive"
+- Success messages → Toast with variant="positive" (in this app, always through useNotify(); see notifications.mdc)
 - Warnings → InlineAlert with variant="notice"
 - Info/tips → InlineAlert with variant="informative"
 - Field validation → Built-in errorMessage prop on form components

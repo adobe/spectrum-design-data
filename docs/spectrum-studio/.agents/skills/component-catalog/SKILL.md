@@ -1,6 +1,6 @@
 ---
 name: component-catalog
-description: Choose the right UI component in spectrum-studio before writing any view, panel, field, or dialog. Lists the project's own components under src/components and says when to use them instead of plain React Spectrum S2 components (Picker, NumberField, TextField, Slider, ComboBox, ProgressCircle, ToastQueue). Use whenever adding or editing UI, form controls, previews, cards, loading states, toasts, mode controls, color pickers, or editors.
+description: Choose the right UI component in spectrum-studio before writing any view, panel, field, or dialog. Lists the project's own components under src/components and says when to use them instead of plain React Spectrum S2 components (Picker, NumberField, TextField, Slider, ComboBox, ProgressCircle, ToastQueue). Use whenever adding or editing UI, form controls, previews, cards, loading states, toasts, delete confirmations, mode controls, color pickers, or editors.
 ---
 
 # Component catalog
@@ -24,20 +24,54 @@ component when two overlap.
 | Hide authoring buttons outside edit mode | `<EditOnly>`; `useIsReadOnly(override?)` | `if (editMode)` checks inside views |
 | Pick a token or preset by name or value | `fields/TokenComboBox` (`options`, `selectedKey`, `displayMode` tokens or values, `isMixed`); `fields/DividableComboBox` for shared versus individual values | raw S2 `ComboBox` |
 | Pick an icon | `fields/IconSamplePicker` | a Picker of icon names |
-| Show a token or value preview | `value-preview/ValuePreview` (`preview` descriptor, `label`, `large`, `icon`) | hand-drawn swatches. `TextValuePreview` and `IconValuePreview` are internal |
+| Show a predefined category icon | `CategoryIcon` (`category` key), or `getCategoryIcon` when a component type is needed; mappings live in `src/data/category-icons.json` | direct icon imports or local category-to-icon maps |
+| Toggle a Boolean group's And/Or operator | `logic/LogicButton` (`value`, `onChange`, `isDisabled`, `isReadOnly`): compact blue And / fuchsia Or; click, Space, or Enter toggles, read-only renders a badge | a Picker or custom badge-button |
+| Select supported token value types for a rule | `logic/RuleApplicabilityField` (`rule`, `onChange`, `isReadOnly`): wrapping icon-bearing tags, exclusive All, visible empty-selection error; labels/icons and capabilities come from `features/logic/applicability.ts` | local family checkboxes, parsing token names, or treating every Typography metric as Font size |
+| Show a token or value preview | `value-preview/ValuePreview` (`preview` descriptor, `label`, `large`, `icon`; `fillSurface` for full-area opacity with foreground children; `opacitySurface` for dialog-local authored modes, otherwise uses the authored global surface) | hand-drawn swatches. `TextValuePreview` and `IconValuePreview` are internal |
+| Theme-aware transparency preview | `PreviewSurfaceProvider` inside the S2 Provider; `transparencyBackground` / `transparencyRampBackground`; `checkerboardSurfaceStyle` for explicit local surfaces (see `color-management`) | hardcoded checkerboard colors or per-cell background observers |
 | Show a token name | `tokens/TokenNameTag` | `Tag` or plain `Text` |
 | Card or bento layout | `BentoGrid` with `BentoCard` (`colSpan` 1-4, `rowSpan` 1-2); foundation cards use `foundationCardStyles` | custom grid divs |
 | Code display | `CodeBlock` (`code`, `language`) | `<pre>` |
 | Loading spinner | `LoadingIndicator` (`size` L or M) | raw `ProgressCircle` |
 | Async or derived content that may be pending or unavailable | `DerivedContentBoundary` (`state` pending, ready, or unavailable; `label`; `presentation` overlay or skeleton; `onRetry`) | ad hoc spinners or empty states |
-| Deletion feedback with undo | `useDeletionToast().notifyDeleted(label, onUndo)` | `ToastQueue.negative("... deleted")` |
-| Mode selection and editing | `ModesPicker`, `ModeSetControl`, `ModeSetCard`, `ModeSetEditorDialog`, `ModeCapabilityChoices`, `ModeOverridesTable`, `AdaptiveControlsMenu`, `ModeParameterControl` (switches Slider, Picker, or ColorSlider by parameter type) | a bespoke Picker |
+| Any toast or delete confirmation (adds, deletes with Undo, errors, copied, info) | `useNotify()` from `components/notifications/notificationContext` (see the `notifications` skill) | `ToastQueue`, `ToastContainer`, or a hand-built delete `AlertDialog` |
+| Mode selection and editing | `ModeSetPicker` (controlled, local selection; exported from `ModeSetControl`), `ModeSetControl` (app-wide selection), `ModesPicker` (compact combined menu), `ModeSetCard`, `ModeSetEditorDialog`, `ModeCapabilityChoices`, `ModeOverridesTable`, `AdaptiveControlsMenu`, `ModeParameterControl` (switches Slider, Picker, or ColorSlider by parameter type) | a bespoke Picker or duplicated mode controls |
 | Color picking | `color-picker/ColorPickerContents` (`color`, `onChange`, `showGamutPicker`), `ColorScalePicker`, `GradientStopControl`. Building blocks: `ColorArea`, `ColorSlider`, `ColorCanvas`, `ColorHandle`, `ColorLoupe` | S2 `ColorArea` or `ColorSlider` |
 | Palette colors | `palette/PaletteColorRow`, `palette/PaletteSwatchPicker` | custom swatch lists |
 | Rule and interpolation editing | `logic/RuleEditorDialog`, `InterpolationEditorDialog` (`trigger`, `title`, `createDraft`, `onSave`, `onDelete`), `ConditionList`, `ParameterListEditor`, `RoundingRulePicker`, `RoundingRuleEditor`; cards `RuleCard`, `InterpolationCard`, `ScaleTypeCard`; visuals `ScaleSparkline`, `ScaleTypeGraph`, `MathFormula` (`latex` plus `fallback`), `UsedByTags` | |
 | Panels and tabs | `Panel`, `SubPanel`, `SubPanelTabs`, `NestedPanelAccordion`, `ScaleEditor` | S2 `Tabs` or `Accordion` directly |
 | Proportion bar | `StackedBar` | |
-| Preview toolbar, edit-mode actions | `PreviewToolbar` (`placement` overlay or header), `EditModeActions` | |
+| Preview toolbar, edit-mode actions | `PreviewToolbar` (`placement` overlay or header; `showAdaptiveControls` defaults to true), `EditModeActions` | |
+
+`ModeSetPicker` owns the shared per-set presentation: two modes use a segmented
+control, and larger sets use a picker. Option icons appear only when every mode
+has a distinct icon and the set has no icon of its own; repeated or missing icons
+use text labels. Use this component for dialog-local selection rather than
+changing app-wide mode state. `ModeSetControl` connects the same presentation to
+app-wide selection. Keep adaptive controls optional and separate from named-mode
+selection.
+
+Generator options use `panels/logic/TshirtSizingRuleEditor` (the retained module
+name is a compatibility detail). Name/offset fields stay visible; exactly one
+default is protected at zero. Pass `GeneratorEdit` separately from the rule so
+Registry additions, shared renames and used-option replacements remain local
+until `saveGeneratorDraftAtom` validates the complete proposal. Do not substitute
+the conditional builder: Generator options are named outputs, not predicates.
+Rounding uses `ConditionList` sentence rows and its row-editing callback to gate
+the dialog's main Save. `RoundingRulePicker` accepts `valueType` or `valueTypes`
+and retains a selected inactive binding rather than silently replacing it.
+
+For a mode-set menu entry, use `modeSetGroupIconId` from
+`features/modes/controlPresentation.ts`, then render through `MODE_ICONS` from
+`features/modes/icons.ts`. It prefers the configured group icon, then the default
+mode's icon only when `modeSetUsesOptionIcons` permits distinct option icons.
+If it returns `"none"`, use `<CategoryIcon category="modes" />`. This keeps menu
+icons tied to authored data, not temporary mode selection.
+
+The conditional builder's Add condition menu uses `CategoryIcon` with `"modes"`
+and `"tokens"` for the source labels. Token-category submenu entries are text-only:
+repeating the same token icon adds no distinction. Use S2 `Text` for labels beside
+icons; do not create a second icon registry.
 
 Reusable pieces that live outside `components/` (reuse them, do not copy):
 `views/FoundationsElementsHeader.tsx`, `views/system-health/shared.tsx`,
@@ -55,10 +89,9 @@ Raw S2 components are still used where a wrapper exists, in about 15 files for
 and do not refactor them unless asked. `views/SampleApp.tsx` is a sample app and
 may use raw S2.
 
-Raw `ToastQueue.negative` is used for error messages in
-`panels/structures/StructureCard.tsx`, `StructureEditorPanel.tsx`, and
-`App.tsx`. The project has no wrapper for error toasts, so matching that is
-acceptable. Deletion toasts must use `useDeletionToast`.
+Every toast goes through `useNotify()`. Only
+`components/notifications/NotificationProvider.tsx` may import `ToastQueue` or
+`ToastContainer`; ESLint and `pnpm test:notifications` enforce this.
 
 ## Styling convention
 
