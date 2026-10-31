@@ -1,0 +1,1884 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "badge",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "label": false
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "label": false
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "gap": {
+          "token": {
+            "structure": "base",
+            "property": "gap",
+            "size": "{size}"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "role": "container",
+            "size": "{size}"
+          }
+        },
+        "cornerRadiusStartStart": [
+          {
+            "when": {
+              "options": {
+                "fixed": "top"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "left"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusStartEnd": [
+          {
+            "when": {
+              "options": {
+                "fixed": "top"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "right"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusEndEnd": [
+          {
+            "when": {
+              "options": {
+                "fixed": "bottom"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "right"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusEndStart": [
+          {
+            "when": {
+              "options": {
+                "fixed": "bottom"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "left"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "fill": [
+          {
+            "token": {
+              "legacyKey": "neutral-subdued-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              }
+            },
+            "token": {
+              "legacyKey": "accent-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "accent-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info"
+              }
+            },
+            "token": {
+              "legacyKey": "informative-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "informative-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              }
+            },
+            "token": {
+              "legacyKey": "negative-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "negative-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral"
+              }
+            },
+            "token": {
+              "legacyKey": "neutral-subdued-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "neutral-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice"
+              }
+            },
+            "token": {
+              "legacyKey": "notice-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "notice-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive"
+              }
+            },
+            "token": {
+              "legacyKey": "positive-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "positive-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "indigo"
+              }
+            },
+            "token": {
+              "legacyKey": "indigo-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "indigo",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "indigo-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow"
+              }
+            },
+            "token": {
+              "legacyKey": "yellow-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "yellow-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "magenta"
+              }
+            },
+            "token": {
+              "legacyKey": "magenta-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "magenta",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "magenta-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "fuchsia"
+              }
+            },
+            "token": {
+              "legacyKey": "fuchsia-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "fuchsia",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "fuchsia-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "purple"
+              }
+            },
+            "token": {
+              "legacyKey": "purple-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "purple",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "purple-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "seafoam"
+              }
+            },
+            "token": {
+              "legacyKey": "seafoam-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "seafoam",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "seafoam-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "gray"
+              }
+            },
+            "token": {
+              "legacyKey": "gray-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "gray",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "gray-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "red"
+              }
+            },
+            "token": {
+              "legacyKey": "red-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "red",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "red-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange"
+              }
+            },
+            "token": {
+              "legacyKey": "orange-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "orange-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse"
+              }
+            },
+            "token": {
+              "legacyKey": "chartreuse-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "chartreuse-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery"
+              }
+            },
+            "token": {
+              "legacyKey": "celery-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "celery-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "green"
+              }
+            },
+            "token": {
+              "legacyKey": "green-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "green",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "green-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cyan"
+              }
+            },
+            "token": {
+              "legacyKey": "cyan-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cyan",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "cyan-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "blue"
+              }
+            },
+            "token": {
+              "legacyKey": "blue-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "blue",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "blue-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "pink"
+              }
+            },
+            "token": {
+              "legacyKey": "pink-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "pink",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "pink-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "turquoise"
+              }
+            },
+            "token": {
+              "legacyKey": "turquoise-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "turquoise",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "turquoise-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "brown"
+              }
+            },
+            "token": {
+              "legacyKey": "brown-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "brown",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "brown-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cinnamon"
+              }
+            },
+            "token": {
+              "legacyKey": "cinnamon-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cinnamon",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "cinnamon-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "silver"
+              }
+            },
+            "token": {
+              "legacyKey": "silver-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "silver",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "legacyKey": "silver-subtle-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "background-layer-2-color"
+            }
+          }
+        ],
+        "stroke": [
+          {
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "accent-visual-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "informative-visual-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "negative-visual-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "neutral-visual-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "notice-visual-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "legacyKey": "positive-visual-color"
+            }
+          }
+        ],
+        "strokeWidth": [
+          {
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "outline"
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          }
+        ]
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "icon": true
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "colorFamily": "white",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "indigo",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "magenta",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "fuchsia",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "purple",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "seafoam",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "gray",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "red",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "green",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cyan",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "blue",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "pink",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "turquoise",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "brown",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cinnamon",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "silver",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "label": true
+        }
+      },
+      "props": {
+        "fontSize": {
+          "token": {
+            "property": "font-size-{sizeIndex}"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "medium"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "colorFamily": "white",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow"
+              }
+            },
+            "token": {
+              "colorFamily": "black",
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "indigo",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "yellow",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "magenta",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "fuchsia",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "purple",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "seafoam",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "gray",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "red",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "orange",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "chartreuse",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "celery",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "green",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cyan",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "blue",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "pink",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "turquoise",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "brown",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "cinnamon",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "silver",
+                "style": "subtle"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "info",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "neutral",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "notice",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "positive",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 1000,
+              "property": "color"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

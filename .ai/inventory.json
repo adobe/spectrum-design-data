@@ -109,6 +109,24 @@
       "summary": "Figma variables import, export, and diff plugin."
     },
     {
+      "path": "sdk/plugins/site",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Static component explorer site generator."
+    },
+    {
+      "path": "sdk/plugins/site/assets",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Browser assets (HTML and visual runtime) embedded by the site generator."
+    },
+    {
       "path": "sdk/tui",
       "kind": "package",
       "audience": "consumer",

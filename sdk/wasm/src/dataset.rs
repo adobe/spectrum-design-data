@@ -192,6 +192,27 @@ impl Dataset {
     }
 
     // -----------------------------------------------------------------------
+    // Visual rendering
+    // -----------------------------------------------------------------------
+
+    /// Resolve a component visual recipe into a scene graph, returned as a JSON string.
+    ///
+    /// `recipe` is a parsed `visuals/<component>.json` document. `request` is
+    /// `{ component, size, states, options, mode, label }`.
+    #[wasm_bindgen(js_name = "renderScene")]
+    pub fn render_scene(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
+        let scene = self.scene(recipe, request)?;
+        serde_json::to_string(&scene).map_err(js_err)
+    }
+
+    /// Resolve a component visual recipe and serialize it as SVG.
+    #[wasm_bindgen(js_name = "renderSvg")]
+    pub fn render_svg(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
+        let scene = self.scene(recipe, request)?;
+        Ok(design_data_core::visual::scene_to_svg(&scene))
+    }
+
+    // -----------------------------------------------------------------------
     // Primer
     // -----------------------------------------------------------------------
 
@@ -562,5 +583,18 @@ impl Dataset {
     #[wasm_bindgen(js_name = "tokenCount")]
     pub fn token_count(&self) -> usize {
         self.graph.tokens.len()
+    }
+}
+
+impl Dataset {
+    fn scene(
+        &self,
+        recipe: JsValue,
+        request: JsValue,
+    ) -> Result<design_data_core::visual::Scene, JsValue> {
+        let recipe: serde_json::Value = serde_wasm_bindgen::from_value(recipe).map_err(js_err)?;
+        let request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        design_data_core::visual::build_scene(&self.graph, &recipe, &request).map_err(js_err)
     }
 }

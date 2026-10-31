@@ -1,0 +1,658 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "action-button",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "progress", "label", "hold-icon"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Height"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "hideLabel": true
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "hideLabel": true
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "gap": {
+          "token": {
+            "structure": "base",
+            "property": "gap",
+            "size": "{size}"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "role": "container",
+            "size": "{size}"
+          }
+        },
+        "fill": [
+          {
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isQuiet": true
+              }
+            },
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (disabled)"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "staticColor": "black"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (disabled, black)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "staticColor": "white"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (disabled, white)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isQuiet": true,
+                "isDisabled": true
+              }
+            },
+            "priority": 11,
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "isPending": true
+              }
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "color",
+              "context": "Background (disabled)"
+            }
+          }
+        ],
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "context": "Component size (down)"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMaxPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "token": {
+            "property": "component-size-maximum-perspective",
+            "state": "down"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "props": {
+        "width": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "legacyKey": "neutral-content-color-default"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "token": {
+              "legacyKey": "neutral-content-color-hover"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "token": {
+              "legacyKey": "neutral-content-color-down"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label, icon, and hold icon (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      },
+      "visibleWhen": {
+        "options": {
+          "isPending": false
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "hideLabel": false,
+          "isPending": false
+        }
+      },
+      "props": {
+        "fontSize": {
+          "token": {
+            "property": "font-size-{sizeIndex}"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "legacyKey": "neutral-content-color-default"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "token": {
+              "legacyKey": "neutral-content-color-hover"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "token": {
+              "legacyKey": "neutral-content-color-down"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label, icon, and hold icon (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "hold-icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "hasHoldIcon": true,
+          "isPending": false
+        }
+      },
+      "placement": {
+        "anchor": "bottom-end",
+        "inset": {
+          "token": {
+            "structure": "accessory",
+            "property": "gap",
+            "position": "affixed",
+            "size": "{size}"
+          }
+        }
+      },
+      "props": {
+        "color": [
+          {
+            "token": {
+              "legacyKey": "neutral-content-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label, icon, and hold icon (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label, icon, and hold icon (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "focus-ring": {
+      "kind": "ring",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    },
+    "progress": {
+      "kind": "progress",
+      "visibleWhen": {
+        "options": {
+          "isPending": true
+        }
+      },
+      "props": {
+        "width": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "trackColor": {
+          "token": {
+            "colorFamily": "gray",
+            "scaleIndex": 300,
+            "property": "color"
+          }
+        },
+        "color": {
+          "token": {
+            "legacyKey": "accent-content-color-default"
+          }
+        }
+      }
+    }
+  }
+}

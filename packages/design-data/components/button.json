@@ -167,11 +167,26 @@
     { "name": "icon", "description": "Icon placed at the start of the button." }
   ],
   "anatomy": [
+    {
+      "name": "container",
+      "description": "Pill-shaped background that holds the icon and label.",
+      "required": true,
+      "contains": ["icon", "progress", "label"]
+    },
     { "name": "icon", "description": "Leading icon." },
-    { "name": "label", "description": "Button text.", "required": true }
+    {
+      "name": "progress",
+      "description": "Progress circle that replaces the content while pending."
+    },
+    { "name": "label", "description": "Button text.", "required": true },
+    {
+      "name": "focus-ring",
+      "description": "Outline drawn outside the container for keyboard focus."
+    }
   ],
   "states": [
     { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    { "name": "down", "trigger": "interaction", "precedence": 55 },
     {
       "name": "focus",
       "trigger": "interaction",
