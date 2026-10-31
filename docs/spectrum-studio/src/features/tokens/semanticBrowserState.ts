@@ -6,10 +6,10 @@ import {
   selectedTshirtRows,
 } from "../design-data/tshirtArtifacts";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
-import { projectClassification } from "../taxonomy/model";
 import { primitiveReferencesAtom } from "./primitiveReferenceState";
 import { browserModeContextAtom } from "./browserState";
 import type { BrowserToken } from "./browserModel";
+import { semanticTokenSource } from "./semanticSource";
 
 export const semanticBrowserStateAtom = atom(
   (
@@ -33,36 +33,12 @@ export const semanticBrowserStateAtom = atom(
           selectedTshirtRows(state.bundle, owner, size, selection).map(
             (canonical) => {
               const row = liveTshirtRow(canonical, references);
-              const projection = projectClassification(
-                registry,
-                row.classification,
-                "structures",
-              );
+              const source = semanticTokenSource(row, registry);
+              const projection = source.projection!;
               if (projection.issues.length)
                 throw new Error(projection.issues.join(" "));
-              const name = projection.name;
               return {
-                id: row.conceptId,
-                type:
-                  row.target.family === "color" ? "colors" : row.target.family,
-                groupId: owner,
-                groupLabel: row.structureName,
-                name,
-                generatedName: name,
-                value: row.target.value,
-                generatedValue: row.target.value,
-                unit:
-                  row.target.family === "elevation" ||
-                  row.target.family === "color"
-                    ? ""
-                    : "px",
-                shadows: row.target.shadows,
-                semantic: row,
-                projection,
-                taxonomySource: {
-                  id: row.conceptId,
-                  governed: row.classification,
-                },
+                ...source,
                 description: row.mapping.warning ?? "",
                 status: "draft",
                 nameOverridden: false,

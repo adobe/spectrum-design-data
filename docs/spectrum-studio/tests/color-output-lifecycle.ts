@@ -58,7 +58,7 @@ for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
   };
   assert.equal(migrateColorSystemDocument(invalid, 4), null);
 }
-assert.equal(AUTHORING_RECORD_VERSION, 17);
+assert.equal(AUTHORING_RECORD_VERSION, 20);
 const store = createStore();
 const original = structuredClone(store.get(colorSystemDocumentAtom));
 assert.throws(

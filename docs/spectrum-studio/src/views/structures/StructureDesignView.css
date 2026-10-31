@@ -15,11 +15,190 @@
 
 .structureDesignStage {
   position: absolute;
-  inset: 32px;
+  inset: 32px 312px 32px 312px;
   display: flex;
   align-items: safe center;
   justify-content: safe center;
   overflow: auto;
+}
+
+.structureMetadataPanel {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: 16px;
+  z-index: 2;
+  width: 280px;
+  max-height: calc(100% - 32px);
+  box-sizing: border-box;
+}
+
+.structureCompactRow,
+.structureLayerActions,
+.structurePropertyRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.structureCompactRow {
+  justify-content: space-between;
+}
+
+.structureVisibilityAction {
+  opacity: 0;
+}
+
+[role="row"]:hover .structureVisibilityAction,
+[role="row"]:focus-within .structureVisibilityAction {
+  opacity: 1;
+}
+
+.structureBoundProperty {
+  background: var(--spectrum-blue-800);
+  color: white;
+}
+
+.structurePropertyRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.structurePropertyRow > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.structurePropertyRow > .structureVariantPicker {
+  flex: 1 1 0;
+}
+
+.structureVariantFrames {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 12px;
+  border: 1px dashed var(--spectrum-fuchsia-400);
+  border-radius: 8px;
+}
+
+.structureVariantFrames:hover,
+.structureVariantFrames:focus-within {
+  border-style: solid;
+}
+
+.structureVariantAdd {
+  position: absolute;
+  inset-block-end: -12px;
+  inset-inline-start: calc(50% - 12px);
+  background: var(--spectrum-fuchsia-600);
+  color: white;
+  opacity: 0;
+}
+
+.structureVariantFrames:hover .structureVariantAdd,
+.structureVariantFrames:focus-within .structureVariantAdd {
+  opacity: 1;
+}
+
+.structureVariantOption[data-selected]
+  > .structureOptionSample
+  > .structurePreview {
+  outline: 1px solid var(--spectrum-fuchsia-600);
+  outline-offset: 2px;
+}
+
+.structureOptionSample {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.structureListCard {
+  grid-column: 1 / -1;
+  grid-row: 1 / span 2;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.structureThumbnail {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.structureThumbnailNatural {
+  width: max-content;
+  height: max-content;
+  transform-origin: center;
+}
+
+.structureVariantFrames .structurePreview,
+.structureThumbnail .structurePreview {
+  background: color-mix(in srgb, var(--spectrum-fuchsia-400) 10%, transparent);
+}
+
+.structureVariantFrames .structureModule,
+.structureThumbnail .structureModule {
+  background: color-mix(in srgb, var(--spectrum-fuchsia-400) 12%, transparent);
+}
+
+.structureThumbnail .structureElementContent,
+.structureVariantFrames .structureElementContent {
+  color: var(--spectrum-fuchsia-800);
+}
+
+.structureThumbnail .structureElement-bar,
+.structureVariantFrames .structureElement-bar {
+  background: var(--spectrum-fuchsia-600);
+}
+
+.structureThumbnail .structureElement-visual,
+.structureVariantFrames .structureElement-visual {
+  background: var(--spectrum-fuchsia-300);
+}
+
+.structureThumbnail .structureElement-visual img,
+.structureVariantFrames .structureElement-visual img {
+  mix-blend-mode: luminosity;
+}
+
+.structureModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #0006;
+}
+
+.structureModal {
+  background: var(--spectrum-gray-50);
+  color: var(--spectrum-gray-900);
+  border-radius: 16px;
+  padding: 24px;
+  width: min(400px, calc(100vw - 64px));
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+}
+
+@media (width < 1100px) {
+  .structureDesignWork {
+    overflow: auto;
+  }
+
+  .structureDesignCanvas {
+    overflow: auto;
+    min-width: 900px;
+  }
 }
 
 .structureDesignEmpty {

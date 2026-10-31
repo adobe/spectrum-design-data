@@ -15,6 +15,106 @@ meanings. Scoped reset plans are validated before applying through the existing
 restore owner; generated reset choices do not add semantic override support or
 change the storage envelope. See [Changes comparison contract](archive/changelog-plan.md).
 
+## Conditional rules
+
+Authoring envelope 19 adds conditional rules to the existing Rules library.
+Shared conditions use nested And/Or groups and reference taxonomy categories,
+terms, mode sets, and modes by ID. The first matching result branch selects one
+token offset; Otherwise applies only inside the shared conditions. No shared
+match leaves the original token unchanged. Missing references are reported,
+not treated as a match or a reason to use Otherwise.
+
+Each group's logic button toggles between blue And and fuchsia Or. It is
+disabled while a statement is being edited and shown as a badge in read-only views.
+
+Inline Save and Cancel affect only the dialog draft. The dialog's Save commits
+the rule; its Cancel discards all dialog edits. Preview colors, classifications,
+and mode choices are temporary and do not change global modes or token counts.
+Offsets traverse available tokens; movement past an endpoint uses the nearest
+token and displays a warning.
+
+Older working and saved snapshots receive the editable Interaction state colors
+example independently. Existing rules are preserved. Current records do not
+reinsert an example that was deleted. The example uses the existing Attribute,
+Visibility, and Interaction taxonomy categories without renaming them.
+
+Rounding, Generator, and scale naming keep specialized editors. Conditional rules are not attached to generated tokens or
+Structures in this slice. LTAX-018 tracks the upstream representation separately.
+
+## Generator options and rule applicability
+
+Authoring envelope 20 upgrades legacy `tshirt-sizing` rules to `generator`.
+Saved and working snapshots upgrade independently. Legacy rules receive All
+applicability, preserving their IDs, mappings, bindings and generated output.
+The new T-shirt sizing example selects Spacing, Sizing, Font size and Radius.
+Interaction state colors selects Color and Opacity; this does not add a
+conditional-rule consumer.
+
+All means every token value type supported by that operation. Specific types
+use stable IDs rather than labels or token-name parsing. Removing the final
+type leaves an invalid draft, not an implicit All selection. Typography
+references distinguish font size, workflow icon size, pixel line height and
+unitless line height through metric metadata.
+
+Generator options reference shared Registry Size terms. One explicit default
+has offset zero; choosing another rebases every offset while preserving relative
+distances. The default cannot be deleted. Adding or renaming terms remains local
+to the dialog until Save. Removing a used option requires a replacement and
+retains the Registry term. Rule, Registry, Structure selections and affected
+component references are validated together before committing.
+
+Excluding a type retains its Generator bindings and original anchor in every
+generated option. Only active targets participate in overlap checks; re-enabling
+an overlapping target reports a conflict. An excluded Rounding binding likewise
+stays saved and returns the raw value. Pickers retain selected inactive rules
+while filtering incompatible new choices.
+
+Rounding conditions use sentence rows with one local editor at a time. Row Save
+and Cancel affect only the dialog draft; main Cancel discards all edits. Changes
+tracks applicability, ordered options and the explicit default. Resetting the
+default rebases offsets without replacing unrelated rule edits.
+
+Custom or renamed Size outputs declare their vocabulary in the app-owned
+`leonardo-size-generator-v4` profile and generated compatibility envelope 4.
+Unchanged legacy Size names keep their previous output shape. LTAX-019 tracks
+this local derivation capability; it is not an accepted upstream rule contract.
+
+## Structure properties and variants
+
+Structures schema 5 and authoring envelope 18 store property definitions, shared
+layers, boolean visibility bindings, and sparse option differences. Layer
+insertion and removal affect every option. Order, saved visibility, and changed
+bindings belong to individual options. Referenced Structures own their internal
+layers; a parent edits the instance as a whole.
+
+The Properties switches and option selections are temporary previews, including
+in read-only mode. They do not change saved defaults, Changes, or token counts.
+Description, property definitions, binding choices, inversion, order, and saved
+visibility are authored data. Stored output UUIDs are bookkeeping, not additional
+authored fields. Undo restores a removed option's UUIDs without replacing later
+edits. Registry term creation and the corresponding property update are validated
+and applied together.
+
+Non-boolean properties and options reference Registry terms. Changing order or
+visibility creates no tokens. A changed token-backed binding creates only that
+binding's variant semantics, using Registry category order for names. Unchanged
+bindings reuse default semantics. Existing T-shirt rules still determine values;
+turning size support off leaves Medium. The upgrade converts older partial size
+selections to all sizes, independently in saved and working snapshots.
+
+New variant concepts and mode rows have stored random UUIDs allocated during
+authoring or migration, never during rendering or export. Renaming Registry terms
+does not change these identities. Leaf outputs retain their actual owned mode
+contexts; unrelated axes do not multiply their token inventory. Unitless line
+heights remain unitless. Both identity preallocation and semantic output have an
+explicit 20,000-row limit.
+
+The `leonardo-structure-variants-v3` local profile and generated compatibility
+envelope 3 retain these tokens and classifications. Token exports do not claim to
+round-trip layer topology or property definitions; the authoring snapshots retain
+them. LTAX-017 tracks upstream representation separately. Local validation is not
+upstream schema, anatomy, variants, or RFC acceptance.
+
 ## Opacity and shadow references
 
 Authoring envelope version 15 stores the opacity foundation in both working and

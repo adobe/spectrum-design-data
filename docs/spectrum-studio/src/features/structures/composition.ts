@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { ComponentSize } from "../foundations/componentSizes";
 import { COMPONENT_SIZES } from "../foundations/componentSizes";
+import { generatorSizeKey } from "../logic/generator";
+import { isTshirtRule } from "../logic/model";
 import type { Rule } from "../logic/model";
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
 import {
@@ -19,7 +20,7 @@ import {
   UNMEASURED_LAYOUT,
   type PreviewLayoutContext,
 } from "./resolution";
-import type { Structure } from "./model";
+import { structureGeneration, type Structure } from "./model";
 
 export interface ResolvedModule {
   instance: StructureInstance;
@@ -28,7 +29,7 @@ export interface ResolvedModule {
 export type ResolvedChild = ResolvedElement | ResolvedModule;
 export interface ResolvedComposition {
   structure: Structure;
-  size: ComponentSize;
+  size: string;
   resolved: ReturnType<typeof resolveStructure>;
   children: ResolvedChild[];
   issues: string[];
@@ -36,13 +37,36 @@ export interface ResolvedComposition {
 }
 export function supportedStructureSize(
   source: Structure,
-  requested: ComponentSize,
+  requested: string,
+  rules: readonly Rule[] = [],
 ) {
-  const order = COMPONENT_SIZES.map((size) => size.id);
+  const mapped = structureGeneration(source)
+    .applications.map((application) =>
+      rules.find((rule) => rule.id === application.ruleId),
+    )
+    .filter((rule) => rule !== undefined && isTshirtRule(rule))
+    .find((rule) =>
+      rule.mappings.some(
+        (mapping) => generatorSizeKey(mapping.termId) === requested,
+      ),
+    );
+  const order: string[] = mapped
+    ? mapped.mappings.map((mapping) => generatorSizeKey(mapping.termId))
+    : COMPONENT_SIZES.map((size) => size.id);
   const available = structureSizes(source);
   if (!available.length) throw new Error(`${source.name}: no supported sizes.`);
-  const distance = (size: ComponentSize) =>
-    Math.abs(order.indexOf(size) - order.indexOf(requested));
+  if (available.includes(requested)) return requested;
+  if (
+    !order.includes(requested) ||
+    !available.some((size) => order.includes(size))
+  )
+    throw new Error(
+      `${source.name}: this Size option has no mapping in the attached Generator.`,
+    );
+  const distance = (size: string) =>
+    !order.includes(size)
+      ? Infinity
+      : Math.abs(order.indexOf(size) - order.indexOf(requested));
   return [...available].sort(
     (a, b) =>
       distance(a) - distance(b) ||
@@ -56,21 +80,29 @@ export function resolveComposition(
   rules: readonly Rule[],
   bundle?: TshirtArtifactBundle,
   selection: Record<string, string> = {},
-  requested: ComponentSize = "m",
+  requested: string = "m",
   layout = UNMEASURED_LAYOUT,
   measurements: Readonly<Record<string, PreviewLayoutContext>> = {},
+  options: Record<string, string> = {},
 ): ResolvedComposition {
   assertStructureGraph(catalog);
   const byId = new Map(catalog.map((source) => [source.conceptId, source]));
   const visit = (
     structure: Structure,
-    wanted: ComponentSize,
+    wanted: string,
     context: PreviewLayoutContext,
     path: string,
   ): ResolvedComposition => {
-    const size = supportedStructureSize(structure, wanted);
+    const size = supportedStructureSize(structure, wanted, rules);
     const preview = bundle
-      ? tshirtPreview(structure, size, bundle, selection, references)
+      ? tshirtPreview(
+          structure,
+          size,
+          bundle,
+          selection,
+          references,
+          path === "" ? options : {},
+        )
       : undefined;
     const resolved = resolveStructure(
       preview?.structure ?? structure,

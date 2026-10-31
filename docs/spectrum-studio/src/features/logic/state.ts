@@ -10,6 +10,7 @@ import {
   ruleConsumers,
   type RuleConsumer,
   type RuleReferenceDocuments,
+  roundingConsumerTypes,
 } from "./consumers";
 import { RULE_DEFAULTS, rulesAtom } from "./library";
 import { WHOLE_NUMBERS_RULE_ID, isRule, type Rule } from "./model";
@@ -18,6 +19,23 @@ import { colorSystemDocumentAtom } from "../color-system/state";
 import { assertCustomContrastNaming } from "../color-system/contrastSteps";
 import { reconcileColorSourceNames } from "../taxonomy/naming";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
+import { modeSetsAtom } from "../modes/state";
+import { conditionSources, conditionalIssues } from "./conditional";
+import {
+  prepareGeneratorEdit,
+  replaceGeneratorComponentTargets,
+  type GeneratorEdit,
+} from "./generatorEdit";
+import { isTshirtRule } from "./model";
+import {
+  authoringSourceSnapshotAtom,
+  assertStoredSnapshot,
+} from "../edit-session/state";
+import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
+import { componentsDocumentAtom } from "../components/documentState";
+import { ruleAppliesTo } from "./applicability";
+import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import { updateTaxonomy } from "../taxonomy/model";
 
 const referenceDocumentsAtom = atom(
   (get): RuleReferenceDocuments => ({
@@ -54,6 +72,13 @@ function authored(rule: Rule): Rule {
 export const addRuleAtom = atom(null, (get, set, rule: Rule) => {
   if (!isRule(rule) || !rule.name.trim())
     throw new Error("Enter valid rule settings and a name.");
+  if (rule.type === "conditional") {
+    const issues = conditionalIssues(
+      rule,
+      conditionSources(get(taxonomyDocumentAtom), get(modeSetsAtom)),
+    );
+    if (issues.length) throw new Error(issues.join(" "));
+  }
   if (get(rulesAtom).some((candidate) => candidate.id === rule.id)) return;
   set(rulesAtom, [...get(rulesAtom), authored(rule)]);
 });
@@ -61,6 +86,13 @@ export const addRuleAtom = atom(null, (get, set, rule: Rule) => {
 export const replaceRuleAtom = atom(null, (get, set, rule: Rule) => {
   if (!isRule(rule) || !rule.name.trim())
     throw new Error("Enter valid rule settings and a name.");
+  if (rule.type === "conditional") {
+    const issues = conditionalIssues(
+      rule,
+      conditionSources(get(taxonomyDocumentAtom), get(modeSetsAtom)),
+    );
+    if (issues.length) throw new Error(issues.join(" "));
+  }
   const previous = get(rulesAtom).find((candidate) => candidate.id === rule.id);
   if (!previous) throw new Error("This rule is no longer available.");
   if (previous.locked) return;
@@ -173,6 +205,14 @@ export const setRuleReferenceAtom = atom(
       )
     )
       throw new Error("Choose a rounding rule for a foundation.");
+    const rule = get(rulesAtom).find((rule) => rule.id === ruleId)!;
+    const contexts = roundingConsumerTypes(consumer);
+    if (
+      contexts.length &&
+      !contexts.some((type) => ruleAppliesTo(rule, type)) &&
+      consumer.ruleId !== ruleId
+    )
+      throw new Error("Choose a rule that supports this token value type.");
     writeReferences(
       set,
       reassignConsumers(get(referenceDocumentsAtom), [consumer], ruleId),
@@ -181,3 +221,55 @@ export const setRuleReferenceAtom = atom(
 );
 
 export { RULE_DEFAULTS, rulesAtom };
+
+export const saveGeneratorDraftAtom = atom(
+  null,
+  (get, set, command: { rule: Rule; edit: GeneratorEdit }) => {
+    const { rule, edit } = command;
+    if (!isTshirtRule(rule) || !isRule(rule) || !rule.name.trim())
+      throw new Error("Enter valid Generator settings and a name.");
+    const previous = get(rulesAtom).find((item) => item.id === rule.id);
+    if (previous?.locked || (previous && !isTshirtRule(previous)))
+      throw new Error("This rule cannot be changed into a Generator.");
+    const prepared = prepareGeneratorEdit(
+      rule,
+      edit,
+      get(taxonomyDocumentAtom),
+      get(structuresDocumentAtom),
+    );
+    const rules = previous
+      ? get(rulesAtom).map((item) =>
+          item.id === rule.id ? authored(rule) : item,
+        )
+      : [...get(rulesAtom), authored(rule)];
+    const snapshot = get(authoringSourceSnapshotAtom);
+    const taxonomy = updateTaxonomy(
+      get(taxonomyDocumentAtom),
+      prepared.taxonomy,
+    );
+    const candidate = { ...snapshot, ...prepared, taxonomy, rules };
+    const after = buildTshirtArtifacts(candidate);
+    const components = Object.keys(edit.replacements).length
+      ? replaceGeneratorComponentTargets(
+          get(componentsDocumentAtom),
+          buildTshirtArtifacts(snapshot),
+          after,
+          edit.replacements,
+        )
+      : get(componentsDocumentAtom);
+    assertStoredSnapshot({ ...candidate, components });
+    const updates = new Map<string, unknown>([
+      ["registry/taxonomy", taxonomy],
+      ["design/structures", prepared.structures],
+      ["components", components],
+      ["rules/library", rules],
+    ]);
+    withValidatedAuthoringUpdates(get, updates, () => {
+      set(structuresDocumentAtom, prepared.structures);
+      set(componentsDocumentAtom, components);
+      set(rulesAtom, rules);
+      // The Registry writer copies its input; validate that final copy against the complete proposal.
+      set(taxonomyDocumentAtom, taxonomy);
+    });
+  },
+);

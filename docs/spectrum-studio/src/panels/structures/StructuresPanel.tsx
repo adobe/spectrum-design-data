@@ -1,37 +1,20 @@
 // Copyright 2026 Adobe. All rights reserved.
-import {
-  ActionButton,
-  ListView,
-  ListViewItem,
-  Text,
-  ToastQueue,
-} from "@react-spectrum/s2";
+import { ActionButton, ListView, ListViewItem, Text } from "@react-spectrum/s2";
 import Add from "@react-spectrum/s2/icons/Add";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
-import { useDeletionToast } from "../../components/deletionToastContext";
+import { useAtom, useAtomValue, useStore } from "jotai";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { editModeAtom } from "../../state/view/editMode";
 import {
   addStructureAtom,
-  applyStructureRuleAtom,
   removeStructureAtom,
-  removeStructureRuleAtom,
-  renameStructureAtom,
   resolvedStructuresAtom,
   restoreStructureAtom,
-  restoreStructureRuleAtom,
   selectedStructureIdAtom,
-  setStructureSizesAtom,
 } from "../../features/structures/state";
 import { StructureCard } from "./StructureCard";
-import { authoringSnapshotAtom } from "../../features/edit-session/state";
-import { primitiveReferencesAtom } from "../../features/tokens/primitiveReferenceState";
-import { rulesAtom } from "../../features/logic/library";
-import { buildTshirtArtifacts } from "../../features/design-data/tshirtArtifacts";
-import { eligibleStructureBindings } from "../../features/structures/generation";
-import { structureGeneration } from "../../features/structures/model";
 import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
+import { StructureThumbnail } from "../../views/structures/StructureThumbnail";
 
 const panelStyles = style({
   display: "flex",
@@ -46,37 +29,18 @@ const listStyles = style({ flexGrow: 1, minHeight: 0, minWidth: 0 });
 
 export function StructuresPanel() {
   const structures = useAtomValue(resolvedStructuresAtom);
-  const snapshot = useAtomValue(authoringSnapshotAtom);
-  const references = useAtomValue(primitiveReferencesAtom);
-  const rules = useAtomValue(rulesAtom);
   const generation = useAtomValue(workingTshirtArtifactsAtom);
   const [selected, setSelected] = useAtom(selectedStructureIdAtom);
   const editing = useAtomValue(editModeAtom);
-  const add = useSetAtom(addStructureAtom);
-  const rename = useSetAtom(renameStructureAtom);
-  const remove = useSetAtom(removeStructureAtom);
-  const restore = useSetAtom(restoreStructureAtom);
-  const applyRule = useSetAtom(applyStructureRuleAtom);
-  const sizes = useSetAtom(setStructureSizesAtom);
-  const removeRule = useSetAtom(removeStructureRuleAtom);
-  const restoreRule = useSetAtom(restoreStructureRuleAtom);
-  const { notifyDeleted } = useDeletionToast();
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const report = (failure: unknown) =>
-    ToastQueue.negative(
-      failure instanceof Error ? failure.message : String(failure),
-    );
+  const store = useStore();
+  const notify = useNotify();
   return (
     <div className={panelStyles} data-component="StructuresPanel">
       {editing && (
         <ActionButton
-          onPress={() => {
-            try {
-              setFocusId(add());
-            } catch (failure) {
-              report(failure);
-            }
-          }}
+          onPress={() =>
+            notify.added("structure", () => store.set(addStructureAtom))
+          }
         >
           <Add />
           <Text>Add structure</Text>
@@ -112,81 +76,22 @@ export function StructuresPanel() {
               textValue={structure.name}
             >
               <StructureCard
+                preview={<StructureThumbnail structure={structure} />}
                 structure={structure}
                 isReadOnly={!editing}
-                focusName={focusId === structure.conceptId}
-                onNameFocused={() => setFocusId(null)}
-                rules={rules}
-                references={references}
-                onSizesChange={(sizeTermIds) =>
-                  sizes({ structureId: structure.conceptId, sizeTermIds })
-                }
-                onApplyRule={(application) =>
-                  applyRule({ structureId: structure.conceptId, application })
-                }
-                previewRule={(application) => {
-                  const hasLayout =
-                    application.targets.kind === "all"
-                      ? eligibleStructureBindings(structure).length > 0
-                      : application.targets.bindingIds.length > 0;
-                  const generation = structureGeneration(structure);
-                  if (hasLayout && !generation.nameRef)
-                    throw new Error(
-                      "Choose Token naming in Structure settings before generating layout tokens.",
-                    );
-                  const updated = {
-                    ...structure,
-                    generation: {
-                      ...generation,
-                      applications: [
-                        ...generation.applications.filter(
-                          (item) => item.id !== application.id,
-                        ),
-                        application,
-                      ],
+                onDelete={() => {
+                  notify.remove({
+                    kind: "structure",
+                    noun: structure.name,
+                    run: (store) =>
+                      store.set(removeStructureAtom, structure.conceptId),
+                    undo: (removed) => {
+                      if (removed) store.set(restoreStructureAtom, removed);
                     },
-                  };
-                  return buildTshirtArtifacts({
-                    ...snapshot,
-                    structures: {
-                      ...snapshot.structures!,
-                      structures: snapshot.structures!.structures.map((item) =>
-                        item.conceptId === structure.conceptId ? updated : item,
-                      ),
+                    onDone: () => {
+                      if (selected === structure.conceptId) setSelected(null);
                     },
                   });
-                }}
-                onRemoveRule={(application) => {
-                  try {
-                    const removed = removeRule({
-                      structureId: structure.conceptId,
-                      applicationId: application.id,
-                    });
-                    notifyDeleted("Generation application", () => {
-                      try {
-                        restoreRule(removed);
-                      } catch (failure) {
-                        report(failure);
-                      }
-                    });
-                  } catch (failure) {
-                    report(failure);
-                  }
-                }}
-                onRename={(name) => rename({ id: structure.conceptId, name })}
-                onDelete={() => {
-                  try {
-                    const removed = remove(structure.conceptId);
-                    notifyDeleted(`Structure ${structure.name}`, () => {
-                      try {
-                        restore(removed);
-                      } catch (failure) {
-                        report(failure);
-                      }
-                    });
-                  } catch (failure) {
-                    report(failure);
-                  }
                 }}
               />
             </ListViewItem>

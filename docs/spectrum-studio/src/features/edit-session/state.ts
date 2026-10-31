@@ -120,6 +120,7 @@ import { registeredSourceName } from "../taxonomy/naming";
 import {
   structuresDocumentAtom,
   selectedStructureIdAtom,
+  clearStructurePreviewsAtom,
 } from "../structures/documentState";
 import {
   assertStructureReferences,
@@ -127,7 +128,10 @@ import {
   isStructuresDocument,
   type StructuresDocument,
 } from "../structures/model";
-import { availablePrimitiveReferences } from "../tokens/primitiveIdentity";
+import {
+  availablePrimitiveReferences,
+  typographyReferenceCoordinates,
+} from "../tokens/primitiveIdentity";
 import { aliasesAtom } from "../tokens/aliasState";
 import {
   planAliasesForSave,
@@ -595,8 +599,15 @@ export function assertStoredSnapshot(
     value.scaleTypes,
     value.interpolations,
   );
+  const typographyCoordinates = [
+    ...typographyReferenceCoordinates(value.typography),
+  ].map(([id, coordinates]) => ({
+    id,
+    family: "typography" as const,
+    ...coordinates,
+  }));
   for (const structure of value.structures.structures)
-    appliedElementBindings(structure, value.rules);
+    appliedElementBindings(structure, value.rules, typographyCoordinates);
   if (value.aliases?.tokens.length) {
     assertAliasTargets(
       value.aliases,
@@ -627,6 +638,7 @@ export const restoreAuthoringSnapshotAtom = atom(
   null,
   (_get, set, snapshot: EditSessionSnapshot) => {
     assertStoredSnapshot(snapshot);
+    set(clearStructurePreviewsAtom);
     set(taxonomyContributionsEnabledAtom, false);
     try {
       set(
@@ -818,6 +830,7 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "rules/library": "rules",
   "logic/scale-types": "scaleTypes",
   "logic/interpolations": "interpolations",
+  components: "components",
   "tokens/browser/edits": "browserTokenEdits",
   "tokens/color/overrides": "tokenOverrides",
 };
@@ -829,20 +842,26 @@ registerAuthoringGuard("component-dependencies", (get, updates) => {
   );
   if (!Object.keys(overrides).length || !get(taxonomyContributionsEnabledAtom))
     return;
-  const components = get(componentsDocumentAtom);
-  if (!components.components.some((component) => component.assignments.length))
+  if (
+    !updates.has("components") &&
+    !get(componentsDocumentAtom).components.some(
+      (component) => component.assignments.length,
+    )
+  )
     return;
   const candidate = { ...captureSnapshot(get), ...overrides };
   if (!isSnapshot(candidate) || !candidate?.taxonomy)
     throw new Error("The component dependency update has invalid source data.");
   if (
     updates.has("foundations/color") &&
+    !updates.has("components") &&
     matchesComponentContrastWitness(
       get(componentContrastWitnessAtom),
       candidate,
     )
   )
     return;
+  const components = candidate.components ?? get(componentsDocumentAtom);
   assertComponentDocument(components, candidate.taxonomy);
   assertComponentReferences(
     components,

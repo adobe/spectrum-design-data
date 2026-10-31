@@ -45,7 +45,7 @@ export type ConstraintSlot =
   | "maxWidth"
   | "minHeight"
   | "maxHeight";
-export const isConstraintSlot = (slot: StructureSlot): slot is ConstraintSlot =>
+export const isConstraintSlot = (slot: string): slot is ConstraintSlot =>
   slot === "minWidth" ||
   slot === "maxWidth" ||
   slot === "minHeight" ||

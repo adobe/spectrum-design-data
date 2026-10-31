@@ -16,7 +16,14 @@ export const ELEMENT_TYPES = {
   visual: {
     termId: "44d05161-a960-4fed-ac11-723b4021cca0",
     label: "Visual",
-    slots: ["width", "height"],
+    slots: [
+      "width",
+      "height",
+      "minWidth",
+      "minHeight",
+      "maxWidth",
+      "maxHeight",
+    ],
   },
   workflowIcon: {
     termId: "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
@@ -55,6 +62,10 @@ export const ELEMENT_SLOT_LABELS: Record<ElementSlot, string> = {
   lineHeight: "Line height",
   width: "Width",
   height: "Height",
+  minWidth: "Minimum width",
+  minHeight: "Minimum height",
+  maxWidth: "Maximum width",
+  maxHeight: "Maximum height",
   size: "Size",
   thickness: "Thickness",
   length: "Length",

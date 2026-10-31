@@ -47,6 +47,7 @@ import {
 import { structureGeneration } from "../../features/structures/model";
 import { structureSizes } from "../../features/structures/generation";
 import { leafElements } from "../../features/structures/children";
+import { ruleAppliesToReference } from "../../features/logic/applicability";
 
 const fieldsStyles = style({
   display: "flex",
@@ -107,7 +108,9 @@ export function StructureRuleDialog({
   onApply,
   onCreateRule,
 }: StructureRuleDialogProps) {
-  const compatible = rules.filter((rule) => rule.type === "tshirt-sizing");
+  const compatible = rules.filter(
+    (rule) => rule.type === "generator" || rule.type === "tshirt-sizing",
+  );
   const eligible = eligibleStructureBindings(structure);
   const createDraft = (): StructureRuleApplication =>
     application
@@ -121,12 +124,13 @@ export function StructureRuleDialog({
   const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState<StructureRuleApplication>(createDraft);
   const [applyError, setApplyError] = useState("");
+  const selectedRule = compatible.find((rule) => rule.id === draft.ruleId);
   const result = useMemo(() => {
     if (!isOpen) return { bundle: null, error: "" };
     if (!draft.ruleId)
       return {
         bundle: null,
-        error: "Create a T-shirt sizing rule in Logic first.",
+        error: "Create a Generator rule in Logic first.",
       };
     try {
       const generation = structureGeneration(structure);
@@ -204,7 +208,7 @@ export function StructureRuleDialog({
                   label="Generation rule"
                   selectedKey={draft.ruleId || null}
                   isDisabled={!compatible.length}
-                  placeholder="Choose a T-shirt sizing rule"
+                  placeholder="Choose a Generator rule"
                   onSelectionChange={(key) => {
                     if (typeof key === "string") {
                       setDraft((current) => ({ ...current, ruleId: key }));
@@ -314,7 +318,18 @@ export function StructureRuleDialog({
                               {structureSlotDefinition(slot).label}
                             </Checkbox>
                             {reference ? (
-                              <TokenNameTag name={reference.name} />
+                              <>
+                                <TokenNameTag name={reference.name} />
+                                {selectedRule &&
+                                  !ruleAppliesToReference(
+                                    selectedRule,
+                                    reference,
+                                  ) && (
+                                    <span className={noteStyles}>
+                                      Unchanged: token value type not selected
+                                    </span>
+                                  )}
+                              </>
                             ) : (
                               <span className={noteStyles}>
                                 {binding &&
@@ -350,6 +365,14 @@ export function StructureRuleDialog({
                     <Checkbox key={binding.id} value={binding.id}>
                       {ELEMENT_TYPES[element.kind].label} {index + 1} -{" "}
                       {ELEMENT_SLOT_LABELS[binding.slot]}
+                      {selectedRule &&
+                      references.some(
+                        (reference) =>
+                          reference.id === binding.$ref &&
+                          !ruleAppliesToReference(selectedRule, reference),
+                      )
+                        ? " (unchanged: token value type not selected)"
+                        : ""}
                     </Checkbox>
                   ))}
                 </CheckboxGroup>
@@ -379,7 +402,10 @@ export function StructureRuleDialog({
                     <TableBody>
                       {rows.map((row) => (
                         <Row key={row.token.uuid} id={row.token.uuid}>
-                          <Cell>{formatTshirtName(row.token.name)}</Cell>
+                          <Cell>
+                            {row.canonicalName ??
+                              formatTshirtName(row.token.name)}
+                          </Cell>
                           <Cell>
                             {row.mapping.requested} / {row.mapping.actual}
                           </Cell>

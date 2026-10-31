@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
+import { STRUCTURES_SCHEMA_VERSION } from "../src/features/structures/model";
 
 class MemoryStorage implements Storage {
   data = new Map<string, string>();
@@ -537,7 +538,7 @@ dispose();
 
 const { STRUCTURE_CATEGORIES, STRUCTURE_TERMS } =
   await import("../src/features/structures/vocabulary");
-const { VARIANT_CATEGORIES, SIZE_TERMS } =
+const { VARIANT_CATEGORIES, SIZE_TERMS, SIZE_TERM_IDS } =
   await import("../src/features/taxonomy/variantVocabulary");
 for (const version of [1, 2, 3] as const) {
   const older = createDefaultSnapshot();
@@ -595,11 +596,11 @@ for (const version of [1, 2, 3] as const) {
     9,
   );
   assert.deepEqual(upgradedRecord.working.structures, {
-    schemaVersion: 4,
+    schemaVersion: STRUCTURES_SCHEMA_VERSION,
     structures: [],
   });
   assert.deepEqual(upgradedRecord.saved.structures, {
-    schemaVersion: 4,
+    schemaVersion: STRUCTURES_SCHEMA_VERSION,
     structures: [],
   });
   dispose();
@@ -691,9 +692,67 @@ for (const version of [12, 13] as const) {
   );
   dispose();
 }
+const variantsSaved = createDefaultSnapshot();
+variantsSaved.components!.components = [];
+const variantsWorking = structuredClone(variantsSaved);
+variantsSaved.structures!.schemaVersion = 4;
+variantsWorking.structures!.schemaVersion = 4;
+variantsSaved.structures!.structures[0].generation!.sizeTermIds = [
+  SIZE_TERM_IDS.m,
+];
+variantsWorking.structures!.structures[0].generation!.sizeTermIds = [
+  SIZE_TERM_IDS.m,
+  SIZE_TERM_IDS.l,
+];
+variantsSaved.structures!.structures[0].description = "Saved description.";
+variantsWorking.structures!.structures[0].description = "Working description.";
+assertStoredSnapshot(variantsSaved);
+assertStoredSnapshot(variantsWorking);
+localStorage.data.set(
+  AUTHORING_STORAGE_KEY,
+  JSON.stringify({
+    version: 17,
+    working: variantsWorking,
+    saved: variantsSaved,
+    isEditing: true,
+    attachments: {},
+    savedAttachments: {},
+  }),
+);
+const variantsStore = createStore();
+dispose = initializeAuthoringPersistence(variantsStore);
+assert.deepEqual(
+  variantsStore.get(authoringSnapshotAtom).structures!.structures[0].generation!
+    .sizeTermIds,
+  Object.values(SIZE_TERM_IDS),
+  "An enabled legacy size subset upgrades to all supported sizes.",
+);
+assert.deepEqual(
+  variantsStore.get(editSessionSnapshotAtom)!.structures!.structures[0]
+    .generation!.sizeTermIds,
+  [SIZE_TERM_IDS.m],
+  "Saved and working size support migrate independently.",
+);
+assert.equal(
+  variantsStore.get(authoringSnapshotAtom).structures!.structures[0]
+    .description,
+  "Working description.",
+);
+assert.equal(
+  JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!).version,
+  AUTHORING_RECORD_VERSION,
+);
+variantsStore.set(cancelEditAtom);
+assert.equal(
+  variantsStore.get(authoringSnapshotAtom).structures!.structures[0]
+    .description,
+  "Saved description.",
+);
+dispose();
+
 const preservedCatalog = createDefaultSnapshot();
 const preservedColorCategory = preservedCatalog.taxonomy!.categories.find(
-  (category) => category.key === "colorName",
+  (category) => category.key === "colorFamily",
 )!;
 preservedCatalog.taxonomy!.terms.push({
   id: "5fa1d788-9cac-432e-bd81-59f6f44cca74",

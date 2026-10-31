@@ -3,11 +3,16 @@ import { Button, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { EditOnly } from "../../components/editable";
 import { RuleCard } from "../../components/logic/RuleCard";
 import { RuleEditorDialog } from "../../components/logic/RuleEditorDialog";
 import { createRule } from "../../features/logic/model";
-import { addRuleAtom, rulesAtom } from "../../features/logic/state";
+import {
+  addRuleAtom,
+  rulesAtom,
+  saveGeneratorDraftAtom,
+} from "../../features/logic/state";
 
 const sectionStyles = style({
   display: "flex",
@@ -29,8 +34,10 @@ const gridStyles = style({
 const emptyStyles = style({ font: "body", color: "neutral-subdued" });
 
 export function RulesView() {
+  const notify = useNotify();
   const rules = useAtomValue(rulesAtom);
   const addRule = useSetAtom(addRuleAtom);
+  const saveGenerator = useSetAtom(saveGeneratorDraftAtom);
 
   return (
     <section className={sectionStyles} aria-labelledby="logic-rules-heading">
@@ -48,7 +55,13 @@ export function RulesView() {
             }
             title="New rule"
             createDraft={() => createRule("rounding")}
-            onSave={addRule}
+            onSave={(rule, edit) =>
+              notify.added("rule", () => {
+                if (edit) saveGenerator({ rule, edit });
+                else addRule(rule);
+                return true;
+              })
+            }
           />
         </EditOnly>
       </div>

@@ -25,7 +25,12 @@ export function normalizeBrowserColorOutputs(
       ? {
           ...token,
           value:
-            finalUiValues.get(token.id) ??
+            (!token.referenceId &&
+            !token.literalShadows &&
+            !token.lifecycle?.frozen &&
+            !token.valueOverridden
+              ? finalUiValues.get(token.id)
+              : undefined) ??
             serializeOutputColor(new Color(String(token.value)), settings),
         }
       : token,

@@ -14,7 +14,7 @@ import type { TypographyDocument } from "../typography/model";
 import { generateTypography } from "../typography/typographyGeneration";
 import type { ScaleType } from "../scales/scaleType";
 import type { Interpolation } from "../scales/interpolationDefinition";
-import type { Rule } from "./model";
+import { isTshirtRule, type Rule } from "./model";
 import type { StructuresDocument } from "../structures/model";
 import { structureGeneration } from "../structures/model";
 import type { EditSessionSnapshot } from "../edit-session/state";
@@ -22,6 +22,11 @@ import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { canonicalJson } from "../design-data/canonicalJson";
 import type { ColorSystemDocument } from "../color-system/model";
 import { contrastStepIndex } from "../color-system/contrastSteps";
+import {
+  ruleAppliesTo,
+  ruleAppliesToReference,
+  type RuleValueType,
+} from "./applicability";
 
 export type RuleConsumerSlot =
   | {
@@ -53,6 +58,7 @@ export interface RuleReferenceDocuments {
   interpolations?: readonly Interpolation[];
   structures?: StructuresDocument;
   snapshot?: EditSessionSnapshot;
+  draftSnapshot?: EditSessionSnapshot;
   color?: ColorSystemDocument;
 }
 
@@ -199,6 +205,7 @@ export interface ConsumerImpact {
   issues: SpacingScaleIssue[];
   warnings?: string[];
   errors?: string[];
+  inactive?: boolean;
 }
 
 function typographyValues(
@@ -258,6 +265,13 @@ export function draftRuleImpact(
     ? rules.map((rule) => (rule.id === draft.id ? draft : rule))
     : [...rules, draft];
   const consumers = consumersOf(draft.id, documents);
+  if (draft.type === "conditional") {
+    if (consumers.length)
+      throw new Error(
+        "Conditional rules do not yet support generated-token or Structure consumers.",
+      );
+    return [];
+  }
   if (draft.type === "scale-naming")
     return consumers.map((consumer) => {
       if (consumer.slot.foundation !== "color")
@@ -285,7 +299,7 @@ export function draftRuleImpact(
         warnings: [`Indices: ${after.join(", ")}`],
       };
     });
-  if (draft.type === "tshirt-sizing") {
+  if (isTshirtRule(draft)) {
     if (!consumers.length) return [];
     if (!documents.snapshot)
       throw new Error(
@@ -294,7 +308,7 @@ export function draftRuleImpact(
     try {
       const before = buildTshirtArtifacts(documents.snapshot);
       const after = buildTshirtArtifacts({
-        ...documents.snapshot,
+        ...(documents.draftSnapshot ?? documents.snapshot),
         rules: [...withDraft],
       });
       return consumers.map((consumer) => {
@@ -320,8 +334,14 @@ export function draftRuleImpact(
             ]),
         );
         const all = [...new Set([...left.keys(), ...right.keys()])];
+        const affected = after.semantics.filter((row) =>
+          row.applicationIds.includes(id),
+        );
         return {
           consumer,
+          inactive:
+            affected.length > 0 &&
+            affected.every((row) => !ruleAppliesToReference(draft, row.target)),
           changed: all.filter((key) => left.get(key) !== right.get(key)).length,
           total: all.length,
           issues: [],
@@ -366,6 +386,9 @@ export function draftRuleImpact(
         changed: after.filter((value, index) => value !== before[index]).length,
         total: after.length,
         issues: [],
+        inactive: !roundingConsumerTypes(consumer).some((type) =>
+          ruleAppliesTo(draft, type),
+        ),
       };
     }
     const values =
@@ -382,12 +405,26 @@ export function draftRuleImpact(
         (value, index) => value.value !== before[index]?.value,
       ).length,
       total: after.length,
+      inactive: !ruleAppliesTo(draft, slot.foundation),
       issues:
         slot.foundation === "radius"
           ? dimensionIssues(after, "non-negative").issues
           : spacingScaleIssues(after),
     };
   });
+}
+
+export function roundingConsumerTypes(consumer: RuleConsumer): RuleValueType[] {
+  const slot = consumer.slot;
+  return slot.foundation === "typography"
+    ? slot.field === "textRoundingRuleId"
+      ? ["font-size", "workflow-icon-size"]
+      : ["line-height"]
+    : slot.foundation === "spacing" ||
+        slot.foundation === "size" ||
+        slot.foundation === "radius"
+      ? [slot.foundation]
+      : [];
 }
 
 function radiusValues(

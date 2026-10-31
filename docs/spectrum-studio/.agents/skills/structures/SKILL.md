@@ -41,11 +41,15 @@ The shipped slice is narrower than the epics; do not build beyond the request (`
 
 ## Generation (`generation.ts`)
 
-- `StructureGeneration`: `sizeTermIds` (must include M), `nameRef` (a governed Registry name, Element
-  or Structure term), and `applications` of T-shirt rules.
+- `StructureGeneration`: nonempty distinct Registry `sizeTermIds`, `nameRef` (a governed Registry
+  name, Element or Structure term), and `applications` of Generator rules. Selected terms must
+  exist in every applied Generator; do not constrain this list to the old five sizes.
 - A `StructureRuleApplication` targets `all` or `custom` binding ids, using the rule engine in
   `formula-engine`. `previewTargets` select element previews separately from layout-token `targets`.
-- Only token-backed slots (`$ref`, with a family) are eligible. Applications may not overlap.
+- Only token-backed slots (`$ref`, with a family) are eligible. Applicability intersects authored
+  All/Custom targets for layout and element previews. Excluded bindings retain their anchor;
+  inactive applications retain saved targets. Only active targets may not overlap.
+  Use the shared applicability predicate and actual typography metric metadata.
 - `structureTokenGroups` merges four equivalent padding or radius sides into one token, and equivalent
   left and right or top and bottom padding into a horizontal or vertical group.
 - Generated rows come from `design-data/tshirtArtifacts.ts` (`buildTshirtArtifacts`) and reach the
@@ -57,8 +61,9 @@ The shipped slice is narrower than the epics; do not build beyond the request (`
 ## Resolution and preview (`resolution.ts`, `composition.ts`, `elementResolution.ts`)
 
 `resolveStructure` turns a Structure into CSS, and `resolveComposition` resolves references down the
-graph at a size, using the nearest supported size when one is unavailable (Medium on ties) with a
-visible warning. Hug and Fill need a measured layout, so they report "must be measured" until measured.
+graph at a size, using the source's attached Generator order to find the nearest supported size
+when one is unavailable (Medium on ties), with a visible warning. Unrelated library rules do not
+set the fallback order. Hug and Fill need a measured layout, so they report "must be measured" until measured.
 Resolution returns `issues` per slot; it does not throw for an unresolved token. Add markers, selection
 outlines and the empty-Structure authoring floor never count toward layout measurement.
 

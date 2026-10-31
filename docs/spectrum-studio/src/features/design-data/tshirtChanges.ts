@@ -38,8 +38,12 @@ export function tshirtTokenChanges(
     const left = original.get(id) ?? [],
       right = current.get(id) ?? [];
     const fields: ChangeItem["fields"] = [];
-    const oldName = left[0] ? formatTshirtName(left[0].token.name) : undefined,
-      newName = right[0] ? formatTshirtName(right[0].token.name) : undefined;
+    const oldName = left[0]
+        ? (left[0].canonicalName ?? formatTshirtName(left[0].token.name))
+        : undefined,
+      newName = right[0]
+        ? (right[0].canonicalName ?? formatTshirtName(right[0].token.name))
+        : undefined;
     if (oldName !== newName)
       fields.push({
         key: "Name",
@@ -118,8 +122,8 @@ export function tshirtTokenImpactRecords(
       })),
       nameChanged:
         !before.length ||
-        formatTshirtName(rows[0].token.name) !==
-          formatTshirtName(before[0].token.name),
+        (rows[0].canonicalName ?? formatTshirtName(rows[0].token.name)) !==
+          (before[0].canonicalName ?? formatTshirtName(before[0].token.name)),
       metadataChanged: rows.some(
         (row) =>
           !byRow.has(row.token.uuid) ||

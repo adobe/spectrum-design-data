@@ -5,6 +5,7 @@ import {
   roundingFactorFor,
 } from "../logic/evaluate";
 import { RULE_DEFAULTS } from "../logic/defaults";
+import type { RuleValueType } from "../logic/applicability";
 import type { Rule } from "../logic/model";
 import {
   evaluateInterpolationMapping,
@@ -57,6 +58,7 @@ export interface GeneratedScaleValue {
 export interface ScaleLibrary {
   scaleTypes?: readonly ScaleType[];
   rules?: readonly Rule[];
+  valueType?: RuleValueType;
 }
 
 /** Current value of each mode parameter, keyed by parameter id (e.g. `typography.textZoom`). */
@@ -115,8 +117,8 @@ export function generateScale(
       index,
       step: scaleStepName(index, below),
       raw,
-      factor: roundingFactorFor(rule, raw),
-      value: applyRoundingRule(rule, raw),
+      factor: roundingFactorFor(rule, raw, library.valueType),
+      value: applyRoundingRule(rule, raw, library.valueType),
     });
   }
   return values;
@@ -129,6 +131,7 @@ export function generateDerivedScale(
   mapping: InterpolationMapping,
   roundingRuleId: string,
   rules: readonly Rule[] = RULE_DEFAULTS,
+  valueType?: RuleValueType,
 ): GeneratedScaleValue[] {
   const rule = resolveRule(rules, roundingRuleId);
   return source.map(({ index, step, value }) => {
@@ -137,8 +140,8 @@ export function generateDerivedScale(
       index,
       step,
       raw,
-      factor: roundingFactorFor(rule, raw),
-      value: applyRoundingRule(rule, raw),
+      factor: roundingFactorFor(rule, raw, valueType),
+      value: applyRoundingRule(rule, raw, valueType),
     };
   });
 }

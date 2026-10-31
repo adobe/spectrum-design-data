@@ -5,6 +5,8 @@ import {
   modeSetUsesOptionIcons,
 } from "../src/features/modes/controlPresentation";
 import { MODE_SET_DEFAULTS } from "../src/features/modes/model";
+import { conditionSources } from "../src/features/logic/conditional";
+import { designSystemDefaults } from "../src/data/defaults";
 
 const source = MODE_SET_DEFAULTS[0];
 const uniqueIcons = {
@@ -80,4 +82,32 @@ assert.equal(
   "none",
 );
 
-console.log("Shared mode-control icon presentation checks passed.");
+const sources = conditionSources(designSystemDefaults.system.taxonomy, [
+  { ...uniqueIcons, id: "unique-icons" },
+  { ...uniqueIcons, id: "group-icon", iconId: "textSize" },
+  {
+    ...uniqueIcons,
+    id: "no-icons",
+    modes: uniqueIcons.modes.map((mode) => ({ ...mode, iconId: "none" })),
+  },
+]);
+assert.equal(
+  sources.find((source) => source.id === "unique-icons")?.modeIconId,
+  "light",
+);
+assert.equal(
+  sources.find((source) => source.id === "group-icon")?.modeIconId,
+  "textSize",
+);
+assert.equal(
+  sources.find((source) => source.id === "no-icons")?.modeIconId,
+  "none",
+);
+assert.ok(
+  sources
+    .filter((source) => source.kind === "taxonomy")
+    .every((source) => source.modeIconId === undefined),
+);
+console.log(
+  "Shared mode-control and condition-source icon presentation checks passed.",
+);

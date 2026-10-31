@@ -1,10 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { Content, Heading, InlineAlert, Text } from "@react-spectrum/s2";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
-import {
-  COMPONENT_SIZES,
-  type ComponentSize,
-} from "../../features/foundations/componentSizes";
+import { COMPONENT_SIZES } from "../../features/foundations/componentSizes";
 import { structureSizes } from "../../features/structures/generation";
 import {
   structureGeneration,
@@ -47,7 +44,7 @@ function SizePreview({
   structures,
 }: Required<Pick<StructurePermutationsViewProps, "bundle">> & {
   structure: Structure;
-  size: ComponentSize;
+  size: string;
   references: readonly PrimitiveReference[];
   selection: Record<string, string>;
   rules: readonly Rule[];
@@ -159,7 +156,10 @@ function SizePreview({
     observer.observe(natural.current);
     return () => observer.disconnect();
   }, [key, invalidNatural, resolved]);
-  const label = COMPONENT_SIZES.find((option) => option.id === size)!.label;
+  const label =
+    COMPONENT_SIZES.find((option) => option.id === size)?.label ??
+    bundle.semantics.find((row) => row.size === size)?.token.name.size ??
+    size;
   return (
     <section
       className="structurePermutation"

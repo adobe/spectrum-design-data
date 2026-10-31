@@ -28,6 +28,7 @@ export interface DimensionComparisonInput {
   modeSets: readonly ModeSet[];
   current: ModeParameterValues;
   valuePolicy?: DimensionValuePolicy;
+  valueType?: "spacing" | "size" | "radius";
 }
 
 export interface DimensionComparisonSetting extends ComparisonItem {

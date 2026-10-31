@@ -194,6 +194,34 @@ export function authoringOutputMetadata(
   });
   const dormantMemberIds = staticCategoricalTokenIds(system.foundations.color);
   for (const [tokenId, edit] of Object.entries(edits)) {
+    if (edit.authoring?.manual)
+      metadata.recipes.push(
+        recipe(
+          `manual-token:${tokenId}`,
+          `/browserTokenEdits/${pointerPart(tokenId)}/authoring/manual`,
+          "resolveBrowserTokens",
+          [edit.authoring.manual.targetId],
+        ),
+      );
+    for (const [key, assignment] of Object.entries(
+      edit.authoring?.assignments ?? {},
+    )) {
+      metadata.assignments.push({
+        id: browserAssignmentId(tokenId, key),
+        kind: "browser-value-edit",
+        source: "authoring-dataset",
+        pointer: `/browserTokenEdits/${pointerPart(tokenId)}/authoring/assignments/${pointerPart(key)}`,
+        context: {},
+        selection: Object.fromEntries(JSON.parse(key) as [string, string][]),
+        ...(assignment.kind === "literal" &&
+          edit.authoring?.baselines?.[key] !== undefined && {
+            valueEvidence: {
+              assigned: assignment.value,
+              baseline: edit.authoring.baselines[key],
+            },
+          }),
+      });
+    }
     if (dormantMemberIds.has(tokenId)) continue;
     for (const modeKey of Object.keys(edit.values)) {
       const selection = Object.fromEntries(

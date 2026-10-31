@@ -3,6 +3,7 @@ import { Button, Menu, MenuItem, MenuTrigger, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { EditOnly } from "../../components/editable";
 import { InterpolationCard } from "../../components/logic/InterpolationCard";
 import { InterpolationEditorDialog } from "../../components/logic/InterpolationEditorDialog";
@@ -49,6 +50,7 @@ const interpolationGridStyles = style({
 const emptyStyles = style({ font: "body", color: "neutral-subdued" });
 
 export function FormulasView() {
+  const notify = useNotify();
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const interpolations = useAtomValue(interpolationsAtom);
   const addInterpolation = useSetAtom(addInterpolationAtom);
@@ -116,7 +118,12 @@ export function FormulasView() {
               }
               title="New interpolation"
               createDraft={createInterpolation}
-              onSave={addInterpolation}
+              onSave={(interpolation) =>
+                notify.added("interpolation", () => {
+                  addInterpolation(interpolation);
+                  return true;
+                })
+              }
             />
           </EditOnly>
         </div>

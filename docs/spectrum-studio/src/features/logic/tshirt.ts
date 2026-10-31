@@ -1,14 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import {
-  COMPONENT_SIZES,
-  type ComponentSize,
-} from "../foundations/componentSizes";
-import { SIZE_TERM_IDS } from "../taxonomy/variantVocabulary";
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
-import { isRule, type TshirtSizingRule } from "./model";
+import { isRule, isTshirtRule, type TshirtSizingRule } from "./model";
+import { generatorSizeKey, generatorTermId } from "./generator";
+import { ruleAppliesToReference } from "./applicability";
 
 export interface TshirtVariantMapping {
-  size: ComponentSize;
+  size: string;
   termId: string;
   offset: number;
   requested: number;
@@ -22,7 +19,7 @@ export function resolveTshirtRule(
   id: string,
 ): TshirtSizingRule {
   const rule = rules.find((item) => item.id === id);
-  if (!rule || rule.type !== "tshirt-sizing" || !isRule(rule))
+  if (!rule || !isTshirtRule(rule) || !isRule(rule))
     throw new Error(
       "The attached T-shirt rule is unavailable or incompatible. Choose a valid generation rule.",
     );
@@ -33,16 +30,21 @@ export function tshirtMappings(
   rule: TshirtSizingRule,
   anchor: PrimitiveReference,
   references: readonly PrimitiveReference[],
-  sizes: readonly ComponentSize[],
+  sizes: readonly string[],
 ): TshirtVariantMapping[] {
   if (!isRule(rule))
     throw new Error(
-      "Use five finite integer offsets and a fixed Medium offset of zero.",
+      "Use distinct options with integer offsets and one zero-offset default.",
     );
   if (
     !sizes.length ||
     new Set(sizes).size !== sizes.length ||
-    sizes.some((size) => !COMPONENT_SIZES.some((option) => option.id === size))
+    sizes.some(
+      (size) =>
+        !rule.mappings.some(
+          (option) => option.termId === generatorTermId(size),
+        ),
+    )
   ) {
     throw new Error("Choose supported, distinct T-shirt sizes.");
   }
@@ -81,12 +83,12 @@ export function tshirtMappings(
   )
     throw new Error("The source has ambiguous token indices or identities.");
   const anchorPosition = available.findIndex((item) => item.id === anchor.id);
-  return COMPONENT_SIZES.filter((size) => sizes.includes(size.id)).map(
-    (size) => {
-      const termId = SIZE_TERM_IDS[size.id];
-      const offset = rule.mappings.find(
-        (mapping) => mapping.termId === termId,
-      )!.offset;
+  return rule.mappings
+    .filter((mapping) => sizes.includes(generatorSizeKey(mapping.termId)))
+    .map((option) => {
+      const termId = option.termId;
+      const size = generatorSizeKey(termId);
+      const offset = ruleAppliesToReference(rule, anchor) ? option.offset : 0;
       const requested =
         (rule.movement === "available-token" ? anchorPosition : anchor.step!) +
         offset;
@@ -114,16 +116,15 @@ export function tshirtMappings(
         actual = target.step!;
       }
       return {
-        size: size.id,
+        size,
         termId,
         offset,
         requested,
         actual,
         target,
         ...(actual !== requested && {
-          warning: `${size.label}: requested ${rule.movement === "available-token" ? "token position" : "scale index"} ${requested}; using ${target.name} (scale index ${target.step}). Nearest available token.`,
+          warning: `${size}: requested ${rule.movement === "available-token" ? "token position" : "scale index"} ${requested}; using ${target.name} (scale index ${target.step}). Nearest available token.`,
         }),
       };
-    },
-  );
+    });
 }

@@ -20,7 +20,7 @@ for (const story of [
   "views-add-structure-element--pointer",
   "views-add-structure-element--keyboard",
   "panels-structure-element--text-bindings",
-  "panels-structure-element--custom-deletion",
+  "panels-structure-element--visual",
   "views-structure-elements--empty-insertion",
 ]) {
   test(`${story} completes its focused interaction`, async ({ page }) => {

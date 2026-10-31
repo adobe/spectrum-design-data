@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "@storybook/test";
 import { RULE_DEFAULTS } from "../../features/logic/defaults";
 import { createRule } from "../../features/logic/model";
-import { DeletionToastProvider } from "../DeletionToastProvider";
+import { NotificationProvider } from "../notifications/NotificationProvider";
 import { RuleCard } from "./RuleCard";
 
 const meta = {
@@ -12,11 +12,11 @@ const meta = {
   parameters: { layout: "padded" },
   decorators: [
     (Story) => (
-      <DeletionToastProvider>
+      <NotificationProvider>
         <div style={{ maxWidth: 340 }}>
           <Story />
         </div>
-      </DeletionToastProvider>
+      </NotificationProvider>
     ),
   ],
   args: { rule: RULE_DEFAULTS[0], index: 0 },

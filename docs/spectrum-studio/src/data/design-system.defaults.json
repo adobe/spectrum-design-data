@@ -38,9 +38,7 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": [
-            "colors"
-          ],
+          "scopes": ["colors"],
           "required": false,
           "includeInProjections": true
         },
@@ -51,9 +49,7 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": [
-            "colors"
-          ],
+          "scopes": ["colors"],
           "required": false,
           "includeInProjections": true
         },
@@ -64,12 +60,7 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": [
-            "spacing",
-            "size",
-            "radius",
-            "elevation"
-          ],
+          "scopes": ["spacing", "size", "radius", "elevation"],
           "required": false,
           "includeInProjections": true
         },
@@ -1445,7 +1436,7 @@
       "classifications": {}
     },
     "structures": {
-      "schemaVersion": 4,
+      "schemaVersion": 5,
       "structures": [
         {
           "conceptId": "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
@@ -2981,23 +2972,142 @@
         "schemaVersion": 1,
         "polarityCompensation": 0,
         "levels": [
-          {"id":"df593e76-98f4-4adb-9b5b-224e5212d6c5","value":0.02,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"d3b2ee06-7e58-4dd0-9e97-2b69134033bd","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"75d8021a-8cb6-45e6-9584-576c87ad2b37"}},
-          {"id":"8d73cadb-4922-4c19-950c-e332dd36ac13","value":0.03,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"aaceba3b-0f54-462e-aedb-7b8bb78c5983","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"593d5718-fc8d-4258-bb88-dc325b081e06"}},
-          {"id":"ab4b9925-fb8e-4cc4-a657-a62710d0a6e0","value":0.04,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"3ea964d8-06e1-4a2b-b0f4-d37a0e9f627f","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"dc6413e2-8138-4168-9ff5-290de3fa8a7d"}},
-          {"id":"b8ddeefd-cadf-42a7-b282-928c5d4d3e89","value":0.06,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"6699ac23-730c-4c9a-bec8-bbfde1565074","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"42c38781-7868-418d-849b-6869a23961e9"}},
-          {"id":"e2a6b0fc-6b4e-4cc5-b658-c357a2b6fa83","value":0.08,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"7a0fde9c-68a3-485b-8969-24d6961dd8d7","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"3fc519e0-52a6-4e2b-a606-910165043b2d"}},
-          {"id":"7e931f1b-064f-4361-8e9f-c3ee46de3c66","value":0.12,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"445206ef-a8a5-4253-9ecc-5b39ac631c97","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"42b26b39-cf70-47e4-a3e0-18a4b2b0c6dc"}},
-          {"id":"83239b55-3702-484a-8da7-416ac40efacb","value":0.16,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"3bb1c0e5-c3f0-4f0f-8ce2-c775340d42a6","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"aa5ebbeb-fb3b-49ce-b89b-19ac03c13f8a"}},
-          {"id":"ce890e6f-73d8-4941-8c63-dcbbd11efad9","value":0.2,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"affb1ca9-0574-456d-8b40-f2a463df61fa","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"803e8fc1-8e2e-447e-b924-f711f7e270dd"}},
-          {"id":"29c52c1d-ad93-4146-b78a-45690c482e4c","value":0.24,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"eeb73cc6-1415-4d10-9b45-772e695c8b7e","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"5e6b5a9f-3913-4b97-a51a-f1efbd57dacd"}},
-          {"id":"35cfbcb6-1a0e-44fc-afc4-85520d938b31","value":0.32,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"e9b120fa-fdfd-4673-a2cf-cd44d627ea5e","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"0c8d2521-9536-405f-9974-b0a6e42eec4d"}},
-          {"id":"401a62eb-69cd-42d8-bd84-01dc109334cb","value":0.4,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"18d07b5a-5cc7-4bf0-a037-71dea005012c","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"513f818d-0064-4d81-931c-f6933c1e6f10"}},
-          {"id":"9d63d492-84cd-499f-ba04-0c876adf3574","value":0.48,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"0d06afd5-b2c4-4efe-a96d-e88aeebb4253","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"1ce34ce2-90c3-4328-a3d5-47c761fd8273"}},
-          {"id":"b2104d14-8a7c-44e0-90e5-15fd64d47116","value":0.56,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"8528180b-fc3a-4554-a6f8-6a1c0c97f3c7","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"03b57699-c66b-4b7e-8125-a5e6d1f49977"}},
-          {"id":"a5882084-12a9-45bd-ba8e-107f68a23b8c","value":0.64,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"f4bed746-d69d-4cd5-b37d-69c1aeccc250","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"c4ac91d3-2718-4d21-bbd2-e7f425e5725f"}},
-          {"id":"4c48219d-c46a-493c-bcef-3f60b408abef","value":0.8,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"5499fa45-abf6-4798-a4d4-677b541663fd","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"7b29e4a3-2d9c-4621-b5a1-569fc3bb2c88"}},
-          {"id":"982854bf-e30e-483c-b209-655c9df5d975","value":0.96,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"a0003277-9288-42fd-accb-cd0986fc66c5","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"b01b25b9-05dc-473c-bc4b-563d6f821560"}},
-          {"id":"36289897-b727-4c7e-8b56-6b0640aed0d9","value":1,"rows":{"[[\"mode-set-color-scheme\",\"mode-light\"]]":"052ea914-dc00-4691-9c78-aea6e24d8299","[[\"mode-set-color-scheme\",\"mode-dark\"]]":"756a5f92-7a84-43a0-a738-c1b0a7e7ca5e"}}
+          {
+            "id": "df593e76-98f4-4adb-9b5b-224e5212d6c5",
+            "value": 0.02,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "d3b2ee06-7e58-4dd0-9e97-2b69134033bd",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "75d8021a-8cb6-45e6-9584-576c87ad2b37"
+            }
+          },
+          {
+            "id": "8d73cadb-4922-4c19-950c-e332dd36ac13",
+            "value": 0.03,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "aaceba3b-0f54-462e-aedb-7b8bb78c5983",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "593d5718-fc8d-4258-bb88-dc325b081e06"
+            }
+          },
+          {
+            "id": "ab4b9925-fb8e-4cc4-a657-a62710d0a6e0",
+            "value": 0.04,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "3ea964d8-06e1-4a2b-b0f4-d37a0e9f627f",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "dc6413e2-8138-4168-9ff5-290de3fa8a7d"
+            }
+          },
+          {
+            "id": "b8ddeefd-cadf-42a7-b282-928c5d4d3e89",
+            "value": 0.06,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "6699ac23-730c-4c9a-bec8-bbfde1565074",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "42c38781-7868-418d-849b-6869a23961e9"
+            }
+          },
+          {
+            "id": "e2a6b0fc-6b4e-4cc5-b658-c357a2b6fa83",
+            "value": 0.08,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "7a0fde9c-68a3-485b-8969-24d6961dd8d7",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "3fc519e0-52a6-4e2b-a606-910165043b2d"
+            }
+          },
+          {
+            "id": "7e931f1b-064f-4361-8e9f-c3ee46de3c66",
+            "value": 0.12,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "445206ef-a8a5-4253-9ecc-5b39ac631c97",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "42b26b39-cf70-47e4-a3e0-18a4b2b0c6dc"
+            }
+          },
+          {
+            "id": "83239b55-3702-484a-8da7-416ac40efacb",
+            "value": 0.16,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "3bb1c0e5-c3f0-4f0f-8ce2-c775340d42a6",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "aa5ebbeb-fb3b-49ce-b89b-19ac03c13f8a"
+            }
+          },
+          {
+            "id": "ce890e6f-73d8-4941-8c63-dcbbd11efad9",
+            "value": 0.2,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "affb1ca9-0574-456d-8b40-f2a463df61fa",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "803e8fc1-8e2e-447e-b924-f711f7e270dd"
+            }
+          },
+          {
+            "id": "29c52c1d-ad93-4146-b78a-45690c482e4c",
+            "value": 0.24,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "eeb73cc6-1415-4d10-9b45-772e695c8b7e",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "5e6b5a9f-3913-4b97-a51a-f1efbd57dacd"
+            }
+          },
+          {
+            "id": "35cfbcb6-1a0e-44fc-afc4-85520d938b31",
+            "value": 0.32,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "e9b120fa-fdfd-4673-a2cf-cd44d627ea5e",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "0c8d2521-9536-405f-9974-b0a6e42eec4d"
+            }
+          },
+          {
+            "id": "401a62eb-69cd-42d8-bd84-01dc109334cb",
+            "value": 0.4,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "18d07b5a-5cc7-4bf0-a037-71dea005012c",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "513f818d-0064-4d81-931c-f6933c1e6f10"
+            }
+          },
+          {
+            "id": "9d63d492-84cd-499f-ba04-0c876adf3574",
+            "value": 0.48,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "0d06afd5-b2c4-4efe-a96d-e88aeebb4253",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "1ce34ce2-90c3-4328-a3d5-47c761fd8273"
+            }
+          },
+          {
+            "id": "b2104d14-8a7c-44e0-90e5-15fd64d47116",
+            "value": 0.56,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "8528180b-fc3a-4554-a6f8-6a1c0c97f3c7",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "03b57699-c66b-4b7e-8125-a5e6d1f49977"
+            }
+          },
+          {
+            "id": "a5882084-12a9-45bd-ba8e-107f68a23b8c",
+            "value": 0.64,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "f4bed746-d69d-4cd5-b37d-69c1aeccc250",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "c4ac91d3-2718-4d21-bbd2-e7f425e5725f"
+            }
+          },
+          {
+            "id": "4c48219d-c46a-493c-bcef-3f60b408abef",
+            "value": 0.8,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "5499fa45-abf6-4798-a4d4-677b541663fd",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "7b29e4a3-2d9c-4621-b5a1-569fc3bb2c88"
+            }
+          },
+          {
+            "id": "982854bf-e30e-483c-b209-655c9df5d975",
+            "value": 0.96,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "a0003277-9288-42fd-accb-cd0986fc66c5",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "b01b25b9-05dc-473c-bc4b-563d6f821560"
+            }
+          },
+          {
+            "id": "36289897-b727-4c7e-8b56-6b0640aed0d9",
+            "value": 1,
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"]]": "052ea914-dc00-4691-9c78-aea6e24d8299",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"]]": "756a5f92-7a84-43a0-a738-c1b0a7e7ca5e"
+            }
+          }
         ]
       },
       "elevation": {
@@ -3087,12 +3197,7 @@
             "name": "Light",
             "description": "",
             "iconId": "light",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {}
           },
           {
@@ -3101,14 +3206,10 @@
             "name": "Dark",
             "description": "",
             "iconId": "dark",
-            "platformIds": [
-              "react",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "ios", "android"],
             "foundations": {
               "color": {
-                "backgroundLightness": 0
+                "backgroundLightness": 0.17
               },
               "elevation": {}
             }
@@ -3122,9 +3223,7 @@
         "description": "",
         "iconId": "contrast",
         "defaultModeId": "mode-contrast-regular",
-        "authoringCapabilities": [
-          "color.contrastMultiplier"
-        ],
+        "authoringCapabilities": ["color.contrastMultiplier"],
         "modes": [
           {
             "id": "mode-contrast-regular",
@@ -3132,12 +3231,7 @@
             "name": "Regular",
             "description": "",
             "iconId": "contrast",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {}
           },
           {
@@ -3146,12 +3240,7 @@
             "name": "High",
             "description": "",
             "iconId": "contrast",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {
               "color": {
                 "contrastMultiplier": 2
@@ -3167,9 +3256,7 @@
         "description": "",
         "iconId": "textSize",
         "defaultModeId": "mode-text-scaling-default",
-        "authoringCapabilities": [
-          "typography.textZoom"
-        ],
+        "authoringCapabilities": ["typography.textZoom"],
         "modes": [
           {
             "id": "mode-text-scaling-default",
@@ -3177,12 +3264,7 @@
             "name": "Default",
             "description": "",
             "iconId": "textSize",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {}
           },
           {
@@ -3191,12 +3273,7 @@
             "name": "Larger",
             "description": "",
             "iconId": "textSize",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {
               "typography": {
                 "textZoom": 2
@@ -3209,12 +3286,7 @@
             "name": "Largest",
             "description": "",
             "iconId": "textSize",
-            "platformIds": [
-              "react",
-              "web-components",
-              "ios",
-              "android"
-            ],
+            "platformIds": ["react", "web-components", "ios", "android"],
             "foundations": {
               "typography": {
                 "textZoom": 4
@@ -3428,8 +3500,13 @@
       {
         "id": "rule-tshirt-sizing",
         "name": "T-shirt sizing",
-        "description": "Generates five sizes by moving along the available foundation tokens around Medium.",
-        "type": "tshirt-sizing",
+        "description": "Generates Size options by moving along foundation tokens from a default value.",
+        "type": "generator",
+        "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "applicability": {
+          "kind": "specific",
+          "types": ["spacing", "size", "font-size", "radius"]
+        },
         "movement": "available-token",
         "mappings": [
           {
@@ -3453,6 +3530,81 @@
             "offset": 2
           }
         ]
+      },
+      {
+        "id": "rule-interaction-state-colors",
+        "name": "Interaction state colors",
+        "description": "Offsets emphasized backgrounds for hover and focus, reversing direction in Dark mode.",
+        "type": "conditional",
+        "applicability": { "kind": "specific", "types": ["color", "opacity"] },
+        "when": {
+          "id": "interaction-colors-scope",
+          "kind": "group",
+          "operator": "and",
+          "children": [
+            {
+              "id": "interaction-colors-background",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+              "matcher": "is",
+              "valueId": "d52e1d8b-48e0-4a02-9668-8c7cb5e25a62"
+            },
+            {
+              "id": "interaction-colors-emphasized",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+              "matcher": "is",
+              "valueId": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a"
+            },
+            {
+              "id": "interaction-colors-states",
+              "kind": "group",
+              "operator": "or",
+              "children": [
+                {
+                  "id": "interaction-colors-hover",
+                  "kind": "condition",
+                  "source": "taxonomy",
+                  "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+                  "matcher": "is",
+                  "valueId": "47dccbe1-70ac-4879-a770-93f292b48907"
+                },
+                {
+                  "id": "interaction-colors-focus",
+                  "kind": "condition",
+                  "source": "taxonomy",
+                  "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+                  "matcher": "is",
+                  "valueId": "83361a0d-207e-43fc-83c9-259346571c22"
+                }
+              ]
+            }
+          ]
+        },
+        "branches": [
+          {
+            "id": "interaction-colors-dark-branch",
+            "when": {
+              "id": "interaction-colors-dark-scope",
+              "kind": "group",
+              "operator": "and",
+              "children": [
+                {
+                  "id": "interaction-colors-dark",
+                  "kind": "condition",
+                  "source": "mode",
+                  "sourceId": "mode-set-color-scheme",
+                  "matcher": "is",
+                  "valueId": "mode-dark"
+                }
+              ]
+            },
+            "then": { "offset": -1 }
+          }
+        ],
+        "otherwise": { "offset": 1 }
       }
     ],
     "components": {
@@ -3623,13 +3775,9 @@
             },
             "accessibility": {
               "role": "button",
-              "intents": [
-                "trigger"
-              ],
+              "intents": ["trigger"],
               "focusable": true,
-              "keyboardIntents": [
-                "activate"
-              ],
+              "keyboardIntents": ["activate"],
               "wcag": [
                 {
                   "criterion": "2.1.1",
@@ -4046,15 +4194,9 @@
             },
             "accessibility": {
               "role": "menu",
-              "intents": [
-                "select"
-              ],
+              "intents": ["select"],
               "focusable": false,
-              "keyboardIntents": [
-                "navigate-options",
-                "activate",
-                "dismiss"
-              ],
+              "keyboardIntents": ["navigate-options", "activate", "dismiss"],
               "wcag": [
                 {
                   "criterion": "2.1.1",
@@ -4224,9 +4366,7 @@
               },
               "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
               "options": {
-                "state": [
-                  "hover"
-                ]
+                "state": ["hover"]
               },
               "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
               "$ref": "d7525980-27d9-89b1-a087-96233c8ae53a"
@@ -4239,9 +4379,7 @@
               },
               "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
               "options": {
-                "state": [
-                  "disabled"
-                ]
+                "state": ["disabled"]
               },
               "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
               "value": 0.5

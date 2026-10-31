@@ -34,6 +34,8 @@ import { opacityDocumentAtom } from "../opacity/state";
 import { synchronizeOpacityRows } from "../opacity/generation";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import type { BrowserTokenEdits } from "../tokens/browserModel";
+import { structuresDocumentAtom } from "../structures/documentState";
+import { synchronizeVariantIdentities } from "../structures/semanticIdentity";
 
 interface RemovedModeTokenValues {
   values: RemovedTokenModeValues;
@@ -75,17 +77,23 @@ function writeModeSources(
     modeSets,
     browserTokenEdits: edits,
   })!;
+  const structures = synchronizeVariantIdentities(
+    get(structuresDocumentAtom),
+    modeSets,
+  );
   withValidatedAuthoringUpdates(
     get,
     new Map<string, unknown>([
       ["modes/mode-sets", modeSets],
       ["tokens/browser/edits", edits],
       ["foundations/opacity", opacity],
+      ["design/structures", structures],
     ]),
     () => {
       set(modeSetsAtom, modeSets);
       set(browserTokenEditsAtom, edits);
       set(opacityDocumentAtom, opacity);
+      set(structuresDocumentAtom, structures);
     },
   );
 }

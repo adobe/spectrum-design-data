@@ -54,9 +54,11 @@ export function RuleUsedBy({
             {impact.consumer.label}:{" "}
             {impact.errors?.length
               ? "generation needs repair"
-              : impact.changed === 0
-                ? "no values change"
-                : `${impact.changed} of ${impact.total} values change`}
+              : impact.inactive
+                ? "inactive for the selected token value types; binding retained"
+                : impact.changed === 0
+                  ? "no values change"
+                  : `${impact.changed} of ${impact.total} values change`}
           </li>
         ))}
       </ul>

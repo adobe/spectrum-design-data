@@ -1,0 +1,31 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+.conditional-rule-builder {
+  overflow-wrap: anywhere;
+}
+.conditional-rule-group {
+  min-width: 0;
+  padding: 12px;
+}
+.conditional-rule-children {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin-inline-start: 12px;
+  padding-inline-start: 16px;
+  border-inline-start-width: 2px;
+  border-inline-start-style: solid;
+}
+.conditional-rule-builder [role="group"][aria-label="Edit statement"] > * {
+  min-width: 0;
+  max-width: 100%;
+}
+@media (max-width: 480px) {
+  .conditional-rule-group {
+    padding: 4px;
+  }
+  .conditional-rule-children {
+    margin-inline-start: 4px;
+    padding-inline-start: 8px;
+  }
+}

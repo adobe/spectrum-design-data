@@ -56,6 +56,11 @@ import {
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { componentRelationships } from "../components/projection";
 import { opacityRows, opacityOutputIssues } from "../opacity/output";
+import { canonicalTaxonomyValue } from "../taxonomy/export";
+import {
+  tokenOutputMetadata,
+  tokenOutputDiagnostics,
+} from "../tokens/outputMetadata";
 
 function overrideEvidence(row: BrowserToken): Partial<AnalysisRecord> {
   return row.nameOverridden || row.valueOverridden
@@ -608,6 +613,77 @@ export function projectAuthoringDataset(
           });
         }
       }
+    }
+    if (Object.values(browserEdits).some((edit) => edit.authoring)) {
+      const rows = canonicalAliasRows(
+        completeAliasSource({
+          ...system,
+          ...system.foundations,
+          colorSystem: system.foundations.color,
+          browserTokenEdits: browserEdits,
+        }),
+        variants,
+        "preserve-for-review",
+      );
+      const retained = records.filter((record) => record.category !== "tokens");
+      records.splice(0, records.length, ...retained);
+      outputMetadata.observations = outputMetadata.observations.filter(
+        (row) => !row.recordId.startsWith("tokens:"),
+      );
+      for (const row of rows) {
+        const context = Object.fromEntries(
+          (JSON.parse(row.context) as [string, string][]).flatMap(
+            ([axisId, modeId]) => {
+              const axis = system.modeSets.find((axis) => axis.id === axisId);
+              const mode = axis?.modes.find((mode) => mode.id === modeId);
+              return axis && mode ? [[axis.key, mode.key]] : [];
+            },
+          ),
+        );
+        const value = canonicalTaxonomyValue(row, rows);
+        add(
+          "tokens",
+          row.rowId,
+          row.name,
+          "value" in value ? value.value : undefined,
+          `/browserTokenEdits/${row.token.id}`,
+          {
+            identity: row.rowId,
+            conceptId: row.id,
+            context,
+            classification: "generated",
+            taxonomy: row.token.projection,
+            structuredName: row.token.projection?.flat,
+            ...("$ref" in value ? { reference: value.$ref } : {}),
+            ...("unit" in value ? { unit: value.unit } : {}),
+            ...tokenOutputMetadata(row, rows),
+            ...overrideEvidence(row.token),
+          },
+        );
+        const recipe = row.token.manual
+          ? `manual-token:${row.token.id}`
+          : row.token.semantic
+            ? `structure:${row.token.semantic.structureId}`
+            : row.token.type === "colors"
+              ? "color-cascade"
+              : ["elevation", "typography", "opacity"].includes(row.token.type)
+                ? row.token.type
+                : `${row.token.type}:${row.token.groupId}`;
+        const selected = new Map(JSON.parse(row.context) as [string, string][]);
+        const assignments = Object.keys(
+          browserEdits[row.token.id]?.authoring?.assignments ?? {},
+        )
+          .filter((key) =>
+            (JSON.parse(key) as [string, string][]).every(
+              ([axis, mode]) => selected.get(axis) === mode,
+            ),
+          )
+          .map((key) => browserAssignmentId(row.token.id, key));
+        observe(row.rowId, recipe, context, "serialized-context", assignments);
+      }
+      errors.push(
+        ...tokenOutputDiagnostics(rows).map((diagnostic) => diagnostic.message),
+      );
     }
   } catch (error) {
     errors.push(error instanceof Error ? error.message : String(error));

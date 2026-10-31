@@ -299,6 +299,7 @@ export function buildCascadeTokenInventory(
       );
       const target: AliasTarget = {
         id,
+        rowId: uuid,
         context,
         name: projections[uuid]?.name ?? Object.values(name).join("-"),
         ...(isStatic && {
@@ -627,6 +628,7 @@ export function buildCascadeTokenInventory(
       );
     colorReferences.set(JSON.stringify([token.uuid, "[]"]), {
       id: token.uuid,
+      rowId: token.uuid,
       context: "[]",
       name: projections[token.uuid]?.name ?? token.name.colorName,
     });

@@ -1,12 +1,15 @@
 // Copyright 2026 Adobe. All rights reserved.
 import Ajv from "ajv";
 import { canonicalJson } from "../design-data/canonicalJson";
+import { canonicalTokenModeKey } from "../tokens/browserModel";
 import {
   assertTshirtField,
   assertTshirtGraph,
   TSHIRT_PROFILE,
   TSHIRT_COMPOSITION_PROFILE,
+  TSHIRT_VARIANTS_PROFILE,
   ELEMENT_NAMING_FIELD,
+  GENERATOR_PROFILE,
 } from "../design-data/tshirtProfile";
 import type { TshirtArtifactBundle } from "../design-data/tshirtTypes";
 import {
@@ -26,10 +29,12 @@ interface GeneratedReviewOccurrence {
   fix: string;
 }
 export interface GeneratedClassificationCompatibility {
-  schemaVersion: 1 | 2;
+  schemaVersion: 1 | 2 | 3 | 4;
   profileId:
     | "leonardo-generated-tshirt-classification-compatibility-v1"
-    | "leonardo-generated-tshirt-classification-compatibility-v2";
+    | "leonardo-generated-tshirt-classification-compatibility-v2"
+    | "leonardo-generated-tshirt-classification-compatibility-v3"
+    | "leonardo-generated-tshirt-classification-compatibility-v4";
   exportKind: "compatibility";
   standardConforming: false;
   upstreamAdopted: false;
@@ -66,11 +71,13 @@ export const generatedClassificationSchema = {
     "review",
   ],
   properties: {
-    schemaVersion: { enum: [1, 2] },
+    schemaVersion: { enum: [1, 2, 3, 4] },
     profileId: {
       enum: [
         "leonardo-generated-tshirt-classification-compatibility-v1",
         "leonardo-generated-tshirt-classification-compatibility-v2",
+        "leonardo-generated-tshirt-classification-compatibility-v3",
+        "leonardo-generated-tshirt-classification-compatibility-v4",
       ],
     },
     exportKind: { const: "compatibility" },
@@ -93,7 +100,14 @@ export const generatedClassificationSchema = {
         "modeSets",
       ],
       properties: {
-        profile: { enum: [TSHIRT_PROFILE, TSHIRT_COMPOSITION_PROFILE] },
+        profile: {
+          enum: [
+            TSHIRT_PROFILE,
+            TSHIRT_COMPOSITION_PROFILE,
+            TSHIRT_VARIANTS_PROFILE,
+            GENERATOR_PROFILE,
+          ],
+        },
         sourceKind: { enum: ["shipped", "saved", "working"] },
         tokens: objects,
         semantics: objects,
@@ -107,6 +121,7 @@ export const generatedClassificationSchema = {
           properties: {
             structures: { type: "array", items: catalogEntry("id") },
             elements: { type: "array", items: catalogEntry("id") },
+            sizes: { type: "array", minItems: 1, items: catalogEntry("id") },
             foundationScales: {
               type: "array",
               items: catalogEntry("sourceId"),
@@ -229,12 +244,17 @@ export async function buildGeneratedClassificationCompatibility(
   classification: ClassificationReviewExport,
 ): Promise<GeneratedClassificationCompatibility> {
   const preserved = structuredClone(bundle);
+  const version =
+    "extensionId" in bundle.profile
+      ? bundle.profile.extensionId === GENERATOR_PROFILE.extensionId
+        ? 4
+        : bundle.profile.extensionId === TSHIRT_VARIANTS_PROFILE.extensionId
+          ? 3
+          : 2
+      : 1;
   const packet: GeneratedClassificationCompatibility = {
-    schemaVersion: "extensionId" in bundle.profile ? 2 : 1,
-    profileId:
-      "extensionId" in bundle.profile
-        ? "leonardo-generated-tshirt-classification-compatibility-v2"
-        : "leonardo-generated-tshirt-classification-compatibility-v1",
+    schemaVersion: version,
+    profileId: `leonardo-generated-tshirt-classification-compatibility-v${version}`,
     exportKind: "compatibility",
     standardConforming: false,
     upstreamAdopted: false,
@@ -263,18 +283,50 @@ export async function assertGeneratedClassificationCompatibility(
     throw new Error(
       "Generated compatibility output needs its non-conforming classification packet.",
     );
-  assertTshirtGraph(value.bundle.tokens);
   const extended = "extensionId" in value.bundle.profile;
+  const variants =
+    "extensionId" in value.bundle.profile &&
+    (value.bundle.profile.extensionId === TSHIRT_VARIANTS_PROFILE.extensionId ||
+      value.bundle.profile.extensionId === GENERATOR_PROFILE.extensionId);
+  const generator =
+    "extensionId" in value.bundle.profile &&
+    value.bundle.profile.extensionId === GENERATOR_PROFILE.extensionId;
+  const names = new Map(
+    value.bundle.semantics
+      .filter((row) => row.optionId && row.canonicalName)
+      .map((row) => [
+        row.token.uuid,
+        JSON.stringify([
+          row.canonicalName,
+          canonicalTokenModeKey(row.selection),
+        ]),
+      ]),
+  );
+  assertTshirtGraph(
+    value.bundle.tokens,
+    variants ? (token) => names.get(token.uuid) : undefined,
+    value.bundle.vocabulary.sizes?.map((term) => term.value),
+  );
+  const version = generator ? 4 : variants ? 3 : extended ? 2 : 1;
   if (
-    value.schemaVersion !== (extended ? 2 : 1) ||
+    value.schemaVersion !== version ||
     value.profileId !==
-      `leonardo-generated-tshirt-classification-compatibility-v${extended ? 2 : 1}` ||
-    extended !== (value.bundle.vocabulary.elements !== undefined)
+      `leonardo-generated-tshirt-classification-compatibility-v${version}` ||
+    extended !== (value.bundle.vocabulary.elements !== undefined) ||
+    generator !== (value.bundle.vocabulary.sizes !== undefined)
   )
     throw new Error(
       "The compatibility envelope does not match its declared naming profile.",
     );
   for (const token of value.bundle.tokens) {
+    if (
+      generator &&
+      token.name.size &&
+      !value.bundle.vocabulary.sizes!.some(
+        (term) => term.value === token.name.size,
+      )
+    )
+      throw new Error("Generated output has an undeclared Size option.");
     if (
       token.name.element &&
       (!extended ||

@@ -768,7 +768,10 @@ export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
     });
     return;
   }
-  if (item.sourceKind === "semantic-token")
+  if (
+    item.sourceKind === "semantic-token" &&
+    !get(browserTokenEditsAtom)[item.id]
+  )
     throw new Error(
       "Revert generated variants through their Structure application, rule or foundation source.",
     );
@@ -1149,7 +1152,7 @@ export const revertChangeTopicAtom = atom(
               !RULE_DEFAULTS.some(
                 (rule) =>
                   rule.id === application.ruleId &&
-                  rule.type === "tshirt-sizing",
+                  (rule.type === "tshirt-sizing" || rule.type === "generator"),
               ),
           ),
         )

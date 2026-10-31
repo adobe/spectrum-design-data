@@ -19,9 +19,12 @@ test.afterEach(({ page }) => {
 });
 
 for (const story of [
-  "panels-t-shirt-sizing-rule--default",
-  "panels-t-shirt-sizing-rule--keyboard-offsets",
-  "panels-t-shirt-sizing-rule--nearest-targets",
+  "panels-generator-rule--default",
+  "panels-generator-rule--keyboard-offsets",
+  "panels-generator-rule--nearest-targets",
+  "panels-generator-rule--custom-options",
+  "components-rule-token-value-types--default",
+  "components-rounding-rule-editor--default",
   "panels-structure-generation-rule--default",
   "panels-structure-generation-rule--custom-properties",
   "panels-structure-generation-rule--keyboard-selection",
@@ -41,35 +44,35 @@ test("Rule boundaries, empty sources and read-only inspection remain explicit", 
   page,
 }) => {
   await page.goto(
-    "/iframe.html?id=panels-t-shirt-sizing-rule--invalid-offsets&viewMode=story",
+    "/iframe.html?id=panels-generator-rule--invalid-offsets&viewMode=story",
   );
   await expect(
-    page.getByRole("textbox", { name: "Small offset", exact: true }),
+    page.getByRole("textbox", { name: /^Small token offset(?: |$)/ }),
   ).toHaveAttribute("aria-invalid", "true");
   await page.goto(
-    "/iframe.html?id=panels-t-shirt-sizing-rule--read-only&viewMode=story",
+    "/iframe.html?id=panels-generator-rule--read-only&viewMode=story",
   );
   await expect(
-    page.getByRole("textbox", { name: "Small offset", exact: true }),
+    page.getByRole("textbox", { name: /^Small token offset(?: |$)/ }),
   ).toHaveAttribute("readonly");
   await expect(
     page.getByRole("button", { name: /Move along the scale by$/ }),
   ).toBeDisabled();
   await expect(
-    page.getByRole("combobox", { name: "Representative Medium token" }),
+    page.getByRole("combobox", { name: "Default value" }),
   ).toBeEnabled();
   await page.goto(
-    "/iframe.html?id=panels-t-shirt-sizing-rule--no-sources&viewMode=story",
+    "/iframe.html?id=panels-generator-rule--no-sources&viewMode=story",
   );
   await expect(
-    page.getByRole("grid", { name: "T-shirt mapping preview" }),
+    page.getByRole("grid", { name: "Generator preview" }),
   ).toHaveCount(0);
 });
 
 for (const { story, message } of [
   {
     story: "no-rules",
-    message: "Create a T-shirt sizing rule in Logic first.",
+    message: "Create a Generator rule in Logic first.",
   },
   { story: "no-eligible-properties", message: "Assign foundation tokens" },
   { story: "overlapping-applications", message: "overlap" },
@@ -138,10 +141,10 @@ for (const appearance of ["light", "dark"])
       await page.setViewportSize({ width, height: 1000 });
       const globals = `&globals=colorScheme:${appearance}`;
       await page.goto(
-        `/iframe.html?id=panels-t-shirt-sizing-rule--numeric-indices&viewMode=story${globals}`,
+        `/iframe.html?id=panels-generator-rule--numeric-indices&viewMode=story${globals}`,
       );
       const representative = page.getByRole("combobox", {
-        name: "Representative Medium token",
+        name: "Default value",
       });
       await representative.fill("500");
       await page
@@ -149,7 +152,7 @@ for (const appearance of ["light", "dark"])
         .filter({ has: page.getByTitle("global-spacing-500", { exact: true }) })
         .click();
       await expect(
-        page.getByRole("grid", { name: "T-shirt mapping preview" }),
+        page.getByRole("grid", { name: "Generator preview" }),
       ).toContainText("global-spacing-300");
       await expect(page.getByRole("listbox")).toHaveCount(0);
       const editor = page.locator('[data-component="TshirtSizingRuleEditor"]');
@@ -163,6 +166,39 @@ for (const appearance of ["light", "dark"])
       ).toBe(true);
       await editor.screenshot({
         path: info.outputPath(`rule-${appearance}-${width}.png`),
+        animations: "disabled",
+      });
+      await page.goto(
+        `/iframe.html?id=components-rounding-rule-editor--default&viewMode=story${globals}`,
+      );
+      await expect(page.locator("#storybook-root")).toHaveAttribute(
+        "data-play-complete",
+        "true",
+      );
+      const rounding = page.locator('[data-component="RoundingRuleEditor"]');
+      const surfaceColors = await page
+        .locator("[data-story-surface]")
+        .evaluate((element) => {
+          const computed = getComputedStyle(element);
+          return {
+            color: computed.color,
+            background: computed.backgroundColor,
+          };
+        });
+      expect(surfaceColors.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(surfaceColors.color).not.toBe(surfaceColors.background);
+      expect(
+        await rounding
+          .getByText("When value is less than 20, use rounding factor 2.")
+          .evaluate((element) => getComputedStyle(element).color),
+      ).toBe(surfaceColors.color);
+      expect(
+        await rounding.evaluate(
+          (element) => element.scrollWidth <= element.clientWidth,
+        ),
+      ).toBe(true);
+      await rounding.screenshot({
+        path: info.outputPath(`rounding-${appearance}-${width}.png`),
         animations: "disabled",
       });
       await page.goto(
