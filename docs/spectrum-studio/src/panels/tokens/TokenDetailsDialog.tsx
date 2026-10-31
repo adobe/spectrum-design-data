@@ -71,11 +71,7 @@ export function TokenDetailsDialog({
   const [error, setError] = useState("");
   const [pending, setPending] = useState<BrowserTokenPatch | null>(null);
   if (!token) return null;
-  const editable =
-    isEditing &&
-    tokens.every(
-      (item) => item.status !== "released" && !item.semantic && !item.alias,
-    );
+  const editable = isEditing && tokens.every((item) => !item.alias);
   const newlyDeprecated = tokens.filter((item) => item.status !== "deprecated");
   const savedCount = newlyDeprecated.filter((item) =>
     savedIds.has(item.id),
