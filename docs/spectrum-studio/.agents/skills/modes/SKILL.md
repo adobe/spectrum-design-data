@@ -74,6 +74,23 @@ override type and its guard in `model.ts`; the foundation's own resolver
 `tests/changelog-coverage.ts`). Add a `BINDABLE_PARAMETER_RANGES` entry (min, max,
 step, neutral) to make it bindable everywhere.
 
+## Icons in controls and menus
+
+Use `modeSetUsesOptionIcons` in `src/features/modes/controlPresentation.ts` for
+mode-option presentation. Options use icons only when the set has no group icon
+and every mode has a distinct, non-`none` icon. Otherwise keep text labels.
+
+When a menu represents a whole set rather than a selected mode, use
+`modeSetGroupIconId` from the same module. It returns the authored group icon
+first, or the default mode's icon when the unique-option rule permits it.
+Render the returned ID through `MODE_ICONS` in `src/features/modes/icons.ts`.
+A `"none"` result uses `<CategoryIcon category="modes" />` from
+`src/components/CategoryIcon.ts`. Never use the current preview selection or
+the first mode as a substitute for the default mode.
+
+These are presentation choices, not persisted changes. Shared category mappings
+come from `src/data/category-icons.json`; do not duplicate them in a menu.
+
 ## Shipped mode sets
 
 From `src/data/design-system.defaults.json`:

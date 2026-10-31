@@ -37,6 +37,7 @@ This package lives at `docs/spectrum-studio` in the `adobe/spectrum-design-data`
 | Saving, Changes, Impact | `src/features/changelog/`, `src/features/impact/`, `src/features/edit-session/` | `authoring-lifecycle` |
 | Alignment with design-data, Analysis page | `src/features/design-data/`, `src/data/design-data-gaps.json` | `design-data-contract` |
 | UI, components, previews | `src/components/`, `src/panels/`, `src/views/` | `component-catalog` |
+| Toasts, delete confirmations, Undo | `src/features/notifications/`, `src/components/notifications/` | `notifications` |
 
 **Data flow:** foundation formulas → primitive tokens (per mode) → code export and previews. Preview, tokens and export all read from the same generator. Edits are tracked by the change log and counted in Impact.
 
@@ -124,6 +125,7 @@ Rules in `.agents/rules/` are not loaded automatically by every tool. Read the o
 | --- | --- |
 | `s2-general.mdc` | Any UI work: sentence case, WCAG 2.2 AA, S2 patterns |
 | `spectrum-content-guidelines.mdc` | Writing UI text the user asked for |
+| `notifications.mdc` | Any toast, delete, add, or confirmation dialog |
 | `icons.mdc` | Using or adding icons |
 | `storybook-stories.mdc` | Creating or reviewing stories (ask for approval first) |
 | `changelog-parity.mdc` | Any change to persisted design data |
@@ -139,6 +141,7 @@ Skills in `.agents/skills/` load on demand. Read the matching one before startin
 | --- | --- |
 | `verify-change` | Before running any test, lint, build, Playwright, or performance command, and when finishing a feature |
 | `component-catalog` | Adding or editing any UI: fields, previews, cards, loading, toasts, mode or color controls |
+| `notifications` | Adding a new add or delete action, a new kind of item, or any user-facing confirmation |
 | `authoring-lifecycle` | Adding or changing persisted, editable design data (foundations, collections, token sources): saving, Changes, Impact |
 | `design-data-contract` | Anything that may differ from design-data: taxonomy, tokens, modes, schema, outputs, the gap register, the Analysis page |
 | `modes` | Mode sets, modes, mode parameters, bindings, text scaling, color scheme or contrast, per-mode token values, mode selection or preview |

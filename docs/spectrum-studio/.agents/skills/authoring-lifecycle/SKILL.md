@@ -44,7 +44,7 @@ example. V = enforced by a script or type; M = manual convention.
 | 14 | Token impact feed | `src/features/tokens/browserSavedState.ts` (`savedSources`, snapshot baseline), `tokens/aliasTargets.ts`, `tokens/browserModel.ts` type unions; `ImpactCategory` in impact | M | `pnpm test:tokens`, `pnpm test:token-aliases` |
 | 15 | Taxonomy and design-data | `taxonomy/naming.ts`, `taxonomy/foundationNames.ts`, `design-data/*`; gap register entry (see `design-data-contract`) | Gap register is script-checked | `pnpm test:design-data-gaps` |
 | 16 | Tests | Mutation, add/remove, exact counts and percentages, narrow resets, dependency rejection, Save/Cancel/reload, preview exclusion | n/a | `pnpm test:<domain>`, `pnpm test:changelog`, `pnpm test:impact` |
-| 17 | UI | `src/pages/Foundations.tsx` tab, `src/panels/foundations/*`, `src/views/<domain>/*`. Use `component-catalog` | M | one Playwright spec, with `pageerror` asserted empty (see `verify-change`) |
+| 17 | UI | `src/pages/Foundations.tsx` tab, `src/panels/foundations/*`, `src/views/<domain>/*`. Use `component-catalog`. Add and delete buttons use `notify.added` and `notify.remove` with a `NOTIFICATION_KINDS` entry (see `notifications`) | M, plus `pnpm test:notifications` | one Playwright spec, with `pageerror` asserted empty (see `verify-change`) |
 | 18 | Gate | `pnpm lint` once at the end | Script | |
 
 Only the snapshot key, `CHANGE_DOMAINS`, the schema hash, and the
