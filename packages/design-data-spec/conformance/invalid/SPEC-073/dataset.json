@@ -1,0 +1,58 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "navigation",
+        "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+      }
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch.json",
+      "name": "switch",
+      "displayName": "Switch",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+      },
+      "anatomy": [
+        {
+          "name": "track",
+          "description": "Pill-shaped background."
+        }
+      ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Background."
+        }
+      ],
+      "anatomyReview": {
+        "status": "reviewed",
+        "reviewedIn": "1.0.0-draft"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Spacing",
+      "$ref": "aaaaaaaa-0073-4000-8000-000000000001"
+    }
+  ]
+}

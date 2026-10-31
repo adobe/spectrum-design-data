@@ -1,0 +1,2162 @@
+<!doctype html>
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://use.typekit.net/flz1ovt.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Action button · Spectrum Hub prototype</title>
+    <style>
+      :root {
+        --bg: #f8f8f8;
+        --card: #fff;
+        --line: #e1e1e1;
+        --fg: #222;
+        --muted: #6e6e6e;
+        --blue: #4b75ff;
+        --pink: #d83790;
+        font-family:
+          "adobe-clean-spectrum-vf",
+          "Adobe Clean",
+          "Source Sans 3",
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        color: var(--fg);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1000px) 220px;
+        gap: 24px;
+        justify-content: center;
+        padding: 16px;
+        align-items: start;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+      }
+      nav.side {
+        position: sticky;
+        top: 16px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+        padding: 16px;
+        display: grid;
+        gap: 16px;
+      }
+      nav.side h4 {
+        margin: 0 0 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      nav.side ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 2px;
+      }
+      nav.side li {
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: #444;
+      }
+      nav.side li.on {
+        background: #222;
+        color: #fff;
+        font-weight: 600;
+      }
+      .head {
+        padding: 28px 32px;
+      }
+      .crumb {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      h1 {
+        margin: 6px 0 8px;
+        font-size: 40px;
+        line-height: 1.15;
+      }
+      .head p {
+        margin: 0 0 16px;
+        max-width: 640px;
+        font-size: 16px;
+        color: #444;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 8px;
+      }
+      .badge.ok {
+        background: #d7f7e4;
+        color: #0b6b3a;
+      }
+      .live {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 216px;
+        gap: 28px;
+        margin-top: 16px;
+        padding: 24px 28px 24px 24px;
+        border-radius: 32px;
+      }
+      .stage {
+        height: 520px;
+        position: relative;
+        overflow: hidden;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        border-radius: 24px;
+        background-color: #f8f8f8;
+        background-image: radial-gradient(#d0d0d0 1px, transparent 1px);
+        background-size: max(10px, calc(16px * var(--pz, 1)))
+          max(10px, calc(16px * var(--pz, 1)));
+        background-position: var(--px, 0) var(--py, 0);
+        transition: background-color 0.2s;
+      }
+      .stage.panning {
+        cursor: grabbing;
+      }
+      .stage:focus-visible {
+        outline: 2px solid #4da3f0;
+        outline-offset: -2px;
+      }
+      #world {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: max-content;
+        transform-origin: 0 0;
+      }
+      .zoombar {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 4px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+      .zoombar #z-level {
+        min-width: 56px;
+      }
+      .live.fs {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        margin: 0;
+        border-radius: 0;
+        grid-template-columns: minmax(0, 1fr) 232px;
+        padding: 16px;
+        overflow: auto;
+      }
+      .live.fs .stage {
+        height: calc(100vh - 32px);
+      }
+      .live.fs .controls {
+        position: static;
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+      }
+      body.fs-open {
+        overflow: hidden;
+      }
+      .stage.dark {
+        background-color: #2c2c2c;
+        background-image: radial-gradient(#555 1px, transparent 1px);
+      }
+      .stage.light {
+        background-color: #f4f1d8;
+      }
+      .stagewrap {
+        position: relative;
+        display: grid;
+        align-self: start;
+        min-width: 0;
+      }
+      .stage svg.zoom {
+        display: block;
+        overflow: visible;
+      }
+      .ov {
+        transition: opacity 0.25s;
+      }
+      .stage[data-mode="anatomy"] .ov-specs,
+      .stage[data-mode="specs"] .ov-anatomy {
+        opacity: 0;
+        pointer-events: none;
+      }
+      button.cell {
+        border: 1.5px dashed transparent;
+        border-radius: 10px;
+        background: none;
+        padding: 4px;
+        min-width: 0;
+        cursor: zoom-in;
+        font: inherit;
+        color: inherit;
+        justify-self: stretch;
+        display: grid;
+        place-items: center;
+      }
+      .cell.na {
+        text-align: center;
+        color: #b5b5b5;
+      }
+      button.cell:hover,
+      button.cell:focus-visible {
+        border-color: var(--pink);
+        outline: none;
+      }
+      .stage .matrix {
+        padding: 20px 16px;
+        width: max-content;
+        grid-template-columns: 120px repeat(var(--cols, 4), max-content);
+        gap: 4px 16px;
+      }
+      .stage.dark .matrix .h,
+      .stage.dark .matrix .rl {
+        color: #bbb;
+      }
+      .back {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border: 1px solid #c8c8c8;
+        border-radius: 999px;
+        background: #fff;
+        cursor: pointer;
+      }
+      .controls {
+        position: sticky;
+        top: 16px;
+        align-self: start;
+        padding: 8px 0;
+        display: grid;
+        gap: 20px;
+        align-content: start;
+        background: transparent;
+      }
+      .controls label.f {
+        display: grid;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .controls sp-picker {
+        width: 100%;
+      }
+      .controls .switches {
+        display: grid;
+        gap: 4px;
+      }
+      .controls h5 {
+        margin: 8px 0 0;
+      }
+      select {
+        font: inherit;
+        padding: 6px 8px;
+        border: 1px solid #c8c8c8;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--fg);
+      }
+      .diagnostics {
+        padding: 10px 14px;
+        font-size: 12px;
+        border-left: 3px solid #c9252d;
+      }
+      .diagnostics[hidden] {
+        display: none;
+      }
+      .diagnostics ul {
+        margin: 4px 0 0;
+        padding-left: 18px;
+      }
+      .note {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .tabs {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 16px auto;
+        max-width: 560px;
+        background: #ececec;
+        border-radius: 999px;
+        padding: 4px;
+      }
+      .tabs button {
+        position: relative;
+        z-index: 1;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-weight: 600;
+        padding: 8px 0;
+        cursor: pointer;
+        color: #555;
+      }
+      .tabs button.on {
+        color: #fff;
+      }
+      .tabs button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .tabs .thumb {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: 4px;
+        width: calc((100% - 8px) / 4);
+        background: #222;
+        border-radius: 999px;
+        transition: transform 0.2s;
+      }
+      section.panel {
+        padding: 24px 32px;
+        margin-bottom: 16px;
+      }
+      section.panel h2 {
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+      section.panel h3 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+      }
+      .matrix {
+        display: grid;
+        grid-template-columns: 170px repeat(var(--cols, 4), 1fr);
+        gap: 4px 8px;
+        align-items: center;
+        justify-items: center;
+      }
+      .matrix .h {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .matrix .rl {
+        justify-self: start;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .cell.unsupported {
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #8a1f1f;
+        border: 1.5px dashed #d9a3a3;
+        border-radius: 10px;
+        padding: 6px 4px;
+        min-height: 40px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        align-self: stretch;
+        justify-self: stretch;
+      }
+      .stage.dark .cell.unsupported {
+        color: #f2b8b8;
+        border-color: #7a4a4a;
+      }
+      sup.fn {
+        font-size: 10px;
+        font-weight: 700;
+        color: #8a5a00;
+        margin-left: 2px;
+      }
+      button.cell.adv {
+        position: relative;
+      }
+      button.cell.adv sup.fn {
+        position: absolute;
+        top: 2px;
+        right: 6px;
+      }
+      .stage.dark sup.fn {
+        color: #f0c36a;
+      }
+      .matrix-wrap {
+        width: max-content;
+      }
+      .mnotes {
+        max-width: 640px;
+        padding: 4px 20px 16px;
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: #444;
+      }
+      .stage.dark .mnotes {
+        color: #ddd;
+      }
+      .mnotes p {
+        margin: 0;
+      }
+      .unsupported-box {
+        background: #fff;
+        color: var(--fg);
+        border: 1px solid #e0b4b4;
+        border-left: 4px solid #c0392b;
+        border-radius: 10px;
+        padding: 16px 20px;
+        max-width: 520px;
+        margin: 24px;
+        display: grid;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .unsupported-box h4 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .unsupported-box p,
+      .support p {
+        margin: 0;
+      }
+      .support {
+        display: grid;
+        gap: 8px;
+        font-size: 12px;
+      }
+      .support:empty {
+        display: none;
+      }
+      .support .msg {
+        display: grid;
+        gap: 4px;
+      }
+      .support h5 {
+        margin: 0;
+      }
+      sp-theme {
+        background: transparent;
+      }
+      .mnotes p.err b {
+        color: #8a1f1f;
+      }
+      .stage.dark .mnotes p.err b {
+        color: #f2b8b8;
+      }
+      .fix {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .two .card {
+        padding: 16px;
+        border-radius: 12px;
+      }
+      .two h4 {
+        margin: 0 0 8px;
+      }
+      .two li {
+        color: var(--muted);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+      }
+      td.mono {
+        font-family: ui-monospace, Menlo, monospace;
+        color: #2f4fd0;
+      }
+      aside.toc {
+        position: sticky;
+        top: 16px;
+        font-size: 13px;
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+      }
+      aside.toc b {
+        color: var(--fg);
+      }
+      .hidden {
+        display: none !important;
+      }
+      nav.side li a {
+        color: inherit;
+        text-decoration: none;
+        display: block;
+      }
+      nav.side li.dim {
+        color: #aaa;
+      }
+      .controls h5 {
+        margin: 4px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      #tokens details {
+        margin-bottom: 8px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #tokens table {
+        table-layout: fixed;
+      }
+      #tokens th:nth-child(1) {
+        width: 24%;
+      }
+      #tokens th:nth-child(3) {
+        width: 26%;
+      }
+      #tokens .fig {
+        color: var(--muted, #6e6e6e);
+        font-size: 11px;
+        margin-top: 2px;
+        word-break: break-all;
+      }
+      #tokens summary {
+        cursor: pointer;
+        padding: 8px 12px;
+        font-weight: 600;
+        background: #fafafa;
+        text-transform: capitalize;
+      }
+      #tokens summary .n {
+        color: var(--muted);
+        font-weight: 400;
+        margin-left: 6px;
+      }
+      #tokens tr.tr {
+        cursor: pointer;
+      }
+      #tokens tr.tr:hover,
+      #tokens tr.hl,
+      #tokens details.hl summary {
+        background: #fdeaf5;
+      }
+      #tokens tr.detail td {
+        background: #f6f8ff;
+        font-size: 12px;
+        color: #444;
+      }
+      #tokens tr.detail.hidden {
+        display: none;
+      }
+      #tokens .chain {
+        font-family: ui-monospace, Menlo, monospace;
+      }
+      #tokens .chain i {
+        color: var(--muted);
+        font-style: normal;
+        margin: 0 6px;
+      }
+      .sw-chip {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        vertical-align: -2px;
+        margin-right: 6px;
+      }
+      .pn.hl {
+        filter: drop-shadow(0 0 3px #d83790);
+      }
+      .co.hl line {
+        stroke-width: 3;
+      }
+      .co.hl rect {
+        fill: #fdeaf5;
+      }
+      .mono-pill.hl rect {
+        fill: #d6ecfb;
+      }
+      .co,
+      .mono-pill {
+        cursor: default;
+      }
+      .blocks p {
+        margin: 0 0 10px;
+      }
+      .blocks b {
+        display: block;
+      }
+      svg text {
+        font-family:
+          "adobe-clean-spectrum-vf",
+          "Adobe Clean",
+          "Source Sans 3",
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      .mono-pill text {
+        font-family: ui-monospace, Menlo, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="side card" id="nav"></nav>
+
+      <main>
+        <header class="head card">
+          <div class="crumb" id="crumb"></div>
+          <h1 id="title"></h1>
+          <p id="desc"></p>
+          <span class="badge ok">Code available</span
+          ><span class="badge ok">Design available</span>
+        </header>
+
+        <div class="diagnostics card" id="diagnostics" role="status" hidden></div>
+
+        <div class="live card" id="live-component">
+          <div class="stagewrap">
+            <div class="stage" id="stage" data-mode="usage" tabindex="0">
+              <div id="world"></div>
+            </div>
+            <sp-theme
+              class="zoombar"
+              id="zoombar"
+              system="spectrum-two"
+              color="light"
+              scale="medium"
+              role="toolbar"
+              aria-label="Zoom"
+            >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-out"
+                label="Zoom out"
+                title="Zoom out (-)"
+                ><sp-icon-zoom-out slot="icon"></sp-icon-zoom-out
+              ></sp-action-button>
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-level"
+                title="Actual size (1)"
+                >100%</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-in"
+                label="Zoom in"
+                title="Zoom in (+)"
+                ><sp-icon-zoom-in slot="icon"></sp-icon-zoom-in
+              ></sp-action-button>
+              <sp-action-button quiet size="s" id="z-fit" title="Fit (0)"
+                >Fit</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-labels"
+                toggles
+                label="Larger labels"
+                title="Larger labels (L)"
+                >Aa</sp-action-button
+              >
+              <sp-action-button
+                quiet
+                size="s"
+                id="z-full"
+                label="Full screen"
+                title="Full screen (F)"
+                ><sp-icon-full-screen slot="icon"></sp-icon-full-screen
+              ></sp-action-button>
+            </sp-theme>
+            <button class="back hidden" id="back" type="button">
+              &larr; Back to all variants
+            </button>
+          </div>
+          <sp-theme
+            class="controls"
+            id="controls"
+            system="spectrum-two"
+            color="light"
+            scale="medium"
+          ></sp-theme>
+        </div>
+
+        <div class="tabs" id="tabs">
+          <div class="thumb" id="thumb"></div>
+          <button data-tab="usage" class="on">Usage</button>
+          <button data-tab="anatomy">Anatomy</button>
+          <button data-tab="specs">Specs &amp; Tokens</button>
+          <button disabled>Accessibility</button>
+        </div>
+
+        <section class="panel card" data-panel="usage">
+          <h2>Usage</h2>
+          <h3>Guidelines</h3>
+          <div class="blocks" id="blocks"></div>
+        </section>
+
+        <section class="panel card hidden" data-panel="anatomy">
+          <h2>Anatomy</h2>
+          <table id="anatomy-table"></table>
+        </section>
+
+        <section class="panel card hidden" data-panel="specs">
+          <h2>Specs &amp; Tokens</h2>
+          <h3>Resolved tokens</h3>
+          <div id="tokens"></div>
+        </section>
+      </main>
+
+      <aside class="toc">
+        <b>On this page</b>
+        <a>Live component</a><a>Anatomy</a><a>Component options</a><a>States</a
+        ><a>Usage guidelines</a><a>Design tokens</a>
+      </aside>
+    </div>
+
+    <svg
+      id="probe"
+      aria-hidden="true"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        overflow: visible;
+        visibility: hidden;
+      "
+    ></svg>
+    <script type="module" src="spectrum-controls.js"></script>
+    <script type="module">
+      import { backend } from "./backend.js";
+      import { roundedPath, cssFontWeight } from "./visual-runtime.js";
+      import {
+        advisoriesOf,
+        errorsOf,
+        fixes,
+        matching,
+        readConstraints,
+      } from "./constraints.js";
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) =>
+        String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;");
+      const humanize = (s) =>
+        s
+          .replace(/^(is|has)(?=[A-Z])/, "")
+          .replace(/([A-Z])/g, " $1")
+          .trim()
+          .toLowerCase()
+          .replace(/^./, (c) => c.toUpperCase());
+      const cache = new Map();
+      function getScene(o) {
+        const q = Object.fromEntries(
+          Object.entries(o).filter(
+            ([, v]) => v !== undefined && v !== false && v !== "" && v !== null,
+          ),
+        );
+        const key = JSON.stringify(q);
+        if (!cache.has(key)) cache.set(key, backend.scene(q));
+        const p = cache.get(key);
+        p.then(noteDiagnostics);
+        return p;
+      }
+
+      // Bindings that did not resolve (for a platform build, usually a token its
+      // include list dropped), shown rather than drawing nothing silently.
+      const seenDiagnostics = new Set();
+      function noteDiagnostics(scene) {
+        for (const d of scene?.diagnostics ?? []) seenDiagnostics.add(d);
+        const el = $("diagnostics");
+        el.hidden = seenDiagnostics.size === 0;
+        el.innerHTML = seenDiagnostics.size
+          ? `<strong>${seenDiagnostics.size} binding${seenDiagnostics.size === 1 ? "" : "s"} did not resolve</strong><ul>${[...seenDiagnostics].map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`
+          : "";
+      }
+
+      let C; // component definition + recipe summary
+      let controlOpts; // option name -> {type, values, supported}
+      let constraints = []; // valid option constraints for C
+
+      // ---- option constraints: what the user is told --------------------------
+      const attr = (s) => esc(s).replace(/"/g, "&quot;");
+      const valText = (n, v) =>
+        v === true
+          ? humanize(n)
+          : v === false
+            ? `No ${humanize(n).toLowerCase()}`
+            : `${humanize(n)} ${v}`;
+      const whenText = (c) =>
+        Object.entries(c.when)
+          .map(([n, vals]) => `${humanize(n)} ${vals.join(" / ")}`)
+          .join(" · ");
+      // The options involved in a violated constraint, with their current values.
+      const comboText = (c, combo) =>
+        [
+          ...Object.keys(c.when),
+          ...Object.keys(c.require).filter(
+            (n) => c.require[n].oneOf && combo[n] != null,
+          ),
+        ]
+          .map((n) => valText(n, combo[n]))
+          .join(" · ");
+      const fixText = (c) =>
+        fixes(c)
+          .map(
+            (f) =>
+              `Use ${humanize(f.option).toLowerCase()} ${f.values.join(" or ")}.`,
+          )
+          .join(" ");
+      const fixButtons = (c) =>
+        fixes(c)
+          .filter((f) => controlOpts[f.option]?.supported)
+          .map(
+            (f) =>
+              `<div class="fix"><span>${esc(humanize(f.option))}:</span>${f.values.map((v) => `<sp-button size="s" variant="secondary" treatment="outline" data-fix-opt="${attr(f.option)}" data-fix-val="${attr(v)}">${esc(v)}</sp-button>`).join("")}</div>`,
+          )
+          .join("");
+
+      // The option assignment a request stands for. Controls take the request's
+      // value, other options their default, and anything else is unknown.
+      function comboOf(req) {
+        const combo = {};
+        for (const [n, d] of Object.entries(C.options ?? {}))
+          if (d.default !== undefined) combo[n] = d.default;
+        for (const [n, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          let v;
+          if (n === "size") v = req.size;
+          else if (n === "label")
+            continue; // free text, never constrained by value
+          else {
+            v = req[`opt.${n}`];
+            if (type === "bool") v = v === true || v === "true";
+            else if (v === "") v = undefined;
+          }
+          combo[n] = v;
+        }
+        return combo;
+      }
+      const errorsFor = (req) => errorsOf(matching(constraints, comboOf(req)));
+
+      const explainHtml = (matches, combo) =>
+        matches
+          .map((c) =>
+            c.severity === "error"
+              ? `<div class="msg"><sp-status-light size="m" variant="negative">Not supported: ${esc(comboText(c, combo))}</sp-status-light><sp-help-text size="s" variant="negative">${esc(c.description ?? "")} ${esc(fixText(c))}</sp-help-text>${fixButtons(c)}${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`
+              : `<div class="msg"><sp-status-light size="m" variant="notice">${esc(comboText(c, combo))} has no distinct design</sp-status-light><sp-help-text size="s">${esc(c.description ?? "")}</sp-help-text>${c.source ? `<sp-help-text size="s">Source: ${esc(c.source)}</sp-help-text>` : ""}</div>`,
+          )
+          .join("");
+
+      // The status under the pickers, and a mark on picker values that would lead
+      // to a combination that is not supported.
+      function updateSupport(o) {
+        const combo = comboOf(o);
+        const matches = matching(constraints, combo);
+        $("support").innerHTML = matches.length
+          ? `<h5>Current selection</h5>${explainHtml(matches, combo)}`
+          : "";
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported || name === "size" || name === "label") continue;
+          const el = $(`opt-${name}`);
+          const bad = (v) =>
+            errorsOf(matching(constraints, { ...combo, [name]: v }));
+          if (type === "enum") {
+            for (const opt of el.querySelectorAll("sp-menu-item")) {
+              const hit = opt.value === NONE ? [] : bad(opt.value);
+              opt.dataset.label ??= opt.textContent;
+              opt.textContent =
+                opt.dataset.label + (hit.length ? " (not supported)" : "");
+              opt.title = hit[0]?.description ?? "";
+            }
+          } else {
+            const now = new Set(errorsOf(matches).map((c) => c.index));
+            const hit = el.checked
+              ? []
+              : bad(true).filter((c) => !now.has(c.index));
+            el.title = hit[0]?.description ?? "";
+            el.textContent =
+              humanize(name) + (hit.length ? " (not supported)" : "");
+          }
+        }
+      }
+
+      // ---- scene -> SVG ------------------------------------------------------
+      function nodeSvg(n) {
+        if (n.kind === "box" && n.radii) {
+          const i = n.stroke_width / 2;
+          const r = n.radii.map((v) => Math.max(v - i, 0));
+          return `<path d="${roundedPath(n.x, n.y, n.w, n.h, n.radii)}" fill="${n.fill ?? "none"}"/>${n.stroke && n.stroke_width > 0 ? `<path d="${roundedPath(n.x + i, n.y + i, n.w - n.stroke_width, n.h - n.stroke_width, r)}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>` : ""}`;
+        }
+        if (n.kind === "box")
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"/>`;
+        if (n.kind === "ring")
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>`;
+        if (n.part === "hold-icon")
+          return `<path d="M${n.x + n.w} ${n.y} V${n.y + n.h} H${n.x}Z" fill="${n.color}"/>`;
+        if (n.kind === "icon")
+          return `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`;
+        if (n.kind === "progress") {
+          const cx = n.x + n.w / 2,
+            cy = n.y + n.h / 2,
+            r = Math.min(n.w, n.h) / 2 - Math.min(n.w, n.h) / 18;
+          return `<g fill="none" stroke-width="${Math.max(1, Math.min(n.w, n.h) / 9)}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${n.stroke}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${n.color}" stroke-linecap="round"/></g>`;
+        }
+        if (n.kind === "text")
+          return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>`;
+        return "";
+      }
+      const sceneSvg = (s, k = 1) =>
+        `<svg width="${s.width * k}" height="${s.height * k}" viewBox="0 0 ${s.width} ${s.height}">${s.nodes.map(nodeSvg).join("")}</svg>`;
+      const node = (s, part) => s.nodes.find((n) => n.part === part);
+      const tok = (n, prop) => n?.tokens.find((t) => t.prop === prop);
+
+      // ---- controls generated from the component's options -------------------
+      function buildControls() {
+        const opts = C.options ?? {};
+        const used = new Set(C.recipe.used);
+        controlOpts = {};
+        const rows = [];
+        const picker = (id, title, values, value, extra = "") =>
+          `<label class="f ${extra}" id="${id}-wrap">${title}<sp-picker id="${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+        const mode = (id, title, values) =>
+          picker(id, title, values, values[0][0]);
+        for (const [name, def] of Object.entries(opts)) {
+          // Label text and icon presence become toggles when the recipe reads them.
+          const presence = name === "label" || def.$ref;
+          if (presence && !used.has(name)) continue;
+          const type = presence
+            ? "bool"
+            : def.values
+              ? "enum"
+              : def.type === "boolean"
+                ? "bool"
+                : null;
+          if (!type) continue;
+          controlOpts[name] = {
+            type,
+            supported: used.has(name),
+            def: name === "label" ? { ...def, default: true } : def,
+          };
+        }
+        const order = Object.keys(controlOpts).sort((a, b) =>
+          a === "size"
+            ? -1
+            : b === "size"
+              ? 1
+              : controlOpts[a].type === "enum"
+                ? -1
+                : controlOpts[b].type === "enum"
+                  ? 1
+                  : 0,
+        );
+        const ctl = (name) => {
+          const { type, supported, def } = controlOpts[name];
+          const dis = supported ? "" : "disabled";
+          if (type === "enum") {
+            const vals = def.values.map((v) => v.value ?? v);
+            const items = (
+              def.default === undefined ? [[NONE, "None"]] : []
+            ).concat(vals.map((v) => [v, shown(name, v)]));
+            const label = humanize(name);
+            const sel = def.default === undefined ? NONE : def.default;
+            return `<label class="f ${supported ? "" : "off"}">${label}<sp-picker id="opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+          }
+          return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
+        };
+        rows.push(
+          mode("scheme", "Color scheme", [
+            ["light", "Light"],
+            ["dark", "Dark"],
+          ]),
+        );
+        rows.push(
+          mode("scale", "Scale", [
+            ["desktop", "Desktop"],
+            ["mobile", "Mobile"],
+          ]),
+        );
+        const group = (names) => {
+          const enums = names.filter((n) => controlOpts[n].type === "enum");
+          const bools = names.filter((n) => controlOpts[n].type !== "enum");
+          return (
+            enums.map(ctl).join("") +
+            (bools.length
+              ? `<div class="switches">${bools.map(ctl).join("")}</div>`
+              : "")
+          );
+        };
+        rows.push(group(order.filter((n) => controlOpts[n].supported)));
+        const unsupported = order.filter((n) => !controlOpts[n].supported);
+        if (unsupported.length)
+          rows.push(`<h5>Not in the recipe yet</h5>${group(unsupported)}`);
+        const stateNames = (C.states ?? []).map((st) => st.name);
+        if (stateNames.length)
+          rows.push(
+            `<label class="f hidden" id="state-wrap">State<sp-picker id="state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
+          );
+        rows.push(
+          '<div id="support" class="support" role="status" aria-live="polite"></div>',
+        );
+        $("controls").innerHTML = rows.join("");
+        $("controls")
+          .querySelectorAll("sp-picker, sp-switch")
+          .forEach((e) =>
+            e.addEventListener("change", async () => {
+              await enableDependency(e);
+              refresh();
+            }),
+          );
+      }
+
+      // sp-picker has no empty value, so "no selection" travels as a sentinel.
+      const NONE = "__none";
+      const SIZES = {
+        xs: "Extra small",
+        s: "Small",
+        m: "Medium",
+        l: "Large",
+        xl: "Extra large",
+      };
+      const shown = (name, v) =>
+        name === "size" && SIZES[v]
+          ? SIZES[v]
+          : String(v).charAt(0).toUpperCase() + String(v).slice(1);
+      const read = (el) => (el.value === NONE ? "" : el.value);
+      const write = (el, v) => {
+        el.value = v === "" || v === undefined ? NONE : v;
+      };
+      const isSwitch = (el) => el?.localName === "sp-switch";
+
+      function liveOptions() {
+        const o = {
+          name: C.name,
+          scheme: read($("scheme")),
+          scale: read($("scale")),
+          label: "Label",
+        };
+        if (view.mode !== "usage" && $("state") && read($("state")))
+          o.state = read($("state"));
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          const el = $(`opt-${name}`);
+          if (name === "size") o.size = read(el);
+          else o[`opt.${name}`] = type === "bool" ? el.checked : read(el);
+          if (name === "label" && !el.checked) o.label = "";
+        }
+        return o;
+      }
+      const withOpts = (base, extra) => ({
+        ...base,
+        ...Object.fromEntries(
+          Object.entries(extra).map(([k, v]) => [`opt.${k}`, v]),
+        ),
+      });
+      const staticBg = (o) => {
+        const v = Object.entries(o).find(([k]) => /^opt\.static/i.test(k))?.[1];
+        return o.scheme === "dark" || v === "white"
+          ? "dark"
+          : v === "black"
+            ? "light"
+            : "";
+      };
+
+      // ---- stage: matrix (usage) <-> zoomed component (anatomy / specs) ------
+      const view = { mode: "usage" };
+
+      // ---- stage viewport: pan, zoom, fit, full screen ------------------------
+      // The stage is a window onto #world. The usage matrix is plain HTML that we
+      // scale with a CSS transform. Anatomy and specs are redrawn at the chosen zoom
+      // instead, so their labels keep one readable size at any zoom.
+      // Screen pixels per layout unit in the anatomy drawing. The labels are drawn at 14 and
+      // 13 layout units, so this is also their size: compact labels are 10px, large 14px.
+      const SIGMA_COMPACT = 0.714,
+        SIGMA_LARGE = 1;
+      const LABELS_KEY = "hub-large-labels";
+      const savedLarge = (() => {
+        try {
+          return localStorage.getItem(LABELS_KEY) === "1";
+        } catch {
+          return false;
+        }
+      })();
+      const ZMIN = 0.1,
+        ZMAX = 8,
+        MARGIN = 28,
+        GUTTER = 16;
+      const vp = {
+        sigma: savedLarge ? SIGMA_LARGE : SIGMA_COMPACT,
+        kind: "grid", // "grid" (matrix) or "diagram" (anatomy and specs)
+        z: 1, // 1 is actual size
+        tx: 0,
+        ty: 0,
+        fit: true, // stays true until the user pans or zooms
+        scene: null,
+        vbx: 0,
+        vby: 0,
+      };
+      const clampZ = (z) => Math.min(ZMAX, Math.max(ZMIN, z));
+      const stageSize = () => ({
+        w: $("stage").clientWidth,
+        h: $("stage").clientHeight,
+      });
+      const setWorld = (html) => {
+        $("world").innerHTML = html;
+      };
+
+      function paint() {
+        const st = $("stage");
+        const sc = vp.kind === "grid" ? vp.z : 1;
+        $("world").style.transform =
+          `translate(${vp.tx}px, ${vp.ty}px) scale(${sc})`;
+        st.style.setProperty("--px", `${vp.tx}px`);
+        st.style.setProperty("--py", `${vp.ty}px`);
+        st.style.setProperty("--pz", String(sc));
+        $("z-level").textContent = `${Math.round(vp.z * 100)}%`;
+      }
+
+      function fitGrid() {
+        const { w, h } = stageSize();
+        const cw = $("world").offsetWidth,
+          ch = $("world").offsetHeight;
+        if (!cw || !ch) return;
+        vp.z = clampZ(
+          Math.min(2, (w - 2 * MARGIN) / cw, (h - 2 * MARGIN) / ch),
+        );
+        vp.tx = (w - cw * vp.z) / 2;
+        vp.ty = (h - ch * vp.z) / 2;
+      }
+      function afterGrid() {
+        if (vp.fit) fitGrid();
+        paint();
+      }
+
+      // Extents of the drawing at scene scale K, measured off screen.
+      function bboxFor(inner) {
+        const probe = $("probe");
+        probe.innerHTML = `<g>${inner}</g>`;
+        return probe.firstChild.getBBox();
+      }
+
+      // Draw the anatomy and specs view at the current zoom (or fit it first).
+      function drawDiagram(from) {
+        const s = vp.scene;
+        if (!s) return { x: 0, y: 0 };
+        const { w: vw, h: vh } = stageSize();
+        if (vp.fit) {
+          // The labels do not scale with the drawing, so the size is not linear in
+          // K: search for the largest K whose drawing fits the stage.
+          const fits = (K) => {
+            const b = bboxFor(diagramInner(s, K));
+            return (
+              b.width + 2 * GUTTER <= (vw - 2 * MARGIN) / vp.sigma &&
+              b.height + 2 * GUTTER <= (vh - 2 * MARGIN) / vp.sigma
+            );
+          };
+          let lo = ZMIN / vp.sigma,
+            hi = ZMAX / vp.sigma;
+          if (fits(hi)) lo = hi;
+          else
+            for (let i = 0; i < 12; i++) {
+              const mid = (lo + hi) / 2;
+              if (fits(mid)) lo = mid;
+              else hi = mid;
+            }
+          vp.z = clampZ(lo * vp.sigma);
+        }
+        const K = vp.z / vp.sigma;
+        const inner = diagramInner(s, K);
+        const b = bboxFor(inner);
+        const vbx = b.x - GUTTER,
+          vby = b.y - GUTTER,
+          vbw = b.width + 2 * GUTTER,
+          vbh = b.height + 2 * GUTTER;
+        vp.vbx = vbx;
+        vp.vby = vby;
+        setWorld(
+          `<svg class="zoom" role="group" aria-label="${attr(`${C.displayName} anatomy and token specs`)}" viewBox="${vbx} ${vby} ${vbw} ${vbh}" width="${vbw * vp.sigma}" height="${vbh * vp.sigma}">${inner}</svg>`,
+        );
+        if (vp.fit) {
+          vp.tx = (vw - vbw * vp.sigma) / 2;
+          vp.ty = (vh - vbh * vp.sigma) / 2;
+        }
+        paint();
+        if (from?.width && !reduced) {
+          const svg = $("world").querySelector("svg");
+          const svgR = svg.getBoundingClientRect();
+          const k = svgR.width / vbw;
+          const sc = from.width / k / (s.width * K);
+          const tx = (from.left - svgR.left) / k - sc * (PAD_X - vbx);
+          const ty = (from.top - svgR.top) / k - sc * (PAD_Y - vby);
+          const zg = $("zg");
+          zg.style.transformOrigin = "0 0";
+          zg.animate(
+            [
+              { transform: `translate(${tx}px, ${ty}px) scale(${sc})` },
+              { transform: "none" },
+            ],
+            { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" },
+          );
+          $("ovwrap").animate([{ opacity: 0 }, { opacity: 1 }], {
+            delay: 260,
+            duration: 220,
+            fill: "backwards",
+          });
+        }
+        return { x: vbx, y: vby };
+      }
+
+      // Switch label size. A fitted view refits; otherwise the point at the centre of the
+      // stage stays there.
+      function setLabels(large) {
+        try {
+          localStorage.setItem(LABELS_KEY, large ? "1" : "0");
+        } catch {}
+        $("z-labels").selected = large;
+        const next = large ? SIGMA_LARGE : SIGMA_COMPACT;
+        if (next === vp.sigma) return;
+        if (vp.kind !== "diagram" || vp.fit) {
+          vp.sigma = next;
+          if (vp.kind === "diagram") drawDiagram();
+          return;
+        }
+        const [px, py] = centre();
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
+        vp.sigma = next;
+        const vb = drawDiagram();
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
+        paint();
+      }
+
+      function fitView() {
+        vp.fit = true;
+        if (vp.kind === "grid") afterGrid();
+        else drawDiagram();
+      }
+      function panBy(dx, dy) {
+        vp.fit = false;
+        vp.tx += dx;
+        vp.ty += dy;
+        paint();
+      }
+      // Zoom to nz, keeping the point under (px, py) in place.
+      function zoomTo(nz, px, py) {
+        nz = clampZ(nz);
+        if (nz === vp.z) return;
+        vp.fit = false;
+        if (vp.kind === "grid") {
+          vp.tx = px - ((px - vp.tx) * nz) / vp.z;
+          vp.ty = py - ((py - vp.ty) * nz) / vp.z;
+          vp.z = nz;
+          paint();
+          return;
+        }
+        const K = vp.z / vp.sigma;
+        const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
+          sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
+        vp.z = nz;
+        const vb = drawDiagram();
+        const K2 = vp.z / vp.sigma;
+        vp.tx = px - (PAD_X + sx * K2 - vb.x) * vp.sigma;
+        vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
+        paint();
+      }
+      const centre = () => {
+        const { w, h } = stageSize();
+        return [w / 2, h / 2];
+      };
+      const step = (f) => zoomTo(vp.z * f, ...centre());
+
+      // Wheel and pinch redraw at most once per frame.
+      let queued = null;
+      function queueZoom(f, px, py) {
+        if (queued) {
+          queued.f *= f;
+          queued.px = px;
+          queued.py = py;
+          return;
+        }
+        queued = { f, px, py };
+        requestAnimationFrame(() => {
+          const q = queued;
+          queued = null;
+          zoomTo(vp.z * q.f, q.px, q.py);
+        });
+      }
+
+      $("stage").addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const r = $("stage").getBoundingClientRect();
+          const px = e.clientX - r.left,
+            py = e.clientY - r.top;
+          if (e.ctrlKey || e.metaKey)
+            queueZoom(
+              Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0025)),
+              px,
+              py,
+            );
+          else panBy(-e.deltaX, -e.deltaY);
+        },
+        { passive: false },
+      );
+
+      // Dragging pans. A short press still clicks a matrix cell.
+      let drag = null,
+        dragged = false;
+      $("stage").addEventListener("pointerdown", (e) => {
+        if (e.button !== 0) return;
+        drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
+      });
+      $("stage").addEventListener("pointermove", (e) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        const dx = e.clientX - drag.x,
+          dy = e.clientY - drag.y;
+        if (!drag.moved && Math.hypot(dx, dy) < 5) return;
+        if (!drag.moved) {
+          drag.moved = true;
+          $("stage").setPointerCapture(e.pointerId);
+          $("stage").classList.add("panning");
+        }
+        drag.x = e.clientX;
+        drag.y = e.clientY;
+        panBy(dx, dy);
+      });
+      const endDrag = (e) => {
+        if (!drag || e.pointerId !== drag.id) return;
+        dragged = drag.moved;
+        drag = null;
+        $("stage").classList.remove("panning");
+        if (dragged) setTimeout(() => (dragged = false), 0);
+      };
+      $("stage").addEventListener("pointerup", endDrag);
+      $("stage").addEventListener("pointercancel", endDrag);
+      $("stage").addEventListener(
+        "click",
+        (e) => {
+          if (!dragged) return;
+          e.stopPropagation();
+          e.preventDefault();
+          dragged = false;
+        },
+        true,
+      );
+
+      $("stage").addEventListener("keydown", (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const big = e.shiftKey ? 160 : 40;
+        const keys = {
+          "+": () => step(1.25),
+          "=": () => step(1.25),
+          "-": () => step(0.8),
+          _: () => step(0.8),
+          0: fitView,
+          1: () => zoomTo(1, ...centre()),
+          f: toggleFull,
+          l: () => setLabels(!$("z-labels").selected),
+          ArrowLeft: () => panBy(big, 0),
+          ArrowRight: () => panBy(-big, 0),
+          ArrowUp: () => panBy(0, big),
+          ArrowDown: () => panBy(0, -big),
+        };
+        const act = keys[e.key];
+        if (!act) return;
+        e.preventDefault();
+        act();
+      });
+
+      $("z-in").addEventListener("click", () => step(1.25));
+      $("z-out").addEventListener("click", () => step(0.8));
+      $("z-level").addEventListener("click", () => zoomTo(1, ...centre()));
+      $("z-fit").addEventListener("click", fitView);
+      $("z-labels").addEventListener("change", () =>
+        setLabels($("z-labels").selected),
+      );
+      $("z-labels").selected = savedLarge;
+      $("z-full").addEventListener("click", toggleFull);
+
+      function toggleFull() {
+        const on = $("live-component").classList.toggle("fs");
+        document.body.classList.toggle("fs-open", on);
+        const icon = $("z-full").querySelector("[slot=icon]");
+        icon.replaceWith(
+          Object.assign(
+            document.createElement(
+              on ? "sp-icon-full-screen-exit" : "sp-icon-full-screen",
+            ),
+            { slot: "icon" },
+          ),
+        );
+        $("z-full").title = on ? "Exit full screen (Esc)" : "Full screen (F)";
+        $("stage").focus({ preventScroll: true });
+      }
+
+      // A bigger or smaller stage refits while the view is still "fit".
+      new ResizeObserver(() => {
+        if (!vp.fit) return;
+        if (vp.kind === "grid") afterGrid();
+        else drawDiagram();
+      }).observe($("stage"));
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let cellReqs = [];
+
+      const subsets = (items) => {
+        const out = [[]];
+        items.forEach((a, i) => {
+          out.push([a]);
+          items.slice(i + 1).forEach((b) => out.push([a, b]));
+        });
+        return out.sort((a, b) => a.length - b.length);
+      };
+      const fingerprint = (s) =>
+        JSON.stringify(
+          s.nodes.map((n) => [n.part, n.fill, n.color, n.stroke, n.x, n.w]),
+        );
+      let stageToken = 0;
+
+      // Copy a request back into the controls so the zoomed view matches the clicked cell.
+      function syncControls(req) {
+        for (const k of ["scheme", "scale"]) if (req[k]) write($(k), req[k]);
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          const el = $(`opt-${name}`);
+          if (name === "size") {
+            if (req.size) write(el, req.size);
+          } else if (name === "label") {
+            el.checked = req.label !== "";
+          } else if (type === "bool") {
+            el.checked = !!req[`opt.${name}`];
+          } else if (req[`opt.${name}`] !== undefined) {
+            write(el, req[`opt.${name}`]);
+          }
+        }
+        if ($("state")) write($("state"), req.state ?? "");
+      }
+
+      // With no cell chosen, zoom to the configuration that shows the most parts.
+      async function maxParts(o) {
+        const full = { ...o };
+        const count = async (q) =>
+          (await getScene(q)).nodes.filter((n) => n.kind !== "ring").length;
+        const gates = C.recipe.structural.filter(
+          (n) => controlOpts[n]?.type === "bool",
+        );
+        for (const n of gates) full[`opt.${n}`] = false;
+        let best = await count(full);
+        for (const n of gates) {
+          const trial = { ...full, [`opt.${n}`]: true };
+          const c = await count(trial);
+          if (c > best) {
+            full[`opt.${n}`] = true;
+            best = c;
+          }
+        }
+        return full;
+      }
+
+      // A toggle that changes nothing on its own (Emphasized without Selected)
+      // switches on the toggle it depends on, found by probing the scenes.
+      // Disabled and pending are never inferred: they override other options.
+      async function enableDependency(el) {
+        const name = el.id.replace(/^opt-/, "");
+        if (!el.checked || controlOpts[name]?.type !== "bool") return;
+        const on = liveOptions();
+        const off = { ...on, [`opt.${name}`]: false };
+        const fp = async (q) => fingerprint(await getScene(q));
+        if ((await fp(on)) !== (await fp(off))) return;
+        for (const [m, c] of Object.entries(controlOpts)) {
+          const box = $(`opt-${m}`);
+          if (
+            m === name ||
+            c.type !== "bool" ||
+            !c.supported ||
+            box.checked ||
+            /^is(Disabled|Pending)$/.test(m)
+          )
+            continue;
+          const k = `opt.${m}`;
+          if (
+            (await fp({ ...on, [k]: true })) !==
+            (await fp({ ...off, [k]: true }))
+          ) {
+            box.checked = true;
+            return;
+          }
+        }
+      }
+
+      async function refresh(opts = {}) {
+        const token = ++stageToken;
+        const o = liveOptions();
+        const bg = staticBg(o);
+        $("stage").classList.toggle("dark", bg === "dark");
+        $("stage").classList.toggle("light", bg === "light");
+        $("stage").dataset.mode = view.mode;
+        if (opts.refit) vp.fit = true;
+        $("state-wrap")?.classList.toggle("hidden", view.mode === "usage");
+        $("back").classList.toggle("hidden", view.mode === "usage");
+        $("z-labels").disabled = view.mode === "usage";
+        updateSupport(o);
+        if (view.mode === "usage") await renderMatrix(o, token, opts);
+        else await renderZoom(o, token, opts);
+      }
+
+      // Columns come from states, rows from appearance options (variant, style)
+      // crossed with distinct toggle combinations. Components without
+      // interaction states (badge) put the last appearance option in columns.
+      async function renderMatrix(o, token, opts) {
+        const structural = new Set(C.recipe.structural);
+        const appearance = Object.keys(controlOpts).filter(
+          (n) =>
+            controlOpts[n].type === "enum" &&
+            controlOpts[n].supported &&
+            !structural.has(n) &&
+            !/^(size|fixed)$|^static/i.test(n),
+        );
+        const valuesOf = (n) =>
+          controlOpts[n].def.values.map((v) => v.value ?? v);
+        const base = Object.fromEntries(
+          Object.entries(o).filter(
+            ([k]) =>
+              !k.startsWith("opt.") ||
+              structural.has(k.slice(4)) ||
+              !controlOpts[k.slice(4)] ||
+              (controlOpts[k.slice(4)].type === "enum" &&
+                !appearance.includes(k.slice(4))),
+          ),
+        );
+        delete base.state;
+        const toggles = Object.keys(controlOpts).filter(
+          (n) =>
+            controlOpts[n].type === "bool" &&
+            controlOpts[n].supported &&
+            !structural.has(n) &&
+            n !== "isDisabled",
+        );
+        const interaction = (C.states ?? []).filter(
+          (st) => st.name !== "disabled",
+        );
+        const colEnum = interaction.length ? null : appearance.at(-1);
+        const rowEnums = appearance.filter((n) => n !== colEnum);
+        const product = (names) =>
+          names.reduce(
+            (acc, n) =>
+              acc.flatMap((a) => valuesOf(n).map((v) => ({ ...a, [n]: v }))),
+            [{}],
+          );
+        const colDefs = colEnum
+          ? valuesOf(colEnum).map((v) => ({
+              label: v,
+              extra: { [colEnum]: v },
+            }))
+          : ["default", ...interaction.map((st) => st.name)].map((c) => ({
+              label: c,
+              state: c === "default" ? undefined : c,
+              extra: {},
+            }));
+        if (controlOpts.isDisabled?.supported)
+          colDefs.push({ label: "disabled", extra: { isDisabled: true } });
+        const reqFor = (c, extra) =>
+          withOpts(
+            { ...base, ...(c.state ? { state: c.state } : {}) },
+            { ...extra, ...c.extra },
+          );
+        // Combinations an error constraint rules out, by constraint, for the note.
+        const skipped = new Map();
+        const skip = (c, label) => {
+          if (!skipped.has(c.index)) skipped.set(c.index, { c, items: [] });
+          const e = skipped.get(c.index);
+          if (!e.items.includes(label)) e.items.push(label);
+        };
+        const rows = [];
+        const seen = new Set();
+        for (const enums of product(rowEnums)) {
+          for (const combo of subsets(toggles)) {
+            const extra = {
+              ...enums,
+              ...Object.fromEntries(combo.map((n) => [n, true])),
+            };
+            const parts = [...Object.values(enums), ...combo.map(humanize)];
+            const label = parts.join(" · ") || "Standard";
+            const errs = colDefs.map((c) => errorsFor(reqFor(c, extra)));
+            if (errs.every((e) => e.length)) {
+              for (const c of errs[0]) skip(c, label);
+              continue;
+            }
+            // A disabled column is ignored so a combination that only differs
+            // there (accent outline) isn't listed as its own row.
+            const fps = [];
+            for (const [ci, c] of colDefs.entries()) {
+              if (c.extra.isDisabled) continue;
+              fps.push(
+                errs[ci].length
+                  ? "excluded"
+                  : fingerprint(await getScene(reqFor(c, extra))),
+              );
+            }
+            const fp = fps.join("|");
+            if (seen.has(fp)) continue;
+            seen.add(fp);
+            rows.push({ extra, label, errs });
+          }
+        }
+        // A column left with no renderable cell is dropped.
+        const liveCols = colDefs
+          .map((c, ci) => ({ c, ci }))
+          .filter(({ ci }) => rows.some((r) => !r.errs[ci].length));
+        for (const row of rows)
+          for (const { c, ci } of colDefs.map((c, ci) => ({ c, ci })))
+            for (const e of row.errs[ci]) skip(e, `${row.label} · ${c.label}`);
+        const cols = liveCols.map(({ c }) => c.label);
+        const reqs = [];
+        const advNums = new Map();
+        const advNum = (c) => {
+          if (!advNums.has(c.index))
+            advNums.set(c.index, { c, n: advNums.size + 1 });
+          return advNums.get(c.index).n;
+        };
+        let html =
+          "<span></span>" +
+          cols.map((c) => `<span class="h">${esc(c)}</span>`).join("");
+        for (const row of rows) {
+          html += `<span class="rl">${esc(row.label)}</span>`;
+          let first, firstCol;
+          for (const { c, ci } of liveCols) {
+            const errs = row.errs[ci];
+            if (errs.length) {
+              html += `<span class="cell unsupported" title="${attr(errs[0].description ?? "Not supported")}">Not supported</span>`;
+              continue;
+            }
+            const req = reqFor(c, row.extra);
+            const s = await getScene(req);
+            const fp = fingerprint(s);
+            if (first === undefined) {
+              first = fp;
+              firstCol = c;
+            }
+            // Not defined for this variant: it would repeat the first column.
+            if (colEnum && fp === first && c !== firstCol) {
+              html += '<span class="cell na" aria-hidden="true">–</span>';
+              continue;
+            }
+            const advs = advisoriesOf(matching(constraints, comboOf(req)));
+            reqs.push(req);
+            const mark = advs.length
+              ? `<sup class="fn" aria-hidden="true">${advs.map(advNum).join(",")}</sup>`
+              : "";
+            const aria = advs.length
+              ? `, no distinct design: ${advs.map((a) => a.description ?? whenText(a)).join(" ")}`
+              : "";
+            html += `<button type="button" class="cell${advs.length ? " adv" : ""}" data-i="${reqs.length - 1}" title="${attr(advs.map((a) => a.description ?? "").join(" "))}" aria-label="${attr(`${row.label}, ${c.label}${aria}`)}">${sceneSvg(s)}${mark}</button>`;
+          }
+        }
+        const notes = [...skipped.values()]
+          .map(
+            ({ c, items }) =>
+              `<p class="err"><b>Not supported, so not rendered:</b> ${esc(items.slice(0, 6).join(", "))}${items.length > 6 ? ` and ${items.length - 6} more` : ""}. ${esc(c.description ?? "")} ${esc(fixText(c))}</p>`,
+          )
+          .concat(
+            [...advNums.values()].map(
+              ({ c, n }) =>
+                `<p class="adv"><sup class="fn">${n}</sup> <b>${esc(whenText(c))}: no distinct design.</b> ${esc(c.description ?? "")}</p>`,
+            ),
+          )
+          .join("");
+        if (token !== stageToken) return;
+        cellReqs = reqs;
+        vp.kind = "grid";
+        setWorld(
+          rows.length
+            ? `<div class="matrix-wrap"><div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div><div class="mnotes">${notes}</div></div>`
+            : `<div class="unsupported-box" id="matrix"><h4>No supported combinations to show</h4>${notes}</div>`,
+        );
+        afterGrid();
+        if (opts.animate && !reduced)
+          $("matrix").animate(
+            [
+              { opacity: 0, transform: "scale(1.06)" },
+              { opacity: 1, transform: "none" },
+            ],
+            { duration: 300, easing: "ease-out" },
+          );
+      }
+
+      // Tokens grouped by part; a row expands to show its alias chain and mode.
+      const isColor = (v) => /^(#|rgb|hsl)/i.test(String(v));
+      function renderTokens(s, o) {
+        const groups = new Map();
+        for (const n of s.nodes)
+          for (const t of n.tokens) {
+            const g = t.prop.startsWith("press") ? "press" : n.part;
+            if (!groups.has(g)) groups.set(g, { part: n.part, rows: [] });
+            groups.get(g).rows.push(t);
+          }
+        const modes = `${o.scheme} · ${o.scale}${o.size ? ` · size ${o.size}` : ""}${o.state ? ` · state ${o.state}` : ""}`;
+        $("tokens").innerHTML = [...groups]
+          .map(([g, { part, rows }]) => {
+            const body = rows
+              .map((t) => {
+                const chain = [t.token, ...(t.chain ?? []), t.value]
+                  .map((x, i, a) =>
+                    i === a.length - 1
+                      ? `${isColor(x) ? `<span class="sw-chip" style="background:${esc(x)}"></span>` : ""}${esc(x)}`
+                      : esc(x),
+                  )
+                  .join("<i>→</i>");
+                const fv = backend.figma(t.token);
+                return `<tr class="tr" data-part="${esc(part)}" data-token="${esc(t.token)}"><td>${esc(t.prop)}</td><td class="mono">${esc(t.token)}${fv ? `<div class="fig" title="${esc(fv.collection)}">${esc(fv.name)}</div>` : ""}</td><td>${isColor(t.value) ? `<span class="sw-chip" style="background:${esc(t.value)}"></span>` : ""}${esc(t.value)}</td></tr><tr class="detail hidden"><td colspan="3"><div class="chain">${chain}</div>${fv ? `<div>Figma variable: <span class="mono">${esc(fv.collection)} / ${esc(fv.name)}</span></div>` : ""}<div>Resolved in ${esc(modes)}</div></td></tr>`;
+              })
+              .join("");
+            return `<details open data-part="${esc(part)}"><summary>${esc(g.replace(/-/g, " "))}<span class="n">${rows.length}</span></summary><table><tr><th>Property</th><th>Token</th><th>Value</th></tr>${body}</table></details>`;
+          })
+          .join("");
+      }
+
+      // Hover links the stage and the table by part name and token name.
+      const lit = (on, sel, attr, val) =>
+        document
+          .querySelectorAll(`${sel}[${attr}="${CSS.escape(val)}"]`)
+          .forEach((e) => e.classList.toggle("hl", on));
+      function link(e, on) {
+        const el = e.target.closest?.("[data-token], [data-part]");
+        if (!el) return;
+        const { part, token } = el.dataset;
+        if (token) {
+          lit(on, "#tokens tr.tr", "data-token", token);
+          lit(on, ".mono-pill", "data-token", token);
+        } else if (part) {
+          lit(on, ".pn, .co", "data-part", part);
+          lit(on, "#tokens details", "data-part", part);
+        }
+      }
+      for (const root of [$("stage"), $("tokens")]) {
+        root.addEventListener("mouseover", (e) => link(e, true));
+        root.addEventListener("mouseout", (e) => link(e, false));
+      }
+      $("tokens").addEventListener("click", (e) => {
+        const tr = e.target.closest("tr.tr");
+        tr?.nextElementSibling?.classList.toggle("hidden");
+      });
+
+      // Anatomy callouts and spec dimension lines share one zoomed component.
+      // Lines and borders are 3:1 or better against the light, dark and static-color
+      // stages (WCAG 1.4.11); label text is #222 on white or #1f2d3d on a pale fill.
+      const SPEC_LINE = "#2f80d0",
+        SPEC_EDGE = "#2f80d0";
+      const LABEL_PX = 14,
+        TOKEN_PX = 13,
+        PILL_H = 32;
+      const measure = (() => {
+        const ctx = document.createElement("canvas").getContext("2d");
+        const cache = new Map();
+        return (text, mono) => {
+          const key = `${mono ? "m" : "p"}${text}`;
+          if (!cache.has(key)) {
+            ctx.font = mono
+              ? `${TOKEN_PX}px ui-monospace, Menlo, monospace`
+              : `500 ${LABEL_PX}px "adobe-clean-spectrum-vf", "Adobe Clean", "Source Sans 3", -apple-system, "Segoe UI", sans-serif`;
+            cache.set(key, ctx.measureText(text).width);
+          }
+          return cache.get(key);
+        };
+      })();
+      const pillW = (text, mono) => Math.ceil(measure(text, mono)) + 28;
+      // A label: x is its left, middle or right edge by anchor, y its vertical centre.
+      // The text sits at the centre of the box, which is sized from the measured text.
+      const pill = (x, y, text, color, mono, anchor = "start") => {
+        const w = pillW(text, mono);
+        const left =
+          anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
+        const box = mono
+          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="10"`
+          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="${PILL_H / 2}"`;
+        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - PILL_H / 2}" width="${w}" height="${PILL_H}" ${box}/><text x="${left + w / 2}" y="${y}" dy="0.34em" text-anchor="middle" font-size="${mono ? TOKEN_PX : LABEL_PX}"${mono ? "" : ' font-weight="500"'} fill="${mono ? "#1f2d3d" : "#222"}">${esc(text)}</text></g>`;
+      };
+
+      async function renderZoom(o, token, opts) {
+        const combo = comboOf(o);
+        const errs = errorsOf(matching(constraints, combo));
+        if (errs.length) {
+          $("anatomy-table").innerHTML = "";
+          $("tokens").innerHTML = "";
+          vp.kind = "grid";
+          setWorld(
+            `<div class="unsupported-box"><sp-theme system="spectrum-two" color="light" scale="medium"><h4>This combination isn't supported</h4>${explainHtml(errs, combo)}</sp-theme></div>`,
+          );
+          afterGrid();
+          return;
+        }
+        const s = await getScene(o);
+        if (token !== stageToken) return;
+        vp.scene = s;
+        vp.kind = "diagram";
+        $("anatomy-table").innerHTML =
+          "<tr><th>Part</th><th>Description</th></tr>" +
+          (C.anatomy ?? [])
+            .map(
+              (a) =>
+                `<tr><td>${esc(humanize(a.name.replace(/-/g, " ")))}${a.required ? "" : ' <span class="note">(optional)</span>'}</td><td>${esc(a.description ?? "")}</td></tr>`,
+            )
+            .join("");
+        renderTokens(s, o);
+        drawDiagram(opts.from);
+      }
+
+      // The drawing in layout units. K is how many layout units one scene pixel takes.
+      const PAD_X = 390,
+        PAD_Y = 110;
+      function diagramInner(s, K) {
+        const padX = PAD_X,
+          pad = PAD_Y;
+        const P = (n, fx, fy) => [
+          padX + (n.x + n.w * fx) * K,
+          pad + (n.y + n.h * fy) * K,
+        ];
+        const root = s.nodes.find((n) => n.kind === "box");
+        const parts = (C.anatomy ?? [])
+          .map((a) => [a, node(s, a.name)])
+          .filter(([, n]) => n);
+
+        // A state-only part such as the focus indicator is a ring in the scene only while
+        // its state is active, so it gets a callout then. The ring sits outside the root,
+        // so its label goes below, on the ring's bottom edge, and does not shift the
+        // alternation of the other labels.
+        let i = 0;
+        const placed = parts.map(([a, n]) => {
+          const isRoot = n === root;
+          const isRing = n.kind === "ring";
+          const up = isRoot || (isRing ? false : i++ % 2 === 0);
+          // A rounded container's anchor sits past its corner curve, on the straight edge.
+          const rad = n.radii?.[0] ?? n.radius ?? 0;
+          const fx = isRoot
+            ? Math.min(0.5, Math.max(0.1, (rad + 4) / n.w))
+            : 0.5;
+          const [x, y] = P(n, fx, isRoot ? 0 : up ? 0 : 1);
+          const cx = n.x + n.w / 2 - (root.x + root.w / 2);
+          const dx = isRoot
+            ? -70
+            : Math.max(-80, Math.min(80, cx * K * 0.5 + (up ? 20 : -20)));
+          const label = humanize(a.name.replace(/-/g, " "));
+          return { a, x, y, dx, up, label, w: pillW(label, false) };
+        });
+        // Labels on one side keep a minimum spacing, so parts that share a center
+        // (a switch's control, track and handle) do not stack their labels.
+        for (const side of [true, false]) {
+          const row = placed
+            .filter((c) => c.up === side)
+            .sort((p, q) => p.x + p.dx - (q.x + q.dx));
+          for (let j = 1; j < row.length; j++) {
+            const min =
+              row[j - 1].x + row[j - 1].dx + (row[j - 1].w + row[j].w) / 2 + 12;
+            if (row[j].x + row[j].dx < min) row[j].dx = min - row[j].x;
+          }
+        }
+        const rowY = {
+          true:
+            Math.min(
+              P(root, 0, 0)[1],
+              ...placed.filter((c) => c.up).map((c) => c.y),
+            ) - 64,
+          false:
+            Math.max(
+              P(root, 1, 1)[1],
+              ...placed.filter((c) => !c.up).map((c) => c.y),
+            ) + 64,
+        };
+        const callouts = placed.map(({ a, x, y, dx, up, label }) => {
+          const dy = rowY[up] - y;
+          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx, y + dy, label, "#d83790", false, "middle")}</g>`;
+        });
+
+        const B = SPEC_LINE;
+        const [x0, y0] = P(root, 0, 0),
+          [x1, y1] = P(root, 1, 1);
+        // Anatomy lists the root's direct children, so nested parts (a switch's track and
+        // handle) stay out of the flow measurements. Without it, boxes are not flowed.
+        const rootContains = (C.anatomy ?? []).find(
+          (a) => a.name === root.part,
+        )?.contains;
+        const flow = s.nodes
+          .filter(
+            (n) =>
+              n !== root &&
+              n.kind !== "ring" &&
+              n.part !== "hold-icon" &&
+              (rootContains ? rootContains.includes(n.part) : n.kind !== "box"),
+          )
+          .sort((a, b) => a.x - b.x);
+        const line = (xa, ya, xb, yb, extra = "") =>
+          `<line x1="${xa}" y1="${ya}" x2="${xb}" y2="${yb}" stroke="${B}" stroke-width="1.5"${extra}/>`;
+        const hb = (xa, xb, y, c = 6) =>
+          line(xa, y, xb, y) +
+          line(xa, y - c, xa, y + c) +
+          line(xb, y - c, xb, y + c);
+        const vb = (x, ya, yb, c = 6) =>
+          line(x, ya, x, yb) +
+          line(x - c, ya, x + c, ya) +
+          line(x - c, yb, x + c, yb);
+        const dot = (x, y) =>
+          `<circle cx="${x}" cy="${y}" r="4.5" fill="${B}"/>`;
+        const guide = (x, ya, yb) =>
+          line(x, ya, x, yb, ' stroke-dasharray="3 3"');
+        const out = [];
+        const h = tok(root, "height") ?? tok(root, "minHeight");
+        if (h)
+          out.push(
+            vb(x0 - 30, y0, y1) +
+              pill(x0 - 48, (y0 + y1) / 2, h.token, B, true, "end"),
+          );
+        const pd = tok(root, "paddingInlineStart");
+        if (pd && flow[0]) {
+          const fl = P(flow[0], 0, 0)[0],
+            fr = P(flow[flow.length - 1], 1, 0)[0],
+            by = y1 + 26,
+            uy = y1 + 44,
+            mid = (x0 + x1) / 2;
+          out.push(
+            [x0, fl, fr, x1].map((x) => guide(x, y1, by + 6)).join("") +
+              hb(x0, fl, by) +
+              hb(fr, x1, by) +
+              `<path d="M${fl} ${by} V${uy} H${fr} V${by}" fill="none" stroke="${B}" stroke-width="1.5"/>` +
+              dot(mid, uy) +
+              line(mid, uy, mid, uy + 28) +
+              pill(mid, uy + 42, pd.token, B, true, "middle"),
+          );
+        }
+        const gp = tok(root, "gap");
+        if (gp && flow.length > 1) {
+          const gx = P(flow[0], 1, 0)[0],
+            gx2 = P(flow[1], 0, 0)[0],
+            gm = (gx + gx2) / 2,
+            cy = (y0 + y1) / 2,
+            dy = cy;
+          out.push(
+            hb(gx, gx2, cy, 5) +
+              line(gm, dy, gm, y0 - 40) +
+              dot(gm, dy) +
+              pill(gm, y0 - 54, gp.token, B, true, "middle"),
+          );
+        }
+        const r = tok(root, "cornerRadius");
+        if (r) {
+          const rr =
+              (root.radii?.[1] ?? root.radii?.[0] ?? root.radius ?? 0) * K,
+            R = rr + 9,
+            ccx = x1 - rr,
+            ccy = y0 + rr;
+          out.push(
+            `<path d="M${ccx + R * Math.cos(1.25)} ${ccy - R * Math.sin(1.25)} A${R} ${R} 0 0 1 ${ccx + R * Math.cos(0.1)} ${ccy - R * Math.sin(0.1)}" fill="none" stroke="${B}" stroke-width="4" stroke-linecap="round"/>` +
+              pill(x1 + 14, y0 - 4, r.token, B, true),
+          );
+        }
+
+        // Boxes nested in a flowed box: the flowed box's width, and each nested box's size.
+        for (const n of flow.filter((n) => n.kind === "box")) {
+          const wt = tok(n, "width");
+          if (!wt) continue;
+          const [nl, nt] = P(n, 0, 0),
+            [nr] = P(n, 1, 1),
+            by = y1 + 26;
+          out.push(
+            hb(nl, nr, by) +
+              line((nl + nr) / 2, by, (nl + nr) / 2, by + 24) +
+              pill((nl + nr) / 2, by + 38, wt.token, B, true, "middle"),
+          );
+        }
+        for (const n of s.nodes.filter(
+          (n) =>
+            n.kind === "box" &&
+            n !== root &&
+            !flow.includes(n) &&
+            tok(n, "width"),
+        )) {
+          const wt = tok(n, "width");
+          const [hx, hy] = P(n, 0.5, 0);
+          out.push(
+            dot(hx, hy) +
+              line(hx, hy, hx, y0 - 110) +
+              pill(hx, y0 - 124, wt.token, B, true, "middle"),
+          );
+        }
+
+        // The pressed scale applies to the drawing only; measurements stay at rest size.
+        const pr = s.press;
+        const pressAttr = pr
+          ? ` transform="translate(${pr.cx} ${pr.cy}) scale(${pr.scale}) translate(${-pr.cx} ${-pr.cy})"`
+          : "";
+        if (pr) {
+          const pd = tok(root, "pressDifference");
+          const pt = (pr.part && node(s, pr.part)) || root;
+          const [px0, py0] = P(pt, 0, 0),
+            [px1, py1] = P(pt, 1, 1);
+          out.push(
+            `<rect x="${px0}" y="${py0}" width="${px1 - px0}" height="${py1 - py0}" rx="${(pt.radii?.[0] ?? pt.radius ?? 0) * K}" fill="none" stroke="${B}" stroke-width="1.5" stroke-dasharray="6 4"/>` +
+              pill(
+                x0,
+                y1 + 140,
+                `${pd?.token ?? "component-size-difference"} → ×${pr.scale.toFixed(3)}`,
+                B,
+                true,
+              ),
+          );
+        }
+
+        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
+      }
+
+      // ---- page chrome --------------------------------------------------------
+      function renderPage() {
+        document.title = `${C.displayName} · Spectrum Hub prototype`;
+        $("crumb").textContent =
+          `Web > RSP > ${humanize(C.meta?.category ?? "components")}`;
+        $("title").textContent = C.displayName;
+        $("desc").textContent = C.description ?? "";
+        $("blocks").innerHTML = (C.documentBlocks ?? [])
+          .map((b) => {
+            const [head, ...rest] = String(b.content).split("\n\n");
+            return rest.length
+              ? `<p><b>${esc(head)}</b>${esc(rest.join(" "))}</p>`
+              : `<p>${esc(head)}</p>`;
+          })
+          .join("");
+      }
+
+      async function load(name) {
+        C = await backend.component(name);
+        seenDiagnostics.clear();
+        noteDiagnostics();
+        constraints = readConstraints(C);
+        renderPage();
+        buildControls();
+        await refresh({ refit: true });
+      }
+
+      const tabs = ["usage", "anatomy", "specs"];
+      function syncUrl() {
+        const u = new URL(location.href);
+        u.searchParams.set("tab", view.mode);
+        if (view.mode === "usage") u.searchParams.delete("cell");
+        else {
+          const { name, ...req } = liveOptions();
+          u.searchParams.set("cell", JSON.stringify(req));
+        }
+        history.replaceState(null, "", u);
+      }
+
+      async function setMode(t, from) {
+        const prev = view.mode;
+        if (t === prev) return;
+        if (prev === "usage" && !from)
+          syncControls(await maxParts(liveOptions()));
+        view.mode = t;
+        document
+          .querySelectorAll(".tabs button")
+          .forEach((b) => b.classList.toggle("on", b.dataset.tab === t));
+        $("thumb").style.transform = `translateX(${tabs.indexOf(t) * 100}%)`;
+        document
+          .querySelectorAll("[data-panel]")
+          .forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== t));
+        if (prev !== "usage" && t !== "usage") {
+          $("stage").dataset.mode = t;
+          vp.fit = true;
+          drawDiagram();
+        } else {
+          await refresh({ from, animate: t === "usage", refit: true });
+        }
+        syncUrl();
+      }
+
+      $("tabs").addEventListener("click", (e) => {
+        const t = e.target.dataset?.tab;
+        if (t) setMode(t);
+      });
+      $("back").addEventListener("click", () => setMode("usage"));
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        if ($("live-component").classList.contains("fs")) toggleFull();
+        else if (view.mode !== "usage") setMode("usage");
+      });
+      // A suggested fix sets the option it names, then redraws.
+      document.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-fix-opt]");
+        if (!b) return;
+        const el = $(`opt-${b.dataset.fixOpt}`);
+        if (isSwitch(el)) el.checked = b.dataset.fixVal === "true";
+        else if (el) write(el, b.dataset.fixVal);
+        refresh();
+      });
+      $("stage").addEventListener("click", (e) => {
+        const cell = e.target.closest("button.cell");
+        if (!cell) return;
+        syncControls(cellReqs[Number(cell.dataset.i)]);
+        setMode("anatomy", cell.querySelector("svg").getBoundingClientRect());
+      });
+
+      (async () => {
+        const list = await backend.components();
+        const params = new URLSearchParams(location.search);
+        const name = params.get("c") ?? list.find((c) => c.hasVisual).name;
+        $("nav").innerHTML =
+          `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
+        await load(name);
+        const initial = params.get("tab");
+        if (tabs.includes(initial) && initial !== "usage") {
+          const cell = params.get("cell");
+          if (cell) syncControls({ ...JSON.parse(cell) });
+          await setMode(initial, cell ? {} : undefined);
+        }
+      })();
+    </script>
+  </body>
+</html>

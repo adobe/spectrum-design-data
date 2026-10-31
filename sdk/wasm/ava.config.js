@@ -13,6 +13,8 @@ governing permissions and limitations under the License.
 export default {
   files: ["test/**/*.test.js"],
   verbose: true,
+  // visual-runtime-parity.test.js builds the site with the debug CLI at import time (~6s without VISUAL_PARITY_SITE_DIR; moon prebuilds and caches it via site-data).
+  timeout: process.env.VISUAL_PARITY_FULL === "1" ? "60m" : "180s",
   environmentVariables: {
     NODE_ENV: "test",
   },

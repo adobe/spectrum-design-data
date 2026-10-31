@@ -105,7 +105,42 @@
     },
     "isEmphasized": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
-    "isReadOnly": { "type": "boolean", "default": false }
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Behavior only: the switch keeps its default or selected appearance and does not respond to hover or press. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen."
+    },
+    "hideLabel": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the track and the label.",
+      "required": true,
+      "contains": ["track", "label"]
+    },
+    {
+      "name": "track",
+      "description": "Pill-shaped background. Its border is drawn while the switch is off. Holds the handle.",
+      "required": true,
+      "contains": ["handle"]
+    },
+    {
+      "name": "handle",
+      "description": "Circle that sits at the start of the track when off and at the end when on.",
+      "required": true
+    },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the track for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "control removed (a grouping with no style of its own); its size moved to track, which now holds the handle. focus-indicator is state-only."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

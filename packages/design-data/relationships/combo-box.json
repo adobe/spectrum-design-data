@@ -12,7 +12,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -20,7 +20,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -28,7 +28,7 @@
       "component": "combo-box",
       "property": "component-top-to-workflow-icon-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -36,7 +36,7 @@
       "component": "combo-box",
       "property": "component-top-to-workflow-icon-300"
     },
-    "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline",
+    "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -44,7 +44,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -52,7 +52,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-200"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
@@ -60,7 +60,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -68,7 +68,7 @@
       "component": "combo-box",
       "property": "component-padding-vertical-300"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
@@ -76,7 +76,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-50"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
@@ -84,7 +84,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-50"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
@@ -92,7 +92,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-100"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
@@ -100,7 +100,7 @@
       "component": "combo-box",
       "property": "component-top-to-text-100"
     },
-    "context": "S2 Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text: inline)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
@@ -285,7 +285,7 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -317,7 +317,7 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674"
   },
   {
     "scope": {
@@ -573,7 +573,7 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce"
   },
   {
     "scope": {
@@ -589,7 +589,7 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -605,7 +605,7 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38"
   },
   {
     "scope": {
@@ -621,7 +621,7 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674"
   },
   {
     "scope": {

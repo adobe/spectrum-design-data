@@ -453,7 +453,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start edge to value) ",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {
@@ -589,7 +589,7 @@
       "property": "space-between"
     },
     "context": "Spacing (value to alert icon)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed"
   },
   {
     "scope": {

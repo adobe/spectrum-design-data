@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-073",
+      "severity": "info",
+      "message_pattern": "^Components without reviewed anatomy: 1 with relationships but no anatomy \\(accordion\\); 1 with draft anatomy \\(switch\\)$"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "states": [
+        {
+          "name": "hover",
+          "trigger": "interaction"
+        },
+        {
+          "name": "focus",
+          "trigger": "interaction"
+        }
+      ],
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Background.",
+          "required": true
+        },
+        {
+          "name": "focus-indicator",
+          "description": "Outline drawn outside the container for keyboard focus.",
+          "presentIn": ["hover"]
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "component": "button",
+      "root": "container",
+      "parts": {
+        "container": {
+          "kind": "box"
+        },
+        "focus-indicator": {
+          "kind": "ring",
+          "visibleWhen": {
+            "states": ["focus"]
+          }
+        }
+      }
+    }
+  ]
+}

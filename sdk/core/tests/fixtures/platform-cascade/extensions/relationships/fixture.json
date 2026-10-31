@@ -1,0 +1,19 @@
+[
+  {
+    "scope": { "component": "widget", "property": "color" },
+    "context": "Extension fill",
+    "$ref": "00000000-0000-4000-8000-0000000000e1",
+    "uuid": "00000000-0000-4000-8000-0000000000a0"
+  },
+  {
+    "op": "override",
+    "uuid": "00000000-0000-4000-8000-0000000000a1",
+    "value": {
+      "scope": { "component": "widget", "property": "color" },
+      "context": "Fill",
+      "$ref": "u-gray-alt",
+      "uuid": "00000000-0000-4000-8000-0000000000a1"
+    }
+  },
+  { "op": "remove", "uuid": "00000000-0000-4000-8000-0000000000a2" }
+]

@@ -95,6 +95,48 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isError": { "type": "boolean", "default": false }
   },
+  "constraints": [
+    {
+      "when": { "isIndeterminate": true },
+      "require": { "isSelected": [false] },
+      "severity": "advisory",
+      "description": "An indeterminate checkbox overrides selection; isSelected has no visual effect.",
+      "source": "react-spectrum S2 Checkbox.tsx"
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the box and the label.",
+      "required": true,
+      "contains": ["box", "label"]
+    },
+    {
+      "name": "box",
+      "description": "Rounded square. Its border is drawn while the checkbox is unselected; it is filled when selected or indeterminate. Holds the checkmark and dash.",
+      "required": true,
+      "contains": ["checkmark", "dash"]
+    },
+    {
+      "name": "checkmark",
+      "description": "Mark drawn inside the box while the checkbox is selected."
+    },
+    {
+      "name": "dash",
+      "description": "Mark drawn inside the box while the checkbox is indeterminate; it replaces the checkmark."
+    },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the box for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "control removed (a grouping with no style of its own); its size moved to box, which now holds the marks. focus-indicator is state-only."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

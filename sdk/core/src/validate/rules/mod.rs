@@ -70,6 +70,25 @@ mod spec056;
 mod spec057;
 mod spec058;
 mod spec059;
+mod spec060;
+mod spec061;
+mod spec062;
+mod spec063;
+mod spec064;
+mod spec065;
+mod spec066;
+mod spec067;
+mod spec068;
+mod spec069;
+mod spec070;
+mod spec071;
+mod spec072;
+mod spec073;
+mod spec074;
+mod spec075;
+mod spec076;
+mod spec081;
+mod visual_util;
 
 use std::collections::HashSet;
 
@@ -166,7 +185,7 @@ fn embedded_registry() -> &'static RegistryData {
 /// `ValidationReport::downgrade_rules` and bead spectrum-design-data-0jm.
 pub const COMPONENT_RULE_IDS: &[&str] = &[
     "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-027", "SPEC-031", "SPEC-035", "SPEC-040",
-    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054",
+    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054", "SPEC-064",
 ];
 
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
@@ -229,6 +248,24 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec057::Rule),
         Box::new(spec058::Rule),
         Box::new(spec059::Rule),
+        Box::new(spec060::Rule),
+        Box::new(spec061::Rule),
+        Box::new(spec062::Rule),
+        Box::new(spec063::Rule),
+        Box::new(spec064::Rule),
+        Box::new(spec065::Rule),
+        Box::new(spec066::Rule),
+        Box::new(spec067::Rule),
+        Box::new(spec068::Rule),
+        Box::new(spec069::Rule),
+        Box::new(spec070::Rule),
+        Box::new(spec071::Rule),
+        Box::new(spec072::Rule),
+        Box::new(spec073::Rule),
+        Box::new(spec074::Rule),
+        Box::new(spec075::Rule),
+        Box::new(spec076::Rule),
+        Box::new(spec081::Rule),
     ]
 }
 

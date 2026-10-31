@@ -1,0 +1,50 @@
+{
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Background.",
+          "required": true,
+          "contains": ["label"]
+        },
+        {
+          "name": "label",
+          "description": "Text."
+        }
+      ]
+    }
+  ],
+  "relationships": [],
+  "visuals": [
+    {
+      "component": "button",
+      "root": "container",
+      "parts": {
+        "container": {
+          "kind": "box",
+          "children": ["label"],
+          "props": {
+            "height": {
+              "relationship": {
+                "property": "component-height-100",
+                "context": "Minimum height"
+              }
+            }
+          }
+        },
+        "label": {
+          "kind": "text"
+        }
+      }
+    }
+  ],
+  "tokens": []
+}
