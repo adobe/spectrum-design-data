@@ -1285,6 +1285,11 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         ..Default::default()
     })?;
     let path = &resolved.tokens_root;
+    // A selected platform (`--platform`, DESIGN_DATA_PLATFORM, default_platform) lets SPEC-076
+    // check that recipe bindings still resolve once its manifest is applied.
+    let platform_manifest = manifest::load_configured_manifest(&resolved)
+        .into_diagnostic()
+        .wrap_err("failed to load platform manifest")?;
 
     let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
@@ -1296,7 +1301,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
     let comps_dir = resolved.components;
     let relationships_dir = resolved.relationships;
 
-    let mut report = validate::validate_all_with_full_options(
+    let mut report = validate::validate_all_with_platform(
         path,
         &registry,
         &exceptions,
@@ -1306,6 +1311,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         None,
         relationships_dir.as_deref(),
         opts.visuals_path.as_deref(),
+        platform_manifest,
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;

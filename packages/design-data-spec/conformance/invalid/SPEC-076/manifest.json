@@ -1,0 +1,6 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture-drop",
+  "foundationVersion": "3.7.0",
+  "exclude": ["property=component-height-100"]
+}
