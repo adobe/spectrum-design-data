@@ -113,13 +113,14 @@
     },
     {
       "name": "control",
-      "description": "The whole check control: the box and the mark drawn inside it.",
+      "description": "The whole check control: the box and the mark drawn inside it. Sizes the control and hosts the painted box; the renderer needs it, so it is flagged for removal.",
       "required": true,
-      "contains": ["box", "checkmark", "dash", "focus-indicator"]
+      "contains": ["box", "checkmark", "dash"]
     },
     {
       "name": "box",
-      "description": "Rounded square. Its border is drawn while the checkbox is unselected."
+      "description": "Rounded square. Its border is drawn while the checkbox is unselected; it is filled when selected or indeterminate.",
+      "required": true
     },
     {
       "name": "checkmark",
@@ -132,9 +133,15 @@
     { "name": "label", "description": "Text label." },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn outside the box for keyboard focus."
+      "description": "Outline drawn outside the box for keyboard focus.",
+      "states": ["keyboard-focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Reviewed; stays draft. control is a render-only wrapper (a flowed box cannot paint, so a sized wrapper hosts the painted box); remove it once the renderer paints flowed boxes. focus-indicator made state-only and no longer nested in control."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
