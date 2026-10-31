@@ -1,5 +1,32 @@
 # @adobe/design-data-spec
 
+## 4.8.1
+
+### Patch Changes
+
+- [#1573](https://github.com/adobe/spectrum-design-data/pull/1573) [`6c59c1f`](https://github.com/adobe/spectrum-design-data/commit/6c59c1ffc26ee80e11b1354c8e97d1479023af30) Thanks [@GarthDB](https://github.com/GarthDB)! - A platform manifest override now keeps every field of the record it replaces.
+
+  **Spec:**
+  - `manifest.md` `overrides` now says what the code already did: the override replaces the
+    foundation record for that platform's graph (same key and uuid).
+  - `query` returns one record per token.
+  - Defines the in-memory markers `overriddenBy` and `overriddenFrom`. Legacy output omits them.
+
+  **Core and WASM:**
+  - An override no longer drops `$schema`, `$valueType`, `lifecycle`, `description` or
+    `conceptId`. It changes only `value` or `$ref`.
+  - A replaced record carries `overriddenBy` (`{platform}` or `{manifest}`) and
+    `overriddenFrom` (the foundation value, kept even after several overrides).
+  - Output with no platform is unchanged. With the iOS manifest, the three teal overrides
+    now keep their `$schema`, `uuid` and `private` fields.
+
+- [#1572](https://github.com/adobe/spectrum-design-data/pull/1572) [`a60aeea`](https://github.com/adobe/spectrum-design-data/commit/a60aeea243b2ac4e812d46bbd9f7140c9f62f398) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-072, a warning for a relationship that duplicates another record's `$ref`.
+
+  Two relationship records with the same scope, context and `$ref` leave the token's other scale
+  unreachable when the token has a scale counterpart. Validation now reports the second record and
+  names the counterpart. A repeated record on a token with no scale counterpart is not reported.
+  The current data has no such duplicates after the repoint in this PR.
+
 ## 4.8.0
 
 ### Minor Changes
