@@ -25,6 +25,10 @@ fn color(family: &str, scheme: &str, value: &str, uuid: &str) -> (String, PathBu
         PathBuf::from("tokens.json"),
         json!({
             "name": {"property": "color", "colorFamily": family, "scaleIndex": "800", "colorScheme": scheme},
+            "$schema": "https://example.test/token.json",
+            "$valueType": "color",
+            "description": "fixture color",
+            "lifecycle": {"introduced": "1.0.0"},
             "value": value,
             "uuid": uuid,
         }),
@@ -182,9 +186,8 @@ fn a_mode_set_extension_is_added_to_the_catalog() {
 
 #[test]
 fn an_override_replaces_the_foundation_record_in_place() {
-    // MISMATCH with spec/manifest.md ("applied as a new platform-layer record, not an
-    // in-place edit ... a query returns both"): the code reuses the shadowed key
-    // (h890.10), so exactly one record remains and it carries only name/value/uuid.
+    // spec/manifest.md `overrides`: one record per token, original fields kept,
+    // provenance in `overriddenBy` / `overriddenFrom` (p6ga.8.9).
     let (g, _) = platform();
     let n = g
         .tokens
@@ -192,7 +195,83 @@ fn an_override_replaces_the_foundation_record_in_place() {
         .filter(|t| t.uuid.as_deref() == Some("u-gray-light"))
         .count();
     assert_eq!(n, 1);
-    assert!(g.tokens["u-gray-light"].raw.get("$valueType").is_none());
+    let rec = &g.tokens["u-gray-light"];
+    assert_eq!(rec.layer, Layer::Platform);
+    assert_eq!(rec.raw["value"], "rgb(2, 2, 2)");
+    assert_eq!(rec.raw["$valueType"], "color");
+    assert_eq!(rec.raw["$schema"], "https://example.test/token.json");
+    assert_eq!(rec.raw["description"], "fixture color");
+    assert_eq!(rec.raw["lifecycle"]["introduced"], "1.0.0");
+    assert_eq!(rec.raw["overriddenBy"], json!({"platform": "fixture"}));
+    assert_eq!(rec.raw["overriddenFrom"], json!({"value": "rgb(1, 1, 1)"}));
+    // Untouched tokens carry no marker.
+    assert!(g.tokens["u-gray-dark"].raw.get("overriddenBy").is_none());
+}
+
+fn apply(overrides: Value) -> Result<TokenGraph, design_data_core::CoreError> {
+    let mut g = foundation();
+    g.apply_platform_manifest(&json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "overrides": overrides,
+    }))?;
+    Ok(g)
+}
+
+#[test]
+fn an_override_without_a_platform_id_names_the_manifest() {
+    let g = apply(json!([{"target": "u-gray-light", "value": "rgb(2, 2, 2)"}])).unwrap();
+    assert_eq!(
+        g.tokens["u-gray-light"].raw["overriddenBy"],
+        json!({"manifest": "manifest.json"})
+    );
+}
+
+#[test]
+fn an_override_may_change_value_to_ref_and_drops_the_value() {
+    let g = apply(json!([{"target": "u-gray-light", "$ref": "u-gray-dark"}])).unwrap();
+    let rec = &g.tokens["u-gray-light"];
+    assert!(rec.raw.get("value").is_none());
+    assert_eq!(rec.raw["$ref"], "u-gray-dark");
+    assert_eq!(rec.raw["$valueType"], "color");
+    assert_eq!(rec.alias_target.as_deref(), Some("u-gray-dark"));
+    assert_eq!(rec.raw["overriddenFrom"], json!({"value": "rgb(1, 1, 1)"}));
+}
+
+#[test]
+fn an_override_may_change_ref_to_value_and_drops_the_ref() {
+    let g = apply(json!([
+        {"target": "u-gray-light", "$ref": "u-gray-dark"},
+        {"target": "u-gray-light", "value": "rgb(7, 7, 7)"}
+    ]))
+    .unwrap();
+    let rec = &g.tokens["u-gray-light"];
+    assert!(rec.raw.get("$ref").is_none());
+    assert_eq!(rec.raw["value"], "rgb(7, 7, 7)");
+    assert_eq!(rec.alias_target, None);
+}
+
+#[test]
+fn the_first_overridden_from_is_kept_when_a_token_is_overridden_twice() {
+    // Last override wins for the value; first wins for the history, so
+    // `overriddenFrom` is always the foundation value.
+    let g = apply(json!([
+        {"target": "u-gray-light", "value": "rgb(2, 2, 2)"},
+        {"target": "u-gray-light", "value": "rgb(4, 4, 4)"}
+    ]))
+    .unwrap();
+    let rec = &g.tokens["u-gray-light"];
+    assert_eq!(rec.raw["value"], "rgb(4, 4, 4)");
+    assert_eq!(rec.raw["overriddenFrom"], json!({"value": "rgb(1, 1, 1)"}));
+}
+
+#[test]
+fn an_override_that_changes_the_value_type_is_an_error() {
+    let r = apply(json!([{"target": "u-gray-light", "value": 42}]));
+    assert!(matches!(
+        r,
+        Err(design_data_core::CoreError::ParseError(_))
+    ));
 }
 
 #[test]
