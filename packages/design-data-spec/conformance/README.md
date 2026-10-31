@@ -16,6 +16,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-005` | SPEC-005 | Mode set `default` not in `modes`.                                    |
 | `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).                     |
 | `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant.               |
+| `invalid/SPEC-059` | SPEC-059 | Alias sets a mode that differs from its target's (warning).           |
 | `invalid/SPEC-060` | SPEC-060 | Recipe part is not a declared anatomy part.                           |
 | `invalid/SPEC-061` | SPEC-061 | Recipe condition names an undeclared option.                          |
 | `invalid/SPEC-062` | SPEC-062 | Recipe relationship selector matches no relationship.                 |
