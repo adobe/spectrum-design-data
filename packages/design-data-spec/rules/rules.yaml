@@ -724,3 +724,18 @@ rules:
     message: "Alias {token} sets {field}={ownValue} but its $ref chain resolves to a token with {field}={leafValue}"
     spec_ref: spec/cascade.md#alias-resolution
     introduced_in: "1.0.0-draft"
+  - id: SPEC-072
+    name: relationship-duplicate-ref-scale-counterpart
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      Typically a desktop and a mobile record where the second was copied without repointing it,
+      so the other scale's token is never reachable through the relationship. A repeated record
+      on a token with no scale counterpart is not reported.
+    assert: >
+      Two relationship records with the same scope, context and `$ref` SHOULD NOT both point at
+      a token that has a scale counterpart (the same name with another `scale` value).
+    message: "Relationship {scope} references {ref} twice, but the token has a {scale} counterpart ({counterpart}); point one record at it"
+    spec_ref: spec/relationship-format.md
+    introduced_in: "1.0.0-draft"
