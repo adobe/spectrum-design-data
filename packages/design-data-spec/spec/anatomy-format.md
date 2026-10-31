@@ -158,7 +158,7 @@ The component declaration carries the review result next to `anatomy`:
 "anatomyReview": { "status": "reviewed", "reviewedIn": "1.0.0-draft", "notes": "Dropped control; focus-indicator now state-only." }
 ```
 
-`status` is `draft` or `reviewed`. A component with anatomy and no `anatomyReview` is `draft`. A recipe **SHOULD** only depend on `reviewed` anatomy. An info-level report lists components that have relationships but no anatomy, or anatomy still `draft`.
+`status` is `draft` or `reviewed`. A component with anatomy and no `anatomyReview` is `draft`. A recipe **SHOULD** only depend on `reviewed` anatomy. Rule SPEC-073 reports, at info level, the components that have relationships but no anatomy and those whose anatomy is still `draft`.
 
 ## Canonical anatomy vocabulary
 
@@ -211,15 +211,16 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023, SPEC-024, and SPEC-025 are introduced by this chapter.
 
-| Rule ID  | Name                              | Severity | Assert                                                                                                                                                    |
-| -------- | --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-020 | `component-anatomy-valid`         | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
-| SPEC-023 | `anatomy-custom-part-documented`  | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
-| SPEC-024 | `anatomy-part-name-unique`        | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
-| SPEC-025 | `anatomy-requires-component`      | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
-| SPEC-035 | `anatomy-part-name-registry-sync` | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                       |
-| SPEC-037 | `sub-entity-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                         |
-| SPEC-048 | `anatomy-contains-resolves`       | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries. |
+| Rule ID  | Name                              | Severity | Assert                                                                                                                                                                         |
+| -------- | --------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SPEC-020 | `component-anatomy-valid`         | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                  |
+| SPEC-023 | `anatomy-custom-part-documented`  | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose.                      |
+| SPEC-024 | `anatomy-part-name-unique`        | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                                     |
+| SPEC-025 | `anatomy-requires-component`      | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                                        |
+| SPEC-035 | `anatomy-part-name-registry-sync` | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                                            |
+| SPEC-037 | `sub-entity-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                                              |
+| SPEC-048 | `anatomy-contains-resolves`       | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries.                      |
+| SPEC-073 | `component-anatomy-reviewed`      | info     | A component with relationships **SHOULD** declare anatomy, and its anatomy **SHOULD** be `reviewed` (see [`anatomyReview`](#anatomyreview)). One report for the whole dataset. |
 
 ## Full example
 
