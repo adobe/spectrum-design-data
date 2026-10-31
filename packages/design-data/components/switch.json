@@ -121,13 +121,14 @@
     },
     {
       "name": "control",
-      "description": "The whole on/off control: the track and its handle.",
+      "description": "The whole on/off control: the track and its handle. Sizes the control and hosts the painted track; the renderer needs it, so it is flagged for removal.",
       "required": true,
-      "contains": ["track", "handle", "focus-indicator"]
+      "contains": ["track", "handle"]
     },
     {
       "name": "track",
-      "description": "Pill-shaped background. Its border is drawn while the switch is off."
+      "description": "Pill-shaped background. Its border is drawn while the switch is off.",
+      "required": true
     },
     {
       "name": "handle",
@@ -136,9 +137,15 @@
     { "name": "label", "description": "Text label." },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn outside the track for keyboard focus."
+      "description": "Outline drawn outside the track for keyboard focus.",
+      "states": ["keyboard-focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Reviewed; stays draft. control is a render-only wrapper (a flowed box cannot paint, so a sized wrapper hosts the painted track); remove it once the renderer paints flowed boxes. focus-indicator made state-only and no longer nested in control."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
