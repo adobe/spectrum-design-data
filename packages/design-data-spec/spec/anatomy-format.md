@@ -223,6 +223,7 @@ The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to an
 | SPEC-037 | `sub-entity-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                                              |
 | SPEC-048 | `anatomy-contains-resolves`       | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries.                      |
 | SPEC-073 | `component-anatomy-reviewed`      | info     | A component with relationships **SHOULD** declare anatomy, and its anatomy **SHOULD** be `reviewed` (see [`anatomyReview`](#anatomyreview)). One report for the whole dataset. |
+| SPEC-074 | `anatomy-present-in-declared`     | warning  | Every `presentIn` entry **SHOULD** match a state declared on the component, after state-name normalization (`focus`, `key-focus` and `keyboard-focus` are one state).          |
 
 ## Full example
 

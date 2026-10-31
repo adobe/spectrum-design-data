@@ -848,3 +848,20 @@ rules:
     message: "Components without reviewed anatomy: {n} with relationships but no anatomy ({names}); {m} with draft anatomy ({names})"
     spec_ref: spec/anatomy-format.md#review-checklist
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-074
+    name: anatomy-present-in-declared
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      The anatomy version of SPEC-054. State names are compared after normalization, so
+      `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists `presentIn`
+      on a component that declares no states is also reported. Warning while anatomy is
+      unreviewed; planned to become an error after the review pass.
+    assert: >
+      Every entry of an anatomy part's `presentIn` SHOULD match a state declared on the same
+      component.
+    message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
+    spec_ref: spec/anatomy-format.md#presentin
+    introduced_in: "1.0.0-draft"
