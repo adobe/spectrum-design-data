@@ -3,18 +3,6 @@
   "platform": "ios",
   "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios",
   "foundationVersion": "3.6.0",
-  "include": [
-    "property=color",
-    "property=size",
-    "property=line-height",
-    "property=font-weight",
-    "property=font-family",
-    "property=text-align",
-    "property=corner-radius",
-    "property=border-width",
-    "property=opacity",
-    "property=background-color"
-  ],
   "exclude": ["colorScheme=wireframe"],
   "overrides": [
     {
