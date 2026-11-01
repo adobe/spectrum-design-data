@@ -215,6 +215,7 @@ mod tests {
             component: recipe["component"].as_str().unwrap().to_string(),
             file: PathBuf::from("visuals/button.json"),
             raw: recipe,
+            layer: crate::graph::Layer::Foundation,
         });
         let exceptions = std::collections::HashSet::new();
         let ctx = ValidationContext {

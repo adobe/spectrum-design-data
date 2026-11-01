@@ -587,6 +587,7 @@ mod validation_conformance {
                         component: raw.get("component")?.as_str()?.to_string(),
                         file: std::path::PathBuf::from("dataset.json"),
                         raw: raw.clone(),
+                        layer: crate::graph::Layer::Foundation,
                     })
                 })
                 .collect();

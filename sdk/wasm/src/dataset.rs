@@ -199,6 +199,26 @@ impl Dataset {
     // Visual rendering
     // -----------------------------------------------------------------------
 
+    /// Apply a Layer 2 platform manifest (Foundation→Platform cascade) to this dataset,
+    /// so later `renderScene` / `renderSvg` calls render through that platform.
+    ///
+    /// `manifest` is the parsed `manifest.json` with its `extensions/` directory already
+    /// merged into an inline `extensions` object (tokens, components, relationships,
+    /// modeSets; the shape `design-data` builds natively). The embedded dataset carries
+    /// no manifests, so the caller supplies it. Returns the mode-set restrictions
+    /// (`{ modeSet: [allowedModes] }`). Throws on a malformed manifest.
+    #[wasm_bindgen(js_name = "applyPlatform")]
+    pub fn apply_platform(&mut self, manifest: JsValue) -> Result<JsValue, JsValue> {
+        let manifest: serde_json::Value =
+            serde_wasm_bindgen::from_value(manifest).map_err(js_err)?;
+        let outcome = self
+            .graph
+            .apply_platform_manifest(&manifest)
+            .map_err(to_js_error)?;
+        self.scenes = Default::default();
+        serde_wasm_bindgen::to_value(&outcome.mode_set_restrictions).map_err(js_err)
+    }
+
     /// Resolve a component visual recipe into a scene graph, returned as a JSON string.
     ///
     /// `recipe` is a parsed `visuals/<component>.json` document. `request` is

@@ -88,6 +88,112 @@ delete `platforms/<id>/`, and update `CODEOWNERS`. See
 [`docs/MIGRATION.md`](../docs/MIGRATION.md) (h890.27.13) for the full
 step-by-step, using the iOS POC as the worked example.
 
+## Moving one artifact (promote and demote)
+
+The ejection contract moves a whole platform. This section moves **one artifact**
+(a token, component, mode set or relationship) between a platform's `extensions/`
+and the foundation. The normative rules are in
+[`artifact-moves.md`](../packages/design-data-spec/spec/artifact-moves.md).
+
+A move changes no one's output unless they choose it. The artifact keeps its
+identity, has one owner at a time, and other platforms lose nothing without notice.
+
+**Who decides.** The foundation team decides, ideally with the platform team in
+the discussion. A proposal is a tracked issue: what moves, why, and evidence from
+two or more platforms.
+
+**Promote** (platform to foundation) when two or more platforms need the artifact,
+or one platform needs it and the foundation team records a design decision.
+Promotion is a minor foundation version. The foundation team sets the foundation
+values.
+
+**Demote** (foundation to one platform) with notice. The foundation keeps a
+deprecated stub with the same identity for at least two minor versions, the same
+window as any deprecation ([Evolution](../packages/design-data-spec/spec/evolution.md#migration-windows)).
+
+**Cannot move on their own:** fields (shared vocabulary), implementation mappings
+and platform extensions (always platform-owned). Guidelines move with their
+component.
+
+The six steps, for both directions:
+
+1. **Proposal.** What, why, evidence.
+2. **Impact check.** Who resolves, overrides or references it.
+3. **Move.** Same identity, removed from the old place in the same change.
+4. **Compatibility.** Other platforms' overrides are kept; a demotion leaves the stub.
+5. **Verify.** Validate, snapshot and parity, SPEC-076.
+6. **Record.** Add a `lifecycle.moves` entry.
+
+`design-data platform move --dry-run` (step 2) and `design-data platform move`
+(step 3) are **planned** (p6ga.8.18.2 and p6ga.8.18.3). Until they exist, do
+steps 2 and 3 by hand.
+
+### Example A: promote Dark Elevated
+
+Context: bead p6ga.8.8 declares Dark Elevated as an iOS-local `colorScheme`
+(`light`, `dark`, `dark-elevated`) in `platforms/ios/extensions/mode-sets/`. That
+file **does not exist yet**; the paths below are what it will be. Suppose Android
+now needs an elevated dark surface.
+
+1. **Proposal.** Issue with evidence from `ios` and `android`, and the foundation
+   values for `dark-elevated`.
+2. **Impact check.** Mode sets have no `uuid`; the identity is the name
+   `colorScheme`. Check who sets `colorScheme`: today `packages/design-data/mode-sets/color-scheme.json`
+   lists `light`, `dark`, `wireframe`, and iOS excludes `colorScheme=wireframe`
+   in `platforms/ios/manifest.json`. Look for the `colorScheme=dark-elevated` tokens
+   in `platforms/ios/extensions/tokens/`. Planned: `design-data platform move --dry-run`.
+3. **Move.** Add `dark-elevated` to the foundation `colorScheme` and move the
+   `dark-elevated` tokens (with their `uuid`s) from `platforms/ios/extensions/tokens/`
+   to `packages/design-data/tokens/`. Delete the iOS replacement mode set in the
+   same change. Planned: `design-data platform move`.
+4. **Compatibility.** The promotion must declare a fallback for `dark-elevated`
+   (here `dark`; the set's default is `light`, which would be wrong). Platforms with
+   no values for the new mode resolve to the fallback, so their output is unchanged. Any iOS value that differs from the
+   foundation value stays as an entry in `platforms/ios/manifest.json` `overrides`.
+5. **Verify.**
+   ```bash
+   moon run design-data:validate
+   design-data validate --platform ios --visuals-path <visuals dir>
+   design-data validate-manifest --platform ios
+   moon run tokens:verifyLegacyOutput
+   ```
+   Check that the legacy output has no diff for platforms you did not mean to change.
+6. **Record.** Add a `lifecycle.moves` entry (`direction: promote`, `from: ios`,
+   `to: foundation`, `evidence: [ios, android]`) to each moved token and to the
+   `colorScheme` mode set (once mode sets can carry `lifecycle`; see the open
+   questions).
+
+### Example B: demote a foundation token to one platform
+
+Hypothetical. Take the foundation token with `uuid`
+`736e4768-7944-40ec-a412-4cd36299e03d` (`color-aliases.tokens.json`, seafoam
+`visual` color, dark scheme). Suppose the foundation team decides only iOS needs it.
+iOS already overrides it in `platforms/ios/manifest.json`.
+
+1. **Proposal.** Issue stating that iOS is the only consumer.
+2. **Impact check.** Search for `$ref`s and overrides that target this `uuid`
+   (`design-data query --filter "colorFamily=seafoam"` with and without `--platform`).
+   Other platforms that resolve it need the notice period. Planned:
+   `design-data platform move --dry-run`.
+3. **Move.** Add the token, with the same `uuid`, to `platforms/ios/extensions/tokens/`.
+   In the foundation file, keep the record as a stub with `lifecycle.deprecatedIn`
+   set to the current foundation version, a `deprecatedComment` that names `ios`,
+   and the `lifecycle.moves` entry. Remove the iOS `overrides` entry for this
+   `uuid`, because the extension now holds the value.
+4. **Compatibility.** Other platforms still resolve the stub, unchanged, for at least
+   two minor versions. After that, the stub is removed under the normal removal policy.
+5. **Verify.** The same commands as in Example A.
+6. **Record.** `lifecycle.moves` on both records (`direction: demote`,
+   `from: foundation`, `to: ios`).
+
+### Open questions
+
+Not settled yet; see the spec for the full list.
+
+* Mode sets need an optional `lifecycle` (a schema change, tracked separately).
+* Where the fallback mode for a promoted mode is declared.
+* Whether `overriddenBy` should carry `platformVersion` (deferred).
+
 ## Status
 
 | id               | Team                    | Status                      |

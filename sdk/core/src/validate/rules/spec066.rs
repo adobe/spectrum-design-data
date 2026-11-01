@@ -230,6 +230,7 @@ mod tests {
             component: "switch".into(),
             file: PathBuf::from("visuals/switch.json"),
             raw: recipe,
+            layer: crate::graph::Layer::Foundation,
         });
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();

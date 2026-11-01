@@ -4,8 +4,8 @@
 "@adobe/design-data-wasm": patch
 ---
 
-Define what an anatomy part is and review five components (here: button, action-button, badge;
-`flowed-box-paints`: checkbox, switch).
+Define what an anatomy part is; review button, action-button and badge
+(`flowed-box-paints`: checkbox, switch).
 
 **Spec:**
 

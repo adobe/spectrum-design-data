@@ -973,3 +973,73 @@ rules:
     message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
     spec_ref: spec/anatomy-format.md#presentin
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-076
+    name: visual-bindings-resolve-on-platform
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Runs only when a platform manifest is in scope (for example `design-data validate
+      --platform ios --visuals-path ...`). Renders each recipe on the foundation and with the
+      manifest's cascade applied, over every size, light and dark, desktop and mobile, each
+      interaction state and each option value, and reports the unresolved bindings that appear
+      only under the platform. A gap the foundation also has is not reported.
+    assert: >
+      Every token or relationship binding a visual recipe resolves on the foundation SHOULD also
+      resolve once the platform manifest's include, exclude, overrides and extensions are applied.
+    message: "Recipe for '{component}' binds something that resolves on the foundation but not under platform '{platform}': {binding}"
+    spec_ref: spec/manifest.md
+    introduced_in: "1.0.0-draft"
+
+  # SPEC-077 (artifact-single-owner) and SPEC-078 (promoted-mode-fallback) are reserved by
+  # spec/artifact-moves.md and are not in this catalog until they are implemented.
+
+  - id: SPEC-079
+    name: platform-recipe-resolves
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      PLANNED, not yet enforced. Runs only when a platform manifest is in scope. A warning for
+      one minor version after it ships, then promoted to an error (the promotion is a breaking
+      change and needs a changeset). Renders each platform-owned recipe (one in the platform's
+      `extensions/visuals/`) over the request grid with no foundation comparison. The CI guard
+      `.github/scripts/validate-platform-recipes.mjs` fails on it even while it is a warning.
+    assert: >
+      A platform-owned visual recipe MUST render over the request grid without a scene
+      diagnostic once the platform manifest is applied.
+    message: "Platform recipe for '{component}' does not render under platform '{platform}': {diagnostic}"
+    spec_ref: spec/component-visuals.md#platform-owned-recipes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-080
+    name: platform-recipe-replaces-foundation
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      PLANNED, not yet enforced. Shows a reviewer which foundation recipe a platform recipe
+      replaced, so a copy that may drift is visible.
+    assert: >
+      A platform recipe that has the same component name as a foundation recipe replaces it
+      for that platform; validation reports the pair.
+    message: "Recipe for '{component}' in platform '{platform}' replaces the foundation recipe"
+    spec_ref: spec/component-visuals.md#platform-owned-recipes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-081
+    name: component-alias-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Runs only when a platform manifest is in scope. Reads the manifest's merged
+      `extensions.components` names and the foundation component catalog.
+    assert: >
+      Each `componentAliases` key MUST be a foundation component, its target MUST be a component
+      the platform declares in `extensions/components/`, aliases MUST NOT chain or form a cycle,
+      and a key MUST NOT also be replaced by `extensions/components/<key>.json`.
+    message: "Invalid component alias '{alias}' in platform '{platform}': {reason}"
+    spec_ref: spec/manifest.md#componentaliases
+    introduced_in: "1.0.0-draft"

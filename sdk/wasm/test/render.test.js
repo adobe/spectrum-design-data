@@ -58,3 +58,21 @@ test("renderSvg serializes the scene", (t) => {
     ds.free();
   }
 });
+
+test("applyPlatform renders through a platform manifest", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    const before = JSON.parse(ds.renderScene(recipe, request()));
+    t.deepEqual(before.diagnostics, []);
+    ds.applyPlatform({
+      specVersion: "1.0.0-draft",
+      foundationVersion: "1.0.0",
+      include: ["property=color"],
+    });
+    const after = JSON.parse(ds.renderScene(recipe, request()));
+    t.true(after.diagnostics.length > 0, "dropped tokens are reported");
+    t.is(after.nodes[0].fill, "rgb(233, 233, 233)", "color tokens survive");
+  } finally {
+    ds.free();
+  }
+});
