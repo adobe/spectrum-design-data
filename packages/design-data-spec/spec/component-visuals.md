@@ -119,8 +119,8 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-071 | Info. Counts relationship contexts of the component that the recipe never binds                                                                                                             |
 | SPEC-075 | Error. A part's `visibleWhen.states` agrees with the `presentIn` of its anatomy part (info when either lists more than one state; see [Anatomy format](anatomy-format.md#presentin))        |
 | SPEC-076 | Warning. Runs only with a platform manifest (`validate --platform <id> --visuals-path`). Every binding that resolves on the foundation also resolves once the manifest's cascade is applied |
-| SPEC-079 | Warning, planned (not yet enforced). A platform-owned recipe renders over the request grid with no scene diagnostic. Promoted to an error one minor version after it ships                  |
-| SPEC-080 | Info, planned (not yet enforced). A platform recipe replaces the foundation recipe of the same component name                                                                               |
+| SPEC-079 | Warning. A platform-owned recipe renders over the request grid with no scene diagnostic. Planned to become an error in a later minor release                                                |
+| SPEC-080 | Info. A platform recipe replaces the foundation recipe of the same component name                                                                                                           |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 
