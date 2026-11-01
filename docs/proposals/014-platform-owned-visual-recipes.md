@@ -174,6 +174,8 @@ Consequences: SPEC-067 (a token selector duplicates a relationship binding) cann
 
 **Selector templating (not in the first slice).** Today a selector string may contain `{size}` and `{sizeIndex}` only. Generalizing it to `{<option>}` for any declared option (for example `{style}`) would make adding a style a data change. It needs no schema change, but it touches `visual.rs`, the compiled-recipe step, `visual-runtime.js`, the parity test and the spec sentence in "Value sources". Review decision: **ship the first slice without it**, with explicit per-style entries for Primary and Accent; record the recipe lines each style adds; make templating (F14) the first follow-up. **Gate: F14 must land before a third style is added**, so the recipe never grows past two explicit styles. The line-count target and the eight-style projection stay in the slice.
 
+**Update (2026-11-01, p6ga.8.46):** templating now lands **before the second style**, not before the third. Measured with the proposal's recipe shape: explicit per-style entries cost 144, 197 and 250 lines for one, two and three styles (515 for eight), while the templated recipe is 128 lines for any number. Templating is already shorter at one style, so writing two explicit styles and rewriting them is wasted work.
+
 **Needs, in order**
 
 | Step | Need                                                       | Today's format?                                                                                                                                       | Work                                                                                                                                                                 | Bead                         |

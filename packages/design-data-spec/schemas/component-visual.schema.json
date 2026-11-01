@@ -34,7 +34,7 @@
     },
     "sizeScale": {
       "type": "object",
-      "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors.",
+      "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors. Selectors may also use {size} and {<option>} for any declared option.",
       "additionalProperties": {
         "type": "integer",
         "minimum": 0

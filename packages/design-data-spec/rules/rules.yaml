@@ -753,7 +753,9 @@ rules:
       Every `when.options` key (and `visibleWhen.options` key) in a visual recipe MUST be an
       option of the component, with a value in that option's `values` (a boolean option
       requires a boolean). Every `when.states` / `visibleWhen.states` entry MUST be the `name`
-      of a state declared by the component.
+      of a state declared by the component. Every `{name}` placeholder in a `token` or
+      `relationship` selector MUST be `size`, `sizeIndex` or an option of the component that
+      declares `values`.
     message: "Option '{option}' of '{component}' has no value {value}"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
@@ -764,8 +766,8 @@ rules:
     layer: 2
     category: reference-integrity
     note: >
-      `{sizeIndex}` expands over the `sizeScale` values and `{size}` over its keys before
-      resolving. Relationship `context` is compared trimmed. Token selectors match name-object
+      `{sizeIndex}` expands over the `sizeScale` values, `{size}` over its keys and `{option}`
+      over the option's declared values before resolving. Relationship `context` is compared trimmed. Token selectors match name-object
       fields the way the visual runtime does, including the property + `scaleIndex` fallback.
     assert: >
       Every `{relationship: {property, context}}` selector in a visual recipe MUST resolve to

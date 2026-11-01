@@ -45,7 +45,12 @@
                 },
                 "value": "red"
               }
-            ]
+            ],
+            "stroke": {
+              "token": {
+                "variant": "{style}"
+              }
+            }
           }
         },
         "label": {
