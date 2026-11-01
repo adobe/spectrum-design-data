@@ -1,0 +1,121 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "button-ios",
+  "root": "container",
+  "sizeScale": { "s": 75, "m": 100, "l": 200 },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["label"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "justify": { "value": "center" },
+        "paddingInlineStart": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "h-padding"
+          }
+        },
+        "paddingInlineEnd": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "h-padding"
+          }
+        },
+        "paddingBlockStart": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "v-padding"
+          }
+        },
+        "paddingBlockEnd": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "v-padding"
+          }
+        },
+        "gap": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "h-gap"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "radius-capsule"
+          }
+        },
+        "fill": [
+          {
+            "token": {
+              "component": "button-ios",
+              "variant": "{style}",
+              "property": "background-color",
+              "state": "default"
+            }
+          },
+          {
+            "when": { "states": ["hover"] },
+            "token": {
+              "component": "button-ios",
+              "variant": "{style}",
+              "property": "background-color",
+              "state": "hover"
+            }
+          },
+          {
+            "when": { "states": ["down"] },
+            "token": {
+              "component": "button-ios",
+              "variant": "{style}",
+              "property": "background-color",
+              "state": "down"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "priority": 10,
+            "token": {
+              "component": "button-ios",
+              "property": "background-color",
+              "state": "disabled"
+            }
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": { "options": { "isLabelHidden": false } },
+      "props": {
+        "color": [
+          {
+            "token": {
+              "component": "button-ios",
+              "variant": "{style}",
+              "property": "content-color"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "priority": 10,
+            "token": {
+              "component": "button-ios",
+              "property": "content-color",
+              "state": "disabled"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

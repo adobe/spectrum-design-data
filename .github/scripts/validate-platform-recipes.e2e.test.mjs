@@ -12,7 +12,14 @@
 // and data. Needs `moon run sdk:build` first (the `sdk:build` dep of the moon task).
 
 import assert from "node:assert/strict";
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+} from "node:fs";
 import { writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -48,18 +55,17 @@ const guard = (root) =>
     maxBuffer: 1 << 28,
   });
 
-// Adds the foundation button recipe to ios, with `edit` applied to the parsed recipe.
+// Adds the foundation badge recipe to ios, with `edit` applied to the parsed recipe. Badge, not
+// button: ios aliases `button` to its own `button-ios` recipe, so a copy of the foundation button
+// is no longer what ios renders.
 function addIosRecipe(root, edit = () => {}) {
   const recipe = JSON.parse(
-    readFileSync(
-      join(root, "packages/design-data/visuals/button.json"),
-      "utf8",
-    ),
+    readFileSync(join(root, "packages/design-data/visuals/badge.json"), "utf8"),
   );
   edit(recipe);
   const dir = join(root, "platforms/ios/extensions/visuals");
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, "button.json"), JSON.stringify(recipe));
+  writeFileSync(join(dir, "badge.json"), JSON.stringify(recipe));
 }
 
 // Points the first relationship a recipe binds at a context no relationship has.
@@ -83,8 +89,13 @@ function withTree(body) {
   }
 }
 
-test("ios as shipped passes with no platform recipe", () => {
+test("ios as shipped passes with its button-ios recipe", () => {
   withTree((root) => {
+    assert.ok(
+      existsSync(
+        join(root, "platforms/ios/extensions/visuals/button-ios.json"),
+      ),
+    );
     const result = guard(root);
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /ios: every recipe binding resolves/);
