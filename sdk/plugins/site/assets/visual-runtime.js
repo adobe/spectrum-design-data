@@ -16,6 +16,9 @@
 const AVG_ADVANCE_EM = 0.46;
 const RING_MARGIN = 8;
 
+// A corner radius cannot exceed half the box's width or height, like CSS `border-radius`.
+const clampRadius = (r, w, h) => Math.min(r, w / 2, h / 2);
+
 const isStr = (v) => typeof v === "string";
 const toStr = (v) =>
   isStr(v) ? v : typeof v === "number" ? String(v) : undefined;
@@ -348,7 +351,11 @@ export function renderScene(compiled, req) {
   const anyCorner = corners.some((c) => c);
   const mixed = !(ss === se && se === ee && ee === es);
   const radii = anyCorner && mixed ? [ss, se, ee, es] : null;
-  const rootRadius = anyCorner && !mixed ? ss : baseRadius;
+  const rootRadius = clampRadius(
+    anyCorner && !mixed ? ss : baseRadius,
+    radii ? Infinity : w,
+    radii ? Infinity : h,
+  );
   const nodes = [
     node(rootId, "box", ox, oy, w, h, {
       fill: fill ? fill.value : null,
@@ -373,7 +380,7 @@ export function renderScene(compiled, req) {
         fill: c.fill,
         stroke: c.stroke,
         stroke_width: c.strokeWidth,
-        radius: c.kind === "box" ? px(c.radius, c.h) : 0,
+        radius: c.kind === "box" ? clampRadius(px(c.radius, c.h), c.w, c.h) : 0,
         text: c.text,
         font_size: c.fontSize,
         font_weight: c.fontWeight,
@@ -446,7 +453,7 @@ export function renderScene(compiled, req) {
           fill: nfill ? nfill.value : null,
           stroke: nstroke ? nstroke.value : null,
           stroke_width: num(nsw) ?? 0,
-          radius: px(nradius, h2),
+          radius: clampRadius(px(nradius, h2), w2, h2),
           tokens,
         }),
       );

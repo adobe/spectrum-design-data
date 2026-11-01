@@ -768,7 +768,13 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
     let ios = render_scene(&root, &["button", "--platform", "ios"]);
     assert_eq!(ios["component"], "button-ios", "{ios}");
     let container = &ios["nodes"][0];
-    assert_eq!(container["radius"], 20.0, "{ios}");
+    // The radius token (20) is larger than half the 34.2 high container, so the corner is
+    // clamped to a pill.
+    assert_eq!(
+        container["radius"].as_f64().unwrap(),
+        container["h"].as_f64().unwrap() / 2.0,
+        "{ios}"
+    );
     assert_eq!(container["w"], 60.2, "{ios}");
     let direct = render_scene(&root, &["button-ios", "--platform", "ios"]);
     assert_eq!(ios, direct);
