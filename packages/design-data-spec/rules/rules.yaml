@@ -1001,10 +1001,10 @@ rules:
     layer: 2
     category: component
     note: >
-      PLANNED, not yet enforced. Runs only when a platform manifest is in scope. A warning for
-      one minor version after it ships, then promoted to an error (the promotion is a breaking
-      change and needs a changeset). Renders each platform-owned recipe (one in the platform's
-      `extensions/visuals/`) over the request grid with no foundation comparison. The CI guard
+      Runs only when a platform manifest with `extensions/visuals/` is in scope. A warning for
+      now; a follow-up promotes it to an error once this release is published (needs a changeset).
+      Renders each platform-owned recipe over the request grid with no foundation comparison.
+      The request grid is `light`/`dark` by `desktop`/`mobile`, as in SPEC-076. The CI guard
       `.github/scripts/validate-platform-recipes.mjs` fails on it even while it is a warning.
     assert: >
       A platform-owned visual recipe MUST render over the request grid without a scene
@@ -1019,8 +1019,8 @@ rules:
     layer: 2
     category: component
     note: >
-      PLANNED, not yet enforced. Shows a reviewer which foundation recipe a platform recipe
-      replaced, so a copy that may drift is visible.
+      Runs only when a platform manifest with `extensions/visuals/` is in scope. Shows a reviewer
+      which foundation recipe a platform recipe replaced, so a copy that may drift is visible.
     assert: >
       A platform recipe that has the same component name as a foundation recipe replaces it
       for that platform; validation reports the pair.

@@ -1,0 +1,58 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture-resolves",
+  "foundationVersion": "3.7.0",
+  "extensions": {
+    "components": [
+      {
+        "name": "button-fixture",
+        "displayName": "Button fixture",
+        "meta": {
+          "category": "actions"
+        },
+        "anatomy": [
+          {
+            "name": "container",
+            "description": "Background.",
+            "required": true
+          }
+        ],
+        "options": {
+          "size": {
+            "type": "string",
+            "default": "m",
+            "values": [
+              {
+                "value": "m"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "visuals": [
+      {
+        "file": "extensions/visuals/button-fixture.json",
+        "recipe": {
+          "component": "button-fixture",
+          "root": "container",
+          "sizeScale": {
+            "m": 100
+          },
+          "parts": {
+            "container": {
+              "kind": "box",
+              "props": {
+                "height": {
+                  "token": {
+                    "property": "component-height-100"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

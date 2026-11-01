@@ -23,6 +23,29 @@ pub(crate) fn component_of<'a>(
     graph.components.iter().find(|c| c.name == visual.component)
 }
 
+/// Components of the recipes a platform manifest ships in `extensions.visuals`.
+pub(crate) fn platform_recipe_components(manifest: &Value) -> Vec<&str> {
+    manifest
+        .get("extensions")
+        .and_then(|e| e.get("visuals"))
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|e| e.get("recipe")?.get("component")?.as_str())
+        .collect()
+}
+
+/// A copy of `graph` with `manifest` applied, or `None` when the manifest ships no recipes
+/// or fails to apply (SPEC-039 and `validate-manifest` report that).
+pub(crate) fn platform_graph(graph: &TokenGraph, manifest: &Value) -> Option<TokenGraph> {
+    if platform_recipe_components(manifest).is_empty() {
+        return None;
+    }
+    let mut platform = graph.clone();
+    platform.apply_platform_manifest(manifest).ok()?;
+    Some(platform)
+}
+
 pub(crate) fn error(
     rule_id: &str,
     visual: &VisualRecord,

@@ -87,6 +87,8 @@ mod spec073;
 mod spec074;
 mod spec075;
 mod spec076;
+mod spec079;
+mod spec080;
 mod spec081;
 mod visual_util;
 
@@ -265,6 +267,8 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec074::Rule),
         Box::new(spec075::Rule),
         Box::new(spec076::Rule),
+        Box::new(spec079::Rule),
+        Box::new(spec080::Rule),
         Box::new(spec081::Rule),
     ]
 }
@@ -289,5 +293,121 @@ pub fn run_rules(
     for r in default_rules() {
         out.extend(r.validate(&ctx));
     }
+    out.extend(platform_recipe_pass(
+        graph,
+        naming_exceptions,
+        registry,
+        manifest,
+    ));
     out
+}
+
+/// Recipe rules that read `graph.visuals`; the second pass runs them over platform-owned recipes.
+const RECIPE_RULE_IDS: &[&str] = &[
+    "SPEC-060", "SPEC-061", "SPEC-062", "SPEC-063", "SPEC-066", "SPEC-067", "SPEC-068", "SPEC-069",
+    "SPEC-070", "SPEC-071", "SPEC-075",
+];
+
+/// Runs the recipe rules over the platform-owned recipes against the platform-merged graph.
+/// Foundation recipes were checked in the first pass, so only `Layer::Platform` records remain.
+/// A no-op unless the manifest ships `extensions.visuals`.
+fn platform_recipe_pass(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+    registry: &RegistryData,
+    manifest: Option<&serde_json::Value>,
+) -> Vec<Diagnostic> {
+    let Some(manifest) = manifest else {
+        return vec![];
+    };
+    let Some(mut platform) = visual_util::platform_graph(graph, manifest) else {
+        return vec![];
+    };
+    platform
+        .visuals
+        .retain(|v| v.layer == crate::graph::Layer::Platform);
+    let ctx = ValidationContext {
+        graph: &platform,
+        naming_exceptions,
+        registry,
+        manifest: None,
+    };
+    default_rules()
+        .into_iter()
+        .filter(|r| RECIPE_RULE_IDS.contains(&r.id()))
+        .flat_map(|r| r.validate(&ctx))
+        .collect()
+}
+
+#[cfg(test)]
+mod platform_recipe_pass_tests {
+    use std::collections::HashSet;
+
+    use serde_json::{json, Value};
+
+    use super::{
+        run_rules,
+        visual_util::test_util::{graph, token},
+    };
+    use crate::graph::TokenGraph;
+
+    fn recipe(component: &str, part: &str) -> Value {
+        json!({ "component": component, "root": part, "sizeScale": { "m": 100 },
+            "parts": { part: { "kind": "box", "props": {
+                "height": { "token": { "property": "component-height-100" } } } } } })
+    }
+
+    fn fixture() -> TokenGraph {
+        graph(
+            json!({ "name": "button", "anatomy": [{ "name": "container" }],
+                "options": { "size": { "type": "string", "default": "m",
+                    "values": [{ "value": "m" }] } } }),
+            vec![],
+            vec![token(
+                "h",
+                json!({ "property": "component-height-100" }),
+                None,
+            )],
+            vec![("button", recipe("button", "container"))],
+        )
+    }
+
+    fn ids(manifest: Option<&Value>) -> Vec<String> {
+        run_rules(&fixture(), &HashSet::new(), manifest)
+            .into_iter()
+            .filter_map(|d| d.rule_id)
+            .filter(|id| matches!(id.as_str(), "SPEC-060" | "SPEC-079" | "SPEC-080"))
+            .collect()
+    }
+
+    fn manifest(recipe: Value) -> Value {
+        json!({ "platform": "fixture", "extensions": { "visuals": [
+            { "file": "extensions/visuals/button.json", "recipe": recipe } ] } })
+    }
+
+    #[test]
+    fn a_run_with_no_platform_recipe_reports_none_of_the_new_rules() {
+        assert!(ids(None).is_empty());
+        assert!(ids(Some(&json!({ "platform": "fixture" }))).is_empty());
+    }
+
+    #[test]
+    fn a_replacing_recipe_is_reported_once_per_recipe() {
+        assert_eq!(
+            ids(Some(&manifest(recipe("button", "container")))),
+            vec!["SPEC-080"]
+        );
+        // The foundation recipe is fine, so only the platform recipe is reported. A flaw shared by
+        // both recipes is reported once per recipe (two files), which is intended.
+        // A bad root and part give two distinct SPEC-060 messages, each reported once.
+        let m = manifest(recipe("button", "missing"));
+        let msgs: Vec<String> = run_rules(&fixture(), &HashSet::new(), Some(&m))
+            .into_iter()
+            .filter(|d| d.rule_id.as_deref() == Some("SPEC-060"))
+            .map(|d| d.message)
+            .collect();
+        let unique: HashSet<&String> = msgs.iter().collect();
+        assert_eq!(msgs.len(), 2, "{msgs:?}");
+        assert_eq!(unique.len(), 2, "{msgs:?}");
+    }
 }

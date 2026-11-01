@@ -22,7 +22,9 @@ use serde_json::Value;
 use crate::graph::{TokenGraph, VisualRecord};
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::visual_util::{component_of, option_values, size_entries, warning};
+use crate::validate::rules::visual_util::{
+    component_of, option_values, platform_recipe_components, size_entries, warning,
+};
 use crate::visual::{build_scene_cached, recipe_options_in, RenderRequest, SceneCache};
 
 pub struct Rule;
@@ -33,7 +35,7 @@ const STATES: [&str; 3] = ["hover", "down", "keyboard-focus"];
 
 /// Requests that cover a recipe's bindings: the default for every size, mode and scale, then
 /// each interaction state and each used option value on its own.
-fn requests(graph: &TokenGraph, v: &VisualRecord) -> Vec<RenderRequest> {
+pub(crate) fn requests(graph: &TokenGraph, v: &VisualRecord) -> Vec<RenderRequest> {
     let sizes: Vec<String> = size_entries(&v.raw).into_iter().map(|(k, _)| k).collect();
     let (used, _) = recipe_options_in(graph, &v.raw, &v.component);
     let declared = component_of(graph, v)
@@ -114,10 +116,14 @@ impl ValidationRule for Rule {
         if platform_graph.apply_platform_manifest(manifest).is_err() {
             return vec![]; // manifest errors belong to SPEC-039 and `validate-manifest`
         }
+        let replaced = platform_recipe_components(manifest);
         let mut out = Vec::new();
         for v in &ctx.graph.visuals {
             if component_of(ctx.graph, v).is_none() {
                 continue; // SPEC-060 covers undeclared component
+            }
+            if replaced.contains(&v.component.as_str()) {
+                continue; // the platform recipe replaces it; SPEC-079 checks that one
             }
             let foundation = diagnostics_for(ctx.graph, v);
             for d in diagnostics_for(&platform_graph, v).difference(&foundation) {
@@ -194,6 +200,13 @@ mod tests {
         let out = check(&fixture(), Some(&m));
         assert_eq!(out.len(), 1, "{out:?}");
         assert!(out[0].message.contains("platform 'drop'"));
+    }
+
+    #[test]
+    fn skips_a_recipe_the_platform_replaces() {
+        let m = json!({ "platform": "drop", "exclude": ["property=component-height-100"],
+            "extensions": { "visuals": [{ "file": "button.json", "recipe": { "component": "button" } }] } });
+        assert!(check(&fixture(), Some(&m)).is_empty());
     }
 
     #[test]

@@ -30,3 +30,11 @@ test("exits non-zero on a SPEC-079 warning", () => {
 test("exits zero when only SPEC-080, SPEC-081 and unrelated rules report", () => {
   assert.equal(run("platform-recipes-clean.json").status, 0);
 });
+
+test("--repo-root without a directory is a usage error", () => {
+  const result = spawnSync("node", [script, "--repo-root"], {
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /--repo-root needs a directory/);
+});

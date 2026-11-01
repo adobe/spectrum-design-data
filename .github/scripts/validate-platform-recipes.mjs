@@ -22,8 +22,10 @@
  * `componentAliases`) is an error, so `design-data:validate` already fails on it.
  * Every other diagnostic belongs to `design-data:validate` and is ignored here.
  *
- * Usage: node .github/scripts/validate-platform-recipes.mjs [--report <file.json>]
+ * Usage: node .github/scripts/validate-platform-recipes.mjs [--report <file.json>] [--repo-root <dir>]
  * `--report` checks one saved `validate --format json` report instead of running the CLI.
+ * `--repo-root` reads `platforms/`, `packages/design-data` and `.design-data.toml` from another
+ * tree (the end-to-end test uses a copy with a recipe added); the CLI is always this repo's.
  */
 
 import { execFileSync } from "node:child_process";
@@ -65,10 +67,16 @@ function main() {
     process.exit(1);
   }
 
-  const repoRoot = new URL("../..", import.meta.url).pathname;
+  const cliRoot = new URL("../..", import.meta.url).pathname;
+  const rootIndex = process.argv.indexOf("--repo-root");
+  const repoRoot = rootIndex === -1 ? cliRoot : process.argv[rootIndex + 1];
+  if (!repoRoot) {
+    console.error("--repo-root needs a directory.");
+    process.exit(2);
+  }
   const platformsDir = join(repoRoot, "platforms");
   const dataDir = join(repoRoot, "packages", "design-data");
-  const cli = join(repoRoot, "sdk", "target", "debug", "design-data");
+  const cli = join(cliRoot, "sdk", "target", "debug", "design-data");
 
   if (!existsSync(cli)) {
     console.error(
@@ -104,6 +112,10 @@ function main() {
           "./relationships",
           "--visuals-path",
           "./visuals",
+          // ios declares platformExtensions that extend the `contrast` mode set; without it the
+          // manifest fails to apply and the recipe rules silently do nothing.
+          "--mode-sets-path",
+          "./mode-sets",
           "--components-report-only",
           "--exceptions-path",
           "./naming-exceptions.json",
