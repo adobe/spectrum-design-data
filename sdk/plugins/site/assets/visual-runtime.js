@@ -206,6 +206,8 @@ export function renderScene(compiled, req) {
   const height = rp(root, "height");
   const padS = rp(root, "paddingInlineStart");
   const padE = rp(root, "paddingInlineEnd");
+  const padBS = rp(root, "paddingBlockStart");
+  const padBE = rp(root, "paddingBlockEnd");
   const gapR = rp(root, "gap");
   const radius = rp(root, "cornerRadius");
   const fill = rp(root, "fill");
@@ -225,13 +227,16 @@ export function renderScene(compiled, req) {
     ["height", height],
     ["paddingInlineStart", padS],
     ["paddingInlineEnd", padE],
+    ["paddingBlockStart", padBS],
+    ["paddingBlockEnd", padBE],
     ["gap", gapR],
     ["cornerRadius", radius],
     ["fill", fill],
   ]) {
     track(containerTokens, n, r);
   }
-  const h = num(height) ?? 32;
+  const pBS = num(padBS) ?? 0;
+  const pBE = num(padBE) ?? 0;
   const pS = num(padS) ?? 0;
   const pE = num(padE) ?? 0;
   const gap = num(gapR) ?? 0;
@@ -324,6 +329,11 @@ export function renderScene(compiled, req) {
   const inner =
     flow.reduce((a, c) => a + c.w, 0) + gap * Math.max(flow.length - 1, 0);
   const w = pS + inner + pE;
+  // An unset `height` is the tallest flowed child plus the block padding when the recipe
+  // binds any; without block padding it stays the 32 default.
+  const h =
+    num(height) ??
+    (padBS || padBE ? Math.max(0, ...flow.map((c) => c.h)) + pBS + pBE : 32);
   const ox = RING_MARGIN;
   const oy = RING_MARGIN;
   const toPx = (r) => {
@@ -357,7 +367,7 @@ export function renderScene(compiled, req) {
   let x = ox + pS;
   for (const c of flow) {
     const cx0 = x;
-    const cy0 = oy + (h - c.h) / 2;
+    const cy0 = oy + pBS + (h - pBS - pBE - c.h) / 2;
     nodes.push(
       node(c.id, c.kind, cx0, cy0, c.w, c.h, {
         fill: c.fill,
