@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-082",
+      "severity": "error",
+      "message_pattern": ".*fixture-apply.*failed to apply.*no-such-mode-set.*"
+    }
+  ]
+}

@@ -373,7 +373,36 @@ fn validate_stays_quiet_when_the_platform_keeps_every_binding() {
     }));
     // The temp tokens carry no `$schema`, so the run fails on unrelated Layer 1 errors; only
     // the SPEC-076 diagnostics matter here.
-    validate_recipes(&project).stdout(contains("SPEC-076").not());
+    validate_recipes(&project)
+        .stdout(contains("SPEC-076").not())
+        .stdout(contains("SPEC-082").not());
+}
+
+/// p6ga.8.52: a manifest that cannot apply (here it extends a mode set that does not exist) is
+/// a SPEC-082 error, not a silent pass with the platform rules skipped.
+#[test]
+fn validate_reports_a_platform_manifest_that_cannot_apply() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-broken"
+    }));
+    let dir = project.path().join("extensions/platform-extensions");
+    fs::create_dir_all(&dir).expect("extensions dir");
+    fs::write(
+        dir.join("broken.json"),
+        json!({
+            "platform": "fixture-broken",
+            "extends": "no-such-mode-set",
+            "extensions": [{ "termId": "x", "platformTerm": "y" }]
+        })
+        .to_string(),
+    )
+    .expect("write platform extension");
+    validate_recipes(&project)
+        .stdout(contains("SPEC-082"))
+        .stdout(contains("fixture-broken"))
+        .stdout(contains("no-such-mode-set"));
 }
 
 /// Foundation recipes load first, then the manifest's `extensions/visuals/button.json`

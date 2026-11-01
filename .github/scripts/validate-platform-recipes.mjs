@@ -18,6 +18,9 @@
  * - SPEC-079 reports a gap in a platform-owned recipe. SPEC-079 is a warning for one
  *   minor version, so plain `validate` stays green; this guard fails anyway so a gap
  *   cannot land during that period.
+ * - SPEC-082 reports a manifest that fails to apply, or SPEC-039 a manifest query that does
+ *   not parse. Either way SPEC-076 and SPEC-079 checked nothing, so "no gap" would be a
+ *   false pass.
  * SPEC-080 (info: a recipe replaces a foundation recipe) is not a gap. SPEC-081 (bad
  * `componentAliases`) is an error, so `design-data:validate` already fails on it.
  * Every other diagnostic belongs to `design-data:validate` and is ignored here.
@@ -34,7 +37,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const GUARDED_RULES = new Set(["SPEC-076", "SPEC-079"]);
+const GUARDED_RULES = new Set(["SPEC-039", "SPEC-076", "SPEC-079", "SPEC-082"]);
 
 export function findGaps(report) {
   return [...report.errors, ...report.warnings].filter((d) =>

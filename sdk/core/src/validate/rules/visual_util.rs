@@ -37,7 +37,7 @@ pub(crate) fn platform_recipe_components(manifest: &Value) -> Vec<&str> {
 }
 
 /// A copy of `graph` with `manifest` applied, or `None` when the manifest ships no recipes
-/// or fails to apply (SPEC-039 and `validate-manifest` report that).
+/// or fails to apply (SPEC-082 reports that failure).
 pub(crate) fn platform_graph(graph: &TokenGraph, manifest: &Value) -> Option<TokenGraph> {
     if platform_recipe_components(manifest).is_empty() {
         return None;

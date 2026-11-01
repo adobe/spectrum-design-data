@@ -27,6 +27,12 @@ test("exits non-zero on a SPEC-079 warning", () => {
   assert.match(result.stderr, /1 recipe binding gap/);
 });
 
+test("exits non-zero on a SPEC-082 error: the platform rules did not run", () => {
+  const result = run("platform-recipes-spec082.json");
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /1 recipe binding gap/);
+});
+
 test("exits zero when only SPEC-080, SPEC-081 and unrelated rules report", () => {
   assert.equal(run("platform-recipes-clean.json").status, 0);
 });
