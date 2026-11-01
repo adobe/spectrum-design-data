@@ -104,6 +104,10 @@ function main() {
           "./relationships",
           "--visuals-path",
           "./visuals",
+          // ios declares platformExtensions that extend the `contrast` mode set; without it the
+          // manifest fails to apply and the recipe rules silently do nothing.
+          "--mode-sets-path",
+          "./mode-sets",
           "--components-report-only",
           "--exceptions-path",
           "./naming-exceptions.json",
