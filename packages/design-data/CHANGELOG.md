@@ -1,5 +1,93 @@
 # @adobe/spectrum-design-data
 
+## 3.8.0
+
+### Minor Changes
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
+  - **spec/component-visuals.md**: draft RFC and schema; `design-data:validate` checks recipes.
+  - **action-button**: pilot recipe `visuals/action-button.json`; adds `progress`, `isPending`.
+  - **sdk (core, cli)**: `render` makes SVG; `compile_recipe` pre-binds tokens.
+  - **sdk/wasm**: `Dataset.renderScene` and `Dataset.renderSvg` render recipes in the browser.
+  - **button**: `visuals/button.json` recipe (variant, style, state, static color); `down` state.
+  - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
+  - **badge**: recipe and anatomy.
+  - **Removed**: badge option `isDisabled`, published in 3.7.1; the design has no disabled badge.
+  - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
+  - **sdk/plugins/site**: `design-data site --out <dir>` writes a static explorer (no WASM).
+  - **sdk/plugins/figma**: `variable_names` maps tokens to Figma variable names offline.
+  - **sdk/core**: scene token refs carry alias `chain`; press tokens are tracked.
+  - **switch**: `visuals/switch.json` recipe, anatomy, `hideLabel`, and 15 color relationships.
+  - **sdk/core, site**: nested box layout, `around` ring, `pressTarget`, component-scoped sizes.
+  - **spec rules**: SPEC-060..063 check recipes against components (`validate --visuals-path`).
+  - **checkbox**: `visuals/checkbox.json` recipe, anatomy, `box`/`dash` terms; `glyph` draws marks.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `constraints` to the component format: if-then rules that limit valid option combinations.
+  - **spec/option-constraints.md**: `when` / `require` / `severity` (`error` or `advisory`).
+  - **component.schema.json**: optional `constraints` array. Layer 1 checks shape only; Layer 2
+    checks names and values.
+  - **button, action-button, checkbox**: first constraints, taken from react-spectrum S2.
+
+### Patch Changes
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Define what an anatomy part is; review button, action-button and badge
+  (`flowed-box-paints`: checkbox, switch).
+
+  **Spec:**
+  - `anatomy-format.md` says what counts as a part, how to name and nest parts, when a part
+    is required, and what is not anatomy. It adds a review checklist.
+  - New optional `presentIn` lists the states a part is present in. Not allowed on a required part.
+  - New optional `anatomyReview` on a component records `draft` or `reviewed`.
+  - New info rule SPEC-073 lists components with relationships but no anatomy, or draft anatomy.
+  - New error SPEC-074: a part's `presentIn` states must be declared on the component.
+  - New error SPEC-075: a recipe's `visibleWhen.states` must agree with the part's `presentIn`.
+
+  **Data:**
+  - Button, action-button and badge anatomy are reviewed.
+  - Button `label` is now optional. The focus indicator is state-only on all four.
+
+  **WASM:** the validator includes SPEC-073 to SPEC-075.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the Button visual recipe for static color black and white.
+  - **label/icon**: static colors apply to primary and secondary; accent and negative stay white.
+  - **accent/negative fill**: backgrounds require `style: fill`, so outline no longer gets a fill.
+  - **focus ring**: static color uses transparent black or white 1000.
+  - **disabled**: static color uses overlay 100 fill, 300 border and 400 content.
+  - **hover/down**: static outline background is overlay 100; static border ignores gray hover.
+  - **static outline border**: primary 800, secondary 300.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe lints and fixes for checkbox, switch and others; pressed scale includes nested parts.
+  - **relationships**: strip the stray "S2 " prefix from contexts; add checkbox `Control`,
+    disabled and error contexts; scope selected switch and radio-button records with
+    `isSelected: true` (the schema allows boolean option values, the renderer maps them).
+  - **visuals**: pressed parts scale nested children; checkbox `pressTarget`; `notVisual` option list.
+  - **validate**: SPEC-066 to SPEC-070 warn on uncovered options and states, token selectors a
+    relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
+    `recipe_lint_baseline` holds each recipe at its current warning count.
+  - **spec**: authoring conventions in `component-visuals.md`; `notVisual` recipe field.
+  - **sdk/core**: render snapshot test for every recipe; `SceneCache` speeds matrix renders.
+  - **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
+    badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
+    `scope.options.state` adds states to the bound token.
+  - **switch**: `isReadOnly` has no distinct visual (hover and press only).
+  - **button, action-button**: colors, press perspective, hold-icon inset bind via relationships.
+  - **focus-indicator**: the `focus-ring` anatomy, gap token and recipe parts are now
+    `focus-indicator` (legacy key `focus-ring-gap` kept).
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - A box placed directly in a row now paints itself, so checkbox and switch no longer need a
+  render-only `control` part.
+  - Renderer and JS runtime read `fill`, `stroke` and `strokeWidth` on a flowed box.
+  - Checkbox and switch drop `control`. The box and the track carry the size and hold the marks
+    and the handle. Rendered geometry, colors and press scale are unchanged.
+  - Relationships that named `control` now name `box` (checkbox) or `track` (switch).
+  - Checkbox and switch anatomy are now reviewed.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe `when.options` conditions now accept an array of values, as the spec already described.
+  - **sdk/core, site runtime**: an array matches when any value matches and counts as one condition.
+  - **SPEC-061**: checks each element of an array condition against the option's declared values.
+  - **spec**: component-visuals states that an array counts as one condition.
+  - **button**: static color rules for primary and secondary share one entry with `variant: [...]`.
+
 ## 3.7.1
 
 ### Patch Changes
