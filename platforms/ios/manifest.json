@@ -4,6 +4,9 @@
   "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios",
   "foundationVersion": "3.6.0",
   "exclude": ["colorScheme=wireframe"],
+  "componentAliases": {
+    "button": "button-ios"
+  },
   "overrides": [
     {
       "target": "736e4768-7944-40ec-a412-4cd36299e03d",

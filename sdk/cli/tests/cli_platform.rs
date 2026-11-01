@@ -659,7 +659,7 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
 }
 
 /// p6ga.8.37: a platform with `componentAliases` (button -> button-ios) and its own recipe.
-/// The data is a fixture because the real iOS button data lands with p6ga.8.40.
+/// The data is a fixture so the test does not depend on the real iOS button data.
 fn alias_fixture_project() -> tempfile::TempDir {
     let project = tempfile::tempdir().expect("temp project dir");
     let root = project.path();
@@ -755,6 +755,37 @@ fn render_follows_a_component_alias_to_the_platform_recipe() {
         .current_dir(project.path())
         .args(["render", "button-ios"])
         .assert()
+        .failure()
+        .stderr(contains("no visual recipe for 'button-ios'"));
+}
+
+/// p6ga.8.40: the real iOS manifest aliases `button` to `button-ios`, so `render button
+/// --platform ios` draws the iOS recipe (its own size and Primary fill) and plain `render
+/// button` stays the foundation recipe.
+#[test]
+fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
+    let root = repo_root();
+    let ios = render_scene(&root, &["button", "--platform", "ios"]);
+    assert_eq!(ios["component"], "button-ios", "{ios}");
+    let container = &ios["nodes"][0];
+    assert_eq!(container["radius"], 20.0, "{ios}");
+    assert_eq!(container["w"], 60.2, "{ios}");
+    let direct = render_scene(&root, &["button-ios", "--platform", "ios"]);
+    assert_eq!(ios, direct);
+    let primary = render_scene(
+        &root,
+        &["button", "--platform", "ios", "--option", "style=primary"],
+    );
+    assert_eq!(
+        primary["nodes"][0]["fill"], "rgba(0, 0, 0, 0.84)",
+        "{primary}"
+    );
+
+    let foundation = render_scene(&root, &["button"]);
+    assert_eq!(foundation["component"], "button", "{foundation}");
+    assert_eq!(foundation["nodes"][0]["radius"], 16.0, "{foundation}");
+    assert_ne!(foundation["nodes"][0]["w"], container["w"]);
+    design_data(root.as_path(), &["render", "button-ios"])
         .failure()
         .stderr(contains("no visual recipe for 'button-ios'"));
 }

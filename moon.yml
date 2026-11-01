@@ -80,7 +80,7 @@ tasks:
       - ".github/scripts/validate-platform-recipes.mjs"
       - ".github/scripts/validate-platform-recipes.test.mjs"
       - ".github/scripts/fixtures/platform-recipes-*.json"
-  # End to end: the guard over a copy of platforms/ios with no recipe, a resolving replacement
+  # End to end: the guard over a copy of platforms/ios as shipped (with its button-ios recipe), a resolving replacement
   # and an unresolvable binding (p6ga.8.36).
   test-platform-recipes-e2e:
     command:
