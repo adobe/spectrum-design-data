@@ -392,11 +392,13 @@ mod platform_recipe_pass_tests {
     }
 
     #[test]
-    fn a_replacing_recipe_is_reported_once_and_is_not_checked_twice() {
+    fn a_replacing_recipe_is_reported_once_per_recipe() {
         assert_eq!(
             ids(Some(&manifest(recipe("button", "container")))),
             vec!["SPEC-080"]
         );
+        // The foundation recipe is fine, so only the platform recipe is reported. A flaw shared by
+        // both recipes is reported once per recipe (two files), which is intended.
         // A bad root and part give two distinct SPEC-060 messages, each reported once.
         let m = manifest(recipe("button", "missing"));
         let msgs: Vec<String> = run_rules(&fixture(), &HashSet::new(), Some(&m))
