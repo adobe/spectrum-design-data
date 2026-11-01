@@ -283,6 +283,82 @@ fn include_and_exclude_queries_cannot_use_every_name_key() {
     assert!(err.to_string().contains("unknown key"));
 }
 
+fn fill_of(g: &TokenGraph, context: &str) -> (Option<String>, Vec<String>) {
+    use design_data_core::visual::{build_scene, RenderRequest};
+    let recipe = json!({
+        "component": "widget",
+        "root": "box",
+        "sizeScale": {"m": 100},
+        "parts": {"box": {"kind": "box", "props": {
+            "width": {"value": 10},
+            "height": {"value": 10},
+            "fill": {"relationship": {"property": "color", "context": context}}
+        }}}
+    });
+    let req = RenderRequest {
+        component: "widget".into(),
+        size: "m".into(),
+        mode: [("colorScheme", "light"), ("scale", "desktop")]
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect(),
+        ..Default::default()
+    };
+    let scene = build_scene(g, &recipe, &req).unwrap();
+    let fill = scene
+        .nodes
+        .iter()
+        .find(|n| n.part == "box")
+        .and_then(|n| n.fill.clone());
+    (fill, scene.diagnostics)
+}
+
+#[test]
+fn render_follows_the_platform_cascade() {
+    let mut base = foundation();
+    base.components
+        .push(design_data_core::graph::ComponentRecord {
+            name: "widget".into(),
+            file: PathBuf::from("dataset.json"),
+            raw: json!({"name": "widget", "options": {}}),
+            layer: Layer::Foundation,
+        });
+    let mut plat = base.clone();
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let resolved = ResolvedData {
+        tokens_root: PathBuf::from("tokens"),
+        schemas_root: root.join("../../packages/design-data-spec/schemas"),
+        mode_sets: None,
+        components: None,
+        fields: None,
+        guidelines: None,
+        relationships: None,
+        exceptions: None,
+        platform_manifest: Some(root.join("tests/fixtures/platform-cascade/manifest.json")),
+        provenance: Provenance::InRepo,
+    };
+    apply_configured(&mut plat, &resolved).unwrap();
+
+    // The override of rel-1 re-points "Fill" from gray-light to gray-alt.
+    assert_eq!(
+        fill_of(&base, "Fill"),
+        (Some("rgb(1, 1, 1)".into()), vec![])
+    );
+    assert_eq!(
+        fill_of(&plat, "Fill"),
+        (Some("rgb(3, 3, 3)".into()), vec![])
+    );
+    // The extension relationship binds the extension token.
+    assert_eq!(
+        fill_of(&plat, "Extension fill"),
+        (Some("rgb(7, 7, 7)".into()), vec![])
+    );
+    // rel-2 ("Border") is removed by the platform: the binding reports instead of drawing nothing.
+    assert_eq!(fill_of(&base, "Border").1, Vec::<String>::new());
+    assert_eq!(fill_of(&plat, "Border").0, None);
+    assert_eq!(fill_of(&plat, "Border").1.len(), 1);
+}
+
 #[test]
 fn legacy_output_carries_the_override_but_not_its_provenance() {
     let mut g = TokenGraph::from_pairs(vec![
