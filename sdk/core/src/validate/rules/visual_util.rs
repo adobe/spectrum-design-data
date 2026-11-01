@@ -14,6 +14,7 @@ use serde_json::{Map, Value};
 
 use crate::graph::{ComponentRecord, TokenGraph, TokenRecord, VisualRecord};
 use crate::report::{Diagnostic, Severity};
+use crate::visual::{declared_option_values, option_template_names, substitute, template_names};
 
 /// The declared component a recipe names, if any.
 pub(crate) fn component_of<'a>(
@@ -270,21 +271,67 @@ pub(crate) fn has_template(selector: &Value) -> bool {
         .is_some_and(|m| m.values().any(|v| v.as_str().is_some_and(is_templated)))
 }
 
-/// Expand `{size}` / `{sizeIndex}` in a flat selector over the size scale.
-/// A selector without templates expands to itself.
-pub(crate) fn expand_selector(selector: &Value, sizes: &[(String, String)]) -> Vec<Value> {
-    if !has_template(selector) {
+/// The values each of the component's options declares, as `(option, values)` strings.
+pub(crate) fn option_entries(
+    graph: &crate::graph::TokenGraph,
+    visual: &crate::graph::VisualRecord,
+) -> Vec<(String, Vec<String>)> {
+    let Some(comp) = component_of(graph, visual) else {
+        return Vec::new();
+    };
+    comp.raw
+        .get("options")
+        .and_then(Value::as_object)
+        .map(|o| {
+            o.keys()
+                .map(|k| (k.clone(), declared_option_values(&comp.raw, k)))
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+/// Expand the placeholders of a flat selector: `{size}` / `{sizeIndex}` over the size scale
+/// and `{option}` over that option's declared values. A selector without placeholders
+/// expands to itself; one that names an unknown option (SPEC-061) expands to nothing.
+pub(crate) fn expand_selector(
+    selector: &Value,
+    sizes: &[(String, String)],
+    options: &[(String, Vec<String>)],
+) -> Vec<Value> {
+    let names = template_names(selector);
+    if names.is_empty() {
         return vec![selector.clone()];
     }
+    let mut combos: Vec<Vec<(String, String)>> = vec![vec![]];
+    if names.iter().any(|n| n == "size" || n == "sizeIndex") {
+        combos = sizes
+            .iter()
+            .map(|(k, i)| vec![("size".into(), k.clone()), ("sizeIndex".into(), i.clone())])
+            .collect();
+    }
+    for name in option_template_names(selector) {
+        let values = options
+            .iter()
+            .find(|(o, _)| *o == name)
+            .map(|(_, v)| v.as_slice())
+            .unwrap_or_default();
+        combos = combos
+            .into_iter()
+            .flat_map(|c| {
+                let name = &name;
+                values.iter().map(move |v| {
+                    let mut next = c.clone();
+                    next.push((name.clone(), v.clone()));
+                    next
+                })
+            })
+            .collect();
+    }
     let mut out: Vec<Value> = Vec::new();
-    for (size, index) in sizes {
+    for combo in combos {
         let mut expanded = selector.clone();
-        if let Some(map) = expanded.as_object_mut() {
-            for v in map.values_mut() {
-                if let Some(s) = v.as_str() {
-                    *v = Value::String(s.replace("{sizeIndex}", index).replace("{size}", size));
-                }
-            }
+        for (name, value) in combo {
+            expanded = substitute(&expanded, &name, &value);
         }
         if !out.contains(&expanded) {
             out.push(expanded);

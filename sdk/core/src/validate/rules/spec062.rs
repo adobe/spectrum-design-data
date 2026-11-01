@@ -12,8 +12,8 @@
 //!
 //! Every `relationship` selector in a visual recipe MUST resolve to a
 //! relationship record scoped to the recipe's component, and every `token`
-//! selector MUST match at least one token. `{size}` and `{sizeIndex}` templates
-//! are expanded over the recipe's `sizeScale` before resolving.
+//! selector MUST match at least one token. `{size}`, `{sizeIndex}` and `{option}` templates
+//! are expanded over the recipe's `sizeScale` and the option values before resolving.
 
 use serde_json::{Map, Value};
 
@@ -21,7 +21,8 @@ use crate::graph::TokenGraph;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, error, expand_selector, has_template, size_entries, tokens_matching, walk_objects,
+    component_of, error, expand_selector, has_template, option_entries, size_entries,
+    tokens_matching, walk_objects,
 };
 
 pub struct Rule;
@@ -61,6 +62,7 @@ impl ValidationRule for Rule {
                 continue;
             };
             let sizes = size_entries(&v.raw);
+            let options = option_entries(ctx.graph, v);
             walk_objects(parts, "/parts", &mut |path, node| {
                 if let Some(rel) = node.get("relationship").filter(|r| r.is_object()) {
                     let rpath = format!("{path}/relationship");
@@ -73,7 +75,7 @@ impl ValidationRule for Rule {
                         ));
                     }
                     let mut seen = Vec::new();
-                    for e in expand_selector(rel, &sizes) {
+                    for e in expand_selector(rel, &sizes, &options) {
                         let property = e.get("property").and_then(Value::as_str).unwrap_or("");
                         let context = e
                             .get("context")
@@ -110,7 +112,7 @@ impl ValidationRule for Rule {
                             "Selector uses a size template but the recipe has no sizeScale".into(),
                         ));
                     }
-                    for e in expand_selector(tok, &sizes) {
+                    for e in expand_selector(tok, &sizes, &options) {
                         let Some(sel) = e.as_object() else { continue };
                         if !token_exists(graph, sel) {
                             out.push(error(
@@ -155,7 +157,7 @@ mod tests {
         g.components.push(ComponentRecord {
             name: "button".into(),
             file: PathBuf::from("components/button.json"),
-            raw: json!({"name": "button"}),
+            raw: json!({"name": "button", "options": {"tone": {"values": [{"value": "base"}, {"value": "other"}]}}}),
             layer: Layer::Foundation,
         });
         g.relationships = vec![
@@ -232,5 +234,13 @@ mod tests {
         let d = run(bad);
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("\"size\":\"m\""));
+    }
+
+    #[test]
+    fn option_template_expands_over_the_declared_values() {
+        let d = run(json!({"c": {"props": {"gap": {"token": {
+            "structure": "{tone}", "property": "gap", "size": "s"}}}}}));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("\"structure\":\"other\""));
     }
 }

@@ -17,8 +17,8 @@
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, component_relationships, expand_selector, is_deprecated, size_entries,
-    tokens_matching, walk_objects, warning,
+    component_of, component_relationships, expand_selector, is_deprecated, option_entries,
+    size_entries, tokens_matching, walk_objects, warning,
 };
 
 pub struct Rule;
@@ -42,13 +42,14 @@ impl ValidationRule for Rule {
                 continue;
             };
             let sizes = size_entries(&v.raw);
+            let options = option_entries(ctx.graph, v);
             let rels = component_relationships(ctx.graph, &v.component);
             walk_objects(parts, "/parts", &mut |path, node| {
                 let mut tokens = Vec::new();
                 let mut what = String::new();
                 let mut at = String::new();
                 if let Some(sel) = node.get("token").filter(|t| t.is_object()) {
-                    for e in expand_selector(sel, &sizes) {
+                    for e in expand_selector(sel, &sizes, &options) {
                         if let Some(m) = e.as_object() {
                             tokens.extend(tokens_matching(ctx.graph, m));
                         }
@@ -56,7 +57,7 @@ impl ValidationRule for Rule {
                     what = format!("Token selector {sel}");
                     at = format!("{path}/token");
                 } else if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
-                    for e in expand_selector(sel, &sizes) {
+                    for e in expand_selector(sel, &sizes, &options) {
                         let property = e.get("property").and_then(serde_json::Value::as_str);
                         let context = e
                             .get("context")

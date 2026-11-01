@@ -255,6 +255,79 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
         .collect()
 }
 
+/// Names of the `{name}` placeholders in a value's strings, in first-use order. A brace pair
+/// whose content is not a plain identifier (letters and digits) is literal text.
+pub(crate) fn template_names(v: &Value) -> Vec<String> {
+    fn scan(s: &str, out: &mut Vec<String>) {
+        let mut rest = s;
+        while let Some(open) = rest.find('{') {
+            let after = &rest[open + 1..];
+            match after.find(['{', '}']) {
+                Some(i) if after.as_bytes()[i] == b'}' => {
+                    let name = &after[..i];
+                    if !name.is_empty()
+                        && name.chars().all(|c| c.is_ascii_alphanumeric())
+                        && !out.iter().any(|n| n == name)
+                    {
+                        out.push(name.into());
+                    }
+                    rest = &after[i + 1..];
+                }
+                Some(i) => rest = &after[i..],
+                None => break,
+            }
+        }
+    }
+    fn walk(v: &Value, out: &mut Vec<String>) {
+        match v {
+            Value::String(s) => scan(s, out),
+            Value::Array(a) => a.iter().for_each(|x| walk(x, out)),
+            Value::Object(m) => m.values().for_each(|x| walk(x, out)),
+            _ => {}
+        }
+    }
+    let mut out = Vec::new();
+    walk(v, &mut out);
+    out
+}
+
+/// Placeholders that are not a size template, so they name a component option.
+pub(crate) fn option_template_names(v: &Value) -> Vec<String> {
+    template_names(v)
+        .into_iter()
+        .filter(|n| n != "size" && n != "sizeIndex")
+        .collect()
+}
+
+/// A copy of `v` with `{name}` replaced by `value` in every string.
+pub(crate) fn substitute(v: &Value, name: &str, value: &str) -> Value {
+    match v {
+        Value::String(s) => Value::String(s.replace(&format!("{{{name}}}"), value)),
+        Value::Array(a) => Value::Array(a.iter().map(|x| substitute(x, name, value)).collect()),
+        Value::Object(m) => Value::Object(
+            m.iter()
+                .map(|(k, x)| (k.clone(), substitute(x, name, value)))
+                .collect(),
+        ),
+        other => other.clone(),
+    }
+}
+
+/// The string values an option declares, or empty when it is undeclared or has no `values`.
+pub(crate) fn declared_option_values(component: &Value, option: &str) -> Vec<String> {
+    component
+        .get("options")
+        .and_then(|o| o.get(option))
+        .and_then(|o| o.get("values"))
+        .and_then(Value::as_array)
+        .map(|vals| {
+            vals.iter()
+                .filter_map(|v| v.get("value").unwrap_or(v).as_str().map(String::from))
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
 fn value_to_string(v: &Value) -> Option<String> {
     match v {
         Value::String(s) => Some(s.clone()),
@@ -472,10 +545,96 @@ impl<'a> CompileCx<'a> {
     }
 
     /// Replace a binding's `token`/`relationship` selector with its ranked `candidates`.
+    /// A selector that uses `{option}` placeholders compiles once per declared value of that
+    /// option, and each candidate pins that option, so the solver picks by the request.
     fn compile_source(&self, prop: &str, entry: &mut Value) {
         let Some(obj) = entry.as_object_mut() else {
             return;
         };
+        let Some(selector) = obj
+            .get("token")
+            .or_else(|| obj.get("relationship"))
+            .cloned()
+        else {
+            return;
+        };
+        let names = option_template_names(&selector);
+        if names.is_empty() {
+            let (list, miss) = self.source_candidates(prop, obj);
+            obj.remove("token");
+            obj.remove("relationship");
+            obj.insert("candidates".into(), Value::Array(list));
+            obj.insert("miss".into(), Value::String(miss));
+            return;
+        }
+        let key = if obj.contains_key("token") {
+            "token"
+        } else {
+            "relationship"
+        };
+        let component = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.req.component)
+            .map(|c| &c.raw);
+        // Every combination of the declared values of the options the selector names.
+        let mut combos: Vec<Vec<(String, String)>> = vec![vec![]];
+        for name in &names {
+            let values = component
+                .map(|c| declared_option_values(c, name))
+                .unwrap_or_default();
+            combos = combos
+                .into_iter()
+                .flat_map(|c| {
+                    values.iter().map(move |v| {
+                        let mut next = c.clone();
+                        next.push((name.clone(), v.clone()));
+                        next
+                    })
+                })
+                .collect();
+        }
+        let mut list: Vec<Value> = Vec::new();
+        for combo in combos {
+            let mut one = obj.clone();
+            let mut sel = selector.clone();
+            for (name, value) in &combo {
+                sel = substitute(&sel, name, value);
+            }
+            one.insert(key.into(), sel);
+            for mut c in self.source_candidates(prop, &one).0 {
+                let mut pins = c
+                    .get("options")
+                    .and_then(Value::as_object)
+                    .cloned()
+                    .unwrap_or_default();
+                let clash = combo
+                    .iter()
+                    .any(|(n, v)| pins.get(n).is_some_and(|p| p != &Value::String(v.clone())));
+                if clash {
+                    continue;
+                }
+                for (n, v) in &combo {
+                    pins.insert(n.clone(), Value::String(v.clone()));
+                }
+                c["options"] = Value::Object(pins);
+                list.push(c);
+            }
+        }
+        let (_, miss) = self.source_candidates(prop, obj);
+        obj.remove("token");
+        obj.remove("relationship");
+        obj.insert("candidates".into(), Value::Array(list));
+        obj.insert("miss".into(), Value::String(miss));
+    }
+
+    /// The ranked candidates of one binding's selector and the message for no match.
+    fn source_candidates(
+        &self,
+        prop: &str,
+        obj: &serde_json::Map<String, Value>,
+    ) -> (Vec<Value>, String) {
         let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
             self.token_cands(sel).map(|(c, sel_obj)| {
                 (
@@ -487,12 +646,10 @@ impl<'a> CompileCx<'a> {
             self.relationship_cands(rel)
                 .map(|(c, p, ctx)| (c, format!("{prop}: no relationship '{p}' / '{ctx}'")))
         } else {
-            return;
+            return (Vec::new(), String::new());
         };
-        obj.remove("token");
-        obj.remove("relationship");
         let (cands, miss) = cands.unwrap_or_default();
-        let list: Vec<Value> = self
+        let list = self
             .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
             .into_iter()
             .map(|(t, (options, extra))| {
@@ -513,8 +670,7 @@ impl<'a> CompileCx<'a> {
                 c
             })
             .collect();
-        obj.insert("candidates".into(), Value::Array(list));
-        obj.insert("miss".into(), Value::String(miss));
+        (list, miss)
     }
 
     /// Compile every binding of every part (`props` and a placement `inset`).
@@ -2254,5 +2410,77 @@ mod tests {
         let (used, structural) = recipe_options(&recipe);
         assert!(used.contains(&"isPending".to_string()));
         assert!(structural.contains(&"isPending".to_string()));
+    }
+
+    fn templated_graph() -> TokenGraph {
+        let mut g = TokenGraph::default();
+        g.components.push(crate::graph::ComponentRecord {
+            name: "gadget".into(),
+            file: PathBuf::from("components/gadget.json"),
+            raw: serde_json::json!({"name": "gadget", "options": {
+                "style": {"type": "string", "default": "accent",
+                    "values": [{"value": "accent"}, {"value": "primary"}]}}}),
+            layer: crate::graph::Layer::Foundation,
+        });
+        for (variant, color) in [("accent", "#ff0000"), ("primary", "#00ff00")] {
+            let t = crate::graph::TokenRecord {
+                name: variant.into(),
+                file: PathBuf::from("tokens.json"),
+                index: 0,
+                schema_url: None,
+                uuid: Some(variant.into()),
+                alias_target: None,
+                raw: serde_json::json!({"value": color, "name": {
+                    "component": "gadget", "variant": variant,
+                    "property": "background-color"}}),
+                layer: Default::default(),
+            };
+            g.tokens.insert(variant.into(), t);
+        }
+        g
+    }
+
+    #[test]
+    fn option_placeholder_in_a_selector_follows_the_request() {
+        let g = templated_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"token": {"component": "gadget", "variant": "{style}",
+                    "property": "background-color"}}}}}
+        });
+        let fill = |style: Option<&str>| {
+            let mut r = RenderRequest {
+                component: "gadget".into(),
+                size: "m".into(),
+                ..Default::default()
+            };
+            if let Some(s) = style {
+                r.options.insert("style".into(), Value::String(s.into()));
+            }
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            scene.nodes[0].fill.clone()
+        };
+        assert_eq!(fill(Some("accent")).as_deref(), Some("#ff0000"));
+        assert_eq!(fill(Some("primary")).as_deref(), Some("#00ff00"));
+        assert_eq!(fill(None).as_deref(), Some("#ff0000"), "the option default");
+
+        let c = compile_recipe(&g, &recipe, "gadget", &[HashMap::new()]).unwrap();
+        let fill = &c["variants"]["m||"]["box"]["props"]["fill"];
+        let pins: Vec<_> = fill["candidates"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|c| c["options"]["style"].as_str().unwrap().to_string())
+            .collect();
+        assert_eq!(pins, ["accent", "primary"]);
+    }
+
+    #[test]
+    fn placeholder_names_skip_literal_braces() {
+        let v = serde_json::json!({"a": "{size}-{style}", "b": ["{a b}", "x{{y}", "{}"]});
+        assert_eq!(template_names(&v), ["size", "style", "y"]);
+        assert_eq!(option_template_names(&v), ["style", "y"]);
     }
 }

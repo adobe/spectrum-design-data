@@ -26,8 +26,8 @@ use crate::graph::VisualRecord;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, component_relationships, expand_selector, size_entries, tokens_matching,
-    walk_objects, warning,
+    component_of, component_relationships, expand_selector, option_entries, size_entries,
+    tokens_matching, walk_objects, warning,
 };
 use crate::visual::{name_states, OPTION_STATES};
 
@@ -55,6 +55,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
     let mut used = Used::default();
     let graph = ctx.graph;
     let sizes = size_entries(&v.raw);
+    let options = option_entries(ctx.graph, v);
     let rels = component_relationships(graph, &v.component);
     let Some(parts) = v.raw.get("parts") else {
         return used;
@@ -70,7 +71,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
         if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
-            for e in expand_selector(sel, &sizes) {
+            for e in expand_selector(sel, &sizes, &options) {
                 let property = e.get("property").and_then(Value::as_str).unwrap_or("");
                 let context = e.get("context").and_then(Value::as_str).map(str::trim);
                 for r in &rels {
@@ -82,7 +83,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
         if let Some(sel) = node.get("token").filter(|t| t.is_object()) {
-            for e in expand_selector(sel, &sizes) {
+            for e in expand_selector(sel, &sizes, &options) {
                 if let Some(m) = e.as_object() {
                     for t in tokens_matching(graph, m) {
                         used.states.extend(name_states(t.raw.get("name")));

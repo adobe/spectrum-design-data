@@ -21,8 +21,8 @@ use crate::graph::TokenRecord;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, component_relationships, expand_selector, size_entries, tokens_matching,
-    walk_objects, warning,
+    component_of, component_relationships, expand_selector, option_entries, size_entries,
+    tokens_matching, walk_objects, warning,
 };
 
 pub struct Rule;
@@ -53,13 +53,14 @@ impl ValidationRule for Rule {
                 continue;
             };
             let sizes = size_entries(&v.raw);
+            let options = option_entries(ctx.graph, v);
             let rels = component_relationships(ctx.graph, &v.component);
             walk_objects(parts, "/parts", &mut |path, node| {
                 let Some(sel) = node.get("token").filter(|t| t.is_object()) else {
                     return;
                 };
                 let mut found: BTreeSet<String> = BTreeSet::new();
-                for e in expand_selector(sel, &sizes) {
+                for e in expand_selector(sel, &sizes, &options) {
                     let Some(m) = e.as_object() else { continue };
                     let matched = tokens_matching(ctx.graph, m);
                     for r in &rels {
