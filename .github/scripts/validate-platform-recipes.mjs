@@ -70,6 +70,10 @@ function main() {
   const cliRoot = new URL("../..", import.meta.url).pathname;
   const rootIndex = process.argv.indexOf("--repo-root");
   const repoRoot = rootIndex === -1 ? cliRoot : process.argv[rootIndex + 1];
+  if (!repoRoot) {
+    console.error("--repo-root needs a directory.");
+    process.exit(2);
+  }
   const platformsDir = join(repoRoot, "platforms");
   const dataDir = join(repoRoot, "packages", "design-data");
   const cli = join(cliRoot, "sdk", "target", "debug", "design-data");
