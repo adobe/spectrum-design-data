@@ -1,0 +1,398 @@
+[
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "h-padding",
+      "legacyKey": "button-sm-h-padding"
+    },
+    "value": "10px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/sm/h-padding, VariableID:3258:5722.",
+    "uuid": "2b138457-6971-4bad-aa43-ee22fa30dda0"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "v-padding",
+      "legacyKey": "button-sm-v-padding"
+    },
+    "value": "5px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/sm/v-padding, VariableID:3258:5723.",
+    "uuid": "1dba136a-cbd1-4fa5-8555-fa77ecf28c22"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "h-gap",
+      "legacyKey": "button-sm-h-gap"
+    },
+    "value": "6px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/sm/h-gap, VariableID:3896:60696.",
+    "uuid": "978a6c93-347b-4f47-90c9-cac81188e56f"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "radius-capsule",
+      "legacyKey": "button-sm-radius-capsule"
+    },
+    "value": "15px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/sm/radius-capsule, VariableID:6497:44848.",
+    "uuid": "14daba08-f24b-4540-9613-87ae172ec574"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "h-padding",
+      "legacyKey": "button-md-h-padding"
+    },
+    "value": "14px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/md/h-padding, VariableID:3258:5724.",
+    "uuid": "2b8731b5-3a60-403a-9b23-76cbad5c94cc"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "v-padding",
+      "legacyKey": "button-md-v-padding"
+    },
+    "value": "8px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/md/v-padding, VariableID:3258:5725.",
+    "uuid": "7e4b1824-7843-41cb-8950-865edd313126"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "h-gap",
+      "legacyKey": "button-md-h-gap"
+    },
+    "value": "6px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/md/h-gap, VariableID:3896:60697.",
+    "uuid": "a338b68f-089f-41bd-a98e-46f258053cb1"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "radius-capsule",
+      "legacyKey": "button-md-radius-capsule"
+    },
+    "value": "20px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/md/radius-capsule, VariableID:6497:44847.",
+    "uuid": "50601878-a504-46a2-85af-5799f45e6e57"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "h-padding",
+      "legacyKey": "button-lg-h-padding"
+    },
+    "value": "18px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/lg/h-padding, VariableID:3258:5726.",
+    "uuid": "e1d8e32d-b865-4e6e-95b4-129283071e67"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "v-padding",
+      "legacyKey": "button-lg-v-padding"
+    },
+    "value": "16px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/lg/v-padding, VariableID:3258:5727.",
+    "uuid": "0d96167e-788d-4be2-8cc9-595e233ad1ba"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "h-gap",
+      "legacyKey": "button-lg-h-gap"
+    },
+    "value": "6px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/lg/h-gap, VariableID:3896:60698.",
+    "uuid": "be104c94-7cec-484f-9d78-1d67f491a451"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "radius-capsule",
+      "legacyKey": "button-lg-radius-capsule"
+    },
+    "value": "28px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout button/lg/radius-capsule, VariableID:6497:44846.",
+    "uuid": "cd9367d3-c88a-4393-a508-effca0eea5cc"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["default"],
+      "colorScheme": "light",
+      "legacyKey": "button-primary-background-color-default"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.84)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/default, VariableID:18887:16789, light mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "decb4c37-ff19-485c-98d3-6cfd93c6fc7d"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["default"],
+      "colorScheme": "dark",
+      "legacyKey": "button-primary-background-color-default"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.85)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/default, VariableID:18887:16789, dark mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "ca370387-a9da-495d-b8c7-549e2644e297"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["hover"],
+      "colorScheme": "light",
+      "legacyKey": "button-primary-background-color-hover"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.93)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/hover, VariableID:18887:16790, light mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "2935bf52-0186-4fd0-b9e3-d553cedd7263"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["hover"],
+      "colorScheme": "dark",
+      "legacyKey": "button-primary-background-color-hover"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.94)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/hover, VariableID:18887:16790, dark mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "13da2566-e589-4ba3-be2b-905656932319"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["down"],
+      "colorScheme": "light",
+      "legacyKey": "button-primary-background-color-down"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.93)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/pressed, VariableID:18887:16791, light mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "f57fd1a7-f1a1-433b-b3a7-6e8c6b2c3ffb"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "background-color",
+      "state": ["down"],
+      "colorScheme": "dark",
+      "legacyKey": "button-primary-background-color-down"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.94)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/inverted/pressed, VariableID:18887:16791, dark mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "0fcb9eb8-5984-43c3-8695-688d5f47d72c"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "content-color",
+      "colorScheme": "light",
+      "legacyKey": "button-primary-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/content/neutral-inverted/default, VariableID:18887:16788, light mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "bfa32e02-c316-4057-b58d-a0edb6bf060f"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "primary",
+      "property": "content-color",
+      "colorScheme": "dark",
+      "legacyKey": "button-primary-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/content/neutral-inverted/default, VariableID:18887:16788, dark mode. Swift has no public Primary style (p6ga.8.5); Primary is Figma only, iOS team confirmation tracked in p6ga.8.53.",
+    "uuid": "03b24d0d-12b7-4281-9160-5cae94def896"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "property": "background-color",
+      "state": ["disabled"],
+      "colorScheme": "light",
+      "legacyKey": "button-disabled-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.03)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/disabled/default, VariableID:3516:10027, light mode. Translucent here; the foundation disabled token is opaque (iOS token package override-log.csv lines 209 and 211 agree with Figma).",
+    "uuid": "b080969e-bdb6-440e-a5c2-3d0c36fd259d"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "property": "background-color",
+      "state": ["disabled"],
+      "colorScheme": "dark",
+      "legacyKey": "button-disabled-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.07)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/background/disabled/default, VariableID:3516:10027, dark mode. Translucent here; the foundation disabled token is opaque (iOS token package override-log.csv lines 209 and 211 agree with Figma).",
+    "uuid": "54dff4d3-dec1-49a3-89ac-4c881f48f6f9"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "property": "content-color",
+      "state": ["disabled"],
+      "colorScheme": "light",
+      "legacyKey": "button-disabled-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.22)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/content/disabled/default, VariableID:2849:2504, light mode. Translucent here; the foundation disabled token is opaque (iOS token package override-log.csv lines 209 and 211 agree with Figma).",
+    "uuid": "b5405bda-35d8-4fff-bcdb-92994b820ee2"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "property": "content-color",
+      "state": ["disabled"],
+      "colorScheme": "dark",
+      "legacyKey": "button-disabled-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.28)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Alias/content/disabled/default, VariableID:2849:2504, dark mode. Translucent here; the foundation disabled token is opaque (iOS token package override-log.csv lines 209 and 211 agree with Figma).",
+    "uuid": "7f161933-5584-4f62-aea8-bbe0c916b08c"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["default"],
+      "colorScheme": "light",
+      "legacyKey": "button-accent-background-color-default"
+    },
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-default, light mode; Figma values are equal.",
+    "uuid": "df590144-50fa-4299-b69a-bd84c980e875"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["default"],
+      "colorScheme": "dark",
+      "legacyKey": "button-accent-background-color-default"
+    },
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-default, dark mode; Figma values are equal.",
+    "uuid": "3589db6e-a574-4737-9d80-b87696eb327d"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["hover"],
+      "colorScheme": "light",
+      "legacyKey": "button-accent-background-color-hover"
+    },
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-hover, light mode; Figma values are equal.",
+    "uuid": "f827f2fe-13cd-45c2-b8fe-9a8e307ce82c"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["hover"],
+      "colorScheme": "dark",
+      "legacyKey": "button-accent-background-color-hover"
+    },
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-hover, dark mode; Figma values are equal.",
+    "uuid": "d93ccf47-0033-4eda-a293-ce815819db95"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["down"],
+      "colorScheme": "light",
+      "legacyKey": "button-accent-background-color-down"
+    },
+    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-down, light mode; Figma values are equal.",
+    "uuid": "b632d1c0-dbd3-4669-a3ea-c06d997dc2bf"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "background-color",
+      "state": ["down"],
+      "colorScheme": "dark",
+      "legacyKey": "button-accent-background-color-down"
+    },
+    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation accent-background-color-down, dark mode; Figma values are equal.",
+    "uuid": "bf21c543-9b68-4edf-936c-8ace27281a78"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "content-color",
+      "colorScheme": "light",
+      "legacyKey": "button-accent-content-color"
+    },
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation white. Figma Palette/white, VariableID:2113:5481.",
+    "uuid": "994e1c43-942c-437c-8b19-80e32a21b761"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "variant": "accent",
+      "property": "content-color",
+      "colorScheme": "dark",
+      "legacyKey": "button-accent-content-color"
+    },
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation white. Figma Palette/white, VariableID:2113:5481.",
+    "uuid": "e3bd83ac-5e1e-4daa-92f6-9796e2877a06"
+  }
+]

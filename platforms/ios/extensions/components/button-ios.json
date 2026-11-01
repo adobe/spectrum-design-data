@@ -1,0 +1,104 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button-ios.json",
+  "specVersion": "1.0.0-draft",
+  "name": "button-ios",
+  "displayName": "Button (iOS)",
+  "description": "Button triggers an action on iOS. This declaration covers the Primary and Accent styles; the remaining iOS styles are tracked in p6ga.8.6.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "options": {
+    "style": {
+      "type": "string",
+      "default": "accent",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "accent"
+        }
+      ]
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isLabelHidden": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction",
+      "precedence": 50
+    },
+    {
+      "name": "down",
+      "trigger": "interaction",
+      "precedence": 55
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop",
+      "precedence": 100
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Capsule background that holds the icon and label.",
+      "required": true,
+      "contains": ["icon", "label"]
+    },
+    {
+      "name": "icon",
+      "description": "Leading icon."
+    },
+    {
+      "name": "label",
+      "description": "Button text. Hidden when isLabelHidden is set.",
+      "required": true
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "button",
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}
