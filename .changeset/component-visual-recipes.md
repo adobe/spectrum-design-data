@@ -12,7 +12,8 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 - **sdk/wasm**: `Dataset.renderScene` and `Dataset.renderSvg` render recipes in the browser.
 - **button**: `visuals/button.json` recipe (variant, style, state, static color); `down` state.
 - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
-- **badge**: recipe and anatomy; removes the `isDisabled` option (the design has no disabled badge).
+- **badge**: recipe and anatomy.
+- **Removed**: badge option `isDisabled`, published in 3.7.1; the design has no disabled badge.
 - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
 - **sdk/plugins/site**: `design-data site --out <dir>` writes a static explorer (no WASM).
 - **sdk/plugins/figma**: `variable_names` maps tokens to Figma variable names offline.
