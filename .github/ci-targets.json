@@ -43,7 +43,8 @@
     "design-data-skill:test",
     "s2-docs-mcp:test",
     "token-naming-audit:ci",
-    "root:validate-platform-recipes"
+    "root:validate-platform-recipes",
+    "root:test-platform-recipes-e2e"
   ],
   "excludedFromCI": [
     "design-data-spec:sync-token-schemas",
