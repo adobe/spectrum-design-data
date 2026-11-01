@@ -609,9 +609,13 @@ impl<'a> CompileCx<'a> {
                     .and_then(Value::as_object)
                     .cloned()
                     .unwrap_or_default();
-                let clash = combo
-                    .iter()
-                    .any(|(n, v)| pins.get(n).is_some_and(|p| p != &Value::String(v.clone())));
+                // A pin is a value or an array that matches when any element does.
+                let clash = combo.iter().any(|(n, v)| {
+                    pins.get(n).is_some_and(|p| match p {
+                        Value::Array(any) => !any.iter().any(|a| a.as_str() == Some(v)),
+                        one => one.as_str() != Some(v),
+                    })
+                });
                 if clash {
                     continue;
                 }
@@ -622,11 +626,35 @@ impl<'a> CompileCx<'a> {
                 list.push(c);
             }
         }
-        let (_, miss) = self.source_candidates(prop, obj);
+        let miss = self.source_miss(prop, obj);
         obj.remove("token");
         obj.remove("relationship");
         obj.insert("candidates".into(), Value::Array(list));
         obj.insert("miss".into(), Value::String(miss));
+    }
+
+    /// The no-match message of a binding, with its option placeholders left in place.
+    fn source_miss(&self, prop: &str, obj: &serde_json::Map<String, Value>) -> String {
+        if let Some(Value::Object(sel)) = obj.get("token") {
+            let mut sel = sel.clone();
+            if let Some(Value::String(p)) = sel.get("property") {
+                let p = self.template(p);
+                sel.insert("property".into(), Value::String(p));
+            }
+            format!("{prop}: no token matches {}", Value::Object(sel))
+        } else {
+            let text = |k: &str| {
+                obj.get("relationship")
+                    .and_then(|r| r.get(k))
+                    .and_then(Value::as_str)
+                    .unwrap_or_default()
+            };
+            let property = self.template(text("property"));
+            format!(
+                "{prop}: no relationship '{property}' / '{}'",
+                text("context").trim()
+            )
+        }
     }
 
     /// The ranked candidates of one binding's selector and the message for no match.
@@ -2482,5 +2510,40 @@ mod tests {
         let v = serde_json::json!({"a": "{size}-{style}", "b": ["{a b}", "x{{y}", "{}"]});
         assert_eq!(template_names(&v), ["size", "style", "y"]);
         assert_eq!(option_template_names(&v), ["style", "y"]);
+    }
+
+    #[test]
+    fn option_placeholder_keeps_a_relationship_array_pin() {
+        let mut g = templated_graph();
+        let rel = |property: &str, pin: Value| crate::graph::RelationshipRecord {
+            file: PathBuf::from("relationships/gadget.json"),
+            index: 0,
+            uuid: None,
+            raw: serde_json::json!({"$ref": "accent", "context": "Fill",
+                "scope": {"component": "gadget", "property": property,
+                    "options": {"style": pin}}}),
+        };
+        g.relationships = vec![
+            rel("fill-accent", serde_json::json!(["accent", "primary"])),
+            rel("fill-primary", serde_json::json!("primary")),
+        ];
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "fill-{style}", "context": "Fill"}}}}}
+        });
+        let c = compile_recipe(&g, &recipe, "gadget", &[HashMap::new()]).unwrap();
+        let fill = &c["variants"]["m||"]["box"]["props"]["fill"];
+        let pins: Vec<_> = fill["candidates"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|c| c["options"]["style"].as_str().unwrap().to_string())
+            .collect();
+        assert_eq!(pins, ["accent", "primary"]);
+        assert_eq!(
+            fill["miss"],
+            "fill: no relationship 'fill-{style}' / 'Fill'"
+        );
     }
 }
