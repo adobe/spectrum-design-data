@@ -68,6 +68,20 @@
       },
       "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
     },
+    "anatomyReview": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["draft", "reviewed"] },
+        "reviewedIn": {
+          "type": "string",
+          "description": "Version in which the anatomy was last reviewed against the anatomy definition."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "description": "Review status of this component's anatomy. Absent means draft. See spec/anatomy-format.md#review-checklist."
+    },
     "states": {
       "type": "array",
       "items": {
@@ -328,6 +342,12 @@
           "type": "boolean",
           "default": false
         },
+        "presentIn": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Declared component states in which this part is present; drawn when any is active. Absent means any state. Not for state-dependent styling."
+        },
         "contains": {
           "type": "array",
           "items": { "type": "string" },
@@ -343,6 +363,11 @@
           "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecatedIn to signal that tokens referencing this part should migrate."
         }
       },
+      "if": {
+        "required": ["required"],
+        "properties": { "required": { "const": true } }
+      },
+      "then": { "not": { "required": ["presentIn"] } },
       "additionalProperties": false
     },
     "stateDeclaration": {

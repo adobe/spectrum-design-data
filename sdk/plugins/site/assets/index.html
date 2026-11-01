@@ -1838,12 +1838,17 @@
         const root = s.nodes.find((n) => n.kind === "box");
         const parts = (C.anatomy ?? [])
           .map((a) => [a, node(s, a.name)])
-          .filter(([, n]) => n && n.kind !== "ring");
+          .filter(([, n]) => n);
 
+        // A state-only part such as the focus indicator is a ring in the scene only while
+        // its state is active, so it gets a callout then. The ring sits outside the root,
+        // so its label goes below, on the ring's bottom edge, and does not shift the
+        // alternation of the other labels.
         let i = 0;
         const placed = parts.map(([a, n]) => {
           const isRoot = n === root;
-          const up = isRoot || i++ % 2 === 0;
+          const isRing = n.kind === "ring";
+          const up = isRoot || (isRing ? false : i++ % 2 === 0);
           // A rounded container's anchor sits past its corner curve, on the straight edge.
           const rad = n.radii?.[0] ?? n.radius ?? 0;
           const fx = isRoot

@@ -774,17 +774,26 @@ pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
         _ => Vec::new(),
     };
     for s in raw {
-        let rest = s.strip_prefix("selected-");
-        if rest.is_some() {
-            out.push("selected".to_string());
-        }
-        let r = rest.unwrap_or(&s);
-        out.push(if r == "key-focus" || r == "focus" {
-            "keyboard-focus".into()
-        } else {
-            r.to_string()
-        });
+        out.extend(state_ids(&s));
     }
+    out
+}
+
+/// One state name as state ids: `selected-key-focus` splits into `selected` and
+/// `keyboard-focus`, and `focus` and `key-focus` are the same state as `keyboard-focus`.
+/// Shared with the validation rules that compare state names across data.
+pub(crate) fn state_ids(raw: &str) -> Vec<String> {
+    let mut out = Vec::new();
+    let rest = raw.strip_prefix("selected-");
+    if rest.is_some() {
+        out.push("selected".to_string());
+    }
+    let r = rest.unwrap_or(raw);
+    out.push(if r == "key-focus" || r == "focus" {
+        "keyboard-focus".into()
+    } else {
+        r.to_string()
+    });
     out
 }
 
@@ -1153,6 +1162,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_weight: Option<String>,
         color: Option<String>,
         stroke: Option<String>,
+        fill: Option<String>,
+        stroke_width: f64,
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
     }
@@ -1190,6 +1201,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: None,
             color: color.map(|c| c.value),
             stroke: None,
+            fill: None,
+            stroke_width: 0.0,
             radius: None,
             tokens,
         };
@@ -1203,6 +1216,16 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.h = bh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
                 c.radius = rp(&mut cx, part, "cornerRadius");
                 track(&mut c.tokens, "cornerRadius", &c.radius);
+                // A flowed box paints itself and hosts its children, like a nested box.
+                let bfill = rp(&mut cx, part, "fill");
+                let bstroke = rp(&mut cx, part, "stroke");
+                let bsw = rp(&mut cx, part, "strokeWidth");
+                track(&mut c.tokens, "fill", &bfill);
+                track(&mut c.tokens, "stroke", &bstroke);
+                track(&mut c.tokens, "strokeWidth", &bsw);
+                c.fill = bfill.map(|f| f.value);
+                c.stroke = bstroke.map(|s| s.value);
+                c.stroke_width = bsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
             }
             "icon" | "progress" => {
                 let w = rp(&mut cx, part, "width");
@@ -1308,9 +1331,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             y: cy0,
             w: cw,
             h: ch,
-            fill: None,
+            fill: c.fill,
             stroke: c.stroke,
-            stroke_width: 0.0,
+            stroke_width: c.stroke_width,
             radius: 0.0,
             radii: None,
             text: c.text,
@@ -1921,20 +1944,14 @@ mod tests {
 
         let off = scene("m", &[], &[]);
         assert!(off.diagnostics.is_empty(), "{:?}", off.diagnostics);
-        let (control, b) = (part(&off, "control").unwrap(), part(&off, "box").unwrap());
-        assert_eq!(
-            (control.w, control.h, b.radius, b.stroke_width),
-            (16.0, 16.0, 4.0, 2.0)
-        );
+        let b = part(&off, "box").unwrap();
+        assert!(part(&off, "control").is_none(), "control is not anatomy");
+        assert_eq!((b.w, b.h, b.radius, b.stroke_width), (16.0, 16.0, 4.0, 2.0));
         assert_eq!(b.fill.as_deref(), Some("rgb(255, 255, 255)"));
         assert_eq!(b.stroke.as_deref(), Some("rgb(41, 41, 41)"));
         assert!(part(&off, "checkmark").is_none() && part(&off, "dash").is_none());
         let label = part(&off, "label").unwrap();
-        assert_eq!(
-            label.x - (control.x + control.w),
-            6.0,
-            "control to label gap"
-        );
+        assert_eq!(label.x - (b.x + b.w), 6.0, "control to label gap");
 
         let on = scene("m", &["isSelected"], &[]);
         assert!(on.diagnostics.is_empty(), "{:?}", on.diagnostics);
@@ -1976,7 +1993,7 @@ mod tests {
 
         for (size, control, mark) in [("s", 14.0, 8.0), ("l", 18.0, 10.0), ("xl", 20.0, 12.0)] {
             let s = scene(size, &["isSelected"], &[]);
-            assert_eq!(part(&s, "control").unwrap().w, control, "{size} control");
+            assert_eq!(part(&s, "box").unwrap().w, control, "{size} box");
             assert_eq!(part(&s, "checkmark").unwrap().w, mark, "{size} checkmark");
         }
 
@@ -1985,7 +2002,7 @@ mod tests {
     }
 
     #[test]
-    fn checkbox_press_scales_the_control_with_its_mark() {
+    fn checkbox_press_scales_the_box_with_its_mark() {
         let (g, _) = load();
         let recipe: Value = serde_json::from_str(
             &std::fs::read_to_string(root().join("visuals/checkbox.json")).unwrap(),
@@ -1998,13 +2015,13 @@ mod tests {
         r.options.insert("isSelected".into(), Value::Bool(true));
         let scene = build_scene(&g, &recipe, &r).unwrap();
         let press = scene.press.as_ref().unwrap();
-        assert_eq!(press.part.as_deref(), Some("control"));
-        assert_eq!(press.nested, ["box", "checkmark", "dash"]);
+        assert_eq!(press.part.as_deref(), Some("box"));
+        assert_eq!(press.nested, ["checkmark", "dash"]);
 
         let svg = scene_to_svg(&scene);
         let (open, close) = (svg.find("<g transform").unwrap(), svg.find("</g>").unwrap());
         let inside = &svg[open..close];
-        for part in ["control", "box", "checkmark"] {
+        for part in ["box", "checkmark"] {
             assert!(inside.contains(&format!("data-part=\"{part}\"")), "{part}");
         }
         assert!(

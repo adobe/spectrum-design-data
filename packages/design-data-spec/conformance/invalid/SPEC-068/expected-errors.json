@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-068",
+      "severity": "warning",
+      "message_pattern": "^Literal 10 for 'width' on part 'track'; bind a token or relationship instead$"
+    }
+  ]
+}

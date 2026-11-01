@@ -924,3 +924,52 @@ rules:
     message: "Relationship {scope} references {ref} twice, but the token has a {scale} counterpart ({counterpart}); point one record at it"
     spec_ref: spec/relationship-format.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-073
+    name: component-anatomy-reviewed
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      One diagnostic for the whole dataset, so the gap stays visible without a line per
+      component. Never an error: anatomy is authored as recipes are built. A component with
+      anatomy and no `anatomyReview` counts as draft.
+    assert: >
+      A component that has relationship records SHOULD declare anatomy, and a component's
+      anatomy SHOULD have `anatomyReview.status` of `reviewed`.
+    message: "Components without reviewed anatomy: {n} with relationships but no anatomy ({names}); {m} with draft anatomy ({names})"
+    spec_ref: spec/anatomy-format.md#review-checklist
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-074
+    name: anatomy-present-in-declared
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      The anatomy version of SPEC-054. State names are compared after normalization, so
+      `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists `presentIn`
+      on a component that declares no states is also reported.
+    assert: >
+      Every entry of an anatomy part's `presentIn` MUST match a state declared on the same
+      component.
+    message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
+    spec_ref: spec/anatomy-format.md#presentin
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-075
+    name: visual-present-in-matches-anatomy
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      Keeps a recipe's `visibleWhen.states` and the anatomy's `presentIn` from drifting. States
+      are compared after normalization. `visibleWhen.states` means every listed state, and
+      `presentIn` means any listed state, so a difference is an error only when neither side
+      lists more than one state; otherwise it is reported at info level.
+    assert: >
+      For a recipe part that is also an anatomy part, the recipe's `visibleWhen.states` MUST
+      equal the anatomy part's `presentIn`.
+    message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
+    spec_ref: spec/anatomy-format.md#presentin
+    introduced_in: "1.0.0-draft"

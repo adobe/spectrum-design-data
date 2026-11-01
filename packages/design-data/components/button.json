@@ -198,14 +198,23 @@
     { "name": "icon", "description": "Leading icon." },
     {
       "name": "progress",
-      "description": "Progress circle that replaces the content while pending."
+      "description": "Progress indicator shown in place of the icon and label while an action is pending."
     },
-    { "name": "label", "description": "Button text.", "required": true },
+    {
+      "name": "label",
+      "description": "Button text. Hidden when the label is hidden or the button is pending."
+    },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn outside the container for keyboard focus."
+      "description": "Outline drawn outside the container for keyboard focus.",
+      "presentIn": ["focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "label is optional (isLabelHidden); focus-indicator is state-only; progress kept (styled by button, option-driven)."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction", "precedence": 50 },
     { "name": "down", "trigger": "interaction", "precedence": 55 },

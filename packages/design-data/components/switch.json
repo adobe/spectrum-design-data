@@ -115,30 +115,33 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Row that holds the control and the label.",
+      "description": "Row that holds the track and the label.",
       "required": true,
-      "contains": ["control", "label"]
-    },
-    {
-      "name": "control",
-      "description": "The whole on/off control: the track and its handle.",
-      "required": true,
-      "contains": ["track", "handle", "focus-indicator"]
+      "contains": ["track", "label"]
     },
     {
       "name": "track",
-      "description": "Pill-shaped background. Its border is drawn while the switch is off."
+      "description": "Pill-shaped background. Its border is drawn while the switch is off. Holds the handle.",
+      "required": true,
+      "contains": ["handle"]
     },
     {
       "name": "handle",
-      "description": "Circle that sits at the start of the track when off and at the end when on."
+      "description": "Circle that sits at the start of the track when off and at the end when on.",
+      "required": true
     },
     { "name": "label", "description": "Text label." },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn outside the track for keyboard focus."
+      "description": "Outline drawn outside the track for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "control removed (a grouping with no style of its own); its size moved to track, which now holds the handle. focus-indicator is state-only."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

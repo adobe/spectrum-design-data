@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-066",
+      "severity": "warning",
+      "message_pattern": ".*'isReadOnly'.*"
+    }
+  ]
+}

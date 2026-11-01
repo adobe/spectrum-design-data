@@ -208,6 +208,18 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
     },
+    /// Suggest candidate anatomy parts from relationships, for human review (draft)
+    AnatomySuggest {
+        /// Components to suggest for; default is every component with relationships and no reviewed anatomy
+        #[arg(value_name = "COMPONENT")]
+        components: Vec<String>,
+        /// Output format
+        #[arg(long, default_value = "markdown", value_parser = ["markdown", "json"])]
+        format: String,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+    },
     /// Render a component from its visual recipe to SVG (draft)
     Render {
         /// Component name (e.g. action-button)
@@ -1034,6 +1046,39 @@ fn load_visual_env(
         .unwrap_or_else(|| PathBuf::from("visuals"))
     });
     Ok((graph, visuals_dir))
+}
+
+/// Print candidate anatomy parts for review. Never writes component files.
+fn run_anatomy_suggest(
+    components: Vec<String>,
+    format: String,
+    path: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, _) = load_visual_env(path, None)?;
+    let suggestions = if components.is_empty() {
+        design_data_core::anatomy_suggest::suggest_all(&graph)
+    } else {
+        let mut out = Vec::new();
+        for c in &components {
+            out.push(
+                design_data_core::anatomy_suggest::suggest_component(&graph, c)
+                    .ok_or_else(|| miette::miette!("unknown component '{c}'"))?,
+            );
+        }
+        out
+    };
+    if format == "json" {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&suggestions).into_diagnostic()?
+        );
+    } else {
+        print!(
+            "{}",
+            design_data_core::anatomy_suggest::to_markdown(&suggestions)
+        );
+    }
+    Ok(ExitCode::SUCCESS)
 }
 
 /// Write a static, server-free component explorer (see `design-data-site`).
@@ -3952,6 +3997,11 @@ fn main() -> ExitCode {
             visuals_path,
             path,
         } => run_site(out, components, path, visuals_path),
+        Commands::AnatomySuggest {
+            components,
+            format,
+            path,
+        } => run_anatomy_suggest(components, format, path),
         Commands::Render {
             component,
             size,

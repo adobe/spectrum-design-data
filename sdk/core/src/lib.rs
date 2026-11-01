@@ -10,6 +10,7 @@
 
 //! Design Data core library — validation, resolution, and tooling.
 
+pub mod anatomy_suggest;
 pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
@@ -576,6 +577,20 @@ mod validation_conformance {
                 })
                 .collect();
             graph = graph.with_relationships(rel_records);
+        }
+
+        if let Some(visuals) = dataset.get("visuals").and_then(|v| v.as_array()) {
+            let visual_records: Vec<crate::graph::VisualRecord> = visuals
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::VisualRecord {
+                        component: raw.get("component")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_visuals(visual_records);
         }
 
         if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
