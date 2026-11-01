@@ -26,9 +26,10 @@ use crate::graph::VisualRecord;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, component_relationships, expand_selector, size_entries, tokens_matching,
-    walk_objects, warning,
+    component_of, component_relationships, expand_selector, option_entries, size_entries,
+    tokens_matching, walk_objects, warning,
 };
+use crate::visual::option_template_names;
 use crate::visual::{name_states, OPTION_STATES};
 
 pub struct Rule;
@@ -55,6 +56,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
     let mut used = Used::default();
     let graph = ctx.graph;
     let sizes = size_entries(&v.raw);
+    let options = option_entries(ctx.graph, v);
     let rels = component_relationships(graph, &v.component);
     let Some(parts) = v.raw.get("parts") else {
         return used;
@@ -70,7 +72,8 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
         if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
-            for e in expand_selector(sel, &sizes) {
+            used.options.extend(option_template_names(sel));
+            for e in expand_selector(sel, &sizes, &options) {
                 let property = e.get("property").and_then(Value::as_str).unwrap_or("");
                 let context = e.get("context").and_then(Value::as_str).map(str::trim);
                 for r in &rels {
@@ -82,7 +85,8 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
         if let Some(sel) = node.get("token").filter(|t| t.is_object()) {
-            for e in expand_selector(sel, &sizes) {
+            used.options.extend(option_template_names(sel));
+            for e in expand_selector(sel, &sizes, &options) {
                 if let Some(m) = e.as_object() {
                     for t in tokens_matching(graph, m) {
                         used.states.extend(name_states(t.raw.get("name")));
@@ -304,5 +308,27 @@ mod tests {
         );
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("uses it"));
+    }
+
+    #[test]
+    fn option_used_only_through_a_selector_placeholder_is_used() {
+        let component = json!({
+            "name": "switch",
+            "options": {"style": {"type": "string", "values": [{"value": "a"}, {"value": "b"}]}},
+            "states": [{"name": "hover"}]
+        });
+        let recipe = json!({
+            "component": "switch",
+            "root": "track",
+            "parts": {"track": {"kind": "box", "props": {"fill": [
+                {"token": {"variant": "{style}", "property": "color"}},
+                {"when": {"states": ["hover"]}, "token": {"property": "color"}}
+            ]}}}
+        });
+        let diags = run(recipe, component);
+        assert!(
+            diags.iter().all(|d| !d.message.contains("'style'")),
+            "{diags:?}"
+        );
     }
 }

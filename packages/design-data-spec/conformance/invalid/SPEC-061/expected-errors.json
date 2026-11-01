@@ -5,6 +5,11 @@
       "rule_id": "SPEC-061",
       "severity": "error",
       "message_pattern": ".*'tone'.*not an option of 'button'.*"
+    },
+    {
+      "rule_id": "SPEC-061",
+      "severity": "error",
+      "message_pattern": ".*Selector template '\\{style\\}' is not an option of 'button'.*"
     }
   ]
 }

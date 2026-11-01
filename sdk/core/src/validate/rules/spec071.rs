@@ -22,7 +22,8 @@ use serde_json::Value;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
-    component_of, component_relationships, expand_selector, info, size_entries, walk_objects,
+    component_of, component_relationships, expand_selector, info, option_entries, size_entries,
+    walk_objects,
 };
 
 pub struct Rule;
@@ -46,10 +47,11 @@ impl ValidationRule for Rule {
                 continue;
             };
             let sizes = size_entries(&v.raw);
+            let options = option_entries(ctx.graph, v);
             let mut used: BTreeSet<String> = BTreeSet::new();
             walk_objects(parts, "/parts", &mut |_, node| {
                 if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
-                    for e in expand_selector(sel, &sizes) {
+                    for e in expand_selector(sel, &sizes, &options) {
                         if let Some(c) = e.get("context").and_then(Value::as_str) {
                             used.insert(c.trim().to_string());
                         }

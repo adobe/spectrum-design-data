@@ -11,13 +11,16 @@
 //! SPEC-061: visual-conditions-valid
 //!
 //! `when` / `visibleWhen` conditions in a visual recipe MUST only name options
-//! and states the component declares, with values the option allows.
+//! and states the component declares, with values the option allows. A `{name}`
+//! placeholder in a `token` or `relationship` selector MUST name `size`, `sizeIndex`
+//! or a declared option that lists its values.
 
 use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{component_of, error, option_values, walk_objects};
+use crate::visual::{declared_option_values, option_template_names};
 
 pub struct Rule;
 
@@ -55,6 +58,29 @@ impl ValidationRule for Rule {
                 continue;
             };
             walk_objects(parts, "/parts", &mut |path, node| {
+                for key in ["token", "relationship"] {
+                    let Some(sel) = node.get(key).filter(|s| s.is_object()) else {
+                        continue;
+                    };
+                    for name in option_template_names(sel) {
+                        let spath = format!("{path}/{key}");
+                        if options.and_then(|o| o.get(&name)).is_none() {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &spath,
+                                format!("Selector template '{{{name}}}' is not an option of '{comp_name}'"),
+                            ));
+                        } else if declared_option_values(&comp.raw, &name).is_empty() {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &spath,
+                                format!("Selector template '{{{name}}}': option '{name}' of '{comp_name}' declares no values to expand"),
+                            ));
+                        }
+                    }
+                }
                 for key in ["when", "visibleWhen"] {
                     let Some(cond) = node.get(key).filter(|c| c.is_object()) else {
                         continue;
@@ -253,5 +279,43 @@ mod tests {
             .as_deref()
             .unwrap()
             .contains("visibleWhen"));
+    }
+
+    fn token_recipe(selector: Value) -> Value {
+        json!({"component": "button", "parts": {"container": {
+            "props": {"fill": {"token": selector}}
+        }}})
+    }
+
+    #[test]
+    fn selector_template_naming_a_declared_option_passes() {
+        let r = token_recipe(json!({"variant": "{variant}", "property": "background-color"}));
+        assert!(run(r).is_empty());
+    }
+
+    #[test]
+    fn selector_template_naming_an_unknown_option_errors() {
+        let d = run(token_recipe(json!({"variant": "{style}"})));
+        assert_eq!(d.len(), 1);
+        assert_eq!(d[0].rule_id.as_deref(), Some("SPEC-061"));
+        assert!(d[0].message.contains("{style}"));
+        assert_eq!(
+            d[0].instance_path.as_deref(),
+            Some("/parts/container/props/fill/token")
+        );
+    }
+
+    #[test]
+    fn selector_template_naming_an_option_without_values_errors() {
+        let d = run(token_recipe(json!({"variant": "{isDisabled}"})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("no values"));
+    }
+
+    #[test]
+    fn size_templates_and_non_identifier_braces_are_not_option_templates() {
+        let r =
+            token_recipe(json!({"size": "{size}", "property": "gap-{sizeIndex}", "x": "{a b}"}));
+        assert!(run(r).is_empty());
     }
 }
