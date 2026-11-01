@@ -501,3 +501,31 @@ fn canonical_component_follows_the_active_platform_alias_only() {
     assert_eq!(g.canonical_component("button"), "button-ios");
     assert_eq!(g.canonical_component("badge"), "badge");
 }
+
+#[test]
+fn visual_recipe_follows_the_alias_and_hides_nothing_without_one() {
+    let mut g = foundation();
+    g.visuals = vec![visual("button", "box")];
+    assert_eq!(g.visual_recipe("button").unwrap().raw["root"], "box");
+    assert!(g.visual_recipe("button-ios").is_none());
+    assert!(!g.is_alias_target("button-ios"));
+
+    g.apply_platform_manifest(&json!({
+        "componentAliases": { "button": "button-ios" },
+        "extensions": { "visuals": [
+            { "file": "extensions/visuals/button-ios.json", "recipe": recipe("button-ios", "ios-root") }
+        ] }
+    }))
+    .unwrap();
+    let r = g.visual_recipe("button").unwrap();
+    assert_eq!(r.component, "button-ios");
+    assert_eq!(r.layer, Layer::Platform);
+    assert_eq!(r.raw["root"], "ios-root");
+    assert!(g.is_alias_target("button-ios"));
+    // The target resolves to itself, and the foundation recipe stays in the graph.
+    assert_eq!(
+        g.visual_recipe("button-ios").unwrap().component,
+        "button-ios"
+    );
+    assert!(g.visuals.iter().any(|v| v.component == "button"));
+}

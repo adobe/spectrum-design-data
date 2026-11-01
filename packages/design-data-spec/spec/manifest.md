@@ -24,8 +24,8 @@ The manifest supports a fixed, enumerated set of operations against the foundati
 | Add / remove naming exceptions                            | Yes                                                          | `namingExceptions`                | Naming validation                            |
 | Annotate existing terminology (cannot add new ids)        | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
 | Upsert / remove own implementation mappings               | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
-| Add / replace a component's visual recipe                 | Yes (loaded into the graph; renderers read it later)         | `extensions/visuals/`             | Visual recipes                               |
-| Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers do not read it yet    | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
+| Add / replace a component's visual recipe                 | Yes (loaded into the graph; `render` and `site` read it)     | `extensions/visuals/`             | Visual recipes                               |
+| Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers apply it              | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
 | Restrict allowed mode-set values                          | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
 | Reformat name serialization                               | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
 | Override/remove/alias translations                        | No                                                           | —                                 | —                                            |
@@ -78,7 +78,7 @@ An override **replaces** the foundation record for that platform's graph: the re
 
 | Field            | Value                                                                                                                                                                                                                                    |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "manifest.json" }` (the literal file name; the manifest's real path is not recorded).                                                                                                                |
+| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "manifest.json" }` (the literal file name; the manifest's real path is not recorded).                                                |
 | `overriddenFrom` | `{ "value": <foundation value> }` or `{ "$ref": <foundation $ref> }`. The first override's history is kept, so it is always the foundation value, even when a token is overridden more than once (the last override wins for the value). |
 
 These markers exist only on the platform's in-memory records. They are not written to token files and are **not** serialized in legacy output.
@@ -274,7 +274,7 @@ a different `implementation` id are never modified or removed.
 
 ### `componentAliases`
 
-The field, `TokenGraph::canonical_component` and SPEC-081 are implemented; `render`, `site`, WASM render and recipe lookup do not call it yet ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
+The field, `TokenGraph::canonical_component` and SPEC-081 are implemented; `render`, `site`, WASM render and recipe lookup call it, so a request for the alias key draws the target's recipe ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
 
 * **Applies to** commands that show a component by its user-facing name: `render`, `site`, WASM render and recipe lookup. The name resolves to the target.
 * **Does not apply to** `query`, `validate`, `diff` and `export`, which inspect data under real names. `query` prints a one-line hint when it names an aliased component.

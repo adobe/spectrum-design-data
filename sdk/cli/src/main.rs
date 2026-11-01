@@ -1012,9 +1012,12 @@ fn winners_to_dtcg_doc(
 }
 
 /// Load the token graph (with relationships) and locate the `visuals/` directory.
+/// With `load_visuals`, the foundation recipes in that directory go into
+/// `graph.visuals` before the platform cascade, so a platform recipe replaces them.
 fn load_visual_env(
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
+    load_visuals: bool,
 ) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: path,
@@ -1033,12 +1036,6 @@ fn load_visual_env(
             .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
         graph = graph.with_relationships(rels);
     }
-    // Foundation→Platform cascade, after the relationships load so extension
-    // relationships layer onto them. A no-op when no platform is selected.
-    manifest::apply_configured(&mut graph, &resolved)
-        .into_diagnostic()
-        .wrap_err("failed to apply platform manifest cascade")?;
-    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
     let visuals_dir = visuals_path.unwrap_or_else(|| {
         let sibling = |p: &Path| p.parent().map(|d| d.join("visuals"));
         [
@@ -1051,6 +1048,18 @@ fn load_visual_env(
         .find(|d| d.is_dir())
         .unwrap_or_else(|| PathBuf::from("visuals"))
     });
+    if load_visuals && visuals_dir.is_dir() {
+        graph.visuals = TokenGraph::load_spec_visuals(&visuals_dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load recipes from {}", visuals_dir.display()))?;
+    }
+    // Foundation→Platform cascade, after the relationships and recipes load so
+    // extension relationships and recipes layer onto them. A no-op when no platform
+    // is selected.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
     Ok((graph, visuals_dir, platform))
 }
 
@@ -1060,7 +1069,7 @@ fn run_anatomy_suggest(
     format: String,
     path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, _, _) = load_visual_env(path, None)?;
+    let (graph, _, _) = load_visual_env(path, None, false)?;
     let suggestions = if components.is_empty() {
         design_data_core::anatomy_suggest::suggest_all(&graph)
     } else {
@@ -1094,10 +1103,9 @@ fn run_site(
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
-    let count =
-        design_data_site::write_site(&graph, &visuals_dir, &components, &out, platform.as_ref())
-            .map_err(|e| miette::miette!("{e}"))?;
+    let (graph, _, platform) = load_visual_env(path, visuals_path, true)?;
+    let count = design_data_site::write_site(&graph, &components, &out, platform.as_ref())
+        .map_err(|e| miette::miette!("{e}"))?;
     eprintln!("Wrote site for {count} component(s) to {}", out.display());
     Ok(ExitCode::SUCCESS)
 }
@@ -1116,15 +1124,17 @@ fn run_render(
     format: String,
     output: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
-    let recipe_path = visuals_dir.join(format!("{component}.json"));
-    let recipe: serde_json::Value = serde_json::from_str(
-        &std::fs::read_to_string(&recipe_path)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to read {}", recipe_path.display()))?,
-    )
-    .into_diagnostic()
-    .wrap_err("recipe is not valid JSON")?;
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
+    let recipe = &graph
+        .visual_recipe(&component)
+        .ok_or_else(|| {
+            miette::miette!(
+                "no visual recipe for '{component}' in {} or the platform's extensions/visuals",
+                visuals_dir.display()
+            )
+        })?
+        .raw;
+    let component = graph.canonical_component(&component).to_string();
 
     let mut opts = HashMap::new();
     for o in options {
@@ -1145,7 +1155,7 @@ fn run_render(
         ]),
         label,
     };
-    let scene = visual::build_scene(&graph, &recipe, &req).map_err(|e| miette::miette!(e))?;
+    let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
     for d in &scene.diagnostics {
         match &platform {
             Some(p) => eprintln!("warning: platform '{}': {d}", p.id),

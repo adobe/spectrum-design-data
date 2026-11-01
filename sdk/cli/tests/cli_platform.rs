@@ -657,3 +657,150 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
             .stderr(contains("warning").not());
     }
 }
+
+/// p6ga.8.37: a platform with `componentAliases` (button -> button-ios) and its own recipe.
+/// The data is a fixture because the real iOS button data lands with p6ga.8.40.
+fn alias_fixture_project() -> tempfile::TempDir {
+    let project = tempfile::tempdir().expect("temp project dir");
+    let root = project.path();
+    let ext = root.join("extensions");
+    fs::create_dir_all(ext.join("components")).expect("components dir");
+    fs::create_dir_all(ext.join("visuals")).expect("visuals dir");
+    fs::write(
+        root.join("manifest.json"),
+        json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "fixture-alias",
+            "componentAliases": { "button": "button-ios" }
+        })
+        .to_string(),
+    )
+    .expect("write manifest");
+    fs::write(
+        ext.join("components/button-ios.json"),
+        json!({
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button-ios.json",
+            "specVersion": "1.0.0-draft",
+            "name": "button-ios",
+            "displayName": "Button (iOS)",
+            "meta": {
+                "category": "actions",
+                "documentationUrl": "https://spectrum.adobe.com/page/button/"
+            },
+            "options": {}
+        })
+        .to_string(),
+    )
+    .expect("write component");
+    fs::write(
+        ext.join("visuals/button-ios.json"),
+        json!({
+            "component": "button-ios",
+            "root": "box",
+            "sizeScale": { "m": 100 },
+            "parts": { "box": { "kind": "box", "props": {
+                "height": { "value": 33 },
+                "fill": { "value": "rgb(1, 2, 3)" }
+            } } }
+        })
+        .to_string(),
+    )
+    .expect("write recipe");
+    fs::write(
+        root.join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n[platforms]\nfixture-alias = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("write config");
+    project
+}
+
+fn render_scene(project: &std::path::Path, args: &[&str]) -> serde_json::Value {
+    let out = Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(project)
+        .arg("render")
+        .args(args)
+        .args(["--format", "scene"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    serde_json::from_slice(&out).expect("scene json")
+}
+
+#[test]
+fn render_follows_a_component_alias_to_the_platform_recipe() {
+    let project = alias_fixture_project();
+    let via_alias = render_scene(project.path(), &["button", "--platform", "fixture-alias"]);
+    let root = &via_alias["nodes"][0];
+    assert_eq!(root["fill"], "rgb(1, 2, 3)", "{via_alias}");
+    assert_eq!(root["h"], 33.0, "{via_alias}");
+    // The alias target is still renderable by name, with the same scene.
+    let direct = render_scene(
+        project.path(),
+        &["button-ios", "--platform", "fixture-alias"],
+    );
+    assert_eq!(via_alias, direct);
+    // Without the platform, `button` is the foundation recipe and `button-ios` has none.
+    let foundation = render_scene(project.path(), &["button"]);
+    assert_ne!(foundation["nodes"][0]["fill"], "rgb(1, 2, 3)");
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(project.path())
+        .args(["render", "button-ios"])
+        .assert()
+        .failure()
+        .stderr(contains("no visual recipe for 'button-ios'"));
+}
+
+#[test]
+fn site_lists_the_alias_key_with_the_target_data_and_hides_the_target() {
+    let project = alias_fixture_project();
+    let site = |platform: &[&str], out: &str| -> serde_json::Value {
+        let dir = project.path().join(out);
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(project.path())
+            .args(["site", "--components", "button,button-ios", "--out"])
+            .arg(&dir)
+            .args(platform)
+            .assert()
+            .success();
+        serde_json::from_str(&fs::read_to_string(dir.join("data.json")).expect("data.json"))
+            .expect("data.json parses")
+    };
+    let with = site(&["--platform", "fixture-alias"], "with");
+    let list = with["components"].as_array().expect("components");
+    assert_eq!(list.len(), 1, "alias target is hidden: {list:?}");
+    assert_eq!(list[0]["name"], "button");
+    assert_eq!(list[0]["aliasOf"], "button-ios");
+    assert_eq!(list[0]["source"], "platform");
+    assert_eq!(list[0]["hasVisual"], true);
+    assert_eq!(with["byName"]["button"]["name"], "button-ios");
+
+    let without = site(&[], "without");
+    assert!(without["components"][0].get("source").is_none());
+    assert!(without["components"][0].get("aliasOf").is_none());
+}
+
+#[test]
+fn a_malformed_recipe_names_its_file() {
+    let project = tempfile::tempdir().expect("temp dir");
+    let visuals = project.path().join("visuals");
+    fs::create_dir_all(&visuals).expect("visuals dir");
+    fs::write(visuals.join("broken.json"), "{ not json").expect("write recipe");
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(repo_root())
+        .args(["render", "button", "--visuals-path"])
+        .arg(&visuals)
+        .assert()
+        .failure()
+        .stderr(contains("broken.json"));
+}

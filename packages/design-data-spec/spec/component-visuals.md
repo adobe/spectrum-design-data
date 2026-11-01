@@ -126,7 +126,7 @@ SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are m
 
 ## Platform-owned recipes
 
-**PROPOSED, not implemented** (see [Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). Nothing loads `extensions/visuals/` yet.
+Implemented for `render`, `site` and the Rust core (see [Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). `render` and `site` load the foundation recipes into the graph, then apply the platform's `extensions/visuals/` over them, and look recipes up through `componentAliases`.
 
 * **Location.** **NORMATIVE (when implemented):** A platform recipe is `extensions/visuals/<component>.json`, one recipe per file, in the platform's extensions directory (honoring `extensionsDir`, see [Manifest](manifest.md#extensions-directory)). The file name **MUST** equal `component`. It validates against the same recipe schema as a foundation recipe, so promoting or demoting it is a file move ([Artifact moves](artifact-moves.md)).
 * **Precedence.** A platform recipe **replaces** the foundation recipe of the same component name as a whole file. There is no layering. A foundation recipe stays the default for platforms that have none. A replaced recipe is a copy that can drift; SPEC-080 reports the pair.

@@ -14,7 +14,7 @@
 use std::collections::HashMap;
 use std::path::Path;
 
-use design_data_core::graph::TokenGraph;
+use design_data_core::graph::{Layer, TokenGraph};
 use design_data_core::manifest::PlatformIdentity;
 use design_data_core::naming::extract_legacy_key;
 use design_data_core::visual;
@@ -28,10 +28,11 @@ const CONTROLS: &str = include_str!("../assets/spectrum-controls.js");
 const NOTICES: &str = include_str!("../assets/THIRD-PARTY-NOTICES.txt");
 
 /// Write the site for `components` (all when empty) to `out`. Returns the number
-/// of components that had a visual recipe.
+/// of components that had a visual recipe. Recipes come from `graph.visuals`; under a
+/// platform, `componentAliases` lists the alias key with its target's data and hides
+/// the target.
 pub fn write_site(
     graph: &TokenGraph,
-    visuals_dir: &Path,
     components: &[String],
     out: &Path,
     platform: Option<&PlatformIdentity>,
@@ -57,26 +58,45 @@ pub fn write_site(
         if !components.is_empty() && !components.contains(&c.name) {
             continue;
         }
+        if graph.is_alias_target(&c.name) {
+            continue;
+        }
+        let canonical = graph.canonical_component(&c.name);
         let display = c
             .raw
             .get("displayName")
             .and_then(|v| v.as_str())
             .unwrap_or(&c.name)
             .to_string();
-        let recipe_path = visuals_dir.join(format!("{}.json", c.name));
-        let has_visual = recipe_path.is_file();
-        list.push(serde_json::json!({
-            "name": c.name, "displayName": display, "hasVisual": has_visual
-        }));
-        if !has_visual {
-            continue;
+        let recipe = graph.visual_recipe(&c.name);
+        let mut entry = serde_json::json!({
+            "name": c.name, "displayName": display, "hasVisual": recipe.is_some()
+        });
+        if platform.is_some() {
+            let platform_owned =
+                recipe.map_or(c.layer == Layer::Platform, |r| r.layer == Layer::Platform);
+            entry["source"] = if platform_owned {
+                "platform"
+            } else {
+                "foundation"
+            }
+            .into();
+            if canonical != c.name {
+                entry["aliasOf"] = canonical.into();
+            }
         }
-        let text = std::fs::read_to_string(&recipe_path)
-            .map_err(|e| format!("failed to read {}: {e}", recipe_path.display()))?;
-        let recipe: serde_json::Value = serde_json::from_str(&text)
-            .map_err(|e| format!("{} is not valid JSON: {e}", recipe_path.display()))?;
-        let (used, structural) = visual::recipe_options_in(graph, &recipe, &c.name);
-        let mut def = c.raw.clone();
+        list.push(entry);
+        let Some(recipe) = recipe.map(|r| &r.raw) else {
+            continue;
+        };
+        let (used, structural) = visual::recipe_options_in(graph, recipe, canonical);
+        let mut def = graph
+            .components
+            .iter()
+            .find(|x| x.name == canonical)
+            .unwrap_or(c)
+            .raw
+            .clone();
         def["recipe"] = serde_json::json!({
             "sizeScale": recipe.get("sizeScale"),
             "used": used,
@@ -85,7 +105,7 @@ pub fn write_site(
         by_name.insert(c.name.clone(), def);
         compiled.insert(
             c.name.clone(),
-            visual::compile_recipe(graph, &recipe, &c.name, &modes)
+            visual::compile_recipe(graph, recipe, canonical, &modes)
                 .map_err(|e| format!("{}: {e}", c.name))?,
         );
     }

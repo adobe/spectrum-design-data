@@ -18,5 +18,4 @@ Load platform-owned visual recipes and add `componentAliases`.
 - A platform's `extensions/visuals/<component>.json` loads into `graph.visuals` with
   `layer: Platform` and replaces the foundation recipe of the same name. A bad fragment or a
   file name that differs from `component` is an error naming the file.
-- `TokenGraph::canonical_component` returns the alias target under the active platform. Render,
-  site and WASM do not call it yet.
+- `TokenGraph::canonical_component` returns the alias target under the active platform.
