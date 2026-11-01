@@ -52,6 +52,34 @@ tasks:
       - "/platforms/**/*"
       - "/.design-data.toml"
       - ".github/scripts/validate-platforms.mjs"
+  # SPEC-076: every recipe binding that resolves on the foundation also resolves under each
+  # platform manifest (p6ga.8.2).
+  validate-platform-recipes:
+    command:
+      - node
+      - .github/scripts/validate-platform-recipes.mjs
+    deps:
+      - sdk:build
+    inputs:
+      - "/platforms/**/*"
+      - "/.design-data.toml"
+      - "/packages/design-data/tokens/**/*"
+      - "/packages/design-data/components/**/*"
+      - "/packages/design-data/relationships/**/*"
+      - "/packages/design-data/visuals/**/*"
+      - "/packages/design-data/mode-sets/**/*"
+      - "/packages/design-data/naming-exceptions.json"
+      - ".github/scripts/validate-platform-recipes.mjs"
+  # Proves the guard above fails on SPEC-079 and passes without it.
+  test-platform-recipes-guard:
+    command:
+      - node
+      - --test
+      - .github/scripts/validate-platform-recipes.test.mjs
+    inputs:
+      - ".github/scripts/validate-platform-recipes.mjs"
+      - ".github/scripts/validate-platform-recipes.test.mjs"
+      - ".github/scripts/fixtures/platform-recipes-*.json"
   # Fails when tooling references the generated legacy token package outside
   # scripts/legacy-consumers.allowlist.json (xqln.12).
   check-legacy-consumers:

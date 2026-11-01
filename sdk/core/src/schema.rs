@@ -365,4 +365,71 @@ mod tests {
             assert!(seen.insert(id.clone()), "duplicate schema $id: {id}");
         }
     }
+
+    fn spec_schema(name: &str) -> std::path::PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/schemas")
+            .join(name)
+    }
+
+    fn component_with_part(part: Value) -> Value {
+        json!({
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/demo.json",
+            "name": "demo",
+            "displayName": "Demo",
+            "meta": {"category": "actions", "documentationUrl": "https://example.com/demo"},
+            "anatomy": [part]
+        })
+    }
+
+    #[test]
+    fn anatomy_part_rejects_presence_states_on_a_required_part() {
+        for (part, valid) in [
+            (
+                json!({"name": "focus-indicator", "presentIn": ["focus"]}),
+                true,
+            ),
+            (json!({"name": "label", "required": true}), true),
+            (
+                json!({"name": "focus-indicator", "required": false, "presentIn": ["focus"]}),
+                true,
+            ),
+            (
+                json!({"name": "focus-indicator", "required": true, "presentIn": ["focus"]}),
+                false,
+            ),
+        ] {
+            let standalone = SchemaRegistry::validate_value_against_schema_file(
+                &part,
+                &spec_schema("anatomy-part.schema.json"),
+            )
+            .unwrap();
+            let in_component = SchemaRegistry::validate_value_against_schema_file(
+                &component_with_part(part.clone()),
+                &spec_schema("component.schema.json"),
+            )
+            .unwrap();
+            assert_eq!(
+                standalone.is_empty(),
+                valid,
+                "standalone {part}: {standalone:?}"
+            );
+            assert_eq!(
+                in_component.is_empty(),
+                valid,
+                "component {part}: {in_component:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn anatomy_part_no_longer_accepts_the_old_states_field() {
+        let part = json!({"name": "focus-indicator", "states": ["focus"]});
+        let errors = SchemaRegistry::validate_value_against_schema_file(
+            &part,
+            &spec_schema("anatomy-part.schema.json"),
+        )
+        .unwrap();
+        assert!(!errors.is_empty());
+    }
 }

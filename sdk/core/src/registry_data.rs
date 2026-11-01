@@ -1137,6 +1137,18 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "box",
+      "label": "Box",
+      "description": "Rounded square that holds a mark (e.g., a checkbox)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Short horizontal bar icon element, e.g. the indeterminate mark of a checkbox",
+      "usedIn": ["component-schemas"]
+    },
+    {
       "id": "stepper",
       "label": "Stepper",
       "description": "Increment/decrement control in number-field",
@@ -1167,16 +1179,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
       "id": "focus-indicator",
       "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
+      "description": "Visual indicator showing keyboard focus state on a component. Named for its intent, not its shape: it may be a ring or a side indicator. Its tokens are focus-indicator color, gap and thickness.",
       "usedIn": ["tokens"],
       "standaloneScope": true
     },

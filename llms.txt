@@ -28,6 +28,9 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 - [sdk/core](https://github.com/adobe/spectrum-design-data/blob/main/sdk/core): Core library: token resolution, validation, registry, and diffing.
 - [sdk/plugins/dtcg](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/dtcg): DTCG import and export plugin.
 - [sdk/plugins/figma](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/figma): Figma variables import, export, and diff plugin.
+- [sdk/plugins/site](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/site): Static component explorer site generator.
+- [sdk/plugins/site/assets](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/site/assets): Browser assets (HTML and visual runtime) embedded by the site generator.
+- [sdk/plugins/site/controls](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/site/controls): Build script and pinned lockfile for the Spectrum Web Components bundle in assets/.
 - [sdk/tui](https://github.com/adobe/spectrum-design-data/blob/main/sdk/tui): Interactive terminal UI for authoring and inspecting design data.
 - [platforms](https://github.com/adobe/spectrum-design-data/blob/main/platforms): Incubating platform manifests for implementation teams.
 - [docs/release-timeline](https://github.com/adobe/spectrum-design-data/blob/main/docs/release-timeline): Interactive timeline of Spectrum token releases.

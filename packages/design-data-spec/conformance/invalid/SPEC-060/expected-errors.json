@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-060",
+      "severity": "error",
+      "message_pattern": ".*'ghost'.*not a declared anatomy part of 'button'.*"
+    }
+  ]
+}

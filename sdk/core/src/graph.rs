@@ -127,6 +127,20 @@ pub struct RelationshipRecord {
     pub raw: Value,
 }
 
+/// One component visual recipe (`visuals/<component>.json`), loaded for
+/// cross-file Layer 2 checks against component and relationship data.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct VisualRecord {
+    /// The recipe's `component` field.
+    pub component: String,
+    /// The recipe's source file (a platform fragment path for `Layer::Platform`).
+    pub file: PathBuf,
+    pub raw: Value,
+    /// `Foundation` for catalog recipes, `Platform` for `extensions/visuals` recipes.
+    #[serde(default)]
+    pub layer: Layer,
+}
+
 /// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
@@ -172,6 +186,8 @@ pub struct TokenGraph {
     /// Component/Token Relationship (CTR) entries from the spec `relationships/`
     /// catalog, flattened from each file's top-level array.
     pub relationships: Vec<RelationshipRecord>,
+    /// Component visual recipes from the `visuals/` catalog.
+    pub visuals: Vec<VisualRecord>,
     /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
     /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
     /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
@@ -196,6 +212,9 @@ pub struct TokenGraph {
     relationship_tokens_by_key: HashMap<String, Vec<TokenRecord>>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
+    /// `componentAliases` of the applied platform manifest (foundation name → platform
+    /// component). Read only through [`Self::canonical_component`].
+    component_aliases: HashMap<String, String>,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
@@ -618,9 +637,11 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
+            component_aliases: HashMap::new(),
             uuid_index,
             legacy_name_index,
             concept_id_index,
@@ -661,9 +682,11 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
+            component_aliases: HashMap::new(),
             uuid_index,
             legacy_name_index: HashMap::new(),
             concept_id_index,
@@ -1019,6 +1042,42 @@ impl TokenGraph {
             for entry in entries {
                 merge_implementation_fragment(&mut self.components, entry, platform_id)?;
             }
+        }
+
+        // 5c. extensions.visuals — platform-owned recipes replace the foundation
+        // recipe of the same component entirely (replace-only, proposal 014 D2).
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("visuals"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let (Some(file), Some(recipe)) = (
+                    entry.get("file").and_then(|v| v.as_str()),
+                    entry.get("recipe"),
+                ) else {
+                    continue;
+                };
+                let Some(component) = recipe.get("component").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = VisualRecord {
+                    component: component.to_string(),
+                    file: PathBuf::from(file),
+                    raw: recipe.clone(),
+                    layer: Layer::Platform,
+                };
+                upsert_by_key(&mut self.visuals, |v| v.component == component, record);
+            }
+        }
+
+        // 5d. componentAliases — consulted only by `canonical_component`; SPEC-081
+        // validates the entries.
+        if let Some(obj) = manifest.get("componentAliases").and_then(|v| v.as_object()) {
+            self.component_aliases = obj
+                .iter()
+                .filter_map(|(k, v)| Some((k.clone(), v.as_str()?.to_string())))
+                .collect();
         }
 
         // 6. extensions.platformExtensions — platform terminology keyed by
@@ -1839,6 +1898,42 @@ impl TokenGraph {
             }
         }
         Ok(out)
+    }
+
+    /// Load component visual recipes from a `visuals/` catalog directory.
+    ///
+    /// Each file is a JSON object with a string `component` field; other
+    /// shapes are skipped (Layer 1 reports their structure).
+    pub fn load_spec_visuals(dir: &Path) -> Result<Vec<VisualRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(component) = value.get("component").and_then(|v| v.as_str()) {
+                out.push(VisualRecord {
+                    component: component.to_string(),
+                    file: path,
+                    raw: value,
+                    layer: Layer::Foundation,
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// The component a user-facing name resolves to under the active platform: the
+    /// `componentAliases` target, else `name`. For render, site, WASM render and recipe
+    /// lookup only. Query, validate, diff and export keep real names.
+    pub fn canonical_component<'a>(&'a self, name: &'a str) -> &'a str {
+        self.component_aliases
+            .get(name)
+            .map_or(name, String::as_str)
+    }
+
+    /// Attach visual recipe records loaded from a visuals catalog directory.
+    pub fn with_visuals(mut self, visuals: Vec<VisualRecord>) -> Self {
+        self.visuals = visuals;
+        self
     }
 
     /// Attach relationship records loaded from a relationships catalog directory.

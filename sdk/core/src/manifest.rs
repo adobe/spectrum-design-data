@@ -70,6 +70,65 @@ fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathB
     })
 }
 
+/// Who a configured platform manifest is: its `platform` id and a display name
+/// (registry label, else `platformVersion`, else the id).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PlatformIdentity {
+    pub id: String,
+    pub name: String,
+}
+
+/// The identity of the configured platform manifest, or `None` when no manifest is
+/// configured. A manifest without a `platform` field is identified by its directory name.
+pub fn platform_identity(resolved: &ResolvedData) -> Result<Option<PlatformIdentity>, CoreError> {
+    let Some(path) = resolved.platform_manifest.as_ref() else {
+        return Ok(None);
+    };
+    let manifest: Value = serde_json::from_str(&std::fs::read_to_string(path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            path.display()
+        ))
+    })?)
+    .map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            path.display()
+        ))
+    })?;
+    let id = manifest
+        .get("platform")
+        .and_then(Value::as_str)
+        .map(str::to_string)
+        .or_else(|| {
+            path.parent()
+                .and_then(Path::file_name)
+                .map(|n| n.to_string_lossy().into_owned())
+        })
+        .unwrap_or_else(|| "platform".to_string());
+    let label = locate_platform_implementations_registry(&resolved.schemas_root)
+        .and_then(|p| std::fs::read_to_string(p).ok())
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|r| {
+            r.get("values")?
+                .as_array()?
+                .iter()
+                .find(|v| v.get("id").and_then(Value::as_str) == Some(id.as_str()))?
+                .get("label")?
+                .as_str()
+                .map(str::to_string)
+        });
+    let name = label
+        .or_else(|| {
+            manifest
+                .get("platformVersion")
+                .and_then(Value::as_str)
+                .map(str::to_string)
+        })
+        .unwrap_or_else(|| id.clone());
+    Ok(Some(PlatformIdentity { id, name }))
+}
+
 /// Check a manifest's optional `platform` field against the
 /// platform-implementations registry, returning an advisory message when the id
 /// isn't recognized. `platform` is a SHOULD, not a MUST (`manifest.schema.json`
@@ -157,19 +216,12 @@ pub fn load_formatting_config(
     Ok(Some(config))
 }
 
-/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
-/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
-/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
-///
-/// A no-op (empty map) when no manifest is configured. When the spec's
-/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
-/// schema violations return an error.
-pub fn apply_configured(
-    graph: &mut TokenGraph,
-    resolved: &ResolvedData,
-) -> Result<HashMap<String, Vec<String>>, CoreError> {
+/// Load the platform manifest declared in `.design-data.toml`, Layer 1 validated, with its
+/// `extensions/` directory merged in under `extensions` (the document
+/// [`TokenGraph::apply_platform_manifest`] expects). `None` when no manifest is configured.
+pub fn load_configured_manifest(resolved: &ResolvedData) -> Result<Option<Value>, CoreError> {
     let Some(manifest_path) = resolved.platform_manifest.as_ref() else {
-        return Ok(HashMap::new());
+        return Ok(None);
     };
     let text = std::fs::read_to_string(manifest_path).map_err(|e| {
         CoreError::ParseError(format!(
@@ -218,6 +270,23 @@ pub fn apply_configured(
             .insert("extensions".to_string(), ext);
     }
 
+    Ok(Some(manifest))
+}
+
+/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
+/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
+/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
+///
+/// A no-op (empty map) when no manifest is configured. When the spec's
+/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
+/// schema violations return an error.
+pub fn apply_configured(
+    graph: &mut TokenGraph,
+    resolved: &ResolvedData,
+) -> Result<HashMap<String, Vec<String>>, CoreError> {
+    let Some(manifest) = load_configured_manifest(resolved)? else {
+        return Ok(HashMap::new());
+    };
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
 }
@@ -266,6 +335,7 @@ fn build_extensions_value(
         .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
         .chain(std::iter::once("relationships"))
         .chain(std::iter::once("mode-sets"))
+        .chain(std::iter::once("visuals"))
         .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
@@ -357,6 +427,42 @@ fn build_extensions_value(
                 items.into_iter().partition(|v| v.get("op").is_none());
             adds.extend(ops);
             out.insert("modeSets".to_string(), Value::Array(adds));
+        }
+    }
+
+    // visuals/ — one recipe per file, named <component>.json. Each entry keeps its
+    // fragment path so `VisualRecord.file` can point at it.
+    let visuals_dir = ext_root.join("visuals");
+    if visuals_dir.is_dir() {
+        let schema = schema_dir.join("component-visual.schema.json");
+        let mut items = Vec::new();
+        for f in discover_json_files(&visuals_dir)? {
+            let text = std::fs::read_to_string(&f).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to read extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            let recipe: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to parse extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            check_fragment(&f, &recipe, &schema)?;
+            let stem = f.file_stem().and_then(|s| s.to_str()).unwrap_or_default();
+            if recipe.get("component").and_then(|v| v.as_str()) != Some(stem) {
+                return Err(CoreError::ParseError(format!(
+                    "extension fragment {} has component {} but its file name must be \
+                     <component>.json",
+                    f.display(),
+                    recipe.get("component").unwrap_or(&Value::Null)
+                )));
+            }
+            items.push(serde_json::json!({ "file": f.to_string_lossy(), "recipe": recipe }));
+        }
+        if !items.is_empty() {
+            out.insert("visuals".to_string(), Value::Array(items));
         }
     }
 

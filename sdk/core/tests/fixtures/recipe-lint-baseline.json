@@ -1,0 +1,12 @@
+{
+  "SPEC-066": {
+    "action-button": 1
+  },
+  "SPEC-068": {
+    "checkbox": 16
+  },
+  "SPEC-069": {
+    "badge": 2,
+    "button": 4
+  }
+}

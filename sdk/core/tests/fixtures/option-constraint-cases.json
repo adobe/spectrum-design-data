@@ -1,0 +1,118 @@
+{
+  "comment": "Shared by sdk/core/tests/constraint_cases.rs and sdk/wasm/test/constraints-parity.test.js. `expected` lists the array indexes of constraints that exclude the combination. A null value is an unknown option value.",
+  "cases": [
+    {
+      "name": "button: outline + accent is excluded",
+      "component": "button",
+      "combo": { "style": "outline", "variant": "accent" },
+      "expected": [0]
+    },
+    {
+      "name": "button: outline + negative is excluded",
+      "component": "button",
+      "combo": { "style": "outline", "variant": "negative" },
+      "expected": [0]
+    },
+    {
+      "name": "button: outline + primary is allowed",
+      "component": "button",
+      "combo": { "style": "outline", "variant": "primary" },
+      "expected": []
+    },
+    {
+      "name": "button: static color + accent matches the advisory only",
+      "component": "button",
+      "combo": { "variant": "accent", "staticColor": "black" },
+      "expected": [1]
+    },
+    {
+      "name": "button: outline + negative + static white matches both",
+      "component": "button",
+      "combo": {
+        "style": "outline",
+        "variant": "negative",
+        "staticColor": "white"
+      },
+      "expected": [0, 1]
+    },
+    {
+      "name": "button: unknown variant is not excluded",
+      "component": "button",
+      "combo": { "style": "outline", "variant": null },
+      "expected": []
+    },
+    {
+      "name": "button: option missing from the combination is unknown",
+      "component": "button",
+      "combo": { "style": "outline" },
+      "expected": []
+    },
+    {
+      "name": "button: unknown style does not match when",
+      "component": "button",
+      "combo": { "style": null, "variant": "accent" },
+      "expected": []
+    },
+    {
+      "name": "button: unrecognised option value is not excluded by a when it does not match",
+      "component": "button",
+      "combo": { "style": "sparkly", "variant": "accent" },
+      "expected": []
+    },
+    {
+      "name": "button: presence requirement never excludes",
+      "component": "button",
+      "combo": { "isLabelHidden": true, "icon": null },
+      "expected": []
+    },
+    {
+      "name": "inline: invalid shapes are skipped and indexes are kept",
+      "constraints": [
+        { "when": {}, "severity": "error" },
+        { "when": {}, "require": {}, "severity": "fatal" },
+        {
+          "when": { "style": "outline" },
+          "require": { "variant": ["primary"] },
+          "severity": "error"
+        }
+      ],
+      "combo": { "style": "outline", "variant": "accent" },
+      "expected": [2]
+    },
+    {
+      "name": "inline: literal and array when values both match",
+      "constraints": [
+        {
+          "when": { "size": "s" },
+          "require": { "variant": ["a"] },
+          "severity": "error"
+        },
+        {
+          "when": { "size": ["m", "l"] },
+          "require": { "variant": ["a"] },
+          "severity": "advisory"
+        }
+      ],
+      "combo": { "size": "l", "variant": "b" },
+      "expected": [1]
+    },
+    {
+      "name": "inline: boolean values compare by value",
+      "constraints": [
+        {
+          "when": { "isQuiet": true },
+          "require": { "variant": ["a"] },
+          "severity": "error"
+        }
+      ],
+      "combo": { "isQuiet": false, "variant": "b" },
+      "expected": []
+    },
+    {
+      "name": "inline: constraints are absent",
+      "constraints": [],
+      "combo": { "style": "outline" },
+      "expected": []
+    }
+  ]
+}

@@ -15,6 +15,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use assert_cmd::Command;
+use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 use serde_json::json;
 
@@ -289,4 +290,88 @@ fn resolve_applies_manifest_override_by_uuid() {
         .assert()
         .success()
         .stdout(contains("#ffffff"));
+}
+
+/// A project whose only recipe binds `component-height-100`, plus the given manifest.
+fn setup_recipe_project(manifest: serde_json::Value) -> tempfile::TempDir {
+    let project = setup_project(manifest);
+    for dir in ["components", "visuals"] {
+        fs::create_dir_all(project.path().join(dir)).expect("create dir");
+    }
+    fs::write(
+        project.path().join("tokens/tokens.json"),
+        json!({
+            "h": {"name": {"property": "component-height-100"}, "value": "32px", "uuid": "u-h"}
+        })
+        .to_string(),
+    )
+    .expect("write tokens");
+    fs::write(
+        project.path().join("components/button.json"),
+        json!({
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+            "name": "button",
+            "displayName": "Button",
+            "meta": {"category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/"},
+            "anatomy": [{"name": "container", "description": "Background.", "required": true}],
+            "options": {"size": {"type": "string", "default": "m", "values": [{"value": "m"}]}}
+        })
+        .to_string(),
+    )
+    .expect("write component");
+    fs::write(
+        project.path().join("visuals/button.json"),
+        json!({
+            "component": "button", "root": "container", "sizeScale": {"m": 100},
+            "parts": {"container": {"kind": "box", "props": {
+                "height": {"token": {"property": "component-height-100"}}}}}
+        })
+        .to_string(),
+    )
+    .expect("write recipe");
+    project
+}
+
+fn validate_recipes(project: &tempfile::TempDir) -> assert_cmd::assert::Assert {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args([
+            "validate",
+            "tokens",
+            "--components-path",
+            "components",
+            "--visuals-path",
+            "visuals",
+            "--format",
+            "json",
+        ])
+        .assert()
+}
+
+#[test]
+fn validate_warns_when_the_platform_drops_a_bound_token() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-drop",
+        "exclude": ["property=component-height-100"]
+    }));
+    // The temp tokens carry no `$schema`, so the run fails on unrelated Layer 1 errors; only
+    // the SPEC-076 diagnostics matter here.
+    validate_recipes(&project)
+        .stdout(contains("SPEC-076"))
+        .stdout(contains("fixture-drop"));
+}
+
+#[test]
+fn validate_stays_quiet_when_the_platform_keeps_every_binding() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-keep"
+    }));
+    // The temp tokens carry no `$schema`, so the run fails on unrelated Layer 1 errors; only
+    // the SPEC-076 diagnostics matter here.
+    validate_recipes(&project).stdout(contains("SPEC-076").not());
 }

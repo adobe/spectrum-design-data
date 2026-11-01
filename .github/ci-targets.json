@@ -18,7 +18,8 @@
     "s2-docs-to-document-blocks:test",
     "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
-    "token-mapping-analyzer:test"
+    "token-mapping-analyzer:test",
+    "root:test-platform-recipes-guard"
   ],
   "rust": [
     "sdk:fmt-check",
@@ -41,7 +42,8 @@
     "design-data-agent-mcp:test",
     "design-data-skill:test",
     "s2-docs-mcp:test",
-    "token-naming-audit:ci"
+    "token-naming-audit:ci",
+    "root:validate-platform-recipes"
   ],
   "excludedFromCI": [
     "design-data-spec:sync-token-schemas",

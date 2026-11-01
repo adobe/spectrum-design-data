@@ -1,0 +1,390 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "action-button",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["icon"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "progress", "label", "hold-icon"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Height"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "relationship": {
+              "property": "component-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "hideLabel": true
+              }
+            },
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "relationship": {
+              "property": "component-edge-to-visual-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "hideLabel": true
+              }
+            },
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
+            }
+          }
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (icon to label)"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isQuiet": true
+              }
+            },
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "isQuiet": true,
+                "isDisabled": true
+              }
+            },
+            "priority": 11,
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "isQuiet": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "staticColor": ["black", "white"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isPending": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isPending": false,
+                "isQuiet": true,
+                "isSelected": false
+              },
+              "states": ["hover"]
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "isPending": false,
+                "isQuiet": true,
+                "isSelected": false
+              },
+              "states": ["down"]
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          }
+        ],
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "context": "Component size (down)"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMaxPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-maximum-perspective",
+            "context": "Component size (down)"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "props": {
+        "width": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "color": [
+          {
+            "when": {
+              "options": {
+                "isPending": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Icon"
+            }
+          }
+        ]
+      },
+      "visibleWhen": {
+        "options": {
+          "isPending": false
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "hideLabel": false,
+          "isPending": false
+        }
+      },
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": [
+          {
+            "when": {
+              "options": {
+                "hideLabel": false,
+                "isPending": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Label"
+            }
+          }
+        ]
+      }
+    },
+    "hold-icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "hasHoldIcon": true,
+          "isPending": false
+        }
+      },
+      "placement": {
+        "anchor": "bottom-end",
+        "inset": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (edge to hold icon)"
+          }
+        }
+      },
+      "props": {
+        "color": [
+          {
+            "when": {
+              "options": {
+                "hasHoldIcon": true,
+                "isPending": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Hold icon"
+            }
+          }
+        ]
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    },
+    "progress": {
+      "kind": "progress",
+      "visibleWhen": {
+        "options": {
+          "isPending": true
+        }
+      },
+      "props": {
+        "width": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "anatomy": "workflow-icon",
+            "size": "{size}"
+          }
+        },
+        "trackColor": {
+          "relationship": {
+            "property": "color",
+            "context": "Progress track"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Progress"
+          }
+        }
+      }
+    }
+  }
+}

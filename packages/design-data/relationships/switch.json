@@ -834,7 +834,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "desktop",
@@ -851,7 +851,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "mobile",
@@ -868,7 +868,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "desktop",
@@ -885,7 +885,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "mobile",
@@ -902,7 +902,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "desktop",
@@ -919,7 +919,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "mobile",
@@ -936,7 +936,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "desktop",
@@ -953,7 +953,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "height",
       "options": {
         "scale": "mobile",
@@ -970,7 +970,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "desktop",
@@ -987,7 +987,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "mobile",
@@ -1004,7 +1004,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "desktop",
@@ -1021,7 +1021,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "mobile",
@@ -1038,7 +1038,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "desktop",
@@ -1055,7 +1055,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "mobile",
@@ -1072,7 +1072,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "desktop",
@@ -1089,7 +1089,7 @@
   {
     "scope": {
       "component": "switch",
-      "part": "control",
+      "part": "track",
       "property": "width",
       "options": {
         "scale": "mobile",
@@ -1109,7 +1109,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "xl"
       }
@@ -1127,7 +1127,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "xl"
       }
@@ -1145,7 +1145,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "l"
       }
@@ -1163,7 +1163,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "l"
       }
@@ -1181,7 +1181,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "m"
       }
@@ -1199,7 +1199,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "m"
       }
@@ -1217,7 +1217,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "desktop",
         "size": "s"
       }
@@ -1235,7 +1235,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "state": ["selected"],
+        "isSelected": true,
         "scale": "mobile",
         "size": "s"
       }
@@ -1566,5 +1566,140 @@
       "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Requires switch control to be placed in frame of height workflow-icon-small",
       "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
     }
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "border-color"
+    },
+    "context": "Control",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "border-color"
+    },
+    "context": "Control",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "border-color"
+    },
+    "context": "Control",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "border-color"
+    },
+    "context": "Control",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "border-color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color"
+    },
+    "context": "Control (disabled, selected)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "handle",
+      "property": "background-color"
+    },
+    "context": "Control",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "handle",
+      "property": "background-color"
+    },
+    "context": "Control",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "handle",
+      "property": "background-color"
+    },
+    "context": "Control",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "handle",
+      "property": "background-color"
+    },
+    "context": "Control",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "handle",
+      "property": "background-color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
   }
 ]

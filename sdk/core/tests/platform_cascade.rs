@@ -283,6 +283,82 @@ fn include_and_exclude_queries_cannot_use_every_name_key() {
     assert!(err.to_string().contains("unknown key"));
 }
 
+fn fill_of(g: &TokenGraph, context: &str) -> (Option<String>, Vec<String>) {
+    use design_data_core::visual::{build_scene, RenderRequest};
+    let recipe = json!({
+        "component": "widget",
+        "root": "box",
+        "sizeScale": {"m": 100},
+        "parts": {"box": {"kind": "box", "props": {
+            "width": {"value": 10},
+            "height": {"value": 10},
+            "fill": {"relationship": {"property": "color", "context": context}}
+        }}}
+    });
+    let req = RenderRequest {
+        component: "widget".into(),
+        size: "m".into(),
+        mode: [("colorScheme", "light"), ("scale", "desktop")]
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect(),
+        ..Default::default()
+    };
+    let scene = build_scene(g, &recipe, &req).unwrap();
+    let fill = scene
+        .nodes
+        .iter()
+        .find(|n| n.part == "box")
+        .and_then(|n| n.fill.clone());
+    (fill, scene.diagnostics)
+}
+
+#[test]
+fn render_follows_the_platform_cascade() {
+    let mut base = foundation();
+    base.components
+        .push(design_data_core::graph::ComponentRecord {
+            name: "widget".into(),
+            file: PathBuf::from("dataset.json"),
+            raw: json!({"name": "widget", "options": {}}),
+            layer: Layer::Foundation,
+        });
+    let mut plat = base.clone();
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let resolved = ResolvedData {
+        tokens_root: PathBuf::from("tokens"),
+        schemas_root: root.join("../../packages/design-data-spec/schemas"),
+        mode_sets: None,
+        components: None,
+        fields: None,
+        guidelines: None,
+        relationships: None,
+        exceptions: None,
+        platform_manifest: Some(root.join("tests/fixtures/platform-cascade/manifest.json")),
+        provenance: Provenance::InRepo,
+    };
+    apply_configured(&mut plat, &resolved).unwrap();
+
+    // The override of rel-1 re-points "Fill" from gray-light to gray-alt.
+    assert_eq!(
+        fill_of(&base, "Fill"),
+        (Some("rgb(1, 1, 1)".into()), vec![])
+    );
+    assert_eq!(
+        fill_of(&plat, "Fill"),
+        (Some("rgb(3, 3, 3)".into()), vec![])
+    );
+    // The extension relationship binds the extension token.
+    assert_eq!(
+        fill_of(&plat, "Extension fill"),
+        (Some("rgb(7, 7, 7)".into()), vec![])
+    );
+    // rel-2 ("Border") is removed by the platform: the binding reports instead of drawing nothing.
+    assert_eq!(fill_of(&base, "Border").1, Vec::<String>::new());
+    assert_eq!(fill_of(&plat, "Border").0, None);
+    assert_eq!(fill_of(&plat, "Border").1.len(), 1);
+}
+
 #[test]
 fn legacy_output_carries_the_override_but_not_its_provenance() {
     let mut g = TokenGraph::from_pairs(vec![
@@ -299,4 +375,129 @@ fn legacy_output_carries_the_override_but_not_its_provenance() {
     let out = serde_json::to_string(&by_file).unwrap();
     assert!(out.contains("rgb(8, 8, 8)"), "override is exported: {out}");
     assert!(!out.contains("overridden"), "provenance leaked: {out}");
+}
+
+// --- extensions/visuals (p6ga.8.34) ---
+
+fn recipe(component: &str, root: &str) -> Value {
+    json!({
+        "component": component,
+        "root": root,
+        "parts": { root: { "kind": "box" } }
+    })
+}
+
+fn visual(component: &str, root: &str) -> design_data_core::graph::VisualRecord {
+    design_data_core::graph::VisualRecord {
+        component: component.into(),
+        file: PathBuf::from(format!("visuals/{component}.json")),
+        raw: recipe(component, root),
+        layer: Layer::Foundation,
+    }
+}
+
+/// Write a temp platform whose `extensions/visuals/` holds `files`, apply it to a
+/// foundation graph carrying a `button` recipe, and return the result.
+fn apply_visuals(
+    files: &[(&str, Value)],
+) -> (
+    Result<(), design_data_core::CoreError>,
+    TokenGraph,
+    tempfile::TempDir,
+) {
+    let dir = tempfile::tempdir().unwrap();
+    std::fs::write(
+        dir.path().join("manifest.json"),
+        r#"{"specVersion":"1.0.0-draft","platform":"fixture","foundationVersion":"1.0.0"}"#,
+    )
+    .unwrap();
+    let vdir = dir.path().join("extensions/visuals");
+    std::fs::create_dir_all(&vdir).unwrap();
+    for (name, v) in files {
+        std::fs::write(vdir.join(name), v.to_string()).unwrap();
+    }
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let resolved = ResolvedData {
+        tokens_root: PathBuf::from("tokens"),
+        schemas_root: root.join("../../packages/design-data-spec/schemas"),
+        mode_sets: None,
+        components: None,
+        fields: None,
+        guidelines: None,
+        relationships: None,
+        exceptions: None,
+        platform_manifest: Some(dir.path().join("manifest.json")),
+        provenance: Provenance::InRepo,
+    };
+    let mut g = foundation();
+    g.visuals = vec![visual("button", "box"), visual("badge", "box")];
+    let r = apply_configured(&mut g, &resolved).map(|_| ());
+    (r, g, dir)
+}
+
+#[test]
+fn a_platform_recipe_replaces_the_foundation_recipe_of_the_same_component() {
+    let (r, g, dir) = apply_visuals(&[("button.json", recipe("button", "ios-root"))]);
+    r.unwrap();
+    assert_eq!(g.visuals.len(), 2);
+    let b = g.visuals.iter().find(|v| v.component == "button").unwrap();
+    assert_eq!(b.layer, Layer::Platform);
+    assert_eq!(b.raw["root"], "ios-root");
+    assert!(b.file.starts_with(dir.path()));
+    let other = g.visuals.iter().find(|v| v.component == "badge").unwrap();
+    assert_eq!(other.layer, Layer::Foundation);
+}
+
+#[test]
+fn a_platform_only_recipe_is_added() {
+    let (r, g, _d) = apply_visuals(&[("button-ios.json", recipe("button-ios", "box"))]);
+    r.unwrap();
+    assert_eq!(g.visuals.len(), 3);
+    let v = g
+        .visuals
+        .iter()
+        .find(|v| v.component == "button-ios")
+        .unwrap();
+    assert_eq!(v.layer, Layer::Platform);
+}
+
+#[test]
+fn a_bad_visual_fragment_names_its_path() {
+    let (r, _g, _d) = apply_visuals(&[("button.json", json!({"component": "button"}))]);
+    let e = r.unwrap_err().to_string();
+    assert!(
+        e.contains("button.json") && e.contains("component-visual.schema.json"),
+        "{e}"
+    );
+}
+
+#[test]
+fn a_visual_file_name_must_match_its_component() {
+    let (r, _g, _d) = apply_visuals(&[("wrong.json", recipe("button", "box"))]);
+    let e = r.unwrap_err().to_string();
+    assert!(
+        e.contains("wrong.json") && e.contains("<component>.json"),
+        "{e}"
+    );
+}
+
+#[test]
+fn no_platform_leaves_visuals_unchanged() {
+    let (g, _) = platform();
+    assert!(g.visuals.is_empty());
+    let mut f = foundation();
+    f.visuals = vec![visual("button", "box")];
+    assert_eq!(f.visuals[0].layer, Layer::Foundation);
+}
+
+// --- componentAliases (p6ga.8.35) ---
+
+#[test]
+fn canonical_component_follows_the_active_platform_alias_only() {
+    let mut g = foundation();
+    assert_eq!(g.canonical_component("button"), "button");
+    g.apply_platform_manifest(&json!({ "componentAliases": { "button": "button-ios" } }))
+        .unwrap();
+    assert_eq!(g.canonical_component("button"), "button-ios");
+    assert_eq!(g.canonical_component("badge"), "badge");
 }

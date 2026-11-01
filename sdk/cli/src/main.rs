@@ -42,6 +42,7 @@ use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
 use design_data_core::validate;
+use design_data_core::visual;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_dtcg as dtcg;
 use design_data_figma as figma;
@@ -141,6 +142,9 @@ enum Commands {
         /// Directory containing Component/Token Relationship (CTR) JSON files (enables SPEC-055 target resolution)
         #[arg(long, value_name = "DIR")]
         relationships_path: Option<PathBuf>,
+        /// Directory containing component visual recipe JSON files (enables SPEC-060..063)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
@@ -188,6 +192,69 @@ enum Commands {
         /// Output format
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
+    },
+    /// Write a static, server-free component explorer built from visual recipes (draft)
+    Site {
+        /// Output directory (publishable as-is, e.g. to GitHub Pages)
+        #[arg(long, value_name = "DIR")]
+        out: PathBuf,
+        /// Restrict to these components (comma-separated); default is all
+        #[arg(long, value_delimiter = ',', value_name = "NAMES")]
+        components: Vec<String>,
+        /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+    },
+    /// Suggest candidate anatomy parts from relationships, for human review (draft)
+    AnatomySuggest {
+        /// Components to suggest for; default is every component with relationships and no reviewed anatomy
+        #[arg(value_name = "COMPONENT")]
+        components: Vec<String>,
+        /// Output format
+        #[arg(long, default_value = "markdown", value_parser = ["markdown", "json"])]
+        format: String,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+    },
+    /// Render a component from its visual recipe to SVG (draft)
+    Render {
+        /// Component name (e.g. action-button)
+        #[arg(value_name = "COMPONENT")]
+        component: String,
+        /// Size key from the recipe's sizeScale (xs, s, m, l, xl)
+        #[arg(long, default_value = "m")]
+        size: String,
+        /// Interaction state to apply (repeatable): hover, down, keyboard-focus
+        #[arg(long = "state", value_name = "STATE")]
+        states: Vec<String>,
+        /// Component option as name=value (repeatable); values parse as JSON when possible
+        #[arg(long = "option", value_name = "NAME=VALUE")]
+        options: Vec<String>,
+        /// Color scheme mode
+        #[arg(long, default_value = "light")]
+        color_scheme: String,
+        /// Scale mode
+        #[arg(long, default_value = "desktop")]
+        scale: String,
+        /// Label text for text parts
+        #[arg(long, default_value = "Label")]
+        label: String,
+        /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Output format: `svg` or `scene` (resolved scene graph as JSON)
+        #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
+        format: String,
+        /// Write output here instead of stdout
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
     },
     /// Resolve a token value for a given mode set context
     Resolve {
@@ -944,6 +1011,161 @@ fn winners_to_dtcg_doc(
         .export(graph, winners, ctx)
 }
 
+/// Load the token graph (with relationships) and locate the `visuals/` directory.
+fn load_visual_env(
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: path,
+        ..Default::default()
+    })?;
+    let mut graph = TokenGraph::from_json_dir_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err("failed to load tokens")?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    // Foundation→Platform cascade, after the relationships load so extension
+    // relationships layer onto them. A no-op when no platform is selected.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
+    let visuals_dir = visuals_path.unwrap_or_else(|| {
+        let sibling = |p: &Path| p.parent().map(|d| d.join("visuals"));
+        [
+            Some(resolved.tokens_root.join("visuals")),
+            sibling(&resolved.tokens_root),
+            resolved.components.as_deref().and_then(sibling),
+        ]
+        .into_iter()
+        .flatten()
+        .find(|d| d.is_dir())
+        .unwrap_or_else(|| PathBuf::from("visuals"))
+    });
+    Ok((graph, visuals_dir, platform))
+}
+
+/// Print candidate anatomy parts for review. Never writes component files.
+fn run_anatomy_suggest(
+    components: Vec<String>,
+    format: String,
+    path: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, _, _) = load_visual_env(path, None)?;
+    let suggestions = if components.is_empty() {
+        design_data_core::anatomy_suggest::suggest_all(&graph)
+    } else {
+        let mut out = Vec::new();
+        for c in &components {
+            out.push(
+                design_data_core::anatomy_suggest::suggest_component(&graph, c)
+                    .ok_or_else(|| miette::miette!("unknown component '{c}'"))?,
+            );
+        }
+        out
+    };
+    if format == "json" {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&suggestions).into_diagnostic()?
+        );
+    } else {
+        print!(
+            "{}",
+            design_data_core::anatomy_suggest::to_markdown(&suggestions)
+        );
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Write a static, server-free component explorer (see `design-data-site`).
+fn run_site(
+    out: PathBuf,
+    components: Vec<String>,
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
+    let count =
+        design_data_site::write_site(&graph, &visuals_dir, &components, &out, platform.as_ref())
+            .map_err(|e| miette::miette!("{e}"))?;
+    eprintln!("Wrote site for {count} component(s) to {}", out.display());
+    Ok(ExitCode::SUCCESS)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn run_render(
+    component: String,
+    size: String,
+    states: Vec<String>,
+    options: Vec<String>,
+    color_scheme: String,
+    scale: String,
+    label: String,
+    visuals_path: Option<PathBuf>,
+    path: Option<PathBuf>,
+    format: String,
+    output: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path)?;
+    let recipe_path = visuals_dir.join(format!("{component}.json"));
+    let recipe: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(&recipe_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {}", recipe_path.display()))?,
+    )
+    .into_diagnostic()
+    .wrap_err("recipe is not valid JSON")?;
+
+    let mut opts = HashMap::new();
+    for o in options {
+        let (k, v) = o
+            .split_once('=')
+            .ok_or_else(|| miette::miette!("--option expects NAME=VALUE, got '{o}'"))?;
+        let val = serde_json::from_str(v).unwrap_or_else(|_| serde_json::Value::String(v.into()));
+        opts.insert(k.to_string(), val);
+    }
+    let req = visual::RenderRequest {
+        component,
+        size,
+        states,
+        options: opts,
+        mode: HashMap::from([
+            ("colorScheme".to_string(), color_scheme),
+            ("scale".to_string(), scale),
+        ]),
+        label,
+    };
+    let scene = visual::build_scene(&graph, &recipe, &req).map_err(|e| miette::miette!(e))?;
+    for d in &scene.diagnostics {
+        match &platform {
+            Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
+            None => eprintln!("warning: {d}"),
+        }
+    }
+    let svg = if format == "scene" {
+        serde_json::to_string_pretty(&scene).into_diagnostic()?
+    } else {
+        visual::scene_to_svg(&scene)
+    };
+    match output {
+        Some(p) => std::fs::write(&p, svg)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to write {}", p.display()))?,
+        None => println!("{svg}"),
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_resolve(
     property: &str,
     explicit_path: Option<&Path>,
@@ -1043,6 +1265,7 @@ struct ValidateOpts {
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
     relationships_path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
     components_report_only: bool,
     strict: bool,
@@ -1062,6 +1285,11 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         ..Default::default()
     })?;
     let path = &resolved.tokens_root;
+    // A selected platform (`--platform`, DESIGN_DATA_PLATFORM, default_platform) lets SPEC-076
+    // check that recipe bindings still resolve once its manifest is applied.
+    let platform_manifest = manifest::load_configured_manifest(&resolved)
+        .into_diagnostic()
+        .wrap_err("failed to load platform manifest")?;
 
     let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
@@ -1073,7 +1301,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
     let comps_dir = resolved.components;
     let relationships_dir = resolved.relationships;
 
-    let mut report = validate::validate_all_with_full_options(
+    let mut report = validate::validate_all_with_platform(
         path,
         &registry,
         &exceptions,
@@ -1082,6 +1310,8 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         opts.names_dir.as_deref(),
         None,
         relationships_dir.as_deref(),
+        opts.visuals_path.as_deref(),
+        platform_manifest,
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
@@ -3733,6 +3963,7 @@ fn main() -> ExitCode {
             mode_sets_path,
             components_path,
             relationships_path,
+            visuals_path,
             names_dir,
             components_report_only,
             strict,
@@ -3745,6 +3976,7 @@ fn main() -> ExitCode {
                 mode_sets_path,
                 components_path,
                 relationships_path,
+                visuals_path,
                 names_dir,
                 components_report_only,
                 strict,
@@ -3775,6 +4007,42 @@ fn main() -> ExitCode {
             manifest,
             format,
         } => run_validate_manifest(path.as_deref(), manifest, format),
+        Commands::Site {
+            out,
+            components,
+            visuals_path,
+            path,
+        } => run_site(out, components, path, visuals_path),
+        Commands::AnatomySuggest {
+            components,
+            format,
+            path,
+        } => run_anatomy_suggest(components, format, path),
+        Commands::Render {
+            component,
+            size,
+            states,
+            options,
+            color_scheme,
+            scale,
+            label,
+            visuals_path,
+            path,
+            format,
+            output,
+        } => run_render(
+            component,
+            size,
+            states,
+            options,
+            color_scheme,
+            scale,
+            label,
+            visuals_path,
+            path,
+            format,
+            output,
+        ),
         Commands::Resolve {
             property,
             path,

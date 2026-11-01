@@ -94,6 +94,7 @@
         { "value": "xl" }
       ]
     },
+    "isPending": { "type": "boolean", "default": false },
     "isQuiet": { "type": "boolean", "default": false },
     "isSelected": { "type": "boolean", "default": false },
     "isEmphasized": { "type": "boolean", "default": false },
@@ -107,6 +108,49 @@
     },
     "hasHoldIcon": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
+  },
+  "constraints": [
+    {
+      "when": { "hideLabel": true },
+      "require": { "icon": { "present": true } },
+      "severity": "error",
+      "description": "Icon must be present if the label is not defined."
+    },
+    {
+      "when": { "isEmphasized": true },
+      "require": { "isSelected": [true] },
+      "severity": "advisory",
+      "description": "Emphasis only changes the selected appearance.",
+      "source": "react-spectrum S2 ActionButton.tsx"
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded background that holds the icon, progress circle, label, and hold icon.",
+      "required": true,
+      "contains": ["icon", "progress", "label", "hold-icon"]
+    },
+    { "name": "icon", "description": "Workflow icon shown before the label." },
+    {
+      "name": "progress",
+      "description": "Progress indicator shown in place of the icon and label while an action is pending."
+    },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "hold-icon",
+      "description": "Corner triangle that signals a popover menu opens on hold."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the container for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "focus-indicator is state-only; progress kept (styled by action-button, option-driven); hold-icon kept (registry term, own style)."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

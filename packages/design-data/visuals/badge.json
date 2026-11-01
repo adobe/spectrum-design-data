@@ -1,0 +1,287 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "badge",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "relationship": {
+              "property": "component-edge-to-text-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "label": false
+              }
+            },
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "relationship": {
+              "property": "component-edge-to-text-{sizeIndex}",
+              "context": "Spacing (start/end edges)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "label": false
+              }
+            },
+            "relationship": {
+              "property": "component-edge-to-visual-only-{sizeIndex}",
+              "context": "Spacing (start/end edges, icon only)"
+            }
+          }
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (icon to label)"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          }
+        },
+        "cornerRadiusStartStart": [
+          {
+            "when": {
+              "options": {
+                "fixed": "top"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "left"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusStartEnd": [
+          {
+            "when": {
+              "options": {
+                "fixed": "top"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "right"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusEndEnd": [
+          {
+            "when": {
+              "options": {
+                "fixed": "bottom"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "right"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "cornerRadiusEndStart": [
+          {
+            "when": {
+              "options": {
+                "fixed": "bottom"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "fixed": "left"
+              }
+            },
+            "value": 0
+          }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "context": "Background (non-semantic)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": [
+                  "neutral",
+                  "informative",
+                  "positive",
+                  "negative",
+                  "accent",
+                  "notice"
+                ]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background (semantic)"
+            }
+          }
+        ],
+        "stroke": [
+          {
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "variant": [
+                  "neutral",
+                  "informative",
+                  "positive",
+                  "negative",
+                  "accent",
+                  "notice"
+                ],
+                "style": ["outline"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Border (semantic)"
+            }
+          }
+        ],
+        "strokeWidth": [
+          {
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "variant": [
+                  "neutral",
+                  "informative",
+                  "positive",
+                  "negative",
+                  "accent",
+                  "notice"
+                ],
+                "style": ["outline"]
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          }
+        ]
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "icon": true
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Text and icon (semantic)"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "label": true
+        }
+      },
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Text and icon (semantic)"
+          }
+        }
+      }
+    }
+  }
+}
