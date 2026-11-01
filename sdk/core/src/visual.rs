@@ -1481,6 +1481,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     } else {
         root_radius
     };
+    let root_radius = if radii.is_none() {
+        clamp_radius(root_radius, w, h)
+    } else {
+        root_radius
+    };
     let mut nodes = vec![SceneNode {
         part: root_id.into(),
         kind: "box".into(),
@@ -1544,7 +1549,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             tokens: c.tokens,
         };
         if c.kind == "box" {
-            own.radius = px(&c.radius, ch);
+            own.radius = clamp_radius(px(&c.radius, ch), cw, ch);
         }
         nodes.push(own);
         x += cw + gap;
@@ -1623,7 +1628,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 fill: nfill.map(|f| f.value),
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
-                radius: px(&nradius, h2),
+                radius: clamp_radius(px(&nradius, h2), w2, h2),
                 radii: None,
                 text: None,
                 font_size: 0.0,
@@ -1753,6 +1758,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
 }
 
 /// Closed outline of a rect with independent corner radii `[tl, tr, br, bl]`.
+/// A corner radius cannot exceed half the box's width or height, like CSS `border-radius`:
+/// an oversized radius draws a pill, not an ellipse.
+fn clamp_radius(r: f64, w: f64, h: f64) -> f64 {
+    r.min(w / 2.0).min(h / 2.0)
+}
+
 fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
     let [tl, tr, br, bl] = r;
     format!(
@@ -2449,6 +2460,29 @@ mod tests {
     #[test]
     fn no_block_padding_keeps_the_default_height() {
         assert_eq!(padded_box(serde_json::json!({})).nodes[0].h, 32.0);
+    }
+
+    #[test]
+    fn an_oversized_radius_is_clamped_to_half_the_smaller_side() {
+        // The root box is as wide as its label (27.6 for font size 10), so the width limit is 13.8.
+        let node = |h: u32, r: u32| {
+            let s = padded_box(serde_json::json!({
+                "height": { "value": h },
+                "cornerRadius": { "value": r }
+            }));
+            (s.nodes[0].clone(), scene_to_svg(&s))
+        };
+        // Past half the height: a pill. rx is the clamped value and an SVG rect with no `ry`
+        // uses `rx`, so rx equals ry.
+        let (n, svg) = node(20, 30);
+        assert_eq!(n.radius, 10.0);
+        assert!(svg.contains("rx=\"10\"") && !svg.contains("ry="), "{svg}");
+        // Taller than wide: the width limits it.
+        let (n, _) = node(60, 30);
+        assert!((n.radius - n.w / 2.0).abs() < 1e-9, "{}", n.radius);
+        // Within bounds: unchanged.
+        assert_eq!(node(20, 6).0.radius, 6.0);
+        assert_eq!(node(20, 10).0.radius, 10.0);
     }
 
     #[test]
