@@ -1290,6 +1290,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let height = rp(&mut cx, root, "height");
     let pad_s = rp(&mut cx, root, "paddingInlineStart");
     let pad_e = rp(&mut cx, root, "paddingInlineEnd");
+    let pad_bs = rp(&mut cx, root, "paddingBlockStart");
+    let pad_be = rp(&mut cx, root, "paddingBlockEnd");
     let gap = rp(&mut cx, root, "gap");
     let radius = rp(&mut cx, root, "cornerRadius");
     let fill = rp(&mut cx, root, "fill");
@@ -1312,13 +1314,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         ("height", &height),
         ("paddingInlineStart", &pad_s),
         ("paddingInlineEnd", &pad_e),
+        ("paddingBlockStart", &pad_bs),
+        ("paddingBlockEnd", &pad_be),
         ("gap", &gap),
         ("cornerRadius", &radius),
         ("fill", &fill),
     ] {
         track(&mut container_tokens, n, r);
     }
-    let h = height.as_ref().and_then(Resolved::num).unwrap_or(32.0);
+    let explicit_h = height.as_ref().and_then(Resolved::num);
+    let block_padded = pad_bs.is_some() || pad_be.is_some();
+    let pad_bs = pad_bs.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let pad_be = pad_be.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_s = pad_s.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_e = pad_e.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
@@ -1444,6 +1451,15 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let inner: f64 =
         flow.iter().map(|c| c.w).sum::<f64>() + gap * flow.len().saturating_sub(1) as f64;
     let w = pad_s + inner + pad_e;
+    // An unset `height` is the tallest flowed child plus the block padding when the recipe
+    // binds any; without block padding it stays the 32 default.
+    let h = explicit_h.unwrap_or_else(|| {
+        if block_padded {
+            flow.iter().map(|c| c.h).fold(0.0, f64::max) + pad_bs + pad_be
+        } else {
+            32.0
+        }
+    });
 
     let ox = RING_MARGIN;
     let oy = RING_MARGIN;
@@ -1497,7 +1513,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
     let mut x = ox + pad_s;
     for c in flow {
-        let (cx0, cy0, cw, ch) = (x, oy + (h - c.h) / 2.0, c.w, c.h);
+        let (cx0, cy0, cw, ch) = (x, oy + pad_bs + (h - pad_bs - pad_be - c.h) / 2.0, c.w, c.h);
         let nested_ids: Vec<String> = parts
             .get(&c.id)
             .and_then(|p| p.get("children"))
@@ -2376,6 +2392,63 @@ mod tests {
             fill(&[("variant", v("b")), ("flag", Value::Bool(true))]).as_deref(),
             Some("green")
         );
+    }
+
+    /// A box with a 10 high label (font size 10 x 1.3 = 13) and the given root props.
+    fn padded_box(props: Value) -> Scene {
+        let (g, _) = load();
+        let mut root = serde_json::json!({ "width": { "value": 40 } });
+        root.as_object_mut()
+            .unwrap()
+            .extend(props.as_object().unwrap().clone());
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft",
+            "component": "action-button",
+            "root": "box",
+            "sizeScale": { "m": 100 },
+            "parts": {
+                "box": { "kind": "box", "children": ["label"], "props": root },
+                "label": { "kind": "text", "props": { "fontSize": { "value": 10 } } }
+            }
+        });
+        build_scene(&g, &recipe, &req(&[])).unwrap()
+    }
+
+    #[test]
+    fn block_padding_adds_to_the_content_height() {
+        let both = padded_box(serde_json::json!({
+            "paddingBlockStart": { "value": 5 },
+            "paddingBlockEnd": { "value": 7 }
+        }));
+        assert!((both.nodes[0].h - 25.0).abs() < 1e-9, "{}", both.nodes[0].h);
+        let start = padded_box(serde_json::json!({ "paddingBlockStart": { "value": 5 } }));
+        assert!(
+            (start.nodes[0].h - 18.0).abs() < 1e-9,
+            "{}",
+            start.nodes[0].h
+        );
+        // The label is centered between the paddings: 5 above, 7 below.
+        let label = part(&both, "label").unwrap();
+        assert!(
+            (label.y - both.nodes[0].y - 5.0).abs() < 1e-9,
+            "{}",
+            label.y
+        );
+    }
+
+    #[test]
+    fn an_explicit_height_wins_over_block_padding() {
+        let s = padded_box(serde_json::json!({
+            "height": { "value": 50 },
+            "paddingBlockStart": { "value": 5 },
+            "paddingBlockEnd": { "value": 7 }
+        }));
+        assert_eq!(s.nodes[0].h, 50.0);
+    }
+
+    #[test]
+    fn no_block_padding_keeps_the_default_height() {
+        assert_eq!(padded_box(serde_json::json!({})).nodes[0].h, 32.0);
     }
 
     #[test]
