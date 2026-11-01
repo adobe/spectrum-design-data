@@ -617,8 +617,12 @@ impl Dataset {
         request: JsValue,
     ) -> Result<design_data_core::visual::Scene, JsValue> {
         let recipe: serde_json::Value = serde_wasm_bindgen::from_value(recipe).map_err(js_err)?;
-        let request: design_data_core::visual::RenderRequest =
+        let mut request: design_data_core::visual::RenderRequest =
             serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
         design_data_core::visual::build_scene_cached(&self.graph, &recipe, &request, &self.scenes)
             .map_err(js_err)
     }

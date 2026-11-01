@@ -1908,7 +1908,9 @@ impl TokenGraph {
         let mut out = Vec::new();
         for path in discover_json_files(dir)? {
             let text = std::fs::read_to_string(&path)?;
-            let value: Value = serde_json::from_str(&text)?;
+            let value: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display()))
+            })?;
             if let Some(component) = value.get("component").and_then(|v| v.as_str()) {
                 out.push(VisualRecord {
                     component: component.to_string(),
@@ -1928,6 +1930,18 @@ impl TokenGraph {
         self.component_aliases
             .get(name)
             .map_or(name, String::as_str)
+    }
+
+    /// True when `name` is the target of an active `componentAliases` entry.
+    pub fn is_alias_target(&self, name: &str) -> bool {
+        self.component_aliases.values().any(|t| t == name)
+    }
+
+    /// The recipe for a user-facing component name under the active platform: the recipe
+    /// of its `canonical_component`, so a platform recipe replaces the foundation one.
+    pub fn visual_recipe(&self, name: &str) -> Option<&VisualRecord> {
+        let canonical = self.canonical_component(name);
+        self.visuals.iter().find(|v| v.component == canonical)
     }
 
     /// Attach visual recipe records loaded from a visuals catalog directory.
