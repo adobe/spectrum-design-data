@@ -652,7 +652,12 @@
           ><span class="badge ok">Design available</span>
         </header>
 
-        <div class="diagnostics card" id="diagnostics" role="status" hidden></div>
+        <div
+          class="diagnostics card"
+          id="diagnostics"
+          role="status"
+          hidden
+        ></div>
 
         <div class="live card" id="live-component">
           <div class="stagewrap">
@@ -774,6 +779,7 @@
     <script type="module" src="spectrum-controls.js"></script>
     <script type="module">
       import { backend } from "./backend.js";
+      import { platformSwitcher } from "./platform-switcher.js";
       import { roundedPath, cssFontWeight } from "./visual-runtime.js";
       import {
         advisoriesOf,
@@ -2146,9 +2152,15 @@
       (async () => {
         const list = await backend.components();
         const params = new URLSearchParams(location.search);
-        const name = params.get("c") ?? list.find((c) => c.hasVisual).name;
+        const wanted = list.find(
+          (c) => c.name === params.get("c") && c.hasVisual,
+        );
+        const name = (wanted ?? list.find((c) => c.hasVisual)).name;
         $("nav").innerHTML =
           `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
+        platformSwitcher(backend.platform(), name).then((html) => {
+          $("nav").insertAdjacentHTML("beforeend", html);
+        });
         await load(name);
         const initial = params.get("tab");
         if (tabs.includes(initial) && initial !== "usage") {

@@ -1011,13 +1011,20 @@ fn option_matches(have: &Value, want: &Value) -> bool {
 }
 
 /// Option names a recipe reads, split into those that gate part visibility
-/// (`structural`) and the rest. `size` counts as used when the recipe has a `sizeScale`.
+/// (`structural`) and the rest. A `{option}` placeholder in a selector counts as read. `size` counts as used when the recipe has a `sizeScale`.
 pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
     fn walk(v: &Value, in_visible: bool, used: &mut Vec<String>, structural: &mut Vec<String>) {
         match v {
             Value::Array(a) => a.iter().for_each(|x| walk(x, in_visible, used, structural)),
             Value::Object(o) => {
                 for (k, x) in o {
+                    if k == "token" || k == "relationship" {
+                        for name in option_template_names(x) {
+                            if !used.contains(&name) {
+                                used.push(name);
+                            }
+                        }
+                    }
                     if k == "options" {
                         if let Some(opts) = x.as_object() {
                             for name in opts.keys() {
@@ -2545,6 +2552,20 @@ mod tests {
         let (used, structural) = recipe_options(&recipe);
         assert!(used.contains(&"isPending".to_string()));
         assert!(structural.contains(&"isPending".to_string()));
+    }
+
+    #[test]
+    fn a_selector_placeholder_counts_as_a_used_option() {
+        let recipe = serde_json::json!({"parts": {"box": {"props": {"fill": [
+            {"token": {"property": "background-color", "variant": "{style}"}},
+            {"relationship": {"context": "Fill {tone}"}, "when": {"options": {"isDisabled": true}}}
+        ]}}}});
+        let (used, structural) = recipe_options(&recipe);
+        assert!(used.contains(&"style".to_string()), "{used:?}");
+        assert!(used.contains(&"tone".to_string()), "{used:?}");
+        assert!(used.contains(&"isDisabled".to_string()), "{used:?}");
+        assert!(!used.contains(&"size".to_string()), "{used:?}");
+        assert!(structural.is_empty(), "{structural:?}");
     }
 
     fn templated_graph() -> TokenGraph {

@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-// Static file server for local preview of dist/ (run `design-data site --out dist` first).
+// Static file server for local preview of dist/ (run `moon run hub-prototype:build` first).
 // Any static host works the same way; this exists only for local use.
 
 import { readFile } from "node:fs/promises";
@@ -27,7 +27,9 @@ const types = {
 
 createServer(async (req, res) => {
   const { pathname } = new URL(req.url, "http://localhost");
-  const rel = normalize(pathname === "/" ? "/index.html" : pathname);
+  const rel = normalize(
+    pathname.endsWith("/") ? `${pathname}index.html` : pathname,
+  );
   try {
     const body = await readFile(join(dist, rel));
     res.writeHead(200, {

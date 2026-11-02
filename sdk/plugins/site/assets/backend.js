@@ -33,7 +33,8 @@ export const backend = {
   component: async (name) => {
     const c = data.byName[name];
     if (!c) throw new Error(`No visual recipe for "${name}"`);
-    return c;
+    // Under a platform alias the data is the target's; the page keys everything by the alias.
+    return { ...c, name };
   },
 
   // `q` holds `name`, `size`, `scheme`, `scale`, `label`, `state` and `opt.<option>` keys.
