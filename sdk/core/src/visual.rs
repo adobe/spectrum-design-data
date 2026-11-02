@@ -29,8 +29,8 @@ const RING_MARGIN: f64 = 8.0;
 
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
-/// SPEC-083 warns about a recipe prop missing from it, so a recipe cannot bind a prop the
-/// renderer ignores. Add a prop here when the solver starts to read it.
+/// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
+/// so a recipe cannot bind a prop the renderer ignores. Add a prop here when the solver starts to read it.
 pub const READ_PROPS: &[(&str, &[&str])] = &[
     (
         "root",
@@ -88,6 +88,15 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
 /// it has a `placement`, and otherwise its `kind` (default `box`). `None`: no such role.
 pub fn read_props(role: &str) -> Option<&'static [&'static str]> {
     READ_PROPS.iter().find(|(r, _)| *r == role).map(|(_, p)| *p)
+}
+
+/// Whether the solver reads `name` on a part. A part nested in a flowed box is laid out as a
+/// box unless it is an icon, so a `text` or `progress` part also reads the `box` props. The
+/// `rp` assertion and SPEC-083 both ask this, so they cannot disagree.
+pub fn reads_prop(part: &Value, is_root: bool, name: &str) -> bool {
+    let role = part_role(part, is_root);
+    let has = |r: &str| read_props(r).is_some_and(|p| p.contains(&name));
+    has(role) || (matches!(role, "text" | "progress") && has("box"))
 }
 
 /// The role that selects a part's entry in `READ_PROPS`.
@@ -1367,16 +1376,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         diags: Vec::new(),
     };
     let rp = |cx: &mut Ctx, part: &Value, name: &str| -> Option<Resolved> {
-        // A child of a part is laid out as a box unless it is an icon, so it may also read the
-        // box props.
         debug_assert!(
-            {
-                let role = part_role(part, std::ptr::eq(part, root));
-                read_props(role).is_some_and(|p| p.contains(&name))
-                    || (role != "root"
-                        && role != "ring"
-                        && read_props("box").is_some_and(|p| p.contains(&name)))
-            },
+            reads_prop(part, std::ptr::eq(part, root), name),
             "the solver reads prop '{name}' on a {} part, but READ_PROPS does not list it",
             part_role(part, std::ptr::eq(part, root))
         );
@@ -2574,6 +2575,19 @@ mod tests {
             }
         });
         build_scene(&g, &recipe, &req(&[])).unwrap()
+    }
+
+    #[test]
+    fn reads_prop_applies_the_box_fallback_only_to_text_and_progress() {
+        let part = |v: Value| v;
+        let text = part(serde_json::json!({ "kind": "text" }));
+        let placed = part(serde_json::json!({ "kind": "box", "placement": {} }));
+        let ring = part(serde_json::json!({ "kind": "ring" }));
+        assert!(reads_prop(&text, false, "fontSize") && reads_prop(&text, false, "fill"));
+        assert!(!reads_prop(&text, false, "opacity"));
+        assert!(reads_prop(&placed, false, "color") && !reads_prop(&placed, false, "fill"));
+        assert!(!reads_prop(&ring, false, "fill"));
+        assert!(!reads_prop(&text, true, "fontSize"));
     }
 
     #[test]

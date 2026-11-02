@@ -20,7 +20,7 @@ use serde_json::Value;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::warning;
-use crate::visual::{part_role, read_props};
+use crate::visual::{part_role, reads_prop};
 
 pub struct Rule;
 
@@ -41,14 +41,12 @@ impl ValidationRule for Rule {
                 continue;
             };
             for (id, part) in parts {
-                let role = part_role(part, Some(id.as_str()) == root);
-                let Some(read) = read_props(role) else {
-                    continue;
-                };
+                let is_root = Some(id.as_str()) == root;
+                let role = part_role(part, is_root);
                 let Some(props) = part.get("props").and_then(Value::as_object) else {
                     continue;
                 };
-                for name in props.keys().filter(|n| !read.contains(&n.as_str())) {
+                for name in props.keys().filter(|n| !reads_prop(part, is_root, n)) {
                     out.push(warning(
                         self.id(),
                         v,
@@ -89,7 +87,7 @@ mod tests {
                 "switch",
                 recipe(
                     json!({ "fill": {"value": "red"}, "opacity": {"value": 1}, "width": {"value": 4} }),
-                    json!({ "fontSize": {"value": 12}, "fill": {"value": "red"} }),
+                    json!({ "fontSize": {"value": 12}, "opacity": {"value": 1} }),
                 ),
             )],
         );
@@ -99,12 +97,32 @@ mod tests {
         assert_eq!(
             paths,
             [
-                "/parts/l/props/fill",
+                "/parts/l/props/opacity",
                 "/parts/r/props/opacity",
                 "/parts/r/props/width"
             ]
         );
         assert!(d.iter().all(|d| d.severity == Severity::Warning));
+    }
+
+    #[test]
+    fn a_text_child_may_bind_box_props_and_a_placed_part_only_color() {
+        let g = graph(
+            json!({"name": "switch"}),
+            vec![],
+            vec![],
+            vec![(
+                "switch",
+                json!({ "component": "switch", "root": "r", "parts": {
+                    "r": { "kind": "box", "children": ["l", "d"] },
+                    "l": { "kind": "text", "props": { "fill": {"value": "red"} } },
+                    "d": { "kind": "box", "placement": { "anchor": "top-end" },
+                        "props": { "color": {"value": "red"}, "fill": {"value": "red"} } } } }),
+            )],
+        );
+        let d = run(&Rule, &g);
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert_eq!(d[0].instance_path.as_deref(), Some("/parts/d/props/fill"));
     }
 
     #[test]
