@@ -708,6 +708,18 @@ fn alias_fixture_project() -> tempfile::TempDir {
         .to_string(),
     )
     .expect("write recipe");
+    fs::create_dir_all(ext.join("implementations")).expect("implementations dir");
+    fs::write(
+        ext.join("implementations/button-ios.json"),
+        json!({
+            "component": "button-ios",
+            "implementations": [
+                { "platform": "ios", "componentName": "SPButton", "package": "spectrum-ios" }
+            ]
+        })
+        .to_string(),
+    )
+    .expect("write implementation");
     fs::write(
         root.join(".design-data.toml"),
         format!(
@@ -846,6 +858,35 @@ fn site_lists_the_alias_key_with_the_target_data_and_hides_the_target() {
     let without = site(&[], "without");
     assert!(without["components"][0].get("source").is_none());
     assert!(without["components"][0].get("aliasOf").is_none());
+}
+
+/// p6ga.8.72: under a platform the site lists only components that platform implements.
+#[test]
+fn site_under_a_platform_lists_only_implemented_components() {
+    let project = alias_fixture_project();
+    let names = |platform: &[&str], out: &str| -> Vec<String> {
+        let dir = project.path().join(out);
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(project.path())
+            .args(["site", "--components", "badge,button,button-ios", "--out"])
+            .arg(&dir)
+            .args(platform)
+            .assert()
+            .success();
+        let data: serde_json::Value =
+            serde_json::from_str(&fs::read_to_string(dir.join("data.json")).expect("data.json"))
+                .expect("data.json parses");
+        data["components"]
+            .as_array()
+            .expect("components")
+            .iter()
+            .map(|c| c["name"].as_str().unwrap().to_string())
+            .collect()
+    };
+    // badge has no fixture-alias implementation row, so it is hidden under the platform.
+    assert_eq!(names(&["--platform", "fixture-alias"], "with"), ["button"]);
+    assert_eq!(names(&[], "without"), ["badge", "button"]);
 }
 
 #[test]
