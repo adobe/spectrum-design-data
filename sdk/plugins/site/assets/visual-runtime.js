@@ -33,6 +33,13 @@ const num = (r) => {
   return Number.isFinite(n) ? n : undefined;
 };
 
+// A `px` value is the line box height; a bare number multiplies the font size. Unbound: 1.3.
+const lineHeight = (r, fontSize) => {
+  const n = num(r);
+  if (n === undefined) return fontSize * 1.3;
+  return r.value.trim().endsWith("px") ? n : n * fontSize;
+};
+
 const textWidth = (text, fontSize) =>
   [...text].length * fontSize * AVG_ADVANCE_EM;
 
@@ -320,11 +327,16 @@ export function renderScene(compiled, req) {
       const fw = rp(part, "fontWeight");
       track(c.tokens, "fontSize", fs);
       track(c.tokens, "fontWeight", fw);
+      const ff = rp(part, "fontFamily");
+      const lh = rp(part, "lineHeight");
+      track(c.tokens, "fontFamily", ff);
+      track(c.tokens, "lineHeight", lh);
+      c.fontFamily = ff ? ff.value : null;
       c.fontSize = num(fs) ?? 14;
       c.fontWeight = fw ? fw.value : null;
       c.text = req.label ?? "";
       c.w = textWidth(c.text, c.fontSize);
-      c.h = c.fontSize * 1.3;
+      c.h = lineHeight(lh, c.fontSize);
     }
     flow.push(c);
   }
@@ -384,6 +396,7 @@ export function renderScene(compiled, req) {
         text: c.text,
         font_size: c.fontSize,
         font_weight: c.fontWeight,
+        ...(c.fontFamily ? { font_family: c.fontFamily } : {}),
         color: c.color,
         tokens: c.tokens,
       }),
@@ -561,6 +574,15 @@ const WEIGHTS = {
   heavy: "900",
 };
 
+const DEFAULT_FONT_STACK =
+  "adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif";
+
+const cssFontFamily = (f) => {
+  const t = (f ?? "").trim();
+  if (!t) return DEFAULT_FONT_STACK;
+  return `${t.includes(",") ? t : `'${t}'`}, ${DEFAULT_FONT_STACK}`;
+};
+
 export const cssFontWeight = (w) => WEIGHTS[w ?? "400"] ?? w ?? "400";
 
 const esc = (s) =>
@@ -612,7 +634,7 @@ export function renderSvg(scene) {
     } else if (n.kind === "ring") {
       s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${esc(n.stroke ?? "none")}" stroke-width="${n.stroke_width}"/>`;
     } else if (n.kind === "text") {
-      s += `<text ${attrs} x="${n.x}" y="${n.y + n.h / 2}" font-family="adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif" font-size="${n.font_size}" font-weight="${esc(cssFontWeight(n.font_weight))}" dominant-baseline="central" fill="${esc(n.color ?? "currentColor")}">${esc(n.text ?? "")}</text>`;
+      s += `<text ${attrs} x="${n.x}" y="${n.y + n.h / 2}" font-family="${esc(cssFontFamily(n.font_family))}" font-size="${n.font_size}" font-weight="${esc(cssFontWeight(n.font_weight))}" dominant-baseline="central" fill="${esc(n.color ?? "currentColor")}">${esc(n.text ?? "")}</text>`;
     } else if (n.kind === "progress") {
       const cx = n.x + n.w / 2;
       const cy = n.y + n.h / 2;

@@ -768,7 +768,7 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
     let ios = render_scene(&root, &["button", "--platform", "ios"]);
     assert_eq!(ios["component"], "button-ios", "{ios}");
     let container = &ios["nodes"][0];
-    // The radius comes from the size token (20 for m) and is clamped to half the 39.4 high
+    // The radius comes from the size token (20 for m) and is clamped to half the 39.04 high
     // container, so the corner is a pill: radius == min(token value, height / 2).
     let radius_token = container["tokens"]
         .as_array()
@@ -786,16 +786,18 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
         token_value.min(container["h"].as_f64().unwrap() / 2.0),
         "{ios}"
     );
-    // Figma m: 95 x 39 (icon 19.33 + gap 6 + label 18px, 14 + 8 padding); the label height is 1.3 x font size.
+    // Figma m: 95 x 39 (icon 19.33 + gap 6 + label 18px, 14 + 8 padding); the label line height is the bound 23.04.
     let near = |v: &serde_json::Value, want: f64| (v.as_f64().unwrap() - want).abs() < 1e-6;
     assert!(near(&container["w"], 94.73), "{ios}");
-    assert!(near(&container["h"], 39.4), "{ios}");
+    assert!(near(&container["h"], 39.04), "{ios}");
     let label = ios["nodes"]
         .as_array()
         .and_then(|n| n.iter().find(|n| n["part"] == "label"))
         .unwrap_or_else(|| panic!("no label node in {ios}"));
     assert_eq!(label["font_size"], 18.0, "{ios}");
     assert_eq!(label["font_weight"], "600", "{ios}");
+    assert!(near(&label["h"], 23.04), "{ios}");
+    assert_eq!(label["font_family"], "Adobe Clean Spectrum VF", "{ios}");
     let direct = render_scene(&root, &["button-ios", "--platform", "ios"]);
     assert_eq!(ios, direct);
     let primary = render_scene(

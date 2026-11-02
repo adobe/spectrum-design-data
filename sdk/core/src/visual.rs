@@ -81,6 +81,9 @@ pub struct SceneNode {
     pub text: Option<String>,
     pub font_size: f64,
     pub font_weight: Option<String>,
+    /// Set only when the recipe binds `fontFamily`; unset keeps the default stack.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub font_family: Option<String>,
     pub color: Option<String>,
     /// Built-in glyph an `icon` node draws (`checkmark`, `dash`); unset draws the placeholder.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -998,6 +1001,15 @@ pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Valu
     states
 }
 
+/// A `px` value is the line box height; a bare number multiplies the font size. Unbound: 1.3.
+fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
+    match lh.and_then(|r| r.num().map(|n| (n, r.value.trim().ends_with("px")))) {
+        Some((n, true)) => n,
+        Some((n, false)) => n * font_size,
+        None => font_size * 1.3,
+    }
+}
+
 fn text_width(text: &str, font_size: f64) -> f64 {
     text.chars().count() as f64 * font_size * AVG_ADVANCE_EM
 }
@@ -1358,6 +1370,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         text: Option<String>,
         font_size: f64,
         font_weight: Option<String>,
+        font_family: Option<String>,
         color: Option<String>,
         stroke: Option<String>,
         fill: Option<String>,
@@ -1397,6 +1410,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             text: None,
             font_size: 0.0,
             font_weight: None,
+            font_family: None,
             color: color.map(|c| c.value),
             stroke: None,
             fill: None,
@@ -1443,11 +1457,16 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 let fw = rp(&mut cx, part, "fontWeight");
                 track(&mut c.tokens, "fontSize", &fs);
                 track(&mut c.tokens, "fontWeight", &fw);
+                let ff = rp(&mut cx, part, "fontFamily");
+                let lh = rp(&mut cx, part, "lineHeight");
+                track(&mut c.tokens, "fontFamily", &ff);
+                track(&mut c.tokens, "lineHeight", &lh);
+                c.font_family = ff.map(|f| f.value);
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
                 let text = req.label.clone();
                 c.w = text_width(&text, c.font_size);
-                c.h = c.font_size * 1.3;
+                c.h = line_height(lh.as_ref(), c.font_size);
                 c.text = Some(text);
             }
             _ => {}
@@ -1508,6 +1527,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         text: None,
         font_size: 0.0,
         font_weight: None,
+        font_family: None,
         color: None,
         glyph: None,
         tokens: container_tokens,
@@ -1551,6 +1571,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             text: c.text,
             font_size: c.font_size,
             font_weight: c.font_weight,
+            font_family: c.font_family,
             color: c.color,
             glyph: None,
             tokens: c.tokens,
@@ -1595,6 +1616,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     text: None,
                     font_size: 0.0,
                     font_weight: None,
+                    font_family: None,
                     color: color.map(|c| c.value),
                     glyph: np.get("glyph").and_then(Value::as_str).map(String::from),
                     tokens,
@@ -1640,6 +1662,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 text: None,
                 font_size: 0.0,
                 font_weight: None,
+                font_family: None,
                 color: None,
                 glyph: None,
                 tokens,
@@ -1671,6 +1694,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             text: None,
             font_size: 0.0,
             font_weight: None,
+            font_family: None,
             color: color.map(|c| c.value),
             glyph: None,
             tokens,
@@ -1712,6 +1736,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             text: None,
             font_size: 0.0,
             font_weight: None,
+            font_family: None,
             color: None,
             glyph: None,
             tokens,
@@ -1790,6 +1815,18 @@ fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
         x + tl,
         y
     )
+}
+
+const DEFAULT_FONT_STACK: &str = "adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif";
+
+/// A bound family leads the default stack, so a family the browser lacks (an iOS-only one
+/// such as SF Pro) falls through to it instead of the browser's serif default.
+fn css_font_family(f: Option<&str>) -> String {
+    match f.map(str::trim).filter(|f| !f.is_empty()) {
+        Some(f) if f.contains(',') => format!("{f}, {DEFAULT_FONT_STACK}"),
+        Some(f) => format!("'{f}', {DEFAULT_FONT_STACK}"),
+        None => DEFAULT_FONT_STACK.into(),
+    }
 }
 
 /// SVG needs numeric weights; tokens carry names such as `medium`.
@@ -1943,9 +1980,10 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             "text" => {
                 let _ = write!(
                     s,
-                    "<text {attrs} x=\"{}\" y=\"{}\" font-family=\"adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif\" font-size=\"{}\" font-weight=\"{}\" dominant-baseline=\"central\" fill=\"{}\">{}</text>",
+                    "<text {attrs} x=\"{}\" y=\"{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"{}\" dominant-baseline=\"central\" fill=\"{}\">{}</text>",
                     n.x,
                     n.y + n.h / 2.0,
+                    esc(&css_font_family(n.font_family.as_deref())),
                     n.font_size,
                     esc(&css_font_weight(n.font_weight.as_deref())),
                     esc(n.color.as_deref().unwrap_or("currentColor")),
@@ -2430,6 +2468,50 @@ mod tests {
             }
         });
         build_scene(&g, &recipe, &req(&[])).unwrap()
+    }
+
+    fn label_scene(label_props: Value) -> Scene {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft",
+            "component": "action-button",
+            "root": "box",
+            "sizeScale": { "m": 100 },
+            "parts": {
+                "box": { "kind": "box", "children": ["label"], "props": { "width": { "value": 40 } } },
+                "label": { "kind": "text", "props": label_props }
+            }
+        });
+        build_scene(&g, &recipe, &req(&[])).unwrap()
+    }
+
+    #[test]
+    fn text_height_follows_line_height_and_defaults_to_1_3() {
+        let h = |lh: Value| {
+            let mut p = serde_json::json!({ "fontSize": { "value": 10 } });
+            if !lh.is_null() {
+                p["lineHeight"] = lh;
+            }
+            part(&label_scene(p), "label").unwrap().h
+        };
+        assert!((h(Value::Null) - 13.0).abs() < 1e-9);
+        assert!((h(serde_json::json!({ "value": "20.5px" })) - 20.5).abs() < 1e-9);
+        assert!((h(serde_json::json!({ "value": "1.5" })) - 15.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn font_family_leads_the_default_stack_only_when_bound() {
+        let svg = |p: Value| scene_to_svg(&label_scene(p));
+        let unbound = svg(serde_json::json!({ "fontSize": { "value": 10 } }));
+        assert!(unbound.contains("font-family=\"adobe-clean-spectrum-vf,"));
+        let bound = svg(serde_json::json!({
+            "fontSize": { "value": 10 },
+            "fontFamily": { "value": "SF Pro" }
+        }));
+        assert!(
+            bound.contains("font-family=\"'SF Pro', adobe-clean-spectrum-vf,"),
+            "{bound}"
+        );
     }
 
     #[test]
