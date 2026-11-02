@@ -2152,7 +2152,10 @@
       (async () => {
         const list = await backend.components();
         const params = new URLSearchParams(location.search);
-        const name = params.get("c") ?? list.find((c) => c.hasVisual).name;
+        const wanted = list.find(
+          (c) => c.name === params.get("c") && c.hasVisual,
+        );
+        const name = (wanted ?? list.find((c) => c.hasVisual)).name;
         $("nav").innerHTML =
           `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
         platformSwitcher(backend.platform(), name).then((html) => {

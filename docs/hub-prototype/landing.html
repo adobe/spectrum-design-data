@@ -43,7 +43,7 @@
     <ul id="platforms"></ul>
     <script>
       fetch("platforms.json")
-        .then((r) => r.json())
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((all) => {
           const list = document.getElementById("platforms");
           for (const p of all) {
@@ -55,6 +55,10 @@
               p.label;
             a.append(p.description ?? "");
           }
+        })
+        .catch(() => {
+          document.getElementById("platforms").textContent =
+            "The platform list could not be loaded.";
         });
     </script>
   </body>
