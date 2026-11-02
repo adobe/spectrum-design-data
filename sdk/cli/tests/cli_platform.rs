@@ -787,9 +787,13 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
         "{ios}"
     );
     // Figma m: 95 x 39 (icon 19.33 + gap 6 + label 18px, 14 + 8 padding); the label height is 1.3 x font size.
-    assert_eq!(container["w"], 94.73, "{ios}");
-    assert_eq!(container["h"], 39.400000000000006, "{ios}");
-    let label = &ios["nodes"][2];
+    let near = |v: &serde_json::Value, want: f64| (v.as_f64().unwrap() - want).abs() < 1e-6;
+    assert!(near(&container["w"], 94.73), "{ios}");
+    assert!(near(&container["h"], 39.4), "{ios}");
+    let label = ios["nodes"]
+        .as_array()
+        .and_then(|n| n.iter().find(|n| n["part"] == "label"))
+        .unwrap_or_else(|| panic!("no label node in {ios}"));
     assert_eq!(label["font_size"], 18.0, "{ios}");
     assert_eq!(label["font_weight"], "600", "{ios}");
     let direct = render_scene(&root, &["button-ios", "--platform", "ios"]);
