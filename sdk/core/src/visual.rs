@@ -1757,13 +1757,13 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     })
 }
 
-/// Closed outline of a rect with independent corner radii `[tl, tr, br, bl]`.
 /// A corner radius cannot exceed half the box's width or height, like CSS `border-radius`:
 /// an oversized radius draws a pill, not an ellipse.
 fn clamp_radius(r: f64, w: f64, h: f64) -> f64 {
     r.min(w / 2.0).min(h / 2.0)
 }
 
+/// Closed outline of a rect with independent corner radii `[tl, tr, br, bl]`.
 fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
     let [tl, tr, br, bl] = r;
     format!(

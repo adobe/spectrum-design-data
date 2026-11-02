@@ -768,11 +768,22 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
     let ios = render_scene(&root, &["button", "--platform", "ios"]);
     assert_eq!(ios["component"], "button-ios", "{ios}");
     let container = &ios["nodes"][0];
-    // The radius token (20) is larger than half the 34.2 high container, so the corner is
-    // clamped to a pill.
+    // The radius comes from the size token (20 for m) and is clamped to half the 34.2 high
+    // container, so the corner is a pill: radius == min(token value, height / 2).
+    let radius_token = container["tokens"]
+        .as_array()
+        .and_then(|t| t.iter().find(|t| t["prop"] == "cornerRadius"))
+        .unwrap_or_else(|| panic!("no cornerRadius token in {ios}"));
+    assert_eq!(radius_token["token"], "button-md-radius-capsule", "{ios}");
+    let token_value: f64 = radius_token["value"]
+        .as_str()
+        .and_then(|v| v.strip_suffix("px"))
+        .and_then(|v| v.parse().ok())
+        .unwrap_or_else(|| panic!("unexpected radius value in {ios}"));
+    assert_eq!(token_value, 20.0, "{ios}");
     assert_eq!(
         container["radius"].as_f64().unwrap(),
-        container["h"].as_f64().unwrap() / 2.0,
+        token_value.min(container["h"].as_f64().unwrap() / 2.0),
         "{ios}"
     );
     assert_eq!(container["w"], 60.2, "{ios}");
