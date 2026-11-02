@@ -150,6 +150,16 @@
             "property": "font-weight"
           }
         },
+        "lineHeight": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "line-height"
+          }
+        },
+        "fontFamily": {
+          "token": { "component": "button-ios", "property": "font-family" }
+        },
         "color": [
           {
             "token": {

@@ -70,8 +70,10 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `fill`, `stroke`, `strokeWidth`, `opacity`                                                     | box, ring  | Paint.                                                                                                                         |
 | `color`                                                                                        | text, icon | Content color.                                                                                                                 |
 | `trackColor`                                                                                   | progress   | Color of the progress track behind the arc.                                                                                    |
-| `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
+| `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style. `lineHeight` sets the line box height.                                                                             |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
+
+**Text height.** A `text` part is as high as its line box: a `lineHeight` ending in `px` is that height, a unitless `lineHeight` multiplies `fontSize`, and with no `lineHeight` it is 1.3 times `fontSize`. A bound `fontFamily` leads the SVG font stack, so a family the viewer lacks falls back to the default stack.
 
 **Height.** A root `box` with no `height` is 32 high, unless the recipe binds `paddingBlockStart` or `paddingBlockEnd`: then its height is the tallest flowed child plus the block padding, and the children sit between the paddings. An explicit `height` always wins and the block padding then only offsets the children.
 
