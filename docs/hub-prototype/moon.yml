@@ -24,3 +24,5 @@ tasks:
       - "/platforms/**/*"
     outputs:
       - "dist"
+    options:
+      runInCI: false
