@@ -24,6 +24,7 @@ const INDEX: &str = include_str!("../assets/index.html");
 const BACKEND: &str = include_str!("../assets/backend.js");
 const RUNTIME: &str = include_str!("../assets/visual-runtime.js");
 const CONSTRAINTS: &str = include_str!("../assets/constraints.js");
+const SWITCHER: &str = include_str!("../assets/platform-switcher.js");
 const CONTROLS: &str = include_str!("../assets/spectrum-controls.js");
 const NOTICES: &str = include_str!("../assets/THIRD-PARTY-NOTICES.txt");
 
@@ -128,6 +129,7 @@ pub fn write_site(
     write("spectrum-controls.js", CONTROLS)?;
     write("THIRD-PARTY-NOTICES.txt", NOTICES)?;
     write("constraints.js", CONSTRAINTS)?;
+    write("platform-switcher.js", SWITCHER)?;
     write(
         "data.json",
         &serde_json::to_string(&data).map_err(|e| e.to_string())?,
