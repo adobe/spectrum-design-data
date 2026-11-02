@@ -91,6 +91,7 @@ mod spec079;
 mod spec080;
 mod spec081;
 mod spec082;
+mod spec083;
 mod visual_util;
 
 use std::collections::HashSet;
@@ -272,6 +273,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec080::Rule),
         Box::new(spec081::Rule),
         Box::new(spec082::Rule),
+        Box::new(spec083::Rule),
     ]
 }
 
@@ -307,7 +309,7 @@ pub fn run_rules(
 /// Recipe rules that read `graph.visuals`; the second pass runs them over platform-owned recipes.
 const RECIPE_RULE_IDS: &[&str] = &[
     "SPEC-060", "SPEC-061", "SPEC-062", "SPEC-063", "SPEC-066", "SPEC-067", "SPEC-068", "SPEC-069",
-    "SPEC-070", "SPEC-071", "SPEC-075",
+    "SPEC-070", "SPEC-071", "SPEC-075", "SPEC-083",
 ];
 
 /// Runs the recipe rules over the platform-owned recipes against the platform-merged graph.

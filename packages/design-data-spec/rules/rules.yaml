@@ -1062,3 +1062,21 @@ rules:
     message: "Platform '{platform}' failed to apply, so the platform rules (SPEC-076, SPEC-079 and the platform recipe checks) did not run: {error}"
     spec_ref: spec/manifest.md#validation
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-083
+    name: visual-props-read-by-renderer
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      The recipe schema accepts props the renderer does not read (`opacity`, `direction`,
+      `align`, `minWidth`, and others on a part kind that has no use for them). The renderer
+      ignores them without a diagnostic. The list of read props is the renderer's own table,
+      not a copy kept in the rule. A recipe binding an ignored prop looks complete and draws
+      differently from what it says.
+    assert: >
+      Every prop in a recipe part's `props` MUST be one the renderer reads for that part: the
+      root part, a part of its `kind`, or a part with a `placement`.
+    message: "Part '{part}' ({role}) of '{component}' binds '{prop}', which the renderer does not read for that part"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
