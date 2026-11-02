@@ -149,3 +149,19 @@ test("an ios recipe whose binding does not resolve fails the guard", () => {
     assert.match(result.stderr, /Missing context/);
   });
 });
+
+test("an ios manifest that cannot apply fails the guard with SPEC-082", () => {
+  withTree((root) => {
+    const file = join(
+      root,
+      "platforms/ios/extensions/platform-extensions/ios-contrast.json",
+    );
+    const ext = JSON.parse(readFileSync(file, "utf8"));
+    ext.extends = "no-such-mode-set";
+    writeFileSync(file, JSON.stringify(ext));
+    const result = guard(root);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /ios: \d+ recipe binding gap/);
+    assert.match(result.stderr, /failed to apply/);
+  });
+});

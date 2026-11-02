@@ -313,6 +313,8 @@ A platform **MAY** declare formatting rules that control how structured name obj
 
 **NORMATIVE:** Manifests **MUST** pass Layer 1 JSON Schema validation.
 
+**NORMATIVE:** A manifest **MUST** apply to the foundation dataset. A validator that cannot apply it, for example because it extends a mode set that was not loaded, **MUST** report an error (SPEC-082 `platform-manifest-applies`) and not skip the platform rules silently.
+
 **RECOMMENDED:** Validators resolve `foundationVersion` against a registry or lockfile and report mismatches as errors or warnings per product policy.
 
 **RECOMMENDED:** Validators confirm the resolved `foundationVersion` provides a cascade-format

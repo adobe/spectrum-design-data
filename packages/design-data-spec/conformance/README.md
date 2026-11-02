@@ -37,6 +37,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-079` | SPEC-079 | A platform-owned recipe does not render under the platform (warning). |
 | `invalid/SPEC-080` | SPEC-080 | A platform recipe replaces a foundation recipe (info).                |
 | `invalid/SPEC-081` | SPEC-081 | A `componentAliases` entry is invalid (error).                        |
+| `invalid/SPEC-082` | SPEC-082 | A platform manifest fails to apply (error).                           |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

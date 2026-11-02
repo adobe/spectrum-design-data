@@ -1045,3 +1045,20 @@ rules:
     message: "Invalid component alias '{alias}' in platform '{platform}': {reason}"
     spec_ref: spec/manifest.md#componentaliases
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-082
+    name: platform-manifest-applies
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Runs only when a platform manifest is in scope. SPEC-076, SPEC-079 and the platform recipe
+      checks apply the manifest themselves and report nothing when it fails, so this rule is what
+      makes a manifest that cannot apply (for example one that extends a mode set that was not
+      loaded, as when `validate --platform` runs without `--mode-sets-path`) fail instead of look
+      like a pass. The CI guard `.github/scripts/validate-platform-recipes.mjs` fails on it.
+    assert: >
+      A platform manifest MUST apply to the foundation graph.
+    message: "Platform '{platform}' failed to apply, so the platform rules (SPEC-076, SPEC-079 and the platform recipe checks) did not run: {error}"
+    spec_ref: spec/manifest.md#validation
+    introduced_in: "1.0.0-draft"
