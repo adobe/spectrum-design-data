@@ -27,6 +27,80 @@ use crate::graph::{name_ctx_score, TokenGraph};
 const AVG_ADVANCE_EM: f64 = 0.46;
 const RING_MARGIN: f64 = 8.0;
 
+/// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
+/// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
+/// SPEC-083 warns about a recipe prop missing from it, so a recipe cannot bind a prop the
+/// renderer ignores. Add a prop here when the solver starts to read it.
+pub const READ_PROPS: &[(&str, &[&str])] = &[
+    (
+        "root",
+        &[
+            "height",
+            "paddingInlineStart",
+            "paddingInlineEnd",
+            "paddingBlockStart",
+            "paddingBlockEnd",
+            "gap",
+            "cornerRadius",
+            "cornerRadiusStartStart",
+            "cornerRadiusStartEnd",
+            "cornerRadiusEndEnd",
+            "cornerRadiusEndStart",
+            "fill",
+            "stroke",
+            "strokeWidth",
+            "pressDifference",
+            "pressWidthRatio",
+            "pressMinPerspective",
+            "pressMaxPerspective",
+        ],
+    ),
+    (
+        "box",
+        &[
+            "color",
+            "width",
+            "height",
+            "cornerRadius",
+            "fill",
+            "stroke",
+            "strokeWidth",
+            "justify",
+        ],
+    ),
+    ("icon", &["color", "width", "height"]),
+    ("progress", &["color", "width", "height", "trackColor"]),
+    (
+        "text",
+        &[
+            "color",
+            "fontFamily",
+            "fontSize",
+            "fontWeight",
+            "lineHeight",
+        ],
+    ),
+    ("ring", &["stroke", "strokeWidth", "gapToParent"]),
+    ("placed", &["color"]),
+];
+
+/// The props the solver reads for a part: its role is `root` for the root part, `placed` when
+/// it has a `placement`, and otherwise its `kind` (default `box`). `None`: no such role.
+pub fn read_props(role: &str) -> Option<&'static [&'static str]> {
+    READ_PROPS.iter().find(|(r, _)| *r == role).map(|(_, p)| *p)
+}
+
+/// The role that selects a part's entry in `READ_PROPS`.
+pub fn part_role(part: &Value, is_root: bool) -> &str {
+    if is_root {
+        "root"
+    } else if part.get("placement").is_some() {
+        "placed"
+    } else {
+        part.get("kind").and_then(Value::as_str).unwrap_or("box")
+    }
+}
+
 /// One render request: which component, at which size, in which state and mode.
 #[derive(Debug, Clone, Default, serde::Deserialize)]
 #[serde(default)]
@@ -1293,6 +1367,19 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         diags: Vec::new(),
     };
     let rp = |cx: &mut Ctx, part: &Value, name: &str| -> Option<Resolved> {
+        // A child of a part is laid out as a box unless it is an icon, so it may also read the
+        // box props.
+        debug_assert!(
+            {
+                let role = part_role(part, std::ptr::eq(part, root));
+                read_props(role).is_some_and(|p| p.contains(&name))
+                    || (role != "root"
+                        && role != "ring"
+                        && read_props("box").is_some_and(|p| p.contains(&name)))
+            },
+            "the solver reads prop '{name}' on a {} part, but READ_PROPS does not list it",
+            part_role(part, std::ptr::eq(part, root))
+        );
         cx.eval(part.get("props").and_then(|p| p.get(name)))
     };
 
@@ -2487,6 +2574,14 @@ mod tests {
             }
         });
         build_scene(&g, &recipe, &req(&[])).unwrap()
+    }
+
+    #[test]
+    fn every_part_kind_has_a_read_props_entry() {
+        for kind in ["box", "text", "icon", "ring", "progress"] {
+            assert!(read_props(kind).is_some(), "no READ_PROPS entry for {kind}");
+        }
+        assert!(read_props("root").is_some() && read_props("placed").is_some());
     }
 
     #[test]
