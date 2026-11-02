@@ -394,5 +394,150 @@
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Alias of foundation white. Figma Palette/white, VariableID:2113:5481.",
     "uuid": "e3bd83ac-5e1e-4daa-92f6-9796e2877a06"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "font-size",
+      "legacyKey": "button-sm-font-size"
+    },
+    "value": "16px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/size/200, VariableID:3:979, bound to the Label text of Button Size=Small, node 3956:67280 (OQExiy8bX0pRqee71eAWX6).",
+    "uuid": "8679b891-e0ea-43a5-9077-b0b81e3cbddd"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "font-weight",
+      "legacyKey": "button-sm-font-weight"
+    },
+    "value": "600",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/weight/semibold (FLOAT 600), VariableID:18011:192, bound to the Label text of Button Size=Small, node 3956:67280. The font-weight token type has no semibold, so this token carries no $valueType.",
+    "uuid": "b23883d7-87fc-470c-ab69-c686c0303b34"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "property": "line-height",
+      "legacyKey": "button-sm-line-height"
+    },
+    "value": "20.48px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Label text of Button Size=Small, node 3956:67280: intrinsic 128% line height of 16px, no variable.",
+    "uuid": "3b8c6a79-ad84-4a7b-81b3-747a5bbb74c2"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "s",
+      "anatomy": "icon",
+      "property": "size",
+      "legacyKey": "button-sm-icon-size"
+    },
+    "value": "17.33px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Icon glyph of Button Size=Small, node I3956:67279;5869:5896. The glyph is not bound to a variable; the icon frame is 17, 19 and 24px wide for s, m and l.",
+    "uuid": "95eaa054-50cf-4c8c-b7db-eba9d861d8a8"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "font-size",
+      "legacyKey": "button-md-font-size"
+    },
+    "value": "18px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/size/300, VariableID:3:974, bound to the Label text of Button Size=Medium, node 3956:67384 (OQExiy8bX0pRqee71eAWX6).",
+    "uuid": "13b96f82-864b-40ce-9698-8192cdee4425"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "font-weight",
+      "legacyKey": "button-md-font-weight"
+    },
+    "value": "600",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/weight/semibold (FLOAT 600), VariableID:18011:192, bound to the Label text of Button Size=Medium, node 3956:67384. The font-weight token type has no semibold, so this token carries no $valueType.",
+    "uuid": "19e30364-607c-4385-8957-ec328038a353"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "property": "line-height",
+      "legacyKey": "button-md-line-height"
+    },
+    "value": "23.04px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Label text of Button Size=Medium, node 3956:67384: intrinsic 128% line height of 18px, no variable.",
+    "uuid": "97ce7d2d-9501-416c-8813-6978745d9dc1"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "m",
+      "anatomy": "icon",
+      "property": "size",
+      "legacyKey": "button-md-icon-size"
+    },
+    "value": "19.33px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Icon glyph of Button Size=Medium, node I3956:67383;5869:5886. The glyph is not bound to a variable; the icon frame is 17, 19 and 24px wide for s, m and l.",
+    "uuid": "9699a2d0-27bd-460e-b8f4-24441f159459"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "font-size",
+      "legacyKey": "button-lg-font-size"
+    },
+    "value": "18px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/size/300, VariableID:3:974, bound to the Label text of Button Size=Large, node 3956:67488 (OQExiy8bX0pRqee71eAWX6).",
+    "uuid": "938c0ee6-6a7b-4636-80cf-a70355a61108"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "font-weight",
+      "legacyKey": "button-lg-font-weight"
+    },
+    "value": "600",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/weight/semibold (FLOAT 600), VariableID:18011:192, bound to the Label text of Button Size=Large, node 3956:67488. The font-weight token type has no semibold, so this token carries no $valueType.",
+    "uuid": "f60933a5-f240-4399-9e28-4ecc124fe5c1"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "property": "line-height",
+      "legacyKey": "button-lg-line-height"
+    },
+    "value": "23.04px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Label text of Button Size=Large, node 3956:67488: intrinsic 128% line height of 18px, no variable.",
+    "uuid": "101f2e22-c6d8-4618-b314-e93ddf90123c"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "size": "l",
+      "anatomy": "icon",
+      "property": "size",
+      "legacyKey": "button-lg-icon-size"
+    },
+    "value": "23.67px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Icon glyph of Button Size=Large, node I3956:67487;5869:5891. The glyph is not bound to a variable; the icon frame is 17, 19 and 24px wide for s, m and l.",
+    "uuid": "b1dd4868-7011-485f-bfb8-4992db2f277a"
+  },
+  {
+    "name": {
+      "component": "button-ios",
+      "property": "font-family",
+      "legacyKey": "button-font-family"
+    },
+    "value": "Adobe Clean Spectrum VF",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/family/default, VariableID:3:963, bound to the Label text of every Button size.",
+    "uuid": "a49d2f3d-73e4-4af9-93e6-0d4496968d32"
   }
 ]

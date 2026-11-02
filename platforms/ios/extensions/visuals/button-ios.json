@@ -7,7 +7,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["label"],
+      "children": ["icon", "label"],
       "props": {
         "direction": { "value": "row" },
         "align": { "value": "center" },
@@ -93,10 +93,63 @@
         ]
       }
     },
+    "icon": {
+      "kind": "icon",
+      "props": {
+        "width": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "anatomy": "icon",
+            "property": "size"
+          }
+        },
+        "height": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "anatomy": "icon",
+            "property": "size"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "component": "button-ios",
+              "variant": "{style}",
+              "property": "content-color"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "priority": 10,
+            "token": {
+              "component": "button-ios",
+              "property": "content-color",
+              "state": "disabled"
+            }
+          }
+        ]
+      }
+    },
     "label": {
       "kind": "text",
       "visibleWhen": { "options": { "isLabelHidden": false } },
       "props": {
+        "fontSize": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "font-size"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "component": "button-ios",
+            "size": "{size}",
+            "property": "font-weight"
+          }
+        },
         "color": [
           {
             "token": {

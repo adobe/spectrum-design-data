@@ -768,7 +768,7 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
     let ios = render_scene(&root, &["button", "--platform", "ios"]);
     assert_eq!(ios["component"], "button-ios", "{ios}");
     let container = &ios["nodes"][0];
-    // The radius comes from the size token (20 for m) and is clamped to half the 34.2 high
+    // The radius comes from the size token (20 for m) and is clamped to half the 39.4 high
     // container, so the corner is a pill: radius == min(token value, height / 2).
     let radius_token = container["tokens"]
         .as_array()
@@ -786,7 +786,12 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
         token_value.min(container["h"].as_f64().unwrap() / 2.0),
         "{ios}"
     );
-    assert_eq!(container["w"], 60.2, "{ios}");
+    // Figma m: 95 x 39 (icon 19.33 + gap 6 + label 18px, 14 + 8 padding); the label height is 1.3 x font size.
+    assert_eq!(container["w"], 94.73, "{ios}");
+    assert_eq!(container["h"], 39.400000000000006, "{ios}");
+    let label = &ios["nodes"][2];
+    assert_eq!(label["font_size"], 18.0, "{ios}");
+    assert_eq!(label["font_weight"], "600", "{ios}");
     let direct = render_scene(&root, &["button-ios", "--platform", "ios"]);
     assert_eq!(ios, direct);
     let primary = render_scene(
