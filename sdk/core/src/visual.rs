@@ -30,7 +30,8 @@ const RING_MARGIN: f64 = 8.0;
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
 /// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
-/// so a recipe cannot bind a prop the renderer ignores. Add a prop here when the solver starts to read it.
+/// so a recipe cannot bind a prop the renderer ignores. Add a prop here when the solver starts to
+/// read it.
 pub const READ_PROPS: &[(&str, &[&str])] = &[
     (
         "root",
@@ -2579,10 +2580,9 @@ mod tests {
 
     #[test]
     fn reads_prop_applies_the_box_fallback_only_to_text_and_progress() {
-        let part = |v: Value| v;
-        let text = part(serde_json::json!({ "kind": "text" }));
-        let placed = part(serde_json::json!({ "kind": "box", "placement": {} }));
-        let ring = part(serde_json::json!({ "kind": "ring" }));
+        let text = serde_json::json!({ "kind": "text" });
+        let placed = serde_json::json!({ "kind": "box", "placement": {} });
+        let ring = serde_json::json!({ "kind": "ring" });
         assert!(reads_prop(&text, false, "fontSize") && reads_prop(&text, false, "fill"));
         assert!(!reads_prop(&text, false, "opacity"));
         assert!(reads_prop(&placed, false, "color") && !reads_prop(&placed, false, "fill"));
