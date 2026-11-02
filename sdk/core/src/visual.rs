@@ -127,7 +127,11 @@ struct Resolved {
 impl Resolved {
     fn num(&self) -> Option<f64> {
         let s = self.value.trim();
-        s.trim_end_matches("px").trim().parse().ok()
+        s.trim_end_matches("px")
+            .trim()
+            .parse()
+            .ok()
+            .filter(|n: &f64| n.is_finite())
     }
 }
 
@@ -2497,6 +2501,8 @@ mod tests {
         assert!((h(Value::Null) - 13.0).abs() < 1e-9);
         assert!((h(serde_json::json!({ "value": "20.5px" })) - 20.5).abs() < 1e-9);
         assert!((h(serde_json::json!({ "value": "1.5" })) - 15.0).abs() < 1e-9);
+        assert!((h(serde_json::json!({ "value": "128%" })) - 13.0).abs() < 1e-9);
+        assert!((h(serde_json::json!({ "value": "inf" })) - 13.0).abs() < 1e-9);
     }
 
     #[test]
