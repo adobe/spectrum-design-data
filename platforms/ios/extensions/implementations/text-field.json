@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "text-field",
+  "implementations": [
+    {
+      "platform": "ios",
+      "componentName": "SPTextField",
+      "package": "spectrum-ios",
+      "notes": "SwiftUI; UIKit list cells: SPUITextFieldContentConfiguration. Source: OneAdobe/spectrum-ios main 3f6e7c0."
+    }
+  ]
+}
