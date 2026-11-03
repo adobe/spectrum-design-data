@@ -36,19 +36,90 @@
     }
   ],
   "options": {
-    "isSelected": { "type": "boolean", "default": false },
-    "isEmphasized": { "type": "boolean", "default": false },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
     "label": {
       "type": "string",
       "description": "The text displayed next to a radio button."
     }
   },
-  "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the control and the label.",
+      "required": true,
+      "contains": ["control", "label"]
+    },
+    {
+      "name": "control",
+      "description": "Circle that holds the selection indicator. Unselected it is drawn as a ring; selected it is filled.",
+      "required": true,
+      "contains": ["selection-indicator"]
+    },
+    {
+      "name": "selection-indicator",
+      "description": "Dot at the center of the control, shown while the radio button is selected."
+    },
+    {
+      "name": "label",
+      "description": "Text label."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the control for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma draws the selected state as a 6px inner border around a 4px white dot; modeled as a filled control with a selection-indicator dot, which renders the same. focus-indicator is state-only."
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
     {
       "token": "neutral-content-color-selected-default",
@@ -69,9 +140,21 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

@@ -130,30 +130,6 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "color"
-    },
-    "context": "S1 Control (selected, non emphasized)",
-    "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "color"
-    },
-    "context": "S1 Control (selected, non emphasized)",
-    "$ref": "1c220122-5f32-42f9-848f-ae10061241e5"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "color"
-    },
-    "context": "S1 Control (selected, non emphasized)",
-    "$ref": "9b8df7df-3439-4614-b446-97a4de782e27"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -246,6 +222,14 @@
     },
     "context": "Control (border)",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "corner-radius"
+    },
+    "context": "Control (rounding)",
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
   },
   {
     "scope": {
@@ -526,6 +510,70 @@
     },
     "context": "Control",
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "7289003d-78b6-4c61-aada-a3252a7a9bd2"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "018f02b1-2f01-4b48-8161-4a0e9d2eed09"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "1b040ae6-315e-49a5-9363-62ba79b139ff"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
   },
   {
     "scope": {

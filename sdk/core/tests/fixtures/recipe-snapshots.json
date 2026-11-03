@@ -766,6 +766,16 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=false": "d4c6a9e8cb77adbf",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "4aeae759bb98a55f"
   },
+  "radio-button": {
+    "isDisabled=false,isEmphasized=false,isSelected=false": "48572ac4f050beb9",
+    "isDisabled=false,isEmphasized=false,isSelected=true": "f618c6f4db8c6a47",
+    "isDisabled=false,isEmphasized=true,isSelected=false": "fb4a2cbfab74077b",
+    "isDisabled=false,isEmphasized=true,isSelected=true": "c369f3dab786e447",
+    "isDisabled=true,isEmphasized=false,isSelected=false": "5bb8b612d7cc748d",
+    "isDisabled=true,isEmphasized=false,isSelected=true": "bc5cceee13b12b3d",
+    "isDisabled=true,isEmphasized=true,isSelected=false": "6b624dc02da44623",
+    "isDisabled=true,isEmphasized=true,isSelected=true": "43b129d8f8437e4f"
+  },
   "switch": {
     "hideLabel=false,isDisabled=false,isEmphasized=false,isSelected=false": "5844dd735c7ec33f",
     "hideLabel=false,isDisabled=false,isEmphasized=false,isSelected=true": "aa49a63d0358a3a3",
