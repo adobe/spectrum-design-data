@@ -1574,6 +1574,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_weight = fw.map(|f| f.value);
                 let text = req.label.clone();
                 c.w = text_width(&text, c.font_size);
+                if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
+                    cx.diags.push(format!(
+                        "lineHeight '{}' is not a number or px value; using 1.3 x font size",
+                        r.value
+                    ));
+                }
                 c.h = line_height(lh.as_ref(), c.font_size);
                 c.text = Some(text);
             }
@@ -1582,9 +1588,25 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         flow.push(c);
     }
 
+    // As in Figma, an icon taller than the label line adds only the line height to the row,
+    // so the icon overflows the content box evenly instead of growing the container.
+    let line = flow
+        .iter()
+        .filter(|c| c.kind == "text")
+        .map(|c| c.h)
+        .fold(0.0, f64::max);
     let gaps = gap * flow.len().saturating_sub(1) as f64;
     let widest = flow.iter().map(|c| c.w).fold(0.0, f64::max);
-    let tallest = flow.iter().map(|c| c.h).fold(0.0, f64::max);
+    let tallest = flow
+        .iter()
+        .map(|c| {
+            if c.kind == "icon" && line > 0.0 {
+                c.h.min(line)
+            } else {
+                c.h
+            }
+        })
+        .fold(0.0, f64::max);
     let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
     let w = pad_s + if column { widest } else { sum_w } + pad_e;
@@ -2747,6 +2769,48 @@ mod tests {
         assert!((h(serde_json::json!({ "value": "1.5" })) - 15.0).abs() < 1e-9);
         assert!((h(serde_json::json!({ "value": "128%" })) - 13.0).abs() < 1e-9);
         assert!((h(serde_json::json!({ "value": "inf" })) - 13.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn an_unparsable_line_height_is_a_diagnostic() {
+        let diags = |lh: Value| {
+            let p = serde_json::json!({ "fontSize": { "value": 10 }, "lineHeight": lh });
+            label_scene(p).diagnostics
+        };
+        assert!(diags(serde_json::json!({ "value": "1.5" })).is_empty());
+        for bad in ["128%", "1.2em"] {
+            let d = diags(serde_json::json!({ "value": bad }));
+            assert_eq!(d.len(), 1, "{bad}: {d:?}");
+            assert!(d[0].contains(bad), "{d:?}");
+        }
+    }
+
+    #[test]
+    fn an_icon_taller_than_the_label_line_adds_only_the_line_height() {
+        let (g, _) = load();
+        let height = |icon: &str| {
+            let recipe = serde_json::json!({
+                "specVersion": "1.0.0-draft",
+                "component": "action-button",
+                "root": "box",
+                "sizeScale": { "m": 100 },
+                "parts": {
+                    "box": { "kind": "box", "children": ["icon", "label"], "props": {
+                        "paddingBlockStart": { "value": 5 },
+                        "paddingBlockEnd": { "value": 5 } } },
+                    "icon": { "kind": "icon", "props": { "width": { "value": icon }, "height": { "value": icon } } },
+                    "label": { "kind": "text", "props": { "fontSize": { "value": 10 } } }
+                }
+            });
+            let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
+            let box_h = scene.nodes[0].h;
+            let icon = part(&scene, "icon").unwrap();
+            (box_h, icon.h, icon.y - scene.nodes[0].y)
+        };
+        // The label line is 13 high: a 10 icon does not matter, a 30 icon is clipped to 13.
+        assert_eq!(height("10"), (23.0, 10.0, 6.5));
+        // The 30 icon overflows the 13 line by 8.5 on each side.
+        assert_eq!(height("30"), (23.0, 30.0, -3.5));
     }
 
     #[test]
