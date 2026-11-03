@@ -15,6 +15,7 @@ use std::sync::OnceLock;
 use chrono::Utc;
 
 mod authoring;
+mod changelog;
 mod data;
 mod format;
 mod lifecycle;
@@ -274,6 +275,29 @@ enum Commands {
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
+    },
+    /// Append a release to each component's changelog (changelog/<component>.json) by diffing
+    /// two git revisions of the dataset
+    Changelog {
+        /// Revision the release starts after (tag, branch or commit)
+        #[arg(long, value_name = "REF")]
+        from: String,
+        /// Revision the release ends at
+        #[arg(long, value_name = "REF")]
+        to: String,
+        /// Only write this component's changelog
+        #[arg(long, value_name = "ID")]
+        component: Option<String>,
+        /// Dataset root (the directory holding tokens/, components/, ...); changelog/ is written inside it
+        #[arg(long, value_name = "PATH")]
+        dataset: Option<PathBuf>,
+        /// Release label recorded in the changelog (default: --to, without its package prefix)
+        #[arg(long, value_name = "LABEL")]
+        release: Option<String>,
+        /// Cut the range into one release per stable tag matching GLOB (backfill); commits after
+        /// the last tag are recorded under --release
+        #[arg(long, value_name = "GLOB")]
+        tags: Option<String>,
     },
     /// Resolve a token value for a given mode set context
     Resolve {
@@ -4079,6 +4103,21 @@ fn main() -> ExitCode {
             path,
             output,
         } => spec_sheet::run(component, size, changelog, path, output),
+        Commands::Changelog {
+            from,
+            to,
+            component,
+            dataset,
+            release,
+            tags,
+        } => changelog::run(changelog::Args {
+            from,
+            to,
+            component,
+            dataset,
+            release,
+            tags,
+        }),
         Commands::Resolve {
             property,
             path,

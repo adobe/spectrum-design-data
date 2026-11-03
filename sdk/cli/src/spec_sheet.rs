@@ -547,13 +547,15 @@ impl Ctx<'_> {
             let mut changes = Vec::new();
             let mut values_updated = false;
             let mut bindings_changed = false;
-            let revisions = changelog
-                .and_then(|c| c.get("revisions"))
+            let releases = changelog
+                .and_then(|c| c.get("releases"))
                 .and_then(Value::as_array);
-            for e in revisions
+            for e in releases
                 .into_iter()
                 .flatten()
-                .flat_map(|rev| rev.get("entries").and_then(Value::as_array))
+                .flat_map(|r| r.get("commits").and_then(Value::as_array))
+                .flatten()
+                .flat_map(|c| c.get("entries").and_then(Value::as_array))
                 .flatten()
             {
                 let hit = e
@@ -653,7 +655,13 @@ pub fn run(
         "component": component,
         "displayName": display,
         "size": size,
-        "datasetRevision": changelog.as_ref().and_then(|c| c.get("datasetRevision")).cloned(),
+        "datasetRevision": changelog
+            .as_ref()
+            .and_then(|c| c.get("releases"))
+            .and_then(Value::as_array)
+            .and_then(|r| r.last())
+            .and_then(|r| r.get("commit"))
+            .cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
     });

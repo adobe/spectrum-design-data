@@ -55,27 +55,36 @@ writeFileSync(
 );
 copyFileSync(join(here, "landing.html"), join(dist, "index.html"));
 
-// Generated spec sheet and changelog (draft): data/ is committed for review, dist/specs/ is
-// the page that draws it. Regenerated from the current checkout on every build.
+// Generated spec sheet (draft): data/ is committed for review, dist/specs/ is the page that
+// draws it. The changelog is the committed packages/design-data/changelog/<component>.json
+// (`design-data changelog`), copied next to the sheet; the sheet is regenerated on every build.
 const components = ["action-button"];
 const data = join(here, "data");
-mkdirSync(join(data, "changelog"), { recursive: true });
 mkdirSync(join(data, "sheets"), { recursive: true });
 for (const c of components) {
-  const changelog = join(data, "changelog", `${c}.json`);
-  run(
-    "node",
-    [join(root, "tools/component-changelog/src/cli.js"), c, "--out", changelog],
-    root,
-  );
+  const source = join(root, "packages/design-data/changelog", `${c}.json`);
   run(
     cli,
-    ["spec-sheet", c, "--changelog", changelog, "-o", join(data, "sheets", `${c}.json`)],
+    [
+      "spec-sheet",
+      c,
+      "--changelog",
+      source,
+      "-o",
+      join(data, "sheets", `${c}.json`),
+    ],
     root,
   );
 }
 cpSync(join(here, "specs"), join(dist, "specs"), { recursive: true });
 cpSync(data, join(dist, "specs/data"), { recursive: true });
+mkdirSync(join(dist, "specs/data/changelog"), { recursive: true });
+for (const c of components) {
+  copyFileSync(
+    join(root, "packages/design-data/changelog", `${c}.json`),
+    join(dist, "specs/data/changelog", `${c}.json`),
+  );
+}
 copyFileSync(
   join(root, "sdk/plugins/site/assets/visual-runtime.js"),
   join(dist, "specs/visual-runtime.js"),

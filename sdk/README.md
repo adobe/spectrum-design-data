@@ -125,6 +125,18 @@ design-data diff old/ new/ --filter "component=button"
 design-data diff old/ new/ --format json
 ```
 
+### changelog
+
+Appends a release to each component's `changelog/<component>.json` by diffing two git revisions of a dataset (see `spec/component-changelog.md`). Works on any dataset in any git repository.
+
+```bash
+design-data changelog --from @adobe/spectrum-design-data@3.7.1 --to HEAD --release 3.8.0 --dataset packages/design-data
+# Backfill: one release per stable tag, then the tail under --release
+design-data changelog --from @adobe/spectrum-design-data@2.1.0 --to HEAD --tags '@adobe/spectrum-design-data@*' --release unreleased
+```
+
+Each commit is diffed once for every component. Releases already recorded are never rewritten, so running it twice gives the same output.
+
 ### query
 
 List tokens matching a filter expression.

@@ -21,12 +21,13 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const code = readFileSync(join(here, "../code.js"), "utf-8");
+const read = (path) =>
+  JSON.parse(readFileSync(join(here, "../../..", path), "utf-8"));
 const data = (kind) =>
-  JSON.parse(
-    readFileSync(
-      join(here, `../../../docs/hub-prototype/data/${kind}/action-button.json`),
-      "utf-8",
-    ),
+  read(
+    kind === "changelog"
+      ? "packages/design-data/changelog/action-button.json"
+      : `docs/hub-prototype/data/${kind}/action-button.json`,
   );
 const sheet = data("sheets");
 const changelog = data("changelog");
@@ -102,7 +103,7 @@ test("renders the Layout and Color pages with a block per spec block", async (t)
   t.true(count(root, (n) => n.name === "Changelog item") > 0);
 });
 
-test("changelog rows hide metadata-class changes and show the PR title", async (t) => {
+test("changelog rows list entries, not metadata summaries, and show the PR title", async (t) => {
   const { figma, page } = mock();
   await figma.ui.onmessage({
     type: "render-sheet",
@@ -116,15 +117,13 @@ test("changelog rows hide metadata-class changes and show the PR title", async (
     n.children.forEach(walk);
   };
   walk(page.children[0]);
-  const withChanges = changelog.revisions.filter((r) =>
-    r.entries.some((e) => e.class !== "metadata"),
-  );
+  const commits = changelog.releases.flatMap((r) => r.commits);
+  const withChanges = commits.filter((c) => c.entries.length);
   t.is(rows.length, withChanges.length);
   t.true(rows.every((r) => !/metadata/.test(r)));
-  const pr = changelog.revisions.find(
-    (r) =>
-      r.source.type === "pr" && r.entries.some((e) => e.class !== "metadata"),
-  );
+  t.true(commits.some((c) => c.metadata));
+  t.true(commits.every((c) => c.entries.every((e) => e.class !== "metadata")));
+  const pr = commits.find((c) => c.source.type === "pr" && c.entries.length);
   t.true(rows.some((r) => r.includes(pr.source.title)));
 });
 

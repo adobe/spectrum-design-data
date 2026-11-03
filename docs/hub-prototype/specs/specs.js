@@ -16,9 +16,12 @@ const [sheet, changelog] = await Promise.all(
     (u) => fetch(u).then((r) => r.json()),
   ),
 );
+const commits = changelog.releases.flatMap((rel) =>
+  rel.commits.map((c) => ({ ...c, release: rel })),
+);
 const entries = new Map(
-  changelog.revisions.flatMap((r) =>
-    r.entries.map((e) => [e.id, { ...e, source: r.source, date: r.date }]),
+  commits.flatMap((c) =>
+    c.entries.map((e) => [e.id, { ...e, source: c.source, date: c.date }]),
   ),
 );
 
@@ -111,8 +114,8 @@ function tokens(block) {
 const rev8 = (d) =>
   d.datasetRevision ? d.datasetRevision.slice(0, 8) : "unknown";
 
-const HIDDEN = new Set(["metadata"]);
-const shown = (r) => r.entries.filter((e) => !HIDDEN.has(e.class));
+// Metadata-class changes are only counted per commit (`metadata: {count, fields}`).
+const shown = (c) => c.entries;
 
 const sourceLink = (s) =>
   s.type === "pr"
@@ -120,30 +123,40 @@ const sourceLink = (s) =>
     : `<code>${esc(s.sha.slice(0, 8))}</code> ${esc(s.subject)}`;
 
 const describe = (e) =>
-  `${e.kind} ${e.change}${e.path ? ` ${e.path}` : ""}${e.scope?.property ? ` · ${e.scope.property}` : ""}${e.token ? ` · ${e.token.slice(0, 8)}` : ""}`;
+  `${e.kind} ${e.change}${e.fields[0] ? ` ${e.fields[0].path}` : ""}${e.scope?.property ? ` · ${e.scope.property}` : ""}${e.name && !e.scope ? ` · ${e.name}` : ""}`;
 
 function renderChangelog() {
-  const rows = changelog.revisions
-    .map((r) => [r, shown(r)])
-    .filter(([, entries]) => entries.length)
-    .map(([r, entries]) => {
-      const byClass = {};
-      for (const e of entries) byClass[e.class] = (byClass[e.class] ?? 0) + 1;
-      const chips = Object.entries(byClass)
-        .map(([c, n]) => `<span class="chip ${c}">${c} ${n}</span>`)
-        .join(" ");
-      const items = entries
-        .slice(0, 40)
-        .map(
-          (e) =>
-            `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc((e.contexts ?? []).join(", "))}</span></li>`,
-        )
+  const rows = [...changelog.releases]
+    .reverse()
+    .map((rel) => {
+      const rows = rel.commits
+        .map((c) => [c, shown(c)])
+        .filter(([, entries]) => entries.length)
+        .map(([c, entries]) => {
+          const byClass = {};
+          for (const e of entries)
+            byClass[e.class] = (byClass[e.class] ?? 0) + 1;
+          const chips = Object.entries(byClass)
+            .map(([k, n]) => `<span class="chip ${k}">${k} ${n}</span>`)
+            .join(" ");
+          const items = entries
+            .slice(0, 40)
+            .map(
+              (e) =>
+                `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
+            )
+            .join("");
+          return `<details class="rev"><summary>${esc(c.date)} · ${sourceLink(c.source)} · ${entries.length} changes ${chips}${c.metadata ? ` · ${c.metadata.count} metadata` : ""}</summary><ul>${items}${entries.length > 40 ? `<li>… ${entries.length - 40} more</li>` : ""}</ul></details>`;
+        })
         .join("");
-      return `<details class="rev"><summary>${esc(r.date)} · ${sourceLink(r.source)} · ${entries.length} changes ${chips}</summary><ul>${items}${entries.length > 40 ? `<li>… ${entries.length - 40} more</li>` : ""}</ul></details>`;
+      return rows
+        ? `<h3>${esc(rel.version)} <small>${esc(rel.bump ?? "first release")} · release ${esc(rel.release)} · ${esc(rel.date)}</small></h3>${rows}`
+        : "";
     })
     .join("");
+  const latest = changelog.releases.at(-1);
   document.getElementById("changelog").innerHTML =
-    `<h2 id="changelog-h">Changelog</h2><p>${esc(changelog.from.ref)} → dataset ${esc(rev8(changelog))}</p>${rows}`;
+    `<h2 id="changelog-h">Changelog</h2><p>Version ${esc(latest?.version ?? changelog.baseline?.version ?? "")} · from ${esc(changelog.baseline?.release ?? "the first release")} · dataset ${esc(rev8(sheet))}</p>${rows}`;
 }
 
 function renderPage(title) {

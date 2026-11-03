@@ -314,48 +314,79 @@ function tokenList(block) {
   return f;
 }
 
-// Metadata-class changes stay in the changelog JSON and are hidden here.
+// Metadata-class changes are only counted per commit in the changelog JSON; rows list the rest.
 function changelogFrame(changelog, rev8) {
   const f = auto("VERTICAL", { itemSpacing: 8 });
   f.name = "Changelog";
   f.appendChild(text("Changelog", 32, "Semi Bold"));
-  f.appendChild(text(changelog.from.ref + " → dataset " + rev8, 13));
-  for (const rev of changelog.revisions) {
-    const shown = rev.entries.filter((e) => e.class !== "metadata");
-    if (!shown.length) continue;
-    const by = {};
-    for (const e of shown) by[e.class] = (by[e.class] || 0) + 1;
-    const src =
-      rev.source.type === "pr"
-        ? "#" + rev.source.number + " " + rev.source.title
-        : rev.source.sha.slice(0, 8) + " " + rev.source.subject;
-    const row = auto("HORIZONTAL", {
-      paddingTop: 6,
-      paddingBottom: 6,
-      paddingLeft: 12,
-      paddingRight: 12,
-      cornerRadius: 8,
-    });
-    row.name = "Changelog item";
-    row.strokes = [solid({ r: 0.88, g: 0.88, b: 0.88 })];
-    row.strokeWeight = 1;
-    const chips = Object.keys(by)
-      .map((c) => c + " " + by[c])
-      .join(", ");
-    row.appendChild(
+  const first = changelog.baseline
+    ? changelog.baseline.release
+    : "first release";
+  const latest = changelog.releases[changelog.releases.length - 1];
+  f.appendChild(
+    text(
+      "Version " +
+        (latest ? latest.version : "") +
+        " · from " +
+        first +
+        " · dataset " +
+        rev8,
+      13,
+    ),
+  );
+  for (const rel of changelog.releases.slice().reverse()) {
+    const commits = rel.commits
+      .map((c) => ({ c, shown: c.entries }))
+      .filter((x) => x.shown.length);
+    if (!commits.length) continue;
+    f.appendChild(
       text(
-        rev.date +
+        rel.version +
           " · " +
-          src +
+          (rel.bump || "first release") +
+          " · release " +
+          rel.release +
           " · " +
-          shown.length +
-          " changes (" +
-          chips +
-          ")",
-        13,
+          rel.date,
+        16,
+        "Semi Bold",
       ),
     );
-    f.appendChild(row);
+    for (const { c, shown } of commits) {
+      const by = {};
+      for (const e of shown) by[e.class] = (by[e.class] || 0) + 1;
+      const src =
+        c.source.type === "pr"
+          ? "#" + c.source.number + " " + c.source.title
+          : c.source.sha.slice(0, 8) + " " + c.source.subject;
+      const row = auto("HORIZONTAL", {
+        paddingTop: 6,
+        paddingBottom: 6,
+        paddingLeft: 12,
+        paddingRight: 12,
+        cornerRadius: 8,
+      });
+      row.name = "Changelog item";
+      row.strokes = [solid({ r: 0.88, g: 0.88, b: 0.88 })];
+      row.strokeWeight = 1;
+      const chips = Object.keys(by)
+        .map((k) => k + " " + by[k])
+        .join(", ");
+      row.appendChild(
+        text(
+          c.date +
+            " · " +
+            src +
+            " · " +
+            shown.length +
+            " changes (" +
+            chips +
+            ")",
+          13,
+        ),
+      );
+      f.appendChild(row);
+    }
   }
   return f;
 }

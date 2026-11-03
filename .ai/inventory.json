@@ -172,15 +172,6 @@
       "summary": "Enforces concise changeset files. Published, but intended for this repository."
     },
     {
-      "path": "tools/component-changelog",
-      "kind": "package",
-      "audience": "maintainer",
-      "lifecycle": "incubating",
-      "published": false,
-      "llms": false,
-      "summary": "Draft per-component changelog generator that diffs design-data revisions."
-    },
-    {
       "path": "tools/component-diff-generator",
       "kind": "package",
       "audience": "consumer",
