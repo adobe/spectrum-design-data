@@ -10,6 +10,7 @@ with relationships plus `index.json` (visual flag, page and block counts, versio
 release). A component with a visual recipe gets a full sheet; any other gets a table-only
 sheet: `visual: false`, blocks with token rows and `render: null`, so views can say "No visual
 recipe yet". The same stub is the starting point for a new component.
-`component-spec-sheet.schema.json` gains `visual` and a nullable block `render`.
+`component-spec-sheet.schema.json` gains a required `visual` and a nullable block `render`;
+regenerate any sheet made before this change.
 
 Line-height and font-family relationships now sit on the Typography page, not Layout.

@@ -19,7 +19,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const platforms = [
@@ -41,7 +41,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../..");
 const dist = join(here, "dist");
 const cli = join(
-  process.env.CARGO_TARGET_DIR ?? join(root, "sdk/target"),
+  resolve(root, process.env.CARGO_TARGET_DIR ?? "sdk/target"),
   "debug/design-data",
 );
 const run = (cmd, args, cwd) =>

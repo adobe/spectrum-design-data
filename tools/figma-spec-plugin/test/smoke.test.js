@@ -18,14 +18,18 @@ import vm from "node:vm";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../../..");
 const code = readFileSync(join(here, "../code.js"), "utf-8");
 const cli =
-  process.env.DESIGN_DATA_CLI ?? join(root, "sdk/target/debug/design-data");
+  process.env.DESIGN_DATA_CLI ??
+  join(
+    resolve(root, process.env.CARGO_TARGET_DIR ?? "sdk/target"),
+    "debug/design-data",
+  );
 // Sheets are generated, not committed: one `spec-sheet --all` run (the sdk:build dependency of the
 // moon task builds the CLI), then each test reads the sheet it needs.
 const out = mkdtempSync(join(tmpdir(), "spec-sheets-"));
@@ -198,7 +202,10 @@ test("a failed render keeps the previous render and drops the half-built one", a
 });
 
 test("a table-only sheet renders its token rows and says there is no visual", async (t) => {
-  const stub = generate("avatar");
+  const stubName = JSON.parse(
+    readFileSync(join(out, "index.json"), "utf-8"),
+  ).components.find((c) => !c.visual && c.blocks > 0).component;
+  const stub = generate(stubName);
   t.false(stub.visual);
   const { figma, page, messages } = mock();
   await figma.ui.onmessage({ type: "render-sheet", sheet: stub });

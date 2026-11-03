@@ -202,10 +202,22 @@ fn all_writes_full_and_table_only_sheets_and_an_index() {
     let index = read("index.json");
     let components = index["components"].as_array().unwrap();
     let full = components.iter().filter(|c| c["visual"] == true).count();
-    assert_eq!(
-        full, 7,
-        "recipes: accordion action-button badge button checkbox radio-button switch"
-    );
+    for name in [
+        "accordion",
+        "action-button",
+        "badge",
+        "button",
+        "checkbox",
+        "radio-button",
+        "switch",
+    ] {
+        let entry = components.iter().find(|c| c["component"] == name);
+        assert_eq!(
+            entry.map(|c| &c["visual"]),
+            Some(&Value::Bool(true)),
+            "{name}"
+        );
+    }
     assert!(components.len() > full);
     let entry = components
         .iter()
