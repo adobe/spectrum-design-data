@@ -14,7 +14,6 @@ projects:
   markdown-generator: "tools/markdown-generator"
   root: "."
   token-diff-generator: "tools/diff-generator"
-  component-changelog: "tools/component-changelog"
   component-diff-generator: "tools/component-diff-generator"
   figma-spec-plugin: "tools/figma-spec-plugin"
   spectrum-diff-core: "tools/spectrum-diff-core"

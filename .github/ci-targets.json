@@ -20,7 +20,6 @@
     "design-data:validate-guidelines",
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
-    "component-changelog:test",
     "figma-spec-plugin:check",
     "figma-spec-plugin:test"
   ],
@@ -52,7 +51,6 @@
   "excludedFromCI": [
     "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
-    "component-changelog:generate",
     "component-diff-generator:diff",
     "markdown-generator:generate",
     "optimized-diff:benchmark",

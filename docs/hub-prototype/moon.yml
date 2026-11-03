@@ -19,7 +19,7 @@ tasks:
       - "build.mjs"
       - "landing.html"
       - "specs/**/*"
-      - "/tools/component-changelog/src/**/*"
+      - "/packages/design-data/changelog/**/*"
       - "/sdk/**/*.rs"
       - "/sdk/plugins/site/assets/**/*"
       - "/packages/design-data/**/*"
