@@ -48,13 +48,13 @@ impl ValidationRule for Rule {
             let comp_name = &v.component;
             let Some(size) = comp.raw.pointer("/options/size") else {
                 // A component with one size declares none; one entry names the size renderers draw.
-                if scale.len() > 1 {
+                if scale.len() != 1 {
                     out.push(error(
                         self.id(),
                         v,
                         "/sizeScale",
                         format!(
-                            "Recipe declares more than one sizeScale entry but '{comp_name}' has no 'size' option"
+                            "Recipe must declare exactly one sizeScale entry because '{comp_name}' has no 'size' option"
                         ),
                     ));
                 }
@@ -150,11 +150,13 @@ mod tests {
     }
 
     #[test]
-    fn a_size_less_component_may_declare_one_entry() {
+    fn a_size_less_component_declares_exactly_one_entry() {
         let one_size = json!({"name": "button", "options": {}});
         assert!(run_with(one_size.clone(), json!({"m": 100})).is_empty());
-        let d = run_with(one_size, json!({"s": 75, "m": 100}));
-        assert_eq!(d.len(), 1);
-        assert!(d[0].message.contains("more than one"));
+        for scale in [json!({"s": 75, "m": 100}), json!({})] {
+            let d = run_with(one_size.clone(), scale);
+            assert_eq!(d.len(), 1);
+            assert!(d[0].message.contains("exactly one"));
+        }
     }
 }
