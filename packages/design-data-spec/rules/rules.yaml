@@ -785,7 +785,8 @@ rules:
     category: reference-integrity
     assert: >
       The keys of a visual recipe's `sizeScale` MUST equal the values of the component's
-      `size` option.
+      `size` option. A component without a `size` option MAY declare a one-entry `sizeScale`,
+      the single size renderers draw (for example the fixed-size iOS switch).
     message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
