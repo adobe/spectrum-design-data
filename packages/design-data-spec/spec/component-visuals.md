@@ -61,7 +61,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 | Property                                                                                       | Applies to | Meaning                                                                                                                        |
 | ---------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `direction`, `align`, `justify`                                                                | box        | Flex-like layout of children.                                                                                                  |
+| `direction`, `align`, `justify`                                                                | box        | Root layout: `direction` `row` (default) or `column`; `align` and `justify` `start`, `center` (default) or `end`.              |
 | `gap`                                                                                          | box        | Space between flowed children.                                                                                                 |
 | `paddingInlineStart`, `paddingInlineEnd`, `paddingBlockStart`, `paddingBlockEnd`               | box        | Inner padding.                                                                                                                 |
 | `height`, `minWidth`, `width`                                                                  | box, icon  | Dimensions. Box width defaults to content.                                                                                     |

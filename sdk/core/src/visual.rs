@@ -36,6 +36,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
     (
         "root",
         &[
+            "direction",
+            "align",
+            "justify",
             "height",
             "paddingInlineStart",
             "paddingInlineEnd",
@@ -1445,6 +1448,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let pad_s = pad_s.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_e = pad_e.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let direction = rp(&mut cx, root, "direction");
+    let align = rp(&mut cx, root, "align");
+    let justify = rp(&mut cx, root, "justify");
+    let column = layout_keyword(&mut cx, "direction", &direction, &["row", "column"]) == "column";
+    let align = layout_keyword(&mut cx, "align", &align, &["start", "center", "end"]);
+    let justify = layout_keyword(&mut cx, "justify", &justify, &["start", "center", "end"]);
     let press_diff = rp(&mut cx, root, "pressDifference");
     let press_ratio = rp(&mut cx, root, "pressWidthRatio");
     let press_min = rp(&mut cx, root, "pressMinPerspective");
@@ -1573,17 +1582,21 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         flow.push(c);
     }
 
-    let inner: f64 =
-        flow.iter().map(|c| c.w).sum::<f64>() + gap * flow.len().saturating_sub(1) as f64;
-    let w = pad_s + inner + pad_e;
-    // An unset `height` is the tallest flowed child plus the block padding when the recipe
-    // binds any; without block padding it stays the 32 default.
-    let h = explicit_h.unwrap_or_else(|| {
-        if block_padded {
-            flow.iter().map(|c| c.h).fold(0.0, f64::max) + pad_bs + pad_be
-        } else {
-            32.0
-        }
+    let gaps = gap * flow.len().saturating_sub(1) as f64;
+    let widest = flow.iter().map(|c| c.w).fold(0.0, f64::max);
+    let tallest = flow.iter().map(|c| c.h).fold(0.0, f64::max);
+    let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
+    let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
+    let w = pad_s + if column { widest } else { sum_w } + pad_e;
+    // An unset `height` is the content plus the block padding: the tallest flowed child in a
+    // row (only when the recipe binds block padding; otherwise the 32 default), or the
+    // stacked children in a column.
+    let h = explicit_h.unwrap_or(if column {
+        sum_h + pad_bs + pad_be
+    } else if block_padded {
+        tallest + pad_bs + pad_be
+    } else {
+        32.0
     });
 
     let ox = RING_MARGIN;
@@ -1643,8 +1656,23 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             .unwrap_or(0.0)
     };
     let mut x = ox + pad_s;
+    let mut y = oy
+        + pad_bs
+        + if column {
+            axis_offset(&justify, h - pad_bs - pad_be - sum_h)
+        } else {
+            0.0
+        };
     for c in flow {
-        let (cx0, cy0, cw, ch) = (x, oy + pad_bs + (h - pad_bs - pad_be - c.h) / 2.0, c.w, c.h);
+        let (cx0, cy0) = if column {
+            (x + axis_offset(&align, w - pad_s - pad_e - c.w), y)
+        } else {
+            (
+                x,
+                oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
+            )
+        };
+        let (cw, ch) = (c.w, c.h);
         let nested_ids: Vec<String> = parts
             .get(&c.id)
             .and_then(|p| p.get("children"))
@@ -1679,7 +1707,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             own.radius = clamp_radius(px(&c.radius, ch), cw, ch);
         }
         nodes.push(own);
-        x += cw + gap;
+        if column {
+            y += ch + gap;
+        } else {
+            x += cw + gap;
+        }
 
         // A box's children sit inside it: centered across, and at the start, center or end
         // along the inline axis. The inset equals the cross-axis gap, so a part shorter than
@@ -1887,6 +1919,34 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         nodes,
         diagnostics: cx.diags,
     })
+}
+
+/// A root layout keyword (`direction`, `align`, `justify`): the first allowed value is the
+/// default when unbound, `center` for `align` and `justify`. Any other value is a diagnostic.
+fn layout_keyword(cx: &mut Ctx, name: &str, r: &Option<Resolved>, allowed: &[&str]) -> String {
+    let default = if name == "direction" {
+        allowed[0]
+    } else {
+        "center"
+    };
+    match r.as_ref().map(|r| r.value.trim()) {
+        None => default.into(),
+        Some(v) if allowed.contains(&v) => v.into(),
+        Some(v) => {
+            cx.diags
+                .push(format!("{name} '{v}' is not one of {}", allowed.join(", ")));
+            default.into()
+        }
+    }
+}
+
+/// Offset of a box inside `free` space along an axis for `start`, `center` or `end`.
+fn axis_offset(mode: &str, free: f64) -> f64 {
+    match mode {
+        "start" => 0.0,
+        "end" => free,
+        _ => free / 2.0,
+    }
 }
 
 /// A corner radius cannot exceed half the box's width or height, like CSS `border-radius`:
@@ -2206,6 +2266,68 @@ mod tests {
             label: "Action".into(),
             ..Default::default()
         }
+    }
+
+    fn stack(props: Value) -> Value {
+        let lit = |v: Value| serde_json::json!({ "value": v });
+        let mut p = serde_json::json!({
+            "height": lit("100".into()),
+            "paddingInlineStart": lit("10".into()),
+            "paddingInlineEnd": lit("10".into()),
+            "gap": lit("4".into()),
+        });
+        for (k, v) in props.as_object().unwrap() {
+            p[k] = lit(v.clone());
+        }
+        let box_ = |w: &str, h: &str| {
+            serde_json::json!({ "kind": "box", "props": {
+                "width": lit(w.into()), "height": lit(h.into()) } })
+        };
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["a", "b"], "props": p },
+                "a": box_("20", "10"), "b": box_("40", "30")
+            }
+        })
+    }
+
+    #[test]
+    fn root_layout_props_are_read() {
+        let (g, _) = load();
+        let place = |props: Value| {
+            let scene = build_scene(&g, &stack(props), &req(&[])).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            let o = &scene.nodes[0];
+            let at = |id: &str| {
+                let n = scene.nodes.iter().find(|n| n.part == id).unwrap();
+                (n.x - o.x, n.y - o.y)
+            };
+            (o.w, o.h, at("a"), at("b"))
+        };
+        // Default: a row, centered across.
+        let (w, h, a, b) = place(serde_json::json!({}));
+        assert_eq!((w, h, a, b), (84.0, 100.0, (10.0, 45.0), (34.0, 35.0)));
+        // A row aligned to the end.
+        let (_, _, a, b) = place(serde_json::json!({ "align": "end" }));
+        assert_eq!((a.1, b.1), (90.0, 70.0));
+        // A column: as wide as the widest child, children stacked with the gap.
+        let col = serde_json::json!({ "direction": "column" });
+        let (w, h, a, b) = place(col);
+        assert_eq!((w, h, a, b), (60.0, 100.0, (20.0, 28.0), (10.0, 42.0)));
+        // A column pushed to the end and aligned to the start.
+        let (_, _, a, b) =
+            place(serde_json::json!({ "direction": "column", "justify": "end", "align": "start" }));
+        assert_eq!((a, b), ((10.0, 56.0), (10.0, 70.0)));
+        // An unknown value is a diagnostic and keeps the default.
+        let scene = build_scene(
+            &g,
+            &stack(serde_json::json!({ "direction": "diagonal" })),
+            &req(&[]),
+        )
+        .unwrap();
+        assert_eq!(scene.diagnostics.len(), 1);
+        assert_eq!(scene.nodes[0].w, 84.0);
     }
 
     #[test]
