@@ -12,6 +12,7 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use design_data_core::graph::TokenGraph;
+use design_data_core::naming;
 use design_data_core::visual::{self, RenderRequest};
 use miette::{IntoDiagnostic, WrapErr};
 use serde_json::{json, Map, Value};
@@ -89,42 +90,13 @@ fn page_for(schema: &str, static_color: Option<&str>) -> &'static str {
     }
 }
 
-/// Display name of a token: its `legacyKey`, else its structured name fields joined (without
-/// the `property` field and the mode fields), else the relationship property.
+/// Display name of a token: the legacy key the dataset serializes from its structured name
+/// (`naming::extract_legacy_key`), else the relationship property.
 fn token_name(raw: &Value, rel_property: &str) -> String {
-    structured_name(raw, rel_property, false)
-}
-
-/// Like [`token_name`], keeping the `property` field: names an alias target on its own.
-fn full_token_name(raw: &Value, rel_property: &str) -> String {
-    structured_name(raw, rel_property, true)
-}
-
-fn structured_name(raw: &Value, rel_property: &str, with_property: bool) -> String {
-    let Some(name) = raw.get("name").and_then(Value::as_object) else {
-        return s(raw, "legacyKey").unwrap_or(rel_property).to_string();
-    };
-    if let Some(k) = name.get("legacyKey").and_then(Value::as_str) {
-        return k.to_string();
-    }
-    let joined = name
-        .iter()
-        .filter(|(k, _)| {
-            !matches!(k.as_str(), "scale" | "colorScheme" | "contrast")
-                && (with_property || k.as_str() != "property")
-        })
-        .filter_map(|(_, v)| match v {
-            Value::String(t) => Some(t.clone()),
-            Value::Number(n) => Some(n.to_string()),
-            _ => None,
-        })
-        .collect::<Vec<_>>()
-        .join("-");
-    if joined.is_empty() {
-        rel_property.to_string()
-    } else {
-        joined
-    }
+    raw.get("name")
+        .and_then(naming::extract_legacy_key)
+        .or_else(|| s(raw, "legacyKey").map(String::from))
+        .unwrap_or_else(|| rel_property.to_string())
 }
 
 struct Labels {
@@ -340,7 +312,7 @@ impl Ctx<'_> {
                 .to_string();
             let value = tok.get("value").cloned().unwrap_or_else(|| {
                 let target = s(tok, "$ref").and_then(|t| lookup(self.graph, t));
-                json!({"alias": target.map(|t| full_token_name(t, prop))})
+                json!({"alias": target.map(|t| token_name(t, prop))})
             });
             if let Some(it) = items
                 .iter_mut()
