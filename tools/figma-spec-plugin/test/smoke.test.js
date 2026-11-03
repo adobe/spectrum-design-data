@@ -252,10 +252,31 @@ test("text is set in Adobe Clean Spectrum VF, with the weight from the scene", a
   t.is(label.fontName.style, { bold: "Bold", medium: "Medium" }[weight]);
 });
 
+test("weights read case-insensitively", async (t) => {
+  const { figma, page, messages } = mock();
+  const bold = structuredClone(sheet);
+  for (const p of bold.pages)
+    for (const b of p.blocks)
+      for (const n of b.render.scene.nodes)
+        if (n.kind === "text") n.font_weight = "SemiBold";
+  await figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: bold,
+    pages: ["Layout"],
+  });
+  t.truthy(messages.find((m) => m.type === "render-complete"));
+  t.is(
+    textNodes(page.children[0]).find((n) => n.name === "label").fontName.style,
+    "Bold",
+  );
+});
+
 test("falls back to Inter when Adobe Clean cannot be loaded", async (t) => {
   const { figma, page, messages } = mock("Adobe Clean Spectrum VF");
   await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
-  t.truthy(messages.find((m) => m.type === "render-complete"));
+  const done = messages.find((m) => m.type === "render-complete");
+  t.truthy(done);
+  t.regex(done.result.warning, /Adobe Clean Spectrum VF could not be loaded/);
   t.true(
     textNodes(page.children[0]).every((n) => n.fontName.family === "Inter"),
   );

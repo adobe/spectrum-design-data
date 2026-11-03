@@ -28,21 +28,30 @@ const FAMILY = "Adobe Clean Spectrum VF";
 const STYLES = ["Regular", "Medium", "Bold"];
 let family = FAMILY;
 
-// Scene font weights are names (`bold`, `medium`) or numbers; unknown weights read as Regular.
+// Scene font weights are names (`bold`, `semi-bold`, `Medium`) or numbers; unknown weights
+// read as Regular.
 const styleFor = (w) => {
   const n = Number(w);
-  if (n >= 600 || /bold|heavy|black/.test(String(w))) return "Bold";
-  if (n === 500 || w === "medium") return "Medium";
+  const name = String(w).toLowerCase();
+  if (n >= 600 || /bold|heavy|black/.test(name)) return "Bold";
+  if (n === 500 || name === "medium") return "Medium";
   return "Regular";
 };
 
+// Returns a warning when Adobe Clean could not be loaded and Inter is used instead, so a wrong
+// family or style name does not pass unnoticed.
 async function loadFonts() {
   try {
     family = FAMILY;
     for (const style of STYLES) await figma.loadFontAsync({ family, style });
+    return null;
   } catch (e) {
     family = "Inter";
     for (const style of STYLES) await figma.loadFontAsync({ family, style });
+    const warning = `${FAMILY} could not be loaded (${e && e.message ? e.message : e}); text is set in Inter.`;
+    console.warn(warning);
+    if (figma.notify) figma.notify(warning, { error: true });
+    return warning;
   }
 }
 
@@ -421,7 +430,7 @@ function changelogFrame(changelog, rev8) {
 }
 
 async function renderSheet(sheet, changelog, pageTitles) {
-  await loadFonts();
+  const fontWarning = await loadFonts();
   const rootName = sheet.displayName + " – spec (generated)";
   const page = figma.currentPage;
   const previous = page.findOne((n) => n.name === rootName);
@@ -439,7 +448,15 @@ async function renderSheet(sheet, changelog, pageTitles) {
   root.fills = [solid(WHITE)];
   page.appendChild(root);
   try {
-    return await buildRoot(root, sheet, changelog, pageTitles, rev8, previous);
+    const result = await buildRoot(
+      root,
+      sheet,
+      changelog,
+      pageTitles,
+      rev8,
+      previous,
+    );
+    return { ...result, warning: fontWarning };
   } catch (err) {
     // The old render stays; drop the half-built one.
     root.remove();

@@ -82,7 +82,7 @@
         if (!msg) return;
         status.textContent =
           msg.type === "render-complete"
-            ? `Done: ${msg.result.pagesRendered} page(s), ${msg.result.blocksRendered} block(s).`
+            ? `Done: ${msg.result.pagesRendered} page(s), ${msg.result.blocksRendered} block(s).${msg.result.warning ? ` Warning: ${msg.result.warning}` : ""}`
             : `Error: ${msg.message}`;
       };
     </script>
