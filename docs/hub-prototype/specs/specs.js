@@ -54,6 +54,10 @@ function visual(block) {
       const lx = x - 22;
       o += `<line x1="${lx}" y1="${y}" x2="${lx}" y2="${y + h}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y}" x2="${lx + 4}" y2="${y}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y + h}" x2="${lx + 4}" y2="${y + h}" stroke="${MARK}"/>`;
       o += label(lx - 6, y + h / 2, text, "end");
+    } else if (m.kind === "width") {
+      const ly = y + h + 22;
+      o += `<line x1="${x}" y1="${ly}" x2="${x + w}" y2="${ly}" stroke="${MARK}"/><line x1="${x}" y1="${ly - 4}" x2="${x}" y2="${ly + 4}" stroke="${MARK}"/><line x1="${x + w}" y1="${ly - 4}" x2="${x + w}" y2="${ly + 4}" stroke="${MARK}"/>`;
+      o += label(x + w / 2, ly + 16, text);
     } else if (m.kind === "radius") {
       o += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${MARK}" fill-opacity=".25" stroke="${MARK}"/>`;
       o += label(x - 6, y - 8, text, "end");

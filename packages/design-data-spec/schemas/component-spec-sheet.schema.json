@@ -168,7 +168,7 @@
           }
         },
         "measurements": {
-          "description": "Scene measurements the block shows: those whose relationship context is the block title. `index` points into scene.measurements and `label` is the relationship property.",
+          "description": "Scene measurements the block shows on the Layout page: those whose relationship context is the block title (kinds `height`, `width`, `padding`, `gap`, `radius`, `border`, `focus-thickness`, `focus-gap`, `press`). A block renders in the states and options its bindings need (a focus ring in `keyboard-focus`, a pressed scale in `down`). `index` points into scene.measurements and `label` is the relationship property.",
           "type": "array",
           "items": {
             "type": "object",

@@ -228,6 +228,72 @@ fn when_options(recipe: &Value, context: &str) -> Map<String, Value> {
     out
 }
 
+/// States and options the highlighted bindings need to appear: the part's `visibleWhen` (a focus
+/// ring, the badge icon) and the `when` of the binding for `context` (the pressed scale). The
+/// block renders with them, so the scene holds what the block documents. An option that lists
+/// values takes the first.
+fn required_visibility(
+    recipe: &Value,
+    context: &str,
+    hl: &[(&str, &str)],
+) -> (Vec<String>, Map<String, Value>) {
+    let mut states: Vec<String> = Vec::new();
+    let mut options = Map::new();
+    let mut add = |cond: Option<&Value>| {
+        let Some(cond) = cond else { return };
+        for st in cond
+            .get("states")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+        {
+            if let Some(st) = st.as_str().filter(|x| !states.iter().any(|o| o == x)) {
+                states.push(st.to_string());
+            }
+        }
+        for (k, v) in cond
+            .get("options")
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+        {
+            let first = v.as_array().and_then(|a| a.first()).unwrap_or(v);
+            options.entry(k.clone()).or_insert(first.clone());
+        }
+    };
+    let base = context.split(" (").next().unwrap_or(context).trim();
+    for (part, prop) in hl {
+        let def = recipe.pointer(&format!("/parts/{part}"));
+        add(def.and_then(|d| d.get("visibleWhen")));
+        // A gap sits between children, so they must be visible.
+        if *prop == "gap" {
+            for child in def
+                .and_then(|d| d.get("children"))
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+            {
+                add(recipe.pointer(&format!("/parts/{child}/visibleWhen")));
+            }
+        }
+        for e in def
+            .and_then(|d| d.pointer(&format!("/props/{prop}")))
+            .map(entries)
+            .unwrap_or_default()
+        {
+            let c = e
+                .get("relationship")
+                .and_then(|r| s(r, "context"))
+                .map(str::trim);
+            if c == Some(context) || c == Some(base) {
+                add(e.get("when"));
+            }
+        }
+    }
+    (states, options)
+}
+
 /// Whether a concrete relationship property fits a recipe property template such as
 /// `component-height-{sizeIndex}`.
 fn template_matches(template: &str, property: &str) -> bool {
@@ -326,11 +392,16 @@ struct Ctx<'a> {
 }
 
 impl Ctx<'_> {
-    fn render(&self, recipe: &Value, options: &Map<String, Value>) -> miette::Result<Value> {
+    fn render(
+        &self,
+        recipe: &Value,
+        options: &Map<String, Value>,
+        states: Vec<String>,
+    ) -> miette::Result<Value> {
         let req = RenderRequest {
             component: self.component.to_string(),
             size: self.size.to_string(),
-            states: Vec::new(),
+            states,
             options: options
                 .iter()
                 .map(|(k, v)| (k.clone(), v.clone()))
@@ -540,7 +611,13 @@ impl Ctx<'_> {
                             options.entry(k).or_insert(v);
                         }
                     }
-                    self.render(recipe, &options)?
+                    let pairs: Vec<(&str, &str)> =
+                        hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
+                    let (states, wanted) = required_visibility(recipe, &context, &pairs);
+                    for (k, v) in wanted {
+                        options.entry(k).or_insert(v);
+                    }
+                    self.render(recipe, &options, states)?
                 }
                 None => Value::Null,
             };
@@ -552,16 +629,22 @@ impl Ctx<'_> {
                 // Measurements are the scene's own. A relationship-bound one belongs to the block
                 // when its context is the title or the base context the highlight fell back to;
                 // a direct token selector has no relationship, so the highlighted props decide.
-                let hl_props: Vec<&str> = hl.iter().map(|b| b.1.as_str()).collect();
+                let hl_props: Vec<(&str, &str)> =
+                    hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
                 let measurements: Vec<Value> = render["scene"]["measurements"]
                     .as_array()
                     .into_iter()
                     .flatten()
                     .enumerate()
                     .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
-                        _ if by_property => false,
+                        // Dimensions belong on the Layout page; Color blocks share contexts
+                        // such as "Focus indicator" but document the colors.
+                        _ if by_property || page != "Layout" => false,
                         Some(c) => c == context || c == base,
-                        None => m["prop"].as_str().is_some_and(|p| hl_props.contains(&p)),
+                        None => m["part"]
+                            .as_str()
+                            .zip(m["prop"].as_str())
+                            .is_some_and(|pp| hl_props.contains(&pp)),
                     })
                     .map(|(index, m)| {
                         let rel = &m["token"]["relationship"];
