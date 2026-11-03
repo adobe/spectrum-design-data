@@ -32,16 +32,6 @@ const MARGIN_X: f64 = 160.0;
 const MARGIN_Y: f64 = 120.0;
 const MAX_SCALE: f64 = 5.0;
 
-const MEASURED_PROPS: [&str; 7] = [
-    "height",
-    "paddingInlineStart",
-    "paddingInlineEnd",
-    "paddingBlockStart",
-    "paddingBlockEnd",
-    "gap",
-    "cornerRadius",
-];
-
 fn s<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
     v.get(key).and_then(Value::as_str)
 }
@@ -168,6 +158,35 @@ fn recipe_bindings(recipe: &Value) -> Vec<(String, String, String)> {
                     if !out.contains(&t) {
                         out.push(t);
                     }
+                }
+            }
+        }
+    }
+    out
+}
+
+/// Scalar component options the recipe's first binding for `context` requires (`when.options`),
+/// such as `hideLabel: true` for the icon-only spacing. The block renders with them, so the
+/// scene resolves the relationship the block documents.
+fn when_options(recipe: &Value, context: &str) -> Map<String, Value> {
+    let mut out = Map::new();
+    let parts = recipe.get("parts").and_then(Value::as_object);
+    for def in parts.into_iter().flat_map(|p| p.values()) {
+        let props = def.get("props").and_then(Value::as_object);
+        for v in props.into_iter().flat_map(|p| p.values()) {
+            for e in entries(v) {
+                let hit = e
+                    .get("relationship")
+                    .and_then(|r| s(r, "context"))
+                    .is_some_and(|c| c.trim() == context);
+                let opts = e.pointer("/when/options").and_then(Value::as_object);
+                if let (true, Some(opts)) = (hit, opts) {
+                    for (k, v) in opts {
+                        if !v.is_array() && !out.contains_key(k) {
+                            out.insert(k.clone(), v.clone());
+                        }
+                    }
+                    return out;
                 }
             }
         }
@@ -415,7 +434,10 @@ impl Ctx<'_> {
                 }
             }
 
-            let options = rows[&row_order[0]].0.clone();
+            let mut options = rows[&row_order[0]].0.clone();
+            for (k, v) in when_options(self.recipe, &context) {
+                options.entry(k).or_insert(v);
+            }
             let mut render = self.render(&options)?;
             render["highlight"] = json!(hl
                 .iter()
@@ -426,11 +448,31 @@ impl Ctx<'_> {
                 .enumerate()
                 .map(|(i, p)| json!({"n": i + 1, "part": p}))
                 .collect::<Vec<_>>());
-            render["measurements"] = json!(hl
-                .iter()
-                .map(|b| b.1.as_str())
-                .filter(|p| MEASURED_PROPS.contains(p))
-                .collect::<Vec<_>>());
+            // Measurements are the scene's own. A relationship-bound one belongs to the block
+            // when its context is the title or the base context the highlight fell back to;
+            // a direct token selector has no relationship, so the highlighted props decide.
+            let hl_props: Vec<&str> = hl.iter().map(|b| b.1.as_str()).collect();
+            let measurements: Vec<Value> = render["scene"]["measurements"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .enumerate()
+                .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
+                    Some(c) => c == context || c == base,
+                    None => m["prop"].as_str().is_some_and(|p| hl_props.contains(&p)),
+                })
+                .map(|(index, m)| {
+                    let rel = &m["token"]["relationship"];
+                    json!({
+                        "index": index,
+                        "prop": m["prop"],
+                        "kind": m["kind"],
+                        "label": if rel.is_null() { &m["token"]["token"] } else { &rel["property"] },
+                        "relationship": rel["uuid"],
+                    })
+                })
+                .collect();
+            render["measurements"] = json!(measurements);
 
             // shortcut: rows carry a marker only when one part is highlighted.
             let marker = (parts.len() == 1).then_some(1);

@@ -69,6 +69,24 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .unwrap()
         .iter()
         .any(|m| m["prop"] == "height"));
-    assert_eq!(height["render"]["measurements"][0], "height");
+    let m = &height["render"]["measurements"][0];
+    assert_eq!(m["prop"], "height");
+    assert_eq!(m["label"], "component-height-100");
+    assert!(m["relationship"].is_string());
     assert!(height["render"]["view"]["scale"].as_f64().unwrap() > 1.0);
+
+    let icon_only = layout["blocks"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|b| b["title"] == "Spacing (start/end edges, icon only)")
+        .expect("an icon-only spacing block");
+    let labels: Vec<&str> = icon_only["render"]["measurements"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|m| m["label"].as_str().unwrap())
+        .collect();
+    assert_eq!(labels.len(), 2, "{labels:?}");
+    assert!(labels.iter().all(|l| l.contains("edge-to-visual-only")));
 }

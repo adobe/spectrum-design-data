@@ -149,6 +149,16 @@ pub fn token_label(rec: &crate::graph::TokenRecord) -> String {
         .join("-")
 }
 
+/// The relationship record that bound a token: its stable `uuid` (unset for a record without
+/// one), its trimmed `context` and the concrete `property`.
+#[derive(Debug, Clone, Serialize)]
+pub struct RelationshipRef {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub uuid: Option<String>,
+    pub context: String,
+    pub property: String,
+}
+
 /// A token a resolved value came from, kept for overlays and debugging.
 #[derive(Debug, Clone, Serialize)]
 pub struct TokenRef {
@@ -156,6 +166,9 @@ pub struct TokenRef {
     pub token: String,
     pub value: String,
     pub chain: Vec<String>,
+    /// Set when the value came through a relationship binding.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub relationship: Option<RelationshipRef>,
 }
 
 /// A dimension the layout used (height, padding, gap, radius), with the span it covers and the
@@ -244,10 +257,14 @@ struct Resolved {
     relative_to: Option<String>,
     /// Alias hops after the bound token, ending at the token that holds the value.
     chain: Vec<String>,
+    relationship: Option<RelationshipRef>,
 }
 
 /// A candidate token with the options and states its relationship pins.
-type RankedCandidate<'g> = (&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>));
+type RankedCandidate<'g> = (
+    &'g crate::graph::TokenRecord,
+    (Option<Value>, Vec<String>, Option<RelationshipRef>),
+);
 
 impl Resolved {
     fn num(&self) -> Option<f64> {
@@ -262,10 +279,15 @@ impl Resolved {
 
 /// A candidate token with the component options its relationship pins (`None`: none) and the
 /// states it pins (its `scope.options.state`; empty: use the token's own `name.state`).
-type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>, Vec<String>);
+type Candidate<'g> = (
+    &'g crate::graph::TokenRecord,
+    Option<Value>,
+    Vec<String>,
+    Option<RelationshipRef>,
+);
 
 /// A relationship's `$ref` with the component options and states it pins.
-type PinnedRef = (String, Option<Value>, Vec<String>);
+type PinnedRef = (String, Option<Value>, Vec<String>, RelationshipRef);
 
 /// Memoized graph lookups used while compiling variants. A token selector's candidates do
 /// not depend on the request, so variants of one recipe can reuse them.
@@ -507,7 +529,7 @@ impl<'a> CompileCx<'a> {
         let lone = cands.len() == 1;
         let mut fit: Vec<_> = cands
             .into_iter()
-            .filter(|(t, (pinned, _))| {
+            .filter(|(t, (pinned, _, _))| {
                 mctx.iter().all(|(k, v)| {
                     let pins_size = pinned.as_ref().is_some_and(|p| p.get("size").is_some());
                     if k == "size" && (lone || pins_size) {
@@ -664,6 +686,11 @@ impl<'a> CompileCx<'a> {
                             rf.to_string(),
                             pinned_options(scope, &declared),
                             scope_state_ids(scope),
+                            RelationshipRef {
+                                uuid: r.uuid.clone(),
+                                context: context.clone(),
+                                property: property.clone(),
+                            },
                         ));
                     }
                 }
@@ -675,11 +702,11 @@ impl<'a> CompileCx<'a> {
             refs
         });
         let mut cands = Vec::new();
-        for (rf, options, states) in &refs {
+        for (rf, options, states, rel) in &refs {
             if let Some(t) = self.graph.resolve_alias_key(rf) {
-                cands.push((t, options.clone(), states.clone()));
+                cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
             } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
-                cands.push((t, options.clone(), states.clone()));
+                cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
             }
         }
         Some((cands, property, context))
@@ -807,7 +834,7 @@ impl<'a> CompileCx<'a> {
         let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
             self.token_cands(sel).map(|(c, sel_obj)| {
                 (
-                    c.into_iter().map(|t| (t, None, Vec::new())).collect(),
+                    c.into_iter().map(|t| (t, None, Vec::new(), None)).collect(),
                     format!("{prop}: no token matches {}", Value::Object(sel_obj)),
                 )
             })
@@ -819,9 +846,14 @@ impl<'a> CompileCx<'a> {
         };
         let (cands, miss) = cands.unwrap_or_default();
         let list = self
-            .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
+            .rank_by(
+                cands
+                    .into_iter()
+                    .map(|(t, o, s, r)| (t, (o, s, r)))
+                    .collect(),
+            )
             .into_iter()
-            .map(|(t, (options, extra))| {
+            .map(|(t, (options, extra, rel))| {
                 let states = if extra.is_empty() {
                     token_states(t)
                 } else {
@@ -835,6 +867,9 @@ impl<'a> CompileCx<'a> {
                 });
                 if let Some(o) = options {
                     c["options"] = o;
+                }
+                if let Some(r) = rel {
+                    c["boundBy"] = serde_json::json!(r);
                 }
                 c
             })
@@ -978,6 +1013,7 @@ impl Ctx<'_> {
                 token: String::new(),
                 relative_to,
                 chain: Vec::new(),
+                relationship: None,
             });
         }
         let mut out = self.resolve_candidates(chosen);
@@ -1048,6 +1084,19 @@ impl Ctx<'_> {
                         .collect()
                 })
                 .unwrap_or_default(),
+            relationship: chosen.get("boundBy").map(|r| RelationshipRef {
+                uuid: r.get("uuid").and_then(Value::as_str).map(String::from),
+                context: r
+                    .get("context")
+                    .and_then(Value::as_str)
+                    .unwrap_or_default()
+                    .to_string(),
+                property: r
+                    .get("property")
+                    .and_then(Value::as_str)
+                    .unwrap_or_default()
+                    .to_string(),
+            }),
         })
     }
 }
@@ -1444,6 +1493,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 token: r.token.clone(),
                 value: r.value.clone(),
                 chain: r.chain.clone(),
+                relationship: r.relationship.clone(),
             })
     };
     let track = |tokens: &mut Vec<TokenRef>, prop: &str, r: &Option<Resolved>| {
@@ -2782,6 +2832,26 @@ mod tests {
         );
         assert!(!gap.token.token.is_empty());
         assert_eq!(find("cornerRadius").kind, "radius");
+    }
+
+    #[test]
+    fn token_refs_carry_the_relationship_that_bound_them() {
+        let (g, recipe) = load();
+        let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
+        let height = scene
+            .measurements
+            .iter()
+            .find(|m| m.prop == "height")
+            .unwrap();
+        let rel = height.token.relationship.as_ref().expect("relationship");
+        assert_eq!(rel.context, "Height");
+        assert_eq!(rel.property, "component-height-100");
+        assert!(rel.uuid.is_some(), "every relationship has a uuid");
+        let container = &scene.nodes[0];
+        assert!(container
+            .tokens
+            .iter()
+            .any(|t| t.prop == "gap" && t.relationship.is_some()));
     }
 
     #[test]

@@ -145,9 +145,20 @@
           }
         },
         "measurements": {
-          "description": "Props whose scene measurements (scene.measurements[].prop) the block shows.",
+          "description": "Scene measurements the block shows: those whose relationship context is the block title. `index` points into scene.measurements and `label` is the relationship property.",
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "object",
+            "required": ["index", "prop", "kind", "label"],
+            "properties": {
+              "index": { "type": "integer", "minimum": 0 },
+              "prop": { "type": "string" },
+              "kind": { "type": "string" },
+              "label": { "type": "string" },
+              "relationship": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          }
         }
       },
       "additionalProperties": false
