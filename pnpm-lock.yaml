@@ -358,6 +358,12 @@ importers:
         specifier: ^6.4.0
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
+  tools/component-changelog:
+    devDependencies:
+      ava:
+        specifier: ^6.4.0
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/component-diff-generator:
     dependencies:
       '@adobe/spectrum-diff-core':
