@@ -3,9 +3,11 @@
     "action-button": 1
   },
   "SPEC-068": {
+    "accordion": 1,
     "checkbox": 16
   },
   "SPEC-069": {
+    "accordion": 8,
     "badge": 2,
     "button": 4
   }

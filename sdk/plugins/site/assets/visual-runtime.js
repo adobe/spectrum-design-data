@@ -340,6 +340,137 @@ export function renderScene(compiled, req) {
       c.fill = bfill ? bfill.value : null;
       c.stroke = bstroke ? bstroke.value : null;
       c.strokeWidth = num(bsw) ?? 0;
+      const pads = [
+        "paddingInlineStart",
+        "paddingInlineEnd",
+        "paddingBlockStart",
+        "paddingBlockEnd",
+      ].map((n) => {
+        const r = rp(part, n);
+        track(c.tokens, n, r);
+        return num(r) ?? 0;
+      });
+      const rdir = rp(part, "direction");
+      if (!rdir) {
+        if (!bh) c.h = pads[2] + pads[3];
+      } else {
+        layoutKeyword(cx, "direction", rdir, ["row"]);
+        const ralign = layoutKeyword(cx, "align", rp(part, "align"), [
+          "start",
+          "center",
+          "end",
+        ]);
+        const rgapR = rp(part, "gap");
+        track(c.tokens, "gap", rgapR);
+        const rgap = num(rgapR) ?? 0;
+        const items = [];
+        for (const nid of part.children ?? []) {
+          const np = parts[nid];
+          if (!np || !cx.visible(np)) continue;
+          const nkind = np.kind ?? "box";
+          const ntokens = [];
+          const nw = rp(np, "width");
+          const nh = rp(np, "height");
+          const ncolor = rp(np, "color");
+          track(ntokens, "width", nw);
+          track(ntokens, "height", nh);
+          track(ntokens, "color", ncolor);
+          const extra = { color: ncolor ? ncolor.value : null };
+          let w2 = 0;
+          let h2 = 0;
+          let ow;
+          let oh;
+          let ox = 0;
+          let oy = 0;
+          if (nkind === "icon") {
+            w2 = num(nw) ?? 16;
+            h2 = num(nh) ?? w2;
+            if (np.glyph) extra.glyph = np.glyph;
+            const rot = rp(np, "rotation");
+            track(ntokens, "rotation", rot);
+            if (num(rot) !== undefined) extra.rotation = num(rot);
+            ow = w2;
+            oh = h2;
+          } else if (nkind === "text") {
+            const fs = rp(np, "fontSize");
+            const fw = rp(np, "fontWeight");
+            const ff = rp(np, "fontFamily");
+            const lh = rp(np, "lineHeight");
+            track(ntokens, "fontSize", fs);
+            track(ntokens, "fontWeight", fw);
+            track(ntokens, "fontFamily", ff);
+            track(ntokens, "lineHeight", lh);
+            const tp = [
+              "paddingInlineStart",
+              "paddingInlineEnd",
+              "paddingBlockStart",
+              "paddingBlockEnd",
+            ].map((n) => {
+              const r = rp(np, n);
+              track(ntokens, n, r);
+              return num(r) ?? 0;
+            });
+            extra.font_size = num(fs) ?? 14;
+            extra.font_weight = fw ? fw.value : null;
+            if (ff) extra.font_family = ff.value;
+            extra.text = req.label ?? "";
+            w2 = textWidth(extra.text, extra.font_size);
+            h2 = lineHeight(lh, extra.font_size);
+            ow = w2 + tp[0] + tp[1];
+            oh = h2 + tp[2] + tp[3];
+            ox = tp[0];
+            oy = tp[2];
+          } else {
+            const nfill = rp(np, "fill");
+            const nstroke = rp(np, "stroke");
+            const nsw = rp(np, "strokeWidth");
+            const nr = rp(np, "cornerRadius");
+            for (const [n, r] of [
+              ["fill", nfill],
+              ["stroke", nstroke],
+              ["strokeWidth", nsw],
+              ["cornerRadius", nr],
+            ]) {
+              track(ntokens, n, r);
+            }
+            w2 = num(nw) ?? 0;
+            h2 = num(nh) ?? 0;
+            extra.fill = nfill ? nfill.value : null;
+            extra.stroke = nstroke ? nstroke.value : null;
+            extra.stroke_width = num(nsw) ?? 0;
+            extra.radius = clampRadius(
+              num(nr) === undefined
+                ? 0
+                : num(nr) * (nr.relativeTo === "height" ? h2 : 1),
+              w2,
+              h2,
+            );
+            ow = w2;
+            oh = h2;
+          }
+          items.push({
+            node: node(nid, nkind, 0, 0, w2, h2, { ...extra, tokens: ntokens }),
+            ow,
+            oh,
+            ox,
+            oy,
+          });
+        }
+        const sum =
+          items.reduce((a, i) => a + i.ow, 0) +
+          rgap * Math.max(items.length - 1, 0);
+        const tall = Math.max(0, ...items.map((i) => i.oh));
+        if (!bw) c.w = pads[0] + sum + pads[1];
+        if (!bh) c.h = tall + pads[2] + pads[3];
+        c.row = {
+          items,
+          align: ralign,
+          gap: rgap,
+          padS: pads[0],
+          padBS: pads[2],
+          padBE: pads[3],
+        };
+      }
     } else if (kind === "icon" || kind === "progress") {
       const w = rp(part, "width");
       const ih = rp(part, "height");
@@ -435,16 +566,18 @@ export function renderScene(compiled, req) {
   const x = ox + pS;
   let main = column ? oy + pBS + axisOffset(justify, h - pBS - pBE - sumH) : x;
   for (const c of flow) {
-    const cx0 = column ? x + axisOffset(align, w - pS - pE - c.w) : main;
+    // A column stretches a box that has no width of its own across its inner width.
+    const cw = column && c.kind === "box" && c.w === 0 ? w - pS - pE : c.w;
+    const cx0 = column ? x + axisOffset(align, w - pS - pE - cw) : main;
     const cy0 = column
       ? main
       : oy + pBS + axisOffset(align, h - pBS - pBE - c.h);
     nodes.push(
-      node(c.id, c.kind, cx0, cy0, c.w, c.h, {
+      node(c.id, c.kind, cx0, cy0, cw, c.h, {
         fill: c.fill,
         stroke: c.stroke,
         stroke_width: c.strokeWidth,
-        radius: c.kind === "box" ? clampRadius(px(c.radius, c.h), c.w, c.h) : 0,
+        radius: c.kind === "box" ? clampRadius(px(c.radius, c.h), cw, c.h) : 0,
         text: c.text,
         font_size: c.fontSize,
         font_weight: c.fontWeight,
@@ -453,7 +586,20 @@ export function renderScene(compiled, req) {
         tokens: c.tokens,
       }),
     );
-    main += (column ? c.h : c.w) + gap;
+    main += (column ? c.h : cw) + gap;
+
+    if (c.row) {
+      const r = c.row;
+      const innerH = c.h - r.padBS - r.padBE;
+      let rx = cx0 + r.padS;
+      for (const it of r.items) {
+        it.node.x = rx + it.ox;
+        it.node.y = cy0 + r.padBS + axisOffset(r.align, innerH - it.oh) + it.oy;
+        rx += it.ow + r.gap;
+        nodes.push(it.node);
+      }
+      continue;
+    }
 
     // A box's children sit inside it: centered across, and at the start, center or end
     // along the inline axis. The inset equals the cross-axis gap.
@@ -465,21 +611,24 @@ export function renderScene(compiled, req) {
       const nh = rp(np, "height");
       if (np.kind === "icon") {
         const color = rp(np, "color");
+        const rot = rp(np, "rotation");
         track(tokens, "width", nw);
         track(tokens, "height", nh);
         track(tokens, "color", color);
-        const w2 = num(nw) ?? c.w;
+        track(tokens, "rotation", rot);
+        const w2 = num(nw) ?? cw;
         const h2 = num(nh) ?? w2;
         const extra = {
           color: color ? color.value : null,
           tokens,
         };
         if (np.glyph) extra.glyph = np.glyph;
+        if (num(rot) !== undefined) extra.rotation = num(rot);
         nodes.push(
           node(
             nid,
             "icon",
-            cx0 + (c.w - w2) / 2,
+            cx0 + (cw - w2) / 2,
             cy0 + (c.h - h2) / 2,
             w2,
             h2,
@@ -504,14 +653,14 @@ export function renderScene(compiled, req) {
       ]) {
         track(tokens, n, r);
       }
-      const w2 = num(nw) ?? c.w;
+      const w2 = num(nw) ?? cw;
       const h2 = num(nh) ?? c.h;
       const inset = (c.h - h2) / 2;
       const nx =
         justify?.value === "end"
-          ? cx0 + c.w - w2 - inset
+          ? cx0 + cw - w2 - inset
           : justify?.value === "center"
-            ? cx0 + (c.w - w2) / 2
+            ? cx0 + (cw - w2) / 2
             : cx0 + inset;
       nodes.push(
         node(nid, "box", nx, cy0 + inset, w2, h2, {
@@ -699,10 +848,15 @@ export function renderSvg(scene) {
       s += `<g ${attrs} fill="none" stroke-width="${sw}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${esc(n.stroke ?? "none")}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${esc(n.color ?? "currentColor")}" stroke-linecap="round"/></g>`;
     } else if (
       n.kind === "icon" &&
-      (n.glyph === "checkmark" || n.glyph === "dash")
+      (n.glyph === "checkmark" || n.glyph === "dash" || n.glyph === "chevron")
     ) {
       const color = esc(n.color ?? "currentColor");
-      if (n.glyph === "dash") {
+      const rot = n.rotation
+        ? ` transform="rotate(${n.rotation} ${n.x + n.w / 2} ${n.y + n.h / 2})"`
+        : "";
+      if (n.glyph === "chevron") {
+        s += `<path ${attrs}${rot} d="M${n.x + n.w * 0.3} ${n.y + n.h * 0.1}L${n.x + n.w * 0.7} ${n.y + n.h * 0.5}L${n.x + n.w * 0.3} ${n.y + n.h * 0.9}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+      } else if (n.glyph === "dash") {
         s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.h / 2}" fill="${color}"/>`;
       } else {
         s += `<path ${attrs} d="M${n.x + n.w * 0.1} ${n.y + n.h * 0.55}L${n.x + n.w * 0.38} ${n.y + n.h * 0.82}L${n.x + n.w * 0.9} ${n.y + n.h * 0.2}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;

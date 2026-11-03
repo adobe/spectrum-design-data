@@ -104,9 +104,17 @@ pub(crate) fn info(
 /// Whether a token `name` object carries every field of a selector. A scalar selector
 /// value matches an array-valued name field that contains it.
 pub(crate) fn name_matches(name: &Value, sel: &Map<String, Value>) -> bool {
+    // A templated number (`"{sizeIndex}"`) expands to a string: match it to a numeric name field.
+    let same = |have: &Value, want: &Value| {
+        have == want
+            || (have.is_number()
+                && want
+                    .as_str()
+                    .is_some_and(|w| w.parse::<f64>().ok() == have.as_f64()))
+    };
     sel.iter().all(|(k, want)| match name.get(k) {
-        Some(Value::Array(a)) => a.contains(want),
-        Some(have) => have == want,
+        Some(Value::Array(a)) => a.iter().any(|h| same(h, want)),
+        Some(have) => same(have, want),
         None => false,
     })
 }
