@@ -1,0 +1,184 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "switch-ios",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["label", "track"],
+      "props": {
+        "height": {
+          "token": {
+            "component": "switch-ios",
+            "property": "height"
+          }
+        },
+        "paddingInlineStart": {
+          "token": {
+            "component": "switch-ios",
+            "property": "h-padding"
+          }
+        },
+        "paddingInlineEnd": {
+          "token": {
+            "component": "switch-ios",
+            "property": "h-padding"
+          }
+        },
+        "gap": {
+          "token": {
+            "component": "switch-ios",
+            "property": "h-gap"
+          }
+        },
+        "opacity": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "token": {
+            "component": "switch-ios",
+            "property": "opacity",
+            "state": "disabled"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontSize": {
+          "token": {
+            "component": "switch-ios",
+            "property": "font-size"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "component": "switch-ios",
+            "property": "font-weight"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "component": "switch-ios",
+            "property": "line-height"
+          }
+        },
+        "fontFamily": {
+          "token": {
+            "component": "switch-ios",
+            "property": "font-family"
+          }
+        },
+        "color": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "label",
+            "property": "content-color"
+          }
+        }
+      }
+    },
+    "track": {
+      "kind": "box",
+      "children": ["handle"],
+      "props": {
+        "width": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "track",
+            "property": "width"
+          }
+        },
+        "height": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "track",
+            "property": "height"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "track",
+            "property": "corner-radius"
+          }
+        },
+        "fill": [
+          {
+            "token": {
+              "component": "switch-ios",
+              "anatomy": "track",
+              "property": "background-color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "token": {
+              "colorRole": "accent",
+              "object": "background",
+              "property": "color",
+              "state": "default"
+            }
+          }
+        ]
+      }
+    },
+    "handle": {
+      "kind": "box",
+      "props": {
+        "width": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "handle",
+            "property": "size"
+          }
+        },
+        "height": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "handle",
+            "property": "size"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "handle",
+            "property": "corner-radius"
+          }
+        },
+        "justify": [
+          {
+            "value": "start"
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "value": "end"
+          }
+        ],
+        "fill": {
+          "token": {
+            "component": "switch-ios",
+            "anatomy": "handle",
+            "property": "background-color"
+          }
+        }
+      }
+    }
+  }
+}

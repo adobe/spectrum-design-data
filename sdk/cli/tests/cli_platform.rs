@@ -818,6 +818,54 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
         .stderr(contains("no visual recipe for 'button-ios'"));
 }
 
+/// p6ga.8.20: the iOS manifest aliases `switch` to `switch-ios`, the native UISwitch in a list
+/// row (Figma .Switch 11368:7089): a 51x31 capsule, a 27 knob inset 2, the accent fill when on,
+/// and the whole component at 0.6 opacity when disabled.
+#[test]
+fn ios_render_switch_draws_the_native_switch_row() {
+    let root = repo_root();
+    let part = |scene: &serde_json::Value, name: &str| -> serde_json::Value {
+        scene["nodes"]
+            .as_array()
+            .and_then(|n| n.iter().find(|n| n["part"] == name).cloned())
+            .unwrap_or_else(|| panic!("no {name} in {scene}"))
+    };
+    let off = render_scene(&root, &["switch", "--platform", "ios"]);
+    assert_eq!(off["component"], "switch-ios", "{off}");
+    assert!(off.get("opacity").is_none(), "{off}");
+    assert_eq!(part(&off, "container")["h"], 45.0, "{off}");
+    let (track, knob) = (part(&off, "track"), part(&off, "handle"));
+    assert_eq!(
+        (track["w"].as_f64(), track["h"].as_f64()),
+        (Some(51.0), Some(31.0))
+    );
+    assert_eq!(track["radius"], 15.5, "{off}");
+    assert_eq!(track["fill"], "rgba(0, 0, 0, 0.09)", "{off}");
+    assert_eq!(knob["w"], 27.0, "{off}");
+    assert_eq!(
+        knob["x"].as_f64().unwrap() - track["x"].as_f64().unwrap(),
+        2.0
+    );
+
+    let on = render_scene(
+        &root,
+        &["switch", "--platform", "ios", "--option", "isSelected=true"],
+    );
+    let (track, knob) = (part(&on, "track"), part(&on, "handle"));
+    assert_eq!(track["fill"], "rgb(59, 99, 251)", "{on}");
+    let knob_end = knob["x"].as_f64().unwrap() + 27.0;
+    assert_eq!(track["x"].as_f64().unwrap() + 51.0 - knob_end, 2.0, "{on}");
+
+    let disabled = render_scene(
+        &root,
+        &["switch", "--platform", "ios", "--option", "isDisabled=true"],
+    );
+    assert_eq!(disabled["opacity"], 0.6, "{disabled}");
+
+    let foundation = render_scene(&root, &["switch"]);
+    assert_eq!(foundation["component"], "switch", "{foundation}");
+}
+
 #[test]
 fn site_lists_the_alias_key_with_the_target_data_and_hides_the_target() {
     let project = alias_fixture_project();
