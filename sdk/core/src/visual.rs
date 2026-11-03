@@ -2805,11 +2805,12 @@ mod tests {
             let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
             let box_h = scene.nodes[0].h;
             let icon = part(&scene, "icon").unwrap();
-            (box_h, icon.h)
+            (box_h, icon.h, icon.y - scene.nodes[0].y)
         };
         // The label line is 13 high: a 10 icon does not matter, a 30 icon is clipped to 13.
-        assert_eq!(height("10"), (23.0, 10.0));
-        assert_eq!(height("30"), (23.0, 30.0));
+        assert_eq!(height("10"), (23.0, 10.0, 6.5));
+        // The 30 icon overflows the 13 line by 8.5 on each side.
+        assert_eq!(height("30"), (23.0, 30.0, -3.5));
     }
 
     #[test]

@@ -93,6 +93,7 @@ test("an icon taller than the label line adds only the line height", (t) => {
   const tall = render(withIcon(30));
   t.is(tall.nodes[0].h, 23);
   t.is(tall.nodes.find((n) => n.part === "icon").h, 30);
+  t.is(tall.nodes.find((n) => n.part === "icon").y - tall.nodes[0].y, -3.5);
 });
 
 test("a line height that does not parse is a diagnostic", (t) => {
