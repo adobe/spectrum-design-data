@@ -1081,3 +1081,19 @@ rules:
     message: "Part '{part}' ({role}) of '{component}' binds '{prop}', which the renderer does not read for that part"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-084
+    name: ctr-uuid-required
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Changelogs, platform overrides and `$ref` all need a stable identity for a
+      relationship. The schema requires `uuid` in `relationships/*.json`; this rule also
+      covers records the schema does not see (a platform manifest's inline relationship
+      adds). Uniqueness is SPEC-056.
+    assert: >
+      Every relationship record MUST have a `uuid`.
+    message: "Relationship #{index} has no uuid (component '{component}', property '{property}')"
+    spec_ref: spec/relationship-format.md#identity
+    introduced_in: "1.0.0-draft"

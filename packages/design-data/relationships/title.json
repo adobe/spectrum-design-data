@@ -5,7 +5,8 @@
       "property": "letter-spacing"
     },
     "context": "Title-XXXL",
-    "$ref": "d8caf3aa-1261-411f-b383-18f87334c117"
+    "$ref": "d8caf3aa-1261-411f-b383-18f87334c117",
+    "uuid": "60a051d9-a45a-58b6-83d8-fda707e8262e"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "margin"
     },
     "context": "Margins",
-    "$ref": "14d9dc6c-28fc-41cf-a1ae-600a150f520a"
+    "$ref": "14d9dc6c-28fc-41cf-a1ae-600a150f520a",
+    "uuid": "33e468da-87a2-562e-aaa3-f187c5d5757e"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "margin"
     },
     "context": "Margins",
-    "$ref": "73a0bd28-7691-47b0-9e9b-62ec22940e63"
+    "$ref": "73a0bd28-7691-47b0-9e9b-62ec22940e63",
+    "uuid": "f84be9a6-4aa5-54d8-95e0-194e2b82ab71"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "color"
     },
     "context": "Color",
-    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
+    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b",
+    "uuid": "517c290b-dabf-5a7b-829c-146910bfae7e"
   },
   {
     "scope": {

@@ -5,7 +5,8 @@
       "property": "width"
     },
     "context": "Component width",
-    "$ref": "2097b13e-94b3-4a06-a0af-c7d8420d1273"
+    "$ref": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
+    "uuid": "fceccff0-2b22-59fc-aad0-fd0ecee05b91"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "spacing"
     },
     "context": "Padding",
-    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "424363fa-819b-538f-a219-146f63f25cc3"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "content-maximum-width"
     },
     "context": "Content width (maximum)",
-    "$ref": "b8d0db71-9a25-46fc-b77a-037fcf86be8e"
+    "$ref": "b8d0db71-9a25-46fc-b77a-037fcf86be8e",
+    "uuid": "679d8391-8db7-546e-8b9b-f0eabb66cdb9"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "border-width"
     },
     "context": "Border width and corner radius",
-    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "e4387e1d-6a95-5075-bba4-2961a34edb0a"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "corner-radius"
     },
     "context": "Border width and corner radius",
-    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269"
+    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
+    "uuid": "a24f4808-f6ed-5c5c-b7a1-da7a4ab40ac0"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "border-dash-length"
     },
     "context": "Border width and corner radius",
-    "$ref": "24cd8175-3dc5-46ae-b1af-01632787fcd8"
+    "$ref": "24cd8175-3dc5-46ae-b1af-01632787fcd8",
+    "uuid": "d3501363-8b51-5ea0-8e6b-e4110e5f2d6e"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "border-dash-gap"
     },
     "context": "Border width and corner radius",
-    "$ref": "5582026a-22e6-4e0e-9a21-2a7a43b026a6"
+    "$ref": "5582026a-22e6-4e0e-9a21-2a7a43b026a6",
+    "uuid": "8446f5b7-b986-5489-95a3-5c1d5334bfd3"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "spacing"
     },
     "context": "Spacing (illustration to title area) ",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "3f2c240a-366d-524c-b6fe-7db1c1d95464"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "spacing"
     },
     "context": "Spacing (title area to body area) ",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "65da5123-686d-576e-acad-7704b1bed1db"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "spacing"
     },
     "context": "Spacing (body area to action) ",
-    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "4a002074-7e87-54d0-9b00-2fa550280df5"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "component-height-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "uuid": "ac4db542-eee9-55ed-aa57-2e577a2d33f6"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "component-height-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "uuid": "29245d80-66fa-5d26-9706-70677b3a12b2"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "e28a5fe3-01c2-50d8-b2ae-8c2da6d8bf70"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "b9d66f99-b6fe-5cf0-98c7-621ab17c4fe8"
   },
   {
     "scope": {
@@ -117,7 +131,8 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "2d1740d5-08c4-59b0-9653-13c55446c875"
   },
   {
     "scope": {
@@ -125,7 +140,8 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "1a3b2e86-e52a-55b3-b344-979be1ba9874"
   },
   {
     "scope": {
@@ -133,7 +149,8 @@
       "property": "font-family"
     },
     "context": "Title area and body area",
-    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8",
+    "uuid": "4d575115-ea92-5034-a182-4a7df5e5b383"
   },
   {
     "scope": {
@@ -141,7 +158,8 @@
       "property": "font-weight"
     },
     "context": "Title area and body area",
-    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4",
+    "uuid": "6cbdddc2-6969-5bc5-a2f4-bc70603173ce"
   },
   {
     "scope": {
@@ -149,7 +167,8 @@
       "property": "font-style"
     },
     "context": "Title area and body area",
-    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d"
+    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d",
+    "uuid": "48fc2664-4fbd-582d-a927-01c56117da46"
   },
   {
     "scope": {
@@ -157,7 +176,8 @@
       "property": "font-size"
     },
     "context": "Title area and body area",
-    "$ref": "07564dd0-3628-42e1-8a29-253448a8c75f"
+    "$ref": "07564dd0-3628-42e1-8a29-253448a8c75f",
+    "uuid": "4866ab33-ec6a-5add-b324-f81ae952f99f"
   },
   {
     "scope": {
@@ -165,7 +185,8 @@
       "property": "font-size"
     },
     "context": "Title area and body area",
-    "$ref": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75"
+    "$ref": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75",
+    "uuid": "5af1783d-488e-5673-a503-b47f683dcfd7"
   },
   {
     "scope": {
@@ -173,7 +194,8 @@
       "property": "line-height"
     },
     "context": "Title area and body area",
-    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f"
+    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f",
+    "uuid": "c1427ba9-759d-5a49-861e-6e9e3dc94566"
   },
   {
     "scope": {
@@ -181,7 +203,8 @@
       "property": "font-family"
     },
     "context": "Title area and body area",
-    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b",
+    "uuid": "b0b7fd6b-17ba-5f49-9458-64eb441f1112"
   },
   {
     "scope": {
@@ -189,7 +212,8 @@
       "property": "font-weight"
     },
     "context": "Title area and body area",
-    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31",
+    "uuid": "4c9da88e-2fa3-5512-8bd0-b2d9789c8e8b"
   },
   {
     "scope": {
@@ -197,7 +221,8 @@
       "property": "font-style"
     },
     "context": "Title area and body area",
-    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd"
+    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd",
+    "uuid": "1f15fe57-88b1-5326-a6a3-118bc0d46999"
   },
   {
     "scope": {
@@ -205,7 +230,8 @@
       "property": "font-size"
     },
     "context": "Title area and body area",
-    "$ref": "644593be-82da-4ae4-ae57-fabebd4513ca"
+    "$ref": "644593be-82da-4ae4-ae57-fabebd4513ca",
+    "uuid": "f70f1bfd-9706-5c93-9243-b42838e01209"
   },
   {
     "scope": {
@@ -213,7 +239,8 @@
       "property": "line-height"
     },
     "context": "Title area and body area",
-    "$ref": "39accad7-3de1-4850-9773-4e0ff8080049"
+    "$ref": "39accad7-3de1-4850-9773-4e0ff8080049",
+    "uuid": "c065e69e-f3e3-5624-940e-515e2cfdc06c"
   },
   {
     "scope": {
@@ -221,7 +248,8 @@
       "property": "font-family"
     },
     "context": "Title area and body area",
-    "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b"
+    "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b",
+    "uuid": "248159c3-3b25-58c3-8308-b78aaab920c4"
   },
   {
     "scope": {
@@ -229,7 +257,8 @@
       "property": "font-weight"
     },
     "context": "Title area and body area",
-    "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8"
+    "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
+    "uuid": "9bfd70e4-d4aa-5f87-8393-2905b8ca6827"
   },
   {
     "scope": {
@@ -237,7 +266,8 @@
       "property": "font-size-300"
     },
     "context": "Title area and body area",
-    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
+    "uuid": "3851d382-54b3-5e9b-851a-947b0c01e97d"
   },
   {
     "scope": {
@@ -245,7 +275,8 @@
       "property": "font-size-300"
     },
     "context": "Title area and body area",
-    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
+    "uuid": "50e19293-444e-5fb0-8929-c568e2ae5d62"
   },
   {
     "scope": {
@@ -253,7 +284,8 @@
       "property": "line-height-100"
     },
     "context": "Title area and body area",
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "1037723e-db6b-5d5f-a7f6-b9cee6386807"
   },
   {
     "scope": {
@@ -261,7 +293,8 @@
       "property": "color"
     },
     "context": "Border color",
-    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
+    "uuid": "8b11aaaa-2c02-520d-a906-17c92e3af22f"
   },
   {
     "scope": {
@@ -269,7 +302,8 @@
       "property": "color"
     },
     "context": "Border color",
-    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
+    "uuid": "8c3cf73e-af74-5455-8c1c-cbbf6314fc7e"
   },
   {
     "scope": {
@@ -277,7 +311,8 @@
       "property": "color"
     },
     "context": "Border color",
-    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
+    "uuid": "e5d43984-840d-5212-8af3-f1c129341769"
   },
   {
     "scope": {
@@ -285,7 +320,8 @@
       "property": "content-color"
     },
     "context": "Illustration color",
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "7ab8b5cd-bfc2-56f9-ae3d-cfb3c6782deb"
   },
   {
     "scope": {
@@ -293,7 +329,8 @@
       "property": "color"
     },
     "context": "Title and body color",
-    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9",
+    "uuid": "cb684ddb-25bb-544f-904e-ed06b6f60e13"
   },
   {
     "scope": {
@@ -301,7 +338,8 @@
       "property": "color"
     },
     "context": "Title and body color",
-    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014",
+    "uuid": "36d5001b-f497-5575-84ad-4e31d1c61027"
   },
   {
     "scope": {
@@ -309,7 +347,8 @@
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
-    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322"
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322",
+    "uuid": "c37f516d-a5f2-50e2-a8d3-193dfcbc74b0"
   },
   {
     "scope": {
@@ -317,7 +356,8 @@
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
-    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89"
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89",
+    "uuid": "3d5806e1-aa83-5d87-902e-59d8e4831b2b"
   },
   {
     "scope": {
@@ -325,7 +365,8 @@
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
-    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190"
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
+    "uuid": "0145f31b-fb9b-5d32-94e3-7ae00913e1d4"
   },
   {
     "scope": {
@@ -333,7 +374,8 @@
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
-    "$ref": "866f3613-c12f-4475-87b1-ad86ef2ce153"
+    "$ref": "866f3613-c12f-4475-87b1-ad86ef2ce153",
+    "uuid": "68d17848-2e34-5b57-84a0-08853a30bcb3"
   },
   {
     "scope": {
@@ -341,7 +383,8 @@
       "property": "opacity"
     },
     "context": "Border and background color (empty, hover)",
-    "$ref": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
+    "$ref": "ee5ed78b-230c-4b37-9d76-1787a975bb63",
+    "uuid": "114268d8-06d6-5eb6-a5df-1aa1d4b2f801"
   },
   {
     "scope": {
@@ -349,7 +392,8 @@
       "property": "opacity"
     },
     "context": "Border, background, and text area color (filled, hover)",
-    "$ref": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
+    "$ref": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
+    "uuid": "ed32e791-16aa-530a-8b32-0a86b2b98104"
   },
   {
     "scope": {
@@ -357,7 +401,8 @@
       "property": "color"
     },
     "context": "Border, background, and text area color (filled, hover)",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "1b7274e4-1a4b-5b75-9aae-3b5b409d9c0f"
   },
   {
     "scope": {

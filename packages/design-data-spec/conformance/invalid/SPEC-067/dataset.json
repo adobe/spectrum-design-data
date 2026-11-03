@@ -34,7 +34,8 @@
         "property": "color"
       },
       "context": "Control",
-      "$ref": "aaaaaaaa-0067-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0067-4000-8000-000000000001",
+      "uuid": "df5f5b9a-7e8a-5970-b6a2-846e2aa15ad9"
     }
   ],
   "visuals": [

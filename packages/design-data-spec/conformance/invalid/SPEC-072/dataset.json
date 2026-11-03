@@ -26,7 +26,8 @@
         "property": "gap"
       },
       "context": "Spacing",
-      "$ref": "aaaaaaaa-0072-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0072-4000-8000-000000000001",
+      "uuid": "27da813d-2876-592c-a6e2-a241d05cb5e8"
     },
     {
       "scope": {
@@ -34,7 +35,8 @@
         "property": "gap"
       },
       "context": "Spacing",
-      "$ref": "aaaaaaaa-0072-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0072-4000-8000-000000000001",
+      "uuid": "c0c499ff-3a31-59d8-bf82-2a105834c1f4"
     }
   ],
   "components": [

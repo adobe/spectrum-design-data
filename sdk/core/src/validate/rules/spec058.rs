@@ -11,7 +11,7 @@
 //! SPEC-058: ctr-ref-not-deprecated
 //!
 //! A relationship-only CTR's `$ref` SHOULD NOT resolve to a token whose
-//! `lifecycle.deprecatedIn` is set. Relationship-only CTRs (no `uuid`/
+//! `lifecycle.deprecatedIn` is set. Relationship-only CTRs (no
 //! `legacyKey` — see relationship-format.md) describe current
 //! component-to-token bindings; a deprecated target means the binding was
 //! carried over from an older source (a legacy `tokenBindings` migration or a
@@ -19,7 +19,7 @@
 //! pointer to its live replacement.
 //!
 //! Scoped to relationship-only CTRs deliberately: a *value-owning* CTR
-//! (`uuid`/`legacyKey` present) legitimately **is** a deprecated token record
+//! (`legacyKey` present) legitimately **is** a deprecated token record
 //! — that's SPEC-057's territory, not this rule's.
 //!
 //! Warning, not error: some deprecated targets have no `replacedBy` (or an
@@ -44,9 +44,10 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
 
         for rel in &ctx.graph.relationships {
-            // Value-owning CTRs (uuid present) are themselves deprecated-token
-            // records when applicable — not this rule's concern.
-            if rel.uuid.is_some() {
+            // Value-owning CTRs (a `legacyKey`) are themselves deprecated-token
+            // records when applicable — not this rule's concern. A `uuid` no longer
+            // tells them apart: every relationship has one (SPEC-084).
+            if rel.raw.get("legacyKey").is_some() {
                 continue;
             }
             let Some(target) = rel.raw.get("$ref").and_then(|v| v.as_str()) else {

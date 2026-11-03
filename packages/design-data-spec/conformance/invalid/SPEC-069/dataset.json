@@ -37,7 +37,8 @@
         "property": "size"
       },
       "context": "Track",
-      "$ref": "aaaaaaaa-0069-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0069-4000-8000-000000000001",
+      "uuid": "ab0e5462-1534-5ff0-a18a-753954541aa3"
     }
   ],
   "visuals": [

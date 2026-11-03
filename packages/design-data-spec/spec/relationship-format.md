@@ -64,9 +64,11 @@ A CTR **MUST NOT** declare both `value` and `$ref` (enforced at Layer 1 via `not
 
 ## Identity
 
-| Field  | Required | Type          | Description                                                                                                                                                                  |
-| ------ | -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `uuid` | no       | string (uuid) | **MUST** be globally unique across all relationship entries within the same cascade layer (rule SPEC-056, mirrors SPEC-004). Required for a CTR to be a valid `$ref` target. |
+| Field  | Required | Type          | Description                                                                                                                                                                                                                                                              |
+| ------ | -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid` | yes      | string (uuid) | **MUST** be present (rule SPEC-084) and globally unique across all relationship entries within the same cascade layer (rule SPEC-056, mirrors SPEC-004). It is the stable identity changelogs, platform overrides and `$ref` use, and **MUST NOT** change once assigned. |
+
+A platform manifest overrides or removes a foundation relationship by this `uuid`, and a platform-local relationship (an `extensions/relationships/` file or an inline `extensions.relationships` add) carries its own. Authors can generate ids with `packages/design-data/scripts/backfill-relationship-uuid.mjs`, which derives a UUIDv5 from the record's identity and never changes an existing `uuid`.
 
 ## Legacy fields (interim)
 
@@ -101,3 +103,4 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-055 | `ctr-ref-resolves`                | error    | CTR `$ref` value **MUST** resolve to a declared token or relationship `uuid` in the dataset.                                                                                                                                                       |
 | SPEC-056 | `ctr-uuid-unique`                 | error    | CTR `uuid` values **MUST** be unique across all relationship entries within the same cascade layer.                                                                                                                                                |
 | SPEC-057 | `ctr-legacykey-present-if-legacy` | warning  | Advisory placeholder: a CTR that round-trips through the legacy generator **SHOULD** carry `legacyKey`. Generator-side "should have a legacy counterpart" detection is deferred; this rule documents intent rather than enforcing it structurally. |
+| SPEC-084 | `ctr-uuid-required`               | error    | Every CTR **MUST** have a `uuid`.                                                                                                                                                                                                                  |

@@ -87,7 +87,7 @@
     },
     "ctrWithValue": {
       "type": "object",
-      "required": ["scope", "value"],
+      "required": ["scope", "value", "uuid"],
       "not": {
         "required": ["$ref"]
       },
@@ -125,7 +125,7 @@
         "uuid": {
           "type": "string",
           "format": "uuid",
-          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+          "description": "Required stable identity (SPEC-084). MUST be globally unique across all relationship entries in the same layer (SPEC-056) and never change once assigned."
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
@@ -157,7 +157,7 @@
     },
     "ctrWithRef": {
       "type": "object",
-      "required": ["scope", "$ref"],
+      "required": ["scope", "$ref", "uuid"],
       "not": {
         "required": ["value"]
       },
@@ -189,7 +189,7 @@
         "uuid": {
           "type": "string",
           "format": "uuid",
-          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+          "description": "Required stable identity (SPEC-084). MUST be globally unique across all relationship entries in the same layer (SPEC-056) and never change once assigned."
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
