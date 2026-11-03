@@ -10,6 +10,8 @@
 export default {
   files: ["test/**/*.test.js"],
   verbose: true,
+  // Sheet generation runs the debug CLI once at load, which is slow on CI runners.
+  timeout: "3m",
   environmentVariables: {
     NODE_ENV: "test",
   },

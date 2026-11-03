@@ -16,7 +16,8 @@
 import test from "ava";
 import vm from "node:vm";
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,24 +26,23 @@ const root = join(here, "../../..");
 const code = readFileSync(join(here, "../code.js"), "utf-8");
 const cli =
   process.env.DESIGN_DATA_CLI ?? join(root, "sdk/target/debug/design-data");
-// Sheets are generated, not committed: build them with the CLI the moon task depends on.
+// Sheets are generated, not committed: one `spec-sheet --all` run (the sdk:build dependency of the
+// moon task builds the CLI), then each test reads the sheet it needs.
+const out = mkdtempSync(join(tmpdir(), "spec-sheets-"));
+execFileSync(
+  cli,
+  [
+    "spec-sheet",
+    "--all",
+    "--changelog-dir",
+    join(root, "packages/design-data/changelog"),
+    "-o",
+    out,
+  ],
+  { cwd: root, stdio: "pipe" },
+);
 const generate = (component) =>
-  JSON.parse(
-    execFileSync(
-      cli,
-      [
-        "spec-sheet",
-        component,
-        ...(component === "action-button"
-          ? [
-              "--changelog",
-              join(root, "packages/design-data/changelog/action-button.json"),
-            ]
-          : []),
-      ],
-      { cwd: root, maxBuffer: 64 * 1024 * 1024 },
-    ),
-  );
+  JSON.parse(readFileSync(join(out, `${component}.json`), "utf-8"));
 const sheet = generate("action-button");
 const changelog = JSON.parse(
   readFileSync(
