@@ -66,14 +66,23 @@ fn terminal_schema(graph: &TokenGraph, raw: &Value) -> String {
     s(cur, "$schema").unwrap_or("").to_string()
 }
 
-fn page_for(schema: &str, static_color: Option<&str>) -> &'static str {
+/// Relationship properties that document type: font tokens and line-height multipliers
+/// (a multiplier token has no font schema, so the property decides).
+fn is_typography_property(property: &str) -> bool {
+    ["font-", "line-height", "cjk-line-height"]
+        .iter()
+        .any(|p| property.starts_with(p))
+        || property == "typography"
+}
+
+fn page_for(schema: &str, static_color: Option<&str>, property: &str) -> &'static str {
     if schema.contains("color") {
         match static_color {
             Some("white") => "Color (static white)",
             Some("black") => "Color (static black)",
             _ => "Color",
         }
-    } else if schema.contains("font") {
+    } else if schema.contains("font") || is_typography_property(property) {
         "Typography"
     } else {
         "Layout"
@@ -284,14 +293,15 @@ impl Item {
 
 struct Ctx<'a> {
     graph: &'a TokenGraph,
-    recipe: &'a Value,
+    /// None for a table-only sheet: the component has relationships but no visual recipe yet.
+    recipe: Option<&'a Value>,
     component: &'a str,
     size: &'a str,
     labels: Labels,
 }
 
 impl Ctx<'_> {
-    fn render(&self, options: &Map<String, Value>) -> miette::Result<Value> {
+    fn render(&self, recipe: &Value, options: &Map<String, Value>) -> miette::Result<Value> {
         let req = RenderRequest {
             component: self.component.to_string(),
             size: self.size.to_string(),
@@ -308,7 +318,7 @@ impl Ctx<'_> {
             label: "Label".into(),
         };
         let scene =
-            visual::build_scene(self.graph, self.recipe, &req).map_err(|e| miette::miette!(e))?;
+            visual::build_scene(self.graph, recipe, &req).map_err(|e| miette::miette!(e))?;
         // Fit the scene into the block once, so renderers only apply this view.
         let scale = ((BLOCK_W - MARGIN_X) / scene.width)
             .min((BLOCK_H - MARGIN_Y) / scene.height)
@@ -404,8 +414,8 @@ impl Ctx<'_> {
     }
 
     fn blocks(&self, changelog: Option<&Value>) -> miette::Result<Vec<Value>> {
-        let sizes = size_by_property(self.recipe);
-        let bindings = recipe_bindings(self.recipe);
+        let sizes = self.recipe.map(size_by_property).unwrap_or_default();
+        let bindings = self.recipe.map(recipe_bindings).unwrap_or_default();
         let mut order: Vec<(String, String)> = Vec::new();
         let mut groups: BTreeMap<(String, String), Vec<&Value>> = BTreeMap::new();
         for r in &self.graph.relationships {
@@ -423,7 +433,9 @@ impl Ctx<'_> {
             let static_color = scope
                 .and_then(|c| c.get("options"))
                 .and_then(|o| s(o, "staticColor"));
-            let page = page_for(&terminal_schema(self.graph, tok), static_color).to_string();
+            let property = scope.and_then(|c| s(c, "property")).unwrap_or("");
+            let page =
+                page_for(&terminal_schema(self.graph, tok), static_color, property).to_string();
             let key = (page, context.trim().to_string());
             if !groups.contains_key(&key) {
                 order.push(key.clone());
@@ -466,41 +478,47 @@ impl Ctx<'_> {
             if hl.is_empty() {
                 hl = bindings.iter().filter(|b| b.2 == base).collect();
             }
-            let mut options = rows[&row_order[0]].0.clone();
-            for (k, v) in when_options(self.recipe, &context) {
-                options.entry(k).or_insert(v);
-            }
-            let mut render = self.render(&options)?;
-            render["highlight"] = json!(hl
-                .iter()
-                .map(|b| json!({"part": b.0, "prop": b.1}))
-                .collect::<Vec<_>>());
-            // Measurements are the scene's own. A relationship-bound one belongs to the block
-            // when its context is the title or the base context the highlight fell back to;
-            // a direct token selector has no relationship, so the highlighted props decide.
-            let hl_props: Vec<&str> = hl.iter().map(|b| b.1.as_str()).collect();
-            let measurements: Vec<Value> = render["scene"]["measurements"]
-                .as_array()
-                .into_iter()
-                .flatten()
-                .enumerate()
-                .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
-                    Some(c) => c == context || c == base,
-                    None => m["prop"].as_str().is_some_and(|p| hl_props.contains(&p)),
-                })
-                .map(|(index, m)| {
-                    let rel = &m["token"]["relationship"];
-                    json!({
-                        "index": index,
-                        "prop": m["prop"],
-                        "kind": m["kind"],
-                        "label": if rel.is_null() { &m["token"]["token"] } else { &rel["property"] },
-                        "relationship": rel["uuid"],
+            let mut render = match self.recipe {
+                Some(recipe) => {
+                    let mut options = rows[&row_order[0]].0.clone();
+                    for (k, v) in when_options(recipe, &context) {
+                        options.entry(k).or_insert(v);
+                    }
+                    self.render(recipe, &options)?
+                }
+                None => Value::Null,
+            };
+            if !render.is_null() {
+                render["highlight"] = json!(hl
+                    .iter()
+                    .map(|b| json!({"part": b.0, "prop": b.1}))
+                    .collect::<Vec<_>>());
+                // Measurements are the scene's own. A relationship-bound one belongs to the block
+                // when its context is the title or the base context the highlight fell back to;
+                // a direct token selector has no relationship, so the highlighted props decide.
+                let hl_props: Vec<&str> = hl.iter().map(|b| b.1.as_str()).collect();
+                let measurements: Vec<Value> = render["scene"]["measurements"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .enumerate()
+                    .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
+                        Some(c) => c == context || c == base,
+                        None => m["prop"].as_str().is_some_and(|p| hl_props.contains(&p)),
                     })
-                })
-                .collect();
-            render["measurements"] = json!(measurements);
-
+                    .map(|(index, m)| {
+                        let rel = &m["token"]["relationship"];
+                        json!({
+                            "index": index,
+                            "prop": m["prop"],
+                            "kind": m["kind"],
+                            "label": if rel.is_null() { &m["token"]["token"] } else { &rel["property"] },
+                            "relationship": rel["uuid"],
+                        })
+                    })
+                    .collect();
+                render["measurements"] = json!(measurements);
+            }
             // Markers: one per group of rows that share a recipe property template (or, when
             // no recipe binding fits, a relationship property), numbered 1..n in row order.
             // A marker sits on the part of the first binding that fits; none fits: no part.
@@ -531,18 +549,20 @@ impl Ctx<'_> {
                             markers.len() - 1
                         }
                     };
-                    it.marker = Some(n + 1);
+                    it.marker = (!render.is_null()).then_some(n + 1);
                 }
                 out_rows.push(json!({
                     "conditions": cond,
                     "items": items.iter().map(Item::json).collect::<Vec<_>>(),
                 }));
             }
-            render["markers"] = json!(markers
-                .iter()
-                .enumerate()
-                .map(|(i, (_, label, part))| json!({"n": i + 1, "part": part, "label": label}))
-                .collect::<Vec<_>>());
+            if !render.is_null() {
+                render["markers"] = json!(markers
+                    .iter()
+                    .enumerate()
+                    .map(|(i, (_, label, part))| json!({"n": i + 1, "part": part, "label": label}))
+                    .collect::<Vec<_>>());
+            }
 
             let mut changes = Vec::new();
             let mut values_updated = false;
@@ -601,42 +621,45 @@ impl Ctx<'_> {
     }
 }
 
-pub fn run(
-    component: String,
-    size: String,
-    changelog: Option<PathBuf>,
-    path: Option<PathBuf>,
-    output: Option<PathBuf>,
-) -> miette::Result<ExitCode> {
-    let (graph, visuals_dir, _) = super::load_visual_env(path, None, true)?;
-    let recipe = &graph
-        .visual_recipe(&component)
-        .ok_or_else(|| miette::miette!("no visual recipe for '{component}'"))?
-        .raw;
-    let component = graph.canonical_component(&component).to_string();
-    let registry = visuals_dir
-        .parent()
-        .map(|p| p.join("registry"))
-        .unwrap_or_default();
-    let changelog = match changelog {
-        Some(p) => {
-            let text = std::fs::read_to_string(&p)
-                .into_diagnostic()
-                .wrap_err_with(|| format!("failed to read {}", p.display()))?;
-            Some(serde_json::from_str::<Value>(&text).into_diagnostic()?)
-        }
-        None => None,
-    };
+/// Components that have at least one relationship record, sorted.
+fn components_with_relationships(graph: &TokenGraph) -> Vec<String> {
+    let names: BTreeSet<String> = graph
+        .relationships
+        .iter()
+        .filter_map(|r| r.raw.get("scope").and_then(|c| s(c, "component")))
+        .filter(|c| graph.components.iter().any(|k| k.name == *c))
+        .map(String::from)
+        .collect();
+    names.into_iter().collect()
+}
+
+fn read_changelog(p: &Path) -> miette::Result<Value> {
+    let text = std::fs::read_to_string(p)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read {}", p.display()))?;
+    serde_json::from_str::<Value>(&text).into_diagnostic()
+}
+
+/// The sheet for one component: full when it has a visual recipe, else table-only.
+fn build_sheet(
+    graph: &TokenGraph,
+    registry: &Path,
+    component: &str,
+    size: &str,
+    changelog: Option<&Value>,
+) -> miette::Result<Value> {
+    let recipe = graph.visual_recipe(component).map(|r| &r.raw);
+    let component = graph.canonical_component(component).to_string();
     let ctx = Ctx {
-        graph: &graph,
+        graph,
         recipe,
         component: &component,
-        size: &size,
-        labels: Labels::new(&graph, &component, &registry),
+        size,
+        labels: Labels::new(graph, &component, registry),
     };
 
     let mut pages: Vec<Value> = Vec::new();
-    for b in ctx.blocks(changelog.as_ref())? {
+    for b in ctx.blocks(changelog)? {
         let title = b["page"].as_str().unwrap_or("").to_string();
         match pages.iter_mut().find(|p| p["title"] == title) {
             Some(p) => p["blocks"].as_array_mut().unwrap().push(b),
@@ -649,14 +672,14 @@ pub fn run(
         .find(|c| c.name == component)
         .and_then(|c| s(&c.raw, "displayName").map(String::from))
         .unwrap_or_else(|| component.clone());
-    let sheet = json!({
+    Ok(json!({
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-spec-sheet.schema.json",
         "specVersion": "1.0.0-draft",
         "component": component,
         "displayName": display,
+        "visual": recipe.is_some(),
         "size": size,
         "datasetRevision": changelog
-            .as_ref()
             .and_then(|c| c.get("releases"))
             .and_then(Value::as_array)
             .and_then(|r| r.last())
@@ -664,12 +687,95 @@ pub fn run(
             .cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
-    });
+    }))
+}
+
+fn write_text(p: &Path, text: String) -> miette::Result<()> {
+    std::fs::write(p, text + "\n")
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to write {}", p.display()))
+}
+
+/// `--all`: one sheet per component with relationships in `out_dir`, plus `index.json`
+/// (component, visual, counts, and version / latest release from `changelog_dir`).
+fn run_all(
+    graph: &TokenGraph,
+    registry: &Path,
+    size: &str,
+    changelog_dir: Option<&Path>,
+    out_dir: &Path,
+) -> miette::Result<ExitCode> {
+    std::fs::create_dir_all(out_dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to create {}", out_dir.display()))?;
+    let mut index = Vec::new();
+    for component in components_with_relationships(graph) {
+        let changelog = match changelog_dir.map(|d| d.join(format!("{component}.json"))) {
+            Some(p) if p.is_file() => Some(read_changelog(&p)?),
+            _ => None,
+        };
+        let sheet = build_sheet(graph, registry, &component, size, changelog.as_ref())?;
+        let blocks: usize = sheet["pages"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .map(|p| p["blocks"].as_array().map_or(0, Vec::len))
+            .sum();
+        let latest = changelog
+            .as_ref()
+            .and_then(|c| c.get("releases"))
+            .and_then(Value::as_array)
+            .and_then(|r| r.last());
+        index.push(json!({
+            "component": component,
+            "displayName": sheet["displayName"],
+            "visual": sheet["visual"],
+            "sheet": format!("{component}.json"),
+            "pages": sheet["pages"].as_array().map_or(0, Vec::len),
+            "blocks": blocks,
+            "version": latest.and_then(|r| r.get("version")),
+            "latestRelease": latest.map(|r| json!({"release": r["release"], "date": r["date"], "bump": r["bump"]})),
+        }));
+        write_text(
+            &out_dir.join(format!("{component}.json")),
+            serde_json::to_string_pretty(&sheet).into_diagnostic()?,
+        )?;
+    }
+    let text = serde_json::to_string_pretty(&json!({"components": index})).into_diagnostic()?;
+    write_text(&out_dir.join("index.json"), text)?;
+    eprintln!("wrote {} sheets to {}", index.len(), out_dir.display());
+    Ok(ExitCode::SUCCESS)
+}
+
+pub fn run(
+    component: Option<String>,
+    all: bool,
+    size: String,
+    changelog: Option<PathBuf>,
+    changelog_dir: Option<PathBuf>,
+    path: Option<PathBuf>,
+    output: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, visuals_dir, _) = super::load_visual_env(path, None, true)?;
+    let registry = visuals_dir
+        .parent()
+        .map(|p| p.join("registry"))
+        .unwrap_or_default();
+    if all {
+        let out_dir = output.ok_or_else(|| miette::miette!("--all needs --output <DIR>"))?;
+        return run_all(&graph, &registry, &size, changelog_dir.as_deref(), &out_dir);
+    }
+    let component = component.ok_or_else(|| miette::miette!("give a component or --all"))?;
+    if !components_with_relationships(&graph)
+        .contains(&graph.canonical_component(&component).to_string())
+    {
+        return Err(miette::miette!("no relationships for '{component}'"));
+    }
+    let changelog = changelog.as_deref().map(read_changelog).transpose()?;
+    let sheet = build_sheet(&graph, &registry, &component, &size, changelog.as_ref())?;
     let text = serde_json::to_string_pretty(&sheet).into_diagnostic()?;
     match output {
-        Some(p) => std::fs::write(&p, text + "\n")
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to write {}", p.display()))?,
+        Some(p) => write_text(&p, text)?,
         None => println!("{text}"),
     }
     Ok(ExitCode::SUCCESS)

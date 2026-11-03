@@ -141,3 +141,93 @@ fn button_icon_only_block_is_labelled_by_the_icon_only_relationship() {
         "{normal:?}"
     );
 }
+
+fn schema_errors(sheet: &Value) -> Vec<String> {
+    let schema: Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            repo_root().join("packages/design-data-spec/schemas/component-spec-sheet.schema.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    let validator = jsonschema::validator_for(&schema).expect("schema compiles");
+    validator
+        .iter_errors(sheet)
+        .map(|e| format!("{}: {e}", e.instance_path))
+        .collect()
+}
+
+#[test]
+fn line_height_and_font_family_rows_sit_on_the_typography_page() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "action-button"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let sheet: Value = serde_json::from_slice(&out).unwrap();
+    for page in sheet["pages"].as_array().unwrap() {
+        let on_typography = page["title"] == "Typography";
+        for block in page["blocks"].as_array().unwrap() {
+            for row in block["rows"].as_array().unwrap() {
+                for item in row["items"].as_array().unwrap() {
+                    let prop = item["token"]["property"].as_str().unwrap();
+                    if prop.starts_with("font-") || prop.contains("line-height") {
+                        assert!(on_typography, "{prop} on {}", page["title"]);
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn all_writes_full_and_table_only_sheets_and_an_index() {
+    let dir = tempfile::tempdir().unwrap();
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "--all", "--changelog-dir"])
+        .arg(repo_root().join("packages/design-data/changelog"))
+        .arg("-o")
+        .arg(dir.path())
+        .assert()
+        .success();
+    let read = |name: &str| -> Value {
+        serde_json::from_str(&std::fs::read_to_string(dir.path().join(name)).unwrap()).unwrap()
+    };
+    let index = read("index.json");
+    let components = index["components"].as_array().unwrap();
+    let full = components.iter().filter(|c| c["visual"] == true).count();
+    assert_eq!(
+        full, 7,
+        "recipes: accordion action-button badge button checkbox radio-button switch"
+    );
+    assert!(components.len() > full);
+    let entry = components
+        .iter()
+        .find(|c| c["component"] == "action-button")
+        .unwrap();
+    assert!(entry["version"].is_string() && entry["latestRelease"]["release"].is_string());
+
+    // A table-only sheet: no visual, no render, still labelled token rows, and schema-valid.
+    let stub = components.iter().find(|c| c["visual"] == false).unwrap();
+    let sheet = read(stub["sheet"].as_str().unwrap());
+    assert_eq!(sheet["visual"], false);
+    let blocks: Vec<&Value> = sheet["pages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|p| p["blocks"].as_array().unwrap())
+        .collect();
+    assert!(!blocks.is_empty());
+    assert!(blocks.iter().all(|b| b["render"].is_null()));
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    assert_eq!(
+        schema_errors(&read("action-button.json")),
+        Vec::<String>::new()
+    );
+}

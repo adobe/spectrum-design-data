@@ -260,19 +260,25 @@ enum Commands {
     },
     /// Generate the spec-sheet model (draft) for a component: pages of blocks with scenes and token rows
     SpecSheet {
-        /// Component name (e.g. action-button)
-        #[arg(value_name = "COMPONENT")]
-        component: String,
+        /// Component name (e.g. action-button); components without a visual recipe get a table-only sheet
+        #[arg(value_name = "COMPONENT", required_unless_present = "all")]
+        component: Option<String>,
+        /// Generate a sheet for every component with relationships, plus index.json, into the --output directory
+        #[arg(long, conflicts_with_all = ["component", "changelog"])]
+        all: bool,
         /// Size key the block visuals render at
         #[arg(long, default_value = "m")]
         size: String,
         /// Changelog JSON whose entries mark blocks as changed
         #[arg(long, value_name = "FILE")]
         changelog: Option<PathBuf>,
+        /// With --all: directory of <component>.json changelogs (version and latest release in the index)
+        #[arg(long, value_name = "DIR", requires = "all")]
+        changelog_dir: Option<PathBuf>,
         /// Directory containing cascade-format .tokens.json files
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
-        /// Write output here instead of stdout
+        /// Write output here instead of stdout (a directory with --all)
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
     },
@@ -4098,11 +4104,13 @@ fn main() -> ExitCode {
         ),
         Commands::SpecSheet {
             component,
+            all,
             size,
             changelog,
+            changelog_dir,
             path,
             output,
-        } => spec_sheet::run(component, size, changelog, path, output),
+        } => spec_sheet::run(component, all, size, changelog, changelog_dir, path, output),
         Commands::Changelog {
             from,
             to,

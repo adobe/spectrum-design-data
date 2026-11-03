@@ -254,6 +254,20 @@ function visual(block, box) {
   return f;
 }
 
+// A table-only sheet has no render: the slot says so and draws nothing else.
+function noVisual(box) {
+  const f = figma.createFrame();
+  f.name = "Visual";
+  f.resize(box.width, box.height);
+  f.cornerRadius = 8;
+  f.fills = [solid({ r: 0.96, g: 0.96, b: 0.96 })];
+  const t = text("No visual recipe yet", 12, "Regular", GREY);
+  f.appendChild(t);
+  t.x = 16;
+  t.y = 16;
+  return f;
+}
+
 const valueText = (values) =>
   Object.keys(values)
     .map((scale) => {
@@ -462,7 +476,9 @@ async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
       });
       row.name = "Block – " + b.title;
       col.appendChild(row);
-      row.appendChild(visual(b, sheet.block));
+      row.appendChild(
+        b.render ? visual(b, sheet.block) : noVisual(sheet.block),
+      );
       row.appendChild(tokenList(b));
       blocks++;
     }
