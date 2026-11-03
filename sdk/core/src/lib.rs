@@ -15,6 +15,7 @@ pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
 pub mod cascade;
+pub mod changelog;
 pub mod compat;
 pub mod component;
 pub mod constraints;

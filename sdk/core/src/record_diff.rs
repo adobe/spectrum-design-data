@@ -39,7 +39,7 @@ pub enum Layer {
 }
 
 /// What happened to a record.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Change {
     Added,
