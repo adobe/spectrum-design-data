@@ -263,6 +263,15 @@
       "summary": "Token diff CLI and library with CLI, JSON, and Markdown output."
     },
     {
+      "path": "tools/figma-spec-plugin",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Figma plugin that renders a component spec sheet and changelog onto a canvas."
+    },
+    {
       "path": "tools/ios-override-importer",
       "kind": "package",
       "audience": "maintainer",

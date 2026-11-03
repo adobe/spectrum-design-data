@@ -20,7 +20,9 @@
     "design-data:validate-guidelines",
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
-    "component-changelog:test"
+    "component-changelog:test",
+    "figma-spec-plugin:check",
+    "figma-spec-plugin:test"
   ],
   "rust": [
     "sdk:fmt-check",

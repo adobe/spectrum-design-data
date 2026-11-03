@@ -1,0 +1,87 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<!-- Licensed under the Apache License, Version 2.0 (see LICENSE / code.js header). -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font: 12px sans-serif;
+        margin: 12px;
+      }
+      label {
+        display: block;
+        margin-top: 8px;
+      }
+      button {
+        margin-top: 12px;
+      }
+      #status {
+        margin-top: 8px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Render a spec sheet made by
+      <code>design-data spec-sheet &lt;component&gt;</code>.
+    </p>
+    <label
+      >Spec sheet JSON <input type="file" id="sheet" accept="application/json"
+    /></label>
+    <label
+      >Changelog JSON (optional)
+      <input type="file" id="changelog" accept="application/json"
+    /></label>
+    <label
+      >Pages (comma separated, empty = all)
+      <input id="pages" placeholder="Layout, Color"
+    /></label>
+    <button id="render" disabled>Render</button>
+    <div id="status"></div>
+    <script>
+      let sheet = null;
+      let changelog = null;
+      const status = document.getElementById("status");
+      const renderBtn = document.getElementById("render");
+      const read = async (input) => JSON.parse(await input.files[0].text());
+
+      document.getElementById("sheet").addEventListener("change", async (e) => {
+        try {
+          sheet = await read(e.target);
+          renderBtn.disabled = false;
+          status.textContent = `Loaded ${sheet.displayName}: ${sheet.pages.length} page(s).`;
+        } catch (err) {
+          status.textContent = `Invalid JSON: ${err.message}`;
+        }
+      });
+      document
+        .getElementById("changelog")
+        .addEventListener("change", async (e) => {
+          try {
+            changelog = e.target.files[0] ? await read(e.target) : null;
+          } catch (err) {
+            status.textContent = `Invalid changelog JSON: ${err.message}`;
+          }
+        });
+      renderBtn.addEventListener("click", () => {
+        const raw = document.getElementById("pages").value;
+        const pages = raw.trim() ? raw.split(",").map((s) => s.trim()) : null;
+        status.textContent = "Rendering...";
+        parent.postMessage(
+          { pluginMessage: { type: "render-sheet", sheet, changelog, pages } },
+          "*",
+        );
+      });
+      window.onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        if (!msg) return;
+        status.textContent =
+          msg.type === "render-complete"
+            ? `Done: ${msg.result.pagesRendered} page(s), ${msg.result.blocksRendered} block(s).`
+            : `Error: ${msg.message}`;
+      };
+    </script>
+  </body>
+</html>
