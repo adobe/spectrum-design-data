@@ -76,7 +76,31 @@ test("a context rename is documentation and a re-pointed binding is visual", (t)
   t.true(entries.some((e) => e.class === "visual" && e.path === "$ref"));
 });
 
-test("sourceOf reads the squash PR number, else falls back to the commit", (t) => {
-  t.deepEqual(sourceOf({ sha: "abc", subject: "feat: x (#12)" }).number, 12);
+test("sourceOf reads the squash PR number and title, else falls back to the commit", (t) => {
+  const pr = sourceOf({ sha: "abc", subject: "feat: x (#12)" });
+  t.is(pr.number, 12);
+  t.is(pr.title, "feat: x");
   t.is(sourceOf({ sha: "abc", subject: "fix: no pr" }).type, "commit");
+});
+
+test("adding a uuid to an existing relationship is a metadata change, not a new binding", (t) => {
+  const tokens = [{ uuid: "a", value: "1" }];
+  const before = snap([rel("a")], tokens);
+  const after = snap([{ ...rel("a"), uuid: "r-1" }], tokens);
+  const entries = diffSnapshots(before, after);
+  t.deepEqual(
+    entries.map((e) => [e.kind, e.change, e.path, e.class]),
+    [["relationship", "updated", "uuid", "metadata"]],
+  );
+});
+
+test("a uuid pairs records through a context rename", (t) => {
+  const tokens = [{ uuid: "a", value: "1" }];
+  const before = snap([{ ...rel("a", "Old"), uuid: "r-1" }], tokens);
+  const after = snap([{ ...rel("a", "New"), uuid: "r-1" }], tokens);
+  const entries = diffSnapshots(before, after);
+  t.deepEqual(
+    entries.map((e) => [e.change, e.path]),
+    [["updated", "context"]],
+  );
 });

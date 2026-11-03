@@ -10,6 +10,10 @@
     "specVersion": { "type": "string" },
     "component": { "type": "string" },
     "displayName": { "type": "string" },
+    "datasetRevision": {
+      "description": "Dataset revision (git commit) the sheet and its changelog were generated from.",
+      "type": ["string", "null"]
+    },
     "size": {
       "description": "Size key every block visual renders at.",
       "type": "string"
@@ -132,14 +136,15 @@
           }
         },
         "markers": {
-          "description": "Numbered markers, one per highlighted part.",
+          "description": "Numbered markers 1..n, one per group of token rows that share a recipe property template. `part` is the recipe part the marker sits on, or null when no recipe binding fits.",
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["n", "part"],
+            "required": ["n", "part", "label"],
             "properties": {
               "n": { "type": "integer", "minimum": 1 },
-              "part": { "type": "string" }
+              "part": { "type": ["string", "null"] },
+              "label": { "type": "string" }
             },
             "additionalProperties": false
           }
@@ -165,15 +170,11 @@
     },
     "row": {
       "type": "object",
-      "required": ["conditions", "marker", "items"],
+      "required": ["conditions", "items"],
       "properties": {
         "conditions": {
           "description": "Scalar component options the relationship records pin for this row.",
           "type": "object"
-        },
-        "marker": {
-          "description": "Marker number the row belongs to, or null when the block has more than one marker.",
-          "type": ["integer", "null"]
         },
         "items": { "type": "array", "items": { "$ref": "#/$defs/item" } }
       },
@@ -181,11 +182,15 @@
     },
     "item": {
       "type": "object",
-      "required": ["label", "size", "states", "token", "values"],
+      "required": ["label", "marker", "size", "states", "token", "values"],
       "properties": {
         "label": {
           "description": "Option label from component options or the registry.",
           "type": "string"
+        },
+        "marker": {
+          "description": "Number of the render marker this token belongs to, matching render.markers[].n.",
+          "type": ["integer", "null"]
         },
         "size": { "type": ["string", "null"] },
         "states": { "type": "array", "items": { "type": "string" } },

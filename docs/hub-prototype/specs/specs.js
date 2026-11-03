@@ -26,7 +26,7 @@ const BOX = sheet.block;
 const MARK = "#4b75ff";
 
 function visual(block) {
-  const { scene, highlight, markers, measurements } = block.render;
+  const { scene, markers, measurements } = block.render;
   const k = Math.min(
     (BOX.width - 160) / scene.width,
     (BOX.height - 120) / scene.height,
@@ -43,14 +43,14 @@ function visual(block) {
   const label = (x, y, text, anchor = "middle") =>
     `<g><rect x="${anchor === "end" ? x - 8 - text.length * 6 : anchor === "start" ? x - 4 : x - 4 - text.length * 3}" y="${y - 10}" width="${text.length * 6 + 8}" height="18" rx="9" fill="${MARK}"/>` +
     `<text x="${anchor === "end" ? x - 4 : anchor === "start" ? x : x}" y="${y + 3}" fill="#fff" font-size="10" text-anchor="${anchor}">${esc(text)}</text></g>`;
-  for (const m of scene.measurements ?? []) {
-    if (!measurements.includes(m.prop)) continue;
+  for (const sel of measurements) {
+    const m = scene.measurements[sel.index];
     const text = m.token.value;
     const x = X(m.x),
       y = Y(m.y),
       w = m.w * k,
       h = m.h * k;
-    o += `<title>${esc(m.token.token)}</title>`;
+    o += `<title>${esc(sel.relationship ?? sel.label)}</title>`;
     if (m.kind === "height") {
       const lx = x - 22;
       o += `<line x1="${lx}" y1="${y}" x2="${lx}" y2="${y + h}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y}" x2="${lx + 4}" y2="${y}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y + h}" x2="${lx + 4}" y2="${y + h}" stroke="${MARK}"/>`;
@@ -64,6 +64,11 @@ function visual(block) {
       o += label(x + w / 2, y + h + 26, text);
     }
   }
+  measurements.forEach((sel, i) => {
+    const m = scene.measurements[sel.index];
+    const y = BOX.height - 12 - (measurements.length - 1 - i) * 15;
+    o += `<text x="12" y="${y}" fill="${MARK}" font-size="11">${esc(sel.label)} · ${esc(m.token.value)}</text>`;
+  });
   for (const mk of markers) {
     const n = scene.nodes.find((n) => n.part === mk.part);
     if (!n) continue;
@@ -95,16 +100,23 @@ function tokens(block) {
     if (cond) h += `<div class="row-cond">${esc(cond)}</div>`;
     h += "<table>";
     for (const it of row.items) {
-      h += `<tr><td class="n">${row.marker ? `<span class="marker">${row.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
+      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
     }
     h += "</table>";
   }
   return `<div class="tokens">${h}${block.notes.map((n) => `<p>${esc(n)}</p>`).join("")}</div>`;
 }
 
+// A sheet built without a changelog has no dataset revision.
+const rev8 = (d) =>
+  d.datasetRevision ? d.datasetRevision.slice(0, 8) : "unknown";
+
+const HIDDEN = new Set(["metadata"]);
+const shown = (r) => r.entries.filter((e) => !HIDDEN.has(e.class));
+
 const sourceLink = (s) =>
   s.type === "pr"
-    ? `<a href="${esc(s.url)}">#${s.number}</a>`
+    ? `<a href="${esc(s.url)}">#${s.number}</a> ${esc(s.title)}`
     : `<code>${esc(s.sha.slice(0, 8))}</code> ${esc(s.subject)}`;
 
 const describe = (e) =>
@@ -112,24 +124,26 @@ const describe = (e) =>
 
 function renderChangelog() {
   const rows = changelog.revisions
-    .map((r) => {
+    .map((r) => [r, shown(r)])
+    .filter(([, entries]) => entries.length)
+    .map(([r, entries]) => {
       const byClass = {};
-      for (const e of r.entries) byClass[e.class] = (byClass[e.class] ?? 0) + 1;
+      for (const e of entries) byClass[e.class] = (byClass[e.class] ?? 0) + 1;
       const chips = Object.entries(byClass)
         .map(([c, n]) => `<span class="chip ${c}">${c} ${n}</span>`)
         .join(" ");
-      const items = r.entries
+      const items = entries
         .slice(0, 40)
         .map(
           (e) =>
             `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc((e.contexts ?? []).join(", "))}</span></li>`,
         )
         .join("");
-      return `<details class="rev"><summary>${esc(r.date)} · ${sourceLink(r.source)} · ${r.entries.length} changes ${chips}</summary><ul>${items}${r.entries.length > 40 ? `<li>… ${r.entries.length - 40} more</li>` : ""}</ul></details>`;
+      return `<details class="rev"><summary>${esc(r.date)} · ${sourceLink(r.source)} · ${entries.length} changes ${chips}</summary><ul>${items}${entries.length > 40 ? `<li>… ${entries.length - 40} more</li>` : ""}</ul></details>`;
     })
     .join("");
   document.getElementById("changelog").innerHTML =
-    `<h2 id="changelog-h">Changelog</h2><p>${esc(changelog.from.ref)} → ${esc(changelog.to.commit.slice(0, 8))}</p>${rows}`;
+    `<h2 id="changelog-h">Changelog</h2><p>${esc(changelog.from.ref)} → dataset ${esc(rev8(changelog))}</p>${rows}`;
 }
 
 function renderPage(title) {
@@ -147,7 +161,7 @@ function renderPage(title) {
 }
 
 document.getElementById("title").textContent =
-  `${sheet.displayName} spec sheet (generated)`;
+  `${sheet.displayName} spec sheet (generated, dataset ${rev8(sheet)})`;
 document.getElementById("pages").innerHTML = sheet.pages
   .map((p) => `<button>${esc(p.title)}</button>`)
   .join("");

@@ -28,8 +28,8 @@ const PAGE_ORDER: [&str; 5] = [
 /// Block visual size in px, and the room kept free around the scene for markers and labels.
 const BLOCK_W: f64 = 480.0;
 const BLOCK_H: f64 = 360.0;
-const MARGIN_X: f64 = 160.0;
-const MARGIN_Y: f64 = 120.0;
+const MARGIN_X: f64 = 200.0;
+const MARGIN_Y: f64 = 160.0;
 const MAX_SCALE: f64 = 5.0;
 
 fn s<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
@@ -145,16 +145,22 @@ impl Labels {
     }
 }
 
-/// `(part, prop, context)` for every relationship binding in the recipe.
-fn recipe_bindings(recipe: &Value) -> Vec<(String, String, String)> {
+/// `(part, prop, context, property template)` for every relationship binding in the recipe.
+fn recipe_bindings(recipe: &Value) -> Vec<(String, String, String, String)> {
     let mut out = Vec::new();
     let parts = recipe.get("parts").and_then(Value::as_object);
     for (part, def) in parts.into_iter().flatten() {
         let props = def.get("props").and_then(Value::as_object);
         for (prop, v) in props.into_iter().flatten() {
             for e in entries(v) {
-                if let Some(c) = e.get("relationship").and_then(|r| s(r, "context")) {
-                    let t = (part.clone(), prop.clone(), c.trim().to_string());
+                if let Some(rel) = e.get("relationship") {
+                    let Some(c) = s(rel, "context") else { continue };
+                    let t = (
+                        part.clone(),
+                        prop.clone(),
+                        c.trim().to_string(),
+                        s(rel, "property").unwrap_or_default().to_string(),
+                    );
                     if !out.contains(&t) {
                         out.push(t);
                     }
@@ -194,6 +200,36 @@ fn when_options(recipe: &Value, context: &str) -> Map<String, Value> {
     out
 }
 
+/// Whether a concrete relationship property fits a recipe property template such as
+/// `component-height-{sizeIndex}`.
+fn template_matches(template: &str, property: &str) -> bool {
+    let mut segments = template.split(['{', '}']).enumerate();
+    // Splitting on braces alternates literal text (even) and placeholder names (odd).
+    let literals: Vec<&str> = segments
+        .by_ref()
+        .filter(|(i, _)| i % 2 == 0)
+        .map(|(_, t)| t)
+        .collect();
+    if literals.len() == 1 {
+        return template == property;
+    }
+    let (first, last) = (literals[0], literals[literals.len() - 1]);
+    if property.len() < first.len() + last.len()
+        || !property.starts_with(first)
+        || !property.ends_with(last)
+    {
+        return false;
+    }
+    let mut rest = &property[first.len()..property.len() - last.len()];
+    for lit in &literals[1..literals.len() - 1] {
+        match rest.find(lit) {
+            Some(at) => rest = &rest[at + lit.len()..],
+            None => return false,
+        }
+    }
+    true
+}
+
 /// Concrete relationship property -> size id, from the recipe's `{sizeIndex}`/`{size}` templates.
 fn size_by_property(recipe: &Value) -> BTreeMap<String, String> {
     let mut map = BTreeMap::new();
@@ -223,6 +259,7 @@ fn size_by_property(recipe: &Value) -> BTreeMap<String, String> {
 }
 
 struct Item {
+    marker: Option<usize>,
     label: String,
     size: Option<String>,
     states: Vec<String>,
@@ -235,6 +272,7 @@ struct Item {
 impl Item {
     fn json(&self) -> Value {
         json!({
+            "marker": self.marker,
             "label": self.label,
             "size": self.size,
             "states": self.states,
@@ -352,6 +390,7 @@ impl Ctx<'_> {
                 (None, false) => state_label,
             };
             items.push(Item {
+                marker: None,
                 label,
                 size,
                 states,
@@ -427,13 +466,6 @@ impl Ctx<'_> {
             if hl.is_empty() {
                 hl = bindings.iter().filter(|b| b.2 == base).collect();
             }
-            let mut parts: Vec<&str> = Vec::new();
-            for b in &hl {
-                if !parts.contains(&b.0.as_str()) {
-                    parts.push(&b.0);
-                }
-            }
-
             let mut options = rows[&row_order[0]].0.clone();
             for (k, v) in when_options(self.recipe, &context) {
                 options.entry(k).or_insert(v);
@@ -442,11 +474,6 @@ impl Ctx<'_> {
             render["highlight"] = json!(hl
                 .iter()
                 .map(|b| json!({"part": b.0, "prop": b.1}))
-                .collect::<Vec<_>>());
-            render["markers"] = json!(parts
-                .iter()
-                .enumerate()
-                .map(|(i, p)| json!({"n": i + 1, "part": p}))
                 .collect::<Vec<_>>());
             // Measurements are the scene's own. A relationship-bound one belongs to the block
             // when its context is the title or the base context the highlight fell back to;
@@ -474,22 +501,52 @@ impl Ctx<'_> {
                 .collect();
             render["measurements"] = json!(measurements);
 
-            // shortcut: rows carry a marker only when one part is highlighted.
-            let marker = (parts.len() == 1).then_some(1);
-            let out_rows: Vec<Value> = row_order
+            // Markers: one per group of rows that share a recipe property template (or, when
+            // no recipe binding fits, a relationship property), numbered 1..n in row order.
+            // A marker sits on the part of the first binding that fits; none fits: no part.
+            let mut markers: Vec<(String, String, Option<&str>)> = Vec::new();
+            let mut out_rows: Vec<Value> = Vec::new();
+            for k in &row_order {
+                let (cond, rrecs) = &rows[k];
+                let mut items = self.row_items(rrecs, &sizes);
+                // Without a recipe binding, items that run through the sizes (xs..xl) once are
+                // one family: its n-th occurrence of a size belongs to the n-th family.
+                let mut seen_sizes: Vec<&str> = Vec::new();
+                for it in &mut items {
+                    let binding = hl.iter().find(|b| template_matches(&b.3, &it.property));
+                    let group = match (binding, it.size.as_deref()) {
+                        (Some(b), _) => b.3.clone(),
+                        (None, Some(sz)) => {
+                            let family = seen_sizes.iter().filter(|x| **x == sz).count();
+                            seen_sizes.push(sz);
+                            format!("#family{family}")
+                        }
+                        (None, None) => it.property.clone(),
+                    };
+                    let n = match markers.iter().position(|m| m.0 == group) {
+                        Some(i) => i,
+                        None => {
+                            let label = binding.map_or(it.property.clone(), |b| b.3.clone());
+                            markers.push((group, label, binding.map(|b| b.0.as_str())));
+                            markers.len() - 1
+                        }
+                    };
+                    it.marker = Some(n + 1);
+                }
+                out_rows.push(json!({
+                    "conditions": cond,
+                    "items": items.iter().map(Item::json).collect::<Vec<_>>(),
+                }));
+            }
+            render["markers"] = json!(markers
                 .iter()
-                .map(|k| {
-                    let (cond, rrecs) = &rows[k];
-                    json!({
-                        "conditions": cond,
-                        "marker": marker,
-                        "items": self.row_items(rrecs, &sizes).iter().map(Item::json).collect::<Vec<_>>(),
-                    })
-                })
-                .collect();
+                .enumerate()
+                .map(|(i, (_, label, part))| json!({"n": i + 1, "part": part, "label": label}))
+                .collect::<Vec<_>>());
 
             let mut changes = Vec::new();
             let mut values_updated = false;
+            let mut bindings_changed = false;
             let revisions = changelog
                 .and_then(|c| c.get("revisions"))
                 .and_then(Value::as_array);
@@ -507,9 +564,22 @@ impl Ctx<'_> {
                     continue;
                 }
                 changes.extend(s(e, "id").map(|id| json!(id)));
-                values_updated |= s(e, "class") == Some("visual") && s(e, "kind") == Some("token");
+                if s(e, "class") == Some("visual") {
+                    match s(e, "kind") {
+                        Some("token") => values_updated = true,
+                        Some("relationship") => bindings_changed = true,
+                        _ => {}
+                    }
+                }
             }
 
+            let mut badges = Vec::new();
+            if values_updated {
+                badges.push("Values updated");
+            }
+            if bindings_changed {
+                badges.push("Bindings changed");
+            }
             let slug = |t: &str| {
                 t.to_lowercase()
                     .replace(|c: char| !c.is_ascii_alphanumeric(), "-")
@@ -522,7 +592,7 @@ impl Ctx<'_> {
                 "rows": out_rows,
                 "notes": [],
                 "changes": changes,
-                "badges": if values_updated { vec!["Values updated"] } else { vec![] },
+                "badges": badges,
             }));
         }
         Ok(blocks)
@@ -583,6 +653,7 @@ pub fn run(
         "component": component,
         "displayName": display,
         "size": size,
+        "datasetRevision": changelog.as_ref().and_then(|c| c.get("datasetRevision")).cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
     });

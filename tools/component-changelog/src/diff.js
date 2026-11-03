@@ -55,26 +55,38 @@ export function classify(path) {
 const canonicalScope = (r) => canon(r.scope);
 
 /** Identity of a relationship record: scope plus the token it binds (uuid when it has one). */
-const relKey = (r) =>
-  r.uuid ??
+const contentKey = (r) =>
   `${canonicalScope(r)}#${r.context ?? ""}#${r.$ref ?? canon(r.value)}`;
 
+const queues = (list, key) => {
+  const m = new Map();
+  for (const r of list) m.set(key(r), [...(m.get(key(r)) ?? []), r]);
+  return m;
+};
+
 /**
- * Pair relationships by uuid, else by scope + `$ref`. A leftover old and new record with the
- * same scope and no other candidates is the same binding re-pointed at another token.
+ * Pair relationships by uuid, then by scope + context + `$ref` (records written before they
+ * had a uuid), then by scope alone: a leftover old and new record with the same scope and no
+ * other candidates is the same binding re-pointed at another token.
  */
 export function pairRelationships(oldRels, newRels) {
-  const oldBy = new Map(oldRels.map((r) => [relKey(r), r]));
-  const newBy = new Map(newRels.map((r) => [relKey(r), r]));
   const pairs = [];
-  const lonelyOld = [];
-  for (const [k, o] of oldBy) {
-    if (newBy.has(k)) {
-      pairs.push([o, newBy.get(k)]);
-      newBy.delete(k);
-    } else lonelyOld.push(o);
-  }
-  const lonelyNew = [...newBy.values()];
+  const take = (olds, news, key) => {
+    const q = queues(news, key);
+    const restOld = [];
+    for (const o of olds) {
+      const hit = q.get(key(o))?.shift();
+      if (hit) pairs.push([o, hit]);
+      else restOld.push(o);
+    }
+    return [restOld, [...q.values()].flat()];
+  };
+  const byUuid = (r) => r.uuid;
+  const withId = (list) => list.filter((r) => r.uuid);
+  let [lonelyOld, lonelyNew] = take(withId(oldRels), withId(newRels), byUuid);
+  lonelyOld = [...lonelyOld, ...oldRels.filter((r) => !r.uuid)];
+  lonelyNew = [...lonelyNew, ...newRels.filter((r) => !r.uuid)];
+  [lonelyOld, lonelyNew] = take(lonelyOld, lonelyNew, contentKey);
   const group = (list) => {
     const m = new Map();
     for (const r of list)
@@ -155,7 +167,11 @@ export function diffSnapshots(oldSnap, newSnap) {
   for (const [o, n] of pairs) {
     for (const c of propertyChanges(o, n)) {
       // An inline CTR is also a token: its value change is reported on the token below.
-      if (n.uuid && (c.path === "value" || c.path.startsWith("lifecycle")))
+      if (
+        n.uuid &&
+        n.value !== undefined &&
+        (c.path === "value" || c.path.startsWith("lifecycle"))
+      )
         continue;
       entries.push({
         kind: "relationship",

@@ -74,6 +74,10 @@ export function revisions(from, to, { cwd, root = "packages/design-data" }) {
     });
 }
 
+/** The last commit at or before `ref` that touched the dataset: its revision, stable across unrelated commits. */
+export const datasetRevision = (ref, { cwd, root = "packages/design-data" }) =>
+  git(["log", "-1", "--format=%H", ref, "--", root], cwd);
+
 export const resolveCommit = (ref, cwd) =>
   git(["rev-parse", `${ref}^{commit}`], cwd);
 
@@ -84,6 +88,7 @@ export function sourceOf({ sha, subject }) {
     ? {
         type: "pr",
         number: Number(m[1]),
+        title: subject.replace(/\s*\(#\d+\)\s*$/, ""),
         url: `https://github.com/adobe/spectrum-design-data/pull/${m[1]}`,
       }
     : { type: "commit", sha, subject };
