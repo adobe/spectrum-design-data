@@ -220,3 +220,16 @@ tasks:
       - "/packages/design-data/naming-exceptions.json"
     # No `outputs:` — prevents moon from auto-running this task as part of
     # dependency graphs and silently clobbering hand-edited cascade tokens.
+
+  # Appends the release being versioned to changelog/<component>.json. Run by the root
+  # `version` script (changeset version && moon run :version), so the new entries and component
+  # versions land in the Version Packages PR. Needs git history and tags.
+  version:
+    command: node
+    args:
+      - scripts/version-changelog.mjs
+    inputs:
+      - package.json
+      - scripts/version-changelog.mjs
+    options:
+      cache: false

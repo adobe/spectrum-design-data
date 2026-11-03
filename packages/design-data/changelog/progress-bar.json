@@ -1,0 +1,94 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "progress-bar",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top edge to text)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top edge to text)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"bed358a2-0559-4501-a147-b375887f25af","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-200","options":null},"record":"component-top-to-text-200#Spacing (top edge to text)","name":"component-top-to-text-200","fields":[{"path":"$ref","before":"c7914376-3769-4172-8467-fb811b3c155f","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-200","options":null},"record":"component-top-to-text-200#Spacing (top edge to text)","name":"component-top-to-text-200","fields":[{"path":"$ref","before":"621c9cf1-02e2-478b-9f47-0804f0183531","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-300","options":null},"record":"component-top-to-text-300#Spacing (top edge to text)","name":"component-top-to-text-300","fields":[{"path":"$ref","before":"9bf3970e-eb76-4be5-82c4-0df2538df753","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-300","options":null},"record":"component-top-to-text-300#Spacing (top edge to text)","name":"component-top-to-text-300","fields":[{"path":"$ref","before":"e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":26,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/0","name":"guideline: Minimum and maximum width.\n\nThe minimum width of","fields":[{"path":"content","before":"A progress bar can be either determinate or indeterminate. By default, progress bars are determinate. Use a determinate progress bar when progress can be calculated against a specific goal (e.g., downloading a file of a known size). Use an indeterminate progress bar when progress is happening but the time or effort to completion can’t be determined (e.g., attempting to reconnect to a server).","after":"Minimum and maximum width.\n\nThe minimum width of a progress bar is 48 px and the maximum width of a progress bar is 768 px, for both desktop and mobile platform scale. Smaller progress bars should only be used in places where it's not necessary to have a label."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/1","name":"guideline: Text overflow.\n\nWhen the label is too long for t","fields":[{"path":"content","before":"Progress bars come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page.","after":"Text overflow.\n\nWhen the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/2","name":"guideline: Progress bar or progress circle?\n\nBoth progress ","fields":[{"path":"content","before":"Progress bars can have a value label that gives detailed information about the progress (e.g. \"60%\" or \"2 of 8\"). This value label works alongside the label and should not be displayed if the label itself is not displayed. It should also not be displayed if the progress is indeterminate. Similar to the label, the value label is always placed above the track.","after":"Progress bar or progress circle?\n\nBoth progress bars and circles can show either determinate or indeterminate progress. The available space should help determine whether a progress bar or circle is best. Progress bars are preferred in vertically narrow areas such as tables or cards. Use a progress circle for full-page loading or very small areas. Use a progress bar in a loader dialog."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/3","name":"guideline: Labels.\n\nUse the built-in style to show a label ","fields":[{"path":"content","before":"The value represents progress within the bar’s range, from minimum to maximum. These defaults are 0 and 100 but can be customized. Min and max values don’t apply to indeterminate progress bars.","after":"Labels.\n\nUse the built-in style to show a label associated with the operation. This style always includes a left-aligned label and a right-aligned percentage value above the track. The label should be in sentence case. Add an ellipsis (\"...\") at the end to indicate that the action is in progress — for example, \"Loading data...\" or \"Updating settings..."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/4","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"The label of the progress bar can be hidden if the context for the progress bar is sufficient without the title — for example, when the progress bar is shown inside a table row and the item is labeled in another column.","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the progress bar is mirrored for both determinate and indeterminate options. The label is right-aligned, the value is left-aligned, and the fill progresses from right to left. Keep in mind that the placement of the percent sign differs depending on the locale."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/5","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/6","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Progress bars should have a label that gives context about the operation being performed. Use an ellipsis at the end of the label text to communicate that the process is in progress. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These progress bars should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”).","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/7","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"When a progress bar needs to be placed on top of a colored background, use the over background variant. This progress bar uses a static white color regardless of the color theme. Make sure the background offers enough contrast for the progress bar to be legible.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/8","name":"guideline: Use the over background variant when a progress ","fields":[],"before":{"type":"guideline","content":"Use the over background variant when a progress bar needs to be placed on top of a colored background or visual."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/9","name":"guideline: Over background progress bars are available in s","fields":[],"before":{"type":"guideline","content":"Over background progress bars are available in static black or white, meaning they don’t change with the theme of the page. Use static black on light color or image backgrounds, and white on dark color or image backgrounds."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/10","name":"guideline: The minimum width of a progress bar is 48 px and","fields":[],"before":{"type":"guideline","content":"The minimum width of a progress bar is 48 px and the maximum width of a progress bar is 768 px, for both desktop and mobile platform scale. Smaller progress bars should only be used in places where it’s not necessary to have a label."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/11","name":"guideline: When the label is too long for the available hor","fields":[],"before":{"type":"guideline","content":"When the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/12","name":"guideline: Both progress bars and circles can show either d","fields":[],"before":{"type":"guideline","content":"Both progress bars and circles can show either determinate or indeterminate progress. The available space should help determine whether a progress bar or circle is best. Progress bars are preferred in vertically narrow areas such as tables or cards. Use a progress circle for full-page loading or very small areas. Use a progress bar in a loader dialog."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/documentBlocks/13","name":"guideline: Use the built-in style to show a label associate","fields":[],"before":{"type":"guideline","content":"Use the built-in style to show a label associated with the operation. This style always includes a left-aligned label and a right-aligned percentage value above the track. The label should be in sentence case. Add an ellipsis (\"...\") at the end to indicate that the action is in progress — for example, \"Loading data...\" or \"Updating settings..."}}
+          ]
+        }
+      ]
+    }
+  ]
+}

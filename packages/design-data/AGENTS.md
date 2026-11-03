@@ -10,6 +10,7 @@ This package is the canonical source of design token data consumed by the SDK an
 packages/design-data/
   tokens/          — individual token JSON files (the primary data source)
   components/      — component-level token grouping JSON
+  changelog/       — generated per-component changelogs (`design-data changelog`; never hand-edited)
   fields/          — field definition JSON
   mode-sets/       — mode set JSON (scales, color schemes)
   registry/        — registry entries (generates core/src/registry_data.rs via codegen)

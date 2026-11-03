@@ -1,0 +1,139 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "segmented-control",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"component-edge-to-visual-only-100","options":null},"record":"component-edge-to-visual-only-100#Spacing (top/bottom to edge, workflow icon only)","name":"component-edge-to-visual-only-100","fields":[{"path":"$ref","before":"8fec6012-7cba-4ac5-94d7-14f39fce7612","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"component-edge-to-visual-only-100","options":null},"record":"component-edge-to-visual-only-100#Spacing (top/bottom to edge, workflow icon only)","name":"component-edge-to-visual-only-100","fields":[{"path":"$ref","before":"93e42bfc-c2f0-40cd-a561-9045c68cb5d1","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"1d601d0a-d6d0-4711-9fb9-71898c2bcc9a","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"09d55113-8d94-429f-b0c8-ffabe8ccba27","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-visual-100","options":null},"record":"component-edge-to-visual-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-visual-100","fields":[{"path":"$ref","before":"e220eb52-f821-4807-9ab7-b5f3905d769f","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-visual-100","options":null},"record":"component-edge-to-visual-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-visual-100","fields":[{"path":"$ref","before":"e77f525e-5043-49c1-a663-9f6c30067043","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0c0d6d38-6734-4312-9be5-dd48dd571841","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon with label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom to edge, workflow icon with label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon with label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom to edge, workflow icon with label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"bed358a2-0559-4501-a147-b375887f25af","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon with label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom to edge, workflow icon with label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"24def269-4582-46f6-a00c-8b5a28410917","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon with label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom to edge, workflow icon with label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"c8590269-dcaa-44f6-9c2d-d33274c3fe5e","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon, workflow icon with label)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to icon, workflow icon with label)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"c3a280b0-bc84-4a7c-8048-c689f8deef86","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon, workflow icon with label)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to icon, workflow icon with label)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"a3d3f9e9-a784-445a-a052-22f84b832512","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":37,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/0","name":"guideline: Mutually exclusive items.\n\nSegmented controls ha","fields":[{"path":"content","before":"Segmented controls display a group of buttons where only one can be selected at a time. They're ideal for toggling between layouts like a list, grid, or map. Avoid using them for navigation or triggering actions.","after":"Mutually exclusive items.\n\nSegmented controls have one item selected by default at all times, and are mutually exclusive. This means selecting one item automatically deselects the others."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/1","name":"guideline: Selection.\n\nClicking on a segmented control item","fields":[{"path":"content","before":"Segmented controls should have between two and five items.","after":"Selection.\n\nClicking on a segmented control item immediately performs the view change."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/2","name":"guideline: Text overflow.\n\nWhen the segmented control item ","fields":[{"path":"content","before":"The identifier of the currently selected item.","after":"Text overflow.\n\nWhen the segmented control item text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/3","name":"guideline: Tooltips for hidden labels.\n\nIcon-only or trunca","fields":[{"path":"content","before":"By default, segmented controls should include a track. The track style is justified within the parent container. Segmented controls without a track are left-aligned in left-to-right (LTR) languages.","after":"Tooltips for hidden labels.\n\nIcon-only or truncated label segmented controls can be hard to identify. They should display a tooltip after a brief hover, showing the name and a keyboard shortcut, if applicable."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/4","name":"guideline: Segmented controls are for view switching.\n\nSegm","fields":[{"path":"content","before":"Segmented controls without a track are left aligned in left-to-right languages.","after":"Segmented controls are for view switching.\n\nSegmented controls are only meant to be used to change the way you view information on a page. They should not be used for navigating, filtering content, or taking actions."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/5","name":"guideline: Segmented controls vs. similar components.\n\nUse ","fields":[{"path":"content","before":"If true, the control takes up the full width of its container. Only horizontal segmented controls support fluid behavior.","after":"Segmented controls vs. similar components.\n\nUse a segmented control when the primary goal is to switch views of content. Tabs are reserved for navigation. Action groups are for triggering actions. Tag groups are for filtering content."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/6","name":"guideline: Use icons only when they have a clear meaning.\n\n","fields":[{"path":"content","before":"Segmented controls can be either horizontal or vertical. By default, segmented controls are horizontal.","after":"Use icons only when they have a clear meaning.\n\nIt may not make sense in every case to include icons. If the items are too complicated to convey in an icon, don't force it. Keep in mind that if one segmented control has an icon, then they all should have an icon."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/7","name":"guideline: Keep segmented control groups to 5 items or less","fields":[{"path":"content","before":"Segmented controls have one item selected by default at all times, and are mutually exclusive. This means selecting one item automatically deselects the others.","after":"Keep segmented control groups to 5 items or less.\n\nSegmented control groups work best with 2 to 5 items. If your component needs more than 5 items, consider using a dropdown or radio button group instead."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/8","name":"guideline: RTL.\n\nThe order of the buttons in the segmented ","fields":[{"path":"content","before":"Clicking on a segmented control item immediately performs the view change.","after":"RTL.\n\nThe order of the buttons in the segmented control are reversed in RTL languages. If it has icons with text, the icons are placed to the right of the text, and directional icons like arrows or chevrons are flipped horizontally."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/9","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"When the segmented control item text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/10","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Icon-only or truncated label segmented controls can be hard to identify. They should display a tooltip after a brief hover, showing the name and a keyboard shortcut, if applicable.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/11","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"Segmented controls are only meant to be used to change the way you view information on a page. They should not be used for navigating, filtering content, or taking actions.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/12","name":"guideline: Use a segmented control when the primary goal is","fields":[],"before":{"type":"guideline","content":"Use a segmented control when the primary goal is to switch views of content. Tabs are reserved for navigation. Action groups are for triggering actions. Tag groups are for filtering content."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/13","name":"guideline: It may not make sense in every case to include i","fields":[],"before":{"type":"guideline","content":"It may not make sense in every case to include icons. If the items are too complicated to convey in an icon, don’t force it. Keep in mind that if one segmented control has an icon, then they all should have an icon."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/14","name":"guideline: Segmented control groups work best with 2 to 5 i","fields":[],"before":{"type":"guideline","content":"Segmented control groups work best with 2 to 5 items. If your component needs more than 5 items, consider using a dropdown or radio button group instead."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/15","name":"guideline: Segmented control groups are meant for switching","fields":[],"before":{"type":"guideline","content":"Segmented control groups are meant for switching views on a page. To navigate to a different page or progressively disclose different content, use tabs instead. To perform actions or make a selection, use action groups."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/documentBlocks/16","name":"do-dont: Don't use segmented control as actions, to make ","fields":[],"after":{"type":"do-dont","content":"Don't use segmented control as actions, to make selections, or to navigate","dont":"Segmented control groups are meant for switching views on a page. To navigate to a different page or progressively disclose different content, use tabs instead. To perform actions or make a selection, use action groups."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "e088447eaea4368a4b3e9444d20d0b8e711a79a4",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-visual-100","options":null},"record":"component-edge-to-visual-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-visual-100","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]},
+            {"id":"a60aeea2-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start/end edges, workflow icon with label)","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "unreleased",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "08a3434226ac6c38b424e57f4f77d06ec82974ec",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

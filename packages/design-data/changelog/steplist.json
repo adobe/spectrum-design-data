@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "steplist",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"50763a0d-c6eb-47f0-8b56-4c86ee22a430","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"77dc4cd4-8e4e-4873-b6f3-d573eb7fc315","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"1d601d0a-d6d0-4711-9fb9-71898c2bcc9a","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"09d55113-8d94-429f-b0c8-ffabe8ccba27","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"7ce11af3-b94b-4239-a310-f8d09635779a","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"dc4ec555-72eb-4328-aba4-e8d594102f45","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"4366909e-3bfb-481c-abdc-4ae71f965bc3","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (text to visual)","name":"space-between","fields":[{"path":"$ref","before":"205f0c77-6588-4cc7-927f-3ba767200bac","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":57,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Step visual text"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Step visual text"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

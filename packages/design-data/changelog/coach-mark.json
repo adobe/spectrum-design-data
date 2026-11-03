@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "coach-mark",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom/start/end edge to text)","name":"space-between","fields":[{"path":"$ref","before":"d5a3e2c7-f717-4436-91a3-3ab34aebd48e","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom/start/end edge to text)","name":"space-between","fields":[{"path":"$ref","before":"11fb0ab2-d6a0-4da8-9c83-c1f6b918406a","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (pagination to bottom)","name":"space-between","fields":[{"path":"$ref","before":"d2ff2d4f-058e-412b-9e16-1725d6d29e25","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (pagination to bottom)","name":"space-between","fields":[{"path":"$ref","before":"cd48e6b7-a4d8-4a22-8d65-531d770a9898","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["conceptId"]}
+        }
+      ]
+    }
+  ]
+}

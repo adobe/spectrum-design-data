@@ -1,0 +1,89 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-slider",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (field label value to track)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (field label value to track)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/0","name":"guideline: Keyboard focus.\n\nThe keyboard focus state enlarg","fields":[{"path":"content","before":"Color sliders adjust a single channel of a color. They’re often used in combination with other color controls to provide fine-tuned visual selection.","after":"Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/1","name":"guideline: Handle behavior.\n\nUnlike the slider itself, the ","fields":[{"path":"content","before":"A color slider in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that a slider may become available later.","after":"Handle behavior.\n\nUnlike the slider itself, the color slider's handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/2","name":"guideline: Minimum length.\n\nA color slider's minimum length","fields":[{"path":"content","before":"The slider’s length can be customized based on its context, while its thickness stays fixed for consistency and usability.","after":"Minimum length.\n\nA color slider's minimum length is 80 px on desktop, 100 px on mobile."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/3","name":"guideline: Include labels.\n\nColor sliders should be labeled","fields":[{"path":"content","before":"Color sliders can be either in horizontal or vertical orientation. By default, a color slider is horizontal and should be used when vertical space is more limited. The vertical orientation is used when horizontal space is more limited.","after":"Include labels.\n\nColor sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, \"RGB\" or \"HSB\")."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/4","name":"guideline: Display color selection.\n\nWhen using color slide","fields":[{"path":"content","before":"The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range.","after":"Display color selection.\n\nWhen using color sliders, it's important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/5","name":"guideline: Color loupe on down/touch state.\n\nThe color loup","fields":[{"path":"content","before":"The min and max values also can be customized appropriately for what the color slider is being used for (such as 0 to 360 for hue). By default, the min value starts at 0 and max value is set to 100.","after":"Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/6","name":"guideline: The value is the number selected within the colo","fields":[],"before":{"type":"guideline","content":"The value is the number selected within the color slider’s range, from the min value to max value."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/7","name":"guideline: Controls a single color channel — such as hue, l","fields":[],"before":{"type":"guideline","content":"Controls a single color channel — such as hue, lightness, or alpha—at a time. The track’s gradient visualizes the full range of values for that channel."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/8","name":"guideline: The background of the color slider is a visual r","fields":[],"before":{"type":"guideline","content":"The background of the color slider is a visual representation of the range of values a user can select from. This can represent color properties such as hues, color channel values (such as RGB or CMYK levels), or opacity. The exact format this background property takes will depend on what implementation you are working with. Some examples of the format include image, canvas, and gradient."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/9","name":"guideline: The keyboard focus state enlarges the handle to ","fields":[],"before":{"type":"guideline","content":"The keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/10","name":"guideline: Unlike the slider itself, the color slider’s han","fields":[],"before":{"type":"guideline","content":"Unlike the slider itself, the color slider’s handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/11","name":"guideline: A color slider’s minimum length is 80 px on desk","fields":[],"before":{"type":"guideline","content":"A color slider’s minimum length is 80 px on desktop, 100 px on mobile."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/12","name":"guideline: Color sliders should be labeled and, when applic","fields":[],"before":{"type":"guideline","content":"Color sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, “RGB” or “HSB”)."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/13","name":"guideline: When using color sliders, it’s important to clea","fields":[],"before":{"type":"guideline","content":"When using color sliders, it’s important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/14","name":"guideline: The color loupe component can be used above the ","fields":[],"before":{"type":"guideline","content":"The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}}
+          ]
+        }
+      ]
+    }
+  ]
+}
