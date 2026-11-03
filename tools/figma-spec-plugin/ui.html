@@ -48,6 +48,8 @@
       const read = async (input) => JSON.parse(await input.files[0].text());
 
       document.getElementById("sheet").addEventListener("change", async (e) => {
+        sheet = null;
+        renderBtn.disabled = true;
         try {
           sheet = await read(e.target);
           renderBtn.disabled = false;
@@ -59,6 +61,7 @@
       document
         .getElementById("changelog")
         .addEventListener("change", async (e) => {
+          changelog = null;
           try {
             changelog = e.target.files[0] ? await read(e.target) : null;
           } catch (err) {

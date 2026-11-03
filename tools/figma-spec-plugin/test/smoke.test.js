@@ -162,3 +162,19 @@ test("measurements are drawn from the scene and labelled by the sheet", async (t
   walk(page.children[0]);
   t.true(legends.includes("component-height-100 · 32px"), legends.join("|"));
 });
+
+test("a failed render keeps the previous render and drops the half-built one", async (t) => {
+  const { figma, page, messages } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
+  const before = page.children[0];
+  const broken = JSON.parse(JSON.stringify(sheet));
+  delete broken.pages[0].blocks[1].render.view;
+  await figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: broken,
+    pages: ["Layout"],
+  });
+  t.truthy(messages.find((m) => m.type === "render-error"));
+  t.is(page.children.length, 1);
+  t.is(page.children[0], before);
+});

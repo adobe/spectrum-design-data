@@ -364,8 +364,7 @@ async function renderSheet(sheet, changelog, pageTitles) {
   for (const font of FONTS) await figma.loadFontAsync(font);
   const rootName = sheet.displayName + " – spec (generated)";
   const page = figma.currentPage;
-  const existing = page.findOne((n) => n.name === rootName);
-  if (existing) existing.remove();
+  const previous = page.findOne((n) => n.name === rootName);
   const rev8 = sheet.datasetRevision
     ? sheet.datasetRevision.slice(0, 8)
     : "unknown";
@@ -379,6 +378,16 @@ async function renderSheet(sheet, changelog, pageTitles) {
   root.name = rootName;
   root.fills = [solid(WHITE)];
   page.appendChild(root);
+  try {
+    return await buildRoot(root, sheet, changelog, pageTitles, rev8, previous);
+  } catch (err) {
+    // The old render stays; drop the half-built one.
+    root.remove();
+    throw err;
+  }
+}
+
+async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
   const cover = auto("VERTICAL", {
     itemSpacing: 12,
     paddingLeft: 64,
@@ -427,8 +436,9 @@ async function renderSheet(sheet, changelog, pageTitles) {
       blocks++;
     }
   }
+  if (previous) previous.remove();
   return {
-    root: rootName,
+    root: root.name,
     pagesRendered: pages.length,
     blocksRendered: blocks,
   };
