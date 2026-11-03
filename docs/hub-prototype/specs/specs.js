@@ -11,19 +11,15 @@ const esc = (s) =>
     /[&<>"]/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
   );
-const [sheet, changelog] = await Promise.all(
-  ["data/sheets/action-button.json", "data/changelog/action-button.json"].map(
-    (u) => fetch(u).then((r) => r.json()),
-  ),
-);
-const commits = changelog.releases.flatMap((rel) =>
-  rel.commits.map((c) => ({ ...c, release: rel })),
-);
-const entries = new Map(
-  commits.flatMap((c) =>
-    c.entries.map((e) => [e.id, { ...e, source: c.source, date: c.date }]),
-  ),
-);
+const params = new URLSearchParams(location.search);
+const component = params.get("component") ?? "action-button";
+const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null));
+const [sheet, changelog] = await Promise.all([
+  getJson(`data/sheets/${component}.json`),
+  getJson(`data/changelog/${component}.json`),
+]);
+if (!sheet) throw new Error(`no sheet for ${component}`);
+const NO_VISUAL = "No visual recipe yet";
 
 const BOX = sheet.block;
 const MARK = "#4b75ff";
@@ -94,6 +90,10 @@ const value = (v) =>
     )
     .join(" · ");
 
+function placeholder(block) {
+  return `<div class="visual none" role="img" aria-label="${esc(block.title)}: ${NO_VISUAL}"><p>${NO_VISUAL}</p></div>`;
+}
+
 function tokens(block) {
   let h = `<h3>${esc(block.title)}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
   for (const row of block.rows) {
@@ -114,9 +114,7 @@ function tokens(block) {
 const rev8 = (d) =>
   d.datasetRevision ? d.datasetRevision.slice(0, 8) : "unknown";
 
-// Metadata-class changes are only counted per commit (`metadata: {count, fields}`).
-const shown = (c) => c.entries;
-
+// Metadata-class changes are only summarized per commit (`metadata: {count, fields}`).
 const sourceLink = (s) =>
   s.type === "pr"
     ? `<a href="${esc(s.url)}">#${s.number}</a> ${esc(s.title)}`
@@ -125,38 +123,50 @@ const sourceLink = (s) =>
 const describe = (e) =>
   `${e.kind} ${e.change}${e.fields[0] ? ` ${e.fields[0].path}` : ""}${e.scope?.property ? ` · ${e.scope.property}` : ""}${e.name && !e.scope ? ` · ${e.name}` : ""}`;
 
+const metadataSummary = (c) =>
+  c.metadata
+    ? `${c.metadata.count} metadata change${c.metadata.count === 1 ? "" : "s"} (${esc(c.metadata.fields.join(", "))})`
+    : "";
+
+function commitRow(c) {
+  const byClass = {};
+  for (const e of c.entries) byClass[e.class] = (byClass[e.class] ?? 0) + 1;
+  const chips = Object.entries(byClass)
+    .map(([k, n]) => `<span class="chip ${k}">${k} ${n}</span>`)
+    .join(" ");
+  const items = c.entries
+    .slice(0, 40)
+    .map(
+      (e) =>
+        `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
+    )
+    .join("");
+  const meta = metadataSummary(c);
+  const count = c.entries.length
+    ? `${c.entries.length} changes ${chips}`
+    : "metadata only";
+  return `<details class="rev"><summary>${esc(c.date)} · ${sourceLink(c.source)} · ${count}${meta ? ` · <span class="meta">${meta}</span>` : ""}</summary><ul>${items}${c.entries.length > 40 ? `<li>… ${c.entries.length - 40} more</li>` : ""}${meta ? `<li class="meta">${meta}</li>` : ""}</ul></details>`;
+}
+
 function renderChangelog() {
-  const rows = [...changelog.releases]
+  const section = document.getElementById("changelog");
+  if (!changelog) {
+    section.innerHTML =
+      '<h2 id="changelog-h">Changelog</h2><p>No changelog yet: no release has changed this component.</p>';
+    return;
+  }
+  const releases = [...changelog.releases]
     .reverse()
     .map((rel) => {
       const rows = rel.commits
-        .map((c) => [c, shown(c)])
-        .filter(([, entries]) => entries.length)
-        .map(([c, entries]) => {
-          const byClass = {};
-          for (const e of entries)
-            byClass[e.class] = (byClass[e.class] ?? 0) + 1;
-          const chips = Object.entries(byClass)
-            .map(([k, n]) => `<span class="chip ${k}">${k} ${n}</span>`)
-            .join(" ");
-          const items = entries
-            .slice(0, 40)
-            .map(
-              (e) =>
-                `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
-            )
-            .join("");
-          return `<details class="rev"><summary>${esc(c.date)} · ${sourceLink(c.source)} · ${entries.length} changes ${chips}${c.metadata ? ` · ${c.metadata.count} metadata` : ""}</summary><ul>${items}${entries.length > 40 ? `<li>… ${entries.length - 40} more</li>` : ""}</ul></details>`;
-        })
+        .filter((c) => c.entries.length || c.metadata)
+        .map(commitRow)
         .join("");
-      return rows
-        ? `<h3>${esc(rel.version)} <small>${esc(rel.bump ?? "first release")} · release ${esc(rel.release)} · ${esc(rel.date)}</small></h3>${rows}`
-        : "";
+      return `<h3>${esc(rel.version)} <small>${esc(rel.bump ?? "first release")} · release ${esc(rel.release)} · ${esc(rel.date)}</small></h3>${rows || "<p>No recorded changes.</p>"}`;
     })
     .join("");
   const latest = changelog.releases.at(-1);
-  document.getElementById("changelog").innerHTML =
-    `<h2 id="changelog-h">Changelog</h2><p>Version ${esc(latest?.version ?? changelog.baseline?.version ?? "")} · from ${esc(changelog.baseline?.release ?? "the first release")} · dataset ${esc(rev8(sheet))}</p>${rows}`;
+  section.innerHTML = `<h2 id="changelog-h">Changelog</h2><p>Version ${esc(latest?.version ?? changelog.baseline?.version ?? "")} · from ${esc(changelog.baseline?.release ?? "the first release")} · dataset ${esc(rev8(sheet))}</p>${releases}`;
 }
 
 function renderPage(title) {
@@ -166,7 +176,7 @@ function renderPage(title) {
     page.blocks
       .map(
         (b) =>
-          `<article class="block" id="${esc(b.id)}">${visual(b)}${tokens(b)}</article>`,
+          `<article class="block" id="${esc(b.id)}">${b.render ? visual(b) : placeholder(b)}${tokens(b)}</article>`,
       )
       .join("");
   for (const b of document.querySelectorAll("#pages button"))
@@ -175,6 +185,10 @@ function renderPage(title) {
 
 document.getElementById("title").textContent =
   `${sheet.displayName} spec sheet (generated, dataset ${rev8(sheet)})`;
+if (!sheet.visual)
+  document
+    .getElementById("title")
+    .insertAdjacentHTML("afterend", `<span class="badge">${NO_VISUAL}</span>`);
 document.getElementById("pages").innerHTML = sheet.pages
   .map((p) => `<button>${esc(p.title)}</button>`)
   .join("");
@@ -185,6 +199,12 @@ document
     (e) => e.target.matches("button") && renderPage(e.target.textContent),
   );
 renderChangelog();
-renderPage(
-  new URLSearchParams(location.search).get("page") ?? sheet.pages[0].title,
-);
+if (sheet.pages.length === 0)
+  document.getElementById("blocks").innerHTML =
+    "<p>No relationship records with a context and a token yet, so this sheet has no blocks.</p>";
+else
+  renderPage(
+    sheet.pages.some((p) => p.title === params.get("page"))
+      ? params.get("page")
+      : sheet.pages[0].title,
+  );

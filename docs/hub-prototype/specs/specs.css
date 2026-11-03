@@ -158,3 +158,29 @@ td.v {
   color: #fff;
   font-size: 11px;
 }
+.back {
+  color: #4b75ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.visual.none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border: 1px dashed #ccc;
+  box-sizing: border-box;
+}
+.meta {
+  color: #666;
+  font-size: 12px;
+}
+table.index th {
+  text-align: left;
+  border-bottom: 1px solid #e1e1e1;
+  padding: 6px 12px 6px 0;
+}
+table.index td {
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}

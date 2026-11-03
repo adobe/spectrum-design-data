@@ -41,6 +41,7 @@
     <h1>Design data visual recipes</h1>
     <p>One build per platform. Pick one to explore its components.</p>
     <ul id="platforms"></ul>
+    <p><a href="specs/">Component spec sheets and changelogs</a> (generated)</p>
     <script>
       fetch("platforms.json")
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
