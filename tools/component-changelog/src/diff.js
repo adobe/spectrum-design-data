@@ -56,7 +56,8 @@ const canonicalScope = (r) => canon(r.scope);
 
 /** Identity of a relationship record: scope plus the token it binds (uuid when it has one). */
 const relKey = (r) =>
-  r.uuid ?? `${canonicalScope(r)}#${r.$ref ?? canon(r.value)}`;
+  r.uuid ??
+  `${canonicalScope(r)}#${r.context ?? ""}#${r.$ref ?? canon(r.value)}`;
 
 /**
  * Pair relationships by uuid, else by scope + `$ref`. A leftover old and new record with the
@@ -188,9 +189,7 @@ export function diffSnapshots(oldSnap, newSnap) {
     const ctx = [
       ...new Set([...contextsOf(oldSnap, id), ...contextsOf(newSnap, id)]),
     ];
-    if (!o && n) continue; // new tokens reach the sheet through their relationship entry
-    if (o && !n) continue;
-    if (!o || !n) continue;
+    if (!o || !n) continue; // added or removed tokens reach the sheet through their relationship entry
     for (const c of propertyChanges(o, n)) {
       direct.add(id);
       entries.push({

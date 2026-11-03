@@ -33,13 +33,13 @@ export function snapshotAt(
       return { sha: meta.split(" ")[2], path };
     });
   const tokens = new Map();
-  let rels = [];
+  const rels = [];
   for (const f of files) {
     if (!f.path.endsWith(".json")) continue;
     const data = readBlob(f.sha, cwd);
     if (!Array.isArray(data)) continue;
-    if (f.path === `${root}/relationships/${component}.json`) {
-      rels = data;
+    if (f.path.startsWith(`${root}/relationships/`)) {
+      rels.push(...data.filter((r) => r?.scope?.component === component));
     }
     if (
       f.path.startsWith(`${root}/tokens/`) ||
