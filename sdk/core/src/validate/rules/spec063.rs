@@ -11,7 +11,8 @@
 //! SPEC-063: visual-size-scale-valid
 //!
 //! A visual recipe's `sizeScale` keys MUST match the values of the component's
-//! `size` option.
+//! `size` option. A component without a `size` option may declare one entry, the single
+//! size renderers draw.
 
 use std::collections::BTreeSet;
 
@@ -46,12 +47,17 @@ impl ValidationRule for Rule {
             };
             let comp_name = &v.component;
             let Some(size) = comp.raw.pointer("/options/size") else {
-                out.push(error(
-                    self.id(),
-                    v,
-                    "/sizeScale",
-                    format!("Recipe declares a sizeScale but '{comp_name}' has no 'size' option"),
-                ));
+                // A component with one size declares none; one entry names the size renderers draw.
+                if scale.len() != 1 {
+                    out.push(error(
+                        self.id(),
+                        v,
+                        "/sizeScale",
+                        format!(
+                            "Recipe must declare exactly one sizeScale entry because '{comp_name}' has no 'size' option"
+                        ),
+                    ));
+                }
                 continue;
             };
             let sizes: BTreeSet<String> = option_values(size)
@@ -92,12 +98,19 @@ mod tests {
     use crate::validate::rules::spec063::Rule;
 
     fn run(scale: Value) -> Vec<crate::report::Diagnostic> {
+        run_with(
+            json!({"name": "button", "options": {"size": {"type": "string",
+                "values": [{"value": "s"}, {"value": "m"}]}}}),
+            scale,
+        )
+    }
+
+    fn run_with(component: Value, scale: Value) -> Vec<crate::report::Diagnostic> {
         let mut g = TokenGraph::default();
         g.components.push(ComponentRecord {
             name: "button".into(),
             file: PathBuf::from("components/button.json"),
-            raw: json!({"name": "button", "options": {"size": {"type": "string",
-                "values": [{"value": "s"}, {"value": "m"}]}}}),
+            raw: component,
             layer: Layer::Foundation,
         });
         g.visuals.push(VisualRecord {
@@ -134,5 +147,16 @@ mod tests {
         let d = run(json!({"s": 75}));
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("'m'"));
+    }
+
+    #[test]
+    fn a_size_less_component_declares_exactly_one_entry() {
+        let one_size = json!({"name": "button", "options": {}});
+        assert!(run_with(one_size.clone(), json!({"m": 100})).is_empty());
+        for scale in [json!({"s": 75, "m": 100}), json!({})] {
+            let d = run_with(one_size.clone(), scale);
+            assert_eq!(d.len(), 1);
+            assert!(d[0].message.contains("exactly one"));
+        }
     }
 }

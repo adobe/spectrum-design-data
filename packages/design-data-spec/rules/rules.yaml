@@ -785,7 +785,8 @@ rules:
     category: reference-integrity
     assert: >
       The keys of a visual recipe's `sizeScale` MUST equal the values of the component's
-      `size` option.
+      `size` option. A component without a `size` option MAY declare a one-entry `sizeScale`,
+      the single size renderers draw (for example the fixed-size iOS switch).
     message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
@@ -1069,7 +1070,7 @@ rules:
     layer: 2
     category: component
     note: >
-      The recipe schema accepts props the renderer does not read (`opacity`, `direction`,
+      The recipe schema accepts props the renderer does not read (`direction`,
       `align`, `minWidth`, and others on a part kind that has no use for them). The renderer
       ignores them without a diagnostic. The list of read props is the renderer's own table,
       not a copy kept in the rule. A recipe binding an ignored prop looks complete and draws

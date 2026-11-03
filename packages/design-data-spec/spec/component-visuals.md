@@ -35,14 +35,14 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 ## Recipe object
 
-| Field         | Type   | Required    | Description                                                                                                            |
-| ------------- | ------ | ----------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `specVersion` | string | RECOMMENDED | Spec version label.                                                                                                    |
-| `component`   | string | REQUIRED    | Component `name`.                                                                                                      |
-| `root`        | string | REQUIRED    | Key of the root part in `parts`.                                                                                       |
-| `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors.         |
-| `notVisual`   | array  | OPTIONAL    | Component options and states that deliberately have no visual in this recipe (for example `["isReadOnly"]`). SPEC-066. |
-| `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                            |
+| Field         | Type   | Required    | Description                                                                                                                                                                                   |
+| ------------- | ------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `specVersion` | string | RECOMMENDED | Spec version label.                                                                                                                                                                           |
+| `component`   | string | REQUIRED    | Component `name`.                                                                                                                                                                             |
+| `root`        | string | REQUIRED    | Key of the root part in `parts`.                                                                                                                                                              |
+| `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors. A component with no `size` option declares one entry, the size renderers draw. |
+| `notVisual`   | array  | OPTIONAL    | Component options and states that deliberately have no visual in this recipe (for example `["isReadOnly"]`). SPEC-066.                                                                        |
+| `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                                                                                                   |
 
 ### Part
 
@@ -74,6 +74,8 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
 
 **Text height.** A `text` part is as high as its line box: a `lineHeight` ending in `px` is that height, a unitless `lineHeight` multiplies `fontSize`, and with no `lineHeight` it is 1.3 times `fontSize`. A bound `fontFamily` leads the SVG font stack, so a family the viewer lacks falls back to the default stack.
+
+**Opacity.** Renderers read `opacity` only on the root part. It dims the whole component as one group (SVG `<g opacity>`), so overlapping parts do not show through each other, the way iOS dims a disabled control. On any other part `opacity` is ignored (SPEC-083).
 
 **Height.** A root `box` with no `height` is 32 high, unless the recipe binds `paddingBlockStart` or `paddingBlockEnd`: then its height is the tallest flowed child plus the block padding, and the children sit between the paddings. An explicit `height` always wins and the block padding then only offsets the children.
 
@@ -116,7 +118,7 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `around` and `pressTarget` resolve                          |
 | SPEC-061 | `when` and `visibleWhen` options exist with allowed values and types; states exist on the component; a `{<option>}` placeholder in a selector names a declared option that lists its values                  |
 | SPEC-062 | `relationship` selectors resolve to a record scoped to the component; `token` selectors match a token (`{size}` and `{sizeIndex}` expand over `sizeScale`, and `{<option>}` over the option's values, first) |
-| SPEC-063 | `sizeScale` keys equal the component's `size` option values                                                                                                                                                  |
+| SPEC-063 | `sizeScale` keys equal the component's `size` option values (one entry when it has none)                                                                                                                     |
 | SPEC-066 | Warning. Every option and state the component declares drives the recipe or is listed in `notVisual`; `notVisual` names are declared and unused                                                              |
 | SPEC-067 | Warning. A `token` selector does not bind a token that one of the component's relationships already binds                                                                                                    |
 | SPEC-068 | Warning. A literal does not supply a color or a non-zero size (layout keywords, `transparent`, zero and ratio radii are fine)                                                                                |

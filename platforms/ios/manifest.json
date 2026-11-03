@@ -5,7 +5,8 @@
   "foundationVersion": "3.6.0",
   "exclude": ["colorScheme=wireframe"],
   "componentAliases": {
-    "button": "button-ios"
+    "button": "button-ios",
+    "switch": "switch-ios"
   },
   "overrides": [
     {

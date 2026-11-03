@@ -54,6 +54,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "pressWidthRatio",
             "pressMinPerspective",
             "pressMaxPerspective",
+            "opacity",
         ],
     ),
     (
@@ -182,6 +183,9 @@ pub struct Scene {
     pub height: f64,
     /// Uniform scale-down about the container center (the S2 pressed effect).
     pub press: Option<Press>,
+    /// Opacity of the whole component (the iOS disabled dim); unset draws it opaque.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub opacity: Option<f64>,
     pub nodes: Vec<SceneNode>,
     pub diagnostics: Vec<String>,
 }
@@ -1445,11 +1449,13 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let press_ratio = rp(&mut cx, root, "pressWidthRatio");
     let press_min = rp(&mut cx, root, "pressMinPerspective");
     let press_max = rp(&mut cx, root, "pressMaxPerspective");
+    let opacity = rp(&mut cx, root, "opacity");
     for (n, r) in [
         ("pressDifference", &press_diff),
         ("pressWidthRatio", &press_ratio),
         ("pressMinPerspective", &press_min),
         ("pressMaxPerspective", &press_max),
+        ("opacity", &opacity),
     ] {
         track(&mut container_tokens, n, r);
     }
@@ -1877,6 +1883,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         width: w + 2.0 * RING_MARGIN,
         height: h + 2.0 * RING_MARGIN,
         press,
+        opacity: opacity.as_ref().and_then(Resolved::num),
         nodes,
         diagnostics: cx.diags,
     })
@@ -1968,6 +1975,9 @@ pub fn scene_to_svg(scene: &Scene) -> String {
         w = scene.width,
         h = scene.height
     );
+    if let Some(o) = scene.opacity {
+        let _ = write!(s, "<g opacity=\"{o}\">");
+    }
     let press_open = |p: &Press| {
         format!(
             "<g transform=\"translate({} {}) scale({}) translate({} {})\">",
@@ -2148,6 +2158,9 @@ pub fn scene_to_svg(scene: &Scene) -> String {
         }
     }
     if scene.press.as_ref().is_some_and(|p| p.part.is_none()) {
+        s.push_str("</g>");
+    }
+    if scene.opacity.is_some() {
         s.push_str("</g>");
     }
     s.push_str("</svg>");
@@ -2627,6 +2640,25 @@ mod tests {
             bound.contains("font-family=\"'SF Pro', adobe-clean-spectrum-vf,"),
             "{bound}"
         );
+    }
+
+    #[test]
+    fn root_opacity_dims_the_whole_component_in_one_group() {
+        let dim = padded_box(serde_json::json!({ "opacity": { "value": "0.6" } }));
+        assert_eq!(dim.opacity, Some(0.6));
+        let svg = scene_to_svg(&dim);
+        assert!(
+            svg.contains("viewBox") && svg.contains("<g opacity=\"0.6\">"),
+            "{svg}"
+        );
+        assert!(svg.ends_with("</g></svg>"), "{svg}");
+        let plain = padded_box(serde_json::json!({}));
+        assert_eq!(plain.opacity, None);
+        assert!(!scene_to_svg(&plain).contains("opacity"));
+        assert!(serde_json::to_value(&plain)
+            .unwrap()
+            .get("opacity")
+            .is_none());
     }
 
     #[test]

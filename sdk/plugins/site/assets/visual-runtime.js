@@ -254,11 +254,13 @@ export function renderScene(compiled, req) {
   const pressRatio = rp(root, "pressWidthRatio");
   const pressMin = rp(root, "pressMinPerspective");
   const pressMax = rp(root, "pressMaxPerspective");
+  const opacityR = rp(root, "opacity");
   for (const [n, r] of [
     ["pressDifference", pressDiff],
     ["pressWidthRatio", pressRatio],
     ["pressMinPerspective", pressMin],
     ["pressMaxPerspective", pressMax],
+    ["opacity", opacityR],
   ]) {
     track(containerTokens, n, r);
   }
@@ -544,11 +546,13 @@ export function renderScene(compiled, req) {
     };
   }
 
+  const opacity = num(opacityR);
   return {
     component: compiled.component,
     width: w + 2 * RING_MARGIN,
     height: h + 2 * RING_MARGIN,
     press,
+    ...(opacity !== undefined ? { opacity } : {}),
     nodes,
     diagnostics: cx.diags,
   };
@@ -594,6 +598,8 @@ const esc = (s) =>
 /** Serialize a scene as SVG, matching `scene_to_svg` in Rust. */
 export function renderSvg(scene) {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}">`;
+  const dim = scene.opacity !== undefined;
+  if (dim) s += `<g opacity="${scene.opacity}">`;
   const p = scene.press;
   const pressOpen = p
     ? `<g transform="translate(${p.cx} ${p.cy}) scale(${p.scale}) translate(${-p.cx} ${-p.cy})">`
@@ -659,5 +665,5 @@ export function renderSvg(scene) {
     }
     if (i === spanEnd) s += "</g>";
   }
-  return `${s}${p && !p.part ? "</g>" : ""}</svg>`;
+  return `${s}${p && !p.part ? "</g>" : ""}${dim ? "</g>" : ""}</svg>`;
 }

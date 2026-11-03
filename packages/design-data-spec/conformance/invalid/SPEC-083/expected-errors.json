@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-083",
       "severity": "warning",
-      "message_pattern": ".*Part 'container' \\(root\\).*binds 'opacity'.*"
+      "message_pattern": ".*Part 'container' \\(root\\).*binds 'minWidth'.*"
     }
   ]
 }
