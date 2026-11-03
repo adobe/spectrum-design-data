@@ -1,6 +1,8 @@
 /* Copyright 2026 Adobe. All rights reserved. */
 :root {
-  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-family:
+    "adobe-clean-spectrum-vf", "Adobe Clean", "Source Sans 3", system-ui,
+    sans-serif;
   color: #222;
   background: #fff;
 }
