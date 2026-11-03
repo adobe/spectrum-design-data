@@ -30,8 +30,8 @@ const NOTICES: &str = include_str!("../assets/THIRD-PARTY-NOTICES.txt");
 
 /// Write the site for `components` (all when empty) to `out`. Returns the number
 /// of components that had a visual recipe. Recipes come from `graph.visuals`; under a
-/// platform, `componentAliases` lists the alias key with its target's data and hides
-/// the target.
+/// platform, only components the platform implements are listed, and `componentAliases`
+/// lists the alias key with its target's data and hides the target.
 pub fn write_site(
     graph: &TokenGraph,
     components: &[String],
@@ -63,6 +63,9 @@ pub fn write_site(
             continue;
         }
         let canonical = graph.canonical_component(&c.name);
+        if platform.is_some_and(|p| !implemented_by(graph, canonical, &p.id)) {
+            continue;
+        }
         let display = c
             .raw
             .get("displayName")
@@ -136,6 +139,21 @@ pub fn write_site(
     )?;
     write(".nojekyll", "")?;
     Ok(compiled.len())
+}
+
+/// Whether `component` has an implementation row the platform's manifest owns (the
+/// cascade stamps each merged row's `implementation` with the platform id).
+fn implemented_by(graph: &TokenGraph, component: &str, platform_id: &str) -> bool {
+    graph
+        .components
+        .iter()
+        .find(|c| c.name == component)
+        .and_then(|c| c.raw.get("implementations"))
+        .and_then(|rows| rows.as_array())
+        .is_some_and(|rows| {
+            rows.iter()
+                .any(|r| r.get("implementation").and_then(|v| v.as_str()) == Some(platform_id))
+        })
 }
 
 /// Collect the token labels (and alias-chain hops) a compiled recipe refers to.
