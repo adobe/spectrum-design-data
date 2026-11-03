@@ -95,7 +95,7 @@ function placeholder(block) {
 }
 
 function tokens(block) {
-  let h = `<h3>${esc(block.title)}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
+  let h = `<h3>${esc(block.title)}${block.titleSource === "property" ? '<span class="chip generated" title="No relationship context: grouped by property">by property</span>' : ""}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
   for (const row of block.rows) {
     const cond = Object.entries(row.conditions)
       .map(([k, v]) => `${k}=${v}`)
@@ -103,7 +103,7 @@ function tokens(block) {
     if (cond) h += `<div class="row-cond">${esc(cond)}</div>`;
     h += "<table>";
     for (const it of row.items) {
-      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
+      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}${it.source === "inline" ? ' <span class="chip">inline value</span>' : ""}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
     }
     h += "</table>";
   }
