@@ -21,8 +21,7 @@
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
     "root:test-component-content-changes",
-    "figma-spec-plugin:check",
-    "figma-spec-plugin:test"
+    "figma-spec-plugin:check"
   ],
   "rust": [
     "sdk:fmt-check",
@@ -47,7 +46,8 @@
     "s2-docs-mcp:test",
     "token-naming-audit:ci",
     "root:validate-platform-recipes",
-    "root:test-platform-recipes-e2e"
+    "root:test-platform-recipes-e2e",
+    "figma-spec-plugin:test"
   ],
   "excludedFromCI": [
     "design-data-spec:sync-token-schemas",

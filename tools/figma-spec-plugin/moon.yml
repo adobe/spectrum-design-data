@@ -19,11 +19,15 @@ tasks:
       - node
       - --check
       - code.js
+  # The tests generate sheets with the CLI (sheets are not committed).
   test:
     command:
       - pnpm
       - ava
+    deps:
+      - "sdk:build"
     inputs:
       - "code.js"
       - "test/**/*"
-      - "/docs/hub-prototype/data/**/*"
+      - "/packages/design-data/**/*"
+      - "/sdk/**/*.rs"
