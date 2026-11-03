@@ -89,6 +89,39 @@ jobs:
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
 
+      # `design-data:version` (run by `pnpm run version`) builds and runs the CLI to append
+      # the release to each component's changelog, so the Version Packages PR carries the new
+      # entries and component versions. It needs the full history and tags, which the
+      # checkout above fetches (fetch-depth: 0), and the Rust toolchain below (lld is
+      # required by sdk/.cargo/config.toml; see build-wasm). The version step only runs when
+      # changesets are pending, so the Rust setup is skipped on every other push.
+      - name: Detect pending changesets
+        id: pending
+        shell: bash
+        run: |
+          if compgen -G ".changeset/*.md" | grep -qv '^.changeset/README.md$'; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Rust toolchain
+        if: steps.pending.outputs.present == 'true'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+
+      - name: Install lld
+        if: steps.pending.outputs.present == 'true'
+        run: sudo apt-get update && sudo apt-get install -y lld
+
+      - name: Cache Cargo build
+        if: steps.pending.outputs.present == 'true'
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: changelog
+
       # Use the official changesets/action here — NOT the GarthDB fork.
       # The GarthDB fork only supports `publish:` and silently ignores `version:`,
       # so it never creates the Version Packages PR. The official action supports
@@ -98,9 +131,9 @@ jobs:
       # `pnpm run version` runs the package.json "version" script
       # (`changeset version && moon run :version`). The explicit `run` is
       # required — bare `pnpm version` collides with pnpm's built-in npm-style
-      # version command and would NOT execute the script. The Moon step
-      # (sync-cargo-version.mjs) mirrors the bumped npm version into the
-      # tui/Cargo.toml file.
+      # version command and would NOT execute the script. The Moon steps
+      # mirror the bumped npm version into tui/Cargo.toml (sync-cargo-version.mjs)
+      # and append the release to the component changelogs (design-data:version).
       - name: Create or update Version Packages PR
         id: cs
         uses: changesets/action@v1

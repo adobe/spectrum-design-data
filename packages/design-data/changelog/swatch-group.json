@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "swatch-group",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (spacious)"],"scope":{"property":"spacing","options":null},"record":"spacing#Spacing (spacious)","name":"spacing","fields":[{"path":"$ref","before":"b80ef303-eae7-498f-b172-73a098be0f0b","after":"b83df7f2-8811-4bad-b012-213e430e2aaf"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/documentBlocks/0","name":"guideline: Border only for low-contrast swatches.\n\nIt's imp","fields":[{"path":"content","before":"Swatch groups organize related swatches into a single container. They’re used to display collections of colors, gradients, textures, or materials for comparison or selection.","after":"Border only for low-contrast swatches.\n\nIt's important for users to compare colors when they're displayed in a swatch group. Because of this, swatches within a swatch group with low contrast (below 3:1 contrast with the background) have a less prominent border compared to the swatch component when used by itself. This reduces the likelihood of the UI interfering with color perception and comparisons."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/documentBlocks/1","name":"guideline: Corner rounding in swatch groups.\n\nA corner roun","fields":[{"path":"content","before":"Swatch groups come in 3 densities: regular (default), compact, and spacious. Compact and spacious densities retain the same swatch size as regular density but have less or more padding between each swatch, respectively.","after":"Corner rounding in swatch groups.\n\nA corner rounding of none should be used in a swatch group in order to help minimize the Hermann grid illusion that happens at the intersections of the white space within the group. The only exception is when a swatch group only takes up a single row. In that case, use any of the rounding options: none, partial rounding, or full rounding."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/documentBlocks/2","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"By default, selection is not enabled in a swatch group. Selection can be enabled for a swatch group to allow for toggling. This is often used inside of swatch panels.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto the swatch or swatch group. Arrow keys Moves focus through the swatches in the group."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/documentBlocks/3","name":"guideline: Cursor guidelines.\n\nCursor Description Pointer U","fields":[{"path":"content","before":"When selection is enabled, a swatch group can allow for either single or multiple selection of swatches. This is often used inside of swatch panels to allow for bulk operations, such as deleting multiple swatches at once.","after":"Cursor guidelines.\n\nCursor Description Pointer Use the pointer cursor for all interactive elements in every state."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/documentBlocks/4","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"It’s important for users to compare colors when they’re displayed in a swatch group. Because of this, swatches within a swatch group with low contrast (below 3:1 contrast with the background) have a less prominent border compared to the swatch component when used by itself. This reduces the likelihood of the UI interfering with color perception and comparisons.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Swatch groups should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized, so the grouping relationship between swatches and the selected state are programmatically conveyed. Use of color 1.4.1 A This criterion requires that color not be the only method of communicating information. In swatches, the color itself is the content being presented, not a cue that conveys additional meaning. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

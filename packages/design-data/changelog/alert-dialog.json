@@ -1,0 +1,88 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "alert-dialog",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.2.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-08-24",
+      "commit": "4338aa65262f3a8b9b84a64aa6478611d37e41ed",
+      "commits": [
+        {
+          "commit": "9c697cfcee3820ddc7bc3688ea000552de708641",
+          "date": "2026-08-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1336,"title":"fix(design-data): resolve SPEC-027 dangling tokenBindings for vpk.1","url":"https://github.com/adobe/spectrum-design-data/pull/1336"},
+          "entries": [
+            {"id":"9c697cfc-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"alert-dialog-top-to-alert-icon","context":"Icon asset (error and warning variants)"}]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":21,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/0","name":"guideline: Text overflow.\n\nWhen the title and description t","fields":[{"path":"content","before":"Alert dialogs present critical information that must be acknowledged. They appear over the interface and block further interaction until an action is selected.","after":"Text overflow.\n\nWhen the title and description text are too long for the available horizontal space, they wrap to form another line."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/1","name":"guideline: Button group overflow.\n\nAlert dialogs can includ","fields":[{"path":"content","before":"By default, an alert dialog that includes a button to cancel or go back will be labeled “Cancel.”","after":"Button group overflow.\n\nAlert dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/2","name":"guideline: Use alert dialogs sparingly.\n\nAlert dialogs are ","fields":[{"path":"content","before":"Alert dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice.","after":"Use alert dialogs sparingly.\n\nAlert dialogs are interruptive, so they should be reserved for important information that users must acknowledge before continuing a task or workflow. Use them only when absolutely necessary—not for low-priority notifications or excessive confirmations."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/3","name":"guideline: Don’t nest alert dialogs.\n\nAlert dialogs are des","fields":[{"path":"content","before":"An alert dialog must include at least one button. The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means moving forward or dismissing the dialog.","after":"Don’t nest alert dialogs.\n\nAlert dialogs are designed to pause the experience until a decision is made, so only one should appear at a time. Avoid opening an alert dialog from within another. If a situation seems to require a sequence of decisions, consider using a different design pattern."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/4","name":"guideline: Writing for alert dialogs starts by determining ","fields":[{"path":"content","before":"Use the appropriate variant based on the context of the message:","after":"Writing for alert dialogs starts by determining the nature of the message. Each Spectrum alert dialog variant has its own communication goal and tone that work in partnership with its visual design. Alert dialog variant Goal Tone Confirmation Asking a user to confirm an action they want to take. Instructive Information Sharing important information that a user needs to acknowledge. Helpful Warning Sharing time-sensitive information that a user needs to consider, but won’t block them from proceeding. Instructive to helpful Destructive Telling a user that if they are to proceed with an action they want to take, it may impact their data in a negative way. Instructive Error Communicating critical information about an issue that a user needs to resolve before they can move forward with a task. Supportive"}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/5","name":"guideline: Writing the title.\n\nAll alert dialogs must have ","fields":[{"path":"content","before":"Alert dialogs should include a description when available. The description briefly communicates any additional information or context a user needs to make a decision based on the options presented.","after":"Writing the title.\n\nAll alert dialogs must have a title. The title communicates the upshot of the message, such as the eventual outcome or conclusion of an action. It should be as close as possible to a complete sentence (subject + verb). Don’t use punctuation at the end of the title. Most alert dialog titles communicate the main effect of whatever a person is about to do. Titles ideally use the same or similar phrasing as the call-to-action that had led someone to the alert dialog in the first place. The title of an error alert dialog communicates the result of the error. Don’t just state that an error has occurred."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/6","name":"guideline: Writing the description.\n\nAlert dialog descripti","fields":[{"path":"content","before":"All alert dialogs must have a title. The title appears at the top of the dialog and uses a few words to convey the outcome of what will happen if a user continues with the primary action.","after":"Writing the description.\n\nAlert dialog descriptions share any additional information or context that a person needs to know in order to make one of the decisions offered by the actions. Descriptions are written in complete sentences, and any error code is included in parentheses at the end of the last sentence."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/7","name":"guideline: Writing the actions.\n\nUse a short phrase to succ","fields":[{"path":"content","before":"When the title and description text are too long for the available horizontal space, they wrap to form another line.","after":"Writing the actions.\n\nUse a short phrase to succinctly describe the options for next steps. If possible, have the button label use the same language as the action mentioned in the alert dialog title (e.g., if a dialog's title is “Delete conversation,” its primary action button label would be “Delete”)."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/8","name":"guideline: Make button labels specific and actionable.\n\nFor","fields":[{"path":"content","before":"Alert dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack.","after":"Make button labels specific and actionable.\n\nFor alert dialog buttons, make the labels as specific and actionable as possible. Even if someone were to only read the word or phrase on the button, they should be able to get a summary of the alert dialog’s entire message."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/9","name":"guideline: Avoid asking questions.\n\nQuestions in alert dial","fields":[{"path":"content","before":"Alert dialogs are interruptive, so they should be reserved for important information that users must acknowledge before continuing a task or workflow. Use them only when absolutely necessary—not for low-priority notifications or excessive confirmations.","after":"Avoid asking questions.\n\nQuestions in alert dialog titles — such as “Are you sure you want to quit?” or “Do you want to cancel?” — are redundant and undermine a user's agency in the decision they've already made by taking a previous action to get to the alert dialog. This phrasing also sets up for a yes/no set of actions, which can become confusing. Instead, reframe the message to focus on the outcome or effect."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/10","name":"guideline: Pair confirmation with distinct actions.\n\nIt’s O","fields":[{"path":"content","before":"Alert dialogs are designed to pause the experience until a decision is made, so only one should appear at a time. Avoid opening an alert dialog from within another. If a situation seems to require a sequence of decisions, consider using a different design pattern.","after":"Pair confirmation with distinct actions.\n\nIt’s OK to ask a question in an alert dialog's description to confirm if someone wants to go ahead with a choice that the system is making on their behalf. However, this should still be paired with distinct actions that show that a person has control over what happens next."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/11","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[],"after":{"type":"guideline","content":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the alert dialog is mirrored. Texts are right-aligned and buttons are left-aligned."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/12","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[],"after":{"type":"guideline","content":"Keyboard interactions.\n\nKey Interaction Tab Moves focus to the next button inside the alert dialog (last becomes first). If none of the buttons are selected, the focus is set on the first button. Shift + Tab Moves focus to the previous button inside the alert dialog (first becomes last). If none of the buttons are selected, the focus is set on the last button. Esc Dismisses the alert dialog. This is equivalent to choosing “Cancel” or an “OK” confirmation. Esc Dismisses the alert banner if possible. This is equivalent to selecting the close button."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/13","name":"guideline: Cursor guidelines.\n\nCursor Usage Default (Arrow)","fields":[],"after":{"type":"guideline","content":"Cursor guidelines.\n\nCursor Usage Default (Arrow) Use the default cursor for non-interactive elements and text within the alert dialog. Pointer Use the pointer cursor for any interactive elements, such as buttons, inside the alert dialog."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/documentBlocks/14","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[],"after":{"type":"guideline","content":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons used in alert dialogs, must provide a text alternative that communicates the dialog's purpose. All alert dialogs need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Alert dialogs should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of alertdialog should be utilized. Use of color 1.4.1 A Color is not used as a means to convey information or distinguish elements. Contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of illustrations and component states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}}
+          ]
+        }
+      ]
+    }
+  ]
+}

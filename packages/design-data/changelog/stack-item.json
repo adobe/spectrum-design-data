@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "stack-item",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.2.3",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-14",
+      "commit": "05c64ff95a62826179e8e0921d3934f636346f27",
+      "commits": [
+        {
+          "commit": "d88be4e0204abb31d9f02ce680acd0fe478057a7",
+          "date": "2026-09-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1452,"title":"fix(tokens): stack-item selected-down background gray-300 → gray-200","url":"https://github.com/adobe/spectrum-design-data/pull/1452"},
+          "entries": [
+            {"id":"d88be4e0-0","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"color","options":{"state":["selected","down"],"object":"background"}},"record":"1ad58d16-66da-44ae-829e-9ee1ff56a857","name":"color[object=background,state=?]","fields":[{"path":"$ref","before":"dac01571-b26a-4aef-ace7-d0e34e917570","after":"8a182a6b-149b-41a6-b608-fc247bcc298f"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

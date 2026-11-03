@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-line-alert",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":59,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/0","name":"guideline: Text overflow.\n\nWhen the title of an in-line ale","fields":[{"path":"content","before":"In-line alerts display non-modal messages connected to elements in a view. They’re often used in forms to show validation feedback across multiple fields.","after":"Text overflow.\n\nWhen the title of an in-line alert is too long for the available horizontal space, it wraps to form another line. The optional icon in the top-right corner stays aligned to the top."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/1","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"An in-line alert can have up to one button. This label should be kept concise, and it should only be used when there’s a direct action available that is related to the in-line alert text.","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the in-line alert is mirrored. The icon and dismiss button are both left-aligned."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/2","name":"guideline: Heading is optional for in-line alerts.","fields":[],"before":{"type":"guideline","content":"Heading is optional for in-line alerts."}},
+            {"id":"ec3376fa-3","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/3","name":"guideline: The outline style is the default for in-line ale","fields":[],"before":{"type":"guideline","content":"The outline style is the default for in-line alerts."}},
+            {"id":"ec3376fa-4","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/4","name":"guideline: There are five semantic variants:","fields":[],"before":{"type":"guideline","content":"There are five semantic variants:"}},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/documentBlocks/5","name":"guideline: When the title of an in-line alert is too long f","fields":[],"before":{"type":"guideline","content":"When the title of an in-line alert is too long for the available horizontal space, it wraps to form another line. The optional icon in the top-right corner stays aligned to the top."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title and Description (Bold fill, Notice)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Title and Description (Bold fill, Notice)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-1000"}]},
+            {"id":"15f371e5-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title and Description (Bold fill)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Title and Description (Bold fill)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

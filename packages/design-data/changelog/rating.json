@@ -1,0 +1,64 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "rating",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"8cf415d3-57f2-41c6-a175-40c75b58a79e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"6b99f788-336d-4159-819e-29050f8b571a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"360ab235-93bf-482c-9ff1-387d69f018e1","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"897117a7-4e29-4fc2-85b4-1b2aa882ff7b","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"a2ad2062-a115-4abb-859b-f9d307b44744","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"888c8501-b709-4b72-9d19-504e3b0befb4","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":18,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "unreleased",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "08a3434226ac6c38b424e57f4f77d06ec82974ec",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tooltip",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"40778817-6e47-4b58-a495-c4f34cee78df","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"942f0f34-611a-4318-9b0e-3632e7f520b3","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"component-bottom-to-text-75#Spacing (top/bottom edge to text)","name":"component-bottom-to-text-75","fields":[{"path":"$ref","before":"923c46e1-b6f7-4d8a-844d-b4c0661b5e60","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"component-bottom-to-text-75#Spacing (top/bottom edge to text)","name":"component-bottom-to-text-75","fields":[{"path":"$ref","before":"0f1a6c63-bc4f-444c-9a18-67b6c35464b1","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":24,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/0","name":"guideline: Text overflow.\n\nWhen the label is too long for t","fields":[{"path":"content","before":"Tooltips display contextual information related to a specific component. They appear on hover or focus to clarify purpose or behavior.","after":"Text overflow.\n\nWhen the label is too long for the available horizontal space, it wraps to form another line."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/1","name":"guideline: Animation.\n\nA tooltip fades in and out when show","fields":[{"path":"content","before":"All tooltips have a label. The label communicates the contextual help or information about specific components when a user hovers over or focuses on them.","after":"Animation.\n\nA tooltip fades in and out when showing and hiding, and slides a short distance from the source to indicate its origin. The direction of the slide (left, right, top, bottom) depends on the placement of the tooltip. The animation attributes (duration, easing, offset) are the same whether it's showing or hiding."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/2","name":"guideline: Immediate or delayed appearance.\n\nTooltips attac","fields":[{"path":"content","before":"By default, tooltips are the neutral variant. These are the most common variant because most tooltips are used to only disclose additional information, without conveying a semantic meaning. The neutral variant never includes an icon.","after":"Immediate or delayed appearance.\n\nTooltips attached to help icons appear immediately. For conventional UI elements where a tooltip appearing immediately would be intrusive, delay appearance with a warmup period."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/3","name":"guideline: Warmup and cooldown.\n\nThe warmup period is a glo","fields":[{"path":"content","before":"Tooltips also come in semantic variants: informative (blue), and negative (red). An icon is required for these variants to ensure information isn’t conveyed by color alone.","after":"Warmup and cooldown.\n\nThe warmup period is a global timer that requires the cursor to remain on a UI element for the allotted time before a tooltip appears. Once this period is complete, a tooltip appears instantly on any hovered-upon UI element until the cursor is in an area that does not trigger a tooltip for the duration of the cooldown period."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/4","name":"guideline: Use tooltips to describe icons.\n\nIcons are not a","fields":[{"path":"content","before":"2 of the 3 tooltip variants (informative and negative) can include an icon to supplement the messaging. These icons are predefined and can not be customized. Unless it's being used to provide context about the exact same icon, a semantic tooltip should always show an icon. Doing this is essential for helping users with color vision deficiency to discern the message tone.","after":"Use tooltips to describe icons.\n\nIcons are not always easy to identify on their own. When you use components that don't have labels — for example, icon-only action buttons and tabs — make sure to use tooltips to provide context for the icons."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/5","name":"guideline: Be concise.\n\nTooltips should be as concise and c","fields":[{"path":"content","before":"A tooltip is positioned in relation to its target.","after":"Be concise.\n\nTooltips should be as concise and clear as possible. Keep the text to 1 or 2 short sentences. If the information you need to communicate is longer than that, look into using a different design. If a tooltip is written in a full sentence (or is 2 or more sentences), include a period at the end. If it's a short phrase or is only the name of a tool, action, or icon, don't add a period to the end."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/6","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"This option determines whether or not a tooltip should be able to switch sides when constrained by space. A tooltip placed at the top would flip to be placed at the bottom (and vice versa), and a tooltip placed at the left would flip to be placed at the right (and vice versa).","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the tooltip is mirrored. The icon is placed on the right side of the text."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/7","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Tabb","fields":[{"path":"content","before":"The offset is the distance between the end of the tip and the target.","after":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into an item that has a tooltip associated with it (e.g., an icon) shows the tooltip. Esc Hides the tooltip."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/8","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer If the ","fields":[{"path":"content","before":"To make sure that the tooltip will stay within certain boundaries (e.g., a browser window) it’s possible to define a container and a container padding value to respect.","after":"Cursor guidelines.\n\nCursor Usage Pointer If the trigger is a button or link, or a focus-only element (like an info icon that shows a tooltip on hover), use the pointer cursor. Default (Arrow) If the trigger is an icon that is not clickable, use the default cursor. Pointer If the tooltip has a link, use the pointer cursor when interacting with the link."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/9","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"When the label is too long for the available horizontal space, it wraps to form another line.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in tooltips and icons that trigger tooltips—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Tooltips should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in tooltips. Tooltips use color to reinforce their meaning, but every tooltip also includes a clear text label that communicates purpose. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Tooltips should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size in wrapped tooltips. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/10","name":"guideline: A tooltip fades in and out when showing and hidi","fields":[],"before":{"type":"guideline","content":"A tooltip fades in and out when showing and hiding, and slides a short distance from the source to indicate its origin. The direction of the slide (left, right, top, bottom) depends on the placement of the tooltip. The animation attributes (duration, easing, offset) are the same whether it’s showing or hiding."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/11","name":"guideline: Tooltips attached to help icons appear immediate","fields":[],"before":{"type":"guideline","content":"Tooltips attached to help icons appear immediately. For conventional UI elements where a tooltip appearing immediately would be intrusive, delay appearance with a warmup period."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/12","name":"guideline: The warmup period is a global timer that require","fields":[],"before":{"type":"guideline","content":"The warmup period is a global timer that requires the cursor to remain on a UI element for the allotted time before a tooltip appears. Once this period is complete, a tooltip appears instantly on any hovered-upon UI element until the cursor is in an area that does not trigger a tooltip for the duration of the cooldown period."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/13","name":"guideline: Icons are not always easy to identify on their o","fields":[],"before":{"type":"guideline","content":"Icons are not always easy to identify on their own. When you use components that don’t have labels — for example, icon-only action buttons and tabs — make sure to use tooltips to provide context for the icons."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/14","name":"guideline: For example, in a scenario where a user is enter","fields":[],"before":{"type":"guideline","content":"For example, in a scenario where a user is entering their password into a field, the crucial information would be to state the password requirements. Supplementary context would be a message about how to get help if they have forgotten their password."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/15","name":"guideline: Tooltips should be as concise and clear as possi","fields":[],"before":{"type":"guideline","content":"Tooltips should be as concise and clear as possible. Keep the text to 1 or 2 short sentences. If the information you need to communicate is longer than that, look into using a different design."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/16","name":"guideline: If a tooltip is written in a full sentence (or i","fields":[],"before":{"type":"guideline","content":"If a tooltip is written in a full sentence (or is 2 or more sentences), include a period at the end. If it's a short phrase or is only the name of a tool, action, or icon, don't add a period to the end."}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/17","name":"guideline: Tooltips appear only on hover or when in keyboar","fields":[],"before":{"type":"guideline","content":"Tooltips appear only on hover or when in keyboard focus. They should not contain actions or links."}},
+            {"id":"ec3376fa-18","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/18","name":"do-dont: Don't use tooltips to communicate crucial inform","fields":[],"after":{"type":"do-dont","content":"Don't use tooltips to communicate crucial information","dont":"Show crucial information at all times, not just when a tooltip is displayed. A tooltip should only be used to provide supplementary context or hints to the message shown in help text. For example, in a scenario where a user is entering their password into a field, the crucial information would be to state the password requirements. Supplementary context would be a message about how to get help if they have forgotten their password."}},
+            {"id":"ec3376fa-19","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/19","name":"do-dont: Don't place actions inside a tooltip","fields":[],"after":{"type":"do-dont","content":"Don't place actions inside a tooltip","dont":"Tooltips appear only on hover or when in keyboard focus. They should not contain actions or links."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "e088447eaea4368a4b3e9444d20d0b8e711a79a4",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"ba072414-2cdd-4773-86a5-11ca47c08e23","after":"6b43633d-8f29-4c24-b26e-687d6f161bce"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tag-field",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"20658099-94df-4c6c-a2f2-558c92174121","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"68c4dc34-49cb-4174-bd06-5f5dfbd0b64e","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"dd684a30-2e49-4096-8b1c-40fbd6c8cac2","after":"ece70425-e509-45cc-8336-76fc8afdb921"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"b98d3a2d-94fb-4491-9650-1c9a62365a19","after":"ece70425-e509-45cc-8336-76fc8afdb921"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"e0b53a9a-e95a-45b8-b9b2-a16b70096c05","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"a7c0e1fc-bc57-450e-bdc2-1c2cf2823d98","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"b6eebf3a-4733-4177-a235-6eccfacf67cd","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"5e448fc3-6c14-4169-84a0-1f70bbc478cb","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"798ecb75-638c-41dd-81a0-d7ecca9960da","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"0072dc62-b868-4c4b-afd9-9c52d876c614","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"03b1351c-1309-4e1a-a18b-bf3a350814c4","after":"ece70425-e509-45cc-8336-76fc8afdb921"}]},
+            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"1fda84ab-aa68-46fb-bd0f-d8174a08a41e","after":"ece70425-e509-45cc-8336-76fc8afdb921"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":40,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.2.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-09",
+      "commit": "89c20fbbf5eed43a88608fdcfeac472e2f4433c1",
+      "commits": [
+        {
+          "commit": "e3571706e0aba86418b7d97c3986684c8159775c",
+          "date": "2026-09-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1438,"title":"fix(design-data): correct desktop base-padding-horizontal L/XL/2xL values","url":"https://github.com/adobe/spectrum-design-data/pull/1438"},
+          "entries": [
+            {"id":"e3571706-0","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)","Spacing (top/bottom edge to alert icon)"],"record":"ece70425-e509-45cc-8336-76fc8afdb921","name":"padding-horizontal[legacyKey=base-padding-horizontal-large,scale=desktop,size=l,structure=base]","fields":[{"path":"value","before":"14px","after":"16px"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "e088447eaea4368a4b3e9444d20d0b8e711a79a4",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"ba072414-2cdd-4773-86a5-11ca47c08e23","after":"6b43633d-8f29-4c24-b26e-687d6f161bce"}]},
+            {"id":"a60aeea2-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]},
+            {"id":"a60aeea2-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"ece70425-e509-45cc-8336-76fc8afdb921","after":"38e5af78-cb3e-4ff4-9849-28f9d4c56a38"}]},
+            {"id":"a60aeea2-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"ba072414-2cdd-4773-86a5-11ca47c08e23","after":"38e5af78-cb3e-4ff4-9849-28f9d4c56a38"}]},
+            {"id":"a60aeea2-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]},
+            {"id":"a60aeea2-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to tag group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (edge to tag group)","name":"space-between","fields":[{"path":"$ref","before":"ece70425-e509-45cc-8336-76fc8afdb921","after":"6b43633d-8f29-4c24-b26e-687d6f161bce"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

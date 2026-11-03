@@ -1,0 +1,82 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "divider",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":10,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"divider/documentBlocks/0","name":"guideline: Cursor guidelines.\n\nCursor Usage Default (Arrow)","fields":[],"after":{"type":"guideline","content":"Cursor guidelines.\n\nCursor Usage Default (Arrow) Use the default cursor for non-interactive elements like the divider."}},
+            {"id":"ec3376fa-1","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"divider/documentBlocks/1","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[],"after":{"type":"guideline","content":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 2. Operable Requirement Criterion Level Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Fill (black)"],"record":"a84ecad8-8005-4ce4-add6-7f83f7e05ba0","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"57ebdfa0-1bc1-42e5-871a-6d09b29ad5da"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill (black)"],"record":"a84ecad8-8005-4ce4-add6-7f83f7e05ba0","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-200"}]},
+            {"id":"15f371e5-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Fill (black)"],"record":"3e89f180-b0f0-4de0-904b-c80f0210a361","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"b32a1253-f86f-46db-be89-85b4ab34bcf9"}]},
+            {"id":"15f371e5-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill (black)"],"record":"3e89f180-b0f0-4de0-904b-c80f0210a361","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-900 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Fill (white)"],"record":"936db837-bc5a-40b0-a0e8-8e39b9fc62cb","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"c459ce5a-1d40-490f-bde6-c409bd334487"}]},
+            {"id":"15f371e5-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill (white)"],"record":"936db837-bc5a-40b0-a0e8-8e39b9fc62cb","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-300 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Fill (white)"],"record":"b85836bf-af47-412a-900a-4ec5ad0733b2","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"cd537630-a18b-4f62-95ff-2b77a56130d3"}]},
+            {"id":"15f371e5-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill (white)"],"record":"b85836bf-af47-412a-900a-4ec5ad0733b2","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-900 (approximate match; alpha moves to the nearest opacity step)"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

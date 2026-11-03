@@ -20,6 +20,7 @@
     "./package.json": "./package.json",
     "./tokens/*": "./tokens/*.tokens.json",
     "./components/*": "./components/*.json",
+    "./changelog/*": "./changelog/*.json",
     "./fields/*": "./fields/*.json",
     "./mode-sets/*": "./mode-sets/*.json",
     "./guidelines/*": "./guidelines/*.json",
@@ -53,6 +54,7 @@
   "files": [
     "tokens/",
     "components/",
+    "changelog/",
     "fields/",
     "mode-sets/",
     "guidelines/",

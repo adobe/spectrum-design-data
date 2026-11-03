@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tab-bar-ios",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.3.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-08-27",
+      "commit": "8b1f8cf3ab669ad8bf4bfb648caa035bd8c589da",
+      "commits": [
+        {
+          "commit": "6d070af0f289fc18d23b7406ed23bc606ccc7e65",
+          "date": "2026-08-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1385,"title":"feat(design-data): remove tab-bar-ios and ios-states from monorepo","url":"https://github.com/adobe/spectrum-design-data/pull/1385"},
+          "entries": [
+            {"id":"6d070af0-0","kind":"component","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tab-bar-ios/","name":"tab-bar-ios","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

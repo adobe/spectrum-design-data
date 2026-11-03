@@ -1,0 +1,110 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "action-bar",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"cfa41a43-8fb2-4c3b-a2df-f8658c87b31b","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"3116a00c-0ad3-4ae6-9fbb-f9b5624a2708","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (padding)","name":"space-between","fields":[{"path":"$ref","before":"a9fc8786-060e-4663-9381-211621240b2f","after":"7f237198-3842-49bc-aa79-e723fbe6c78e"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (label to action button group)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (label to action button group)","name":"space-between","fields":[{"path":"$ref","before":"72e276ce-d6ee-4bcf-9955-91c833b8b2cd","after":"c0571c46-5946-4896-bcbf-270560de5385"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (counter)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (counter)","name":"space-between","fields":[{"path":"$ref","before":"73f82d09-7927-461c-b7d7-ab0bc6b3e3f9","after":"c3ada312-da94-4779-bbf0-0fde3beb8121"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (counter)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (counter)","name":"space-between","fields":[{"path":"$ref","before":"bc54e89f-6740-4004-891e-c515f8f79693","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":59,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-bar/documentBlocks/0","name":"guideline: Action bar in Dark theme.\n\nAction bar is split i","fields":[{"path":"content","before":"Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme — light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to \"auto\" mode.\n\nIn dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors.","after":"Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme — light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to “auto” mode. In dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-bar/documentBlocks/1","name":"guideline: Placement.\n\nWhen a user selects items with relev","fields":[{"path":"content","before":"Placement.\n\nWhen a user selects items with relevant actions, an action bar appears at the bottom of the viewport. The bar should have margins of `spacing-200` (12 pixels on desktop scale) on the sides and bottom.","after":"Placement.\n\nWhen a user selects items with relevant actions, an action bar appears at the bottom of the viewport. The bar should have margins of spacing-200 (12 pixels on desktop scale) on the sides and bottom."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-bar/documentBlocks/2","name":"guideline: Safe zone.\n\nInclude a safe zone of at least spac","fields":[{"path":"content","before":"Safe zone.\n\nInclude a safe zone of at least `spacing-400` (24 pixels on desktop scale) between the item counter and the action group.","after":"Safe zone.\n\nInclude a safe zone of at least spacing-400 (24 pixels on desktop scale) between the item counter and the action group."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-bar/documentBlocks/3","name":"do-dont: Don't use quick actions","fields":[],"before":{"type":"do-dont","content":"Don't use quick actions","dont":"Instead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view.\n\nDon't use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."}},
+            {"id":"ec3376fa-4","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"action-bar/documentBlocks/4","name":"guideline: Don’t use quick actions.\n\nInstead of quick actio","fields":[],"after":{"type":"guideline","content":"Don’t use quick actions.\n\nInstead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view. Don’t use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commits": [
+        {
+          "commit": "54ee322dc2fa9c6556549597a74610c290638664",
+          "date": "2026-10-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1544,"title":"fix(design-data): pin structure-prefixed legacy keys and add regression test","url":"https://github.com/adobe/spectrum-design-data/pull/1544"},
+          "entries": [
+            {"id":"54ee322d-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to action button group)"],"record":"c0571c46-5946-4896-bcbf-270560de5385","name":"gap[legacyKey=banner-gap-horizontal,orientation=horizontal,structure=banner]","fields":[{"path":"name.legacyKey","after":"banner-gap-horizontal"}]},
+            {"id":"54ee322d-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (counter)","Spacing (padding)"],"record":"64fa4ab7-be93-4420-8cdc-a6ef91499852","name":"padding-vertical[legacyKey=banner-padding-vertical,structure=banner]","fields":[{"path":"name.legacyKey","after":"banner-padding-vertical"}]}
+          ]
+        },
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon and Clear icon"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon and Clear icon"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}
