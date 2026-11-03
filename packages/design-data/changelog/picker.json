@@ -221,11 +221,11 @@
       ]
     },
     {
-      "release": "unreleased",
+      "release": "3.8.0",
       "version": "1.0.7",
       "bump": "patch",
       "date": "2026-11-03",
-      "commit": "08a3434226ac6c38b424e57f4f77d06ec82974ec",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
       "commits": [
         {
           "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
