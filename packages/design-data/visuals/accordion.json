@@ -1,0 +1,242 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "accordion",
+  "root": "item",
+  "sizeScale": { "s": 100, "m": 200, "l": 300, "xl": 400 },
+  "notVisual": ["items", "isMultiple", "down"],
+  "parts": {
+    "item": {
+      "kind": "box",
+      "children": ["header", "content", "divider"],
+      "props": {
+        "direction": { "value": "column" },
+        "align": { "value": "start" },
+        "fill": [
+          {
+            "when": { "states": ["hover"] },
+            "token": {
+              "property": "color",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 150
+            }
+          }
+        ]
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["disclosure-icon", "title"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "context": "Content (horizontal)"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "context": "Content (horizontal)"
+          }
+        },
+        "paddingBlockStart": {
+          "when": { "options": { "density": ["regular", "spacious"] } },
+          "relationship": {
+            "property": "padding-vertical",
+            "context": "Header (vertical)"
+          }
+        },
+        "paddingBlockEnd": {
+          "when": { "options": { "density": ["regular", "spacious"] } },
+          "relationship": {
+            "property": "padding-vertical",
+            "context": "Header (vertical)"
+          }
+        }
+      }
+    },
+    "disclosure-icon": {
+      "kind": "icon",
+      "glyph": "chevron",
+      "props": {
+        "width": [
+          {
+            "when": { "options": { "size": "s" } },
+            "token": { "icon": "chevron", "property": "size", "scaleIndex": 75 }
+          },
+          {
+            "when": { "options": { "size": "m" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": { "options": { "size": "l" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": { "options": { "size": "xl" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 300
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": { "options": { "size": "s" } },
+            "token": { "icon": "chevron", "property": "size", "scaleIndex": 75 }
+          },
+          {
+            "when": { "options": { "size": "m" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": { "options": { "size": "l" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": { "options": { "size": "xl" } },
+            "token": {
+              "icon": "chevron",
+              "property": "size",
+              "scaleIndex": 300
+            }
+          }
+        ],
+        "rotation": [
+          { "when": { "options": { "isOpen": true } }, "value": 90 }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Section title and chevron"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": {
+              "property": "content-color",
+              "context": "Disabled"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "title": {
+      "kind": "text",
+      "props": {
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "context": "Title (horizontal)"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "context": "Title (horizontal)"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "padding-vertical",
+            "context": "Title (vertical)"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "padding-vertical",
+            "context": "Title (vertical)"
+          }
+        },
+        "fontFamily": {
+          "relationship": { "property": "font-family", "context": "Value" }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Value"
+          }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "context": "Value" }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": "{sizeIndex}"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Section title and chevron"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": {
+              "property": "content-color",
+              "context": "Disabled"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "content": {
+      "kind": "box",
+      "visibleWhen": { "options": { "isOpen": true } },
+      "props": {
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "padding-top",
+            "context": "Content (top)"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "padding-bottom",
+            "context": "Content (bottom)"
+          }
+        }
+      }
+    },
+    "divider": {
+      "kind": "box",
+      "visibleWhen": { "options": { "isQuiet": false } },
+      "props": {
+        "height": { "value": 1 },
+        "fill": {
+          "token": {
+            "property": "color",
+            "colorFamily": "gray",
+            "scaleIndex": 200
+          }
+        }
+      }
+    }
+  }
+}

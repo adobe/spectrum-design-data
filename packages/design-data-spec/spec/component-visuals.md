@@ -53,7 +53,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                            |
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
-| `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`). Unset draws a placeholder.                                                                                            |
+| `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`, `chevron`). Unset draws a placeholder. A `chevron` points to the end; `rotation` turns it.                             |
 | `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Parts nested inside it scale with it (a checkbox `box` scales with its mark). Defaults to the whole scene.          |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
@@ -72,6 +72,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `trackColor`                                                                                   | progress   | Color of the progress track behind the arc.                                                                                    |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style. `lineHeight` sets the line box height.                                                                             |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
+| `rotation`                                                                                     | icon       | Clockwise rotation in degrees about the icon's center (a `chevron` is 90 when open).                                           |
 
 **Text height.** A `text` part is as high as its line box: a `lineHeight` ending in `px` is that height, a unitless `lineHeight` multiplies `fontSize`, and with no `lineHeight` it is 1.3 times `fontSize`. A bound `fontFamily` leads the SVG font stack, so a family the viewer lacks falls back to the default stack.
 
@@ -80,6 +81,10 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 **Height.** A root `box` with no `height` is 32 high, unless the recipe binds `paddingBlockStart` or `paddingBlockEnd`: then its height is the tallest flowed child plus the block padding, and the children sit between the paddings. An explicit `height` always wins and the block padding then only offsets the children.
 
 **NORMATIVE:** A renderer **MUST** clamp a uniform `cornerRadius` that is larger than half the shorter side of its box to that value, on all four corners, so the corner stays circular (like CSS `border-radius`).
+
+**Row boxes.** A flowed `box` that binds `direction: "row"` lays its `children` out in a row instead of insetting them: `icon`, `text` and `box` children in order, `gap` apart, between its `paddingInlineStart` and `paddingInlineEnd`, centered across (`align` moves them). Without a `width` it is as wide as its children plus padding; without a `height` it is as tall as the tallest child plus its block padding. A `text` child may bind its own padding props, which add to its cell. Only `row` is supported.
+
+**Column stretch.** In a column root, a flowed `box` with no `width` and no row content fills the column's inner width (a divider or a content region). A flowed `box` with no `height` and no children is as tall as its block padding.
 
 **Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes and draws its `glyph`; the checkbox uses this for its checkmark and dash.
 

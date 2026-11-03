@@ -77,7 +77,7 @@
           "description": "For a ring: the part it outlines. Defaults to the root."
         },
         "glyph": {
-          "enum": ["checkmark", "dash"],
+          "enum": ["checkmark", "dash", "chevron"],
           "description": "For an icon nested in a box: the built-in glyph to draw. Unset draws a placeholder."
         },
         "pressTarget": {
@@ -135,6 +135,7 @@
               "fontWeight",
               "lineHeight",
               "gapToParent",
+              "rotation",
               "pressDifference",
               "pressWidthRatio",
               "pressMinPerspective",
