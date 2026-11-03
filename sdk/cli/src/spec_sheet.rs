@@ -32,16 +32,6 @@ const MARGIN_X: f64 = 160.0;
 const MARGIN_Y: f64 = 120.0;
 const MAX_SCALE: f64 = 5.0;
 
-const MEASURED_PROPS: [&str; 7] = [
-    "height",
-    "paddingInlineStart",
-    "paddingInlineEnd",
-    "paddingBlockStart",
-    "paddingBlockEnd",
-    "gap",
-    "cornerRadius",
-];
-
 fn s<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
     v.get(key).and_then(Value::as_str)
 }
@@ -426,11 +416,28 @@ impl Ctx<'_> {
                 .enumerate()
                 .map(|(i, p)| json!({"n": i + 1, "part": p}))
                 .collect::<Vec<_>>());
-            render["measurements"] = json!(hl
-                .iter()
-                .map(|b| b.1.as_str())
-                .filter(|p| MEASURED_PROPS.contains(p))
-                .collect::<Vec<_>>());
+            // Measurements are the scene's own, picked and labelled by the relationship
+            // that bound them: its context is the block title, its property the label.
+            let measurements: Vec<Value> = render["scene"]["measurements"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .enumerate()
+                .filter(|(_, m)| {
+                    m["token"]["relationship"]["context"].as_str() == Some(context.as_str())
+                })
+                .map(|(index, m)| {
+                    let rel = &m["token"]["relationship"];
+                    json!({
+                        "index": index,
+                        "prop": m["prop"],
+                        "kind": m["kind"],
+                        "label": rel["property"],
+                        "relationship": rel["uuid"],
+                    })
+                })
+                .collect();
+            render["measurements"] = json!(measurements);
 
             // shortcut: rows carry a marker only when one part is highlighted.
             let marker = (parts.len() == 1).then_some(1);
