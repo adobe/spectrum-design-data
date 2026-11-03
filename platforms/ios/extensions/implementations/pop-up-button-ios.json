@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "pop-up-button-ios",
+  "implementations": [
+    {
+      "platform": "ios",
+      "componentName": "SPPopUpButton",
+      "package": "spectrum-ios",
+      "notes": "SwiftUI. Shares its label view (SPPopUpLabel) with SPPicker. Source: OneAdobe/spectrum-ios main 3f6e7c0."
+    }
+  ]
+}

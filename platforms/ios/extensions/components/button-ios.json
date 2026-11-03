@@ -3,7 +3,7 @@
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button-ios.json",
   "specVersion": "1.0.0-draft",
   "name": "button-ios",
-  "displayName": "Button (iOS)",
+  "displayName": "Button",
   "description": "Button triggers an action on iOS. This declaration covers the Primary and Accent styles; the remaining iOS styles are tracked in p6ga.8.6.",
   "meta": {
     "category": "actions",
