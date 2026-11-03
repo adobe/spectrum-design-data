@@ -9,9 +9,13 @@ const esc = (s) =>
     /[&<>"]/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
   );
-const { components } = await fetch("data/sheets/index.json").then((r) =>
-  r.json(),
-);
+const res = await fetch("data/sheets/index.json");
+if (!res.ok) {
+  document.getElementById("summary").textContent =
+    "No sheets yet. Run the hub-prototype build to generate them.";
+  throw new Error(`data/sheets/index.json: ${res.status}`);
+}
+const { components } = await res.json();
 const full = components.filter((c) => c.visual).length;
 document.getElementById("summary").textContent =
   `${components.length} components: ${full} with a visual, ${components.length - full} table-only`;
