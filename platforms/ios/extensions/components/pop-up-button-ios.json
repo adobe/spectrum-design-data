@@ -3,7 +3,7 @@
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/pop-up-button-ios.json",
   "specVersion": "1.0.0-draft",
   "name": "pop-up-button-ios",
-  "displayName": "Pop-up button (iOS)",
+  "displayName": "Pop-up button",
   "description": "A button that starts a single-choice selection but does not present the options itself (SPPopUpButton). It looks like a picker; use it when the selection UI is custom, such as a sheet. For the native menu, use a picker.",
   "meta": {
     "category": "inputs",
