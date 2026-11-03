@@ -80,6 +80,16 @@ tasks:
       - ".github/scripts/validate-platform-recipes.mjs"
       - ".github/scripts/validate-platform-recipes.test.mjs"
       - ".github/scripts/fixtures/platform-recipes-*.json"
+  # Hub component sync: formatting-only rewrites (#1561) are not content changes (hzje.1).
+  test-component-content-changes:
+    command:
+      - node
+      - --test
+      - .github/scripts/component-content-changes.test.mjs
+    inputs:
+      - ".github/scripts/component-content-changes.mjs"
+      - ".github/scripts/component-content-changes.test.mjs"
+      - ".github/scripts/fixtures/component-formatting-*.json"
   # End to end: the guard over a copy of platforms/ios as shipped (with its button-ios recipe), a resolving replacement
   # and an unresolvable binding (p6ga.8.36).
   test-platform-recipes-e2e:
