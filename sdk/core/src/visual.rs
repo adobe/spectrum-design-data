@@ -71,9 +71,16 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "justify",
+            "direction",
+            "align",
+            "gap",
+            "paddingInlineStart",
+            "paddingInlineEnd",
+            "paddingBlockStart",
+            "paddingBlockEnd",
         ],
     ),
-    ("icon", &["color", "width", "height"]),
+    ("icon", &["color", "width", "height", "rotation"]),
     ("progress", &["color", "width", "height", "trackColor"]),
     (
         "text",
@@ -176,6 +183,9 @@ pub struct SceneNode {
     /// Built-in glyph an `icon` node draws (`checkmark`, `dash`); unset draws the placeholder.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub glyph: Option<String>,
+    /// Clockwise rotation of an `icon` in degrees about its center; unset draws it upright.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rotation: Option<f64>,
     pub tokens: Vec<TokenRef>,
 }
 
@@ -452,7 +462,11 @@ impl<'a> CompileCx<'a> {
             };
             match name.get(k) {
                 Some(Value::Array(a)) => a.contains(&want),
-                Some(have) => *have == want,
+                Some(have) => {
+                    *have == want
+                        || (have.is_number()
+                            && value_to_string(have) == want.as_str().map(String::from))
+                }
                 None => false,
             }
         })
@@ -460,16 +474,24 @@ impl<'a> CompileCx<'a> {
 
     /// Mode-compatible candidates, best fit first, each kept with its extra data. Candidates
     /// that contradict the mode context are dropped; ties prefer the fewest extra name fields.
-    fn rank_by<'g, X>(
+    /// A relationship that pins the `size` option picks its token by that pin, and a lone
+    /// candidate has nothing to choose from, so the token's own `size` name (a Base step above
+    /// or below the component size) does not drop either.
+    fn rank_by<'g>(
         &self,
-        cands: Vec<(&'g crate::graph::TokenRecord, X)>,
-    ) -> Vec<(&'g crate::graph::TokenRecord, X)> {
+        cands: Vec<(&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>))>,
+    ) -> Vec<(&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>))> {
         let mut mctx = self.mode_ctx();
         mctx.insert("size".into(), self.req.size.clone());
+        let lone = cands.len() == 1;
         let mut fit: Vec<_> = cands
             .into_iter()
-            .filter(|(t, _)| {
+            .filter(|(t, (pinned, _))| {
                 mctx.iter().all(|(k, v)| {
+                    let pins_size = pinned.as_ref().is_some_and(|p| p.get("size").is_some());
+                    if k == "size" && (lone || pins_size) {
+                        return true;
+                    }
                     match t
                         .raw
                         .get("name")
@@ -1485,6 +1507,24 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         stroke_width: f64,
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
+        row: Option<Row>,
+    }
+    // A flowed box with a bound `direction` lays its children out in a row. Items keep their
+    // outer size (a text part includes its padding) and the offset of the node inside it.
+    struct RowItem {
+        node: SceneNode,
+        ow: f64,
+        oh: f64,
+        ox: f64,
+        oy: f64,
+    }
+    struct Row {
+        items: Vec<RowItem>,
+        align: String,
+        gap: f64,
+        pad_s: f64,
+        pad_bs: f64,
+        pad_be: f64,
     }
     let mut flow: Vec<Child> = Vec::new();
     let mut placed: Vec<(String, &Value)> = Vec::new();
@@ -1525,6 +1565,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             stroke_width: 0.0,
             radius: None,
             tokens,
+            row: None,
         };
         match kind {
             "box" => {
@@ -1546,6 +1587,185 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.fill = bfill.map(|f| f.value);
                 c.stroke = bstroke.map(|s| s.value);
                 c.stroke_width = bsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                let mut pads = [0.0; 4];
+                for (i, n) in [
+                    "paddingInlineStart",
+                    "paddingInlineEnd",
+                    "paddingBlockStart",
+                    "paddingBlockEnd",
+                ]
+                .iter()
+                .enumerate()
+                {
+                    let r = rp(&mut cx, part, n);
+                    track(&mut c.tokens, n, &r);
+                    pads[i] = r.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                }
+                let rdir = rp(&mut cx, part, "direction");
+                if rdir.is_none() {
+                    if bh.is_none() {
+                        c.h = pads[2] + pads[3];
+                    }
+                } else {
+                    layout_keyword(&mut cx, "direction", &rdir, &["row"]);
+                    let ralign = rp(&mut cx, part, "align");
+                    let ralign =
+                        layout_keyword(&mut cx, "align", &ralign, &["start", "center", "end"]);
+                    let rgap = rp(&mut cx, part, "gap");
+                    track(&mut c.tokens, "gap", &rgap);
+                    let rgap = rgap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                    let ids: Vec<String> = part
+                        .get("children")
+                        .and_then(Value::as_array)
+                        .map(|a| {
+                            a.iter()
+                                .filter_map(|v| v.as_str().map(String::from))
+                                .collect()
+                        })
+                        .unwrap_or_default();
+                    let mut items: Vec<RowItem> = Vec::new();
+                    for nid in ids {
+                        let Some(np) = parts.get(&nid) else { continue };
+                        if !cx.visible(np) {
+                            continue;
+                        }
+                        let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
+                        let mut tokens = Vec::new();
+                        let mut node = SceneNode {
+                            part: nid.clone(),
+                            kind: nkind.into(),
+                            x: 0.0,
+                            y: 0.0,
+                            w: 0.0,
+                            h: 0.0,
+                            fill: None,
+                            stroke: None,
+                            stroke_width: 0.0,
+                            radius: 0.0,
+                            radii: None,
+                            text: None,
+                            font_size: 0.0,
+                            font_weight: None,
+                            font_family: None,
+                            color: None,
+                            glyph: None,
+                            rotation: None,
+                            tokens: Vec::new(),
+                        };
+                        let nw = rp(&mut cx, np, "width");
+                        let nh = rp(&mut cx, np, "height");
+                        let color = rp(&mut cx, np, "color");
+                        track(&mut tokens, "width", &nw);
+                        track(&mut tokens, "height", &nh);
+                        track(&mut tokens, "color", &color);
+                        node.color = color.map(|c| c.value);
+                        let (ow, oh);
+                        let (mut ox, mut oy) = (0.0, 0.0);
+                        match nkind {
+                            "icon" => {
+                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(16.0);
+                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or(node.w);
+                                node.glyph =
+                                    np.get("glyph").and_then(Value::as_str).map(String::from);
+                                let rot = rp(&mut cx, np, "rotation");
+                                track(&mut tokens, "rotation", &rot);
+                                node.rotation = rot.as_ref().and_then(Resolved::num);
+                                (ow, oh) = (node.w, node.h);
+                            }
+                            "text" => {
+                                let fs = rp(&mut cx, np, "fontSize");
+                                let fw = rp(&mut cx, np, "fontWeight");
+                                let ff = rp(&mut cx, np, "fontFamily");
+                                let lh = rp(&mut cx, np, "lineHeight");
+                                track(&mut tokens, "fontSize", &fs);
+                                track(&mut tokens, "fontWeight", &fw);
+                                track(&mut tokens, "fontFamily", &ff);
+                                track(&mut tokens, "lineHeight", &lh);
+                                let mut tp = [0.0; 4];
+                                for (i, n) in [
+                                    "paddingInlineStart",
+                                    "paddingInlineEnd",
+                                    "paddingBlockStart",
+                                    "paddingBlockEnd",
+                                ]
+                                .iter()
+                                .enumerate()
+                                {
+                                    let r = rp(&mut cx, np, n);
+                                    track(&mut tokens, n, &r);
+                                    tp[i] = r.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                }
+                                node.font_family = ff.map(|f| f.value);
+                                node.font_size =
+                                    fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
+                                node.font_weight = fw.map(|f| f.value);
+                                node.text = Some(req.label.clone());
+                                node.w = text_width(&req.label, node.font_size);
+                                node.h = line_height(lh.as_ref(), node.font_size);
+                                (ow, oh) = (node.w + tp[0] + tp[1], node.h + tp[2] + tp[3]);
+                                (ox, oy) = (tp[0], tp[2]);
+                            }
+                            _ => {
+                                let nfill = rp(&mut cx, np, "fill");
+                                let nstroke = rp(&mut cx, np, "stroke");
+                                let nsw = rp(&mut cx, np, "strokeWidth");
+                                let nr = rp(&mut cx, np, "cornerRadius");
+                                for (n, r) in [
+                                    ("fill", &nfill),
+                                    ("stroke", &nstroke),
+                                    ("strokeWidth", &nsw),
+                                    ("cornerRadius", &nr),
+                                ] {
+                                    track(&mut tokens, n, r);
+                                }
+                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                node.fill = nfill.map(|f| f.value);
+                                node.stroke = nstroke.map(|s| s.value);
+                                node.stroke_width =
+                                    nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                node.radius = clamp_radius(
+                                    nr.as_ref()
+                                        .and_then(|r| {
+                                            r.num().map(|v| match r.relative_to.as_deref() {
+                                                Some("height") => v * node.h,
+                                                _ => v,
+                                            })
+                                        })
+                                        .unwrap_or(0.0),
+                                    node.w,
+                                    node.h,
+                                );
+                                (ow, oh) = (node.w, node.h);
+                            }
+                        }
+                        node.tokens = tokens;
+                        items.push(RowItem {
+                            node,
+                            ow,
+                            oh,
+                            ox,
+                            oy,
+                        });
+                    }
+                    let sum = items.iter().map(|i| i.ow).sum::<f64>()
+                        + rgap * items.len().saturating_sub(1) as f64;
+                    let tall = items.iter().map(|i| i.oh).fold(0.0, f64::max);
+                    if w.is_none() {
+                        c.w = pads[0] + sum + pads[1];
+                    }
+                    if bh.is_none() {
+                        c.h = tall + pads[2] + pads[3];
+                    }
+                    c.row = Some(Row {
+                        items,
+                        align: ralign,
+                        gap: rgap,
+                        pad_s: pads[0],
+                        pad_bs: pads[2],
+                        pad_be: pads[3],
+                    });
+                }
             }
             "icon" | "progress" => {
                 let w = rp(&mut cx, part, "width");
@@ -1664,6 +1884,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_family: None,
         color: None,
         glyph: None,
+        rotation: None,
         tokens: container_tokens,
     }];
 
@@ -1685,16 +1906,23 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         } else {
             0.0
         };
-    for c in flow {
+    for mut c in flow {
+        // A column stretches a box that has no width of its own across its inner width.
+        let cw = if column && c.kind == "box" && c.w == 0.0 {
+            w - pad_s - pad_e
+        } else {
+            c.w
+        };
         let (cx0, cy0) = if column {
-            (x + axis_offset(&align, w - pad_s - pad_e - c.w), y)
+            (x + axis_offset(&align, w - pad_s - pad_e - cw), y)
         } else {
             (
                 x,
                 oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
             )
         };
-        let (cw, ch) = (c.w, c.h);
+        let ch = c.h;
+        let row = c.row.take();
         let nested_ids: Vec<String> = parts
             .get(&c.id)
             .and_then(|p| p.get("children"))
@@ -1723,6 +1951,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_family: c.font_family,
             color: c.color,
             glyph: None,
+            rotation: None,
             tokens: c.tokens,
         };
         if c.kind == "box" {
@@ -1733,6 +1962,17 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             y += ch + gap;
         } else {
             x += cw + gap;
+        }
+        if let Some(row) = row {
+            let inner_h = ch - row.pad_bs - row.pad_be;
+            let mut rx = cx0 + row.pad_s;
+            for mut it in row.items {
+                it.node.x = rx + it.ox;
+                it.node.y = cy0 + row.pad_bs + axis_offset(&row.align, inner_h - it.oh) + it.oy;
+                rx += it.ow + row.gap;
+                nodes.push(it.node);
+            }
+            continue;
         }
 
         // A box's children sit inside it: centered across, and at the start, center or end
@@ -1749,9 +1989,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             if np.get("kind").and_then(Value::as_str) == Some("icon") {
                 // An icon inside a box is centered on both axes and draws its `glyph`.
                 let color = rp(&mut cx, np, "color");
+                let rot = rp(&mut cx, np, "rotation");
                 track(&mut tokens, "width", &nw);
                 track(&mut tokens, "height", &nh);
                 track(&mut tokens, "color", &color);
+                track(&mut tokens, "rotation", &rot);
                 let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
                 let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(w2);
                 nodes.push(SceneNode {
@@ -1772,6 +2014,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     font_family: None,
                     color: color.map(|c| c.value),
                     glyph: np.get("glyph").and_then(Value::as_str).map(String::from),
+                    rotation: rot.as_ref().and_then(Resolved::num),
                     tokens,
                 });
                 continue;
@@ -1818,6 +2061,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 font_family: None,
                 color: None,
                 glyph: None,
+                rotation: None,
                 tokens,
             });
         }
@@ -1850,6 +2094,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_family: None,
             color: color.map(|c| c.value),
             glyph: None,
+            rotation: None,
             tokens,
         });
     }
@@ -1892,6 +2137,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_family: None,
             color: None,
             glyph: None,
+            rotation: None,
             tokens,
         });
     }
@@ -2190,9 +2436,28 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor"))
                 );
             }
-            "icon" if matches!(n.glyph.as_deref(), Some("checkmark" | "dash")) => {
+            "icon" if matches!(n.glyph.as_deref(), Some("checkmark" | "dash" | "chevron")) => {
                 let color = esc(n.color.as_deref().unwrap_or("currentColor"));
-                if n.glyph.as_deref() == Some("dash") {
+                let rot = n.rotation.filter(|r| *r != 0.0).map_or(String::new(), |r| {
+                    format!(
+                        " transform=\"rotate({r} {} {})\"",
+                        n.x + n.w / 2.0,
+                        n.y + n.h / 2.0
+                    )
+                });
+                if n.glyph.as_deref() == Some("chevron") {
+                    let sw = (n.w * 0.16).max(1.0);
+                    let _ = write!(
+                        s,
+                        "<path {attrs}{rot} d=\"M{} {}L{} {}L{} {}\" stroke=\"{color}\" stroke-width=\"{sw}\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>",
+                        n.x + n.w * 0.3,
+                        n.y + n.h * 0.1,
+                        n.x + n.w * 0.7,
+                        n.y + n.h * 0.5,
+                        n.x + n.w * 0.3,
+                        n.y + n.h * 0.9
+                    );
+                } else if n.glyph.as_deref() == Some("dash") {
                     let _ = write!(
                         s,
                         "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{color}\"/>",
@@ -2350,6 +2615,42 @@ mod tests {
         .unwrap();
         assert_eq!(scene.diagnostics.len(), 1);
         assert_eq!(scene.nodes[0].w, 84.0);
+    }
+
+    #[test]
+    fn a_row_box_lays_out_icon_and_text_and_a_column_stretches_a_plain_box() {
+        let (g, _) = load();
+        let lit = |v: Value| serde_json::json!({ "value": v });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["row", "bar"],
+                    "props": { "direction": lit("column".into()), "align": lit("start".into()) } },
+                "row": { "kind": "box", "children": ["i", "t"], "props": {
+                    "direction": lit("row".into()), "gap": lit("4".into()),
+                    "paddingInlineStart": lit("6".into()), "paddingInlineEnd": lit("6".into()),
+                    "paddingBlockStart": lit("2".into()), "paddingBlockEnd": lit("2".into()) } },
+                "i": { "kind": "icon", "glyph": "chevron", "props": {
+                    "width": lit("10".into()), "rotation": lit(90.into()) } },
+                "t": { "kind": "text", "props": { "fontSize": lit("10".into()),
+                    "lineHeight": lit("20px".into()), "paddingInlineStart": lit("3".into()) } },
+                "bar": { "kind": "box", "props": { "height": lit("1".into()) } }
+            }
+        });
+        let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+        let n = |id: &str| scene.nodes.iter().find(|n| n.part == id).unwrap();
+        let (r, row, i, t, bar) = (n("r"), n("row"), n("i"), n("t"), n("bar"));
+        let text_w = text_width("Action", 10.0);
+        // 6 + icon 10 + gap 4 + (3 + text) + 6 wide, 2 + 20 + 2 high.
+        assert_eq!((row.w, row.h), (29.0 + text_w, 24.0));
+        assert_eq!((r.w, r.h), (row.w, 25.0));
+        assert_eq!(
+            (i.x - row.x, i.y - row.y, i.rotation),
+            (6.0, 7.0, Some(90.0))
+        );
+        assert_eq!((t.x - row.x, t.y - row.y), (23.0, 2.0));
+        assert_eq!((bar.w, bar.y - row.y), (row.w, 24.0));
     }
 
     #[test]
