@@ -1,0 +1,40 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/pop-up-label-ios.json",
+  "specVersion": "1.0.0-draft",
+  "name": "pop-up-label-ios",
+  "displayName": "Pop-up label (iOS)",
+  "description": "The label view of pop-up style buttons: an optional icon, the text and a trailing chevron (SPPopUpLabel). SPPopUpButton and SPPicker use it; apps can use it in their own pop-up buttons.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://www.figma.com/design/OQExiy8bX0pRqee71eAWX6/S2---iOS?node-id=4559-30703"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string",
+      "description": "SF Symbol or Spectrum icon (SPIconResource)."
+    }
+  },
+  "anatomy": [
+    {
+      "name": "icon",
+      "description": "Optional leading icon."
+    },
+    {
+      "name": "label",
+      "description": "Text.",
+      "required": true
+    },
+    {
+      "name": "chevron",
+      "description": "Trailing up-down chevron.",
+      "required": true
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}
