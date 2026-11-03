@@ -75,6 +75,8 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Text height.** A `text` part is as high as its line box: a `lineHeight` ending in `px` is that height, a unitless `lineHeight` multiplies `fontSize`, and with no `lineHeight` it is 1.3 times `fontSize`. A bound `fontFamily` leads the SVG font stack, so a family the viewer lacks falls back to the default stack.
 
+**Opacity.** Renderers read `opacity` only on the root part. It dims the whole component as one group (SVG `<g opacity>`), so overlapping parts do not show through each other, the way iOS dims a disabled control. On any other part `opacity` is ignored (SPEC-083).
+
 **Height.** A root `box` with no `height` is 32 high, unless the recipe binds `paddingBlockStart` or `paddingBlockEnd`: then its height is the tallest flowed child plus the block padding, and the children sit between the paddings. An explicit `height` always wins and the block padding then only offsets the children.
 
 **NORMATIVE:** A renderer **MUST** clamp a uniform `cornerRadius` that is larger than half the shorter side of its box to that value, on all four corners, so the corner stays circular (like CSS `border-radius`).

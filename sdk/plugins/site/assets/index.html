@@ -958,8 +958,12 @@
           return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>`;
         return "";
       }
-      const sceneSvg = (s, k = 1) =>
-        `<svg width="${s.width * k}" height="${s.height * k}" viewBox="0 0 ${s.width} ${s.height}">${s.nodes.map(nodeSvg).join("")}</svg>`;
+      const dimAttr = (s) =>
+        s.opacity !== undefined ? ` opacity="${s.opacity}"` : "";
+      const sceneSvg = (s, k = 1) => {
+        const body = s.nodes.map(nodeSvg).join("");
+        return `<svg width="${s.width * k}" height="${s.height * k}" viewBox="0 0 ${s.width} ${s.height}">${s.opacity !== undefined ? `<g${dimAttr(s)}>${body}</g>` : body}</svg>`;
+      };
       const node = (s, part) => s.nodes.find((n) => n.part === part);
       const tok = (n, prop) => n?.tokens.find((t) => t.prop === prop);
 
@@ -2058,7 +2062,7 @@
           );
         }
 
-        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
+        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"${dimAttr(s)}><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
       }
 
       // ---- page chrome --------------------------------------------------------
