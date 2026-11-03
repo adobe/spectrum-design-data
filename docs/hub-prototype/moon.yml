@@ -18,6 +18,8 @@ tasks:
     inputs:
       - "build.mjs"
       - "landing.html"
+      - "specs/**/*"
+      - "/tools/component-changelog/src/**/*"
       - "/sdk/**/*.rs"
       - "/sdk/plugins/site/assets/**/*"
       - "/packages/design-data/**/*"
