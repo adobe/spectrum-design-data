@@ -22,10 +22,38 @@ const BLUE = { r: 0.294, g: 0.459, b: 1 };
 const INK = { r: 0.13, g: 0.13, b: 0.13 };
 const GREY = { r: 0.4, g: 0.4, b: 0.4 };
 const WHITE = { r: 1, g: 1, b: 1 };
-const FONTS = ["Regular", "Medium", "Semi Bold"].map((style) => ({
-  family: "Inter",
-  style,
-}));
+// The Spectrum UI font, as the S2 Web file names it (family and styles read from its text nodes).
+// Inter only stands in when Adobe Clean is not available to the Figma user.
+const FAMILY = "Adobe Clean Spectrum VF";
+const STYLES = ["Regular", "Medium", "Bold"];
+let family = FAMILY;
+
+// Scene font weights are names (`bold`, `semi-bold`, `Medium`) or numbers; unknown weights
+// read as Regular.
+const styleFor = (w) => {
+  const n = Number(w);
+  const name = String(w).toLowerCase();
+  if (n >= 600 || /bold|heavy|black/.test(name)) return "Bold";
+  if (n === 500 || name === "medium") return "Medium";
+  return "Regular";
+};
+
+// Returns a warning when Adobe Clean could not be loaded and Inter is used instead, so a wrong
+// family or style name does not pass unnoticed.
+async function loadFonts() {
+  try {
+    family = FAMILY;
+    for (const style of STYLES) await figma.loadFontAsync({ family, style });
+    return null;
+  } catch (e) {
+    family = "Inter";
+    for (const style of STYLES) await figma.loadFontAsync({ family, style });
+    const warning = `${FAMILY} could not be loaded (${e && e.message ? e.message : e}); text is set in Inter.`;
+    console.warn(warning);
+    if (figma.notify) figma.notify(warning, { error: true });
+    return warning;
+  }
+}
 
 figma.showUI(__html__, { width: 420, height: 360 });
 
@@ -66,7 +94,7 @@ const paint = (s) => {
 
 function text(str, size, style, color) {
   const t = figma.createText();
-  t.fontName = { family: "Inter", style: style || "Regular" };
+  t.fontName = { family, style: style || "Regular" };
   t.fontSize = size;
   t.characters = String(str);
   t.fills = [solid(color || INK)];
@@ -134,11 +162,7 @@ function sceneNodes(parent, scene, view) {
       }
       parent.appendChild(r);
     } else if (n.kind === "text") {
-      const t = text(
-        n.text,
-        n.font_size * k,
-        n.font_weight === "bold" ? "Semi Bold" : "Medium",
-      );
+      const t = text(n.text, n.font_size * k, styleFor(n.font_weight));
       t.name = n.part;
       t.fills = paint(n.color);
       t.textAutoResize = "WIDTH_AND_HEIGHT";
@@ -287,7 +311,7 @@ function tokenList(block) {
     counterAxisAlignItems: "CENTER",
   });
   head.name = "Title";
-  head.appendChild(text(block.title, 20, "Semi Bold"));
+  head.appendChild(text(block.title, 20, "Bold"));
   for (const b of block.badges) {
     const p = pill(b, { r: 0.99, g: 0.9, b: 0.66 }, { r: 0.2, g: 0.15, b: 0 });
     p.name = "Badge";
@@ -332,7 +356,7 @@ function tokenList(block) {
 function changelogFrame(changelog, rev8) {
   const f = auto("VERTICAL", { itemSpacing: 8 });
   f.name = "Changelog";
-  f.appendChild(text("Changelog", 32, "Semi Bold"));
+  f.appendChild(text("Changelog", 32, "Bold"));
   const first = changelog.baseline
     ? changelog.baseline.release
     : "first release";
@@ -363,7 +387,7 @@ function changelogFrame(changelog, rev8) {
           " · " +
           rel.date,
         16,
-        "Semi Bold",
+        "Bold",
       ),
     );
     for (const { c, shown } of commits) {
@@ -406,7 +430,7 @@ function changelogFrame(changelog, rev8) {
 }
 
 async function renderSheet(sheet, changelog, pageTitles) {
-  for (const font of FONTS) await figma.loadFontAsync(font);
+  const fontWarning = await loadFonts();
   const rootName = sheet.displayName + " – spec (generated)";
   const page = figma.currentPage;
   const previous = page.findOne((n) => n.name === rootName);
@@ -424,7 +448,15 @@ async function renderSheet(sheet, changelog, pageTitles) {
   root.fills = [solid(WHITE)];
   page.appendChild(root);
   try {
-    return await buildRoot(root, sheet, changelog, pageTitles, rev8, previous);
+    const result = await buildRoot(
+      root,
+      sheet,
+      changelog,
+      pageTitles,
+      rev8,
+      previous,
+    );
+    return { ...result, warning: fontWarning };
   } catch (err) {
     // The old render stays; drop the half-built one.
     root.remove();
@@ -443,7 +475,7 @@ async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
   });
   cover.name = "Cover";
   cover.fills = [solid({ r: 0.96, g: 0.96, b: 0.96 })];
-  cover.appendChild(text(sheet.displayName, 48, "Semi Bold"));
+  cover.appendChild(text(sheet.displayName, 48, "Bold"));
   cover.appendChild(
     text(
       "Spec sheet generated from design-data. Size " +
@@ -466,7 +498,7 @@ async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
   for (const p of pages) {
     const col = auto("VERTICAL", { itemSpacing: 8 });
     col.name = "Spec page – " + p.title;
-    col.appendChild(text(p.title, 32, "Semi Bold"));
+    col.appendChild(text(p.title, 32, "Bold"));
     specs.appendChild(col);
     for (const b of p.blocks) {
       const row = auto("HORIZONTAL", {

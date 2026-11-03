@@ -72,14 +72,18 @@ function node(type) {
   return n;
 }
 
-function mock() {
+function mock(rejectFamily) {
+  const loaded = [];
   const page = node("PAGE");
   const messages = [];
   const figma = {
     currentPage: page,
     showUI() {},
     ui: { onmessage: null, postMessage: (m) => messages.push(m) },
-    loadFontAsync: async () => {},
+    loadFontAsync: async (font) => {
+      if (rejectFamily === font.family) throw new Error("font not available");
+      loaded.push(font.family + " " + font.style);
+    },
     createFrame: () => node("FRAME"),
     createRectangle: () => node("RECTANGLE"),
     createEllipse: () => node("ELLIPSE"),
@@ -97,7 +101,7 @@ function mock() {
     },
   };
   vm.runInNewContext(code, { figma, __html__: "" });
-  return { figma, page, messages };
+  return { figma, page, messages, loaded };
 }
 
 const count = (n, pred) =>
@@ -222,5 +226,58 @@ test("a table-only sheet renders its token rows and says there is no visual", as
   t.is(
     frames.filter((n) => n.characters === "No visual recipe yet").length,
     blocks,
+  );
+});
+
+const textNodes = (n) => [
+  ...(n.type === "TEXT" ? [n] : []),
+  ...n.children.flatMap(textNodes),
+];
+
+test("text is set in Adobe Clean Spectrum VF, with the weight from the scene", async (t) => {
+  const { figma, page, messages, loaded } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
+  t.truthy(messages.find((m) => m.type === "render-complete"));
+  t.deepEqual(loaded, [
+    "Adobe Clean Spectrum VF Regular",
+    "Adobe Clean Spectrum VF Medium",
+    "Adobe Clean Spectrum VF Bold",
+  ]);
+  const texts = textNodes(page.children[0]);
+  t.true(texts.length > 0);
+  t.true(texts.every((n) => n.fontName.family === "Adobe Clean Spectrum VF"));
+  const scene = sheet.pages[0].blocks[0].render.scene;
+  const weight = scene.nodes.find((n) => n.part === "label").font_weight;
+  const label = texts.find((n) => n.name === "label");
+  t.is(label.fontName.style, { bold: "Bold", medium: "Medium" }[weight]);
+});
+
+test("weights read case-insensitively", async (t) => {
+  const { figma, page, messages } = mock();
+  const bold = structuredClone(sheet);
+  for (const p of bold.pages)
+    for (const b of p.blocks)
+      for (const n of b.render.scene.nodes)
+        if (n.kind === "text") n.font_weight = "SemiBold";
+  await figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: bold,
+    pages: ["Layout"],
+  });
+  t.truthy(messages.find((m) => m.type === "render-complete"));
+  t.is(
+    textNodes(page.children[0]).find((n) => n.name === "label").fontName.style,
+    "Bold",
+  );
+});
+
+test("falls back to Inter when Adobe Clean cannot be loaded", async (t) => {
+  const { figma, page, messages } = mock("Adobe Clean Spectrum VF");
+  await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
+  const done = messages.find((m) => m.type === "render-complete");
+  t.truthy(done);
+  t.regex(done.result.warning, /Adobe Clean Spectrum VF could not be loaded/);
+  t.true(
+    textNodes(page.children[0]).every((n) => n.fontName.family === "Inter"),
   );
 });
