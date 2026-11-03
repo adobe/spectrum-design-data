@@ -8,12 +8,5 @@
   "SPEC-069": {
     "badge": 2,
     "button": 4
-  },
-  "SPEC-083": {
-    "action-button": 3,
-    "badge": 3,
-    "button": 3,
-    "checkbox": 2,
-    "switch": 2
   }
 }

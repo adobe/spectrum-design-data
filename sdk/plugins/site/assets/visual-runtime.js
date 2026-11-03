@@ -40,6 +40,21 @@ const lineHeight = (r, fontSize) => {
   return r.value.trim().endsWith("px") ? n : n * fontSize;
 };
 
+// A root layout keyword: the first allowed value is the default when unbound, `center` for
+// `align` and `justify`. Any other value is a diagnostic.
+const layoutKeyword = (cx, name, r, allowed) => {
+  const fallback = name === "direction" ? allowed[0] : "center";
+  if (!r) return fallback;
+  const v = r.value.trim();
+  if (allowed.includes(v)) return v;
+  cx.diags.push(`${name} '${v}' is not one of ${allowed.join(", ")}`);
+  return fallback;
+};
+
+// Offset of a box inside `free` space along an axis for start, center or end.
+const axisOffset = (mode, free) =>
+  mode === "start" ? 0 : mode === "end" ? free : free / 2;
+
 const textWidth = (text, fontSize) =>
   [...text].length * fontSize * AVG_ADVANCE_EM;
 
@@ -255,6 +270,19 @@ export function renderScene(compiled, req) {
   const pressMin = rp(root, "pressMinPerspective");
   const pressMax = rp(root, "pressMaxPerspective");
   const opacityR = rp(root, "opacity");
+  const column =
+    layoutKeyword(cx, "direction", rp(root, "direction"), ["row", "column"]) ===
+    "column";
+  const align = layoutKeyword(cx, "align", rp(root, "align"), [
+    "start",
+    "center",
+    "end",
+  ]);
+  const justify = layoutKeyword(cx, "justify", rp(root, "justify"), [
+    "start",
+    "center",
+    "end",
+  ]);
   for (const [n, r] of [
     ["pressDifference", pressDiff],
     ["pressWidthRatio", pressRatio],
@@ -343,14 +371,18 @@ export function renderScene(compiled, req) {
     flow.push(c);
   }
 
-  const inner =
-    flow.reduce((a, c) => a + c.w, 0) + gap * Math.max(flow.length - 1, 0);
-  const w = pS + inner + pE;
-  // An unset `height` is the tallest flowed child plus the block padding when the recipe
-  // binds any; without block padding it stays the 32 default.
+  const gaps = gap * Math.max(flow.length - 1, 0);
+  const widest = Math.max(0, ...flow.map((c) => c.w));
+  const tallest = Math.max(0, ...flow.map((c) => c.h));
+  const sumW = flow.reduce((a, c) => a + c.w, 0) + gaps;
+  const sumH = flow.reduce((a, c) => a + c.h, 0) + gaps;
+  const w = pS + (column ? widest : sumW) + pE;
+  // An unset `height` is the content plus the block padding: the tallest flowed child in a
+  // row (only when the recipe binds block padding; otherwise the 32 default), or the
+  // stacked children in a column.
   const h =
     num(height) ??
-    (padBS || padBE ? Math.max(0, ...flow.map((c) => c.h)) + pBS + pBE : 32);
+    (column ? sumH + pBS + pBE : padBS || padBE ? tallest + pBS + pBE : 32);
   const ox = RING_MARGIN;
   const oy = RING_MARGIN;
   const toPx = (r) => {
@@ -385,10 +417,13 @@ export function renderScene(compiled, req) {
     const v = num(r);
     return v === undefined ? 0 : v * (r.relativeTo === "height" ? basis : 1);
   };
-  let x = ox + pS;
+  const x = ox + pS;
+  let main = column ? oy + pBS + axisOffset(justify, h - pBS - pBE - sumH) : x;
   for (const c of flow) {
-    const cx0 = x;
-    const cy0 = oy + pBS + (h - pBS - pBE - c.h) / 2;
+    const cx0 = column ? x + axisOffset(align, w - pS - pE - c.w) : main;
+    const cy0 = column
+      ? main
+      : oy + pBS + axisOffset(align, h - pBS - pBE - c.h);
     nodes.push(
       node(c.id, c.kind, cx0, cy0, c.w, c.h, {
         fill: c.fill,
@@ -403,7 +438,7 @@ export function renderScene(compiled, req) {
         tokens: c.tokens,
       }),
     );
-    x += c.w + gap;
+    main += (column ? c.h : c.w) + gap;
 
     // A box's children sit inside it: centered across, and at the start, center or end
     // along the inline axis. The inset equals the cross-axis gap.
