@@ -3,7 +3,7 @@
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch-ios.json",
   "specVersion": "1.0.0-draft",
   "name": "switch-ios",
-  "displayName": "Switch (iOS)",
+  "displayName": "Switch",
   "description": "A switch in a list row (SPSwitchRow): the label leads and the native iOS switch trails, tinted with the accent color when on. The row hugs its content here; in a list it fills the row width.",
   "meta": {
     "category": "inputs",
