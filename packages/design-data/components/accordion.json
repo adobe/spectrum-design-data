@@ -62,6 +62,11 @@
     },
     "isQuiet": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
+    "isOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered accordion item is expanded. Drives the chevron direction and the content area. Per-item expansion in a data-driven accordion is items[].isExpanded."
+    },
     "density": {
       "type": "string",
       "default": "regular",
@@ -110,6 +115,38 @@
       "description": "If true, multiple accordion items can be expanded at the same time."
     }
   },
+  "anatomy": [
+    {
+      "name": "item",
+      "description": "One accordion item: a header, the content area while open, and the divider below.",
+      "required": true,
+      "contains": ["header", "content", "divider"]
+    },
+    {
+      "name": "header",
+      "description": "Row holding the disclosure icon and the title. It is the interactive heading.",
+      "required": true,
+      "contains": ["disclosure-icon", "title"]
+    },
+    {
+      "name": "disclosure-icon",
+      "description": "Chevron at the start of the header. It points to the end while the item is closed and down while it is open.",
+      "required": true
+    },
+    {
+      "name": "title",
+      "description": "Text label of the item. It wraps when it exceeds the available width.",
+      "required": true
+    },
+    {
+      "name": "content",
+      "description": "Area below the header holding the item's content. Shown only while the item is open (isOpen)."
+    },
+    {
+      "name": "divider",
+      "description": "One-pixel line below the item. Absent when the accordion is quiet (isQuiet)."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
