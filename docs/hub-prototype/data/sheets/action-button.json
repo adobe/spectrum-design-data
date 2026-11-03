@@ -710,8 +710,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -1417,8 +1417,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -1764,8 +1764,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -2217,8 +2217,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -2568,8 +2568,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -3242,8 +3242,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -3546,8 +3546,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -3881,8 +3881,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -4220,8 +4220,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -4477,7 +4477,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "font-family-sans-serif"
+                      "alias": "sans-serif-font-family"
                     }
                   }
                 },
@@ -5045,7 +5045,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 },
@@ -5060,7 +5060,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -5075,7 +5075,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -5090,7 +5090,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 }
@@ -5138,7 +5138,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-100"
+                      "alias": "gray-100"
                     }
                   }
                 }
@@ -5162,7 +5162,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-100"
+                      "alias": "gray-100"
                     }
                   }
                 }
@@ -5186,7 +5186,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-100"
+                      "alias": "gray-100"
                     }
                   }
                 }
@@ -5212,7 +5212,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-900-accent"
+                      "alias": "accent-color-900"
                     }
                   }
                 },
@@ -5227,7 +5227,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 },
@@ -5242,7 +5242,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 },
@@ -5257,7 +5257,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 }
@@ -5379,8 +5379,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -5618,7 +5618,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -5679,8 +5679,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -5928,7 +5928,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 },
@@ -5943,7 +5943,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -5958,7 +5958,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -5973,7 +5973,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 }
@@ -6276,8 +6276,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -6525,7 +6525,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-900-accent"
+                      "alias": "accent-color-900"
                     }
                   }
                 },
@@ -6540,7 +6540,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 },
@@ -6555,7 +6555,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 },
@@ -6570,7 +6570,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 }
@@ -6622,8 +6622,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -7135,7 +7135,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-100"
+                      "alias": "gray-100"
                     }
                   }
                 }
@@ -7401,7 +7401,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-400"
+                      "alias": "gray-400"
                     }
                   }
                 }
@@ -7685,7 +7685,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-blue-800"
+                      "alias": "blue-800"
                     }
                   }
                 }
@@ -7719,8 +7719,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -8237,7 +8237,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-transparent-white-100"
+                      "alias": "transparent-white-100"
                     }
                   }
                 },
@@ -8522,7 +8522,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-transparent-white-400"
+                      "alias": "transparent-white-400"
                     }
                   }
                 }
@@ -8806,7 +8806,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-white"
+                      "alias": "white"
                     }
                   }
                 }
@@ -8833,8 +8833,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -9082,7 +9082,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-transparent-black-100"
+                      "alias": "transparent-black-100"
                     }
                   }
                 },
@@ -9128,8 +9128,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -9367,7 +9367,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-transparent-black-400"
+                      "alias": "transparent-black-400"
                     }
                   }
                 }
@@ -9651,7 +9651,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-black"
+                      "alias": "black"
                     }
                   }
                 }
@@ -9935,7 +9935,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 },
@@ -9950,7 +9950,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -9965,7 +9965,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -9980,7 +9980,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 }
@@ -10052,7 +10052,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-400"
+                      "alias": "gray-400"
                     }
                   }
                 }
@@ -10118,8 +10118,8 @@
                 "isSelected": false
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -10380,7 +10380,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 },
@@ -10395,7 +10395,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -10410,7 +10410,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-900"
+                      "alias": "gray-900"
                     }
                   }
                 },
@@ -10425,7 +10425,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 }
@@ -10500,7 +10500,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-400"
+                      "alias": "gray-400"
                     }
                   }
                 }
@@ -10571,8 +10571,8 @@
                 "isSelected": false
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -10850,7 +10850,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-800"
+                      "alias": "gray-800"
                     }
                   }
                 }
@@ -10925,7 +10925,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-gray-400"
+                      "alias": "gray-400"
                     }
                   }
                 }
@@ -11482,7 +11482,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-900-accent"
+                      "alias": "accent-color-900"
                     }
                   }
                 }
@@ -11900,7 +11900,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-900-accent"
+                      "alias": "accent-color-900"
                     }
                   }
                 },
@@ -11941,7 +11941,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 }
@@ -12411,8 +12411,8 @@
                 "staticColor": "white"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -12773,8 +12773,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -13154,7 +13154,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-900-accent"
+                      "alias": "accent-color-900"
                     }
                   }
                 },
@@ -13195,7 +13195,7 @@
                   },
                   "values": {
                     "value": {
-                      "alias": "color-1000-accent"
+                      "alias": "accent-color-1000"
                     }
                   }
                 }
@@ -13322,8 +13322,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -13665,8 +13665,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
