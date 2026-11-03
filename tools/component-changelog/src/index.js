@@ -1,7 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import { diffSnapshots } from "./diff.js";
-import { resolveCommit, revisions, snapshotAt, sourceOf } from "./git.js";
+import {
+  datasetRevision,
+  resolveCommit,
+  revisions,
+  snapshotAt,
+  sourceOf,
+} from "./git.js";
 
 export {
   classify,
@@ -42,6 +48,7 @@ export function generateChangelog({
   }
   return {
     component,
+    datasetRevision: datasetRevision(head, { cwd, root }),
     from: { ref: from, commit: base },
     to: { ref: to, commit: head },
     revisions: out,

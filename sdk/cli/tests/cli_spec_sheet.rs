@@ -61,6 +61,8 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
     let items = height["rows"][0]["items"].as_array().unwrap();
     assert_eq!(items.len(), 5);
     assert_eq!(items[0]["label"], "Extra Small");
+    assert_eq!(items[0]["marker"], 1);
+    assert_eq!(height["render"]["markers"][0]["n"], 1);
     assert_eq!(items[0]["token"]["name"], "component-height-50");
     assert_eq!(items[0]["values"]["desktop"], "20px");
     let scene = &height["render"]["scene"];
