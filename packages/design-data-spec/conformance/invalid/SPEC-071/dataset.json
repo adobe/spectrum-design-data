@@ -42,7 +42,8 @@
         "property": "color"
       },
       "context": "Control",
-      "$ref": "aaaaaaaa-0071-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0071-4000-8000-000000000001",
+      "uuid": "019a8d9c-05b2-5271-b34a-529177a2d212"
     },
     {
       "scope": {
@@ -50,7 +51,8 @@
         "property": "size"
       },
       "context": "Track",
-      "$ref": "aaaaaaaa-0071-4000-8000-000000000002"
+      "$ref": "aaaaaaaa-0071-4000-8000-000000000002",
+      "uuid": "88936f8a-6479-5db6-bd63-13edcc6ae0f6"
     }
   ],
   "visuals": [

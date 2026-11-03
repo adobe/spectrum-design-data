@@ -51,7 +51,8 @@ impl ValidationRule for Rule {
         let mut counterparts: Option<HashMap<String, Vec<(String, String)>>> = None;
 
         for rel in &ctx.graph.relationships {
-            if rel.uuid.is_some() {
+            // `legacyKey` marks a value-owning CTR; a `uuid` no longer does (SPEC-084).
+            if rel.raw.get("legacyKey").is_some() {
                 continue;
             }
             let Some(target) = rel.raw.get("$ref").and_then(Value::as_str) else {

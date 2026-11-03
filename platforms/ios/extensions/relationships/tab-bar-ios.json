@@ -5,6 +5,7 @@
       "property": "background-color"
     },
     "context": "Selected tab background",
-    "$ref": "736e4768-7944-40ec-a412-4cd36299e03d"
+    "$ref": "736e4768-7944-40ec-a412-4cd36299e03d",
+    "uuid": "de4016f5-9383-556e-8c8d-7e9aa6ee5201"
   }
 ]

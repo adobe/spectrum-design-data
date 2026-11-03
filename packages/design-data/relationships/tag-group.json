@@ -5,7 +5,8 @@
       "property": "spacing"
     },
     "context": "Spacing (vertical)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "af20f2bb-df1c-5320-9218-f8aa39ab1d9a"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "spacing"
     },
     "context": "Spacing (vertical)",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "e6a160ad-5af5-5b83-8017-d3f4f134982d"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "to-component"
     },
     "context": "Spacing (Field label to Tags)",
-    "$ref": "4738ec46-a43c-48f9-aeca-87863275dc4d"
+    "$ref": "4738ec46-a43c-48f9-aeca-87863275dc4d",
+    "uuid": "f610b299-2bad-5f32-9113-91b1a4f76014"
   },
   {
     "scope": {
@@ -29,6 +32,7 @@
       "property": "to-component"
     },
     "context": "Spacing (Text area to Help text)",
-    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
+    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
+    "uuid": "a5e1ed44-3aa9-5723-8934-47d01107e606"
   }
 ]

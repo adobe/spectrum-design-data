@@ -5,7 +5,8 @@
       "property": "spacing"
     },
     "context": "Spacing (horizontal, regular)",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "bb396a5c-8c22-5ee3-9d24-b27b07054a5a"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "spacing"
     },
     "context": "Spacing (horizontal, regular)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "7fe5c978-a252-502a-a4db-8ad34faf70c0"
   },
   {
     "scope": {
@@ -21,6 +23,7 @@
       "property": "spacing"
     },
     "context": "Spacing (horizontal, compact)",
-    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104"
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "uuid": "ebaccad6-94d5-5dd0-bf4c-e127e74149f5"
   }
 ]
