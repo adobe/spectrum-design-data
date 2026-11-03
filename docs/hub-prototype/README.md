@@ -56,3 +56,7 @@ The output is `index.html`, `backend.js`, `constraints.js`, `visual-runtime.js`,
 ## Navigating the stage
 
 The stage is a viewport onto the rendered component. It opens fitted to the visible area. Scroll to pan, pinch or Ctrl/Cmd+scroll to zoom at the pointer, and drag empty space to pan. The bar in the corner has zoom out, the current level (click for actual size), zoom in, Fit and Full screen. With the stage focused: `+` and `-` zoom, `1` is actual size, `0` fits, `F` toggles full screen, arrow keys pan, and Escape leaves full screen. Anatomy and specs labels keep one size at any zoom: compact (10px) by default, and the Aa button (or `L`) switches to large labels (14px), a choice the page remembers. The label colors meet WCAG contrast at either size.
+
+## Spec sheet and changelog (draft)
+
+`build.mjs` also generates `data/changelog/<component>.json` (`tools/component-changelog`) and `data/sheets/<component>.json` (`design-data spec-sheet`), commits-for-review, and copies `specs/` to `dist/specs/`. The page draws each block's visual from the scene in the sheet JSON (`visual-runtime.js` `renderSvg`, plus dimension bars from `scene.measurements`) and lists token rows, "Values updated" badges and the changelog frame. It does no layout of its own. Open `/specs/?page=Layout` (or `Color`).

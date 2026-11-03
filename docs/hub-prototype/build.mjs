@@ -12,7 +12,13 @@
 // landing page. To add a platform, add one entry here.
 
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  cpSync,
+  mkdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -48,3 +54,29 @@ writeFileSync(
   JSON.stringify(platforms, null, 2) + "\n",
 );
 copyFileSync(join(here, "landing.html"), join(dist, "index.html"));
+
+// Generated spec sheet and changelog (draft): data/ is committed for review, dist/specs/ is
+// the page that draws it. Regenerated from the current checkout on every build.
+const components = ["action-button"];
+const data = join(here, "data");
+mkdirSync(join(data, "changelog"), { recursive: true });
+mkdirSync(join(data, "sheets"), { recursive: true });
+for (const c of components) {
+  const changelog = join(data, "changelog", `${c}.json`);
+  run(
+    "node",
+    [join(root, "tools/component-changelog/src/cli.js"), c, "--out", changelog],
+    root,
+  );
+  run(
+    cli,
+    ["spec-sheet", c, "--changelog", changelog, "-o", join(data, "sheets", `${c}.json`)],
+    root,
+  );
+}
+cpSync(join(here, "specs"), join(dist, "specs"), { recursive: true });
+cpSync(data, join(dist, "specs/data"), { recursive: true });
+copyFileSync(
+  join(root, "sdk/plugins/site/assets/visual-runtime.js"),
+  join(dist, "specs/visual-runtime.js"),
+);

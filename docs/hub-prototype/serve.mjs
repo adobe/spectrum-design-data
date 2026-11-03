@@ -21,6 +21,7 @@ const port = Number(process.env.PORT ?? 4173);
 const types = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript",
+  ".css": "text/css; charset=utf-8",
   ".json": "application/json",
   ".wasm": "application/wasm",
 };
