@@ -18,6 +18,7 @@ mod authoring;
 mod data;
 mod format;
 mod lifecycle;
+mod spec_sheet;
 
 use std::collections::{HashMap, HashSet};
 
@@ -252,6 +253,24 @@ enum Commands {
         /// Output format: `svg` or `scene` (resolved scene graph as JSON)
         #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
         format: String,
+        /// Write output here instead of stdout
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
+    },
+    /// Generate the spec-sheet model (draft) for a component: pages of blocks with scenes and token rows
+    SpecSheet {
+        /// Component name (e.g. action-button)
+        #[arg(value_name = "COMPONENT")]
+        component: String,
+        /// Size key the block visuals render at
+        #[arg(long, default_value = "m")]
+        size: String,
+        /// Changelog JSON whose entries mark blocks as changed
+        #[arg(long, value_name = "FILE")]
+        changelog: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
@@ -4053,6 +4072,13 @@ fn main() -> ExitCode {
             format,
             output,
         ),
+        Commands::SpecSheet {
+            component,
+            size,
+            changelog,
+            path,
+            output,
+        } => spec_sheet::run(component, size, changelog, path, output),
         Commands::Resolve {
             property,
             path,
