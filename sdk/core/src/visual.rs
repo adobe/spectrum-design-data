@@ -158,6 +158,24 @@ pub struct TokenRef {
     pub chain: Vec<String>,
 }
 
+/// A dimension the layout used (height, padding, gap, radius), with the span it covers and the
+/// token it came from. Overlay backends draw dimension lines from these; recipes author none.
+#[derive(Debug, Clone, Serialize)]
+pub struct Measurement {
+    /// `height`, `padding`, `gap` or `radius`.
+    pub kind: String,
+    /// Part the span belongs to.
+    pub part: String,
+    /// Recipe prop that carried the value (`paddingInlineStart`, `gap`, ...).
+    pub prop: String,
+    /// The measured span: a bar of this rect, or the corner square for a radius.
+    pub x: f64,
+    pub y: f64,
+    pub w: f64,
+    pub h: f64,
+    pub token: TokenRef,
+}
+
 #[derive(Debug, Clone, Serialize)]
 pub struct SceneNode {
     pub part: String,
@@ -200,6 +218,9 @@ pub struct Scene {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub opacity: Option<f64>,
     pub nodes: Vec<SceneNode>,
+    /// Token-bound dimensions of the layout; empty when none of them is token-bound.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub measurements: Vec<Measurement>,
     pub diagnostics: Vec<String>,
 }
 
@@ -1415,17 +1436,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
 
     let mut container_tokens = Vec::new();
+    let token_ref = |prop: &str, r: &Option<Resolved>| -> Option<TokenRef> {
+        r.as_ref()
+            .filter(|r| !r.token.is_empty())
+            .map(|r| TokenRef {
+                prop: prop.into(),
+                token: r.token.clone(),
+                value: r.value.clone(),
+                chain: r.chain.clone(),
+            })
+    };
     let track = |tokens: &mut Vec<TokenRef>, prop: &str, r: &Option<Resolved>| {
-        if let Some(r) = r {
-            if !r.token.is_empty() {
-                tokens.push(TokenRef {
-                    prop: prop.into(),
-                    token: r.token.clone(),
-                    value: r.value.clone(),
-                    chain: r.chain.clone(),
-                });
-            }
-        }
+        tokens.extend(token_ref(prop, r));
     };
 
     let height = rp(&mut cx, root, "height");
@@ -1463,6 +1485,16 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     ] {
         track(&mut container_tokens, n, r);
     }
+    let [m_height, m_pad_s, m_pad_e, m_pad_bs, m_pad_be, m_gap, m_radius] = [
+        ("height", &height),
+        ("paddingInlineStart", &pad_s),
+        ("paddingInlineEnd", &pad_e),
+        ("paddingBlockStart", &pad_bs),
+        ("paddingBlockEnd", &pad_be),
+        ("gap", &gap),
+        ("cornerRadius", &radius),
+    ]
+    .map(|(n, r)| token_ref(n, r));
     let explicit_h = height.as_ref().and_then(Resolved::num);
     let block_padded = pad_bs.is_some() || pad_be.is_some();
     let pad_bs = pad_bs.as_ref().and_then(Resolved::num).unwrap_or(0.0);
@@ -1888,6 +1920,34 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         tokens: container_tokens,
     }];
 
+    let mut measurements = Vec::new();
+    {
+        let mut add = |kind: &str, t: Option<TokenRef>, (x, y, w, h): (f64, f64, f64, f64)| {
+            // A padding that resolves to 0 has no span to draw.
+            if kind == "padding" && (w <= 0.0 || h <= 0.0) {
+                return;
+            }
+            if let Some(token) = t {
+                measurements.push(Measurement {
+                    kind: kind.into(),
+                    part: root_id.into(),
+                    prop: token.prop.clone(),
+                    x,
+                    y,
+                    w,
+                    h,
+                    token,
+                });
+            }
+        };
+        add("height", m_height, (ox, oy, w, h));
+        add("padding", m_pad_s, (ox, oy, pad_s, h));
+        add("padding", m_pad_e, (ox + w - pad_e, oy, pad_e, h));
+        add("padding", m_pad_bs, (ox, oy, w, pad_bs));
+        add("padding", m_pad_be, (ox, oy + h - pad_be, w, pad_be));
+        add("radius", m_radius, (ox, oy, root_radius, root_radius));
+    }
+
     let px = |r: &Option<Resolved>, basis: f64| -> f64 {
         r.as_ref()
             .and_then(|r| {
@@ -1906,6 +1966,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         } else {
             0.0
         };
+    let mut gap_from: Option<f64> = None;
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
         let cw = if column && c.kind == "box" && c.w == 0.0 {
@@ -1922,6 +1983,26 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             )
         };
         let ch = c.h;
+        if let Some(from) = gap_from {
+            if let Some(token) = m_gap.clone() {
+                let span = if column {
+                    (cx0, from, cw, gap)
+                } else {
+                    (from, cy0, gap, ch)
+                };
+                measurements.push(Measurement {
+                    kind: "gap".into(),
+                    part: c.id.clone(),
+                    prop: token.prop.clone(),
+                    x: span.0,
+                    y: span.1,
+                    w: span.2,
+                    h: span.3,
+                    token,
+                });
+            }
+        }
+        gap_from = Some(if column { cy0 + ch } else { cx0 + cw });
         let row = c.row.take();
         let nested_ids: Vec<String> = parts
             .get(&c.id)
@@ -2183,6 +2264,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         width: w + 2.0 * RING_MARGIN,
         height: h + 2.0 * RING_MARGIN,
         press,
+        measurements,
         opacity: opacity.as_ref().and_then(Resolved::num),
         nodes,
         diagnostics: cx.diags,
@@ -2670,6 +2752,36 @@ mod tests {
             c.fill
         );
         assert!(scene.nodes.iter().all(|n| n.kind != "ring"));
+    }
+
+    #[test]
+    fn measurements_record_each_dimension_with_its_token() {
+        let (g, recipe) = load();
+        let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
+        let c = &scene.nodes[0];
+        let find = |prop: &str| {
+            scene
+                .measurements
+                .iter()
+                .find(|m| m.prop == prop)
+                .unwrap_or_else(|| panic!("no measurement for {prop}"))
+        };
+        let height = find("height");
+        assert_eq!(
+            (height.kind.as_str(), height.h, height.w),
+            ("height", c.h, c.w)
+        );
+        assert!(height.token.token.starts_with("component-height"));
+        let pad = find("paddingInlineStart");
+        assert_eq!((pad.kind.as_str(), pad.x, pad.w), ("padding", c.x, 12.0));
+        let gap = find("gap");
+        let icon = scene.nodes.iter().find(|n| n.part == "icon").unwrap();
+        assert_eq!(
+            (gap.kind.as_str(), gap.x, gap.w),
+            ("gap", icon.x + icon.w, 6.0)
+        );
+        assert!(!gap.token.token.is_empty());
+        assert_eq!(find("cornerRadius").kind, "radius");
     }
 
     #[test]
