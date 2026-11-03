@@ -107,6 +107,10 @@ function tokens(block) {
   return `<div class="tokens">${h}${block.notes.map((n) => `<p>${esc(n)}</p>`).join("")}</div>`;
 }
 
+// A sheet built without a changelog has no dataset revision.
+const rev8 = (d) =>
+  d.datasetRevision ? d.datasetRevision.slice(0, 8) : "unknown";
+
 const HIDDEN = new Set(["metadata"]);
 const shown = (r) => r.entries.filter((e) => !HIDDEN.has(e.class));
 
@@ -139,7 +143,7 @@ function renderChangelog() {
     })
     .join("");
   document.getElementById("changelog").innerHTML =
-    `<h2 id="changelog-h">Changelog</h2><p>${esc(changelog.from.ref)} → dataset ${esc(changelog.datasetRevision.slice(0, 8))}</p>${rows}`;
+    `<h2 id="changelog-h">Changelog</h2><p>${esc(changelog.from.ref)} → dataset ${esc(rev8(changelog))}</p>${rows}`;
 }
 
 function renderPage(title) {
@@ -157,7 +161,7 @@ function renderPage(title) {
 }
 
 document.getElementById("title").textContent =
-  `${sheet.displayName} spec sheet (generated, dataset ${sheet.datasetRevision.slice(0, 8)})`;
+  `${sheet.displayName} spec sheet (generated, dataset ${rev8(sheet)})`;
 document.getElementById("pages").innerHTML = sheet.pages
   .map((p) => `<button>${esc(p.title)}</button>`)
   .join("");

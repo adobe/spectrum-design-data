@@ -29,8 +29,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -479,8 +479,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -1340,7 +1340,9 @@
               "component": "action-button",
               "size": "m",
               "states": [],
-              "options": {},
+              "options": {
+                "isPending": false
+              },
               "mode": {
                 "scale": "desktop",
                 "colorScheme": "light"
@@ -2828,15 +2830,17 @@
           "title": "Spacing (start/end edges, icon only)",
           "render": {
             "view": {
-              "scale": 2.9106029106029103,
-              "x": 100.0,
-              "y": 110.14553014553016
+              "scale": 4.166666666666667,
+              "x": 140.0,
+              "y": 80.0
             },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
-              "options": {},
+              "options": {
+                "hideLabel": true
+              },
               "mode": {
                 "colorScheme": "light",
                 "scale": "desktop"
@@ -2844,7 +2848,7 @@
             },
             "scene": {
               "component": "action-button",
-              "width": 96.2,
+              "width": 48.0,
               "height": 48.0,
               "press": null,
               "nodes": [
@@ -2853,7 +2857,7 @@
                   "kind": "box",
                   "x": 8.0,
                   "y": 8.0,
-                  "w": 80.2,
+                  "w": 32.0,
                   "h": 32.0,
                   "fill": "rgb(233, 233, 233)",
                   "stroke": null,
@@ -2878,24 +2882,24 @@
                     },
                     {
                       "prop": "paddingInlineStart",
-                      "token": "base-padding-horizontal-medium",
-                      "value": "12px",
+                      "token": "base-padding-vertical-medium",
+                      "value": "7px",
                       "chain": [],
                       "relationship": {
-                        "uuid": "a3c3c14e-7334-551b-92cc-db34c51f2d41",
-                        "context": "Spacing (start/end edges)",
-                        "property": "component-edge-to-visual-100"
+                        "uuid": "11db8654-7bf7-5221-962b-459d3f3e61e1",
+                        "context": "Spacing (start/end edges, icon only)",
+                        "property": "component-edge-to-visual-only-100"
                       }
                     },
                     {
                       "prop": "paddingInlineEnd",
-                      "token": "base-padding-horizontal-medium",
-                      "value": "12px",
+                      "token": "base-padding-vertical-medium",
+                      "value": "7px",
                       "chain": [],
                       "relationship": {
-                        "uuid": "a3c3c14e-7334-551b-92cc-db34c51f2d41",
-                        "context": "Spacing (start/end edges)",
-                        "property": "component-edge-to-visual-100"
+                        "uuid": "11db8654-7bf7-5221-962b-459d3f3e61e1",
+                        "context": "Spacing (start/end edges, icon only)",
+                        "property": "component-edge-to-visual-only-100"
                       }
                     },
                     {
@@ -2936,7 +2940,7 @@
                 {
                   "part": "icon",
                   "kind": "icon",
-                  "x": 20.0,
+                  "x": 15.0,
                   "y": 15.0,
                   "w": 18.0,
                   "h": 18.0,
@@ -2974,58 +2978,6 @@
                       "chain": []
                     }
                   ]
-                },
-                {
-                  "part": "label",
-                  "kind": "text",
-                  "x": 44.0,
-                  "y": 14.9,
-                  "w": 32.2,
-                  "h": 18.2,
-                  "fill": null,
-                  "stroke": null,
-                  "stroke_width": 0.0,
-                  "radius": 0.0,
-                  "radii": null,
-                  "text": "Label",
-                  "font_size": 14.0,
-                  "font_weight": "medium",
-                  "color": "rgb(41, 41, 41)",
-                  "tokens": [
-                    {
-                      "prop": "color",
-                      "token": "neutral-content-color-default",
-                      "value": "rgb(41, 41, 41)",
-                      "chain": ["color-gray-800-light"],
-                      "relationship": {
-                        "uuid": "2291dfdb-e7c9-57e2-bd49-219a31a90b4b",
-                        "context": "Label",
-                        "property": "color"
-                      }
-                    },
-                    {
-                      "prop": "fontSize",
-                      "token": "font-size-100",
-                      "value": "14px",
-                      "chain": [],
-                      "relationship": {
-                        "uuid": "509841f8-13fc-5a16-909c-0437171960a1",
-                        "context": "Label",
-                        "property": "font-size-100"
-                      }
-                    },
-                    {
-                      "prop": "fontWeight",
-                      "token": "medium-font-weight",
-                      "value": "medium",
-                      "chain": [],
-                      "relationship": {
-                        "uuid": "26795ff5-1c5f-55f0-90e4-52a52be144d5",
-                        "context": "Label",
-                        "property": "font-weight"
-                      }
-                    }
-                  ]
                 }
               ],
               "measurements": [
@@ -3035,7 +2987,7 @@
                   "prop": "height",
                   "x": 8.0,
                   "y": 8.0,
-                  "w": 80.2,
+                  "w": 32.0,
                   "h": 32.0,
                   "token": {
                     "prop": "height",
@@ -3055,17 +3007,17 @@
                   "prop": "paddingInlineStart",
                   "x": 8.0,
                   "y": 8.0,
-                  "w": 12.0,
+                  "w": 7.0,
                   "h": 32.0,
                   "token": {
                     "prop": "paddingInlineStart",
-                    "token": "base-padding-horizontal-medium",
-                    "value": "12px",
+                    "token": "base-padding-vertical-medium",
+                    "value": "7px",
                     "chain": [],
                     "relationship": {
-                      "uuid": "a3c3c14e-7334-551b-92cc-db34c51f2d41",
-                      "context": "Spacing (start/end edges)",
-                      "property": "component-edge-to-visual-100"
+                      "uuid": "11db8654-7bf7-5221-962b-459d3f3e61e1",
+                      "context": "Spacing (start/end edges, icon only)",
+                      "property": "component-edge-to-visual-only-100"
                     }
                   }
                 },
@@ -3073,19 +3025,19 @@
                   "kind": "padding",
                   "part": "container",
                   "prop": "paddingInlineEnd",
-                  "x": 76.2,
+                  "x": 33.0,
                   "y": 8.0,
-                  "w": 12.0,
+                  "w": 7.0,
                   "h": 32.0,
                   "token": {
                     "prop": "paddingInlineEnd",
-                    "token": "base-padding-horizontal-medium",
-                    "value": "12px",
+                    "token": "base-padding-vertical-medium",
+                    "value": "7px",
                     "chain": [],
                     "relationship": {
-                      "uuid": "a3c3c14e-7334-551b-92cc-db34c51f2d41",
-                      "context": "Spacing (start/end edges)",
-                      "property": "component-edge-to-visual-100"
+                      "uuid": "11db8654-7bf7-5221-962b-459d3f3e61e1",
+                      "context": "Spacing (start/end edges, icon only)",
+                      "property": "component-edge-to-visual-only-100"
                     }
                   }
                 },
@@ -3108,26 +3060,6 @@
                       "property": "corner-radius"
                     }
                   }
-                },
-                {
-                  "kind": "gap",
-                  "part": "label",
-                  "prop": "gap",
-                  "x": 38.0,
-                  "y": 14.9,
-                  "w": 6.0,
-                  "h": 18.2,
-                  "token": {
-                    "prop": "gap",
-                    "token": "base-gap-medium",
-                    "value": "6px",
-                    "chain": [],
-                    "relationship": {
-                      "uuid": "55317d62-3f71-5cc8-83ce-bb75c884cad6",
-                      "context": "Spacing (icon to label)",
-                      "property": "space-between"
-                    }
-                  }
                 }
               ],
               "diagnostics": []
@@ -3142,7 +3074,22 @@
                 "prop": "paddingInlineEnd"
               }
             ],
-            "measurements": [],
+            "measurements": [
+              {
+                "index": 1,
+                "prop": "paddingInlineStart",
+                "kind": "padding",
+                "label": "component-edge-to-visual-only-100",
+                "relationship": "11db8654-7bf7-5221-962b-459d3f3e61e1"
+              },
+              {
+                "index": 2,
+                "prop": "paddingInlineEnd",
+                "kind": "padding",
+                "label": "component-edge-to-visual-only-100",
+                "relationship": "11db8654-7bf7-5221-962b-459d3f3e61e1"
+              }
+            ],
             "markers": [
               {
                 "n": 1,
@@ -3701,8 +3648,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -4128,8 +4075,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -4517,8 +4464,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -4938,7 +4885,10 @@
               "component": "action-button",
               "size": "m",
               "states": [],
-              "options": {},
+              "options": {
+                "hideLabel": false,
+                "isPending": false
+              },
               "mode": {
                 "colorScheme": "light",
                 "scale": "desktop"
@@ -5382,10 +5332,13 @@
               "component": "action-button",
               "size": "m",
               "states": [],
-              "options": {},
+              "options": {
+                "hideLabel": false,
+                "isPending": false
+              },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -5932,10 +5885,12 @@
               "component": "action-button",
               "size": "m",
               "states": [],
-              "options": {},
+              "options": {
+                "isQuiet": false
+              },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -7639,8 +7594,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -7994,8 +7949,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -8431,8 +8386,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -8782,8 +8737,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -9134,8 +9089,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -10202,8 +10157,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -10923,8 +10878,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -11283,8 +11238,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -11657,8 +11612,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -12004,8 +11959,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -12368,8 +12323,8 @@
                 "isSelected": false
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -13466,8 +13421,8 @@
                 "isSelected": false
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -14298,8 +14253,8 @@
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -14657,11 +14612,12 @@
                 "isDisabled": false,
                 "isPending": false,
                 "isSelected": false,
-                "staticColor": "white"
+                "staticColor": "white",
+                "isQuiet": false
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -15370,8 +15326,8 @@
                 "staticColor": "white"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -15812,8 +15768,8 @@
                 "staticColor": "white"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -16275,11 +16231,12 @@
                 "isDisabled": false,
                 "isPending": false,
                 "isSelected": false,
-                "staticColor": "black"
+                "staticColor": "black",
+                "isQuiet": false
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -16988,8 +16945,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -17430,8 +17387,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
