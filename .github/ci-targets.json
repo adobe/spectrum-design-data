@@ -20,6 +20,7 @@
     "design-data:validate-guidelines",
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
+    "root:test-component-content-changes",
     "figma-spec-plugin:check",
     "figma-spec-plugin:test"
   ],
