@@ -437,10 +437,6 @@ impl Ctx<'_> {
     }
 
     fn row_items(&self, recs: &[&Value], sizes: &BTreeMap<String, String>) -> Vec<Item> {
-        let distinct: BTreeSet<&str> = recs
-            .iter()
-            .filter_map(|r| r.get("scope").and_then(|c| s(c, "property")))
-            .collect();
         let mut items: Vec<Item> = Vec::new();
         for r in recs {
             let scope = r.get("scope").unwrap_or(&Value::Null);
@@ -464,11 +460,7 @@ impl Ctx<'_> {
                 .cloned()
                 .or_else(|| tok.get("name").and_then(|n| s(n, "size")).map(String::from));
             // One property per size names the token; a shared property needs the token's own name.
-            let name = if distinct.len() > 1 {
-                prop.to_string()
-            } else {
-                token_name(tok, prop)
-            };
+            let name = token_name(tok, prop);
             let scale = tok
                 .get("name")
                 .and_then(|n| s(n, "scale").or_else(|| s(n, "colorScheme")))
@@ -491,7 +483,11 @@ impl Ctx<'_> {
                 json!({"alias": target.map(|t| token_name(t, prop))})
             });
             if let Some(it) = items.iter_mut().find(|i| {
-                i.size == size && i.states == states && i.name == name && i.concept == concept
+                i.size == size
+                    && i.states == states
+                    && i.name == name
+                    && i.concept == concept
+                    && i.property == prop
             }) {
                 it.values.insert(scale, value);
                 it.records += 1;
