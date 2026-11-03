@@ -225,6 +225,9 @@ struct Resolved {
     chain: Vec<String>,
 }
 
+/// A candidate token with the options and states its relationship pins.
+type RankedCandidate<'g> = (&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>));
+
 impl Resolved {
     fn num(&self) -> Option<f64> {
         let s = self.value.trim();
@@ -477,10 +480,7 @@ impl<'a> CompileCx<'a> {
     /// A relationship that pins the `size` option picks its token by that pin, and a lone
     /// candidate has nothing to choose from, so the token's own `size` name (a Base step above
     /// or below the component size) does not drop either.
-    fn rank_by<'g>(
-        &self,
-        cands: Vec<(&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>))>,
-    ) -> Vec<(&'g crate::graph::TokenRecord, (Option<Value>, Vec<String>))> {
+    fn rank_by<'g>(&self, cands: Vec<RankedCandidate<'g>>) -> Vec<RankedCandidate<'g>> {
         let mut mctx = self.mode_ctx();
         mctx.insert("size".into(), self.req.size.clone());
         let lone = cands.len() == 1;
