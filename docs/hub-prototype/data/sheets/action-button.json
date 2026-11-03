@@ -5,8 +5,8 @@
   "displayName": "Action button",
   "size": "m",
   "block": {
-    "width": 480,
-    "height": 360
+    "width": 480.0,
+    "height": 360.0
   },
   "pages": [
     {
@@ -17,14 +17,19 @@
           "page": "Layout",
           "title": "Height",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -364,14 +369,19 @@
           "page": "Layout",
           "title": "Component size (down)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -689,6 +699,11 @@
           "page": "Layout",
           "title": "Rounding",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -1026,6 +1041,11 @@
           "page": "Layout",
           "title": "Icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -1386,14 +1406,19 @@
           "page": "Layout",
           "title": "Spacing (icon to label)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -1728,6 +1753,11 @@
           "page": "Layout",
           "title": "Spacing (start/end edges)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -2176,14 +2206,19 @@
           "page": "Layout",
           "title": "Spacing (start/end edges, icon only)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -2522,6 +2557,11 @@
           "page": "Layout",
           "title": "Spacing (top edge to icon)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -2854,14 +2894,19 @@
           "page": "Layout",
           "title": "Spacing (top edge to label)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -3186,14 +3231,19 @@
           "page": "Layout",
           "title": "Focus ring",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -3485,6 +3535,11 @@
           "page": "Layout",
           "title": "Spacing (edge to hold icon)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -3815,6 +3870,11 @@
           "page": "Layout",
           "title": "Label",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -4149,6 +4209,11 @@
           "page": "Typography",
           "title": "Label",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -4568,14 +4633,19 @@
           "page": "Color",
           "title": "Background",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -5298,6 +5368,11 @@
           "page": "Color",
           "title": "Label, icon, and hold icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -5593,6 +5668,11 @@
           "page": "Color",
           "title": "Background (selected, non emphasized)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -5914,6 +5994,11 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (selected, non emphasized)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -6180,6 +6265,11 @@
           "page": "Color",
           "title": "Background (selected, emphasized)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -6521,6 +6611,11 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (selected, emphasized)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -6780,6 +6875,11 @@
           "page": "Color",
           "title": "Background (disabled)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -7051,14 +7151,19 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (disabled)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -7312,14 +7417,19 @@
           "page": "Color",
           "title": "Focus ring",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -7598,6 +7708,11 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (selected, white)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -7862,14 +7977,19 @@
           "page": "Color",
           "title": "Background (disabled, white)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -8152,14 +8272,19 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (disabled, white)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -8413,14 +8538,19 @@
           "page": "Color",
           "title": "Focus ring (white)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -8692,14 +8822,19 @@
           "page": "Color",
           "title": "Background (disabled, black)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -8982,6 +9117,11 @@
           "page": "Color",
           "title": "Label, icon, and hold icon (disabled, black)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -9243,6 +9383,11 @@
           "page": "Color",
           "title": "Focus ring (black)",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -9522,6 +9667,11 @@
           "page": "Color",
           "title": "Icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -9952,6 +10102,11 @@
           "page": "Color",
           "title": "Label",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -9963,8 +10118,8 @@
                 "isSelected": false
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -10400,6 +10555,11 @@
           "page": "Color",
           "title": "Hold icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -10788,14 +10948,19 @@
           "page": "Color",
           "title": "Progress track",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
               "states": [],
               "options": {},
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -11057,6 +11222,11 @@
           "page": "Color",
           "title": "Progress",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -11333,6 +11503,11 @@
           "page": "Color (static white)",
           "title": "Background",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -11344,8 +11519,8 @@
                 "staticColor": "white"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -11877,6 +12052,11 @@
           "page": "Color (static white)",
           "title": "Icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -11888,8 +12068,8 @@
                 "staticColor": "white"
               },
               "mode": {
-                "scale": "desktop",
-                "colorScheme": "light"
+                "colorScheme": "light",
+                "scale": "desktop"
               }
             },
             "scene": {
@@ -12214,6 +12394,11 @@
           "page": "Color (static white)",
           "title": "Label",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -12572,6 +12757,11 @@
           "page": "Color (static black)",
           "title": "Background",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -12583,8 +12773,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -13116,6 +13306,11 @@
           "page": "Color (static black)",
           "title": "Icon",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -13127,8 +13322,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
@@ -13453,6 +13648,11 @@
           "page": "Color (static black)",
           "title": "Label",
           "render": {
+            "view": {
+              "scale": 3.326403326403326,
+              "x": 80.0,
+              "y": 100.16632016632018
+            },
             "request": {
               "component": "action-button",
               "size": "m",
@@ -13465,8 +13665,8 @@
                 "staticColor": "black"
               },
               "mode": {
-                "colorScheme": "light",
-                "scale": "desktop"
+                "scale": "desktop",
+                "colorScheme": "light"
               }
             },
             "scene": {
