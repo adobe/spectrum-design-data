@@ -366,14 +366,29 @@ export function renderScene(compiled, req) {
       c.fontWeight = fw ? fw.value : null;
       c.text = req.label ?? "";
       c.w = textWidth(c.text, c.fontSize);
+      if (lh && num(lh) === undefined)
+        cx.diags.push(
+          `lineHeight '${lh.value}' is not a number or px value; using 1.3 x font size`,
+        );
       c.h = lineHeight(lh, c.fontSize);
     }
     flow.push(c);
   }
 
+  // As in Figma, an icon taller than the label line adds only the line height to the row,
+  // so the icon overflows the content box evenly instead of growing the container.
+  const line = Math.max(
+    0,
+    ...flow.filter((c) => c.kind === "text").map((c) => c.h),
+  );
   const gaps = gap * Math.max(flow.length - 1, 0);
   const widest = Math.max(0, ...flow.map((c) => c.w));
-  const tallest = Math.max(0, ...flow.map((c) => c.h));
+  const tallest = Math.max(
+    0,
+    ...flow.map((c) =>
+      c.kind === "icon" && line > 0 ? Math.min(c.h, line) : c.h,
+    ),
+  );
   const sumW = flow.reduce((a, c) => a + c.w, 0) + gaps;
   const sumH = flow.reduce((a, c) => a + c.h, 0) + gaps;
   const w = pS + (column ? widest : sumW) + pE;
