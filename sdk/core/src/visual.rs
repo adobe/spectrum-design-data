@@ -1923,6 +1923,10 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let mut measurements = Vec::new();
     {
         let mut add = |kind: &str, t: Option<TokenRef>, (x, y, w, h): (f64, f64, f64, f64)| {
+            // A padding that resolves to 0 has no span to draw.
+            if kind == "padding" && (w <= 0.0 || h <= 0.0) {
+                return;
+            }
             if let Some(token) = t {
                 measurements.push(Measurement {
                     kind: kind.into(),
