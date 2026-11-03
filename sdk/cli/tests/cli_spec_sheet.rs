@@ -92,3 +92,52 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
     assert_eq!(labels.len(), 2, "{labels:?}");
     assert!(labels.iter().all(|l| l.contains("edge-to-visual-only")));
 }
+
+#[test]
+fn button_icon_only_block_is_labelled_by_the_icon_only_relationship() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "button"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let sheet: Value = serde_json::from_slice(&out).expect("sheet is JSON");
+    let block = |title: &str| {
+        sheet["pages"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .flat_map(|p| p["blocks"].as_array().unwrap())
+            .find(|b| b["title"] == title)
+            .unwrap_or_else(|| panic!("no block {title}"))
+            .clone()
+    };
+    let labels = |b: &Value| -> Vec<String> {
+        b["render"]["measurements"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|m| m["label"].as_str().unwrap().to_string())
+            .collect()
+    };
+    let icon_only = block("Spacing (start/end edges, icon only)");
+    assert_eq!(
+        icon_only["render"]["request"]["options"]["isLabelHidden"],
+        true
+    );
+    let l = labels(&icon_only);
+    assert_eq!(l.len(), 2, "{l:?}");
+    assert!(
+        l.iter()
+            .all(|x| x.starts_with("component-pill-edge-to-visual-only-")),
+        "{l:?}"
+    );
+    let normal = labels(&block("Spacing (start/end edges)"));
+    assert!(
+        normal.iter().all(|x| !x.contains("visual-only")),
+        "{normal:?}"
+    );
+}
