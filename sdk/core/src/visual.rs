@@ -1591,14 +1591,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     // An unset `height` is the content plus the block padding: the tallest flowed child in a
     // row (only when the recipe binds block padding; otherwise the 32 default), or the
     // stacked children in a column.
-    let h = explicit_h.unwrap_or_else(|| {
-        if column {
-            sum_h + pad_bs + pad_be
-        } else if block_padded {
-            tallest + pad_bs + pad_be
-        } else {
-            32.0
-        }
+    let h = explicit_h.unwrap_or(if column {
+        sum_h + pad_bs + pad_be
+    } else if block_padded {
+        tallest + pad_bs + pad_be
+    } else {
+        32.0
     });
 
     let ox = RING_MARGIN;
