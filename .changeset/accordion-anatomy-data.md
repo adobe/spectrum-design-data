@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-wasm": patch
 ---
 
 Accordion data: add anatomy, an `isOpen` option and Figma-aligned padding relationships.
