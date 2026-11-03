@@ -77,8 +77,26 @@
     },
     "render": {
       "type": "object",
-      "required": ["request", "scene", "highlight", "markers", "measurements"],
+      "required": [
+        "view",
+        "request",
+        "scene",
+        "highlight",
+        "markers",
+        "measurements"
+      ],
       "properties": {
+        "view": {
+          "description": "Fit of the scene into the block visual: scene px to block px scale, and the offset of the scene's origin in the block.",
+          "type": "object",
+          "required": ["scale", "x", "y"],
+          "properties": {
+            "scale": { "type": "number" },
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
         "request": {
           "description": "The render request the scene was solved from.",
           "type": "object",

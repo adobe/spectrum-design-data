@@ -70,4 +70,5 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .iter()
         .any(|m| m["prop"] == "height"));
     assert_eq!(height["render"]["measurements"][0], "height");
+    assert!(height["render"]["view"]["scale"].as_f64().unwrap() > 1.0);
 }

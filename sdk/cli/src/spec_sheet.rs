@@ -24,6 +24,13 @@ const PAGE_ORDER: [&str; 5] = [
     "Color (static black)",
 ];
 
+/// Block visual size in px, and the room kept free around the scene for markers and labels.
+const BLOCK_W: f64 = 480.0;
+const BLOCK_H: f64 = 360.0;
+const MARGIN_X: f64 = 160.0;
+const MARGIN_Y: f64 = 120.0;
+const MAX_SCALE: f64 = 5.0;
+
 const MEASURED_PROPS: [&str; 7] = [
     "height",
     "paddingInlineStart",
@@ -273,7 +280,16 @@ impl Ctx<'_> {
         };
         let scene =
             visual::build_scene(self.graph, self.recipe, &req).map_err(|e| miette::miette!(e))?;
+        // Fit the scene into the block once, so renderers only apply this view.
+        let scale = ((BLOCK_W - MARGIN_X) / scene.width)
+            .min((BLOCK_H - MARGIN_Y) / scene.height)
+            .min(MAX_SCALE);
         Ok(json!({
+            "view": {
+                "scale": scale,
+                "x": (BLOCK_W - scene.width * scale) / 2.0,
+                "y": (BLOCK_H - scene.height * scale) / 2.0,
+            },
             "request": {
                 "component": req.component,
                 "size": req.size,
@@ -553,7 +569,7 @@ pub fn run(
         "component": component,
         "displayName": display,
         "size": size,
-        "block": {"width": 480, "height": 360},
+        "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
     });
     let text = serde_json::to_string_pretty(&sheet).into_diagnostic()?;
