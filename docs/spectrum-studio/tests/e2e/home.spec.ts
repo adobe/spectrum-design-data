@@ -168,8 +168,12 @@ test("System health page renders the six sample insight cards separately from Ho
       '[data-component="BentoGrid"] > [data-component="BentoCard"]',
     ),
   ).toHaveCount(6);
-  await expect(health.locator("[data-pillar]")).toHaveCount(5);
-  await expect(health.getByRole("meter", { name: /score$/ })).toHaveCount(5);
+  await expect(health.locator("[data-pillar]")).toHaveCount(4);
+  await expect(health.getByRole("meter", { name: /score$/ })).toHaveCount(4);
+  await expect(
+    health.getByText("Spec conformance", { exact: true }),
+  ).toHaveCount(0);
+  await expect(health.getByText(/design-data spec rules/)).toHaveCount(0);
   await expect(health.locator(".homeHealthPillars")).toHaveCSS(
     "display",
     "grid",
