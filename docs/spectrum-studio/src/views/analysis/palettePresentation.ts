@@ -7,7 +7,7 @@ import type {
 import { canonicalJson } from "../../features/design-data/canonicalJson";
 import { createValuePreview } from "../../features/tokens/valuePreview";
 
-const fieldLabel = (key: string) => {
+export const fieldLabel = (key: string) => {
   const words = key.replace(
     /([a-z])([A-Z])/g,
     (_, before: string, after: string) => `${before} ${after.toLowerCase()}`,

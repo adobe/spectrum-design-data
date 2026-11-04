@@ -19,6 +19,7 @@ import {
   referenceRoot,
 } from "./design-data-loader";
 import { attachReferenceAssessment } from "./design-data-assessment";
+import { resolveColorOpacityValues } from "./color-opacity-resolution";
 
 const { values } = parseArgs({
   args: process.argv.slice(2).filter((value) => value !== "--"),
@@ -82,7 +83,18 @@ if (values.mapping) {
     );
   }
 }
-const report = compareDesignData(app, reference, mappings);
+const resolvedReference = await resolveColorOpacityValues(
+  reference,
+  root,
+  values.sdk,
+);
+const resolvedApp = await resolveColorOpacityValues(
+  app,
+  root,
+  values.sdk,
+  resolvedReference,
+);
+const report = compareDesignData(resolvedApp, resolvedReference, mappings);
 await mkdir(dirname(jsonPath), { recursive: true });
 await mkdir(dirname(markdownPath), { recursive: true });
 await writeFile(jsonPath, `${canonicalJson(report)}\n`);

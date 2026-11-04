@@ -13,6 +13,7 @@ import {
 } from "../derived-work/LatestRequest";
 import { workerTask } from "../derived-work/workerTask";
 import type { AnalysisInput } from "./comparison";
+import { VALUE_CONTEXT_POLICY } from "./colorOpacityAssessment";
 import type {
   AnalysisComparisonRequest,
   AnalysisComparisonResult,
@@ -80,10 +81,23 @@ export function useAnalysisWork(
           : source.working;
     const cachedApp =
       cache.current?.key === key &&
-      cache.current.app.source.kind === source.dataset
+      cache.current.app.source.kind === source.dataset &&
+      (!cache.current.app.valueResolution ||
+        (cache.current.app.valueResolution.referenceHash ===
+          reference?.source.hash &&
+          cache.current.app.valueResolution.contextPolicy ===
+            VALUE_CONTEXT_POLICY &&
+          cache.current.app.valueResolution.engine ===
+            reference?.valueResolution?.engine))
         ? cache.current.app
         : undefined;
-    return { type: "compare", source, reference, cachedApp };
+    return {
+      type: "compare",
+      source,
+      reference,
+      cachedApp,
+      resolveValues: import.meta.env.DEV,
+    };
   }, [source, reference]);
   const [comparison, publishComparison] =
     useState<

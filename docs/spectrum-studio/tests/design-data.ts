@@ -237,12 +237,12 @@ const declarationReport = compareDesignData(
 );
 assert.deepEqual(
   declarationReport.findings.map((finding) => finding.classification).sort(),
-  ["mode-gap", "platform-gap"],
+  ["platform-gap", "unassessable"],
 );
 assert.equal(
   compareDesignData(input([]), input([modeDeclaration], "reference"))
     .findings[0].classification,
-  "mode-gap",
+  "unassessable",
 );
 assert.equal(
   compareDesignData(input([modeDeclaration]), {
@@ -315,8 +315,8 @@ assert.equal(
   modeVocabulary.findings.filter(
     (finding) => finding.classification === "mode-gap",
   ).length,
-  2,
-  "Mapped declarations distinguish vocabulary and declared-default differences",
+  1,
+  "A missing required mode has one structural finding; defaults are not missing support",
 );
 assert.equal(modeVocabulary.metrics[0].matched, 1);
 assert.equal(

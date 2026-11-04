@@ -15,6 +15,28 @@ meanings. Scoped reset plans are validated before applying through the existing
 restore owner; generated reset choices do not add semantic override support or
 change the storage envelope. See [Changes comparison contract](archive/changelog-plan.md).
 
+## Relative and absolute color adjustments
+
+A mode stores one color-adjustment method. Relative shifts each key color's hue
+and multiplies its saturation, keeping the scale's lightnesses and interpolation.
+Absolute stores one complete key color and derives every scale from it using RGB
+interpolation. The built-in Wireframe mode uses #486ec2.
+
+The shared color affects resolved output, not the original scale definitions.
+Leaving the mode restores their original keys, palette links and interpolation.
+Contrast targets remain independent: matching targets produce matching colors,
+but a scale with custom targets can still differ. Normal background, polarity
+and contrast calculations continue to apply.
+
+Authoring envelope 22 upgrades saved and working adjustments independently.
+Legacy settings with any absolute channel become the shared #486ec2 color.
+Relative-only settings retain their values. Changes tracks the shared color's
+channels; resetting a method change restores the complete adjustment. Mode
+selection and previews are not authored edits.
+
+This is Studio-owned authoring data under LTAX-015, not an accepted upstream
+derivation contract.
+
 ## Conditional rules
 
 Authoring envelope 19 adds conditional rules to the existing Rules library.
@@ -81,7 +103,26 @@ this local derivation capability; it is not an accepted upstream rule contract.
 
 ## Structure properties and variants
 
-Structures schema 5 and authoring envelope 18 store property definitions, shared
+Authoring envelope **21** and portable Structure schema **1** store definitions,
+typed configuration, publication identities and example glyph resources in
+separate sections of the same record. The defaults JSON uses this format too.
+Top-level names bind Registry terms; owned Layout labels stay local. Density
+binds its existing category and value terms; local Booleans have no token-name
+assignment. Historic Text retains its existing Element-term reference.
+
+The read adapter projects this source into the existing runtime Structure schema
+**7** for resolution, UI and source-addressed Changes/reset operations. The
+projection is not persisted alongside the portable source. Older saved and
+working snapshots migrate independently; their Registry allocations share a
+transaction-local identity map. One write commits both sources and their
+attachments. There is no separate Structure storage key and no reseeding.
+
+Preview, conversion and export do not allocate identities. Name registration is
+an authoring/migration operation, and failed conversions or writes preserve the
+existing stored record. See [Portable Structure authoring](rfcs/portable-structures.md)
+for the local contract and its separate upstream proposal.
+
+Historically, Structure schema 5 and authoring envelope 18 introduced property definitions, shared
 layers, boolean visibility bindings, and sparse option differences. Layer
 insertion and removal affect every option. Order, saved visibility, and changed
 bindings belong to individual options. Referenced Structures own their internal

@@ -23,6 +23,7 @@ import {
   computeAnalysisGaps,
 } from "../src/features/design-data/analysisWork";
 import { assessGaps, gapRegister } from "../src/features/design-data/gaps";
+import { VALUE_CONTEXT_POLICY } from "../src/features/design-data/colorOpacityAssessment";
 
 const defaults = defaultsAnalysisInput();
 const reference: AnalysisInput = {
@@ -64,9 +65,109 @@ assert.match(shipped.app.source.hash, /^[a-f0-9]{64}$/);
 assert.equal(shipped.unsaved, undefined);
 assert.deepEqual(shipped.report, compareDesignData(shipped.app, reference));
 
+const originalFetch = globalThis.fetch;
+try {
+  globalThis.fetch = async (_input, options) => {
+    assert(options?.signal, "Resolution requests must have a time limit.");
+    throw new DOMException("Resolution request timed out.", "TimeoutError");
+  };
+  const unavailable = await computeAnalysisComparison({
+    type: "compare",
+    source: defaultSource,
+    cachedApp: shipped.app,
+    reference,
+    resolveValues: true,
+  });
+  assert(
+    unavailable.app.limitations.some((message) =>
+      message.includes("Resolution request timed out."),
+    ),
+  );
+  assert(unavailable.report, "Resolution failure must not block comparison.");
+  for (const response of [
+    null,
+    {},
+    { valueResolution: { datasetHash: shipped.app.source.hash, engine: 1 } },
+    {
+      valueResolution: {
+        datasetHash: shipped.app.source.hash,
+        engine: "fixture",
+      },
+      resolvedValues: [{ id: "invalid", context: [], chain: [], issue: null }],
+    },
+  ]) {
+    globalThis.fetch = async () => Response.json(response);
+    const invalidResponse = await computeAnalysisComparison({
+      type: "compare",
+      source: defaultSource,
+      cachedApp: shipped.app,
+      reference,
+      resolveValues: true,
+    });
+    assert(
+      invalidResponse.app.limitations.some((message) =>
+        message.includes("Invalid color/opacity resolution response."),
+      ),
+    );
+    assert.deepEqual(invalidResponse.app.records, shipped.app.records);
+    assert(invalidResponse.report);
+  }
+  let resolutions = 0;
+  globalThis.fetch = async () => {
+    resolutions += 1;
+    return Response.json({
+      valueResolution: {
+        datasetHash: shipped.app.source.hash,
+        referenceHash: reference.source.hash,
+        contextPolicy: VALUE_CONTEXT_POLICY,
+        engine: "fixture",
+      },
+      resolvedValues: [],
+    });
+  };
+  const updated = await computeAnalysisComparison({
+    type: "compare",
+    source: defaultSource,
+    reference,
+    resolveValues: true,
+    cachedApp: {
+      ...shipped.app,
+      valueResolution: {
+        datasetHash: shipped.app.source.hash,
+        referenceHash: reference.source.hash,
+        contextPolicy: "old-policy",
+        engine: "fixture",
+      },
+    },
+  });
+  assert.equal(
+    resolutions,
+    1,
+    "An older context policy must be resolved again.",
+  );
+  assert.equal(
+    updated.app.valueResolution?.contextPolicy,
+    VALUE_CONTEXT_POLICY,
+  );
+  await computeAnalysisComparison({
+    type: "compare",
+    source: defaultSource,
+    reference,
+    resolveValues: true,
+    cachedApp: updated.app,
+  });
+  assert.equal(
+    resolutions,
+    1,
+    "Current policy and reference evidence may be reused.",
+  );
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
 const store = createStore();
 store.set(editSessionSnapshotAtom, createDefaultSnapshot());
-store.set(updateColorSystemSettingsAtom, { extOffset: 0.7 });
+store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.7 });
 const snapshots = {
   working: store.get(authoringSourceSnapshotAtom),
   saved: store.get(editSessionSnapshotAtom)!,

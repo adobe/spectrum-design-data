@@ -59,7 +59,7 @@ export interface PaletteConceptAssessment {
   rows: PaletteModeAssessment[];
 }
 export interface PaletteAssessment {
-  schemaVersion: 1;
+  schemaVersion: 2;
   scope: "primitive-palette";
   baseline: "shipped defaults" | "provisional";
   freshness: "current" | "stale";
@@ -67,8 +67,8 @@ export interface PaletteAssessment {
   policy: {
     comparison: "normalized XYZ D65 and alpha";
     conversionRoundoff: number;
-    perceptualTolerance: 0;
-    maxSrgbChannelDifference: 1;
+    deltaEMethod: "2000";
+    acceptableDeltaEExclusive: 2;
     alphaTolerance: 0;
   };
   counts: {
@@ -119,7 +119,11 @@ const object = (value: unknown): value is Record<string, unknown> =>
 const same = (left: unknown, right: unknown) =>
   canonicalJson(left ?? null) === canonicalJson(right ?? null);
 const roundoff = 32 * Number.EPSILON;
-const maxSrgbChannelDifference = 1;
+export const COLOR_ALIGNMENT_POLICY = {
+  deltaEMethod: "2000",
+  acceptableDeltaEExclusive: 2,
+  alphaTolerance: 0,
+} as const;
 
 export function exactPaletteColor(
   left: unknown,
@@ -154,7 +158,15 @@ export function exactPaletteColor(
           Math.abs(channel - b[index]) <=
             roundoff * Math.max(1, Math.abs(channel), Math.abs(b[index]!)),
       );
-    const distance = app.deltaE(reference, "2000");
+    const distance = equal
+      ? undefined
+      : app.deltaE(reference, COLOR_ALIGNMENT_POLICY.deltaEMethod);
+    if (distance !== undefined && !Number.isFinite(distance))
+      return {
+        value: "unassessable",
+        valueAlignment: "unassessable",
+        valueReason: "Delta E 2000 could not be calculated.",
+      };
     const appRgb = app.to("srgb").coords;
     const referenceRgb = reference.to("srgb").coords;
     const inSrgb = [...appRgb, ...referenceRgb].every(
@@ -170,16 +182,20 @@ export function exactPaletteColor(
         : Math.abs(channel - referenceRgb[index]!) * 255,
     );
     const close =
-      inSrgb &&
       Math.abs(app.alpha - reference.alpha) <= roundoff &&
-      rgbChannelDifferences.every(
-        (difference) => difference <= maxSrgbChannelDifference + roundoff * 255,
-      );
+      distance !== undefined &&
+      distance < COLOR_ALIGNMENT_POLICY.acceptableDeltaEExclusive;
     return {
       value: equal ? "equal" : "different",
       valueAlignment: equal ? "exact" : close ? "close" : "different",
       ...(inSrgb && { rgbChannelDifferences }),
-      ...(Number.isFinite(distance) && { deltaE2000: distance }),
+      ...(distance !== undefined && { deltaE2000: distance }),
+      ...(!equal && {
+        valueReason:
+          Math.abs(app.alpha - reference.alpha) > roundoff
+            ? "Alpha differs; perceptual color tolerance does not apply to opacity."
+            : `Delta E 2000 is ${distance}; acceptable colors require less than ${COLOR_ALIGNMENT_POLICY.acceptableDeltaEExclusive}.`,
+      }),
     };
   } catch (error) {
     return {
@@ -782,7 +798,7 @@ export function assessPalette(
     .sort((a, b) => a.id.localeCompare(b.id, "en"));
   const complete = concepts.filter((concept) => concept.complete).length;
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     scope: "primitive-palette",
     baseline:
       app.source.kind === "defaults" ? "shipped defaults" : "provisional",
@@ -795,9 +811,7 @@ export function assessPalette(
     policy: {
       comparison: "normalized XYZ D65 and alpha",
       conversionRoundoff: roundoff,
-      perceptualTolerance: 0,
-      maxSrgbChannelDifference,
-      alphaTolerance: 0,
+      ...COLOR_ALIGNMENT_POLICY,
     },
     sources: { app: app.source, reference: reference.source },
     counts: {
@@ -855,8 +869,8 @@ export function paletteMarkdown(palette: PaletteAssessment): string {
     `Represented concepts: ${counts.represented}/${counts.concepts}. Classification aligned: ${counts.classificationAligned}/${counts.concepts}. Complete: ${counts.complete}/${counts.concepts}. Completion: ${palette.completionPercent === null ? "unavailable" : `${palette.completionPercent}%`}.`,
     `Exact mode values: ${counts.equalRows}/${counts.rows}. Deprecated rows excluded: ${counts.excludedDeprecated}. App-only rows: ${counts.appOnlyRows}.`,
     `Alignment tiers: 100% aligned: ${counts.exactAligned}. Close enough: ${counts.closeEnough}. Not aligned: ${counts.notAligned}. Unable to evaluate: ${counts.unassessable}. Close-enough mode values: ${counts.closeRows}/${counts.rows}.`,
-    `Exact equality uses ${palette.policy.comparison}; conversion round-off allowance ${palette.policy.conversionRoundoff}, relative to max(1, channel magnitude). No perceptual tolerance, quantization or gamut mapping. Delta E is informational.`,
-    `Close enough permits at most ${palette.policy.maxSrgbChannelDifference} per R, G and B channel on the 0–255 sRGB scale, without rounding or clipping. Alpha must match. Classifications and every required mode must still align. Exact completion remains separate.`,
+    `Exact equality uses ${palette.policy.comparison}; conversion round-off allowance ${palette.policy.conversionRoundoff}, relative to max(1, channel magnitude). Exact comparison uses no perceptual tolerance, quantization or gamut mapping.`,
+    `Non-exact colors are Close enough when Delta E ${palette.policy.deltaEMethod} is less than ${palette.policy.acceptableDeltaEExclusive}, without rounding, clipping or gamut mapping. Alpha must match. Classifications and every required mode must still align. Exact completion remains separate.`,
     ...palette.issues.map((issue) => `- ${text(issue)}`),
     "",
     "| Concept | Context | Counterpart | Classification | App value | Reference value | Exact value | Value alignment | Differences and evidence |",
