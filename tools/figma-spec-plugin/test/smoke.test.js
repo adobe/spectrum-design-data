@@ -460,6 +460,18 @@ test("a render does not remove a same-named node nested inside the page's frames
   t.is(nested.parent, frame);
 });
 
+test("a render refuses to run on the Notes page", async (t) => {
+  const { figma, page } = fakeFigma();
+  page.name = "Notes";
+  await t.throwsAsync(
+    () => runPayload(figma, payloadsFor("action-button")[0]),
+    {
+      message: /Notes/,
+    },
+  );
+  t.is(page.children.length, 0);
+});
+
 test("the cover says the page is generated and points at Notes", async (t) => {
   const { figma, page } = fakeFigma();
   for (const p of payloadsFor("action-button")) await runPayload(figma, p);

@@ -451,9 +451,7 @@ const revOf = (sheet) =>
   sheet.datasetRevision ? sheet.datasetRevision.slice(0, 8) : "unknown";
 
 function findBuilding(sheet) {
-  const root = figma.currentPage.findOne(
-    (n) => n.name === rootNameOf(sheet) + BUILDING,
-  );
+  const root = topLevel(rootNameOf(sheet) + BUILDING);
   if (!root) throw new Error("No sheet is being built: run the first payload.");
   return root;
 }
@@ -489,6 +487,8 @@ function ensureNotesPage() {
 async function beginSheet(sheet, pageTitles) {
   const warning = await loadFonts();
   const page = figma.currentPage;
+  if (page.name === "Notes")
+    throw new Error("Run on a page other than Notes: nothing may write there.");
   ensureNotesPage();
   const stale = topLevel(rootNameOf(sheet) + BUILDING);
   if (stale) stale.remove();
