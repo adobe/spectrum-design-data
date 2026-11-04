@@ -1,6 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../color-system/model";
-import { resolveColorDocument } from "../color-system/resolution";
+import {
+  resolveColorScaleDocument as resolveColorDocument,
+  assertColorScaleOutput,
+} from "../color-system/colorScaleResolution";
 import { resolvedBackgroundLinear } from "../color-system/surfaceGeneration";
 import type { TypographyDocument } from "../typography/model";
 import { generateTypography } from "../typography/typographyGeneration";
@@ -16,7 +19,7 @@ import {
 import { resolveElevationDocument } from "../elevation/resolution";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import type { ModeSet } from "../modes/model";
-import { capabilityOwners, parameterOwners } from "../modes/parameters";
+import { parameterOwners } from "../modes/parameters";
 import {
   modeCombinationCount,
   modeSelections,
@@ -52,6 +55,7 @@ import { categoricalBrowserSources } from "../color-system/data-vis/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { browserOpacitySources } from "../opacity/output";
 import { opacityAxes } from "../opacity/generation";
+import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import type { OpacityDocument } from "../opacity/model";
 import { semanticTokenSource } from "./semanticSource";
 
@@ -145,7 +149,6 @@ export function canonicalAliasRows(
     );
   const combinations = modeSelections(axes);
   const owners = parameterOwners(source.modeSets);
-  const capabilities = capabilityOwners(source.modeSets);
   const compatibleModes = Object.fromEntries(
     axes.map((axis) => [axis.id, axis.modes.map((mode) => mode.id)]),
   );
@@ -155,7 +158,10 @@ export function canonicalAliasRows(
     const modeKey = canonicalTokenModeKey(selection);
     const colors = resolveColorDocument(source.colorSystem, modes, undefined, {
       modeSets: source.modeSets,
+      opacity: source.opacity,
+      browserTokenEdits: source.browserTokenEdits,
     });
+    assertColorScaleOutput(colors);
     const background = resolvedBackgroundLinear(colors);
     const generatedColors = (
       excludeColors
@@ -244,7 +250,7 @@ export function canonicalAliasRows(
           outputUnit: typography.outputUnit,
         },
         {
-          document: source.colorSystem,
+          document: colors,
           registry: source.taxonomy,
           rules: source.rules,
         },
@@ -294,9 +300,22 @@ export function canonicalAliasRows(
         );
       else if (target.manual) {
         const definition = source.browserTokenEdits[id]?.authoring?.manual;
-        if (definition)
+        if (definition?.targetId)
           referenceAxes(definition.targetId, visited).forEach((axis) =>
             result.add(axis),
+          );
+        else if (definition?.type === "colors")
+          [
+            "color.backgroundScaleId",
+            "color.backgroundLightness",
+            "color.contrastMultiplier",
+          ].forEach(own);
+        else if (definition?.type === "opacity")
+          opacityAxes(source).forEach((axis) => result.add(axis.id));
+        else if (definition?.type === "typography") own("typography.textZoom");
+        else if (definition?.type === "elevation")
+          elevationOwnerIds(source.modeSets, source, source.elevation).forEach(
+            (axis) => result.add(axis),
           );
       } else if (target.type === "colors" && !target.paletteColorId) {
         if (target.dataVis) {
@@ -318,13 +337,13 @@ export function canonicalAliasRows(
               scale,
             ).forEach((axis) => result.add(axis));
         } else {
+          if (opacityStopsEnabled(source.colorSystem.settings))
+            opacityAxes(source).forEach((axis) => result.add(axis.id));
           [
             "color.backgroundScaleId",
             "color.backgroundLightness",
             "color.contrastMultiplier",
           ].forEach(own);
-          if (capabilities["color.scales"])
-            result.add(capabilities["color.scales"]);
         }
       } else if (target.type === "typography") own("typography.textZoom");
       else if (target.type === "elevation")
@@ -402,14 +421,14 @@ export function canonicalAliasRows(
           ))
             owned.add(axis);
         } else {
+          if (opacityStopsEnabled(source.colorSystem.settings))
+            opacityAxes(source).forEach((axis) => owned.add(axis.id));
           for (const parameter of [
             "color.backgroundScaleId",
             "color.backgroundLightness",
             "color.contrastMultiplier",
           ])
             own(parameter);
-          if (capabilities["color.scales"])
-            owned.add(capabilities["color.scales"]);
         }
       } else if (token.type === "opacity") {
         for (const axis of opacityAxes(source)) owned.add(axis.id);
@@ -513,6 +532,7 @@ export function canonicalAliasSourceTargets(
 ): AliasTarget[] {
   const inventory = buildCascadeTokenInventory({
     base: source.colorSystem,
+    opacity: source.opacity,
     modeSets: source.modeSets,
     activeModes: [],
     activeTokens: [],

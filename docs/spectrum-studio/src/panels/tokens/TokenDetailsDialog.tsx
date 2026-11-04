@@ -8,7 +8,6 @@ import {
   Dialog,
   DialogContainer,
   Heading,
-  InlineAlert,
   PickerItem,
   TextArea,
   TextField,
@@ -27,10 +26,6 @@ import {
   projectClassification,
   type Classification,
 } from "../../features/taxonomy/model";
-import {
-  CLASSIFICATION_REVIEW_CONTEXT,
-  CLASSIFICATION_REVIEW_LABEL,
-} from "../../features/taxonomy/reviewPresentation";
 
 export interface TokenDetailsDialogProps {
   tokens: BrowserToken[];
@@ -41,7 +36,6 @@ export interface TokenDetailsDialogProps {
   onSave: (patch: BrowserTokenPatch) => void;
   onClose: () => void;
   onDeleteAlias?: (id: string) => void;
-  classificationIssues?: readonly string[];
 }
 
 export function TokenDetailsDialog({
@@ -53,7 +47,6 @@ export function TokenDetailsDialog({
   onSave,
   onClose,
   onDeleteAlias,
-  classificationIssues,
 }: TokenDetailsDialogProps) {
   const token = tokens[0];
   const taxonomy = useAtomValue(taxonomyDocumentAtom);
@@ -142,33 +135,6 @@ export function TokenDetailsDialog({
             </div>
           ) : (
             <div className="tokenDetailsFields">
-              {classificationIssues?.length ? (
-                <InlineAlert variant="notice">
-                  <Heading>{CLASSIFICATION_REVIEW_LABEL}</Heading>
-                  <Content>
-                    {CLASSIFICATION_REVIEW_CONTEXT} You can still edit and save.
-                    Export standard-compliant taxonomy stays blocked until every
-                    classification passes this review.
-                  </Content>
-                </InlineAlert>
-              ) : null}
-              {classificationIssues?.length ? (
-                <section aria-label="Classification review details">
-                  <h3>Why this needs review</h3>
-                  <ul>
-                    {[...new Set(classificationIssues)].map((message) => (
-                      <li key={message}>{message}</li>
-                    ))}
-                  </ul>
-                  <p>
-                    For shared definitions, open Registry, choose Taxonomy, then
-                    select the category named above. Expand Migration review for
-                    the full list. Export taxonomy compatibility packet
-                    downloads the original data and detailed review without
-                    clearing warnings.
-                  </p>
-                </section>
-              ) : null}
               {!bulk && (
                 <>
                   <TextField label="Name" value={token.name} isReadOnly />
