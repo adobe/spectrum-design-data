@@ -459,7 +459,6 @@ impl Ctx<'_> {
                 .get(prop)
                 .cloned()
                 .or_else(|| tok.get("name").and_then(|n| s(n, "size")).map(String::from));
-            // One property per size names the token; a shared property needs the token's own name.
             let name = token_name(tok, prop);
             let scale = tok
                 .get("name")
