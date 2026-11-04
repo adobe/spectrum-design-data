@@ -267,6 +267,21 @@ pub fn validate_payload(baseline: &Value, payload: &Value) -> Result<(), GuardEr
                 format!("UPDATE moves variable {id}"),
             ));
         }
+        if variable["action"] == "UPDATE"
+            && variable.get("hiddenFromPublishing").is_some_and(|flag| {
+                flag.as_bool()
+                    != Some(
+                        existing[id]["hiddenFromPublishing"]
+                            .as_bool()
+                            .unwrap_or(false),
+                    )
+            })
+        {
+            return Err(error(
+                "invalid payload",
+                format!("UPDATE changes hiddenFromPublishing on {id}"),
+            ));
+        }
         variable_collections.insert(id, collection_id);
     }
     let mut mode_keys = HashSet::new();
@@ -511,7 +526,7 @@ mod tests {
         let payload = json!({
             "variables":[
                 {"action":"UPDATE","id":"n","name":"number","variableCollectionId":"scale","resolvedType":"FLOAT",
-                    "description":"new","hiddenFromPublishing":true,"scopes":["ALL_SCOPES"],"codeSyntax":{"WEB":"--number"}},
+                    "description":"new","hiddenFromPublishing":false,"scopes":["ALL_SCOPES"],"codeSyntax":{"WEB":"--number"}},
                 {"action":"CREATE","id":"tmp","name":"mode-set-target","variableCollectionId":"scale","resolvedType":"FLOAT"},
                 {"action":"UPDATE","id":"a","name":"alias","variableCollectionId":"scale","resolvedType":"FLOAT"},
                 {"action":"UPDATE","id":"color","name":"color","variableCollectionId":"scale","resolvedType":"COLOR"}
@@ -757,6 +772,9 @@ mod tests {
         let mut dangling = payload.clone();
         dangling["variableModeValues"][1]["value"]["id"] = json!("missing");
         assert!(validate_payload(&baseline, &dangling).is_err());
+        let mut unhide = payload.clone();
+        unhide["variables"][0]["hiddenFromPublishing"] = json!(true);
+        assert!(validate_payload(&baseline, &unhide).is_err());
         for field in ["variableCollections", "variableModes"] {
             let mut unsupported = payload.clone();
             unsupported[field] = json!([{"action":"DELETE"}]);
