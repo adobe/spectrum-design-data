@@ -14,6 +14,7 @@ import { enterEditModeAtom } from "../features/edit-session/state";
 import { editModeAtom } from "../state/view/editMode";
 import { EditablePicker } from "./editable";
 import { EditModeActions } from "./EditModeActions";
+import { AppStatusButton } from "./AppStatusButton";
 import { applyPendingModeParameterAtom, pendingModeParameterAtom } from "../features/modes/selection";
 import { BRANCH_NAME, VERSION } from "../state/view/editMode"
 import { appColorSchemeAtom } from "../features/modes/capabilities";
@@ -161,6 +162,7 @@ export function TopBar() {
             </ActionButton>
           </>
         )}
+        <AppStatusButton />
         <TooltipTrigger>
           <ToggleButton isQuiet aria-label="Dark app appearance" isSelected={colorScheme === "dark"}
             onChange={(dark) => setColorScheme(dark ? "dark" : "light")}>
