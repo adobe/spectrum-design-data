@@ -88,7 +88,6 @@ locations.set(
           authoringCapabilities: [
             ...(set.authoringCapabilities ?? []),
             "color.backgroundScaleId",
-            "color.scales",
           ],
         }
       : set,
@@ -96,10 +95,6 @@ locations.set(
 );
 assert.equal(
   locations.get(authoringCapabilityOwnersAtom)["color.backgroundScaleId"],
-  colorSet.id,
-);
-assert.equal(
-  locations.get(authoringCapabilityOwnersAtom)["color.scales"],
   colorSet.id,
 );
 locations.set(resetModeAtom, {
@@ -251,7 +246,7 @@ store.set(resetModeAtom, { modeSetKey: "colorScheme", modeId: "mode-dark" });
 assert.equal(store.get(previewColorSchemeAtom), "dark");
 store.set(appColorSchemeAtom, "light");
 assert.equal(store.get(previewColorSchemeAtom), "dark");
-assert.equal(MODE_SETS_SCHEMA_VERSION, 8);
+assert.equal(MODE_SETS_SCHEMA_VERSION, 10);
 
 const color = store.get(modeSetsAtom).find((set) => set.key === "colorScheme")!;
 assert.throws(
@@ -270,6 +265,7 @@ store.set(attachFoundationModeSetAtom, {
 assert.deepEqual(store.get(modeSetFoundationsAtom)[color.id].sort(), [
   "color",
   "elevation",
+  "opacity",
   "spacing",
 ]);
 assert.deepEqual(
@@ -281,9 +277,10 @@ store.set(detachFoundationModeSetAtom, {
   modeSetId: color.id,
   foundation: "spacing",
 });
-assert.deepEqual(store.get(modeSetFoundationsAtom)[color.id], [
+assert.deepEqual(store.get(modeSetFoundationsAtom)[color.id].sort(), [
   "color",
   "elevation",
+  "opacity",
 ]);
 assert.throws(
   () =>
@@ -355,7 +352,6 @@ removal.set(
           authoringCapabilities: [
             "color.backgroundLightness",
             "color.backgroundScaleId",
-            "color.scales",
             "typography.textZoom",
           ],
           modes: set.modes.map((mode) =>
@@ -484,6 +480,7 @@ assert.deepEqual(
   otherSets,
 );
 assert.deepEqual(removal.get(modeSetFoundationsAtom)[shared.id], [
+  "opacity",
   "typography",
 ]);
 assert.equal(

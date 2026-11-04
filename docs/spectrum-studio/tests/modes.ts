@@ -38,11 +38,9 @@ import {
   colorSystemDocumentAtom,
   resolvedColorSystemDocumentAtom,
   updateColorStopAtom,
-  resetModeColorStopAtom,
   cssBaseDocumentAtom,
   colorSchemeDocumentsAtom,
   contrastModesAtom,
-  scaleModeDocumentsAtom,
 } from "../src/features/color-system/state";
 import { buildColorLibrary } from "../src/features/color-system/cssLibrary";
 import { modeSetsAtom } from "../src/features/modes/state";
@@ -52,7 +50,6 @@ import {
   pendingModeParameterAtom,
   setActiveModeParameterAtom,
 } from "../src/features/modes/selection";
-import { applyColorStopToModeAtom } from "../src/features/color-system/state";
 import { colorTokenJsonAtom } from "../src/features/tokens/state";
 import {
   changeGroupsAtom,
@@ -128,7 +125,6 @@ const migratedV4 = migrateModeSets(savedV4, 4)!;
 assert.equal(migratedV4[0].modes[1].foundations.color?.backgroundLightness, 0);
 assert.deepEqual(migratedV4[0].authoringCapabilities, [
   "color.backgroundLightness",
-  "color.scales",
 ]);
 savedV4[0].modes[1].foundations = { color: { backgroundLightness: 0.24 } };
 assert.equal(
@@ -299,11 +295,6 @@ const scale = original.scales.find((item) =>
   item.stops.some((candidate) => candidate.chroma > 10),
 )!;
 const stop = scale.stops.find((item) => item.chroma > 10)!;
-const currentStop = () =>
-  store
-    .get(resolvedColorSystemDocumentAtom)
-    .scales.find((item) => item.id === scale.id)!
-    .stops.find((item) => item.id === stop.id)!;
 const baseStop = () =>
   store
     .get(colorSystemDocumentAtom)
@@ -318,79 +309,30 @@ assert.ok(
   Math.abs(baseStop().hue - ((stop.hue + 10) % 360)) < 1e-8,
   "unclaimed color scales edit the universal base",
 );
-store.set(colorSystemDocumentAtom, original);
-const ownedSets = store.get(modeSetsAtom).map((set) =>
-  set.key === "colorScheme"
-    ? {
-        ...set,
-        authoringCapabilities: [
-          ...(set.authoringCapabilities ?? []),
-          "color.scales" as const,
-        ],
-      }
-    : set,
-);
-store.set(modeSetsAtom, ownedSets);
 store.set(modeSelectionAtom, { colorScheme: "mode-dark" });
 store.set(updateColorStopAtom, {
   scaleId: scale.id,
   stopId: stop.id,
-  hue: stop.hue + 120,
+  hue: stop.hue + 20,
 });
-assert.equal(
-  baseStop().hue,
-  stop.hue,
-  "a claimed non-default edit does not mutate the base",
-);
-assert.ok(Math.abs(currentStop().hue - ((stop.hue + 120) % 360)) < 1e-8);
-store.set(modeSelectionAtom, { colorScheme: "mode-light" });
-assert.equal(
-  currentStop().hue,
-  stop.hue,
-  "default mode resolves the universal stop",
+assert.ok(
+  Math.abs(baseStop().hue - ((stop.hue + 20) % 360)) < 1e-8,
+  "key color edits remain shared across modes",
 );
 const exportedRows = JSON.parse(store.get(colorTokenJsonAtom)).tokens as {
   conceptId: string;
   name: { colorScheme?: string; property: string };
   value: string;
 }[];
-const defaultRows = new Map(
-  exportedRows
-    .filter((row) => row.name.property === "color" && !row.name.colorScheme)
-    .map((row) => [row.conceptId, row.value]),
-);
-assert.ok(
-  exportedRows.some(
-    (row) =>
-      row.name.property === "color" &&
-      row.name.colorScheme === "dark" &&
-      defaultRows.get(row.conceptId) !== row.value,
-  ),
-  "cascade output varies in the owned color scheme",
-);
+assert.ok(exportedRows.some((row) => row.name.colorScheme === "dark"));
 const css = buildColorLibrary(
   store.get(cssBaseDocumentAtom),
   store.get(colorSchemeDocumentsAtom),
   store.get(contrastModesAtom),
-  store.get(scaleModeDocumentsAtom),
 );
-assert.match(
-  css,
-  /\[data-color-scheme="dark"\] \.color-scale-/,
-  "CSS has mode-specific source anchors",
-);
-store.set(modeSelectionAtom, { colorScheme: "mode-dark" });
-store.set(resetModeColorStopAtom, { scaleId: scale.id, stopId: stop.id });
-assert.equal(currentStop().hue, stop.hue, "reset reveals the universal stop");
-store.set(updateColorStopAtom, {
-  scaleId: scale.id,
-  stopId: stop.id,
-  hue: stop.hue + 20,
-  scope: "base",
-});
 assert.ok(
-  Math.abs(baseStop().hue - ((stop.hue + 20) % 360)) < 1e-8,
-  "Edit base remains universal with a non-default mode selected",
+  css.includes("--color-"),
+  "shared color scales remain in generated CSS",
 );
 
 store.set(setPreviewParameterAtom, {
@@ -433,64 +375,6 @@ assert.equal(
   store.get(resolvedColorSystemDocumentAtom).backgroundLightness,
   0.42,
   "preview remains temporary after applying to an existing mode",
-);
-
-store.set(setPreviewParameterAtom, {
-  parameterId: "color.backgroundLightness",
-  value: 0.28,
-});
-store.set(applyColorStopToModeAtom, {
-  modeSetId: "mode-set-color-scheme",
-  name: "Dusk",
-  update: {
-    scaleId: scale.id,
-    stopId: stop.id,
-    chroma: stop.chroma + 8,
-  },
-});
-const created = store
-  .get(modeSetsAtom)
-  .find((set) => set.key === "colorScheme")!
-  .modes.find((item) => item.name === "Dusk")!;
-assert.ok(created);
-assert.equal(
-  created.foundations.color?.backgroundLightness,
-  0.28,
-  "new mode captures its own previewed parameter",
-);
-assert.equal(
-  created.foundations.color?.scaleStops?.[scale.id]?.[stop.id]?.chroma,
-  stop.chroma + 8,
-);
-assert.equal(
-  store
-    .get(resolvedColorSystemDocumentAtom)
-    .scales.find((item) => item.id === scale.id)!
-    .stops.find((item) => item.id === stop.id)!.chroma,
-  stop.chroma + 8,
-);
-const modeChanges = store
-  .get(changeGroupsAtom)
-  .find((group) => group.id === "modes")!;
-const newModeItem = modeChanges.items.find(
-  (item) =>
-    item.modeSetId === "mode-set-color-scheme" && item.title.endsWith("Dusk"),
-)!;
-assert.ok(
-  newModeItem,
-  "new mode and its scale stop override appear in the change log",
-);
-store.set(revertChangeItemAtom, newModeItem);
-assert.ok(
-  !store
-    .get(modeSetsAtom)
-    .find((set) => set.key === "colorScheme")!
-    .modes.some((item) => item.id === created.id),
-  "reverting the mode item removes only that new mode",
-);
-assert.ok(
-  Math.abs(baseStop().hue - ((stop.hue + 20) % 360)) < 1e-8,
-  "reverting a mode does not change the base scale",
 );
 
 // Accessible text scaling: a default mode set owns text zoom and exposes it as an adaptive control.

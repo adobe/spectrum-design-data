@@ -165,7 +165,11 @@ export const AUTHORING_CAPABILITY_OPTIONS: readonly {
     foundation: "color",
     label: "Overall contrast",
   },
-  { id: "color.scales", foundation: "color", label: "Color scale stops" },
+  {
+    id: "color.scaleAdjustment",
+    foundation: "color",
+    label: "Hue & saturation",
+  },
   { id: "typography.textZoom", foundation: "typography", label: "Text size" },
   { id: "elevation.depth", foundation: "elevation", label: "Depth" },
   { id: "elevation.color", foundation: "elevation", label: "Shadow color" },
@@ -269,16 +273,6 @@ export function modeOverridesCapability(
     )
   )
     return true;
-  if (capability === "color.scales") {
-    return (
-      Object.values(mode.foundations.color?.scaleStops ?? {}).some(
-        (stops) => Object.keys(stops).length > 0,
-      ) ||
-      Object.values(mode.foundations.color?.dataVisSources ?? {}).some(
-        (points) => Object.keys(points).length > 0,
-      )
-    );
-  }
   return modeOverridesParameter(mode, capability);
 }
 
@@ -344,20 +338,13 @@ export function setParameterValue(
   parameterId: string,
   value: string | number | undefined,
 ): Mode {
-  if (
-    parameterId === "color.dataVisSources" ||
-    parameterId === "color.dataVisContrasts"
-  ) {
+  if (parameterId === "color.dataVisContrasts") {
     if (value !== undefined)
       throw new Error(
         "Use the data vis editor to set control-point overrides.",
       );
     const color = { ...mode.foundations.color };
-    delete color[
-      parameterId === "color.dataVisSources"
-        ? "dataVisSources"
-        : "dataVisContrasts"
-    ];
+    delete color.dataVisContrasts;
     const foundations = { ...mode.foundations };
     if (Object.keys(color).length) foundations.color = color;
     else delete foundations.color;

@@ -38,7 +38,7 @@ import {
   resolvedTypographyDocumentAtom,
   updateTextZoomAtom,
 } from "../../features/typography/state";
-import { ModeScaleStopControls } from "../color-system/ScaleStopEditor";
+import { ScaleAdjustmentControls } from "./ScaleAdjustmentControls";
 import {
   resolvedElevationAtom,
   updateElevationModeParameterAtom,
@@ -176,9 +176,7 @@ export function FoundationModePopover({
       <Popover
         placement="end"
         padding="none"
-        size={
-          enabled.some((option) => option.id === "color.scales") ? "M" : "S"
-        }
+        size={enabled.length > 1 ? "M" : "S"}
       >
         <Dialog
           aria-label={`Edit ${mode.name} for ${foundation}`}
@@ -198,6 +196,9 @@ export function FoundationModePopover({
               focusOnMount={index === 0}
             />
           ))}
+          {enabled.some((option) => option.id === "color.scaleAdjustment") && (
+            <ScaleAdjustmentControls mode={mode} />
+          )}
           {enabled.some(
             (option) => option.id === "color.contrastMultiplier",
           ) && (
@@ -205,9 +206,6 @@ export function FoundationModePopover({
               Edit scale-specific contrast values in the color Scale Editor.
               This mode owns those overrides too.
             </Text>
-          )}
-          {enabled.some((option) => option.id === "color.scales") && (
-            <ModeScaleStopControls focusOnMount={parameters.length === 0} />
           )}
         </Dialog>
       </Popover>
