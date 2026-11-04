@@ -18,6 +18,7 @@ mod authoring;
 mod data;
 mod format;
 mod lifecycle;
+mod resolve_values;
 
 use std::collections::{HashMap, HashSet};
 
@@ -113,6 +114,8 @@ struct TuiArgs {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Resolve exact token identities in contexts from a read-only JSON batch on stdin.
+    ResolveValues,
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
     Platform {
         #[command(subcommand)]
@@ -3775,6 +3778,7 @@ fn main() -> ExitCode {
             manifest,
             format,
         } => run_validate_manifest(path.as_deref(), manifest, format),
+        Commands::ResolveValues => resolve_values::run(),
         Commands::Resolve {
             property,
             path,
