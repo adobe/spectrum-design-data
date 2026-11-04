@@ -1,11 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ActionButton, Badge } from "@react-spectrum/s2";
+import { ActionButton } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useNotify } from "../notifications/notificationContext";
 import { EditOnly, useIsReadOnly } from "../editable";
+import { TypeBadge } from "../TypeBadge";
 import {
   deleteScaleTypeAtom,
   scaleTypeConsumersAtom,
@@ -83,9 +84,9 @@ export function ScaleTypeCard({ scaleType }: { scaleType: ScaleType }) {
       <header className={headerStyles}>
         <div className={titleRowStyles}>
           <h3 className={titleStyles}>{scaleType.name}</h3>
-          <Badge size="S" variant="neutral" fillStyle="subtle">
+          <TypeBadge type={scaleType.kind}>
             {scaleTypeBadgeLabel(scaleType.kind)}
-          </Badge>
+          </TypeBadge>
         </div>
         {isReadOnly ? (
           <ActionButton
