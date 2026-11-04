@@ -166,27 +166,43 @@ for (const appearance of ["light", "dark"]) {
     await expect(
       page.getByRole("checkbox", { name: "T-shirt sizes", exact: true }),
     ).toBeVisible();
-    await expect(page.locator(".structureVariantOption")).toHaveCount(2);
+    // One column per property: two Icon position options plus Has icon On/Off.
+    await expect(page.locator(".structureVariantOption")).toHaveCount(4);
+    await expect(page.locator(".structureVariantColumnLabel")).toHaveText([
+      "Icon position",
+      "Has icon",
+    ]);
     const before = await working(page);
     const iconId = data.structure.elements![0].id;
     const icons = page.locator(
       `.structureVariantFrames .structurePreview:not([aria-hidden]) [data-element-id="${iconId}"]`,
     );
-    await expect(icons).toHaveCount(2);
+    const selected = page.locator(".structureVariantOption[data-selected]");
+    await expect(icons).toHaveCount(3);
     await page.getByRole("switch", { name: "Has icon" }).press("Space");
-    await expect(icons).toHaveCount(0);
+    await expect(selected).toHaveCount(1);
+    await expect(selected.locator(".structureVariantLabel")).toHaveText("Off");
+    await expect(selected.locator(`[data-element-id="${iconId}"]`)).toHaveCount(
+      0,
+    );
     await expect.poll(() => working(page)).toEqual(before);
     await page
       .getByRole("switch", { name: "Has icon" })
       .locator("xpath=ancestor::label[1]")
       .click();
-    await expect(icons).toHaveCount(2);
+    await expect(icons).toHaveCount(3);
     await page.getByRole("button", { name: /Icon position option$/ }).click();
     await page
       .getByRole("option", { name: "Trailing icon", exact: true })
       .click();
     await page
-      .getByRole("button", { name: "Edit Trailing icon", exact: true })
+      .getByRole("button", {
+        name: "More actions for Icon position",
+        exact: true,
+      })
+      .click();
+    await page
+      .getByRole("menuitem", { name: "Edit Trailing icon", exact: true })
       .click();
     const optionName = page.getByRole("textbox", { name: "Option name" });
     await expect(optionName).toBeFocused();
@@ -195,9 +211,9 @@ for (const appearance of ["light", "dark"]) {
       .getByRole("button", { name: "Edit property Icon position", exact: true })
       .click();
     await expect(
-      page.getByRole("textbox", { name: "Property name" }),
+      page.getByRole("textbox", { name: "Variant name" }),
     ).toBeFocused();
-    await page.getByRole("textbox", { name: "Property name" }).press("Escape");
+    await page.getByRole("textbox", { name: "Variant name" }).press("Escape");
     await page
       .getByRole("textbox", { name: "Description", exact: true })
       .fill("An edited structure.");
@@ -213,14 +229,12 @@ for (const appearance of ["light", "dark"]) {
       .getByRole("button", { name: "Add property", exact: true })
       .click();
     await page.getByRole("menuitem", { name: "Boolean", exact: true }).click();
-    const dialog = page.getByRole("dialog", {
-      name: "Add boolean",
-      exact: true,
-    });
-    await dialog
+    await page
       .getByRole("textbox", { name: "Boolean name", exact: true })
       .fill("Has badge");
-    await dialog.getByRole("button", { name: "Add", exact: true }).click();
+    await page
+      .getByRole("textbox", { name: "Boolean name", exact: true })
+      .press("Enter");
     await expect(
       page.getByRole("button", { name: "boolean option not used" }),
     ).toBeVisible();
@@ -282,7 +296,82 @@ for (const appearance of ["light", "dark"]) {
   });
 }
 
-test("Canvas Add copies an option using a confirmed new Registry term", async ({
+test("Compact property names confirm new Registry terms without an input error", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1400, height: 900 });
+  await seed(page);
+  await select(page);
+  const before = await working(page);
+  const nameButton = page.getByRole("button", {
+    name: "Edit property Icon position",
+    exact: true,
+  });
+  await expect(nameButton).toHaveCSS("justify-content", "start");
+  await expect(
+    nameButton.getByText("Icon position", { exact: true }),
+  ).toHaveCSS("text-align", "start");
+  await nameButton.click();
+  const field = page.getByRole("textbox", {
+    name: "Variant name",
+    exact: true,
+  });
+  const save = page.getByRole("button", {
+    name: "Save variant name",
+    exact: true,
+  });
+  const cancel = page.getByRole("button", {
+    name: "Cancel editing variant name",
+    exact: true,
+  });
+  await expect(field).toBeFocused();
+  const inputBounds = await field.boundingBox();
+  const saveBounds = await save.boundingBox();
+  const cancelBounds = await cancel.boundingBox();
+  expect(saveBounds!.x).toBeGreaterThanOrEqual(
+    inputBounds!.x + inputBounds!.width,
+  );
+  expect(cancelBounds!.x).toBeGreaterThanOrEqual(
+    saveBounds!.x + saveBounds!.width,
+  );
+  expect(Math.abs(saveBounds!.y - inputBounds!.y)).toBeLessThan(3);
+  expect(Math.abs(cancelBounds!.y - inputBounds!.y)).toBeLessThan(3);
+  await field.fill("Icon location");
+  await save.click();
+  const confirmation = page.getByRole("dialog", {
+    name: "Create Registry term",
+    exact: true,
+  });
+  await expect(confirmation).toBeVisible();
+  await expect(field).not.toHaveAttribute("aria-invalid", "true");
+  await expect.poll(() => working(page)).toEqual(before);
+  await confirmation
+    .getByRole("button", { name: "Cancel", exact: true })
+    .click();
+  await expect(confirmation).toHaveCount(0);
+  await expect(field).toHaveValue("Icon location");
+  await cancel.click();
+  await expect(nameButton).toBeVisible();
+  await expect.poll(() => working(page)).toEqual(before);
+  await nameButton.click();
+  await field.fill("Icon location");
+  await field.press("Enter");
+  await confirmation
+    .getByRole("button", { name: "Create", exact: true })
+    .click();
+  await expect(confirmation).toHaveCount(0);
+  await expect(
+    page.getByRole("button", {
+      name: "Edit property Icon location",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect
+    .poll(async () => (await working(page)).taxonomy.terms.length)
+    .toBe(before.taxonomy.terms.length + 1);
+});
+
+test("Canvas Add creates a local option inline without creating Registry terms", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1800, height: 1000 });
@@ -292,26 +381,158 @@ test("Canvas Add copies an option using a confirmed new Registry term", async ({
   await page
     .getByRole("button", { name: "Add variant option", exact: true })
     .click();
-  const dialog = page.getByRole("dialog", { name: "Add option", exact: true });
-  await dialog.getByRole("button", { name: /Option category$/ }).click();
+  const before = (await working(page)).taxonomy;
+  const form = page.getByRole("group", {
+    name: "Add option to Icon position",
+    exact: true,
+  });
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await form
+    .getByRole("textbox", { name: "Option name", exact: true })
+    .fill("Middle icon");
+  await form.getByRole("button", { name: "Add", exact: true }).click();
+  // Three Icon position options plus Has icon On/Off.
+  await expect(page.locator(".structureVariantOption")).toHaveCount(5);
+  await expect.poll(async () => (await working(page)).taxonomy).toEqual(before);
+  await expect(
+    page.getByText("Options without token naming are preview-only.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("Properties add Boolean and Variant inline with local options and reload persistence", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1800, height: 1000 });
+  await seed(page, createStructureSnapshot());
+  await select(page);
+  const before = await working(page);
+  const panel = page.getByRole("region", {
+    name: "Structure settings for Example structure",
+    exact: true,
+  });
+  const addProperty = async (kind: string) => {
+    await panel
+      .getByRole("button", { name: "Add property", exact: true })
+      .click();
+    await page.getByRole("menuitem", { name: kind, exact: true }).click();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  };
+  await addProperty("Variant");
+  const name = panel.getByRole("textbox", {
+    name: "Variant name",
+    exact: true,
+  });
+  await expect(name).toBeFocused();
+  await name.fill("Icon position");
+  await name.press("Enter");
+  await expect(
+    panel.getByRole("button", { name: /Icon position option$/ }),
+  ).toBeVisible();
+  const row = panel.locator(".structurePropertyRow").filter({
+    has: page.getByRole("button", {
+      name: "Edit property Icon position",
+      exact: true,
+    }),
+  });
+  await row
+    .getByRole("button", {
+      name: "More actions for Icon position",
+      exact: true,
+    })
+    .click();
   await page
-    .getByRole("option", { name: "Structure placement", exact: true })
+    .getByRole("menuitem", { name: "Edit Default", exact: true })
     .click();
-  await dialog
-    .getByRole("textbox", { name: "New option term", exact: true })
-    .fill("middle-icon");
-  await dialog
-    .getByRole("button", { name: "Create Registry term", exact: true })
+  await panel
+    .getByRole("textbox", { name: "Option name", exact: true })
+    .fill("Start");
+  await panel
+    .getByRole("textbox", { name: "Option name", exact: true })
+    .press("Enter");
+  await row
+    .getByRole("button", {
+      name: "More actions for Icon position",
+      exact: true,
+    })
     .click();
-  await dialog.getByRole("button", { name: "Add", exact: true }).click();
-  await expect(page.locator(".structureVariantOption")).toHaveCount(3);
+  await page.getByRole("menuitem", { name: "Add option", exact: true }).click();
+  const form = panel.getByRole("group", {
+    name: "Add option to Icon position",
+    exact: true,
+  });
+  await expect(
+    form.getByRole("textbox", { name: "Option name", exact: true }),
+  ).toBeFocused();
+  await form
+    .getByRole("textbox", { name: "Option name", exact: true })
+    .fill("Both");
+  await form.getByRole("button", { name: "Add", exact: true }).click();
+  await row
+    .getByRole("button", {
+      name: "More actions for Icon position",
+      exact: true,
+    })
+    .click();
+  await page
+    .getByRole("menuitem", { name: "Set as default", exact: true })
+    .click();
+  await row
+    .getByRole("button", {
+      name: "More actions for Icon position",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByRole("menuitem", { name: "Delete option Both", exact: true }),
+  ).toBeDisabled();
+  await page.keyboard.press("Escape");
+  await addProperty("Boolean");
+  const boolean = panel.getByRole("textbox", {
+    name: "Boolean name",
+    exact: true,
+  });
+  await expect(boolean).toBeFocused();
+  await boolean.fill("Has icon");
+  await boolean.press("Enter");
+  await expect(
+    panel.getByRole("switch", { name: "Has icon", exact: true }),
+  ).toBeVisible();
   await expect
-    .poll(async () =>
-      (await working(page)).taxonomy.terms.some(
-        (term: { value: string }) => term.value === "middle-icon",
-      ),
-    )
-    .toBe(true);
+    .poll(async () => (await working(page)).taxonomy)
+    .toEqual(before.taxonomy);
+  await expect(
+    page.getByRole("button", { name: /Property category/ }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByText("Options without token naming are preview-only.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Save", exact: true })
+    .click();
+  await page.reload();
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Design(?: |$)/ })
+    .click();
+  await select(page);
+  await expect(
+    panel.getByRole("switch", { name: "Has icon", exact: true }),
+  ).toBeVisible();
+  const saved = await working(page);
+  expect(saved.structures.structures[0].editor.properties[0].name).toBe(
+    "Icon position",
+  );
+  const variant = saved.structures.structures[0].editor.properties[0];
+  expect(
+    variant.options.find(
+      (option: { id: string }) => option.id === variant.defaultOptionId,
+    ).name,
+  ).toBe("Both");
 });
 
 test("No structures uses the requested illustrated empty message", async ({

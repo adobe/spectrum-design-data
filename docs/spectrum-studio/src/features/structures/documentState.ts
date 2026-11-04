@@ -8,19 +8,41 @@ import {
   upgradeStructuresDocument,
   type StructuresDocument,
 } from "./model";
-import type { StructurePreviewState } from "./variants";
+import {
+  EMPTY_STRUCTURE_PREVIEW,
+  type StructurePreviewState,
+} from "./variants";
+import { structureLayerPreview } from "./layers";
+import { withTaxonomyContributions } from "../taxonomy/contributions";
+import {
+  reconcileStructureNames,
+  resolveStructureNames,
+} from "./registeredNames";
 
-export const structuresDocumentAtom = persistedAtom<StructuresDocument>({
+const storedStructuresDocumentAtom = persistedAtom<StructuresDocument>({
   key: "design/structures",
   schemaVersion: STRUCTURES_SCHEMA_VERSION,
   initialize: () => structuredClone(designSystemDefaults.system.structures),
   validate: isStructuresDocument,
   migrate: (data) => upgradeStructuresDocument(data),
 });
+export const structuresDocumentAtom = withTaxonomyContributions(
+  storedStructuresDocumentAtom,
+  () => [],
+  isStructuresDocument,
+  "design/structures",
+  {
+    resolve: resolveStructureNames,
+    reconcile: (taxonomy, previous, next) =>
+      reconcileStructureNames(taxonomy, previous, next),
+  },
+);
 export const selectedStructureIdAtom = atom<string | null>(null);
-const previewsAtom = atom<Record<string, StructurePreviewState>>({});
+export const structurePreviewsAtom = atom<
+  Record<string, StructurePreviewState>
+>({});
 export const clearStructurePreviewsAtom = atom(null, (_get, set) =>
-  set(previewsAtom, {}),
+  set(structurePreviewsAtom, {}),
 );
 export const structurePreviewStateAtom = atom(
   (get): StructurePreviewState => {
@@ -28,39 +50,15 @@ export const structurePreviewStateAtom = atom(
     const structure = get(structuresDocumentAtom).structures.find(
       (item) => item.conceptId === id,
     );
-    const stored = id ? get(previewsAtom)[id] : undefined;
-    const properties = structure?.editor?.properties ?? [];
-    const variants = properties.filter(
-      (property) => property.kind === "variant",
-    );
-    const active =
-      variants.find((property) => property.id === stored?.activePropertyId) ??
-      variants[0];
-    return {
-      activePropertyId: active?.id ?? null,
-      options: Object.fromEntries(
-        variants.map((property) => [
-          property.id,
-          property.options.find(
-            (option) => option.id === stored?.options[property.id],
-          )?.id ?? property.defaultOptionId,
-        ]),
-      ),
-      booleans: Object.fromEntries(
-        properties
-          .filter((property) => property.kind === "boolean")
-          .map((property) => [
-            property.id,
-            stored?.booleans[property.id] ?? property.defaultValue,
-          ]),
-      ),
-    };
+    return structure
+      ? structureLayerPreview(structure, get(structurePreviewsAtom))
+      : EMPTY_STRUCTURE_PREVIEW;
   },
   (get, set, patch: Partial<StructurePreviewState>) => {
     const id = get(selectedStructureIdAtom);
     if (!id) throw new Error("Select a structure before changing its preview.");
-    set(previewsAtom, {
-      ...get(previewsAtom),
+    set(structurePreviewsAtom, {
+      ...get(structurePreviewsAtom),
       [id]: { ...get(structurePreviewStateAtom), ...patch },
     });
   },

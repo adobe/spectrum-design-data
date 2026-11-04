@@ -45,11 +45,29 @@
   background: #222;
 }
 
-.structurePreview[data-empty][data-editable][data-hug-width] {
+.structureElement-slot {
+  outline: 1px dashed var(--spectrum-fuchsia-400);
+  outline-offset: -1px;
+}
+
+.structureSlotLabel {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 10px;
+}
+
+:is(
+    .structurePreview,
+    .structureLayoutPreview
+  )[data-empty][data-editable][data-hug-width] {
   min-width: 160px;
 }
 
-.structurePreview[data-empty][data-editable][data-hug-height] {
+:is(
+    .structurePreview,
+    .structureLayoutPreview
+  )[data-empty][data-editable][data-hug-height] {
   min-height: 96px;
 }
 
@@ -74,7 +92,8 @@
   z-index: -1;
 }
 
-.structurePreview[data-direction="vertical"] > .structureInsertion {
+:is(.structurePreview, .structureLayoutPreview)[data-direction="vertical"]
+  > .structureInsertion {
   inset-inline: 0;
   inset-block-end: auto;
   justify-content: center;
@@ -83,7 +102,8 @@
   transform: translateY(-50%);
 }
 
-.structurePreview[data-direction="vertical"] > .structureInsertion::after {
+:is(.structurePreview, .structureLayoutPreview)[data-direction="vertical"]
+  > .structureInsertion::after {
   inset-inline: 0;
   inset-block: 50% auto;
   border-inline-start: 0;
@@ -91,24 +111,42 @@
 }
 
 .structureModule {
+  position: relative;
   flex-shrink: 0;
+}
+
+.structureModule > .structureElementSelection {
+  position: relative;
+}
+
+.structureModule[data-selected],
+.structureLayoutPreview:focus-visible {
+  outline: 2px solid var(--spectrum-blue-800);
 }
 
 .structureInsertion:focus-within,
 .structureInsertion[data-menu-open],
-.structurePreview:hover > .structureInsertion[data-current],
-.structurePreview[data-empty] > .structureInsertion {
+:is(.structurePreview, .structureLayoutPreview):hover
+  > .structureInsertion[data-current],
+:is(.structurePreview, .structureLayoutPreview)[data-empty]
+  > .structureInsertion {
   opacity: 1;
 }
 
 .structureInsertion:focus-within > button,
 .structureInsertion[data-menu-open] > button,
-.structurePreview:hover > .structureInsertion[data-current] > button,
-.structurePreview[data-empty] > .structureInsertion > button {
+:is(.structurePreview, .structureLayoutPreview):hover
+  > .structureInsertion[data-current]
+  > button,
+:is(.structurePreview, .structureLayoutPreview)[data-empty]
+  > .structureInsertion
+  > button {
   pointer-events: auto;
 }
 
-.structurePreview[data-pointer-over-element] > .structureInsertion:not([data-menu-open]) > button {
+:is(.structurePreview, .structureLayoutPreview)[data-pointer-over-element]
+  > .structureInsertion:not([data-menu-open])
+  > button {
   opacity: 0;
   pointer-events: none;
 }

@@ -19,6 +19,8 @@ import {
   type StructurePreviewProps,
 } from "./StructurePreview";
 import { measureCompositionLayouts } from "./compositionMeasurement";
+import { useAtomValue } from "jotai";
+import { structurePreviewsAtom } from "../../features/structures/documentState";
 
 interface StructureOptionSampleProps extends Pick<
   StructurePreviewProps,
@@ -27,6 +29,7 @@ interface StructureOptionSampleProps extends Pick<
   | "onSelectElement"
   | "onInsert"
   | "onInsertStructure"
+  | "onInsertLayout"
   | "structures"
 > {
   structure: Structure;
@@ -48,6 +51,7 @@ export function StructureOptionSample({
   preview,
   ...interaction
 }: StructureOptionSampleProps) {
+  const previews = useAtomValue(structurePreviewsAtom);
   const frame = useRef<HTMLDivElement>(null);
   const natural = useRef<HTMLDivElement>(null);
   const [layout, setLayout] = useState<PreviewLayoutContext>(UNMEASURED_LAYOUT);
@@ -58,10 +62,9 @@ export function StructureOptionSample({
     () => resolveStructureOptions(structure, preview),
     [structure, preview],
   );
-  const resolved = resolveStructure(effective.structure, references, layout);
   const leaves = resolveElements(effective.structure, references, rules);
   const result = resolveCompositionResult(
-    effective.structure,
+    structure,
     catalog,
     references,
     rules,
@@ -71,8 +74,18 @@ export function StructureOptionSample({
     layout,
     modules,
     preview?.options,
+    preview?.indentationLevel,
+    { ...previews, ...(preview && { [structure.conceptId]: preview }) },
   );
   const composition = result.status === "ready" ? result.value : undefined;
+  const resolved =
+    composition?.resolved ??
+    resolveStructure(
+      effective.structure,
+      references,
+      layout,
+      preview?.indentationLevel,
+    );
   const signature = JSON.stringify([
     resolved.styles,
     resolved.intrinsicStyles,

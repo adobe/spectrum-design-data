@@ -3,6 +3,7 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .structureDesignCanvas {
@@ -15,11 +16,30 @@
 
 .structureDesignStage {
   position: absolute;
-  inset: 32px 312px 32px 312px;
+  inset: 0;
   display: flex;
   align-items: safe center;
   justify-content: safe center;
-  overflow: auto;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.structureDesignStage:focus-visible {
+  outline: 2px solid var(--spectrum-blue-700);
+  outline-offset: -2px;
+}
+
+.structureDesignStage[data-panning] {
+  cursor: grabbing;
+}
+
+.structureDesignViewport {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform-origin: 0 0;
 }
 
 .structureMetadataPanel {
@@ -28,12 +48,38 @@
   inset-inline-start: 16px;
   z-index: 2;
   width: 280px;
+  min-width: 280px;
+  max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   box-sizing: border-box;
+  resize: horizontal;
+}
+
+.structureDesignCanvas .structureMetadataPanel,
+.structureDesignCanvas .structureEditorPanel {
+  padding: 0;
+}
+
+.structurePanelSections,
+.structurePanelSection {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.structurePanelSections {
+  gap: 0;
+}
+
+.structurePanelSection {
+  gap: 8px;
+}
+
+.structurePanelSectionTitle {
+  font-weight: 600;
 }
 
 .structureCompactRow,
-.structureLayerActions,
 .structurePropertyRow {
   display: flex;
   align-items: center;
@@ -74,12 +120,29 @@
   flex: 1 1 0;
 }
 
+.structurePropertyRow > .structurePropertyNameButton {
+  justify-content: start;
+  text-align: start;
+}
+
+.structureNameEditor {
+  display: flex;
+  align-items: end;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+}
+
+.structureNameEditor > button {
+  flex-shrink: 0;
+}
+
 .structureVariantFrames {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
   padding: 12px;
   border: 1px dashed var(--spectrum-fuchsia-400);
   border-radius: 8px;
@@ -111,6 +174,33 @@
   outline-offset: 2px;
 }
 
+.structureVariantColumn,
+.structureVariantOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.structureVariantColumn {
+  gap: 24px;
+}
+
+.structureVariantOption {
+  gap: 4px;
+}
+
+.structureVariantLabel {
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--spectrum-gray-700);
+  white-space: nowrap;
+}
+
+.structureVariantColumnLabel {
+  font-weight: 700;
+  color: var(--spectrum-gray-800);
+}
+
 .structureOptionSample {
   display: flex;
   align-items: center;
@@ -123,6 +213,11 @@
   padding: 8px;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Rows carry their own selection outline; S2's row dividers would add a second boundary. */
+.structuresList [role="row"] {
+  border-block-end-width: 0;
 }
 
 .structureThumbnail {
@@ -191,13 +286,8 @@
 }
 
 @media (width < 1100px) {
-  .structureDesignWork {
-    overflow: auto;
-  }
-
   .structureDesignCanvas {
-    overflow: auto;
-    min-width: 900px;
+    overflow: hidden;
   }
 }
 

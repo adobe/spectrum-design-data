@@ -16,6 +16,7 @@ import {
   structureGeneration,
   type Structure,
 } from "../../features/structures/model";
+import { governStructureName } from "../../features/structures/generation";
 import { StructureRuleDialog } from "./StructureRuleDialog";
 import { Picker } from "../../components/fields/Picker";
 import { PickerItem } from "@react-spectrum/s2";
@@ -35,6 +36,7 @@ export function StructureGenerationControls({
   const setSizes = useSetAtom(setStructureSizesAtom);
   const apply = useSetAtom(applyStructureRuleAtom);
   const generation = structureGeneration(structure);
+  const [nameTermId] = useState(() => crypto.randomUUID());
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const application =
     generation.applications.find((item) => item.id === applicationId) ??
@@ -43,7 +45,7 @@ export function StructureGenerationControls({
     <>
       <div className="structureCompactRow">
         <Checkbox
-          size="S"
+          size="M"
           isSelected={generation.sizeTermIds.length > 1}
           isDisabled={isReadOnly}
           onChange={(enabled) => {
@@ -69,7 +71,7 @@ export function StructureGenerationControls({
             application={application}
             trigger={
               <ActionButton
-                size="S"
+                size="M"
                 isQuiet
                 aria-label="Edit T-shirt size bindings"
               >
@@ -77,19 +79,35 @@ export function StructureGenerationControls({
               </ActionButton>
             }
             onApply={(next) =>
-              apply({ structureId: structure.conceptId, application: next })
+              apply({
+                structureId: structure.conceptId,
+                application: next,
+                nameTermId,
+              })
             }
-            preview={(next) =>
-              buildTshirtArtifacts({
+            preview={(next) => {
+              const taxonomy = snapshot.taxonomy;
+              if (!taxonomy)
+                throw new Error("The Registry is unavailable for preview.");
+              const named = generation.nameRef
+                ? { structure, taxonomy }
+                : governStructureName(
+                    structure,
+                    taxonomy,
+                    structure.name,
+                    nameTermId,
+                  );
+              return buildTshirtArtifacts({
                 ...snapshot,
+                taxonomy: named.taxonomy,
                 structures: {
                   ...snapshot.structures!,
                   structures: snapshot.structures!.structures.map((source) =>
                     source.conceptId === structure.conceptId
                       ? {
-                          ...source,
+                          ...named.structure,
                           generation: {
-                            ...generation,
+                            ...structureGeneration(named.structure),
                             applications: [
                               ...generation.applications.filter(
                                 (item) => item.id !== next.id,
@@ -101,14 +119,14 @@ export function StructureGenerationControls({
                       : source,
                   ),
                 },
-              })
-            }
+              });
+            }}
           />
         )}
       </div>
       {generation.applications.length > 1 && (
         <Picker
-          size="S"
+          size="M"
           label="Sizing rule application"
           selectedKey={application?.id}
           onSelectionChange={(key) => setApplicationId(String(key))}

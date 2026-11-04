@@ -10,6 +10,7 @@ import { previewOverridesAtom } from "../../features/modes/previewState";
 import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
 import { StructurePermutationsView } from "./StructurePermutationsView";
 import { rulesAtom } from "../../features/logic/library";
+import { structurePreviewStateAtom } from "../../features/structures/variantState";
 
 export function StructurePermutations() {
   const structure = useAtomValue(selectedStructureAtom),
@@ -17,6 +18,7 @@ export function StructurePermutations() {
   const generation = useAtomValue(workingTshirtArtifactsAtom),
     mode = useAtomValue(browserModeContextAtom);
   const preview = useAtomValue(previewOverridesAtom);
+  const structurePreview = useAtomValue(structurePreviewStateAtom);
   const rules = useAtomValue(rulesAtom);
   const structures = useAtomValue(structuresDocumentAtom).structures;
   const selection = Object.fromEntries(
@@ -28,6 +30,7 @@ export function StructurePermutations() {
       references={references}
       selection={selection}
       isPreview={Object.keys(preview).length > 0}
+      preview={structurePreview}
       rules={rules}
       structures={structures}
       bundle={generation.status === "ready" ? generation.bundle : undefined}

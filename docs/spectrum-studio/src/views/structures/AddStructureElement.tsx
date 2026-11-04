@@ -24,6 +24,7 @@ export interface AddStructureElementProps {
   isOpen?: boolean;
   structures?: readonly Structure[];
   onInsertStructure?: (id: string, index: number) => void;
+  onInsertLayout?: (index: number) => void;
 }
 export function AddStructureElement({
   index,
@@ -33,6 +34,7 @@ export function AddStructureElement({
   isOpen,
   structures = [],
   onInsertStructure,
+  onInsertLayout,
 }: AddStructureElementProps) {
   const choices = (
     Object.entries(ELEMENT_TYPES) as [
@@ -41,7 +43,9 @@ export function AddStructureElement({
     ][]
   ).flatMap(([kind, type]) => {
     const term = taxonomy.terms.find((term) => term.id === type.termId);
-    return term ? [{ kind, label: termLabel(term.value) }] : [];
+    return term || kind === "slot"
+      ? [{ kind, label: term ? termLabel(term.value) : type.label }]
+      : [];
   });
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -56,6 +60,10 @@ export function AddStructureElement({
       <Menu
         aria-label="Add element"
         onAction={(key) => {
+          if (key === "layout" && onInsertLayout) {
+            onInsertLayout(index);
+            return;
+          }
           const source = structures.find(
             (source) => `structure:${source.conceptId}` === key,
           );
@@ -71,6 +79,12 @@ export function AddStructureElement({
         }}
       >
         <MenuSection aria-label="Elements">
+          {onInsertLayout && (
+            <MenuItem id="layout" textValue="Layout">
+              <CategoryIcon category="structures" />
+              <Text slot="label">Layout</Text>
+            </MenuItem>
+          )}
           {choices.map(({ kind, label }) => (
             <MenuItem key={kind} id={kind} textValue={label}>
               <CategoryIcon category={`element.${kind}`} />

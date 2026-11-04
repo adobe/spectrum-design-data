@@ -140,7 +140,7 @@ export function StructureCard({
   if (preview)
     return (
       <section
-        className={`${foundationCardStyles} structureListCard`}
+        className="structureListCard"
         data-component="StructureCard"
         data-structure-id={structure.conceptId}
       >

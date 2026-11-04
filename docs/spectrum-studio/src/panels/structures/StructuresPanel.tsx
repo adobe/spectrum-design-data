@@ -12,6 +12,7 @@ import {
   restoreStructureAtom,
   selectedStructureIdAtom,
 } from "../../features/structures/state";
+import { topLevelStructures } from "../../features/structures/children";
 import { StructureCard } from "./StructureCard";
 import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
 import { StructureThumbnail } from "../../views/structures/StructureThumbnail";
@@ -28,7 +29,7 @@ const panelStyles = style({
 const listStyles = style({ flexGrow: 1, minHeight: 0, minWidth: 0 });
 
 export function StructuresPanel() {
-  const structures = useAtomValue(resolvedStructuresAtom);
+  const structures = topLevelStructures(useAtomValue(resolvedStructuresAtom));
   const generation = useAtomValue(workingTshirtArtifactsAtom);
   const [selected, setSelected] = useAtom(selectedStructureIdAtom);
   const editing = useAtomValue(editModeAtom);
@@ -56,6 +57,7 @@ export function StructuresPanel() {
       ) : (
         <ListView
           aria-label="Structures"
+          UNSAFE_className="structuresList"
           selectionMode="single"
           selectionStyle="highlight"
           isQuiet
