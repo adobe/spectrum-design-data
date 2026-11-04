@@ -46,7 +46,9 @@ export function browserOpacitySources(
   modes: readonly Mode[],
   registry?: TaxonomyDocument,
   preview?: PreviewOverrides,
-): BrowserTokenSource[] {
+): (BrowserTokenSource & {
+  taxonomyEvidence: { property: string; scaleIndex: number };
+})[] {
   const result = resolveOpacity(source, modes, preview);
   return result.levels.map((level) => {
     const property = registry?.categories.find(
@@ -107,11 +109,7 @@ export function opacityRows(
   return opacityContexts(source).flatMap(({ modes, key, context }) =>
     browserOpacitySources(source, modes, registry).map((token) => ({
       conceptId: token.id,
-      scaleIndex:
-        (source.opacity?.levels.findIndex((level) => level.id === token.id) ??
-          -1) *
-          100 +
-        100,
+      scaleIndex: token.taxonomyEvidence.scaleIndex,
       uuid: token.rowId,
       modeKey: key,
       context: Object.fromEntries(

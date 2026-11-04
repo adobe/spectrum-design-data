@@ -680,25 +680,22 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
   const editStatic = useSetAtom(editDataVisStaticColorAtom),
     staticStops = useSetAtom(editDataVisStaticStopsAtom);
   const owners = capabilityOwners(sets);
-  const modeFor = (capability: "color.scales" | "color.contrastMultiplier") => {
-    const axis = sets.find((axis) => axis.id === owners[capability]),
+  const modeFor = () => {
+    const axis = sets.find(
+        (axis) => axis.id === owners["color.contrastMultiplier"],
+      ),
       mode = axis && resolveActiveMode(axis, selection);
     return mode && mode.id !== axis?.defaultModeId ? mode : undefined;
   };
-  const sourceMode = modeFor("color.scales"),
-    contrastMode = modeFor("color.contrastMultiplier");
-  const customFor = (
-    capability: "color.scales" | "color.contrastMultiplier",
-  ) => {
-    const axis = sets.find((axis) => axis.id === owners[capability]);
+  const contrastMode = modeFor();
+  const contrastCustom = (() => {
+    const axis = sets.find(
+      (axis) => axis.id === owners["color.contrastMultiplier"],
+    );
     return !!axis && displayedModes[axis.key] === CUSTOM_MODE_KEY;
-  };
-  const sourceCustom = customFor("color.scales"),
-    contrastCustom = customFor("color.contrastMultiplier");
+  })();
   const baseScope =
-    !!scale.staticColors ||
-    editBase ||
-    (!sourceMode && !contrastMode && !sourceCustom && !contrastCustom);
+    !!scale.staticColors || editBase || (!contrastMode && !contrastCustom);
   const displayed = baseScope
     ? scale
     : effective.dataVisScales.find((item) => item.id === scale.id);
@@ -769,8 +766,8 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
           onSelect={setPointId}
           gradient={`linear-gradient(to right${scale.kind === "sequential" ? " in oklch" : ""}, ${samples.map((sample) => `${sample.value} ${sample.position * 100}%`).join(", ")})`}
           isReadOnly={readOnly}
-          onAdd={baseScope ? addStop : undefined}
-          onMove={baseScope ? moveStop : undefined}
+          onAdd={addStop}
+          onMove={moveStop}
           stops={output.scale.points.map((point) => {
             const bounds = continuousStopBounds(
               positions,
@@ -802,7 +799,6 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
           <ActionButton
             isQuiet
             aria-label="Add color stop"
-            isDisabled={!baseScope}
             onPress={() => addStop()}
           >
             <Add />
@@ -810,7 +806,7 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
           <ActionButton
             isQuiet
             aria-label="Remove selected color stop"
-            isDisabled={!baseScope || bounds.fixed}
+            isDisabled={bounds.fixed}
             onPress={() =>
               attempt(() => {
                 if (scale.staticColors) {
@@ -888,20 +884,10 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
             minimumPosition={bounds.minimum}
             maximumPosition={bounds.maximum}
             onBaseScopeChange={
-              sourceMode || contrastMode || sourceCustom || contrastCustom
-                ? setEditBase
-                : undefined
-            }
-            sourceModeName={
-              sourceCustom ? "Adaptive preview" : sourceMode?.name
+              contrastMode || contrastCustom ? setEditBase : undefined
             }
             contrastModeName={
               contrastCustom ? "Adaptive preview" : contrastMode?.name
-            }
-            sourceOverridden={
-              !!sourceMode?.foundations.color?.dataVisSources?.[scale.id]?.[
-                point.id
-              ]
             }
             contrastOverridden={
               contrastMode?.foundations.color?.dataVisContrasts?.[scale.id]?.[
@@ -914,7 +900,7 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
                   scaleId: scale.id,
                   pointId: point.id,
                   source,
-                  scope: baseScope ? "base" : "mode",
+                  scope: "base",
                 });
               })
             }
@@ -932,23 +918,13 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
               })
             }
             onPositionChange={(position) => moveStop(point.id, position)}
-            onReset={(reset) =>
+            onReset={() =>
               attempt(() => {
                 edit({
                   scaleId: scale.id,
                   pointId: point.id,
-                  reset,
+                  reset: "contrast",
                   scope: "mode",
-                });
-              })
-            }
-            onAllModes={() =>
-              attempt(() => {
-                edit({
-                  scaleId: scale.id,
-                  pointId: point.id,
-                  source: point.source,
-                  scope: "all-modes",
                 });
               })
             }

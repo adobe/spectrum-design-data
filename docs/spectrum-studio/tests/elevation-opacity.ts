@@ -52,7 +52,7 @@ const document: ElevationDocument = {
 };
 const original = structuredClone(source);
 const contexts = opacityContexts(source);
-assert.equal(contexts.length, 2);
+assert.equal(contexts.length, 3);
 for (const { modes } of contexts) {
   const resolved = resolveElevationDocument(
     document,

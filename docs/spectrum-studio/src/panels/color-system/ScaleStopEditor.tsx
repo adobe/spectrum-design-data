@@ -19,16 +19,9 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import { useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
-import {
-  type ComponentRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { Dialog, Modal, ModalOverlay } from "react-aria-components";
+import { type ComponentRef, useLayoutEffect, useRef, useState } from "react";
+import { Dialog } from "react-aria-components";
 import { ColorPickerContents } from "../../components/color-picker/ColorPickerContents";
-import { ColorScalePicker } from "../../components/color-picker/ColorScalePicker";
 import { GradientStopControl } from "../../components/color-picker/GradientStopControl";
 import { foundationCardStyles } from "../../components/foundationCardStyles";
 import { PaletteSwatchPicker } from "../../components/palette/PaletteSwatchPicker";
@@ -41,31 +34,23 @@ import {
   renderGamutForOutput,
 } from "../../features/color-system/colorMath";
 import { buildScaleData } from "../../features/color-system/scaleGeneration";
-import type { ColorSystemDocument } from "../../features/color-system/model";
+import {
+  scaleInterpolation,
+  type ColorScaleInterpolation,
+  type ColorSystemDocument,
+} from "../../features/color-system/model";
 import {
   colorSystemDocumentAtom,
   resolvedColorSystemDocumentAtom,
-  applyColorStopToModeAtom,
   addColorScaleAtom,
   addColorStopAtom,
   removeColorScaleAtom,
   removeColorStopAtom,
   restoreColorScaleAtom,
+  updateColorScaleInterpolationAtom,
   updateColorScalePublishingAtom,
   updateColorStopAtom,
-  resetModeColorStopAtom,
 } from "../../features/color-system/state";
-import { capabilityOwners } from "../../features/modes/parameters";
-import { authoringCapabilityOwnersAtom } from "../../features/modes/capabilities";
-import { modeSetsAtom } from "../../features/modes/state";
-import {
-  modeSelectionAtom,
-  resolveActiveMode,
-} from "../../features/modes/selection";
-import {
-  CUSTOM_MODE_KEY,
-  displayedModeIdsAtom,
-} from "../../features/modes/preview";
 import {
   selectedColorScaleIdAtom,
   selectedColorStopIdAtom,
@@ -103,6 +88,13 @@ const fieldRowStyles = style({
   alignItems: "end",
   gap: 8,
 });
+const scaleSettingsStyles = style({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "end",
+  justifyContent: "space-between",
+  gap: 8,
+});
 const scaleTriggerStyles = style({
   display: "flex",
   alignItems: "start",
@@ -133,25 +125,6 @@ export function ScaleStopEditor() {
   const isNarrow = useNarrowScaleEditorViewport();
   const colorDocument = useAtomValue(resolvedColorSystemDocumentAtom);
   const baseDocument = useAtomValue(colorSystemDocumentAtom);
-  const modeSets = useAtomValue(modeSetsAtom);
-  const modeOwners = useAtomValue(authoringCapabilityOwnersAtom);
-  const selection = useAtomValue(modeSelectionAtom);
-  const displayedModes = useAtomValue(displayedModeIdsAtom);
-  const owner = modeSets.find((item) => item.id === modeOwners["color.scales"]);
-  const selectedMode = owner && resolveActiveMode(owner, selection);
-  const isModeEdit = !!selectedMode && selectedMode.id !== owner?.defaultModeId;
-  const isCustom = !!owner && displayedModes[owner.key] === CUSTOM_MODE_KEY;
-  const [editBase, setEditBase] = useState(false);
-  const [pendingStop, setPendingStop] = useState<{
-    scaleId: string;
-    stopId: string;
-    lightness?: number;
-    hue?: number;
-    chroma?: number;
-    paletteColorId?: string | null;
-  } | null>(null);
-  const [destinationId, setDestinationId] = useState("");
-  const [newModeName, setNewModeName] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [openingId, setOpeningId] = useState<string | null>(null);
@@ -167,27 +140,9 @@ export function ScaleStopEditor() {
   );
   const [selectedStopId, setSelectedStopId] = useAtom(selectedColorStopIdAtom);
   const updateStop = useSetAtom(updateColorStopAtom);
-  const applyToMode = useSetAtom(applyColorStopToModeAtom);
-  const resetStop = useSetAtom(resetModeColorStopAtom);
   const store = useStore();
   const addStop = useSetAtom(addColorStopAtom);
   const removeStop = useSetAtom(removeColorStopAtom);
-  const scopeIsBase = editBase || !isModeEdit;
-  function editStop(update: {
-    scaleId: string;
-    stopId: string;
-    lightness?: number;
-    hue?: number;
-    chroma?: number;
-    paletteColorId?: string | null;
-  }) {
-    if (!scopeIsBase && isCustom) {
-      setPendingStop(update);
-      setDestinationId("");
-      return;
-    }
-    updateStop({ ...update, scope: scopeIsBase ? "base" : "mode" });
-  }
   return (
     <div className={keyColorsStyles}>
       <EditOnly>
@@ -196,7 +151,6 @@ export function ScaleStopEditor() {
             onPress={() =>
               notify.added("colorScale", () => {
                 const id = store.set(addColorScaleAtom);
-                setEditBase(false);
                 setFocusId(id);
                 setOpeningId(id);
                 return id;
@@ -230,7 +184,6 @@ export function ScaleStopEditor() {
                   aria-label={termLabel(scale.name)}
                   UNSAFE_className={`${foundationCardStyles} ${scaleTriggerStyles}`}
                   onPress={() => {
-                    setEditBase(false);
                     setSelectedScaleId(scale.id);
                     setSelectedStopId(scale.stops[0]?.id ?? null);
                   }}
@@ -266,20 +219,8 @@ export function ScaleStopEditor() {
                       onSelectedStopChange={setSelectedStopId}
                       onAddStop={addStop}
                       onRemoveStop={removeStop}
-                      onUpdateStop={editStop}
-                      onResetStop={resetStop}
-                      baseDocument={baseDocument}
-                      document={colorDocument}
-                      editBase={editBase}
-                      onEditBaseChange={setEditBase}
-                      modeName={isModeEdit ? selectedMode?.name : undefined}
-                      isCustom={isCustom && !editBase}
-                      overriddenStopIds={
-                        selectedMode?.foundations.color?.scaleStops?.[
-                          scale.id
-                        ] ?? {}
-                      }
-                      allowValues={!owner}
+                      onUpdateStop={updateStop}
+                      document={baseDocument}
                     />
                   </Dialog>
                 </Popover>
@@ -326,71 +267,6 @@ export function ScaleStopEditor() {
           </div>
         );
       })}
-      <ModalOverlay
-        isOpen={pendingStop !== null}
-        onOpenChange={(open) => {
-          if (!open) setPendingStop(null);
-        }}
-      >
-        <Modal>
-          <Dialog
-            aria-label="Choose mode for color stop edit"
-            className={popoverEditorStyles}
-          >
-            <h2>Apply color stop edit</h2>
-            <Text>
-              This change needs a mode. The adaptive preview remains temporary.
-            </Text>
-            <Picker
-              label="Apply to mode"
-              selectedKey={destinationId}
-              onSelectionChange={(key) => setDestinationId(String(key))}
-            >
-              {(owner?.modes ?? [])
-                .filter((mode) => mode.id !== owner?.defaultModeId)
-                .map((mode) => (
-                  <PickerItem id={mode.id} key={mode.id}>
-                    {mode.name}
-                  </PickerItem>
-                ))}
-              <PickerItem id="new">New mode</PickerItem>
-            </Picker>
-            {destinationId === "new" && (
-              <TextField
-                label="Mode name"
-                value={newModeName}
-                onChange={setNewModeName}
-              />
-            )}
-            <div className={scaleActionsStyles}>
-              <Button variant="secondary" onPress={() => setPendingStop(null)}>
-                Dismiss
-              </Button>
-              <Button
-                variant="accent"
-                isDisabled={
-                  !destinationId ||
-                  (destinationId === "new" && !newModeName.trim())
-                }
-                onPress={() => {
-                  if (!pendingStop || !owner) return;
-                  applyToMode({
-                    modeSetId: owner.id,
-                    ...(destinationId === "new"
-                      ? { name: newModeName }
-                      : { modeId: destinationId }),
-                    update: pendingStop,
-                  });
-                  setPendingStop(null);
-                  setEditBase(false);
-                }}
-              >
-                Apply edit
-              </Button>
-            </div>
-          </Dialog>
-        </Modal>
-      </ModalOverlay>
     </div>
   );
 }
@@ -411,16 +287,7 @@ interface ScaleControlsProps {
     chroma?: number;
     paletteColorId?: string | null;
   }) => void;
-  onResetStop: (update: { scaleId: string; stopId: string }) => void;
-  baseDocument: ColorSystemDocument;
   document: ColorSystemDocument;
-  editBase: boolean;
-  onEditBaseChange: (value: boolean) => void;
-  modeName?: string;
-  isCustom: boolean;
-  overriddenStopIds: Record<string, unknown>;
-  allowStructure?: boolean;
-  allowValues?: boolean;
 }
 
 function ScaleControls({
@@ -432,22 +299,13 @@ function ScaleControls({
   onAddStop,
   onRemoveStop,
   onUpdateStop,
-  onResetStop,
-  baseDocument,
   document,
-  editBase,
-  onEditBaseChange,
-  modeName,
-  isCustom,
-  overriddenStopIds,
-  allowStructure = true,
-  allowValues = true,
 }: ScaleControlsProps) {
   const notify = useNotify();
   const isReadOnly = useIsReadOnly();
   const updatePublishing = useSetAtom(updateColorScalePublishingAtom);
-  const colorDocument =
-    editBase && !isReadOnly ? resolvePaletteLinks(baseDocument) : document;
+  const updateInterpolation = useSetAtom(updateColorScaleInterpolationAtom);
+  const colorDocument = !isReadOnly ? resolvePaletteLinks(document) : document;
   const scale = colorDocument.scales.find(
     (candidate) => candidate.id === scaleId,
   )!;
@@ -456,39 +314,16 @@ function ScaleControls({
 
   return (
     <div className={popoverEditorStyles}>
-      {allowValues && (
-        <div className={scaleActionsStyles}>
-          <Text>
-            {isCustom
-              ? "Custom preview"
-              : editBase || !modeName
-                ? "All modes"
-                : `Editing ${modeName}`}
-          </Text>
-          {modeName && allowStructure && (
-            <ActionButton onPress={() => onEditBaseChange(!editBase)}>
-              {editBase ? `Edit ${modeName}` : "Edit base"}
-            </ActionButton>
-          )}
-        </div>
-      )}
-      {modeName && allowStructure && (
-        <Text>
-          Scale names and stop additions or removals apply to all modes.
-        </Text>
-      )}
-      {allowStructure && (
-        <SourceNameEditor
-          sourceId={taxonomyColorSourceId(scale.id)}
-          label="Color scale name"
-          focusName={focusName}
-          onNameFocused={onNameFocus}
-        />
-      )}
-      {allowStructure && (
+      <SourceNameEditor
+        sourceId={taxonomyColorSourceId(scale.id)}
+        label="Color scale name"
+        focusName={focusName}
+        onNameFocused={onNameFocus}
+      />
+      <div className={scaleSettingsStyles}>
         <Checkbox
           isSelected={
-            baseDocument.scales.find((candidate) => candidate.id === scale.id)
+            document.scales.find((candidate) => candidate.id === scale.id)
               ?.hideFromPublishing ?? false
           }
           isDisabled={isReadOnly}
@@ -504,7 +339,26 @@ function ScaleControls({
         >
           Hide from publishing
         </Checkbox>
-      )}
+        <Picker
+          isQuiet
+          label="Interpolation"
+          labelPosition="side"
+          isDisabled={isReadOnly}
+          selectedKey={scaleInterpolation(
+            document.scales.find((candidate) => candidate.id === scale.id) ??
+              scale,
+          )}
+          onSelectionChange={(key) =>
+            updateInterpolation({
+              scaleId: scale.id,
+              interpolation: key as ColorScaleInterpolation,
+            })
+          }
+        >
+          <PickerItem id="oklch">OKLCh</PickerItem>
+          <PickerItem id="rgb">RGB</PickerItem>
+        </Picker>
+      </div>
       <NestedPanelAccordion
         allowsMultipleExpanded={false}
         defaultExpandedKeys={["key-colors"]}
@@ -524,17 +378,11 @@ function ScaleControls({
                   )
                     .ramp.map((color) => color.css)
                     .join(", ")})`}
-                  onAdd={
-                    allowStructure
-                      ? (lightness) =>
-                          onAddStop({ scaleId: scale.id, lightness })
-                      : undefined
+                  onAdd={(lightness) =>
+                    onAddStop({ scaleId: scale.id, lightness })
                   }
-                  onMove={
-                    allowValues
-                      ? (stopId, lightness) =>
-                          onUpdateStop({ scaleId: scale.id, stopId, lightness })
-                      : undefined
+                  onMove={(stopId, lightness) =>
+                    onUpdateStop({ scaleId: scale.id, stopId, lightness })
                   }
                   stops={scale.stops.map((stop, index) => ({
                     id: stop.id,
@@ -557,14 +405,10 @@ function ScaleControls({
                 <Text UNSAFE_className={String(rampHintStyles)}>
                   {isReadOnly
                     ? "Select a stop to view its color."
-                    : !allowValues
-                      ? "Select a stop to remove. Edit stop values in Mode sets."
-                      : allowStructure
-                        ? "Double click ramp to add a stop"
-                        : "Select a stop to edit or drag to move it."}
+                    : "Double click ramp to add a stop"}
                 </Text>
               </div>
-              {isReadOnly && allowValues && (
+              {isReadOnly && (
                 <PaletteSwatchPicker
                   isReadOnly
                   palette={colorDocument.palette}
@@ -575,69 +419,62 @@ function ScaleControls({
                 />
               )}
               <EditOnly>
-                {allowStructure && (
-                  <div className={fieldRowStyles}>
-                    <ActionButton onPress={() => onAddStop(scale.id)}>
-                      <Add />
-                      <Text>Add stop</Text>
-                    </ActionButton>
-                    <ActionButton
-                      aria-label="Remove selected stop"
-                      isDisabled={scale.stops.length <= 1}
-                      onPress={() => {
-                        onRemoveStop({ scaleId, stopId: selectedStop.id });
-                        onSelectedStopChange(
-                          scale.stops.find(
-                            (stop) => stop.id !== selectedStop.id,
-                          )?.id ?? null,
-                        );
-                      }}
-                    >
-                      <Delete />
-                      <Text>Remove stop</Text>
-                    </ActionButton>
-                  </div>
-                )}
-                {allowValues && (
-                  <PaletteSwatchPicker
-                    presentation="swatches"
-                    palette={colorDocument.palette}
-                    outputGamut={colorDocument.settings.colorOutput}
-                    linkedId={selectedStop.paletteColorId}
-                    onLink={(paletteColorId) =>
-                      onUpdateStop({
-                        scaleId: scale.id,
-                        stopId: selectedStop.id,
-                        paletteColorId,
-                      })
-                    }
-                    onUnlink={() =>
-                      onUpdateStop({
-                        scaleId: scale.id,
-                        stopId: selectedStop.id,
-                        paletteColorId: null,
-                      })
-                    }
-                  />
-                )}
-                {allowValues && (
-                  <ColorPickerContents
-                    color={`oklch(${selectedStop.lightness} ${(selectedStop.chroma / 100) * 0.4} ${selectedStop.hue})`}
-                    colorSpace="OKlch"
-                    onChange={(_, parsedColor) => {
-                      const [lightness, chroma, hue] = parsedColor
-                        .to("oklch")
-                        .coords.map(Number);
-                      onUpdateStop({
-                        scaleId: scale.id,
-                        stopId: selectedStop.id,
-                        lightness,
-                        chroma: (chroma / 0.4) * 100,
-                        hue: Number.isFinite(hue) ? hue : selectedStop.hue,
-                      });
+                <div className={fieldRowStyles}>
+                  <ActionButton onPress={() => onAddStop(scale.id)}>
+                    <Add />
+                    <Text>Add stop</Text>
+                  </ActionButton>
+                  <ActionButton
+                    aria-label="Remove selected stop"
+                    isDisabled={scale.stops.length <= 1}
+                    onPress={() => {
+                      onRemoveStop({ scaleId, stopId: selectedStop.id });
+                      onSelectedStopChange(
+                        scale.stops.find((stop) => stop.id !== selectedStop.id)
+                          ?.id ?? null,
+                      );
                     }}
-                  />
-                )}
+                  >
+                    <Delete />
+                    <Text>Remove stop</Text>
+                  </ActionButton>
+                </div>
+                <PaletteSwatchPicker
+                  presentation="swatches"
+                  palette={colorDocument.palette}
+                  outputGamut={colorDocument.settings.colorOutput}
+                  linkedId={selectedStop.paletteColorId}
+                  onLink={(paletteColorId) =>
+                    onUpdateStop({
+                      scaleId: scale.id,
+                      stopId: selectedStop.id,
+                      paletteColorId,
+                    })
+                  }
+                  onUnlink={() =>
+                    onUpdateStop({
+                      scaleId: scale.id,
+                      stopId: selectedStop.id,
+                      paletteColorId: null,
+                    })
+                  }
+                />
+                <ColorPickerContents
+                  color={`oklch(${selectedStop.lightness} ${(selectedStop.chroma / 100) * 0.4} ${selectedStop.hue})`}
+                  colorSpace="OKlch"
+                  onChange={(_, parsedColor) => {
+                    const [lightness, chroma, hue] = parsedColor
+                      .to("oklch")
+                      .coords.map(Number);
+                    onUpdateStop({
+                      scaleId: scale.id,
+                      stopId: selectedStop.id,
+                      lightness,
+                      chroma: (chroma / 0.4) * 100,
+                      hue: Number.isFinite(hue) ? hue : selectedStop.hue,
+                    });
+                  }}
+                />
               </EditOnly>
               {isReadOnly && (
                 <TextField
@@ -650,94 +487,11 @@ function ScaleControls({
                   styles={style({ width: "full", minWidth: 0 })}
                 />
               )}
-              <EditOnly>
-                {allowValues &&
-                  modeName &&
-                  !editBase &&
-                  !isCustom &&
-                  !!overriddenStopIds[selectedStop.id] && (
-                    <ActionButton
-                      onPress={() =>
-                        onResetStop({ scaleId, stopId: selectedStop.id })
-                      }
-                    >
-                      Remove stop override
-                    </ActionButton>
-                  )}
-              </EditOnly>
             </div>
           </AccordionItemPanel>
         </AccordionItem>
-        {allowStructure && <CustomContrastControls scaleId={scale.id} />}
+        <CustomContrastControls scaleId={scale.id} />
       </NestedPanelAccordion>
-    </div>
-  );
-}
-
-export function ModeScaleStopControls({
-  focusOnMount = false,
-}: {
-  focusOnMount?: boolean;
-}) {
-  const base = useAtomValue(colorSystemDocumentAtom);
-  const document = useAtomValue(resolvedColorSystemDocumentAtom);
-  const sets = useAtomValue(modeSetsAtom);
-  const selection = useAtomValue(modeSelectionAtom);
-  const [scaleId, setScaleId] = useState(base.scales[0]?.id ?? "");
-  const [stopId, setStopId] = useState<string | null>(null);
-  const pickerRef = useRef<ComponentRef<typeof Picker>>(null);
-  useEffect(() => {
-    if (focusOnMount) pickerRef.current?.focus();
-  }, [focusOnMount]);
-  const update = useSetAtom(updateColorStopAtom);
-  const reset = useSetAtom(resetModeColorStopAtom);
-  const add = useSetAtom(addColorStopAtom);
-  const remove = useSetAtom(removeColorStopAtom);
-  const owner = sets.find(
-    (set) => set.id === capabilityOwners(sets)["color.scales"],
-  );
-  const mode = owner && resolveActiveMode(owner, selection);
-  const scale =
-    document.scales.find((item) => item.id === scaleId) ?? document.scales[0];
-  if (!scale) return <Text>No color scales available.</Text>;
-  return (
-    <div className={editorStyles}>
-      <ColorScalePicker
-        ref={pickerRef}
-        label="Color scale"
-        document={document}
-        selectedKey={scale.id}
-        onSelectionChange={(id) => {
-          setScaleId(id);
-          setStopId(null);
-        }}
-      />
-      <ScaleControls
-        scaleId={scale.id}
-        selectedStopId={stopId}
-        onSelectedStopChange={setStopId}
-        baseDocument={base}
-        document={document}
-        editBase={mode?.id === owner?.defaultModeId}
-        onEditBaseChange={() => {
-          throw new Error("Use the foundation panel to edit base structure.");
-        }}
-        modeName={mode?.name}
-        isCustom={false}
-        overriddenStopIds={
-          mode?.foundations.color?.scaleStops?.[scale.id] ?? {}
-        }
-        allowStructure={false}
-        onAddStop={add}
-        onRemoveStop={remove}
-        onResetStop={reset}
-        onUpdateStop={(input) =>
-          update({
-            ...input,
-            scope: mode?.id === owner?.defaultModeId ? "base" : "mode",
-          })
-        }
-      />
     </div>
   );
 }

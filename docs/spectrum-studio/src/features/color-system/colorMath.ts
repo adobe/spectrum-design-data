@@ -18,6 +18,25 @@ export type OutputColorSpace = RgbGamut | "oklch" | ColorOutputSettings;
 export type Oklab = readonly [number, number, number];
 export type Oklch = readonly [number, number, number];
 
+export const RGB_TRANSFER = {
+  srgb: {
+    linearThreshold: 0.0031308,
+    encodedThreshold: 0.04045,
+    slope: 12.92,
+    factor: 1.055,
+    offset: 0.055,
+    exponent: 1 / 2.4,
+  },
+  rec2020: {
+    linearThreshold: 0.018053968510807,
+    encodedThreshold: 0.0812428582986315,
+    slope: 4.5,
+    factor: 1.09929682680944,
+    offset: 0.09929682680944,
+    exponent: 0.45,
+  },
+} as const;
+
 export function formatColorNumber(value: number, decimals = 2) {
   const rounded = Number(value.toFixed(decimals));
   return Object.is(rounded, -0) ? "0" : String(rounded);
@@ -39,31 +58,24 @@ export function mapLinearRgb(
 }
 
 export function toLinear(channel: number, gamut: RgbGamut = "srgb") {
-  if (gamut === "rec2020") {
-    const magnitude = Math.abs(channel);
-    const linear =
-      magnitude < 0.0812428582986315
-        ? magnitude / 4.5
-        : ((magnitude + 0.09929682680944) / 1.09929682680944) ** (1 / 0.45);
-    return Math.sign(channel) * linear;
-  }
-  return channel <= 0.04045
-    ? channel / 12.92
-    : ((channel + 0.055) / 1.055) ** 2.4;
+  const transfer = RGB_TRANSFER[gamut === "rec2020" ? "rec2020" : "srgb"];
+  const magnitude = gamut === "rec2020" ? Math.abs(channel) : channel;
+  const linear =
+    magnitude <= transfer.encodedThreshold
+      ? magnitude / transfer.slope
+      : ((magnitude + transfer.offset) / transfer.factor) **
+        (1 / transfer.exponent);
+  return gamut === "rec2020" ? Math.sign(channel) * linear : linear;
 }
 
 export function toGamma(channel: number, gamut: RgbGamut = "srgb") {
-  if (gamut === "rec2020") {
-    const magnitude = Math.abs(channel);
-    const encoded =
-      magnitude < 0.018053968510807
-        ? 4.5 * magnitude
-        : 1.09929682680944 * magnitude ** 0.45 - 0.09929682680944;
-    return Math.sign(channel) * encoded;
-  }
-  return channel <= 0.0031308
-    ? channel * 12.92
-    : 1.055 * channel ** (1 / 2.4) - 0.055;
+  const transfer = RGB_TRANSFER[gamut === "rec2020" ? "rec2020" : "srgb"];
+  const magnitude = gamut === "rec2020" ? Math.abs(channel) : channel;
+  const encoded =
+    magnitude <= transfer.linearThreshold
+      ? magnitude * transfer.slope
+      : transfer.factor * magnitude ** transfer.exponent - transfer.offset;
+  return gamut === "rec2020" ? Math.sign(channel) * encoded : encoded;
 }
 
 export function hexToLinear(hex: string): LinearRgb {

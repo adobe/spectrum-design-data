@@ -2,21 +2,23 @@
 import type { ColorSystemDocument } from "../color-system/model";
 import { resolveColorDocument } from "../color-system/resolution";
 import { backgroundLuminance, polarityWeight } from "../color-system/polarity";
-import { parameterOwners } from "../modes/parameters";
-import { modeSetDefaultMode, type Mode, type ModeSet } from "../modes/model";
+import { capabilityOwners } from "../modes/ownership";
+import type { Mode, ModeSet } from "../modes/model";
 import {
   modeCombinations,
   selectionForModes,
   contextForModes,
+  modeSetDefaultMode,
 } from "../modes/combinations";
 import type { PreviewOverrides } from "../modes/previewState";
 import {
   canonicalTokenModeKey,
   tokenModePairs,
-  type BrowserTokenEdits,
-} from "../tokens/browserModel";
+} from "../tokens/colorResolution";
+import type { BrowserTokenEdits } from "../tokens/browserEditTypes";
 import { isAlpha, isOpacityDocument, type OpacityDocument } from "./model";
 import { compensatedOpacity } from "./polarity";
+import { swatchIndex } from "../scales/swatchIndices";
 
 export interface OpacitySource {
   opacity?: OpacityDocument;
@@ -47,7 +49,7 @@ export const OPACITY_PARAMETERS = [
 ] as const;
 
 export function opacityAxes(source: OpacitySource): ModeSet[] {
-  const owners = parameterOwners(source.modeSets);
+  const owners = capabilityOwners(source.modeSets);
   const ids = new Set(
     OPACITY_PARAMETERS.flatMap((id) => (owners[id] ? [owners[id]] : [])),
   );
@@ -154,14 +156,14 @@ export function resolveOpacity(
       const override = matches[0]?.[1];
       if (override && !isAlpha(override.value)) {
         result.issues.push(
-          `Opacity ${(index + 1) * 100} has an invalid manual value.`,
+          `Opacity ${swatchIndex(level, index)} has an invalid manual value.`,
         );
       }
       return {
         id: level.id,
         uuid: level.rows[result.modeKey],
-        scaleIndex: (index + 1) * 100,
-        name: `opacity-${(index + 1) * 100}`,
+        scaleIndex: swatchIndex(level, index),
+        name: `opacity-${swatchIndex(level, index)}`,
         generatedValue,
         value:
           override && isAlpha(override.value)

@@ -2,6 +2,8 @@
 import { atom, type Getter } from "jotai";
 import { colorSystemDocumentAtom } from "../state";
 import { resolveColorDocument } from "../resolution";
+import { resolveColorScaleDocument } from "../colorScaleResolution";
+import { opacityDocumentAtom } from "../../opacity/state";
 import { resolvedBackgroundLinear } from "../surfaceGeneration";
 import { modeSetsAtom } from "../../modes/state";
 import { modeSetDefaultMode } from "../../modes/model";
@@ -72,11 +74,8 @@ function validate(get: Getter, scale: DataVisScale) {
 function recipeKey(get: Getter, scale: DataVisScale) {
   const patches = get(modeSetsAtom).flatMap((axis) =>
     axis.modes.flatMap((mode) => {
-      const sources = mode.foundations.color?.dataVisSources?.[scale.id],
-        contrasts = mode.foundations.color?.dataVisContrasts?.[scale.id];
-      return sources || contrasts
-        ? [[axis.id, mode.id, sources, contrasts]]
-        : [];
+      const contrasts = mode.foundations.color?.dataVisContrasts?.[scale.id];
+      return contrasts ? [[axis.id, mode.id, contrasts]] : [];
     }),
   );
   const values =
@@ -150,8 +149,10 @@ export const setDataVisStaticAtom = atom(
           const mode = modeSetDefaultMode(axis);
           return mode ? [mode] : [];
         });
-        const resolved = resolveColorDocument(document, modes, undefined, {
+        const resolved = resolveColorScaleDocument(document, modes, undefined, {
           modeSets: sets,
+          opacity: get(opacityDocumentAtom),
+          browserTokenEdits: edits,
         });
         raw = resolveColorDocument(document, modes, undefined, {
           modeSets: sets,

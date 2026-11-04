@@ -42,8 +42,8 @@ assert.equal(light.levels[0].contrast, 1);
 assert.equal(light.levels[2].contrast, 21);
 assert.equal(dark.levels[0].contrast, 1);
 assert.equal(dark.levels[2].contrast, 21);
-assert.match(light.levels[1].css, /^rgb\(0 0 0 \/ 0\.19212345\)$/);
-assert.match(dark.levels[1].css, /^rgb\(255 255 255 \/ 0\.19212345\)$/);
+assert.match(light.levels[1].css, /^rgba\(0, 0, 0, 0\.19\)$/);
+assert.match(dark.levels[1].css, /^rgba\(255, 255, 255, 0\.19\)$/);
 for (const profile of [light, dark]) {
   assert.deepEqual(
     profile.levels.map((level) => level.id),

@@ -1,7 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { isScaleIndex } from "../scales/swatchIndices";
+
 export interface OpacityLevel {
   id: string;
   value: number;
+  scaleIndex?: number;
   rows: { [modeKey: string]: string };
 }
 
@@ -37,6 +40,7 @@ export function isOpacityDocument(value: unknown): value is OpacityDocument {
       typeof level.id !== "string" ||
       !uuid.test(level.id) ||
       !isAlpha(level.value) ||
+      (level.scaleIndex !== undefined && !isScaleIndex(level.scaleIndex)) ||
       !object(level.rows)
     )
       return false;

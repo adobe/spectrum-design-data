@@ -18,7 +18,6 @@ import {
   restorePaletteColorAtom,
   updatePaletteColorAtom,
 } from "../../features/color-system/state";
-import { modeSetsAtom } from "../../features/modes/state";
 import { SourceNameEditor } from "../registry/SourceNameEditor";
 import { taxonomyPaletteSourceId } from "../../features/taxonomy/model";
 
@@ -32,7 +31,6 @@ const emptyStyles = style({ font: "body", color: "neutral-subdued" });
 export function PaletteEditor() {
   const colorDocument = useAtomValue(resolvedColorSystemDocumentAtom);
   const baseDocument = useAtomValue(colorSystemDocumentAtom);
-  const modeSets = useAtomValue(modeSetsAtom);
   const isReadOnly = useIsReadOnly();
   const store = useStore();
   const notify = useNotify();
@@ -82,9 +80,7 @@ export function PaletteEditor() {
                 contextualHelp={helpText}
               />
             )}
-            usedByCount={
-              paletteConsumers(baseDocument, modeSets, color.id).length
-            }
+            usedByCount={paletteConsumers(baseDocument, color.id).length}
             onRename={(name) => {
               const result = updateColor({ id: color.id, name });
               return result.ok ? null : result.error;

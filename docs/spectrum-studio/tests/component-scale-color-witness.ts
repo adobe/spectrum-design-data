@@ -101,10 +101,10 @@ const changes: ((value: Input) => void)[] = [
     value[3].side = "light";
   },
   (value) => {
-    value[3].extOffset += 0.01;
+    value[3].backgroundBlend += 0.01;
   },
   (value) => {
-    value[3].extSteep += 0.01;
+    value[3].colorSourceCurveOffset += 0.01;
   },
   (value) => {
     if (typeof value[4] === "object") value[4].outputFormat = "rgb";
@@ -200,7 +200,7 @@ const zero: Input = [
   input[0],
   input[1],
   input[2],
-  { ...input[3], extOffset: 0 },
+  { ...input[3], backgroundBlend: 0 },
   input[4],
   input[5],
 ];
@@ -211,7 +211,7 @@ const negativeZero: Input = [
   input[0],
   input[1],
   input[2],
-  { ...input[3], extOffset: -0 },
+  { ...input[3], backgroundBlend: -0 },
   input[4],
   input[5],
 ];

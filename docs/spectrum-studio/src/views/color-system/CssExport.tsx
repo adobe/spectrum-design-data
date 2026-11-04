@@ -15,11 +15,11 @@ import {
   colorSchemeDocumentsAtom,
   contrastModesAtom,
   cssBaseDocumentAtom,
-  scaleModeDocumentsAtom,
 } from "../../features/color-system/state";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { rulesAtom } from "../../features/logic/library";
 import { customContrastModeDocumentsAtom } from "../../features/color-system/state";
+import { opacitySourceAtom } from "../../features/opacity/state";
 
 const containerStyles = style({
   display: "flex",
@@ -44,27 +44,35 @@ const execute = workerTask<CssLibraryWorkerRequest, string>(
 
 export function CssExport() {
   const document = useAtomValueRawSync(cssBaseDocumentAtom);
+  const opacitySource = useAtomValueRawSync(opacitySourceAtom);
   const modes = useAtomValueRawSync(colorSchemeDocumentsAtom);
   const contrastModes = useAtomValueRawSync(contrastModesAtom);
-  const scaleModes = useAtomValueRawSync(scaleModeDocumentsAtom);
   const taxonomy = useAtomValueRawSync(taxonomyDocumentAtom);
   const rules = useAtomValueRawSync(rulesAtom);
   const customModes = useAtomValueRawSync(customContrastModeDocumentsAtom);
   const input = useMemo<CssLibraryWorkerRequest>(
     () => ({
       document,
+      opacitySource,
       modes: modes.map(({ key, isDefault, document: modeDocument }) => ({
         key,
         isDefault,
         document: modeDocument,
       })),
       contrastModes,
-      scaleModes,
       taxonomy,
       rules,
       customModes,
     }),
-    [document, modes, contrastModes, scaleModes, taxonomy, rules, customModes],
+    [
+      document,
+      modes,
+      contrastModes,
+      taxonomy,
+      rules,
+      customModes,
+      opacitySource,
+    ],
   );
   const [publication, publish] =
     useState<DerivedState<CssLibraryWorkerRequest, string>>();

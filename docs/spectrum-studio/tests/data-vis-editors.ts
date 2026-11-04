@@ -21,7 +21,6 @@ import {
 import {
   dataVisContinuousOutputsAtom,
   dataVisPrimitiveColorsAtom,
-  dataVisUiSwatchesAtom,
   dataVisContextFingerprintAtom,
   editDataVisPointAtom,
   editDataVisStructureAtom,
@@ -43,7 +42,6 @@ import {
   publishedPrimitiveColors,
 } from "../src/features/color-system/data-vis/primitiveColors";
 import {
-  applyDataVisPointPatch,
   isDataVisScale,
   isDataVisPoint,
   isFrozenColor,
@@ -529,96 +527,30 @@ assert.throws(
 
 const modeLinks = fresh();
 select(modeLinks, "colorScheme", "dark");
+const beforeModeSourceEdit = captureSnapshot(modeLinks.get);
+assert.throws(
+  () =>
+    modeLinks.set(editDataVisPointAtom, {
+      scaleId: DATA_VIS_IDS.sequential,
+      pointId: "named",
+      source: { kind: "primitive-token", tokenId: palette.id },
+      scope: "mode",
+    }),
+  /sources are shared across modes/,
+);
+assert.deepEqual(captureSnapshot(modeLinks.get), beforeModeSourceEdit);
 modeLinks.set(editDataVisPointAtom, {
   scaleId: DATA_VIS_IDS.sequential,
   pointId: "named",
   source: { kind: "primitive-token", tokenId: palette.id },
-  scope: "mode",
-});
-assert.equal(
-  compiled(modeLinks).points.find((point) => point.id === "named")!.value,
-  member(modeLinks, palette.id).value,
-  "Historical exact UI links can select every published primitive in a mode.",
-);
-const beforeModeSourceRemoval = captureSnapshot(modeLinks.get);
-assert.throws(
-  () =>
-    modeLinks.set(
-      removePaletteColorAtom,
-      palette.origin.kind === "palette" ? palette.origin.paletteColorId : "",
-    ),
-  /replacement/,
-);
-assert.deepEqual(captureSnapshot(modeLinks.get), beforeModeSourceRemoval);
-const modesWithLink = structuredClone(modeLinks.get(modeSetsAtom));
-modeLinks.set(setDataVisStaticAtom, {
-  scaleId: DATA_VIS_IDS.sequential,
-  from: "current",
-});
-modeLinks.set(setDataVisStaticAtom, { scaleId: DATA_VIS_IDS.sequential });
-assert.deepEqual(modeLinks.get(modeSetsAtom), modesWithLink);
-modeLinks.set(editDataVisPointAtom, {
-  scaleId: DATA_VIS_IDS.sequential,
-  pointId: "named",
-  source: { kind: "primitive-token", tokenId: categorical.id },
   scope: "base",
 });
 assert.equal(
   compiled(modeLinks).points.find((point) => point.id === "named")!.value,
   member(modeLinks, palette.id).value,
-  "Changing the shared exact-source representation preserves authored mode links.",
-);
-modeLinks.set(editDataVisPointAtom, {
-  scaleId: DATA_VIS_IDS.sequential,
-  pointId: "named",
-  reset: "source",
-  scope: "mode",
-});
-assert.equal(
-  compiled(modeLinks).points.find((point) => point.id === "named")!.value,
-  member(modeLinks, categorical.id).value,
+  "Source edits remain shared when a non-default mode is selected.",
 );
 assertStoredSnapshot(captureSnapshot(modeLinks.get));
-
-const legacyLinks = fresh(),
-  legacyScale = definition(legacyLinks);
-assert.ok(legacyScale.kind !== "categorical");
-const legacyPoint = legacyScale.points.find((point) => point.id === "named")!;
-assert.ok(legacyPoint.source.kind === "ui-swatch");
-const legacySource = legacyPoint.source;
-assert.throws(
-  () =>
-    applyDataVisPointPatch(legacyPoint, {
-      tokenId: palette.id,
-      scaleId: legacySource.scaleId,
-    }),
-  /one exact token source/,
-);
-select(legacyLinks, "colorScheme", "dark");
-const legacySwatch = legacyLinks
-  .get(dataVisUiSwatchesAtom)
-  .find((swatch) => swatch.source.scaleId !== legacySource.scaleId)!;
-legacyLinks.set(editDataVisPointAtom, {
-  scaleId: DATA_VIS_IDS.sequential,
-  pointId: "named",
-  source: legacySwatch.source,
-  scope: "mode",
-});
-const legacyModeColor = compiled(legacyLinks).points.find(
-  (point) => point.id === "named",
-)!.value;
-legacyLinks.set(editDataVisPointAtom, {
-  scaleId: DATA_VIS_IDS.sequential,
-  pointId: "named",
-  source: { kind: "primitive-token", tokenId: palette.id },
-  scope: "base",
-});
-assert.equal(
-  compiled(legacyLinks).points.find((point) => point.id === "named")!.value,
-  legacyModeColor,
-  "Legacy scale/contrast patches keep their exact mode values when the shared source becomes a native token.",
-);
-assertStoredSnapshot(captureSnapshot(legacyLinks.get));
 
 const stops = fresh(),
   recipeBefore = structuredClone(definition(stops));

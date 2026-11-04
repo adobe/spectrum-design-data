@@ -4,6 +4,7 @@ import type { SourcePath } from "../changelog/contract";
 import { createValuePreview, sourceValuePreview } from "../tokens/valuePreview";
 import type { BrowserTokenSource } from "../tokens/browserModel";
 import type { OpacityDocument } from "./model";
+import { swatchIndex } from "../scales/swatchIndices";
 
 export function opacityFields(
   document?: OpacityDocument,
@@ -15,8 +16,10 @@ export function opacityFields(
     "levelOrder",
     document.levels.map((level) => level.id),
   );
-  for (const level of document.levels)
+  for (const [position, level] of document.levels.entries()) {
     fields.set(`levels/${level.id}/value`, level.value);
+    fields.set(`levels/${level.id}/scaleIndex`, swatchIndex(level, position));
+  }
   return fields;
 }
 
@@ -44,7 +47,7 @@ export function opacityChanges(
               "opacity",
               "levels",
               { key: "id", id },
-              ...(membership ? [] : ["value"]),
+              ...(membership ? [] : [key.split("/")[2]]),
             ]
           : ["opacity", key];
     const expected =
@@ -52,7 +55,9 @@ export function opacityChanges(
         ? after?.levels
         : membership
           ? after?.levels.find((level) => level.id === id)
-          : next.get(key);
+          : key.endsWith("/scaleIndex")
+            ? after?.levels.find((level) => level.id === id)?.scaleIndex
+            : next.get(key);
     return [
       {
         key,
@@ -63,12 +68,20 @@ export function opacityChanges(
           expected,
           ...(key === "levelOrder" && { collectionOrder: true }),
         },
-        ...(typeof old.get(key) === "number" && {
-          beforePreview: createValuePreview("opacity", old.get(key) as number),
-        }),
-        ...(typeof next.get(key) === "number" && {
-          afterPreview: createValuePreview("opacity", next.get(key) as number),
-        }),
+        ...(key.endsWith("/value") &&
+          typeof old.get(key) === "number" && {
+            beforePreview: createValuePreview(
+              "opacity",
+              old.get(key) as number,
+            ),
+          }),
+        ...(key.endsWith("/value") &&
+          typeof next.get(key) === "number" && {
+            afterPreview: createValuePreview(
+              "opacity",
+              next.get(key) as number,
+            ),
+          }),
       },
     ];
   });

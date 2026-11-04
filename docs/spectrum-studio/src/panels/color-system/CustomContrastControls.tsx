@@ -17,6 +17,7 @@ import { rulesAtom } from "../../features/logic/library";
 import { previewOverridesAtom } from "../../features/modes/previewState";
 import { effectiveContrast } from "../../features/color-system/polarity";
 import { CustomContrastEditor } from "./CustomContrastEditor";
+import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 
 export function CustomContrastControls({ scaleId }: { scaleId: string }) {
   const notify = useNotify();
@@ -24,6 +25,15 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
   const resolved = useAtomValue(resolvedColorSystemDocumentAtom);
   const background = useAtomValue(resolvedBackgroundAtom);
   const rules = useAtomValue(rulesAtom);
+  const taxonomy = useAtomValue(taxonomyDocumentAtom);
+  const indexCategory = taxonomy.categories.find(
+    (category) => category.key === "scaleIndex",
+  );
+  const registeredIndices = taxonomy.terms.flatMap((term) =>
+    term.categoryId === indexCategory?.id && typeof term.value === "number"
+      ? [term.value]
+      : [],
+  );
   const context = useAtomValue(customContrastEditingContextAtom);
   const preview = useAtomValue(previewOverridesAtom);
   const readOnly = useIsReadOnly();
@@ -46,7 +56,11 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
     : context.mode?.foundations.color?.scaleContrasts?.[scaleId];
   if (readOnly && !scale?.customContrasts) return null;
   function run(action: CustomContrastAction) {
-    if (action.kind === "remove" || action.kind === "disable") {
+    if (action.kind === "index") {
+      store.set(editCustomContrastsAtom, action);
+      return;
+    }
+    if (action.kind === "remove") {
       notify.remove({
         kind: "customContrastStep",
         run: (store) => store.set(editCustomContrastsAtom, action),
@@ -60,6 +74,7 @@ export function CustomContrastControls({ scaleId }: { scaleId: string }) {
       <CustomContrastEditor
         scale={scale}
         rules={rules}
+        registeredIndices={registeredIndices}
         onAction={run}
         background={background.hex}
         side={resolved.settings.side}

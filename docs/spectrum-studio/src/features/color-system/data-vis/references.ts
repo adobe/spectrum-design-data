@@ -2,9 +2,7 @@
 import type { ColorSystemDocument } from "../model";
 import type { ModeSet } from "../../modes/model";
 import {
-  applyDataVisPointPatch,
   type DataVisPoint,
-  type DataVisSourcePatch,
   type UiSwatchSource,
   type PrimitiveColorSource,
 } from "./model";
@@ -21,8 +19,6 @@ export interface DataVisConsumer {
     | UiSwatchSource
     | PrimitiveColorSource
     | { kind: "ui-scale"; scaleId: string };
-  modeId?: string;
-  modeName?: string;
 }
 
 function pointConsumer(
@@ -44,7 +40,6 @@ function pointConsumer(
 
 export function dataVisConsumers(
   document: ColorSystemDocument,
-  modeSets: readonly ModeSet[] = [],
 ): DataVisConsumer[] {
   return document.dataVisScales.flatMap((scale): DataVisConsumer[] => {
     const captured: DataVisConsumer[] = (scale.staticColors ?? []).flatMap(
@@ -78,26 +73,6 @@ export function dataVisConsumers(
       ...scale.points.flatMap((point) =>
         pointConsumer(scale.id, scale.name, point),
       ),
-      ...modeSets.flatMap((set) =>
-        set.modes.flatMap((mode) => {
-          const patches = mode.foundations.color?.dataVisSources?.[scale.id];
-          if (!patches || mode.id === set.defaultModeId) return [];
-          return scale.points.flatMap((point) =>
-            !patches[point.id] ||
-            !compatibleSourcePatch(point, patches[point.id])
-              ? []
-              : pointConsumer(
-                  scale.id,
-                  scale.name,
-                  applyDataVisPointPatch(point, patches[point.id]),
-                ).map((consumer) => ({
-                  ...consumer,
-                  modeId: mode.id,
-                  modeName: mode.name,
-                })),
-          );
-        }),
-      ),
     ];
   });
 }
@@ -110,9 +85,9 @@ export function dataVisSourceIssues(
   const primitives = new Map(
     primitiveColorIdentities(document).map((color) => [color.id, color]),
   );
-  for (const consumer of dataVisConsumers(document, modeSets)) {
+  for (const consumer of dataVisConsumers(document)) {
     const source = consumer.source;
-    const prefix = `${consumer.scaleName}, ${consumer.inputLabel}${consumer.modeName ? ` (${consumer.modeName})` : ""}`;
+    const prefix = `${consumer.scaleName}, ${consumer.inputLabel}`;
     if (source.kind === "primitive-token") {
       const color = primitives.get(source.tokenId);
       if (!color || color.hidden)
@@ -147,24 +122,6 @@ export function dataVisSourceIssues(
   for (const set of modeSets)
     for (const mode of set.modes) {
       for (const [scaleId, patches] of Object.entries(
-        mode.foundations.color?.dataVisSources ?? {},
-      )) {
-        const scale = document.dataVisScales.find(
-          (candidate) => candidate.id === scaleId,
-        );
-        for (const [pointId, patch] of Object.entries(patches)) {
-          const point =
-            scale?.kind !== "categorical"
-              ? scale?.points.find((candidate) => candidate.id === pointId)
-              : undefined;
-          if (!point)
-            issues.push(
-              `${mode.name}: data vis source override ${scaleId}/${pointId} is unavailable.`,
-            );
-          else validateSourcePatch(point, patch, issues, mode.name);
-        }
-      }
-      for (const [scaleId, patches] of Object.entries(
         mode.foundations.color?.dataVisContrasts ?? {},
       )) {
         const scale = document.dataVisScales.find(
@@ -185,43 +142,8 @@ export function dataVisSourceIssues(
   return issues;
 }
 
-function validateSourcePatch(
-  point: DataVisPoint,
-  patch: DataVisSourcePatch,
-  issues: string[],
-  modeName: string,
-) {
-  if (!compatibleSourcePatch(point, patch)) {
-    issues.push(
-      `${modeName}: source patch for ${point.id} changes its source kind.`,
-    );
-  }
-}
-
-function compatibleSourcePatch(point: DataVisPoint, patch: DataVisSourcePatch) {
-  if (point.source.kind === "ui-swatch" && patch.tokenId !== undefined) {
-    return (
-      patch.color === undefined &&
-      patch.scaleId === undefined &&
-      patch.contrastId === undefined
-    );
-  }
-  return !(
-    (point.source.kind === "key-color" &&
-      (patch.scaleId !== undefined ||
-        patch.contrastId !== undefined ||
-        patch.tokenId !== undefined)) ||
-    (point.source.kind !== "key-color" && patch.color !== undefined) ||
-    (point.source.kind !== "primitive-token" && patch.tokenId !== undefined) ||
-    (point.source.kind === "primitive-token" &&
-      (patch.scaleId !== undefined || patch.contrastId !== undefined)) ||
-    (point.source.kind === "ui-scale" && patch.contrastId !== undefined)
-  );
-}
-
 export function blockedUiSourceRemoval(
   document: ColorSystemDocument,
-  modeSets: readonly ModeSet[],
   scaleId: string,
   contrastId?: string,
 ): string | null {
@@ -236,7 +158,7 @@ export function blockedUiSourceRemoval(
           .map((color) => color.id)
       : [tokenUuid(tokenStableKey(scaleId, contrastId))],
   );
-  const consumers = dataVisConsumers(document, modeSets).filter((consumer) => {
+  const consumers = dataVisConsumers(document).filter((consumer) => {
     if (consumer.source.kind === "primitive-token")
       return tokenIds.has(consumer.source.tokenId);
     return (
@@ -248,10 +170,7 @@ export function blockedUiSourceRemoval(
   });
   return consumers.length
     ? `Choose replacement colors first. Used by ${consumers
-        .map(
-          (consumer) =>
-            `${consumer.scaleName} (${consumer.inputLabel}${consumer.modeName ? `, ${consumer.modeName}` : ""})`,
-        )
+        .map((consumer) => `${consumer.scaleName} (${consumer.inputLabel})`)
         .join("; ")}.`
     : null;
 }
@@ -259,14 +178,13 @@ export function blockedUiSourceRemoval(
 export function assertNoDataVisSourceLoss(
   previous: ColorSystemDocument,
   next: ColorSystemDocument,
-  sets: readonly ModeSet[],
 ) {
   const published = new Set(
     primitiveColorIdentities(next)
       .filter((color) => !color.hidden)
       .map((color) => color.id),
   );
-  for (const consumer of dataVisConsumers(next, sets))
+  for (const consumer of dataVisConsumers(next))
     if (
       consumer.source.kind === "primitive-token" &&
       !published.has(consumer.source.tokenId)
@@ -278,7 +196,7 @@ export function assertNoDataVisSourceLoss(
   for (const old of previous.scales) {
     const current = next.scales.find((scale) => scale.id === old.id);
     if (!current) {
-      const issue = blockedUiSourceRemoval(next, sets, old.id);
+      const issue = blockedUiSourceRemoval(next, old.id);
       if (issue) throw new Error(issue);
       continue;
     }
@@ -291,7 +209,7 @@ export function assertNoDataVisSourceLoss(
         (!current.hideFromPublishing || old.hideFromPublishing)
       )
         continue;
-      const issue = blockedUiSourceRemoval(next, sets, old.id, step.id);
+      const issue = blockedUiSourceRemoval(next, old.id, step.id);
       if (issue) throw new Error(issue);
     }
   }

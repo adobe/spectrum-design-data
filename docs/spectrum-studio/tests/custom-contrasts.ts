@@ -156,7 +156,7 @@ assert.equal(
 );
 assert.equal(
   resolveColorDocument(base, [high], undefined, {
-    modeSets: [{ ...axis, authoringCapabilities: ["color.scales"] }],
+    modeSets: [{ ...axis, authoringCapabilities: [] }],
   }).scales[0].customContrasts!.steps[3].value,
   4.2,
 );
@@ -174,13 +174,19 @@ const simultaneousDocument = resolveColorDocument(
       {
         ...axis,
         modes: [defaultMode, simultaneous],
-        authoringCapabilities: ["color.scales", "color.contrastMultiplier"],
+        authoringCapabilities: ["color.contrastMultiplier"],
       },
     ],
   },
 );
-assert.equal(simultaneousDocument.scales[0].stops[0].lightness, 0.35);
-assert.equal(simultaneousDocument.scales[1].stops[0].lightness, 0.4);
+assert.equal(
+  simultaneousDocument.scales[0].stops[0].lightness,
+  base.scales[0].stops[0].lightness,
+);
+assert.equal(
+  simultaneousDocument.scales[1].stops[0].lightness,
+  base.scales[1].stops[0].lightness,
+);
 assert.equal(
   simultaneousDocument.scales[0].customContrasts!.steps[3].value,
   6.25,
@@ -212,7 +218,6 @@ const {
   cssBaseDocumentAtom,
   colorSchemeDocumentsAtom,
   contrastModesAtom,
-  scaleModeDocumentsAtom,
   removeColorScaleAtom,
   restoreColorScaleAtom,
 } = await import("../src/features/color-system/state");
@@ -427,7 +432,6 @@ const css = buildColorLibrary(
   store.get(cssBaseDocumentAtom),
   store.get(colorSchemeDocumentsAtom),
   store.get(contrastModesAtom),
-  store.get(scaleModeDocumentsAtom),
   store.get(taxonomyDocumentAtom),
   store.get(rulesAtom),
   store.get(customContrastModeDocumentsAtom),
@@ -525,8 +529,10 @@ assert.equal(
   undefined,
 );
 assert.equal(
-  store.get(modeSetsAtom)[0].modes[1].foundations.color?.scaleContrasts,
-  undefined,
+  store.get(modeSetsAtom)[0].modes[1].foundations.color?.scaleContrasts?.[
+    gray.id
+  ]["gray-3"],
+  4.5,
 );
 store.set(restoreCustomContrastsAtom, disabled);
 assert.equal(
@@ -790,7 +796,7 @@ v6Saved.modeSets = v6Saved.modeSets.filter(
   (axis) => axis.key !== "colorScheme",
 );
 const v6Working = structuredClone(v6Saved);
-v6Working.colorSystem.settings.extOffset = 0.32;
+v6Working.colorSystem.settings.backgroundBlend = 0.32;
 storage.setItem(
   AUTHORING_STORAGE_KEY,
   JSON.stringify({
@@ -804,10 +810,13 @@ storage.setItem(
 );
 const lifecycle = createStore();
 let dispose = initializeAuthoringPersistence(lifecycle);
-assert.equal(lifecycle.get(colorSystemDocumentAtom).settings.extOffset, 0.32);
 assert.equal(
-  lifecycle.get(editSessionSnapshotAtom)!.colorSystem.settings.extOffset,
-  v6Saved.colorSystem.settings.extOffset,
+  lifecycle.get(colorSystemDocumentAtom).settings.backgroundBlend,
+  0.32,
+);
+assert.equal(
+  lifecycle.get(editSessionSnapshotAtom)!.colorSystem.settings.backgroundBlend,
+  v6Saved.colorSystem.settings.backgroundBlend,
 );
 assert.ok(
   !lifecycle.get(modeSetsAtom).some((axis) => axis.key === "colorScheme"),

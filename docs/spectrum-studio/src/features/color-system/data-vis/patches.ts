@@ -8,25 +8,20 @@ export function dataVisModeOwnershipIssues(sets: readonly ModeSet[]): string[] {
     issues: string[] = [];
   for (const axis of sets)
     for (const mode of axis.modes) {
-      for (const [field, capability] of [
-        ["dataVisSources", "color.scales"],
-        ["dataVisContrasts", "color.contrastMultiplier"],
-      ] as const) {
-        if (
-          !Object.values(mode.foundations.color?.[field] ?? {}).some(
-            (points) => Object.keys(points).length,
-          )
+      if (
+        !Object.values(mode.foundations.color?.dataVisContrasts ?? {}).some(
+          (points) => Object.keys(points).length,
         )
-          continue;
-        if (mode.id === axis.defaultModeId)
-          issues.push(
-            `${mode.name}: clear its data vis overrides before making it the default mode.`,
-          );
-        if (owners[capability] !== axis.id)
-          issues.push(
-            `${mode.name}: clear its data vis overrides before removing their ${capability === "color.scales" ? "source" : "contrast"} owner.`,
-          );
-      }
+      )
+        continue;
+      if (mode.id === axis.defaultModeId)
+        issues.push(
+          `${mode.name}: clear its data vis contrast overrides before making it the default mode.`,
+        );
+      if (owners["color.contrastMultiplier"] !== axis.id)
+        issues.push(
+          `${mode.name}: clear its data vis contrast overrides before removing their contrast owner.`,
+        );
     }
   return issues;
 }
@@ -44,29 +39,22 @@ export function pruneDataVisPatches(
     ...axis,
     modes: axis.modes.map((mode) => {
       const color = mode.foundations.color;
-      if (!color?.dataVisSources && !color?.dataVisContrasts) return mode;
+      if (!color?.dataVisContrasts) return mode;
       const next = { ...color };
-      for (const field of ["dataVisSources", "dataVisContrasts"] as const) {
-        const kept = Object.fromEntries(
-          Object.entries(color[field] ?? {}).flatMap(([id, patches]) => {
-            const values = Object.fromEntries(
-              Object.entries(patches).filter(([pointId]) =>
-                points
-                  .get(id)
-                  ?.some(
-                    (point) =>
-                      point.id === pointId &&
-                      (field === "dataVisSources" || !!point.contrast),
-                  ),
-              ),
-            );
-            return Object.keys(values).length ? [[id, values]] : [];
-          }),
-        );
-        if (Object.keys(kept).length) Object.assign(next, { [field]: kept });
-        else delete next[field];
-      }
-
+      const kept = Object.fromEntries(
+        Object.entries(color.dataVisContrasts).flatMap(([id, patches]) => {
+          const values = Object.fromEntries(
+            Object.entries(patches).filter(([pointId]) =>
+              points
+                .get(id)
+                ?.some((point) => point.id === pointId && !!point.contrast),
+            ),
+          );
+          return Object.keys(values).length ? [[id, values]] : [];
+        }),
+      );
+      if (Object.keys(kept).length) next.dataVisContrasts = kept;
+      else delete next.dataVisContrasts;
       return { ...mode, foundations: { ...mode.foundations, color: next } };
     }),
   }));
@@ -79,32 +67,27 @@ export function restoreDataVisPatches(
   pointId?: string,
 ): ModeSet[] {
   const owners = capabilityOwners(current);
-  const fields = [
-    ["dataVisSources", "color.scales"],
-    ["dataVisContrasts", "color.contrastMultiplier"],
-  ] as const;
   for (const axis of previous)
     for (const mode of axis.modes)
-      for (const [field, capability] of fields) {
-        const patches = mode.foundations.color?.[field]?.[scaleId];
-        if (
-          !patches ||
-          (pointId !== undefined && patches[pointId] === undefined)
-        )
-          continue;
+      if (
+        mode.foundations.color?.dataVisContrasts?.[scaleId] &&
+        (pointId === undefined ||
+          mode.foundations.color.dataVisContrasts[scaleId][pointId] !==
+            undefined)
+      ) {
         const destination = current.find((axis) =>
           axis.modes.some((candidate) => candidate.id === mode.id),
         );
         if (!destination)
           throw new Error(
-            "A mode containing these overrides was removed. Undo cannot recreate that mode.",
+            "A mode containing these contrast overrides was removed. Undo cannot recreate that mode.",
           );
         if (
-          destination.id !== owners[capability] ||
+          destination.id !== owners["color.contrastMultiplier"] ||
           destination.defaultModeId === mode.id
         ) {
           throw new Error(
-            "Mode ownership or its default changed. Undo cannot restore the original overrides.",
+            "Mode ownership or its default changed. Undo cannot restore the original contrast overrides.",
           );
         }
       }
@@ -115,20 +98,22 @@ export function restoreDataVisPatches(
         .flatMap((axis) => axis.modes)
         .find((candidate) => candidate.id === mode.id)?.foundations.color;
       const color = { ...mode.foundations.color };
-      for (const [field] of fields) {
-        const patches = before?.[field]?.[scaleId];
-        if (
-          !patches ||
-          (pointId !== undefined && patches[pointId] === undefined)
-        )
-          continue;
+      const patches = before?.dataVisContrasts?.[scaleId];
+      if (
+        patches &&
+        (pointId === undefined || patches[pointId] !== undefined)
+      ) {
         const restored =
           pointId === undefined
             ? patches
-            : { ...color[field]?.[scaleId], [pointId]: patches[pointId] };
-        Object.assign(color, {
-          [field]: { ...color[field], [scaleId]: restored },
-        });
+            : {
+                ...color.dataVisContrasts?.[scaleId],
+                [pointId]: patches[pointId],
+              };
+        color.dataVisContrasts = {
+          ...color.dataVisContrasts,
+          [scaleId]: restored,
+        };
       }
       return {
         ...mode,

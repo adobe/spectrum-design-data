@@ -1,20 +1,25 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorScale, ColorSystemDocument, ContrastToken } from "./model";
+import { storedCustomContrasts } from "./customContrastConfig";
 import type { Rule } from "../logic/model";
+import { assertSwatchIndices, swatchIndex } from "../scales/swatchIndices";
 import {
   STANDARD_SCALE_NAMING_RULE,
   resolveScaleNamingRule,
   scaleNamingIndices,
 } from "../logic/scaleNaming";
 
-/** The shared swatch sequence owns indices; contrast ratios never supply them. */
+/** Authored indices take precedence over automatic naming, never contrast ratios. */
 export function contrastStepIndex(
   position: number,
   scale?: ColorScale,
   rules: readonly Rule[] = [STANDARD_SCALE_NAMING_RULE],
+  sharedContrasts: readonly ContrastToken[] = [],
 ): number {
   if (scale?.customContrasts) {
     const custom = scale.customContrasts;
+    const authored = custom.steps[position]?.scaleIndex;
+    if (authored !== undefined) return authored;
     const indices = scaleNamingIndices(
       resolveScaleNamingRule(rules, custom.namingRuleId),
       custom.steps.length,
@@ -24,7 +29,7 @@ export function contrastStepIndex(
       throw new Error("The requested contrast step is unavailable.");
     return indices[position];
   }
-  return (position + 1) * 100;
+  return swatchIndex(sharedContrasts[position] ?? {}, position);
 }
 
 export function scaleContrasts(
@@ -32,6 +37,22 @@ export function scaleContrasts(
   scale: ColorScale,
 ) {
   return scale.customContrasts?.steps ?? document.contrasts;
+}
+
+export function customContrastNamesMissingFromShared(
+  scale: ColorScale,
+  sharedContrasts: readonly ContrastToken[],
+  rules: readonly Rule[],
+): string[] {
+  const sharedNames = new Set(
+    sharedContrasts.map((_, index) =>
+      contrastStepIndex(index, undefined, rules, sharedContrasts),
+    ),
+  );
+  return (scale.customContrasts?.steps ?? []).flatMap((_, index) => {
+    const name = contrastStepIndex(index, scale, rules);
+    return sharedNames.has(name) ? [] : [`${scale.name}-${name}`];
+  });
 }
 
 export function sortContrastSteps(
@@ -44,7 +65,16 @@ export function assertCustomContrastNaming(
   document: ColorSystemDocument,
   rules: readonly Rule[],
 ) {
+  assertSwatchIndices(
+    document.contrasts.map((step, index) => swatchIndex(step, index)),
+  );
   for (const scale of document.scales) {
-    if (scale.customContrasts) contrastStepIndex(0, scale, rules);
+    const customContrasts = storedCustomContrasts(scale);
+    if (customContrasts)
+      assertSwatchIndices(
+        customContrasts.steps.map((_, position) =>
+          contrastStepIndex(position, { ...scale, customContrasts }, rules),
+        ),
+      );
   }
 }

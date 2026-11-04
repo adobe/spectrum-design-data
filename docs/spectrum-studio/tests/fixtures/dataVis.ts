@@ -143,10 +143,6 @@ export function createDataVisSnapshot(categoricalCount = 2) {
     throw new Error(
       "The data vis fixture needs Light/Dark and Contrast modes.",
     );
-  scheme.authoringCapabilities = [
-    ...(scheme.authoringCapabilities ?? []),
-    "color.scales",
-  ];
   dark.foundations.color = {
     ...dark.foundations.color,
     dataVisSources: {

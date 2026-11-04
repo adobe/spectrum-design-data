@@ -15,6 +15,7 @@ interface TargetRampProps {
   side: "auto" | "light" | "dark";
   focusedContrastId: string | null;
   variant?: "default" | "narrow";
+  isDisabled?: boolean;
 }
 
 function contrastLightness(
@@ -84,6 +85,7 @@ function TargetRamp({
   side,
   focusedContrastId,
   variant,
+  isDisabled,
 }: TargetRampProps) {
   return (
     <MarkerRamp
@@ -97,6 +99,7 @@ function TargetRamp({
       }))}
       focusedId={focusedContrastId}
       variant={variant}
+      isDisabled={isDisabled}
     />
   );
 }

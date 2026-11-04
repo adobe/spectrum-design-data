@@ -44,7 +44,6 @@ import {
   contrastModesAtom,
   cssBaseDocumentAtom,
   customContrastModeDocumentsAtom,
-  scaleModeDocumentsAtom,
 } from "../src/features/color-system/state";
 
 const color = createColorDefaults();
@@ -227,7 +226,6 @@ const css = buildColorLibrary(
   store.get(cssBaseDocumentAtom),
   store.get(colorSchemeDocumentsAtom),
   store.get(contrastModesAtom),
-  store.get(scaleModeDocumentsAtom),
   designSystemDefaults.system.taxonomy,
   rules,
   store.get(customContrastModeDocumentsAtom),

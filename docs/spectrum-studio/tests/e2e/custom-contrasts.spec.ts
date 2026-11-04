@@ -18,7 +18,6 @@ import {
   contrastModesAtom,
   cssBaseDocumentAtom,
   customContrastModeDocumentsAtom,
-  scaleModeDocumentsAtom,
 } from "../../src/features/color-system/state";
 import { buildColorLibrary } from "../../src/features/color-system/cssLibrary";
 import { resolveColorDocument } from "../../src/features/color-system/resolution";
@@ -254,7 +253,6 @@ test("custom CSS matches generated colors in Light/Dark, explicit Contrast modes
     store.get(cssBaseDocumentAtom),
     store.get(colorSchemeDocumentsAtom),
     store.get(contrastModesAtom),
-    store.get(scaleModeDocumentsAtom),
     snapshot.taxonomy,
     snapshot.rules,
     store.get(customContrastModeDocumentsAtom),
@@ -327,7 +325,7 @@ test("custom CSS matches generated colors in Light/Dark, explicit Contrast modes
     aboveIncrement: 1,
   };
   fractional.scales[0].customContrasts!.namingRuleId = rule.id;
-  const fractionalCss = buildColorLibrary(fractional, [], [], [], undefined, [
+  const fractionalCss = buildColorLibrary(fractional, [], [], undefined, [
     ...snapshot.rules!,
     rule,
   ]);
@@ -352,7 +350,7 @@ test("custom CSS matches generated colors in Light/Dark, explicit Contrast modes
   ).toBeLessThanOrEqual(0.005);
 });
 
-test("Contrast modes edit only ratios, reset inheritance, and disable/Undo/Cancel remain scoped", async ({
+test("Contrast modes edit only ratios, reset inheritance, and off/on/Cancel remain scoped", async ({
   page,
 }) => {
   test.setTimeout(90_000);
@@ -389,14 +387,19 @@ test("Contrast modes edit only ratios, reset inheritance, and disable/Undo/Cance
     .locator("xpath=ancestor::label")
     .click();
   await page
-    .getByRole("alertdialog")
-    .getByRole("button", { name: "Use shared steps" })
+    .getByRole("alertdialog", { name: "Use shared contrast scale" })
+    .getByRole("button", { name: "Use shared scale", exact: true })
     .click();
+  await expect(
+    page.getByRole("img", { name: "Contrast lightness ramp", exact: true }),
+  ).toHaveCSS("opacity", "0.3");
   await expect(
     page.getByRole("switch", { name: "Use custom contrast steps" }),
   ).toBeVisible();
+  await page
+    .getByRole("switch", { name: "Use custom contrast steps" })
+    .press("Space");
   await closeGray(page);
-  await page.getByRole("button", { name: "Undo", exact: true }).click();
   await expect(
     (await openGray(page)).getByText(names, { exact: true }),
   ).toBeVisible();
@@ -413,6 +416,116 @@ test("Contrast modes edit only ratios, reset inheritance, and disable/Undo/Cance
       exact: true,
     }),
   ).toHaveValue("5.5");
+});
+
+test("a non-Gray scale can toggle custom steps in Dark and retain them through Save/reload", async ({
+  page,
+}) => {
+  test.setTimeout(90_000);
+  const snapshot = createDefaultSnapshot();
+  const shared = snapshot.colorSystem.scales.find(
+    (scale) => !scale.customContrasts,
+  )!;
+  const displayName = shared.name[0].toUpperCase() + shared.name.slice(1);
+  await seed(page, true, snapshot);
+  await foundations(page);
+  await selectMode(page, "Dark");
+  async function openShared() {
+    await selectColorPanelSection(page, "Color scales");
+    await page
+      .getByRole("tabpanel", { name: "Colors", exact: true })
+      .getByRole("button", { name: displayName, exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Custom contrast steps", exact: true })
+      .click();
+    return page.getByRole("region", { name: "Custom contrast steps" });
+  }
+  async function closeShared() {
+    await page
+      .getByRole("dialog", { name: `Edit ${displayName} scale`, exact: true })
+      .focus();
+    await page.keyboard.press("Escape");
+  }
+  let controls = await openShared();
+  const toggle = () =>
+    page.getByRole("switch", { name: "Use custom contrast steps" });
+  const ramp = () =>
+    controls.getByRole("img", { name: "Contrast lightness ramp", exact: true });
+  await expect(toggle()).toBeEnabled();
+  await expect(toggle()).not.toBeChecked();
+  await expect(ramp()).toHaveCSS("opacity", "0.3");
+  await toggle().press("Space");
+  await expect(toggle()).toBeChecked();
+  await expect(ramp()).toHaveCSS("opacity", "1");
+  await toggle().press("Space");
+  await expect(page.getByRole("alertdialog")).toHaveCount(0);
+  await expect(ramp()).toHaveCSS("opacity", "0.3");
+  await closeShared();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        ({ key, id }) => {
+          const scale = JSON.parse(
+            localStorage.getItem(key)!,
+          ).saved.colorSystem.scales.find(
+            (scale: { id: string }) => scale.id === id,
+          );
+          return !!scale.disabledCustomContrasts && !scale.customContrasts;
+        },
+        { key: AUTHORING_STORAGE_KEY, id: shared.id },
+      ),
+    )
+    .toBe(true);
+  await page.reload();
+  await foundations(page);
+  controls = await openShared();
+  await expect(toggle()).not.toBeChecked();
+  await expect(ramp()).toHaveCSS("opacity", "0.3");
+  await toggle().press("Space");
+  await expect(toggle()).toBeChecked();
+  await expect(ramp()).toHaveCSS("opacity", "1");
+  await closeShared();
+});
+
+test("Gray warns about missing shared names, Cancel preserves custom steps, and confirmation uses shared steps", async ({
+  page,
+}) => {
+  const snapshot = createDefaultSnapshot();
+  snapshot.components!.components = [];
+  await seed(page, true, snapshot);
+  await foundations(page);
+  const controls = await openGray(page);
+  const toggle = page.getByRole("switch", {
+    name: "Use custom contrast steps",
+  });
+  await toggle.press("Space");
+  let dialog = page.getByRole("alertdialog", {
+    name: "Use shared contrast scale",
+  });
+  await expect(dialog).toContainText("gray-25, gray-50, gray-75");
+  await expect(dialog).toContainText("can break components");
+  await expect(toggle).toBeChecked();
+  await dialog.getByRole("button", { name: "Cancel", exact: true }).click();
+  await expect(dialog).toHaveCount(0);
+  await expect(toggle).toBeChecked();
+  await toggle.press("Space");
+  dialog = page.getByRole("alertdialog", { name: "Use shared contrast scale" });
+  await dialog
+    .getByRole("button", { name: "Use shared scale", exact: true })
+    .click();
+  await expect(dialog).toHaveCount(0);
+  await expect(toggle).not.toBeChecked();
+  await expect(
+    controls.getByRole("img", { name: "Contrast lightness ramp", exact: true }),
+  ).toHaveCSS("opacity", "0.3");
+  await toggle.press("Space");
+  await expect(toggle).toBeChecked();
+  await expect(
+    controls.getByRole("img", { name: "Contrast lightness ramp", exact: true }),
+  ).toHaveCSS("opacity", "1");
+  await closeGray(page);
 });
 
 test("editable Logic naming rules reach custom colors and reject invalid consumer ranges", async ({

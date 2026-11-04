@@ -101,7 +101,7 @@ for (const output of viewOnlyOutputs) {
   });
 }
 
-test.describe("view-only mode-specific stops", () => {
+test.describe("legacy mode-specific stops", () => {
   const snapshot = createDefaultSnapshot();
   const scale = snapshot.colorSystem.scales.find(
     (scale) => scale.name === "Red",
@@ -131,15 +131,16 @@ test.describe("view-only mode-specific stops", () => {
     editorSnapshot: snapshot,
     modeSelection: { [modeSet.key]: mode.id },
   });
-  test("shows the resolved mode value even when stop authoring belongs to Modes", async ({
-    page,
-  }) => {
+  test("does not apply legacy mode-specific stop values", async ({ page }) => {
     expect((await working(page)).modeSets).toEqual(snapshot.modeSets);
     const value = page
       .getByRole("dialog", { name: "Edit Red scale" })
       .getByRole("textbox", { name: "Color value", exact: true });
     await expect(value).toHaveValue(
-      paletteColorCss(channels, snapshot.colorSystem.settings.colorOutput),
+      paletteColorCss(
+        scale.stops[0],
+        snapshot.colorSystem.settings.colorOutput,
+      ),
     );
   });
 });
@@ -299,10 +300,10 @@ for (const edit of ["Hex", "area", "slider", "channel"] as const) {
     page,
   }) => {
     const dialog = page.getByRole("dialog", { name: "Edit Red scale" });
-    const palette = dialog.getByRole("radiogroup", { name: "Palette colors" });
-    const swatch = palette.getByRole("radio").first();
+    const palette = dialog.getByRole("listbox", { name: "Palette colors" });
+    const swatch = palette.getByRole("option").first();
     await swatch.click();
-    await expect(swatch).toBeChecked();
+    await expect(swatch).toHaveAttribute("aria-selected", "true");
     await expect
       .poll(
         async () =>
@@ -321,10 +322,10 @@ for (const edit of ["Hex", "area", "slider", "channel"] as const) {
     await expect(hex).toBeVisible();
     await hex.fill("#12");
     await hex.press("Tab");
-    await expect(swatch).toBeChecked();
+    await expect(swatch).toHaveAttribute("aria-selected", "true");
     await dialog.getByRole("radio", { name: "Polar model" }).click();
     await dialog.getByRole("radio", { name: "Cartesian model" }).click();
-    await expect(swatch).toBeChecked();
+    await expect(swatch).toHaveAttribute("aria-selected", "true");
     if (edit === "Hex") {
       await dialog
         .getByRole("radio", { name: "Channels", exact: true })
@@ -352,7 +353,7 @@ for (const edit of ["Hex", "area", "slider", "channel"] as const) {
         .getByRole("listbox", { name: "Color space", exact: true })
         .getByRole("option", { name: "OKLCH", exact: true })
         .click();
-      await expect(swatch).toBeChecked();
+      await expect(swatch).toHaveAttribute("aria-selected", "true");
       await hex.fill("#336699");
     } else if (edit === "area") {
       const bounds = await dialog.locator(".colorPickerArea").boundingBox();
@@ -374,7 +375,7 @@ for (const edit of ["Hex", "area", "slider", "channel"] as const) {
       await field.fill("0");
       await field.press("Tab");
     }
-    await expect(swatch).not.toBeChecked();
+    await expect(swatch).toHaveAttribute("aria-selected", "false");
     await expect
       .poll(
         async () =>
@@ -422,12 +423,12 @@ test("palette swatches toggle links without changing the displayed color", async
   page,
 }) => {
   const dialog = page.getByRole("dialog", { name: "Edit Red scale" });
-  const palette = dialog.getByRole("radiogroup", { name: "Palette colors" });
-  const swatch = palette.getByRole("radio").first();
+  const palette = dialog.getByRole("listbox", { name: "Palette colors" });
+  const swatch = palette.getByRole("option").first();
   await swatch.hover();
   await expect(page.getByRole("tooltip")).toHaveText("Link to palette color");
   await swatch.click();
-  await expect(swatch).toBeChecked();
+  await expect(swatch).toHaveAttribute("aria-selected", "true");
   const hex = dialog.getByRole("textbox", { name: "Hex", exact: true });
   await expect
     .poll(
@@ -450,7 +451,7 @@ test("palette swatches toggle links without changing the displayed color", async
   await expect(page.getByRole("tooltip")).toHaveText("Click to unlink");
   await expect(palette).toHaveCount(1);
   await swatch.click();
-  await expect(swatch).not.toBeChecked();
+  await expect(swatch).toHaveAttribute("aria-selected", "false");
   await expect(hex).toHaveValue(linkedHex);
   await expect
     .poll(
@@ -477,9 +478,9 @@ test("palette swatches toggle links without changing the displayed color", async
   await swatch.hover();
   await expect(page.getByRole("tooltip")).toHaveText("Link to palette color");
   await swatch.press("Space");
-  await expect(swatch).toBeChecked();
+  await expect(swatch).toHaveAttribute("aria-selected", "true");
   await swatch.press("Space");
-  await expect(swatch).not.toBeChecked();
+  await expect(swatch).toHaveAttribute("aria-selected", "false");
   await expect(
     dialog.getByRole("button", { name: "Unlink", exact: true }),
   ).toHaveCount(0);

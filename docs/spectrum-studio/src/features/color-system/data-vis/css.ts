@@ -8,6 +8,7 @@ import { isFoundationPublished } from "../../foundations/types";
 import { concreteColor } from "./colors";
 import { dataVisMemberId } from "./identity";
 import { kebabCaseNameFormatter } from "../../taxonomy/formatting";
+import { resolveColorScaleDocument } from "../colorScaleResolution";
 
 export function buildDataVisCategoricalCss(
   source: AliasAuthoringSource,
@@ -31,6 +32,7 @@ export function buildDataVisCategoricalCss(
     return "/* Continuous data vis scales use the separate JavaScript adapter. */";
   const exported = buildCascadeTokenExport({
     base: source.colorSystem,
+    opacity: source.opacity,
     modeSets: source.modeSets,
     activeModes: [],
     activeTokens: [],
@@ -39,6 +41,16 @@ export function buildDataVisCategoricalCss(
     taxonomy: source.taxonomy,
     rules: source.rules,
   });
+  const colorDocument = resolveColorScaleDocument(
+    source.colorSystem,
+    [],
+    undefined,
+    {
+      modeSets: source.modeSets,
+      opacity: source.opacity,
+      browserTokenEdits: source.browserTokenEdits,
+    },
+  );
   const blocks = new Map<
     string,
     { fields: [string, string][]; declarations: string[]; links: string[] }
@@ -81,13 +93,13 @@ export function buildDataVisCategoricalCss(
         source.taxonomy.classifications[id] !== undefined,
     );
     if (!edited && !entry.scale.staticColors) {
-      const step = scaleContrasts(source.colorSystem, ui).findIndex(
+      const step = scaleContrasts(colorDocument, ui).findIndex(
         (step) => step.id === entry.member.source.contrastId,
       );
       if (step < 0)
         throw new Error("Categorical CSS is missing a linked UI swatch.");
       const label = kebabCaseNameFormatter.formatValue(
-        contrastStepIndex(step, ui, source.rules),
+        contrastStepIndex(step, ui, source.rules, colorDocument.contrasts),
       );
       const uiRoot = exported.tokens.find(
         (candidate) => candidate.uuid === uiId,

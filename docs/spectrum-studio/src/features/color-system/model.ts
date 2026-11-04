@@ -1,8 +1,17 @@
 // Copyright 2026 Adobe. All rights reserved.
 export type ContrastSide = "auto" | "light" | "dark";
 export type ContrastReference = "light" | "dark";
+export type ColorScaleType = "dynamic-blend" | "opaque" | "transparent";
 import type { OutputColorSpace } from "./colorMath";
 import { designSystemDefaults } from "../../data/defaults";
+import { isCustomContrasts } from "./customContrastConfig";
+import { isScaleIndex } from "../scales/swatchIndices";
+import type { ColorScaleInterpolation } from "./scaleInterpolation";
+export { isCustomContrasts } from "./customContrastConfig";
+export {
+  scaleInterpolation,
+  type ColorScaleInterpolation,
+} from "./scaleInterpolation";
 import {
   isFoundationPublishingMetadata,
   type FoundationPublishingMetadata,
@@ -53,8 +62,8 @@ export interface ColorSystemDefaults {
   scales: ColorScaleInput[];
   contrasts: number[];
   surfaces: SurfaceInput[];
-  extOffset: number;
-  extSteep: number;
+  backgroundBlend: number;
+  colorSourceCurveOffset: number;
 }
 
 export interface ColorStop extends ColorStopInput {
@@ -75,16 +84,19 @@ export interface ColorScale extends FoundationPublishingMetadata {
   name: string;
   nameRef?: TaxonomyNameReference;
   stops: ColorStop[];
+  interpolation?: ColorScaleInterpolation;
   customContrasts?: {
     steps: ContrastToken[];
     baseContrastId: string;
     namingRuleId: string;
   };
+  disabledCustomContrasts?: ColorScale["customContrasts"];
 }
 
 export interface ContrastToken {
   id: string;
   value: number;
+  scaleIndex?: number;
   /** Explicit value at the opposite background extreme; replaces the compensated value. */
   oppositeValue?: number;
 }
@@ -106,9 +118,11 @@ export interface ColorSystemDocument {
   contrasts: ContrastToken[];
   surfaces: Surface[];
   settings: {
+    colorScaleType?: ColorScaleType;
+    syncDefaultStopsWithOpacity?: boolean;
     side: ContrastSide;
-    extOffset: number;
-    extSteep: number;
+    backgroundBlend: number;
+    colorSourceCurveOffset: number;
     guardThreshold: number;
     colorOutput: ColorOutputSettings;
     contrastReference?: ContrastReference;
@@ -160,8 +174,8 @@ export function hydrateColorSystem(
     })),
     settings: {
       ...designSystemDefaults.system.foundations.color.settings,
-      extOffset: defaults.extOffset,
-      extSteep: defaults.extSteep,
+      backgroundBlend: defaults.backgroundBlend,
+      colorSourceCurveOffset: defaults.colorSourceCurveOffset,
     },
   };
 }
@@ -233,6 +247,7 @@ export function isColorSystemDocument(
         isRecord(item) &&
         typeof item.id === "string" &&
         typeof item.value === "number" &&
+        (item.scaleIndex === undefined || isScaleIndex(item.scaleIndex)) &&
         (item.oppositeValue === undefined ||
           typeof item.oppositeValue === "number"),
     )
@@ -248,6 +263,12 @@ export function isColorSystemDocument(
       typeof scale.name === "string" &&
       (scale.customContrasts === undefined ||
         isCustomContrasts(scale.customContrasts)) &&
+      (scale.interpolation === undefined ||
+        scale.interpolation === "oklch" ||
+        scale.interpolation === "rgb") &&
+      (scale.disabledCustomContrasts === undefined ||
+        (scale.customContrasts === undefined &&
+          isCustomContrasts(scale.disabledCustomContrasts))) &&
       Array.isArray(scale.stops) &&
       scale.stops.length > 0 &&
       scale.stops.every(
@@ -271,6 +292,18 @@ export function isColorSystemDocument(
   const { contrastReference, polarityCompensation, contrastMultiplier } =
     value.settings;
   if (
+    value.settings.colorScaleType !== undefined &&
+    !["dynamic-blend", "opaque", "transparent"].includes(
+      String(value.settings.colorScaleType),
+    )
+  )
+    return false;
+  if (
+    value.settings.syncDefaultStopsWithOpacity !== undefined &&
+    typeof value.settings.syncDefaultStopsWithOpacity !== "boolean"
+  )
+    return false;
+  if (
     contrastReference !== undefined &&
     contrastReference !== "light" &&
     contrastReference !== "dark"
@@ -284,41 +317,5 @@ export function isColorSystemDocument(
   return (
     polarityCompensation === undefined ||
     typeof polarityCompensation === "number"
-  );
-}
-
-export function isCustomContrasts(
-  value: unknown,
-): value is NonNullable<ColorScale["customContrasts"]> {
-  if (
-    !isRecord(value) ||
-    typeof value.baseContrastId !== "string" ||
-    typeof value.namingRuleId !== "string" ||
-    !Array.isArray(value.steps) ||
-    value.steps.length === 0
-  )
-    return false;
-  const ids = new Set<string>();
-  return (
-    value.steps.every((step) => {
-      if (
-        !isRecord(step) ||
-        typeof step.id !== "string" ||
-        !step.id ||
-        ids.has(step.id) ||
-        typeof step.value !== "number" ||
-        !Number.isFinite(step.value) ||
-        step.value < 1 ||
-        step.value > 21 ||
-        (step.oppositeValue !== undefined &&
-          (typeof step.oppositeValue !== "number" ||
-            !Number.isFinite(step.oppositeValue) ||
-            step.oppositeValue < 1 ||
-            step.oppositeValue > 21))
-      )
-        return false;
-      ids.add(step.id);
-      return true;
-    }) && ids.has(value.baseContrastId)
   );
 }

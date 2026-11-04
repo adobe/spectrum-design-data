@@ -33,13 +33,11 @@ import {
   type RemovedColorTokenRecords,
 } from "../colorTokenCleanup";
 import {
-  applyDataVisPointPatch,
   isDataVisScale,
   type CategoricalDataVisScale,
   type ContinuousDataVisScale,
   type DataVisPoint,
   type DataVisScale,
-  type DataVisSourcePatch,
   type PointContrast,
 } from "./model";
 import {
@@ -54,7 +52,7 @@ import { inspectInWorker } from "./inspectInWorker";
 import { categoricalSelection } from "./selection";
 import { dataVisMemberId } from "./identity";
 import { dataVisConsumers, dataVisSourceIssues } from "./references";
-import type { AuthoringCapability, ModeSet } from "../../modes/model";
+import type { ModeSet } from "../../modes/model";
 import {
   createMode,
   ensureModeSetKeys,
@@ -65,7 +63,6 @@ import { parameterOwners, setParameterValue } from "../../modes/parameters";
 import { clearPreviewParametersAtom } from "../../modes/previewState";
 import { aliasesAtom } from "../../tokens/aliasState";
 import { pruneDataVisPatches, restoreDataVisPatches } from "./patches";
-import { tokenStableKey, tokenUuid } from "../../tokens/model";
 
 export const dataVisInputDocumentAtom = atom((get) =>
   resolveColorDocument(
@@ -210,18 +207,6 @@ function assertEdit(get: Getter, allowPreview = false) {
     );
 }
 
-export function dataVisEditTarget(
-  get: Getter,
-  capability: AuthoringCapability,
-) {
-  const sets = get(modeSetsAtom),
-    owner = sets.find((axis) => axis.id === capabilityOwners(sets)[capability]);
-  const mode = owner && resolveActiveMode(owner, get(modeSelectionAtom));
-  return owner && mode && mode.id !== owner.defaultModeId
-    ? { owner, mode }
-    : undefined;
-}
-
 function assertReferences(
   get: Getter,
   scale: DataVisScale,
@@ -277,7 +262,7 @@ function ensureRemovedMembersUnused(
       "Choose replacement alias targets before removing these categorical colors.",
     );
   if (
-    dataVisConsumers(get(colorSystemDocumentAtom), get(modeSetsAtom)).some(
+    dataVisConsumers(get(colorSystemDocumentAtom)).some(
       (consumer) =>
         consumer.source.kind === "primitive-token" &&
         removed.has(consumer.source.tokenId) &&
@@ -431,11 +416,11 @@ export const applyCategoricalDataVisAtom = atom(
 export interface PointEdit {
   scaleId: string;
   pointId: string;
-  scope?: "base" | "mode" | "all-modes";
+  scope?: "base" | "mode";
   source?: DataVisPoint["source"];
   contrast?: PointContrast;
   position?: number;
-  reset?: "source" | "contrast";
+  reset?: "contrast";
 }
 export const pendingDataVisPointEditAtom = atom<{
   edit: PointEdit;
@@ -457,67 +442,42 @@ function preparePointEdit(
     );
   const point = base.points.find((point) => point.id === input.pointId);
   if (!point) throw new Error("This control point is unavailable.");
-  const capability =
-    input.contrast || input.reset === "contrast"
-      ? "color.contrastMultiplier"
-      : "color.scales";
+  const editsContrast = !!input.contrast || input.reset === "contrast";
+  if (input.scope === "mode" && !editsContrast)
+    throw new Error("Data vis sources are shared across modes.");
+  const capability = "color.contrastMultiplier";
   const owner = modeSets.find(
     (axis) => axis.id === capabilityOwners(modeSets)[capability],
   );
   const mode = owner && resolveActiveMode(owner, selection);
   const target =
+    !editsContrast ||
     input.scope === "base" ||
-    input.scope === "all-modes" ||
     !owner ||
     !mode ||
     mode.id === owner.defaultModeId
       ? undefined
       : { owner, mode };
   if (target) {
-    const bothExact =
-      (point.source.kind === "ui-swatch" ||
-        point.source.kind === "primitive-token") &&
-      (input.source?.kind === "ui-swatch" ||
-        input.source?.kind === "primitive-token");
-    if (
-      input.position !== undefined ||
-      (input.source && input.source.kind !== point.source.kind && !bothExact)
-    )
+    if (input.position !== undefined || input.source)
       throw new Error(
-        "Change point positions or source types in the shared recipe.",
+        "Data vis sources and positions are shared across modes.",
       );
     if (
       input.contrast?.oppositeValue !== undefined &&
       input.contrast.oppositeValue !== point.contrast?.oppositeValue
     )
       throw new Error("Opposite contrast values belong to the shared recipe.");
-    const field =
-      capability === "color.scales" ? "dataVisSources" : "dataVisContrasts";
-    let patch: DataVisSourcePatch | number | undefined;
-    if (!input.reset) {
-      if (field === "dataVisSources" && input.source)
-        patch =
-          input.source.kind === "key-color"
-            ? { color: input.source.color }
-            : input.source.kind === "ui-scale"
-              ? { scaleId: input.source.scaleId }
-              : input.source.kind === "primitive-token"
-                ? { tokenId: input.source.tokenId }
-                : point.source.kind === "primitive-token"
-                  ? {
-                      tokenId: tokenUuid(
-                        tokenStableKey(
-                          input.source.scaleId,
-                          input.source.contrastId,
-                        ),
-                      ),
-                    }
-                  : {
-                      scaleId: input.source.scaleId,
-                      contrastId: input.source.contrastId,
-                    };
-      else if (input.contrast) patch = input.contrast.value;
-    }
+    const colorPatches = { ...target.mode.foundations.color },
+      scales = { ...colorPatches.dataVisContrasts },
+      points = { ...scales[base.id] };
+    if (input.reset) delete points[point.id];
+    else if (input.contrast)
+      Object.assign(points, { [point.id]: input.contrast.value });
+    if (Object.keys(points).length) scales[base.id] = points;
+    else delete scales[base.id];
+    if (Object.keys(scales).length) colorPatches.dataVisContrasts = scales;
+    else delete colorPatches.dataVisContrasts;
     const sets = modeSets.map((axis) =>
       axis.id !== target.owner.id
         ? axis
@@ -525,21 +485,13 @@ function preparePointEdit(
             ...axis,
             modes: axis.modes.map((mode) => {
               if (mode.id !== target.mode.id) return mode;
-              const color = { ...mode.foundations.color };
-              const scales: Record<
-                  string,
-                  Record<string, DataVisSourcePatch | number>
-                > = { ...color[field] },
-                points = { ...scales[base.id] };
-              if (input.reset) delete points[point.id];
-              else Object.assign(points, { [point.id]: patch });
-              if (Object.keys(points).length)
-                Object.assign(scales, { [base.id]: points });
-              else delete scales[base.id];
-              if (Object.keys(scales).length)
-                Object.assign(color, { [field]: scales });
-              else delete color[field];
-              return { ...mode, foundations: { ...mode.foundations, color } };
+              return {
+                ...mode,
+                foundations: {
+                  ...mode.foundations,
+                  color: colorPatches,
+                },
+              };
             }),
           },
     );
@@ -567,56 +519,19 @@ function preparePointEdit(
     ),
   };
   let sets = modeSets;
-  if (input.scope === "all-modes" || source.kind !== point.source.kind)
+  if (exact)
     sets = sets.map((axis) => ({
       ...axis,
       modes: axis.modes.map((mode) => {
         const color = { ...mode.foundations.color };
-        if (
-          input.scope !== "all-modes" &&
-          exact &&
-          (point.source.kind === "ui-swatch" ||
-            point.source.kind === "primitive-token")
-        ) {
-          const previous = color.dataVisSources?.[base.id]?.[point.id];
-          if (previous) {
-            const effective = applyDataVisPointPatch(point, previous).source;
-            if (
-              effective.kind !== "ui-swatch" &&
-              effective.kind !== "primitive-token"
-            )
-              throw new Error("This exact source override is incompatible.");
-            const tokenId =
-              effective.kind === "primitive-token"
-                ? effective.tokenId
-                : tokenUuid(
-                    tokenStableKey(effective.scaleId, effective.contrastId),
-                  );
-            color.dataVisSources = {
-              ...color.dataVisSources,
-              [base.id]: {
-                ...color.dataVisSources?.[base.id],
-                [point.id]: { tokenId },
-              },
-            };
-          }
-          return { ...mode, foundations: { ...mode.foundations, color } };
-        }
-        for (const field of [
-          "dataVisSources",
-          ...(exact ? ["dataVisContrasts" as const] : []),
-        ] as const) {
-          if (!color[field]?.[base.id]?.[point.id]) continue;
-          const scales = { ...color[field] },
-            points = { ...scales[base.id] };
-          delete points[point.id];
-          if (Object.keys(points).length)
-            Object.assign(scales, { [base.id]: points });
-          else delete scales[base.id];
-          if (Object.keys(scales).length)
-            Object.assign(color, { [field]: scales });
-          else delete color[field];
-        }
+        if (!color.dataVisContrasts?.[base.id]?.[point.id]) return mode;
+        const scales = { ...color.dataVisContrasts },
+          points = { ...scales[base.id] };
+        delete points[point.id];
+        if (Object.keys(points).length) scales[base.id] = points;
+        else delete scales[base.id];
+        if (Object.keys(scales).length) color.dataVisContrasts = scales;
+        else delete color.dataVisContrasts;
         return { ...mode, foundations: { ...mode.foundations, color } };
       }),
     }));
@@ -634,16 +549,13 @@ function preparePointEdit(
 export const editDataVisPointAtom = atom(null, (get, set, input: PointEdit) => {
   assertEdit(get, true);
   const sets = get(modeSetsAtom),
-    capability =
-      input.contrast || input.reset === "contrast"
-        ? "color.contrastMultiplier"
-        : "color.scales";
+    capability = "color.contrastMultiplier";
   const owner = sets.find(
     (axis) => axis.id === capabilityOwners(sets)[capability],
   );
   if (
+    (input.contrast || input.reset === "contrast") &&
     input.scope !== "base" &&
-    input.scope !== "all-modes" &&
     owner &&
     get(displayedModeIdsAtom)[owner.key] === CUSTOM_MODE_KEY
   ) {
@@ -664,11 +576,10 @@ export const applyPendingDataVisPointEditAtom = atom(
     if (!pending) throw new Error("This pending edit is no longer available.");
     const sets = get(modeSetsAtom),
       owner = sets.find((axis) => axis.id === pending.modeSetId);
-    const capability =
-      pending.edit.contrast || pending.edit.reset === "contrast"
-        ? "color.contrastMultiplier"
-        : "color.scales";
-    if (!owner || capabilityOwners(sets)[capability] !== owner.id)
+    if (
+      !owner ||
+      capabilityOwners(sets)["color.contrastMultiplier"] !== owner.id
+    )
       throw new Error("Mode ownership changed. Reopen the edit.");
     const preview = get(previewOverridesAtom),
       owners = parameterOwners(sets);
@@ -746,10 +657,6 @@ export const editDataVisStructureAtom = atom(
         ensureRemovedMembersUnused(get, scale);
       next = { ...scale, hideFromPublishing: input.hideFromPublishing };
     } else {
-      if (input.scope !== "base" && dataVisEditTarget(get, "color.scales"))
-        throw new Error(
-          "Select the source owner's default mode to change control points.",
-        );
       if (scale.kind === "categorical")
         throw new Error("Use the categorical chooser to edit members.");
       if (input.kind === "remove-point") {

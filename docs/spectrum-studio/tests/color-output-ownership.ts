@@ -94,7 +94,7 @@ highTargets.scales[0].customContrasts!.steps[0].value = 7;
 assert.doesNotThrow(() => buildColorLibrary(highTargets));
 assert.doesNotThrow(
   () =>
-    buildColorLibrary(feasible, [midMode], [], [], undefined, RULE_DEFAULTS, [
+    buildColorLibrary(feasible, [midMode], [], undefined, RULE_DEFAULTS, [
       { selector: '[data-contrast="high"]', document: highTargets },
     ]),
   "Individually feasible background and target owners must resolve to closest achievable contrast in their declared combined context.",

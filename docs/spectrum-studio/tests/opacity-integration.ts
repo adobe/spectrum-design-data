@@ -82,7 +82,7 @@ assert.deepEqual(
 );
 assert.equal(
   authored.slots.filter((slot) => slot.foundation === "opacity").length,
-  19,
+  36,
 );
 const sourceItem = authored.groups
   .flatMap((group) => group.items)
@@ -93,12 +93,12 @@ const opacity = tokens.records.filter(
   (record) => record.category === "opacity",
 );
 assert.equal(opacity.length, 17);
-assert.equal(opacity.flatMap((record) => record.modeValues).length, 34);
+assert.equal(opacity.flatMap((record) => record.modeValues).length, 51);
 assert.equal(
   opacity
     .flatMap((record) => record.modeValues)
     .filter((value) => value.changed).length,
-  2,
+  3,
 );
 assert.ok(
   tokens.records.some(
@@ -126,7 +126,7 @@ assert.equal(
 const aliases = canonicalAliasRows(completeAliasSource(working)).filter(
   (row) => row.token.type === "opacity",
 );
-assert.equal(aliases.length, 34);
+assert.equal(aliases.length, 51);
 assert.equal(aliases.find((item) => item.rowId === row.uuid)?.id, target.id);
 assert.equal(
   aliases.find((item) => item.rowId === row.uuid)?.token.value,
@@ -138,7 +138,7 @@ store.set(opacityDocumentAtom, working.opacity!);
 const foundation = store.get(opacityFoundationSource.recordsAtom);
 assert.deepEqual(
   [foundation.filter((record) => record.edited).length, foundation.length],
-  [1, 19],
+  [1, 36],
 );
 const reset = prepareChangeReset(
   {
@@ -177,7 +177,7 @@ assert.equal(sourceValuePreview(effective).kind, "opacity");
 const scoped = opacityContexts(working);
 assert.equal(
   scoped.length,
-  2,
+  3,
   "Unrelated selected axes do not change saved opacity inventory.",
 );
 const editing = createStore();

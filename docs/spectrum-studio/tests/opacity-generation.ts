@@ -19,7 +19,7 @@ const source: OpacitySource = {
   browserTokenEdits: {},
 };
 const contexts = opacityContexts(source);
-assert.equal(contexts.length, 2);
+assert.equal(contexts.length, 3);
 assert.deepEqual(
   opacityAxes(source).map((axis) => axis.id),
   ["mode-set-color-scheme"],
@@ -46,7 +46,7 @@ for (const result of values) {
 assert.equal(
   new Set(values.flatMap((result) => result.levels.map((level) => level.uuid)))
     .size,
-  34,
+  51,
 );
 assert.deepEqual(resolveOpacity(source, [...dark.modes].reverse()), values[1]);
 assert.equal(resolveOpacity(source, []).modeKey, light.key);

@@ -19,13 +19,27 @@ import { resolveOpacity, synchronizeOpacityRows } from "./generation";
 import { compensatedOpacity } from "./polarity";
 import { registerOpacityVocabulary } from "../taxonomy/opacityGovernance";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
-import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import {
+  registerAuthoringGuard,
+  withValidatedAuthoringUpdates,
+} from "../../state/authoringGuards";
+import { resolveColorScaleDocument } from "../color-system/colorScaleResolution";
+import { assertNoDataVisSourceLoss } from "../color-system/data-vis/references";
+import { opacityStopsEnabled } from "../color-system/colorScaleType";
+import { isColorSystemDocument } from "../color-system/model";
+import {
+  assertSwatchIndices,
+  nextSwatchIndex,
+  reindexSwatches,
+  swatchIndex,
+} from "../scales/swatchIndices";
 
 function writeOpacityLevels(
   get: Getter,
   set: Setter,
   document: OpacityDocument,
 ) {
+  assertSwatchIndices(document.levels.map(swatchIndex));
   const taxonomy = registerOpacityVocabulary(
     get(taxonomyDocumentAtom),
     document,
@@ -49,6 +63,33 @@ export const opacityDocumentAtom = persistedAtom<OpacityDocument>({
   initialize: () => structuredClone(OPACITY_DEFAULTS),
   validate: isOpacityDocument,
   preserveInvalid: true,
+});
+registerAuthoringGuard("opacity-linked-color-dependencies", (get, updates) => {
+  const next = updates.get("foundations/opacity");
+  if (!isOpacityDocument(next)) return;
+  assertSwatchIndices(next.levels.map(swatchIndex));
+  const previous = get(colorSystemDocumentAtom);
+  const candidate = updates.get("foundations/color");
+  const color = isColorSystemDocument(candidate) ? candidate : previous;
+  if (
+    !opacityStopsEnabled(previous.settings) &&
+    !opacityStopsEnabled(color.settings)
+  )
+    return;
+  const options = {
+    modeSets: get(modeSetsAtom),
+    browserTokenEdits: get(browserTokenEditsAtom),
+  };
+  assertNoDataVisSourceLoss(
+    resolveColorScaleDocument(previous, [], undefined, {
+      ...options,
+      opacity: get(opacityDocumentAtom),
+    }),
+    resolveColorScaleDocument(color, [], undefined, {
+      ...options,
+      opacity: next,
+    }),
+  );
 });
 export const opacitySourceAtom = atom((get) => ({
   opacity: get(opacityDocumentAtom),
@@ -140,6 +181,17 @@ export const updateOpacityLevelAtom = atom(
     }
   },
 );
+export const updateOpacityIndexAtom = atom(
+  null,
+  (get, set, input: { id: string; scaleIndex: number }) => {
+    assertEditing(get(editModeAtom), get(previewOverridesAtom));
+    const document = get(opacityDocumentAtom);
+    writeOpacityLevels(get, set, {
+      ...document,
+      levels: reindexSwatches(document.levels, input.id, input.scaleIndex),
+    });
+  },
+);
 export const resetOpacityOverrideAtom = atom(null, (get, set, id: string) => {
   assertEditing(get(editModeAtom), get(previewOverridesAtom));
   const edits = { ...get(browserTokenEditsAtom) },
@@ -154,7 +206,15 @@ export const resetOpacityOverrideAtom = atom(null, (get, set, id: string) => {
 });
 export const addOpacityLevelAtom = atom(null, (get, set) => {
   assertEditing(get(editModeAtom), get(previewOverridesAtom));
-  const level: OpacityLevel = { id: crypto.randomUUID(), value: 0, rows: {} };
+  const previous = get(opacityDocumentAtom);
+  const level: OpacityLevel = {
+    id: crypto.randomUUID(),
+    value: 0,
+    rows: {},
+    ...(previous.levels.some((level) => level.scaleIndex !== undefined) && {
+      scaleIndex: nextSwatchIndex(previous.levels.map(swatchIndex)),
+    }),
+  };
   const document = {
     ...get(opacityDocumentAtom),
     levels: [...get(opacityDocumentAtom).levels, level],
@@ -187,7 +247,7 @@ export const removeOpacityLevelAtom = atom(null, (get, set, id: string) => {
   };
   const edits = { ...get(browserTokenEditsAtom) };
   delete edits[id];
-  set(opacityDocumentAtom, {
+  writeOpacityLevels(get, set, {
     ...document,
     levels: document.levels.filter((level) => level.id !== id),
   });

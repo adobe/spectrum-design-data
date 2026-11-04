@@ -1,5 +1,55 @@
 # Data vis color scales
 
+## Standard color scale types
+
+Color > System settings > **Color scale type** selects the output for standard
+color scales. **Dynamic blend** keeps the existing linear-light blend.
+**Opaque** samples the color ramp directly. **Transparent** generates a source
+color with alpha. Background blend and Source curve offset apply to Dynamic blend
+and Transparent, but not Opaque. Palette colors, background generation, data-vis
+recipes, and experimental surfaces keep their existing generation rules.
+
+Transparent normally uses the contrast stops as targets. Turn on **Sync default
+stops with opacity scale** to use the Opacity foundation instead: each opacity
+level supplies one default color stop with the same index and alpha. Opacity's
+dark-background compensation and manual edits apply. Scales with custom contrast
+steps continue to use their own targets and Overall contrast.
+
+For synced defaults, an opacity's black-or-white overlay on the current background
+provides the reference position on the color ramp. The blend settings shape the
+source color from there. Alpha stays fixed; contrast is measured from the final
+composited output, not enforced as a target. Overall contrast and color polarity
+compensation do not adjust these default stops.
+
+The **Contrasts** tab shows measured results for a selected scale and an **Edit
+opacity** button that opens the existing Opacity editor. It does not expose a
+second editable list. Switching off sync restores the saved contrast stops.
+Changing scale type preserves the inactive blend and sync settings.
+If switching stop sources would remove a color used by a component or data-vis
+recipe, choose a replacement before switching. The same check applies when
+removing a linked opacity level.
+
+Synced CSS colors reference the exported opacity variables, so changing one
+opacity token updates its dependent colors. If Hex cannot represent an opacity
+exactly, synced token output uses a functional color format instead. The saved
+format choice and unrelated outputs are unchanged.
+
+## UI scale custom contrast steps
+
+Every UI color scale can use its own contrast steps instead of the shared list.
+The **Custom contrast steps** switch is available in edit mode, including while
+viewing another saved contrast mode or color scheme. Temporary color previews
+remain read-only.
+
+Switching off uses the shared steps and dims the contrast gradient to 30%
+opacity. The custom list, naming rule, base swatch, and contrast mode overrides
+are kept for switching back on, including after saving and reloading.
+If custom token names such as Gray-25 are absent from the shared scale, an alert
+lists those names and warns about broken references. Choose **Use shared scale**
+to proceed or **Cancel** to keep custom steps active.
+Existing dependency checks still prevent removing tokens used by components or
+data vis scales; choose replacement tokens before switching those scales off.
+
 ## Shared authoring gamut and output format
 
 Platforms and Color > System settings share one saved color configuration.

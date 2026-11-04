@@ -23,6 +23,7 @@ export interface ColorAnalysisPreferences {
   guides: boolean;
   lineType: "steps" | "curve";
   showValues: boolean;
+  chromaticityScaleId: string | null;
   referenceScaleId: string | null;
   valuesScaleId: string | null;
 }
@@ -34,6 +35,7 @@ export const DEFAULT_COLOR_ANALYSIS: ColorAnalysisPreferences = {
   guides: true,
   lineType: "steps",
   showValues: false,
+  chromaticityScaleId: null,
   referenceScaleId: null,
   valuesScaleId: null,
 };

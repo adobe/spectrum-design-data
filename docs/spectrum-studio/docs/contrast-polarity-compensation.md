@@ -25,9 +25,35 @@ This does not equalize Light and Dark contrast.
 
 Light-side edits change the authored level. Dark-side edits create a visible
 manual token override; Reset returns it to the generated value. Add and remove
-affect the shared list. Only Sort orders levels by their authored percentages
-and renumbers them from opacity-100 in increments of 100. References follow
-the level's stable identity, not its name or percentage.
+affect the shared list. Sort orders levels by their authored percentages.
+Levels without assigned indices are numbered from opacity-100 in increments
+of 100; manually assigned indices stay attached to their levels. References
+follow the level's stable identity, not its name or percentage.
+
+## Editing swatch indices
+
+In edit mode, click the index beside a contrast or opacity slider to choose
+an unused Registry index or enter a new positive number in the small combo box.
+The field accepts only numbers and returns to plain text when you leave it.
+Press Enter or choose a number to apply it; Escape cancels the entry.
+For example, add a
+swatch, set its contrast or opacity, then change its index to 550 to place it
+between 500 and 600. Used indices are omitted from the options; entering a
+duplicate leaves the swatch unchanged.
+
+Changing an index moves the swatch into index order without changing its value
+or renumbering its neighbors. The list retains those assigned indices when
+sorted or when its custom naming rule changes. Lists without manual assignments
+keep their existing automatic numbering. New indices are registered once and
+used by previews, token names, and exports.
+
+Shared contrast indices apply to every scale using that list. Custom contrast
+indices belong only to that scale. Transparent color scales linked to Opacity
+use the opacity swatches' indices. Index edits follow the existing structural
+editing restrictions and apply across modes; they are not mode-value overrides.
+Save, Cancel, and Changes include index edits. Resetting an index restores its
+shipped number; if another swatch now uses that number, change that swatch's
+index before resetting.
 
 Elements swatches use the preview surface's CSS foreground: black on light
 backgrounds and white on dark backgrounds, independently of app appearance.

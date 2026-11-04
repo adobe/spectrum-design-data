@@ -66,9 +66,7 @@ export interface DataVisPointControlsProps {
   fixedPosition: boolean;
   readOnly?: boolean;
   baseScope: boolean;
-  sourceModeName?: string;
   contrastModeName?: string;
-  sourceOverridden?: boolean;
   contrastOverridden?: boolean;
   onBaseScopeChange?: (shared: boolean) => void;
   minimumPosition?: number;
@@ -79,8 +77,7 @@ export interface DataVisPointControlsProps {
   onSourceChange: (source: DataVisPoint["source"]) => void;
   onContrastChange: (value: number, oppositeValue?: number) => void;
   onPositionChange: (position: number) => void;
-  onReset: (field: "source" | "contrast") => void;
-  onAllModes: () => void;
+  onReset: () => void;
 }
 
 export function DataVisPointControls({
@@ -89,9 +86,7 @@ export function DataVisPointControls({
   fixedPosition,
   readOnly = false,
   baseScope,
-  sourceModeName,
   contrastModeName,
-  sourceOverridden,
   contrastOverridden,
   primitiveColors,
   minimumPosition = 0,
@@ -104,7 +99,6 @@ export function DataVisPointControls({
   onContrastChange,
   onPositionChange,
   onReset,
-  onAllModes,
 }: DataVisPointControlsProps) {
   const notify = useNotify();
   if (staticColor)
@@ -150,21 +144,12 @@ export function DataVisPointControls({
             isReadOnly={readOnly}
             document={document}
             selectedKey={sourceKey}
-            disabledKeys={
-              !baseScope && source.kind !== "ui-scale"
-                ? document.scales.map((scale) => scale.id)
-                : []
-            }
             baseOptions={[
-              {
-                id: CUSTOM_SOURCE,
-                label: "Custom color",
-                isDisabled: !baseScope && source.kind !== "key-color",
-              },
+              { id: CUSTOM_SOURCE, label: "Custom color" },
               {
                 id: TOKEN_SOURCE,
                 label: "Color token",
-                isDisabled: (!baseScope && !exact) || !firstToken,
+                isDisabled: !firstToken,
               },
             ]}
             onSelectionChange={(key) => {
@@ -272,20 +257,9 @@ export function DataVisPointControls({
           maxValue={maximumPosition * 100}
           step={0.000001}
           formatOptions={{ maximumFractionDigits: 6 }}
-          isReadOnly={readOnly || fixedPosition || !baseScope}
+          isReadOnly={readOnly || fixedPosition}
           onChange={(value) => onPositionChange(value / 100)}
         />
-        <Text>
-          Source:{" "}
-          {baseScope
-            ? "Shared"
-            : `${sourceModeName ?? "Shared"} (${sourceOverridden ? "override" : "inherited"})`}
-        </Text>
-        {!readOnly && !baseScope && sourceOverridden && (
-          <ActionButton onPress={() => onReset("source")}>
-            Use inherited source
-          </ActionButton>
-        )}
         {point.contrast && (
           <>
             <Text>
@@ -321,16 +295,11 @@ export function DataVisPointControls({
               />
             )}
             {!readOnly && !baseScope && contrastOverridden && (
-              <ActionButton onPress={() => onReset("contrast")}>
+              <ActionButton onPress={onReset}>
                 Use inherited contrast
               </ActionButton>
             )}
           </>
-        )}
-        {!readOnly && (
-          <ActionButton onPress={onAllModes}>
-            Use this source in all modes
-          </ActionButton>
         )}
       </MoreOptions>
     </div>

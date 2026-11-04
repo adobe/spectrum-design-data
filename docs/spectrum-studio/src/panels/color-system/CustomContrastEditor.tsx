@@ -17,7 +17,12 @@ import Delete from "@react-spectrum/s2/icons/Delete";
 import Sort from "@react-spectrum/s2/icons/Sort";
 import { useState } from "react";
 import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
-import { EditableSlider } from "../../components/editable";
+import { EditableSlider, useIsReadOnly } from "../../components/editable";
+import { TokenComboBox } from "../../components/fields/TokenComboBox";
+import {
+  parseScaleIndex,
+  swatchIndexOptions,
+} from "../../features/scales/swatchIndices";
 import { NumberField } from "../../components/fields/NumberField";
 import { Picker } from "../../components/fields/Picker";
 import type {
@@ -26,8 +31,12 @@ import type {
 } from "../../features/color-system/model";
 import type { Rule } from "../../features/logic/model";
 import type { CustomContrastAction } from "../../features/color-system/customContrastState";
-import { contrastStepIndex } from "../../features/color-system/contrastSteps";
+import {
+  contrastStepIndex,
+  customContrastNamesMissingFromShared,
+} from "../../features/color-system/contrastSteps";
 import { ContrastRamp } from "../../views/color-system/ContrastRamp";
+import { useNotify } from "../../components/notifications/notificationContext";
 
 const stack = style({
   display: "flex",
@@ -64,15 +73,22 @@ const rows = style({
 const row = style({
   display: "flex",
   alignItems: "center",
-  gap: 8,
+  gap: 4,
   minWidth: 0,
 });
 const slider = style({ minWidth: 0, flexGrow: 1, width: "full" });
 const switchStyles = style({ flexShrink: 0, marginStart: "auto" });
+const indexStyles = style({
+  font: "ui-sm",
+  width: "[9ch]",
+  maxWidth: "[9ch]",
+  flexShrink: 0,
+});
 
 export interface CustomContrastEditorProps {
   scale: ColorScale;
   rules: readonly Rule[];
+  registeredIndices?: readonly number[];
   modeLabel?: string;
   disabled?: boolean;
   patches?: Readonly<Record<string, number>>;
@@ -88,6 +104,7 @@ export interface CustomContrastEditorProps {
 export function CustomContrastEditor({
   scale,
   rules,
+  registeredIndices = [],
   modeLabel,
   disabled = false,
   patches,
@@ -99,15 +116,25 @@ export function CustomContrastEditor({
   side = "auto",
   onAction: run,
 }: CustomContrastEditorProps) {
+  const notify = useNotify();
   const [confirmDisable, setConfirmDisable] = useState(false);
   const [focusedId, setFocusedId] = useState<string | null>(null);
+  const readOnly = useIsReadOnly();
   const scaleId = scale.id;
   const custom = scale.customContrasts;
   const isMode = modeLabel !== undefined;
   const steps = custom?.steps ?? sharedContrasts;
   const valuesDisabled = disabled || !custom;
   const structureDisabled = valuesDisabled || isMode;
+  const indices = steps.map((_, index) =>
+    contrastStepIndex(index, scale, rules, sharedContrasts),
+  );
   const namingRules = rules.filter((rule) => rule.type === "scale-naming");
+  const missingNames = customContrastNamesMissingFromShared(
+    scale,
+    sharedContrasts,
+    rules,
+  );
   return (
     <AccordionItem id="custom-contrasts">
       <AccordionItemHeader>
@@ -117,10 +144,10 @@ export function CustomContrastEditor({
           size="S"
           styles={switchStyles}
           isSelected={!!custom}
-          isDisabled={disabled || isMode}
+          isDisabled={disabled}
           onChange={(enabled) => {
-            if (enabled) run({ kind: "enable", scaleId });
-            else setConfirmDisable(true);
+            if (!enabled && missingNames.length) setConfirmDisable(true);
+            else run({ kind: enabled ? "enable" : "disable", scaleId });
           }}
         />
       </AccordionItemHeader>
@@ -157,7 +184,7 @@ export function CustomContrastEditor({
             >
               {steps.map((step, index) => (
                 <PickerItem key={step.id} id={step.id}>
-                  {`${contrastStepIndex(index, scale, rules)} (${step.value}:1)`}
+                  {`${indices[index]} (${step.value}:1)`}
                 </PickerItem>
               ))}
             </Picker>
@@ -185,12 +212,15 @@ export function CustomContrastEditor({
               contrasts={[...(effective ?? steps)]}
               side={side}
               focusedContrastId={focusedId}
+              isDisabled={!custom}
             />
             <div className={rows}>
               {steps.map((step, index) => {
-                const label = contrastStepIndex(index, scale, rules);
+                const label = indices[index];
                 const value =
-                  values?.[step.id] ?? patches?.[step.id] ?? step.value;
+                  (custom
+                    ? (values?.[step.id] ?? patches?.[step.id])
+                    : undefined) ?? step.value;
                 return (
                   <div
                     key={step.id}
@@ -200,7 +230,59 @@ export function CustomContrastEditor({
                     onBlurCapture={() => setFocusedId(null)}
                   >
                     <EditableSlider
-                      label={String(label)}
+                      labelGap="compact"
+                      label={
+                        <div className={indexStyles} data-swatch-index>
+                          {readOnly ? (
+                            <Text>{label}</Text>
+                          ) : (
+                            <TokenComboBox
+                              inline
+                              size="S"
+                              ariaLabel={`Scale index for custom contrast ${label}`}
+                              options={swatchIndexOptions(
+                                registeredIndices,
+                                indices,
+                                label,
+                              )}
+                              selectedKey={String(label)}
+                              displayMode="values"
+                              isRequired
+                              isDisabled={structureDisabled}
+                              onChange={(key) => {
+                                if (key !== null) {
+                                  try {
+                                    run({
+                                      kind: "index",
+                                      scaleId,
+                                      stepId: step.id,
+                                      scaleIndex: parseScaleIndex(key),
+                                    });
+                                  } catch (failure) {
+                                    notify.error(failure);
+                                  }
+                                }
+                              }}
+                              customValue={{
+                                inputType: "number",
+                                isAllowed: (text) =>
+                                  !indices.some(
+                                    (index) =>
+                                      index !== label && index === Number(text),
+                                  ),
+                                displayValue: String(label),
+                                onAccept: (text) =>
+                                  run({
+                                    kind: "index",
+                                    scaleId,
+                                    stepId: step.id,
+                                    scaleIndex: parseScaleIndex(text),
+                                  }),
+                              }}
+                            />
+                          )}
+                        </div>
+                      }
                       aria-label={`Contrast ${label}`}
                       labelPosition="side"
                       styles={slider}
@@ -248,14 +330,10 @@ export function CustomContrastEditor({
                     </Text>
                     <Text>
                       Names:{" "}
-                      {steps
-                        .map((_, index) =>
-                          contrastStepIndex(index, scale, rules),
-                        )
-                        .join(", ")}
+                      {steps.map((_, index) => indices[index]).join(", ")}
                     </Text>
                     {steps.map((step, index) => {
-                      const label = contrastStepIndex(index, scale, rules);
+                      const label = indices[index];
                       return (
                         <div key={step.id} className={stack}>
                           <NumberField
@@ -307,25 +385,32 @@ export function CustomContrastEditor({
                     })}
                   </div>
                 </AccordionItemPanel>
+                <DialogContainer onDismiss={() => setConfirmDisable(false)}>
+                  {confirmDisable && (
+                    <AlertDialog
+                      title="Use shared contrast scale"
+                      variant="destructive"
+                      primaryActionLabel="Use shared scale"
+                      cancelLabel="Cancel"
+                      onPrimaryAction={() => {
+                        setConfirmDisable(false);
+                        run({ kind: "disable", scaleId });
+                      }}
+                    >
+                      The shared scale does not include{" "}
+                      {missingNames.join(", ")}. Switching to it removes these
+                      token names from this scale and can break components,
+                      color scales, and other references that use them. Your
+                      custom contrast settings will be kept so you can switch
+                      back.
+                    </AlertDialog>
+                  )}
+                </DialogContainer>
               </AccordionItem>
             </NestedPanelAccordion>
           )}
         </div>
       </AccordionItemPanel>
-      <DialogContainer onDismiss={() => setConfirmDisable(false)}>
-        {confirmDisable && (
-          <AlertDialog
-            title="Discard custom contrast steps"
-            variant="destructive"
-            primaryActionLabel="Discard"
-            cancelLabel="Cancel"
-            onPrimaryAction={() => run({ kind: "disable", scaleId })}
-          >
-            This removes this scale's custom list, naming settings, and custom
-            contrast mode overrides. The scale will use shared steps.
-          </AlertDialog>
-        )}
-      </DialogContainer>
     </AccordionItem>
   );
 }

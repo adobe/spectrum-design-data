@@ -27,9 +27,6 @@ function withSource(
 }
 function Controlled(args: DataVisPointControlsProps) {
   const [point, setPoint] = useState(args.point);
-  const [sourceOverridden, setSourceOverridden] = useState(
-    args.sourceOverridden,
-  );
   const [contrastOverridden, setContrastOverridden] = useState(
     args.contrastOverridden,
   );
@@ -85,7 +82,6 @@ function Controlled(args: DataVisPointControlsProps) {
         {...args}
         point={point}
         staticColor={staticColor}
-        sourceOverridden={sourceOverridden}
         contrastOverridden={contrastOverridden}
         onStaticValueChange={(value) => {
           if (staticColor) setStaticColor({ ...staticColor, value });
@@ -124,11 +120,8 @@ function Controlled(args: DataVisPointControlsProps) {
           });
           args.onContrastChange(value, oppositeValue);
         }}
-        onReset={(field) => {
-          if (field === "source") {
-            setPoint(withSource(point, storyPoint.source));
-            setSourceOverridden(false);
-          } else if (
+        onReset={() => {
+          if (
             point.source.kind !== "ui-swatch" &&
             point.source.kind !== "primitive-token"
           ) {
@@ -139,7 +132,7 @@ function Controlled(args: DataVisPointControlsProps) {
             });
             setContrastOverridden(false);
           }
-          args.onReset(field);
+          args.onReset();
         }}
       />
     </div>
@@ -159,7 +152,6 @@ const meta = {
     onContrastChange: fn(),
     onPositionChange: fn(),
     onReset: fn(),
-    onAllModes: fn(),
     onStaticValueChange: fn(),
     onStaticTokenChange: fn(),
   },
@@ -218,9 +210,7 @@ export const ModeOverride: Story = {
   name: "Mode override",
   args: {
     baseScope: false,
-    sourceModeName: "Dark",
     contrastModeName: "High contrast",
-    sourceOverridden: true,
     contrastOverridden: true,
   },
   play: async ({ args, canvasElement }) => {
@@ -231,7 +221,7 @@ export const ModeOverride: Story = {
     });
     reset.focus();
     await userEvent.keyboard("{Enter}");
-    await expect(args.onReset).toHaveBeenCalledWith("contrast");
+    await expect(args.onReset).toHaveBeenCalledWith();
     await expect(
       canvas.queryByRole("button", { name: "Use inherited contrast" }),
     ).toBeNull();
@@ -327,7 +317,6 @@ export const IndependentKey: Story = {
 export const Inherited: Story = {
   args: {
     baseScope: false,
-    sourceModeName: "Dark",
     contrastModeName: "High contrast",
   },
 };

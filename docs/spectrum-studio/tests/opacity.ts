@@ -3,7 +3,34 @@ import assert from "node:assert/strict";
 import { compensatedOpacity } from "../src/features/opacity/polarity";
 import { isOpacityDocument } from "../src/features/opacity/model";
 import { OPACITY_DEFAULTS } from "../src/features/opacity/defaults";
+import { createStore } from "jotai";
+import { modeSetFoundationsAtom } from "../src/features/modes/foundationAttachments";
+import { resetAllAuthoringAtom } from "../src/features/edit-session/state";
+import {
+  FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
+  foundationModeAttachmentsAtom,
+  savedFoundationModeAttachmentsAtom,
+} from "../src/state/view/foundationModeAttachments";
 
+assert.deepEqual(FOUNDATION_MODE_ATTACHMENT_DEFAULTS, {});
+const store = createStore();
+assert.deepEqual(store.get(foundationModeAttachmentsAtom), {});
+assert.deepEqual(store.get(savedFoundationModeAttachmentsAtom), {});
+const colorSchemeFoundations = store.get(modeSetFoundationsAtom)[
+  "mode-set-color-scheme"
+];
+assert.ok(!colorSchemeFoundations.includes("opacity"));
+assert.ok(colorSchemeFoundations.includes("color"));
+assert.ok(colorSchemeFoundations.includes("elevation"));
+store.set(foundationModeAttachmentsAtom, {
+  "mode-set-color-scheme": ["opacity"],
+});
+store.set(savedFoundationModeAttachmentsAtom, {
+  "mode-set-color-scheme": ["opacity"],
+});
+store.set(resetAllAuthoringAtom);
+assert.deepEqual(store.get(foundationModeAttachmentsAtom), {});
+assert.deepEqual(store.get(savedFoundationModeAttachmentsAtom), {});
 assert.ok(isOpacityDocument(OPACITY_DEFAULTS));
 assert.deepEqual(
   OPACITY_DEFAULTS.levels.map((level) => level.value),
@@ -17,7 +44,7 @@ const ids = OPACITY_DEFAULTS.levels.flatMap((level) => [
   level.id,
   ...Object.values(level.rows),
 ]);
-assert.equal(new Set(ids).size, 51);
+assert.equal(new Set(ids).size, 68);
 assert.equal(OPACITY_DEFAULTS.levels[7].value, 0.2);
 for (const strength of [0, 0.01, 0.5, 1]) {
   let previous = -1;

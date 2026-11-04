@@ -84,8 +84,8 @@ try {
     saved.elevation!.layers[0].opacityTokenId,
   );
   for (const [snapshot, expected] of [
-    [working, [0.3, 0.7]],
-    [saved, [0.2, 0.5]],
+    [working, [0.3, 0.7, 0.3]],
+    [saved, [0.2, 0.5, 0.2]],
   ] as const) {
     const id = snapshot.elevation!.layers[0].opacityTokenId;
     assert.deepEqual(

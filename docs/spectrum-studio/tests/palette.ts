@@ -24,15 +24,11 @@ import {
   validatePaletteName,
 } from "../src/features/color-system/palette";
 import { normalizePaletteReferencesAtom } from "../src/features/color-system/paletteIntegrity";
-import {
-  applyStopPatch,
-  paletteConsumers,
-} from "../src/features/color-system/paletteReferences";
+import { paletteConsumers } from "../src/features/color-system/paletteReferences";
 import {
   addPaletteColorAtom,
   colorSystemDocumentAtom,
   removePaletteColorAtom,
-  resolveColorDocument,
   resolvedColorSystemDocumentAtom,
   restorePaletteColorAtom,
   updateColorStopAtom,
@@ -40,7 +36,6 @@ import {
 } from "../src/features/color-system/state";
 import { enterEditModeAtom } from "../src/features/edit-session/state";
 import { modeSetsAtom } from "../src/features/modes/state";
-import type { Mode } from "../src/features/modes/model";
 import {
   browserModeContextAtom,
   browserTokensAtom,
@@ -233,47 +228,7 @@ assert.equal(
   firstId,
 );
 
-// Mode patches: a literal override replaces the base link; a mode link beats everything.
-document = store.get(colorSystemDocumentAtom);
-const linkedStop = document.scales[1].stops[0];
-assert.deepEqual(
-  applyStopPatch(linkedStop, { lightness: 0.9 }).paletteColorId,
-  undefined,
-);
-assert.equal(
-  applyStopPatch(linkedStop, { paletteColorId: secondId, lightness: 0.9 })
-    .paletteColorId,
-  secondId,
-);
-assert.equal(applyStopPatch(linkedStop, undefined), linkedStop);
-const fakeMode = (patch: object): Mode => ({
-  id: "mode-test",
-  key: "test",
-  name: "Test",
-  description: "",
-  iconId: "none",
-  platformIds: [],
-  foundations: { color: { scaleStops: { [scale.id]: { [stop.id]: patch } } } },
-});
-const withLiteralMode = resolveColorDocument(
-  document,
-  [fakeMode({ lightness: 0.9 })],
-  undefined,
-  { applyMultiplier: false },
-);
-assert.equal(withLiteralMode.scales[1].stops[0].lightness, 0.9);
-// A literal mode edit starts from the linked color, not from the stale stored copy.
-assert.equal(withLiteralMode.scales[1].stops[0].hue, 200);
-const withModeLink = resolveColorDocument(
-  document,
-  [fakeMode({ paletteColorId: secondId })],
-  undefined,
-  { applyMultiplier: false },
-);
-assert.equal(withModeLink.scales[1].stops[0].lightness, 1);
-assert.equal(withModeLink.scales[1].stops[0].paletteColorId, secondId);
-
-// Mode-scoped writes go through the same atom as base writes.
+// Shared key-color links are tracked for palette cleanup.
 const modeStore = createStore();
 const modeBase = modeStore.get(colorSystemDocumentAtom);
 const modeColorId = modeStore.set(addPaletteColorAtom);

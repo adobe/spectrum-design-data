@@ -1,5 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Checkbox, PickerItem } from "@react-spectrum/s2";
+import {
+  Checkbox,
+  Content,
+  ContextualHelp,
+  Heading,
+  PickerItem,
+} from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useState } from "react";
 import { EditablePicker } from "../../components/editable";
@@ -15,6 +21,7 @@ import {
 } from "../../features/color-system/outputSettings";
 
 const stack = style({ display: "flex", flexDirection: "column", gap: 16 });
+const row = style({ display: "flex", alignItems: "center", gap: 8 });
 const help = style({ font: "body-sm", color: "neutral-subdued" });
 
 export interface ColorOutputControlsProps {
@@ -78,21 +85,28 @@ export function ColorOutputControls({
           </PickerItem>
         ))}
       </EditablePicker>
-      <Checkbox
-        isSelected={value.mapOutputsToSrgb}
-        isDisabled={isReadOnly}
-        onChange={(mapOutputsToSrgb) => update({ mapOutputsToSrgb })}
-      >
-        Map outputs to sRGB
-      </Checkbox>
-      <p className={help}>
-        Keeps authored wide-gamut colors intact and maps generated output to
-        sRGB. Hex and HSL require sRGB output.
-      </p>
-      <p className={help}>
-        Output gamut: {GAMUT_LABELS[outputGamut(value)]}. Adaptive CSS uses
-        functional colors rather than changing Hex literals.
-      </p>
+      <div className={row}>
+        <Checkbox
+          isSelected={value.mapOutputsToSrgb}
+          isDisabled={isReadOnly}
+          onChange={(mapOutputsToSrgb) => update({ mapOutputsToSrgb })}
+        >
+          Map outputs to sRGB
+        </Checkbox>
+        <ContextualHelp aria-label="Map outputs to sRGB information">
+          <Heading>Map outputs to sRGB</Heading>
+          <Content>
+            <p>
+              Keeps authored wide-gamut colors intact and maps generated output
+              to sRGB. Hex and HSL require sRGB output.
+            </p>
+            <p>
+              Output gamut: {GAMUT_LABELS[outputGamut(value)]}. Adaptive CSS
+              uses functional colors rather than changing Hex literals.
+            </p>
+          </Content>
+        </ContextualHelp>
+      </div>
       <div role="status" aria-live="polite" className={help}>
         {message}
       </div>

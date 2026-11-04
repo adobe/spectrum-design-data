@@ -6,10 +6,10 @@ import {
   linearToXyzD65,
   renderGamutForOutput,
   xyzD65ToLinear,
+  RGB_TRANSFER,
 } from "./colorMath";
 import { outputGamut, type ColorOutputSettings } from "./outputSettings";
 import { resolvedBackgroundLinear, surfaceLinear } from "./surfaceGeneration";
-import { generateColors } from "./dynamicGeneration";
 import { multiplyContrast } from "./polarity";
 import { outputColorCss } from "./colorMath";
 import { paletteColorCss } from "./paletteValue";
@@ -28,6 +28,14 @@ import {
 import { contrastStepIndex, scaleContrasts } from "./contrastSteps";
 import type { Rule } from "../logic/model";
 import { STANDARD_SCALE_NAMING_RULE } from "../logic/scaleNaming";
+import {
+  generateSelectedColor,
+  isOpacityColorStop,
+  opacityStopsEnabled,
+} from "./colorScaleType";
+import { browserOpacitySources, buildOpacityCss } from "../opacity/output";
+import type { OpacitySource } from "../opacity/generation";
+import { assertColorScaleOutput } from "./colorScaleResolution";
 
 export function sanitizeTokenName(value: string) {
   return foundationNameSegment(value);
@@ -60,14 +68,37 @@ function sideExpression(side: ColorSystemDocument["settings"]["side"]) {
   return "clamp(0, round(up, calc(var(--_luma) - 0.1791), 1), 1)";
 }
 
-function formattedExpression(reference: string, settings: ColorOutputSettings) {
+function formattedExpression(
+  reference: string,
+  settings: ColorOutputSettings,
+  transparent = false,
+) {
+  const alpha = transparent ? " / alpha" : "";
   if (settings.outputFormat === "oklch")
-    return `oklch(from ${reference} l c h)`;
-  if (settings.outputFormat === "hsl") return `hsl(from ${reference} h s l)`;
+    return `oklch(from ${reference} l c h${alpha})`;
+  if (settings.outputFormat === "hsl")
+    return `hsl(from ${reference} h s l${alpha})`;
   const gamut = outputGamut(settings);
   return gamut === "srgb"
-    ? `rgb(from ${reference} r g b)`
-    : `color(from ${reference} ${gamut} r g b)`;
+    ? `rgb(from ${reference} r g b${alpha})`
+    : `color(from ${reference} ${gamut} r g b${alpha})`;
+}
+
+function transferExpression(
+  channel: string,
+  gamut: ReturnType<typeof outputGamut>,
+  encode: boolean,
+) {
+  const t = RGB_TRANSFER[gamut === "rec2020" ? "rec2020" : "srgb"];
+  const threshold = encode ? t.linearThreshold : t.encodedThreshold;
+  const high = `clamp(0, round(up, (${channel}) - ${threshold}, 1), 1)`;
+  const linear = encode
+    ? `(${channel}) * ${t.slope}`
+    : `(${channel}) / ${t.slope}`;
+  const power = encode
+    ? `${t.factor} * pow(max(0, ${channel}), ${t.exponent}) - ${t.offset}`
+    : `pow(max(0, ((${channel}) + ${t.offset}) / ${t.factor}), ${1 / t.exponent})`;
+  return `((${high}) * (${power}) + (1 - (${high})) * (${linear}))`;
 }
 
 function contrastLuminanceExpression(contrast: string, dark: boolean) {
@@ -87,6 +118,8 @@ function dynamicTintDeclarations({
   reference,
   output,
   gamut,
+  transparent = false,
+  opacity,
 }: {
   anchors: ColorAnchor[];
   offset: number;
@@ -96,6 +129,8 @@ function dynamicTintDeclarations({
   reference: string;
   output: string;
   gamut: ColorSystemDocument["settings"]["colorOutput"];
+  transparent?: boolean;
+  opacity?: string;
 }) {
   const resolvedGamut = outputGamut(gamut);
   const colorSpace = resolvedGamut !== "srgb" ? "xyz-d65" : "srgb-linear";
@@ -120,8 +155,68 @@ function dynamicTintDeclarations({
       + (1 - var(--_a)) * ${channel}) + var(--_white) * ${fixed(white[index])})`,
     )
     .join("");
-  const outputColor = `--_linear-color: color(from ${reference} ${colorSpace}${channelValues});
+  let outputColor = `--_linear-color: color(from ${reference} ${colorSpace}${channelValues});
   ${output}: ${formattedExpression("var(--_linear-color)", gamut)};`;
+  let opacityReference = "";
+  if (transparent) {
+    const matrix = [
+      xyzD65ToLinear([1, 0, 0], resolvedGamut),
+      xyzD65ToLinear([0, 1, 0], resolvedGamut),
+      xyzD65ToLinear([0, 0, 1], resolvedGamut),
+    ];
+    const backgroundChannels = [0, 1, 2].map((index) =>
+      resolvedGamut === "srgb"
+        ? channels[index]
+        : `(${matrix.map((row, coordinate) => `${fixed(row[index])} * ${channels[coordinate]}`).join(" + ")})`,
+    );
+    const nativeSources = [0, 1, 2].map(
+      (index) => `(${channelExpression(anchors, index, "--_lsrc")})`,
+    );
+    const weights = [0, 1, 2].map(
+      (index) =>
+        linearToXyzD65(
+          index === 0 ? [1, 0, 0] : index === 1 ? [0, 1, 0] : [0, 0, 1],
+          resolvedGamut,
+        )[1],
+    );
+    const compositeLuma = (alpha: string, sources: string[]) =>
+      sources
+        .map((source, index) => {
+          const encoded = `(${alpha}) * ${transferExpression(source, resolvedGamut, true)}
+          + (1 - (${alpha})) * ${transferExpression(backgroundChannels[index], resolvedGamut, true)}`;
+          return `${fixed(weights[index])} * ${transferExpression(encoded, resolvedGamut, false)}`;
+        })
+        .join(" + ");
+    const sourceChannels = channels
+      .map(
+        (_, index) =>
+          `calc(${channelExpression(cssAnchors, index, "--_lsrc")})`,
+      )
+      .join(" ");
+    if (opacity) {
+      opacityReference = `
+  --_lov: calc(${compositeLuma(opacity, ["var(--_lend)", "var(--_lend)", "var(--_lend)"])});
+  --_c: calc(var(--_dark) * ((var(--_luma) + 0.05)/(var(--_lov) + 0.05))
+    + (1 - var(--_dark)) * ((var(--_lov) + 0.05)/(var(--_luma) + 0.05)));`;
+      outputColor = `--_linear-color: color(from ${reference} ${colorSpace} ${sourceChannels} / ${opacity});
+  ${output}: ${formattedExpression("var(--_linear-color)", gamut, true)};`;
+    } else {
+      // Each relative color retains the background channels and carries the search alpha.
+      const search = [
+        `--_alpha-0: color(from ${reference} ${colorSpace} ${channels.join(" ")} / 0.5);`,
+      ];
+      for (let iteration = 1; iteration <= 18; iteration++) {
+        const higher = `clamp(0, round(up, (${compositeLuma("alpha", nativeSources)}) - var(--_lov), 1), 1)`;
+        const direction = `(2 * var(--_dark) - 1) * (2 * (${higher}) - 1)`;
+        search.push(`--_alpha-${iteration}: color(from var(--_alpha-${iteration - 1}) ${colorSpace} ${channels.join(" ")}
+    / calc(clamp(0, alpha + (${direction}) * ${2 ** -(iteration + 1)}, 1)));`);
+      }
+      outputColor = `${search.join("\n  ")}
+  --_linear-color: color(from var(--_alpha-18) ${colorSpace} ${sourceChannels}
+    / min(1, round(up, alpha, 0.01)));
+  ${output}: ${formattedExpression("var(--_linear-color)", gamut, true)};`;
+    }
+  }
   return `  --_c: ${contrast};
   --_luma: (${luma});
   --_dark: ${dark};
@@ -136,6 +231,7 @@ function dynamicTintDeclarations({
   --_dn: calc(var(--_dark) * min(var(--_lsrc) - var(--_luma), -0.0001)
             + (1 - var(--_dark)) * max(var(--_lsrc) - var(--_luma), 0.0001));
   --_a: clamp(0, calc((var(--_lov) - var(--_luma)) / var(--_dn)), 1);
+  ${opacityReference}
   ${outputColor}`;
 }
 
@@ -231,9 +327,9 @@ function modeDeclarations(
           throw new Error(projection.issues.join(" "));
         return `  --${projection.name}: var(--surface-base);`;
       }),
-    ...document.contrasts.map(
+    ...(opacityStopsEnabled(document.settings) ? [] : document.contrasts).map(
       (contrast, index) =>
-        `  --contrast-${(index + 1) * 100}: ${Number(contrast.value.toFixed(3))};`,
+        `  --contrast-${kebabCaseNameFormatter.formatValue(contrastStepIndex(index, undefined, undefined, document.contrasts))}: ${Number(contrast.value.toFixed(3))};`,
     ),
     ...document.surfaces
       .filter((surface) => !surface.base)
@@ -249,10 +345,6 @@ export interface ContrastLibraryMode {
   key: string;
   isDefault: boolean;
   multiplier: number;
-}
-
-export interface ScaleLibraryMode extends ColorLibraryMode {
-  modeSetKey: string;
 }
 
 export interface CustomContrastLibraryMode {
@@ -321,50 +413,97 @@ function colorRules(
   scope = "",
   taxonomy?: TaxonomyDocument,
   rules: readonly Rule[] = [STANDARD_SCALE_NAMING_RULE],
+  opacityVariables: ReadonlyMap<string, string> = new Map(),
 ) {
   const scaleRules = document.scales.flatMap((scale) => {
     const data = buildScaleData(scale, document.settings.colorOutput);
     const name = sanitizeTokenName(scale.name);
-    const offset = data.neutral ? 1 : document.settings.extOffset;
-    const steepness = data.neutral ? 0 : document.settings.extSteep;
-    return scaleContrasts(document, scale).map((contrast, index) => {
-      const label = contrastStepIndex(index, scale, rules);
-      const variable = scale.customContrasts
-        ? customContrastVariable(scale.name, label)
-        : `--contrast-${label}`;
-      const projection = taxonomy
-        ? projectClassification(
-            taxonomy,
-            governedColorContext(
-              document,
-              taxonomy,
-              scale.id,
-              contrast.id,
-              rules,
-            ).governed!,
-            "colors",
-          )
-        : undefined;
-      if (projection?.issues.length)
-        throw new Error(projection.issues.join(" "));
-      return [
-        `${scope}.color-scale-${name}.color-contrast-${kebabCaseNameFormatter.formatValue(label)} {`,
-        dynamicTintDeclarations({
+    const opaque = document.settings.colorScaleType === "opaque";
+    const offset = opaque
+      ? 0
+      : data.neutral
+        ? 1
+        : document.settings.backgroundBlend;
+    const steepness =
+      opaque || data.neutral ? 0 : document.settings.colorSourceCurveOffset;
+    const transparent = document.settings.colorScaleType === "transparent";
+    const shared = transparent
+      ? dynamicTintDeclarations({
           anchors: data.anchors,
           offset,
           steepness,
-          contrast: multiplied(`var(${variable})`),
+          contrast: "var(--_target-contrast)",
           dark: sideExpression(document.settings.side),
           reference: "var(--bg)",
           output: "--color-system-tint",
           gamut: document.settings.colorOutput,
-        }),
-        ...(projection
-          ? [`  --${projection.name}: var(--color-system-tint);`]
-          : []),
-        "}",
-      ].join("\n");
-    });
+          transparent: true,
+          ...(opacityStopsEnabled(document.settings) && !scale.customContrasts
+            ? { opacity: "var(--_stop-opacity)" }
+            : {}),
+        })
+      : undefined;
+    return [
+      ...(shared ? [`${scope}.color-scale-${name} {\n${shared}\n}`] : []),
+      ...scaleContrasts(document, scale).map((contrast, index) => {
+        const label = contrastStepIndex(
+          index,
+          scale,
+          rules,
+          document.contrasts,
+        );
+        const variable = scale.customContrasts
+          ? customContrastVariable(scale.name, label)
+          : `--contrast-${kebabCaseNameFormatter.formatValue(label)}`;
+        const projection = taxonomy
+          ? projectClassification(
+              taxonomy,
+              governedColorContext(
+                document,
+                taxonomy,
+                scale.id,
+                contrast.id,
+                rules,
+              ).governed!,
+              "colors",
+            )
+          : undefined;
+        if (projection?.issues.length)
+          throw new Error(projection.issues.join(" "));
+        const opacityVariable = isOpacityColorStop(contrast)
+          ? opacityVariables.get(contrast.id)
+          : undefined;
+        if (isOpacityColorStop(contrast) && !opacityVariable)
+          throw new Error(
+            "The opacity token for this color stop is unavailable.",
+          );
+        return [
+          `${scope}.color-scale-${name}.color-contrast-${kebabCaseNameFormatter.formatValue(label)} {`,
+          ...(shared
+            ? [
+                isOpacityColorStop(contrast)
+                  ? `  --_stop-opacity: var(${opacityVariable});`
+                  : `  --_target-contrast: ${multiplied(`var(${variable})`)};`,
+              ]
+            : [
+                dynamicTintDeclarations({
+                  anchors: data.anchors,
+                  offset,
+                  steepness,
+                  contrast: multiplied(`var(${variable})`),
+                  dark: sideExpression(document.settings.side),
+                  reference: "var(--bg)",
+                  output: "--color-system-tint",
+                  gamut: document.settings.colorOutput,
+                }),
+              ]),
+          ...(projection
+            ? [`  --${projection.name}: var(--color-system-tint);`]
+            : []),
+          "}",
+        ].join("\n");
+      }),
+    ];
   });
   const surfaceRules = document.surfaces
     .filter((surface) => !surface.base)
@@ -383,8 +522,10 @@ function colorRules(
             const data = buildScaleData(scale, document.settings.colorOutput);
             return dynamicTintDeclarations({
               anchors: data.anchors,
-              offset: data.neutral ? 1 : document.settings.extOffset,
-              steepness: data.neutral ? 0 : document.settings.extSteep,
+              offset: data.neutral ? 1 : document.settings.backgroundBlend,
+              steepness: data.neutral
+                ? 0
+                : document.settings.colorSourceCurveOffset,
               contrast,
               dark: surface.forceDark
                 ? "1"
@@ -426,18 +567,26 @@ export function buildColorLibrary(
   document: ColorSystemDocument,
   modes: ColorLibraryMode[] = [],
   contrastModes: ContrastLibraryMode[] = [],
-  scaleModes: ScaleLibraryMode[] = [],
   taxonomy?: TaxonomyDocument,
   rules: readonly Rule[] = [STANDARD_SCALE_NAMING_RULE],
   customModes: CustomContrastLibraryMode[] = [],
+  opacitySource?: OpacitySource,
 ) {
+  const opacityVariables = new Map(
+    opacitySource
+      ? browserOpacitySources(opacitySource, [], taxonomy).map((token) => [
+          token.id,
+          `--${token.name}`,
+        ])
+      : [],
+  );
   const documents = new Set([
     document,
     ...modes.map((mode) => mode.document),
-    ...scaleModes.map((mode) => mode.document),
     ...customModes.map((mode) => mode.document),
   ]);
   for (const source of documents) {
+    assertColorScaleOutput(source);
     const multipliers = new Set([
       source.settings.contrastMultiplier ?? 1,
       ...contrastModes.map((mode) => mode.multiplier),
@@ -476,7 +625,12 @@ export function buildColorLibrary(
         const data = buildScaleData(scale, resolved.settings.colorOutput);
         for (const background of backgrounds)
           for (const contrast of scaleContrasts(resolved, scale)) {
-            generateColors(data, background, contrast.value, resolved.settings);
+            generateSelectedColor(
+              data,
+              background,
+              contrast,
+              resolved.settings,
+            );
           }
       }
       for (const surface of resolved.surfaces) surfaceLinear(surface, resolved);
@@ -484,8 +638,6 @@ export function buildColorLibrary(
   }
   const rootDocument =
     modes.find((mode) => mode.isDefault)?.document ?? document;
-  const defaultScaleDocument =
-    scaleModes.find((mode) => mode.isDefault)?.document ?? rootDocument;
   const defaultContrast = contrastModes.find((mode) => mode.isDefault);
   const rootMultiplier =
     defaultContrast?.multiplier ??
@@ -500,13 +652,17 @@ export function buildColorLibrary(
   ].join("\n");
   const modeBlocks = modes
     .filter((mode) => !mode.isDefault)
-    .map((mode) =>
-      [
-        `[data-color-scheme="${sanitizeTokenName(mode.key)}"] {`,
-        ...modeDeclarations(mode.document, taxonomy),
-        "}",
-      ].join("\n"),
-    );
+    .flatMap((mode) => {
+      const scope = `:root[data-color-scheme="${sanitizeTokenName(mode.key)}"] `;
+      return [
+        [
+          `[data-color-scheme="${sanitizeTokenName(mode.key)}"] {`,
+          ...modeDeclarations(mode.document, taxonomy),
+          "}",
+        ].join("\n"),
+        ...colorRules(mode.document, scope, taxonomy, rules, opacityVariables),
+      ];
+    });
   const contrastBlocks = contrastModes.map(
     (mode) =>
       `[${dataAttribute(mode.modeSetKey)}="${sanitizeTokenName(mode.key)}"] {\n  --contrast-multiplier: ${mode.multiplier};\n}`,
@@ -520,7 +676,20 @@ export function buildColorLibrary(
     : undefined;
 
   return [
+    // Typed colors compute each search step before substitution, avoiding oversized CSS variable expansion.
+    ...([...documents].some(
+      (source) => source.settings.colorScaleType === "transparent",
+    )
+      ? Array.from(
+          { length: 19 },
+          (_, index) =>
+            `@property --_alpha-${index} { syntax: "<color>"; inherits: false; initial-value: transparent; }`,
+        )
+      : []),
     rootBlock,
+    ...(opacityStopsEnabled(document.settings) && opacitySource
+      ? [buildOpacityCss(opacitySource, taxonomy)]
+      : []),
     ...modeBlocks,
     ...contrastBlocks,
     ...(preferenceBlock ? [preferenceBlock] : []),
@@ -546,16 +715,6 @@ export function buildColorLibrary(
     ".color-system-tint-bg { background-color: var(--color-system-tint); }",
     ".color-system-tint-fg { color: var(--color-system-tint); }",
     ".s-content { --bg: var(--surface-color); }",
-    ...colorRules(defaultScaleDocument, "", taxonomy, rules),
-    ...scaleModes
-      .filter((mode) => !mode.isDefault)
-      .flatMap((mode) =>
-        colorRules(
-          mode.document,
-          `[${dataAttribute(mode.modeSetKey)}="${sanitizeTokenName(mode.key)}"] `,
-          taxonomy,
-          rules,
-        ),
-      ),
+    ...colorRules(rootDocument, "", taxonomy, rules, opacityVariables),
   ].join("\n\n");
 }

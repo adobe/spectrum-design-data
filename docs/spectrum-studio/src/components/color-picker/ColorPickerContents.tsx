@@ -324,7 +324,7 @@ export function ColorPickerContents({
           <span className={labelStyles}>Model</span>
           <ToggleButtonGroup
             aria-label="Color model"
-            size="S"
+            size="M"
             density="compact"
             selectionMode="single"
             disallowEmptySelection
@@ -346,7 +346,7 @@ export function ColorPickerContents({
           <span className={labelStyles}>Controls</span>
           <ToggleButtonGroup
             aria-label="Color controls"
-            size="S"
+            size="M"
             density="compact"
             selectionMode="single"
             disallowEmptySelection

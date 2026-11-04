@@ -53,8 +53,8 @@ for (const authoringGamut of COLOR_GAMUTS)
             const generate = () =>
               generateColors(data, background, target, {
                 side,
-                extOffset: 0.2,
-                extSteep: 0.3,
+                backgroundBlend: 0.2,
+                colorSourceCurveOffset: 0.3,
               });
             const colors = generate();
             for (const variant of [
@@ -109,8 +109,8 @@ const grayData = buildScaleData(grayScale as any, DEFAULT_COLOR_OUTPUT);
 const bg181818 = parsedOutputLinear("#181818", "srgb");
 const grayOutput = generateColors(grayData, bg181818, 21, {
   side: "light",
-  extOffset: 0.2,
-  extSteep: 0.3,
+  backgroundBlend: 0.2,
+  colorSourceCurveOffset: 0.3,
 });
 assert.ok(grayOutput.opaque.css);
 assert.equal(grayOutput.opaque.css, "rgb(255, 255, 255)");

@@ -51,10 +51,10 @@ type Story = StoryObj<typeof meta>;
 export const Unlinked: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const swatches = canvas.getByRole("radiogroup", { name: "Palette colors" });
-    await expect(within(swatches).getAllByRole("radio")).toHaveLength(3);
+    const swatches = canvas.getByRole("listbox", { name: "Palette colors" });
+    await expect(within(swatches).getAllByRole("option")).toHaveLength(3);
     await expect(canvas.queryByText(/Linked to/)).toBeNull();
-    await userEvent.click(within(swatches).getAllByRole("radio")[0]);
+    await userEvent.click(within(swatches).getAllByRole("option")[0]);
     await expect(args.onLink).toHaveBeenCalledWith("brand");
     await expect(canvas.getByText("Linked to Brand color")).toBeVisible();
   },
@@ -65,7 +65,7 @@ export const LinkedAndUnlink: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Linked to Black")).toBeVisible();
-    await userEvent.click(canvas.getByRole("radio", { name: /^Black$/ }));
+    await userEvent.click(canvas.getByRole("option", { name: /^Black$/ }));
     await expect(args.onUnlink).toHaveBeenCalled();
     await expect(canvas.queryByText(/Linked to/)).toBeNull();
   },
@@ -74,8 +74,8 @@ export const LinkedAndUnlink: Story = {
 export const KeyboardSelection: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const swatches = canvas.getByRole("radiogroup", { name: "Palette colors" });
-    within(swatches).getAllByRole("radio")[0].focus();
+    const swatches = canvas.getByRole("listbox", { name: "Palette colors" });
+    within(swatches).getAllByRole("option")[0].focus();
     await userEvent.keyboard("{ArrowRight}{Enter}");
     await expect(args.onLink).toHaveBeenCalledWith("black");
   },
@@ -89,10 +89,10 @@ export const SameColorLeftOut: Story = {
     ],
   },
   play: async ({ canvasElement }) => {
-    const swatches = within(canvasElement).getByRole("radiogroup", {
+    const swatches = within(canvasElement).getByRole("listbox", {
       name: "Palette colors",
     });
-    await expect(within(swatches).getAllByRole("radio")).toHaveLength(3);
+    await expect(within(swatches).getAllByRole("option")).toHaveLength(3);
   },
 };
 
@@ -105,7 +105,7 @@ export const ReadOnlyLinked: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Linked to Brand color")).toBeVisible();
-    await expect(canvas.queryByRole("radiogroup")).toBeNull();
+    await expect(canvas.queryByRole("listbox")).toBeNull();
     await expect(canvas.queryByRole("button", { name: "Unlink" })).toBeNull();
   },
 };
@@ -113,14 +113,14 @@ export const ReadOnlyLinked: Story = {
 export const ReadOnlyUnlinked: Story = {
   args: { isReadOnly: true },
   play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).queryByRole("radiogroup")).toBeNull();
+    await expect(within(canvasElement).queryByRole("listbox")).toBeNull();
   },
 };
 
 export const EmptyPalette: Story = {
   args: { palette: [] },
   play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).queryByRole("radiogroup")).toBeNull();
+    await expect(within(canvasElement).queryByRole("listbox")).toBeNull();
   },
 };
 
@@ -132,8 +132,11 @@ export const CompactSwatches: Story = {
     await expect(canvas.getByText("Palette colors")).toBeVisible();
     await expect(canvas.queryByText("Linked to Brand color")).toBeNull();
     await expect(canvas.queryByRole("button", { name: "Unlink" })).toBeNull();
-    const options = canvas.getByRole("radiogroup", { name: "Palette colors" });
-    await expect(within(options).getAllByRole("radio")[0]).toBeChecked();
+    const options = canvas.getByRole("listbox", { name: "Palette colors" });
+    await expect(within(options).getAllByRole("option")[0]).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
   },
 };
 

@@ -456,7 +456,7 @@ function AnalysisError({ message }: { message: string }) {
 }
 
 function Chromaticity({
-  scales,
+  scales: allScales,
   gamut,
   preferences,
   change,
@@ -466,6 +466,13 @@ function Chromaticity({
   preferences: ColorAnalysisPreferences;
   change: (patch: Partial<ColorAnalysisPreferences>) => void;
 }) {
+  const selectedScale = allScales.find(
+    (scale) => scale.id === preferences.chromaticityScaleId,
+  );
+  const scales = useMemo(
+    () => (selectedScale ? [selectedScale] : allScales),
+    [selectedScale, allScales],
+  );
   const domains = useMemo(() => analysisDomains(scales), [scales]);
   const slices = useMemo(
     () =>
@@ -511,108 +518,133 @@ function Chromaticity({
             })),
     }));
   return (
-    <div className="colorAnalysisGrid">
-      <section className={cardStyles} aria-label="Hue and chroma analysis">
-        <h3 className={headingStyles}>Hue and chroma</h3>
-        <p className={noteStyles}>
-          OKLCh, {GAMUT_LABELS[gamut]} gamut. Distance is actual chroma, not
-          relative saturation.
-        </p>
-        <GamutPlot
-          scales={scales}
-          domains={domains}
-          gamut={gamut}
-          preferences={preferences}
-          markers={markers}
-        />
-        <div className="colorAnalysisSlice">
-          <Slider
-            label="Slice lightness"
-            value={preferences.slice * 100}
-            minValue={0}
-            maxValue={100}
-            step={1}
-            onChange={(value) => change({ slice: value / 100 })}
-          />
-          <NumberField
-            aria-label="Slice lightness value"
-            value={preferences.slice * 100}
-            minValue={0}
-            maxValue={100}
-            step={1}
-            onChange={(value) => {
-              if (Number.isFinite(value)) change({ slice: value / 100 });
+    <div className={lightnessWrapperStyles}>
+      <div className={controlsStyles}>
+        <div className="colorAnalysisField">
+          <Picker
+            label="Color scale"
+            layout="flex"
+            selectedKey={selectedScale?.id ?? "all"}
+            onSelectionChange={(key) => {
+              if (key !== null)
+                change({
+                  chromaticityScaleId: key === "all" ? null : String(key),
+                });
             }}
-          />
+          >
+            <PickerItem id="all">All</PickerItem>
+            {allScales.map((scale) => (
+              <PickerItem key={scale.id} id={scale.id}>
+                {termLabel(scale.name)}
+              </PickerItem>
+            ))}
+          </Picker>
         </div>
-        <Picker
-          label="Markers"
-          selectedKey={preferences.markerMode}
-          onSelectionChange={(key) => {
-            if (key === "slices" || key === "keys") change({ markerMode: key });
-          }}
-        >
-          <PickerItem id="slices">Scale cross-sections</PickerItem>
-          <PickerItem id="keys">All key colors</PickerItem>
-        </Picker>
-        <Checkbox
-          isSelected={preferences.paths}
-          onChange={(paths) => change({ paths })}
-        >
-          Show scale paths
-        </Checkbox>
-        <Checkbox
-          isSelected={preferences.guides}
-          onChange={(guides) => change({ guides })}
-        >
-          Show radial guides
-        </Checkbox>
-        <p className={noteStyles}>
-          Keys and complete paths project colors at other lightness levels.
-          Their true positions can lie outside this slice's colored shape.
-        </p>
-        {(preferences.slice === 0 || preferences.slice === 1) && (
-          <p role="status" className={noteStyles}>
-            At this lightness, the gamut collapses to a neutral point.
+      </div>
+      <div className="colorAnalysisGrid">
+        <section className={cardStyles} aria-label="Hue and chroma analysis">
+          <h3 className={headingStyles}>Hue and chroma</h3>
+          <p className={noteStyles}>
+            OKLCh, {GAMUT_LABELS[gamut]} gamut. Distance is actual chroma, not
+            relative saturation.
           </p>
-        )}
-        {missing.length > 0 && preferences.markerMode === "slices" && (
-          <p role="status">
-            No slice is available for{" "}
-            {missing.map((item) => item.scale.name).join(", ")}.
-          </p>
-        )}
-      </section>
-      <div className={columnStyles}>
-        {(["hue", "chroma"] as const).map((channel) => (
-          <section className={cardStyles} key={channel}>
-            <h3 className={headingStyles}>
-              {channel === "hue" ? "Hue" : "Chroma"}
-            </h3>
-            <ScaleGraph
-              kind="numeric"
-              label={`${channel} along generated scales`}
-              series={seriesFor(channel)}
-              xDomain={[0, 1]}
-              yDomain={
-                channel === "hue"
-                  ? [0, 360]
-                  : [
-                      0,
-                      Math.max(
-                        0.05,
-                        ...scales.flatMap((scale) =>
-                          scale.samples.map((sample) => sample.chroma),
-                        ),
-                      ),
-                    ]
-              }
-              xLabel="Scale position (relative luminance)"
-              yLabel={channel === "hue" ? "Degrees" : "OKLCh chroma"}
-              markers={false}
+          <GamutPlot
+            scales={scales}
+            domains={domains}
+            gamut={gamut}
+            preferences={preferences}
+            markers={markers}
+          />
+          <div className="colorAnalysisSlice">
+            <Slider
+              label="Slice lightness"
+              value={preferences.slice * 100}
+              minValue={0}
+              maxValue={100}
+              step={1}
+              onChange={(value) => change({ slice: value / 100 })}
             />
-          </section>
-        ))}
+            <NumberField
+              aria-label="Slice lightness value"
+              value={preferences.slice * 100}
+              minValue={0}
+              maxValue={100}
+              step={1}
+              onChange={(value) => {
+                if (Number.isFinite(value)) change({ slice: value / 100 });
+              }}
+            />
+          </div>
+          <Picker
+            label="Markers"
+            selectedKey={preferences.markerMode}
+            onSelectionChange={(key) => {
+              if (key === "slices" || key === "keys")
+                change({ markerMode: key });
+            }}
+          >
+            <PickerItem id="slices">Scale cross-sections</PickerItem>
+            <PickerItem id="keys">All key colors</PickerItem>
+          </Picker>
+          <Checkbox
+            isSelected={preferences.paths}
+            onChange={(paths) => change({ paths })}
+          >
+            Show scale paths
+          </Checkbox>
+          <Checkbox
+            isSelected={preferences.guides}
+            onChange={(guides) => change({ guides })}
+          >
+            Show radial guides
+          </Checkbox>
+          <p className={noteStyles}>
+            Keys and complete paths project colors at other lightness levels.
+            Their true positions can lie outside this slice's colored shape.
+          </p>
+          {(preferences.slice === 0 || preferences.slice === 1) && (
+            <p role="status" className={noteStyles}>
+              At this lightness, the gamut collapses to a neutral point.
+            </p>
+          )}
+          {missing.length > 0 && preferences.markerMode === "slices" && (
+            <p role="status">
+              No slice is available for{" "}
+              {missing.map((item) => item.scale.name).join(", ")}.
+            </p>
+          )}
+        </section>
+        <div className={columnStyles}>
+          {(["hue", "chroma"] as const).map((channel) => (
+            <section className={cardStyles} key={channel}>
+              <h3 className={headingStyles}>
+                {channel === "hue" ? "Hue" : "Chroma"}
+              </h3>
+              <ScaleGraph
+                kind="numeric"
+                label={`${channel} along generated scales`}
+                series={seriesFor(channel)}
+                xDomain={[0, 1]}
+                yDomain={
+                  channel === "hue"
+                    ? [0, 360]
+                    : [
+                        0,
+                        Math.max(
+                          0.05,
+                          ...scales.flatMap((scale) =>
+                            scale.samples.map((sample) => sample.chroma),
+                          ),
+                        ),
+                      ]
+                }
+                xLabel="Scale position (relative luminance)"
+                yLabel={channel === "hue" ? "Degrees" : "OKLCh chroma"}
+                markers={false}
+              />
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
