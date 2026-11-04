@@ -302,10 +302,10 @@
       "path": "tools/s2-docs-mcp",
       "kind": "package",
       "audience": "consumer",
-      "lifecycle": "active",
+      "lifecycle": "deprecated",
       "published": true,
-      "llms": true,
-      "summary": "MCP server for Spectrum 2 documentation."
+      "llms": false,
+      "summary": "MCP server for Spectrum 2 documentation. Superseded by `@adobe/design-data-mcp`."
     },
     {
       "path": "tools/s2-docs-to-document-blocks",

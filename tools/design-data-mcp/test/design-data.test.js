@@ -26,6 +26,7 @@ const EXPECTED_TOOLS = [
   "design-data-query",
   "design-data-suggest",
   "design-data-component",
+  "design-data-component-search",
   "design-data-resolve",
   "design-data-guideline-list",
   "design-data-guideline",
@@ -210,9 +211,9 @@ test("each tool has required MCP annotations", (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes seven tools", (t) => {
+test("createDesignDataTools exposes eight tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 7);
+  t.is(tools.length, 8);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -348,4 +349,23 @@ test("design-data-primer returns provenance with designDataVersion", async (t) =
     /^\d+\.\d+\.\d+/,
     "provenance.designDataVersion should look like a semver",
   );
+});
+
+test("design-data-component-search finds a component by name and by text", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const { results, total } = await tools[
+    "design-data-component-search"
+  ].handler({ query: "button", limit: 3 });
+  t.is(total, results.length);
+  t.true(results.length <= 3);
+  t.is(results[0].id, "button");
+  const byText = await tools["design-data-component-search"].handler({
+    query: "perform an action or to navigate",
+  });
+  t.true(byText.results.some((r) => r.id === "button"));
+  t.deepEqual(tools["design-data-component-search"].inputSchema.required, [
+    "query",
+  ]);
 });

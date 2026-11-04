@@ -20,6 +20,11 @@ allowed-tools: Bash(node ${CLAUDE_SKILL_DIR}/scripts/lookup.js *)
 
 # Spectrum 2 Docs
 
+> **Deprecated.** This skill and `@adobe/s2-docs-mcp` are superseded by
+> `@adobe/design-data-mcp`. If that server is available, prefer its
+> `design-data-component-search` and `design-data-component` tools. The commands
+> below still work and use current data.
+
 Fetch canonical S2 docs before suggesting any Spectrum component or pattern.
 This prevents common vibe-coding mistakes: wrong variant, hard-coded sizes,
 divider-first layouts, missing required props.

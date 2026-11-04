@@ -33,7 +33,6 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`tools/design-data-skill`](../tools/design-data-skill/) | `@adobe/design-data-skill` | active | published | yes | Claude Code skill for querying Spectrum design data through the CLI. |
 | [`tools/diff-generator`](../tools/diff-generator/) | `@adobe/token-diff-generator` | active | published | yes | Token diff CLI and library with CLI, JSON, and Markdown output. |
 | [`tools/optimized-diff`](../tools/optimized-diff/) | `@adobe/optimized-diff` | active | published | yes | High-performance deep object diff library. |
-| [`tools/s2-docs-mcp`](../tools/s2-docs-mcp/) | `@adobe/s2-docs-mcp` | active | published | yes | MCP server for Spectrum 2 documentation. |
 | [`tools/spectrum-diff-core`](../tools/spectrum-diff-core/) | `@adobe/spectrum-diff-core` | active | published | yes | Shared core library for the diff generators. |
 | [`docs/release-timeline`](../docs/release-timeline/) | `spectrum-tokens-release-timeline` | active | no | no | Interactive timeline of Spectrum token releases. |
 | [`docs/s2-docs`](../docs/s2-docs/) | — | active | no | no | Spectrum 2 documentation content mirrored from Spectrum Hub. |
@@ -81,4 +80,5 @@ Kept for compatibility or retained until their consumers are checked. Do not mov
 | --- | --- | --- | --- | --- | --- |
 | [`packages/design-system-registry`](../packages/design-system-registry/) | `@adobe/design-system-registry` | deprecated | published | no | Compatibility shim for registry data that moved to @adobe/spectrum-design-data. |
 | [`tools/ios-override-importer`](../tools/ios-override-importer/) | `ios-override-importer` | one-time | no | no | One-time importer for the Spectrum iOS override log. Retains its CI target. |
+| [`tools/s2-docs-mcp`](../tools/s2-docs-mcp/) | `@adobe/s2-docs-mcp` | deprecated | published | no | MCP server for Spectrum 2 documentation. Superseded by `@adobe/design-data-mcp`. |
 | [`tools/spectrum-design-data-mcp`](../tools/spectrum-design-data-mcp/) | `@adobe/spectrum-design-data-mcp` | deprecated | published | no | Deprecated MCP server kept for compatibility; use @adobe/design-data-mcp. |

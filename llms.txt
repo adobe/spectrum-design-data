@@ -18,7 +18,6 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 - [tools/design-data-skill](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/llms.txt): Claude Code skill for querying Spectrum design data through the CLI.
 - [tools/diff-generator](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/llms.txt): Token diff CLI and library with CLI, JSON, and Markdown output.
 - [tools/optimized-diff](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/llms.txt): High-performance deep object diff library.
-- [tools/s2-docs-mcp](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/llms.txt): MCP server for Spectrum 2 documentation.
 - [tools/spectrum-diff-core](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/llms.txt): Shared core library for the diff generators.
 
 ## Other consumer-facing resources
@@ -48,4 +47,4 @@ The 18 maintainer tools (release, taxonomy, authoring, and sync utilities) are n
 
 - [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): audience, lifecycle, and publication status for every project
 - [Contributor instructions](https://github.com/adobe/spectrum-design-data/blob/main/AGENTS.md): conventions for working in this repository
-- Deprecated, kept for compatibility: `packages/design-system-registry`, `tools/spectrum-design-data-mcp`
+- Deprecated, kept for compatibility: `packages/design-system-registry`, `tools/s2-docs-mcp`, `tools/spectrum-design-data-mcp`
