@@ -164,7 +164,7 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
         : { status: "pending" as const };
   const canEdit = useAtomValue(editModeAtom);
   const editing = canEdit && comparison.status === "ready";
-  const [selectedTab, setSelectedTab] = useState("impact");
+  const [selectedTab, setSelectedTab] = useState("log");
   const stale = useAtomValue(
     isCollapsed || selectedTab !== "log"
       ? inactiveStaleCountAtom
@@ -412,6 +412,10 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
             UNSAFE_className="changesTabs"
           >
             <TabList UNSAFE_className="changesTabList">
+              <Tab id="log">
+                <ViewList />
+                <Text>Log</Text>
+              </Tab>
               <Tab id="impact">
                 <ChartPie />
                 <Text>Impact</Text>
@@ -419,10 +423,6 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
               <Tab id="systemHealth">
                 <SpeedFast />
                 <Text>System health</Text>
-              </Tab>
-              <Tab id="log">
-                <ViewList />
-                <Text>Log</Text>
               </Tab>
             </TabList>
             <TabPanel

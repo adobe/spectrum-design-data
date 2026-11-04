@@ -3,6 +3,7 @@ import { atom } from "jotai";
 import { normalizeStructureEditorAfterReset } from "../structures/variants";
 import { rebaseGenerator } from "../logic/generator";
 import { isTshirtRule } from "../logic/model";
+import { restoreSwatchIndexAssignments } from "./swatchIndexReset";
 import { editModeAtom } from "../../state/view/editMode";
 import {
   foundationModeAttachmentsAtom,
@@ -403,6 +404,11 @@ export function prepareChangeReset(
         ...address,
         expected: readPath(candidate, address.path),
       });
+    candidate = restoreSwatchIndexAssignments(
+      candidate,
+      shipped,
+      plan.addresses,
+    );
     const defaultResets = new Set(
       plan.addresses.flatMap(({ path }) => {
         const identity = path[1];

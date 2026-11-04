@@ -1642,10 +1642,13 @@ for (const collection of ["terms", "review"] as const) {
       await page
         .getByRole("radio", { name: "Color name", exact: true })
         .press("Space");
-    else
+    else {
+      await navigate(page, "analysis");
+      await page.getByRole("button", { name: /Analysis view/ }).click();
       await page
-        .getByRole("button", { name: "Migration review", exact: true })
+        .getByRole("option", { name: "Classification review", exact: true })
         .click();
+    }
     const grid = page.getByRole("grid", {
       name:
         collection === "terms"
