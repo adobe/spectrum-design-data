@@ -9,7 +9,7 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-09-03",
-      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
       "commits": [
         {
           "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
@@ -42,10 +42,10 @@
             {"id":"5e22a7a1-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (breadcrumb item/title to separator icon, multiline)","name":"space-between","fields":[{"path":"$ref","before":"fbf763fe-9e35-4cdc-a5ed-9f90e03d23bd","after":"2fca8c2d-dad0-4441-8e52-e623d76ef701"}]},
             {"id":"5e22a7a1-24","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start and end edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (start and end edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"3dd655e7-f0d4-4fa4-a885-4a7aff9510fd","after":"2fca8c2d-dad0-4441-8e52-e623d76ef701"}]},
             {"id":"5e22a7a1-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start and end edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (start and end edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"60a75c05-a9cd-4ecf-89e5-0bca9e137e9f","after":"2fca8c2d-dad0-4441-8e52-e623d76ef701"}]},
-            {"id":"5e22a7a1-26","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"138070fe-1f06-48b4-ac49-f8ff117c5f42","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
-            {"id":"5e22a7a1-27","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"ea82fc23-82e7-4116-a8bb-186a253675ad","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
-            {"id":"5e22a7a1-28","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"5a78f5a4-ceee-4854-96d4-b61d76cc522b","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
-            {"id":"5e22a7a1-29","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"a51a1142-e38e-4055-bd45-ad2bd0045880","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-26","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"138070fe-1f06-48b4-ac49-f8ff117c5f42","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-27","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"ea82fc23-82e7-4116-a8bb-186a253675ad","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-28","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"5a78f5a4-ceee-4854-96d4-b61d76cc522b","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-29","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top and bottom edge to text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"a51a1142-e38e-4055-bd45-ad2bd0045880","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
             {"id":"5e22a7a1-30","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to separator icon, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to separator icon, multiline)","name":"space-between","fields":[{"path":"$ref","before":"96d7dff4-4b3d-433a-8f83-8f55a1514812","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
             {"id":"5e22a7a1-31","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to separator icon, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to separator icon, multiline)","name":"space-between","fields":[{"path":"$ref","before":"4b7eab87-e6a8-40f6-a071-5aff25493f2f","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
             {"id":"5e22a7a1-32","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (separator icon to bottom text, multiline)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (separator icon to bottom text, multiline)","name":"space-between","fields":[{"path":"$ref","before":"ba160ed7-e66b-4dd1-bef8-e91fe9b05d2c","after":"dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7"}]},
@@ -63,7 +63,7 @@
       "version": "1.0.2",
       "bump": "patch",
       "date": "2026-09-08",
-      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
       "commits": [
         {
           "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
@@ -79,7 +79,7 @@
       "version": "1.0.3",
       "bump": "patch",
       "date": "2026-09-30",
-      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
       "commits": [
         {
           "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
@@ -95,7 +95,7 @@
       "version": "1.1.0",
       "bump": "minor",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",

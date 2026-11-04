@@ -9,19 +9,19 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-09-03",
-      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
       "commits": [
         {
           "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
           "date": "2026-09-03",
           "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
           "entries": [
-            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"50763a0d-c6eb-47f0-8b56-4c86ee22a430","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
-            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"77dc4cd4-8e4e-4873-b6f3-d573eb7fc315","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"50763a0d-c6eb-47f0-8b56-4c86ee22a430","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"77dc4cd4-8e4e-4873-b6f3-d573eb7fc315","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
             {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"1d601d0a-d6d0-4711-9fb9-71898c2bcc9a","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
             {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"09d55113-8d94-429f-b0c8-ffabe8ccba27","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
-            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"7ce11af3-b94b-4239-a310-f8d09635779a","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
-            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"dc4ec555-72eb-4328-aba4-e8d594102f45","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"7ce11af3-b94b-4239-a310-f8d09635779a","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"dc4ec555-72eb-4328-aba4-e8d594102f45","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
             {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"4366909e-3bfb-481c-abdc-4ae71f965bc3","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
             {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"205f0c77-6588-4cc7-927f-3ba767200bac","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
             {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-visual-75","options":null},"record":"component-edge-to-visual-75#Spacing (start/end edges)","name":"component-edge-to-visual-75","fields":[{"path":"$ref","before":"8d128c7d-ab8e-4a4e-9243-a2e919cb6e6f","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
@@ -81,7 +81,7 @@
       "version": "1.0.2",
       "bump": "patch",
       "date": "2026-09-08",
-      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
       "commits": [
         {
           "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
@@ -97,7 +97,7 @@
       "version": "1.0.3",
       "bump": "patch",
       "date": "2026-09-09",
-      "commit": "89c20fbbf5eed43a88608fdcfeac472e2f4433c1",
+      "commit": "d22d38d279c007e8f4536ddc8431a2e04bd24804",
       "commits": [
         {
           "commit": "e3571706e0aba86418b7d97c3986684c8159775c",
@@ -115,7 +115,7 @@
       "version": "1.0.4",
       "bump": "patch",
       "date": "2026-09-30",
-      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
       "commits": [
         {
           "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
@@ -131,7 +131,7 @@
       "version": "1.1.0",
       "bump": "minor",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
@@ -163,7 +163,7 @@
       "version": "1.1.1",
       "bump": "patch",
       "date": "2026-10-16",
-      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
       "commits": [
         {
           "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",

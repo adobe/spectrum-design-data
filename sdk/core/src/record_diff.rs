@@ -18,7 +18,7 @@
 //! The dataset directory is read as-is; callers that diff git revisions export each one into
 //! a temporary directory first (`git archive`), so this module never touches a repository.
 
-use std::collections::{BTreeMap, HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 use std::path::Path;
 
 use serde::Serialize;
@@ -208,7 +208,13 @@ fn token_changes(old: &DatasetSnapshot, new: &DatasetSnapshot) -> Vec<RecordChan
         before: None,
         after: None,
     };
-    let mut v = Vec::new();
+    let mut v: Vec<RecordChange> = Vec::new();
+    let mut start = 0;
+    // The graph diff returns each group in hash order; sort each by name and id.
+    let mut settle = |v: &mut Vec<RecordChange>| {
+        v[start..].sort_by(|a, b| (&a.name, &a.id).cmp(&(&b.name, &b.id)));
+        start = v.len();
+    };
     for t in &r.renamed {
         let mut c = tok(
             &t.new_name,
@@ -219,18 +225,23 @@ fn token_changes(old: &DatasetSnapshot, new: &DatasetSnapshot) -> Vec<RecordChan
         c.before = Some(json!(t.old_name));
         v.push(c);
     }
+    settle(&mut v);
     for t in &r.deprecated {
         v.push(tok(&t.name, &t.uuid, Change::Deprecated, vec![]));
     }
+    settle(&mut v);
     for t in &r.reverted {
         v.push(tok(&t.name, &t.uuid, Change::Reverted, vec![]));
     }
+    settle(&mut v);
     for t in &r.added {
         v.push(tok(&t.name, &t.uuid, Change::Added, vec![]));
     }
+    settle(&mut v);
     for t in &r.deleted {
         v.push(tok(&t.name, &t.uuid, Change::Removed, vec![]));
     }
+    settle(&mut v);
     for t in &r.updated {
         v.push(tok(
             &t.name,
@@ -239,6 +250,7 @@ fn token_changes(old: &DatasetSnapshot, new: &DatasetSnapshot) -> Vec<RecordChan
             t.property_changes.clone(),
         ));
     }
+    settle(&mut v);
     v
 }
 
@@ -409,26 +421,34 @@ fn relationship_changes(old: &[Value], new: &[Value]) -> Vec<RecordChange> {
         key: impl Fn(&Value) -> Option<String>,
         out: &mut Vec<(&'a Value, &'a Value)>,
     ) -> (Vec<&'a Value>, Vec<&'a Value>) {
-        let mut idx: HashMap<String, Vec<&Value>> = HashMap::new();
-        let mut keyless_new = Vec::new();
-        for n in news {
-            match key(n) {
-                Some(k) => idx.entry(k).or_default().push(n),
-                None => keyless_new.push(n),
+        // Records keep their position in the file: ties pair first-with-first, and the
+        // leftovers stay in file order so later passes pair the same way on every run.
+        let mut idx: HashMap<String, VecDeque<usize>> = HashMap::new();
+        for (i, n) in news.iter().enumerate() {
+            if let Some(k) = key(n) {
+                idx.entry(k).or_default().push_back(i);
             }
         }
+        let mut taken = vec![false; news.len()];
         let mut rest_old = Vec::new();
         for o in olds {
             match key(o)
                 .and_then(|k| idx.get_mut(&k))
-                .filter(|v| !v.is_empty())
+                .and_then(|v| v.pop_front())
             {
-                Some(v) => out.push((o, v.remove(0))),
+                Some(i) => {
+                    taken[i] = true;
+                    out.push((o, news[i]));
+                }
                 None => rest_old.push(o),
             }
         }
-        let mut rest_new: Vec<&Value> = idx.into_values().flatten().collect();
-        rest_new.extend(keyless_new);
+        let rest_new = news
+            .into_iter()
+            .enumerate()
+            .filter(|(i, _)| !taken[*i])
+            .map(|(_, n)| n)
+            .collect();
         (rest_old, rest_new)
     }
 
@@ -1072,6 +1092,27 @@ mod tests {
             &snap(vec![], vec![], vec![]),
         );
         assert_eq!(d.changes[0].change, Change::Removed);
+    }
+
+    #[test]
+    fn duplicate_records_pair_in_file_order() {
+        let r = |t: &str| json!({"scope": {"component": "c", "property": "p"}, "context": "X", "$ref": t});
+        let old = vec![r("a"), r("a"), r("b")];
+        let new = vec![r("c"), r("d"), r("e")];
+        let first = diff_datasets(
+            &snap(old.clone(), vec![], vec![]),
+            &snap(new.clone(), vec![], vec![]),
+        );
+        for _ in 0..20 {
+            let again = diff_datasets(
+                &snap(old.clone(), vec![], vec![]),
+                &snap(new.clone(), vec![], vec![]),
+            );
+            assert_eq!(
+                serde_json::to_string(&again.changes).unwrap(),
+                serde_json::to_string(&first.changes).unwrap()
+            );
+        }
     }
 
     #[test]
