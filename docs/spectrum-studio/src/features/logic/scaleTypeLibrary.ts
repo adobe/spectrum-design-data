@@ -10,7 +10,6 @@ import {
 import {
   isScaleType,
   migrateScaleTypeLibrary,
-  SCALE_TYPE_DEFAULTS,
   scaleTypeIssues,
   TYPOGRAPHY_SCALE_TYPE_ID,
   type ScaleType,
@@ -20,7 +19,8 @@ import { interpolationConsumers } from "./interpolationConsumers";
 import { validateTypographyGeneration } from "../typography/typographyGeneration";
 import { rulesAtom } from "./library";
 
-export { SCALE_TYPE_DEFAULTS };
+export const SCALE_TYPE_DEFAULTS: readonly ScaleType[] =
+  designSystemDefaults.system.scaleTypes;
 
 // 3 adds the canonical adaptive Type scale; generic formulas retain per-part flags.
 export const LOGIC_LIBRARY_SCHEMA_VERSION = 3;

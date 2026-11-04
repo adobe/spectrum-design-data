@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { ActionButton, Badge, Text } from "@react-spectrum/s2";
+import { ActionButton, Text } from "@react-spectrum/s2";
 import { useNotify } from "../notifications/notificationContext";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
@@ -7,6 +7,7 @@ import Edit from "@react-spectrum/s2/icons/Edit";
 import Lock from "@react-spectrum/s2/icons/Lock";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { EditOnly } from "../editable";
+import { TypeBadge } from "../TypeBadge";
 import { replaceInterpolationAtom } from "../../features/logic/scaleTypeLibrary";
 import {
   interpolationConsumersAtom,
@@ -110,14 +111,20 @@ export function InterpolationCard({
       <header className={headerStyles}>
         <div className={titleRowStyles}>
           <h3 className={titleStyles}>{interpolation.name}</h3>
-          <Badge size="S" variant="neutral" fillStyle="subtle">
+          <TypeBadge
+            type={
+              interpolation.kind === "method"
+                ? interpolation.method
+                : interpolation.kind
+            }
+          >
             {interpolationBadgeLabel(interpolation)}
-          </Badge>
+          </TypeBadge>
           {interpolation.locked && (
-            <Badge size="S" variant="neutral" fillStyle="outline">
+            <TypeBadge type="built-in">
               <Lock />
               <Text>Built-in</Text>
-            </Badge>
+            </TypeBadge>
           )}
         </div>
         {!interpolation.locked && (
