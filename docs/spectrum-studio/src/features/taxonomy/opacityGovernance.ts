@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { OpacityDocument } from "../opacity/model";
 import { registerTerm, type TaxonomyDocument } from "./model";
+import { swatchIndex } from "../scales/swatchIndices";
 
 /** Structurally compatible with `TermContribution`; kept local so pure output stays free of runtime state. */
 export interface OpacityTermContribution {
@@ -17,7 +18,7 @@ export function opacityTermContributions(
   return document.levels.map((level, index) => ({
     sourceId: level.id,
     field: "scaleIndex" as const,
-    value: (index + 1) * 100,
+    value: swatchIndex(level, index),
   }));
 }
 

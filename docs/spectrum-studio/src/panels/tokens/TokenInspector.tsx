@@ -76,7 +76,6 @@ export interface TokenInspectorProps {
   onClose: () => void;
   onOpenToken: (id: string) => void;
   onOpenComponent: (id: string) => void;
-  issues?: readonly string[];
 }
 
 function TokenPreview({
@@ -575,9 +574,6 @@ export function TokenInspector(props: TokenInspectorProps) {
               )}
               {editable && !!projection.issues.length && (
                 <p role="status">{projection.issues.join(" ")}</p>
-              )}
-              {!!props.issues?.length && (
-                <div role="status">{props.issues.join(" ")}</div>
               )}
             </div>
           </Content>

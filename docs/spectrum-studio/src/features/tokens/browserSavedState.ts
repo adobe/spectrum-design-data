@@ -82,7 +82,10 @@ import {
 import type { ElevationDocument } from "../elevation/model";
 import { savedTshirtArtifactsAtom } from "../design-data/tshirtState";
 import { colorSourceTokenIds } from "./colorGeneration";
-import { normalizeBrowserColorOutputs } from "./colorOutput";
+import {
+  normalizeBrowserColorOutputs,
+  opacityLinkedScaleIds,
+} from "./colorOutput";
 import type { OpacityDocument } from "../opacity/model";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
 import { opacityDocumentAtom } from "../opacity/state";
@@ -111,6 +114,8 @@ function savedSources(
     : rules;
   const document = resolveColorDocument(color, modes, undefined, {
     modeSets: sets,
+    opacity,
+    browserTokenEdits: edits,
   });
   const modeKey = canonicalTokenModeKey(
     Object.fromEntries(
@@ -177,7 +182,7 @@ function savedSources(
         outputUnit: typography.outputUnit,
         registry,
       },
-      { document: color, registry, rules },
+      { document, registry, rules },
       radius.scales.map((scale) => ({
         scale,
         values: generateRadiusScale(
@@ -326,6 +331,7 @@ export const savedBrowserTokensAtom = atom((get) => {
           resolveBrowserTokens(sources, edits, modeKey),
           get(colorSystemDocumentAtom).settings.colorOutput,
           finalUiValues,
+          opacityLinkedScaleIds(get(colorSystemDocumentAtom)),
         ),
         get(taxonomyDocumentAtom),
       ),
@@ -356,7 +362,13 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
   const generated = get(savedTshirtArtifactsAtom);
   if (generated.status === "error") throw new Error(generated.error);
   return new Set([
-    ...colorSourceTokenIds(snapshot.colorSystem),
+    ...colorSourceTokenIds(
+      resolveColorDocument(snapshot.colorSystem, modes, undefined, {
+        modeSets: snapshot.modeSets,
+        opacity: snapshot.opacity,
+        browserTokenEdits: snapshot.browserTokenEdits,
+      }),
+    ),
     ...savedSources(
       snapshot.colorSystem,
       snapshot.typography,

@@ -4,6 +4,7 @@ import { ActionBar, ActionButton, Badge, Card, CardPreview, CardView, Content, S
 import { Cell, Collection, Column, Row, TableBody, TableHeader, TableView } from "@react-spectrum/s2/TableView";
 import { Checkbox } from "@react-spectrum/s2/Checkbox";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import Add from "@react-spectrum/s2/icons/Add";
 import AppsAll from "@react-spectrum/s2/icons/AppsAll";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import OpenIn from "@react-spectrum/s2/icons/OpenIn";
@@ -18,7 +19,6 @@ import { ValuePreview } from "../../components/value-preview/ValuePreview";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 import { sourceValuePreview } from "../../features/tokens/valuePreview";
 import { taxonomyTokenTree } from "../../features/taxonomy/tree";
-import { CLASSIFICATION_REVIEW_CONTEXT, CLASSIFICATION_REVIEW_LABEL } from "../../features/taxonomy/reviewPresentation";
 import {
   compactTokenTableTree, isSelectableBrowserToken, resolveTokenTableSelection, selectedTokenTableRows,
   tokenSelectionState, tokenTableSelectionIndex, toggleTokenSelection, type TokenTablePresentationRow,
@@ -38,12 +38,7 @@ export interface TokenBrowserViewProps {
   onSelectionChange: (ids: Set<string>) => void;
   onOpen: (id: string) => void;
   onBulkEdit: () => void;
-  onExport?: () => void;
-  onExportCompatibility?: () => void;
-  classificationIssues?: ReadonlyMap<string, readonly string[]>;
-  exportError?: string;
-  onExportGenerated?: () => void;
-  canExportGenerated?: boolean;
+  onAddToken?: () => void;
   generationError?: string;
 }
 
@@ -61,13 +56,13 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
   const { selectedIds } = props;
   const incoming = useMemo(() => ({
     tokens: props.tokens, query: props.query, type: props.type, view: props.view,
-    isEditing: props.isEditing, classificationIssues: props.classificationIssues,
+    isEditing: props.isEditing,
     onSelectionChange: props.onSelectionChange, onOpen: props.onOpen,
   }), [props.tokens, props.query, props.type, props.view, props.isEditing,
-    props.classificationIssues, props.onSelectionChange, props.onOpen]);
+    props.onSelectionChange, props.onOpen]);
   const presentation = useDeferredValue(incoming);
   const pending = incoming !== presentation;
-  const { tokens, query, type, view, isEditing, classificationIssues, onSelectionChange, onOpen } = presentation;
+  const { tokens, query, type, view, isEditing, onSelectionChange, onOpen } = presentation;
   const filtered = useMemo(() => filterBrowserTokens(tokens, type, query), [tokens, type, query]);
   const previews = useMemo(() => new Map(tokens.map((token) => [token.id, sourceValuePreview(token)])), [tokens]);
   const tree = useMemo(() => compactTokenTableTree(taxonomyTokenTree(filtered)), [filtered]);
@@ -105,10 +100,9 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
     const token = item.token;
     const ids = selection.rows.get(item.id)!;
     const state = tokenSelectionState(ids, selectedIds);
-    const description = [token?.description, ...(token?.projection?.issues ?? []),
-      classificationIssues?.get(token?.id ?? "")?.length ? "Open this token for classification review details and next steps." : ""].filter(Boolean).join(" ");
+    const description = [token?.description, ...(token?.projection?.issues ?? [])].filter(Boolean).join(" ");
     return (
-      <Row id={item.id} textValue={item.contextLabel} dependencies={[selectedIds, isEditing, classificationIssues]}
+      <Row id={item.id} textValue={item.contextLabel} dependencies={[selectedIds, isEditing]}
         data-token-root={rootIds.has(item.id)} data-token-leaf={item.children.length === 0} data-token-name={token?.name} data-token-id={token?.id}>
         {isEditing && <Cell data-token-selection focusMode="child">
           {ids.size > 0 && <Checkbox slot={null} {...state} aria-label={`Select ${item.contextLabel}`}
@@ -117,17 +111,17 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
         <Cell><span className="tokenName">{item.label}</span>{token?.semantic && <Badge variant="neutral" fillStyle="subtle">Semantic</Badge>}{token?.alias && <Badge variant="informative" fillStyle="subtle">Alias</Badge>}</Cell>
         <Cell>{token && <ValuePreview preview={previews.get(token.id)!} />}</Cell>
         <Cell>{token && <span className="tokenValue">{tokenValueText(token)}</span>}</Cell>
-        <Cell>{token && <><TokenStatusBadge status={token.status} />{classificationIssues?.get(token.id)?.length ? <Badge variant="notice" fillStyle="subtle">{CLASSIFICATION_REVIEW_LABEL}</Badge> : null}</>}</Cell>
+        <Cell>{token && <TokenStatusBadge status={token.status} />}</Cell>
         <Cell>{token?.alias?.targetName ?? (token?.semantic ? "$ref" in token.semantic.token ? token.semantic.target.name : "Generated literal" : "")}</Cell>
         <Cell><span className="tokenDescription" title={description || undefined}>{description}</span></Cell>
         <Cell>{token && <div className="tokenRowActions">
           <TooltipTrigger><ActionButton preventFocusOnPress aria-label={`Open ${token.name}`} onPress={() => onOpen(token.id)}><OpenIn /></ActionButton><Tooltip>Open</Tooltip></TooltipTrigger>
           <TooltipTrigger><ActionButton aria-label={`See impact for ${token.name}`} isDisabled><Search /></ActionButton><Tooltip>See impact</Tooltip></TooltipTrigger>
         </div>}</Cell>
-        {item.children.length > 0 && <Collection items={item.children} dependencies={[selectedIds, isEditing, classificationIssues]}>{renderRow}</Collection>}
+        {item.children.length > 0 && <Collection items={item.children} dependencies={[selectedIds, isEditing]}>{renderRow}</Collection>}
       </Row>
     );
-  }, [onOpen, onSelectionChange, selectedIds, selection, rootIds, isEditing, classificationIssues, previews]);
+  }, [onOpen, onSelectionChange, selectedIds, selection, rootIds, isEditing, previews]);
 
   const emptyMessage = query.trim() ? `No tokens match "${query.trim()}".`
     : type === "all" ? "No tokens available."
@@ -157,14 +151,14 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
         <Column id="token-column:value" width={140}>Value</Column><Column id="token-column:status" width={240}>Status</Column>
         <Column id="token-column:alias" width={110}>Alias</Column><Column id="token-column:description" minWidth={200}>Description</Column><Column id="token-column:actions" width={100}>Actions</Column>
       </TableHeader>
-      <TableBody items={tree} dependencies={[selectedIds, isEditing, classificationIssues]} renderEmptyState={() => <div className="tokenEmpty" role="status">{emptyMessage}</div>}>{renderRow}</TableBody>
+      <TableBody items={tree} dependencies={[selectedIds, isEditing]} renderEmptyState={() => <div className="tokenEmpty" role="status">{emptyMessage}</div>}>{renderRow}</TableBody>
     </TableView>
   ) : filtered.length === 0 ? <div className="tokenEmpty" role="status">{emptyMessage}</div> : groupBrowserCards(filtered).map((group) => {
     const columns = Math.max(1, Math.floor((width + 16) / 216));
     const height = Math.ceil(group.tokens.length / columns) * 296 + 16;
     return <section className="tokenCardSection" key={group.id} aria-labelledby={`token-group-${group.id}`}>
       <h2 id={`token-group-${group.id}`}>{group.label}</h2>
-      <CardView styles={style({ height: "fit" })} aria-label={`${group.label} tokens`} items={group.tokens} dependencies={[classificationIssues]} size="M" selectionMode={isEditing ? "multiple" : "none"} selectionStyle="checkbox"
+      <CardView styles={style({ height: "fit" })} aria-label={`${group.label} tokens`} items={group.tokens} size="M" selectionMode={isEditing ? "multiple" : "none"} selectionStyle="checkbox"
         disabledKeys={group.tokens.filter((token) => !isSelectableBrowserToken(token)).map((token) => token.id)} disabledBehavior="selection"
         selectedKeys={new Set(group.tokens.filter((token) => selectedIds.has(token.id)).map((token) => token.id))}
         onSelectionChange={(keys) => {
@@ -176,15 +170,15 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
         }} onAction={(id) => onOpen(String(id))} UNSAFE_style={{ height }}>
         {(token) => <Card id={token.id} textValue={token.name}>
           <CardPreview><ValuePreview preview={previews.get(token.id)!} large /></CardPreview>
-          <Content><Text slot="title">{token.name}</Text><Text slot="description">{tokenValueText(token)}{token.alias ? ` - Alias of ${token.alias.targetName}` : token.semantic ? ` - Semantic ${"$ref" in token.semantic.token ? "alias" : "literal"}` : ""}</Text><TokenStatusBadge status={token.status} />{classificationIssues?.get(token.id)?.length ? <Badge variant="notice" fillStyle="subtle">{CLASSIFICATION_REVIEW_LABEL}</Badge> : null}</Content>
+          <Content><Text slot="title">{token.name}</Text><Text slot="description">{tokenValueText(token)}{token.alias ? ` - Alias of ${token.alias.targetName}` : token.semantic ? ` - Semantic ${"$ref" in token.semantic.token ? "alias" : "literal"}` : ""}</Text><TokenStatusBadge status={token.status} /></Content>
         </Card>}
       </CardView>
     </section>;
   }), [view, isEditing, selectedRows, select, selection, groups, query, collapsed, tree, renderRow,
-    emptyMessage, filtered, width, previews, classificationIssues, onSelectionChange, onOpen, selectedIds, allSelection]);
+    emptyMessage, filtered, width, previews, onSelectionChange, onOpen, selectedIds, allSelection]);
 
   return (
-    <div className={`tokenBrowser ${props.onExport || props.onExportCompatibility || props.onExportGenerated ? "hasTokenExports" : ""}`}
+    <div className="tokenBrowser"
       onFocusCapture={(event) => {
         const element = event.target;
         focusedRow.current = element instanceof HTMLElement && scrollRef.current?.contains(element)
@@ -202,20 +196,14 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
             {Object.values(tokenPanelRegistry).map((definition) => <ToggleButton key={definition.id} id={definition.id}>{definition.icon}<Text>{definition.label}</Text></ToggleButton>)}
           </ToggleButtonGroup>
         </div>
+        {props.isEditing && props.onAddToken && <ActionButton onPress={props.onAddToken}><Add /><Text>Add token</Text></ActionButton>}
         <ToggleButtonGroup aria-label="Token presentation" selectionMode="single" disallowEmptySelection selectedKeys={[props.view]} onSelectionChange={(keys) => props.onViewChange(String([...keys][0]) as "list" | "grid")}>
           <TooltipTrigger><ToggleButton id="list" aria-label="List view"><ViewList /></ToggleButton><Tooltip>List view</Tooltip></TooltipTrigger>
           <TooltipTrigger><ToggleButton id="grid" aria-label="Grid view"><ViewGrid /></ToggleButton><Tooltip>Grid view</Tooltip></TooltipTrigger>
         </ToggleButtonGroup>
       </div>
       <div className="tokenBrowserSummary" role="status" aria-busy={pending || undefined}>{filtered.length} {filtered.length === 1 ? "token" : "tokens"}{selectedIds.size > 0 ? ` · ${selectedIds.size} selected` : ""}</div>
-      {(props.onExport || props.onExportCompatibility || props.onExportGenerated) && <div className="tokenBrowserExports">
-        {props.onExport && <ActionButton onPress={props.onExport}>Export standard-compliant taxonomy</ActionButton>}
-        {props.onExportCompatibility && <ActionButton onPress={props.onExportCompatibility}>Export taxonomy compatibility packet</ActionButton>}
-        {props.onExportGenerated && <ActionButton isDisabled={!props.canExportGenerated} onPress={props.onExportGenerated}>Export generated compatibility bundle</ActionButton>}
-        <p>{CLASSIFICATION_REVIEW_CONTEXT} Open a flagged token for reasons and next steps. Standard-compliant taxonomy export requires all classifications to pass. Compatibility exports keep your data and include the detailed review; they do not clear warnings.</p>
-      </div>}
       {props.generationError && <p role="alert">Structure generation needs repair: {props.generationError}</p>}
-      {props.exportError && <p role="alert" style={{ maxHeight: 160, overflow: "auto" }}>{props.exportError}</p>}
       <div className="tokenCollectionWork">
         <DerivedContentBoundary state={pending ? "pending" : "ready"} label="Updating tokens">
           <div ref={scrollRef} className={`tokenCollectionScroll ${selectedIds.size ? "hasTokenSelection" : ""}`} inert={pending || undefined}>

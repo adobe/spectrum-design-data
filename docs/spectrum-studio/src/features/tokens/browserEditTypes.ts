@@ -27,7 +27,8 @@ export interface TokenAuthoring {
       | "opacity"
       | "elevation";
     unit: "px" | "";
-    targetId: string;
+    /** Missing for new tokens that do not reference another token yet. */
+    targetId?: string;
     groupId: string;
     scope?: "structures";
   };

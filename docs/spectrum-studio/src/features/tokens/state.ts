@@ -44,6 +44,8 @@ import {
   resolveBrowserColorToken,
 } from "./browserModel";
 import { rulesAtom } from "../logic/library";
+import { opacityDocumentAtom } from "../opacity/state";
+import { assertColorScaleOutput } from "../color-system/colorScaleResolution";
 
 const scaleIdsAtom = selectAtom(
   resolvedColorSystemDocumentAtom,
@@ -120,10 +122,13 @@ const scaleTokensFamily = (() => {
   };
 })();
 
-export const generatedColorTokensAtom = atom((get) => [
-  ...get(paletteTokensAtom),
-  ...get(scaleIdsAtom).flatMap((scaleId) => get(scaleTokensFamily(scaleId))),
-]);
+export const generatedColorTokensAtom = atom((get) => {
+  assertColorScaleOutput(get(resolvedColorSystemDocumentAtom));
+  return [
+    ...get(paletteTokensAtom),
+    ...get(scaleIdsAtom).flatMap((scaleId) => get(scaleTokensFamily(scaleId))),
+  ];
+});
 
 export const colorTokenSetAtom = atom((get): TokenSet => {
   const overrides = get(tokenOverridesAtom);
@@ -218,6 +223,7 @@ export const colorTokenJsonAtom = atom((get) =>
     buildCascadeTokenExport({
       taxonomy: get(taxonomyDocumentAtom),
       base: get(colorSystemDocumentAtom),
+      opacity: get(opacityDocumentAtom),
       modeSets: get(modeSetsAtom),
       activeModes: get(activeModesAtom),
       activeTokens: get(colorTokenSetAtom).tokens,

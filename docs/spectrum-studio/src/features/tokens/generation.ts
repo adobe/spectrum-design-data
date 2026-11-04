@@ -14,8 +14,11 @@ import { generateScaleColorTokens } from "./colorGeneration";
 export { generatePaletteTokens } from "./paletteGeneration";
 
 /** Matches the `--contrast-N` naming emitted by the CSS library so both outputs agree. */
-export function contrastTokenLabel(index: number) {
-  return String(contrastStepIndex(index));
+export function contrastTokenLabel(
+  index: number,
+  contrasts: readonly ContrastToken[] = [],
+) {
+  return String(contrastStepIndex(index, undefined, undefined, contrasts));
 }
 
 export function generateColorTokensForScale(

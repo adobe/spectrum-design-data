@@ -44,12 +44,10 @@ export function TokenInspectorContainer({
   id,
   onClose,
   onOpenToken,
-  issues,
 }: {
   id: string;
   onClose: () => void;
   onOpenToken: (id: string) => void;
-  issues?: readonly string[];
 }) {
   const currentCatalog = useAtomValue(tokenDialogCatalogAtom);
   const [catalog] = useState(currentCatalog);
@@ -135,7 +133,6 @@ export function TokenInspectorContainer({
       aliases={aliases}
       components={usage}
       usageError={usageCatalog.error}
-      issues={issues}
       onSave={(draft) => save({ draft, expected })}
       onClose={onClose}
       onOpenToken={onOpenToken}

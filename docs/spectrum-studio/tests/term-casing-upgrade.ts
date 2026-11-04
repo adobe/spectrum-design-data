@@ -152,7 +152,7 @@ const attachments = { [attachmentId]: ["color" as const] };
 for (const independentEdit of [false, true]) {
   const working = structuredClone(legacy);
   if (independentEdit) {
-    working.colorSystem.settings.extOffset = 0.37;
+    working.colorSystem.settings.backgroundBlend = 0.37;
     working.taxonomy!.terms.find((term) => term.value === "Gray")!.value =
       "MiXeD-Custom";
     working.colorSystem = resolveColorSourceNames(
@@ -207,14 +207,14 @@ for (const independentEdit of [false, true]) {
   });
   store.set(saveEditAtom);
   const saved = structuredClone(store.get(authoringSnapshotAtom));
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.41 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.41 });
   flushPersistedState();
   dispose();
   const restored = createStore();
   dispose = initializeAuthoringPersistence(restored);
   assert.deepEqual(restored.get(persistenceIssuesAtom), []);
   assert.equal(
-    restored.get(authoringSnapshotAtom).colorSystem.settings.extOffset,
+    restored.get(authoringSnapshotAtom).colorSystem.settings.backgroundBlend,
     0.41,
   );
   assert.deepEqual(restored.get(editSessionSnapshotAtom), saved);

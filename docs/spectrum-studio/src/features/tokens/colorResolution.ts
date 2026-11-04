@@ -12,6 +12,24 @@ export function canonicalTokenModeKey(selection: Record<string, string>) {
   );
 }
 
+export function tokenModePairs(modeKey: string): [string, string][] {
+  const selection: unknown = JSON.parse(modeKey);
+  if (!Array.isArray(selection))
+    throw new Error("This token has an invalid mode assignment.");
+  const pairs: [string, string][] = [];
+  for (const pair of selection) {
+    if (
+      !Array.isArray(pair) ||
+      pair.length !== 2 ||
+      typeof pair[0] !== "string" ||
+      typeof pair[1] !== "string"
+    )
+      throw new Error("This token has an invalid mode assignment.");
+    pairs.push([pair[0], pair[1]]);
+  }
+  return pairs;
+}
+
 export function resolveBrowserColorToken(
   token: ResolvedToken,
   edits: BrowserTokenEdits,

@@ -186,7 +186,7 @@ export function isTokenAuthoring(value: unknown): value is TokenAuthoring {
         "elevation",
       ].includes(String(value.manual.type)) ||
       !["px", ""].includes(String(value.manual.unit)) ||
-      !text(value.manual.targetId) ||
+      (value.manual.targetId !== undefined && !text(value.manual.targetId)) ||
       !text(value.manual.groupId) ||
       (value.manual.scope !== undefined && value.manual.scope !== "structures"))
   )

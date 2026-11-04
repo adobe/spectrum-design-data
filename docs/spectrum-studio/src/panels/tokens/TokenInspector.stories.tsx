@@ -267,7 +267,6 @@ export const OpacityDeprecated: Story = {
 export const Unavailable: Story = {
   args: {
     usageError: "Component references are unavailable.",
-    issues: ["Source membership could not be verified."],
   },
 };
 export const Narrow: Story = {

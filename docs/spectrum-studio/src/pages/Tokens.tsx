@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNotify } from "../components/notifications/notificationContext";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { editModeAtom } from "../state/view/editMode";
@@ -10,132 +10,38 @@ import {
 } from "../features/tokens/browserState";
 import { savedBrowserConceptIdsAtom } from "../features/tokens/browserSavedState";
 import { TokenDetailsDialog } from "../panels/tokens/TokenDetailsDialog";
+import { AddTokenDialog } from "../panels/tokens/AddTokenDialog";
+import { DialogContainer } from "@react-spectrum/s2";
 import { TokenInspectorContainer } from "../panels/tokens/TokenInspectorContainer";
 import type { TokenPanelId } from "../features/tokens/view/tokenPanelRegistry";
 import { TokenBrowserView } from "../views/tokens/TokenBrowserView";
-import { taxonomyDocumentAtom } from "../features/taxonomy/state";
-import {
-  buildClassificationReviewExport,
-  type ClassificationExportKind,
-} from "../features/taxonomy/reviewedExport";
-import { assessClassificationStandard } from "../features/taxonomy/standardization";
-import {
-  ALIAS_REVIEW_MESSAGE,
-  classificationReviewMessages,
-} from "../features/taxonomy/reviewPresentation";
-import { buildGeneratedClassificationCompatibility } from "../features/taxonomy/generatedReviewExport";
-import { workingTshirtArtifactsAtom } from "../features/design-data/tshirtState";
 import { semanticBrowserStateAtom } from "../features/tokens/semanticBrowserState";
 import { tshirtCacheStatusAtom } from "../features/design-data/tshirtCacheState";
 import { deleteAliasAtom, aliasesAtom } from "../features/tokens/aliasState";
-import { authoringSnapshotAtom } from "../features/edit-session/state";
-import {
-  canonicalAliasRows,
-  completeAliasSource,
-} from "../features/tokens/aliasTargets";
 import { isSelectableBrowserToken } from "../features/tokens/view/tokenTablePresentation";
 import { PreviewToolbar } from "../components/PreviewToolbar";
-import { withTaxonomyProjection } from "../features/taxonomy/model";
-
-function downloadJson(packet: unknown, name: string) {
-  const url = URL.createObjectURL(
-    new Blob([JSON.stringify(packet, null, 2)], { type: "application/json" }),
-  );
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = name;
-  anchor.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export default function Tokens() {
   const notify = useNotify();
   const store = useStore();
   const tokens = useAtomValue(browserTokensAtom);
-  const taxonomy = useAtomValue(taxonomyDocumentAtom);
-  const generated = useAtomValue(workingTshirtArtifactsAtom);
   const semantic = useAtomValue(semanticBrowserStateAtom);
   const cache = useAtomValue(tshirtCacheStatusAtom);
-  const [exportError, setExportError] = useState("");
   const isEditing = useAtomValue(editModeAtom);
   const mode = useAtomValue(browserModeContextAtom);
   const savedIds = useAtomValue(savedBrowserConceptIdsAtom);
   const editTokens = useSetAtom(editBrowserTokensAtom);
-  const aliases = useAtomValue(aliasesAtom);
-  const snapshot = useAtomValue(authoringSnapshotAtom);
   const [dialog, setDialog] = useState<{
     ids: string[];
     bulk: boolean;
     modeKey: string;
     modeLabel: string;
   } | null>(null);
+  const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState("");
   const [type, setType] = useState<TokenPanelId | "all">("all");
   const [view, setView] = useState<"list" | "grid">("list");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const assessment = useMemo(
-    () =>
-      withTaxonomyProjection(taxonomy, () =>
-        assessClassificationStandard(
-          taxonomy,
-          tokens
-            .filter((token) => !token.alias)
-            .map((token) => ({
-              id: token.id,
-              scope: token.semantic ? "structures" : token.type,
-              classification: token.projection?.classification,
-              projectionIssues: token.projection?.issues,
-              measurement: token.measurement,
-            })),
-        ),
-      ),
-    [taxonomy, tokens],
-  );
-  const classificationIssues = useMemo(() => {
-    const reviews = new Map<string, string[]>();
-    for (const entry of assessment.occurrences)
-      if (entry.recordKind === "token-usage" && entry.fixRequired) {
-        reviews.set(entry.recordId, [
-          ...new Set([
-            ...(reviews.get(entry.recordId) ?? []),
-            ...classificationReviewMessages(taxonomy, [entry]),
-          ]),
-        ]);
-      }
-    for (const token of tokens)
-      if (token.alias) {
-        const target = tokens.find(
-          (candidate) => candidate.id === token.alias?.$ref,
-        );
-        const issues = target && reviews.get(target.id);
-        reviews.set(token.id, [...(issues ?? []), ALIAS_REVIEW_MESSAGE]);
-      }
-    return reviews;
-  }, [assessment, tokens, taxonomy]);
-  async function reviewExport(kind: ClassificationExportKind) {
-    if (generated.status !== "ready") throw new Error(generated.error);
-    const rows = canonicalAliasRows(
-      completeAliasSource(snapshot),
-      generated.bundle,
-      "preserve-for-review",
-    );
-    return buildClassificationReviewExport(
-      taxonomy,
-      rows,
-      snapshot.aliases ?? aliases,
-      kind,
-    );
-  }
-  async function exportTaxonomy(kind: ClassificationExportKind) {
-    try {
-      downloadJson(await reviewExport(kind), `leonardo-taxonomy-${kind}.json`);
-      setExportError("");
-    } catch (failure) {
-      setExportError(
-        failure instanceof Error ? failure.message : String(failure),
-      );
-    }
-  }
   const openToken = useCallback(
     (id: string) =>
       setDialog({
@@ -179,40 +85,14 @@ export default function Tokens() {
         onViewChange={setView}
         onSelectionChange={setSelectedIds}
         onOpen={openToken}
-        exportError={
-          exportError ||
-          (cache.status === "error" ? `Generated cache: ${cache.error}` : "")
-        }
-        classificationIssues={classificationIssues}
         generationError={
-          semantic.status === "error" ? semantic.error : undefined
+          semantic.status === "error"
+            ? semantic.error
+            : cache.status === "error"
+              ? `Generated cache: ${cache.error}`
+              : undefined
         }
-        canExportGenerated={
-          generated.status === "ready" && generated.bundle.semantics.length > 0
-        }
-        onExportGenerated={async () => {
-          try {
-            if (generated.status !== "ready") throw new Error(generated.error);
-            downloadJson(
-              await buildGeneratedClassificationCompatibility(
-                generated.bundle,
-                await reviewExport("compatibility"),
-              ),
-              "leonardo-generated-tshirt-compatibility.json",
-            );
-            setExportError("");
-          } catch (failure) {
-            setExportError(
-              failure instanceof Error ? failure.message : String(failure),
-            );
-          }
-        }}
-        onExport={() => {
-          void exportTaxonomy("standard-compliant");
-        }}
-        onExportCompatibility={() => {
-          void exportTaxonomy("compatibility");
-        }}
+        onAddToken={() => setAdding(true)}
         onBulkEdit={() =>
           setDialog({
             ids: [...selectedIds],
@@ -222,13 +102,17 @@ export default function Tokens() {
           })
         }
       />
+      <DialogContainer onDismiss={() => setAdding(false)}>
+        {adding && isEditing && (
+          <AddTokenDialog onCreated={(id) => openToken(id)} />
+        )}
+      </DialogContainer>
       {dialog && !dialog.bulk && (
         <TokenInspectorContainer
           key={dialog.ids[0]}
           id={dialog.ids[0]}
           onClose={() => setDialog(null)}
           onOpenToken={openToken}
-          issues={classificationIssues.get(dialog.ids[0])}
         />
       )}
       {dialog?.bulk && (
@@ -239,11 +123,6 @@ export default function Tokens() {
           isEditing={isEditing}
           modeLabel={dialog.modeLabel}
           savedIds={savedIds}
-          classificationIssues={[
-            ...new Set(
-              dialog.ids.flatMap((id) => classificationIssues.get(id) ?? []),
-            ),
-          ]}
           onClose={() => setDialog(null)}
           onDeleteAlias={(id) =>
             notify.remove({

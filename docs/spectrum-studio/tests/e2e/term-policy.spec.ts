@@ -199,29 +199,19 @@ test("Structure terms and saved lowercase names survive reload and Cancel with v
     .locator('[data-component="StructureCard"]')
     .first()
     .click({ position: { x: 4, y: 4 } });
-  await page
-    .getByRole("combobox", { name: "Token naming", exact: true })
-    .fill("My-Structure-NAME");
-  const suggestions = page.getByRole("listbox", {
-    name: "Suggestions Token naming",
-    exact: true,
-  });
-  await expect(suggestions).toBeVisible();
-  await page
-    .getByRole("button", { name: "Dismiss", exact: true })
-    .press("Enter");
-  await expect(suggestions).toHaveCount(0);
-  await page
-    .getByRole("button", { name: "Create Structure term", exact: true })
-    .click();
-  await expect(
-    page.getByRole("combobox", { name: "Token naming", exact: true }),
-  ).toHaveValue("My structure name");
-  await expect(suggestions).toBeVisible();
-  await page
-    .getByRole("button", { name: "Dismiss", exact: true })
-    .press("Enter");
-  await expect(suggestions).toHaveCount(0);
+  const structureName = page
+    .getByRole("region", { name: "Structure metadata and layers", exact: true })
+    .getByRole("textbox", { name: "Name", exact: true });
+  await structureName.fill("My-Structure-NAME");
+  await structureName.press("Tab");
+  await expect(structureName).toHaveValue("My-Structure-NAME");
+  await expect
+    .poll(async () =>
+      (await record(page)).working.taxonomy!.terms.some(
+        (term) => term.value === "my-structure-name",
+      ),
+    )
+    .toBe(true);
 
   await page.getByRole("button", { name: "Save", exact: true }).click();
   await expect
@@ -232,6 +222,11 @@ test("Structure terms and saved lowercase names survive reload and Cancel with v
     )
     .toBe(true);
   const saved = (await record(page)).saved;
+  const base = saved.structures!.structures[0];
+  const nameRef = base.generation!.nameRef!;
+  expect(
+    saved.taxonomy!.terms.find((term) => term.id === nameRef.termId)?.value,
+  ).toBe("my-structure-name");
   expect(
     saved.taxonomy!.terms.every(
       (term) =>
