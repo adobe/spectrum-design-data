@@ -22,6 +22,12 @@ pnpm moon run spectrum-studio:dev
 
 This runs the same script as `pnpm --filter @adobe/spectrum-studio dev`, or `pnpm dev` from this folder. The dev server runs over HTTPS, so your browser may ask you to accept its certificate.
 
+## Install as an app
+
+Spectrum Studio can be installed as a desktop app (a progressive web app). In Chrome or Edge, open the production build (`pnpm build`, then `pnpm preview`, or the hosted site) and choose **Install** in the address bar. The installed app opens in its own window and works offline.
+
+The cloud button in the header shows the app's status: up to date, update available (click to reload into the new version), or offline. Updates otherwise apply the next time you open the app. The service worker is off in `pnpm dev`. Run `pnpm test:pwa` after a build to check the install files.
+
 ## Scripts
 
 Run the `pnpm` commands below from this folder, or from the repository root with `pnpm --filter @adobe/spectrum-studio <script>`.
