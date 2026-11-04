@@ -1,5 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import Color from "colorjs.io";
+import { summarizeModeResults } from "./modeResults";
+import {
+  assessModeCoverage,
+  modeCoverageMarkdown,
+  type ModeCoverage,
+} from "./modeCoverage";
 import {
   REVIEWED_MAPPING_VERSION,
   declaredDefaultMode,
@@ -17,6 +23,10 @@ import {
   type OutputMetadata,
 } from "./materialization";
 import { canonicalJson } from "./canonicalJson";
+import {
+  assessColorsAndOpacities,
+  colorOpacityMarkdown,
+} from "./colorOpacityAssessment";
 export { canonicalJson } from "./canonicalJson";
 import {
   buildCoverage,
@@ -74,6 +84,14 @@ export interface AnalysisSource {
 }
 
 export interface AnalysisInput {
+  resolvedValues?: import("./colorOpacityAssessment").ResolvedModeValue[];
+  valueResolution?: {
+    datasetHash: string;
+    referenceHash?: string;
+    engine: string;
+    error?: string;
+    contextPolicy?: string;
+  };
   source: AnalysisSource;
   records: AnalysisRecord[];
   categories: string[];
@@ -91,6 +109,7 @@ export interface ReviewedMapping {
   rationale: string;
   nameFields?: Record<string, { reference: string; normalization?: "integer" }>;
   contextDefaults?: readonly string[];
+  modeKeys?: Record<string, string>;
 }
 
 export interface AnalysisFinding {
@@ -111,13 +130,19 @@ export interface AnalysisFinding {
     | "unassessable"
     | "invalid-input";
   severity: "info" | "error";
-  confidence: "exact-identity" | "reviewed-mapping" | "unassessable";
+  confidence:
+    | "exact-identity"
+    | "canonical-key"
+    | "reviewed-mapping"
+    | "unassessable";
   message: string;
   app?: AnalysisRecord;
   reference?: AnalysisRecord;
 }
 
 export interface AnalysisReport {
+  modeCoverage?: ModeCoverage;
+  colorOpacity?: import("./colorOpacityAssessment").ColorOpacityAssessment;
   palette?: PaletteAssessment;
   gaps?: GapResult[];
   schemaVersion: 1;
@@ -206,53 +231,6 @@ function compareValue(
     : "value-difference";
 }
 
-function modeVocabulary(
-  record: AnalysisRecord,
-): { modes: string[]; default?: string } | undefined {
-  const value = record.value;
-  if (
-    record.category !== "mode-sets" ||
-    !value ||
-    typeof value !== "object" ||
-    !("modes" in value) ||
-    !Array.isArray(value.modes)
-  )
-    return;
-  const modes: string[] = [];
-  for (const mode of value.modes as unknown[]) {
-    const key =
-      typeof mode === "string"
-        ? mode
-        : mode && typeof mode === "object" && "key" in mode
-          ? mode.key
-          : undefined;
-    if (typeof key !== "string") return;
-    modes.push(key);
-  }
-  const defaultMode =
-    "default" in value && typeof value.default === "string"
-      ? value.default
-      : "defaultModeId" in value
-        ? (value.modes as unknown[]).find(
-            (mode) =>
-              mode &&
-              typeof mode === "object" &&
-              "id" in mode &&
-              mode.id === value.defaultModeId,
-          )
-        : undefined;
-  const defaultKey =
-    typeof defaultMode === "string"
-      ? defaultMode
-      : defaultMode &&
-          typeof defaultMode === "object" &&
-          "key" in defaultMode &&
-          typeof defaultMode.key === "string"
-        ? defaultMode.key
-        : undefined;
-  return { modes, default: defaultKey };
-}
-
 export function compareDesignData(
   app: AnalysisInput,
   reference: AnalysisInput,
@@ -303,6 +281,16 @@ export function compareDesignData(
     reference.errors.length === 0 &&
     mappingErrors.length === 0 &&
     metadataErrors.length === 0;
+  const modeCoverage = assessModeCoverage(
+    coverageValid
+      ? app
+      : {
+          ...app,
+          errors: [...app.errors, "Comparison inputs are invalid."],
+        },
+    reference,
+    mappings,
+  );
   const candidatesFor = (left: AnalysisRecord) =>
     reference.records.filter(
       (right) =>
@@ -349,7 +337,47 @@ export function compareDesignData(
     add("invalid-input", error);
   for (const error of metadataErrors) add("invalid-input", error);
   for (const error of mappingErrors) add("invalid-input", error);
+  for (const set of modeCoverage.sets) {
+    const left = set.app?.record,
+      right = set.reference?.record;
+    const resultClass = {
+      pass: "equal",
+      fail: "mode-gap",
+      enhancement: "extension",
+      unassessable: "unassessable",
+    } as const;
+    add(
+      resultClass[left && right && !set.issues.length ? "pass" : set.result],
+      `${set.result === "enhancement" ? "Enhancement: " : ""}${set.issues.join(" ")} ${set.evidence}${set.result === "fail" && !left ? " Required mode set is missing." : ""}`,
+      left,
+      right,
+      set.confidence,
+    );
+    if (left && right && !set.issues.length) {
+      for (const mode of set.modes.filter((mode) => mode.result !== "pass")) {
+        add(
+          resultClass[mode.result],
+          `${mode.result === "enhancement" ? "Enhancement: " : ""}${mode.reference ?? mode.app}: ${mode.reason}`,
+          left,
+          right,
+          set.confidence,
+        );
+      }
+      const defaultPair = set.modes.find(
+        (mode) => mode.reference === set.reference?.default,
+      );
+      if (defaultPair?.app && defaultPair.app !== set.app?.default)
+        add(
+          "extension",
+          `Declared defaults differ: app ${set.app?.default}; reference ${set.reference?.default}. Required comparisons select the reference default; this is not missing mode support.`,
+          left,
+          right,
+          set.confidence,
+        );
+    }
+  }
   for (const left of app.records) {
+    if (left.category === "mode-sets") continue;
     const mapping = mappings.filter((item) => item.app === left.id);
     const candidates = candidatesByApp.get(left.id) ?? [];
     const duplicate =
@@ -471,54 +499,6 @@ export function compareDesignData(
       );
       continue;
     }
-    if (coverageValid && left.category === "mode-sets") {
-      const leftModes = modeVocabulary(left);
-      const rightModes = modeVocabulary(right);
-      if (leftModes && rightModes) {
-        const onlyApp = leftModes.modes.filter(
-          (key) => !rightModes.modes.includes(key),
-        );
-        const onlyReference = rightModes.modes.filter(
-          (key) => !leftModes.modes.includes(key),
-        );
-        if (onlyApp.length || onlyReference.length)
-          add(
-            "mode-gap",
-            `Confirmed declarations have different mode vocabulary: app-only ${canonicalJson([...onlyApp].sort())}; reference-only ${canonicalJson([...onlyReference].sort())}. Foundation parameter payloads and continuous controls are not compared as mode values.`,
-            left,
-            right,
-            confidence,
-          );
-        if (
-          leftModes.default === undefined ||
-          rightModes.default === undefined
-        ) {
-          add(
-            "mode-gap",
-            "Missing declared default in a confirmed mode-declaration pair; no first-mode fallback is inferred.",
-            left,
-            right,
-            confidence,
-          );
-          add(
-            "unassessable",
-            "Mode-declaration default context is unavailable.",
-            left,
-            right,
-            confidence,
-          );
-          continue;
-        }
-        if (leftModes.default !== rightModes.default)
-          add(
-            "mode-gap",
-            `Confirmed declarations have different declared defaults: app ${canonicalJson(leftModes.default)}; reference ${canonicalJson(rightModes.default)}. This is not proof of missing product support.`,
-            left,
-            right,
-            confidence,
-          );
-      }
-    }
     if (coverageValid && left.structuredName && right.structuredName) {
       const fields = mapping[0]?.nameFields ?? {};
       const contextKeys = new Set([
@@ -589,6 +569,7 @@ export function compareDesignData(
     );
   }
   for (const right of reference.records) {
+    if (right.category === "mode-sets") continue;
     if (!used.has(right.id)) {
       const gap = inventoryGap(right);
       add(
@@ -630,7 +611,14 @@ export function compareDesignData(
       : {}),
     materialization: materializationReport(app, reference),
     coverage: buildCoverage(app, reference, findings),
+    modeCoverage,
     palette: assessPalette(app, reference, mappings),
+    colorOpacity: assessColorsAndOpacities(
+      app,
+      reference,
+      mappings,
+      modeCoverage,
+    ),
     inputs: { app: app.source, reference: reference.source },
     valid: !findings.some(
       (finding) => finding.classification === "invalid-input",
@@ -727,7 +715,13 @@ export function reportMarkdown(report: AnalysisReport): string {
     `Report schema version: ${report.schemaVersion}. Mapping version: ${text(report.mappingVersion)}.`,
     "",
     ...(report.coverage ? [coverageMarkdown(report.coverage), ""] : []),
+    ...(report.modeCoverage
+      ? [modeCoverageMarkdown(report.modeCoverage), ""]
+      : []),
     ...(report.palette ? [paletteMarkdown(report.palette), ""] : []),
+    ...(report.colorOpacity
+      ? [colorOpacityMarkdown(report.colorOpacity), ""]
+      : []),
     ...(report.gaps ? [gapsMarkdown(report.gaps), ""] : []),
     "## Input provenance",
     "",
@@ -808,9 +802,72 @@ export function reportWithFreshness(
   report: AnalysisReport,
   freshness: AnalysisReport["freshness"],
 ): AnalysisReport {
+  const staleModes = (coverage: ModeCoverage): ModeCoverage => ({
+    ...coverage,
+    result: "unassessable",
+    counts: {
+      ...coverage.counts,
+      missingSets: 0,
+      missingModes: 0,
+      enhancementSets: 0,
+      enhancementModes: 0,
+    },
+    sets: coverage.sets.map((set) => ({
+      ...set,
+      result: "unassessable",
+      issues: [
+        ...set.issues,
+        "Reference evidence is stale; refresh the comparison.",
+      ],
+      modes: set.modes.map((mode) => ({
+        ...mode,
+        result: "unassessable",
+        reason: "Reference evidence is stale; refresh the comparison.",
+      })),
+    })),
+  });
   return {
     ...report,
     freshness,
+    ...(freshness === "stale" &&
+      report.modeCoverage && { modeCoverage: staleModes(report.modeCoverage) }),
+    ...(freshness === "stale" &&
+      report.colorOpacity && {
+        colorOpacity: {
+          ...report.colorOpacity,
+          modeCoverage: staleModes(report.colorOpacity.modeCoverage),
+          enhancements: [],
+          modeBreakdown: summarizeModeResults(
+            report.colorOpacity.concepts,
+            false,
+          ),
+          exactPercent: null,
+          acceptablePercent: null,
+          counts: {
+            ...report.colorOpacity.counts,
+            pass: 0,
+            acceptable: 0,
+            fail: 0,
+            unassessable: report.colorOpacity.counts.concepts,
+          },
+          issues: [
+            ...report.colorOpacity.issues,
+            "Reference evidence is stale; refresh the comparison.",
+          ],
+          concepts: report.colorOpacity.concepts.map((concept) => ({
+            ...concept,
+            verdict: "unassessable" as const,
+            rows: concept.rows.map((row) => ({
+              ...row,
+              verdict: "unassessable" as const,
+              issues: [
+                ...row.issues,
+                "Reference evidence is stale; refresh the comparison.",
+              ],
+            })),
+          })),
+        },
+      }),
     ...(report.palette && {
       palette: {
         ...report.palette,

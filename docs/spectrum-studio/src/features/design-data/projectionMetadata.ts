@@ -200,7 +200,9 @@ export function authoringOutputMetadata(
           `manual-token:${tokenId}`,
           `/browserTokenEdits/${pointerPart(tokenId)}/authoring/manual`,
           "resolveBrowserTokens",
-          [edit.authoring.manual.targetId],
+          edit.authoring.manual.targetId
+            ? [edit.authoring.manual.targetId]
+            : [],
         ),
       );
     for (const [key, assignment] of Object.entries(

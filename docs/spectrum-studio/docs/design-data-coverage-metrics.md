@@ -17,14 +17,140 @@ problem and suppress coverage charts, rather than presenting absence as 0% cover
 
 ## What the percentages mean
 
-### Primitive palette completion
+### Color and opacity comparison
 
-The **Primitive palette** view compares non-deprecated records from
+The **Colors and opacities** view includes every non-deprecated standalone color
+and opacity token, regardless of source filename. It includes semantic tokens,
+aliases, private tokens, and component-qualified tokens. Color and opacity fields
+inside shadows are not standalone tokens and are outside this report.
+
+Expand a token to see one child row per required mode context. The paired values
+remain in their original notation. Select a row for classification differences,
+raw references, resolution chains, and source locations.
+
+| Result | Meaning |
+| --- | --- |
+| Pass | Classifications align and every required value matches. |
+| Acceptable | Classifications align and every required color is exact or has Delta E 2000 below 2, with matching alpha. |
+| Fail | An established counterpart has different classifications, lacks a required mode, or exceeds the value policy. |
+| Unable to evaluate | The counterpart is unconfirmed or ambiguous, or resolution, inventory, or freshness evidence is unavailable. |
+
+Each child badge describes its value only. The parent includes classifications
+and every required context. Filtering does not change the parent's result.
+Fail takes precedence over incomplete evidence; incomplete evidence takes
+precedence over Acceptable. An empty mode inventory cannot pass.
+
+The last column, **Visual comparison**, shows the app value (left) and the
+design data value (right) as two touching swatches with no border or gap.
+Opacity values are drawn over a checkerboard. If either value can't be
+resolved, the cell reads Unavailable.
+
+#### Results by mode
+
+The **Results by mode** table separates Pass, Acceptable, Fail, and Unable to
+evaluate for each required reference mode. It counts individual mode values,
+not the token's overall result. For example, a token can pass in Light and fail
+in Dark while its overall result remains Fail.
+
+Select **View results** to inspect a mode's values. Mode-set filters can be
+combined, such as Dark and High contrast, and **Mode value result** isolates
+passing, acceptable, failing, or unavailable values. **Token overview** still
+filters by the complete token result. Selecting a token shows details for its
+visible mode rows; its overview badge always includes all required modes and
+classifications. Filters never alter the comparison or downloaded reports.
+
+The summary always covers the full required inventory, before table filters.
+Each value is counted once within each mode-set group; a value with multiple
+axes contributes to each applicable group. Do not add counts across mode sets.
+Token totals count distinct tokens within a group. **Pass or acceptable** divides
+those two value counts by all required values in the group, including values
+that cannot be evaluated. It is unavailable when all evidence is unassessable.
+Missing or partial inventory and stale evidence cannot claim passing results.
+
+Rows without an axis are listed as **Not mode-specific**, not assumed to be the
+default mode. Missing mode declarations remain higher-level findings in
+**Mode coverage**. App enhancements are excluded from required-mode summaries
+and filters. JSON's `colorOpacity.modeBreakdown` and Markdown include the same
+full-inventory counts, using reference mode keys independently of app labels.
+The shared grouping helper also supports future token types.
+
+#### Comparison policy
+
+Opacity is exact after normalization to a finite alpha from 0 to 1. For example,
+`0.4`, `"0.4"`, and `"40%"` are equivalent. There is no opacity tolerance.
+Color comparison reuses the exact and Delta E 2000 rules described below.
+
+The additive `colorOpacity` report section uses schema version 3 and records its
+color policy and each non-exact comparison's Delta E 2000 distance. Analysis,
+CLI JSON, and Markdown use the same assessment. Counts separate source records,
+token concepts, and required mode values. App-only records and deprecated records
+retain their IDs but do not increase reference coverage. Partial, empty, or stale
+inventories do not publish a completion percentage. Saved and working datasets
+remain provisional; shipped defaults remain the baseline.
+
+Required contexts come from the reference token, its concept siblings, and its
+alias dependencies. A declared mode set does not require every token to have a
+value in every mode. An omitted shared axis uses the reference's declared default
+for migration comparison, translated to the matching app mode. If the app defaults
+to High but the reference defaults to Regular, comparison explicitly selects
+Regular. An app-only axis uses its valid app default for the baseline.
+
+The read-only SDK batch adapter still applies the canonical cascade when
+selecting siblings and following aliases. A wildcard value's ability to resolve
+in another context does not create another migration requirement. Deprecated
+dependency targets remain available without joining the active denominator.
+Dangling references, cycles, duplicate identities, and unsupported contexts
+produce diagnostics, not fallback values.
+
+### Mode coverage and enhancements
+
+The independently versioned `modeCoverage` section (schema version 1) checks
+mode-set and mode support across the two datasets. Sets match by canonical key,
+unique identity, or explicit reviewed mappings, not display labels. Mode keys
+match exactly unless a reviewed declaration mapping supplies `modeKeys`, an
+object from app keys to reference keys. The report retains matching evidence.
+
+A missing reference mode set produces one set-level Fail. A missing mode in a
+matched set produces one mode-level Fail. Required token rows link to these
+findings rather than inventing unrelated value differences. Missing global High
+support does not fail a Regular-only palette token, but the missing capability
+remains visible in Mode coverage. Different declared defaults are shown
+separately and do not imply missing support.
+
+The separate **Enhancements** section lists additional app mode sets, additional
+modes, and app token variants that the reference token does not require. For
+example, design-data declares High contrast globally, but its Regular-only base
+palette does not require High variants. Those app variants are enhancements,
+even when their values differ from the Regular reference value.
+
+Enhancements show app values without an invented reference value or a failing
+comparison. They never affect token verdicts, required-value denominators, or
+migration percentages. Structural findings are counted separately from affected
+tokens. Missing, invalid, ambiguous, or stale evidence cannot establish an
+enhancement or prove that a capability is missing.
+
+JSON and Markdown carry the same structural results and token enhancements as
+Analysis. Resolved-value caches include the context-policy version so values
+selected under an older policy are not reused.
+
+The dev server resolves batches off the UI thread and caches reference inputs.
+App evidence is cached with its dataset and reference hashes. The CLI resolves
+both inputs through the same adapter. Evidence records the SDK executable hash;
+a binary older than its resolver sources is unavailable until rebuilt. Hosted
+builds without that server adapter can compare literals but cannot claim resolved
+alias coverage.
+
+This measures the gap. It does not generate missing data, change values to pass,
+accept exceptions, alter UUIDs, or establish upstream schema adoption.
+
+### Primitive palette compatibility report
+
+The retained **primitive palette** report compares non-deprecated records from
 `tokens/color-palette.tokens.json`, including private records. Gray is the first
 worked family; the same assessment covers the rest of the palette. Semantic and
 component colors are outside this scope.
 
-Palette assessment v1 is an additive report section, shared by Analysis,
+Palette assessment v2 is an additive report section, shared by Analysis,
 JSON, Markdown, and the CLI. Existing coverage and technical findings retain
 their meanings and their existing comparison policy.
 
@@ -66,24 +192,26 @@ Equivalent hex/RGB notation can match. A 32-machine-epsilon conversion-roundoff
 allowance, scaled by the larger of one and the channel magnitude, covers
 floating-point conversion noise only. Near-but-unequal colors remain different
 in the exact-equality result, while receiving a separate alignment tier.
-Delta E 2000 is reported only as explanatory information. Invalid/unresolved
-colors are unassessable, not equal strings. The older technical audit's
-perceptual tolerance does not establish palette completion.
+Only when colors are not exactly equal, calculate **Delta E 2000** using
+Color.js. A finite distance **strictly below 2** is **Acceptable** (called
+**Close enough** in the primitive palette compatibility report). A distance of
+exactly 2 or greater is not aligned. This replaces the per-channel tolerance.
+For example, `rgb(217, 217, 217)` and `rgb(221, 221, 221)` are acceptable despite
+differing by more than one step per channel.
 
-The **Close enough** color tolerance is an absolute difference of at most **1
-per R, G and B channel**, measured on the 0–255 sRGB scale. For example,
-`rgb(217, 217, 217)` is close enough to `rgb(218, 218, 218)`. A difference of 2 in
-even one channel is not aligned. Channels are converted at full precision, not
-rounded, clipped or gamut-mapped to make them pass. Both colors must be within
-sRGB for this tolerance to apply; equivalent wide-gamut colors can still match
-exactly under the existing rule. Opacity must match, allowing only conversion
-round-off, not an alpha tolerance. This policy applies to all primitive palette
-families, not just Gray. It does not change generator settings, color values,
-classification matching, missing-mode handling or the technical audit.
+The comparison uses full-precision colors, including supported wide-gamut
+colors, without rounding, clipping, gamut mapping, or background compositing.
+Alpha must still match, allowing only conversion round-off, not an opacity
+tolerance. Invalid or unresolved colors and unavailable distances are
+unassessable. Acceptable colors remain unequal in the exact result and do not
+increase exact-completion counts. This policy does not change generator
+settings, authored values, classification matching, required-mode handling, or
+the older technical audit's separate tolerance.
 
 Analysis, CLI JSON and Markdown share the tier results, counts and policy.
-The report retains exact equality alongside the tier and includes per-channel
-differences where the sRGB tolerance is applicable.
+The report retains exact equality alongside the tier, Delta E 2000 distances for
+non-exact colors, and per-channel differences as diagnostic evidence where both
+colors are within sRGB. Channel differences no longer determine the result.
 
 Classifications are compared before any field translations are excused.
 Existing `colorName`/`contrastValue` mappings can identify a counterpart, but

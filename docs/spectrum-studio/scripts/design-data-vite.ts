@@ -8,6 +8,7 @@ import {
   referenceRoot,
 } from "./design-data-loader";
 import type { AnalysisInput } from "../src/features/design-data/comparison";
+import { resolveColorOpacityValues } from "./color-opacity-resolution";
 import {
   assessmentGitWatchPaths,
   attachReferenceAssessment,
@@ -123,7 +124,9 @@ export function designDataAnalysisPlugin(): Plugin {
             return;
           }
           try {
-            cached ??= loadReferenceInput(root, sdk);
+            cached ??= loadReferenceInput(root, sdk).then((input) =>
+              resolveColorOpacityValues(input, root, sdk),
+            );
             // Assessment hashes/refs are checked on every request; a manual refresh
             // never reuses stale reviewed metadata just because dataset bytes are cached.
             const input = await attachReferenceAssessment(await cached, root);
@@ -132,6 +135,59 @@ export function designDataAnalysisPlugin(): Plugin {
             response.end(JSON.stringify(input));
           } catch (error) {
             response.statusCode = 500;
+            response.end(
+              error instanceof Error ? error.message : String(error),
+            );
+          }
+        },
+      );
+      server.middlewares.use(
+        "/__design-data/resolve-values",
+        async (request, response) => {
+          if (
+            request.method !== "POST" ||
+            (request.url !== "/" && request.url !== "")
+          ) {
+            response.statusCode = 400;
+            response.end("Only a value-resolution POST is supported.");
+            return;
+          }
+          try {
+            let body = "";
+            for await (const chunk of request) {
+              body += String(chunk);
+              if (body.length > 32 * 1024 * 1024)
+                throw new Error(
+                  "Analysis input exceeds the resolution batch limit.",
+                );
+            }
+            const input = JSON.parse(body) as AnalysisInput;
+            if (
+              !Array.isArray(input.records) ||
+              !input.source ||
+              input.source.kind === "reference" ||
+              !Array.isArray(input.limitations)
+            )
+              throw new Error("Invalid app Analysis input.");
+            cached ??= loadReferenceInput(root, sdk).then((input) =>
+              resolveColorOpacityValues(input, root, sdk),
+            );
+            const result = await resolveColorOpacityValues(
+              input,
+              root,
+              sdk,
+              await cached,
+            );
+            response.setHeader("Content-Type", "application/json");
+            response.setHeader("Cache-Control", "no-store");
+            response.end(
+              JSON.stringify({
+                resolvedValues: result.resolvedValues,
+                valueResolution: result.valueResolution,
+              }),
+            );
+          } catch (error) {
+            response.statusCode = 400;
             response.end(
               error instanceof Error ? error.message : String(error),
             );

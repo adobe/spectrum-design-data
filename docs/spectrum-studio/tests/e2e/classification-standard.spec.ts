@@ -25,6 +25,7 @@ import {
 } from "../../src/features/tokens/aliasTargets";
 
 const errors = new WeakMap<Page, string[]>();
+test.use({ actionTimeout: 10_000 });
 test.beforeEach(({ page }) => {
   const collected: string[] = [];
   errors.set(page, collected);
@@ -37,8 +38,23 @@ test.afterEach(({ page }) => {
 async function navigate(page: Page, name: string) {
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name, exact: true })
+    .getByRole("link", { name: new RegExp(`^${name}(?:\\s|$)`) })
     .click();
+}
+async function migrationReview(page: Page) {
+  await navigate(page, "Migration analysis");
+  await page.getByRole("button", { name: /Analysis view/ }).click();
+  await page
+    .getByRole("option", { name: "Classification review", exact: true })
+    .click();
+  await page.getByRole("button", { name: /Comparison source/ }).click();
+  await page
+    .getByRole("option", { name: "Working authoring", exact: true })
+    .click();
+  return page.getByRole("region", {
+    name: "Classification migration review",
+    exact: true,
+  });
 }
 async function record(
   page: Page,
@@ -46,6 +62,25 @@ async function record(
   return page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key)!),
     AUTHORING_STORAGE_KEY,
+  );
+}
+async function seedAuthoring(page: Page, snapshot: EditSessionSnapshot) {
+  await page.addInitScript(
+    ({ key, version, snapshot }) => {
+      if (localStorage.getItem(key) === null)
+        localStorage.setItem(
+          key,
+          JSON.stringify({
+            version,
+            working: snapshot,
+            saved: snapshot,
+            isEditing: false,
+            attachments: {},
+            savedAttachments: {},
+          }),
+        );
+    },
+    { key: AUTHORING_STORAGE_KEY, version: AUTHORING_RECORD_VERSION, snapshot },
   );
 }
 async function body(page: Page) {
@@ -93,6 +128,114 @@ async function editBody(page: Page, description: string) {
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
 }
 
+test("Parity diagnostics stay out of authoring in both modes and token presentations", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await seedAuthoring(page, createDefaultSnapshot());
+  await page.goto("/");
+  for (const editing of [false, true]) {
+    if (editing) {
+      await page
+        .getByRole("banner")
+        .getByRole("button", { name: "Edit", exact: true })
+        .click();
+      if (
+        await page
+          .getByRole("heading", { name: "Changes", exact: true })
+          .isVisible()
+      )
+        await page.getByRole("button", { name: /^Change log/ }).click();
+    }
+    await navigate(page, "Registry");
+    await expect(
+      page.getByText("Classification review needed", { exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByText("Classification review", { exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Migration review", exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("radio", { name: "Visibility", exact: true }),
+    ).toBeVisible();
+    await navigate(page, "Tokens");
+    await page
+      .getByRole("searchbox", { name: "Search tokens", exact: true })
+      .fill("red-color");
+    for (const view of ["List view", "Grid view"]) {
+      await page.getByRole("radio", { name: view, exact: true }).click();
+      await expect(
+        page.getByText("Classification review needed", { exact: true }),
+      ).toHaveCount(0);
+      await expect(page.getByRole("button", { name: /^Export / })).toHaveCount(
+        0,
+      );
+    }
+    await page.getByRole("radio", { name: "List view", exact: true }).click();
+    const table = page.getByRole("treegrid", { name: "Tokens", exact: true });
+    const dialog = page.getByRole("dialog");
+    if (editing) {
+      await page.locator(".tokenCollectionScroll").evaluate((element) => {
+        element.scrollLeft = 0;
+      });
+      await table
+        .getByRole("checkbox", { name: /^Select / })
+        .nth(1)
+        .press("Space");
+      await page
+        .getByRole("button", { name: "Bulk edit", exact: true })
+        .click();
+      await expect(
+        dialog.getByRole("heading", { name: /^Bulk edit/ }),
+      ).toBeVisible();
+      await expect(dialog).not.toContainText("proposed");
+      await expect(dialog).not.toContainText("Classification review");
+      await dialog.getByRole("button", { name: "Cancel", exact: true }).click();
+    }
+    await table
+      .getByRole("button", { name: /^Open / })
+      .first()
+      .click();
+    await expect(
+      dialog.locator('[data-component="TokenInspector"]'),
+    ).toBeVisible();
+    await expect(dialog).not.toContainText("proposed");
+    await expect(dialog).not.toContainText("classification review");
+    await dialog
+      .getByRole("button", { name: editing ? "Cancel" : "Close", exact: true })
+      .click();
+  }
+  await navigate(page, "System health");
+  await expect(page.getByText("Spec conformance", { exact: true })).toHaveCount(
+    0,
+  );
+  await expect(page.getByText(/design-data spec rules/)).toHaveCount(0);
+  await expect(
+    page.getByRole("region", { name: "Platform divergence", exact: true }),
+  ).toBeVisible();
+  const migration = await migrationReview(page);
+  await expect(
+    migration.getByRole("heading", {
+      name: "Classification review",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    migration.getByRole("grid", {
+      name: "Classification entries needing review",
+      exact: true,
+    }),
+  ).toContainText("proposed");
+  await expect(
+    migration.getByRole("button", {
+      name: "Export taxonomy compatibility packet",
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
 test("A conforming definition has no warning or empty keyboard-scroll region", async ({
   page,
 }) => {
@@ -108,7 +251,7 @@ test("A conforming definition has no warning or empty keyboard-scroll region", a
     (entry) => entry.key === "element",
   );
   const term = taxonomy?.terms.find(
-    (entry) => entry.categoryId === category?.id && entry.value === "Text",
+    (entry) => entry.categoryId === category?.id && entry.value === "text",
   );
   if (!taxonomy || !facet || !concept || !category || !term)
     throw new Error("The reviewed Text fixture is unavailable.");
@@ -142,9 +285,9 @@ test("A conforming definition has no warning or empty keyboard-scroll region", a
   const row = page
     .getByRole("grid", { name: "Element terms", exact: true })
     .getByRole("row", { name: /^Text(?:\s|$)/ });
-  await expect(
-    row.getByText("Proposed standard", { exact: true }),
-  ).toBeVisible();
+  await expect(row.getByText("Proposed standard", { exact: true })).toHaveCount(
+    0,
+  );
   await expect(
     row.getByText("Classification review needed", { exact: true }),
   ).toHaveCount(0);
@@ -157,7 +300,7 @@ test("A conforming definition has no warning or empty keyboard-scroll region", a
   expect((await record(page)).saved.taxonomy).toEqual(taxonomy);
 });
 
-test("A default generated color explains shared definitions and unresolved source policy without blaming its value", async ({
+test("A default generated color has no proposed-definition messages in its dialog", async ({
   page,
 }) => {
   const snapshot = createDefaultSnapshot();
@@ -188,33 +331,21 @@ test("A default generated color explains shared definitions and unresolved sourc
     name: "Classification review details",
     exact: true,
   });
-  await expect(details).toContainText(
-    'Category description: "What characteristic is measured or styled?"',
-  );
-  await expect(details).toContainText(
-    "Changing this token's own Description will not resolve",
-  );
-  await expect(details).toContainText(
-    "has not finalized how these source names should be recorded",
-  );
-  await expect(details).toContainText(
-    "renaming the color or changing its value will not resolve",
-  );
-  await expect(details).not.toContainText("does not bind");
-  const messages = await details.getByRole("listitem").allTextContents();
-  expect(new Set(messages).size).toBe(messages.length);
+  await expect(details).toHaveCount(0);
+  await expect(dialog).not.toContainText("proposed");
   await expect(
-    dialog.getByRole("textbox", { name: "Value", exact: true }),
-  ).toHaveValue(String(color.token.value));
+    dialog.locator('[data-component="TokenInspector"]'),
+  ).toBeVisible();
   await dialog.getByRole("button", { name: "Close", exact: true }).click();
 });
 
 for (const width of [1440, 390]) {
-  test(`Classification warnings, non-standard Save and exact compatibility downloads at ${width}px`, async ({
+  test(`Review stays in Migration analysis while non-standard data saves and exports at ${width}px`, async ({
     page,
   }) => {
     test.setTimeout(150_000);
     await page.setViewportSize({ width, height: 1000 });
+    await seedAuthoring(page, createDefaultSnapshot());
     await page.goto("/");
     if (width === 390)
       await page.getByRole("button", { name: "Collapse", exact: true }).click();
@@ -224,45 +355,38 @@ for (const width of [1440, 390]) {
         name: "Classification needs review",
         exact: true,
       }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       page.getByText("not a count of unique tokens or color values.", {
         exact: false,
       }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     const original = await body(page);
     await expect(
       original
         .getByRole("rowheader")
         .getByText("Classification review needed", { exact: true }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await page
       .getByRole("grid", { name: "Element terms", exact: true })
       .evaluate((element) => {
         element.scrollLeft = element.scrollWidth;
       });
-    await expect(original).toContainText("shared component catalog");
     const reasons = original.getByRole("region", {
       name: "Body classification review",
       exact: true,
     });
-    await expect(reasons).toHaveAttribute("tabindex", "0");
-    expect(
-      await reasons.evaluate((element) => element.clientHeight),
-    ).toBeLessThanOrEqual(128);
-    await reasons.press("PageDown");
-    await expect
-      .poll(() => reasons.evaluate((element) => element.scrollTop))
-      .toBeGreaterThan(0);
+    await expect(reasons).toHaveCount(0);
     await page
-      .getByRole("radio", { name: "Prominence", exact: true })
+      .getByRole("radio", { name: "Visibility", exact: true })
       .press("Space");
     await expect(
       page.getByRole("textbox", { name: "Category name", exact: true }),
     ).toHaveValue("Visibility");
     await expect(
       page.getByText(/Your saved label remains Visibility/),
-    ).toBeVisible();
+    ).toHaveCount(0);
+    await migrationReview(page);
     await page
       .getByRole("button", { name: "Components and elements", exact: true })
       .click();
@@ -290,7 +414,7 @@ for (const width of [1440, 390]) {
       await page.getByRole("button", { name: /^Change log/ }).click();
     const baseline = (await record(page)).saved;
     const term = baseline.taxonomy!.terms.find(
-      (entry) => entry.value === "Body",
+      (entry) => entry.value === "body",
     )!;
     const description =
       "Retained Body instance needs a reviewed component migration";
@@ -303,7 +427,7 @@ for (const width of [1440, 390]) {
           )?.description,
       )
       .toBe(description);
-    await expect(await body(page)).toContainText(
+    await expect(await body(page)).not.toContainText(
       "Classification review needed",
     );
     await page
@@ -340,26 +464,17 @@ for (const width of [1440, 390]) {
         name: "Classification review needed",
         exact: true,
       }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     const reviewDetails = tokenDialog.getByRole("region", {
       name: "Classification review details",
       exact: true,
     });
-    await expect(
-      reviewDetails.getByRole("heading", {
-        name: "Why this needs review",
-        exact: true,
-      }),
-    ).toBeVisible();
-    await expect(reviewDetails.getByRole("listitem").first()).toBeVisible();
-    await expect(reviewDetails).toContainText("Registry");
-    await expect(tokenDialog).toContainText("not a check of color values");
+    await expect(reviewDetails).toHaveCount(0);
+    await expect(tokenDialog).not.toContainText("proposed");
     await tokenDialog
       .getByRole("button", { name: "Cancel", exact: true })
       .click();
-    await page
-      .getByRole("searchbox", { name: "Search tokens", exact: true })
-      .fill("");
+    await migrationReview(page);
     let downloads = 0;
     page.on("download", () => {
       downloads++;
@@ -370,13 +485,21 @@ for (const width of [1440, 390]) {
         exact: true,
       })
       .click();
-    await expect(page.getByRole("alert")).toContainText(
-      "Standard-compliant export blocked",
-    );
-    await expect(page.getByRole("alert")).toContainText(
-      "not a color-value check",
-    );
-    await expect(page.getByRole("alert")).not.toContainText("does not bind");
+    await expect(
+      page
+        .getByRole("alert")
+        .filter({ hasText: "Standard-compliant export blocked" }),
+    ).toContainText("Standard-compliant export blocked");
+    await expect(
+      page
+        .getByRole("alert")
+        .filter({ hasText: "Standard-compliant export blocked" }),
+    ).toContainText("not a color-value check");
+    await expect(
+      page
+        .getByRole("alert")
+        .filter({ hasText: "Standard-compliant export blocked" }),
+    ).not.toContainText("does not bind");
     expect(downloads).toBe(0);
     const compatibleDownload = page.waitForEvent("download");
     await page
@@ -460,7 +583,7 @@ for (const width of [1440, 390]) {
       .click();
     await page
       .getByRole("alertdialog")
-      .getByRole("button", { name: "Discard edits", exact: true })
+      .getByRole("button", { name: "Discard", exact: true })
       .click();
     expect((await record(page)).working).toEqual(saved);
     await page.reload();
@@ -469,7 +592,7 @@ for (const width of [1440, 390]) {
       restored
         .getByRole("rowheader")
         .getByText("Classification review needed", { exact: true }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await page
       .getByRole("grid", { name: "Element terms", exact: true })
       .evaluate((element) => {

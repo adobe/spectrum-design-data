@@ -10,7 +10,7 @@ import type {
 
 export interface TshirtDiagnostic {
   severity: "warning";
-  code: "nearest";
+  code: "nearest" | "derived";
   message: string;
   structureId: string;
   bindingIds: string[];
@@ -36,6 +36,7 @@ export interface TshirtSemanticRow {
   ruleIds: string[];
   size: string;
   target: PrimitiveReference;
+  targetKind?: "literal";
   context: Record<string, string>;
   selection: Record<string, string>;
   kind: "baseline" | "binding" | "override";

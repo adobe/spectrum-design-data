@@ -137,7 +137,7 @@ const { persistenceIssuesAtom, flushPersistedState } =
   await import("../src/state/persist");
 const { changeGroupsAtom } = await import("../src/features/changelog/state");
 const working = structuredClone(legacy);
-working.colorSystem.settings.extOffset = 0.37;
+working.colorSystem.settings.backgroundBlend = 0.37;
 const record = {
   version: 15,
   saved: legacy,
@@ -211,17 +211,17 @@ assert.deepEqual(
   "Cancel removes newly contributed sources and terms.",
 );
 store.set(enterEditModeAtom);
-store.set(updateColorSystemSettingsAtom, { extOffset: 0.41 });
+store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.41 });
 store.set(saveEditAtom);
 const saved = structuredClone(store.get(authoringSnapshotAtom));
-store.set(updateColorSystemSettingsAtom, { extOffset: 0.45 });
+store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.45 });
 flushPersistedState();
 dispose();
 const restored = createStore();
 dispose = initializeAuthoringPersistence(restored);
 assert.deepEqual(restored.get(persistenceIssuesAtom), []);
 assert.equal(
-  restored.get(authoringSnapshotAtom).colorSystem.settings.extOffset,
+  restored.get(authoringSnapshotAtom).colorSystem.settings.backgroundBlend,
   0.45,
 );
 assert.deepEqual(restored.get(editSessionSnapshotAtom), saved);

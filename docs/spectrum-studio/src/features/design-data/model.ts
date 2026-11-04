@@ -15,6 +15,7 @@ import type { Interpolation } from "../scales/interpolationDefinition";
 import type { ScaleType } from "../scales/scaleType";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import type { StructuresDocument } from "../structures/model";
+import type { PortableStructuresDocument } from "../structures/portableModel";
 import type { AliasDocument } from "../tokens/aliases";
 import type { ComponentsDocument } from "../components/model";
 import type { BrowserTokenEdits } from "../tokens/browserEditTypes";
@@ -69,8 +70,12 @@ export interface CanonicalDesignSystemDataset extends Omit<
   DesignSystemDataset,
   "system"
 > {
-  system: Omit<DesignSystemDataset["system"], "foundations" | "taxonomy"> & {
+  system: Omit<
+    DesignSystemDataset["system"],
+    "foundations" | "taxonomy" | "structures"
+  > & {
     taxonomy: TaxonomyDocument;
+    structures: PortableStructuresDocument;
     foundations: {
       opacity?: OpacityDocument;
       color: CanonicalColorDocument;

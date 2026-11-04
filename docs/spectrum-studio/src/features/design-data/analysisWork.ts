@@ -10,6 +10,7 @@ import {
 } from "./comparison";
 import { defaultsAnalysisInput } from "./projection";
 import { assessGaps, gapRegister, type GapResult } from "./gaps";
+import { VALUE_CONTEXT_POLICY } from "./colorOpacityAssessment";
 
 export type AnalysisDataset = "defaults" | "saved" | "working";
 export type AnalysisWorkSource =
@@ -24,6 +25,7 @@ export interface AnalysisComparisonRequest {
   source: AnalysisWorkSource;
   reference?: AnalysisInput;
   cachedApp?: AnalysisInput;
+  resolveValues?: boolean;
 }
 export interface AnalysisComparisonResult {
   app: AnalysisInput;
@@ -53,6 +55,45 @@ async function fingerprint(input: AnalysisInput): Promise<AnalysisInput> {
   return { ...input, source: { ...input.source, hash } };
 }
 
+function isResolutionResult(
+  value: unknown,
+): value is Pick<AnalysisInput, "resolvedValues" | "valueResolution"> {
+  if (!value || typeof value !== "object") return false;
+  const result = value as Record<string, unknown>;
+  if (!result.valueResolution || typeof result.valueResolution !== "object")
+    return false;
+  const evidence = result.valueResolution as Record<string, unknown>;
+  if (
+    typeof evidence.datasetHash !== "string" ||
+    typeof evidence.engine !== "string" ||
+    (evidence.referenceHash !== undefined &&
+      typeof evidence.referenceHash !== "string") ||
+    (evidence.error !== undefined && typeof evidence.error !== "string") ||
+    (evidence.contextPolicy !== undefined &&
+      typeof evidence.contextPolicy !== "string")
+  )
+    return false;
+  if (result.resolvedValues === undefined)
+    return typeof evidence.error === "string";
+  return (
+    Array.isArray(result.resolvedValues) &&
+    result.resolvedValues.every((value: unknown) => {
+      if (!value || typeof value !== "object") return false;
+      const row = value as Record<string, unknown>;
+      return (
+        typeof row.id === "string" &&
+        !!row.context &&
+        typeof row.context === "object" &&
+        !Array.isArray(row.context) &&
+        Object.values(row.context).every((mode) => typeof mode === "string") &&
+        Array.isArray(row.chain) &&
+        row.chain.every((hop: unknown) => typeof hop === "string") &&
+        (row.issue === null || typeof row.issue === "string")
+      );
+    })
+  );
+}
+
 export async function computeAnalysisComparison(
   request: AnalysisComparisonRequest,
 ): Promise<AnalysisComparisonResult> {
@@ -71,7 +112,42 @@ export async function computeAnalysisComparison(
           source.dataset === "saved" ? source.saved : working!,
           source.dataset,
         ));
-  const app = request.cachedApp ?? (await fingerprint(projected));
+  let app = request.cachedApp ?? (await fingerprint(projected));
+  if (
+    request.resolveValues &&
+    reference &&
+    (!app.valueResolution ||
+      app.valueResolution.contextPolicy !== VALUE_CONTEXT_POLICY ||
+      app.valueResolution.referenceHash !== reference.source.hash)
+  ) {
+    try {
+      const response = await fetch("/__design-data/resolve-values", {
+        method: "POST",
+        signal: AbortSignal.timeout(45000),
+        headers: { "Content-Type": "application/json" },
+        body: canonicalJson(app),
+      });
+      if (!response.ok) throw new Error(await response.text());
+      const result: unknown = await response.json();
+      if (!isResolutionResult(result))
+        throw new Error("Invalid color/opacity resolution response.");
+      app = {
+        ...app,
+        resolvedValues: result.resolvedValues,
+        valueResolution: result.valueResolution,
+      };
+      if (result.valueResolution?.error)
+        app.limitations = [...app.limitations, result.valueResolution.error];
+    } catch (error) {
+      app = {
+        ...app,
+        limitations: [
+          ...app.limitations,
+          `Color/opacity resolution unavailable: ${error instanceof Error ? error.message : String(error)}`,
+        ],
+      };
+    }
+  }
   return {
     app,
     ...(reference && { report: compareDesignData(app, reference) }),

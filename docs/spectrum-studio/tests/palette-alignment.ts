@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
+import Color from "colorjs.io";
 import {
   assessPalette,
   exactPaletteColor,
@@ -70,7 +71,7 @@ const input = (reference: boolean): AnalysisInput => ({
             ? "rgb(218, 218, 218)"
             : index === 200
               ? "rgb(217, 217, 217)"
-              : "rgb(216, 218, 218)",
+              : "rgb(150, 218, 218)",
           {
             conceptId: `${reference ? "ref" : "app"}:${index}`,
             source: reference ? "tokens/color-palette.tokens.json" : "fixture",
@@ -96,9 +97,11 @@ for (let channel = 0; channel < 255; channel++) {
 for (const [a, b, expected] of [
   ["#d9d9d9", "rgb(218, 218, 218)", "close"],
   ["rgb(218, 217, 216)", "rgb(217, 218, 217)", "close"],
-  ["rgb(217, 217, 217)", "rgb(218.000001, 217, 217)", "different"],
-  ["rgb(256, 0, 0)", "rgb(255, 0, 0)", "different"],
-  ["rgb(-1, 0, 0)", "rgb(0, 0, 0)", "different"],
+  ["rgb(217, 217, 217)", "rgb(218.000001, 217, 217)", "close"],
+  ["rgb(256, 0, 0)", "rgb(255, 0, 0)", "close"],
+  ["rgb(-1, 0, 0)", "rgb(0, 0, 0)", "close"],
+  ["rgb(217, 217, 217)", "rgb(221, 221, 221)", "close"],
+  ["color(display-p3 1 0.1 0.1)", "color(display-p3 0.99 0.1 0.1)", "close"],
   ["color(display-p3 1 0 0)", "rgb(255, 0, 0)", "different"],
   ["rgba(217, 217, 217, 0.5)", "rgba(218, 218, 218, 0.5)", "close"],
   ["rgba(217, 217, 217, 0.5)", "rgba(218, 218, 218, 0.51)", "different"],
@@ -113,6 +116,45 @@ for (const [a, b, expected] of [
     `${a} vs ${b}`,
   );
 
+const originalDeltaE = Color.prototype.deltaE;
+try {
+  Color.prototype.deltaE = function () {
+    throw new Error("Exact colors must not calculate Delta E.");
+  };
+  assert.equal(
+    exactPaletteColor("#d9d9d9", "rgb(217, 217, 217)").valueAlignment,
+    "exact",
+  );
+  for (const [distance, expected] of [
+    [2 - Number.EPSILON, "close"],
+    [2, "different"],
+    [2 + Number.EPSILON * 2, "different"],
+    [Number.NaN, "unassessable"],
+    [Infinity, "unassessable"],
+  ] as const) {
+    Color.prototype.deltaE = function (_other, method) {
+      assert.equal(method, "2000");
+      return distance;
+    };
+    const result = exactPaletteColor("#d9d9d9", "#dadada");
+    assert.equal(result.valueAlignment, expected, `Delta E ${distance}`);
+    assert.equal(
+      result.value,
+      expected === "unassessable" ? "unassessable" : "different",
+    );
+  }
+} finally {
+  Color.prototype.deltaE = originalDeltaE;
+}
+for (const [a, b, expected] of [
+  ["lab(50% 2.6772 -79.7751)", "lab(50% 0 -82.7485)", "different"],
+  ["lab(50% -1.3802 -84.2814)", "lab(50% 0 -82.7485)", "close"],
+] as const) {
+  const result = exactPaletteColor(a, b);
+  assert.equal(result.valueAlignment, expected);
+  assert.equal(exactPaletteColor(b, a).valueAlignment, expected);
+  assert.equal(result.value, "different");
+}
 const app = input(false),
   reference = input(true);
 const original = JSON.stringify([app, reference]);
@@ -155,7 +197,7 @@ assert.equal(
   "close",
 );
 mixed.records.find((row) => row.id === "app:200:dark")!.value =
-  "rgb(216, 218, 218)";
+  "rgb(150, 218, 218)";
 assert.equal(
   assessPalette(mixed, reference, [], []).concepts[1].alignment,
   "different",
@@ -211,5 +253,5 @@ assert.deepEqual(
   "Stale counts are retained as observations, not a current completion score.",
 );
 console.log(
-  "Palette alignment: 510 one-step boundary comparisons, exact/close/different tiers, alpha/gamut limits, classification/mode safeguards and report parity passed.",
+  "Palette alignment: Delta E 2000 strict threshold, exact-match short circuit, wide gamut, alpha, classification/mode safeguards and report parity passed.",
 );

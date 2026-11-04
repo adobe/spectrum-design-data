@@ -4,6 +4,7 @@ import type {
   AnalysisRecord,
   ReviewedMapping,
 } from "./comparison";
+import { modeDeclarations } from "./modeCoverage";
 
 export const REVIEWED_MAPPING_VERSION = "foundation-color-ramp-v1";
 
@@ -75,6 +76,24 @@ export function parseReviewedMappings(value: unknown): ReviewedMapping[] {
       );
     }
     let contextDefaults: string[] | undefined;
+    let modeKeys: Record<string, string> | undefined;
+    if (entry.modeKeys !== undefined) {
+      if (
+        !object(entry.modeKeys) ||
+        !Object.entries(entry.modeKeys).every(
+          ([key, value]) => text(key) && text(value),
+        )
+      )
+        throw new Error(
+          `${location}: modeKeys must contain nonempty app/reference mode keys.`,
+        );
+      modeKeys = Object.fromEntries(
+        Object.entries(entry.modeKeys).map(([key, value]) => [
+          key,
+          String(value),
+        ]),
+      );
+    }
     if (entry.contextDefaults !== undefined) {
       if (
         !Array.isArray(entry.contextDefaults) ||
@@ -92,6 +111,7 @@ export function parseReviewedMappings(value: unknown): ReviewedMapping[] {
       rationale: entry.rationale,
       ...(nameFields ? { nameFields } : {}),
       ...(contextDefaults ? { contextDefaults } : {}),
+      ...(modeKeys ? { modeKeys } : {}),
     };
   });
 }
@@ -100,21 +120,11 @@ export function declaredDefaultMode(
   input: AnalysisInput,
   key: string,
 ): string | undefined {
-  const declarations = input.records.filter(
-    (record) =>
-      record.category === "mode-sets" &&
-      object(record.value) &&
-      (record.value.key === key || record.value.name === key),
+  const declarations = modeDeclarations(input).filter(
+    (declaration) => declaration.key === key,
   );
   if (declarations.length !== 1) return;
-  const declaration = declarations[0].value;
-  if (!object(declaration)) return;
-  if (typeof declaration.default === "string") return declaration.default;
-  if (!Array.isArray(declaration.modes)) return;
-  const mode: unknown = declaration.modes.find(
-    (item: unknown) => object(item) && item.id === declaration.defaultModeId,
-  );
-  return object(mode) && typeof mode.key === "string" ? mode.key : undefined;
+  return declarations[0].issues.length ? undefined : declarations[0].default;
 }
 
 function modeValue(

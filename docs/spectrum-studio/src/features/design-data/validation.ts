@@ -40,6 +40,11 @@ import { dataVisSourceIssues } from "../color-system/data-vis/references";
 import { assertComponentDocument } from "../components/validation";
 import { isColorOutputSettings } from "../color-system/outputSettings";
 import { isOpacityDocument } from "../opacity/model";
+import { storedCustomContrasts } from "../color-system/customContrastConfig";
+import {
+  toPortableStructures,
+  fromPortableStructures,
+} from "../structures/portableConversion";
 
 const validateShape = new Ajv({
   allErrors: true,
@@ -50,6 +55,15 @@ export function canonicalDesignSystemDataset(
   dataset: CompleteDesignSystemDataset,
 ): CompleteCanonicalDesignSystemDataset {
   const { foundations } = dataset.system;
+  const portable = toPortableStructures(
+    dataset.system.structures,
+    dataset.system.taxonomy,
+    {},
+  );
+  if (portable.status !== "ready")
+    throw new DatasetValidationError(
+      portable.issues.map((issue) => issue.message),
+    );
   const metrics = foundations.typography.metricNames;
   if (
     !metrics ||
@@ -64,6 +78,7 @@ export function canonicalDesignSystemDataset(
     ...dataset,
     system: {
       ...dataset.system,
+      structures: portable.value,
       foundations: {
         ...(foundations.opacity && { opacity: foundations.opacity }),
         color: canonicalColorDocument(foundations.color),
@@ -97,6 +112,11 @@ export function composeDesignSystemDefaults(
   }
   const dataset = structuredClone(input);
   const taxonomy = dataset.system.taxonomy;
+  const decoded = fromPortableStructures(dataset.system.structures, taxonomy);
+  if (decoded.status !== "ready")
+    throw new DatasetValidationError(
+      decoded.issues.map((issue) => issue.message),
+    );
   let result: CompleteDesignSystemDataset;
   try {
     result = {
@@ -104,6 +124,7 @@ export function composeDesignSystemDefaults(
       system: {
         ...dataset.system,
         taxonomy,
+        structures: decoded.value,
         foundations: {
           ...(dataset.system.foundations.opacity && {
             opacity: dataset.system.foundations.opacity,
@@ -322,16 +343,19 @@ export function composeDesignSystemDefaults(
       );
 
   for (const scale of foundations.color.scales) {
-    if (scale.customContrasts) {
-      const custom = scale.customContrasts;
+    const custom = storedCustomContrasts(scale);
+    if (custom) {
+      const field = scale.customContrasts
+        ? "customContrasts"
+        : "disabledCustomContrasts";
       const ids = unique(
         custom.steps,
-        `/system/foundations/color/scales/${scale.id}/customContrasts/steps`,
+        `/system/foundations/color/scales/${scale.id}/${field}/steps`,
       );
       reference(
         custom.baseContrastId,
         ids,
-        `/system/foundations/color/scales/${scale.id}/customContrasts/baseContrastId`,
+        `/system/foundations/color/scales/${scale.id}/${field}/baseContrastId`,
       );
       reference(
         custom.namingRuleId,
@@ -340,7 +364,7 @@ export function composeDesignSystemDefaults(
             .filter((rule) => rule.type === "scale-naming")
             .map((rule) => rule.id),
         ),
-        `/system/foundations/color/scales/${scale.id}/customContrasts/namingRuleId`,
+        `/system/foundations/color/scales/${scale.id}/${field}/namingRuleId`,
       );
     }
     unique(scale.stops, `/system/foundations/color/scales/${scale.id}/stops`);
@@ -379,10 +403,11 @@ export function composeDesignSystemDefaults(
           colorScaleIds,
           `/system/modeSets/${modeSet.id}/${mode.id}/scaleContrasts`,
         );
+        const scale = foundations.color.scales.find(
+          (scale) => scale.id === scaleId,
+        );
         const ids = new Set(
-          foundations.color.scales
-            .find((scale) => scale.id === scaleId)
-            ?.customContrasts?.steps.map((step) => step.id),
+          scale && storedCustomContrasts(scale)?.steps.map((step) => step.id),
         );
         for (const stepId of Object.keys(values))
           reference(
@@ -406,31 +431,6 @@ export function composeDesignSystemDefaults(
           colorScaleIds,
           `/system/modeSets/${modeSet.id}/${mode.id}/backgroundScaleId`,
         );
-      for (const [scaleId, stops] of Object.entries(color?.scaleStops ?? {})) {
-        reference(
-          scaleId,
-          colorScaleIds,
-          `/system/modeSets/${modeSet.id}/${mode.id}/scaleStops`,
-        );
-        const stopIds = new Set(
-          foundations.color.scales
-            .find((scale) => scale.id === scaleId)
-            ?.stops.map((stop) => stop.id),
-        );
-        for (const [stopId, stop] of Object.entries(stops)) {
-          reference(
-            stopId,
-            stopIds,
-            `/system/modeSets/${modeSet.id}/${mode.id}/scaleStops/${scaleId}`,
-          );
-          if (stop.paletteColorId)
-            reference(
-              stop.paletteColorId,
-              paletteIds,
-              `/system/modeSets/${modeSet.id}/${mode.id}/paletteColorId`,
-            );
-        }
-      }
     }
   }
   for (const [parameterId, modeSetId] of Object.entries(adaptiveClaims)) {

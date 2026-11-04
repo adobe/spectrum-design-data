@@ -146,6 +146,7 @@
             "size",
             "radius",
             "elevation",
+            "opacity",
             "structures",
             "motion"
           ]

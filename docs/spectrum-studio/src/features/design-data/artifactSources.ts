@@ -70,6 +70,8 @@ export const tshirtArtifactSourceAtom = selectAtom(
     structures: source.structures,
     elevation: source.elevation,
     opacity: source.opacity,
+    interpolations: source.interpolations,
+    tokenOverrides: source.tokenOverrides,
   }),
   sameReferences,
 );

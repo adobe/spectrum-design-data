@@ -43,6 +43,8 @@ export function tshirtCacheSource(source: TshirtAuthoringSource) {
     structures: source.structures,
     rules: source.rules,
     formulas: source.scaleTypes,
+    interpolations: source.interpolations,
+    tokenOverrides: source.tokenOverrides ?? {},
     modeSets: source.modeSets,
     edits: source.browserTokenEdits ?? {},
   };

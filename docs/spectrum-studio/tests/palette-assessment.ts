@@ -186,10 +186,10 @@ for (const [left, right, expected] of [
   ["rgb(255, 255, 255)", "rgb(254, 254, 254)", "close"],
   ["#d9d9d9", "rgb(218, 218, 218)", "close"],
   ["rgba(217, 217, 217, 0.5)", "rgba(218, 218, 218, 0.5)", "close"],
-  ["rgb(217, 217, 217)", "rgb(219, 217, 217)", "different"],
-  ["rgb(217, 217, 217)", "rgb(218.000001, 217, 217)", "different"],
+  ["rgb(217, 217, 217)", "rgb(219, 217, 217)", "close"],
+  ["rgb(217, 217, 217)", "rgb(218.000001, 217, 217)", "close"],
   ["rgba(217, 217, 217, 0.5)", "rgba(218, 218, 218, 0.51)", "different"],
-  ["rgb(256, 0, 0)", "rgb(255, 0, 0)", "different"],
+  ["rgb(256, 0, 0)", "rgb(255, 0, 0)", "close"],
   ["color(display-p3 1 0 0)", "rgb(255, 0, 0)", "different"],
   ["var(--gray)", "var(--gray)", "unassessable"],
   ["rgb(none 0 0)", "#000", "unassessable"],
@@ -217,7 +217,8 @@ assert.equal(nearAssessment.counts.closeEnough, 1);
 assert.equal(nearAssessment.counts.closeRows, 2);
 assert.equal(nearAssessment.counts.equalRows, 0);
 assert.equal(nearAssessment.counts.complete, 0);
-assert.equal(nearAssessment.policy.maxSrgbChannelDifference, 1);
+assert.equal(nearAssessment.policy.acceptableDeltaEExclusive, 2);
+assert.equal(nearAssessment.policy.deltaEMethod, "2000");
 assert.equal(nearAssessment.policy.alphaTolerance, 0);
 for (const row of nearAssessment.concepts[0].rows)
   assert(
@@ -225,7 +226,7 @@ for (const row of nearAssessment.concepts[0].rows)
   );
 assert.match(paletteMarkdown(nearAssessment), /Close enough: 1/);
 assert.match(paletteMarkdown(nearAssessment), /\| Close enough \|/);
-nearGray.records.at(-1)!.value = "rgb(220, 218, 218)";
+nearGray.records.at(-1)!.value = "rgb(150, 218, 218)";
 assert.equal(
   assess(nearGray, grayReference).concepts[0].alignment,
   "different",

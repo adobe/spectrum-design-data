@@ -12,6 +12,8 @@ import orientationField from "../../data/design-data-tshirt-profile/fields/orien
 import positionField from "../../data/design-data-tshirt-profile/fields/position.json" with { type: "json" };
 import sizeField from "../../data/design-data-tshirt-profile/fields/size.json" with { type: "json" };
 import indexField from "../../data/design-data-tshirt-profile/fields/scaleIndex.json" with { type: "json" };
+import anatomyField from "../../../../../packages/design-data/fields/anatomy.json" with { type: "json" };
+import densityField from "../../../../../packages/design-data/fields/density.json" with { type: "json" };
 import sizes from "../../data/design-data-tshirt-profile/registry/sizes.json" with { type: "json" };
 import properties from "../../data/design-data-tshirt-profile/registry/property-terms.json" with { type: "json" };
 import positions from "../../data/design-data-tshirt-profile/registry/positions.json" with { type: "json" };
@@ -70,9 +72,11 @@ export const TSHIRT_PROFILE = {
 export const TSHIRT_FIELDS = [
   FOUNDATION_SCALE_FIELD,
   structureField,
+  anatomyField,
   propertyField,
   orientationField,
   positionField,
+  densityField,
   sizeField,
   indexField,
 ];
@@ -90,6 +94,7 @@ export const TSHIRT_COMPOSITION_PROFILE = {
   limitations: [
     ...TSHIRT_PROFILE.limitations,
     "Element naming is an explicit local extension; reusable instance trees are not exported anatomy.",
+    "Structure-owned semantic leaves combine their owner and Element name facets locally to preserve context.",
   ],
 } as const;
 export const TSHIRT_NAMING_FIELDS = [...TSHIRT_FIELDS, ELEMENT_NAMING_FIELD];
@@ -193,8 +198,6 @@ export function assertTshirtToken(
     Array.isArray(value.name)
   )
     throw new Error("T-shirt output needs a UUID and structured name.");
-  if (value.name.element && value.name.structure)
-    throw new Error("A semantic token must use one explicit naming facet.");
   if (
     !properties.values.some((property) => property.id === value.name.property)
   )
@@ -237,6 +240,18 @@ export function assertTshirtToken(
   } else if (value.name.property === "shadow") {
     if (value.$valueType !== SHADOW_VALUE_TYPE || !validateShadow(value.value))
       throw new Error("Complete shadows need a valid pinned shadow array.");
+  } else if (
+    value.name.property === "unitless-line-height" ||
+    value.name.property === "line-height-multiplier"
+  ) {
+    const ratio = Number(value.value);
+    if (
+      typeof value.value !== "string" ||
+      !Number.isFinite(ratio) ||
+      ratio < 0 ||
+      String(ratio) !== value.value
+    )
+      throw new Error("Unitless line-height values must be finite ratios.");
   } else if (
     typeof value.value !== "string" ||
     !value.value.endsWith("px") ||
@@ -302,7 +317,9 @@ export function assertTshirtGraph(
       )
         throw new Error("An alias target has an incompatible value type.");
       const family =
-        token.name.property === "padding" || token.name.property === "gap"
+        token.name.property === "padding" ||
+        token.name.property === "gap" ||
+        token.name.property === "indent"
           ? "spacing"
           : token.name.property === "corner-radius"
             ? "corner-radius"
