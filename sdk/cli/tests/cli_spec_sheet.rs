@@ -243,3 +243,130 @@ fn all_writes_full_and_table_only_sheets_and_an_index() {
         Vec::<String>::new()
     );
 }
+
+fn all_sheets() -> Vec<Value> {
+    let dir = tempfile::tempdir().unwrap();
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "--all", "-o"])
+        .arg(dir.path())
+        .assert()
+        .success();
+    std::fs::read_dir(dir.path())
+        .unwrap()
+        .map(|e| e.unwrap().path())
+        .filter(|p| !p.ends_with("index.json"))
+        .map(|p| serde_json::from_str(&std::fs::read_to_string(p).unwrap()).unwrap())
+        .collect()
+}
+
+fn blocks_of(sheet: &Value) -> Vec<&Value> {
+    sheet["pages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|p| p["blocks"].as_array().unwrap())
+        .collect()
+}
+
+#[test]
+fn every_sheet_has_blocks_and_context_less_records_are_grouped_by_property() {
+    let sheets = all_sheets();
+    for sheet in &sheets {
+        assert!(!blocks_of(sheet).is_empty(), "{}", sheet["component"]);
+        assert_eq!(schema_errors(sheet), Vec::<String>::new());
+    }
+    let find = |name: &str| sheets.iter().find(|s| s["component"] == name).unwrap();
+
+    // Typography: heading's records have no context and are grouped by property.
+    let heading = blocks_of(find("heading"));
+    let weight = heading
+        .iter()
+        .find(|b| b["title"] == "Font weight")
+        .unwrap();
+    assert_eq!(weight["titleSource"], "property");
+    assert!(weight["records"].as_u64().unwrap() > 10);
+    assert_eq!(weight["page"], "Typography");
+
+    // Inline values show as rows with the value and no token.
+    let text_area = blocks_of(find("text-area"));
+    let min_height = text_area
+        .iter()
+        .find(|b| b["title"] == "Minimum height" && b["titleSource"] == "property")
+        .unwrap();
+    let item = &min_height["rows"][0]["items"][0];
+    assert_eq!(item["source"], "inline");
+    assert!(item["token"]["uuid"].is_null());
+    assert_eq!(item["values"]["desktop"], "56px");
+    assert_eq!(item["values"]["mobile"], "70px");
+
+    // Authored contexts keep their title and come first on the page.
+    assert!(text_area.iter().any(|b| b["titleSource"] == "context"));
+}
+
+#[test]
+fn switch_layout_blocks_carry_measurements_for_parts_border_focus_ring_and_press() {
+    let sheets = all_sheets();
+    let switch = sheets.iter().find(|s| s["component"] == "switch").unwrap();
+    let kinds = |title: &str| -> Vec<String> {
+        let block = blocks_of(switch)
+            .into_iter()
+            .find(|b| b["page"] == "Layout" && b["title"] == title)
+            .unwrap_or_else(|| panic!("no Layout block {title}"));
+        let scene = &block["render"]["scene"]["measurements"];
+        block["render"]["measurements"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|m| {
+                let i = m["index"].as_u64().unwrap() as usize;
+                assert!(scene[i]["token"]["relationship"]["uuid"].is_string());
+                scene[i]["kind"].as_str().unwrap().to_string()
+            })
+            .collect()
+    };
+    assert_eq!(kinds("Track (size)"), ["width", "height"]);
+    assert_eq!(kinds("Track (border)"), ["border"]);
+    assert_eq!(kinds("Focus indicator"), ["focus-thickness", "focus-gap"]);
+    assert_eq!(kinds("Component size (down)"), ["press"]);
+}
+
+#[test]
+fn token_names_come_from_the_structured_name_not_the_relationship_property() {
+    let sheets = all_sheets();
+    let names = |component: &str, title: &str| -> Vec<String> {
+        let sheet = sheets.iter().find(|s| s["component"] == component).unwrap();
+        blocks_of(sheet)
+            .into_iter()
+            .filter(|b| b["page"] == "Layout" && b["title"] == title)
+            .flat_map(|b| b["rows"].as_array().unwrap())
+            .flat_map(|r| r["items"].as_array().unwrap())
+            .map(|i| i["token"]["name"].as_str().unwrap().to_string())
+            .collect()
+    };
+    // anatomy + property, no legacyKey: serialized as focus-indicator-thickness (qkj5.85).
+    assert!(names("action-button", "Focus ring").contains(&"focus-indicator-thickness".to_string()));
+    let track = names("switch", "Track (size)");
+    assert!(
+        track.iter().all(|n| n.starts_with("switch-control-")),
+        "{track:?}"
+    );
+}
+
+#[test]
+fn sheets_are_reproducible_byte_for_byte() {
+    let dir = tempfile::tempdir().unwrap();
+    let run = |name: &str| {
+        let out = dir.path().join(name);
+        Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(repo_root())
+            .args(["spec-sheet", "switch", "-o"])
+            .arg(&out)
+            .assert()
+            .success();
+        std::fs::read_to_string(out).unwrap()
+    };
+    assert!(run("a.json") == run("b.json"), "two runs differ");
+}

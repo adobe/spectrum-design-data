@@ -190,3 +190,4 @@ opencode.jsonc
 # keep them outside the repo (see tools/ios-catalog-capture/README.md).
 tools/ios-catalog-capture/shots/
 tools/ios-catalog-capture/contact-sheets/
+tools/figma-spec-plugin/.out/

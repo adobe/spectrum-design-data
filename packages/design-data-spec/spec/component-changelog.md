@@ -19,7 +19,7 @@ A removed and an added option, state, anatomy part or slot that differ only by n
 
 ## Attribution
 
-Each change attaches to a component, to the relationship context (the spec-sheet block title) it appears under, and to a **source**: the PR number in the squash subject (`... (#123)`), otherwise the commit sha and subject. A global token reaches a component through the relationships that bind it. A token a component binds whose own record is unchanged but whose alias-resolved value moved is an **indirect** change. Registry and mode-set changes are not fanned out to components.
+Each change attaches to a component, to the relationship context (the spec-sheet block title) it appears under, and to a **source**: the PR number in the squash subject (`... (#123)`), otherwise the commit sha and subject. A global token reaches a component through the relationships that bind it. A token a component names only in `tokenBindings` (by token name) also reaches it; those entries carry `reachedBy: "tokenBinding"`. A token a component binds whose own record is unchanged but whose alias-resolved value moved is an **indirect** change. Registry and mode-set changes are not fanned out to components.
 
 A record's own `rationale` is copied into the entry when present. History comes from the diff; the source is the fallback reason.
 

@@ -28,6 +28,9 @@ tasks:
       - "sdk:build"
     inputs:
       - "code.js"
+      - "payloads.mjs"
+      - "plan.mjs"
+      - "figma-files.json"
       - "test/**/*"
       - "/packages/design-data/**/*"
       - "/sdk/**/*.rs"

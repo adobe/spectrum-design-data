@@ -54,6 +54,25 @@ fn lookup<'a>(graph: &'a TokenGraph, uuid: &str) -> Option<&'a Value> {
     })
 }
 
+/// The token a relationship record shows: the record its `$ref` names, or the record itself
+/// when it carries an inline value.
+fn record_token<'a>(graph: &'a TokenGraph, raw: &'a Value) -> Option<&'a Value> {
+    match s(raw, "$ref") {
+        Some(rf) => lookup(graph, rf),
+        None => raw.get("value").map(|_| raw),
+    }
+}
+
+/// Block title for a record without a context: its relationship property, as words.
+fn property_title(property: &str) -> String {
+    let words = property.replace('-', " ");
+    let mut chars = words.chars();
+    chars
+        .next()
+        .map(|c| c.to_uppercase().chain(chars).collect())
+        .unwrap_or_default()
+}
+
 /// The terminal token type of a record, following alias hops.
 fn terminal_schema(graph: &TokenGraph, raw: &Value) -> String {
     let mut cur = raw;
@@ -209,6 +228,72 @@ fn when_options(recipe: &Value, context: &str) -> Map<String, Value> {
     out
 }
 
+/// States and options the highlighted bindings need to appear: the part's `visibleWhen` (a focus
+/// ring, the badge icon) and the `when` of the binding for `context` (the pressed scale). The
+/// block renders with them, so the scene holds what the block documents. An option that lists
+/// values takes the first.
+fn required_visibility(
+    recipe: &Value,
+    context: &str,
+    hl: &[(&str, &str)],
+) -> (Vec<String>, Map<String, Value>) {
+    let mut states: Vec<String> = Vec::new();
+    let mut options = Map::new();
+    let mut add = |cond: Option<&Value>| {
+        let Some(cond) = cond else { return };
+        for st in cond
+            .get("states")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+        {
+            if let Some(st) = st.as_str().filter(|x| !states.iter().any(|o| o == x)) {
+                states.push(st.to_string());
+            }
+        }
+        for (k, v) in cond
+            .get("options")
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+        {
+            let first = v.as_array().and_then(|a| a.first()).unwrap_or(v);
+            options.entry(k.clone()).or_insert(first.clone());
+        }
+    };
+    let base = context.split(" (").next().unwrap_or(context).trim();
+    for (part, prop) in hl {
+        let def = recipe.pointer(&format!("/parts/{part}"));
+        add(def.and_then(|d| d.get("visibleWhen")));
+        // A gap sits between children, so they must be visible.
+        if *prop == "gap" {
+            for child in def
+                .and_then(|d| d.get("children"))
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+            {
+                add(recipe.pointer(&format!("/parts/{child}/visibleWhen")));
+            }
+        }
+        for e in def
+            .and_then(|d| d.pointer(&format!("/props/{prop}")))
+            .map(entries)
+            .unwrap_or_default()
+        {
+            let c = e
+                .get("relationship")
+                .and_then(|r| s(r, "context"))
+                .map(str::trim);
+            if c == Some(context) || c == Some(base) {
+                add(e.get("when"));
+            }
+        }
+    }
+    (states, options)
+}
+
 /// Whether a concrete relationship property fits a recipe property template such as
 /// `component-height-{sizeIndex}`.
 fn template_matches(template: &str, property: &str) -> bool {
@@ -268,6 +353,11 @@ fn size_by_property(recipe: &Value) -> BTreeMap<String, String> {
 }
 
 struct Item {
+    inline: bool,
+    /// Relationship records merged into this item (one per scale or color scheme).
+    records: usize,
+    /// Identity of the token across scales (desktop/mobile): rows merge scales of one token only.
+    concept: String,
     marker: Option<usize>,
     label: String,
     size: Option<String>,
@@ -285,6 +375,7 @@ impl Item {
             "label": self.label,
             "size": self.size,
             "states": self.states,
+            "source": if self.inline { "inline" } else { "token" },
             "token": {"name": self.name, "uuid": self.uuid, "property": self.property},
             "values": self.values,
         })
@@ -301,11 +392,16 @@ struct Ctx<'a> {
 }
 
 impl Ctx<'_> {
-    fn render(&self, recipe: &Value, options: &Map<String, Value>) -> miette::Result<Value> {
+    fn render(
+        &self,
+        recipe: &Value,
+        options: &Map<String, Value>,
+        states: Vec<String>,
+    ) -> miette::Result<Value> {
         let req = RenderRequest {
             component: self.component.to_string(),
             size: self.size.to_string(),
-            states: Vec::new(),
+            states,
             options: options
                 .iter()
                 .map(|(k, v)| (k.clone(), v.clone()))
@@ -334,24 +430,22 @@ impl Ctx<'_> {
                 "size": req.size,
                 "states": req.states,
                 "options": options,
-                "mode": req.mode,
+                // A HashMap would reorder keys from run to run; sorted keys keep sheets reproducible.
+                "mode": req.mode.iter().collect::<BTreeMap<_, _>>(),
             },
             "scene": scene,
         }))
     }
 
     fn row_items(&self, recs: &[&Value], sizes: &BTreeMap<String, String>) -> Vec<Item> {
-        let distinct: BTreeSet<&str> = recs
-            .iter()
-            .filter_map(|r| r.get("scope").and_then(|c| s(c, "property")))
-            .collect();
         let mut items: Vec<Item> = Vec::new();
         for r in recs {
             let scope = r.get("scope").unwrap_or(&Value::Null);
             let prop = s(scope, "property").unwrap_or("");
-            let Some(tok) = s(r, "$ref").and_then(|rf| lookup(self.graph, rf)) else {
+            let Some(tok) = record_token(self.graph, r) else {
                 continue;
             };
+            let inline = s(r, "$ref").is_none();
             let states: Vec<String> = scope
                 .get("options")
                 .and_then(|o| o.get("state"))
@@ -366,26 +460,37 @@ impl Ctx<'_> {
                 .get(prop)
                 .cloned()
                 .or_else(|| tok.get("name").and_then(|n| s(n, "size")).map(String::from));
-            // One property per size names the token; a shared property needs the token's own name.
-            let name = if distinct.len() > 1 {
-                prop.to_string()
-            } else {
-                token_name(tok, prop)
-            };
+            let name = token_name(tok, prop);
             let scale = tok
                 .get("name")
-                .and_then(|n| s(n, "scale"))
+                .and_then(|n| s(n, "scale").or_else(|| s(n, "colorScheme")))
+                .or_else(|| {
+                    [tok, r].iter().find_map(|v| {
+                        ["scale", "colorScheme"]
+                            .iter()
+                            .find_map(|k| v.pointer(&format!("/scope/options/{k}"))?.as_str())
+                    })
+                })
                 .unwrap_or("value")
+                .to_string();
+            let concept = ["conceptId", "setUuid", "uuid"]
+                .iter()
+                .find_map(|k| s(tok, k))
+                .unwrap_or_default()
                 .to_string();
             let value = tok.get("value").cloned().unwrap_or_else(|| {
                 let target = s(tok, "$ref").and_then(|t| lookup(self.graph, t));
                 json!({"alias": target.map(|t| token_name(t, prop))})
             });
-            if let Some(it) = items
-                .iter_mut()
-                .find(|i| i.size == size && i.states == states && i.name == name)
-            {
+            if let Some(it) = items.iter_mut().find(|i| {
+                i.size == size
+                    && i.states == states
+                    && i.name == name
+                    && i.concept == concept
+                    && i.property == prop
+            }) {
                 it.values.insert(scale, value);
+                it.records += 1;
                 continue;
             }
             let state_label = states
@@ -400,6 +505,9 @@ impl Ctx<'_> {
                 (None, false) => state_label,
             };
             items.push(Item {
+                inline,
+                records: 1,
+                concept,
                 marker: None,
                 label,
                 size,
@@ -416,18 +524,18 @@ impl Ctx<'_> {
     fn blocks(&self, changelog: Option<&Value>) -> miette::Result<Vec<Value>> {
         let sizes = self.recipe.map(size_by_property).unwrap_or_default();
         let bindings = self.recipe.map(recipe_bindings).unwrap_or_default();
-        let mut order: Vec<(String, String)> = Vec::new();
-        let mut groups: BTreeMap<(String, String), Vec<&Value>> = BTreeMap::new();
+        // Key: (page, title, by_property). Records without a context group by relationship
+        // property under a title made from it; those blocks follow the authored contexts.
+        type Key = (String, String, bool);
+        let mut order: Vec<Key> = Vec::new();
+        let mut groups: BTreeMap<Key, Vec<&Value>> = BTreeMap::new();
         for r in &self.graph.relationships {
             let raw = &r.raw;
             let scope = raw.get("scope");
             if scope.and_then(|c| s(c, "component")) != Some(self.component) {
                 continue;
             }
-            let (Some(context), Some(rf)) = (s(raw, "context"), s(raw, "$ref")) else {
-                continue;
-            };
-            let Some(tok) = lookup(self.graph, rf) else {
+            let Some(tok) = record_token(self.graph, raw) else {
                 continue;
             };
             let static_color = scope
@@ -436,17 +544,25 @@ impl Ctx<'_> {
             let property = scope.and_then(|c| s(c, "property")).unwrap_or("");
             let page =
                 page_for(&terminal_schema(self.graph, tok), static_color, property).to_string();
-            let key = (page, context.trim().to_string());
+            let key = match s(raw, "context") {
+                Some(context) => (page, context.trim().to_string(), false),
+                None => (page, property_title(property), true),
+            };
             if !groups.contains_key(&key) {
                 order.push(key.clone());
             }
             groups.entry(key).or_default().push(raw);
         }
-        order.sort_by_key(|(p, _)| PAGE_ORDER.iter().position(|x| x == p).unwrap_or(usize::MAX));
+        order.sort_by_key(|(p, _, by_property)| {
+            (
+                PAGE_ORDER.iter().position(|x| x == p).unwrap_or(usize::MAX),
+                *by_property,
+            )
+        });
 
         let mut blocks = Vec::new();
-        for (page, context) in order {
-            let recs = &groups[&(page.clone(), context.clone())];
+        for (page, context, by_property) in order {
+            let recs = &groups[&(page.clone(), context.clone(), by_property)];
             // Rows: records sharing the same scalar option conditions (state is a column).
             let mut row_order: Vec<String> = Vec::new();
             let mut rows: BTreeMap<String, (Map<String, Value>, Vec<&Value>)> = BTreeMap::new();
@@ -457,7 +573,8 @@ impl Ctx<'_> {
                     .and_then(|c| c.get("options"))
                     .and_then(Value::as_object);
                 for (k, v) in opts.into_iter().flatten() {
-                    if !v.is_array() && k != "state" {
+                    // A generated group's scale is a value column, not a condition.
+                    if !v.is_array() && k != "state" && !(by_property && k == "scale") {
                         cond.insert(k.clone(), v.clone());
                     }
                 }
@@ -478,13 +595,25 @@ impl Ctx<'_> {
             if hl.is_empty() {
                 hl = bindings.iter().filter(|b| b.2 == base).collect();
             }
+            if by_property {
+                hl.clear();
+            }
             let mut render = match self.recipe {
                 Some(recipe) => {
-                    let mut options = rows[&row_order[0]].0.clone();
-                    for (k, v) in when_options(recipe, &context) {
+                    let mut options = Map::new();
+                    if !by_property {
+                        options = rows[&row_order[0]].0.clone();
+                        for (k, v) in when_options(recipe, &context) {
+                            options.entry(k).or_insert(v);
+                        }
+                    }
+                    let pairs: Vec<(&str, &str)> =
+                        hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
+                    let (states, wanted) = required_visibility(recipe, &context, &pairs);
+                    for (k, v) in wanted {
                         options.entry(k).or_insert(v);
                     }
-                    self.render(recipe, &options)?
+                    self.render(recipe, &options, states)?
                 }
                 None => Value::Null,
             };
@@ -496,15 +625,22 @@ impl Ctx<'_> {
                 // Measurements are the scene's own. A relationship-bound one belongs to the block
                 // when its context is the title or the base context the highlight fell back to;
                 // a direct token selector has no relationship, so the highlighted props decide.
-                let hl_props: Vec<&str> = hl.iter().map(|b| b.1.as_str()).collect();
+                let hl_props: Vec<(&str, &str)> =
+                    hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
                 let measurements: Vec<Value> = render["scene"]["measurements"]
                     .as_array()
                     .into_iter()
                     .flatten()
                     .enumerate()
                     .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
+                        // Dimensions belong on the Layout page; Color blocks share contexts
+                        // such as "Focus indicator" but document the colors.
+                        _ if by_property || page != "Layout" => false,
                         Some(c) => c == context || c == base,
-                        None => m["prop"].as_str().is_some_and(|p| hl_props.contains(&p)),
+                        None => m["part"]
+                            .as_str()
+                            .zip(m["prop"].as_str())
+                            .is_some_and(|pp| hl_props.contains(&pp)),
                     })
                     .map(|(index, m)| {
                         let rel = &m["token"]["relationship"];
@@ -524,6 +660,7 @@ impl Ctx<'_> {
             // A marker sits on the part of the first binding that fits; none fits: no part.
             let mut markers: Vec<(String, String, Option<&str>)> = Vec::new();
             let mut out_rows: Vec<Value> = Vec::new();
+            let mut records = 0;
             for k in &row_order {
                 let (cond, rrecs) = &rows[k];
                 let mut items = self.row_items(rrecs, &sizes);
@@ -549,14 +686,18 @@ impl Ctx<'_> {
                             markers.len() - 1
                         }
                     };
-                    it.marker = (!render.is_null()).then_some(n + 1);
+                    it.marker = (!render.is_null() && !by_property).then_some(n + 1);
                 }
+                records += items.iter().map(|i| i.records).sum::<usize>();
                 out_rows.push(json!({
                     "conditions": cond,
                     "items": items.iter().map(Item::json).collect::<Vec<_>>(),
                 }));
             }
             if !render.is_null() {
+                if by_property {
+                    markers.clear();
+                }
                 render["markers"] = json!(markers
                     .iter()
                     .enumerate()
@@ -578,10 +719,10 @@ impl Ctx<'_> {
                 .flat_map(|c| c.get("entries").and_then(Value::as_array))
                 .flatten()
             {
-                let hit = e
-                    .get("contexts")
-                    .and_then(Value::as_array)
-                    .is_some_and(|cs| cs.iter().any(|c| c.as_str() == Some(context.as_str())));
+                let hit = !by_property
+                    && e.get("contexts")
+                        .and_then(Value::as_array)
+                        .is_some_and(|cs| cs.iter().any(|c| c.as_str() == Some(context.as_str())));
                 if !hit {
                     continue;
                 }
@@ -607,10 +748,17 @@ impl Ctx<'_> {
                     .replace(|c: char| !c.is_ascii_alphanumeric(), "-")
             };
             blocks.push(json!({
-                "id": format!("{}--{}", slug(&page), slug(&context)),
+                "id": format!(
+                    "{}--{}{}",
+                    slug(&page),
+                    slug(&context),
+                    if by_property { "--property" } else { "" }
+                ),
                 "page": page,
                 "title": context,
+                "titleSource": if by_property { "property" } else { "context" },
                 "render": render,
+                "records": records,
                 "rows": out_rows,
                 "notes": [],
                 "changes": changes,

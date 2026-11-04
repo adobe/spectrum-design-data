@@ -115,6 +115,10 @@ pub struct Entry {
     pub indirect: bool,
     /// Relationship contexts (spec-sheet block titles) the change shows up under.
     pub contexts: Vec<String>,
+    /// `tokenBinding` when the component reaches the token only through its `tokenBindings`
+    /// (by token name), not through a relationship.
+    #[serde(default, rename = "reachedBy", skip_serializing_if = "Option::is_none")]
+    pub reached_by: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scope: Option<Value>,
     /// Record uuid, or a component-relative path.
@@ -308,6 +312,41 @@ fn bindings(snaps: [&DatasetSnapshot; 2]) -> HashMap<String, BTreeSet<(String, S
     m
 }
 
+/// Token uuid → (component, context) for each component `tokenBindings` entry, resolving the
+/// binding's token name through the serialized legacy key. Names shared by several tokens
+/// (desktop/mobile, light/dark) resolve to each of them.
+fn name_bindings(snaps: [&DatasetSnapshot; 2]) -> HashMap<String, BTreeSet<(String, String)>> {
+    let mut m: HashMap<String, BTreeSet<(String, String)>> = HashMap::new();
+    for snap in snaps {
+        let mut by_name: HashMap<String, Vec<&str>> = HashMap::new();
+        for t in snap.graph.tokens.values() {
+            if let (Some(n), Some(u)) = (
+                t.raw
+                    .get("name")
+                    .and_then(crate::naming::extract_legacy_key),
+                t.raw.get("uuid").and_then(Value::as_str),
+            ) {
+                by_name.entry(n).or_default().push(u);
+            }
+        }
+        for (comp, raw) in &snap.components {
+            let bindings = raw.get("tokenBindings").and_then(Value::as_array);
+            for b in bindings.into_iter().flatten() {
+                let Some(name) = b.get("token").and_then(Value::as_str) else {
+                    continue;
+                };
+                let ctx = b.get("context").and_then(Value::as_str).unwrap_or("");
+                for u in by_name.get(name).into_iter().flatten() {
+                    m.entry(u.to_string())
+                        .or_default()
+                        .insert((comp.clone(), ctx.trim().to_string()));
+                }
+            }
+        }
+    }
+    m
+}
+
 fn rationale_of(new: &DatasetSnapshot, c: &RecordChange) -> Option<String> {
     let rec = match c.layer {
         Layer::Component => c.component.as_ref().and_then(|n| new.components.get(n)),
@@ -340,13 +379,15 @@ pub fn entries_for_step(
     step: &Step,
 ) -> BTreeMap<String, CommitChanges> {
     let bound = bindings([old, new]);
+    let named = name_bindings([old, new]);
     let mut out: BTreeMap<String, Vec<Entry>> = BTreeMap::new();
     let mut push = |comp: &str, e: Entry| out.entry(comp.to_string()).or_default().push(e);
     let mk = |c: &RecordChange,
               class: Class,
               bump: Bump,
               fields: Vec<FieldChange>,
-              contexts: Vec<String>| {
+              contexts: Vec<String>,
+              reached_by: Option<&str>| {
         let compact = matches!(c.kind, "relationship" | "token");
         let pick = |v: &Option<Value>| {
             v.as_ref().and_then(|r| {
@@ -367,6 +408,7 @@ pub fn entries_for_step(
             bump,
             indirect: false,
             contexts,
+            reached_by: reached_by.map(String::from),
             scope: c.scope.clone(),
             record: c.id.clone(),
             name: c.name.clone(),
@@ -381,6 +423,7 @@ pub fn entries_for_step(
     for c in &diff.changes {
         // Where this change shows up: (component, contexts).
         let mut targets: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+        let mut by_binding: BTreeSet<String> = BTreeSet::new();
         if let Some(comp) = &c.component {
             let ctx = targets.entry(comp.clone()).or_default();
             if let Some(x) = &c.context {
@@ -389,6 +432,16 @@ pub fn entries_for_step(
         }
         if c.layer == Layer::Token && !matches!(c.change, Change::Added | Change::Removed) {
             for (comp, ctx) in bound.get(&c.id).into_iter().flatten() {
+                let e = targets.entry(comp.clone()).or_default();
+                if !ctx.is_empty() {
+                    e.insert(ctx.clone());
+                }
+            }
+            // A token a component names in `tokenBindings` reaches it without a relationship.
+            for (comp, ctx) in named.get(&c.id).into_iter().flatten() {
+                if !targets.contains_key(comp) {
+                    by_binding.insert(comp.clone());
+                }
                 let e = targets.entry(comp.clone()).or_default();
                 if !ctx.is_empty() {
                     e.insert(ctx.clone());
@@ -425,6 +478,7 @@ pub fn entries_for_step(
                         bump,
                         owned.iter().map(to_field).collect(),
                         ctx.iter().cloned().collect(),
+                        by_binding.contains(comp).then_some("tokenBinding"),
                     ),
                 );
             }
@@ -432,7 +486,19 @@ pub fn entries_for_step(
     }
 
     for r in &diff.resolved {
-        for (comp, ctx) in bound.get(&r.uuid).into_iter().flatten() {
+        let direct = bound.get(&r.uuid);
+        let by_name = named
+            .get(&r.uuid)
+            .into_iter()
+            .flatten()
+            .filter(|(comp, _)| !direct.is_some_and(|d| d.iter().any(|(c, _)| c == comp)))
+            .map(|x| (x, Some("tokenBinding")));
+        for ((comp, ctx), reached_by) in direct
+            .into_iter()
+            .flatten()
+            .map(|x| (x, None))
+            .chain(by_name)
+        {
             push(
                 comp,
                 Entry {
@@ -447,6 +513,7 @@ pub fn entries_for_step(
                     } else {
                         vec![ctx.clone()]
                     },
+                    reached_by: reached_by.map(String::from),
                     scope: None,
                     record: r.uuid.clone(),
                     name: String::new(),
@@ -779,6 +846,55 @@ mod tests {
             (Class::Visual, Bump::Patch)
         );
         assert_eq!(indirect[0].via, vec!["b"]);
+    }
+
+    #[test]
+    fn token_bindings_by_name_attribute_a_token_change_and_are_marked() {
+        let graph = |v: &str| {
+            TokenGraph::from_pairs(vec![
+                (
+                    "pad-token".into(),
+                    "t.json".into(),
+                    json!({"name": "pad-token", "$schema": "x/dimension.json", "value": v, "uuid": "t1"}),
+                ),
+                (
+                    "other-token".into(),
+                    "t.json".into(),
+                    json!({"name": "other-token", "$schema": "x/dimension.json", "value": "9px", "uuid": "t2"}),
+                ),
+            ])
+        };
+        let comp =
+            json!({"name": "c", "tokenBindings": [{"token": "pad-token", "context": "Rounding "}]});
+        let mut old = snap(vec![], vec![("c", comp.clone())]);
+        let mut new = snap(vec![], vec![("c", comp)]);
+        old.graph = graph("1px");
+        new.graph = graph("2px");
+        let e = &run(&old, &new)["c"].entries;
+        assert_eq!(e.len(), 1, "{e:?}");
+        assert_eq!(e[0].record, "t1");
+        assert_eq!(e[0].contexts, vec!["Rounding"]);
+        assert_eq!(e[0].reached_by.as_deref(), Some("tokenBinding"));
+
+        // A relationship that reaches the token as well wins: the entry is not marked.
+        let mut old = snap(
+            vec![rel("r", "t1")],
+            vec![(
+                "c",
+                json!({"name": "c", "tokenBindings": [{"token": "pad-token"}]}),
+            )],
+        );
+        let mut new = snap(
+            vec![rel("r", "t1")],
+            vec![(
+                "c",
+                json!({"name": "c", "tokenBindings": [{"token": "pad-token"}]}),
+            )],
+        );
+        old.graph = graph("1px");
+        new.graph = graph("2px");
+        let e = &run(&old, &new)["c"].entries;
+        assert!(e.iter().all(|e| e.reached_by.is_none()), "{e:?}");
     }
 
     #[test]

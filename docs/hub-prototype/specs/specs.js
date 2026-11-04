@@ -54,6 +54,10 @@ function visual(block) {
       const lx = x - 22;
       o += `<line x1="${lx}" y1="${y}" x2="${lx}" y2="${y + h}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y}" x2="${lx + 4}" y2="${y}" stroke="${MARK}"/><line x1="${lx - 4}" y1="${y + h}" x2="${lx + 4}" y2="${y + h}" stroke="${MARK}"/>`;
       o += label(lx - 6, y + h / 2, text, "end");
+    } else if (m.kind === "width") {
+      const ly = y + h + 22;
+      o += `<line x1="${x}" y1="${ly}" x2="${x + w}" y2="${ly}" stroke="${MARK}"/><line x1="${x}" y1="${ly - 4}" x2="${x}" y2="${ly + 4}" stroke="${MARK}"/><line x1="${x + w}" y1="${ly - 4}" x2="${x + w}" y2="${ly + 4}" stroke="${MARK}"/>`;
+      o += label(x + w / 2, ly + 16, text);
     } else if (m.kind === "radius") {
       o += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${MARK}" fill-opacity=".25" stroke="${MARK}"/>`;
       o += label(x - 6, y - 8, text, "end");
@@ -95,7 +99,7 @@ function placeholder(block) {
 }
 
 function tokens(block) {
-  let h = `<h3>${esc(block.title)}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
+  let h = `<h3>${esc(block.title)}${block.titleSource === "property" ? '<span class="chip generated" title="No relationship context: grouped by property">by property</span>' : ""}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
   for (const row of block.rows) {
     const cond = Object.entries(row.conditions)
       .map(([k, v]) => `${k}=${v}`)
@@ -103,7 +107,7 @@ function tokens(block) {
     if (cond) h += `<div class="row-cond">${esc(cond)}</div>`;
     h += "<table>";
     for (const it of row.items) {
-      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
+      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}${it.source === "inline" ? ' <span class="chip">inline value</span>' : ""}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
     }
     h += "</table>";
   }
@@ -138,7 +142,7 @@ function commitRow(c) {
     .slice(0, 40)
     .map(
       (e) =>
-        `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
+        `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}${e.reachedBy === "tokenBinding" ? '<span class="chip">via tokenBinding</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
     )
     .join("");
   const meta = metadataSummary(c);

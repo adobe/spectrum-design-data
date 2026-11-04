@@ -171,11 +171,14 @@ pub struct TokenRef {
     pub relationship: Option<RelationshipRef>,
 }
 
-/// A dimension the layout used (height, padding, gap, radius), with the span it covers and the
-/// token it came from. Overlay backends draw dimension lines from these; recipes author none.
+/// A dimension the layout used (height, width, padding, gap, radius, border, focus ring, press),
+/// with the span it covers and the token it came from. Overlay backends draw dimension lines from these; recipes author none.
 #[derive(Debug, Clone, Serialize)]
 pub struct Measurement {
-    /// `height`, `padding`, `gap` or `radius`.
+    /// `height`, `width`, `padding`, `gap`, `radius`, `border`, `focus-thickness`,
+    /// `focus-gap` or `press`. A `width` or `height` span is the part's box, a `border` span is
+    /// the stroke band along its top edge, `focus-thickness` and `focus-gap` are bands above the
+    /// ring's target, and `press` is the pressed part's box (its value is the ratio).
     pub kind: String,
     /// Part the span belongs to.
     pub part: String,
@@ -2230,6 +2233,63 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         });
     }
 
+    // Token-bound sizes of the laid-out parts. The root's height, padding, gap and radius are
+    // measured above; its width is content-sized, so only its border is added here.
+    for (i, n) in nodes.iter().enumerate() {
+        for t in &n.tokens {
+            let (kind, span) = match (t.prop.as_str(), i) {
+                ("width", 1..) => ("width", (n.x, n.y, n.w, n.h)),
+                ("height", 1..) => ("height", (n.x, n.y, n.w, n.h)),
+                ("cornerRadius", 1..) => ("radius", (n.x, n.y, n.radius, n.radius)),
+                ("strokeWidth", _) => ("border", (n.x, n.y, n.w, n.stroke_width)),
+                (
+                    "paddingInlineStart" | "paddingInlineEnd" | "paddingBlockStart"
+                    | "paddingBlockEnd",
+                    1..,
+                ) => {
+                    let Some(v) = t
+                        .value
+                        .trim()
+                        .trim_end_matches("px")
+                        .trim()
+                        .parse::<f64>()
+                        .ok()
+                    else {
+                        continue;
+                    };
+                    // A text part's padding lies outside its node; a box's lies inside it.
+                    let out = n.kind == "text";
+                    let (x, y, w, h) = (n.x, n.y, n.w, n.h);
+                    let span = match (t.prop.as_str(), out) {
+                        ("paddingInlineStart", true) => (x - v, y, v, h),
+                        ("paddingInlineStart", false) => (x, y, v, h),
+                        ("paddingInlineEnd", true) => (x + w, y, v, h),
+                        ("paddingInlineEnd", false) => (x + w - v, y, v, h),
+                        ("paddingBlockStart", true) => (x, y - v, w, v),
+                        ("paddingBlockStart", false) => (x, y, w, v),
+                        (_, true) => (x, y + h, w, v),
+                        (_, false) => (x, y + h - v, w, v),
+                    };
+                    ("padding", span)
+                }
+                _ => continue,
+            };
+            if span.2 <= 0.0 || span.3 <= 0.0 {
+                continue;
+            }
+            measurements.push(Measurement {
+                kind: kind.into(),
+                part: n.part.clone(),
+                prop: t.prop.clone(),
+                x: span.0,
+                y: span.1,
+                w: span.2,
+                h: span.3,
+                token: t.clone(),
+            });
+        }
+    }
+
     // Rings wrap the root, or the part named by `around`, outside its box.
     for (id, part) in parts {
         if part.get("kind").and_then(Value::as_str) != Some("ring") || !cx.visible(part) {
@@ -2250,6 +2310,31 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             .and_then(|t| nodes.iter().find(|n| n.part == t))
             .unwrap_or(&nodes[0]);
         let (tx, ty, tw, th, r0) = (target.x, target.y, target.w, target.h, target.radius);
+        let gap_n = gp.as_ref().and_then(Resolved::num).unwrap_or(2.0);
+        for (kind, r, span) in [
+            ("focus-thickness", &sw, (tx, ty - gap_n - sw_n, tw, sw_n)),
+            ("focus-gap", &gp, (tx, ty - gap_n, tw, gap_n)),
+        ] {
+            if let Some(token) = token_ref(
+                if kind == "focus-gap" {
+                    "gapToParent"
+                } else {
+                    "strokeWidth"
+                },
+                r,
+            ) {
+                measurements.push(Measurement {
+                    kind: kind.into(),
+                    part: id.clone(),
+                    prop: token.prop.clone(),
+                    x: span.0,
+                    y: span.1,
+                    w: span.2,
+                    h: span.3,
+                    token,
+                });
+            }
+        }
         nodes.push(SceneNode {
             part: id.clone(),
             kind: "ring".into(),
@@ -2297,6 +2382,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             let mut nested = Vec::new();
             if let Some(t) = part.as_deref() {
                 collect_nested(parts, t, &mut nested);
+            }
+            if let Some(token) = token_ref("pressWidthRatio", &press_ratio) {
+                measurements.push(Measurement {
+                    kind: "press".into(),
+                    part: target.part.clone(),
+                    prop: token.prop.clone(),
+                    x: target.x,
+                    y: target.y,
+                    w: target.w,
+                    h: target.h,
+                    token,
+                });
             }
             Some(Press {
                 nested,
@@ -2832,6 +2929,46 @@ mod tests {
         );
         assert!(!gap.token.token.is_empty());
         assert_eq!(find("cornerRadius").kind, "radius");
+    }
+
+    #[test]
+    fn nested_parts_border_focus_ring_and_press_are_measured_with_their_tokens() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/switch.json")).unwrap(),
+        )
+        .unwrap();
+        let mut r = req(&["keyboard-focus", "down"]);
+        r.component = "switch".into();
+        r.size = "m".into();
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        let find = |kind: &str, part: &str| {
+            scene
+                .measurements
+                .iter()
+                .find(|m| m.kind == kind && m.part == part)
+                .unwrap_or_else(|| panic!("no {kind} measurement on {part}"))
+        };
+        let track = scene.nodes.iter().find(|n| n.part == "track").unwrap();
+        let width = find("width", "track");
+        assert_eq!((width.x, width.w, width.h), (track.x, track.w, track.h));
+        assert!(width.token.relationship.is_some());
+        assert_eq!(find("height", "track").h, track.h);
+        let ring = find("focus-thickness", "focus-indicator");
+        let gap = find("focus-gap", "focus-indicator");
+        assert_eq!(ring.token.prop, "strokeWidth");
+        assert_eq!(gap.token.prop, "gapToParent");
+        assert!(
+            (ring.y + ring.h - gap.y).abs() < 0.001,
+            "the gap band sits just inside the thickness band"
+        );
+        let press = scene
+            .measurements
+            .iter()
+            .find(|m| m.kind == "press")
+            .unwrap();
+        assert_eq!(press.token.prop, "pressWidthRatio");
+        assert!(press.token.relationship.is_some());
     }
 
     #[test]
