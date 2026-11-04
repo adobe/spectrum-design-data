@@ -1,5 +1,45 @@
 # @adobe/design-data-spec
 
+## 4.11.0
+
+### Minor Changes
+
+- [#1630](https://github.com/adobe/spectrum-design-data/pull/1630) [`9e9a6fa`](https://github.com/adobe/spectrum-design-data/commit/9e9a6fa618b8e65a3d6ba19d83e9e6f00ec6ec46) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): changelog attributes tokens a component reaches through tokenBindings (hzje.31)
+  - **design-data changelog**: a token change reaches a component that names the token in
+    `tokenBindings` (resolved by token name to every token uuid with that name), not only through
+    relationships. Such entries carry `reachedBy: "tokenBinding"`; a token reached both ways is
+    attributed once, unmarked.
+  - **component-changelog.schema.json**: entries gain an optional `reachedBy`.
+
+- [#1628](https://github.com/adobe/spectrum-design-data/pull/1628) [`b0fcd0a`](https://github.com/adobe/spectrum-design-data/commit/b0fcd0a4bfb3c1c7dd28290436413db866131379) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): scene measurements for nested parts, border, focus ring and press ratio (qkj5.93)
+  - **core::visual**: the scene adds `width`, `height`, `radius` and `padding` measurements for
+    nested parts, `border` for stroke widths, `focus-thickness` and `focus-gap` for the ring, and
+    `press` for the press ratio. Each carries its token and relationship. Existing measurements
+    and the SVG output are unchanged.
+  - **design-data spec-sheet**: Layout blocks render in the states and options their bindings need
+    (a focus ring in `keyboard-focus`, a pressed scale in `down`), so the scene shows the part
+    the block documents. Measurements show on the Layout page only.
+  - **component-spec-sheet.schema.json**: the `measurements` description lists the new kinds.
+
+- [#1627](https://github.com/adobe/spectrum-design-data/pull/1627) [`1b331ec`](https://github.com/adobe/spectrum-design-data/commit/1b331ecf575ea170fbec2b402d5835c2822de939) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): spec sheets show relationship records that have no context (qkj5.106, qkj5.107)
+  - **design-data spec-sheet**: records without a `context` form one block per relationship
+    property, titled from the property and marked `titleSource: "property"`. Inline-value
+    records are rows with `source: "inline"`, the value and no token. Every component with
+    relationships now has at least one block.
+  - **design-data spec-sheet**: scales of one token merge into a row; color schemes (`light`,
+    `dark`, `wireframe`) get their own value key, so they no longer overwrite each other.
+  - **component-spec-sheet.schema.json**: blocks gain required `titleSource` and `records`;
+    items gain required `source`. Regenerate any sheet made before this change.
+
+### Patch Changes
+
+- [#1629](https://github.com/adobe/spectrum-design-data/pull/1629) [`435d06b`](https://github.com/adobe/spectrum-design-data/commit/435d06b705453297fbf0cb7337e3b1781c36f9a2) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(sdk): spec sheet token names come from the token's structured name (qkj5.105, qkj5.85)
+  - **design-data spec-sheet**: the token column shows the name the SDK serializes from the
+    token's structured name (or its pinned `legacyKey`), not the relationship property. A focus
+    ring thickness reads `focus-indicator-thickness`, a switch track width
+    `switch-control-width-small`. Rows that use one token for two relationship properties stay
+    separate rows.
+
 ## 4.10.0
 
 ### Minor Changes
