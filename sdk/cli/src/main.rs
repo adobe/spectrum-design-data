@@ -118,6 +118,8 @@ struct TuiArgs {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Resolve exact token identities in contexts from a read-only JSON batch on stdin.
+    ResolveValues,
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
     Platform {
         #[command(subcommand)]

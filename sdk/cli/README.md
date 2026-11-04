@@ -39,6 +39,31 @@ design-data component button
 design-data validate ./my-tokens
 ```
 
+## Read-only value-resolution batches
+
+`design-data resolve-values` reads a JSON batch from standard input. It does not
+load an embedded dataset, apply a platform manifest, or write files. Reporting
+adapters supply the records and declared mode contexts explicitly.
+
+```sh
+design-data resolve-values < comparison-input.json
+```
+
+The input has `records`, `modeSets`, and `queries` arrays. Each record contains `id`, `source`,
+and a canonical token object in `raw`. Each query contains the record `id` and a
+`context` object, such as `{"colorScheme":"dark","contrast":"regular"}`.
+Optional `selectConcept: true` selects the context-appropriate sibling of the
+starting record's concept; by default the starting record is exact.
+Each mode-set declaration supplies `name`, `modes`, and `default`.
+
+The JSON result has one entry per query: `id`, `selectedId`, `label`, `context`,
+`value`, `chain`, and `issue`. Concept selection uses the core cascade resolver:
+filter incompatible contexts, then apply declared-default specificity. UUID
+references retain exact targets. Unavailable targets, cycles, duplicate UUIDs,
+ambiguous siblings, and missing or incompatible contexts return a null value and a
+diagnostic. They never substitute an arbitrary value. Malformed batches fail
+the command with a nonzero exit status.
+
 ## Configuration
 
 Drop a `.design-data.toml` in your project root to point at a specific dataset version:
