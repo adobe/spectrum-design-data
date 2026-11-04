@@ -825,6 +825,22 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Compare the public variable names in a Figma file with the names generated from
+    /// design-data, and list hidden variables that need a public alias (offline)
+    PublicNames {
+        /// Path to a `variables/local` response or a `figma read --format json` snapshot
+        #[arg(long)]
+        snapshot: PathBuf,
+        /// Write the full report as CSV (one row per public variable and per hidden-only variable)
+        #[arg(long)]
+        csv: Option<PathBuf>,
+        /// Write a Markdown summary with examples per match class
+        #[arg(long)]
+        markdown: Option<PathBuf>,
+        /// Output format for stdout (pretty summary or the full JSON report)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Value-level diff between the manifest-resolved dataset and a Figma file (read-only)
     Diff {
         /// Figma file key to read from (required unless `--snapshot` is given)
@@ -3248,6 +3264,47 @@ fn run_figma_audit(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Public variable names versus the names generated from design-data. Offline.
+fn run_figma_public_names(
+    snapshot: &Path,
+    csv: Option<&Path>,
+    markdown: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let text = std::fs::read_to_string(snapshot)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read snapshot {}", snapshot.display()))?;
+    let value: serde_json::Value = serde_json::from_str(&text).into_diagnostic()?;
+    let meta: figma::types::VariablesMeta =
+        serde_json::from_value(value.get("meta").cloned().unwrap_or(value))
+            .into_diagnostic()
+            .wrap_err("snapshot is neither a variables/local response nor a VariablesMeta")?;
+    let graph = load_resolved_graph(None)?;
+    let report = figma::public_names::report(&meta, &figma::public_names::source_index(&graph));
+    if let Some(p) = csv {
+        std::fs::write(p, report.to_csv()).into_diagnostic()?;
+    }
+    if let Some(p) = markdown {
+        std::fs::write(p, report.to_markdown()).into_diagnostic()?;
+    }
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&report).into_diagnostic()?
+        ),
+        OutputFormat::Pretty => {
+            for (collection, classes) in &report.summary {
+                println!("{collection}: {classes:?}");
+            }
+            println!(
+                "hidden-only variables needing a public alias: {}",
+                report.hidden_only.len()
+            );
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 /// Value-level diff between the manifest-resolved dataset and a Figma file —
 /// read-only counterpart to `figma import`. Either `--snapshot` (offline, no
 /// token needed) or `--file-key`/`--token` (a live API call) must be given.
@@ -3256,6 +3313,38 @@ type FigmaDiffInputs = (
     Option<HashMap<String, String>>,
     TokenGraph,
 );
+
+/// The manifest-resolved `TokenGraph` (tokens, relationships, platform cascade) that
+/// `figma export`, `import`, `diff` and `public-names` read.
+fn load_resolved_graph(manifest: Option<&Path>) -> miette::Result<TokenGraph> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    Ok(graph)
+}
 
 /// Load a Figma `VariablesMeta` (offline snapshot or live fetch), the
 /// name-mapping artifact (if given), and the manifest-resolved `TokenGraph` —
@@ -3296,31 +3385,7 @@ fn load_figma_diff_inputs(
     let mapping_map = mapping.map(load_overrides).transpose()?;
 
     // 2. Load the manifest-resolved TokenGraph, same as `figma export`/`import`.
-    let resolved = resolve_data_source(CliPathOverrides {
-        platform_manifest: manifest.map(Path::to_path_buf),
-        ..Default::default()
-    })?;
-    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
-        &resolved.tokens_root,
-        resolved.mode_sets.as_deref(),
-        resolved.components.as_deref(),
-    )
-    .into_diagnostic()
-    .wrap_err_with(|| {
-        format!(
-            "failed to load tokens from {}",
-            resolved.tokens_root.display()
-        )
-    })?;
-    if let Some(dir) = resolved.relationships.as_deref() {
-        let rels = TokenGraph::load_spec_relationships(dir)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
-        graph = graph.with_relationships(rels);
-    }
-    manifest::apply_configured(&mut graph, &resolved)
-        .into_diagnostic()
-        .wrap_err("failed to apply platform manifest cascade")?;
+    let graph = load_resolved_graph(manifest)?;
 
     Ok((meta, mapping_map, graph))
 }
@@ -4268,6 +4333,12 @@ fn main() -> ExitCode {
                 no_folder_prefix,
                 format,
             } => run_figma_audit(&snapshot, token_dir.as_deref(), no_folder_prefix, format),
+            FigmaSub::PublicNames {
+                snapshot,
+                csv,
+                markdown,
+                format,
+            } => run_figma_public_names(&snapshot, csv.as_deref(), markdown.as_deref(), format),
             FigmaSub::Diff {
                 file_key,
                 token,
