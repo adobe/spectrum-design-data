@@ -11,10 +11,26 @@ naming, verification history) is in `docs/structure-element-templates.md`; read 
 elements, references or naming. Roadmap: INIT-4 (EPIC-4.1 to 4.4, planned) and EPIC-5.1 (T-shirt rules).
 The shipped slice is narrower than the epics; do not build beyond the request (`AGENTS.md` roadmap alignment).
 
-## Model (`structures/model.ts`)
+## Stored source and runtime model
 
-- A **Structure** has a random UUID `conceptId`, a local `name` label, `properties`, optional
-  `generation`, and optional `elements`. The document is `StructuresDocument` (`schemaVersion` 4).
+- Defaults, canonical export and authoring envelope **21** store `PortableStructuresDocument`
+  (`schemaVersion` **1**, `portableModel.ts`). Its sections are `structures` (definitions, bindings,
+  options and typed configuration), `publications` (durable generated identities) and `examples`
+  (glyph resources). Session selections and canvas state are separate from authored data.
+- A **Structure** has a UUID-v4 `conceptId`, distinct from its Registry name identity. Top-level
+  `name` references Registry category/term UUIDs; owned Layout labels remain local. Historic Text
+  retains its existing Element-term binding without relaxing Registry uniqueness.
+- Registered variants reference their category and value terms. Supplemental `classification`
+  preserves generation metadata independently of display names. Local variants and Booleans retain
+  local labels; local Booleans do not contribute token names.
+- `portableConversion.ts` is the single read adapter into runtime `StructuresDocument`
+  (`schemaVersion` **7**, `model.ts`). The runtime has resolved labels, `properties` and `editor`
+  configuration for existing domain operations. It is not a second persisted representation or
+  a separate generator. Do not serialize runtime records directly.
+- Configuration targets an owning Structure plus a path of occurrence UUIDs. Parent effects may
+  address owned Layouts, never internals of independent Base/Text references. Leaf overrides retain
+  complete snapshots with explicit field removals and matching glyph resources; incomplete leaf
+  imports report errors rather than silently acquiring inherited values.
 - **Slots** (`STRUCTURE_SLOTS`) are the fixed property set: width, height, min and max of each,
   horizontal and vertical alignment, direction, gap, four paddings, four corner radii, elevation. Each
   slot has a Registry classification (for example property=padding plus position=top) and, for length
@@ -24,8 +40,9 @@ The shipped slice is narrower than the epics; do not build beyond the request (`
   direction are required.
 - Terms for property, position, constraint and axis live in `vocabulary.ts` with fixed ids. Names are
   Registry projections; see `taxonomy-vocabulary`. Do not type or parse names.
-- Change the slot set or schema only with a lossless `upgradeStructuresDocument` step and the
-  persistence checklist below.
+- Change stored contracts only with a lossless migration at the appropriate owner:
+  `structureSourceCodec.ts` for portable storage and `upgradeStructuresDocument` for older runtime
+  formats. Follow the persistence checklist below.
 
 ## Children (`elements.ts`, `children.ts`)
 
@@ -55,8 +72,11 @@ The shipped slice is narrower than the epics; do not build beyond the request (`
 - Generated rows come from `design-data/tshirtArtifacts.ts` (`buildTshirtArtifacts`) and reach the
   Tokens browser as semantic tokens (`tokens/semanticBrowserState.ts`). Semantic tokens cannot take
   per-mode edits yet (see `tokens`, DEBT-016).
-- Token naming is explicit: a rule that makes tokens requires a naming choice. Previews and Apply never
-  silently create Registry terms. Changing the local label does not rename terms or token ids.
+- Generation naming is an explicit Registry reference, separate from the authored name. Migration
+  preserves existing references (List-item still generates with the `list` term). The existing
+  top-level rename operation registers/reuses the new name and updates generation naming where
+  applicable; owned Layout label edits do not add naming segments. Reads, previews and exports
+  never register terms or allocate identities.
 
 ## Resolution and preview (`resolution.ts`, `composition.ts`, `elementResolution.ts`)
 
@@ -69,13 +89,26 @@ outlines and the empty-Structure authoring floor never count toward layout measu
 
 ## Persistence, Changes and Impact
 
-Structures live in `structuresDocumentAtom` (`documentState.ts`) and the authoring snapshot, with
+Runtime Structures live in `structuresDocumentAtom` (`documentState.ts`) and the authoring snapshot, with
 `structureChanges` (`changes.ts`) feeding Changes. Revert, Save, Cancel, reload and Reset all cover the
 whole collection, including elements and order. Removing a source, step or metric is blocked while a
 Structure references it (`assertStructureReferences`). Follow `authoring-lifecycle` and
 `changelog-parity.mdc`; child edits must contribute zero token-concept growth. Local capability gaps
 are LTAX-012 (elements) and LTAX-013 (references and naming); upstream alignment is not assessed (see
 `design-data-contract`).
+
+`registeredNames.ts` reconciles name bindings during authoring/migration and resolves current Registry
+labels. `configurationState.ts` owns shared root/nested option-binding edits; view callbacks must not
+assemble persisted configuration records. Preserve the existing domain operations for other edits.
+
+`structureSourceCodec.ts` and `storage.ts` encode/decode saved and working sources independently within
+one atomic authoring-record write, using shared migration name allocations. Keep the existing storage
+key, saved baseline and attachments; migration is not reseeding. Failed conversion/writes must preserve
+the previous record. Publication identities remain durable even when their output is inactive.
+
+The portable contract is implemented locally, not accepted upstream. See
+`docs/rfcs/portable-structures.md`. Separating publication records improves definition readability;
+it does not imply a reduction in total storage.
 
 ## UI
 
@@ -92,6 +125,11 @@ Open items are in `docs/known-debt.md`. Follow Working rule 5 in `AGENTS.md`. Do
 - Throws on load or restore for Structure problems (DEBT-025). Return issues instead.
 
 ## Checks
+
+`test:structure-portable-contract` covers portable conversion, 1,024 parent configurations, output
+preservation, storage migration, lifecycle and shared configuration edits. The focused
+`list-item-structure-defaults.spec.ts` browser checks cover parent controls, nested edits, local
+Booleans and Registry-backed naming through Save/reload.
 
 `test:structures`, `test:structure-references`, `test:structure-elements`,
 `test:structure-padding-icons`, `test:base-structure-defaults`, `test:tshirt-sizing`,

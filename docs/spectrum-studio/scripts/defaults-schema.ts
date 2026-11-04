@@ -12,8 +12,18 @@ if (config.error)
   throw new Error(
     ts.flattenDiagnosticMessageText(config.error.messageText, "\n"),
   );
+const project = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
+if (project.errors.length)
+  throw new Error(
+    project.errors
+      .map((error) => ts.flattenDiagnosticMessageText(error.messageText, "\n"))
+      .join("\n"),
+  );
 const program = getProgramFromFiles(
-  [resolve(root, "src/features/design-data/model.ts")],
+  [
+    resolve(root, "src/features/design-data/model.ts"),
+    ...project.fileNames.filter((file) => file.endsWith(".d.ts")),
+  ],
   config.config.compilerOptions,
   root,
 );

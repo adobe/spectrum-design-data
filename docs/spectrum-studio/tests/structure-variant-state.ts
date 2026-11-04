@@ -7,6 +7,9 @@ import {
   enterEditModeAtom,
   saveEditAtom,
   assertStoredSnapshot,
+  createDefaultSnapshot,
+  restoreAuthoringSnapshotAtom,
+  editSessionSnapshotAtom,
 } from "../src/features/edit-session/state";
 import {
   selectedStructureIdAtom,
@@ -43,6 +46,18 @@ import { resolveElements } from "../src/features/structures/elementResolution";
 import { isStructureElement } from "../src/features/structures/elements";
 
 const store = createStore();
+const fixture = createDefaultSnapshot();
+const plainStructure = fixture.structures!.structures.find(
+  (structure) => structure.name === "Accessory workflow item",
+)!;
+fixture.structures!.structures = [
+  plainStructure,
+  ...fixture.structures!.structures.filter(
+    (structure) => structure.conceptId !== plainStructure.conceptId,
+  ),
+];
+store.set(restoreAuthoringSnapshotAtom, fixture);
+store.set(editSessionSnapshotAtom, fixture);
 const structureId = store.get(structuresDocumentAtom).structures[0].conceptId;
 store.set(selectedStructureIdAtom, structureId);
 const original = structuredClone(store.get(authoringSnapshotAtom));

@@ -1,10 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  Button,
-  ActionButton,
+  Accordion,
   AccordionItem,
   AccordionItemPanel,
   AccordionItemTitle,
+  Button,
+  ActionButton,
   IllustratedMessage,
   Content,
   Heading,
@@ -26,6 +27,8 @@ import {
   useMemo,
   useRef,
   useState,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
 } from "react";
 import { editModeAtom } from "../../state/view/editMode";
 import {
@@ -33,14 +36,11 @@ import {
   selectedStructureAtom,
   structuresDocumentAtom,
   selectedStructureIdAtom,
-  setStructureTokenNamingAtom,
+  renameStructureAtom,
 } from "../../features/structures/state";
 import { primitiveReferencesAtom } from "../../features/tokens/primitiveReferenceState";
-import { STRUCTURE_SLOT_KEYS } from "../../features/structures/model";
 import {
   resolveStructure,
-  constraintChoiceIssue,
-  isConstraintSlot,
   UNMEASURED_LAYOUT,
   type PreviewLayoutContext,
 } from "../../features/structures/resolution";
@@ -49,6 +49,7 @@ import { StructurePreview } from "./StructurePreview";
 import { StructureElementEditorPanel } from "../../panels/structures/StructureElementEditorPanel";
 import {
   insertElementAtom,
+  insertLayoutAtom,
   insertStructureInstanceAtom,
   removeElementAtom,
   restoreElementAtom,
@@ -64,12 +65,14 @@ import {
   isLeaf,
   structureCandidates,
 } from "../../features/structures/children";
-import { resolveCompositionResult } from "../../features/structures/composition";
+import {
+  resolveCompositionResult,
+  structureHasIndentation,
+} from "../../features/structures/composition";
 import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
 import { browserModeContextAtom } from "../../features/tokens/browserState";
 import { measureCompositionLayouts } from "./compositionMeasurement";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
-import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 import { StructureMetadataPanel } from "../../panels/structures/StructureMetadataPanel";
 import { StructureProperties } from "../../panels/structures/StructureProperties";
 import {
@@ -77,17 +80,22 @@ import {
   updateStructureEditorAtom,
   restoreStructureEditorRemovalAtom,
 } from "../../features/structures/variantState";
+import { structurePreviewsAtom } from "../../features/structures/documentState";
+import {
+  findStructureLayer,
+  structureLayers,
+  structureLayerPreview,
+} from "../../features/structures/layers";
 import {
   resolveStructureOptions,
   structureEditor,
-  optionSlotChanges,
 } from "../../features/structures/variants";
-import {
-  activeVariant,
-  updateOptionOverrides,
-} from "../../features/structures/variantOperations";
+import { activeVariant } from "../../features/structures/variantOperations";
+import { structureCanvasGrid } from "../../features/structures/canvasGrid";
 import { StructureOptionSample } from "./StructureOptionSample";
 import { useNotify } from "../../components/notifications/notificationContext";
+import { configuredStructure } from "../../features/structures/configuration";
+import { editStructureOptionBindingsAtom } from "../../features/structures/configurationState";
 
 const structureDesignInputAtom = atom((get) => ({
   structure: get(selectedStructureAtom),
@@ -142,10 +150,19 @@ function StructureDesignContent({
     selectedElementId,
   } = input;
   const preview = useAtomValue(structurePreviewStateAtom);
+  const [previews, setPreviews] = [
+    useAtomValue(structurePreviewsAtom),
+    useSetAtom(structurePreviewsAtom),
+  ];
   const setPreview = useSetAtom(structurePreviewStateAtom);
   const updateEditor = useSetAtom(updateStructureEditorAtom);
+  const editOptionBindings = useSetAtom(editStructureOptionBindingsAtom);
   const restoreEditor = useSetAtom(restoreStructureEditorRemovalAtom);
   const [addOptionRequest, setAddOptionRequest] = useState(0);
+  const [canvasCell, setCanvasCell] = useState<string | null>(null);
+  const [propertyScope, setPropertyScope] = useState<"parent" | "local">(
+    "parent",
+  );
   const effective = useMemo(
     () =>
       authoredStructure
@@ -161,38 +178,170 @@ function StructureDesignContent({
         preview.options,
       )
     : null;
+  const canvasGrid = authoredStructure
+    ? structureCanvasGrid(
+        structureEditor(authoredStructure).properties,
+        preview,
+        canvasCell,
+      )
+    : [];
   const assign = useSetAtom(assignStructureAtom);
+  const rename = useSetAtom(renameStructureAtom);
   const store = useStore();
-  const selectStructure = useSetAtom(selectedStructureIdAtom),
-    nameTokens = useSetAtom(setStructureTokenNamingAtom);
+  const selectStructure = useSetAtom(selectedStructureIdAtom);
   const insertStructure = useSetAtom(insertStructureInstanceAtom);
+  const insertLayout = useSetAtom(insertLayoutAtom);
   const selectElement = useSetAtom(selectedElementIdAtom);
   const insert = useSetAtom(insertElementAtom),
     updateElement = useSetAtom(updateElementAtom);
 
-  const selectedElement =
-    structure?.elements?.find((element) => element.id === selectedElementId) ??
-    authoredStructure?.elements?.find(
-      (element) => element.id === selectedElementId,
-    );
+  const selectedLayer = authoredStructure
+    ? findStructureLayer(
+        structureLayers(authoredStructure, catalog, {
+          ...previews,
+          [authoredStructure.conceptId]: preview,
+        }),
+        selectedElementId,
+      )
+    : undefined;
+  const selectedElement = selectedLayer?.child;
+  const inspectorSource =
+    selectedLayer?.layout ?? selectedLayer?.owner ?? authoredStructure;
+  const inspectorPath = selectedLayer?.layout
+    ? selectedLayer.path
+    : selectedLayer?.owner.conceptId !== authoredStructure?.conceptId &&
+        selectedLayer
+      ? selectedLayer.path.slice(0, selectedLayer.path.lastIndexOf("/"))
+      : "";
+  const inspectorPreview =
+    inspectorSource?.conceptId === authoredStructure?.conceptId
+      ? preview
+      : inspectorSource
+        ? structureLayerPreview(inspectorSource, previews)
+        : preview;
+  const setInspectorPreview = (patch: Partial<typeof preview>) => {
+    setPropertyScope("local");
+    if (
+      !inspectorSource ||
+      inspectorSource.conceptId === authoredStructure?.conceptId
+    ) {
+      setPreview(patch);
+      return;
+    }
+    setPreviews((current) => ({
+      ...current,
+      [inspectorSource.conceptId]: { ...inspectorPreview, ...patch },
+    }));
+  };
+  const inspectorStructure =
+    inspectorSource && authoredStructure
+      ? configuredStructure(authoredStructure, inspectorPath, catalog, {
+          ...previews,
+          [authoredStructure.conceptId]: preview,
+        }).structure
+      : null;
+  const inspectorVariant = inspectorSource
+    ? activeVariant(
+        inspectorSource,
+        inspectorPreview.activePropertyId,
+        inspectorPreview.options,
+      )
+    : null;
+  const parentVariant =
+    propertyScope === "parent" && variant?.option && !variant.isDefault
+      ? variant
+      : null;
   const elements = useMemo(
     () => (structure ? resolveElements(structure, references, rules) : []),
     [structure, references, rules],
   );
   const stage = useRef<HTMLDivElement>(null);
   const natural = useRef<HTMLDivElement>(null);
+  const panGesture = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    panX: number;
+    panY: number;
+    moved: boolean;
+  } | null>(null);
+  const suppressClick = useRef(false);
+  const [canvasPan, setCanvasPan] = useState({ x: 0, y: 0 });
+  const [canvasZoom, setCanvasZoom] = useState(1);
+  const [spacePressed, setSpacePressed] = useState(false);
+  const [isPanning, setIsPanning] = useState(false);
+  const beginPan = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0 || !(event.target instanceof Element)) return;
+    const target = event.target;
+    const control = target.closest(
+      "button, input, textarea, select, [role='button'], [role='combobox'], [role='switch'], [role='radio'], [role='checkbox']",
+    );
+    if (control || (!spacePressed && target.closest(".structurePreview")))
+      return;
+    panGesture.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      panX: canvasPan.x,
+      panY: canvasPan.y,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsPanning(true);
+    event.preventDefault();
+  };
+  const movePan = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const gesture = panGesture.current;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+    const dx = event.clientX - gesture.startX;
+    const dy = event.clientY - gesture.startY;
+    if (Math.hypot(dx, dy) > 3) gesture.moved = true;
+    setCanvasPan({ x: gesture.panX + dx, y: gesture.panY + dy });
+  };
+  const endPan = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const gesture = panGesture.current;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+    suppressClick.current = gesture.moved;
+    panGesture.current = null;
+    setIsPanning(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId))
+      event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+  const zoomCanvas = (event: ReactWheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const frame = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - frame.left;
+    const y = event.clientY - frame.top;
+    const nextZoom = Math.min(
+      2.5,
+      Math.max(0.25, canvasZoom * Math.exp(-event.deltaY * 0.001)),
+    );
+    setCanvasPan((current) => ({
+      x: x - ((x - current.x) / canvasZoom) * nextZoom,
+      y: y - ((y - current.y) / canvasZoom) * nextZoom,
+    }));
+    setCanvasZoom(nextZoom);
+  };
   const [layout, setLayout] = useState<PreviewLayoutContext>(UNMEASURED_LAYOUT);
   const [moduleLayouts, setModuleLayouts] = useState<
     Record<string, PreviewLayoutContext>
   >({});
   const resolved = useMemo(
-    () => (structure ? resolveStructure(structure, references, layout) : null),
-    [structure, references, layout],
+    () =>
+      structure
+        ? resolveStructure(
+            structure,
+            references,
+            layout,
+            preview.indentationLevel,
+          )
+        : null,
+    [structure, references, layout, preview.indentationLevel],
   );
   const compositionResult = useMemo(() => {
-    if (!structure || generation.status !== "ready") return null;
+    if (!authoredStructure || generation.status !== "ready") return null;
     return resolveCompositionResult(
-      structure,
+      authoredStructure,
       catalog,
       references,
       rules,
@@ -202,9 +351,11 @@ function StructureDesignContent({
       layout,
       moduleLayouts,
       preview.options,
+      preview.indentationLevel,
+      { ...previews, [authoredStructure.conceptId]: preview },
     );
   }, [
-    structure,
+    authoredStructure,
     catalog,
     references,
     rules,
@@ -212,7 +363,8 @@ function StructureDesignContent({
     mode.key,
     layout,
     moduleLayouts,
-    preview.options,
+    previews,
+    preview,
   ]);
   const composition =
     compositionResult?.status === "ready" ? compositionResult.value : null;
@@ -275,16 +427,40 @@ function StructureDesignContent({
       );
     return current;
   };
+  const requireCurrentInspector = () => {
+    requireCurrentStructure();
+    const current = store
+      .get(structuresDocumentAtom)
+      .structures.find((item) => item.conceptId === inspectorSource?.conceptId);
+    if (!current)
+      throw new Error("The selected layout is no longer available.");
+    return current;
+  };
+  const layoutInsertionPreview = (id: string) => {
+    const owner = catalog.find((item) => item.conceptId === id);
+    if (!owner) throw new Error("The selected layout is no longer available.");
+    return structureLayerPreview(owner, previews);
+  };
+  const inspectorLayout = selectedLayer?.layout
+    ? (moduleLayouts[selectedLayer.path] ?? UNMEASURED_LAYOUT)
+    : selectedLayer?.owner.conceptId !== authoredStructure?.conceptId &&
+        selectedLayer
+      ? (moduleLayouts[
+          selectedLayer.path.slice(0, selectedLayer.path.lastIndexOf("/"))
+        ] ?? UNMEASURED_LAYOUT)
+      : layout;
   const deleteSelected = () => {
     requireCurrentStructure();
     if (!structure || !selectedElement)
       throw new Error("The selected element is no longer available.");
     notify.remove({
-      kind: "structureElement",
+      kind: selectedLayer?.layout ? "structure" : "structureElement",
+      noun: selectedLayer?.layout ? "Layout" : undefined,
       run: (store) =>
         store.set(removeElementAtom, {
-          structureId: structure.conceptId,
+          structureId: selectedLayer?.owner.conceptId ?? structure.conceptId,
           elementId: selectedElement.id,
+          selectionId: selectedElementId ?? undefined,
           confirmed: true,
         }),
       undo: (removed) => store.set(restoreElementAtom, removed),
@@ -303,170 +479,224 @@ function StructureDesignContent({
               isReadOnly={!editing}
             />
           )}
-          <div className="structureDesignStage" ref={stage}>
-            {effective?.issues.length ? (
-              <InlineAlert variant="negative">
-                <Heading>Resolve variant differences</Heading>
-                <Content>{effective.issues.join(" ")}</Content>
-              </InlineAlert>
-            ) : generation.status === "error" ||
-              compositionResult?.status === "error" ? (
-              <InlineAlert variant="negative">
-                <Heading>Generation needs repair</Heading>
-                <Content>
-                  {generation.status === "error"
-                    ? generation.error
-                    : compositionResult?.status === "error"
-                      ? compositionResult.error
-                      : ""}
-                </Content>
-              </InlineAlert>
-            ) : (
-              <div className="structureVariantFrames">
-                {(variant?.property?.options ?? [null]).map((option) => (
-                  <div
-                    key={option?.id ?? "default"}
-                    className="structureVariantOption"
-                    data-selected={
-                      !option || option.id === variant?.option?.id || undefined
-                    }
-                  >
-                    <StructureOptionSample
-                      structure={authoredStructure!}
-                      catalog={catalog}
-                      references={references}
-                      rules={rules}
-                      bundle={
-                        generation.status === "ready"
-                          ? generation.bundle
-                          : undefined
-                      }
-                      mode={Object.fromEntries(
-                        JSON.parse(mode.key) as [string, string][],
+          {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
+          <div
+            className="structureDesignStage"
+            ref={stage}
+            role="application"
+            aria-label="Structure preview canvas"
+            tabIndex={0}
+            data-panning={isPanning || undefined}
+            onPointerDown={beginPan}
+            onPointerMove={movePan}
+            onPointerUp={endPan}
+            onPointerCancel={() => {
+              panGesture.current = null;
+              setIsPanning(false);
+            }}
+            onClickCapture={(event) => {
+              if (!suppressClick.current) return;
+              suppressClick.current = false;
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onWheel={zoomCanvas}
+            onKeyDown={(event) => {
+              if (event.key === " " && event.target === event.currentTarget) {
+                event.preventDefault();
+                setSpacePressed(true);
+              }
+            }}
+            onKeyUp={(event) => {
+              if (event.key === " " && event.target === event.currentTarget)
+                setSpacePressed(false);
+            }}
+            onBlur={() => setSpacePressed(false)}
+          >
+            <div
+              className="structureDesignViewport"
+              style={{
+                transform: `translate3d(${canvasPan.x}px, ${canvasPan.y}px, 0) scale(${canvasZoom})`,
+              }}
+            >
+              {effective?.issues.length ? (
+                <InlineAlert variant="negative">
+                  <Heading>Resolve variant differences</Heading>
+                  <Content>{effective.issues.join(" ")}</Content>
+                </InlineAlert>
+              ) : generation.status === "error" ||
+                compositionResult?.status === "error" ? (
+                <InlineAlert variant="negative">
+                  <Heading>Generation needs repair</Heading>
+                  <Content>
+                    {generation.status === "error"
+                      ? generation.error
+                      : compositionResult?.status === "error"
+                        ? compositionResult.error
+                        : ""}
+                  </Content>
+                </InlineAlert>
+              ) : (
+                <div className="structureVariantFrames">
+                  {canvasGrid.map((column) => (
+                    <div
+                      key={column.propertyId ?? "default"}
+                      className="structureVariantColumn"
+                    >
+                      {column.label && (
+                        <span className="structureVariantLabel structureVariantColumnLabel">
+                          {column.label}
+                        </span>
                       )}
-                      preview={
-                        option && variant?.property
-                          ? {
-                              ...preview,
-                              options: {
-                                ...preview.options,
-                                [variant.property.id]: option.id,
-                              },
-                            }
-                          : preview
-                      }
-                      structures={structureCandidates(
-                        catalog,
-                        structure.conceptId,
-                      )}
-                      taxonomy={taxonomy}
-                      selectedElementId={
-                        !option || option.id === variant?.option?.id
-                          ? (selectedElement?.id ?? null)
-                          : null
-                      }
-                      onSelectElement={(id) => {
-                        if (option && variant?.property)
+                      {column.cells.map((cell) => {
+                        const choose = () => {
+                          if (!column.propertyId) return;
+                          setCanvasCell(cell.key);
+                          setPropertyScope("parent");
                           setPreview({
-                            options: {
-                              ...preview.options,
-                              [variant.property.id]: option.id,
-                            },
+                            activePropertyId: cell.preview.activePropertyId,
+                            options: cell.preview.options,
+                            booleans: cell.preview.booleans,
                           });
-                        selectElement(id);
-                      }}
-                      onInsertStructure={
-                        editing
-                          ? (targetId, index, expected) => {
-                              try {
-                                requireCurrentStructure();
-                                insertStructure({
-                                  structureId: structure.conceptId,
-                                  targetId,
-                                  index,
-                                  expected,
-                                  preview:
-                                    option && variant?.property
-                                      ? {
-                                          ...preview,
-                                          options: {
-                                            ...preview.options,
-                                            [variant.property.id]: option.id,
-                                          },
-                                        }
-                                      : preview,
-                                });
-                                if (option && variant?.property)
-                                  setPreview({
-                                    options: {
-                                      ...preview.options,
-                                      [variant.property.id]: option.id,
-                                    },
-                                  });
-                              } catch (failure) {
-                                notify.error(
-                                  failure instanceof Error
-                                    ? failure.message
-                                    : String(failure),
-                                );
+                        };
+                        const insertionPreview = (layout?: {
+                          structureId: string;
+                        }) =>
+                          layout
+                            ? layoutInsertionPreview(layout.structureId)
+                            : cell.preview;
+                        const report = (failure: unknown) =>
+                          notify.error(
+                            failure instanceof Error
+                              ? failure.message
+                              : String(failure),
+                          );
+                        return (
+                          <div
+                            key={cell.key}
+                            className="structureVariantOption"
+                            data-selected={cell.isActive || undefined}
+                          >
+                            {cell.label && (
+                              <span className="structureVariantLabel">
+                                {cell.label}
+                              </span>
+                            )}
+                            <StructureOptionSample
+                              structure={authoredStructure!}
+                              catalog={catalog}
+                              references={references}
+                              rules={rules}
+                              bundle={
+                                generation.status === "ready"
+                                  ? generation.bundle
+                                  : undefined
                               }
-                            }
-                          : undefined
-                      }
-                      onInsert={
-                        editing
-                          ? (kind, index, expected) => {
-                              try {
-                                requireCurrentStructure();
-                                insert({
-                                  structureId: structure.conceptId,
-                                  kind,
-                                  index,
-                                  expected,
-                                  preview:
-                                    option && variant?.property
-                                      ? {
-                                          ...preview,
-                                          options: {
-                                            ...preview.options,
-                                            [variant.property.id]: option.id,
-                                          },
-                                        }
-                                      : preview,
-                                });
-                                if (option && variant?.property)
-                                  setPreview({
-                                    options: {
-                                      ...preview.options,
-                                      [variant.property.id]: option.id,
-                                    },
-                                  });
-                              } catch (failure) {
-                                notify.error(
-                                  failure instanceof Error
-                                    ? failure.message
-                                    : String(failure),
-                                );
+                              mode={Object.fromEntries(
+                                JSON.parse(mode.key) as [string, string][],
+                              )}
+                              preview={cell.preview}
+                              structures={structureCandidates(
+                                catalog,
+                                structure.conceptId,
+                              )}
+                              taxonomy={taxonomy}
+                              selectedElementId={
+                                cell.isActive ? selectedElementId : null
                               }
-                            }
-                          : undefined
-                      }
-                    />
-                  </div>
-                ))}
-                {editing && (
-                  <ActionButton
-                    size="XS"
-                    aria-label="Add variant option"
-                    UNSAFE_className="structureVariantAdd"
-                    onPress={() => setAddOptionRequest((value) => value + 1)}
-                  >
-                    <Add />
-                  </ActionButton>
-                )}
-              </div>
-            )}
+                              onSelectElement={(id) => {
+                                choose();
+                                selectElement(id);
+                              }}
+                              onInsertStructure={
+                                editing
+                                  ? (targetId, index, expected, layout) => {
+                                      try {
+                                        requireCurrentStructure();
+                                        const id = insertStructure({
+                                          structureId:
+                                            layout?.structureId ??
+                                            structure.conceptId,
+                                          targetId,
+                                          index,
+                                          expected,
+                                          preview: insertionPreview(layout),
+                                        });
+                                        if (layout)
+                                          selectElement(`${layout.path}/${id}`);
+                                        choose();
+                                      } catch (failure) {
+                                        report(failure);
+                                      }
+                                    }
+                                  : undefined
+                              }
+                              onInsert={
+                                editing
+                                  ? (kind, index, expected, layout) => {
+                                      try {
+                                        requireCurrentStructure();
+                                        const id = insert({
+                                          structureId:
+                                            layout?.structureId ??
+                                            structure.conceptId,
+                                          kind,
+                                          index,
+                                          expected,
+                                          preview: insertionPreview(layout),
+                                        });
+                                        if (layout)
+                                          selectElement(`${layout.path}/${id}`);
+                                        choose();
+                                      } catch (failure) {
+                                        report(failure);
+                                      }
+                                    }
+                                  : undefined
+                              }
+                              onInsertLayout={
+                                editing
+                                  ? (index, expected, layout) => {
+                                      try {
+                                        requireCurrentStructure();
+                                        const id = insertLayout({
+                                          structureId:
+                                            layout?.structureId ??
+                                            structure.conceptId,
+                                          index,
+                                          expected,
+                                          preview: insertionPreview(layout),
+                                        });
+                                        if (layout)
+                                          selectElement(`${layout.path}/${id}`);
+                                        choose();
+                                      } catch (failure) {
+                                        report(failure);
+                                      }
+                                    }
+                                  : undefined
+                              }
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                  {editing && (
+                    <ActionButton
+                      size="XS"
+                      aria-label="Add variant option"
+                      UNSAFE_className="structureVariantAdd"
+                      onPress={() => setAddOptionRequest((value) => value + 1)}
+                    >
+                      <Add />
+                    </ActionButton>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
+          {/* eslint-enable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
           <StructurePreview
             name={structure.name}
             resolved={resolved}
@@ -482,20 +712,26 @@ function StructureDesignContent({
             </InlineAlert>
           ) : null}
           <Panel
-            label="Structure properties and appearance"
+            label={`Structure settings for ${structure.name}`}
             className="structureEditorPanel"
           >
-            <NestedPanelAccordion
-              defaultExpandedKeys={["properties", "appearance"]}
-            >
+            <div className="structurePanelSections">
               {authoredStructure && (
                 <StructureProperties
+                  key={authoredStructure.conceptId}
                   editor={structureEditor(authoredStructure)}
                   addOptionRequest={addOptionRequest}
                   taxonomy={taxonomy}
                   preview={preview}
+                  showIndentationLevel={structureHasIndentation(
+                    authoredStructure,
+                    catalog,
+                  )}
                   isReadOnly={!editing}
-                  onPreview={setPreview}
+                  onPreview={(patch) => {
+                    setPropertyScope("parent");
+                    setPreview(patch);
+                  }}
                   report={(error) =>
                     notify.error(
                       error instanceof Error ? error.message : String(error),
@@ -523,164 +759,219 @@ function StructureDesignContent({
                   }
                 />
               )}
-              <AccordionItem id="appearance">
-                <AccordionItemTitle>Appearance</AccordionItemTitle>
-                <AccordionItemPanel>
-                  {selectedElement && !isLeaf(selectedElement) ? (
-                    <div className="structureEditorFields">
-                      <Text>
-                        {
-                          catalog.find(
-                            (source) =>
-                              source.conceptId === selectedElement.structureId,
-                          )?.name
-                        }
-                      </Text>
-                      <p>
-                        Settings, tokens and sizing rules are inherited from the
-                        source Structure.
-                      </p>
-                      <Button
-                        variant="secondary"
-                        onPress={() => {
-                          selectElement(null);
-                          selectStructure(selectedElement.structureId);
-                        }}
-                      >
-                        Open source Structure
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        onPress={() => selectElement(null)}
-                      >
-                        Back to Structure
-                      </Button>
-                      {editing && (
+              {inspectorPath && inspectorSource && (
+                <StructureProperties
+                  key={inspectorPath}
+                  label={`${inspectorSource.name} properties`}
+                  editor={structureEditor(inspectorSource)}
+                  taxonomy={taxonomy}
+                  preview={inspectorPreview}
+                  isReadOnly={!editing}
+                  onPreview={setInspectorPreview}
+                  report={notify.error}
+                  onUndo={(before, after) =>
+                    restoreEditor({
+                      structureId: inspectorSource.conceptId,
+                      before,
+                      after,
+                    })
+                  }
+                  onChange={(editor, nextTaxonomy) =>
+                    updateEditor({
+                      structureId: inspectorSource.conceptId,
+                      editor,
+                      taxonomy: nextTaxonomy,
+                    })
+                  }
+                />
+              )}
+              <Accordion
+                size="M"
+                density="spacious"
+                defaultExpandedKeys={["appearance"]}
+              >
+                <AccordionItem id="appearance">
+                  <AccordionItemTitle>Appearance</AccordionItemTitle>
+                  <AccordionItemPanel>
+                    {selectedElement &&
+                    !isLeaf(selectedElement) &&
+                    !selectedLayer?.layout ? (
+                      <div className="structureEditorFields">
+                        <Text>
+                          {
+                            catalog.find(
+                              (source) =>
+                                source.conceptId ===
+                                selectedElement.structureId,
+                            )?.name
+                          }
+                        </Text>
+                        <p>
+                          Settings, tokens and sizing rules are inherited from
+                          the source Structure.
+                        </p>
                         <Button
                           variant="secondary"
                           onPress={() => {
-                            try {
-                              deleteSelected();
-                            } catch (failure) {
-                              notify.error(
-                                failure instanceof Error
-                                  ? failure.message
-                                  : String(failure),
-                              );
-                            }
+                            selectElement(null);
+                            selectStructure(selectedElement.structureId);
                           }}
                         >
-                          Remove instance
+                          Open source Structure
                         </Button>
-                      )}
-                    </div>
-                  ) : selectedElement && isLeaf(selectedElement) ? (
-                    <StructureElementEditorPanel
-                      embedded
-                      key={selectedElement.id}
-                      element={selectedElement}
-                      references={references}
-                      isReadOnly={!editing}
-                      report={notify.error}
-                      onChange={(changes) => {
-                        requireCurrentStructure();
-                        updateElement({
-                          structureId: structure.conceptId,
-                          elementId: selectedElement.id,
-                          optionId:
-                            variant?.option && !variant.isDefault
-                              ? variant.option.id
-                              : undefined,
-                          ...changes,
-                        });
-                      }}
-                    />
-                  ) : (
-                    <StructureEditorPanel
-                      embedded
-                      key={structure.conceptId}
-                      structure={structure}
-                      references={references}
-                      layout={layout}
-                      isReadOnly={!editing}
-                      taxonomy={taxonomy}
-                      report={notify.error}
-                      onTokenNaming={(input) => {
-                        requireCurrentStructure();
-                        nameTokens({
-                          structureId: structure.conceptId,
-                          ...input,
-                        });
-                      }}
-                      onChange={(changes) => {
-                        const frame = stage.current;
-                        const sample = natural.current;
-                        const current = requireCurrentStructure();
-                        if (variant?.option && !variant.isDefault) {
-                          const editor = structureEditor(current);
-                          const effective = resolveStructureOptions(
-                            current,
-                            preview,
-                          ).structure;
-                          for (const slot of STRUCTURE_SLOT_KEYS) {
-                            const selection = changes[slot];
-                            if (!isConstraintSlot(slot) || !selection) continue;
-                            const issue = constraintChoiceIssue(
-                              effective,
-                              slot,
-                              selection,
-                              store.get(primitiveReferencesAtom),
-                              layout,
-                            );
-                            if (issue) throw new Error(issue);
-                          }
-                          updateEditor({
-                            structureId: current.conceptId,
-                            editor: updateOptionOverrides(
-                              editor,
-                              variant.option.id,
-                              optionSlotChanges(
-                                current,
-                                editor.overrides[variant.option.id] ?? {},
-                                changes,
-                              ),
-                            ),
+                        <Button
+                          variant="secondary"
+                          onPress={() => selectElement(null)}
+                        >
+                          Back to Structure
+                        </Button>
+                        {editing && (
+                          <Button
+                            variant="secondary"
+                            onPress={() => {
+                              try {
+                                deleteSelected();
+                              } catch (failure) {
+                                notify.error(
+                                  failure instanceof Error
+                                    ? failure.message
+                                    : String(failure),
+                                );
+                              }
+                            }}
+                          >
+                            Remove instance
+                          </Button>
+                        )}
+                      </div>
+                    ) : selectedElement && isLeaf(selectedElement) ? (
+                      <StructureElementEditorPanel
+                        embedded
+                        key={selectedElement.id}
+                        element={selectedElement}
+                        references={references}
+                        isReadOnly={!editing}
+                        report={notify.error}
+                        onChange={(changes) => {
+                          requireCurrentStructure();
+                          updateElement({
+                            structureId:
+                              selectedLayer?.owner.conceptId ??
+                              structure.conceptId,
+                            elementId: selectedElement.id,
+                            optionId: parentVariant?.option
+                              ? parentVariant.option.id
+                              : inspectorVariant?.option &&
+                                  !inspectorVariant.isDefault
+                                ? inspectorVariant.option.id
+                                : undefined,
+                            ...(parentVariant &&
+                              inspectorPath &&
+                              authoredStructure && {
+                                configuration: {
+                                  rootId: authoredStructure.conceptId,
+                                  path: inspectorPath,
+                                },
+                              }),
+                            ...changes,
                           });
-                          return;
+                        }}
+                      />
+                    ) : (
+                      <StructureEditorPanel
+                        embedded
+                        key={inspectorStructure!.conceptId}
+                        structure={inspectorStructure!}
+                        references={references}
+                        layout={inspectorLayout}
+                        isReadOnly={!editing}
+                        report={notify.error}
+                        onRename={
+                          selectedLayer?.layout
+                            ? (name) => {
+                                const current = requireCurrentInspector();
+                                rename({ id: current.conceptId, name });
+                              }
+                            : undefined
                         }
-                        if (!frame || !sample)
-                          throw new Error(
-                            "The selected structure preview is no longer available.",
+                        onChange={(changes) => {
+                          const frame = stage.current;
+                          const sample = natural.current;
+                          const current = requireCurrentInspector();
+                          if (
+                            parentVariant?.option &&
+                            inspectorPath &&
+                            authoredStructure
+                          ) {
+                            const root = requireCurrentStructure();
+                            editOptionBindings({
+                              target: {
+                                structureId: root.conceptId,
+                                path: inspectorPath.slice(1).split("/"),
+                              },
+                              valueId: parentVariant.option.id,
+                              changes,
+                              layout: inspectorLayout,
+                            });
+                            return;
+                          }
+                          if (
+                            inspectorVariant?.option &&
+                            !inspectorVariant.isDefault
+                          ) {
+                            editOptionBindings({
+                              target: {
+                                structureId: current.conceptId,
+                                path: [],
+                              },
+                              valueId: inspectorVariant.option.id,
+                              changes,
+                              layout: inspectorLayout,
+                            });
+                            return;
+                          }
+                          if (!frame || !sample)
+                            throw new Error(
+                              "The selected structure preview is no longer available.",
+                            );
+                          const currentResolved = resolveStructure(
+                            current,
+                            store.get(primitiveReferencesAtom),
+                            inspectorLayout,
+                            inspectorPreview.indentationLevel,
                           );
-                        const currentResolved = resolveStructure(
-                          current,
-                          store.get(primitiveReferencesAtom),
-                          layout,
-                        );
-                        const invalidNatural = [
-                          "gap",
-                          "paddingTop",
-                          "paddingRight",
-                          "paddingBottom",
-                          "paddingLeft",
-                        ].some((slot) => slot in currentResolved.issues);
-                        const rect = sample.getBoundingClientRect();
-                        assign({
-                          id: current.conceptId,
-                          changes,
-                          layout: {
-                            availableWidth: frame.clientWidth,
-                            availableHeight: frame.clientHeight,
-                            naturalWidth: invalidNatural ? null : rect.width,
-                            naturalHeight: invalidNatural ? null : rect.height,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                </AccordionItemPanel>
-              </AccordionItem>
-            </NestedPanelAccordion>
+                          const invalidNatural = [
+                            "gap",
+                            "paddingTop",
+                            "paddingRight",
+                            "paddingBottom",
+                            "paddingLeft",
+                          ].some((slot) => slot in currentResolved.issues);
+                          const rect = sample.getBoundingClientRect();
+                          assign({
+                            id: current.conceptId,
+                            changes,
+                            layout:
+                              current.conceptId !== authoredStructure?.conceptId
+                                ? inspectorLayout
+                                : {
+                                    availableWidth: frame.clientWidth,
+                                    availableHeight: frame.clientHeight,
+                                    naturalWidth: invalidNatural
+                                      ? null
+                                      : rect.width,
+                                    naturalHeight: invalidNatural
+                                      ? null
+                                      : rect.height,
+                                  },
+                          });
+                        }}
+                      />
+                    )}
+                  </AccordionItemPanel>
+                </AccordionItem>
+              </Accordion>
+            </div>
           </Panel>
         </>
       ) : (

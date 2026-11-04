@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useNotify } from "../../components/notifications/notificationContext";
 import {
+  Accordion,
   AccordionItem,
   AccordionItemPanel,
   AccordionItemTitle,
@@ -8,9 +9,8 @@ import {
   TextArea,
 } from "@react-spectrum/s2";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Panel } from "../../components/Panel";
-import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
 import { EditableTextField } from "../../components/editable";
 import type { Structure } from "../../features/structures/model";
 import { renameStructureAtom } from "../../features/structures/state";
@@ -53,6 +53,7 @@ export function StructureMetadataPanel({
   const store = useStore();
   const editElements = useSetAtom(editElementsAtom);
   const [name, setName] = useState(structure.name);
+  useEffect(() => setName(structure.name), [structure.name]);
   const editor = structureEditor(structure);
   const active = activeVariant(
     structure,
@@ -74,7 +75,10 @@ export function StructureMetadataPanel({
       label="Structure metadata and layers"
       className="structureMetadataPanel"
     >
-      <NestedPanelAccordion
+      <Accordion
+        size="M"
+        density="spacious"
+        allowsMultipleExpanded
         defaultExpandedKeys={["metadata", "generation", "layers"]}
       >
         <AccordionItem id="metadata">
@@ -82,7 +86,7 @@ export function StructureMetadataPanel({
           <AccordionItemPanel>
             <div className="structureEditorFields">
               <EditableTextField
-                size="S"
+                size="M"
                 label="Name"
                 isRequired
                 value={name}
@@ -99,7 +103,7 @@ export function StructureMetadataPanel({
                 }}
               />
               <TextArea
-                size="S"
+                size="M"
                 label="Description"
                 value={structure.description ?? ""}
                 isReadOnly={isReadOnly}
@@ -200,7 +204,7 @@ export function StructureMetadataPanel({
             />
           </AccordionItemPanel>
         </AccordionItem>
-      </NestedPanelAccordion>
+      </Accordion>
     </Panel>
   );
 }

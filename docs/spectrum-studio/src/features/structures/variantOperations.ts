@@ -169,6 +169,24 @@ export function duplicateVariantOption(
     throw new Error("The new option needs its own identity.");
   return {
     ...editor,
+    ...(editor.layouts && {
+      layouts: Object.fromEntries(
+        Object.entries(editor.layouts).map(([path, configuration]) => [
+          path,
+          configuration.overrides?.[sourceId]
+            ? {
+                ...configuration,
+                overrides: {
+                  ...configuration.overrides,
+                  [option.id]: structuredClone(
+                    configuration.overrides[sourceId],
+                  ),
+                },
+              }
+            : configuration,
+        ]),
+      ),
+    }),
     properties: editor.properties.map((item) =>
       item.id === property.id
         ? {
@@ -211,6 +229,75 @@ export function removeVariantOption(
     overrides: Object.fromEntries(
       Object.entries(editor.overrides).filter(([id]) => id !== optionId),
     ),
+    ...(editor.layouts && {
+      layouts: Object.fromEntries(
+        Object.entries(editor.layouts).map(([path, configuration]) => [
+          path,
+          {
+            ...configuration,
+            ...(configuration.overrides && {
+              overrides: Object.fromEntries(
+                Object.entries(configuration.overrides).filter(
+                  ([id]) => id !== optionId,
+                ),
+              ),
+            }),
+            ...(configuration.semanticIdentities && {
+              semanticIdentities: Object.fromEntries(
+                Object.entries(configuration.semanticIdentities).filter(
+                  ([id]) => id !== optionId,
+                ),
+              ),
+            }),
+          },
+        ]),
+      ),
+    }),
+  };
+}
+
+export function makeVariantOptionDefault(
+  editor: StructureEditorData,
+  propertyId: string,
+  optionId: string,
+): StructureEditorData {
+  const property = editor.properties.find((item) => item.id === propertyId);
+  if (
+    !property ||
+    property.kind !== "variant" ||
+    !property.options.some((option) => option.id === optionId)
+  )
+    throw new Error("The selected variant option is unavailable.");
+  const overrides = [
+    editor.overrides[optionId],
+    ...Object.values(editor.layouts ?? {}).map(
+      (configuration) => configuration.overrides?.[optionId],
+    ),
+  ];
+  if (
+    overrides.some(
+      (override) =>
+        override &&
+        Object.values(override).some((value) =>
+          Array.isArray(value)
+            ? value.length > 0
+            : value && Object.keys(value).length > 0,
+        ),
+    )
+  )
+    throw new Error(
+      "Choose the default before saving differences for this option.",
+    );
+  return {
+    ...editor,
+    properties: editor.properties.map((item) =>
+      item.id === propertyId
+        ? { ...property, defaultOptionId: optionId }
+        : item,
+    ),
+    overrides: Object.fromEntries(
+      Object.entries(editor.overrides).filter(([id]) => id !== optionId),
+    ),
   };
 }
 
@@ -232,6 +319,23 @@ export function removeBooleanProperty(
         ([, binding]) => binding.propertyId !== propertyId,
       ),
     ),
+    ...(editor.layouts && {
+      layouts: Object.fromEntries(
+        Object.entries(editor.layouts).map(([path, configuration]) => [
+          path,
+          {
+            ...configuration,
+            ...(configuration.visibilityBindings && {
+              visibilityBindings: Object.fromEntries(
+                Object.entries(configuration.visibilityBindings).filter(
+                  ([, binding]) => binding.propertyId !== propertyId,
+                ),
+              ),
+            }),
+          },
+        ]),
+      ),
+    }),
   };
 }
 
@@ -284,6 +388,29 @@ export function renameVariantProperty(
   const property = editor.properties.find((item) => item.id === propertyId);
   if (!property || property.kind !== "variant")
     throw new Error("The variant property is unavailable.");
+  if (property.categoryId) {
+    const category = taxonomy.categories.find(
+      (category) => category.id === property.categoryId,
+    );
+    if (!category || !name.trim())
+      throw new Error(
+        "Choose an available Registry category and give it a name.",
+      );
+    return {
+      taxonomy: {
+        ...taxonomy,
+        categories: taxonomy.categories.map((entry) =>
+          entry.id === category.id ? { ...entry, name: name.trim() } : entry,
+        ),
+      },
+      editor: {
+        ...editor,
+        properties: editor.properties.map((entry) =>
+          entry.id === propertyId ? { ...property, name: name.trim() } : entry,
+        ),
+      },
+    };
+  }
   const renamed = renameAssignment(
     property.classification,
     name,
@@ -301,22 +428,56 @@ export function renameVariantProperty(
   };
 }
 
+export function variantNameTermRequest(
+  editor: StructureEditorData,
+  propertyId: string,
+  optionId: string | undefined,
+  name: string,
+  taxonomy: TaxonomyDocument,
+) {
+  const property = editor.properties.find((item) => item.id === propertyId);
+  if (!property || property.kind !== "variant")
+    throw new Error("The variant property is unavailable.");
+  const selected = optionId
+    ? property.options.find((option) => option.id === optionId)
+    : property;
+  if (!selected) throw new Error("The variant option is unavailable.");
+  if (!optionId && property.categoryId) return null;
+  const target = assignmentRenameTerm(selected.classification, name, taxonomy);
+  return target && !target.existing
+    ? { categoryId: target.categoryId, name: name.trim() }
+    : null;
+}
+
+function assignmentRenameTerm(
+  classification: Classification,
+  name: string,
+  taxonomy: TaxonomyDocument,
+) {
+  const assignments = Object.entries(classification);
+  if (!name.trim()) throw new Error("Give the option a name.");
+  if (!assignments.length) return null;
+  if (assignments.length !== 1 || typeof assignments[0][1] !== "string")
+    throw new Error("Edit this option's ordered terms in the Registry.");
+  const [categoryId] = assignments[0];
+  const existing = taxonomy.terms.find(
+    (term) =>
+      term.categoryId === categoryId &&
+      taxonomyValueKey(term.value) === taxonomyValueKey(name.trim()),
+  );
+  return { categoryId, existing };
+}
+
 function renameAssignment(
   classification: Classification,
   name: string,
   taxonomy: TaxonomyDocument,
   createTerm: boolean,
 ) {
-  const assignments = Object.entries(classification);
-  if (assignments.length !== 1 || typeof assignments[0][1] !== "string")
-    throw new Error("Edit this option's ordered terms in the Registry.");
-  const [categoryId] = assignments[0];
-  if (!name.trim()) throw new Error("Give the option a name.");
-  const existing = taxonomy.terms.find(
-    (term) =>
-      term.categoryId === categoryId &&
-      taxonomyValueKey(term.value) === taxonomyValueKey(name.trim()),
-  );
+  const target = assignmentRenameTerm(classification, name, taxonomy);
+  if (!target)
+    return { taxonomy, assignment: { name: name.trim(), classification } };
+  const { categoryId, existing } = target;
   if (!existing && !createTerm)
     throw new Error("Choose an existing Registry term or create this term.");
   const nextTaxonomy = existing
@@ -345,6 +506,50 @@ export function restoreEditorRemoval(
   after: StructureEditorData,
 ): StructureEditorData {
   const next = structuredClone(current);
+  for (const [path, configuration] of Object.entries(before.layouts ?? {})) {
+    const remaining = after.layouts?.[path];
+    if (JSON.stringify(configuration) === JSON.stringify(remaining)) continue;
+    next.layouts ??= {};
+    if (!remaining) {
+      if (next.layouts[path])
+        throw new Error("A later edit changed this layout configuration.");
+      next.layouts[path] = structuredClone(configuration);
+      continue;
+    }
+    const restored = restoreEditorRemoval(
+      {
+        properties: [],
+        visibility: {},
+        visibilityBindings: {},
+        overrides: {},
+        ...next.layouts[path],
+      },
+      {
+        properties: [],
+        visibility: {},
+        visibilityBindings: {},
+        overrides: {},
+        ...configuration,
+      },
+      {
+        properties: [],
+        visibility: {},
+        visibilityBindings: {},
+        overrides: {},
+        ...remaining,
+      },
+    );
+    next.layouts[path] = {
+      ...next.layouts[path],
+      ...(configuration.visibilityBindings && {
+        visibilityBindings: restored.visibilityBindings,
+      }),
+      ...(configuration.overrides && { overrides: restored.overrides }),
+      ...(restored.semanticIdentities && {
+        semanticIdentities: restored.semanticIdentities,
+      }),
+    };
+  }
   for (const [index, property] of before.properties.entries()) {
     const remaining = after.properties.find((item) => item.id === property.id);
     if (!remaining) {

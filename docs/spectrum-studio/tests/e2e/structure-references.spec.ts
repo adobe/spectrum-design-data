@@ -121,6 +121,14 @@ test("Text modules are inert, use their source geometry, and Direction keeps ins
   });
   await expect(
     settings.getByRole("combobox", { name: "Token naming", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page
+      .getByRole("region", {
+        name: "Structure metadata and layers",
+        exact: true,
+      })
+      .getByRole("textbox", { name: "Name", exact: true }),
   ).toHaveValue("Text");
   await settings
     .getByRole("radio", { name: "Horizontal", exact: true })
@@ -199,9 +207,17 @@ test("Grouped repeated insertion, Undo, protected deletion and label-only edits 
   await card.getByRole("textbox", { name: "Name", exact: true }).press("Tab");
   await expect(
     page
-      .getByRole("region", { name: "Structure settings for Readable content" })
-      .getByRole("combobox", { name: "Token naming", exact: true }),
-  ).toHaveValue("Text");
+      .getByRole("region", {
+        name: "Structure metadata and layers",
+        exact: true,
+      })
+      .getByRole("textbox", { name: "Name", exact: true }),
+  ).toHaveValue("Readable content");
+  expect(
+    buildTshirtArtifacts((await record(page)).working)
+      .semantics.filter((row) => row.structureId === text.conceptId)
+      .every((row) => row.token.name.includes("readable-content")),
+  ).toBe(true);
   await card
     .getByRole("button", {
       name: "Delete structure Readable content",
@@ -354,7 +370,7 @@ test("Nested Hug and Fill constraints use the parent content box in Design and e
   ).toHaveCount(5);
   await expect(page.getByText(/must be measured/)).toHaveCount(0);
 });
-test("Explicit token-name creation preserves local labels and adds no occurrence-owned tokens", async ({
+test("Metadata name updates generated token names without adding occurrence-owned tokens", async ({
   page,
 }) => {
   await start(page);
@@ -365,41 +381,38 @@ test("Explicit token-name creation preserves local labels and adds no occurrence
     .getByRole("region", { name: "Structure instance settings" })
     .getByRole("button", { name: "Open source Structure" })
     .click();
-  const settings = page.getByRole("region", {
-    name: "Structure settings for Text",
+  const metadata = page.getByRole("region", {
+    name: "Structure metadata and layers",
     exact: true,
   });
-  await settings
-    .getByRole("combobox", { name: "Token naming", exact: true })
+  await metadata
+    .getByRole("textbox", { name: "Name", exact: true })
     .fill("Text module");
-  await settings
-    .getByRole("combobox", { name: "Token naming", exact: true })
+  await metadata
+    .getByRole("textbox", { name: "Name", exact: true })
     .press("Tab");
-  await settings
-    .getByRole("button", { name: "Create Structure term", exact: true })
-    .click();
   await expect
     .poll(async () =>
       (await record(page)).working.taxonomy!.terms.some(
-        (term) => term.value === "Text module",
+        (term) => term.value === "text module",
       ),
     )
     .toBe(true);
   const working = (await record(page)).working;
   const term = working.taxonomy!.terms.find(
-    (term) => term.value === "Text module",
+    (term) => term.value === "text module",
   )!;
-  expect(working.structures!.structures[1].name).toBe("Text");
-  expect(working.structures!.structures[1].generation!.nameRef).toEqual({
+  expect(working.structures!.structures[1].name).toBe("Text module");
+  expect(working.structures!.structures[1].generation!.nameRef).toMatchObject({
     categoryId: term.categoryId,
     termId: term.id,
   });
   const bundle = buildTshirtArtifacts(working);
-  expect(bundle.semantics).toHaveLength(20);
+  expect(bundle.semantics).toHaveLength(97);
   expect(
     bundle.semantics
       .filter((row) => row.structureId === text.conceptId)
-      .every((row) => row.token.name.structure === "text-module"),
+      .every((row) => row.token.name.element === "text-module"),
   ).toBe(true);
   await page.getByRole("button", { name: "Save", exact: true }).click();
   await page.reload();
@@ -407,7 +420,7 @@ test("Explicit token-name creation preserves local labels and adds no occurrence
   await expect(preview(page).locator(".structureModule")).toHaveCount(1);
   expect(
     (await record(page)).saved.structures!.structures[1].generation!.nameRef,
-  ).toEqual({ categoryId: term.categoryId, termId: term.id });
+  ).toMatchObject({ categoryId: term.categoryId, termId: term.id });
 });
 test("Only confirmed Reset all replaces a saved system with shipped Text and Base composition", async ({
   page,
@@ -442,5 +455,5 @@ test("Only confirmed Reset all replaces a saved system with shipped Text and Bas
   );
   expect(
     buildTshirtArtifacts((await record(page)).saved).semantics,
-  ).toHaveLength(20);
+  ).toHaveLength(97);
 });

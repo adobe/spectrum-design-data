@@ -146,13 +146,52 @@ export const PreviewOnlyBoolean: Story = {
     await expect(
       canvas.getByRole("button", { name: "boolean option not used" }),
     ).toBeVisible();
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Edit property Has icon" }),
+    );
+    const name = await canvas.findByRole("textbox", { name: "Boolean name" });
+    await expect(name).toHaveFocus();
+    await userEvent.clear(name);
+    await userEvent.type(name, "Has badge");
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Cancel editing boolean name" }),
+    );
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Edit property Has icon" }),
+    );
+    await expect(
+      canvas.getByRole("textbox", { name: "Boolean name" }),
+    ).toHaveValue("Has icon");
+    await userEvent.clear(
+      canvas.getByRole("textbox", { name: "Boolean name" }),
+    );
+    await userEvent.type(
+      canvas.getByRole("textbox", { name: "Boolean name" }),
+      "Has badge",
+    );
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Save boolean name" }),
+    );
+    await expect(
+      canvas.getByRole("button", { name: "Edit property Has badge" }),
+    ).toBeVisible();
+    await expect(
+      canvas.getByRole("switch", { name: "Has badge" }),
+    ).not.toBeChecked();
     canvasElement.dataset.playComplete = "true";
   },
 };
 export const InlineOptionName: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Edit Start" }));
+    await userEvent.click(
+      canvas.getByRole("button", { name: "More actions for Icon position" }),
+    );
+    await userEvent.click(
+      await within(document.body).findByRole("menuitem", {
+        name: "Edit Start",
+      }),
+    );
     const field = await canvas.findByRole("textbox", { name: "Option name" });
     await expect(field).toHaveFocus();
     await expect(field).toHaveValue("Start");
@@ -180,11 +219,11 @@ export const InlinePropertyName: Story = {
     await userEvent.click(
       canvas.getByRole("button", { name: "Edit property Icon position" }),
     );
-    const field = await canvas.findByRole("textbox", { name: "Property name" });
+    const field = await canvas.findByRole("textbox", { name: "Variant name" });
     await expect(field).toHaveFocus();
     await userEvent.keyboard("{Escape}");
     await expect(
-      canvas.queryByRole("textbox", { name: "Property name" }),
+      canvas.queryByRole("textbox", { name: "Variant name" }),
     ).not.toBeInTheDocument();
     canvasElement.dataset.playComplete = "true";
   },
@@ -195,6 +234,9 @@ export const ReadOnly: Story = {
     const canvas = within(canvasElement);
     await expect(
       canvas.queryByRole("button", { name: "Add property" }),
+    ).not.toBeInTheDocument();
+    await expect(
+      canvas.queryByRole("button", { name: /^Edit property / }),
     ).not.toBeInTheDocument();
     await userEvent.click(canvas.getByRole("switch", { name: "Has icon" }));
     await expect(canvas.getByRole("status")).toHaveTextContent(
