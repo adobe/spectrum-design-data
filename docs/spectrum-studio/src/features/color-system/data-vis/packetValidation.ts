@@ -13,10 +13,16 @@ import {
 import type { DataVisSourcePacket } from "./adapter";
 import type { ColorStopOverride } from "../../modes/model";
 import { isFoundationPublishingMetadata } from "../../foundations/types";
+import { isScaleAdjustment } from "../scaleAdjustment";
+import {
+  isCustomContrasts,
+  storedCustomContrasts,
+} from "../customContrastConfig";
 import {
   isColorOutputSettings,
   migrateLegacyColorOutput,
 } from "../outputSettings";
+import { isOpacityDocument } from "../../opacity/model";
 
 const text = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
@@ -187,6 +193,22 @@ export function assertDataVisPacket(
   const packet = input as Partial<DataVisSourcePacket>;
   const color = packet.color;
   if (!color) throw new Error("The packet has no Color foundation.");
+  if (!optional(packet.opacity, isOpacityDocument))
+    throw new Error("The packet has invalid Opacity source data.");
+  if (
+    !optional(
+      color.settings?.colorScaleType,
+      (value) =>
+        value === "dynamic-blend" ||
+        value === "opaque" ||
+        value === "transparent",
+    ) ||
+    !optional(
+      color.settings?.syncDefaultStopsWithOpacity,
+      (value) => typeof value === "boolean",
+    )
+  )
+    throw new Error("The packet has invalid Color scale type settings.");
   if (
     !text(color.backgroundScaleId) ||
     !range(color.backgroundLightness, 0, 1) ||
@@ -229,7 +251,9 @@ export function assertDataVisPacket(
             text(value.baseContrastId) &&
             Array.isArray(value.steps) &&
             value.steps.some((step) => step.id === value.baseContrastId),
-        ),
+        ) &&
+        optional(scale.disabledCustomContrasts, isCustomContrasts) &&
+        !(scale.customContrasts && scale.disabledCustomContrasts),
     ) ||
     !unique(color.scales.map((scale) => scale.id))
   )
@@ -244,8 +268,8 @@ export function assertDataVisPacket(
     !["auto", "light", "dark"].includes(settings.side) ||
     !isColorOutputSettings(settings.colorOutput) ||
     "outputGamut" in settings ||
-    !finite(settings.extOffset) ||
-    !finite(settings.extSteep) ||
+    !finite(settings.backgroundBlend) ||
+    !finite(settings.colorSourceCurveOffset) ||
     !finite(settings.guardThreshold) ||
     !optional(
       settings.contrastReference,
@@ -311,6 +335,7 @@ export function assertDataVisPacket(
           "color.contrastMultiplier",
           "color.backgroundScaleId",
           "color.backgroundLightness",
+          "color.scaleAdjustment",
         ].includes(capability) ||
         capabilities.has(capability)
       )
@@ -343,7 +368,8 @@ export function assertDataVisPacket(
           (value) => text(value) && scaleById.has(value),
         ) ||
         !optional(patch.dataVisSources, isDataVisSourceOverrides) ||
-        !optional(patch.dataVisContrasts, isDataVisContrastOverrides)
+        !optional(patch.dataVisContrasts, isDataVisContrastOverrides) ||
+        !optional(patch.scaleAdjustment, isScaleAdjustment)
       ) {
         throw new Error(`Mode ${mode.key} has invalid color parameters.`);
       }
@@ -372,14 +398,14 @@ export function assertDataVisPacket(
           throw new Error(`Mode ${mode.key} has invalid UI contrast patches.`);
         for (const [id, contrasts] of Object.entries(patch.scaleContrasts)) {
           const scale = scaleById.get(id);
+          const custom = scale && storedCustomContrasts(scale);
           if (
-            !scale?.customContrasts ||
+            !custom ||
             !isRecord(contrasts) ||
             Object.entries(contrasts).some(
               ([contrastId, value]) =>
-                !scale.customContrasts!.steps.some(
-                  (step) => step.id === contrastId,
-                ) || !range(value, 1, 21),
+                !custom.steps.some((step) => step.id === contrastId) ||
+                !range(value, 1, 21),
             )
           ) {
             throw new Error(

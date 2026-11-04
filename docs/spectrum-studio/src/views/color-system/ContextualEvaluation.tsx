@@ -161,7 +161,8 @@ export function ContextualEvaluation() {
         >
           {contrasts.map((item, index) => (
             <PickerItem key={item.id} id={item.id}>
-              {contrastStepIndex(index, scale, rules)} ({item.value}:1)
+              {contrastStepIndex(index, scale, rules, document.contrasts)} (
+              {item.value}:1)
             </PickerItem>
           ))}
         </Picker>

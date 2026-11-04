@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorScale } from "./model";
+import { storedCustomContrasts } from "./customContrastConfig";
 import type { ModeSet } from "../modes/model";
 import { parameterOwners } from "../modes/parameters";
 
@@ -34,10 +35,9 @@ export function pruneCustomContrastPatches(
       if (!color?.scaleContrasts) return mode;
       const scaleContrasts = Object.fromEntries(
         Object.entries(color.scaleContrasts).flatMap(([id, values]) => {
+          const scale = scales.find((scale) => scale.id === id);
           const ids = new Set(
-            scales
-              .find((scale) => scale.id === id)
-              ?.customContrasts?.steps.map((step) => step.id),
+            scale && storedCustomContrasts(scale)?.steps.map((step) => step.id),
           );
           const steps = Object.fromEntries(
             Object.entries(values).filter(([id]) => ids.has(id)),

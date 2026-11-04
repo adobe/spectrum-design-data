@@ -21,6 +21,7 @@ const rampStyles = style({
   borderWidth: 1,
   borderColor: "gray-200",
   boxShadow: { default: "elevated", isNarrow: "none" },
+  opacity: { default: 1, isDisabled: 0.3 },
 });
 const rampContainerStyles = style({
   position: { default: "sticky", isNarrow: "relative" },
@@ -53,12 +54,14 @@ export function MarkerRamp({
   markers,
   focusedId,
   variant = "default",
+  isDisabled = false,
 }: {
   label: string;
   background: CSSProperties;
   markers: readonly { id: string; position: number }[];
   focusedId: string | null;
   variant?: "default" | "narrow";
+  isDisabled?: boolean;
 }) {
   const surface = usePreviewSurface();
   return (
@@ -66,7 +69,7 @@ export function MarkerRamp({
       <div
         role="img"
         aria-label={label}
-        className={rampStyles({ isNarrow: variant === "narrow" })}
+        className={rampStyles({ isNarrow: variant === "narrow", isDisabled })}
         data-ramp-variant={variant}
         style={{ ...previewThemeStyle(surface), ...background }}
       >

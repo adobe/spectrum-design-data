@@ -696,7 +696,7 @@ test("Continuous points preserve arbitrary ratios, opposite targets, exact links
   ).toBe("primitive-token");
 });
 
-test("Source and contrast modes inherit, reset and require a destination for temporary edits", async ({
+test("Contrast modes inherit, reset and require a destination for temporary edits", async ({
   page,
 }) => {
   test.setTimeout(120_000);
@@ -708,74 +708,10 @@ test("Source and contrast modes inherit, reset and require a destination for tem
     )!.id,
   };
   await seed(page, snapshot);
-  await selectMode(page, "Dark");
-  await page.getByRole("radio", { name: "Elements", exact: true }).click();
-  let dialog = await openScale(page, "Data divergence");
-  await dialog
-    .getByRole("button", { name: "End stop, 100 percent", exact: true })
-    .click();
-  await expect(
-    dialog.getByRole("button", { name: / Color source$/ }),
-  ).toBeEnabled();
-  await expect(
-    dialog.getByRole("button", { name: / Color source$/ }),
-  ).toContainText("Green");
-  await moreOptions(dialog);
-  await dialog
-    .getByRole("button", { name: "Use inherited source", exact: true })
-    .click();
-  await expect(
-    dialog.getByRole("button", { name: / Color source$/ }),
-  ).toContainText("Orange");
-  await expect
-    .poll(
-      async () =>
-        (await record(page)).working.modeSets
-          .find((axis) => axis.key === "colorScheme")!
-          .modes.find((mode) => mode.key === "dark")!.foundations.color
-          ?.dataVisSources,
-    )
-    .toBeUndefined();
-  await closeScale(page, dialog);
-  dialog = await openScale(page, "Data sequence");
-  await dialog
-    .getByRole("button", { name: "Color stop, 50 percent", exact: true })
-    .click();
-  for (const source of [
-    "illustrator-orange-color",
-    "data-categories-color-1",
-  ]) {
-    await primitive(page, dialog, source);
-    await expect(
-      dialog.getByRole("combobox", { name: /^Color token\b/ }),
-    ).toHaveAccessibleName(`Color token ${source}`);
-    await expect
-      .poll(
-        async () =>
-          (await record(page)).working.modeSets
-            .find((axis) => axis.key === "colorScheme")!
-            .modes.find((mode) => mode.key === "dark")!.foundations.color
-            ?.dataVisSources?.[DATA_VIS_IDS.sequential]?.named?.tokenId,
-      )
-      .toBeTruthy();
-    expect(
-      sequence((await record(page)).working).points.find(
-        (point) => point.id === "named",
-      )!.source.kind,
-    ).toBe("ui-swatch");
-  }
-  await moreOptions(dialog);
-  await dialog
-    .getByRole("button", { name: "Use inherited source", exact: true })
-    .click();
-  await expect(
-    dialog.getByRole("combobox", { name: /^Color token\b/ }),
-  ).toHaveAccessibleName("Color token blue-color-900");
-  await closeScale(page, dialog);
   await selectMode(page, "Light");
   await selectMode(page, "High");
   await page.getByRole("radio", { name: "Elements", exact: true }).click();
-  dialog = await openScale(page, "Data sequence");
+  let dialog = await openScale(page, "Data sequence");
   await expect(
     dialog.getByRole("textbox", { name: "Contrast", exact: true }),
   ).toHaveValue("2.4");

@@ -6,6 +6,7 @@ import {
   isColorSystemDocument,
   migrateColorSystemDocument,
   type ColorScale,
+  type ColorScaleInterpolation,
   type ColorSystemDocument,
   type ContrastReference,
   type ContrastToken,
@@ -22,8 +23,11 @@ import {
   paletteConsumers,
   type PaletteConsumer,
 } from "./paletteReferences";
-import { resolveColorDocument } from "./resolution";
-export { resolveColorDocument } from "./resolution";
+import { resolveColorScaleDocument as resolveColorDocument } from "./colorScaleResolution";
+export { resolveColorScaleDocument as resolveColorDocument } from "./colorScaleResolution";
+import { opacityDocumentAtom } from "../opacity/state";
+import { browserTokenEditsAtom } from "../tokens/browserEdits";
+import { opacityStopsEnabled } from "./colorScaleType";
 import {
   createPaletteColor,
   findPaletteValueDuplicate,
@@ -56,22 +60,12 @@ import {
 } from "../modes/previewState";
 import { editModeAtom } from "../../state/view/editMode";
 import { modeSetsAtom } from "../modes/state";
-import {
-  COLOR_SCHEME_MODE_SET_KEY,
-  createMode,
-  ensureModeSetKeys,
-} from "../modes/model";
-import {
-  capabilityOwners,
-  effectiveParameterValue,
-  parameterOwners,
-  setParameterValue,
-} from "../modes/parameters";
+import { COLOR_SCHEME_MODE_SET_KEY } from "../modes/model";
+import { effectiveParameterValue, parameterOwners } from "../modes/parameters";
 import { modeCombinationCount, modeCombinations } from "../modes/combinations";
 import type {
   ContrastLibraryMode,
   CustomContrastLibraryMode,
-  ScaleLibraryMode,
 } from "./cssLibrary";
 import { dataAttribute, sanitizeTokenName } from "./cssLibrary";
 import { withTaxonomyContributions } from "../taxonomy/contributions";
@@ -110,6 +104,12 @@ import {
   type ColorOutputSettings,
 } from "./outputSettings";
 import { MAX_AUTHORED_CHROMA } from "./paletteValue";
+import { normalizedAdjustment, type ScaleAdjustment } from "./scaleAdjustment";
+import {
+  nextSwatchIndex,
+  reindexSwatches,
+  swatchIndex,
+} from "../scales/swatchIndices";
 
 const storedColorSystemDocumentAtom = persistedAtom<ColorSystemDocument>({
   key: "foundations/color",
@@ -170,7 +170,15 @@ export const colorSystemDocumentAtom = atom(
       pruneCustomContrastPatches(sets, next.scales),
       next.dataVisScales,
     );
-    assertNoDataVisSourceLoss(previous, next, pruned);
+    const outputOptions = {
+      modeSets: sets,
+      opacity: get(opacityDocumentAtom),
+      browserTokenEdits: get(browserTokenEditsAtom),
+    };
+    assertNoDataVisSourceLoss(
+      resolveColorDocument(previous, [], undefined, outputOptions),
+      resolveColorDocument(next, [], undefined, outputOptions),
+    );
     set(namedColorSystemDocumentAtom, next);
     if (JSON.stringify(sets) !== JSON.stringify(pruned))
       set(modeSetsAtom, pruned);
@@ -183,7 +191,11 @@ export const resolvedColorSystemDocumentAtom = atom((get) =>
     get(colorSystemDocumentAtom),
     get(activeModesAtom),
     get(previewOverridesAtom),
-    { modeSets: get(modeSetsAtom) },
+    {
+      modeSets: get(modeSetsAtom),
+      opacity: get(opacityDocumentAtom),
+      browserTokenEdits: get(browserTokenEditsAtom),
+    },
   ),
 );
 
@@ -193,7 +205,12 @@ export const cssBaseDocumentAtom = atom((get) =>
     get(colorSystemDocumentAtom),
     get(activeModesAtom),
     get(previewOverridesAtom),
-    { applyMultiplier: false, modeSets: get(modeSetsAtom) },
+    {
+      applyMultiplier: false,
+      modeSets: get(modeSetsAtom),
+      opacity: get(opacityDocumentAtom),
+      browserTokenEdits: get(browserTokenEditsAtom),
+    },
   ),
 );
 
@@ -207,7 +224,6 @@ export const customContrastModeDocumentsAtom = atom(
       owners["color.contrastMultiplier"],
       owners["color.backgroundLightness"],
       owners["color.backgroundScaleId"],
-      capabilityOwners(sets)["color.scales"],
     ]);
     const axes = sets.filter(
       (axis) => ownerIds.has(axis.id) && axis.modes.length,
@@ -227,6 +243,8 @@ export const customContrastModeDocumentsAtom = atom(
           })
           .join("") || ":root";
       const document = resolveColorDocument(base, modes, undefined, {
+        opacity: get(opacityDocumentAtom),
+        browserTokenEdits: get(browserTokenEditsAtom),
         applyMultiplier: false,
         modeSets: sets,
       });
@@ -314,33 +332,12 @@ export const colorSchemeDocumentsAtom = atom((get): ColorSchemeDocument[] => {
           : candidate,
       ),
       undefined,
-      { applyMultiplier: false, modeSets: get(modeSetsAtom) },
-    ),
-  }));
-});
-
-export const scaleModeDocumentsAtom = atom((get): ScaleLibraryMode[] => {
-  const sets = get(modeSetsAtom);
-  const owner = sets.find(
-    (item) => item.id === capabilityOwners(sets)["color.scales"],
-  );
-  if (!owner?.modes.length) return [];
-  const active = get(activeModesAtom);
-  const base = get(colorSystemDocumentAtom);
-  const defaultMode =
-    owner.modes.find((mode) => mode.id === owner.defaultModeId) ??
-    owner.modes[0];
-  return owner.modes.map((mode) => ({
-    modeSetKey: owner.key,
-    key: mode.key,
-    isDefault: mode.id === defaultMode.id,
-    document: resolveColorDocument(
-      base,
-      active.map((candidate) =>
-        owner.modes.some((item) => item.id === candidate.id) ? mode : candidate,
-      ),
-      undefined,
-      { applyMultiplier: false, modeSets: sets },
+      {
+        applyMultiplier: false,
+        modeSets: get(modeSetsAtom),
+        opacity: get(opacityDocumentAtom),
+        browserTokenEdits: get(browserTokenEditsAtom),
+      },
     ),
   }));
 });
@@ -402,6 +399,31 @@ export const updateBackgroundLightnessAtom = atom(
   },
 );
 
+/** Writes one mode's adjustment; neutral relative values clear the field. */
+export const updateModeScaleAdjustmentAtom = atom(
+  null,
+  (
+    get,
+    set,
+    { modeId, adjustment }: { modeId: string; adjustment: ScaleAdjustment },
+  ) => {
+    set(
+      modeSetsAtom,
+      get(modeSetsAtom).map((modeSet) => ({
+        ...modeSet,
+        modes: modeSet.modes.map((mode) => {
+          if (mode.id !== modeId) return mode;
+          const color = { ...mode.foundations.color };
+          const normalized = normalizedAdjustment(adjustment);
+          if (normalized) color.scaleAdjustment = normalized;
+          else delete color.scaleAdjustment;
+          return { ...mode, foundations: { ...mode.foundations, color } };
+        }),
+      })),
+    );
+  },
+);
+
 export const contrastMultiplierAtom = atom((get) =>
   contrastMultiplier(get(resolvedColorSystemDocumentAtom)),
 );
@@ -450,23 +472,38 @@ export const updateColorSystemSettingsAtom = atom(
     get,
     set,
     patch: Partial<{
-      extOffset: number;
-      extSteep: number;
+      colorScaleType: NonNullable<
+        ColorSystemDocument["settings"]["colorScaleType"]
+      >;
+      syncDefaultStopsWithOpacity: boolean;
+      backgroundBlend: number;
+      colorSourceCurveOffset: number;
       colorOutput: ColorOutputSettings;
       contrastReference: ContrastReference;
       polarityCompensation: number;
     }>,
   ) => {
     const document = get(colorSystemDocumentAtom);
-    set(colorSystemDocumentAtom, {
+    if (!get(editModeAtom))
+      throw new Error("Choose Edit before changing color system settings.");
+    const next = {
       ...document,
       settings: {
         ...document.settings,
-        ...(patch.extOffset !== undefined && {
-          extOffset: Math.min(1, Math.max(0, patch.extOffset)),
+        ...(patch.colorScaleType !== undefined && {
+          colorScaleType: patch.colorScaleType,
         }),
-        ...(patch.extSteep !== undefined && {
-          extSteep: Math.min(1, Math.max(-1, patch.extSteep)),
+        ...(patch.syncDefaultStopsWithOpacity !== undefined && {
+          syncDefaultStopsWithOpacity: patch.syncDefaultStopsWithOpacity,
+        }),
+        ...(patch.backgroundBlend !== undefined && {
+          backgroundBlend: Math.min(1, Math.max(0, patch.backgroundBlend)),
+        }),
+        ...(patch.colorSourceCurveOffset !== undefined && {
+          colorSourceCurveOffset: Math.min(
+            1,
+            Math.max(-1, patch.colorSourceCurveOffset),
+          ),
         }),
         ...(patch.colorOutput !== undefined && {
           colorOutput: patch.colorOutput,
@@ -481,7 +518,13 @@ export const updateColorSystemSettingsAtom = atom(
           ),
         }),
       },
-    });
+    };
+    if (
+      opacityStopsEnabled(document.settings) !==
+      opacityStopsEnabled(next.settings)
+    )
+      assertAuthoringUpdate(get, "foundations/color", next);
+    set(colorSystemDocumentAtom, next);
   },
 );
 
@@ -534,6 +577,10 @@ export const canEditContrastStepsAtom = atom((get) => {
 function assertContrastAuthoring(get: Getter) {
   if (!get(editModeAtom))
     throw new Error("Enter edit mode to change contrast steps.");
+  if (opacityStopsEnabled(get(colorSystemDocumentAtom).settings))
+    throw new Error(
+      "Edit the Opacity foundation to change synced default stops.",
+    );
   if (!get(canEditContrastStepsAtom))
     throw new Error(
       "Select the default Color modes to edit shared contrast steps.",
@@ -554,6 +601,22 @@ export const updateContrastTokenAtom = atom(
         contrast.id === update.id
           ? contrastForEffectiveEdit(contrast, target, context)
           : contrast,
+      ),
+    });
+  },
+);
+
+export const updateContrastIndexAtom = atom(
+  null,
+  (get, set, input: { id: string; scaleIndex: number }) => {
+    assertContrastAuthoring(get);
+    const document = get(colorSystemDocumentAtom);
+    set(colorSystemDocumentAtom, {
+      ...document,
+      contrasts: reindexSwatches(
+        document.contrasts,
+        input.id,
+        input.scaleIndex,
       ),
     });
   },
@@ -598,6 +661,11 @@ export const addContrastTokenAtom = atom(null, (get, set) => {
       {
         id: `contrast-custom-${crypto.randomUUID()}`,
         value: Math.min(21, maximum + 0.5),
+        ...(document.contrasts.some(
+          (step) => step.scaleIndex !== undefined,
+        ) && {
+          scaleIndex: nextSwatchIndex(document.contrasts.map(swatchIndex)),
+        }),
       },
     ],
   });
@@ -648,7 +716,6 @@ export const updateColorStopAtom = atom(
       hue?: number;
       chroma?: number;
       paletteColorId?: string | null;
-      scope?: "base" | "mode";
     },
   ) => {
     const document = get(colorSystemDocumentAtom);
@@ -666,79 +733,11 @@ export const updateColorStopAtom = atom(
         chroma: Math.min(MAX_AUTHORED_CHROMA, Math.max(0, update.chroma)),
       }),
     };
-    const modeSets = get(modeSetsAtom);
-    const owner = modeSets.find(
-      (item) => item.id === capabilityOwners(modeSets)["color.scales"],
-    );
-    const selected = owner && resolveActiveMode(owner, get(modeSelectionAtom));
     const link =
       typeof update.paletteColorId === "string"
         ? document.palette.find((color) => color.id === update.paletteColorId)
         : undefined;
     if (typeof update.paletteColorId === "string" && !link) return;
-    if (
-      update.scope !== "base" &&
-      owner &&
-      selected &&
-      selected.id !== owner.defaultModeId
-    ) {
-      const existing =
-        selected.foundations.color?.scaleStops?.[update.scaleId]?.[
-          update.stopId
-        ];
-      const { paletteColorId: existingLink, ...existingLiteral } =
-        existing ?? {};
-      // Literal edits and unlinks start from the color the mode currently shows.
-      const unlinked = link
-        ? undefined
-        : document.palette.find(
-            (color) => color.id === (existingLink ?? baseStop.paletteColorId),
-          );
-      const next = link
-        ? { paletteColorId: link.id }
-        : {
-            ...existingLiteral,
-            ...(unlinked && {
-              lightness: unlinked.lightness,
-              hue: unlinked.hue,
-              chroma: unlinked.chroma,
-            }),
-            ...patch,
-          };
-      set(
-        modeSetsAtom,
-        modeSets.map((modeSet) =>
-          modeSet.id !== owner.id
-            ? modeSet
-            : {
-                ...modeSet,
-                modes: modeSet.modes.map((mode) =>
-                  mode.id !== selected.id
-                    ? mode
-                    : {
-                        ...mode,
-                        foundations: {
-                          ...mode.foundations,
-                          color: {
-                            ...mode.foundations.color,
-                            scaleStops: {
-                              ...mode.foundations.color?.scaleStops,
-                              [update.scaleId]: {
-                                ...mode.foundations.color?.scaleStops?.[
-                                  update.scaleId
-                                ],
-                                [update.stopId]: next,
-                              },
-                            },
-                          },
-                        },
-                      },
-                ),
-              },
-        ),
-      );
-      return;
-    }
     // A literal edit or an unlink replaces the base link.
     const { paletteColorId: baseLink, ...unlinkedStop } = baseStop;
     const baseUnlinked = link
@@ -777,110 +776,6 @@ export const updateColorStopAtom = atom(
   },
 );
 
-export const resetModeColorStopAtom = atom(
-  null,
-  (get, set, input: { scaleId: string; stopId: string }) => {
-    const sets = get(modeSetsAtom);
-    const owner = sets.find(
-      (item) => item.id === capabilityOwners(sets)["color.scales"],
-    );
-    const selected = owner && resolveActiveMode(owner, get(modeSelectionAtom));
-    if (!owner || !selected || selected.id === owner.defaultModeId) return;
-    set(
-      modeSetsAtom,
-      sets.map((modeSet) =>
-        modeSet.id !== owner.id
-          ? modeSet
-          : {
-              ...modeSet,
-              modes: modeSet.modes.map((mode) => {
-                if (mode.id !== selected.id) return mode;
-                const color = { ...mode.foundations.color };
-                const stops = { ...color.scaleStops?.[input.scaleId] };
-                delete stops[input.stopId];
-                const scaleStops = { ...color.scaleStops };
-                if (Object.keys(stops).length)
-                  scaleStops[input.scaleId] = stops;
-                else delete scaleStops[input.scaleId];
-                if (Object.keys(scaleStops).length)
-                  color.scaleStops = scaleStops;
-                else delete color.scaleStops;
-                return { ...mode, foundations: { ...mode.foundations, color } };
-              }),
-            },
-      ),
-    );
-  },
-);
-
-export const applyColorStopToModeAtom = atom(
-  null,
-  (
-    get,
-    set,
-    input: {
-      modeSetId: string;
-      modeId?: string;
-      name?: string;
-      update: {
-        scaleId: string;
-        stopId: string;
-        lightness?: number;
-        hue?: number;
-        chroma?: number;
-        paletteColorId?: string | null;
-      };
-    },
-  ) => {
-    const sets = get(modeSetsAtom);
-    const owner = sets.find(
-      (item) =>
-        item.id === input.modeSetId &&
-        item.authoringCapabilities?.includes("color.scales"),
-    );
-    if (!owner) return;
-    let targetId = input.modeId;
-    if (!targetId) {
-      const name = input.name?.trim();
-      if (!name) return;
-      const preview = get(previewOverridesAtom);
-      const owners = parameterOwners(sets);
-      const captured = Object.keys(preview).filter(
-        (id) => owners[id] === owner.id,
-      );
-      let created = { ...createMode(), name };
-      for (const id of captured)
-        created = setParameterValue(created, id, preview[id]);
-      targetId = created.id;
-      set(
-        modeSetsAtom,
-        sets.map((modeSet) =>
-          modeSet.id === owner.id
-            ? ensureModeSetKeys({
-                ...modeSet,
-                modes: [...modeSet.modes, created],
-              })
-            : modeSet,
-        ),
-      );
-      set(clearPreviewParametersAtom, captured);
-    }
-    const currentOwner = get(modeSetsAtom).find((item) => item.id === owner.id);
-    if (
-      !currentOwner?.modes.some(
-        (mode) =>
-          mode.id === targetId && mode.id !== currentOwner.defaultModeId,
-      )
-    )
-      return;
-    set(modeSelectionAtom, {
-      ...get(modeSelectionAtom),
-      [owner.key]: targetId,
-    });
-    set(updateColorStopAtom, { ...input.update, scope: "mode" });
-  },
-);
-
 export const updateColorScaleNameAtom = atom(
   null,
   (get, set, update: { scaleId: string; name: string }) => {
@@ -890,6 +785,29 @@ export const updateColorScaleNameAtom = atom(
       scales: document.scales.map((scale) =>
         scale.id === update.scaleId ? { ...scale, name: update.name } : scale,
       ),
+    });
+  },
+);
+
+export const updateColorScaleInterpolationAtom = atom(
+  null,
+  (
+    get,
+    set,
+    update: { scaleId: string; interpolation: ColorScaleInterpolation },
+  ) => {
+    const document = get(colorSystemDocumentAtom);
+    set(colorSystemDocumentAtom, {
+      ...document,
+      scales: document.scales.map((scale): ColorScale => {
+        if (scale.id !== update.scaleId) return scale;
+        const rest = { ...scale };
+        delete rest.interpolation;
+        // OKLCh is the default, so it is stored as a missing field.
+        return update.interpolation === "rgb"
+          ? { ...rest, interpolation: "rgb" }
+          : rest;
+      }),
     });
   },
 );
@@ -1011,7 +929,7 @@ export const removeColorScaleAtom = atom(
         error: `This scale is used by ${surfaces.map((surface) => surface.name).join(", ")}. Choose another tint source for these surfaces before deleting it.`,
       };
     const modePatches = get(modeSetsAtom);
-    const blocked = blockedUiSourceRemoval(document, modePatches, scaleId);
+    const blocked = blockedUiSourceRemoval(document, scaleId);
     if (blocked) return { ok: false, error: blocked };
     const deletedScale = document.scales.find((scale) => scale.id === scaleId)!;
     const next = {
@@ -1316,14 +1234,12 @@ export const removePaletteColorAtom = atom(
     const document = get(colorSystemDocumentAtom);
     const index = document.palette.findIndex((color) => color.id === id);
     if (index < 0) return null;
-    const modeSets = get(modeSetsAtom);
-    const consumers = paletteConsumers(document, modeSets, id);
-    const detached = detachPaletteColor(document, modeSets, id);
+    const consumers = paletteConsumers(document, id);
+    const detached = detachPaletteColor(document, id);
     set(colorSystemDocumentAtom, {
       ...detached.document,
       palette: detached.document.palette.filter((color) => color.id !== id),
     });
-    if (detached.modeSets !== modeSets) set(modeSetsAtom, detached.modeSets);
     return { color: document.palette[index], index, consumers };
   },
 );
@@ -1334,10 +1250,10 @@ export const restorePaletteColorAtom = atom(
     const document = get(colorSystemDocumentAtom);
     if (document.palette.some((color) => color.id === input.color.id)) return;
     const index = Math.min(Math.max(0, input.index), document.palette.length);
-    const baseConsumers = new Set(
-      input.consumers
-        .filter((consumer) => !consumer.modeId)
-        .map((consumer) => `${consumer.scaleId}:${consumer.stopId}`),
+    const consumerKeys = new Set(
+      input.consumers.map(
+        (consumer) => `${consumer.scaleId}:${consumer.stopId}`,
+      ),
     );
     set(colorSystemDocumentAtom, {
       ...document,
@@ -1349,43 +1265,12 @@ export const restorePaletteColorAtom = atom(
       scales: document.scales.map((scale) => ({
         ...scale,
         stops: scale.stops.map((stop) =>
-          baseConsumers.has(`${scale.id}:${stop.id}`)
+          consumerKeys.has(`${scale.id}:${stop.id}`)
             ? { ...stop, paletteColorId: input.color.id }
             : stop,
         ),
       })),
     });
-    const modeConsumers = input.consumers.filter((consumer) => consumer.modeId);
-    if (!modeConsumers.length) return;
-    set(
-      modeSetsAtom,
-      get(modeSetsAtom).map((modeSet) => ({
-        ...modeSet,
-        modes: modeSet.modes.map((mode) => {
-          const links = modeConsumers.filter(
-            (consumer) => consumer.modeId === mode.id,
-          );
-          if (!links.length) return mode;
-          const scaleStops = { ...mode.foundations.color?.scaleStops };
-          for (const link of links) {
-            scaleStops[link.scaleId] = {
-              ...scaleStops[link.scaleId],
-              [link.stopId]: {
-                ...scaleStops[link.scaleId]?.[link.stopId],
-                paletteColorId: input.color.id,
-              },
-            };
-          }
-          return {
-            ...mode,
-            foundations: {
-              ...mode.foundations,
-              color: { ...mode.foundations.color, scaleStops },
-            },
-          };
-        }),
-      })),
-    );
   },
 );
 
@@ -1394,7 +1279,9 @@ export const contrastTokensAtom = atom(
 );
 
 export const collapsedContrastIdsAtom = atom((get) =>
-  collapsedContrastIds(get(authoredContrastsAtom), get(contrastTokensAtom)),
+  opacityStopsEnabled(get(colorSystemDocumentAtom).settings)
+    ? new Set<string>()
+    : collapsedContrastIds(get(authoredContrastsAtom), get(contrastTokensAtom)),
 );
 
 export const sortContrastTokensAtom = atom(null, (get, set) => {

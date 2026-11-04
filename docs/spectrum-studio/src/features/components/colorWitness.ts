@@ -29,6 +29,7 @@ export function componentColorInput(
 ): CascadeExportInput {
   return {
     base: source.colorSystem,
+    opacity: source.opacity,
     modeSets: source.modeSets,
     activeModes: source.modeSets
       .map(modeSetDefaultMode)

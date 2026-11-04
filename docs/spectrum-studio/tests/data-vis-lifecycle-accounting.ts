@@ -103,7 +103,6 @@ assert.ok(
     .some((axis) =>
       axis.modes.some(
         (mode) =>
-          mode.foundations.color?.dataVisSources?.[sequence.id]?.[point.id] ||
           mode.foundations.color?.dataVisContrasts?.[sequence.id]?.[point.id],
       ),
     ),
@@ -225,41 +224,6 @@ const defaultKey = canonicalTokenModeKey(
     snapshot.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
   ),
 );
-const modeBaseline = captureSnapshot(store.get);
-assert.throws(
-  () => store.set(replaceModeSetAtom, { ...scheme, defaultModeId: dark.id }),
-  /clear.*data vis overrides.*default/,
-);
-assert.deepEqual(
-  captureSnapshot(store.get),
-  modeBaseline,
-  "Changing the default cannot silently ignore authored data vis patches.",
-);
-assert.throws(
-  () =>
-    store.set(replaceModeSetAtom, {
-      ...scheme,
-      authoringCapabilities: scheme.authoringCapabilities!.filter(
-        (id) => id !== "color.scales",
-      ),
-    }),
-  /clear.*data vis overrides.*owner/,
-);
-assert.deepEqual(captureSnapshot(store.get), modeBaseline);
-const clearedSource = setParameterValue(
-  dark,
-  "color.dataVisSources",
-  undefined,
-);
-assert.equal(clearedSource.foundations.color?.dataVisSources, undefined);
-assert.equal(
-  clearedSource.foundations.color?.backgroundLightness,
-  dark.foundations.color?.backgroundLightness,
-);
-assert.throws(
-  () => setParameterValue(dark, "color.dataVisSources", "invalid"),
-  /data vis editor/,
-);
 const clearedContrast = setParameterValue(
   high,
   "color.dataVisContrasts",
@@ -354,48 +318,6 @@ assert.deepEqual(
   captureSnapshot(store.get),
   beforeConflictingModeUndo,
   "Conflicting mode Undo is atomic.",
-);
-
-store.set(restoreAuthoringSnapshotAtom, snapshot);
-store.set(editModeAtom, true);
-const modeOnlySource = {
-  ...structuredClone(snapshot.colorSystem.scales[0]),
-  id: "mode-only-source",
-  name: "Mode-only source",
-};
-delete modeOnlySource.nameRef;
-store.set(colorSystemDocumentAtom, {
-  ...store.get(colorSystemDocumentAtom),
-  scales: [...store.get(colorSystemDocumentAtom).scales, modeOnlySource],
-});
-const modeOnlyScheme = structuredClone(scheme);
-modeOnlyScheme.modes.find(
-  (mode) => mode.id === dark.id,
-)!.foundations.color!.dataVisSources![DATA_VIS_IDS.diverging].right = {
-  scaleId: modeOnlySource.id,
-};
-store.set(replaceModeSetAtom, modeOnlyScheme);
-const modeOnlyRemoval = store.set(removeModeSetAtom, scheme.id);
-store.set(colorSystemDocumentAtom, {
-  ...store.get(colorSystemDocumentAtom),
-  scales: store
-    .get(colorSystemDocumentAtom)
-    .scales.filter((scale) => scale.id !== modeOnlySource.id),
-});
-const beforeMissingSourceUndo = captureSnapshot(store.get);
-assert.throws(
-  () =>
-    store.set(restoreModeSetAtom, {
-      modeSet: modeOnlyScheme,
-      index: 0,
-      tokenValues: modeOnlyRemoval,
-    }),
-  /linked UI scale mode-only-source is unavailable/,
-);
-assert.deepEqual(
-  captureSnapshot(store.get),
-  beforeMissingSourceUndo,
-  "Mode Undo cannot restore a dangling source or make partial writes.",
 );
 
 store.set(restoreAuthoringSnapshotAtom, snapshot);
@@ -632,8 +554,8 @@ assert.equal(
   store
     .get(modeSetsAtom)
     .find((axis) => axis.id === scheme.id)!
-    .modes.some((mode) => mode.foundations.color?.dataVisSources),
-  false,
+    .modes.every((mode) => mode.foundations.color === undefined),
+  true,
 );
 assert.deepEqual(store.get(browserTokenEditsAtom)[retainedId].values, {});
 assert.equal(

@@ -25,7 +25,7 @@ becomes tokens is in `tokens`. Longer references: `docs/contrast-polarity-compen
 - `surfaces`: contrast-based backgrounds, referencing the base or a parent, with a role and
   `forceDark`. Surfaces are legacy, experimental, and may be removed in future versions.
 - `backgroundScaleId` and `backgroundLightness`: the background everything is measured against.
-- `settings`: `side`, `extOffset`, `extSteep`, `guardThreshold`, `colorOutput` (gamut and format),
+- `settings`: `side`, `backgroundBlend`, `colorSourceCurveOffset`, `guardThreshold`, `colorOutput` (gamut and format),
   `polarityCompensation`, `contrastMultiplier`.
 - `dataVisScales`: see the `data-vis` skill.
 
@@ -69,7 +69,7 @@ document". The atoms that expose it are `resolvedColorSystemDocumentAtom` and `c
   `resolveScaleColorAtLightness`).
 - `dynamicGeneration.ts` (`generateColors`) finds the color for each contrast step against the
   background: a target luminance from the target ratio and the side (light or dark), the extremity
-  from `extOffset` and `extSteep`, and the alpha and opaque variants. Contrast is measured, not
+  from `backgroundBlend` and `colorSourceCurveOffset`, and the alpha and opaque variants. Contrast is measured, not
   assumed.
 - `surfaceGeneration.ts` resolves a surface's color from its contrast and reference.
 - `polarity.ts`: polarity compensation (0 to 100%) adds up to 12 CIE L\* points to each contrast's

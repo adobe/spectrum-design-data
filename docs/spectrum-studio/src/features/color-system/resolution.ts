@@ -3,9 +3,10 @@ import type { ColorSystemDocument } from "./model";
 import type { Mode, ModeSet } from "../modes/model";
 import type { PreviewOverrides } from "../modes/previewState";
 import { capabilityOwners } from "../modes/ownership";
-import { applyStopPatch, resolvePaletteLinks } from "./paletteReferences";
+import { resolvePaletteLinks } from "./paletteReferences";
 import { applyContrastMultiplier, applyPolarityCompensation } from "./polarity";
-import { patchDataVisScales } from "./data-vis/model";
+import { patchDataVisContrasts } from "./data-vis/model";
+import { applyScaleAdjustment, type ScaleAdjustment } from "./scaleAdjustment";
 
 export function resolveColorDocument(
   base: ColorSystemDocument,
@@ -23,7 +24,7 @@ export function resolveColorDocument(
 ): ColorSystemDocument {
   let resolved = base;
   const owners = modeSets ? capabilityOwners(modeSets) : undefined;
-  const scaleOwner = owners?.["color.scales"];
+  let adjustment: ScaleAdjustment | undefined;
   for (const mode of modes) {
     const color = mode.foundations.color;
     if (!color) continue;
@@ -31,49 +32,39 @@ export function resolveColorDocument(
       item.modes.some((candidate) => candidate.id === mode.id),
     );
     if (modeSet && mode.id === modeSet.defaultModeId) continue;
-    const scaleStops =
-      !owners || modeSet?.id === scaleOwner ? color.scaleStops : undefined;
     const scaleContrasts =
       !owners || modeSet?.id === owners["color.contrastMultiplier"]
         ? color.scaleContrasts
         : undefined;
-    const dataVisSources =
-      !owners || modeSet?.id === scaleOwner ? color.dataVisSources : undefined;
     const dataVisContrasts =
       !owners || modeSet?.id === owners["color.contrastMultiplier"]
         ? color.dataVisContrasts
         : undefined;
+    if (
+      color.scaleAdjustment &&
+      (!owners || modeSet?.id === owners["color.scaleAdjustment"])
+    )
+      adjustment = color.scaleAdjustment;
     resolved = {
       ...resolved,
-      ...((dataVisSources || dataVisContrasts) && {
-        dataVisScales: patchDataVisScales(
+      ...(dataVisContrasts && {
+        dataVisScales: patchDataVisContrasts(
           resolved.dataVisScales,
-          dataVisSources,
           dataVisContrasts,
         ),
       }),
-      ...((scaleStops || scaleContrasts) && {
+      ...(scaleContrasts && {
         scales: resolved.scales.map((scale) => ({
           ...scale,
-          ...(scaleStops && {
-            stops: scale.stops.map((stop) =>
-              applyStopPatch(
-                stop,
-                scaleStops[scale.id]?.[stop.id],
-                resolved.palette,
-              ),
-            ),
+          ...(scale.customContrasts && {
+            customContrasts: {
+              ...scale.customContrasts,
+              steps: scale.customContrasts.steps.map((step) => ({
+                ...step,
+                value: scaleContrasts[scale.id]?.[step.id] ?? step.value,
+              })),
+            },
           }),
-          ...(scale.customContrasts &&
-            scaleContrasts && {
-              customContrasts: {
-                ...scale.customContrasts,
-                steps: scale.customContrasts.steps.map((step) => ({
-                  ...step,
-                  value: scaleContrasts[scale.id]?.[step.id] ?? step.value,
-                })),
-              },
-            }),
         })),
       }),
       ...(color.backgroundScaleId !== undefined &&
@@ -95,7 +86,7 @@ export function resolveColorDocument(
         : {}),
     };
   }
-  resolved = resolvePaletteLinks(resolved);
+  resolved = applyScaleAdjustment(resolvePaletteLinks(resolved), adjustment);
   if (preview) {
     const scaleId = preview["color.backgroundScaleId"];
     const lightness = preview["color.backgroundLightness"];

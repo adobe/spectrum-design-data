@@ -19,6 +19,7 @@ import {
   enforceOutputContrast,
   parsedOutputLinear,
 } from "./outputContrast";
+import type { ColorScaleType } from "./model";
 import { readAnchors, type ScaleData } from "./scaleGeneration";
 
 export interface GeneratedColor {
@@ -48,9 +49,11 @@ export interface GeneratedColors {
 }
 
 export interface DynamicGenerationSettings {
+  colorScaleType?: ColorScaleType;
+  syncDefaultStopsWithOpacity?: boolean;
   side: "auto" | "light" | "dark";
-  extOffset: number;
-  extSteep: number;
+  backgroundBlend: number;
+  colorSourceCurveOffset: number;
 }
 
 const generationCache = new WeakMap<ScaleData, Map<string, GeneratedColors>>();
@@ -71,7 +74,7 @@ function createGeneratedColor(
   };
 }
 
-function gammaComposite(
+export function gammaComposite(
   background: LinearRgb,
   source: LinearRgb,
   alpha: number,
@@ -97,8 +100,8 @@ export function generateColors(
     background,
     targetContrast,
     settings.side,
-    settings.extOffset,
-    settings.extSteep,
+    settings.backgroundBlend,
+    settings.colorSourceCurveOffset,
     sideOverride,
   ]);
   const cache =
@@ -125,7 +128,8 @@ export function generateColors(
   const extremity = scaleData.neutral
     ? 1
     : clamp01(
-        settings.extOffset + (settings.extSteep * (targetContrast - 1)) / 11,
+        settings.backgroundBlend +
+          (settings.colorSourceCurveOffset * (targetContrast - 1)) / 11,
       );
   const endpoint = isDark ? 0 : 1;
   const sourceLuminance = clamp01(
@@ -188,7 +192,7 @@ export function generateColors(
     );
     return { ...result, hex: linearToHex(result.linear, scaleData.gamut) };
   };
-  const dynamic = final(dynamicLinear);
+  let dynamic: GeneratedColor | undefined;
   let opaque: GeneratedColor | undefined;
   let transparent: TransparentGeneratedColor | undefined;
   const resolveOpaque = () => (opaque ??= final(opaqueLinear));
@@ -200,7 +204,9 @@ export function generateColors(
     alpha,
     isDark,
     sourceLinear: source,
-    dynamic,
+    get dynamic() {
+      return (dynamic ??= final(dynamicLinear));
+    },
     get opaque() {
       return resolveOpaque();
     },
@@ -239,7 +245,7 @@ export function generateColors(
     get chromaDeltaE() {
       return deltaE(
         linearToOklab(
-          convertLinearGamut(dynamic.linear, scaleData.gamut, "srgb"),
+          convertLinearGamut(result.dynamic.linear, scaleData.gamut, "srgb"),
         ),
         linearToOklab(
           convertLinearGamut(resolveOpaque().linear, scaleData.gamut, "srgb"),

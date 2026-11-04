@@ -1,6 +1,33 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { expect, test } from "@playwright/test";
 
+test("medium-sized model and control buttons align with the color pickers", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto(
+    "/iframe.html?id=components-color-picker--compact-toolbar&viewMode=story",
+  );
+  const gamut = page.getByRole("button", { name: /Gamut/ });
+  const gamutHeight = await gamut.evaluate(
+    (element) => element.getBoundingClientRect().height,
+  );
+  for (const name of [
+    "Cartesian model",
+    "Polar model",
+    "Color area",
+    "Channels",
+  ]) {
+    await expect(page.getByRole("radio", { name, exact: true })).toHaveCSS(
+      "height",
+      `${gamutHeight}px`,
+    );
+  }
+  expect(gamutHeight).toBeGreaterThanOrEqual(32);
+  expect(errors).toEqual([]);
+});
+
 test("compact toolbar keeps exactly one selection without changing the color", async ({
   page,
 }) => {

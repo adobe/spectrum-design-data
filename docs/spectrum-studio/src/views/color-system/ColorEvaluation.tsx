@@ -29,6 +29,10 @@ import { DerivedContentBoundary } from "../../components/DerivedContentBoundary"
 import { renderGamutForOutput } from "../../features/color-system/colorMath";
 import { generateColors } from "../../features/color-system/dynamicGeneration";
 import {
+  generateSelectedColor,
+  isOpacityColorStop,
+} from "../../features/color-system/colorScaleType";
+import {
   resolvedColorSystemDocumentAtom,
   colorSystemScaleDataAtom,
 } from "../../features/color-system/state";
@@ -434,14 +438,20 @@ const EvaluationPalette = memo(function EvaluationPalette({
       new Map(
         document.scales.map((scale) => [
           scale.id,
-          scaleContrasts(document, scale).map((contrast) =>
-            generateColors(
+          scaleContrasts(document, scale).map((contrast) => ({
+            selected: generateSelectedColor(
+              scaleData.get(scale.id)!,
+              background,
+              contrast,
+              document.settings,
+            ),
+            comparison: generateColors(
               scaleData.get(scale.id)!,
               background,
               contrast.value,
               document.settings,
             ),
-          ),
+          })),
         ]),
       ),
     [background, document, scaleData],
@@ -494,7 +504,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                     key={contrast.id}
                     UNSAFE_className={String(tokenStyles)}
                   >
-                    {contrastStepIndex(index, scale, rules)}
+                    {contrastStepIndex(index, scale, rules, document.contrasts)}
                   </Text>
                 ))}
               </AlignedSwatchRow>
@@ -510,14 +520,18 @@ const EvaluationPalette = memo(function EvaluationPalette({
                     return (
                       <ColorChip
                         key={contrast.id}
-                        color={generated.dynamic}
-                        backgroundColor={generated.dynamic.css}
-                        value={generated.dynamic.css}
-                        targetContrast={contrast.value}
+                        color={generated.selected}
+                        backgroundColor={generated.selected.css}
+                        value={generated.selected.css}
+                        targetContrast={
+                          isOpacityColorStop(contrast)
+                            ? generated.selected.measuredContrast
+                            : contrast.value
+                        }
                         showColorValue={showColorValue}
                         showContrast={showContrast}
                         override={override}
-                        overrideLabel={`${termLabel(scale.name)} ${contrastStepIndex(index, scale, rules)}`}
+                        overrideLabel={`${termLabel(scale.name)} ${contrastStepIndex(index, scale, rules, document.contrasts)}`}
                         onResetOverride={
                           override
                             ? () => resetCurrent(override.uuid)
@@ -536,8 +550,8 @@ const EvaluationPalette = memo(function EvaluationPalette({
                       return (
                         <ColorChip
                           key={contrasts[index].id}
-                          color={generated.opaque}
-                          value={generated.opaque.css}
+                          color={generated.comparison.opaque}
+                          value={generated.comparison.opaque.css}
                           targetContrast={contrasts[index].value}
                           showColorValue={showColorValue}
                           showContrast={showContrast}
@@ -555,9 +569,9 @@ const EvaluationPalette = memo(function EvaluationPalette({
                       return (
                         <ColorChip
                           key={contrasts[index].id}
-                          color={generated.transparent}
-                          backgroundColor={generated.transparent.css}
-                          value={generated.transparent.css}
+                          color={generated.comparison.transparent}
+                          backgroundColor={generated.comparison.transparent.css}
+                          value={generated.comparison.transparent.css}
                           targetContrast={contrasts[index].value}
                           showColorValue={showColorValue}
                           showContrast={showContrast}

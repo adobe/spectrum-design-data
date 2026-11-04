@@ -93,9 +93,9 @@ export const sequentialDefaults = [
       ],
       [
         "#174c7a",
-        "3f625eac-9c07-8f6c-bc27-807365ccb25f",
-        "wireframe-color-1100",
-        "#2b4d9e",
+        "2c220bfa-05ea-86a7-ab7d-c43139804971",
+        "cyan-color-1100",
+        "#00577a",
       ],
       [
         "#081550",

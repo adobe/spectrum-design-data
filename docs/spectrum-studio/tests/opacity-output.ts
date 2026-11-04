@@ -95,13 +95,13 @@ const source: OpacitySource = {
 const contexts = opacityContexts(source);
 assert.equal(
   contexts.length,
-  2,
+  3,
   "Unrelated mode axes never expand opacity inventory.",
 );
 const rows = opacityRows(source, registry);
-assert.equal(rows.length, 34);
+assert.equal(rows.length, 51);
 assert.equal(new Set(rows.map((row) => row.conceptId)).size, 17);
-assert.equal(new Set(rows.map((row) => row.uuid)).size, 34);
+assert.equal(new Set(rows.map((row) => row.uuid)).size, 51);
 assert.ok(rows.every((row) => row.issues.length === 0));
 for (const context of contexts) {
   const sources = browserOpacitySources(source, context.modes, registry);
@@ -116,7 +116,7 @@ assert.match(buildOpacityCss(source, registry), /--opacity-800: 0\.2;/);
 const artifacts = buildOpacityArtifacts({ ...source, taxonomy: registry });
 assert.deepEqual(artifacts.issues, []);
 assert.equal(artifacts.contract, "studio-local-opacity-v1");
-assert.equal(artifacts.tokens.length, 34);
+assert.equal(artifacts.tokens.length, 51);
 assert.ok(
   artifacts.tokens.some((token) => !("colorScheme" in token.name)),
   "Default mode omitted from cascade name.",
@@ -254,10 +254,19 @@ assert.deepEqual(
   new Set(opacityRows(sorted, registry).map((row) => row.uuid)),
   new Set(rows.map((row) => row.uuid)),
 );
+const fields = opacityFields(source.opacity);
 assert.equal(
-  opacityFields(source.opacity).size,
-  19,
-  "17 authored alpha inputs, compensation, and shared order; row IDs are not parameters.",
+  fields.size,
+  36,
+  "17 authored alpha inputs, 17 editable indices, compensation, and shared order.",
+);
+assert.deepEqual(
+  [...fields.keys()].filter((key) => key.endsWith("/scaleIndex")),
+  source.opacity!.levels.map((level) => `levels/${level.id}/scaleIndex`),
+);
+assert.ok(
+  [...fields.keys()].every((key) => !key.includes("/rows/")),
+  "Row IDs are not authored parameters.",
 );
 sorted.opacity!.levels[0].value = 0.75;
 const changes = opacityChanges(source.opacity, sorted.opacity);

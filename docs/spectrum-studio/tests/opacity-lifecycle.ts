@@ -56,7 +56,7 @@ const added = store.set(addOpacityLevelAtom);
 assert.equal(store.get(opacityDocumentAtom).levels.at(-1)?.id, added);
 assert.equal(
   Object.keys(store.get(opacityDocumentAtom).levels.at(-1)!.rows).length,
-  2,
+  3,
 );
 const identities = new Set(
   store.get(opacityDocumentAtom).levels.map((level) => level.id),
@@ -91,7 +91,7 @@ store.set(replaceModeSetAtom, {
 assert.ok(
   store
     .get(opacityDocumentAtom)
-    .levels.every((level) => Object.keys(level.rows).length === 3),
+    .levels.every((level) => Object.keys(level.rows).length === 4),
 );
 const snapshot = store.get(authoringSnapshotAtom);
 assertStoredSnapshot(snapshot);

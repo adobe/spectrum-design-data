@@ -157,7 +157,7 @@ const axis: ModeSet = {
   description: "",
   modes: [normal, changed],
   defaultModeId: normal.id,
-  authoringCapabilities: ["color.scales", "color.contrastMultiplier"],
+  authoringCapabilities: ["color.contrastMultiplier"],
 };
 const resolved = resolveColorDocument(document, [changed], undefined, {
   modeSets: [axis],
@@ -170,7 +170,11 @@ assert.equal(sequence.points[0].contrast?.value, 2.4);
 assert.equal(sequence.points[1].source.kind, "key-color");
 if (sequence.points[1].source.kind !== "key-color")
   throw new Error("Expected a key source.");
-assert.equal(sequence.points[1].source.color.hue, 320);
+assert.equal(
+  sequence.points[1].source.color.hue,
+  250,
+  "Legacy per-mode source patches no longer affect resolved output.",
+);
 assert.deepEqual(
   document.dataVisScales,
   [recipe],
@@ -178,7 +182,7 @@ assert.deepEqual(
 );
 assert.equal(dataVisSourceIssues(document, [axis]).length, 0);
 assert.match(
-  blockedUiSourceRemoval(document, [axis], base.scales[1].id)!,
+  blockedUiSourceRemoval(document, base.scales[1].id)!,
   /replacement colors first/,
 );
 assert.match(
@@ -191,15 +195,6 @@ assert.match(
   )[0],
   /unavailable/,
 );
-const wrongPatch = structuredClone(axis);
-wrongPatch.modes[1].foundations.color!.dataVisSources![recipe.id].low = {
-  color: { hue: 20 },
-};
-assert.ok(
-  dataVisSourceIssues(document, [wrongPatch]).some((issue) =>
-    issue.includes("changes its source kind"),
-  ),
-);
 const normalized = normalizeModeState({
   modeSets: [{ ...axis, authoringCapabilities: [] }],
   selection: {},
@@ -207,7 +202,6 @@ const normalized = normalizeModeState({
 });
 assert.deepEqual(normalized.modeSets[0].authoringCapabilities, [
   "color.contrastMultiplier",
-  "color.scales",
 ]);
 
 const { colorOutput, ...legacySettings } = base.settings;

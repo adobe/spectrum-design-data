@@ -15,8 +15,7 @@ export function reindexedCustomContrastTokenIds(
     const previous = before.scales.find(
       (candidate) => candidate.id === scale.id,
     );
-    if (!previous || (!previous.customContrasts && !scale.customContrasts))
-      continue;
+    if (!previous) continue;
     const oldSteps = scaleContrasts(before, previous);
     scaleContrasts(after, scale).forEach((step, position) => {
       const oldPosition = oldSteps.findIndex(
@@ -24,8 +23,12 @@ export function reindexedCustomContrastTokenIds(
       );
       if (
         oldPosition >= 0 &&
-        contrastStepIndex(oldPosition, previous, beforeRules) !==
-          contrastStepIndex(position, scale, afterRules)
+        contrastStepIndex(
+          oldPosition,
+          previous,
+          beforeRules,
+          before.contrasts,
+        ) !== contrastStepIndex(position, scale, afterRules, after.contrasts)
       ) {
         ids.add(tokenUuid(tokenStableKey(scale.id, step.id)));
       }

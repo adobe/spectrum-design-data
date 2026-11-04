@@ -22,7 +22,9 @@ import {
   stopOklch,
   type ScaleData,
 } from "./scaleGeneration";
-import { generateColors } from "./dynamicGeneration";
+import { generateSelectedColor, isOpacityColorStop } from "./colorScaleType";
+import { renderedOutputLinear } from "./outputContrast";
+import { assertColorScaleOutput } from "./colorScaleResolution";
 import { surfaceCss, surfaceLinear } from "./surfaceGeneration";
 import type {
   ColorScale,
@@ -296,6 +298,7 @@ export function buildOutputProfile(
   authored: readonly ContrastToken[],
   rules: readonly Rule[] = [STANDARD_SCALE_NAMING_RULE],
 ): OutputObservation[] {
+  assertColorScaleOutput(document);
   const gamut = renderGamutForOutput(document.settings.colorOutput);
   const data = buildScaleData(scale, document.settings.colorOutput);
   const background = surfaceLinear(surface, document);
@@ -307,25 +310,36 @@ export function buildOutputProfile(
     .map((contrast, originalOrder) => {
       if (!Number.isFinite(contrast.value) || contrast.value < 1)
         throw new Error("Contrast targets must be finite and at least 1:1.");
-      const generated = generateColors(
+      const generated = generateSelectedColor(
         data,
         background,
-        contrast.value,
+        contrast,
         document.settings,
       );
-      const linear = decodeAnalysisColor(generated.dynamic.css, gamut);
-      const color = describeColor(linear, gamut, generated.dynamic.css);
+      const linear = renderedOutputLinear(
+        generated.css,
+        surfaceCss(surface, document),
+        gamut,
+      );
+      const color = describeColor(linear, gamut, generated.css);
       return {
         ...color,
         id: contrast.id,
         originalOrder,
-        scaleIndex: contrastStepIndex(originalOrder, scale, rules),
-        target: contrast.value,
+        scaleIndex: contrastStepIndex(
+          originalOrder,
+          scale,
+          rules,
+          document.contrasts,
+        ),
+        target: isOpacityColorStop(contrast)
+          ? generated.measuredContrast
+          : contrast.value,
         authoredTarget:
           authored.find((item) => item.id === contrast.id)?.value ??
           contrast.value,
         achieved: contrastRatio(luminance(linear, gamut), measuredBackground),
-        calculated: generated.dynamic.measuredContrast,
+        calculated: generated.measuredContrast,
         grayscale: grayscaleForLightness(color.lightness),
       };
     })

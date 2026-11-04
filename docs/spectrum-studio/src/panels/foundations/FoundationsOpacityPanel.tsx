@@ -1,6 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useNotify } from "../../components/notifications/notificationContext";
-import { ActionButton, Badge, Divider, Text } from "@react-spectrum/s2";
+import {
+  AccordionItem,
+  AccordionItemPanel,
+  AccordionItemTitle,
+  ActionButton,
+  Badge,
+  Text,
+} from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
@@ -22,16 +29,24 @@ import {
   restoreOpacityLevelAtom,
   sortOpacityLevelsAtom,
   updateOpacityLevelAtom,
+  updateOpacityIndexAtom,
   updateOpacitySettingsAtom,
 } from "../../features/opacity/state";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import { FoundationModeSettings } from "./FoundationModeSettings";
 import { OpacityRamp } from "../../views/opacity/OpacityRamp";
+import { TokenComboBox } from "../../components/fields/TokenComboBox";
+import {
+  parseScaleIndex,
+  swatchIndexOptions,
+} from "../../features/scales/swatchIndices";
+import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
+import { previewOverridesAtom } from "../../features/modes/previewState";
 
-const panelStyles = style({
+const swatchesStyles = style({
   display: "flex",
   flexDirection: "column",
-  gap: 16,
+  gap: 8,
   width: "auto",
   padding: 16,
 });
@@ -39,7 +54,10 @@ const settingsStyles = style({
   display: "flex",
   flexDirection: "column",
   gap: 8,
+  paddingStart: 8,
+  paddingEnd: 8,
 });
+const accordionPanelStyles = style({ padding: 0 });
 const actionStyles = style({ display: "flex", gap: 8 });
 const editorStyles = style({
   display: "flex",
@@ -58,8 +76,14 @@ const tokenListStyles = style({
   flexDirection: "column",
   gap: 4,
 });
-const rowStyles = style({ display: "flex", alignItems: "end", gap: 8 });
+const rowStyles = style({ display: "flex", alignItems: "end", gap: 4 });
 const sliderStyles = style({ flexGrow: 1, minWidth: 0 });
+const indexStyles = style({
+  font: "ui-sm",
+  width: "[9ch]",
+  maxWidth: "[9ch]",
+  flexShrink: 0,
+});
 
 function firstValue(value: number | number[]) {
   return Array.isArray(value) ? value[0] : value;
@@ -71,38 +95,56 @@ export function FoundationsOpacityPanel() {
   const result = useAtomValue(opacityResultAtom);
   const appColorScheme = useAtomValue(appColorSchemeAtom);
   const readOnly = useIsReadOnly();
+  const preview = useAtomValue(previewOverridesAtom);
   const updateSettings = useSetAtom(updateOpacitySettingsAtom);
   const updateLevel = useSetAtom(updateOpacityLevelAtom);
+  const updateIndex = useSetAtom(updateOpacityIndexAtom);
+  const taxonomy = useAtomValue(taxonomyDocumentAtom);
+  const indexCategory = taxonomy.categories.find(
+    (category) => category.key === "scaleIndex",
+  );
+  const registeredIndices = taxonomy.terms.flatMap((term) =>
+    term.categoryId === indexCategory?.id && typeof term.value === "number"
+      ? [term.value]
+      : [],
+  );
   const sortLevels = useSetAtom(sortOpacityLevelsAtom);
   const resetOverride = useSetAtom(resetOpacityOverrideAtom);
   const store = useStore();
   const [focusedId, setFocusedId] = useState<string | null>(null);
 
   return (
-    <div className={panelStyles}>
-      <section className={settingsStyles} aria-label="Opacity settings">
-        <EditableSlider
-          label="Polarity compensation (dark modes)"
-          labelPosition="side"
-          value={document.polarityCompensation}
-          minValue={0}
-          maxValue={1}
-          step={0.01}
-          formatOptions={{ style: "percent" }}
-          isReadOnly={readOnly}
-          onChange={(value) => {
-            try {
-              updateSettings(firstValue(value));
-            } catch (failure) {
-              notify.error(failure);
-            }
-          }}
-        />
-      </section>
-      <Divider />
-      <FoundationModeSettings foundation="opacity" />
-      <Divider />
-      <section className={settingsStyles} aria-label="Opacity swatches">
+    <>
+      <FoundationModeSettings
+        foundation="opacity"
+        before={
+          <AccordionItem id="system-settings">
+            <AccordionItemTitle>System settings</AccordionItemTitle>
+            <AccordionItemPanel UNSAFE_className={String(accordionPanelStyles)}>
+              <div className={settingsStyles}>
+                <EditableSlider
+                  label="Polarity compensation (dark modes)"
+                  labelPosition="top"
+                  value={document.polarityCompensation}
+                  minValue={0}
+                  maxValue={1}
+                  step={0.01}
+                  formatOptions={{ style: "percent" }}
+                  isReadOnly={readOnly}
+                  onChange={(value) => {
+                    try {
+                      updateSettings(firstValue(value));
+                    } catch (failure) {
+                      notify.error(failure);
+                    }
+                  }}
+                />
+              </div>
+            </AccordionItemPanel>
+          </AccordionItem>
+        }
+      />
+      <section className={swatchesStyles} aria-label="Opacity swatches">
         <Text>Opacity swatches</Text>
         <EditOnly>
           <div className={actionStyles}>
@@ -157,7 +199,57 @@ export function FoundationsOpacityPanel() {
                 >
                   <EditableSlider
                     styles={sliderStyles}
-                    label={String(level.scaleIndex)}
+                    labelGap="compact"
+                    label={
+                      <div className={indexStyles} data-swatch-index>
+                        {readOnly ? (
+                          <Text>{level.scaleIndex}</Text>
+                        ) : (
+                          <TokenComboBox
+                            inline
+                            size="S"
+                            ariaLabel={`Scale index for opacity ${level.scaleIndex}`}
+                            options={swatchIndexOptions(
+                              registeredIndices,
+                              result.levels.map((item) => item.scaleIndex),
+                              level.scaleIndex,
+                            )}
+                            selectedKey={String(level.scaleIndex)}
+                            displayMode="values"
+                            isRequired
+                            isDisabled={Object.keys(preview).length > 0}
+                            onChange={(key) => {
+                              if (key !== null) {
+                                try {
+                                  updateIndex({
+                                    id: level.id,
+                                    scaleIndex: parseScaleIndex(key),
+                                  });
+                                } catch (failure) {
+                                  notify.error(failure);
+                                }
+                              }
+                            }}
+                            customValue={{
+                              inputType: "number",
+                              isAllowed: (text) =>
+                                !result.levels.some(
+                                  (item) =>
+                                    item.id !== level.id &&
+                                    item.scaleIndex === Number(text),
+                                ),
+                              displayValue: String(level.scaleIndex),
+                              onAccept: (text) =>
+                                updateIndex({
+                                  id: level.id,
+                                  scaleIndex: parseScaleIndex(text),
+                                }),
+                            }}
+                          />
+                        )}
+                      </div>
+                    }
+                    aria-label={`Opacity ${level.scaleIndex}`}
                     labelPosition="side"
                     value={level.value}
                     minValue={0}
@@ -226,6 +318,6 @@ export function FoundationsOpacityPanel() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
