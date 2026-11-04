@@ -8,6 +8,7 @@ import { EditOnly } from "../../components/editable";
 import { RuleCard } from "../../components/logic/RuleCard";
 import { RuleEditorDialog } from "../../components/logic/RuleEditorDialog";
 import { createRule } from "../../features/logic/model";
+import { groupRulesByType } from "../../features/logic/rulePresentation";
 import {
   addRuleAtom,
   rulesAtom,
@@ -19,6 +20,12 @@ const sectionStyles = style({
   flexDirection: "column",
   gap: 12,
 });
+const viewStyles = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 32,
+});
+const typeHeadingStyles = style({ font: "title-lg", margin: 0 });
 const sectionHeaderStyles = style({
   display: "flex",
   alignItems: "center",
@@ -40,7 +47,7 @@ export function RulesView() {
   const saveGenerator = useSetAtom(saveGeneratorDraftAtom);
 
   return (
-    <section className={sectionStyles} aria-labelledby="logic-rules-heading">
+    <section className={viewStyles} aria-labelledby="logic-rules-heading">
       <div className={sectionHeaderStyles}>
         <h3 id="logic-rules-heading" className={sectionHeadingStyles}>
           Rules
@@ -65,15 +72,33 @@ export function RulesView() {
           />
         </EditOnly>
       </div>
-      {rules.length === 0 ? (
-        <p className={emptyStyles}>No rules yet.</p>
-      ) : (
-        <div className={gridStyles}>
-          {rules.map((rule, index) => (
-            <RuleCard key={rule.id} rule={rule} index={index} />
-          ))}
-        </div>
-      )}
+      {groupRulesByType(rules).map((section) => (
+        <section
+          key={section.type}
+          className={sectionStyles}
+          aria-labelledby={`logic-${section.type}-heading`}
+        >
+          <h4
+            id={`logic-${section.type}-heading`}
+            className={typeHeadingStyles}
+          >
+            {section.label}
+          </h4>
+          {section.rules.length === 0 ? (
+            <p className={emptyStyles}>No rules yet.</p>
+          ) : (
+            <div className={gridStyles}>
+              {section.rules.map((rule) => (
+                <RuleCard
+                  key={rule.id}
+                  rule={rule}
+                  index={rules.indexOf(rule)}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
     </section>
   );
 }

@@ -21,6 +21,7 @@ import type { EditSessionSnapshot } from "../edit-session/state";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { canonicalJson } from "../design-data/canonicalJson";
 import type { ColorSystemDocument } from "../color-system/model";
+import { storedCustomContrasts } from "../color-system/customContrastConfig";
 import { contrastStepIndex } from "../color-system/contrastSteps";
 import {
   ruleAppliesTo,
@@ -72,18 +73,19 @@ export function ruleConsumers({
   color,
 }: RuleReferenceDocuments): RuleConsumer[] {
   return [
-    ...(color?.scales ?? []).flatMap((scale): RuleConsumer[] =>
-      scale.customContrasts
+    ...(color?.scales ?? []).flatMap((scale): RuleConsumer[] => {
+      const custom = storedCustomContrasts(scale);
+      return custom
         ? [
             {
               id: `color/${scale.id}`,
-              ruleId: scale.customContrasts.namingRuleId,
+              ruleId: custom.namingRuleId,
               label: `Colors › ${scale.name}`,
               slot: { foundation: "color", scaleId: scale.id },
             },
           ]
-        : [],
-    ),
+        : [];
+    }),
     {
       id: "typography/text-size",
       ruleId: typography.textRoundingRuleId,
@@ -282,13 +284,15 @@ export function draftRuleImpact(
       const source = documents.color?.scales.find(
         (scale) => scale.id === scaleId,
       );
-      if (!source?.customContrasts)
+      const customContrasts = source && storedCustomContrasts(source);
+      if (!source || !customContrasts)
         throw new Error("The naming-rule consumer is unavailable.");
-      const before = source.customContrasts.steps.map((_, position) =>
-        contrastStepIndex(position, source, rules),
+      const namingSource = { ...source, customContrasts };
+      const before = customContrasts.steps.map((_, position) =>
+        contrastStepIndex(position, namingSource, rules),
       );
-      const after = source.customContrasts.steps.map((_, position) =>
-        contrastStepIndex(position, source, withDraft),
+      const after = customContrasts.steps.map((_, position) =>
+        contrastStepIndex(position, namingSource, withDraft),
       );
       return {
         consumer,
