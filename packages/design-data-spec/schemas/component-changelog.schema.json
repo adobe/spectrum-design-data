@@ -213,6 +213,10 @@
           "type": "boolean",
           "description": "True when a bound token's own record is unchanged but its alias-resolved value changed."
         },
+        "reachedBy": {
+          "enum": ["tokenBinding"],
+          "description": "Set when the component reaches the changed token only through its tokenBindings (by token name), not through a relationship. Absent for relationship-reached and component-owned changes."
+        },
         "contexts": {
           "type": "array",
           "items": {

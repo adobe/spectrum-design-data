@@ -142,7 +142,7 @@ function commitRow(c) {
     .slice(0, 40)
     .map(
       (e) =>
-        `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
+        `<li><span class="chip ${e.class}">${e.class}</span>${e.indirect ? '<span class="chip indirect">indirect</span>' : ""}${e.reachedBy === "tokenBinding" ? '<span class="chip">via tokenBinding</span>' : ""}<span>${esc(describe(e))}</span><span>${esc(e.contexts.join(", "))}</span></li>`,
     )
     .join("");
   const meta = metadataSummary(c);
