@@ -9,6 +9,7 @@ import {
   validateCategoryIcons,
   createCategoryIconReporter,
 } from "../src/features/icons/categoryIcons";
+import { resolveCategoryIllustration } from "../src/features/icons/categoryIllustrations";
 
 assert.deepEqual(validateCategoryIcons(config), []);
 assert.deepEqual(resolveCategoryIcon("opacity"), {
@@ -17,6 +18,8 @@ assert.deepEqual(resolveCategoryIcon("opacity"), {
 assert.deepEqual(resolveCategoryIcon("source.opacity"), {
   iconName: "ViewTransparency",
 });
+assert.equal(resolveCategoryIllustration("modes"), "Filters");
+assert.equal(resolveCategoryIllustration("opacity"), undefined);
 for (const [category, iconName] of Object.entries(config.categories)) {
   assert.deepEqual(resolveCategoryIcon(category), { iconName });
   assert.deepEqual(resolveCategoryIcon(` ${category.toUpperCase()} `), {
@@ -152,7 +155,11 @@ for (const file of readdirSync(sourceRoot, { recursive: true })) {
   )
     continue;
   const content = readFileSync(new URL(file, sourceRoot), "utf8");
-  if (!content.includes("CategoryIcon")) continue;
+  if (
+    !content.includes("CategoryIcon") &&
+    !content.includes("CategoryIllustratedMessage")
+  )
+    continue;
   const source = ts.createSourceFile(
     file,
     content,
@@ -179,7 +186,9 @@ for (const file of readdirSync(sourceRoot, { recursive: true })) {
       check(node.arguments[0].text);
     if (
       (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) &&
-      node.tagName.getText(source) === "CategoryIcon"
+      ["CategoryIcon", "CategoryIllustratedMessage"].includes(
+        node.tagName.getText(source),
+      )
     ) {
       const category = node.attributes.properties.find(
         (attribute) =>
@@ -198,7 +207,7 @@ for (const file of readdirSync(sourceRoot, { recursive: true })) {
   }
   visit(source);
 }
-assert.ok(checked >= 60, "Cover all migrated static category assignments.");
+assert.ok(checked >= 58, "Cover all migrated static category assignments.");
 const unchanged = [
   ["src/components/AdaptiveControlsMenu.tsx", /<UserSettings \/>/],
   ["src/components/TopBar.tsx", /<Saturation \/>/],

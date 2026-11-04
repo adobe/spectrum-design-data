@@ -75,6 +75,32 @@
   margin: 6px;
   background: var(--spectrum-gray-100);
 }
+.valuePreviewLarge[data-value-preview="color"],
+.valuePreviewLarge[data-value-preview="opacity"] {
+  padding: 0;
+}
+.valuePreviewLarge .valuePreviewShape-color,
+.valuePreviewLarge .valuePreviewShape-opacity {
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+.valuePreviewLarge .valuePreviewShape-radius {
+  width: 48px;
+  height: 48px;
+}
+.valuePreviewLarge .valuePreviewShape-block {
+  height: 24px;
+}
+.valuePreviewLarge .valuePreviewShape-shadow,
+.valuePreviewLarge .valuePreviewShape-shadow-blur,
+.valuePreviewLarge .valuePreviewShape-shadow-offset-x,
+.valuePreviewLarge .valuePreviewShape-shadow-offset-y,
+.valuePreviewLarge .valuePreviewShape-shadow-spread,
+.valuePreviewLarge .valuePreviewShape-shadow-color {
+  width: 40px;
+  height: 40px;
+}
 .valuePreviewText {
   width: 24px;
   height: 24px;

@@ -3,7 +3,7 @@ import { atom } from "jotai";
 
 export const activePageAtom = atom("home");
 export const sidebarCollapsedAtom = atom(false);
-export const changelogCollapsedAtom = atom(false);
+export const changelogCollapsedAtom = atom(true);
 
 export const SUB_PANEL_DEFAULT_WIDTH = 360;
 /** Minimum width for the sub panel and for the main content beside it. */

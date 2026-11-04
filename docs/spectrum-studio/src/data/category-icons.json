@@ -49,6 +49,7 @@
     "element.workflow-icon": "Home",
     "element.ui-icon": "ChevronDown",
     "element.bar": "StrokeWidth",
+    "element.slot": "Shapes",
     "color-model.cartesian": "3D",
     "color-model.polar": "Data",
     "color-view.color-area": "Gradient",
