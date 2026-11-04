@@ -72,6 +72,7 @@ Repository demonstrations.
 | Path | Package | Lifecycle | npm | llms.txt | Summary |
 | --- | --- | --- | --- | --- | --- |
 | [`tools/demo`](../tools/demo/) | — | active | no | no | Terminal demo videos and presentation decks for the CLI and TUI. |
+| [`tools/ios-catalog-capture`](../tools/ios-catalog-capture/) | — | active | no | no | Scripts that capture light and dark simulator screenshots of the Spectrum iOS Catalog app. Images stay internal. |
 
 ## Deprecated and one-time
 
