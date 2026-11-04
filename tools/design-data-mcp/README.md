@@ -59,15 +59,16 @@ any network failure (offline/air-gapped use is unaffected); set
 
 ## Tools
 
-| Tool                         | Description                                                                        |
-| ---------------------------- | ---------------------------------------------------------------------------------- |
-| `design-data-primer`         | Session-start overview: token count, mode-sets, components, guidelines, provenance |
-| `design-data-query`          | Filter tokens by query expression (`component=button`, `property=color-*`)         |
-| `design-data-suggest`        | Natural-language token suggestions with Jaccard similarity confidence scores       |
-| `design-data-component`      | Full component schema (variants, sizes, states, props) by kebab-case ID            |
-| `design-data-resolve`        | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast) |
-| `design-data-guideline-list` | List available Spectrum design guideline pages, optionally filtered by category    |
-| `design-data-guideline`      | Full guideline document by slug ID (purpose, rules, accessibility, examples)       |
+| Tool                           | Description                                                                         |
+| ------------------------------ | ----------------------------------------------------------------------------------- |
+| `design-data-primer`           | Session-start overview: token count, mode-sets, components, guidelines, provenance  |
+| `design-data-query`            | Filter tokens by query expression (`component=button`, `property=color-*`)          |
+| `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores        |
+| `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID             |
+| `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet |
+| `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)  |
+| `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category     |
+| `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)        |
 
 ## Testing guideline content
 

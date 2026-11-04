@@ -10,7 +10,8 @@
     "./write": "./src/write.js",
     "./session": "./src/session.js",
     "./validate": "./src/validate.js",
-    "./guideline": "./src/guideline.js"
+    "./guideline": "./src/guideline.js",
+    "./component": "./src/component.js"
   },
   "files": [
     "src/",
