@@ -458,6 +458,7 @@ test("plan creates, updates or skips a component's Figma file by sheet hash", (t
       components: ["switch", "heading"],
       out: join(dir, "out"),
       registryPath,
+      sheetsDir: out,
     });
   const first = run();
   const by = (r, c) => r.items.find((i) => i.component === c);
