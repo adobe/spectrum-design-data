@@ -312,7 +312,8 @@ export function createDesignDataTools() {
             description: "Optional component category filter, e.g. actions",
           },
           limit: {
-            type: "number",
+            type: "integer",
+            minimum: 1,
             description: "Maximum number of results (default: 10)",
             default: 10,
           },
