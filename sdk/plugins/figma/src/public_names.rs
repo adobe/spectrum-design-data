@@ -40,6 +40,8 @@ pub enum MatchClass {
     Different,
     /// No design-data record found for the hidden variable.
     Unresolved,
+    /// A record was found but has nothing to name it from (no `property`).
+    Unnameable,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -375,21 +377,23 @@ pub fn report(
         if c.remote || v.remote || hidden_prefix(&c.name) {
             continue;
         }
-        let Some(target) = v
-            .values_by_mode
-            .values()
-            .find_map(|x| x.get("id").and_then(Value::as_str))
-            .and_then(|id| meta.variables.get(id))
-        else {
+        // Every mode's alias, in mode-id order. The first names the row; all of them count as
+        // aliased, so a hidden variable reached from another mode is not "hidden only".
+        let mut modes: Vec<(&String, &Value)> = v.values_by_mode.iter().collect();
+        modes.sort_by_key(|(id, _)| *id);
+        let targets: Vec<&crate::types::FigmaVariable> = modes
+            .iter()
+            .filter_map(|(_, x)| x.get("id").and_then(Value::as_str))
+            .filter_map(|id| meta.variables.get(id))
+            .filter(|t| hidden_prefix(coll_name(&t.variable_collection_id)))
+            .collect();
+        let Some(target) = targets.first() else {
             continue;
         };
-        if !hidden_prefix(coll_name(&target.variable_collection_id)) {
-            continue;
-        }
         let Some(legacy) = legacy_of(&target.name) else {
             continue;
         };
-        aliased.insert(&target.id);
+        aliased.extend(targets.iter().map(|t| t.id.as_str()));
         let src = sources.get(&legacy);
         let generated = src.and_then(|(_, _, f)| generate_name(&c.name, &legacy, f));
         rows.push(PublicRow {
@@ -400,7 +404,10 @@ pub fn report(
             hidden_from_publishing: v.hidden_from_publishing,
             source: src.map_or(SourceKind::None, |x| x.0),
             source_id: src.map(|x| x.1.clone()),
-            class: classify(&v.name, generated.as_deref()),
+            class: match (src, &generated) {
+                (Some(_), None) => MatchClass::Unnameable,
+                _ => classify(&v.name, generated.as_deref()),
+            },
             generated_name: generated,
         });
     }
@@ -450,6 +457,10 @@ pub fn report(
         hidden_only,
         summary,
     }
+}
+
+fn md_cell(v: &str) -> String {
+    v.replace('|', "\\|")
 }
 
 fn csv_cell(v: &str) -> String {
@@ -543,8 +554,8 @@ impl Report {
             for r in rows.iter().step_by((rows.len() / 8).max(1)).take(8) {
                 out.push_str(&format!(
                     "| {} | {} |\n",
-                    r.designer_name,
-                    r.generated_name.as_deref().unwrap_or("")
+                    md_cell(&r.designer_name),
+                    md_cell(r.generated_name.as_deref().unwrap_or(""))
                 ));
             }
         }
@@ -653,6 +664,61 @@ mod tests {
             MatchClass::Different
         );
         assert_eq!(classify("A", None), MatchClass::Unresolved);
+    }
+
+    #[test]
+    fn modes_pair_deterministically_and_every_aliased_hidden_variable_counts() {
+        let meta: VariablesMeta = serde_json::from_value(json!({
+            "variableCollections": {
+                "c1": {"id": "c1", "name": "Layout", "key": "k", "modes": [{"modeId": "a", "name": "A"}, {"modeId": "b", "name": "B"}], "defaultModeId": "a", "variableIds": ["v1"]},
+                "c2": {"id": "c2", "name": ".Platform scale", "key": "k2", "modes": [{"modeId": "m2", "name": "Desktop"}], "defaultModeId": "m2", "variableIds": ["h1", "h2"], "hiddenFromPublishing": true}
+            },
+            "variables": {
+                "v1": {"id": "v1", "name": "Pad", "key": "pk", "variableCollectionId": "c1", "resolvedType": "FLOAT",
+                    "valuesByMode": {"b": {"type": "VARIABLE_ALIAS", "id": "h2"}, "a": {"type": "VARIABLE_ALIAS", "id": "h1"}}},
+                "h1": {"id": "h1", "name": "platformScale/pad-a", "key": "hk1", "variableCollectionId": "c2", "resolvedType": "FLOAT", "valuesByMode": {"m2": 1}},
+                "h2": {"id": "h2", "name": "platformScale/pad-b", "key": "hk2", "variableCollectionId": "c2", "resolvedType": "FLOAT", "valuesByMode": {"m2": 2}}
+            }
+        }))
+        .unwrap();
+        for _ in 0..20 {
+            let r = report(&meta, &HashMap::new());
+            assert_eq!(r.rows[0].legacy_key, "pad-a");
+            assert!(r.hidden_only.is_empty(), "{:?}", r.hidden_only);
+        }
+    }
+
+    #[test]
+    fn a_record_without_a_property_is_unnameable_not_unresolved() {
+        let meta: VariablesMeta = serde_json::from_value(json!({
+            "variableCollections": {
+                "c1": {"id": "c1", "name": "Layout", "key": "k", "modes": [{"modeId": "a", "name": "A"}], "defaultModeId": "a", "variableIds": ["v1"]},
+                "c2": {"id": "c2", "name": ".Platform scale", "key": "k2", "modes": [{"modeId": "m2", "name": "Desktop"}], "defaultModeId": "m2", "variableIds": ["h1"], "hiddenFromPublishing": true}
+            },
+            "variables": {
+                "v1": {"id": "v1", "name": "X", "key": "pk", "variableCollectionId": "c1", "resolvedType": "FLOAT", "valuesByMode": {"a": {"type": "VARIABLE_ALIAS", "id": "h1"}}},
+                "h1": {"id": "h1", "name": "platformScale/x", "key": "hk1", "variableCollectionId": "c2", "resolvedType": "FLOAT", "valuesByMode": {"m2": 1}}
+            }
+        }))
+        .unwrap();
+        let mut sources = HashMap::new();
+        sources.insert(
+            "x".to_string(),
+            (
+                SourceKind::Token,
+                "u".to_string(),
+                fields(json!({"component": "c"})),
+            ),
+        );
+        assert_eq!(
+            report(&meta, &sources).rows[0].class,
+            MatchClass::Unnameable
+        );
+    }
+
+    #[test]
+    fn markdown_cells_escape_pipes() {
+        assert_eq!(md_cell("a|b"), "a\\|b");
     }
 
     #[test]
