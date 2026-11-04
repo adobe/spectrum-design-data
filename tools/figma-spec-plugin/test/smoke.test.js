@@ -92,9 +92,16 @@ function node(type) {
 function fakeFigma(rejectFamily) {
   const loaded = [];
   const page = node("PAGE");
+  page.name = "Spec";
   const messages = [];
   const figma = {
     currentPage: page,
+    root: { children: [page] },
+    createPage() {
+      const p = node("PAGE");
+      figma.root.children.push(p);
+      return p;
+    },
     showUI() {},
     ui: { onmessage: null, postMessage: (m) => messages.push(m) },
     loadFontAsync: async (font) => {
@@ -417,6 +424,64 @@ test("payloads replace the previous render only in the last call and report coun
   t.is(
     done.blocksRendered,
     generate("action-button").pages.reduce((n, p) => n + p.blocks.length, 0),
+  );
+});
+
+test("a run creates a missing Notes page and leaves an existing one untouched", async (t) => {
+  const payloads = payloadsFor("action-button");
+  const fresh = fakeFigma();
+  for (const p of payloads) await runPayload(fresh.figma, p);
+  const notes = fresh.figma.root.children.filter((p) => p.name === "Notes");
+  t.is(notes.length, 1);
+  t.is(notes[0].children.length, 0);
+
+  const kept = fakeFigma();
+  const existing = kept.figma.createPage();
+  existing.name = "Notes";
+  const note = node("FRAME");
+  note.name = "Spec sheet (generated)";
+  existing.appendChild(note);
+  for (let i = 0; i < 2; i++)
+    for (const p of payloads) await runPayload(kept.figma, p);
+  t.is(kept.figma.root.children.filter((p) => p.name === "Notes").length, 1);
+  t.deepEqual(existing.children, [note]);
+  t.is(note.parent, existing);
+});
+
+test("a render does not remove a same-named node nested inside the page's frames", async (t) => {
+  const payloads = payloadsFor("action-button");
+  const { figma, page } = fakeFigma();
+  const frame = node("FRAME");
+  const nested = node("FRAME");
+  nested.name = "Action button \u2013 spec (generated)";
+  frame.appendChild(nested);
+  page.appendChild(frame);
+  for (const p of payloads) await runPayload(figma, p);
+  t.is(nested.parent, frame);
+});
+
+test("a render refuses to run on the Notes page", async (t) => {
+  const { figma, page } = fakeFigma();
+  page.name = "Notes";
+  await t.throwsAsync(
+    () => runPayload(figma, payloadsFor("action-button")[0]),
+    {
+      message: /Notes/,
+    },
+  );
+  t.is(page.children.length, 0);
+});
+
+test("the cover says the page is generated and points at Notes", async (t) => {
+  const { figma, page } = fakeFigma();
+  for (const p of payloadsFor("action-button")) await runPayload(figma, p);
+  t.true(
+    page.findAll(
+      (n) =>
+        n.type === "TEXT" &&
+        n.characters ===
+          "Generated: do not edit this page. Add notes on the Notes page.",
+    ).length === 1,
   );
 });
 

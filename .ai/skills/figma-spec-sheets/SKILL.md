@@ -27,6 +27,7 @@ Files live in the test folder `https://www.figma.com/files/1177024566520626109/f
 
 ## Rules
 
+* Designers annotate on the **Notes** page, never on the generated page. The first payload creates a page named "Notes" if the file has none (new or existing files) and nothing ever writes to it. The renderer removes only the previous top-level root frame with its own name on its own page. The cover says: "Generated: do not edit this page. Add notes on the Notes page."
 * A failed run leaves the previous render in place (the new one is built as "<name> (building)"). Fix the cause and rerun all payloads from the first.
 * Never call `setPluginData` or `figma.notify`; `use_figma` rejects them. The payloads already avoid both.
 * Only write to files in the test folder. Do not touch the POC variables file (`rNdFQYqXO2Nd3zMWnQD5U4`) from this workflow.
