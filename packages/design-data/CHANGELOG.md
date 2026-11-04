@@ -1,5 +1,16 @@
 # @adobe/spectrum-design-data
 
+## 3.8.1
+
+### Patch Changes
+
+- [#1641](https://github.com/adobe/spectrum-design-data/pull/1641) [`c4f6c2a`](https://github.com/adobe/spectrum-design-data/commit/c4f6c2abbbd7754deaf87c84bb4e3067364db9eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Make the component changelog backfill reproducible.
+  - Duplicate relationship records without a uuid pair by file position.
+  - Token entries sort within each change group.
+  - A release's `commit` is the last commit before its Version Packages
+    commit (the tag's first parent).
+  - Changelogs are regenerated to match.
+
 ## 3.8.0
 
 ### Minor Changes
