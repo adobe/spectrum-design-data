@@ -243,3 +243,64 @@ fn all_writes_full_and_table_only_sheets_and_an_index() {
         Vec::<String>::new()
     );
 }
+
+fn all_sheets() -> Vec<Value> {
+    let dir = tempfile::tempdir().unwrap();
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "--all", "-o"])
+        .arg(dir.path())
+        .assert()
+        .success();
+    std::fs::read_dir(dir.path())
+        .unwrap()
+        .map(|e| e.unwrap().path())
+        .filter(|p| !p.ends_with("index.json"))
+        .map(|p| serde_json::from_str(&std::fs::read_to_string(p).unwrap()).unwrap())
+        .collect()
+}
+
+fn blocks_of(sheet: &Value) -> Vec<&Value> {
+    sheet["pages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|p| p["blocks"].as_array().unwrap())
+        .collect()
+}
+
+#[test]
+fn every_sheet_has_blocks_and_context_less_records_are_grouped_by_property() {
+    let sheets = all_sheets();
+    for sheet in &sheets {
+        assert!(!blocks_of(sheet).is_empty(), "{}", sheet["component"]);
+        assert_eq!(schema_errors(sheet), Vec::<String>::new());
+    }
+    let find = |name: &str| sheets.iter().find(|s| s["component"] == name).unwrap();
+
+    // Typography: heading's records have no context and are grouped by property.
+    let heading = blocks_of(find("heading"));
+    let weight = heading
+        .iter()
+        .find(|b| b["title"] == "Font weight")
+        .unwrap();
+    assert_eq!(weight["titleSource"], "property");
+    assert!(weight["records"].as_u64().unwrap() > 10);
+    assert_eq!(weight["page"], "Typography");
+
+    // Inline values show as rows with the value and no token.
+    let text_area = blocks_of(find("text-area"));
+    let min_height = text_area
+        .iter()
+        .find(|b| b["title"] == "Minimum height" && b["titleSource"] == "property")
+        .unwrap();
+    let item = &min_height["rows"][0]["items"][0];
+    assert_eq!(item["source"], "inline");
+    assert!(item["token"]["uuid"].is_null());
+    assert_eq!(item["values"]["desktop"], "56px");
+    assert_eq!(item["values"]["mobile"], "70px");
+
+    // Authored contexts keep their title and come first on the page.
+    assert!(text_area.iter().any(|b| b["titleSource"] == "context"));
+}

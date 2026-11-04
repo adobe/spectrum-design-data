@@ -281,3 +281,15 @@ test("falls back to Inter when Adobe Clean cannot be loaded", async (t) => {
     textNodes(page.children[0]).every((n) => n.fontName.family === "Inter"),
   );
 });
+
+test("blocks generated from context-less records are marked and inline values are labelled", async (t) => {
+  const { figma, page, messages } = mock();
+  for (const name of ["heading", "text-area"]) {
+    await figma.ui.onmessage({ type: "render-sheet", sheet: generate(name) });
+    t.truthy(messages.find((m) => m.type === "render-complete"));
+    const texts = textNodes(page.children[0]).map((n) => n.characters);
+    t.true(texts.includes("by property"), name);
+    if (name === "text-area")
+      t.true(texts.some((x) => x.endsWith("(inline value)")));
+  }
+});

@@ -312,6 +312,9 @@ function tokenList(block) {
   });
   head.name = "Title";
   head.appendChild(text(block.title, 20, "Bold"));
+  if (block.titleSource === "property") {
+    head.appendChild(text("by property", 11, "Regular", GREY));
+  }
   for (const b of block.badges) {
     const p = pill(b, { r: 0.99, g: 0.9, b: 0.66 }, { r: 0.2, g: 0.15, b: 0 });
     p.name = "Badge";
@@ -343,7 +346,12 @@ function tokenList(block) {
         t.y = 9 - t.height / 2;
       }
       r.appendChild(slot);
-      r.appendChild(text(it.token.name, 13));
+      r.appendChild(
+        text(
+          it.token.name + (it.source === "inline" ? " (inline value)" : ""),
+          13,
+        ),
+      );
       r.appendChild(text(it.label, 13));
       r.appendChild(text(valueText(it.values), 13, "Regular", GREY));
       f.appendChild(r);
