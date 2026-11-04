@@ -19,7 +19,10 @@ import { surfaceLinear } from "../src/features/color-system/surfaceGeneration";
 
 const document = hydrateColorSystem(COLOR_SYSTEM_DEFAULTS);
 
-if (document.settings.extOffset !== 0.36 || document.settings.extSteep !== -1) {
+if (
+  document.settings.backgroundBlend !== 0.36 ||
+  document.settings.colorSourceCurveOffset !== -1
+) {
   throw new Error(
     "Color generation defaults must use 0.36 background blend and -1 source curve offset",
   );

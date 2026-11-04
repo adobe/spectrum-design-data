@@ -14,6 +14,12 @@ import { dataVisConsumers, dataVisSourceIssues } from "./references";
 import { dataVisMemberId } from "./identity";
 import type { DataVisSourcePacket } from "./adapter";
 import { primitiveColorIdentities } from "./primitiveColors";
+import type { OpacityDocument } from "../../opacity/model";
+import {
+  resolveColorScaleDocument,
+  assertColorScaleOutput,
+} from "../colorScaleResolution";
+import { opacityStopsEnabled } from "../colorScaleType";
 
 export function buildDataVisSourcePacket(source: {
   colorSystem: ColorSystemDocument;
@@ -21,6 +27,7 @@ export function buildDataVisSourcePacket(source: {
   rules?: Rule[];
   tokenOverrides: TokenOverrideMap;
   browserTokenEdits?: BrowserTokenEdits;
+  opacity?: OpacityDocument;
 }): DataVisSourcePacket {
   if (!source.rules || !source.browserTokenEdits)
     throw new Error(
@@ -40,33 +47,36 @@ export function buildDataVisSourcePacket(source: {
     ),
     modes: axis.modes.map((mode) => {
       const patches = mode.foundations.color;
+      if (!patches) return { ...mode, platformIds: [], foundations: {} };
+      const { scaleStops, dataVisSources, ...retainedPatches } = patches;
+      void scaleStops;
+      void dataVisSources;
       return {
         ...mode,
         platformIds: [],
-        foundations: patches
-          ? {
-              color: {
-                ...patches,
-                dataVisSources: Object.fromEntries(
-                  Object.entries(patches.dataVisSources ?? {}).filter(([id]) =>
-                    ids.has(id),
-                  ),
-                ),
-                dataVisContrasts: Object.fromEntries(
-                  Object.entries(patches.dataVisContrasts ?? {}).filter(
-                    ([id]) => ids.has(id),
-                  ),
-                ),
-              },
-            }
-          : {},
+        foundations: {
+          color: {
+            ...retainedPatches,
+            dataVisContrasts: Object.fromEntries(
+              Object.entries(patches.dataVisContrasts ?? {}).filter(([id]) =>
+                ids.has(id),
+              ),
+            ),
+          },
+        },
       };
     }),
   }));
+  const resolved = resolveColorScaleDocument(color, [], undefined, {
+    modeSets,
+    opacity: source.opacity,
+    browserTokenEdits: source.browserTokenEdits,
+  });
+  assertColorScaleOutput(resolved);
   const primitives = new Map(
-    primitiveColorIdentities(color).map((color) => [color.id, color]),
+    primitiveColorIdentities(resolved).map((color) => [color.id, color]),
   );
-  const references = dataVisConsumers(color, modeSets);
+  const references = dataVisConsumers(color);
   const required = new Set([
     color.backgroundScaleId,
     ...references.flatMap((consumer) => {
@@ -100,30 +110,25 @@ export function buildDataVisSourcePacket(source: {
     for (const mode of axis.modes)
       if (mode.foundations.color) {
         const patches = mode.foundations.color;
-        patches.scaleStops = Object.fromEntries(
-          Object.entries(patches.scaleStops ?? {}).filter(([id]) =>
-            required.has(id),
-          ),
-        );
         patches.scaleContrasts = Object.fromEntries(
           Object.entries(patches.scaleContrasts ?? {}).filter(([id]) =>
             required.has(id),
           ),
         );
-        for (const stops of Object.values(patches.scaleStops))
-          for (const stop of Object.values(stops))
-            if (stop.paletteColorId) paletteIds.add(stop.paletteColorId);
       }
   color.palette = color.palette.filter((entry) => paletteIds.has(entry.id));
   color.surfaces = [];
-  const issues = dataVisSourceIssues(color, modeSets);
+  const issues = dataVisSourceIssues(
+    { ...resolved, ...color, contrasts: resolved.contrasts },
+    modeSets,
+  );
   if (issues.length)
     throw new Error(
       `Data vis export needs complete sources. ${issues.join(" ")}`,
     );
   const tokenIds = new Set([
     ...color.scales.flatMap((scale) =>
-      (scale.customContrasts?.steps ?? color.contrasts).map((contrast) =>
+      (scale.customContrasts?.steps ?? resolved.contrasts).map((contrast) =>
         tokenUuid(tokenStableKey(scale.id, contrast.id)),
       ),
     ),
@@ -135,6 +140,9 @@ export function buildDataVisSourcePacket(source: {
         ? scale.members.map((member) => dataVisMemberId(scale.id, member.id))
         : [],
     ),
+    ...(opacityStopsEnabled(color.settings)
+      ? (source.opacity?.levels.map((level) => level.id) ?? [])
+      : []),
   ]);
   const namingIds = new Set(
     color.scales.flatMap((scale) =>
@@ -144,6 +152,7 @@ export function buildDataVisSourcePacket(source: {
   return structuredClone({
     schemaVersion: 3,
     color,
+    ...(opacityStopsEnabled(color.settings) && { opacity: source.opacity }),
     modeSets,
     namingRules: source.rules
       .filter((rule) => rule.type === "scale-naming")

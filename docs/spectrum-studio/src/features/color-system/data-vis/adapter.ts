@@ -1,6 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../model";
 import { resolveColorDocument } from "../resolution";
+import {
+  resolveColorScaleDocument,
+  assertColorScaleOutput,
+} from "../colorScaleResolution";
+import type { OpacityDocument } from "../../opacity/model";
 import { resolvedBackgroundLinear } from "../surfaceGeneration";
 import { MAX_CONTRAST_MULTIPLIER } from "../polarity";
 import type { ModeSet } from "../../modes/model";
@@ -28,6 +33,7 @@ export interface DataVisSourcePacket {
   namingRules: ScaleNamingRule[];
   tokenOverrides: TokenOverrideMap;
   browserTokenEdits: BrowserTokenEdits;
+  opacity?: OpacityDocument;
 }
 export interface DataVisRuntimeOptions {
   modes?: Record<string, string>;
@@ -52,7 +58,18 @@ export function createDataVisRuntime(
   options: DataVisRuntimeOptions = {},
 ): DataVisRuntime {
   const packet = upgradeDataVisPacket(input);
-  const issues = dataVisSourceIssues(packet.color, packet.modeSets);
+  const sourceDocument = resolveColorScaleDocument(
+    packet.color,
+    [],
+    undefined,
+    {
+      modeSets: packet.modeSets,
+      opacity: packet.opacity,
+      browserTokenEdits: packet.browserTokenEdits,
+    },
+  );
+  assertColorScaleOutput(sourceDocument);
+  const issues = dataVisSourceIssues(sourceDocument, packet.modeSets);
   if (issues.length) throw new Error(issues.join(" "));
   for (const key of Object.keys(options.modes ?? {}))
     if (!packet.modeSets.some((axis) => axis.key === key)) {
@@ -104,9 +121,12 @@ export function createDataVisRuntime(
     throw new Error(
       "The requested background scale is outside this source-closed packet.",
     );
-  const document = resolveColorDocument(packet.color, modes, preview, {
+  const document = resolveColorScaleDocument(packet.color, modes, preview, {
     modeSets: packet.modeSets,
+    opacity: packet.opacity,
+    browserTokenEdits: packet.browserTokenEdits,
   });
+  assertColorScaleOutput(document);
   const modeKey = canonicalTokenModeKey(
     Object.fromEntries(
       packet.modeSets.map((axis, index) => [axis.id, modes[index].id]),

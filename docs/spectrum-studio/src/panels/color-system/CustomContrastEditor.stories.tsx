@@ -69,9 +69,18 @@ function Controlled(args: CustomContrastEditorProps) {
             },
           });
         if (action.kind === "disable")
-          setCurrent({ ...current, customContrasts: undefined });
+          setCurrent({
+            ...current,
+            disabledCustomContrasts: current.customContrasts,
+            customContrasts: undefined,
+          });
         if (action.kind === "enable")
-          setCurrent({ ...current, customContrasts: scale.customContrasts });
+          setCurrent({
+            ...current,
+            customContrasts:
+              current.disabledCustomContrasts ?? scale.customContrasts,
+            disabledCustomContrasts: undefined,
+          });
       }}
     />
   );

@@ -113,6 +113,63 @@ async function record(
   );
 }
 
+for (const surface of ["Foundations", "Platforms"]) {
+  test(`sRGB mapping help is inline and contextual in ${surface}`, async ({
+    page,
+  }) => {
+    await seed(page);
+    if (surface === "Foundations") {
+      await colors(page, "Palette");
+      await page
+        .getByRole("tabpanel", { name: "Colors", exact: true })
+        .getByText("System settings", { exact: true })
+        .click();
+    } else {
+      await navigate(page, "Platforms");
+    }
+    const checkbox = page.getByRole("checkbox", {
+      name: "Map outputs to sRGB",
+      exact: true,
+    });
+    const help = page.getByRole("button", {
+      name: /^Map outputs to sRGB information\b/,
+    });
+    const explanation = page.getByText(
+      "Keeps authored wide-gamut colors intact and maps generated output to sRGB. Hex and HSL require sRGB output.",
+      { exact: true },
+    );
+    await expect(checkbox).toBeVisible();
+    await expect(help).toBeVisible();
+    await expect(explanation).toBeHidden();
+    const checkboxBounds = await checkbox.locator("..").boundingBox();
+    const helpBounds = await help.boundingBox();
+    expect(checkboxBounds).not.toBeNull();
+    expect(helpBounds).not.toBeNull();
+    expect(helpBounds!.x).toBeGreaterThanOrEqual(
+      checkboxBounds!.x + checkboxBounds!.width,
+    );
+    expect(helpBounds!.y).toBeLessThan(
+      checkboxBounds!.y + checkboxBounds!.height,
+    );
+    expect(helpBounds!.y + helpBounds!.height).toBeGreaterThan(
+      checkboxBounds!.y,
+    );
+    const before = (await record(page)).working;
+    await help.press("Enter");
+    await expect(explanation).toBeVisible();
+    await expect(
+      page.getByText(
+        "Output gamut: sRGB. Adaptive CSS uses functional colors rather than changing Hex literals.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(explanation).toBeHidden();
+    await expect(help).toBeFocused();
+    expect((await record(page)).working).toEqual(before);
+  });
+}
+
 test("sRGB output uses design-data notation in generated code and color views", async ({
   page,
 }) => {

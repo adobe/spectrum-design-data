@@ -75,7 +75,7 @@ const invalidations: ((value: typeof source) => void)[] = [
     value.colorSystem.backgroundLightness = 0.7;
   },
   (value) => {
-    value.colorSystem.settings.extOffset += 0.01;
+    value.colorSystem.settings.backgroundBlend += 0.01;
   },
   (value) => {
     value.colorSystem.scales[0].stops[0].hue += 1;

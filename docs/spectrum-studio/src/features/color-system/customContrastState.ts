@@ -2,7 +2,12 @@
 import { atom } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom, cssBaseDocumentAtom } from "./state";
-import { assertCustomContrastNaming, sortContrastSteps } from "./contrastSteps";
+import {
+  assertCustomContrastNaming,
+  contrastStepIndex,
+  sortContrastSteps,
+} from "./contrastSteps";
+import { nextSwatchIndex, reindexSwatches } from "../scales/swatchIndices";
 import type { ColorScale, ContrastToken } from "./model";
 import { rulesAtom } from "../logic/library";
 import { STANDARD_SCALE_NAMING_RULE_ID } from "../logic/model";
@@ -69,6 +74,7 @@ export type CustomContrastAction =
   | { kind: "base"; scaleId: string; stepId: string }
   | { kind: "rule"; scaleId: string; ruleId: string }
   | { kind: "remove"; scaleId: string; stepId: string }
+  | { kind: "index"; scaleId: string; stepId: string; scaleIndex: number }
   | {
       kind: "value";
       scaleId: string;
@@ -81,6 +87,8 @@ export interface CustomContrastUndo {
   scaleId: string;
   before: ColorScale["customContrasts"];
   after: ColorScale["customContrasts"];
+  beforeDisabled?: ColorScale["customContrasts"];
+  afterDisabled?: ColorScale["customContrasts"];
   patches: { modeId: string; values: Record<string, number> }[];
   overrides: TokenOverrideMap;
   browserEdits: BrowserTokenEdits;
@@ -108,7 +116,8 @@ export const editCustomContrastsAtom = atom(
     const { owner, mode, polarity, opposite } = get(
       customContrastEditingContextAtom,
     );
-    if (mode && owner) {
+    const toggle = action.kind === "enable" || action.kind === "disable";
+    if (mode && owner && !toggle) {
       if (action.kind !== "value" && action.kind !== "reset")
         throw new Error(
           "Choose the default Contrast mode to change the step list or naming.",
@@ -153,7 +162,7 @@ export const editCustomContrastsAtom = atom(
       );
       return;
     }
-    if (opposite) {
+    if (opposite && !toggle) {
       if (action.kind !== "value" && action.kind !== "reset")
         throw new Error(
           "Choose the reference color scheme to change the step list or naming.",
@@ -197,14 +206,18 @@ export const editCustomContrastsAtom = atom(
       return;
     }
     let custom = scale.customContrasts;
+    let disabledCustom = scale.disabledCustomContrasts;
     if (action.kind === "enable") {
       if (custom) return;
-      custom = {
+      custom = disabledCustom ?? {
         steps: document.contrasts.map((step) => ({ ...step })),
         baseContrastId: document.contrasts[0].id,
         namingRuleId: STANDARD_SCALE_NAMING_RULE_ID,
       };
+      disabledCustom = undefined;
     } else if (action.kind === "disable") {
+      if (!custom) return;
+      disabledCustom = custom;
       custom = undefined;
     } else {
       if (!custom) throw new Error("Enable custom contrast steps first.");
@@ -212,6 +225,18 @@ export const editCustomContrastsAtom = atom(
         custom = { ...custom, baseContrastId: action.stepId };
       else if (action.kind === "rule")
         custom = { ...custom, namingRuleId: action.ruleId };
+      else if (action.kind === "index")
+        custom = {
+          ...custom,
+          steps: reindexSwatches(
+            custom.steps,
+            action.stepId,
+            action.scaleIndex,
+            custom.steps.map((_, position) =>
+              contrastStepIndex(position, scale, get(rulesAtom)),
+            ),
+          ),
+        };
       else if (action.kind === "sort") {
         custom = {
           ...custom,
@@ -221,6 +246,13 @@ export const editCustomContrastsAtom = atom(
         const step: ContrastToken = {
           id: `contrast-custom-${crypto.randomUUID()}`,
           value: Math.min(21, custom.steps.at(-1)!.value + 0.5),
+          ...(custom.steps.some((step) => step.scaleIndex !== undefined) && {
+            scaleIndex: nextSwatchIndex(
+              custom.steps.map((_, position) =>
+                contrastStepIndex(position, scale, get(rulesAtom)),
+              ),
+            ),
+          }),
         };
         custom = { ...custom, steps: [...custom.steps, step] };
       } else if (action.kind === "remove") {
@@ -260,6 +292,8 @@ export const editCustomContrastsAtom = atom(
     const nextScale = { ...scale };
     if (custom) nextScale.customContrasts = custom;
     else delete nextScale.customContrasts;
+    if (disabledCustom) nextScale.disabledCustomContrasts = disabledCustom;
+    else delete nextScale.disabledCustomContrasts;
     const next = {
       ...document,
       scales: document.scales.map((candidate) =>
@@ -279,6 +313,8 @@ export const editCustomContrastsAtom = atom(
       scaleId: scale.id,
       before: scale.customContrasts,
       after: custom,
+      beforeDisabled: scale.disabledCustomContrasts,
+      afterDisabled: disabledCustom,
       patches: sets.flatMap((axis) =>
         axis.modes.flatMap((mode) => {
           const values = mode.foundations.color?.scaleContrasts?.[scale.id];
@@ -338,7 +374,9 @@ export const restoreCustomContrastsAtom = atom(
     const scale = document.scales.find((scale) => scale.id === undo.scaleId);
     if (
       !scale ||
-      JSON.stringify(scale.customContrasts) !== JSON.stringify(undo.after)
+      JSON.stringify(scale.customContrasts) !== JSON.stringify(undo.after) ||
+      JSON.stringify(scale.disabledCustomContrasts) !==
+        JSON.stringify(undo.afterDisabled)
     )
       throw new Error(
         "This scale changed after deletion. Use Cancel to restore the last save.",
@@ -346,6 +384,9 @@ export const restoreCustomContrastsAtom = atom(
     const restored = { ...scale };
     if (undo.before) restored.customContrasts = undo.before;
     else delete restored.customContrasts;
+    if (undo.beforeDisabled)
+      restored.disabledCustomContrasts = undo.beforeDisabled;
+    else delete restored.disabledCustomContrasts;
     const next = {
       ...document,
       scales: document.scales.map((scale) =>

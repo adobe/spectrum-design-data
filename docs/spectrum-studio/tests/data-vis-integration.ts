@@ -78,7 +78,6 @@ const geometry: ModeSet = {
   description: "",
   defaultModeId: light.id,
   authoringCapabilities: [
-    "color.scales",
     "color.backgroundScaleId",
     "color.backgroundLightness",
   ],

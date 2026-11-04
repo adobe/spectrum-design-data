@@ -109,7 +109,7 @@ const invalidations: ((value: typeof source) => void)[] = [
     value.colorSystem.surfaces.reverse();
   },
   (value) => {
-    value.colorSystem.settings.extOffset += 0.01;
+    value.colorSystem.settings.backgroundBlend += 0.01;
   },
   (value) => {
     value.colorSystem.settings.colorOutput.outputFormat = "rgb";

@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { enableEditMode } from "./editMode";
 import { AUTHORING_STORAGE_KEY } from "../../src/features/edit-session/storage";
 import { createDefaultSnapshot } from "../../src/features/edit-session/state";
+import { termLabel } from "../../src/features/taxonomy/termPresentation";
 import {
   renderColorRaster,
   type RasterSpec,
@@ -39,6 +40,101 @@ async function openAnalysis(page: Page) {
   await expect(root).toBeVisible();
   return root;
 }
+
+test("Chromaticity filters all three charts by scale independently of Lightness", async ({
+  page,
+}) => {
+  const root = await openAnalysis(page);
+  const scales = createDefaultSnapshot().colorSystem.scales;
+  const red = scales.find((scale) => termLabel(scale.name) === "Red")!;
+  const picker = root.getByRole("button", { name: / Color scale$/ });
+  const before = await page.evaluate(
+    (key) => localStorage.getItem(key),
+    AUTHORING_STORAGE_KEY,
+  );
+  await expect(picker).toContainText("All");
+  await root.getByText("Show scale paths", { exact: true }).click();
+  await expect(root.locator("[data-scale-path]")).toHaveCount(scales.length);
+  for (const channel of ["hue", "chroma"]) {
+    await expect(
+      root
+        .getByRole("img", {
+          name: `${channel} along generated scales`,
+          exact: true,
+        })
+        .locator("[data-series-id]"),
+    ).toHaveCount(scales.length);
+  }
+  await picker.click();
+  const options = page.getByRole("listbox");
+  await expect(
+    options.getByRole("option", { name: "All", exact: true }),
+  ).toBeVisible();
+  await options.press("End");
+  await expect(
+    options.getByRole("option", {
+      name: termLabel(scales.at(-1)!.name),
+      exact: true,
+    }),
+  ).toBeVisible();
+  await options.press("Home");
+  await options.getByRole("option", { name: "Red", exact: true }).click();
+  await expect(picker).toContainText("Red");
+  await expect(root.locator("[data-scale-path]")).toHaveCount(1);
+  await expect(root.locator("[data-scale-path]")).toHaveAttribute(
+    "data-scale-path",
+    red.id,
+  );
+  for (const channel of ["hue", "chroma"]) {
+    const series = root
+      .getByRole("img", {
+        name: `${channel} along generated scales`,
+        exact: true,
+      })
+      .locator("[data-series-id]");
+    await expect(series).toHaveCount(1);
+    await expect(series).toHaveAttribute("data-series-id", red.id);
+  }
+  await root.getByRole("button", { name: / Markers$/ }).click();
+  await page
+    .getByRole("option", { name: "All key colors", exact: true })
+    .click();
+  await expect(root.locator("[data-marker-id]")).toHaveCount(red.stops.length);
+  const markerIds = await root
+    .locator("[data-marker-id]")
+    .evaluateAll((nodes) =>
+      nodes.map((node) => node.getAttribute("data-marker-id")),
+    );
+  expect(markerIds.every((id) => id?.startsWith(`${red.id}:`))).toBe(true);
+  await root.getByRole("tab", { name: "Lightness", exact: true }).click();
+  const reference = root.getByRole("button", { name: / Reference scale$/ });
+  const initialReference = await reference.textContent();
+  await reference.click();
+  await page.getByRole("option", { name: "Magenta", exact: true }).click();
+  await root.getByRole("tab", { name: "Chromaticity", exact: true }).click();
+  await expect(picker).toContainText("Red");
+  await picker.click();
+  await page.getByRole("option", { name: "All", exact: true }).click();
+  await expect(root.locator("[data-scale-path]")).toHaveCount(scales.length);
+  for (const channel of ["hue", "chroma"])
+    await expect(
+      root
+        .getByRole("img", {
+          name: `${channel} along generated scales`,
+          exact: true,
+        })
+        .locator("[data-series-id]"),
+    ).toHaveCount(scales.length);
+  await root.getByRole("tab", { name: "Lightness", exact: true }).click();
+  await expect(reference).toContainText("Magenta");
+  expect(initialReference).not.toContain("Red");
+  expect(
+    await page.evaluate(
+      (key) => localStorage.getItem(key),
+      AUTHORING_STORAGE_KEY,
+    ),
+  ).toBe(before);
+});
 
 for (const deviceScaleFactor of [1, 2]) {
   test.describe(`DPR ${deviceScaleFactor}`, () => {

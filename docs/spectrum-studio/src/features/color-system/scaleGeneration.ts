@@ -1,11 +1,15 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
   clamp01,
+  convertLinearGamut,
   gamutClamp,
   outputColorCss,
   interpolateHue,
   linearToHex,
   luminance,
+  linearToOklch,
+  toGamma,
+  toLinear,
   type LinearRgb,
   renderGamutForOutput,
   requiresOutputGamutMapping,
@@ -13,6 +17,7 @@ import {
   type RgbGamut,
 } from "./colorMath";
 import type { ColorScale, ColorStop } from "./model";
+import { scaleInterpolation } from "./scaleInterpolation";
 import { MAX_CHROMA as COLOR_MAX } from "./paletteValue";
 
 export function stopOklch(
@@ -23,6 +28,8 @@ export function stopOklch(
 const NEUTRAL_CHROMA = 2;
 const RAMP_STEPS = 33;
 const ANCHOR_INDICES = [4, 9, 14, 19, 24, 28] as const;
+// RGB paths bend at each key color, so they need more anchors to stay close to the ramp.
+const RGB_ANCHOR_INDICES = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29] as const;
 const REFERENCE_LEVELS = [
   0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95,
 ] as const;
@@ -63,7 +70,7 @@ export interface ResolvedScaleColor {
 const scaleDataCache = new Map<string, ScaleData>();
 
 function scaleCacheKey(scale: ColorScale, output: OutputColorSpace) {
-  return `${JSON.stringify(output)}|${scale.id}|${scale.name}|${scale.stops.map((stop) => `${stop.lightness},${stop.hue},${stop.chroma}`).join(";")}`;
+  return `${JSON.stringify(output)}|${scale.id}|${scale.name}|${scaleInterpolation(scale)}|${scale.stops.map((stop) => `${stop.lightness},${stop.hue},${stop.chroma}`).join(";")}`;
 }
 
 function sortStops(stops: ColorStop[]) {
@@ -98,6 +105,87 @@ export function scaleHueChromaAt(stops: ColorStop[], lightness: number) {
   };
 }
 
+function stopLinear(
+  stop: ColorStop,
+  gamut: RgbGamut,
+  preserveAppearance: boolean,
+) {
+  return gamutClamp(
+    clamp01(stop.lightness),
+    (stop.chroma / 100) * COLOR_MAX,
+    stop.hue,
+    gamut,
+    preserveAppearance,
+  );
+}
+
+/**
+ * RGB interpolation: blend gamma-encoded channels between key colors, with
+ * black and white as the ends, using OKLCh lightness as the position.
+ */
+function rgbLinearAtLightness(
+  stops: ColorStop[],
+  lightness: number,
+  gamut: RgbGamut,
+  preserveAppearance: boolean,
+): LinearRgb {
+  const points = [
+    { lightness: 0, gamma: [0, 0, 0] as LinearRgb },
+    ...sortStops(stops).map((stop) => ({
+      lightness: clamp01(stop.lightness),
+      gamma: stopLinear(stop, gamut, preserveAppearance).map((channel) =>
+        toGamma(channel, gamut),
+      ) as unknown as LinearRgb,
+    })),
+    { lightness: 1, gamma: [1, 1, 1] as LinearRgb },
+  ];
+  const target = clamp01(lightness);
+  const upperIndex = Math.max(
+    1,
+    points.findIndex((point) => point.lightness >= target),
+  );
+  const lower = points[upperIndex - 1];
+  const upper = points[upperIndex];
+  const span = upper.lightness - lower.lightness;
+  const fraction = span <= 0 ? 1 : (target - lower.lightness) / span;
+  return lower.gamma.map((channel, index) =>
+    toLinear(channel + (upper.gamma[index] - channel) * fraction, gamut),
+  ) as unknown as LinearRgb;
+}
+
+function scaleLinearAtLightness(
+  scale: ColorScale,
+  lightness: number,
+  gamut: RgbGamut,
+  preserveAppearance: boolean,
+) {
+  if (scaleInterpolation(scale) === "rgb") {
+    const linear = rgbLinearAtLightness(
+      scale.stops,
+      lightness,
+      gamut,
+      preserveAppearance,
+    );
+    const [, chroma, hue] = linearToOklch(
+      convertLinearGamut(linear, gamut, "srgb"),
+    );
+    return {
+      linear,
+      hue: Number.isFinite(hue) ? hue : 0,
+      chroma: (chroma / COLOR_MAX) * 100,
+    };
+  }
+  const { hue, chroma } = scaleHueChromaAt(scale.stops, lightness);
+  const linear = gamutClamp(
+    clamp01(lightness),
+    (chroma / 100) * COLOR_MAX,
+    hue,
+    gamut,
+    preserveAppearance,
+  );
+  return { linear, hue, chroma };
+}
+
 export function resolveScaleColorAtLightness(
   scale: ColorScale,
   lightness: number,
@@ -105,11 +193,9 @@ export function resolveScaleColorAtLightness(
 ): ResolvedScaleColor {
   const gamut = renderGamutForOutput(output);
   const resolvedLightness = clamp01(lightness);
-  const { hue, chroma } = scaleHueChromaAt(scale.stops, resolvedLightness);
-  const linear = gamutClamp(
+  const { linear, hue, chroma } = scaleLinearAtLightness(
+    scale,
     resolvedLightness,
-    (chroma / 100) * COLOR_MAX,
-    hue,
     gamut,
     requiresOutputGamutMapping(output),
   );
@@ -142,11 +228,9 @@ export function buildRamp(
     const lightness =
       minimumLightness +
       ((maximumLightness - minimumLightness) * index) / (RAMP_STEPS - 1);
-    const { hue, chroma } = scaleHueChromaAt(scale.stops, lightness);
-    const linear = gamutClamp(
-      clamp01(lightness),
-      (chroma / 100) * COLOR_MAX,
-      hue,
+    const { linear } = scaleLinearAtLightness(
+      scale,
+      lightness,
       gamut,
       requiresOutputGamutMapping(output),
     );
@@ -160,10 +244,15 @@ export function buildRamp(
   }).sort((first, second) => first.luminance - second.luminance);
 }
 
-export function rampAnchors(ramp: RampColor[]): ColorAnchor[] {
+export function rampAnchors(
+  ramp: RampColor[],
+  keyColors: readonly ColorAnchor[] = [],
+): ColorAnchor[] {
+  const indices = keyColors.length > 0 ? RGB_ANCHOR_INDICES : ANCHOR_INDICES;
   const samples: ColorAnchor[] = [
     { luminance: 0, linear: [0, 0, 0] },
-    ...ANCHOR_INDICES.map((index) => ({
+    ...keyColors,
+    ...indices.map((index) => ({
       luminance: ramp[index].luminance,
       linear: ramp[index].linear,
     })),
@@ -213,7 +302,18 @@ export function buildScaleData(
     return cached;
   }
   const ramp = buildRamp(scale, output);
-  const anchors = rampAnchors(ramp);
+  const keyColors =
+    scaleInterpolation(scale) === "rgb"
+      ? scale.stops.map((stop) => {
+          const linear = stopLinear(
+            stop,
+            gamut,
+            requiresOutputGamutMapping(output),
+          );
+          return { luminance: luminance(linear, gamut), linear };
+        })
+      : [];
+  const anchors = rampAnchors(ramp, keyColors);
   const neutral = scale.stops.every((stop) => stop.chroma < NEUTRAL_CHROMA);
   const referencePalette = Object.fromEntries(
     REFERENCE_LEVELS.map((level) => [

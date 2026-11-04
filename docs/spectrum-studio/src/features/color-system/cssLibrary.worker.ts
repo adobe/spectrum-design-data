@@ -5,19 +5,19 @@ import {
   buildColorLibrary,
   type ColorLibraryMode,
   type ContrastLibraryMode,
-  type ScaleLibraryMode,
   type CustomContrastLibraryMode,
 } from "./cssLibrary";
 import type { Rule } from "../logic/model";
 import type { ColorSystemDocument } from "./model";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import type { WorkerReply } from "../derived-work/workerTask";
+import type { OpacitySource } from "../opacity/generation";
 
 export interface CssLibraryWorkerRequest {
+  opacitySource?: OpacitySource;
   document: ColorSystemDocument;
   modes?: ColorLibraryMode[];
   contrastModes?: ContrastLibraryMode[];
-  scaleModes?: ScaleLibraryMode[];
   taxonomy?: TaxonomyDocument;
   rules?: Rule[];
   customModes?: CustomContrastLibraryMode[];
@@ -33,10 +33,10 @@ self.onmessage = (event: MessageEvent<CssLibraryWorkerRequest>) => {
         event.data.document,
         event.data.modes,
         event.data.contrastModes,
-        event.data.scaleModes,
         event.data.taxonomy,
         event.data.rules,
         event.data.customModes,
+        event.data.opacitySource,
       ),
     } satisfies CssLibraryWorkerResponse);
   } catch (error) {

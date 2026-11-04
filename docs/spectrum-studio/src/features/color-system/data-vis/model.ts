@@ -386,106 +386,28 @@ export function isDataVisContrastOverrides(
   );
 }
 
-export function applyDataVisPointPatch(
-  point: DataVisPoint,
-  sourcePatch?: DataVisSourcePatch,
-  ratio?: number,
-): DataVisPoint {
-  let source = point.source;
-  if (sourcePatch) {
-    if (source.kind === "key-color") {
-      if (
-        sourcePatch.scaleId !== undefined ||
-        sourcePatch.contrastId !== undefined ||
-        sourcePatch.tokenId !== undefined
-      )
-        throw new Error(`Point ${point.id} requires a key-color patch.`);
-      source = { ...source, color: { ...source.color, ...sourcePatch.color } };
-    } else if (source.kind === "primitive-token") {
-      if (
-        sourcePatch.color !== undefined ||
-        sourcePatch.scaleId !== undefined ||
-        sourcePatch.contrastId !== undefined
-      ) {
-        throw new Error(`Point ${point.id} requires a primitive-token patch.`);
-      }
-      source = {
-        ...source,
-        ...(sourcePatch.tokenId !== undefined && {
-          tokenId: sourcePatch.tokenId,
-        }),
-      };
-    } else if (
-      source.kind === "ui-swatch" &&
-      sourcePatch.tokenId !== undefined
-    ) {
-      if (
-        sourcePatch.color !== undefined ||
-        sourcePatch.scaleId !== undefined ||
-        sourcePatch.contrastId !== undefined
-      ) {
-        throw new Error(`Point ${point.id} requires one exact token source.`);
-      }
-      source = { kind: "primitive-token", tokenId: sourcePatch.tokenId };
-    } else {
-      if (
-        sourcePatch.color !== undefined ||
-        sourcePatch.tokenId !== undefined ||
-        (source.kind === "ui-scale" && sourcePatch.contrastId !== undefined)
-      ) {
-        throw new Error(
-          `Point ${point.id} requires a matching UI source patch.`,
-        );
-      }
-      source = {
-        ...source,
-        ...(sourcePatch.scaleId !== undefined && {
-          scaleId: sourcePatch.scaleId,
-        }),
-        ...(source.kind === "ui-swatch" &&
-          sourcePatch.contrastId !== undefined && {
-            contrastId: sourcePatch.contrastId,
-          }),
-      };
-    }
-  }
-  if (source.kind === "ui-swatch" || source.kind === "primitive-token") {
-    if (ratio !== undefined)
-      throw new Error(
-        `Linked point ${point.id} cannot own a contrast override.`,
-      );
-    return { id: point.id, position: point.position, source };
-  }
-  if (!point.contrast)
-    throw new Error(`Point ${point.id} has no owned contrast.`);
-  return {
-    ...point,
-    source,
-    contrast: {
-      ...point.contrast,
-      ...(ratio !== undefined && { value: ratio }),
-    },
-  };
-}
-
-export function patchDataVisScales(
+export function patchDataVisContrasts(
   scales: DataVisScale[],
-  sources?: DataVisSourceOverrides,
   contrasts?: DataVisContrastOverrides,
 ): DataVisScale[] {
-  if (!sources && !contrasts) return scales;
+  if (!contrasts) return scales;
   return scales.map((scale) =>
     scale.kind === "categorical"
       ? scale
       : {
           ...scale,
-          points: scale.points.map((point) =>
-            applyDataVisPointPatch(
-              point,
-              sources?.[scale.id]?.[point.id],
-              contrasts?.[scale.id]?.[point.id],
-            ),
-          ),
+          points: scale.points.map((point) => {
+            const value = contrasts[scale.id]?.[point.id];
+            if (value === undefined) return point;
+            if (!point.contrast)
+              throw new Error(
+                `Linked point ${point.id} cannot own a contrast override.`,
+              );
+            return {
+              ...point,
+              contrast: { ...point.contrast, value },
+            };
+          }),
         },
   );
 }

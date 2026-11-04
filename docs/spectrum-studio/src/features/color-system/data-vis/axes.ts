@@ -21,7 +21,6 @@ export function categoricalMemberAxes(
   const axes = new Set(
     (
       [
-        "color.scales",
         "color.contrastMultiplier",
         "color.backgroundScaleId",
         "color.backgroundLightness",
