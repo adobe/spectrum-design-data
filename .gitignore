@@ -185,4 +185,9 @@ tools/demo/videos/out/
 # Local OpenCode setup
 .opencode/
 opencode.jsonc
+
+# iOS Catalog screenshots are internal (Adobe-confidential app) and regenerable;
+# keep them outside the repo (see tools/ios-catalog-capture/README.md).
+tools/ios-catalog-capture/shots/
+tools/ios-catalog-capture/contact-sheets/
 tools/figma-spec-plugin/.out/
