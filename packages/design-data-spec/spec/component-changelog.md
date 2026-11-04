@@ -32,7 +32,7 @@ A record's own `rationale` is copied into the entry when present. History comes 
 | `documentation` | Descriptions, document blocks, rationale, relationship context text                                    |
 | `metadata`      | Legacy keys, ids, ordering, implementations, spec bookkeeping (summarized, not listed)                 |
 
-**Metadata-class changes are not entries.** Each commit records them as `metadata: {count, fields}`: how many changes, and which field paths changed (a record added or removed is named `<kind> <change>`, e.g. `implementation added`). They count as a patch.
+**Metadata-class changes are not entries.** Each commit records them as `metadata: {count, fields}`: how many changes, and which field paths changed (a record added or removed is named `<kind> <change>`, e.g. `implementation added`). They count as a patch. Removing a relationship whose exact twin survives (same scope, context and `$ref` or value) is metadata: nothing changes for consumers. Re-scoping a record (`scope.options` added or changed, same component, property, context and target) is an update, not a removal and an addition.
 
 In the committed file every entry, source and metadata summary is written on one line.
 

@@ -389,11 +389,32 @@ fn rel_change(rec: &Value, change: Change, fields: Vec<PropertyChange>) -> Recor
     }
 }
 
-fn content_key(rec: &Value) -> String {
+pub(crate) fn content_key(rec: &Value) -> String {
     format!(
         "{}#{}#{}",
         rec.get("scope").map(|s| s.to_string()).unwrap_or_default(),
         rec.get("context").and_then(Value::as_str).unwrap_or(""),
+        rec.get("$ref")
+            .map(|v| v.to_string())
+            .or_else(|| rec.get("value").map(|v| v.to_string()))
+            .unwrap_or_default()
+    )
+}
+
+/// Component, property, optionally context, and target; ignores `scope.options`.
+fn identity_key(rec: &Value, with_context: bool) -> String {
+    let s = rec.get("scope");
+    let f = |k: &str| {
+        s.and_then(|s| s.get(k))
+            .map(|v| v.to_string())
+            .unwrap_or_default()
+    };
+    let ctx = rec.get("context").and_then(Value::as_str).unwrap_or("");
+    format!(
+        "{}#{}#{}#{}",
+        f("component"),
+        f("property"),
+        if with_context { ctx.trim() } else { "" },
         rec.get("$ref")
             .map(|v| v.to_string())
             .or_else(|| rec.get("value").map(|v| v.to_string()))
@@ -455,6 +476,15 @@ fn relationship_changes(old: &[Value], new: &[Value]) -> Vec<RecordChange> {
     let uuid = |r: &Value| r.get("uuid").and_then(Value::as_str).map(str::to_string);
     let (o, n) = pass(old.iter().collect(), new.iter().collect(), uuid, &mut pairs);
     let (o, n) = pass(o, n, |r| Some(content_key(r)), &mut pairs);
+    // Re-scoped records (`scope.options` added or changed) are updates, not remove + add.
+    let (o, n) = pass(o, n, |r| Some(identity_key(r, true)), &mut pairs);
+    // A context rename on the same target is a documentation update, not remove + add.
+    let (o, n) = pass(
+        o.into_iter().filter(|r| !is_inline_token(r)).collect(),
+        n.into_iter().filter(|r| !is_inline_token(r)).collect(),
+        |r| Some(identity_key(r, false)),
+        &mut pairs,
+    );
     // Inline tokens never re-bind; only relationships do.
     pass(
         o.into_iter().filter(|r| !is_inline_token(r)).collect(),
@@ -468,6 +498,12 @@ fn relationship_changes(old: &[Value], new: &[Value]) -> Vec<RecordChange> {
         // A uuid assigned to a record that had none establishes identity; it is not a change.
         let mut fields = diff_properties(o, n);
         fields.retain(|f| !(f.path == "uuid" && f.change_type == ChangeType::Added));
+        fields.retain(|f| {
+            fn t(v: &Option<Value>) -> Option<&str> {
+                v.as_ref().and_then(Value::as_str).map(str::trim)
+            }
+            !(f.path == "context" && t(&f.original_value) == t(&f.new_value))
+        });
         if !fields.is_empty() {
             out.push(rel_change(n, Change::Updated, fields));
         }
@@ -1113,6 +1149,35 @@ mod tests {
                 serde_json::to_string(&first.changes).unwrap()
             );
         }
+    }
+
+    #[test]
+    fn changing_scope_options_is_an_update_not_remove_and_add() {
+        let plain =
+            json!({"scope": {"component": "c", "property": "p"}, "context": "X", "$ref": "t"});
+        let scoped = json!({"scope": {"component": "c", "property": "p", "options": {"size": "m"}}, "context": "X", "$ref": "t"});
+        let d = diff_datasets(
+            &snap(vec![plain.clone(), plain], vec![], vec![]),
+            &snap(vec![scoped.clone(), scoped], vec![], vec![]),
+        );
+        assert_eq!(d.changes.len(), 2);
+        assert!(d.changes.iter().all(|c| c.change == Change::Updated));
+    }
+
+    #[test]
+    fn context_rename_or_whitespace_is_an_update() {
+        let r = |ctx: &str| json!({"scope": {"component": "c", "property": "p"}, "context": ctx, "$ref": "t"});
+        let d = diff_datasets(
+            &snap(vec![r("S2 Control (size)")], vec![], vec![]),
+            &snap(vec![r("Control (size)")], vec![], vec![]),
+        );
+        assert_eq!(d.changes.len(), 1);
+        assert_eq!(d.changes[0].change, Change::Updated);
+        let d = diff_datasets(
+            &snap(vec![r("X ")], vec![], vec![]),
+            &snap(vec![r("X")], vec![], vec![]),
+        );
+        assert_eq!(d.changes.len(), 0);
     }
 
     #[test]
