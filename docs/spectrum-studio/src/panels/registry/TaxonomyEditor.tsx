@@ -12,11 +12,11 @@ import {
 import {
   ActionButton,
   AlertDialog,
-  Badge,
   Button,
   Checkbox,
   CheckboxGroup,
   Content,
+  ContextualHelp,
   DialogContainer,
   Form,
   Heading,
@@ -49,17 +49,10 @@ import Close from "@react-spectrum/s2/icons/Close";
 import {
   updateTaxonomy,
   type TaxonomyCategory,
+  type TaxonomyCategoryTier,
   type TaxonomyDocument,
   type TaxonomyTerm,
 } from "../../features/taxonomy/model";
-import {
-  standardCategoryName,
-  type StandardizationOccurrence,
-} from "../../features/taxonomy/standardization";
-import {
-  classificationReviewMessages,
-  CLASSIFICATION_REVIEW_LABEL,
-} from "../../features/taxonomy/reviewPresentation";
 import type { ReferencedTaxonomySource } from "../../features/taxonomy/referenceValidation";
 import { useTaxonomyValidation } from "../../features/taxonomy/useTaxonomyValidation";
 
@@ -90,12 +83,6 @@ const detailStyles = style({
   font: "detail",
   color: "neutral-subdued",
   margin: 0,
-});
-const reviewDetailStyles = style({
-  font: "detail",
-  color: "neutral-subdued",
-  maxHeight: 128,
-  overflow: "auto",
 });
 const pairStyles = style({ display: "grid", gap: 16, alignItems: "start" });
 const fieldStyles = style({ width: "full", minWidth: 0 });
@@ -138,8 +125,6 @@ export function TaxonomyEditor({
   editable,
   usage,
   onCommit,
-  termReviews,
-  categoryReview,
   validationSource,
 }: {
   document: TaxonomyDocument;
@@ -147,8 +132,6 @@ export function TaxonomyEditor({
   editable: boolean;
   usage: (termId?: string) => number;
   onCommit: (document: TaxonomyDocument) => void;
-  termReviews: ReadonlyMap<string, StandardizationOccurrence>;
-  categoryReview?: StandardizationOccurrence;
   validationSource: ReferencedTaxonomySource;
 }) {
   const notify = useNotify();
@@ -393,30 +376,11 @@ export function TaxonomyEditor({
     >
       <header className={headerStyles}>
         <div className={sectionStyles}>
-          <h3 className={headingStyles}>{standardCategoryName(category)}</h3>
+          <h3 className={headingStyles}>{category.name}</h3>
           <p className={detailStyles}>
             {terms.length.toLocaleString()} terms. {usage().toLocaleString()}{" "}
             token and source references.
           </p>
-          {categoryReview?.status !== "standard" && (
-            <Badge variant="notice" fillStyle="subtle">
-              {CLASSIFICATION_REVIEW_LABEL}
-            </Badge>
-          )}
-          {categoryReview?.fixRequired &&
-            classificationReviewMessages(document, [categoryReview]).map(
-              (message) => (
-                <p key={message} className={detailStyles}>
-                  {message}
-                </p>
-              ),
-            )}
-          {standardCategoryName(category) !== category.name && (
-            <p className={detailStyles}>
-              The proposed name is Prominence. Your saved label remains{" "}
-              {category.name} until you explicitly rename it.
-            </p>
-          )}
         </div>
         {editable && (
           <TooltipTrigger>
@@ -532,6 +496,33 @@ export function TaxonomyEditor({
         >
           Required classification
         </Checkbox>
+        <Picker
+          label="Asked when adding"
+          contextualHelp={
+            <ContextualHelp>
+              <Heading>Asked when adding</Heading>
+              <Content>
+                <Text>
+                  Which new tokens get a question for this category in the Add
+                  token walk-through.
+                </Text>
+              </Content>
+            </ContextualHelp>
+          }
+          selectedKey={draft.appliesTo ?? "both"}
+          isDisabled={!editable}
+          styles={fieldStyles}
+          onSelectionChange={(key) =>
+            setDraft({
+              ...draft,
+              appliesTo: key as TaxonomyCategoryTier,
+            })
+          }
+        >
+          <PickerItem id="both">All tokens</PickerItem>
+          <PickerItem id="raw">Raw value tokens</PickerItem>
+          <PickerItem id="purpose">Purpose-based tokens</PickerItem>
+        </Picker>
       </section>
       {editable && (
         <div className={actionsStyles}>
@@ -572,7 +563,7 @@ export function TaxonomyEditor({
         />
         <TableView
           key={editable ? "editable" : "readonly"}
-          aria-label={`${standardCategoryName(category)} terms`}
+          aria-label={`${category.name} terms`}
           isQuiet
           density="compact"
           overflowMode="wrap"
@@ -592,9 +583,6 @@ export function TaxonomyEditor({
             >
               Uses
             </Column>
-            <Column id="standardization" minWidth={240}>
-              Classification review
-            </Column>
             {editable && (
               <Column id="actions" width={80}>
                 Actions
@@ -603,14 +591,7 @@ export function TaxonomyEditor({
           </TableHeader>
           <TableBody
             items={rows}
-            dependencies={[
-              editable,
-              document,
-              usage,
-              newTerm,
-              termReviews,
-              validation,
-            ]}
+            dependencies={[editable, document, usage, newTerm, validation]}
             renderEmptyState={() => (
               <p className={detailStyles}>
                 {search ? "No matching terms." : "No terms registered yet."}
@@ -687,7 +668,6 @@ export function TaxonomyEditor({
                   </Cell>
                   <Cell>No description</Cell>
                   <Cell>0</Cell>
-                  <Cell>Needs definition review</Cell>
                   <Cell>{null}</Cell>
                 </Row>
               ) : (
@@ -756,13 +736,6 @@ export function TaxonomyEditor({
                                 ? termLabel(term.value)
                                 : String(term[field]) || "No description"}
                             </span>
-                            {field === "value" &&
-                              termReviews.get(term.id)?.status !==
-                                "standard" && (
-                                <Badge variant="notice" fillStyle="subtle">
-                                  {CLASSIFICATION_REVIEW_LABEL}
-                                </Badge>
-                              )}
                           </div>
                           <ActionButton
                             slot="edit"
@@ -780,50 +753,11 @@ export function TaxonomyEditor({
                               ? termLabel(term.value)
                               : String(term[field]) || "No description"}
                           </span>
-                          {field === "value" &&
-                            termReviews.get(term.id)?.status !== "standard" && (
-                              <Badge variant="notice" fillStyle="subtle">
-                                {CLASSIFICATION_REVIEW_LABEL}
-                              </Badge>
-                            )}
                         </div>
                       </Cell>
                     ),
                   )}
                   <Cell>{usage(term.id).toLocaleString()}</Cell>
-                  <Cell focusMode="child">
-                    <div className={sectionStyles}>
-                      <Badge
-                        variant={
-                          termReviews.get(term.id)?.status === "standard"
-                            ? "neutral"
-                            : "notice"
-                        }
-                        fillStyle="subtle"
-                      >
-                        {termReviews.get(term.id)?.status === "standard"
-                          ? "Proposed standard"
-                          : CLASSIFICATION_REVIEW_LABEL}
-                      </Badge>
-                      {termReviews.get(term.id)?.status !== "standard" && (
-                        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Full review reasons must remain keyboard-scrollable.
-                        <div
-                          className={reviewDetailStyles}
-                          role="region"
-                          aria-label={`${termLabel(term.value)} classification review`}
-                          tabIndex={0}
-                        >
-                          {termReviews.get(term.id)
-                            ? classificationReviewMessages(document, [
-                                termReviews.get(term.id)!,
-                              ]).map((message) => (
-                                <p key={message}>{message}</p>
-                              ))
-                            : "This definition has not been assessed. Review it before using standard-compliant taxonomy export."}
-                        </div>
-                      )}
-                    </div>
-                  </Cell>
                   {editable && (
                     <Cell>
                       <div className={termActionsStyles}>

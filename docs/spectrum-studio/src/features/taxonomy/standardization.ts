@@ -489,7 +489,7 @@ export function assertStandardClassification(
       (entry) => entry.fixRequired,
     );
     throw new Error(
-      `Standard-compliant export blocked: ${affected.length.toLocaleString("en")} classification entries need review against the app's proposed definitions.${assessment.counts.occurrences ? "" : " An empty assessment does not establish conformance."} This is not a color-value check. Open a flagged token for reasons and next steps, or open Registry > Taxonomy > Migration review for the affected entries. Export taxonomy compatibility packet keeps your data and includes the full review without clearing warnings.`,
+      `Standard-compliant export blocked: ${affected.length.toLocaleString("en")} classification entries need review against the app's proposed definitions.${assessment.counts.occurrences ? "" : " An empty assessment does not establish conformance."} This is not a color-value check. Open Migration analysis > Classification review for the affected entries and next steps. Export taxonomy compatibility packet keeps your data and includes the full review without clearing warnings.`,
     );
   }
 }

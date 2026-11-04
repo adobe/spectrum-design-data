@@ -77,7 +77,7 @@ export const classificationContentHash = async (value: unknown) => {
   ).join("");
 };
 
-function usagesFor(
+export function classificationReviewUsages(
   document: TaxonomyDocument,
   rows: readonly CanonicalAliasRow[],
   aliases: AliasDocument,
@@ -191,7 +191,9 @@ export async function buildClassificationReviewExport(
     taxonomy: structuredClone(document),
     records: structuredClone([...rows]),
     aliases: structuredClone(aliases),
-    usages: structuredClone(usagesFor(document, rows, aliases)),
+    usages: structuredClone(
+      classificationReviewUsages(document, rows, aliases),
+    ),
   };
   const standard = structuredClone(classificationStandard);
   const assessment = assessClassificationStandard(
@@ -247,7 +249,7 @@ export async function assertClassificationReviewExport(
   if (
     canonicalJson(value.source.usages) !==
     canonicalJson(
-      usagesFor(
+      classificationReviewUsages(
         value.source.taxonomy,
         value.source.records,
         value.source.aliases,

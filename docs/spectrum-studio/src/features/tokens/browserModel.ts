@@ -1,5 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../taxonomy/termPresentation";
+import { tokenModePairs } from "./colorResolution";
+export { tokenModePairs } from "./colorResolution";
 import { concreteColor } from "../color-system/data-vis/colors";
 import type { GeneratedShadow } from "../elevation/model";
 import type { TokenPanelId } from "./view/tokenPanelRegistry";
@@ -117,25 +119,6 @@ export interface BrowserTokenPatch {
   value?: TokenValue;
 }
 
-export function tokenModePairs(modeKey: string): [string, string][] {
-  const selection: unknown = JSON.parse(modeKey);
-  if (!Array.isArray(selection))
-    throw new Error("This token has an invalid mode assignment.");
-  const pairs: [string, string][] = [];
-  for (const pair of selection) {
-    if (
-      !Array.isArray(pair) ||
-      pair.length !== 2 ||
-      typeof pair[0] !== "string" ||
-      typeof pair[1] !== "string"
-    ) {
-      throw new Error("This token has an invalid mode assignment.");
-    }
-    pairs.push([pair[0], pair[1]]);
-  }
-  return pairs;
-}
-
 export function tokenModeSetIds(modeKey: string): string[] {
   return tokenModePairs(modeKey).map(([id]) => id);
 }
@@ -160,6 +143,8 @@ export function tokenValueText(
     : token.value;
 }
 
+export const MISSING_VALUE_MESSAGE = "Set a value for this token.";
+
 export function resolveBrowserTokens(
   sources: BrowserTokenSource[],
   edits: BrowserTokenEdits,
@@ -170,7 +155,9 @@ export function resolveBrowserTokens(
   for (const [id, edit] of Object.entries(edits)) {
     const manual = edit.authoring?.manual;
     if (!manual || allSources.some((source) => source.id === id)) continue;
-    const target = sources.find((source) => source.id === manual.targetId);
+    const target = manual.targetId
+      ? sources.find((source) => source.id === manual.targetId)
+      : undefined;
     allSources.push({
       id,
       type: manual.type,
@@ -254,7 +241,9 @@ export function resolveBrowserTokens(
       token.shadows = target.shadows;
       token.referenceId = target.id;
       token.referenceName = target.name;
-    } else if (assignment?.kind === "literal") {
+    } else if (token.manual && !assignment)
+      throw new Error(MISSING_VALUE_MESSAGE);
+    else if (assignment?.kind === "literal") {
       if (token.type !== "elevation")
         parseBrowserTokenValue(
           { ...token, displayUnit: undefined, alias: undefined },

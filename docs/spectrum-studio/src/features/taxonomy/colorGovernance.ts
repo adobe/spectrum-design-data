@@ -69,7 +69,7 @@ export function governedColorContext(
     const [categoryId, termId] = governedTerm(
       taxonomy,
       "scaleIndex",
-      contrastStepIndex(position, scale, rules),
+      contrastStepIndex(position, scale, rules, color.contrasts),
     );
     classification[categoryId] = termId;
   }
@@ -88,13 +88,17 @@ export function assertColorGovernance(
   assertTaxonomy(taxonomy);
   governedTerm(taxonomy, "property", "color");
   for (let position = 0; position < color.contrasts.length; position++)
-    governedTerm(taxonomy, "scaleIndex", contrastStepIndex(position));
+    governedTerm(
+      taxonomy,
+      "scaleIndex",
+      contrastStepIndex(position, undefined, rules, color.contrasts),
+    );
   for (const scale of color.scales)
     scaleContrasts(color, scale).forEach((_, position) =>
       governedTerm(
         taxonomy,
         "scaleIndex",
-        contrastStepIndex(position, scale, rules),
+        contrastStepIndex(position, scale, rules, color.contrasts),
       ),
     );
   const ids = [

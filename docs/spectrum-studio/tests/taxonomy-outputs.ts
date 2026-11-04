@@ -78,7 +78,7 @@ assert.equal(
   canonical.taxonomy!.surfaces[floating.id].name,
   "floating-surface-color",
 );
-const css = buildColorLibrary(snapshot.colorSystem, [], [], [], taxonomy);
+const css = buildColorLibrary(snapshot.colorSystem, [], [], taxonomy);
 assert(css.includes("--illustrator-orange-color:"));
 assert(
   css.includes(
@@ -105,7 +105,7 @@ const missing = {
   ),
 };
 assert.throws(
-  () => buildColorLibrary(snapshot.colorSystem, [], [], [], missing),
+  () => buildColorLibrary(snapshot.colorSystem, [], [], missing),
   /Unresolved/,
 );
 const dimension = await buildDimensionArtifacts(

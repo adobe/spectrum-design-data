@@ -26,9 +26,7 @@ for (const story of [
   "token-as-parent",
   "filtered-selection",
   "read-only-aliases",
-  "exports",
-  "export-unavailable",
-  "export-errors",
+  "generation-errors",
 ]) {
   test(`Token browser ${story} completes its interactions`, async ({
     page,
@@ -77,21 +75,7 @@ for (const appearance of ["light", "dark"])
       const warning = row.getByText("Classification review needed", {
         exact: true,
       });
-      await warning.scrollIntoViewIfNeeded();
-      await expect(warning).toBeVisible();
-      await expect
-        .poll(async () =>
-          warning.evaluate((element) => {
-            const range = document.createRange();
-            range.selectNodeContents(element);
-            return new Set(
-              Array.from(range.getClientRects(), (rect) =>
-                Math.round(rect.top),
-              ),
-            ).size;
-          }),
-        )
-        .toBe(1);
+      await expect(warning).toHaveCount(0);
       await page.locator(".tokenCollectionScroll").evaluate((element) => {
         element.scrollLeft = 0;
       });

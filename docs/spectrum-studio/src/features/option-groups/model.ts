@@ -18,6 +18,7 @@ export interface VariantProperty {
   id: string;
   kind: "variant";
   name: string;
+  categoryId?: string;
   classification: Classification;
   defaultOptionId: string;
   options: VariantOption[];
@@ -78,6 +79,33 @@ export function createBooleanProperty(name: string): BooleanProperty {
     name: name.trim(),
     defaultValue: true,
   };
+}
+
+export function createLocalVariantProperty(name: string): VariantProperty {
+  if (!name.trim()) throw new Error("Give the variant a name.");
+  const options = ["Default", "Option 2"].map((name) => ({
+    id: crypto.randomUUID(),
+    name,
+    classification: {},
+  }));
+  return {
+    id: crypto.randomUUID(),
+    kind: "variant",
+    name: name.trim(),
+    classification: {},
+    defaultOptionId: options[0].id,
+    options,
+  };
+}
+
+export function hasVariantTokenNaming(
+  property: VariantProperty,
+  option: VariantOption,
+) {
+  return (
+    Object.keys(property.classification).length > 0 &&
+    Object.keys(option.classification).length > 0
+  );
 }
 
 export function createVariantProperty(

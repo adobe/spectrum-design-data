@@ -5,14 +5,16 @@ import {
   contrastReference,
   polarityCompensation,
 } from "../color-system/polarity";
-import { resolveColorDocument } from "../color-system/resolution";
+import {
+  resolveColorScaleDocument as resolveColorDocument,
+  assertColorScaleOutput,
+} from "../color-system/colorScaleResolution";
+import type { OpacityDocument } from "../opacity/model";
+import { opacityAxes } from "../opacity/generation";
+import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import { resolvedBackgroundLinear } from "../color-system/surfaceGeneration";
 import { modeSetDefaultMode, type Mode, type ModeSet } from "../modes/model";
-import {
-  capabilityOwners,
-  effectiveParameterValue,
-  parameterOwners,
-} from "../modes/parameters";
+import { effectiveParameterValue, parameterOwners } from "../modes/parameters";
 import { modeCombinationCount, modeCombinations } from "../modes/combinations";
 import type { PreviewOverrides } from "../modes/previewState";
 import { contrastTokenLabel, generatePaletteTokens } from "./generation";
@@ -92,6 +94,7 @@ export interface CascadeTokenInventory extends CascadeTokenExport {
 }
 
 export interface CascadeExportInput {
+  opacity?: OpacityDocument;
   taxonomy?: TaxonomyDocument;
   base: ColorSystemDocument;
   modeSets: ModeSet[];
@@ -122,6 +125,7 @@ export function buildCascadeTokenExport(
 export function buildCascadeTokenInventory(
   {
     base,
+    opacity,
     modeSets,
     activeModes,
     activeTokens,
@@ -176,18 +180,25 @@ export function buildCascadeTokenInventory(
   }
   const owners = parameterOwners(modeSets);
   const contrastOwnerId = owners["color.contrastMultiplier"];
-  const scaleOwnerId = capabilityOwners(modeSets)["color.scales"];
   const colorOwners = new Set([
     contrastOwnerId,
-    scaleOwnerId,
     owners["color.backgroundLightness"],
     owners["color.backgroundScaleId"],
   ]);
+  if (opacityStopsEnabled(base.settings))
+    for (const axis of opacityAxes({
+      opacity,
+      colorSystem: base,
+      modeSets,
+      browserTokenEdits: browserEdits,
+    }))
+      colorOwners.add(axis.id);
   const colorTokenIds = new Set(
     base.scales.flatMap((scale) =>
-      scaleContrasts(base, scale).map((contrast) =>
-        tokenUuid(tokenStableKey(scale.id, contrast.id)),
-      ),
+      (opacityStopsEnabled(base.settings) && !scale.customContrasts
+        ? (opacity?.levels ?? [])
+        : scaleContrasts(base, scale)
+      ).map((contrast) => tokenUuid(tokenStableKey(scale.id, contrast.id))),
     ),
   );
   const explicitAxes = new Set(
@@ -250,8 +261,9 @@ export function buildCascadeTokenInventory(
       base,
       modes,
       isActive ? preview : undefined,
-      { modeSets },
+      { modeSets, opacity, browserTokenEdits: browserEdits },
     );
+    assertColorScaleOutput(document);
     const fieldsFor = (
       owned: ReadonlySet<string | undefined>,
     ): Record<string, string> =>
@@ -363,7 +375,7 @@ export function buildCascadeTokenInventory(
               !!overrides[token.uuid]?.name ||
                 browserEdits[token.uuid]?.name !== undefined,
               governedColorContext(
-                base,
+                document,
                 taxonomy,
                 scale.id,
                 token.source.contrastId,
@@ -410,7 +422,7 @@ export function buildCascadeTokenInventory(
               !!overrides[token.uuid]?.name ||
                 browserEdits[token.uuid]?.name !== undefined,
               governedColorContext(
-                base,
+                document,
                 taxonomy,
                 scale.id,
                 token.source.contrastId,
@@ -430,7 +442,7 @@ export function buildCascadeTokenInventory(
             { property: "color", colorFamily: token.name.colorName },
             resolved.nameOverridden,
             governedColorContext(
-              base,
+              document,
               taxonomy,
               scale.id,
               token.source.contrastId,
@@ -593,19 +605,21 @@ export function buildCascadeTokenInventory(
         });
       }
 
-    document.contrasts.forEach((contrast, index) => {
-      const seed = tokenUuid(`contrast-ratio:${contrast.id}`);
-      tokens.push({
-        uuid: rowUuid(seed),
-        conceptId: conceptIdFor(seed),
-        name: {
-          property: "contrast-ratio",
-          contrastValue: contrastTokenLabel(index),
-          ...modeFields,
-        },
-        value: Number(contrast.value.toFixed(3)),
-      });
-    });
+    (opacityStopsEnabled(document.settings) ? [] : document.contrasts).forEach(
+      (contrast, index) => {
+        const seed = tokenUuid(`contrast-ratio:${contrast.id}`);
+        tokens.push({
+          uuid: rowUuid(seed),
+          conceptId: conceptIdFor(seed),
+          name: {
+            property: "contrast-ratio",
+            contrastValue: contrastTokenLabel(index, document.contrasts),
+            ...modeFields,
+          },
+          value: Number(contrast.value.toFixed(3)),
+        });
+      },
+    );
   }
 
   // Palette colors are fixed across modes, so each has one row with no mode fields.

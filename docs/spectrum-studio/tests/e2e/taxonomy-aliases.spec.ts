@@ -40,7 +40,7 @@ interface TaxonomyPacket {
 async function navigate(page: Page, name: string) {
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name, exact: true })
+    .getByRole("link", { name: new RegExp(`^${name}(?:\\s|$)`) })
     .click();
 }
 
@@ -83,6 +83,15 @@ async function renameText(page: Page, name: string, previous = "Text") {
 }
 
 async function exportPacket(page: Page): Promise<TaxonomyPacket> {
+  await navigate(page, "Migration analysis");
+  await page.getByRole("button", { name: /Analysis view/ }).click();
+  await page
+    .getByRole("option", { name: "Classification review", exact: true })
+    .click();
+  await page.getByRole("button", { name: /Comparison source/ }).click();
+  await page
+    .getByRole("option", { name: "Working authoring", exact: true })
+    .click();
   const download = page.waitForEvent("download");
   await page
     .getByRole("button", {
@@ -109,6 +118,7 @@ async function exportPacket(page: Page): Promise<TaxonomyPacket> {
       ),
     ).toBe(true);
   }
+  await navigate(page, "Tokens");
   return {
     ...packet,
     tokens: packet.tokens.map((token) => {
@@ -264,7 +274,7 @@ for (const width of [1440, 390]) {
         name: "Classification review needed",
         exact: true,
       }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       dialog.getByRole("textbox", { name: "Value", exact: true }),
     ).toHaveAttribute("readonly", "");

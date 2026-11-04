@@ -13,6 +13,8 @@ export type TaxonomyScope =
   | "structures"
   | DimensionScope;
 export type TaxonomyValue = string | number;
+export type TaxonomyCategoryTier = "raw" | "purpose" | "both";
+export const TAXONOMY_CATEGORY_TIERS = ["raw", "purpose", "both"] as const;
 export interface TaxonomyCategory {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
   id: string;
@@ -24,6 +26,8 @@ export interface TaxonomyCategory {
   scopes: TaxonomyScope[];
   required: boolean;
   includeInProjections: boolean;
+  /** Which "Add token" answer shows this category. Missing means both. */
+  appliesTo?: TaxonomyCategoryTier;
 }
 export interface TaxonomyTerm {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -134,6 +138,7 @@ export function taxonomyIssues(value: unknown): string[] {
         "scopes",
         "required",
         "includeInProjections",
+        "appliesTo",
       ]) ||
       typeof category.id !== "string" ||
       !taxonomyIdPattern.test(category.id) ||
@@ -149,7 +154,11 @@ export function taxonomyIssues(value: unknown): string[] {
       category.scopes.some((scope) => !scopes.includes(scope)) ||
       new Set(category.scopes).size !== category.scopes.length ||
       typeof category.required !== "boolean" ||
-      typeof category.includeInProjections !== "boolean"
+      typeof category.includeInProjections !== "boolean" ||
+      (category.appliesTo !== undefined &&
+        !TAXONOMY_CATEGORY_TIERS.includes(
+          category.appliesTo as TaxonomyCategoryTier,
+        ))
     ) {
       issues.push("Malformed category, field key, type, cardinality or scope.");
       continue;

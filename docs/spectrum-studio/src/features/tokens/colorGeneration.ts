@@ -7,10 +7,7 @@ import type {
   ContrastToken,
   OutputGamut,
 } from "../color-system/model";
-import {
-  generateColors,
-  type DynamicGenerationSettings,
-} from "../color-system/dynamicGeneration";
+import type { DynamicGenerationSettings } from "../color-system/dynamicGeneration";
 import { buildScaleData } from "../color-system/scaleGeneration";
 import type { LinearRgb } from "../color-system/colorMath";
 import {
@@ -23,6 +20,7 @@ import { contrastStepIndex } from "../color-system/contrastSteps";
 import type { Rule } from "../logic/model";
 import { ColorOutputError } from "../color-system/outputContrast";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
+import { generateSelectedColor } from "../color-system/colorScaleType";
 
 export function colorSourceTokenIds(document: ColorSystemDocument): string[] {
   return [
@@ -118,7 +116,9 @@ export function generateScaleColorTokenOutcomes(
         uuid: tokenUuid(tokenStableKey(scale.id, contrast.id)),
         name: {
           colorName,
-          contrastValue: String(contrastStepIndex(index, scale, rules)),
+          contrastValue: String(
+            contrastStepIndex(index, scale, rules, contrasts),
+          ),
         },
         source: {
           tokenType: "color",
@@ -131,12 +131,12 @@ export function generateScaleColorTokenOutcomes(
           status: "ready",
           token: {
             ...token,
-            value: generateColors(
+            value: generateSelectedColor(
               scaleData,
               background,
-              contrast.value,
+              contrast,
               settings,
-            ).dynamic.css,
+            ).css,
           },
         };
       } catch (error) {

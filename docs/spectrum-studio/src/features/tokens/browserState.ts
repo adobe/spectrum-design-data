@@ -55,7 +55,10 @@ import { workingTshirtArtifactsAtom } from "../design-data/tshirtState";
 import { rulesAtom } from "../logic/library";
 import { generatedCategoricalSourcesAtom } from "../color-system/data-vis/state";
 import { editStaticMemberOverrides } from "../color-system/data-vis/frozenColors";
-import { normalizeBrowserColorOutputs } from "./colorOutput";
+import {
+  normalizeBrowserColorOutputs,
+  opacityLinkedScaleIds,
+} from "./colorOutput";
 import { opacityDocumentAtom, opacitySourceAtom } from "../opacity/state";
 import { browserOpacitySources } from "../opacity/output";
 import { synchronizeOpacityRows } from "../opacity/generation";
@@ -147,6 +150,7 @@ export const browserTokensAtom = atom((get) => {
         ),
         output,
         colors,
+        opacityLinkedScaleIds(get(resolvedColorSystemDocumentAtom)),
       ),
       get(taxonomyDocumentAtom),
     ),

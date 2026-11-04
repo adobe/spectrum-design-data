@@ -165,14 +165,6 @@ export const Narrow: Story = {
 export const Singleton: Story = {
   args: {
     tokens: singletonStoryTokens,
-    classificationIssues: new Map([
-      [
-        singletonStoryTokens[0].id,
-        [
-          "The proposed standard has not finalized how this color source name should be recorded.",
-        ],
-      ],
-    ]),
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -335,89 +327,18 @@ export const ReadOnlyAliases: Story = {
   },
 };
 
-export const Exports: Story = {
-  args: {
-    onExport: fn(),
-    onExportCompatibility: fn(),
-    onExportGenerated: fn(),
-    canExportGenerated: true,
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    for (const view of ["List view", "Grid view"]) {
-      await userEvent.click(canvas.getByRole("radio", { name: view }));
-      await userEvent.click(
-        canvas.getByRole("button", {
-          name: "Export standard-compliant taxonomy",
-        }),
-      );
-      await userEvent.click(
-        canvas.getByRole("button", {
-          name: "Export taxonomy compatibility packet",
-        }),
-      );
-      await userEvent.click(
-        canvas.getByRole("button", {
-          name: "Export generated compatibility bundle",
-        }),
-      );
-    }
-    await expect(args.onExport).toHaveBeenCalledTimes(2);
-    await expect(args.onExportCompatibility).toHaveBeenCalledTimes(2);
-    await expect(args.onExportGenerated).toHaveBeenCalledTimes(2);
-    await expect(canvas.queryByRole("alert")).not.toBeInTheDocument();
-    canvasElement.dataset.playComplete = "true";
-  },
-};
-
-export const ExportUnavailable: Story = {
-  args: {
-    onExport: fn(),
-    onExportCompatibility: fn(),
-    onExportGenerated: fn(),
-    canExportGenerated: false,
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    for (const view of ["List view", "Grid view"]) {
-      await userEvent.click(canvas.getByRole("radio", { name: view }));
-      const generated = canvas.getByRole("button", {
-        name: "Export generated compatibility bundle",
-      });
-      await expect(generated).toBeDisabled();
-      await userEvent.click(generated);
-      await expect(
-        canvas.getByRole("button", {
-          name: "Export standard-compliant taxonomy",
-        }),
-      ).toBeEnabled();
-      await expect(
-        canvas.getByRole("button", {
-          name: "Export taxonomy compatibility packet",
-        }),
-      ).toBeEnabled();
-    }
-    await expect(args.onExportGenerated).not.toHaveBeenCalled();
-    canvasElement.dataset.playComplete = "true";
-  },
-};
-
-export const ExportErrors: Story = {
+export const GenerationErrors: Story = {
   args: {
     generationError: "Missing generation rule.",
-    exportError: "Could not prepare the export.",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     for (const view of ["List view", "Grid view"]) {
       await userEvent.click(canvas.getByRole("radio", { name: view }));
       const alerts = canvas.getAllByRole("alert");
-      await expect(alerts).toHaveLength(2);
+      await expect(alerts).toHaveLength(1);
       await expect(alerts[0]).toHaveTextContent(
         "Structure generation needs repair: Missing generation rule.",
-      );
-      await expect(alerts[1]).toHaveTextContent(
-        "Could not prepare the export.",
       );
     }
     canvasElement.dataset.playComplete = "true";

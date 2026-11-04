@@ -14,12 +14,47 @@ import {
 import { resolvedBackgroundLinear } from "../color-system/surfaceGeneration";
 import { outputColorCss } from "../color-system/colorMath";
 import type { BrowserToken } from "./browserModel";
+import {
+  isOpacityColorStop,
+  opacityStopsEnabled,
+} from "../color-system/colorScaleType";
+
+export function opacityLinkedScaleIds(document: ColorSystemDocument) {
+  return new Set(
+    opacityStopsEnabled(document.settings)
+      ? document.scales
+          .filter((scale) => !scale.customContrasts)
+          .map((scale) => scale.id)
+      : [],
+  );
+}
+
+function serializeColor(
+  color: Color,
+  settings: ColorOutputSettings,
+  preserveOpacity: boolean,
+) {
+  return serializeOutputColor(
+    color,
+    preserveOpacity &&
+      settings.outputFormat === "hex" &&
+      Math.round(Number(color.alpha) * 255) / 255 !== Number(color.alpha)
+      ? { ...settings, outputFormat: "rgb" }
+      : settings,
+  );
+}
 
 export function normalizeBrowserColorOutputs(
   tokens: BrowserToken[],
   settings: ColorOutputSettings,
   finalUiValues: ReadonlyMap<string, string>,
+  opacityScaleIds: ReadonlySet<string> = new Set(),
 ): BrowserToken[] {
+  const opacityTokenIds = new Set(
+    tokens
+      .filter((token) => opacityScaleIds.has(token.groupId))
+      .flatMap((token) => (token.rowId ? [token.id, token.rowId] : [token.id])),
+  );
   return tokens.map((token) =>
     token.type === "colors" && !token.validationError
       ? {
@@ -31,7 +66,12 @@ export function normalizeBrowserColorOutputs(
             !token.valueOverridden
               ? finalUiValues.get(token.id)
               : undefined) ??
-            serializeOutputColor(new Color(String(token.value)), settings),
+            serializeColor(
+              new Color(String(token.value)),
+              settings,
+              opacityScaleIds.has(token.groupId) ||
+                (!!token.referenceId && opacityTokenIds.has(token.referenceId)),
+            ),
         }
       : token,
   );
@@ -43,14 +83,19 @@ export function normalizeManualColorOutput(
 ): ResolvedToken {
   if (!token.valueOverridden) return token;
   const settings = document.settings.colorOutput;
-  const value = serializeOutputColor(new Color(token.value), settings);
+  const parsed = new Color(token.value);
   const scale = document.scales.find(
     (scale) => scale.id === token.source.scaleId,
   );
   const target = (scale?.customContrasts?.steps ?? document.contrasts).find(
     (contrast) => contrast.id === token.source.contrastId,
   );
-  if (scale && target) {
+  const value = serializeColor(
+    parsed,
+    settings,
+    !!target && isOpacityColorStop(target),
+  );
+  if (scale && target && !isOpacityColorStop(target)) {
     const background = outputColorCss(
       resolvedBackgroundLinear(document),
       settings,

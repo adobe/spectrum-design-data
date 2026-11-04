@@ -16,6 +16,8 @@ import { browserTokenEditsAtom } from "./browserEdits";
 import { editModeAtom } from "../../state/view/editMode";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import { commitDialogDraft, type TokenDialogDraft } from "./dialogModel";
+import { browserTokensAtom } from "./browserState";
+import { createNewTokenEdit, type NewTokenAnswers } from "./creationFlow";
 
 export const tokenDialogCatalogAtom = atom((get) => {
   const snapshot = get(authoringSnapshotAtom);
@@ -96,5 +98,30 @@ export const saveTokenDialogAtom = atom(
         set(browserTokenEditsAtom, edits);
       },
     );
+  },
+);
+
+export const createNewTokenAtom = atom(
+  null,
+  (get, set, input: { answers: NewTokenAnswers; id?: string }): string => {
+    if (!get(editModeAtom)) throw new Error("Enter edit mode to add tokens.");
+    const taxonomy = get(authoringSnapshotAtom).taxonomy;
+    if (!taxonomy) throw new Error("The Registry is unavailable.");
+    const id = input.id ?? crypto.randomUUID();
+    const edits = createNewTokenEdit(
+      taxonomy,
+      input.answers,
+      get(browserTokenEditsAtom),
+      get(browserTokensAtom),
+      id,
+    );
+    withValidatedAuthoringUpdates(
+      get,
+      new Map([["tokens/browser/edits", edits]]),
+      () => {
+        set(browserTokenEditsAtom, edits);
+      },
+    );
+    return id;
   },
 );

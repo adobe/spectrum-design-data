@@ -31,8 +31,6 @@ import {
   DEFAULT_COLOR_OUTPUT,
   migrateLegacyColorOutput,
 } from "../src/features/color-system/outputSettings";
-import { concreteColor } from "../src/features/color-system/data-vis/colors";
-import { paletteColorCss } from "../src/features/color-system/paletteValue";
 import { SIZE_TERMS } from "../src/features/taxonomy/variantVocabulary";
 import { STRUCTURE_TERMS } from "../src/features/structures/vocabulary";
 import { contributeTerms } from "../src/features/taxonomy/contributions";
@@ -247,27 +245,14 @@ assert.equal(flat.colorFamily, source.name);
 assert.equal(DEFAULT_COLOR_OUTPUT.outputFormat, "rgb");
 assert.equal(shipped.colorSystem.settings.colorOutput.outputFormat, "rgb");
 assert.equal(migrateLegacyColorOutput("srgb").outputFormat, "hex");
-const wireframe = shipped.colorSystem.scales.find(
-  (scale) => scale.name === "wireframe",
-)!;
-assert(wireframe);
-assert.equal(wireframe.stops.length, 1);
-const seed = concreteColor(
-  paletteColorCss(wireframe.stops[0], shipped.colorSystem.settings.colorOutput),
-).to("srgb");
-const expectedSeed = concreteColor("rgb(72, 110, 194)").to("srgb");
-seed.coords.forEach((channel, index) =>
-  assert(
-    Math.abs(channel! - expectedSeed.coords[index]!) * 255 < 0.00001,
-    "Existing OKLCh/linear conversion round-trip must stay below 0.00001 of an RGB channel, without rounding to 8 bits.",
-  ),
-);
 assert(
-  !shipped.modeSets.some((set) =>
-    set.modes.some((mode) => mode.key === "wireframe"),
-  ),
-  "A Wireframe scale does not silently introduce a mode.",
+  !shipped.colorSystem.scales.some((scale) => scale.name === "wireframe"),
+  "Wireframe is a color scheme, not a color scale.",
 );
+const wireframeMode = shipped.modeSets
+  .find((set) => set.id === "mode-set-color-scheme")
+  ?.modes.find((mode) => mode.key === "wireframe");
+assert(wireframeMode?.foundations?.color?.scaleAdjustment);
 const output = buildCascadeTokenExport({
   base: shipped.colorSystem,
   taxonomy,
@@ -279,15 +264,19 @@ const output = buildCascadeTokenExport({
   overrides: shipped.tokenOverrides,
   rules: shipped.rules,
 });
-assert(output.tokens.some((token) => token.name.colorFamily === "wireframe"));
+assert(!output.tokens.some((token) => token.name.colorFamily === "wireframe"));
 assert(
   output.tokens
-    .filter((token) => token.name.colorFamily === "wireframe")
+    .filter(
+      (token) =>
+        typeof token.name.colorFamily === "string" &&
+        typeof token.value === "string",
+    )
     .every(
       (token) =>
         typeof token.value === "string" && token.value.startsWith("rgb("),
     ),
 );
 console.log(
-  "Term normalization, display, entry, identity, migration and RGB/Wireframe defaults passed.",
+  "Term normalization, display, entry, identity, migration and RGB defaults and the Wireframe color scheme passed.",
 );

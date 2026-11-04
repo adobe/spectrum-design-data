@@ -360,7 +360,7 @@ export function reconcileColorSourceNames(
     next = registerTerm(
       next,
       "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
-      contrastStepIndex(position),
+      contrastStepIndex(position, undefined, rules, document.contrasts),
       crypto.randomUUID(),
     );
   }
@@ -369,7 +369,7 @@ export function reconcileColorSourceNames(
       next = registerTerm(
         next,
         "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
-        contrastStepIndex(position, scale, rules),
+        contrastStepIndex(position, scale, rules, document.contrasts),
         crypto.randomUUID(),
       );
     });
