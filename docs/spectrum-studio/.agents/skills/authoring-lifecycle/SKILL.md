@@ -5,6 +5,9 @@ description: Wire an editable design-data domain into saving, the Changes (chang
 
 # Authoring lifecycle: persist, Changes, Impact
 
+First apply [parametric-systems-design](../../../../../.ai/skills/parametric-systems-design/SKILL.md)
+to identify the data owner, references, and shared derivation path before wiring storage.
+
 Read first: `.agents/rules/changelog-parity.mdc` and the Cross-component
 validation section of `AGENTS.md`. This skill is the procedure; those hold the
 policy. Ask the user minimum versus architecture slice before building a
