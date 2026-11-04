@@ -10,6 +10,8 @@ The tool codifies systems-design best practices: **modularity, reusability and c
 
 The stack (React, Vite, React Spectrum S2) is an implementation detail. What matters is the systems model.
 
+**Required systems-first check:** before planning or implementing changes to authored data, relationships, naming, formulas, rules, generators, or output, apply [parametric-systems-design](../../.ai/skills/parametric-systems-design/SKILL.md), even when the request is framed entirely as UI work. Briefly identify the data owner, shared derivation path, and affected consumers in the existing plan or implementation reasoning. This requirement also applies to small, specific requests; pure styling changes only need to confirm system behavior is unchanged.
+
 ## Monorepo context
 
 This package lives at `docs/spectrum-studio` in the `adobe/spectrum-design-data` monorepo. It is private (`@adobe/spectrum-studio`, never published) and is ignored by changesets. The root `AGENTS.md` rules apply here (pnpm only, moon for tasks, conventional commits, a `Copyright YYYY Adobe. All rights reserved.` header on new files). These package-level exceptions are deliberate:
@@ -126,6 +128,7 @@ Rules in `.agents/rules/` are not loaded automatically by every tool. Read the o
 | `s2-general.mdc` | Any UI work: sentence case, WCAG 2.2 AA, S2 patterns |
 | `spectrum-content-guidelines.mdc` | Writing UI text the user asked for |
 | `notifications.mdc` | Any toast, delete, add, or confirmation dialog |
+| `side-by-side-comparison.mdc` | Any UI that shows two versions of a value (from → to, app vs design data, saved vs working) |
 | `icons.mdc` | Using or adding icons |
 | `storybook-stories.mdc` | Creating or reviewing stories (ask for approval first) |
 | `changelog-parity.mdc` | Any change to persisted design data |
@@ -137,8 +140,11 @@ Rules in `.agents/rules/` are not loaded automatically by every tool. Read the o
 
 Skills in `.agents/skills/` load on demand. Read the matching one before starting:
 
+The shared `parametric-systems-design` skill below lives in the root `.ai/skills/`, not the local skills directory.
+
 | Skill | Read it when |
 | --- | --- |
+| [parametric-systems-design](../../.ai/skills/parametric-systems-design/SKILL.md) | Required before planning or implementing changes to authored data, relationships, naming, formulas, rules, generators, or output, including UI-led requests |
 | `verify-change` | Before running any test, lint, build, Playwright, or performance command, and when finishing a feature |
 | `component-catalog` | Adding or editing any UI: fields, previews, cards, loading, toasts, mode or color controls |
 | `notifications` | Adding a new add or delete action, a new kind of item, or any user-facing confirmation |
