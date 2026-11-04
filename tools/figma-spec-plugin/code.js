@@ -40,7 +40,17 @@ const styleFor = (w) => {
 
 // Returns a warning when Adobe Clean could not be loaded and Inter is used instead, so a wrong
 // family or style name does not pass unnoticed.
+let fontsLoaded = false;
+let fontWarning = null;
+
 async function loadFonts() {
+  if (fontsLoaded) return fontWarning;
+  fontsLoaded = true;
+  fontWarning = await loadFontsOnce();
+  return fontWarning;
+}
+
+async function loadFontsOnce() {
   try {
     family = FAMILY;
     for (const style of STYLES) await figma.loadFontAsync({ family, style });
@@ -50,25 +60,14 @@ async function loadFonts() {
     for (const style of STYLES) await figma.loadFontAsync({ family, style });
     const warning = `${FAMILY} could not be loaded (${e && e.message ? e.message : e}); text is set in Inter.`;
     console.warn(warning);
-    if (figma.notify) figma.notify(warning, { error: true });
+    try {
+      figma.notify(warning, { error: true });
+    } catch (_) {
+      // use_figma has no notify; the warning is returned instead.
+    }
     return warning;
   }
 }
-
-figma.showUI(__html__, { width: 420, height: 360 });
-
-figma.ui.onmessage = async (msg) => {
-  if (msg.type !== "render-sheet") return;
-  try {
-    const result = await renderSheet(msg.sheet, msg.changelog, msg.pages);
-    figma.ui.postMessage({ type: "render-complete", result });
-  } catch (err) {
-    figma.ui.postMessage({
-      type: "render-error",
-      message: String(err && err.message ? err.message : err),
-    });
-  }
-};
 
 const solid = (color, opacity) => ({
   type: "SOLID",
@@ -446,14 +445,41 @@ function changelogFrame(changelog, rev8) {
   return f;
 }
 
-async function renderSheet(sheet, changelog, pageTitles) {
-  const fontWarning = await loadFonts();
-  const rootName = sheet.displayName + " – spec (generated)";
+const BUILDING = " (building)";
+const rootNameOf = (sheet) => sheet.displayName + " \u2013 spec (generated)";
+const revOf = (sheet) =>
+  sheet.datasetRevision ? sheet.datasetRevision.slice(0, 8) : "unknown";
+
+function findBuilding(sheet) {
+  const root = figma.currentPage.findOne(
+    (n) => n.name === rootNameOf(sheet) + BUILDING,
+  );
+  if (!root) throw new Error("No sheet is being built: run the first payload.");
+  return root;
+}
+
+function blockRow(sheet, b) {
+  const row = auto("HORIZONTAL", {
+    itemSpacing: 32,
+    paddingTop: 24,
+    paddingBottom: 24,
+  });
+  row.name = "Block \u2013 " + b.title;
+  row.appendChild(b.render ? visual(b, sheet.block) : noVisual(sheet.block));
+  row.appendChild(tokenList(b));
+  return row;
+}
+
+// The steps below are what `use_figma` payloads call one after another (the sheet is built
+// under a "(building)" name and only takes the final name in finishSheet, so a failed or
+// partial run never touches the previous render). renderSheet runs them in one go.
+// `sheet` needs displayName, size, block, datasetRevision and pages[].title.
+
+async function beginSheet(sheet, pageTitles) {
+  const warning = await loadFonts();
   const page = figma.currentPage;
-  const previous = page.findOne((n) => n.name === rootName);
-  const rev8 = sheet.datasetRevision
-    ? sheet.datasetRevision.slice(0, 8)
-    : "unknown";
+  const stale = page.findOne((n) => n.name === rootNameOf(sheet) + BUILDING);
+  if (stale) stale.remove();
   const root = auto("VERTICAL", {
     itemSpacing: 80,
     paddingLeft: 64,
@@ -461,27 +487,9 @@ async function renderSheet(sheet, changelog, pageTitles) {
     paddingTop: 64,
     paddingBottom: 64,
   });
-  root.name = rootName;
+  root.name = rootNameOf(sheet) + BUILDING;
   root.fills = [solid(WHITE)];
   page.appendChild(root);
-  try {
-    const result = await buildRoot(
-      root,
-      sheet,
-      changelog,
-      pageTitles,
-      rev8,
-      previous,
-    );
-    return { ...result, warning: fontWarning };
-  } catch (err) {
-    // The old render stays; drop the half-built one.
-    root.remove();
-    throw err;
-  }
-}
-
-async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
   const cover = auto("VERTICAL", {
     itemSpacing: 12,
     paddingLeft: 64,
@@ -498,44 +506,104 @@ async function buildRoot(root, sheet, changelog, pageTitles, rev8, previous) {
       "Spec sheet generated from design-data. Size " +
         sheet.size.toUpperCase() +
         ". Dataset " +
-        rev8 +
+        revOf(sheet) +
         ".",
       16,
     ),
   );
   root.appendChild(cover);
-  if (changelog) root.appendChild(changelogFrame(changelog, rev8));
   const specs = auto("HORIZONTAL", { itemSpacing: 64 });
   specs.name = "Specs";
   root.appendChild(specs);
-  let blocks = 0;
   const pages = sheet.pages.filter(
     (p) => !pageTitles || pageTitles.indexOf(p.title) !== -1,
   );
   for (const p of pages) {
     const col = auto("VERTICAL", { itemSpacing: 8 });
-    col.name = "Spec page – " + p.title;
+    col.name = "Spec page \u2013 " + p.title;
     col.appendChild(text(p.title, 32, "Bold"));
     specs.appendChild(col);
-    for (const b of p.blocks) {
-      const row = auto("HORIZONTAL", {
-        itemSpacing: 32,
-        paddingTop: 24,
-        paddingBottom: 24,
-      });
-      row.name = "Block – " + b.title;
-      col.appendChild(row);
-      row.appendChild(
-        b.render ? visual(b, sheet.block) : noVisual(sheet.block),
-      );
-      row.appendChild(tokenList(b));
-      blocks++;
-    }
   }
-  if (previous) previous.remove();
+  return { step: "begin", pages: pages.map((p) => p.title), warning };
+}
+
+async function appendChangelog(sheet, changelog) {
+  await loadFonts();
+  const root = findBuilding(sheet);
+  const frame = changelogFrame(changelog, revOf(sheet));
+  root.insertChild(1, frame);
+  return { step: "changelog", items: frame.children.length };
+}
+
+async function appendBlocks(sheet, pageTitle, blocks) {
+  await loadFonts();
+  const col = findBuilding(sheet).findOne(
+    (n) => n.name === "Spec page \u2013 " + pageTitle,
+  );
+  if (!col) throw new Error("No page column for " + pageTitle);
+  for (const b of blocks) col.appendChild(blockRow(sheet, b));
+  return { step: "blocks", page: pageTitle, blocksRendered: blocks.length };
+}
+
+async function finishSheet(sheet) {
+  const root = findBuilding(sheet);
+  const name = rootNameOf(sheet);
+  const previous = figma.currentPage.findOne((n) => n.name === name);
+  if (previous) {
+    root.x = previous.x;
+    root.y = previous.y;
+    previous.remove();
+  }
+  root.name = name;
+  const columns = root.findAll((n) => n.name.startsWith("Spec page \u2013 "));
+  const blocks = root.findAll((n) => n.name.startsWith("Block \u2013 "));
   return {
-    root: root.name,
-    pagesRendered: pages.length,
-    blocksRendered: blocks,
+    step: "finish",
+    root: name,
+    id: root.id,
+    pagesRendered: columns.length,
+    blocksRendered: blocks.length,
   };
 }
+
+async function renderSheet(sheet, changelog, pageTitles) {
+  const begun = await beginSheet(sheet, pageTitles);
+  try {
+    if (changelog) await appendChangelog(sheet, changelog);
+    for (const p of sheet.pages) {
+      if (begun.pages.indexOf(p.title) === -1) continue;
+      await appendBlocks(sheet, p.title, p.blocks);
+    }
+    const done = await finishSheet(sheet);
+    return {
+      root: done.root,
+      pagesRendered: done.pagesRendered,
+      blocksRendered: done.blocksRendered,
+      warning: begun.warning,
+    };
+  } catch (err) {
+    // The old render stays; drop the half-built one.
+    const half = figma.currentPage.findOne(
+      (n) => n.name === rootNameOf(sheet) + BUILDING,
+    );
+    if (half) half.remove();
+    throw err;
+  }
+}
+
+// shell:begin (the desktop plugin UI; use_figma payloads leave this out)
+figma.showUI(__html__, { width: 420, height: 360 });
+
+figma.ui.onmessage = async (msg) => {
+  if (msg.type !== "render-sheet") return;
+  try {
+    const result = await renderSheet(msg.sheet, msg.changelog, msg.pages);
+    figma.ui.postMessage({ type: "render-complete", result });
+  } catch (err) {
+    figma.ui.postMessage({
+      type: "render-error",
+      message: String(err && err.message ? err.message : err),
+    });
+  }
+};
+// shell:end
