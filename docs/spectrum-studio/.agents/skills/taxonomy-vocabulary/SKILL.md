@@ -17,7 +17,9 @@ code says `taxonomy`. Use "Registry" in UI text and `taxonomy` in code; do not r
 
 - **Categories**: `id` (UUID v4, pattern enforced), a camelCase `key` bound to a field, `name`,
   `valueType` (`string` or `number`), `cardinality` (`one` or `ordered`), `scopes` (colors,
-  typography, elevation, structures, spacing, size, radius), `required`, `includeInProjections`.
+  typography, elevation, structures, spacing, size, radius), `required`, `includeInProjections`,
+  and optional `appliesTo` (`raw`, `purpose` or `both`; missing means both). `appliesTo` only
+  decides which Add token questions appear; it is Studio-only and never reaches output (LTAX-020).
 - **Terms**: `id` (UUID v4), `categoryId`, a typed `value`, `description`.
 - `order`: the global category order, containing every category exactly once.
 - `classifications`: `{ [sourceId or tokenId]: { [categoryId]: termId } }`.

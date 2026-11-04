@@ -1,0 +1,66 @@
+---
+description: Show two values touching when a user compares them (from → to, app vs design data)
+globs: src/**/*.tsx, src/**/*.ts
+alwaysApply: false
+---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# Side-by-side comparison
+
+When a screen asks a person to judge whether one value is close enough to
+another, show the two values touching. Two text values or two separate swatches
+can be read by a machine. A person needs to see the values next to each other
+to spot a small difference.
+
+## When it applies
+
+Look for this whenever a feature shows two versions of the same value:
+
+- App value compared with the design data value (Migration analysis)
+- Saved compared with working, or before compared with after (Changes, reset
+  previews, Undo)
+- Local compared with upstream, or old version compared with new version
+- Current compared with proposed or generated (rules, scales, recipes,
+  migration mapping)
+- One mode compared with another (Light and Dark, or a default and an
+  override)
+
+If the comparison is what the feature is for, build it in. Otherwise, suggest
+it in your plan or summary and ask before you add it. Working rule 5 still
+applies.
+
+## How it looks
+
+- Put the two values in one cell or block, in the same order as the text
+  columns or labels nearby. The "from" or app value goes first and the "to" or
+  design data value goes second.
+- The two halves are the same size, with no gap, border, outline, padding, or
+  rounding between them. A border on the outside is fine.
+- Keep the text values and result badges. The visual comparison is extra
+  evidence, not a replacement.
+- Colors: fill each half with the resolved color.
+- Opacity: draw each half over the checkerboard with `transparencyBackground`
+  and the authored surface from `elementsSurfaceStyleAtom`.
+- Other value types (dimensions, radius, type styles, shadows): use the same
+  shape for both halves so only the value changes. For example, two bars that
+  start at the same edge, or two text samples at the same baseline.
+- If either value can't be resolved, show "Unavailable". Never invent a value.
+- Accessibility: give the pair `role="img"` and an `aria-label` that names
+  both sides, such as "App value beside design data value". Color is never the
+  only signal; the text values and badges carry the meaning.
+
+## Reference implementation
+
+`AdjacentComparison` in `src/views/analysis/ColorOpacityTable.tsx`, styled by
+`.analysisAdjacentComparison` in `src/views/analysis/AnalysisView.css`.
+`comparisonPaint` in `colorOpacityPresentation.ts` decides what each half
+shows. When a second screen needs the pattern, move it into
+`src/components/` and add it to the `component-catalog` skill instead of
+copying it.
+
+## Testing
+
+Assert that the right edge of the first half equals the left edge of the
+second half, that both borders are `0px`, and that a known non-matching pair
+shows different colors. See `tests/e2e/color-opacity-coverage.spec.ts`.

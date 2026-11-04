@@ -28,8 +28,10 @@ component when two overlap.
 | Toggle a Boolean group's And/Or operator | `logic/LogicButton` (`value`, `onChange`, `isDisabled`, `isReadOnly`): compact blue And / fuchsia Or; click, Space, or Enter toggles, read-only renders a badge | a Picker or custom badge-button |
 | Select supported token value types for a rule | `logic/RuleApplicabilityField` (`rule`, `onChange`, `isReadOnly`): wrapping icon-bearing tags, exclusive All, visible empty-selection error; labels/icons and capabilities come from `features/logic/applicability.ts` | local family checkboxes, parsing token names, or treating every Typography metric as Font size |
 | Show a token or value preview | `value-preview/ValuePreview` (`preview` descriptor, `label`, `large`, `icon`; `fillSurface` for full-area opacity with foreground children; `opacitySurface` for dialog-local authored modes, otherwise uses the authored global surface) | hand-drawn swatches. `TextValuePreview` and `IconValuePreview` are internal |
+| Compare two versions of a value by eye (from → to, app vs design data) | Two touching halves with no gap or border; follow `.agents/rules/side-by-side-comparison.mdc` (reference: `AdjacentComparison` in `views/analysis/ColorOpacityTable.tsx`) | two separate `ValuePreview`s with a gap, or text values alone |
 | Theme-aware transparency preview | `PreviewSurfaceProvider` inside the S2 Provider; `transparencyBackground` / `transparencyRampBackground`; `checkerboardSurfaceStyle` for explicit local surfaces (see `color-management`) | hardcoded checkerboard colors or per-cell background observers |
 | Show a token name | `tokens/TokenNameTag` | `Tag` or plain `Text` |
+| Create a new token | `panels/tokens/AddTokenDialog` (`onCreated`, optional `initialAnswers`) inside a `DialogContainer`; questions, names and drafts come from `features/tokens/creationFlow.ts` and `createNewTokenAtom` | a bespoke form or writing `browserTokenEditsAtom` directly |
 | Card or bento layout | `BentoGrid` with `BentoCard` (`colSpan` 1-4, `rowSpan` 1-2); foundation cards use `foundationCardStyles` | custom grid divs |
 | Code display | `CodeBlock` (`code`, `language`) | `<pre>` |
 | Loading spinner | `LoadingIndicator` (`size` L or M) | raw `ProgressCircle` |
@@ -42,6 +44,7 @@ component when two overlap.
 | Panels and tabs | `Panel`, `SubPanel`, `SubPanelTabs`, `NestedPanelAccordion`, `ScaleEditor` | S2 `Tabs` or `Accordion` directly |
 | Proportion bar | `StackedBar` | |
 | Preview toolbar, edit-mode actions | `PreviewToolbar` (`placement` overlay or header; `showAdaptiveControls` defaults to true), `EditModeActions` | |
+| Online, offline, or update-available status (installed app) | `AppStatusButton` (in `TopBar`); state comes from `useAppStatus()` in `features/app-status/` | reading `navigator.onLine` or registering the service worker in components |
 
 `ModeSetPicker` owns the shared per-set presentation: two modes use a segmented
 control, and larger sets use a picker. Option icons appear only when every mode
