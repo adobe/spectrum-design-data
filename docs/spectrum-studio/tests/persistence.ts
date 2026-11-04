@@ -146,7 +146,7 @@ assert.equal(authored.get(editModeAtom), false);
 authored.set(enterEditModeAtom);
 const initialWrites = localStorage.writes;
 for (let value = 0.1; value <= 0.5; value += 0.1)
-  authored.set(updateColorSystemSettingsAtom, { extOffset: value });
+  authored.set(updateColorSystemSettingsAtom, { backgroundBlend: value });
 assert.equal(
   localStorage.writes,
   initialWrites,
@@ -155,7 +155,7 @@ assert.equal(
 flushPersistedState();
 assert.equal(localStorage.writes, initialWrites + 1);
 const record = JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!);
-assert.equal(record.working.colorSystem.settings.extOffset, 0.5);
+assert.equal(record.working.colorSystem.settings.backgroundBlend, 0.5);
 assert.deepEqual(record.saved, createDefaultSnapshot());
 dispose();
 const staleMembership = createStore();
@@ -197,15 +197,21 @@ dispose();
 const restored = createStore();
 dispose = initializeAuthoringPersistence(restored);
 assert.equal(restored.get(editModeAtom), true, "Refresh resumes editing.");
-assert.equal(restored.get(colorSystemDocumentAtom).settings.extOffset, 0.5);
+assert.equal(
+  restored.get(colorSystemDocumentAtom).settings.backgroundBlend,
+  0.5,
+);
 restored.set(saveEditAtom);
 const saved = structuredClone(restored.get(authoringSnapshotAtom));
-restored.set(updateColorSystemSettingsAtom, { extOffset: 0.8 });
+restored.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.8 });
 flushPersistedState();
 dispose();
 const afterRefresh = createStore();
 dispose = initializeAuthoringPersistence(afterRefresh);
-assert.equal(afterRefresh.get(colorSystemDocumentAtom).settings.extOffset, 0.8);
+assert.equal(
+  afterRefresh.get(colorSystemDocumentAtom).settings.backgroundBlend,
+  0.8,
+);
 assert.deepEqual(afterRefresh.get(editSessionSnapshotAtom), saved);
 afterRefresh.set(cancelEditAtom);
 assert.deepEqual(
@@ -259,9 +265,7 @@ assert.deepEqual(
   [],
   "Reset all removes existing edits instead of replaying testing changes.",
 );
-assert.deepEqual(afterRefresh.get(foundationModeAttachmentsAtom), {
-  "mode-set-color-scheme": ["opacity"],
-});
+assert.deepEqual(afterRefresh.get(foundationModeAttachmentsAtom), {});
 assert.equal(
   afterRefresh.get(appColorSchemeAtom),
   "dark",

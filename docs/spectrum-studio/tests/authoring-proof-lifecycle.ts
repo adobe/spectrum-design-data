@@ -247,7 +247,7 @@ try {
   });
   for (const invalidate of [
     (store: ReturnType<typeof createStore>) =>
-      store.set(updateColorSystemSettingsAtom, { extOffset: 0.3 }),
+      store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.3 }),
     (store: ReturnType<typeof createStore>) =>
       store.set(foundationModeAttachmentsAtom, {}),
     (store: ReturnType<typeof createStore>) =>

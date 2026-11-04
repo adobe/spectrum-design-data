@@ -8,6 +8,7 @@ import {
   migrateColorSystemDocument,
   type ColorSystemDocument,
 } from "../color-system/model";
+import { storedCustomContrasts } from "../color-system/customContrastConfig";
 import { typographyDocumentAtom } from "../typography/state";
 import {
   isTypographyDocument,
@@ -418,9 +419,10 @@ export function assertStoredSnapshot(
       for (const [scaleId, patches] of Object.entries(
         mode.foundations.color?.scaleContrasts ?? {},
       )) {
-        const custom = value.colorSystem.scales.find(
+        const scale = value.colorSystem.scales.find(
           (scale) => scale.id === scaleId,
-        )?.customContrasts;
+        );
+        const custom = scale && storedCustomContrasts(scale);
         if (
           !custom ||
           Object.keys(patches).some(
@@ -535,31 +537,6 @@ export function assertStoredSnapshot(
         throw new Error(
           "Stored mode references an unavailable background scale.",
         );
-      for (const [scaleId, stops] of Object.entries(color?.scaleStops ?? {})) {
-        const scale = value.colorSystem.scales.find(
-          (item) => item.id === scaleId,
-        );
-        if (
-          !scale ||
-          Object.keys(stops).some(
-            (id) => !scale.stops.some((stop) => stop.id === id),
-          )
-        )
-          throw new Error("Stored mode references an unavailable color stop.");
-        if (
-          Object.values(stops).some(
-            (stop) =>
-              stop.paletteColorId &&
-              !value.colorSystem.palette.some(
-                (color) => color.id === stop.paletteColorId,
-              ),
-          )
-        ) {
-          throw new Error(
-            "Stored mode references an unavailable palette color.",
-          );
-        }
-      }
     }
   const formulas = new Set(value.scaleTypes.map((item) => item.id));
   const rules = new Set(

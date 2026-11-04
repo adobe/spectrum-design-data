@@ -4,10 +4,15 @@ import {
   type FoundationModeAttachments,
 } from "../../state/view/foundationModeAttachments";
 import { upgradeGeneratorRulesSnapshot } from "./generatorRulesUpgrade";
+import { upgradeScaleAdjustmentSnapshot } from "./scaleAdjustmentUpgrade";
+import {
+  encodeStructureSource,
+  decodeStructureSource,
+} from "./structureSourceCodec";
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
-export const AUTHORING_RECORD_VERSION = 20;
+export const AUTHORING_RECORD_VERSION = 22;
 
 export interface AuthoringRecord<T> {
   version:
@@ -30,7 +35,9 @@ export interface AuthoringRecord<T> {
     | 17
     | 18
     | 19
-    | 20;
+    | 20
+    | 21
+    | 22;
   working: T;
   saved: T;
   isEditing: boolean;
@@ -76,7 +83,9 @@ export function readAuthoringRecord<T>(
       | 16
       | 17
       | 18
-      | 19,
+      | 19
+      | 20
+      | 21,
   ) => unknown,
 ): AuthoringRecord<T> | null {
   if (typeof window === "undefined") return null;
@@ -104,6 +113,8 @@ export function readAuthoringRecord<T>(
       value.version !== 17 &&
       value.version !== 18 &&
       value.version !== 19 &&
+      value.version !== 20 &&
+      value.version !== 21 &&
       value.version !== AUTHORING_RECORD_VERSION) ||
     typeof value.isEditing !== "boolean" ||
     !isFoundationModeAttachments(value.attachments) ||
@@ -113,14 +124,23 @@ export function readAuthoringRecord<T>(
       "Stored authoring data has an unsupported format. Reset all to replace it with defaults.",
     );
   }
-  const working =
+  const identities = new Map<string, string>();
+  const working = decodeStructureSource(
     value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgradeGeneratorRulesSnapshot(upgrade(value.working, value.version))
-      : value.working;
-  const saved =
+      ? upgradeGeneratorRulesSnapshot(
+          upgrade(upgradeScaleAdjustmentSnapshot(value.working), value.version),
+        )
+      : value.working,
+    identities,
+  );
+  const saved = decodeStructureSource(
     value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgradeGeneratorRulesSnapshot(upgrade(value.saved, value.version))
-      : value.saved;
+      ? upgradeGeneratorRulesSnapshot(
+          upgrade(upgradeScaleAdjustmentSnapshot(value.saved), value.version),
+        )
+      : value.saved,
+    identities,
+  );
   validate(working);
   validate(saved);
   const record: AuthoringRecord<T> = {
@@ -143,7 +163,17 @@ export function writeAuthoringRecord<T>(
     throw new Error(
       "Stored changes could not be restored. Reset all before replacing them.",
     );
-  const serialized = JSON.stringify(record);
+  const serialized = JSON.stringify({
+    ...record,
+    working:
+      record.version === AUTHORING_RECORD_VERSION
+        ? encodeStructureSource(record.working)
+        : record.working,
+    saved:
+      record.version === AUTHORING_RECORD_VERSION
+        ? encodeStructureSource(record.saved)
+        : record.saved,
+  });
   if (window.localStorage.getItem(AUTHORING_STORAGE_KEY) !== serialized) {
     window.localStorage.setItem(AUTHORING_STORAGE_KEY, serialized);
   }

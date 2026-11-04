@@ -106,7 +106,7 @@ export function initializeAuthoringPersistence(
     const record = readAuthoringRecord(
       assertStoredSnapshot,
       (value, version) => {
-        if (version === 19) return value;
+        if (version === 19 || version === 20 || version === 21) return value;
         if (version === 18) {
           if (!isSnapshot(value) || !value)
             throw new Error("Stored authoring data is invalid or incomplete.");

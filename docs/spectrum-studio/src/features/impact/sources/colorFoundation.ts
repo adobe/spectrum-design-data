@@ -7,8 +7,12 @@ import {
   colorSettingsPair,
   defaultColorDocument,
 } from "../../changelog/changes";
-import type { ColorSystemDocument } from "../../color-system/model";
+import {
+  scaleInterpolation,
+  type ColorSystemDocument,
+} from "../../color-system/model";
 import { colorSystemDocumentAtom } from "../../color-system/state";
+import { swatchIndex } from "../../scales/swatchIndices";
 import type { DataVisScale } from "../../color-system/data-vis/model";
 import type {
   FoundationImpactSource,
@@ -180,12 +184,32 @@ export function colorFoundationParameters(
             (old.hideFromPublishing === true) !==
               (next.hideFromPublishing === true),
         },
+        {
+          id: `scale/${id}/interpolation`,
+          category: "color" as const,
+          edited:
+            !old ||
+            !next ||
+            scaleInterpolation(old) !== scaleInterpolation(next),
+        },
         ...(old?.customContrasts || next?.customContrasts
           ? [
               {
                 id: `scale/${id}/customContrasts`,
                 category: "color" as const,
                 edited: !same(old?.customContrasts, next?.customContrasts),
+              },
+            ]
+          : []),
+        ...(old?.disabledCustomContrasts || next?.disabledCustomContrasts
+          ? [
+              {
+                id: `scale/${id}/disabledCustomContrasts`,
+                category: "color" as const,
+                edited: !same(
+                  old?.disabledCustomContrasts,
+                  next?.disabledCustomContrasts,
+                ),
               },
             ]
           : []),
@@ -209,8 +233,14 @@ export function colorFoundationParameters(
     ),
     ...objectParameters(
       "contrast",
-      defaults.contrasts,
-      document.contrasts,
+      defaults.contrasts.map((step, index) => ({
+        ...step,
+        scaleIndex: swatchIndex(step, index),
+      })),
+      document.contrasts.map((step, index) => ({
+        ...step,
+        scaleIndex: swatchIndex(step, index),
+      })),
       CONTRAST_FIELDS,
     ),
     ...objectParameters(

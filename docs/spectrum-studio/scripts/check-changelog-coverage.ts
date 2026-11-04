@@ -7,9 +7,21 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 
 // Conditional trees/outcomes are covered by conditional-rules.ts, including nested resets.
 // generator-rules.ts covers applicability, ordered mappings, default rebasing, atomic edits and scoped resets.
+// accessory-structure-defaults.ts and structure-variant-state.ts cover the existing variant maps and their lifecycle.
+// structure-slots.ts covers additive Slot names, element-collection reset, Save/Cancel and zero semantic growth.
+// Including the icon declarations changes only union ordering in generated definition names and references.
+// changelog-schema-review.ts covers Registry, color, mode, variant, numeric Structure and manual-draft resets.
+// structure-portable-contract.ts and structure-portable-persistence.ts cover the stored/runtime mapping,
+// publication/resource preservation, Registry dependencies and independent saved/working migrations.
+// color-scale-type-lifecycle.ts and changelog-schema-review.ts cover color type/sync settings,
+// independent resets, linked opacity propagation, exact source identities and Save/Cancel/reload.
+// scale-adjustment-lifecycle.ts and changelog-schema-review.ts cover shared absolute colors,
+// atomic method resets, independent envelope upgrades and exact source/token/component impact.
+// swatch-indices.ts covers optional color/opacity indices, atomic uniqueness, stable values/IDs,
+// output propagation, semantic Changes counts, scoped resets and backward-compatible restoration.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "e4297edab2eda06a9f20cf4f7cc0915a49ffdbddcd9868c5a7c785c2380a544f";
+  "bd55be86ac643eaece0515ecedf4d0a82848a900f240efc1f4bc878836662850";
 const schemaMetadata = new Set([
   "title",
   "description",

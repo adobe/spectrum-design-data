@@ -13,6 +13,7 @@ import type {
 } from "./changes";
 import { pathId, readPath, sameValue, type SourcePath } from "./contract";
 import { createValuePreview } from "../tokens/valuePreview";
+import { swatchIndexAt } from "./swatchIndexReset";
 
 export type OverviewId = "system" | "foundations" | "design" | "components";
 export interface DomainDefinition {
@@ -248,17 +249,29 @@ export function compareAuthoring(
       names: string[],
       collectionOrder = false,
     ) {
+      const indexField =
+        fieldPath.at(-1) === "scaleIndex" &&
+        (swatchIndexAt(shipped, fieldPath) !== undefined ||
+          swatchIndexAt(working, fieldPath) !== undefined);
+      if (indexField) {
+        left = swatchIndexAt(shipped, fieldPath);
+        right = swatchIndexAt(working, fieldPath);
+      }
       const ruleMembers = (value: unknown): value is { id: string }[] =>
         Array.isArray(value) &&
         value.every(
           (item: unknown) => record(item) && typeof item.id === "string",
         );
       if (
-        definition.category === "rules" &&
+        (definition.category === "rules" ||
+          (definition.category === "color" &&
+            names.at(-1) === "steps" &&
+            (fieldPath.includes("customContrasts") ||
+              fieldPath.includes("disabledCustomContrasts")))) &&
         !collectionOrder &&
         ruleMembers(left) &&
         ruleMembers(right) &&
-        ["children", "branches"].includes(names.at(-1) ?? "")
+        ["children", "branches", "steps"].includes(names.at(-1) ?? "")
       ) {
         const originals = new Map(left.map((item) => [item.id, item]));
         const latest = new Map(right.map((item) => [item.id, item]));
@@ -279,11 +292,23 @@ export function compareAuthoring(
           names.at(-2) ?? "",
         ) &&
         (left === undefined || right === undefined);
-      if ((record(left) || record(right)) && !newStructureBinding) {
+      const adjustmentMethodChanged =
+        names.at(-1) === "scaleAdjustment" &&
+        (!record(left) || !record(right) || left.method !== right.method);
+      if (
+        (record(left) || record(right)) &&
+        !newStructureBinding &&
+        !adjustmentMethodChanged
+      ) {
         const keys = new Set([
           ...Object.keys(record(left) ? left : {}),
           ...Object.keys(record(right) ? right : {}),
         ]);
+        if (
+          swatchIndexAt(shipped, [...fieldPath, "scaleIndex"]) !== undefined ||
+          swatchIndexAt(working, [...fieldPath, "scaleIndex"]) !== undefined
+        )
+          keys.add("scaleIndex");
         for (const key of keys) {
           if (FIELD_EXCLUSIONS[key]) continue;
           if (definition.category === "opacity" && key === "rows") continue;
@@ -367,7 +392,9 @@ export function compareAuthoring(
       if (!changed) return;
       const key = names.map(label).join(" / ") || "Value";
       const previewKind =
-        typeof (right ?? left) === "number" && foundation === "opacity"
+        typeof (right ?? left) === "number" &&
+        foundation === "opacity" &&
+        names.at(-1) !== "scaleIndex"
           ? "opacity"
           : typeof (right ?? left) === "number" && foundation === "radius"
             ? "radius"
@@ -379,7 +406,7 @@ export function compareAuthoring(
         key,
         address: {
           path: fieldPath,
-          expected: right,
+          expected: indexField ? readPath(working, fieldPath) : right,
           ...(collectionOrder && { collectionOrder: true }),
         },
         before: display(left),

@@ -57,13 +57,14 @@ const { initializeAuthoringPersistence } =
   await import("../src/features/edit-session/persistence");
 const { prepareAuthoringRecord } =
   await import("../src/features/edit-session/recordPreparation");
-const { AUTHORING_STORAGE_KEY, AUTHORING_RECORD_VERSION } =
+const { AUTHORING_STORAGE_KEY, AUTHORING_RECORD_VERSION, readAuthoringRecord } =
   await import("../src/features/edit-session/storage");
 const {
   captureAuthoringRecord,
   enterEditModeAtom,
   saveEditAtom,
   cancelEditAtom,
+  assertStoredSnapshot,
 } = await import("../src/features/edit-session/state");
 const { updateColorSystemSettingsAtom } =
   await import("../src/features/color-system/state");
@@ -79,8 +80,7 @@ const execute: WorkExecutor<RecordValue, RecordValue> = (record, signal) =>
   new Promise((resolve, reject) => {
     requests.push({ record, signal, resolve, reject });
   });
-const read = (): RecordValue =>
-  JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!);
+const read = (): RecordValue => readAuthoringRecord(assertStoredSnapshot)!;
 const count = () => storage.writes.get(AUTHORING_STORAGE_KEY) ?? 0;
 mock.timers.enable({ apis: ["setTimeout"] });
 async function advance(ms = 0) {
@@ -102,62 +102,68 @@ try {
     /unsupported format/,
   );
   store.set(enterEditModeAtom);
-  for (const extOffset of [0.1, 0.2, 0.3, 0.4, 0.5])
-    store.set(updateColorSystemSettingsAtom, { extOffset });
+  for (const backgroundBlend of [0.1, 0.2, 0.3, 0.4, 0.5])
+    store.set(updateColorSystemSettingsAtom, { backgroundBlend });
   await advance(199);
   assert.equal(requests.length, 0);
   assert.equal(count(), 0);
   await advance(1);
   assert.equal(requests.length, 1);
-  assert.equal(requests[0].record.working.colorSystem.settings.extOffset, 0.5);
+  assert.equal(
+    requests[0].record.working.colorSystem.settings.backgroundBlend,
+    0.5,
+  );
   requests[0].resolve(prepareAuthoringRecord(requests[0].record));
   await advance();
   assert.equal(count(), 1);
   assert.equal(read().version, AUTHORING_RECORD_VERSION);
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.5);
+  const persisted = JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!);
+  assert.equal(persisted.working.structures.schemaVersion, 1);
+  assert.equal(persisted.saved.structures.schemaVersion, 1);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.5);
   assert.deepEqual(read().saved, initial.saved);
 
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.6 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.6 });
   await advance(200);
   const obsolete = requests.at(-1)!;
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.7 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.7 });
   assert.equal(obsolete.signal.aborted, true);
   obsolete.resolve(prepareAuthoringRecord(obsolete.record));
   await advance();
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.5);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.5);
   await advance(200);
   const beforeSave = requests.at(-1)!;
   store.set(saveEditAtom);
   assert.equal(beforeSave.signal.aborted, true);
   beforeSave.resolve(prepareAuthoringRecord(beforeSave.record));
   await advance();
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.7);
-  assert.equal(read().saved.colorSystem.settings.extOffset, 0.7);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.7);
+  assert.equal(read().saved.colorSystem.settings.backgroundBlend, 0.7);
 
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.8 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.8 });
   await advance(200);
   const beforeCancel = requests.at(-1)!;
   store.set(cancelEditAtom);
   beforeCancel.resolve(prepareAuthoringRecord(beforeCancel.record));
   await advance();
   assert.equal(beforeCancel.signal.aborted, true);
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.7);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.7);
   assert.equal(read().isEditing, false);
 
   store.set(enterEditModeAtom);
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.9 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.9 });
   await advance(200);
   const beforeHide = requests.at(-1)!;
   events.dispatchEvent(new Event("pagehide"));
   assert.equal(beforeHide.signal.aborted, true);
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.9);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
   const afterHide = count();
   beforeHide.resolve(prepareAuthoringRecord(beforeHide.record));
   await advance();
   assert.equal(count(), afterHide);
-  assert.equal(read().saved.colorSystem.settings.extOffset, 0.7);
+  assert.equal(read().saved.colorSystem.settings.backgroundBlend, 0.7);
 
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.2 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.2 });
   await advance(200);
   requests.at(-1)!.reject(new Error("Injected validation failure."));
   await advance();
@@ -166,8 +172,8 @@ try {
       .get(persistenceIssuesAtom)
       .some((issue) => issue.includes("Injected validation failure")),
   );
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.9);
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.3 });
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.3 });
   await advance(200);
   storage.failKey = AUTHORING_STORAGE_KEY;
   const failedWrite = requests.at(-1)!;
@@ -178,13 +184,13 @@ try {
       .get(persistenceIssuesAtom)
       .some((issue) => issue.includes("Injected quota failure")),
   );
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.9);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
   storage.failKey = undefined;
 
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.4 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.4 });
   await advance(200);
   const staleFailure = requests.at(-1)!;
-  store.set(updateColorSystemSettingsAtom, { extOffset: 0.5 });
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.5 });
   staleFailure.reject(new Error("Obsolete validation failure."));
   await advance();
   assert(
@@ -198,7 +204,7 @@ try {
   assert.equal(beforeDispose.signal.aborted, true);
   beforeDispose.resolve(prepareAuthoringRecord(beforeDispose.record));
   await advance();
-  assert.equal(read().working.colorSystem.settings.extOffset, 0.9);
+  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
 } finally {
   dispose();
   mock.timers.reset();

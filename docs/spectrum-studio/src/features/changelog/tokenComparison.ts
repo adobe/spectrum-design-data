@@ -14,7 +14,7 @@ import type { TokenImpactRecord } from "../impact/model";
 import type { ChangeField, ChangeItem } from "./changes";
 import type { AuthoringComparison } from "./registry";
 import { sameValue, type SourcePath } from "./contract";
-import { parameterOwners, capabilityOwners } from "../modes/parameters";
+import { parameterOwners } from "../modes/parameters";
 import {
   modeCombinationCount,
   modeCombinations,
@@ -22,6 +22,7 @@ import {
 } from "../modes/combinations";
 import { elevationOwnerIds } from "../elevation/output";
 import { opacityAxes } from "../opacity/generation";
+import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import { opacityOutputIssues } from "../opacity/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { isFoundationPublished } from "../foundations/types";
@@ -33,13 +34,69 @@ import {
 } from "../structures/model";
 import type { TshirtSemanticRow } from "../design-data/tshirtTypes";
 import { formatTshirtName } from "../design-data/tshirtProfile";
-import { normalizeBrowserColorOutputs } from "../tokens/colorOutput";
+import {
+  normalizeBrowserColorOutputs,
+  opacityLinkedScaleIds,
+} from "../tokens/colorOutput";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { withTaxonomyProjection } from "../taxonomy/model";
 import {
   compareEffectiveTokens,
   hasEffectiveTokenEdits,
 } from "./effectiveTokenComparison";
+import { ownedLayoutAt } from "../structures/configuration";
+import type { StructureLayoutConfiguration } from "../structures/variants";
+
+function variantSourceEditors(
+  snapshot: EditSessionSnapshot,
+  row: TshirtSemanticRow,
+) {
+  const catalog = snapshot.structures?.structures ?? [];
+  const result: {
+    editorPath: SourcePath;
+    propertyPath: SourcePath;
+    overrides: StructureLayoutConfiguration["overrides"];
+  }[] = [];
+  if (!row.optionId) return result;
+  for (const root of catalog) {
+    const rootPath: SourcePath = [
+      "structures",
+      "structures",
+      { key: "conceptId", id: root.conceptId },
+    ];
+    const propertyIdentity: SourcePath = row.propertyId
+      ? [{ key: "id", id: row.propertyId }]
+      : [];
+    const propertyPath: SourcePath = [
+      ...rootPath,
+      "editor",
+      "properties",
+      ...propertyIdentity,
+    ];
+    if (
+      root.conceptId === row.structureId &&
+      root.editor?.overrides[row.optionId]
+    )
+      result.push({
+        editorPath: [...rootPath, "editor"],
+        propertyPath,
+        overrides: root.editor.overrides,
+      });
+    for (const [path, configuration] of Object.entries(
+      root.editor?.layouts ?? {},
+    ))
+      if (
+        configuration.overrides?.[row.optionId] &&
+        ownedLayoutAt(root, path, catalog)?.conceptId === row.structureId
+      )
+        result.push({
+          editorPath: [...rootPath, "editor", "layouts", path],
+          propertyPath,
+          overrides: configuration.overrides,
+        });
+  }
+  return result;
+}
 
 interface ValueRow {
   id: string;
@@ -107,14 +164,14 @@ function scopeKey(
     ))
       axes.add(axis);
   } else if (token.type === "colors" && !token.paletteColorId) {
+    if (opacityStopsEnabled(snapshot.colorSystem.settings))
+      for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
     for (const key of [
       "color.backgroundScaleId",
       "color.backgroundLightness",
       "color.contrastMultiplier",
     ])
       addOwner(key);
-    const scaleOwner = capabilityOwners(snapshot.modeSets)["color.scales"];
-    if (scaleOwner) axes.add(scaleOwner);
   } else if (token.type === "typography") {
     addOwner("typography.textZoom");
   } else if (
@@ -183,6 +240,7 @@ function projectPrimitiveRows(
         resolveBrowserTokens(sources, snapshot.browserTokenEdits ?? {}, key),
         snapshot.colorSystem.settings.colorOutput,
         finalUiValues,
+        opacityLinkedScaleIds(snapshot.colorSystem),
       ),
       snapshot.taxonomy,
     );
@@ -246,10 +304,18 @@ function dependencyPaths(
     paths.push(["colorSystem", "settings", "colorOutput"]);
   const uiScale = (scaleId: string, contrastId?: string) => {
     paths.push(entity("colorSystem", "scales", scaleId));
-    if (contrastId) paths.push(entity("colorSystem", "contrasts", contrastId));
     const scale = snapshot.colorSystem.scales.find(
       (candidate) => candidate.id === scaleId,
     );
+    if (
+      opacityStopsEnabled(snapshot.colorSystem.settings) &&
+      !scale?.customContrasts
+    ) {
+      if (contrastId) paths.push(entity("opacity", "levels", contrastId));
+      paths.push(["opacity", "polarityCompensation"]);
+      if (contrastId) paths.push(["browserTokenEdits", contrastId]);
+    } else if (contrastId)
+      paths.push(entity("colorSystem", "contrasts", contrastId));
     for (const stop of scale?.stops ?? [])
       if (stop.paletteColorId)
         paths.push(entity("colorSystem", "palette", stop.paletteColorId));
@@ -709,11 +775,12 @@ export function compareSemanticTokens(
         { key: "conceptId", id: row.structureId },
       ];
       if (row.optionId) {
-        paths.push(
-          [...ownerPath, "properties"],
-          [...ownerPath, "generation"],
-          [...ownerPath, "editor", "properties"],
-        );
+        paths.push([...ownerPath, "properties"], [...ownerPath, "generation"]);
+        const editors = [
+          ...variantSourceEditors(working, row),
+          ...variantSourceEditors(shipped, row),
+        ];
+        paths.push(...editors.map((editor) => editor.propertyPath));
         const owner =
           working.structures?.structures.find(
             (structure) => structure.conceptId === row.structureId,
@@ -732,39 +799,42 @@ export function compareSemanticTokens(
                   structureBindingId(row.structureId, slot) === bindingId,
               );
           if (slot)
-            paths.push([
-              ...ownerPath,
-              "editor",
-              "overrides",
-              row.optionId,
-              "slots",
-              slot,
-            ]);
+            for (const editor of editors)
+              paths.push([
+                ...editor.editorPath,
+                "overrides",
+                row.optionId,
+                "slots",
+                slot,
+              ]);
           else {
             const element =
-              Object.values(
-                owner?.editor?.overrides[row.optionId]?.elements ?? {},
-              ).find((item) =>
-                item.bindings.some((binding) => binding.id === bindingId),
-              ) ??
+              editors
+                .flatMap((editor) =>
+                  Object.values(
+                    editor.overrides?.[row.optionId!]?.elements ?? {},
+                  ),
+                )
+                .find((item) =>
+                  item.bindings.some((binding) => binding.id === bindingId),
+                ) ??
               owner?.elements?.find(
                 (item) =>
                   item.kind !== "structureReference" &&
                   item.bindings.some((binding) => binding.id === bindingId),
               );
-            if (element)
-              paths.push(
-                [...ownerPath, "elements"],
-                [
-                  ...ownerPath,
-                  "editor",
+            if (element) {
+              paths.push([...ownerPath, "elements"]);
+              for (const editor of editors)
+                paths.push([
+                  ...editor.editorPath,
                   "overrides",
                   row.optionId,
                   "elements",
                   element.id,
                   "bindings",
-                ],
-              );
+                ]);
+            }
           }
         }
       } else paths.push(ownerPath);
