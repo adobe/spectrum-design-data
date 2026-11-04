@@ -92,20 +92,30 @@ assert.equal(bundle.profile.files.length, 5);
 assert.equal(bundle.profile.formatVersion, "1.0.0-draft");
 assert.equal(bundle.profile.specPackageVersion, "4.3.0");
 assert.equal(bundle.sourceKind, "shipped");
-assert.equal(bundle.tokens.length, 6);
+assert.equal(bundle.tokens.length, 9);
 assert.equal(new Set(bundle.lineage.map((row) => row.conceptId)).size, 3);
-assert.equal(new Set(bundle.tokens.map((row) => row.uuid)).size, 6);
+assert.equal(new Set(bundle.tokens.map((row) => row.uuid)).size, 9);
 assert.deepEqual(
   bundle.tokens.map((row) => row.name.scaleIndex),
-  ["100", "200", "300", "100", "200", "300"],
+  ["100", "200", "300", "100", "200", "300", "100", "200", "300"],
 );
 assert.deepEqual(
   bundle.tokens.map((row) => row.name.colorScheme),
-  ["light", "light", "light", "dark", "dark", "dark"],
+  [
+    "light",
+    "light",
+    "light",
+    "dark",
+    "dark",
+    "dark",
+    "wireframe",
+    "wireframe",
+    "wireframe",
+  ],
 );
 assert.deepEqual(
   bundle.tokens.map((row) => Number(new Color(row.value[0].color).alpha)),
-  [0.2, 0.2, 0.2, 0.2, 0.2, 0.2],
+  Array(9).fill(0.2),
 );
 assert.deepEqual(Object.keys(bundle.tokens[0]).sort(), [
   "$valueType",

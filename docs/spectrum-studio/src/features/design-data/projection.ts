@@ -207,6 +207,16 @@ export function projectAuthoringDataset(
       });
       outputMetadata.scenarios = [...scenarios.values()];
     };
+    const namedContext = (context: string) =>
+      Object.fromEntries(
+        (JSON.parse(context) as [string, string][]).flatMap(
+          ([axisId, modeId]) => {
+            const axis = system.modeSets.find((axis) => axis.id === axisId);
+            const mode = axis?.modes.find((mode) => mode.id === modeId);
+            return axis && mode ? [[axis.key, mode.key]] : [];
+          },
+        ),
+      );
     const variants = buildTshirtArtifacts(
       {
         colorSystem: system.foundations.color,
@@ -220,6 +230,8 @@ export function projectAuthoringDataset(
         structures: system.structures,
         rules: system.rules,
         scaleTypes: system.scaleTypes,
+        interpolations: system.interpolations,
+        tokenOverrides: system.tokenOverrides,
         modeSets: system.modeSets,
         browserTokenEdits: browserEdits,
       },
@@ -240,6 +252,7 @@ export function projectAuthoringDataset(
         variants,
       );
       for (const alias of aliasReferencePacket(system.aliases, targets)) {
+        const target = targets.find((target) => target.rowId === alias.$ref);
         add(
           "compatibility-aliases",
           alias.uuid,
@@ -251,6 +264,13 @@ export function projectAuthoringDataset(
             reference: alias.$ref,
             classification: "generated",
             conceptId: alias.aliasId,
+            context: namedContext(alias.context),
+            ...(target?.token.projection?.flat.property && {
+              structuredName: {
+                property: target.token.projection.flat.property,
+                legacyKey: alias.name,
+              },
+            }),
           },
         );
       }
@@ -275,7 +295,9 @@ export function projectAuthoringDataset(
           context: row.context,
           taxonomy,
           ...(row.token.$ref && { reference: row.token.$ref }),
-          ...(row.target.family !== "elevation" && { unit: "px" }),
+          ...(!["elevation", "colors", "opacity"].includes(
+            row.target.family,
+          ) && { unit: "px" }),
         },
       );
       observe(
@@ -336,6 +358,7 @@ export function projectAuthoringDataset(
       .filter((mode) => mode !== undefined);
     const color = buildCascadeTokenExport({
       base: system.foundations.color,
+      opacity: system.foundations.opacity,
       modeSets: system.modeSets,
       activeModes,
       activeTokens: [],
@@ -631,15 +654,7 @@ export function projectAuthoringDataset(
         (row) => !row.recordId.startsWith("tokens:"),
       );
       for (const row of rows) {
-        const context = Object.fromEntries(
-          (JSON.parse(row.context) as [string, string][]).flatMap(
-            ([axisId, modeId]) => {
-              const axis = system.modeSets.find((axis) => axis.id === axisId);
-              const mode = axis?.modes.find((mode) => mode.id === modeId);
-              return axis && mode ? [[axis.key, mode.key]] : [];
-            },
-          ),
-        );
+        const context = namedContext(row.context);
         const value = canonicalTaxonomyValue(row, rows);
         add(
           "tokens",

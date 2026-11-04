@@ -96,12 +96,16 @@ changed hashes, omitted flags, changed values and unresolved references fail.
 
 ### Designer-facing review language
 
-Tokens and Registry label flagged data **Classification review needed**, rather
-than implying that every warning is a broken color or a designer mistake.
-Open a flagged token to see **Why this needs review**, with separate reasons and
-next steps. For shared category and term definitions, use **Registry > Taxonomy**;
-**Migration review** lists the affected records. **Export taxonomy compatibility
-packet** preserves the original data and the detailed machine-readable review.
+**Migration analysis > Classification review** is the only in-app location for
+design-data parity and proposed-definition diagnostics. Select shipped, saved,
+or working authoring data to see affected records, reasons and next steps.
+Tokens, token dialogs, Registry and System health do not show these diagnostics.
+Ordinary authoring checks, such as broken references or invalid values, remain.
+
+Review exports are available for **Working authoring** in Migration analysis.
+**Export taxonomy compatibility packet** preserves the original data and the
+detailed machine-readable review. Edit shared definitions in **Registry >
+Taxonomy**; comparison results do not change authored data.
 
 Default data can be flagged because the current check requires category and
 term descriptions to match the local proposal exactly. A shared definition
@@ -117,7 +121,7 @@ It does not establish conformance to the published Spectrum design-data spec.
 
 | Path | Behavior |
 | --- | --- |
-| Registry editing and Save | Structurally valid non-standard native records stay editable and saveable, with clear warnings |
+| Registry editing and Save | Structurally valid non-standard native records stay editable and saveable; proposed-definition diagnostics appear only in Migration analysis |
 | Standard-compliant taxonomy | Reject the entire declared scope if any instance needs a fix; never omit records to fabricate success |
 | Taxonomy compatibility | Preserve all supplied categories, terms, classifications, canonical output rows, values, units, mode contexts and direct aliases, plus per-instance fix flags |
 | Generated compatibility bundle | Preserve the original pinned T-shirt bundle intact inside a labeled envelope, with native classification review and explicit flags for retained draft representations |
