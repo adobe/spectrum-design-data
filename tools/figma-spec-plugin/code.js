@@ -475,10 +475,22 @@ function blockRow(sheet, b) {
 // partial run never touches the previous render). renderSheet runs them in one go.
 // `sheet` needs displayName, size, block, datasetRevision and pages[].title.
 
+// Only the root frames this renderer made are ever removed, and only at the top level of its
+// own page. The "Notes" page is created when missing and never written to.
+function topLevel(name) {
+  return figma.currentPage.children.find((n) => n.name === name) || null;
+}
+
+function ensureNotesPage() {
+  if (!figma.root.children.some((p) => p.name === "Notes"))
+    figma.createPage().name = "Notes";
+}
+
 async function beginSheet(sheet, pageTitles) {
   const warning = await loadFonts();
   const page = figma.currentPage;
-  const stale = page.findOne((n) => n.name === rootNameOf(sheet) + BUILDING);
+  ensureNotesPage();
+  const stale = topLevel(rootNameOf(sheet) + BUILDING);
   if (stale) stale.remove();
   const root = auto("VERTICAL", {
     itemSpacing: 80,
@@ -510,6 +522,9 @@ async function beginSheet(sheet, pageTitles) {
         ".",
       16,
     ),
+  );
+  cover.appendChild(
+    text("Generated: do not edit this page. Add notes on the Notes page.", 16),
   );
   root.appendChild(cover);
   const specs = auto("HORIZONTAL", { itemSpacing: 64 });
@@ -548,7 +563,7 @@ async function appendBlocks(sheet, pageTitle, blocks) {
 async function finishSheet(sheet) {
   const root = findBuilding(sheet);
   const name = rootNameOf(sheet);
-  const previous = figma.currentPage.findOne((n) => n.name === name);
+  const previous = topLevel(name);
   if (previous) {
     root.x = previous.x;
     root.y = previous.y;
@@ -583,9 +598,7 @@ async function renderSheet(sheet, changelog, pageTitles) {
     };
   } catch (err) {
     // The old render stays; drop the half-built one.
-    const half = figma.currentPage.findOne(
-      (n) => n.name === rootNameOf(sheet) + BUILDING,
-    );
+    const half = topLevel(rootNameOf(sheet) + BUILDING);
     if (half) half.remove();
     throw err;
   }
