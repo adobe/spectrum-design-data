@@ -107,3 +107,40 @@ test("malformed or odd component files are skipped, not fatal", (t) => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("fallback ignores docs-text-only matches", (t) => {
+  const dir = join(
+    tmpdir(),
+    "design-data-component-" + randomUUID().slice(0, 8),
+  );
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, "a.json"),
+    JSON.stringify({
+      name: "a",
+      displayName: "Alpha",
+      description: "A tooltip",
+    }),
+  );
+  writeFileSync(
+    join(dir, "b.json"),
+    JSON.stringify({
+      name: "b",
+      displayName: "Beta",
+      description: "Other",
+      documentBlocks: [{ content: "mentions tooltip once" }],
+    }),
+  );
+  try {
+    t.deepEqual(
+      searchComponents(dir, "tooltip").map((r) => r.id),
+      ["a", "b"],
+    );
+    t.deepEqual(
+      searchComponents(dir, "tooltip zzzqqq").map((r) => r.id),
+      ["a"],
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

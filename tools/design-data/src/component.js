@@ -78,8 +78,8 @@ function loadComponent(componentsDir, file) {
  * Query words are lowercased, split on non-alphanumerics, and filtered for
  * stopwords and words under 3 characters. A word matches at the start of a
  * word in the displayName, description or documentBlocks text. Components
- * containing every word win; if none do, components with any word are
- * returned. Ranking: exact displayName, displayName, description, then docs
+ * containing every word win; if none do, components with any word in the
+ * displayName or description are returned (docs-text-only hits are ignored). Ranking: exact displayName, displayName, description, then docs
  * text; within a tier, more matched words first, then alphabetical. Files that
  * can't be parsed are skipped.
  *
@@ -167,7 +167,10 @@ export function searchComponents(
     });
   }
 
-  const pool = scored.some((s) => s.all) ? scored.filter((s) => s.all) : scored;
+  // Fallback ignores docs-text-only hits (tier 3): too loose without all words.
+  const pool = scored.some((s) => s.all)
+    ? scored.filter((s) => s.all)
+    : scored.filter((s) => s.tier < 3);
   return pool
     .sort((a, b) => a.tier - b.tier || b.count - a.count)
     .slice(0, max)
