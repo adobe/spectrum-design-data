@@ -14,7 +14,6 @@ import {
   type Structure,
 } from "../../features/structures/model";
 import { STRUCTURE_TERM_IDS } from "../../features/structures/vocabulary";
-import { ELEMENT_CATEGORY_ID } from "../../features/structures/elements";
 import { StructureEditorPanel } from "../../panels/structures/StructureEditorPanel";
 import { StructurePreview } from "./StructurePreview";
 
@@ -153,27 +152,10 @@ function ReusableTemplate({
                 structure={source}
                 references={fixture.references}
                 layout={layout}
-                taxonomy={fixture.taxonomy}
                 isReadOnly={readOnly}
                 onChange={(changes) =>
                   setSource((before) => assignStructure(before, changes))
                 }
-                onTokenNaming={({ termId }) => {
-                  const term = fixture.taxonomy.terms.find(
-                    (term) => term.id === termId,
-                  );
-                  if (!term)
-                    throw new Error(
-                      "Choose an existing Registry term in this story.",
-                    );
-                  setSource((before) => ({
-                    ...before,
-                    generation: {
-                      ...before.generation!,
-                      nameRef: { categoryId: term.categoryId, termId: term.id },
-                    },
-                  }));
-                }}
               />
             </>
           )}
@@ -239,29 +221,22 @@ export const VerticalInsertion: Story = {
     canvasElement.dataset.playComplete = "true";
   },
 };
-export const IndependentNaming: Story = {
+export const StructureName: Story = {
   args: { editor: true },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement),
-      body = within(canvasElement.ownerDocument.body);
+    const canvas = within(canvasElement);
     const label = canvas.getByRole("textbox", { name: "Name" });
     await userEvent.clear(label);
     await userEvent.type(label, "Module example");
     await userEvent.tab();
-    const naming = canvas.getByRole("combobox", { name: "Token naming" });
-    await expect(naming).toHaveValue("Base");
-    await userEvent.clear(naming);
-    await userEvent.type(naming, "Visual");
-    await userEvent.click(await body.findByRole("option", { name: "Visual" }));
-    await expect(label).toHaveValue("Module example");
-    await expect(naming).toHaveValue(
-      String(
-        fixture.taxonomy.terms.find(
-          (term) =>
-            term.categoryId === ELEMENT_CATEGORY_ID && term.value === "Visual",
-        )!.value,
-      ),
-    );
+    await expect(
+      canvas.getByRole("group", {
+        name: "Module example structure preview",
+      }),
+    ).toBeVisible();
+    await expect(
+      canvas.queryByRole("combobox", { name: "Token naming" }),
+    ).toBeNull();
     await userEvent.click(canvas.getByRole("radio", { name: "Vertical" }));
     await expect(
       canvas.getByRole("group", { name: "Module example structure preview" }),

@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import { createTshirtFixture } from "./fixtures/tshirt";
+import { createTshirtFixture, PADDING_SLOTS } from "./fixtures/tshirt";
 import { createVariantProperty } from "../src/features/option-groups/model";
 import {
   emptyStructureEditor,
@@ -14,9 +14,14 @@ import {
   liveTshirtRow,
 } from "../src/features/design-data/tshirtArtifacts";
 import {
+  structureBinding,
   structureSelection,
   structureSlotDefinition,
 } from "../src/features/structures/model";
+import {
+  STRUCTURE_CATEGORY_IDS,
+  STRUCTURE_TERM_IDS,
+} from "../src/features/structures/vocabulary";
 import {
   projectClassification,
   assertTaxonomy,
@@ -466,6 +471,122 @@ assert.deepEqual(
   buildTshirtArtifacts(source).tokens,
   baseline.tokens,
   "Ordering alone creates zero tokens.",
+);
+const groupedSource = structuredClone(fixture.source);
+const groupedRoot = groupedSource.structures!.structures[0];
+const affixedTerm = groupedSource.taxonomy!.terms.find(
+  (term) => term.value === "affixed",
+)!;
+const groupedProperty = createVariantProperty(
+  groupedRoot.name,
+  {
+    [groupedRoot.generation!.nameRef!.categoryId]:
+      groupedRoot.generation!.nameRef!.termId,
+  },
+  [
+    {
+      name: "Default",
+      classification: {
+        [STRUCTURE_CATEGORY_IDS.position]: STRUCTURE_TERM_IDS.left,
+      },
+    },
+    {
+      name: "Affixed",
+      classification: {
+        [STRUCTURE_CATEGORY_IDS.position]: affixedTerm.id,
+      },
+    },
+  ],
+);
+const groupedOption = groupedProperty.options[1].id;
+groupedRoot.editor = {
+  ...emptyStructureEditor(),
+  properties: [groupedProperty],
+  overrides: {
+    [groupedOption]: {
+      slots: Object.fromEntries(
+        PADDING_SLOTS.map((slot) => [slot, { $ref: fixture.alternate.id }]),
+      ),
+    },
+  },
+};
+groupedSource.structures = synchronizeVariantIdentities(
+  groupedSource.structures!,
+  groupedSource.modeSets,
+);
+const groupedBundle = buildTshirtArtifacts(groupedSource);
+const groupedRows = groupedBundle.semantics.filter((row) => row.optionId);
+assert.equal(groupedRows.length, 5);
+assert.ok(groupedRows.every((row) => row.bindingIds.length === 4));
+assert.ok(groupedRows.every((row) => row.token.name.position === "affixed"));
+assert.deepEqual(
+  groupedBundle.semantics.filter((row) => !row.optionId),
+  fixture.bundle.semantics,
+  "Grouped differences do not change the default output.",
+);
+assert.deepEqual(
+  buildTshirtArtifacts(structuredClone(groupedSource)),
+  groupedBundle,
+  "Grouped output identities survive reload without allocation.",
+);
+const groupedEffective = resolveStructureOptions(
+  groupedSource.structures!.structures[0],
+  {
+    ...EMPTY_STRUCTURE_PREVIEW,
+    options: { [groupedProperty.id]: groupedOption },
+  },
+).structure;
+const groupedPreview = tshirtPreview(
+  groupedEffective,
+  "m",
+  groupedBundle,
+  {},
+  fixture.references,
+  { [groupedProperty.id]: groupedOption },
+);
+const groupedMedium = groupedRows.find((row) => row.size === "m")!;
+for (const slot of PADDING_SLOTS)
+  assert.deepEqual(
+    structureSelection(groupedPreview.structure, slot),
+    { $ref: groupedMedium.token.uuid },
+    "Every grouped side resolves to the same selected variant semantic.",
+  );
+const partialSource = structuredClone(groupedSource);
+const partialRoot = partialSource.structures!.structures[0];
+partialRoot.editor!.properties = [property];
+partialRoot.editor!.overrides = {
+  [optionId]: {
+    slots: {
+      paddingTop: { $ref: fixture.alternate.id },
+      paddingRight: { $ref: fixture.alternate.id },
+      paddingBottom: { $ref: fixture.alternate.id },
+    },
+  },
+};
+partialSource.taxonomy = taxonomy;
+partialSource.structures = synchronizeVariantIdentities(
+  partialSource.structures!,
+  partialSource.modeSets,
+);
+const partialRows = buildTshirtArtifacts(partialSource).semantics.filter(
+  (row) => row.optionId,
+);
+assert.equal(partialRows.length, 10);
+assert.deepEqual(
+  partialRows
+    .filter((row) => row.size === "m")
+    .map((row) => row.bindingIds.length)
+    .sort(),
+  [1, 2],
+  "A vertical pair groups without absorbing the unchanged left side.",
+);
+assert.ok(
+  partialRows.every(
+    (row) =>
+      !row.bindingIds.includes(
+        structureBinding(partialRoot, "paddingLeft")!.id,
+      ),
+  ),
 );
 console.log(
   "Variant semantics: exact inventory, stable random identities, grouped inheritance, preview selection, and Registry ordering passed.",

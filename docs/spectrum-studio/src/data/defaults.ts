@@ -54,7 +54,7 @@ export function createColorInputDefaults(): ColorSystemDefaults {
         );
       return { ...rest, source: source.name };
     }),
-    extOffset: color.settings.extOffset,
-    extSteep: color.settings.extSteep,
+    backgroundBlend: color.settings.backgroundBlend,
+    colorSourceCurveOffset: color.settings.colorSourceCurveOffset,
   };
 }

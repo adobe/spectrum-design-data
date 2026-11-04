@@ -13,6 +13,18 @@ export interface StructureInsertionContext {
   childIds: string[];
   direction: "horizontal" | "vertical";
 }
+export const topLevelStructures = (structures: readonly Structure[]) =>
+  structures.filter((structure) => !structure.parentStructureId);
+export function ownedStructureIds(
+  structures: readonly Structure[],
+  id: string,
+) {
+  const ids = new Set([id]);
+  for (const ownerId of ids)
+    for (const structure of structures)
+      if (structure.parentStructureId === ownerId) ids.add(structure.conceptId);
+  return ids;
+}
 export const isLeaf = (child: StructureChild): child is StructureElement =>
   child.kind !== "structureReference";
 export const leafElements = (structure: Pick<Structure, "elements">) =>
@@ -39,6 +51,14 @@ export function assertStructureGraph(structures: readonly Structure[]) {
   );
   if (catalog.size !== structures.length)
     throw new Error("Structure definitions must have unique identities.");
+  for (const structure of structures)
+    if (
+      structure.parentStructureId &&
+      !catalog.has(structure.parentStructureId)
+    )
+      throw new Error(
+        `${structure.name}: its containing Structure is unavailable.`,
+      );
   const complete = new Set<string>(),
     active = new Set<string>();
   const visit = (id: string) => {
@@ -72,5 +92,7 @@ export function structureCandidates(
       structures.find((source) => source.conceptId === id)?.elements ?? []
     ).some((child) => !isLeaf(child) && reaches(child.structureId, visited));
   };
-  return structures.filter((source) => !reaches(source.conceptId));
+  return structures.filter(
+    (source) => !source.parentStructureId && !reaches(source.conceptId),
+  );
 }

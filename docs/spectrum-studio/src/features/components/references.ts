@@ -44,7 +44,10 @@ import {
   canonicalAliasRows,
   completeAliasSource,
 } from "../tokens/aliasTargets";
-import { canonicalTokenModeKey } from "../tokens/browserModel";
+import {
+  canonicalTokenModeKey,
+  MISSING_VALUE_MESSAGE,
+} from "../tokens/browserModel";
 import { dialogRowsForMode } from "../tokens/dialogModel";
 import { projectShadowValue } from "../design-data/shadowValue";
 
@@ -327,6 +330,7 @@ function buildComponentTokenCatalog(
     }
     for (const row of rows.filter((row) => row.token.manual)) {
       const token = row.token;
+      if (token.validationError === MISSING_VALUE_MESSAGE) continue;
       if (token.validationError) throw new Error(token.validationError);
       const context = Object.fromEntries(
         (JSON.parse(row.context) as [string, string][]).flatMap(

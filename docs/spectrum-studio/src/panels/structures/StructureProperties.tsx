@@ -1,69 +1,86 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeader,
+  AccordionItemPanel,
+  AccordionItemTitle,
   ActionButton,
   Button,
+  ButtonGroup,
+  DialogTrigger,
+  Heading,
   Menu,
   MenuItem,
   MenuTrigger,
   PickerItem,
+  Popover,
   Switch,
   Text,
   TextField,
   Tooltip,
   TooltipTrigger,
-  AccordionItem,
-  AccordionItemHeader,
-  AccordionItemPanel,
-  AccordionItemTitle,
 } from "@react-spectrum/s2";
 import Add from "@react-spectrum/s2/icons/Add";
-import Edit from "@react-spectrum/s2/icons/Edit";
-import Delete from "@react-spectrum/s2/icons/Delete";
+import More from "@react-spectrum/s2/icons/More";
+import Checkmark from "@react-spectrum/s2/icons/Checkmark";
+import Close from "@react-spectrum/s2/icons/Close";
 import AlertTriangle from "@react-spectrum/s2/icons/AlertTriangle";
-import { Dialog, Modal, ModalOverlay } from "react-aria-components";
-import { useEffect, useRef, useState, type ComponentRef } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentRef,
+  type ReactNode,
+} from "react";
+import { Dialog } from "react-aria-components";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { Picker } from "../../components/fields/Picker";
+import { popoverDialogStyles } from "../../components/popoverLayout";
 import {
   createBooleanProperty,
-  createVariantProperty,
-  type OptionProperty,
+  createLocalVariantProperty,
+  type BooleanProperty,
   type VariantProperty,
 } from "../../features/option-groups/model";
-import {
-  registerTerm,
-  type Classification,
-  type TaxonomyDocument,
-} from "../../features/taxonomy/model";
-import { termLabel } from "../../features/taxonomy/termPresentation";
+import type { TaxonomyDocument } from "../../features/taxonomy/model";
 import {
   duplicateVariantOption,
+  makeVariantOptionDefault,
   removeBooleanProperty,
   removeVariantOption,
   renameVariantOption,
   renameVariantProperty,
+  variantNameTermRequest,
 } from "../../features/structures/variantOperations";
 import type {
   StructureEditorData,
   StructurePreviewState,
 } from "../../features/structures/variants";
 
+const nameTextStyles = style({ textAlign: "start", truncate: true });
+const nameFieldStyles = style({ flexGrow: 1, minWidth: 0, width: "full" });
+const termHeadingStyles = style({ font: "heading-xs", margin: 0 });
+const termBodyStyles = style({ font: "body-sm" });
+const termActionsStyles = style({ alignSelf: "end" });
+
 interface StructurePropertiesProps {
   editor: StructureEditorData;
   taxonomy: TaxonomyDocument;
   preview: StructurePreviewState;
+  showIndentationLevel?: boolean;
   isReadOnly: boolean;
   onChange: (editor: StructureEditorData, taxonomy?: TaxonomyDocument) => void;
   onUndo: (before: StructureEditorData, after: StructureEditorData) => void;
   onPreview: (state: Partial<StructurePreviewState>) => void;
   report: (error: unknown) => void;
   addOptionRequest?: number;
+  label?: string;
 }
 
 export function StructureProperties(props: StructurePropertiesProps) {
   const { editor, preview, isReadOnly, onChange, onPreview, report } = props;
-  const [dialog, setDialog] = useState<"boolean" | "variant" | "option" | null>(
-    null,
-  );
+  const [setup, setSetup] = useState<"variant" | "option" | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [editingProperty, setEditingProperty] = useState<string | null>(null);
   const active = editor.properties.find(
@@ -75,7 +92,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
   );
   if ((props.addOptionRequest ?? 0) !== handledRequest) {
     setHandledRequest(props.addOptionRequest ?? 0);
-    setDialog(active ? "option" : "variant");
+    setSetup(active ? "option" : "variant");
   }
   const change = (next: StructureEditorData, taxonomy?: TaxonomyDocument) => {
     try {
@@ -91,229 +108,374 @@ export function StructureProperties(props: StructurePropertiesProps) {
       activePropertyId: property.id,
       options: { ...preview.options, [property.id]: id },
     });
+  const addProperty = (kind: "boolean" | "variant") => {
+    let number = 1;
+    const label = kind === "boolean" ? "Boolean" : "Variant";
+    while (
+      editor.properties.some(
+        (property) =>
+          property.name.toLowerCase() === `${label} ${number}`.toLowerCase(),
+      )
+    )
+      number++;
+    const property =
+      kind === "boolean"
+        ? createBooleanProperty(`${label} ${number}`)
+        : createLocalVariantProperty(`${label} ${number}`);
+    if (!change({ ...editor, properties: [...editor.properties, property] }))
+      return;
+    setSetup(null);
+    if (property.kind === "variant") {
+      select(property, property.defaultOptionId);
+      setEditingProperty(property.id);
+    } else setEditing(property.id);
+  };
   return (
-    <AccordionItem id="properties">
-      <AccordionItemHeader>
-        <AccordionItemTitle>Properties</AccordionItemTitle>
-        {!isReadOnly && (
-          <MenuTrigger>
-            <ActionButton size="S" isQuiet aria-label="Add property">
-              <Add />
-            </ActionButton>
-            <Menu
-              onAction={(key) =>
-                setDialog(key === "boolean" ? "boolean" : "variant")
-              }
-            >
-              <MenuItem id="boolean">Boolean</MenuItem>
-              <MenuItem id="variant">Variant</MenuItem>
-            </Menu>
-          </MenuTrigger>
-        )}
-      </AccordionItemHeader>
-      <AccordionItemPanel>
-        <div className="structurePropertyRows">
-          {editor.properties.map((property) => {
-            const selected =
-              property.kind === "variant"
-                ? property.options.find(
-                    (item) =>
-                      item.id ===
-                      (preview.options[property.id] ??
-                        property.defaultOptionId),
-                  )
-                : undefined;
-            const unused =
-              property.kind === "boolean" &&
-              !Object.values(editor.visibilityBindings).some(
-                (binding) => binding.propertyId === property.id,
-              );
-            const deletingDefault =
-              property.kind === "variant" &&
-              selected?.id === property.defaultOptionId;
-            return (
-              <div key={property.id} className="structurePropertyRow">
-                {editing === property.id && property.kind === "boolean" ? (
-                  <BooleanNameEditor
-                    property={property}
-                    onCancel={() => setEditing(null)}
-                    onCommit={(name) => {
-                      if (
-                        change({
-                          ...editor,
-                          properties: editor.properties.map((item) =>
-                            item.id === property.id ? { ...item, name } : item,
-                          ),
-                        })
-                      )
-                        setEditing(null);
-                    }}
-                  />
-                ) : property.kind === "variant" &&
-                  editingProperty === property.id ? (
-                  <VariantNameEditor
-                    key={`property-${property.id}`}
-                    editor={editor}
-                    propertyId={property.id}
-                    taxonomy={props.taxonomy}
-                    onCancel={() => setEditingProperty(null)}
-                    onCommit={(next, taxonomy) => {
-                      if (change(next, taxonomy)) setEditingProperty(null);
-                    }}
-                  />
-                ) : property.kind === "variant" && !isReadOnly ? (
-                  <ActionButton
-                    size="S"
-                    isQuiet
-                    aria-label={`Edit property ${property.name}`}
-                    onPress={() => setEditingProperty(property.id)}
-                  >
-                    {property.name}
-                  </ActionButton>
-                ) : (
-                  <Text>{property.name}</Text>
-                )}
-                {property.kind === "variant" &&
-                  (editing === property.id && selected ? (
-                    <VariantNameEditor
-                      key={selected.id}
-                      editor={editor}
-                      propertyId={property.id}
-                      optionId={selected.id}
-                      taxonomy={props.taxonomy}
-                      onCancel={() => setEditing(null)}
-                      onCommit={(next, taxonomy) => {
-                        if (change(next, taxonomy)) setEditing(null);
-                      }}
-                    />
-                  ) : (
-                    <Picker
-                      size="S"
-                      UNSAFE_className="structureVariantPicker"
-                      aria-label={`${property.name} option`}
-                      selectedKey={selected?.id ?? property.defaultOptionId}
-                      onSelectionChange={(key) => {
-                        if (key !== null) select(property, String(key));
-                      }}
-                    >
-                      {property.options.map((option) => (
-                        <PickerItem key={option.id} id={option.id}>
-                          {option.name}
-                        </PickerItem>
-                      ))}
-                    </Picker>
-                  ))}
-                {property.kind === "boolean" && (
-                  <Switch
-                    size="S"
-                    aria-label={property.name}
-                    isSelected={
-                      preview.booleans[property.id] ?? property.defaultValue
-                    }
-                    onChange={(value) =>
-                      onPreview({
-                        booleans: { ...preview.booleans, [property.id]: value },
-                      })
-                    }
-                  />
-                )}
-                {unused && (
-                  <TooltipTrigger>
-                    <ActionButton
-                      size="S"
-                      isQuiet
-                      aria-label="boolean option not used"
-                    >
-                      <AlertTriangle />
-                    </ActionButton>
-                    <Tooltip>boolean option not used</Tooltip>
-                  </TooltipTrigger>
-                )}
-                {!isReadOnly && (
-                  <>
-                    <ActionButton
-                      size="S"
-                      isQuiet
-                      aria-label={`Edit ${property.kind === "variant" ? (selected?.name ?? property.name) : property.name}`}
-                      onPress={() => setEditing(property.id)}
-                    >
-                      <Edit />
-                    </ActionButton>
-                    <ActionButton
-                      size="S"
-                      isQuiet
-                      isDisabled={deletingDefault}
-                      aria-label={
-                        property.kind === "variant"
-                          ? `Delete option ${selected?.name ?? ""}`
-                          : `Delete ${property.name}`
-                      }
-                      onPress={() => {
-                        try {
-                          const next =
-                            property.kind === "boolean"
-                              ? removeBooleanProperty(editor, property.id)
-                              : removeVariantOption(
-                                  editor,
-                                  property.id,
-                                  selected!.id,
-                                );
-                          if (change(next)) {
-                            if (property.kind === "variant")
-                              select(property, property.defaultOptionId);
-                          }
-                        } catch (error) {
-                          report(error);
-                        }
-                      }}
-                    >
-                      <Delete />
-                    </ActionButton>
-                  </>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {dialog && (
-          <PropertySetup
-            key={dialog}
-            kind={dialog}
-            taxonomy={props.taxonomy}
-            property={active}
-            onClose={() => setDialog(null)}
-            report={report}
-            onSubmit={(property, taxonomy) => {
-              let next = {
-                ...editor,
-                properties: [...editor.properties, property],
-              };
-              if (
-                dialog === "option" &&
-                active &&
-                property.kind === "variant"
-              ) {
-                const option = property.options[0];
-                next = duplicateVariantOption(
-                  editor,
-                  active.id,
-                  preview.options[active.id] ?? active.defaultOptionId,
-                  option,
-                );
-                if (change(next, taxonomy)) {
-                  select(active, option.id);
-                  setDialog(null);
+    <Accordion size="M" density="spacious" defaultExpandedKeys={["properties"]}>
+      <AccordionItem id="properties">
+        <AccordionItemHeader>
+          <AccordionItemTitle>{props.label ?? "Properties"}</AccordionItemTitle>
+          {!isReadOnly && (
+            <MenuTrigger>
+              <ActionButton size="M" isQuiet aria-label="Add property">
+                <Add />
+              </ActionButton>
+              <Menu
+                onAction={(key) =>
+                  addProperty(key === "boolean" ? "boolean" : "variant")
                 }
-              } else if (change(next, taxonomy)) {
-                if (property.kind === "variant")
-                  select(property, property.options[1].id);
-                setDialog(null);
-              }
-            }}
-          />
-        )}
-      </AccordionItemPanel>
-    </AccordionItem>
+              >
+                <MenuItem id="boolean">Boolean</MenuItem>
+                <MenuItem id="variant">Variant</MenuItem>
+              </Menu>
+            </MenuTrigger>
+          )}
+        </AccordionItemHeader>
+        <AccordionItemPanel>
+          <div className="structureEditorFields">
+            {props.showIndentationLevel && (
+              <Picker
+                size="M"
+                label="Indentation level"
+                selectedKey={String(preview.indentationLevel)}
+                onSelectionChange={(key) => {
+                  if (key === "0") onPreview({ indentationLevel: 0 });
+                  else if (key === "1") onPreview({ indentationLevel: 1 });
+                  else if (key === "2") onPreview({ indentationLevel: 2 });
+                }}
+              >
+                <PickerItem id="0">0</PickerItem>
+                <PickerItem id="1">1</PickerItem>
+                <PickerItem id="2">2</PickerItem>
+              </Picker>
+            )}
+            <div className="structurePropertyRows">
+              {editor.properties.map((property) => {
+                const selected =
+                  property.kind === "variant"
+                    ? property.options.find(
+                        (item) =>
+                          item.id ===
+                          (preview.options[property.id] ??
+                            property.defaultOptionId),
+                      )
+                    : undefined;
+                const unused =
+                  property.kind === "boolean" &&
+                  ![
+                    ...Object.values(editor.visibilityBindings),
+                    ...Object.values(editor.layouts ?? {}).flatMap(
+                      (configuration) =>
+                        Object.values(configuration.visibilityBindings ?? {}),
+                    ),
+                  ].some((binding) => binding.propertyId === property.id);
+                const deletingDefault =
+                  property.kind === "variant" &&
+                  selected?.id === property.defaultOptionId;
+                const editingName =
+                  editing === property.id || editingProperty === property.id;
+                return (
+                  <StructurePropertyRow
+                    key={property.id}
+                    name={property.name}
+                    isReadOnly={isReadOnly}
+                    onEditName={() => {
+                      if (property.kind === "variant")
+                        setEditingProperty(property.id);
+                      else setEditing(property.id);
+                    }}
+                    nameEditor={
+                      editing === property.id && property.kind === "boolean" ? (
+                        <BooleanNameEditor
+                          property={property}
+                          onCancel={() => setEditing(null)}
+                          onCommit={(name) => {
+                            if (
+                              change({
+                                ...editor,
+                                properties: editor.properties.map((item) =>
+                                  item.id === property.id
+                                    ? { ...item, name }
+                                    : item,
+                                ),
+                              })
+                            )
+                              setEditing(null);
+                          }}
+                        />
+                      ) : property.kind === "variant" &&
+                        editingProperty === property.id ? (
+                        <VariantNameEditor
+                          key={`property-${property.id}`}
+                          editor={editor}
+                          propertyId={property.id}
+                          taxonomy={props.taxonomy}
+                          onCancel={() => setEditingProperty(null)}
+                          onCommit={(next, taxonomy) => {
+                            if (change(next, taxonomy))
+                              setEditingProperty(null);
+                          }}
+                        />
+                      ) : editing === property.id &&
+                        property.kind === "variant" &&
+                        selected ? (
+                        <VariantNameEditor
+                          key={selected.id}
+                          editor={editor}
+                          propertyId={property.id}
+                          optionId={selected.id}
+                          taxonomy={props.taxonomy}
+                          onCancel={() => setEditing(null)}
+                          onCommit={(next, taxonomy) => {
+                            if (change(next, taxonomy)) setEditing(null);
+                          }}
+                        />
+                      ) : null
+                    }
+                  >
+                    {property.kind === "variant" && !editingName && (
+                      <Picker
+                        size="M"
+                        UNSAFE_className="structureVariantPicker"
+                        aria-label={`${property.name} option`}
+                        selectedKey={selected?.id ?? property.defaultOptionId}
+                        onSelectionChange={(key) => {
+                          if (key !== null) select(property, String(key));
+                        }}
+                      >
+                        {property.options.map((option) => (
+                          <PickerItem key={option.id} id={option.id}>
+                            {option.name}
+                          </PickerItem>
+                        ))}
+                      </Picker>
+                    )}
+                    {property.kind === "boolean" && !editingName && (
+                      <Switch
+                        size="M"
+                        aria-label={property.name}
+                        isSelected={
+                          preview.booleans[property.id] ?? property.defaultValue
+                        }
+                        onChange={(value) =>
+                          onPreview({
+                            booleans: {
+                              ...preview.booleans,
+                              [property.id]: value,
+                            },
+                          })
+                        }
+                      />
+                    )}
+                    {unused && !editingName && (
+                      <TooltipTrigger>
+                        <ActionButton
+                          size="M"
+                          isQuiet
+                          aria-label="boolean option not used"
+                        >
+                          <AlertTriangle />
+                        </ActionButton>
+                        <Tooltip>boolean option not used</Tooltip>
+                      </TooltipTrigger>
+                    )}
+                    {!isReadOnly && !editingName && (
+                      <MenuTrigger>
+                        <ActionButton
+                          size="M"
+                          isQuiet
+                          aria-label={`More actions for ${property.name}`}
+                        >
+                          <More />
+                        </ActionButton>
+                        <Menu
+                          aria-label={`Actions for ${property.name}`}
+                          disabledKeys={deletingDefault ? ["delete"] : []}
+                          onAction={(key) => {
+                            try {
+                              if (
+                                key === "add" &&
+                                property.kind === "variant"
+                              ) {
+                                select(
+                                  property,
+                                  selected?.id ?? property.defaultOptionId,
+                                );
+                                setSetup("option");
+                              } else if (
+                                key === "default" &&
+                                property.kind === "variant"
+                              ) {
+                                change(
+                                  makeVariantOptionDefault(
+                                    editor,
+                                    property.id,
+                                    selected!.id,
+                                  ),
+                                );
+                              } else if (key === "edit") {
+                                setEditing(property.id);
+                              } else if (key === "delete" && !deletingDefault) {
+                                const next =
+                                  property.kind === "boolean"
+                                    ? removeBooleanProperty(editor, property.id)
+                                    : removeVariantOption(
+                                        editor,
+                                        property.id,
+                                        selected!.id,
+                                      );
+                                if (change(next) && property.kind === "variant")
+                                  select(property, property.defaultOptionId);
+                              }
+                            } catch (error) {
+                              report(error);
+                            }
+                          }}
+                        >
+                          {property.kind === "variant" && (
+                            <MenuItem id="add">Add option</MenuItem>
+                          )}
+                          {property.kind === "variant" &&
+                            !Object.keys(property.classification).length &&
+                            !deletingDefault && (
+                              <MenuItem id="default">Set as default</MenuItem>
+                            )}
+                          <MenuItem
+                            id="edit"
+                            aria-label={`Edit ${property.kind === "variant" ? (selected?.name ?? property.name) : property.name}`}
+                          >
+                            {property.kind === "variant"
+                              ? "Edit option"
+                              : "Edit"}
+                          </MenuItem>
+                          <MenuItem
+                            id="delete"
+                            aria-label={
+                              property.kind === "variant"
+                                ? `Delete option ${selected?.name ?? ""}`
+                                : `Delete ${property.name}`
+                            }
+                          >
+                            {property.kind === "variant"
+                              ? "Delete option"
+                              : "Delete"}
+                          </MenuItem>
+                        </Menu>
+                      </MenuTrigger>
+                    )}
+                  </StructurePropertyRow>
+                );
+              })}
+            </div>
+            {editor.properties.some(
+              (property) =>
+                property.kind === "variant" &&
+                (!Object.keys(property.classification).length ||
+                  property.options.some(
+                    (option) => !Object.keys(option.classification).length,
+                  )),
+            ) && <Text>Options without token naming are preview-only.</Text>}
+            {setup && !isReadOnly && (
+              <PropertySetup
+                key={`${setup}-${active?.id ?? ""}`}
+                kind={setup}
+                property={active}
+                onClose={() => setSetup(null)}
+                report={report}
+                onSubmit={(name) => {
+                  if (setup === "option") {
+                    if (!active)
+                      throw new Error(
+                        "The selected variant is no longer available.",
+                      );
+                    const option = {
+                      id: crypto.randomUUID(),
+                      name: name.trim(),
+                      classification: {},
+                    };
+                    const next = duplicateVariantOption(
+                      editor,
+                      active.id,
+                      preview.options[active.id] ?? active.defaultOptionId,
+                      option,
+                    );
+                    if (change(next)) {
+                      select(active, option.id);
+                      setSetup(null);
+                    }
+                  } else {
+                    const property = createLocalVariantProperty(name);
+                    if (
+                      change({
+                        ...editor,
+                        properties: [...editor.properties, property],
+                      })
+                    ) {
+                      select(property, property.defaultOptionId);
+                      setSetup(null);
+                    }
+                  }
+                }}
+              />
+            )}
+          </div>
+        </AccordionItemPanel>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+function StructurePropertyRow({
+  name,
+  isReadOnly,
+  onEditName,
+  nameEditor,
+  children,
+}: {
+  name: string;
+  isReadOnly: boolean;
+  onEditName: () => void;
+  nameEditor: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <div className="structurePropertyRow">
+      {nameEditor ??
+        (isReadOnly ? (
+          <Text UNSAFE_className={String(nameTextStyles)}>{name}</Text>
+        ) : (
+          <ActionButton
+            size="M"
+            isQuiet
+            UNSAFE_className="structurePropertyNameButton"
+            aria-label={`Edit property ${name}`}
+            onPress={onEditName}
+          >
+            <Text UNSAFE_className={String(nameTextStyles)}>{name}</Text>
+          </ActionButton>
+        ))}
+      {!nameEditor && children}
+    </div>
   );
 }
 
@@ -322,242 +484,107 @@ function BooleanNameEditor({
   onCommit,
   onCancel,
 }: {
-  property: OptionProperty;
+  property: BooleanProperty;
   onCommit: (name: string) => void;
   onCancel: () => void;
 }) {
   const [name, setName] = useState(property.name);
   const field = useNameEditorFocus();
   return (
-    <TextField
-      size="S"
-      ref={field}
-      aria-label="Boolean name"
-      value={name}
-      onChange={setName}
-      isInvalid={!name.trim()}
-      errorMessage="Give the boolean a name."
-      onBlur={() => {
-        if (name.trim()) onCommit(name.trim());
-      }}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") onCancel();
-        if (event.key === "Enter" && name.trim()) onCommit(name.trim());
-      }}
-    />
-  );
-}
-
-function RegistryAssignment({
-  label,
-  classification,
-  taxonomy,
-  onChange,
-  onTaxonomy,
-}: {
-  label: string;
-  classification: Classification;
-  taxonomy: TaxonomyDocument;
-  onChange: (classification: Classification) => void;
-  onTaxonomy: (taxonomy: TaxonomyDocument) => void;
-}) {
-  const [draft, setDraft] = useState("");
-  const [error, setError] = useState("");
-  const categoryId = Object.keys(classification)[0] ?? null;
-  const termId = categoryId ? classification[categoryId] : null;
-  return (
-    <div className="structureEditorFields">
-      <Picker
-        size="S"
-        label={`${label} category`}
-        selectedKey={categoryId}
-        onSelectionChange={(key) => {
-          if (key !== null) onChange({ [String(key)]: "" });
-        }}
-      >
-        {taxonomy.categories
-          .filter((category) => category.scopes.includes("structures"))
-          .map((category) => (
-            <PickerItem id={category.id} key={category.id}>
-              {category.name}
-            </PickerItem>
-          ))}
-      </Picker>
-      <Picker
-        size="S"
-        label={label}
-        selectedKey={typeof termId === "string" && termId ? termId : null}
-        isDisabled={!categoryId}
-        onSelectionChange={(key) => {
-          if (categoryId && key !== null)
-            onChange({ [categoryId]: String(key) });
-        }}
-      >
-        {taxonomy.terms
-          .filter((term) => term.categoryId === categoryId)
-          .map((term) => (
-            <PickerItem id={term.id} key={term.id}>
-              {termLabel(term.value)}
-            </PickerItem>
-          ))}
-      </Picker>
+    <div className="structureNameEditor">
       <TextField
-        size="S"
-        label={`New ${label.toLowerCase()} term`}
-        value={draft}
-        onChange={setDraft}
-      />
-      <Button
-        size="S"
-        variant="secondary"
-        isDisabled={!categoryId || !draft.trim()}
-        onPress={() => {
-          try {
-            if (!categoryId) throw new Error("Choose a Registry category.");
-            const id = crypto.randomUUID();
-            const next = registerTerm(taxonomy, categoryId, draft.trim(), id);
-            const term = next.terms.find(
-              (item) =>
-                item.categoryId === categoryId &&
-                String(item.value).toLowerCase() === draft.trim().toLowerCase(),
-            );
-            if (!term)
-              throw new Error("The new Registry term could not be selected.");
-            onTaxonomy(next);
-            onChange({ [categoryId]: term.id });
-            setDraft("");
-            setError("");
-          } catch (failure) {
-            setError(
-              failure instanceof Error ? failure.message : String(failure),
-            );
-          }
+        size="M"
+        ref={field}
+        styles={nameFieldStyles}
+        aria-label="Boolean name"
+        value={name}
+        onChange={setName}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") onCancel();
+          if (event.key === "Enter" && name.trim()) onCommit(name.trim());
         }}
+      />
+      <ActionButton
+        size="M"
+        isQuiet
+        aria-label="Save boolean name"
+        isDisabled={!name.trim()}
+        onPress={() => onCommit(name.trim())}
       >
-        Create Registry term
-      </Button>
-      {error && <p role="alert">{error}</p>}
+        <Checkmark />
+      </ActionButton>
+      <ActionButton
+        size="M"
+        isQuiet
+        aria-label="Cancel editing boolean name"
+        onPress={onCancel}
+      >
+        <Close />
+      </ActionButton>
     </div>
   );
 }
 
 function PropertySetup({
   kind,
-  taxonomy: initial,
   property,
   onSubmit,
   onClose,
   report,
 }: {
-  kind: "boolean" | "variant" | "option";
-  taxonomy: TaxonomyDocument;
+  kind: "variant" | "option";
   property?: VariantProperty;
-  onSubmit: (property: OptionProperty, taxonomy: TaxonomyDocument) => void;
+  onSubmit: (name: string) => void;
   onClose: () => void;
   report: (error: unknown) => void;
 }) {
-  const [taxonomy, setTaxonomy] = useState(initial);
   const [name, setName] = useState("");
-  const [classification, setClassification] = useState<Classification>(
-    property?.classification ?? {},
-  );
-  const [first, setFirst] = useState<Classification>({});
-  const [second, setSecond] = useState<Classification>({});
-  const label = (selection: Classification) =>
-    Object.values(selection)
-      .flatMap((ids) =>
-        (typeof ids === "string" ? [ids] : ids).map((id) =>
-          termLabel(taxonomy.terms.find((term) => term.id === id)?.value ?? ""),
-        ),
-      )
-      .join(" ");
+  const field = useNameEditorFocus();
+  const submit = () => {
+    try {
+      onSubmit(name.trim());
+    } catch (error) {
+      report(error);
+    }
+  };
   return (
-    <ModalOverlay
-      isOpen
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
-      isDismissable
-      className="structureModalOverlay"
+    <div
+      role="group"
+      aria-label={
+        kind === "option" ? `Add option to ${property?.name}` : "Add variant"
+      }
+      className="structureNameEditor"
     >
-      <Modal className="structureModal">
-        <Dialog aria-label={`Add ${kind}`} className="structureEditorFields">
-          <h3>
-            {kind === "option" ? "Add variant option" : `Add ${kind} property`}
-          </h3>
-          {kind === "boolean" ? (
-            <TextField
-              size="S"
-              label="Boolean name"
-              value={name}
-              onChange={setName}
-            />
-          ) : (
-            <>
-              {kind === "variant" && (
-                <RegistryAssignment
-                  label="Property"
-                  taxonomy={taxonomy}
-                  classification={classification}
-                  onChange={setClassification}
-                  onTaxonomy={setTaxonomy}
-                />
-              )}
-              <RegistryAssignment
-                label={kind === "variant" ? "Default option" : "Option"}
-                taxonomy={taxonomy}
-                classification={first}
-                onChange={setFirst}
-                onTaxonomy={setTaxonomy}
-              />
-              {kind === "variant" && (
-                <RegistryAssignment
-                  label="New option"
-                  taxonomy={taxonomy}
-                  classification={second}
-                  onChange={setSecond}
-                  onTaxonomy={setTaxonomy}
-                />
-              )}
-            </>
-          )}
-          <div className="structureCompactRow">
-            <Button size="S" variant="secondary" onPress={onClose}>
-              Cancel
-            </Button>
-            <Button
-              size="S"
-              variant="primary"
-              onPress={() => {
-                try {
-                  if (kind === "boolean")
-                    onSubmit(createBooleanProperty(name), taxonomy);
-                  else {
-                    const next = createVariantProperty(
-                      label(classification),
-                      classification,
-                      [
-                        { name: label(first), classification: first },
-                        {
-                          name:
-                            kind === "option" ? label(first) : label(second),
-                          classification: kind === "option" ? first : second,
-                        },
-                      ],
-                    );
-                    onSubmit(next, taxonomy);
-                  }
-                } catch (error) {
-                  report(error);
-                }
-              }}
-            >
-              Add
-            </Button>
-          </div>
-        </Dialog>
-      </Modal>
-    </ModalOverlay>
+      <TextField
+        ref={field}
+        size="M"
+        styles={nameFieldStyles}
+        label={kind === "option" ? "Option name" : "Variant name"}
+        value={name}
+        onChange={setName}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") onClose();
+          if (event.key === "Enter" && name.trim()) submit();
+        }}
+      />
+      <ActionButton
+        size="M"
+        isQuiet
+        aria-label="Add"
+        isDisabled={!name.trim()}
+        onPress={submit}
+      >
+        <Checkmark />
+      </ActionButton>
+      <ActionButton
+        size="M"
+        isQuiet
+        aria-label="Cancel adding property option"
+        onPress={onClose}
+      >
+        <Close />
+      </ActionButton>
+    </div>
   );
 }
 
@@ -585,9 +612,25 @@ function VariantNameEditor({
     : property;
   const [name, setName] = useState(selected.name);
   const [error, setError] = useState("");
+  const [termRequest, setTermRequest] =
+    useState<ReturnType<typeof variantNameTermRequest>>(null);
   const field = useNameEditorFocus();
+  const label = optionId ? "option name" : "variant name";
   const save = (createTerm = false) => {
     try {
+      if (!createTerm) {
+        const request = variantNameTermRequest(
+          editor,
+          propertyId,
+          optionId,
+          name,
+          taxonomy,
+        );
+        if (request) {
+          setTermRequest(request);
+          return;
+        }
+      }
       const next = optionId
         ? renameVariantOption(
             editor,
@@ -599,16 +642,19 @@ function VariantNameEditor({
           )
         : renameVariantProperty(editor, propertyId, name, taxonomy, createTerm);
       onCommit(next.editor, next.taxonomy);
+      setTermRequest(null);
     } catch (failure) {
+      setTermRequest(null);
       setError(failure instanceof Error ? failure.message : String(failure));
     }
   };
   return (
-    <div className="structureEditorFields">
+    <div className="structureNameEditor">
       <TextField
-        size="S"
+        size="M"
         ref={field}
-        aria-label={optionId ? "Option name" : "Property name"}
+        styles={nameFieldStyles}
+        aria-label={optionId ? "Option name" : "Variant name"}
         value={name}
         onChange={(value) => {
           setName(value);
@@ -620,27 +666,66 @@ function VariantNameEditor({
           if (event.key === "Escape") {
             onCancel();
           }
-          if (event.key === "Enter") save();
+          if (event.key === "Enter" && name.trim()) save();
         }}
       />
-      <div className="structureCompactRow">
-        <Button size="S" variant="secondary" onPress={onCancel}>
-          Cancel
-        </Button>
-        <Button size="S" variant="secondary" onPress={() => save()}>
-          Save
-        </Button>
-      </div>
-      {error && (
-        <Button
-          size="S"
-          variant="secondary"
+      <DialogTrigger
+        isOpen={termRequest !== null}
+        onOpenChange={(open) => {
+          if (!open) setTermRequest(null);
+        }}
+      >
+        <ActionButton
+          size="M"
+          isQuiet
+          aria-label={`Save ${label}`}
           isDisabled={!name.trim()}
-          onPress={() => save(true)}
+          onPress={() => save()}
         >
-          Create Registry term
-        </Button>
-      )}
+          <Checkmark />
+        </ActionButton>
+        <Popover size="S">
+          <Dialog
+            aria-label="Create Registry term"
+            className={popoverDialogStyles}
+          >
+            <div className="structureEditorFields">
+              <Heading level={3} styles={termHeadingStyles}>
+                Create Registry term
+              </Heading>
+              <Text UNSAFE_className={String(termBodyStyles)}>
+                Add "{termRequest?.name}" to{" "}
+                {
+                  taxonomy.categories.find(
+                    (category) => category.id === termRequest?.categoryId,
+                  )?.name
+                }{" "}
+                and use it for this name.
+              </Text>
+              <ButtonGroup align="end" styles={termActionsStyles}>
+                <Button
+                  size="M"
+                  variant="secondary"
+                  onPress={() => setTermRequest(null)}
+                >
+                  Cancel
+                </Button>
+                <Button size="M" variant="primary" onPress={() => save(true)}>
+                  Create
+                </Button>
+              </ButtonGroup>
+            </div>
+          </Dialog>
+        </Popover>
+      </DialogTrigger>
+      <ActionButton
+        size="M"
+        isQuiet
+        aria-label={`Cancel editing ${label}`}
+        onPress={onCancel}
+      >
+        <Close />
+      </ActionButton>
     </div>
   );
 }

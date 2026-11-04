@@ -1093,3 +1093,395 @@ test("The Panel stays pinned, scrolls at narrow widths and leaves native ComboBo
     });
   }
 });
+
+test("Structure layers keep native tree indentation, icon slots and trailing actions", async ({
+  page,
+}) => {
+  await seed(page);
+  await openDesign(page);
+  await page
+    .locator('[data-component="StructureCard"]')
+    .filter({ has: page.getByText("List-item", { exact: true }) })
+    .click({ position: { x: 4, y: 4 } });
+  const tree = page.getByRole("treegrid", { name: "Structure layers" });
+  const names = ["Main structure", "Vertical padding", "Content layout"];
+  const positions: number[] = [];
+  for (const [index, name] of names.entries()) {
+    const row = tree
+      .getByRole("row")
+      .filter({ has: page.getByText(name, { exact: true }) });
+    await expect(row).toHaveAttribute("aria-level", String(index + 1));
+    const chevron = row.locator('button[slot="chevron"]');
+    const icon = row.locator('svg[data-category="structures"]');
+    await row.hover();
+    await expect(chevron).toBeVisible();
+    await expect(icon).toBeVisible();
+    const arrowBox = (await chevron.boundingBox())!;
+    const iconBox = (await icon.boundingBox())!;
+    const labelBox = (await row
+      .getByText(name, { exact: true })
+      .boundingBox())!;
+    expect(arrowBox.x + arrowBox.width).toBeLessThanOrEqual(iconBox.x + 1);
+    expect(iconBox.x + iconBox.width).toBeLessThanOrEqual(labelBox.x + 1);
+    positions.push(iconBox.x);
+    if (index > 0) {
+      const actions = row.getByRole("toolbar", {
+        name: `${name} layer actions`,
+      });
+      await expect(actions).toBeVisible();
+      const actionBox = (await actions.boundingBox())!;
+      expect(actionBox.x).toBeGreaterThanOrEqual(
+        labelBox.x + labelBox.width - 1,
+      );
+      expect(actionBox.x + actionBox.width).toBeLessThanOrEqual(
+        (await row.boundingBox())!.x + (await row.boundingBox())!.width,
+      );
+      await expect(
+        actions.getByRole("button", { name: "Bind to a show/hide option" }),
+      ).toBeVisible();
+      await expect(
+        actions.getByRole("button", { name: `Delete ${name}`, exact: true }),
+      ).toBeVisible();
+    }
+  }
+  expect(positions[1] - positions[0]).toBe(16);
+  expect(positions[2] - positions[1]).toBe(16);
+  const content = tree
+    .getByRole("row")
+    .filter({ has: page.getByText("Content layout", { exact: true }) });
+  await content.locator('button[slot="chevron"]').click();
+  await expect(tree.getByText("Content start", { exact: true })).toHaveCount(0);
+  await content.locator('button[slot="chevron"]').click();
+  await expect(tree.getByText("Content start", { exact: true })).toBeVisible();
+  await content.click();
+  await content.press("ArrowLeft");
+  await expect(content).toHaveAttribute("aria-expanded", "false");
+  await content.press("ArrowRight");
+  await expect(content).toHaveAttribute("aria-expanded", "true");
+});
+
+test("Owned layouts and their elements edit in place while separate references retain source navigation", async ({
+  page,
+}) => {
+  await seed(page);
+  await openDesign(page);
+  const selectCard = async (name: string) => {
+    await page
+      .locator('[data-component="StructureCard"]')
+      .filter({ has: page.getByText(name, { exact: true }) })
+      .click({ position: { x: 4, y: 4 } });
+  };
+  await selectCard("List-item");
+  const tree = page.getByRole("treegrid", { name: "Structure layers" });
+  const settings = page.getByRole("region", {
+    name: "Structure settings for List-item",
+    exact: true,
+  });
+  for (const name of [
+    "Vertical padding",
+    "Content layout",
+    "Content start",
+    "Content end",
+    "Selection indicator",
+    "Buttons",
+    "Switch",
+  ])
+    await expect(tree.getByText(name, { exact: true })).toBeVisible();
+  await tree.getByText("Vertical padding", { exact: true }).click();
+  await expect(
+    settings.getByRole("button", { name: /Density option$/ }),
+  ).toBeVisible();
+  await expect(
+    settings.getByRole("button", { name: "Open source Structure" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("textbox", { name: "Name", exact: true }),
+  ).toHaveValue("List-item");
+  await tree.getByText("Content start", { exact: true }).click();
+  await expect(
+    settings.getByRole("combobox", { name: "Default size width", exact: true }),
+  ).toBeVisible();
+  await expect(
+    settings.getByRole("button", { name: "Open source Structure" }),
+  ).toHaveCount(0);
+  const preview = page.locator(
+    '.structureVariantOption[data-selected="true"] .structurePreview:not([aria-hidden])',
+  );
+  const stage = await page.locator(".structureDesignStage").boundingBox();
+  if (!stage) throw new Error("The Structure canvas is unavailable.");
+  await page.mouse.move(stage.x + stage.width / 2, stage.y + stage.height - 40);
+  await page.mouse.wheel(0, 900);
+  await preview
+    .getByRole("group", {
+      name: "Vertical padding layout preview",
+      exact: true,
+    })
+    .press("Enter");
+  await expect(
+    tree.getByRole("row", { name: /^Vertical padding/ }),
+  ).toHaveAttribute("aria-selected", "true");
+  await preview
+    .getByRole("button", { name: /^Selection indicator element/ })
+    .click();
+  const slot = settings.getByRole("textbox", {
+    name: "Slot name",
+    exact: true,
+  });
+  await expect(slot).toHaveValue("Selection indicator");
+  await slot.fill("Selection control");
+  await slot.press("Tab");
+  await expect(
+    tree.getByText("Selection control", { exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await openDesign(page, false);
+  await selectCard("List-item");
+  await tree.getByText("Selection control", { exact: true }).click();
+  await expect(slot).toHaveValue("Selection control");
+
+  await selectCard("Accessory");
+  const accessorySettings = page.getByRole("region", {
+    name: "Structure settings for Accessory",
+    exact: true,
+  });
+  await tree.getByText("Accessory item", { exact: true }).first().click();
+  await expect(
+    accessorySettings.getByRole("combobox", {
+      name: "Default size width",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    accessorySettings.getByRole("button", { name: "Open source Structure" }),
+  ).toHaveCount(0);
+
+  await selectCard("Base");
+  await tree.getByText("Text", { exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Open source Structure", exact: true }),
+  ).toBeVisible();
+});
+
+test("Layouts can be created, named, populated and removed inside a Structure", async ({
+  page,
+}) => {
+  const snapshot = withStructure();
+  await seed(page, snapshot);
+  await openDesign(page);
+  const tree = page.getByRole("treegrid", { name: "Structure layers" });
+  const preview = page.getByRole("group", {
+    name: "Example structure structure preview",
+    exact: true,
+  });
+  const add = async (target: Locator, position: number, kind: string) => {
+    await target
+      .locator(":scope > .structureInsertion")
+      .getByRole("button", {
+        name: `Add element at position ${position}`,
+        exact: true,
+      })
+      .press("Enter");
+    await page.getByRole("menuitem", { name: kind, exact: true }).click();
+  };
+  await add(preview, 1, "Layout");
+  await expect(tree.getByText("Layout 1", { exact: true })).toBeVisible();
+  const layoutName = settings(page).getByRole("textbox", {
+    name: "Layout name",
+    exact: true,
+  });
+  await expect(layoutName).toHaveValue("Layout 1");
+  await layoutName.fill("Content");
+  await layoutName.press("Tab");
+  await expect(tree.getByText("Content", { exact: true })).toBeVisible();
+  await settings(page)
+    .getByRole("radiogroup", { name: "Direction", exact: true })
+    .getByRole("radio", { name: "Vertical", exact: true })
+    .click();
+  const content = preview.getByRole("group", {
+    name: "Content layout preview",
+    exact: true,
+  });
+  await expect(content).toHaveCSS("flex-direction", "column");
+  await add(content, 1, "Slot");
+  await expect(
+    settings(page).getByRole("textbox", { name: "Slot name", exact: true }),
+  ).toHaveValue("Slot");
+  await expect(
+    content.getByRole("button", { name: /^Slot element/ }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(tree.getByText("Slot", { exact: true })).toBeVisible();
+  await add(content, 2, "Layout");
+  const nested = content.getByRole("group", {
+    name: "Layout 1 layout preview",
+    exact: true,
+  });
+  const stage = (await page.locator(".structureDesignStage").boundingBox())!;
+  await page.mouse.move(stage.x + stage.width / 2, stage.y + stage.height - 30);
+  await page.mouse.wheel(0, 300);
+  const marker = nested.locator(":scope > .structureInsertion");
+  await expect
+    .poll(async () =>
+      marker.evaluate((element) => {
+        const parent = element.parentElement!;
+        const box = parent.getBoundingClientRect();
+        const marker = element.getBoundingClientRect();
+        return Math.abs(marker.x + marker.width / 2 - (box.x + box.width / 2));
+      }),
+    )
+    .toBeLessThan(2);
+  await add(nested, 1, "Bar");
+  await expect(tree.getByText("Bar", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("textbox", { name: "Name", exact: true }),
+  ).toHaveValue("Example structure");
+  await expect(page.locator('[data-component="StructureCard"]')).toHaveCount(
+    snapshot.structures!.structures.filter((item) => !item.parentStructureId)
+      .length,
+  );
+  await page.reload();
+  await openDesign(page);
+  await tree.getByText("Content", { exact: true }).click();
+  await expect(layoutName).toHaveValue("Content");
+  await expect(content).toHaveCSS("flex-direction", "column");
+  await expect(tree.getByText("Bar", { exact: true })).toBeVisible();
+  const before = (await record(page)).working.structures;
+  await tree
+    .getByRole("button", { name: "Delete Content", exact: true })
+    .click();
+  await expect(tree.getByText("Content", { exact: true })).toHaveCount(0);
+  await expect(tree.getByText("Bar", { exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "Undo", exact: true }).click();
+  await expect(tree.getByText("Bar", { exact: true })).toBeVisible();
+  await expect
+    .poll(async () => (await record(page)).working.structures)
+    .toEqual(before);
+});
+
+test("Structure panels use regular accordions and float above a pannable, zoomable canvas", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await seed(page);
+  await openDesign(page);
+
+  const canvas = page.locator('[data-component="StructureDesignView"]');
+  const stage = canvas.locator(".structureDesignStage");
+  const viewport = stage.locator(".structureDesignViewport");
+  const metadata = page.getByRole("region", {
+    name: "Structure metadata and layers",
+    exact: true,
+  });
+  const settings = page.getByRole("region", {
+    name: /^Structure settings for/,
+  });
+
+  for (const panel of [metadata, settings]) {
+    await expect(panel).toBeVisible();
+    expect(
+      await panel.evaluate((element) => getComputedStyle(element).position),
+    ).toBe("absolute");
+    expect(
+      await panel.evaluate((element) => getComputedStyle(element).resize),
+    ).toBe("horizontal");
+    expect(
+      await panel.evaluate((element) => getComputedStyle(element).minWidth),
+    ).toBe("280px");
+    expect(
+      await panel.evaluate((element) => getComputedStyle(element).padding),
+    ).toBe("0px");
+    await expect(panel).toHaveCSS("border-radius", "16px");
+    expect(
+      await panel.evaluate((element) => getComputedStyle(element).boxShadow),
+    ).not.toBe("none");
+    expect(
+      await panel.evaluate(
+        (element) => getComputedStyle(element).backgroundColor,
+      ),
+    ).not.toBe("rgba(0, 0, 0, 0)");
+    expect(
+      await panel.locator('[data-component="NestedPanelAccordion"]').count(),
+    ).toBe(0);
+  }
+
+  for (const [panel, titles] of [
+    [metadata, ["Metadata", "Generated variants", "Layers"]],
+    [settings, ["Properties", "Appearance"]],
+  ] as const) {
+    for (const title of titles) {
+      const toggle = panel.getByRole("button", { name: title, exact: true });
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+      await toggle.click();
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.click();
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    }
+  }
+  await expect(
+    metadata.getByRole("textbox", { name: "Name", exact: true }),
+  ).toBeVisible();
+  await expect(
+    settings.getByRole("button", { name: "Add property", exact: true }),
+  ).toBeVisible();
+
+  const metadataBefore = await metadata.boundingBox();
+  if (!metadataBefore) throw new Error("The metadata panel is not visible.");
+  await page.mouse.move(
+    metadataBefore.x + metadataBefore.width - 2,
+    metadataBefore.y + metadataBefore.height - 2,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    metadataBefore.x + metadataBefore.width + 48,
+    metadataBefore.y + metadataBefore.height - 2,
+    { steps: 4 },
+  );
+  await page.mouse.up();
+  await expect
+    .poll(async () => (await metadata.boundingBox())?.width ?? 0)
+    .toBeGreaterThan(metadataBefore.width + 20);
+
+  const stageBefore = await stage.boundingBox();
+  if (!stageBefore) throw new Error("The preview canvas is not visible.");
+  await page.mouse.move(
+    stageBefore.x + stageBefore.width / 2,
+    stageBefore.y + stageBefore.height - 40,
+  );
+  const beforePan = await viewport.evaluate(
+    (element) => (element as HTMLElement).style.transform,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    stageBefore.x + stageBefore.width / 2 + 40,
+    stageBefore.y + stageBefore.height - 60,
+    { steps: 4 },
+  );
+  await page.mouse.up();
+  await expect
+    .poll(() =>
+      viewport.evaluate((element) => (element as HTMLElement).style.transform),
+    )
+    .not.toBe(beforePan);
+
+  const beforeZoom = await viewport.evaluate((element) => {
+    const transform = new DOMMatrix(getComputedStyle(element).transform);
+    return transform.a;
+  });
+  await page.mouse.move(
+    stageBefore.x + stageBefore.width / 2,
+    stageBefore.y + stageBefore.height / 2,
+  );
+  await page.mouse.wheel(0, -250);
+  await expect
+    .poll(() =>
+      viewport.evaluate((element) => {
+        const transform = new DOMMatrix(getComputedStyle(element).transform);
+        return transform.a;
+      }),
+    )
+    .toBeGreaterThan(beforeZoom);
+  expect(
+    await page.evaluate(() => document.scrollingElement?.scrollTop ?? 0),
+  ).toBe(0);
+  expect(errors).toEqual([]);
+});

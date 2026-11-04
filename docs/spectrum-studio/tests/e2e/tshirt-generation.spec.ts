@@ -357,26 +357,6 @@ test("Create a reusable rule, stage an application and enable shared size permut
   expect("anchor" in rule).toBe(false);
 
   await design(page);
-  const naming = page
-    .getByRole("region", { name: "Structure settings for Base" })
-    .getByRole("combobox", { name: "Token naming", exact: true });
-  await naming.fill("Base");
-  await naming.press("ArrowDown");
-  const existingName = page.getByRole("option", { name: "Base", exact: true });
-  if (await existingName.count()) await existingName.click();
-  else {
-    await naming.press("Escape");
-    await page
-      .getByRole("button", { name: "Create Structure term", exact: true })
-      .click();
-  }
-  await expect
-    .poll(
-      async () =>
-        (await record(page)).working.structures!.structures[0].generation!
-          .nameRef?.termId,
-    )
-    .toBeTruthy();
   const before = (await record(page)).working;
   await card(page)
     .getByRole("button", { name: "Add generation rule", exact: true })
@@ -405,9 +385,18 @@ test("Create a reusable rule, stage an application and enable shared size permut
           .applications.length,
     )
     .toBe(1);
+  const generatedStructure = (await record(page)).working.structures!
+    .structures[0];
+  const nameRef = generatedStructure.generation!.nameRef;
+  expect(nameRef).toBeTruthy();
   expect(
-    (await record(page)).working.structures!.structures[0].properties,
-  ).toEqual(before.structures!.structures[0].properties);
+    (await record(page)).working.taxonomy!.terms.find(
+      (term) => term.id === nameRef!.termId,
+    )?.value,
+  ).toBe("base");
+  expect(generatedStructure.properties).toEqual(
+    before.structures!.structures[0].properties,
+  );
   await expect(
     card(page).getByRole("checkbox", { name: "Medium", exact: true }),
   ).toBeChecked();

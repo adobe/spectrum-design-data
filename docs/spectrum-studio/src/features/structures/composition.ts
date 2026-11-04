@@ -20,7 +20,15 @@ import {
   UNMEASURED_LAYOUT,
   type PreviewLayoutContext,
 } from "./resolution";
-import { structureGeneration, type Structure } from "./model";
+import { structureGeneration, structureSlot, type Structure } from "./model";
+import {
+  EMPTY_STRUCTURE_PREVIEW,
+  type StructurePreviewState,
+} from "./variants";
+import {
+  configuredStructure,
+  structureConfigurationIssues,
+} from "./configuration";
 
 export interface ResolvedModule {
   instance: StructureInstance;
@@ -34,6 +42,27 @@ export interface ResolvedComposition {
   children: ResolvedChild[];
   issues: string[];
   warnings: string[];
+}
+export function structureHasIndentation(
+  structure: Structure,
+  catalog: readonly Structure[],
+  visited = new Set<string>(),
+): boolean {
+  if (visited.has(structure.conceptId)) return false;
+  visited.add(structure.conceptId);
+  if (
+    structure.properties.some((binding) => structureSlot(binding) === "indent")
+  )
+    return true;
+  return (structure.elements ?? []).some((child) => {
+    if ("structureId" in child) {
+      const target = catalog.find(
+        (item) => item.conceptId === child.structureId,
+      );
+      return target ? structureHasIndentation(target, catalog, visited) : false;
+    }
+    return false;
+  });
 }
 export function supportedStructureSize(
   source: Structure,
@@ -84,38 +113,62 @@ export function resolveComposition(
   layout = UNMEASURED_LAYOUT,
   measurements: Readonly<Record<string, PreviewLayoutContext>> = {},
   options: Record<string, string> = {},
+  indentationLevel: 0 | 1 | 2 = 1,
+  previews: Readonly<Record<string, StructurePreviewState>> = {},
 ): ResolvedComposition {
   assertStructureGraph(catalog);
   const byId = new Map(catalog.map((source) => [source.conceptId, source]));
+  const rootPreviews = {
+    ...previews,
+    [source.conceptId]: {
+      ...EMPTY_STRUCTURE_PREVIEW,
+      ...previews[source.conceptId],
+      options: { ...previews[source.conceptId]?.options, ...options },
+      indentationLevel,
+    },
+  };
   const visit = (
     structure: Structure,
     wanted: string,
     context: PreviewLayoutContext,
     path: string,
+    configurationRoot: Structure,
+    configurationPath: string,
+    configurationPreviews: Readonly<Record<string, StructurePreviewState>>,
   ): ResolvedComposition => {
+    const configured = configuredStructure(
+      configurationRoot,
+      configurationPath,
+      catalog,
+      configurationPreviews,
+    );
+    const effective = configured.structure;
     const size = supportedStructureSize(structure, wanted, rules);
     const preview = bundle
       ? tshirtPreview(
-          structure,
+          effective,
           size,
           bundle,
           selection,
           references,
-          path === "" ? options : {},
+          configured.options,
+          configured.sizes,
+          configured.previewOnlySlots,
         )
       : undefined;
     const resolved = resolveStructure(
-      preview?.structure ?? structure,
+      preview?.structure ?? effective,
       preview?.references ?? references,
       context,
+      indentationLevel,
     );
     const leaves = new Map(
-      resolveElements(structure, references, rules, size).map((leaf) => [
+      resolveElements(effective, references, rules, size).map((leaf) => [
         leaf.element.id,
         leaf,
       ]),
     );
-    const children = (structure.elements ?? []).map((child): ResolvedChild => {
+    const children = (effective.elements ?? []).map((child): ResolvedChild => {
       if (isLeaf(child)) return leaves.get(child.id)!;
       const target = byId.get(child.structureId);
       if (!target)
@@ -123,6 +176,7 @@ export function resolveComposition(
           `${structure.name}: referenced Structure ${child.structureId} is unavailable.`,
         );
       const childPath = `${path}/${child.id}`;
+      const owned = target.parentStructureId === structure.conceptId;
       return {
         instance: child,
         composition: visit(
@@ -130,15 +184,20 @@ export function resolveComposition(
           size,
           measurements[childPath] ?? UNMEASURED_LAYOUT,
           childPath,
+          owned ? configurationRoot : target,
+          owned ? `${configurationPath}/${child.id}` : "",
+          owned ? configurationPreviews : {},
         ),
       };
     });
     return {
-      structure,
+      structure: effective,
       size,
       resolved,
       children,
       issues: [
+        ...configured.issues,
+        ...structureConfigurationIssues(structure, catalog),
         ...Object.values(resolved.issues),
         ...children.flatMap((child) =>
           "composition" in child ? child.composition.issues : child.issues,
@@ -157,7 +216,7 @@ export function resolveComposition(
       ],
     };
   };
-  return visit(source, requested, layout, "");
+  return visit(source, requested, layout, "", source, "", rootPreviews);
 }
 
 export function resolveCompositionResult(

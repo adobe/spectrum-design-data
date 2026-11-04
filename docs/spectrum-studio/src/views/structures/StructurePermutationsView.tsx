@@ -21,8 +21,15 @@ import {
 } from "../../features/design-data/tshirtArtifacts";
 import { StructurePreview } from "./StructurePreview";
 import "./StructurePermutationsView.css";
+import { useAtomValue } from "jotai";
+import { structurePreviewsAtom } from "../../features/structures/documentState";
 import { resolveCompositionResult } from "../../features/structures/composition";
 import { measureCompositionLayouts } from "./compositionMeasurement";
+import {
+  EMPTY_STRUCTURE_PREVIEW,
+  resolveStructureOptions,
+  type StructurePreviewState,
+} from "../../features/structures/variants";
 
 export interface StructurePermutationsViewProps {
   structure: Structure | null;
@@ -33,15 +40,17 @@ export interface StructurePermutationsViewProps {
   isPreview?: boolean;
   rules?: readonly Rule[];
   structures?: readonly Structure[];
+  preview?: StructurePreviewState;
 }
 function SizePreview({
-  structure,
+  structure: authoredStructure,
   size,
   bundle,
   references,
   selection,
   rules,
   structures,
+  preview,
 }: Required<Pick<StructurePermutationsViewProps, "bundle">> & {
   structure: Structure;
   size: string;
@@ -49,7 +58,14 @@ function SizePreview({
   selection: Record<string, string>;
   rules: readonly Rule[];
   structures: readonly Structure[];
+  preview: StructurePreviewState;
 }) {
+  const previews = useAtomValue(structurePreviewsAtom);
+  const effective = useMemo(
+    () => resolveStructureOptions(authoredStructure, preview),
+    [authoredStructure, preview],
+  );
+  const structure = effective.structure;
   const stage = useRef<HTMLDivElement>(null),
     natural = useRef<HTMLDivElement>(null);
   const [layout, setLayout] = useState<PreviewLayoutContext>(UNMEASURED_LAYOUT);
@@ -58,8 +74,18 @@ function SizePreview({
   >({});
   const generated = useMemo(() => {
     try {
+      if (effective.issues.length) throw new Error(effective.issues.join(" "));
       return {
-        preview: tshirtPreview(structure, size, bundle, selection, references),
+        preview: tshirtPreview(
+          structure,
+          size,
+          bundle,
+          selection,
+          references,
+          preview.options,
+          effective.sizes,
+          effective.previewOnlySlots,
+        ),
         error: "",
       };
     } catch (failure) {
@@ -68,7 +94,17 @@ function SizePreview({
         error: failure instanceof Error ? failure.message : String(failure),
       };
     }
-  }, [structure, size, bundle, selection, references]);
+  }, [
+    structure,
+    size,
+    bundle,
+    selection,
+    references,
+    preview.options,
+    effective.issues,
+    effective.sizes,
+    effective.previewOnlySlots,
+  ]);
   const resolved = useMemo(
     () =>
       generated.preview
@@ -76,9 +112,10 @@ function SizePreview({
             generated.preview.structure,
             generated.preview.references,
             layout,
+            preview.indentationLevel,
           )
         : null,
-    [generated.preview, layout],
+    [generated.preview, layout, preview.indentationLevel],
   );
   const elements = useMemo(
     () => resolveElements(structure, references, rules, size),
@@ -87,7 +124,7 @@ function SizePreview({
   const compositionResult = useMemo(
     () =>
       resolveCompositionResult(
-        structure,
+        authoredStructure,
         structures,
         references,
         rules,
@@ -96,9 +133,12 @@ function SizePreview({
         size,
         layout,
         moduleLayouts,
+        preview.options,
+        preview.indentationLevel,
+        { ...previews, [authoredStructure.conceptId]: preview },
       ),
     [
-      structure,
+      authoredStructure,
       structures,
       references,
       rules,
@@ -107,6 +147,8 @@ function SizePreview({
       size,
       layout,
       moduleLayouts,
+      previews,
+      preview,
     ],
   );
   const composition =
@@ -236,6 +278,7 @@ export function StructurePermutationsView({
   isPreview,
   rules = [],
   structures,
+  preview = EMPTY_STRUCTURE_PREVIEW,
 }: StructurePermutationsViewProps) {
   if (!structure)
     return (
@@ -279,6 +322,7 @@ export function StructurePermutationsView({
             selection={selection}
             rules={rules}
             structures={structures ?? [structure]}
+            preview={preview}
           />
         ))}
       </div>

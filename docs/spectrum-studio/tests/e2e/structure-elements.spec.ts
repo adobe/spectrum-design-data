@@ -3,6 +3,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createStore } from "jotai";
 import {
   createDefaultSnapshot,
+  isSnapshot,
   type EditSessionSnapshot,
 } from "../../src/features/edit-session/state";
 import {
@@ -11,6 +12,10 @@ import {
   PREFERENCES_STORAGE_KEY,
   type AuthoringRecord,
 } from "../../src/features/edit-session/storage";
+import {
+  decodeStructureSource,
+  encodeStructureSource,
+} from "../../src/features/edit-session/structureSourceCodec";
 import { primitiveReferencesAtom } from "../../src/features/tokens/primitiveReferenceState";
 import {
   ELEMENT_TYPES,
@@ -19,6 +24,7 @@ import {
   type ElementKind,
   type ElementSlot,
 } from "../../src/features/structures/elements";
+import { emptyStructureEditor } from "../../src/features/structures/variants";
 import { STRUCTURE_TERM_IDS } from "../../src/features/structures/vocabulary";
 import { assignStructure } from "../../src/features/structures/model";
 import { buildTshirtArtifacts } from "../../src/features/design-data/tshirtArtifacts";
@@ -39,8 +45,18 @@ const references = createStore().get(primitiveReferencesAtom);
 const baseId = createDefaultSnapshot().structures!.structures[0].conceptId;
 function leafSnapshot() {
   const snapshot = createDefaultSnapshot();
+  snapshot.components!.components = [];
+  const [base] = snapshot.structures!.structures;
   snapshot.structures!.structures = [
-    { ...snapshot.structures!.structures[0], elements: [] },
+    {
+      ...base,
+      elements: [],
+      editor: emptyStructureEditor(),
+      generation: {
+        ...base.generation!,
+        applications: [],
+      },
+    },
   ];
   return snapshot;
 }
@@ -51,10 +67,17 @@ async function seed(
   version = AUTHORING_RECORD_VERSION,
   saved = snapshot,
 ) {
+  const storedSnapshot =
+    version === AUTHORING_RECORD_VERSION
+      ? encodeStructureSource(snapshot)
+      : snapshot;
+  const storedSaved =
+    version === AUTHORING_RECORD_VERSION ? encodeStructureSource(saved) : saved;
   await page.setViewportSize({ width: 1800, height: 1000 });
   await page.addInitScript(
     ({ key, preferences, snapshot, saved, editing, version }) => {
-      if (!localStorage.getItem(key))
+      const marker = `${key}:session-seeded`;
+      if (!sessionStorage.getItem(marker)) {
         localStorage.setItem(
           key,
           JSON.stringify({
@@ -66,7 +89,6 @@ async function seed(
             savedAttachments: {},
           }),
         );
-      if (!localStorage.getItem(preferences))
         localStorage.setItem(
           preferences,
           JSON.stringify({
@@ -75,12 +97,14 @@ async function seed(
             modeSelection: {},
           }),
         );
+        sessionStorage.setItem(marker, "true");
+      }
     },
     {
       key: AUTHORING_STORAGE_KEY,
       preferences: PREFERENCES_STORAGE_KEY,
-      snapshot,
-      saved,
+      snapshot: storedSnapshot,
+      saved: storedSaved,
       editing,
       version,
     },
@@ -99,16 +123,28 @@ async function seed(
   ).toBeVisible();
 }
 const preview = (page: Page) =>
-  page.getByRole("group", { name: "Base structure preview", exact: true });
+  page
+    .locator(
+      '.structureVariantOption[data-selected="true"] .structurePreview:not([aria-hidden])',
+    )
+    .first();
 const panel = (page: Page) =>
-  page.getByRole("region", { name: /element settings$/ });
+  page.getByRole("region", {
+    name: "Structure settings for Base",
+    exact: true,
+  });
 async function record(
   page: Page,
 ): Promise<AuthoringRecord<EditSessionSnapshot>> {
-  return page.evaluate(
+  const stored: AuthoringRecord<unknown> = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key)!),
     AUTHORING_STORAGE_KEY,
   );
+  const working = decodeStructureSource(stored.working);
+  const saved = decodeStructureSource(stored.saved);
+  if (!isSnapshot(working) || !working || !isSnapshot(saved) || !saved)
+    throw new Error("Expected valid saved and working Structure snapshots.");
+  return { ...stored, working, saved };
 }
 async function add(
   page: Page,
@@ -164,6 +200,135 @@ async function choose(
     )
     .toBe(true);
 }
+
+test("Numeric leaf values retain semantic identity and primitive choices", async ({
+  page,
+}) => {
+  const snapshot = leafSnapshot();
+  const workflowIcon = createElement("workflowIcon");
+  const primitive = references.find(
+    (reference) => reference.name === "size-100",
+  )!;
+  const bindingId = elementBindingId(workflowIcon.id, "size");
+  snapshot.structures!.structures[0].elements = [workflowIcon];
+  await seed(page, snapshot);
+  await expect(
+    page.getByRole("banner").getByRole("button", { name: "Save", exact: true }),
+  ).toBeVisible();
+  await preview(page).locator(`[data-element-id="${workflowIcon.id}"]`).click();
+  await expect(panel(page)).toBeVisible();
+  const size = page.getByRole("combobox", { name: /^Size/ });
+  expect(primitive.hidden).toBe(false);
+  await choose(page, size, primitive, "size");
+
+  const afterReference = (await record(page)).working;
+  const referenceRows = buildTshirtArtifacts(afterReference).semantics.filter(
+    (row) => row.bindingIds.includes(bindingId),
+  );
+  expect(referenceRows.length).toBeGreaterThan(0);
+
+  const applyLiteral = async (value: string) => {
+    await size.focus();
+    await size.fill(value);
+    await page.getByRole("option", { name: /Use this value/ }).click();
+    await expect
+      .poll(
+        async () =>
+          (await record(page)).working
+            .structures!.structures[0].elements!.find(
+              (item) => item.id === workflowIcon.id,
+            )!
+            .bindings.find((binding) => binding.id === bindingId)?.value,
+      )
+      .toEqual({ kind: "number", value: Number(value), unit: "px" });
+    await size.press("Tab");
+    await expect(size).toHaveValue(value);
+  };
+  await applyLiteral("5");
+  const five = (await record(page)).working;
+  const fiveBinding = five
+    .structures!.structures[0].elements!.find(
+      (item) => item.kind === "workflowIcon",
+    )!
+    .bindings.find((binding) => binding.id === bindingId)!;
+  expect(fiveBinding).toMatchObject({
+    value: { kind: "number", value: 5, unit: "px" },
+  });
+  const fiveRows = buildTshirtArtifacts(five).semantics.filter((row) =>
+    row.bindingIds.includes(bindingId),
+  );
+  expect(fiveRows.map((row) => row.token.uuid)).toEqual(
+    referenceRows.map((row) => row.token.uuid),
+  );
+  expect(fiveRows.every((row) => row.token.value === "5px")).toBe(true);
+
+  await applyLiteral("8");
+  const eight = (await record(page)).working;
+  const eightRows = buildTshirtArtifacts(eight).semantics.filter((row) =>
+    row.bindingIds.includes(bindingId),
+  );
+  expect(eightRows.map((row) => row.token.uuid)).toEqual(
+    fiveRows.map((row) => row.token.uuid),
+  );
+  expect(eightRows.every((row) => row.token.value === "8px")).toBe(true);
+  expect(
+    references.some((reference) =>
+      eightRows.some((row) => row.token.uuid === reference.id),
+    ),
+  ).toBe(false);
+  await expect(size).toHaveValue("8");
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Save", exact: true })
+    .click();
+  await expect
+    .poll(
+      async () =>
+        (await record(page)).saved
+          .structures!.structures[0].elements!.find(
+            (item) => item.id === workflowIcon.id,
+          )!
+          .bindings.find((binding) => binding.id === bindingId)?.value,
+    )
+    .toEqual({ kind: "number", value: 8, unit: "px" });
+  await page.reload();
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Design(?: |$)/ })
+    .click();
+  await page
+    .locator('[data-component="StructureCard"]')
+    .first()
+    .click({ position: { x: 4, y: 4 } });
+  await expect
+    .poll(async () => {
+      const saved = await record(page);
+      return saved.working
+        .structures!.structures[0].elements!.find(
+          (item) => item.kind === "workflowIcon",
+        )!
+        .bindings.find((binding) => binding.id === bindingId)?.value;
+    })
+    .toEqual({ kind: "number", value: 8, unit: "px" });
+  await preview(page).locator(`[data-element-id="${workflowIcon.id}"]`).click();
+  await expect(size).toHaveValue("8");
+  await applyLiteral("5");
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Cancel", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Discard", exact: true }).click();
+  await expect
+    .poll(
+      async () =>
+        (await record(page)).working
+          .structures!.structures[0].elements!.find(
+            (item) => item.kind === "workflowIcon",
+          )!
+          .bindings.find((binding) => binding.id === bindingId)?.value,
+    )
+    .toEqual({ kind: "number", value: 8, unit: "px" });
+});
 
 test("Ordered insertion, token binding and five-size previews preserve the complete generated bundle", async ({
   page,

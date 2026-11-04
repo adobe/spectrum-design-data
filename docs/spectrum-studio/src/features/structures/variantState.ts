@@ -33,6 +33,7 @@ export const updateStructureEditorAtom = atom(
       editor?: StructureEditorData;
       description?: string;
       taxonomy?: TaxonomyDocument;
+      relatedEditors?: { structureId: string; editor: StructureEditorData }[];
     },
   ) => {
     if (!get(editModeAtom))
@@ -42,6 +43,22 @@ export const updateStructureEditorAtom = atom(
       (item) => item.conceptId === input.structureId,
     );
     if (!current) throw new Error("The selected structure is unavailable.");
+    const related = new Map(
+      (input.relatedEditors ?? []).map((update) => [
+        update.structureId,
+        update.editor,
+      ]),
+    );
+    if (
+      related.has(input.structureId) ||
+      related.size !== (input.relatedEditors?.length ?? 0) ||
+      [...related.keys()].some(
+        (id) => !document.structures.some((item) => item.conceptId === id),
+      )
+    )
+      throw new Error(
+        "Choose distinct, available Structures for this property binding.",
+      );
     const editor = input.editor ?? structureEditor(current);
     const taxonomy = input.taxonomy ?? get(taxonomyDocumentAtom);
     if (input.taxonomy) updateTaxonomy(get(taxonomyDocumentAtom), taxonomy);
@@ -57,7 +74,9 @@ export const updateStructureEditorAtom = atom(
       !editor.properties.length &&
       !Object.keys(editor.visibility).length &&
       !Object.keys(editor.visibilityBindings).length &&
-      !Object.keys(editor.overrides).length
+      !Object.keys(editor.overrides).length &&
+      !Object.keys(editor.layouts ?? {}).length &&
+      !Object.keys(editor.sizes ?? {}).length
     )
       delete next.editor;
     const issues = [
@@ -78,7 +97,11 @@ export const updateStructureEditorAtom = atom(
       {
         ...document,
         structures: document.structures.map((item) =>
-          item.conceptId === input.structureId ? next : item,
+          item.conceptId === input.structureId
+            ? next
+            : related.has(item.conceptId)
+              ? { ...item, editor: related.get(item.conceptId) }
+              : item,
         ),
       },
       get(modeSetsAtom),

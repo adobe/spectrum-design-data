@@ -1,6 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
   ActionButton,
+  ActionButtonGroup,
+  IconContext,
+  type IconContextValue,
   Button,
   Checkbox,
   DialogTrigger,
@@ -18,26 +21,46 @@ import {
   ButtonGroup,
   Dialog as SpectrumDialog,
 } from "@react-spectrum/s2";
-import { Dialog, useDragAndDrop } from "react-aria-components";
+import { Dialog, useContextProps, useDragAndDrop } from "react-aria-components";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Visibility from "@react-spectrum/s2/icons/Visibility";
 import VisibilityOff from "@react-spectrum/s2/icons/VisibilityOff";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PropertyBindingIcon } from "../../assets/svgs/PropertyBindingIcon";
 import { CategoryIcon } from "../../components/CategoryIcon";
 import { Picker } from "../../components/fields/Picker";
 import { popoverDialogStyles } from "../../components/popoverLayout";
 import { createBooleanProperty } from "../../features/option-groups/model";
 import { isLeaf } from "../../features/structures/children";
-import { ELEMENT_TYPES } from "../../features/structures/elements";
+import { elementLabel } from "../../features/structures/elements";
 import type { Structure } from "../../features/structures/model";
 import {
   structureEditor,
   type StructureEditorData,
   type VisibilityBinding,
 } from "../../features/structures/variants";
-import { reorderLayers } from "../../features/structures/variantOperations";
+import {
+  activeVariant,
+  reorderLayers,
+  updateOptionOverrides,
+} from "../../features/structures/variantOperations";
 import { hasCustomElementTargets } from "../../features/structures/elementResolution";
+import {
+  structureLayers,
+  structureLayerPreview,
+  findStructureLayer,
+  type StructureLayer,
+} from "../../features/structures/layers";
+import { useAtomValue, useSetAtom, useStore } from "jotai";
+import { structurePreviewsAtom } from "../../features/structures/documentState";
+import { updateStructureEditorAtom } from "../../features/structures/variantState";
+import {
+  editElementsAtom,
+  removeElementAtom,
+  restoreElementAtom,
+} from "../../features/structures/elementState";
+import { useNotify } from "../../components/notifications/notificationContext";
+import { withLayoutConfiguration } from "../../features/structures/configuration";
 
 interface StructureLayersProps {
   structure: Structure;
@@ -56,26 +79,311 @@ interface StructureLayersProps {
 
 export function StructureLayers(props: StructureLayersProps) {
   const { structure, order, selectedId, isReadOnly, report } = props;
-  const editor = structureEditor(structure);
+  const previews = useAtomValue(structurePreviewsAtom);
+  const updateEditor = useSetAtom(updateStructureEditorAtom);
+  const editElements = useSetAtom(editElementsAtom);
+  const notify = useNotify();
+  const store = useStore();
+  const layers = structureLayers(structure, props.catalog, previews);
+  const rootEditor = structureEditor(structure);
+  const rootPreview = structureLayerPreview(structure, previews);
+  const rootVariant = activeVariant(
+    structure,
+    rootPreview.activePropertyId,
+    rootPreview.options,
+  );
+  const expandedLayouts = (items: readonly StructureLayer[]): string[] =>
+    items.flatMap((layer) =>
+      layer.layout ? [layer.key, ...expandedLayouts(layer.children)] : [],
+    );
+  const [expanded, setExpanded] = useState(
+    new Set(["main-structure", ...expandedLayouts(layers)]),
+  );
+  useEffect(() => {
+    if (!selectedId) return;
+    const path = selectedId.split("/").filter(Boolean);
+    setExpanded(
+      (current) =>
+        new Set([
+          ...current,
+          "main-structure",
+          ...path
+            .slice(0, -1)
+            .map((_, index) =>
+              index === 0 ? path[0] : `/${path.slice(0, index + 1).join("/")}`,
+            ),
+        ]),
+    );
+  }, [selectedId]);
+  const renderLayer = (layer: StructureLayer) => {
+    const child = layer.child;
+    const owner = layer.owner;
+    const id = child.id;
+    const isRootChild = owner.conceptId === structure.conceptId;
+    const ownerEditor = structureEditor(owner);
+    const ownerPath = layer.path.slice(0, layer.path.lastIndexOf("/"));
+    const configuration = rootEditor.layouts?.[ownerPath];
+    const ownerPreview = structureLayerPreview(owner, previews);
+    const active = activeVariant(
+      owner,
+      ownerPreview.activePropertyId,
+      ownerPreview.options,
+    );
+    const visible = layer.configuration.visibility[id] !== false;
+    const change = (editor: StructureEditorData) => {
+      if (isRootChild) props.onChange(editor);
+      else updateEditor({ structureId: owner.conceptId, editor });
+    };
+    const bindingEditor = isRootChild
+      ? ownerEditor
+      : {
+          ...ownerEditor,
+          properties: [...rootEditor.properties, ...ownerEditor.properties],
+          visibilityBindings: {
+            ...ownerEditor.visibilityBindings,
+            ...configuration?.visibilityBindings,
+          },
+        };
+    const changeBinding = (editor: StructureEditorData) => {
+      if (isRootChild) return change(editor);
+      const binding = editor.visibilityBindings[id];
+      const newProperty = editor.properties.find(
+        (property) =>
+          !bindingEditor.properties.some((item) => item.id === property.id),
+      );
+      const parentBinding =
+        !!binding &&
+        (rootEditor.properties.some(
+          (property) => property.id === binding.propertyId,
+        ) ||
+          newProperty?.id === binding.propertyId);
+      const localBindings = { ...ownerEditor.visibilityBindings };
+      const parentBindings = { ...configuration?.visibilityBindings };
+      delete localBindings[id];
+      delete parentBindings[id];
+      if (binding) {
+        if (parentBinding) parentBindings[id] = binding;
+        else localBindings[id] = binding;
+      }
+      const localEditor = { ...ownerEditor, visibilityBindings: localBindings };
+      if (!configuration && !parentBinding) return change(localEditor);
+      updateEditor({
+        structureId: structure.conceptId,
+        editor: withLayoutConfiguration(
+          {
+            ...rootEditor,
+            properties: newProperty
+              ? [...rootEditor.properties, newProperty]
+              : rootEditor.properties,
+          },
+          ownerPath,
+          { ...configuration, visibilityBindings: parentBindings },
+        ),
+        relatedEditors: [{ structureId: owner.conceptId, editor: localEditor }],
+      });
+    };
+    const label = isLeaf(child)
+      ? elementLabel(child)
+      : (props.catalog.find((item) => item.conceptId === child.structureId)
+          ?.name ?? "Unavailable structure");
+    return (
+      <TreeViewItem key={layer.key} id={layer.key} textValue={label}>
+        <TreeViewItemContent>
+          <StructureLayerIcon
+            category={
+              isLeaf(layer.child) ? `element.${layer.child.kind}` : "structures"
+            }
+          />
+          <Text>{label}</Text>
+          {!isReadOnly && (
+            <ActionButtonGroup
+              size="M"
+              isQuiet
+              aria-label={`${label} layer actions`}
+            >
+              <ActionButton
+                UNSAFE_className="structureVisibilityAction"
+                aria-label={`${visible ? "Hide" : "Show"} ${label}`}
+                onPress={() => {
+                  if (isRootChild) props.onVisibility(id, !visible);
+                  else {
+                    try {
+                      if (rootVariant.option && !rootVariant.isDefault) {
+                        const override =
+                          configuration?.overrides?.[rootVariant.option.id];
+                        updateEditor({
+                          structureId: structure.conceptId,
+                          editor: withLayoutConfiguration(
+                            rootEditor,
+                            ownerPath,
+                            {
+                              ...configuration,
+                              overrides: {
+                                ...configuration?.overrides,
+                                [rootVariant.option.id]: {
+                                  ...override,
+                                  visibility: {
+                                    ...override?.visibility,
+                                    [id]: !visible,
+                                  },
+                                },
+                              },
+                            },
+                          ),
+                        });
+                        return;
+                      }
+                      const override =
+                        active.option && !active.isDefault
+                          ? (ownerEditor.overrides[active.option.id] ?? {})
+                          : null;
+                      change(
+                        override && active.option
+                          ? updateOptionOverrides(
+                              ownerEditor,
+                              active.option.id,
+                              {
+                                ...override,
+                                visibility: {
+                                  ...override.visibility,
+                                  [id]: !visible,
+                                },
+                              },
+                            )
+                          : {
+                              ...ownerEditor,
+                              visibility: {
+                                ...ownerEditor.visibility,
+                                [id]: !visible,
+                              },
+                            },
+                      );
+                    } catch (error) {
+                      report(error);
+                    }
+                  }
+                }}
+              >
+                {visible ? <VisibilityOff /> : <Visibility />}
+              </ActionButton>
+              <BooleanBindingButton
+                binding={bindingEditor.visibilityBindings[id]}
+                editor={bindingEditor}
+                onChange={changeBinding}
+                layerId={id}
+                report={report}
+              />
+              <DeleteLayerButton
+                label={label}
+                needsConfirmation={hasCustomElementTargets(owner, id)}
+                onDelete={(confirmed) => {
+                  if (isRootChild && !layer.layout)
+                    props.onDelete(id, confirmed);
+                  else
+                    notify.remove({
+                      kind: layer.layout ? "structure" : "structureElement",
+                      noun: layer.layout ? "Layout" : undefined,
+                      run: (store) =>
+                        store.set(removeElementAtom, {
+                          structureId: owner.conceptId,
+                          elementId: id,
+                          selectionId: layer.key,
+                          confirmed: true,
+                        }),
+                      undo: (removed) => store.set(restoreElementAtom, removed),
+                      confirmed,
+                    });
+                }}
+              />
+            </ActionButtonGroup>
+          )}
+        </TreeViewItemContent>
+        {layer.children.map(renderLayer)}
+      </TreeViewItem>
+    );
+  };
   const { dragAndDropHooks } = useDragAndDrop({
     isDisabled: isReadOnly,
     getItems: (keys) =>
       [...keys]
-        .filter((key) => order.includes(String(key)))
+        .filter((key) => !!findStructureLayer(layers, String(key)))
         .map((key) => ({ "text/plain": String(key) })),
     getAllowedDropOperations: () => ["move"],
     onReorder: (event) => {
       try {
-        if (event.target.dropPosition === "on")
+        const target = findStructureLayer(layers, String(event.target.key));
+        if (
+          event.target.dropPosition === "on" ||
+          !target ||
+          [...event.keys].some((key) => {
+            const moving = findStructureLayer(layers, String(key));
+            return (
+              !moving ||
+              moving.path.slice(0, moving.path.lastIndexOf("/")) !==
+                target.path.slice(0, target.path.lastIndexOf("/"))
+            );
+          })
+        )
           throw new Error("Layers can be reordered, but not nested.");
-        props.onOrder(
-          reorderLayers(
-            order,
-            new Set([...event.keys].map(String)),
-            String(event.target.key),
-            event.target.dropPosition,
+        const owner = target.owner;
+        const ownerPreview = structureLayerPreview(owner, previews);
+        const nextOrder = reorderLayers(
+          owner.conceptId === structure.conceptId
+            ? order
+            : target.configuration.order,
+          new Set(
+            [...event.keys].map(
+              (key) => findStructureLayer(layers, String(key))!.child.id,
+            ),
           ),
+          target.child.id,
+          event.target.dropPosition,
         );
+        if (owner.conceptId === structure.conceptId) props.onOrder(nextOrder);
+        else {
+          if (rootVariant.option && !rootVariant.isDefault) {
+            const path = target.path.slice(0, target.path.lastIndexOf("/"));
+            const configuration = rootEditor.layouts?.[path];
+            updateEditor({
+              structureId: structure.conceptId,
+              editor: withLayoutConfiguration(rootEditor, path, {
+                ...configuration,
+                overrides: {
+                  ...configuration?.overrides,
+                  [rootVariant.option.id]: {
+                    ...configuration?.overrides?.[rootVariant.option.id],
+                    order: nextOrder,
+                  },
+                },
+              }),
+            });
+            return;
+          }
+          const active = activeVariant(
+            owner,
+            ownerPreview.activePropertyId,
+            ownerPreview.options,
+          );
+          const editor = structureEditor(owner);
+          if (active.option && !active.isDefault)
+            updateEditor({
+              structureId: owner.conceptId,
+              editor: updateOptionOverrides(editor, active.option.id, {
+                ...editor.overrides[active.option.id],
+                order: nextOrder,
+              }),
+            });
+          else
+            editElements({
+              structureId: owner.conceptId,
+              elements: nextOrder.map((id) => {
+                const child = owner.elements?.find((item) => item.id === id);
+                if (!child)
+                  throw new Error("The reordered layer is unavailable.");
+                return child;
+              }),
+            });
+        }
       } catch (error) {
         report(error);
       }
@@ -87,7 +395,8 @@ export function StructureLayers(props: StructureLayersProps) {
       selectionMode="single"
       selectionStyle="highlight"
       selectedKeys={[selectedId ?? "main-structure"]}
-      defaultExpandedKeys={["main-structure"]}
+      expandedKeys={expanded}
+      onExpandedChange={(keys) => setExpanded(new Set([...keys].map(String)))}
       dragAndDropHooks={dragAndDropHooks}
       onSelectionChange={(keys) => {
         if (keys === "all") return;
@@ -97,60 +406,32 @@ export function StructureLayers(props: StructureLayersProps) {
     >
       <TreeViewItem id="main-structure" textValue="Main structure">
         <TreeViewItemContent>
-          <CategoryIcon category="structures" />
+          <StructureLayerIcon category="structures" />
           <Text>Main structure</Text>
         </TreeViewItemContent>
-        {order.map((id) => {
-          const child = structure.elements?.find((item) => item.id === id);
-          if (!child) return null;
-          const label = isLeaf(child)
-            ? ELEMENT_TYPES[child.kind].label
-            : (props.catalog.find(
-                (item) => item.conceptId === child.structureId,
-              )?.name ?? "Unavailable structure");
-          const visible = props.visibility[id] !== false;
-          return (
-            <TreeViewItem key={id} id={id} textValue={label}>
-              <TreeViewItemContent>
-                <CategoryIcon
-                  category={
-                    isLeaf(child) ? `element.${child.kind}` : "structures"
-                  }
-                />
-                <Text>{label}</Text>
-                {!isReadOnly && (
-                  <div slot="actions" className="structureLayerActions">
-                    <span className="structureVisibilityAction">
-                      <ActionButton
-                        size="S"
-                        isQuiet
-                        aria-label={`${visible ? "Hide" : "Show"} ${label}`}
-                        onPress={() => props.onVisibility(id, !visible)}
-                      >
-                        {visible ? <VisibilityOff /> : <Visibility />}
-                      </ActionButton>
-                    </span>
-                    <BooleanBindingButton
-                      binding={editor.visibilityBindings[id]}
-                      editor={editor}
-                      onChange={(next) => props.onChange(next)}
-                      layerId={id}
-                      report={report}
-                    />
-                    <DeleteLayerButton
-                      label={label}
-                      needsConfirmation={hasCustomElementTargets(structure, id)}
-                      onDelete={(confirmed) => props.onDelete(id, confirmed)}
-                    />
-                  </div>
-                )}
-              </TreeViewItemContent>
-            </TreeViewItem>
-          );
+        {order.flatMap((id) => {
+          const layer = layers.find((item) => item.child.id === id);
+          return layer ? [renderLayer(layer)] : [];
         })}
       </TreeViewItem>
     </TreeView>
   );
+}
+
+function StructureLayerIcon({ category }: { category: string }) {
+  const iconProps: IconContextValue = { slot: "icon" };
+  const [props] = useContextProps(
+    iconProps,
+    useRef<SVGElement>(null),
+    IconContext,
+  );
+  // Lazy-loaded icons may have a separate S2 context. Use the tree's icon slot.
+  const icon = (
+    <IconContext.Provider value={null}>
+      <CategoryIcon category={category} />
+    </IconContext.Provider>
+  );
+  return props.render ? props.render(icon) : icon;
 }
 
 function DeleteLayerButton({
@@ -164,7 +445,7 @@ function DeleteLayerButton({
 }) {
   const trigger = (
     <ActionButton
-      size="S"
+      size="M"
       isQuiet
       aria-label={`Delete ${label}`}
       onPress={needsConfirmation ? undefined : () => onDelete(false)}
@@ -176,7 +457,7 @@ function DeleteLayerButton({
   return (
     <DialogTrigger>
       {trigger}
-      <SpectrumDialog size="S">
+      <SpectrumDialog size="M">
         {({ close }) => (
           <>
             <Heading slot="title">Delete this element</Heading>
@@ -186,11 +467,11 @@ function DeleteLayerButton({
               its selections.
             </Content>
             <ButtonGroup>
-              <Button size="S" variant="secondary" onPress={close}>
+              <Button size="M" variant="secondary" onPress={close}>
                 Cancel
               </Button>
               <Button
-                size="S"
+                size="M"
                 variant="negative"
                 onPress={() => {
                   onDelete(true);
@@ -238,7 +519,7 @@ function BooleanBindingButton({
     <TooltipTrigger>
       <DialogTrigger>
         <ActionButton
-          size="S"
+          size="M"
           isQuiet
           aria-label="Bind to a show/hide option"
           UNSAFE_className={binding ? "structureBoundProperty" : undefined}
@@ -251,7 +532,7 @@ function BooleanBindingButton({
             className={popoverDialogStyles}
           >
             <Picker
-              size="S"
+              size="M"
               label="Boolean property"
               selectedKey={binding?.propertyId ?? null}
               onSelectionChange={(key) => {
@@ -271,7 +552,7 @@ function BooleanBindingButton({
                 ))}
             </Picker>
             <Checkbox
-              size="S"
+              size="M"
               isDisabled={!binding}
               isSelected={binding?.inverted ?? false}
               onChange={(inverted) => {
@@ -281,13 +562,13 @@ function BooleanBindingButton({
               Invert visibility
             </Checkbox>
             <TextField
-              size="S"
+              size="M"
               label="New boolean name"
               value={name}
               onChange={setName}
             />
             <Button
-              size="S"
+              size="M"
               variant="secondary"
               isDisabled={!name.trim()}
               onPress={() => {
@@ -311,7 +592,7 @@ function BooleanBindingButton({
             </Button>
             {binding && (
               <Button
-                size="S"
+                size="M"
                 variant="secondary"
                 onPress={() => {
                   bind(null);

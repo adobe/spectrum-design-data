@@ -4,9 +4,11 @@
   inset-inline-end: 16px;
   z-index: 2;
   width: 280px;
+  min-width: 280px;
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   box-sizing: border-box;
+  resize: horizontal;
 }
 
 .structureEditorFields {

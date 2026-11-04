@@ -11,6 +11,8 @@ import {
   isStructuresDocument,
   upgradeStructuresDocument,
   STRUCTURES_SCHEMA_VERSION,
+  assignStructure,
+  structureBindingId,
 } from "../src/features/structures/model";
 import {
   createElement,
@@ -27,7 +29,10 @@ import {
 import { STRUCTURE_TERM_IDS } from "../src/features/structures/vocabulary";
 import { hasCustomElementTargets } from "../src/features/structures/elementResolution";
 import { primitiveReferenceId } from "../src/features/tokens/primitiveIdentity";
-import { SIZE_TERM_IDS } from "../src/features/taxonomy/variantVocabulary";
+import {
+  SIZE_TERM_IDS,
+  VARIANT_CATEGORY_IDS,
+} from "../src/features/taxonomy/variantVocabulary";
 import type { TaxonomyDocument } from "../src/features/taxonomy/model";
 import {
   duplicateVariantOption,
@@ -141,6 +146,85 @@ assert.deepEqual(
   [icon.id, text.id],
 );
 assert.deepEqual(authored, before, "Resolution cannot mutate authored data.");
+const targeted = assignStructure(structuredClone(authored), {
+  paddingLeft: { $ref: primitiveReferenceId("spacing", "example", 0) },
+});
+const paddingId = structureBindingId(targeted.conceptId, "paddingLeft");
+const iconBindingId = elementBindingId(icon.id, "size");
+targeted.elements = [
+  text,
+  {
+    ...icon,
+    bindings: [
+      {
+        id: iconBindingId,
+        slot: "size",
+        family: "size",
+        $ref: primitiveReferenceId("size", "example", 0),
+      },
+    ],
+  },
+];
+targeted.generation!.nameRef = {
+  categoryId: VARIANT_CATEGORY_IDS.structure,
+  termId: crypto.randomUUID(),
+};
+targeted.generation!.applications = [
+  {
+    id: crypto.randomUUID(),
+    ruleId: "example",
+    targets: { kind: "custom", bindingIds: [paddingId] },
+    previewTargets: { kind: "custom", bindingIds: [iconBindingId] },
+  },
+];
+targeted.editor!.overrides[property.options[1].id].slots = {
+  paddingLeft: null,
+};
+const targetedBefore = structuredClone(targeted);
+const hiddenTargets = resolveStructureOptions(targeted, {
+  ...preview,
+  booleans: { [boolean.id]: false },
+}).structure;
+assert.deepEqual(hiddenTargets.generation!.applications[0].targets, {
+  kind: "custom",
+  bindingIds: [],
+});
+assert.deepEqual(hiddenTargets.generation!.applications[0].previewTargets, {
+  kind: "custom",
+  bindingIds: [],
+});
+assert.equal(
+  isStructuresDocument({
+    schemaVersion: STRUCTURES_SCHEMA_VERSION,
+    structures: [hiddenTargets],
+  }),
+  true,
+);
+assert.deepEqual(targeted, targetedBefore);
+delete targeted.generation!.applications[0].previewTargets;
+const legacyHidden = resolveStructureOptions(targeted, preview).structure;
+assert.equal(
+  isStructuresDocument({
+    schemaVersion: STRUCTURES_SCHEMA_VERSION,
+    structures: [legacyHidden],
+  }),
+  true,
+);
+assert.deepEqual(legacyHidden.generation!.applications[0].previewTargets, {
+  kind: "custom",
+  bindingIds: [],
+});
+const unavailableTarget = structureBindingId(targeted.conceptId, "minWidth");
+targeted.generation!.applications[0].targets = {
+  kind: "custom",
+  bindingIds: [unavailableTarget],
+};
+assert.deepEqual(
+  resolveStructureOptions(targeted, preview).structure.generation!
+    .applications[0].targets,
+  { kind: "custom", bindingIds: [unavailableTarget] },
+  "Already-invalid targets remain available for explicit validation errors.",
+);
 assert.deepEqual(
   resolveStructureOptions(authored, {
     ...preview,

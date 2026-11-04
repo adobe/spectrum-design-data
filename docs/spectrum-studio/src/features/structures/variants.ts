@@ -1,14 +1,17 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
   mergeClassifications,
+  hasVariantTokenNaming,
   type OptionProperty,
 } from "../option-groups/model";
 import {
   assignStructure,
   structureSelection,
+  structureGeneration,
   type Structure,
   type StructureSelection,
   type StructureSlot,
+  type StructureRuleApplication,
 } from "./model";
 import { isLeaf } from "./children";
 import type { StructureElement } from "./elements";
@@ -20,26 +23,37 @@ export interface VisibilityBinding {
 }
 export interface StructureOptionOverrides {
   slots?: Partial<Record<StructureSlot, StructureSelection | null>>;
+  sizes?: Partial<Record<StructureSlot, string>>;
   order?: string[];
-  visibility?: Record<string, boolean>;
-  elements?: Record<string, StructureElement>;
+  visibility?: { [childId: string]: boolean };
+  elements?: { [childId: string]: StructureElement };
+}
+export interface StructureLayoutConfiguration {
+  semanticIdentities?: VariantSemanticIdentities;
+  visibility?: { [childId: string]: boolean };
+  visibilityBindings?: { [childId: string]: VisibilityBinding };
+  overrides?: { [optionId: string]: StructureOptionOverrides };
 }
 export interface StructureEditorData {
+  layouts?: { [instancePath: string]: StructureLayoutConfiguration };
+  sizes?: Partial<Record<StructureSlot, string>>;
   semanticIdentities?: VariantSemanticIdentities;
   properties: OptionProperty[];
-  visibility: Record<string, boolean>;
-  visibilityBindings: Record<string, VisibilityBinding>;
-  overrides: Record<string, StructureOptionOverrides>;
+  visibility: { [childId: string]: boolean };
+  visibilityBindings: { [childId: string]: VisibilityBinding };
+  overrides: { [optionId: string]: StructureOptionOverrides };
 }
 export interface StructurePreviewState {
   activePropertyId: string | null;
   options: Record<string, string>;
   booleans: Record<string, boolean>;
+  indentationLevel: 0 | 1 | 2;
 }
 export const EMPTY_STRUCTURE_PREVIEW: StructurePreviewState = {
   activePropertyId: null,
   options: {},
   booleans: {},
+  indentationLevel: 0,
 };
 export const emptyStructureEditor = (): StructureEditorData => ({
   properties: [],
@@ -57,6 +71,20 @@ export function structureVariantIssues(structure: Structure): string[] {
   const names = new Set<string>();
   const children = new Set((structure.elements ?? []).map((child) => child.id));
   const options = new Set<string>();
+  const checkSizes = (sizes: StructureOptionOverrides["sizes"]) => {
+    for (const [key, termId] of Object.entries(sizes ?? {})) {
+      const selection = structureSelection(structure, key as StructureSlot);
+      if (
+        !selection ||
+        !("$ref" in selection) ||
+        !structureGeneration(structure).sizeTermIds.includes(termId)
+      )
+        issues.push(
+          "A binding size selection needs an available generated token and Size option.",
+        );
+    }
+  };
+  checkSizes(editor.sizes);
   for (const property of editor.properties) {
     if (ids.has(property.id))
       issues.push("Property identities must be unique.");
@@ -85,7 +113,10 @@ export function structureVariantIssues(structure: Structure): string[] {
             left.localeCompare(right),
           ),
         );
-        if (classifications.has(classification))
+        if (
+          Object.keys(option.classification).length &&
+          classifications.has(classification)
+        )
           issues.push(
             `${property.name}: choose distinct Registry assignments for each option.`,
           );
@@ -123,6 +154,7 @@ export function structureVariantIssues(structure: Structure): string[] {
       issues.push("Visibility targets a removed layer.");
   }
   for (const [id, override] of Object.entries(editor.overrides)) {
+    checkSizes(override.sizes);
     if (!options.has(id))
       issues.push("Differences reference an unavailable option.");
     if (
@@ -155,6 +187,8 @@ export function normalizeStructureEditorAfterReset(
   const overrides = Object.fromEntries(
     Object.entries(editor.overrides ?? {}).flatMap(([id, override]) => {
       const fields: StructureOptionOverrides = {
+        ...(override.sizes &&
+          Object.keys(override.sizes).length && { sizes: override.sizes }),
         ...(override.slots &&
           Object.keys(override.slots).length && { slots: override.slots }),
         ...(override.visibility &&
@@ -180,6 +214,8 @@ export function normalizeStructureEditorAfterReset(
   return normalized.properties.length ||
     Object.keys(normalized.visibility).length ||
     Object.keys(normalized.visibilityBindings).length ||
+    Object.keys(normalized.layouts ?? {}).length ||
+    Object.keys(normalized.sizes ?? {}).length ||
     Object.keys(overrides).length
     ? normalized
     : undefined;
@@ -193,11 +229,16 @@ export function resolveStructureOptions(
   issues: string[];
   visibility: Record<string, boolean>;
   order: string[];
+  sizes: Partial<Record<StructureSlot, string>>;
+  previewOnlySlots: StructureSlot[];
 } {
   const editor = structureEditor(structure);
   const issues = structureVariantIssues(structure);
   const writes = new Map<string, { value: unknown; owner: string }>();
   const slots: StructureOptionOverrides["slots"] = {};
+  const suppressed = new Set<StructureSlot>();
+  const sizes = { ...editor.sizes };
+  const previewOnlySlots = new Set<StructureSlot>();
   let order = (structure.elements ?? []).map((child) => child.id);
   const visibility = { ...editor.visibility };
   const elements = new Map(
@@ -231,9 +272,18 @@ export function resolveStructureOptions(
     const override = editor.overrides[id];
     if (!override) continue;
     const owner = `${property.name}: ${option.name}`;
-    for (const [slot, value] of Object.entries(override.slots ?? {}))
-      write(slot, value, owner, () => {
-        slots[slot as StructureSlot] = value;
+    for (const [key, value] of Object.entries(override.slots ?? {})) {
+      const slot = key as StructureSlot;
+      if (!hasVariantTokenNaming(property, option)) previewOnlySlots.add(slot);
+      if (value === null) suppressed.add(slot);
+      else
+        write(slot, value, owner, () => {
+          slots[slot] = value;
+        });
+    }
+    for (const [key, value] of Object.entries(override.sizes ?? {}))
+      write(`${key} size`, value, owner, () => {
+        sizes[key as StructureSlot] = value;
       });
     if (override.order)
       write("layer order", override.order, owner, () => {
@@ -248,7 +298,7 @@ export function resolveStructureOptions(
         (element) => element.id === childId,
       );
       if (!base || !isLeaf(base)) continue;
-      for (const key of ["bindings", "glyph", "orientation"] as const) {
+      for (const key of ["bindings", "glyph", "orientation", "name"] as const) {
         if (JSON.stringify(base[key]) !== JSON.stringify(element[key]))
           write(`${childId} ${key}`, element[key], owner, () => {
             const current = elements.get(childId);
@@ -267,19 +317,76 @@ export function resolveStructureOptions(
     visibility[childId] =
       visibility[childId] !== false && (binding.inverted ? !value : value);
   }
+  for (const slot of suppressed) slots[slot] = null;
   const resolved = assignStructure(structure, slots);
+  const visibleElements = order.flatMap((id) => {
+    const element = elements.get(id);
+    return element && visibility[id] !== false ? [element] : [];
+  });
+  const sourceIds = new Set([
+    ...structure.properties
+      .filter((binding) => "$ref" in binding)
+      .map((binding) => binding.id),
+    ...(structure.elements ?? []).flatMap((element) =>
+      isLeaf(element) ? element.bindings.map((binding) => binding.id) : [],
+    ),
+  ]);
+  const activeIds = new Set([
+    ...resolved.properties
+      .filter((binding) => "$ref" in binding)
+      .map((binding) => binding.id),
+    ...visibleElements.flatMap((element) =>
+      isLeaf(element) ? element.bindings.map((binding) => binding.id) : [],
+    ),
+  ]);
+  const activeTargets = (
+    targets: StructureRuleApplication["targets"],
+  ): StructureRuleApplication["targets"] =>
+    targets.kind === "all"
+      ? targets
+      : {
+          ...targets,
+          // Prune option-hidden targets, not already-broken authored references.
+          bindingIds: targets.bindingIds.filter(
+            (id) => !sourceIds.has(id) || activeIds.has(id),
+          ),
+        };
   return {
     structure: {
       ...resolved,
       editor: undefined,
-      elements: order.flatMap((id) => {
-        const element = elements.get(id);
-        return element && visibility[id] !== false ? [element] : [];
+      elements: visibleElements,
+      ...(resolved.generation && {
+        generation: {
+          ...resolved.generation,
+          applications: resolved.generation.applications.map((application) => {
+            const targets = activeTargets(application.targets);
+            return {
+              ...application,
+              targets,
+              ...(application.previewTargets
+                ? { previewTargets: activeTargets(application.previewTargets) }
+                : application.targets.kind === "custom" &&
+                    application.targets.bindingIds.length > 0 &&
+                    targets.kind === "custom" &&
+                    targets.bindingIds.length === 0
+                  ? {
+                      previewTargets: {
+                        kind: "custom" as const,
+                        bindingIds: [],
+                      },
+                    }
+                  : {}),
+            };
+          }),
+        },
       }),
     },
     issues,
     visibility,
     order,
+    sizes,
+    previewOnlySlots: [...previewOnlySlots],
   };
 }
 

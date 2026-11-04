@@ -19,6 +19,7 @@ export function StructureElementPreview({ resolved }: { resolved: ResolvedElemen
   const { element } = resolved;
   return <span className={`structureElementContent structureElement-${element.kind}`} style={resolved.styles} data-element-kind={element.kind}>
     {element.kind === "text" ? "Text" : element.kind === "visual" ? <img src={placeholder} alt="" />
+      : element.kind === "slot" ? <span className="structureSlotLabel">{element.name}</span>
       : element.kind === "bar" ? null : <Glyph name={element.glyph!} />}
   </span>;
 }

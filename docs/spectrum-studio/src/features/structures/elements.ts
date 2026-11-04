@@ -5,6 +5,7 @@ import type { PrimitiveReference } from "../tokens/primitiveReferences";
 import { taxonomyIdPattern, type TaxonomyDocument } from "../taxonomy/model";
 import { STRUCTURE_TERM_IDS } from "./vocabulary";
 import { isSpectrumIconName } from "../icons/spectrumIconNames.generated";
+import type { StructureNumberLiteral } from "./model";
 
 export const ELEMENT_CATEGORY_ID = "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa";
 export const ELEMENT_TYPES = {
@@ -40,15 +41,31 @@ export const ELEMENT_TYPES = {
     label: "Bar",
     slots: ["thickness", "length"],
   },
+  slot: {
+    termId: "cdd2a370-4d10-43ee-b902-7129bedb243e",
+    label: "Slot",
+    slots: [
+      "width",
+      "height",
+      "minWidth",
+      "minHeight",
+      "maxWidth",
+      "maxHeight",
+    ],
+  },
 } as const;
 export type ElementKind = keyof typeof ELEMENT_TYPES;
 export type ElementSlot = (typeof ELEMENT_TYPES)[ElementKind]["slots"][number];
-export interface ElementBinding {
+interface ElementBindingBase {
   id: string;
   slot: ElementSlot;
-  $ref: string;
   family: "size" | "typography";
 }
+export type ElementBinding = ElementBindingBase &
+  (
+    | { $ref: string; value?: never }
+    | { $ref?: never; value: StructureNumberLiteral }
+  );
 export interface StructureElement {
   id: string;
   kind: ElementKind;
@@ -56,7 +73,10 @@ export interface StructureElement {
   bindings: ElementBinding[];
   glyph?: string;
   orientation?: string;
+  name?: string;
 }
+export const elementLabel = (element: StructureElement) =>
+  element.kind === "slot" ? element.name! : ELEMENT_TYPES[element.kind].label;
 export const ELEMENT_SLOT_LABELS: Record<ElementSlot, string> = {
   fontSize: "Font size",
   lineHeight: "Line height",
@@ -77,6 +97,7 @@ export const UI_GLYPHS = [
   "ChevronRight",
   "Checkmark",
   "Close",
+  "DragHandle",
 ] as const;
 export const elementSlots = (kind: ElementKind): readonly ElementSlot[] =>
   ELEMENT_TYPES[kind].slots;
@@ -97,6 +118,7 @@ export function isStructureElement(value: unknown): value is StructureElement {
       "bindings",
       "glyph",
       "orientation",
+      "name",
     ]) ||
     typeof value.id !== "string" ||
     !taxonomyIdPattern.test(value.id) ||
@@ -107,6 +129,9 @@ export function isStructureElement(value: unknown): value is StructureElement {
     return false;
   const kind = value.kind as ElementKind;
   if (value.termId !== ELEMENT_TYPES[kind].termId) return false;
+  if (kind === "slot") {
+    if (typeof value.name !== "string" || !value.name.trim()) return false;
+  } else if (value.name !== undefined) return false;
   if (kind === "workflowIcon" || kind === "uiIcon") {
     if (
       !isSpectrumIconName(value.glyph) ||
@@ -125,15 +150,40 @@ export function isStructureElement(value: unknown): value is StructureElement {
   return value.bindings.every((binding) => {
     if (
       !record(binding) ||
-      !fields(binding, ["id", "slot", "$ref", "family"]) ||
+      !fields(binding, ["id", "slot", "$ref", "family", "value"]) ||
       !["size", "typography"].includes(String(binding.family)) ||
       typeof binding.slot !== "string" ||
       !elementSlots(kind).some((slot) => slot === binding.slot) ||
       slots.has(binding.slot) ||
       binding.id !==
-        elementBindingId(value.id as string, binding.slot as ElementSlot) ||
-      typeof binding.$ref !== "string" ||
-      !authoringReferencePattern.test(binding.$ref)
+        elementBindingId(value.id as string, binding.slot as ElementSlot)
+    )
+      return false;
+    const hasReference = typeof binding.$ref === "string";
+    if (hasReference === "value" in binding) return false;
+    if (
+      hasReference
+        ? !authoringReferencePattern.test(binding.$ref as string)
+        : !record(binding.value) ||
+          binding.value.kind !== "number" ||
+          !fields(binding.value, ["kind", "value", "unit"]) ||
+          typeof binding.value.value !== "number" ||
+          !Number.isFinite(binding.value.value) ||
+          binding.value.value < 0 ||
+          !["px", "multiplier"].includes(String(binding.value.unit)) ||
+          (binding.value.unit === "multiplier" &&
+            (binding.slot !== "lineHeight" ||
+              binding.family !== "typography")) ||
+          (binding.slot === "lineHeight" && binding.family !== "typography") ||
+          (binding.slot === "fontSize" && binding.family !== "typography") ||
+          (binding.slot !== "fontSize" &&
+            binding.slot !== "lineHeight" &&
+            binding.family !== "size" &&
+            !(
+              kind === "workflowIcon" &&
+              binding.slot === "size" &&
+              binding.family === "typography"
+            ))
     )
       return false;
     slots.add(binding.slot);
@@ -149,6 +199,7 @@ export function createElement(
     kind,
     termId: ELEMENT_TYPES[kind].termId,
     bindings: [],
+    ...(kind === "slot" && { name: "Slot" }),
     ...(kind === "workflowIcon"
       ? { glyph: "Home" }
       : kind === "uiIcon"
@@ -212,6 +263,7 @@ export function assertElementReferences(
 ) {
   for (const element of elements)
     for (const binding of element.bindings) {
+      if (!("$ref" in binding)) continue;
       const reference = references.find((item) => item.id === binding.$ref);
       if (
         !reference ||

@@ -13,10 +13,6 @@ import {
   formatTshirtName,
   assertTshirtGraph,
 } from "../src/features/design-data/tshirtProfile";
-import {
-  tshirtTokenImpactRecords,
-  tshirtTokenChanges,
-} from "../src/features/design-data/tshirtChanges";
 import { structureChanges } from "../src/features/structures/changes";
 import {
   isLeaf,
@@ -53,7 +49,6 @@ import {
   addStructureAtom,
   renameStructureAtom,
   removeStructureAtom,
-  setStructureTokenNamingAtom,
   structuresDocumentAtom,
 } from "../src/features/structures/state";
 import {
@@ -70,19 +65,30 @@ import {
 
 const snapshot = createDefaultSnapshot();
 assertStoredSnapshot(snapshot);
-const [base, text] = snapshot.structures!.structures;
+const [shippedBase, text] = snapshot.structures!.structures;
 assert.equal(snapshot.structures!.schemaVersion, STRUCTURES_SCHEMA_VERSION);
-assert.equal(snapshot.structures!.structures.length, 2);
+assert.equal(snapshot.structures!.structures.length, 10);
 assert.equal(text.name, "Text");
-assert.equal(base.elements?.length, 1);
-assert.deepEqual(base.elements![0], {
+const textReference = shippedBase.elements?.find(
+  (element) =>
+    isStructureInstance(element) && element.structureId === text.conceptId,
+);
+assert.ok(textReference && isStructureInstance(textReference));
+assert.deepEqual(textReference, {
   id: "c664f132-52a1-4f10-8017-7a6a07e3149a",
   kind: "structureReference",
   structureId: text.conceptId,
 });
-assert.equal(isStructureInstance(base.elements![0]), true);
+const base = shippedBase;
+const referenceBase = { ...base, elements: [textReference] };
+delete referenceBase.editor;
+for (const application of referenceBase.generation!.applications) {
+  if (application.previewTargets?.kind === "custom")
+    application.previewTargets.bindingIds = [];
+}
+assert.equal(isStructureInstance(textReference), true);
 assert.equal(
-  isStructureInstance({ ...base.elements![0], bindings: [] }),
+  isStructureInstance({ ...textReference, bindings: [] }),
   false,
   "Occurrences cannot store source overrides.",
 );
@@ -116,8 +122,8 @@ assert.deepEqual(
   [["text-size-100"], ["text-size-75"]],
 );
 const bundle = buildTshirtArtifacts(snapshot, "shipped");
-assertTshirtGraph(bundle.tokens);
-assert.equal(bundle.semantics.length, 20);
+assertTshirtGraph(bundle.tokens, undefined, ["2x-small", "2x-large"]);
+assert.equal(bundle.semantics.length, 97);
 const textRows = bundle.semantics.filter(
   (row) => row.structureId === text.conceptId,
 );
@@ -143,21 +149,54 @@ assert.ok(
 const legacy = structuredClone(snapshot);
 legacy.structures!.schemaVersion = 3;
 legacy.structures!.structures = [structuredClone(base)];
-legacy.structures!.structures[0].elements = [];
-legacy.structures!.structures[0].properties = base.properties.filter(
+const legacyBase = legacy.structures!.structures[0];
+legacyBase.elements = [];
+legacyBase.editor = {
+  ...legacyBase.editor!,
+  visibility: {},
+  visibilityBindings: {},
+  overrides: Object.fromEntries(
+    Object.entries(legacyBase.editor!.overrides).map(([id, override]) => [
+      id,
+      override.slots
+        ? {
+            slots: Object.fromEntries(
+              Object.entries(override.slots).filter(
+                ([slot]) => slot !== "direction",
+              ),
+            ),
+          }
+        : {},
+    ]),
+  ),
+};
+for (const application of legacyBase.generation!.applications) {
+  if (application.previewTargets?.kind === "custom")
+    application.previewTargets.bindingIds = [];
+}
+legacyBase.properties = base.properties.filter(
   (binding) => binding !== structureBinding(base, "direction"),
 );
 legacy.taxonomy!.terms = legacy.taxonomy!.terms.filter(
   (term) => term.id !== terms.direction,
 );
-const legacyBundle = buildTshirtArtifacts(legacy, "shipped");
-assert.equal(legacyBundle.semantics.length, 15);
-assert.deepEqual(
-  bundle.semantics.filter((row) => row.structureId === base.conceptId),
-  legacyBundle.semantics,
-);
 const upgraded = upgradeStructureCompositionSnapshot(legacy, 10);
 assertStoredSnapshot(upgraded);
+const upgradedBundle = buildTshirtArtifacts(upgraded, "shipped");
+assert.equal(upgradedBundle.semantics.length, 25);
+assert.deepEqual(
+  bundle.semantics.filter(
+    (row) => row.structureId === base.conceptId && !row.token.name.element,
+  ),
+  upgradedBundle.semantics,
+);
+assert.equal(
+  bundle.semantics.filter(
+    (row) => row.structureId === base.conceptId && !!row.token.name.element,
+  ).length,
+  10,
+  "Default leaf outputs are additive to legacy rule-anchor semantics.",
+);
 assert.equal(
   upgraded.structures!.structures.length,
   1,
@@ -170,8 +209,8 @@ assert.deepEqual(
 );
 
 const composed = resolveComposition(
-  base,
-  [base, text],
+  referenceBase,
+  [referenceBase, text],
   references,
   snapshot.rules!,
   bundle,
@@ -194,16 +233,16 @@ const constrained = assignStructure(text, {
 });
 assert.ok(
   resolveComposition(
-    base,
-    [base, constrained],
+    referenceBase,
+    [referenceBase, constrained],
     references,
     snapshot.rules!,
     bundle,
   ).issues.length,
 );
 const measured = resolveComposition(
-  base,
-  [base, constrained],
+  referenceBase,
+  [referenceBase, constrained],
   references,
   snapshot.rules!,
   bundle,
@@ -211,7 +250,7 @@ const measured = resolveComposition(
   "m",
   undefined,
   {
-    [`/${base.elements![0].id}`]: {
+    [`/${textReference.id}`]: {
       availableWidth: 200,
       availableHeight: 100,
       naturalWidth: 32,
@@ -224,8 +263,8 @@ assert.ok("composition" in measured.children[0]);
 assert.equal(measured.children[0].composition.resolved.styles.minWidth, 32);
 assert.equal(measured.children[0].composition.resolved.styles.maxWidth, 200);
 const failed = resolveCompositionResult(
-  base,
-  [base],
+  referenceBase,
+  [referenceBase],
   references,
   snapshot.rules!,
   bundle,
@@ -241,8 +280,8 @@ const sparse = {
 };
 assert.equal(supportedStructureSize(sparse, "s"), "m");
 const sparseComposition = resolveComposition(
-  base,
-  [base, sparse],
+  referenceBase,
+  [referenceBase, sparse],
   references,
   snapshot.rules!,
   bundle,
@@ -318,10 +357,15 @@ const differentRules = structuredClone(snapshot);
 differentRules.rules!.push(parentRule);
 differentRules.structures!.structures[0].generation!.applications[0].ruleId =
   parentRule.id;
+const differentBase = {
+  ...differentRules.structures!.structures[0],
+  elements: [textReference],
+};
+delete differentBase.editor;
 const differentBundle = buildTshirtArtifacts(differentRules);
 const sourceSized = resolveComposition(
-  differentRules.structures!.structures[0],
-  differentRules.structures!.structures,
+  differentBase,
+  [differentBase, text],
   references,
   differentRules.rules!,
   differentBundle,
@@ -329,8 +373,8 @@ const sourceSized = resolveComposition(
   "s",
 );
 const originalSized = resolveComposition(
-  base,
-  [base, text],
+  referenceBase,
+  [referenceBase, text],
   references,
   snapshot.rules!,
   bundle,
@@ -346,8 +390,8 @@ assert.deepEqual(
   originalSized.children[0].composition,
   "A parent's different rule never rescales its referenced source.",
 );
-assert.equal(originalSized.resolved.styles.gap, 5);
-assert.equal(sourceSized.resolved.styles.gap, 8);
+assert.equal(originalSized.resolved.styles.gap, 4);
+assert.equal(sourceSized.resolved.styles.gap, 4);
 const pair = createStructure("Pair", "d0000000-0000-4000-8000-000000000501");
 pair.generation!.sizeTermIds = Object.values(SIZE_TERM_IDS);
 pair.elements = [
@@ -362,25 +406,33 @@ pair.elements = [
     structureId: text.conceptId,
   },
 ];
-const nested = {
-  ...base,
-  elements: [
-    {
-      ...base.elements![0],
-      kind: "structureReference" as const,
-      structureId: pair.conceptId,
-    },
-  ],
-};
 const nestedSource = {
   ...snapshot,
-  structures: { ...snapshot.structures!, structures: [nested, pair, text] },
+  structures: { ...snapshot.structures!, structures: [base, pair, text] },
 };
 assertStoredSnapshot(nestedSource);
-assert.deepEqual(buildTshirtArtifacts(nestedSource).tokens, bundle.tokens);
+const baseTextBundle = buildTshirtArtifacts({
+  ...snapshot,
+  structures: { ...snapshot.structures!, structures: [base, text] },
+});
+assert.deepEqual(
+  buildTshirtArtifacts(nestedSource).tokens,
+  baseTextBundle.tokens,
+  "Adding a Structure that references Text does not change Base and Text output.",
+);
 const nestedComposition = resolveComposition(
-  nested,
-  [nested, pair, text],
+  {
+    ...referenceBase,
+    elements: [{ ...textReference, structureId: pair.conceptId }],
+  },
+  [
+    {
+      ...referenceBase,
+      elements: [{ ...textReference, structureId: pair.conceptId }],
+    },
+    pair,
+    text,
+  ],
   references,
   snapshot.rules!,
   bundle,
@@ -398,29 +450,37 @@ store.set(renameStructureAtom, {
   id: text.conceptId,
   name: "Readable Text label",
 });
-assert.deepEqual(store.get(taxonomyDocumentAtom), beforeRegistry);
 const renamed = buildTshirtArtifacts({
   ...snapshot,
   structures: store.get(structuresDocumentAtom),
+  taxonomy: store.get(taxonomyDocumentAtom),
 });
-assert.deepEqual(renamed.tokens, bundle.tokens);
-assert.deepEqual(tshirtTokenChanges(bundle, renamed), []);
+const renamedText = store
+  .get(structuresDocumentAtom)
+  .structures.find((item) => item.conceptId === text.conceptId)!;
+const renamedTerm = store
+  .get(taxonomyDocumentAtom)
+  .terms.find(
+    (term) => term.id === structureGeneration(renamedText).nameRef!.termId,
+  )!;
+assert.equal(renamedTerm.value, "readable text label");
+assert.notDeepEqual(renamed.tokens, bundle.tokens);
 assert.ok(
-  tshirtTokenImpactRecords(renamed, bundle).every(
-    (row) =>
-      !row.nameChanged &&
-      !row.metadataChanged &&
-      !row.referenceChanged &&
-      row.modeValues.every((value) => !value.changed),
-  ),
+  renamed.semantics
+    .filter((row) => row.structureId === text.conceptId)
+    .every((row) =>
+      formatTshirtName(row.token.name).includes("readable-text-label"),
+    ),
 );
-assert.equal(
+assert.deepEqual(
   structureChanges(
     store.get(structuresDocumentAtom),
     beforeRegistry,
     snapshot.structures!,
-  ).length,
-  1,
+  )
+    .find((change) => change.conceptId === text.conceptId)
+    ?.fields.map((field) => field.key),
+  ["Name"],
 );
 assert.throws(
   () => store.set(removeStructureAtom, text.conceptId),
@@ -435,8 +495,9 @@ assert.deepEqual(
   buildTshirtArtifacts({
     ...snapshot,
     structures: store.get(structuresDocumentAtom),
+    taxonomy: store.get(taxonomyDocumentAtom),
   }).tokens,
-  bundle.tokens,
+  renamed.tokens,
 );
 assert.throws(
   () =>
@@ -481,17 +542,9 @@ assert.equal(
   store.get(structuresDocumentAtom).structures[0].elements![1].id,
   instanceId,
 );
-assert.throws(
-  () =>
-    store.set(setStructureTokenNamingAtom, {
-      structureId: text.conceptId,
-      createName: "Text",
-    }),
-  /already|owned|unique|conflict/i,
-);
-store.set(setStructureTokenNamingAtom, {
-  structureId: text.conceptId,
-  createName: "Readable content",
+store.set(renameStructureAtom, {
+  id: text.conceptId,
+  name: "Readable content",
 });
 assert.ok(
   structureChanges(
@@ -500,13 +553,13 @@ assert.ok(
     snapshot.structures!,
   )
     .find((item) => item.id === text.conceptId)!
-    .fields.some((field) => field.key === "Token naming"),
+    .fields.some((field) => field.key === "Name"),
 );
 assert.equal(
   store
     .get(taxonomyDocumentAtom)
     .terms.find((term) => term.id === ELEMENT_TYPES.text.termId)!.value,
-  "Text",
+  "text",
 );
 assert.ok(
   buildTshirtArtifacts({
@@ -519,14 +572,6 @@ assert.ok(
       formatTshirtName(row.token.name).startsWith("readable-content-gap-"),
     ),
 );
-assert.throws(
-  () =>
-    store.set(setStructureTokenNamingAtom, {
-      structureId: text.conceptId,
-      termId: null,
-    }),
-  /Invalid Structures/,
-);
 const reverting = createStore();
 reverting.set(enterEditModeAtom);
 const sourceId = reverting.set(addStructureAtom);
@@ -538,7 +583,7 @@ reverting.set(insertStructureInstanceAtom, {
 const sourceChange = reverting
   .get(changeGroupsAtom)
   .find((group) => group.id === "structures")!
-  .items.find((item) => item.id === sourceId)!;
+  .items.find((item) => item.id.includes(sourceId))!;
 const beforeRevert = structuredClone(reverting.get(authoringSnapshotAtom));
 assert.throws(
   () => reverting.set(revertChangeItemAtom, sourceChange),

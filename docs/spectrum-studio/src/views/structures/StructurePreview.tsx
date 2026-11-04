@@ -6,6 +6,7 @@ import type { resolveStructure } from "../../features/structures/resolution";
 import type { ResolvedElement } from "../../features/structures/elementResolution";
 import {
   ELEMENT_TYPES,
+  elementLabel,
   type ElementKind,
 } from "../../features/structures/elements";
 import type { TaxonomyDocument } from "../../features/taxonomy/model";
@@ -47,6 +48,11 @@ function ChildContent({
   );
 }
 
+export interface LayoutInsertionContext {
+  structureId: string;
+  path: string;
+}
+
 export interface StructurePreviewProps {
   name: string;
   resolved: ReturnType<typeof resolveStructure>;
@@ -60,6 +66,7 @@ export interface StructurePreviewProps {
     kind: ElementKind,
     index: number,
     expected: StructureInsertionContext,
+    layout?: LayoutInsertionContext,
   ) => void;
   composition?: ResolvedComposition;
   structures?: readonly Structure[];
@@ -67,7 +74,14 @@ export interface StructurePreviewProps {
     id: string,
     index: number,
     expected: StructureInsertionContext,
+    layout?: LayoutInsertionContext,
   ) => void;
+  onInsertLayout?: (
+    index: number,
+    expected: StructureInsertionContext,
+    layout?: LayoutInsertionContext,
+  ) => void;
+  layout?: LayoutInsertionContext & { key: string };
 }
 export function StructurePreview({
   name,
@@ -82,6 +96,8 @@ export function StructurePreview({
   composition,
   structures,
   onInsertStructure,
+  onInsertLayout,
+  layout,
 }: StructurePreviewProps) {
   const frame = useRef<HTMLDivElement | null>(null);
   const [boundaries, setBoundaries] = useState<number[]>([0]);
@@ -116,18 +132,22 @@ export function StructurePreview({
       ].map((item) => item.getBoundingClientRect());
       const start = column ? "top" : "left",
         end = column ? "bottom" : "right";
+      const scale = column
+        ? box.height / root.offsetHeight
+        : box.width / root.offsetWidth;
       const points = children.length
         ? [
-            children[0][start] - box[start] - 4,
+            (children[0][start] - box[start]) / scale - 4,
             ...children
               .slice(1)
               .map(
                 (child, index) =>
-                  (children[index][end] + child[start]) / 2 - box[start],
+                  ((children[index][end] + child[start]) / 2 - box[start]) /
+                  scale,
               ),
-            children[children.length - 1][end] - box[start] + 4,
+            (children[children.length - 1][end] - box[start]) / scale + 4,
           ]
-        : [(column ? box.height : box.width) / 2];
+        : [(column ? root.clientHeight : root.clientWidth) / 2];
       setBoundaries((previous) =>
         JSON.stringify(previous) === JSON.stringify(points) ? previous : points,
       );
@@ -159,12 +179,19 @@ export function StructurePreview({
         if (typeof measurementRef === "function") measurementRef(node);
         else if (measurementRef) measurementRef.current = node;
       }}
-      className={`structurePreview${isMeasurement ? " structurePreviewMeasurement" : ""}`}
+      className={`${layout ? "structureModule structureLayoutPreview" : "structurePreview"}${isMeasurement ? " structurePreviewMeasurement" : ""}`}
       style={isMeasurement ? resolved.intrinsicStyles : resolved.styles}
       aria-hidden={isMeasurement || undefined}
       inert={isMeasurement || undefined}
       role={isMeasurement ? undefined : interactive ? "group" : "img"}
-      aria-label={isMeasurement ? undefined : `${name} structure preview`}
+      aria-label={
+        isMeasurement
+          ? undefined
+          : `${name} ${layout ? "layout" : "structure"} preview`
+      }
+      data-instance-path={layout?.path}
+      data-structure-id={layout?.structureId}
+      data-selected={(layout && selectedElementId === layout.key) || undefined}
       tabIndex={interactive ? 0 : undefined}
       data-empty={!children.length || undefined}
       data-editable={!!onInsert || undefined}
@@ -185,7 +212,8 @@ export function StructurePreview({
       onClick={
         interactive
           ? (event) => {
-              if (event.target === event.currentTarget) onSelectElement?.(null);
+              if (event.target === event.currentTarget)
+                onSelectElement?.(layout?.key ?? null);
             }
           : undefined
       }
@@ -198,7 +226,8 @@ export function StructurePreview({
                   (event.key === "Enter" || event.key === " "))
               ) {
                 event.preventDefault();
-                onSelectElement?.(null);
+                event.stopPropagation();
+                onSelectElement?.(layout?.key ?? null);
                 event.currentTarget.focus();
               }
             }
@@ -209,9 +238,13 @@ export function StructurePreview({
           ? (event) => {
               if (menuOpen) return;
               const box = event.currentTarget.getBoundingClientRect();
-              const x = column
+              const distance = column
                 ? event.clientY - box.top
                 : event.clientX - box.left;
+              const scale = column
+                ? box.height / event.currentTarget.offsetHeight
+                : box.width / event.currentTarget.offsetWidth;
+              const x = distance / scale;
               setPointerOverElement(
                 [
                   ...event.currentTarget.querySelectorAll<HTMLElement>(
@@ -246,22 +279,56 @@ export function StructurePreview({
     >
       {children.map((child, index) => {
         const id = "instance" in child ? child.instance.id : child.element.id;
+        const path = `${layout?.path ?? ""}/${id}`;
+        const selectionKey = layout ? path : id;
         const label =
           "composition" in child
             ? `${child.composition.structure.name} Structure instance ${index + 1}`
-            : `${taxonomy?.terms.find((term) => term.id === child.element.termId)?.value ?? ELEMENT_TYPES[child.element.kind].label} element ${index + 1}`;
-        return interactive ? (
+            : `${child.element.kind === "slot" ? elementLabel(child.element) : (taxonomy?.terms.find((term) => term.id === child.element.termId)?.value ?? ELEMENT_TYPES[child.element.kind].label)} element ${index + 1}`;
+        const owned =
+          "composition" in child &&
+          child.composition.structure.parentStructureId ===
+            composition?.structure.conceptId;
+        return interactive && owned ? (
+          <span
+            key={id}
+            className="structureElementSelection"
+            data-element-id={id}
+          >
+            {"composition" in child && (
+              <StructurePreview
+                name={child.composition.structure.name}
+                resolved={child.composition.resolved}
+                composition={child.composition}
+                taxonomy={taxonomy}
+                selectedElementId={selectedElementId}
+                onSelectElement={onSelectElement}
+                onInsert={onInsert}
+                onInsertLayout={onInsertLayout}
+                onInsertStructure={onInsertStructure}
+                structures={structures?.filter(
+                  (structure) => !structure.parentStructureId,
+                )}
+                layout={{
+                  structureId: child.composition.structure.conceptId,
+                  path,
+                  key: selectionKey,
+                }}
+              />
+            )}
+          </span>
+        ) : interactive ? (
           <AriaButton
             key={id}
             className="structureElementSelection"
             data-element-id={id}
-            data-selected={selectedElementId === id || undefined}
+            data-selected={selectedElementId === selectionKey || undefined}
             aria-label={label}
-            aria-pressed={selectedElementId === id}
-            onPress={() => onSelectElement?.(id)}
-            onFocus={() => onSelectElement?.(id)}
+            aria-pressed={selectedElementId === selectionKey}
+            onPress={() => onSelectElement?.(selectionKey)}
+            onFocus={() => onSelectElement?.(selectionKey)}
           >
-            <ChildContent child={child} />
+            <ChildContent child={child} path={layout?.path} />
           </AriaButton>
         ) : (
           <span
@@ -290,13 +357,19 @@ export function StructurePreview({
               taxonomy={taxonomy}
               isOpen={menuOpen && openMenu?.index === index}
               onInsert={(kind, position) =>
-                onInsert(kind, position, insertionContext)
+                onInsert(kind, position, insertionContext, layout)
               }
               structures={structures}
               onInsertStructure={
                 onInsertStructure
                   ? (id, position) =>
-                      onInsertStructure(id, position, insertionContext)
+                      onInsertStructure(id, position, insertionContext, layout)
+                  : undefined
+              }
+              onInsertLayout={
+                onInsertLayout
+                  ? (position) =>
+                      onInsertLayout(position, insertionContext, layout)
                   : undefined
               }
               onOpenChange={(open) => {
