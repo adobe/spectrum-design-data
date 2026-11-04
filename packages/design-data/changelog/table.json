@@ -9,7 +9,7 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-08-24",
-      "commit": "4338aa65262f3a8b9b84a64aa6478611d37e41ed",
+      "commit": "efa7a6bab4219eab3fa6cc1cbb991f09461bcc80",
       "commits": [
         {
           "commit": "0b2d328b9dbfe7adf3cb762853faa15a4ba92dd0",
@@ -26,7 +26,7 @@
       "version": "1.0.2",
       "bump": "patch",
       "date": "2026-09-03",
-      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
       "commits": [
         {
           "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
@@ -52,10 +52,10 @@
             {"id":"5e22a7a1-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail."],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.","name":"space-between","fields":[{"path":"$ref","before":"205f0c77-6588-4cc7-927f-3ba767200bac","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
             {"id":"5e22a7a1-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (checkbox to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (checkbox to text)","name":"space-between","fields":[{"path":"$ref","before":"400553db-907c-43a5-8545-92ba212e12b8","after":"15ffb38e-341b-4c47-a6b3-c197e05afffe"}]},
             {"id":"5e22a7a1-18","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (checkbox to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (checkbox to text)","name":"space-between","fields":[{"path":"$ref","before":"cb7c89c0-9f31-43c4-8427-2e048f549ff7","after":"15ffb38e-341b-4c47-a6b3-c197e05afffe"}]},
-            {"id":"5e22a7a1-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"578765e6-b2ec-4bfe-ae28-f24cbee15898","after":"42473d6e-5f40-46c7-9bbc-302e355ae6ae"}]},
-            {"id":"5e22a7a1-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"2e168a2b-46aa-453f-9ca1-746485216c84","after":"42473d6e-5f40-46c7-9bbc-302e355ae6ae"}]},
-            {"id":"5e22a7a1-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"0b12ff10-52e2-4084-9f1b-ee7bc0b50576","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
-            {"id":"5e22a7a1-22","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"84f00d87-c0ea-42fd-8477-9fff028bf79c","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"578765e6-b2ec-4bfe-ae28-f24cbee15898","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"2e168a2b-46aa-453f-9ca1-746485216c84","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"0b12ff10-52e2-4084-9f1b-ee7bc0b50576","after":"42473d6e-5f40-46c7-9bbc-302e355ae6ae"}]},
+            {"id":"5e22a7a1-22","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 11px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 8px, mobile 11px;","name":"space-between","fields":[{"path":"$ref","before":"84f00d87-c0ea-42fd-8477-9fff028bf79c","after":"42473d6e-5f40-46c7-9bbc-302e355ae6ae"}]},
             {"id":"5e22a7a1-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 12px, mobile 16px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 12px, mobile 16px;","name":"space-between","fields":[{"path":"$ref","before":"be965b15-08f8-43be-9953-52151d8c7670","after":"15ffb38e-341b-4c47-a6b3-c197e05afffe"}]},
             {"id":"5e22a7a1-24","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 12px, mobile 16px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 12px, mobile 16px;","name":"space-between","fields":[{"path":"$ref","before":"2ae09505-d43f-4e2c-b8a6-014ccfef5c10","after":"15ffb38e-341b-4c47-a6b3-c197e05afffe"}]},
             {"id":"5e22a7a1-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Note: desktop 16px, mobile 21px;"],"scope":{"property":"space-between","options":null},"record":"space-between#Note: desktop 16px, mobile 21px;","name":"space-between","fields":[{"path":"$ref","before":"c8a04cab-bfad-4b82-94dc-6c2b4160c7cb","after":"a775a186-802e-4256-947c-7fda3ac53caa"}]},
@@ -73,7 +73,7 @@
       "version": "1.0.3",
       "bump": "patch",
       "date": "2026-09-08",
-      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
       "commits": [
         {
           "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
@@ -89,7 +89,7 @@
       "version": "1.0.4",
       "bump": "patch",
       "date": "2026-09-14",
-      "commit": "05c64ff95a62826179e8e0921d3934f636346f27",
+      "commit": "d88be4e0204abb31d9f02ce680acd0fe478057a7",
       "commits": [
         {
           "commit": "d88be4e0204abb31d9f02ce680acd0fe478057a7",
@@ -106,7 +106,7 @@
       "version": "1.1.0",
       "bump": "minor",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",

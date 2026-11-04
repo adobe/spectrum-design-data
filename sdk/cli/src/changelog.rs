@@ -175,12 +175,14 @@ pub fn run(args: Args) -> miette::Result<ExitCode> {
             }
             let commit = rev(tag)?;
             if let Some(i) = position(&commit) {
+                // A release records the last commit before its Version Packages commit.
+                let release_commit = rev(&format!("{tag}^"))?;
                 cuts.push((
                     i,
                     Cut {
                         label,
                         date: cut_date(&commit)?,
-                        commit,
+                        commit: release_commit,
                     },
                 ));
             }
@@ -194,7 +196,7 @@ pub fn run(args: Args) -> miette::Result<ExitCode> {
         (None, to, None) => Some(release_label(to)),
     };
     if let Some(label) = tail_label {
-        if cuts.last().is_none_or(|(_, c)| c.commit != head) {
+        if cuts.last().is_none_or(|(i, _)| *i + 1 != order.len()) {
             cuts.push((
                 order.len().saturating_sub(1),
                 Cut {

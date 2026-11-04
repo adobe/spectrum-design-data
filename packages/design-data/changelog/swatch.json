@@ -9,7 +9,7 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-09-03",
-      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
       "commits": [
         {
           "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
@@ -26,7 +26,7 @@
       "version": "1.0.2",
       "bump": "patch",
       "date": "2026-09-08",
-      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
       "commits": [
         {
           "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
@@ -42,7 +42,7 @@
       "version": "1.0.3",
       "bump": "patch",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
@@ -65,7 +65,7 @@
       "version": "1.0.4",
       "bump": "patch",
       "date": "2026-10-16",
-      "commit": "0886a1692f3d73d38a8f0fbc431e91658b8e5813",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
       "commits": [
         {
           "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",

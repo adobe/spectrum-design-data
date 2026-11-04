@@ -9,7 +9,7 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-09-30",
-      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
       "commits": [
         {
           "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
@@ -25,7 +25,7 @@
       "version": "1.1.0",
       "bump": "minor",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",

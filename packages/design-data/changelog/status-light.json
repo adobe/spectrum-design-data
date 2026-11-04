@@ -9,25 +9,25 @@
       "version": "1.0.1",
       "bump": "patch",
       "date": "2026-09-03",
-      "commit": "6d1892a74dfa5fe9819fdd3d7d6893b08318b244",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
       "commits": [
         {
           "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
           "date": "2026-09-03",
           "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
           "entries": [
-            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"ea98b9b0-20b5-4f19-aa4f-375559b1362a","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
-            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"752a84f5-cbb7-4d18-85ca-fc913a061bb5","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
-            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"d3e53f14-b91e-4d10-8508-17360ae5620e","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
-            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"ee780be7-b32c-4da8-a6bc-fc0897799537","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
-            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"ddece3b1-7f85-4c08-b783-5bde8e31f480","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
-            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
-            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"e2aa334e-ebb7-4e5f-a735-4f6a43b2d6cf","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
-            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"321a462b-8811-4264-ac1f-4608df8f8c53","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
-            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"ead22722-10f9-4cfe-a387-65f5d86ca520","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
-            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"8d9d872f-7c55-4a94-a80d-c1f2c8834f5d","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
-            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"899c7b7c-7405-4e29-8d42-edf41ca2943f","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
-            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"b351cade-6d69-449e-908a-518793fef5b9","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"ea98b9b0-20b5-4f19-aa4f-375559b1362a","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"752a84f5-cbb7-4d18-85ca-fc913a061bb5","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"d3e53f14-b91e-4d10-8508-17360ae5620e","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (dot to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (dot to label) ","name":"space-between","fields":[{"path":"$ref","before":"ee780be7-b32c-4da8-a6bc-fc0897799537","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"ddece3b1-7f85-4c08-b783-5bde8e31f480","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"e2aa334e-ebb7-4e5f-a735-4f6a43b2d6cf","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"321a462b-8811-4264-ac1f-4608df8f8c53","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"ead22722-10f9-4cfe-a387-65f5d86ca520","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"8d9d872f-7c55-4a94-a80d-c1f2c8834f5d","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"899c7b7c-7405-4e29-8d42-edf41ca2943f","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
+            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top edge to dot) ","name":"space-between","fields":[{"path":"$ref","before":"b351cade-6d69-449e-908a-518793fef5b9","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
             {"id":"5e22a7a1-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to label)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
             {"id":"5e22a7a1-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to label)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
             {"id":"5e22a7a1-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom edge to label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
@@ -53,7 +53,7 @@
       "version": "1.0.2",
       "bump": "patch",
       "date": "2026-09-08",
-      "commit": "284fe0dba6da9932c454eaee20bbbb04272d4433",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
       "commits": [
         {
           "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
@@ -69,7 +69,7 @@
       "version": "1.0.3",
       "bump": "patch",
       "date": "2026-09-30",
-      "commit": "fdb29c3027de60713f6f0f98520fc0879fa408c5",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
       "commits": [
         {
           "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
@@ -85,7 +85,7 @@
       "version": "1.0.4",
       "bump": "patch",
       "date": "2026-10-01",
-      "commit": "61c5e6769e60980caf58c544b508ab2e610958b4",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
       "commits": [
         {
           "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",

@@ -145,3 +145,60 @@ fn appends_releases_and_never_rewrites_one() {
     let commits = rels.last().unwrap()["commits"].as_array().unwrap().len();
     assert_eq!(commits, 1);
 }
+
+#[test]
+fn backfill_is_reproducible_and_records_the_commit_before_version_packages() {
+    let dir = tempfile::tempdir().unwrap();
+    let d = dir.path();
+    git(d, &["init", "-q", "-b", "main"]);
+    let base =
+        json!({"name": "c", "options": {"size": {"values": [{"value": "s"}, {"value": "m"}]}}});
+    commit(d, &base, "init");
+    git(d, &["tag", "v1.0.0"]);
+    let mut v2 = base.clone();
+    v2["options"]["size"]["values"] = json!([{"value": "s"}]);
+    commit(d, &v2, "fix: drop m (#7)");
+    let before_release = String::from_utf8(
+        std::process::Command::new("git")
+            .arg("-C")
+            .arg(d)
+            .args(["rev-parse", "HEAD"])
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    let mut v2b = v2.clone();
+    v2b["description"] = json!("version bump");
+    commit(d, &v2b, "chore: Version Packages");
+    git(d, &["tag", "v2.0.0"]);
+
+    let file = d.join("sub/ds/changelog/c.json");
+    let backfill = || {
+        let _ = std::fs::remove_dir_all(d.join("sub/ds/changelog"));
+        Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(d)
+            .args([
+                "changelog",
+                "--from",
+                "v1.0.0",
+                "--to",
+                "HEAD",
+                "--tags",
+                "v*",
+                "--dataset",
+                "sub/ds",
+            ])
+            .assert()
+            .success();
+        std::fs::read_to_string(&file).unwrap()
+    };
+    let first = backfill();
+    assert_eq!(first, backfill(), "backfill is reproducible");
+    let log: Value = serde_json::from_str(&first).unwrap();
+    assert_eq!(
+        log["releases"][0]["commit"].as_str(),
+        Some(before_release.trim())
+    );
+}
