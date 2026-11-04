@@ -185,3 +185,4 @@ tools/demo/videos/out/
 # Local OpenCode setup
 .opencode/
 opencode.jsonc
+tools/figma-spec-plugin/.out/

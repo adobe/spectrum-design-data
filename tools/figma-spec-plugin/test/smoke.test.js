@@ -16,11 +16,12 @@
 import test from "ava";
 import vm from "node:vm";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildPayloads, coreSource } from "../payloads.mjs";
+import { actionFor, plan, record } from "../plan.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../../..");
@@ -439,4 +440,57 @@ test("core source drops the shell and a block over the limit is an error", (t) =
       message: /alone is/,
     },
   );
+});
+
+test("plan creates, updates or skips a component's Figma file by sheet hash", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "figma-plan-"));
+  const registryPath = join(dir, "figma-files.json");
+  writeFileSync(
+    registryPath,
+    JSON.stringify({
+      plan: "p",
+      project: "1",
+      files: { switch: { fileKey: "K", hash: "old" } },
+    }),
+  );
+  const run = () =>
+    plan({
+      components: ["switch", "heading"],
+      out: join(dir, "out"),
+      registryPath,
+      sheetsDir: out,
+    });
+  const first = run();
+  const by = (r, c) => r.items.find((i) => i.component === c);
+  t.is(by(first, "switch").action, "update");
+  t.is(by(first, "heading").action, "create");
+  t.is(by(first, "heading").fileKey, null);
+  t.is(by(first, "heading").fileName, "Heading \u2013 spec (generated)");
+  t.true(by(first, "switch").payloads.length >= 1);
+  t.true(
+    readFileSync(by(first, "switch").payloads[0].file, "utf-8").includes(
+      "beginSheet",
+    ),
+  );
+
+  record({
+    component: "switch",
+    hash: by(first, "switch").hash,
+    registryPath,
+    date: "2026-11-03",
+  });
+  record({
+    component: "heading",
+    hash: by(first, "heading").hash,
+    fileKey: "H",
+    registryPath,
+  });
+  const again = run();
+  t.is(again.summary.current, 2);
+  t.deepEqual(by(again, "switch").payloads, []);
+  t.is(by(again, "heading").fileKey, "H");
+  t.throws(() => record({ component: "tabs", hash: "x", registryPath }), {
+    message: /fileKey/,
+  });
+  t.is(actionFor(undefined, "h"), "create");
 });

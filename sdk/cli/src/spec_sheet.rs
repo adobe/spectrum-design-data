@@ -430,7 +430,8 @@ impl Ctx<'_> {
                 "size": req.size,
                 "states": req.states,
                 "options": options,
-                "mode": req.mode,
+                // A HashMap would reorder keys from run to run; sorted keys keep sheets reproducible.
+                "mode": req.mode.iter().collect::<BTreeMap<_, _>>(),
             },
             "scene": scene,
         }))

@@ -353,3 +353,20 @@ fn token_names_come_from_the_structured_name_not_the_relationship_property() {
         "{track:?}"
     );
 }
+
+#[test]
+fn sheets_are_reproducible_byte_for_byte() {
+    let dir = tempfile::tempdir().unwrap();
+    let run = |name: &str| {
+        let out = dir.path().join(name);
+        Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(repo_root())
+            .args(["spec-sheet", "switch", "-o"])
+            .arg(&out)
+            .assert()
+            .success();
+        std::fs::read_to_string(out).unwrap()
+    };
+    assert!(run("a.json") == run("b.json"), "two runs differ");
+}
