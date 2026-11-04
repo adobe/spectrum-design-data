@@ -16,14 +16,14 @@
 //! component version is computed from the entries, never authored. The file format is
 //! `schemas/component-changelog.schema.json` in design-data-spec.
 
-use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
 use crate::diff::{ChangeType, PropertyChange};
-use crate::record_diff::{Change, DatasetDiff, DatasetSnapshot, Layer, RecordChange};
+use crate::record_diff::{content_key, Change, DatasetDiff, DatasetSnapshot, Layer, RecordChange};
 
 /// What the change affects. `visual` covers visual and behavior.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -420,6 +420,7 @@ pub fn entries_for_step(
         }
     };
 
+    let surviving: HashSet<String> = new.relationships.iter().map(content_key).collect();
     for c in &diff.changes {
         // Where this change shows up: (component, contexts).
         let mut targets: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
@@ -462,7 +463,20 @@ pub fn entries_for_step(
                 .push(f);
         }
         let groups: Vec<(Class, Vec<&PropertyChange>)> = if by_class.is_empty() {
-            vec![(structural_class(c), vec![])]
+            // Removing a record whose exact twin survives changes nothing for consumers.
+            let twin = c.kind == "relationship"
+                && c.change == Change::Removed
+                && c.before
+                    .as_ref()
+                    .is_some_and(|b| surviving.contains(&content_key(b)));
+            vec![(
+                if twin {
+                    Class::Metadata
+                } else {
+                    structural_class(c)
+                },
+                vec![],
+            )]
         } else {
             by_class.into_values().collect()
         };
@@ -811,6 +825,18 @@ mod tests {
 
     fn run(old: &DatasetSnapshot, new: &DatasetSnapshot) -> BTreeMap<String, CommitChanges> {
         entries_for_step(old, new, &diff_datasets(old, new), &step())
+    }
+
+    #[test]
+    fn removing_an_exact_duplicate_is_metadata_not_major() {
+        let old = snap(vec![rel("1", "t"), rel("2", "t")], vec![]);
+        let new = snap(vec![rel("1", "t")], vec![]);
+        let e = &run(&old, &new)["c"];
+        assert_eq!(e.entries.len(), 0);
+        assert_eq!(e.metadata.as_ref().unwrap().count, 1);
+        let gone = snap(vec![], vec![]);
+        let e = &run(&old, &gone)["c"].entries;
+        assert!(e.iter().all(|e| e.bump == Bump::Major));
     }
 
     #[test]
