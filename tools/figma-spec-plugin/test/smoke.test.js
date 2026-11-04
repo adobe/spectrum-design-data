@@ -20,6 +20,7 @@ import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildPayloads, coreSource } from "../payloads.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../../..");
@@ -56,7 +57,16 @@ const changelog = JSON.parse(
 );
 
 function node(type) {
-  const n = { type, children: [], parent: null, width: 40, height: 14 };
+  const n = {
+    type,
+    name: "",
+    x: 0,
+    y: 0,
+    children: [],
+    parent: null,
+    width: 40,
+    height: 14,
+  };
   n.appendChild = (c) => {
     c.parent = n;
     n.children.push(c);
@@ -68,11 +78,17 @@ function node(type) {
   n.remove = () => {
     if (n.parent) n.parent.children.splice(n.parent.children.indexOf(n), 1);
   };
-  n.findOne = (pred) => n.children.find(pred) ?? null;
+  n.insertChild = (i, c) => {
+    c.parent = n;
+    n.children.splice(i, 0, c);
+  };
+  n.findAll = (pred) =>
+    n.children.flatMap((c) => [...(pred(c) ? [c] : []), ...c.findAll(pred)]);
+  n.findOne = (pred) => n.findAll(pred)[0] ?? null;
   return n;
 }
 
-function mock(rejectFamily) {
+function fakeFigma(rejectFamily) {
   const loaded = [];
   const page = node("PAGE");
   const messages = [];
@@ -100,8 +116,13 @@ function mock(rejectFamily) {
       return t;
     },
   };
-  vm.runInNewContext(code, { figma, __html__: "" });
   return { figma, page, messages, loaded };
+}
+
+function mock(rejectFamily) {
+  const m = fakeFigma(rejectFamily);
+  vm.runInNewContext(code, { figma: m.figma, __html__: "" });
+  return m;
 }
 
 const count = (n, pred) =>
@@ -313,4 +334,109 @@ test("measurements of nested parts, the focus ring and the press ratio are drawn
     "component-size-width-ratio · 0.3333",
   ])
     t.true(legends.includes(expected), expected + " in " + legends.join("|"));
+});
+
+// What a node is, ignoring ids: type, name, text, geometry, fills and children.
+const dump = (n) => ({
+  type: n.type,
+  name: n.name,
+  characters: n.characters,
+  x: n.x,
+  y: n.y,
+  width: n.width,
+  height: n.height,
+  layoutMode: n.layoutMode,
+  fills: n.fills,
+  children: n.children.map(dump),
+});
+
+// use_figma runs each payload as the body of an async function, in a fresh context.
+const runPayload = (figma, payload) =>
+  vm.runInNewContext(`(async () => {\n${payload.code}\n})()`, { figma });
+
+const payloadsFor = (component, pages) =>
+  buildPayloads({
+    sheet: generate(component),
+    changelog: JSON.parse(
+      readFileSync(
+        join(root, `packages/design-data/changelog/${component}.json`),
+        "utf-8",
+      ),
+    ),
+    pages,
+  });
+
+test("payloads fit use_figma, carry no plugin shell, and render the same tree as the plugin", async (t) => {
+  for (const component of ["action-button", "switch", "heading"]) {
+    const payloads = payloadsFor(component);
+    t.true(payloads.length >= 1);
+    for (const p of payloads) {
+      t.true(p.chars <= 45000, `${component}: ${p.chars}`);
+      t.true(p.code.length <= 50000, `${component}: ${p.code.length}`);
+      t.false(/showUI|ui\.onmessage/.test(p.code));
+    }
+    const plugin = mock();
+    await plugin.figma.ui.onmessage({
+      type: "render-sheet",
+      sheet: generate(component),
+      changelog: JSON.parse(
+        readFileSync(
+          join(root, `packages/design-data/changelog/${component}.json`),
+          "utf-8",
+        ),
+      ),
+    });
+    const viaPayloads = fakeFigma();
+    for (const p of payloads) await runPayload(viaPayloads.figma, p);
+    t.deepEqual(
+      viaPayloads.page.children.map(dump),
+      plugin.page.children.map(dump),
+      component,
+    );
+  }
+});
+
+test("payloads replace the previous render only in the last call and report counts", async (t) => {
+  const payloads = payloadsFor("action-button");
+  t.true(payloads.length > 1);
+  const { figma, page } = fakeFigma();
+  for (const p of payloads) await runPayload(figma, p);
+  const first = page.children[0];
+  for (let i = 0; i < payloads.length - 1; i++)
+    await runPayload(figma, payloads[i]);
+  // Mid-run: the finished render is still there next to the one being built.
+  t.is(page.children.length, 2);
+  t.is(page.children[0], first);
+  t.true(page.children[1].name.endsWith("(building)"));
+  const results = await runPayload(figma, payloads.at(-1));
+  t.is(page.children.length, 1);
+  t.is(page.children[0].name, "Action button \u2013 spec (generated)");
+  const done = results.at(-1);
+  t.is(done.step, "finish");
+  t.is(
+    done.blocksRendered,
+    generate("action-button").pages.reduce((n, p) => n + p.blocks.length, 0),
+  );
+});
+
+test("a payload run out of order fails and leaves the finished render alone", async (t) => {
+  const payloads = payloadsFor("action-button");
+  const { figma, page } = fakeFigma();
+  for (const p of payloads) await runPayload(figma, p);
+  const before = page.children[0];
+  await t.throwsAsync(() => runPayload(figma, payloads[1]), {
+    message: /No sheet is being built/,
+  });
+  t.is(page.children[0], before);
+  t.is(page.children.length, 1);
+});
+
+test("core source drops the shell and a block over the limit is an error", (t) => {
+  t.false(/figma\.showUI/.test(coreSource()));
+  t.throws(
+    () => buildPayloads({ sheet: generate("action-button"), limit: 20000 }),
+    {
+      message: /alone is/,
+    },
+  );
 });

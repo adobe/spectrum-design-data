@@ -28,6 +28,7 @@ tasks:
       - "sdk:build"
     inputs:
       - "code.js"
+      - "payloads.mjs"
       - "test/**/*"
       - "/packages/design-data/**/*"
       - "/sdk/**/*.rs"
