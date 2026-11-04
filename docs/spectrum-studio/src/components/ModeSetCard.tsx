@@ -2,38 +2,45 @@
 import { ActionButton } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Delete from "@react-spectrum/s2/icons/Delete";
-import Edit from "@react-spectrum/s2/icons/Edit";
+import OpenIn from "@react-spectrum/s2/icons/OpenIn";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { useNotify } from "./notifications/notificationContext";
 import { MODE_ICONS } from "../features/modes/icons";
-import { cloneModeSet, type Mode, type ModeSet } from "../features/modes/model";
+import type { ModeSet } from "../features/modes/model";
 import {
   effectiveParameterValue,
   formatParameterValue,
   FOUNDATION_PARAMETERS,
 } from "../features/modes/parameters";
-import {
-  removeModeSetAtom,
-  replaceModeSetAtom,
-  restoreModeSetAtom,
-} from "../features/modes/state";
+import type { FoundationDocuments } from "../features/modes/parameters";
+import { removeModeSetAtom, restoreModeSetAtom } from "../features/modes/state";
 import { effectiveParameterOwnersAtom } from "../features/modes/adaptiveSelectors";
 import { foundationDocumentsAtom } from "../features/modes/foundationDocuments";
-import { platformsAtom, resolvePlatforms } from "../features/platforms/state";
 import {
   adaptiveClaimsAtom,
   claimsForModeSet,
 } from "../features/modes/adaptive";
 import { EditOnly } from "./editable";
-import { ModeSetEditorDialog } from "./ModeSetEditorDialog";
-import { foundationModeAttachmentsAtom } from "../state/view/foundationModeAttachments";
+import {
+  FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
+  foundationModeAttachmentsAtom,
+} from "../state/view/foundationModeAttachments";
+import { editingModeSetIdAtom } from "../state/view/modesView";
+import { ModeSetPreview } from "./ModeSetPreview";
+import { modeAdjustmentRows } from "../features/modes/presentation";
 
 const cardStyles = style({
   display: "flex",
-  flexDirection: "column",
-  gap: 20,
   backgroundColor: "layer-1",
   borderRadius: "xl",
+  overflow: "hidden",
+});
+const contentStyles = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
+  minWidth: 0,
+  flexGrow: 1,
   padding: 24,
 });
 const headerStyles = style({
@@ -69,9 +76,7 @@ const actionsStyles = style({
 });
 const tableStyles = style({
   display: "grid",
-  gridTemplateColumns:
-    "minmax(140px, max-content) minmax(0, 1fr) minmax(0, 1.2fr)",
-  alignItems: "start",
+  gridTemplateColumns: "minmax(160px, 0.8fr) minmax(0, 1fr)",
   columnGap: 24,
   rowGap: 12,
 });
@@ -90,11 +95,6 @@ const modeIconStyles = style({
   justifyContent: "center",
   flexShrink: 0,
 });
-const cellStyles = style({
-  font: "body-sm",
-  color: "neutral-subdued",
-  minWidth: 0,
-});
 const parameterListStyles = style({
   display: "flex",
   flexDirection: "column",
@@ -104,7 +104,25 @@ const parameterListStyles = style({
   minWidth: 0,
 });
 const parameterValueStyles = style({ color: "neutral" });
-const modeMetaStyles = style({ font: "body-sm", color: "neutral-subdued" });
+const modeMetaStyles = style({ color: "neutral-subdued" });
+
+function differingParameterIds(
+  modeSet: ModeSet,
+  documents: FoundationDocuments,
+  owners: Record<string, string | undefined>,
+) {
+  return FOUNDATION_PARAMETERS.filter((parameter) => {
+    if (owners[parameter.id] !== modeSet.id) return false;
+    const values = modeSet.modes.map((mode) =>
+      formatParameterValue(
+        parameter,
+        effectiveParameterValue(mode, parameter.id, documents),
+        documents,
+      ),
+    );
+    return new Set(values).size > 1;
+  }).map((parameter) => parameter.id);
+}
 
 export function ModeSetCard({
   modeSet,
@@ -113,45 +131,30 @@ export function ModeSetCard({
   modeSet: ModeSet;
   index: number;
 }) {
-  const platforms = useAtomValue(platformsAtom);
   const adaptiveClaims = useAtomValue(adaptiveClaimsAtom);
   const attachments = useAtomValue(foundationModeAttachmentsAtom);
   const parameterOwners = useAtomValue(effectiveParameterOwnersAtom);
   const foundationDocuments = useAtomValue(foundationDocumentsAtom);
-  const replaceModeSet = useSetAtom(replaceModeSetAtom);
+  const setEditing = useSetAtom(editingModeSetIdAtom);
   const store = useStore();
   const notify = useNotify();
   const modeSetIcon =
     modeSet.iconId && modeSet.iconId !== "none"
       ? MODE_ICONS[modeSet.iconId]
       : null;
-
-  const ownedParameters = FOUNDATION_PARAMETERS.filter(
-    (parameter) => parameterOwners[parameter.id] === modeSet.id,
+  const differingIds = differingParameterIds(
+    modeSet,
+    foundationDocuments,
+    parameterOwners,
   );
-
-  // The default mode reports the base document values, so every row reads the same way.
-  function parameterRows(mode: Mode) {
-    return ownedParameters
-      .map((parameter) => ({
-        id: parameter.id,
-        label: parameter.label,
-        value: formatParameterValue(
-          parameter,
-          effectiveParameterValue(mode, parameter.id, foundationDocuments),
-          foundationDocuments,
-        ),
-      }))
-      .filter((row) => row.value !== "");
-  }
 
   function deleteModeSet() {
     const claims = claimsForModeSet(adaptiveClaims, modeSet.id);
     notify.remove({
       kind: "modeSet",
       noun: modeSet.name,
-      run: (store) => ({
-        tokenValues: store.set(removeModeSetAtom, modeSet.id),
+      run: (currentStore) => ({
+        tokenValues: currentStore.set(removeModeSetAtom, modeSet.id),
         claims,
         attachments: attachments[modeSet.id],
         modeSet,
@@ -171,84 +174,93 @@ export function ModeSetCard({
 
   return (
     <article data-component="ModeSetCard" className={cardStyles}>
-      <header className={headerStyles}>
-        <div className={headingGroupStyles}>
-          <h3 className={titleStyles}>{modeSet.name}</h3>
-          {modeSet.description && (
-            <p className={descriptionStyles}>{modeSet.description}</p>
-          )}
-        </div>
-        <div className={actionsStyles}>
-          <EditOnly>
-            <ModeSetEditorDialog
-              trigger={
-                <ActionButton
-                  isQuiet
-                  aria-label={`Edit mode set ${modeSet.name}`}
-                >
-                  <Edit />
-                </ActionButton>
-              }
-              title="Edit mode set"
-              createDraft={() => cloneModeSet(modeSet)}
-              onSave={(next) => replaceModeSet(next)}
-              onDelete={deleteModeSet}
-            />
+      <ModeSetPreview
+        modeSet={modeSet}
+        foundations={
+          attachments[modeSet.id] ??
+          FOUNDATION_MODE_ATTACHMENT_DEFAULTS[modeSet.id] ??
+          []
+        }
+      />
+      <div className={contentStyles}>
+        <header className={headerStyles}>
+          <div className={headingGroupStyles}>
+            <h3 className={titleStyles}>{modeSet.name}</h3>
+            {modeSet.description && (
+              <p className={descriptionStyles}>{modeSet.description}</p>
+            )}
+          </div>
+          <div className={actionsStyles}>
             <ActionButton
               isQuiet
-              aria-label={`Delete mode set ${modeSet.name}`}
-              onPress={deleteModeSet}
+              aria-label={`Open mode set ${modeSet.name}`}
+              onPress={() => setEditing(modeSet.id)}
             >
-              <Delete />
+              <OpenIn />
             </ActionButton>
-          </EditOnly>
-        </div>
-      </header>
-      <div
-        className={tableStyles}
-        role="table"
-        aria-label={`${modeSet.name} modes`}
-      >
-        <div className={rowStyles} role="row">
-          <span className={columnHeaderStyles} role="columnheader">
-            Modes
-          </span>
-          <span className={columnHeaderStyles} role="columnheader">
-            Supporting platforms
-          </span>
-          <span className={columnHeaderStyles} role="columnheader">
-            System parameters
-          </span>
-        </div>
-        {modeSet.modes.map((mode) => {
-          const rows = parameterRows(mode);
-          const supportingPlatforms = resolvePlatforms(
-            platforms,
-            mode.platformIds,
-          );
-          return (
-            <div key={mode.id} className={rowStyles} role="row">
-              <span className={modeCellStyles} role="rowheader">
-                <span className={modeIconStyles} aria-hidden="true">
-                  {modeSetIcon ?? MODE_ICONS[mode.iconId]}
+            <EditOnly>
+              <ActionButton
+                isQuiet
+                aria-label={`Delete mode set ${modeSet.name}`}
+                onPress={deleteModeSet}
+              >
+                <Delete />
+              </ActionButton>
+            </EditOnly>
+          </div>
+        </header>
+        <div
+          className={tableStyles}
+          role="table"
+          aria-label={`${modeSet.name} modes`}
+        >
+          <div className={rowStyles} role="row">
+            <span className={columnHeaderStyles} role="columnheader">
+              Modes
+            </span>
+            <span className={columnHeaderStyles} role="columnheader">
+              Parameters
+            </span>
+          </div>
+          {modeSet.modes.map((mode) => {
+            const rows = FOUNDATION_PARAMETERS.filter((parameter) =>
+              differingIds.includes(parameter.id),
+            )
+              .map((parameter) => ({
+                id: parameter.id,
+                label: parameter.label,
+                value: formatParameterValue(
+                  parameter,
+                  effectiveParameterValue(
+                    mode,
+                    parameter.id,
+                    foundationDocuments,
+                  ),
+                  foundationDocuments,
+                ),
+              }))
+              .filter((row) => row.value !== "");
+            const adjustments = modeAdjustmentRows(
+              mode,
+              modeSet,
+              foundationDocuments.color?.settings.colorOutput,
+            );
+            return (
+              <div key={mode.id} className={rowStyles} role="row">
+                <span className={modeCellStyles} role="rowheader">
+                  <span className={modeIconStyles} aria-hidden="true">
+                    {modeSetIcon ?? MODE_ICONS[mode.iconId]}
+                  </span>
+                  <span>
+                    {mode.name}
+                    {mode.id === modeSet.defaultModeId && (
+                      <span className={modeMetaStyles}> (default)</span>
+                    )}
+                  </span>
                 </span>
-                <span>
-                  {mode.name}
-                  {mode.id === modeSet.defaultModeId && (
-                    <span className={modeMetaStyles}> (default)</span>
-                  )}
-                </span>
-              </span>
-              <span className={cellStyles} role="cell">
-                {supportingPlatforms.length > 0
-                  ? supportingPlatforms
-                      .map((platform) => platform.name)
-                      .join(", ")
-                  : "None"}
-              </span>
-              <span className={parameterListStyles} role="cell">
-                {rows.length > 0
-                  ? rows.map((row) => (
+                <span className={parameterListStyles} role="cell">
+                  {[...rows, ...adjustments].length > 0 ? (
+                    [...rows, ...adjustments].map((row) => (
                       <span key={row.id}>
                         {row.label}:{" "}
                         <span className={parameterValueStyles}>
@@ -256,11 +268,14 @@ export function ModeSetCard({
                         </span>
                       </span>
                     ))
-                  : "None"}
-              </span>
-            </div>
-          );
-        })}
+                  ) : (
+                    <span aria-hidden="true">—</span>
+                  )}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </article>
   );

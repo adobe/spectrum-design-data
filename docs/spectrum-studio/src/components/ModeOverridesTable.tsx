@@ -54,11 +54,6 @@ export function ModeOverridesTable({
   const dataVis = foundations.includes("color")
     ? [
         {
-          id: "color.dataVisSources",
-          label: "Data vis sources",
-          patches: mode.foundations.color?.dataVisSources,
-        },
-        {
           id: "color.dataVisContrasts",
           label: "Data vis contrasts",
           patches: mode.foundations.color?.dataVisContrasts,
