@@ -214,6 +214,15 @@ function overlay(parent, block, box) {
       o.appendChild(p);
       p.x = lx - 6 - p.width;
       p.y = y + h / 2 - p.height / 2;
+    } else if (m.kind === "width") {
+      const ly = y + h + 22;
+      o.appendChild(rect(x, ly, w, 1, BLUE));
+      o.appendChild(rect(x, ly - 4, 1, 9, BLUE));
+      o.appendChild(rect(x + w, ly - 4, 1, 9, BLUE));
+      const p = pill(value);
+      o.appendChild(p);
+      p.x = x + w / 2 - p.width / 2;
+      p.y = ly + 8;
     } else if (m.kind === "radius") {
       o.appendChild(rect(x, y, w, h, BLUE, 0.25));
       const p = pill(value);

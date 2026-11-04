@@ -293,3 +293,24 @@ test("blocks generated from context-less records are marked and inline values ar
       t.true(texts.some((x) => x.endsWith("(inline value)")));
   }
 });
+
+test("measurements of nested parts, the focus ring and the press ratio are drawn", async (t) => {
+  const { figma, page, messages } = mock();
+  await figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: generate("switch"),
+    pages: ["Layout"],
+  });
+  t.truthy(messages.find((m) => m.type === "render-complete"));
+  const legends = textNodes(page.children[0])
+    .map((n) => n.characters)
+    .filter((x) => / · /.test(x));
+  for (const expected of [
+    "width · 26px",
+    "border-width · 2px",
+    "thickness · 2px",
+    "gap · 2px",
+    "component-size-width-ratio · 0.3333",
+  ])
+    t.true(legends.includes(expected), expected + " in " + legends.join("|"));
+});

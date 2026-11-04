@@ -304,3 +304,30 @@ fn every_sheet_has_blocks_and_context_less_records_are_grouped_by_property() {
     // Authored contexts keep their title and come first on the page.
     assert!(text_area.iter().any(|b| b["titleSource"] == "context"));
 }
+
+#[test]
+fn switch_layout_blocks_carry_measurements_for_parts_border_focus_ring_and_press() {
+    let sheets = all_sheets();
+    let switch = sheets.iter().find(|s| s["component"] == "switch").unwrap();
+    let kinds = |title: &str| -> Vec<String> {
+        let block = blocks_of(switch)
+            .into_iter()
+            .find(|b| b["page"] == "Layout" && b["title"] == title)
+            .unwrap_or_else(|| panic!("no Layout block {title}"));
+        let scene = &block["render"]["scene"]["measurements"];
+        block["render"]["measurements"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|m| {
+                let i = m["index"].as_u64().unwrap() as usize;
+                assert!(scene[i]["token"]["relationship"]["uuid"].is_string());
+                scene[i]["kind"].as_str().unwrap().to_string()
+            })
+            .collect()
+    };
+    assert_eq!(kinds("Track (size)"), ["width", "height"]);
+    assert_eq!(kinds("Track (border)"), ["border"]);
+    assert_eq!(kinds("Focus indicator"), ["focus-thickness", "focus-gap"]);
+    assert_eq!(kinds("Component size (down)"), ["press"]);
+}
