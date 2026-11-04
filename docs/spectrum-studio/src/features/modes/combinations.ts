@@ -1,6 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { Mode, ModeSet } from "./model";
 
+export function modeSetDefaultMode(modeSet: ModeSet): Mode | undefined {
+  return (
+    modeSet.modes.find((mode) => mode.id === modeSet.defaultModeId) ??
+    modeSet.modes[0]
+  );
+}
+
 /**
  * The one place that lists every combination of modes. Callers choose which mode
  * sets (axes) to include and apply their own limits; this file only enumerates.

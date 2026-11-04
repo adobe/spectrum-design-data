@@ -8,12 +8,7 @@ import {
   AccordionItemTitle,
   ActionButton,
   ActionButtonGroup,
-  Button,
-  ButtonGroup,
   Content,
-  Dialog,
-  DialogContainer,
-  Heading,
   IllustratedMessage,
   Image,
   ListView,
@@ -32,14 +27,9 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue, useSetAtom } from "jotai";
 import { useState, type ReactNode } from "react";
 import { editModeAtom } from "../../state/view/editMode";
-import {
-  cloneModeSet,
-  createModeSet,
-  type ModeSet,
-} from "../../features/modes/model";
+import { activePageAtom } from "../../state/view/navigation";
 import { modeSetsAtom } from "../../features/modes/state";
 import {
-  applyFoundationModeSetAtom,
   detachFoundationModeSetAtom,
   modeSetFoundationsAtom,
 } from "../../features/modes/foundationAttachments";
@@ -54,8 +44,11 @@ import {
   type FoundationId,
 } from "../../features/modes/parameters";
 import modeSetsEmptyIllustration from "../../assets/illustrations/mode-sets-empty.svg";
-import { ModeSetEditorDialog } from "../../components/ModeSetEditorDialog";
-import { ModeCapabilityChoices } from "../../components/ModeCapabilityChoices";
+import {
+  editingModeSetIdAtom,
+  NEW_MODE_SET_ID,
+  pendingModeSetFoundationAtom,
+} from "../../state/view/modesView";
 import { FoundationModePopover } from "./FoundationModePopover";
 import { ColorSystemSettings } from "./ColorSystemSettings";
 
@@ -107,24 +100,19 @@ export function FoundationModeSettings({
   expandedKeys?: Set<string>;
   onExpandedChange?: (keys: Set<string>) => void;
 }) {
-  const notify = useNotify();
   const editing = useAtomValue(editModeAtom);
   const sets = useAtomValue(modeSetsAtom);
   const foundations = useAtomValue(modeSetFoundationsAtom);
   const displayed = useAtomValue(displayedModeIdsAtom);
-  const apply = useSetAtom(applyFoundationModeSetAtom);
   const detach = useSetAtom(detachFoundationModeSetAtom);
+  const setEditingModeSet = useSetAtom(editingModeSetIdAtom);
+  const setPendingFoundation = useSetAtom(pendingModeSetFoundationAtom);
+  const setActivePage = useSetAtom(activePageAtom);
+  const notify = useNotify();
   const reset = useSetAtom(resetModeAtom);
   const [expanded, setExpanded] = useState(
     new Set<string>(defaultExpandedKeys),
   );
-  const [newModeSet, setNewModeSet] = useState<ModeSet | null>(null);
-  const [setup, setSetup] = useState<{
-    modeSet: ModeSet;
-    isNew: boolean;
-    foundations?: FoundationId[];
-    adaptiveIds?: string[];
-  } | null>(null);
   const attached = sets.filter((set) =>
     foundations[set.id]?.includes(foundation),
   );
@@ -172,17 +160,16 @@ export function FoundationModeSettings({
                 aria-label={`Add mode set to ${foundation}`}
                 onAction={(id) => {
                   if (id === "create-new-mode-set") {
-                    setNewModeSet(createModeSet());
+                    setPendingFoundation(foundation);
+                    setEditingModeSet(NEW_MODE_SET_ID);
+                    setActivePage("modes");
                     return;
                   }
-                  try {
-                    const modeSet = sets.find((item) => item.id === id);
-                    if (!modeSet)
-                      throw new Error("This mode set is no longer available.");
-                    setSetup({ modeSet: cloneModeSet(modeSet), isNew: false });
-                  } catch (failure) {
-                    report(failure);
-                  }
+                  const modeSet = sets.find((item) => item.id === id);
+                  if (!modeSet) return;
+                  setPendingFoundation(foundation);
+                  setEditingModeSet(modeSet.id);
+                  setActivePage("modes");
                 }}
               >
                 {unattached.length > 0 && (
@@ -320,97 +307,6 @@ export function FoundationModeSettings({
         </AccordionItemPanel>
       </AccordionItem>
       {after}
-      <DialogContainer onDismiss={() => setNewModeSet(null)}>
-        {editing && newModeSet && (
-          <ModeSetEditorDialog
-            key={newModeSet.id}
-            title="New mode set"
-            initialFoundations={[foundation]}
-            isStaged
-            createDraft={() => newModeSet}
-            onSave={(modeSet, settings) => {
-              setSetup({ modeSet, isNew: true, ...settings });
-              setNewModeSet(null);
-            }}
-          />
-        )}
-      </DialogContainer>
-      <DialogContainer onDismiss={() => setSetup(null)}>
-        {editing && setup && (
-          <Dialog size="S">
-            {({ close }) => (
-              <>
-                <Heading slot="title">Select mode-specific variables</Heading>
-                <Content>
-                  <div className={stack}>
-                    <Text>
-                      {AUTHORING_CAPABILITY_OPTIONS.some(
-                        (option) => option.foundation === foundation,
-                      )
-                        ? "Select the variables this mode set can edit. If none are selected, you can still switch modes."
-                        : "This foundation has no mode-specific variables yet. You can still use this mode set to switch modes."}
-                    </Text>
-                    <ModeCapabilityChoices
-                      draft={setup.modeSet}
-                      modeSets={sets}
-                      foundations={[foundation]}
-                      onChange={(id, selected) =>
-                        setSetup(
-                          (current) =>
-                            current && {
-                              ...current,
-                              modeSet: {
-                                ...current.modeSet,
-                                authoringCapabilities: selected
-                                  ? [
-                                      ...new Set([
-                                        ...(current.modeSet
-                                          .authoringCapabilities ?? []),
-                                        id,
-                                      ]),
-                                    ]
-                                  : current.modeSet.authoringCapabilities?.filter(
-                                      (item) => item !== id,
-                                    ),
-                              },
-                            },
-                        )
-                      }
-                    />
-                  </div>
-                </Content>
-                <ButtonGroup>
-                  <Button variant="secondary" onPress={close}>
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="accent"
-                    onPress={() => {
-                      try {
-                        if (setup.isNew) {
-                          const added = notify.added("modeSet", () => {
-                            apply({ ...setup, foundation });
-                            return true;
-                          });
-                          if (!added) return;
-                        } else apply({ ...setup, foundation });
-                        setExpanded(
-                          (current) => new Set([...current, "mode-sets"]),
-                        );
-                        close();
-                      } catch (failure) {
-                        report(failure);
-                      }
-                    }}
-                  >
-                    Apply
-                  </Button>
-                </ButtonGroup>
-              </>
-            )}
-          </Dialog>
-        )}
-      </DialogContainer>
     </Accordion>
   );
 }

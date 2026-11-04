@@ -958,11 +958,10 @@ test("read-only selection and default-only contrast editing preserve polarity", 
   ).toBeVisible();
 });
 
-test("mode-specific scale stops preserve base values and source identities", async ({
+test("mode setup does not offer color scale stop overrides", async ({
   page,
-}, info) => {
+}) => {
   await edit(page);
-  const original = await working(page);
   await page.getByRole("button", { name: "Add mode set to color" }).click();
   await page
     .getByRole("menuitem", { name: "Create new mode set", exact: true })
@@ -972,7 +971,7 @@ test("mode-specific scale stops preserve base values and source identities", asy
     .filter({ has: page.getByRole("heading", { name: "New mode set" }) });
   await create
     .getByRole("textbox", { name: "Mode set name" })
-    .fill("Stop presets");
+    .fill("Shared colors");
   await create.getByRole("textbox", { name: "Name", exact: true }).fill("Base");
   await create.getByRole("button", { name: "Add mode", exact: true }).click();
   await create
@@ -980,152 +979,14 @@ test("mode-specific scale stops preserve base values and source identities", asy
     .last()
     .fill("Alternate");
   await create.getByRole("button", { name: "Save", exact: true }).click();
-  const card = page.getByRole("region", { name: "Stop presets mode set" });
-  await expect(card).toHaveCount(0);
   const setup = page.getByRole("dialog").filter({
     has: page.getByRole("heading", {
       name: "Select mode-specific variables",
     }),
   });
-  await setup.getByText("Color scale stops", { exact: true }).click();
-  await setup.getByRole("button", { name: "Apply", exact: true }).click();
-  await card.getByRole("button", { name: "Edit Alternate for color" }).click();
-  const editor = page.getByRole("dialog", { name: "Edit Alternate for color" });
-  const picker = editor.getByRole("button", { name: /Color scale$/ });
-  await expect(picker).toBeVisible();
-  await expect(picker).toBeFocused();
   await expect(
-    editor.getByRole("heading", { name: "Alternate", exact: true }),
-  ).toBeVisible();
-  await expect(
-    editor.getByRole("textbox", { name: "Color scale name" }),
+    setup.getByText("Color scale stops", { exact: true }),
   ).toHaveCount(0);
-  await expect(
-    editor.getByRole("checkbox", { name: "Hide from publishing" }),
-  ).toHaveCount(0);
-  await expect(
-    editor.getByRole("button", {
-      name: /Add stop|Remove stop|Remove selected stop|Edit base/,
-    }),
-  ).toHaveCount(0);
-  await picker.click();
-  await page.getByRole("option", { name: "Cyan", exact: true }).click();
-  const lightness = editor.getByRole("textbox", { name: /^Lightness/ });
-  await expect(lightness).toBeVisible();
-  const initialLightness = await lightness.inputValue();
-  await lightness.press("ArrowDown");
-  await expect(lightness).not.toHaveValue(initialLightness);
-  const nextLightness = Number.parseFloat(await lightness.inputValue()) / 100;
-  await expect
-    .poll(async () => {
-      const set = (await working(page)).modeSets.find(
-        (set) => set.name === "Stop presets",
-      );
-      return Object.keys(
-        set?.modes.find((mode) => mode.name === "Alternate")?.foundations.color
-          ?.scaleStops ?? {},
-      ).length;
-    })
-    .toBe(1);
-  const scale = original.colorSystem.scales.find(
-    (scale) => scale.name === "Cyan",
-  )!;
-  await expect
-    .poll(
-      async () =>
-        (await working(page)).modeSets
-          .find((set) => set.name === "Stop presets")!
-          .modes.find((mode) => mode.name === "Alternate")!.foundations.color!
-          .scaleStops![scale.id][scale.stops[0].id].lightness,
-    )
-    .toBeCloseTo(nextLightness, 3);
-  const changed = await working(page);
-  expect(changed.colorSystem).toEqual(original.colorSystem);
-  expect(changed.taxonomy).toEqual(original.taxonomy);
-  await page.screenshot({
-    path: info.outputPath("color-stop-mode-editor-desktop.png"),
-    animations: "disabled",
-  });
-  await page.setViewportSize({ width: 800, height: 900 });
-  const box = await editor.boundingBox();
-  expect(box).not.toBeNull();
-  expect(box!.x).toBeGreaterThanOrEqual(0);
-  expect(box!.x + box!.width).toBeLessThanOrEqual(800);
-  expect(
-    await editor.evaluate((node) => node.scrollWidth <= node.clientWidth),
-  ).toBe(true);
-  await page.screenshot({
-    path: info.outputPath("color-stop-mode-editor-narrow.png"),
-    animations: "disabled",
-  });
-  await page.keyboard.press("Escape");
-  await expect(
-    card.getByRole("row", { name: "Alternate", exact: true }),
-  ).toHaveAttribute("aria-selected", "true");
-  await card.getByRole("button", { name: "Edit Base for color" }).click();
-  await expect(
-    page
-      .getByRole("dialog")
-      .getByRole("heading", { name: "Base", exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("dialog").getByText("All modes", { exact: true }),
-  ).toBeVisible();
-  await page.keyboard.press("Escape");
-  await card.getByRole("button", { name: "Edit Alternate for color" }).click();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: /Color scale$/ })
-    .click();
-  await page.getByRole("option", { name: "Cyan", exact: true }).click();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: "Remove stop override", exact: true })
-    .click();
-  await expect(
-    page.getByRole("dialog").getByRole("textbox", { name: /^Lightness/ }),
-  ).toHaveValue(initialLightness);
-  await expect
-    .poll(
-      async () =>
-        (await working(page)).modeSets
-          .find((set) => set.name === "Stop presets")
-          ?.modes.find((mode) => mode.name === "Alternate")?.foundations.color
-          ?.scaleStops,
-    )
-    .toBeUndefined();
-  expect((await working(page)).colorSystem).toEqual(original.colorSystem);
-  await page.keyboard.press("Escape");
-  await closeChangeLog(page);
-  await openColorScaleEditor(page, "Cyan");
-  const structure = page.getByRole("dialog");
-  await expect(
-    structure.getByRole("combobox", { name: "Color scale name", exact: true }),
-  ).toBeVisible();
-  await expect(
-    structure.getByRole("button", { name: "Add stop", exact: true }),
-  ).toBeVisible();
-  await expect(
-    structure.getByRole("textbox", { name: /^Lightness/ }),
-  ).toHaveCount(0);
-  await expect(
-    structure.getByRole("radiogroup", { name: "Palette colors" }),
-  ).toHaveCount(0);
-  await expect(
-    structure.getByRole("button", { name: "Edit base", exact: true }),
-  ).toHaveCount(0);
-  const handle = await structure
-    .getByRole("button", { name: /^Stop 1,/ })
-    .boundingBox();
-  expect(handle).not.toBeNull();
-  await page.mouse.move(
-    handle!.x + handle!.width / 2,
-    handle!.y + handle!.height / 2,
-  );
-  await page.mouse.down();
-  await page.mouse.move(handle!.x - 40, handle!.y + handle!.height / 2);
-  await page.mouse.up();
-  expect((await working(page)).colorSystem).toEqual(original.colorSystem);
 });
 
 test("temporary adaptive previews do not enter saved source or survive refresh", async ({

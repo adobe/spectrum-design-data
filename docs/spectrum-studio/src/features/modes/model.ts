@@ -1,8 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
+import type { ColorStopInput } from "../color-system/model";
 export type AdaptiveClaims = { [parameterId: string]: string };
 
-import type { ColorStopInput } from "../color-system/model";
+import {
+  isScaleAdjustment,
+  type ScaleAdjustment,
+} from "../color-system/scaleAdjustment";
 import { designSystemDefaults } from "../../data/defaults";
+export { modeSetDefaultMode } from "./combinations";
 import { isModeIconId, type ModeIconId } from "./iconIds";
 import {
   isElevationOverride,
@@ -10,12 +15,11 @@ import {
 } from "../elevation/model";
 import {
   isDataVisContrastOverrides,
-  isDataVisSourceOverrides,
   type DataVisContrastOverrides,
   type DataVisSourceOverrides,
 } from "../color-system/data-vis/model";
 
-export const MODE_SETS_SCHEMA_VERSION = 9;
+export const MODE_SETS_SCHEMA_VERSION = 10;
 
 /** Mode sets with this key drive design-system preview appearance, not app chrome. */
 export const COLOR_SCHEME_MODE_SET_KEY = "colorScheme";
@@ -25,14 +29,16 @@ export const AUTHORING_CAPABILITIES = [
   "color.backgroundLightness",
   "color.backgroundScaleId",
   "color.contrastMultiplier",
-  "color.scales",
+  "color.scaleAdjustment",
   "typography.textZoom",
   "elevation.depth",
   "elevation.color",
   "elevation.layerOpacities", // Historical decoding only; upgraded to opacity references.
 ] as const;
-export type AuthoringCapability = (typeof AUTHORING_CAPABILITIES)[number];
-/** A mode's patch for one stop: literal channels, or a palette link that takes precedence over them. */
+/** Legacy capability type is retained only for decoders and cleanup of old snapshots. */
+export type AuthoringCapability =
+  | (typeof AUTHORING_CAPABILITIES)[number]
+  | "color.scales";
 export type ColorStopOverride = Partial<
   Pick<ColorStopInput, "hue" | "chroma" | "lightness">
 > & { paletteColorId?: string };
@@ -47,8 +53,11 @@ export interface ColorFoundationOverride {
   backgroundScaleId?: string;
   backgroundLightness?: number;
   contrastMultiplier?: number;
+  scaleAdjustment?: ScaleAdjustment;
+  /** Removed in schema v10; retained for decoding historical authoring snapshots only. */
   scaleStops?: ColorStopOverrides;
   scaleContrasts?: ColorContrastOverrides;
+  /** Removed in schema v10; retained for decoding historical authoring snapshots only. */
   dataVisSources?: DataVisSourceOverrides;
   dataVisContrasts?: DataVisContrastOverrides;
 }
@@ -173,13 +182,6 @@ export function cloneModeSet(modeSet: ModeSet): ModeSet {
   };
 }
 
-export function modeSetDefaultMode(modeSet: ModeSet): Mode | undefined {
-  return (
-    modeSet.modes.find((mode) => mode.id === modeSet.defaultModeId) ??
-    modeSet.modes[0]
-  );
-}
-
 function isColorOverride(value: unknown): value is ColorFoundationOverride {
   if (!value || typeof value !== "object") return false;
   const override = value as ColorFoundationOverride;
@@ -199,8 +201,8 @@ function isColorOverride(value: unknown): value is ColorFoundationOverride {
   )
     return false;
   if (
-    override.dataVisSources !== undefined &&
-    !isDataVisSourceOverrides(override.dataVisSources)
+    override.scaleAdjustment !== undefined &&
+    !isScaleAdjustment(override.scaleAdjustment)
   )
     return false;
   if (
@@ -224,28 +226,6 @@ function isColorOverride(value: unknown): value is ColorFoundationOverride {
               Number.isFinite(ratio) &&
               ratio >= 1 &&
               ratio <= 21,
-          ),
-      ))
-  )
-    return false;
-  if (
-    override.scaleStops !== undefined &&
-    (typeof override.scaleStops !== "object" ||
-      override.scaleStops === null ||
-      !Object.values(override.scaleStops).every(
-        (stops) =>
-          typeof stops === "object" &&
-          stops !== null &&
-          Object.values(stops).every(
-            (patch) =>
-              typeof patch === "object" &&
-              patch !== null &&
-              [patch.hue, patch.chroma, patch.lightness].every(
-                (channel) =>
-                  channel === undefined || typeof channel === "number",
-              ) &&
-              (patch.paletteColorId === undefined ||
-                typeof patch.paletteColorId === "string"),
           ),
       ))
   )
@@ -351,12 +331,53 @@ export function migrateModeSets(
   data: unknown,
   fromVersion: number,
 ): ModeSet[] | null {
-  if (fromVersion === 8 || fromVersion === 7 || fromVersion === 6)
-    return isModeSetList(data) ? data : null;
+  const cleaned = stripRemovedScaleOverrides(data);
+  if (
+    fromVersion === 9 ||
+    fromVersion === 8 ||
+    fromVersion === 7 ||
+    fromVersion === 6
+  )
+    return isModeSetList(cleaned) ? cleaned : null;
   if (fromVersion === 5)
-    return isModeSetList(data) ? withTextScalingModeSet(data) : null;
-  const upgraded = migrateToV5(data, fromVersion);
+    return isModeSetList(cleaned) ? withTextScalingModeSet(cleaned) : null;
+  const upgraded = migrateToV5(cleaned, fromVersion);
   return upgraded && withTextScalingModeSet(upgraded);
+}
+
+function stripRemovedScaleOverrides(data: unknown): unknown {
+  if (!Array.isArray(data)) return data;
+  return data.map((entry) => {
+    if (!entry || typeof entry !== "object") return entry;
+    const modeSet = entry as ModeSet;
+    return {
+      ...modeSet,
+      authoringCapabilities: modeSet.authoringCapabilities?.filter(
+        (capability) => capability !== "color.scales",
+      ),
+      modes: Array.isArray(modeSet.modes)
+        ? modeSet.modes.map((mode) => {
+            const color = mode.foundations?.color;
+            if (!color) return mode;
+            const {
+              scaleStops: _scaleStops,
+              dataVisSources: _dataVisSources,
+              ...remainingColor
+            } = color as typeof color & {
+              scaleStops?: unknown;
+              dataVisSources?: unknown;
+            };
+            return {
+              ...mode,
+              foundations: {
+                ...mode.foundations,
+                color: remainingColor,
+              },
+            };
+          })
+        : modeSet.modes,
+    };
+  });
 }
 
 function migrateToV5(data: unknown, fromVersion: number): ModeSet[] | null {
