@@ -331,3 +331,25 @@ fn switch_layout_blocks_carry_measurements_for_parts_border_focus_ring_and_press
     assert_eq!(kinds("Focus indicator"), ["focus-thickness", "focus-gap"]);
     assert_eq!(kinds("Component size (down)"), ["press"]);
 }
+
+#[test]
+fn token_names_come_from_the_structured_name_not_the_relationship_property() {
+    let sheets = all_sheets();
+    let names = |component: &str, title: &str| -> Vec<String> {
+        let sheet = sheets.iter().find(|s| s["component"] == component).unwrap();
+        blocks_of(sheet)
+            .into_iter()
+            .filter(|b| b["page"] == "Layout" && b["title"] == title)
+            .flat_map(|b| b["rows"].as_array().unwrap())
+            .flat_map(|r| r["items"].as_array().unwrap())
+            .map(|i| i["token"]["name"].as_str().unwrap().to_string())
+            .collect()
+    };
+    // anatomy + property, no legacyKey: serialized as focus-indicator-thickness (qkj5.85).
+    assert!(names("action-button", "Focus ring").contains(&"focus-indicator-thickness".to_string()));
+    let track = names("switch", "Track (size)");
+    assert!(
+        track.iter().all(|n| n.starts_with("switch-control-")),
+        "{track:?}"
+    );
+}
