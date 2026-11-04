@@ -137,6 +137,7 @@ export const spectrumIconNames = [
   "DistributeTopEdge",
   "DistributeVerticalCenter",
   "Download",
+  "DragHandle",
   "Draw",
   "Duplicate",
   "Edit",

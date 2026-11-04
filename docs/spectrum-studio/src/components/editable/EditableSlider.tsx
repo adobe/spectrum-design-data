@@ -3,15 +3,21 @@ import { LabeledValue, Slider } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import type { ComponentProps, ReactNode } from "react";
 import { useIsReadOnly } from "./useIsReadOnly";
+import "./EditableSlider.css";
 
 type SliderProps = ComponentProps<typeof Slider>;
 
 interface EditableSliderProps extends Omit<SliderProps, "label"> {
   label: ReactNode;
   isReadOnly?: boolean;
+  labelGap?: "compact";
 }
 
-export function EditableSlider({ isReadOnly, ...props }: EditableSliderProps) {
+export function EditableSlider({
+  isReadOnly,
+  labelGap,
+  ...props
+}: EditableSliderProps) {
   const readOnly = useIsReadOnly(isReadOnly);
 
   if (readOnly) {
@@ -27,7 +33,7 @@ export function EditableSlider({ isReadOnly, ...props }: EditableSliderProps) {
 
   return (
     <Slider
-      UNSAFE_className={String(style({ width: "full", maxWidth: 420 }))}
+      UNSAFE_className={`${style({ width: "full", maxWidth: 420 })}${labelGap === "compact" ? " editableSliderCompactLabel" : ""}`}
       {...props}
     />
   );

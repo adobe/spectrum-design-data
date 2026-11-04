@@ -273,4 +273,24 @@ const css = readFileSync(
 assert.match(css, /width: 80px;[\s\S]*height: 32px;[\s\S]*overflow: hidden/);
 assert.match(css, /width: 24px;[\s\S]*height: 24px/);
 assert.match(css, /spectrum-fuchsia-300/);
+assert.match(
+  css,
+  /\.valuePreviewLarge\[data-value-preview="color"\],\s*\.valuePreviewLarge\[data-value-preview="opacity"\] \{\s*padding: 0;/,
+);
+assert.match(
+  css,
+  /\.valuePreviewLarge \.valuePreviewShape-color,\s*\.valuePreviewLarge \.valuePreviewShape-opacity \{\s*width: 100%;\s*height: 100%;/,
+);
+assert.match(
+  css,
+  /\.valuePreviewLarge \.valuePreviewShape-radius \{\s*width: 48px;\s*height: 48px;/,
+);
+assert.match(
+  css,
+  /\.valuePreviewLarge \.valuePreviewShape-block \{\s*height: 24px;/,
+);
+assert.match(
+  css,
+  /\.valuePreviewLarge \.valuePreviewShape-shadow-color \{\s*width: 40px;\s*height: 40px;/,
+);
 console.log("Shared classified-value preview checks passed.");

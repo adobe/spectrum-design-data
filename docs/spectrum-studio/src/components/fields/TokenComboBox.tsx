@@ -16,6 +16,8 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
+  type ComponentProps,
+  type ComponentRef,
   type ReactNode,
 } from "react";
 import { TokenNameTag } from "../tokens/TokenNameTag";
@@ -32,6 +34,8 @@ export interface TokenComboBoxOption {
 }
 export type TokenDisplayMode = "tokens" | "values";
 export interface TokenComboBoxProps {
+  placeholder?: string;
+  size?: ComponentProps<typeof ComboBox>["size"];
   label?: string;
   ariaLabel?: string;
   prefix?: ReactNode;
@@ -45,12 +49,20 @@ export interface TokenComboBoxProps {
   error?: string;
   isOptionAllowed?: (option: TokenComboBoxOption) => boolean;
   menuWidth?: number;
+  inline?: boolean;
   customValue?: {
     displayValue: string;
     onAccept: (text: string) => void;
+    inputType?: "number";
+    isAllowed?: (text: string) => boolean;
   };
 }
 const fieldStyles = style({ width: "full", minWidth: 0, flexGrow: 1 });
+const inlineValueStyles = style({
+  width: "full",
+  maxWidth: "[9ch]",
+  minWidth: 0,
+});
 const menuLabelStyles = style({ font: "ui", fontWeight: "medium" });
 const menuDescriptionStyles = style({ font: "ui-sm" });
 const subscribeViewport = (onChange: () => void) => {
@@ -61,6 +73,8 @@ const viewportWidth = () => window.innerWidth;
 const serverViewportWidth = () => 360;
 
 export function TokenComboBox({
+  placeholder,
+  size,
   label,
   ariaLabel,
   prefix,
@@ -74,6 +88,7 @@ export function TokenComboBox({
   error,
   isOptionAllowed,
   menuWidth,
+  inline = false,
   customValue,
 }: TokenComboBoxProps) {
   const notify = useNotify();
@@ -92,16 +107,30 @@ export function TokenComboBox({
   const [triggerWidth, setTriggerWidth] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [inlineEditing, setInlineEditing] = useState(false);
   const [query, setQuery] = useState("");
   const [customError, setCustomError] = useState<string>();
   const input = useRef<TextFieldRef>(null);
+  const inlineTrigger = useRef<ComponentRef<typeof ActionButton>>(null);
+  const restoreFocus = useRef(false);
   const committed = useRef(selectedKey);
+  const keyboardSelection = useRef(false);
   committed.current = selectedKey;
   const labelId = useId();
   const valueId = useId();
   const customKey = useId();
   const literalKey = useId();
   const selected = options.find((option) => option.id === selectedKey);
+  const numeric = customValue?.inputType === "number";
+  useLayoutEffect(() => {
+    if (inlineEditing) {
+      input.current?.focus();
+      input.current?.getInputElement()?.select();
+    } else if (restoreFocus.current) {
+      inlineTrigger.current?.focus();
+      restoreFocus.current = false;
+    }
+  }, [inlineEditing]);
   const offered = options.filter(
     (option) => !isOptionAllowed || isOptionAllowed(option),
   );
@@ -190,18 +219,43 @@ export function TokenComboBox({
       )}
     </ComboBoxItem>
   );
-  function acceptCustomValue() {
+  function finishEditing(focusTrigger = false) {
+    keyboardSelection.current = false;
+    setEditing(false);
+    setQuery("");
+    setCustomError(undefined);
+    if (inline) {
+      restoreFocus.current = focusTrigger;
+      setInlineEditing(false);
+      setMenuOpen(false);
+    }
+  }
+  function acceptCustomValue(reportError = false) {
     if (!customValue || isDisabled) return;
     try {
       customValue.onAccept(query);
-      setCustomError(undefined);
-      setEditing(false);
-      setQuery("");
+      finishEditing(!reportError);
     } catch (failure) {
       setCustomError(
         failure instanceof Error ? failure.message : String(failure),
       );
+      if (reportError) notify.error(failure);
     }
+  }
+  if (inline && !inlineEditing) {
+    return (
+      <ActionButton
+        ref={inlineTrigger}
+        isQuiet
+        size={size}
+        styles={inlineValueStyles}
+        aria-label={ariaLabel ?? label}
+        isDisabled={isDisabled}
+        onPress={() => setInlineEditing(true)}
+      >
+        <Text>{selected?.displayValue ?? customValue?.displayValue}</Text>
+      </ActionButton>
+    );
   }
   return (
     <div
@@ -210,9 +264,24 @@ export function TokenComboBox({
       data-clearable={hasClearAction || undefined}
       data-invalid={!!fieldError || undefined}
       data-show-tag={showTag || undefined}
+      onKeyDownCapture={(event) => {
+        if (!numeric || event.nativeEvent.isComposing) return;
+        if (event.key === "ArrowDown" || event.key === "ArrowUp")
+          keyboardSelection.current = true;
+        if (
+          event.key === "Enter" &&
+          !keyboardSelection.current &&
+          event.target === input.current?.getInputElement()
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+          acceptCustomValue();
+        }
+      }}
     >
       <div className="tokenComboBoxControls">
         <ComboBox
+          size={size}
           label={fieldLabel}
           aria-labelledby={label ? undefined : labelId}
           ref={input}
@@ -239,9 +308,10 @@ export function TokenComboBox({
                 ? "Unavailable token"
                 : selected
                   ? ""
-                  : customValue
-                    ? "Enter a value or choose a token"
-                    : "Choose a token"
+                  : (placeholder ??
+                    (customValue
+                      ? "Enter a value or choose a token"
+                      : "Choose a token"))
           }
           allowsCustomValue={!!customValue}
           disabledKeys={disabled}
@@ -258,19 +328,25 @@ export function TokenComboBox({
             setEditing(true);
           }}
           onBlur={() => {
-            if (!customValue) {
-              setEditing(false);
-              setQuery("");
-            }
+            if (inline) {
+              if (
+                editing &&
+                query !==
+                  (selected?.displayValue ?? customValue?.displayValue ?? "")
+              )
+                acceptCustomValue(true);
+              finishEditing();
+            } else if (!customValue) finishEditing();
           }}
           onKeyDown={(event) => {
             if (customValue && event.key === "Escape") {
-              setEditing(false);
-              setQuery("");
-              setCustomError(undefined);
+              if (inline) event.stopPropagation();
+              finishEditing(true);
             }
           }}
           onInputChange={(text) => {
+            if (numeric && !/^(?:\d+(?:\.\d*)?|\.\d*)?$/.test(text)) return;
+            keyboardSelection.current = false;
             if (!editing && customValue && text === customValue.displayValue)
               return;
             const current = options.find(
@@ -292,9 +368,7 @@ export function TokenComboBox({
               return;
             }
             if (key === literalKey) {
-              setEditing(false);
-              setQuery("");
-              setCustomError(undefined);
+              finishEditing(true);
               return;
             }
             const option = options.find((item) => item.id === key);
@@ -311,17 +385,23 @@ export function TokenComboBox({
             }
             committed.current = option.id;
             onChange(option.id);
-            setCustomError(undefined);
-            setEditing(false);
-            setQuery("");
+            finishEditing(true);
           }}
         >
-          {customValue && editing && query.trim() && (
-            <ComboBoxItem id={customKey} textValue={query}>
-              <Text slot="label">Use this value</Text>
-              <Text slot="description">{query}</Text>
-            </ComboBoxItem>
-          )}
+          {customValue &&
+            editing &&
+            query.trim() &&
+            (!numeric ||
+              (Number(query) > 0 &&
+                !choices.some(
+                  (option) => Number(option.name) === Number(query),
+                ))) &&
+            (!customValue.isAllowed || customValue.isAllowed(query)) && (
+              <ComboBoxItem id={customKey} textValue={query}>
+                <Text slot="label">{numeric ? query : "Use this value"}</Text>
+                {!numeric && <Text slot="description">{query}</Text>}
+              </ComboBoxItem>
+            )}
           {acceptedLiteral && customValue && (
             <ComboBoxItem id={literalKey} textValue={customValue.displayValue}>
               <Text slot="label">Current value</Text>
@@ -344,7 +424,7 @@ export function TokenComboBox({
         {hasClearAction && (
           <div className="tokenComboBoxClear">
             <ActionButton
-              size="S"
+              size={size ?? "S"}
               isQuiet
               isDisabled={isDisabled}
               aria-label={`Clear ${ariaLabel ?? label ?? "token"}`}
