@@ -19,7 +19,6 @@ import {
   contrastModesAtom,
   cssBaseDocumentAtom,
   customContrastModeDocumentsAtom,
-  scaleModeDocumentsAtom,
 } from "../../src/features/color-system/state";
 import { taxonomyDocumentAtom } from "../../src/features/taxonomy/state";
 import { rulesAtom } from "../../src/features/logic/library";
@@ -1845,7 +1844,6 @@ test("Complete application CSS copies exact bytes and cannot copy an obsolete so
     store.get(cssBaseDocumentAtom),
     store.get(colorSchemeDocumentsAtom),
     store.get(contrastModesAtom),
-    store.get(scaleModeDocumentsAtom),
     store.get(taxonomyDocumentAtom),
     store.get(rulesAtom),
     store.get(customContrastModeDocumentsAtom),

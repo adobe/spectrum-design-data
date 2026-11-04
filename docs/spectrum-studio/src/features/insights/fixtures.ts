@@ -66,13 +66,6 @@ export const SAMPLE_SYSTEM_INSIGHTS: SystemInsights = {
       previousScore: 0.43,
       summary: "4 of 7 foundations expose user-adjustable parameters",
     },
-    {
-      id: "conformance",
-      label: "Spec conformance",
-      score: 0.88,
-      previousScore: 0.81,
-      summary: "52 of 59 design-data spec rules pass",
-    },
   ],
   attention: [
     {
@@ -102,15 +95,6 @@ export const SAMPLE_SYSTEM_INSIGHTS: SystemInsights = {
       pillarId: "systematicity",
       foundationId: "color",
       suggestedAction: "Review stale overrides",
-    },
-    {
-      id: "spec-rules",
-      severity: "info",
-      title: "7 design-data spec rules fail",
-      impact: "Mostly missing mode-set coverage on spacing tokens",
-      pillarId: "conformance",
-      foundationId: "spacing",
-      suggestedAction: "Run spec validation and fix coverage gaps",
     },
   ],
   divergence: {

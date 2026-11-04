@@ -30,6 +30,11 @@ export const NOTIFICATION_KINDS = {
     impact:
       "Deleting this removes the component and its property assignments from the design data output.",
   },
+  token: {
+    noun: "Token",
+    tier: "api",
+    impact: "Deleting this removes the token from the design data output.",
+  },
   alias: {
     noun: "Alias",
     tier: "api",

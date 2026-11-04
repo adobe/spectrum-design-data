@@ -16,6 +16,7 @@ import {
 import { capabilityOwners, parameterOwners } from "../modes/parameters";
 import { ADAPTIVE_CLAIM_DEFAULTS, adaptiveClaimsAtom } from "../modes/adaptive";
 import type { ColorSystemDocument } from "../color-system/model";
+import { storedCustomContrasts } from "../color-system/customContrastConfig";
 import { resolveToken } from "../tokens/state";
 import { PALETTE_SCALE_ID } from "../tokens/model";
 import { buildCascadeTokenExport } from "../tokens/cascadeExport";
@@ -81,6 +82,8 @@ import { elevationOwnerIds } from "../elevation/output";
 import { opacityChanges, opacityTokenChanges } from "../opacity/changes";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
 import { opacityDocumentAtom } from "../opacity/state";
+import { restoreSwatchIndexAssignments } from "./swatchIndexReset";
+import { assertSwatchIndices, swatchIndex } from "../scales/swatchIndices";
 import { restorePath } from "./contract";
 import {
   assertStructureReferences,
@@ -126,7 +129,11 @@ const savedChangeTokensAtom = atom((get) => {
     .map(modeSetDefaultMode)
     .filter((mode) => mode !== undefined);
   return generateDocumentTokens(
-    resolveColorDocument(document, defaultModes, undefined, { modeSets }),
+    resolveColorDocument(document, defaultModes, undefined, {
+      modeSets,
+      opacity: get(opacityDocumentAtom),
+      browserTokenEdits: get(browserTokenEditsAtom),
+    }),
     get(rulesAtom),
   ).map((generated) => resolveToken(generated, overrides[generated.uuid]));
 });
@@ -151,6 +158,10 @@ export const savedModeTokenRowsAtom = atom((get) => {
   ) =>
     buildCascadeTokenExport({
       base,
+      opacity:
+        includeBrowserEdits || base === document
+          ? get(opacityDocumentAtom)
+          : OPACITY_DEFAULTS,
       modeSets: sets,
       activeModes: modes,
       activeTokens: [],
@@ -535,7 +546,7 @@ function restoreFoundation(
     case "contrast":
       return {
         ...document,
-        contrasts: restoreObject(
+        contrasts: restoreContrast(
           defaults.contrasts,
           document.contrasts,
           item.id,
@@ -557,6 +568,23 @@ function restoreFoundation(
     default:
       return document;
   }
+}
+
+function restoreContrast(
+  defaults: ColorSystemDocument["contrasts"],
+  current: ColorSystemDocument["contrasts"],
+  id: string,
+) {
+  if (!current.some((step) => step.scaleIndex !== undefined))
+    return restoreObject(defaults, current, id);
+  const pinned = (steps: ColorSystemDocument["contrasts"]) =>
+    steps.map((step, position) => ({
+      ...step,
+      scaleIndex: swatchIndex(step, position),
+    }));
+  const next = restoreObject(pinned(defaults), pinned(current), id);
+  assertSwatchIndices(next.map((step) => step.scaleIndex));
+  return next.sort((a, b) => a.scaleIndex - b.scaleIndex);
 }
 
 function restoreTokenStructure(
@@ -616,7 +644,6 @@ function restoreModeColorSource(
     .filter((field) => field.generated && field.key.startsWith("Value · "))
     .flatMap((field) => field.key.slice("Value · ".length).split(" / "));
   const owners = parameterOwners(modeSets);
-  const scaleOwner = capabilityOwners(modeSets)["color.scales"];
   const scaleId = item.source?.scaleId;
   let restored = false;
   const next = modeSets.map((modeSet) => ({
@@ -648,14 +675,13 @@ function restoreModeColorSource(
         if (Object.keys(scales).length) color.scaleContrasts = scales;
         else delete color.scaleContrasts;
       } else if (
-        scaleId &&
-        scaleOwner === modeSet.id &&
-        color.scaleStops?.[scaleId]
+        capabilityOwners(modeSets)["color.scaleAdjustment"] === modeSet.id &&
+        JSON.stringify(color.scaleAdjustment) !==
+          JSON.stringify(baseline?.scaleAdjustment)
       ) {
-        const scaleStops = { ...color.scaleStops };
-        delete scaleStops[scaleId];
-        if (Object.keys(scaleStops).length) color.scaleStops = scaleStops;
-        else delete color.scaleStops;
+        if (baseline?.scaleAdjustment)
+          color.scaleAdjustment = structuredClone(baseline.scaleAdjustment);
+        else delete color.scaleAdjustment;
       } else if (
         owners["color.backgroundScaleId"] === modeSet.id &&
         color.backgroundScaleId !== baseline?.backgroundScaleId
@@ -697,9 +723,12 @@ export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
       throw new Error("Enter edit mode to revert opacity.");
     let snapshot = get(authoringSnapshotAtom);
     const shipped = { ...snapshot, opacity: structuredClone(OPACITY_DEFAULTS) };
-    for (const address of item.addresses ??
-      item.fields.flatMap((field) => (field.address ? [field.address] : [])))
+    const addresses =
+      item.addresses ??
+      item.fields.flatMap((field) => (field.address ? [field.address] : []));
+    for (const address of addresses)
       snapshot = restorePath(snapshot, shipped, address);
+    snapshot = restoreSwatchIndexAssignments(snapshot, shipped, addresses);
     set(restoreAuthoringSnapshotAtom, snapshot);
     return;
   }
@@ -1133,13 +1162,13 @@ export const revertChangeTopicAtom = atom(
     }
     if (topic === "logic") {
       if (
-        get(colorSystemDocumentAtom).scales.some(
-          (scale) =>
-            scale.customContrasts &&
-            !RULE_DEFAULTS.some(
-              (rule) => rule.id === scale.customContrasts?.namingRuleId,
-            ),
-        )
+        get(colorSystemDocumentAtom).scales.some((scale) => {
+          const custom = storedCustomContrasts(scale);
+          return (
+            custom &&
+            !RULE_DEFAULTS.some((rule) => rule.id === custom.namingRuleId)
+          );
+        })
       ) {
         throw new Error(
           "Choose a shipped naming rule on custom color scales before reverting Logic.",
