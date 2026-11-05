@@ -14,6 +14,7 @@ import {
   type StructureRuleApplication,
 } from "./model";
 import { isLeaf } from "./children";
+import { isGeneratingBinding } from "./generation";
 import type { StructureElement } from "./elements";
 import type { VariantSemanticIdentities } from "./semanticIdentity";
 
@@ -325,7 +326,7 @@ export function resolveStructureOptions(
   });
   const sourceIds = new Set([
     ...structure.properties
-      .filter((binding) => "$ref" in binding)
+      .filter(isGeneratingBinding)
       .map((binding) => binding.id),
     ...(structure.elements ?? []).flatMap((element) =>
       isLeaf(element) ? element.bindings.map((binding) => binding.id) : [],
@@ -333,7 +334,7 @@ export function resolveStructureOptions(
   ]);
   const activeIds = new Set([
     ...resolved.properties
-      .filter((binding) => "$ref" in binding)
+      .filter(isGeneratingBinding)
       .map((binding) => binding.id),
     ...visibleElements.flatMap((element) =>
       isLeaf(element) ? element.bindings.map((binding) => binding.id) : [],

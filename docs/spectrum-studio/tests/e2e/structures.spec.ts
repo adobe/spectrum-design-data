@@ -1399,14 +1399,18 @@ test("Structure panels use regular accordions and float above a pannable, zoomab
         (element) => getComputedStyle(element).backgroundColor,
       ),
     ).not.toBe("rgba(0, 0, 0, 0)");
-    expect(
-      await panel.locator('[data-component="NestedPanelAccordion"]').count(),
-    ).toBe(0);
   }
+  expect(
+    await metadata.locator('[data-component="NestedPanelAccordion"]').count(),
+  ).toBe(0);
+  // Constraints sit in a nested accordion that starts collapsed.
+  await expect(
+    settings.getByRole("button", { name: "Constraints", exact: true }),
+  ).toHaveAttribute("aria-expanded", "false");
 
   for (const [panel, titles] of [
     [metadata, ["Metadata", "Generated variants", "Layers"]],
-    [settings, ["Properties", "Appearance"]],
+    [settings, ["Properties", "Layout"]],
   ] as const) {
     for (const title of titles) {
       const toggle = panel.getByRole("button", { name: title, exact: true });

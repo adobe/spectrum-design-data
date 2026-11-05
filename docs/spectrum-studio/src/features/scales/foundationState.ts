@@ -36,6 +36,7 @@ export type DimensionScalePatch = Partial<
     | "base"
     | "below"
     | "above"
+    | "startStep"
     | "parameters"
     | "bindings"
     | "roundingRuleId"

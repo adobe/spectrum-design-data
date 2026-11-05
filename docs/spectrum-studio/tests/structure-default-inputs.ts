@@ -126,8 +126,8 @@ for (const mapping of mappings) {
   assert.equal(resolved.styles.width, mapping.target.value);
 }
 for (const [name, values] of [
-  ["Base", [14, 14, 16, 20, 22]],
-  ["Accessory", [14, 14, 14, 16, 20]],
+  ["Base", [14, 16, 18, 20, 22]],
+  ["Accessory", [14, 14, 16, 18, 20]],
 ] as const) {
   const structure = snapshot.structures!.structures.find(
     (structure) => structure.name === name,

@@ -87,24 +87,62 @@ export function StructureElementEditorPanel({
       },
     };
   }
+  const header =
+    element.kind === "slot" ||
+    element.kind === "workflowIcon" ||
+    element.kind === "uiIcon" ? (
+      <>
+        {element.kind === "slot" && (
+          <EditableTextField
+            size="S"
+            label="Slot name"
+            value={slotName}
+            isReadOnly={isReadOnly}
+            onChange={setSlotName}
+            onBlur={() => {
+              if (slotName !== element.name)
+                commit(() => onChange({ name: slotName }));
+            }}
+          />
+        )}
+        {(element.kind === "workflowIcon" || element.kind === "uiIcon") && (
+          <IconSamplePicker
+            selectedIcon={element.glyph as SpectrumIconName}
+            allowedIcons={element.kind === "uiIcon" ? UI_GLYPHS : undefined}
+            isDisabled={isReadOnly}
+            isCompact
+            size="S"
+            onChange={(glyph) => commit(() => onChange({ glyph }))}
+          />
+        )}
+      </>
+    ) : undefined;
   const content = (
-    <div className="structureEditorFields">
-      {element.kind === "slot" && (
-        <EditableTextField
-          label="Slot name"
-          value={slotName}
-          isReadOnly={isReadOnly}
-          onChange={setSlotName}
-          onBlur={() => {
-            if (slotName !== element.name)
-              commit(() => onChange({ name: slotName }));
-          }}
-        />
-      )}
+    <div className="structureAppearance">
       <StructureAppearanceControls
         fields={fields}
         sizingLayout="individual"
         isReadOnly={isReadOnly}
+        header={header}
+        layoutControls={
+          element.kind === "bar" ? (
+            <Picker
+              size="S"
+              label="Orientation"
+              selectedKey={element.orientation}
+              isDisabled={isReadOnly}
+              onSelectionChange={(key) => {
+                if (typeof key === "string")
+                  commit(() => onChange({ orientation: key }));
+              }}
+            >
+              <PickerItem id={STRUCTURE_TERM_IDS.horizontal}>
+                Horizontal
+              </PickerItem>
+              <PickerItem id={STRUCTURE_TERM_IDS.vertical}>Vertical</PickerItem>
+            </Picker>
+          ) : undefined
+        }
         onChange={(changes) => {
           for (const slot of elementSlots(element.kind)) {
             const value = changes[slot];
@@ -118,38 +156,14 @@ export function StructureElementEditorPanel({
             );
           }
         }}
-      >
-        {(element.kind === "workflowIcon" || element.kind === "uiIcon") && (
-          <IconSamplePicker
-            selectedIcon={element.glyph as SpectrumIconName}
-            allowedIcons={element.kind === "uiIcon" ? UI_GLYPHS : undefined}
-            isDisabled={isReadOnly}
-            isCompact
-            onChange={(glyph) => commit(() => onChange({ glyph }))}
-          />
-        )}
-        {element.kind === "bar" && (
-          <Picker
-            label="Orientation"
-            selectedKey={element.orientation}
-            isDisabled={isReadOnly}
-            onSelectionChange={(key) => {
-              if (typeof key === "string")
-                commit(() => onChange({ orientation: key }));
-            }}
-          >
-            <PickerItem id={STRUCTURE_TERM_IDS.horizontal}>
-              Horizontal
-            </PickerItem>
-            <PickerItem id={STRUCTURE_TERM_IDS.vertical}>Vertical</PickerItem>
-          </Picker>
-        )}
-      </StructureAppearanceControls>
+      />
       {error && (
-        <InlineAlert variant="negative">
-          <Heading>Check this element</Heading>
-          <Content>{error}</Content>
-        </InlineAlert>
+        <div className="structureAppearanceLoose">
+          <InlineAlert variant="negative">
+            <Heading>Check this element</Heading>
+            <Content>{error}</Content>
+          </InlineAlert>
+        </div>
       )}
     </div>
   );

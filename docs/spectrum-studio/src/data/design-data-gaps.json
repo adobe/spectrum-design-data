@@ -2,6 +2,48 @@
   "schemaVersion": 1,
   "gaps": [
     {
+      "id": "LTAX-020",
+      "title": "Guided token creation and Registry category relevance",
+      "links": ["GAP-006", "JTC-003"],
+      "kind": "app-capability",
+      "direction": "app-to-reference",
+      "owner": "leonardo",
+      "scope": "Edit-mode Add token walk-through: a raw-value or purpose-based choice, one of seven value types, one existing-term question per relevant Registry category in name order, live name preview and duplicate blocking. Creates an untargeted manual draft with type-default modes whose values are set in the Token Dialog. The optional Registry category appliesTo field (raw, purpose or both) only decides which questions appear; it is app-owned authoring metadata with no design-data-spec equivalent and adds no token tier to output.",
+      "profile": "reference-checkout",
+      "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": { "status": "needed" },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-020-C1",
+          "description": "Review appliesTo filtering (missing means both), name-order questions, skip, duplicate blocking and edit-mode-only creation.",
+          "check": "manual",
+          "evidence": [
+            "tests/token-creation-flow.ts",
+            "src/features/tokens/creationFlow.ts",
+            "src/features/taxonomy/model.ts"
+          ]
+        },
+        {
+          "id": "LTAX-020-C2",
+          "description": "Review untargeted manual drafts: missing-value diagnostics, type-default mode axes, Token Dialog value saves, Changes listing and cancel discard. Local checks do not establish an upstream token-tier or category-relevance representation.",
+          "check": "manual",
+          "evidence": [
+            "tests/token-creation-flow.ts",
+            "src/features/tokens/aliasTargets.ts",
+            "src/panels/tokens/AddTokenDialog.tsx"
+          ]
+        }
+      ],
+      "blockers": [
+        "No design-data-spec field for category relevance or token tier",
+        "Motion tokens are excluded until a Motion authoring surface exists"
+      ],
+      "history": []
+    },
+    {
       "id": "LTAX-019",
       "title": "Registry Size generators and typed rule applicability",
       "links": ["GAP-006", "JTC-003", "JTC-005"],
@@ -94,7 +136,7 @@
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "Structures schema 5 and envelope 18: reusable property definitions, shared layer topology, option-local visibility/order/bindings, temporary boolean previews, explicit Registry classifications, sparse root/leaf semantic outputs, and optional Visual width/height constraints. Structure and leaf Appearance share configurable controls. Local output uses leonardo-structure-variants-v3 and compatibility envelope 3. No upstream variants or anatomy contract is claimed.",
+      "scope": "Structures schema 7: reusable parent properties, explicit owned-layout occurrence mappings, option-local visibility/order/bindings, temporary boolean previews, explicit Registry classifications, sparse root/leaf semantic outputs, optional Visual constraints and per-binding generated-size selections. Parent mappings and size selections are New app-owned authoring metadata, not upstream schema fields. Independent reusable references retain source-owned settings; mapped owned layouts retain their generated token identities and ownership. Structure and leaf Appearance share configurable controls. Local output uses leonardo-structure-variants-v3 and compatibility envelope 3. No upstream variants or anatomy contract is claimed.",
       "profile": "reference-checkout",
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "implemented",
@@ -109,6 +151,8 @@
           "evidence": [
             "tests/structure-variants.ts",
             "tests/structure-variant-state.ts",
+            "tests/structure-parent-configuration.ts",
+            "tests/list-item-parent-options.ts",
             "tests/persistence.ts"
           ]
         },
@@ -219,7 +263,7 @@
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "One saved Color configuration for sRGB/P3/Rec 2020 authoring, CSS output notation and optional sRGB appearance mapping; formatted-value contrast enforcement and source-preserving picker defaults. Settings and representations add no token concepts or mode-value denominators. Related native and alignment boundaries remain tracked by LTAX-004/005/007/010/014.",
+      "scope": "One saved Color configuration for sRGB/P3/Rec 2020 authoring, CSS output notation and optional sRGB appearance mapping; formatted-value contrast enforcement and source-preserving picker defaults. Standard scales select Dynamic blend, Opaque or Transparent. Transparent can reference Opacity levels as its default stop inventory, retaining exact alpha and measuring contrast rather than enforcing a target; custom contrast scales remain independent. Representation settings alone add no concepts; linked default color inventories follow the referenced opacity levels. Related native and alignment boundaries remain tracked by LTAX-004/005/007/010/014.",
       "profile": "reference-checkout",
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "verified",
@@ -238,6 +282,31 @@
           "description": "Accept a pinned upstream representation contract for modern CSS gamut/format output and compound shadows",
           "check": "manual",
           "evidence": []
+        },
+        {
+          "id": "LTAX-015-C3",
+          "description": "Review standard color type selection and explicit opacity-linked default stops: exact alpha including the functional-format exception for Hex, mode/edit propagation, measured contrast, unchanged custom target behavior, CSS variable references and Changes/reset/persistence. Local checks do not establish an upstream derivation contract.",
+          "check": "manual",
+          "evidence": [
+            "src/features/color-system/colorScaleResolution.ts",
+            "src/features/color-system/colorScaleType.ts",
+            "tests/color-scale-type.ts",
+            "tests/color-scale-type-lifecycle.ts",
+            "tests/e2e/color-scale-type.spec.ts",
+            "docs/color-system-data-vis.md"
+          ]
+        },
+        {
+          "id": "LTAX-015-C4",
+          "description": "Review mode-owned relative adjustments and shared-key absolute colorization: exact matching-target ramp equality, RGB interpolation, preserved contrast targets and base sources, independent envelope-22 upgrades, Changes/reset and impact propagation. This is local authoring behavior, not an accepted upstream derivation contract.",
+          "check": "manual",
+          "evidence": [
+            "src/features/color-system/scaleAdjustment.ts",
+            "src/features/edit-session/scaleAdjustmentUpgrade.ts",
+            "tests/color-scheme-wireframe.ts",
+            "tests/scale-adjustment-lifecycle.ts",
+            "docs/design-data-authoring-storage-contract.md"
+          ]
         }
       ],
       "blockers": [
@@ -619,7 +688,7 @@
       "kind": "app-capability",
       "direction": "joint",
       "owner": "leonardo",
-      "scope": "Existing supported mode variables, shared base/nondefault overrides including custom-color main-ratio patches owned by Overall contrast, foundation interface attachments, independent preview/app appearance and durable saved/working state; no new token assignments from interface membership",
+      "scope": "Existing supported mode variables, shared base/nondefault overrides including custom-color main-ratio patches owned by Overall contrast, reversible per-scale custom contrast settings retained while shared steps are active, foundation interface attachments, independent preview/app appearance and durable saved/working state; no new token assignments from interface membership",
       "profile": "reference-checkout",
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "implemented",
@@ -637,7 +706,10 @@
           "id": "LTAX-005-C2",
           "description": "Review supported capabilities and explicit assignment coverage separately from interface-only attachments and unused mode declarations",
           "check": "manual",
-          "evidence": []
+          "evidence": [
+            "tests/custom-contrast-toggle.ts",
+            "docs/color-system-data-vis.md"
+          ]
         }
       ],
       "blockers": [
@@ -1478,12 +1550,15 @@
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "Direction, acyclic reusable Structure references, independent local labels and Registry Element/Structure token naming, source-owned sizing and Text gap outputs. Extends spectrum-design-data-tshirt-subset-v1 with the declared local leonardo-structure-naming-v2 profile. Instance trees remain authoring-only; no copied substructures, inline overrides or leaf tokens.",
+      "scope": "Direction, acyclic reusable Structure references, Registry-backed top-level names, local owned Layout labels, separate generation naming, occurrence-scoped options and source-owned sizing/Text gap outputs. Portable authoring schema 1 and envelope 21 separate definitions, publication identities and glyph resources. Extends spectrum-design-data-tshirt-subset-v1 with the declared local leonardo-structure-naming-v2 profile. Instance trees remain authoring-only; no overrides inside independent Structure references or leaf tokens.",
       "profile": "reference-checkout",
       "revision": "eba428d462bfb5a3288835cb6cf0dcb1c4dc93af",
       "implementation": "verified",
       "disposition": "not assessed",
-      "rfc": { "status": "needed" },
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/portable-structures.md"
+      },
       "expected": [],
       "criteria": [
         {
@@ -1520,6 +1595,23 @@
             "tests/e2e/structure-references.spec.ts",
             "tests/e2e/storybook-structure-references.spec.ts",
             "src/views/structures/ReusableStructures.stories.tsx"
+          ]
+        },
+        {
+          "id": "LTAX-013-C5",
+          "description": "Review the local Registry-backed portable Structure source, occurrence-scoped effects, publication identities/resources, saved/working migration and shared root/nested edit operation. Local preservation and lifecycle tests do not establish upstream schema or architecture acceptance.",
+          "check": "manual",
+          "evidence": [
+            "src/features/structures/portableModel.ts",
+            "src/features/structures/portableConversion.ts",
+            "src/features/structures/portableOperations.ts",
+            "src/features/structures/configurationState.ts",
+            "src/features/edit-session/structureSourceCodec.ts",
+            "tests/structure-portable-contract.ts",
+            "tests/structure-portable-persistence.ts",
+            "tests/structure-configuration-operations.ts",
+            "docs/structure-element-templates.md",
+            "docs/rfcs/portable-structures.md"
           ]
         }
       ],

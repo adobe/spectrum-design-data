@@ -61,7 +61,11 @@ export interface RoundingRule
   depth: RoundingDepth;
 }
 
-export type TshirtMovement = "available-token" | "scale-index";
+export type TshirtMovement = "available-token" | "scale-index" | "ratio";
+/** Where a "ratio" movement gets its multiplier: a typed number or a linked formula part. */
+export type TshirtRatioSource =
+  | { kind: "value"; value: number }
+  | { kind: "parameter"; scaleTypeId: string; parameterId: string };
 export interface TshirtSizeMapping {
   /** Registry size-term UUID, not a display label. */
   termId: string;
@@ -72,6 +76,10 @@ export interface TshirtSizingRule extends RuleBase {
   movement: TshirtMovement;
   mappings: TshirtSizeMapping[];
   defaultTermId?: string;
+  /** Ratio movement only: each step multiplies (or divides) Medium by this ratio. */
+  ratio?: TshirtRatioSource;
+  /** Ratio movement only: rounding rule applied to each multiplied value. */
+  roundingRuleId?: string;
 }
 export interface ScaleNamingRule extends RuleBase {
   type: "scale-naming";
@@ -126,6 +134,44 @@ function isFiniteNumber(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
 
+export function isTshirtRatioSource(
+  value: unknown,
+): value is TshirtRatioSource {
+  if (!value || typeof value !== "object") return false;
+  const source = value as Record<string, unknown>;
+  if (source.kind === "value")
+    return (
+      Object.keys(source).every((key) => key === "kind" || key === "value") &&
+      isFiniteNumber(source.value) &&
+      source.value > 0
+    );
+  return (
+    source.kind === "parameter" &&
+    Object.keys(source).every((key) =>
+      ["kind", "scaleTypeId", "parameterId"].includes(key),
+    ) &&
+    typeof source.scaleTypeId === "string" &&
+    !!source.scaleTypeId.trim() &&
+    typeof source.parameterId === "string" &&
+    !!source.parameterId.trim()
+  );
+}
+
+function isTshirtMovementValid(rule: Partial<TshirtSizingRule>) {
+  if (rule.movement === "ratio")
+    return (
+      isTshirtRatioSource(rule.ratio) &&
+      (rule.roundingRuleId === undefined ||
+        (typeof rule.roundingRuleId === "string" &&
+          !!rule.roundingRuleId.trim()))
+    );
+  return (
+    (rule.movement === "available-token" || rule.movement === "scale-index") &&
+    rule.ratio === undefined &&
+    rule.roundingRuleId === undefined
+  );
+}
+
 function isRoundingOutcome(value: unknown): value is RoundingOutcome {
   return (
     !!value &&
@@ -164,8 +210,7 @@ export function isRule(value: unknown): value is Rule {
     return false;
   if (rule.type === "generator") {
     return (
-      (rule.movement === "available-token" ||
-        rule.movement === "scale-index") &&
+      isTshirtMovementValid(rule) &&
       Object.keys(rule).every((key) =>
         [
           "id",
@@ -177,6 +222,8 @@ export function isRule(value: unknown): value is Rule {
           "mappings",
           "defaultTermId",
           "applicability",
+          "ratio",
+          "roundingRuleId",
         ].includes(key),
       ) &&
       Array.isArray(rule.mappings) &&
@@ -216,8 +263,7 @@ export function isRule(value: unknown): value is Rule {
   }
   if (rule.type === "tshirt-sizing") {
     return (
-      (rule.movement === "available-token" ||
-        rule.movement === "scale-index") &&
+      isTshirtMovementValid(rule) &&
       Array.isArray(rule.mappings) &&
       rule.mappings.length === COMPONENT_SIZES.length &&
       Object.keys(rule).every((key) =>
@@ -231,6 +277,8 @@ export function isRule(value: unknown): value is Rule {
           "mappings",
           "applicability",
           "defaultTermId",
+          "ratio",
+          "roundingRuleId",
         ].includes(key),
       ) &&
       COMPONENT_SIZES.every((size) => {

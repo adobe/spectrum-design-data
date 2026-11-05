@@ -126,10 +126,25 @@ export function appendStructureVariantArtifacts(
             continue;
           changes[slot] = selection;
         }
+        const generation = structureGeneration(structure);
+        // A typed number only generates sizes under a ratio rule; otherwise it stays a constant literal.
+        for (const [key, selection] of Object.entries(changes)) {
+          if (!("value" in selection!) || selection.value.kind !== "number")
+            continue;
+          const id = structureBinding(structure, key as StructureSlot)?.id;
+          const application = generation.applications.find(
+            (item) =>
+              item.targets.kind === "all" ||
+              (!!id && item.targets.bindingIds.includes(id)),
+          );
+          const rule = source.rules?.find(
+            (item) => item.id === application?.ruleId,
+          ) as Partial<TshirtSizingRule> | undefined;
+          if (rule?.movement !== "ratio") delete changes[key as StructureSlot];
+        }
         const slots = Object.keys(changes) as StructureSlot[];
         if (!slots.length) continue;
         const effective = assignStructure(structure, changes);
-        const generation = structureGeneration(structure);
         const inheritedRule: TshirtSizingRule = {
           ...inheritedBindingRule,
           type: "generator",
@@ -217,6 +232,13 @@ export function appendStructureVariantArtifacts(
             ...source,
             rules: [...(source.rules ?? []), inheritedRule],
             structures: { ...source.structures, structures: [isolated] },
+            linkedReferenceIds:
+              source.linkedReferenceIds ??
+              source.structures!.structures.flatMap((item) =>
+                item.properties.flatMap((binding) =>
+                  "$ref" in binding ? [binding.$ref] : [],
+                ),
+              ),
           },
           bundle.sourceKind,
         );

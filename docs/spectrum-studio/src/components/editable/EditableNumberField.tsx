@@ -17,6 +17,7 @@ export function EditableNumberField({
   isReadOnly,
   labelPosition = "side",
   layout,
+  labelWidth,
   ...props
 }: EditableNumberFieldProps) {
   const readOnly = useIsReadOnly(isReadOnly);
@@ -25,7 +26,12 @@ export function EditableNumberField({
     return (
       <LabeledValue
         label={props.label}
-        {...getFieldLayoutProps({ ...props, labelPosition, layout })}
+        {...getFieldLayoutProps({
+          ...props,
+          labelPosition,
+          layout,
+          labelWidth,
+        })}
         labelAlign={props.labelAlign}
         size={props.size}
         contextualHelp={props.contextualHelp}
@@ -37,6 +43,11 @@ export function EditableNumberField({
   }
 
   return (
-    <NumberField {...props} labelPosition={labelPosition} layout={layout} />
+    <NumberField
+      {...props}
+      labelPosition={labelPosition}
+      layout={layout}
+      labelWidth={labelWidth}
+    />
   );
 }

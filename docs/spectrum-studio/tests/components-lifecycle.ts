@@ -47,6 +47,7 @@ import { createScaleType } from "../src/features/scales/scaleType";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { componentRelationships } from "../src/features/components/projection";
 import { componentKey } from "../src/features/components/model";
+import { SIZE_SCALE_TYPE_ID } from "../src/features/scales/scaleType";
 
 const store = createStore();
 const baseline = createDefaultSnapshot();
@@ -201,9 +202,10 @@ assert.equal(
   store.get(scaleTypesAtom).some((item) => item.id === formula.id),
   false,
 );
+// Removing the formula falls back to the Size foundation's shipped formula.
 assert.equal(
   store.get(authoringSnapshotAtom).size!.scales[0].scaleTypeId,
-  baseline.size!.scales[0].scaleTypeId,
+  SIZE_SCALE_TYPE_ID,
 );
 assert.deepEqual(store.get(componentsDocumentAtom), baseline.components);
 const beforeRejectedPatch = structuredClone(store.get(authoringSnapshotAtom));

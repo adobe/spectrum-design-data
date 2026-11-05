@@ -74,6 +74,10 @@ export function summarizeRule(rule: Rule) {
           `${COMPONENT_SIZES.find((size) => SIZE_TERM_IDS[size.id] === mapping.termId)?.label ?? "Option"}: ${mapping.offset}`,
       )
       .join(" / ") +
-    (rule.movement === "scale-index" ? " (scale index)" : " (available tokens)")
+    (rule.movement === "scale-index"
+      ? " (scale index)"
+      : rule.movement === "ratio"
+        ? " (multiply by ratio)"
+        : " (available tokens)")
   );
 }

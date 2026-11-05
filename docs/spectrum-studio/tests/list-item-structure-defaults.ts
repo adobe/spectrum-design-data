@@ -176,7 +176,7 @@ for (const icon of [contentStart.elements?.[1], contentEnd.elements?.[3]]) {
 }
 
 const bundle = buildTshirtArtifacts(snapshot, "shipped");
-assert.equal(bundle.semantics.length, 97);
+assert.equal(bundle.semantics.length, 122);
 const listRows = bundle.semantics.filter((row) =>
   [listItem, verticalPadding, contentLayout].some(
     (structure) => structure.conceptId === row.structureId,
@@ -212,7 +212,7 @@ const indentation = ([0, 1, 2] as const).map(
 assert.deepEqual(indentation, [0, 16, 32]);
 assert.equal(
   bundle.semantics.length,
-  97,
+  122,
   "Preview indentation does not add semantic tokens.",
 );
 

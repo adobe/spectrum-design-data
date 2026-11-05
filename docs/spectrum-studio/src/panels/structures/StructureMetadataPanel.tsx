@@ -11,6 +11,7 @@ import {
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { useEffect, useState } from "react";
 import { Panel } from "../../components/Panel";
+import { FieldLabel } from "../../components/fields/FieldLabel";
 import { EditableTextField } from "../../components/editable";
 import type { Structure } from "../../features/structures/model";
 import { renameStructureAtom } from "../../features/structures/state";
@@ -76,7 +77,7 @@ export function StructureMetadataPanel({
       className="structureMetadataPanel"
     >
       <Accordion
-        size="M"
+        size="S"
         density="spacious"
         allowsMultipleExpanded
         defaultExpandedKeys={["metadata", "generation", "layers"]}
@@ -86,7 +87,7 @@ export function StructureMetadataPanel({
           <AccordionItemPanel>
             <div className="structureEditorFields">
               <EditableTextField
-                size="M"
+                size="S"
                 label="Name"
                 isRequired
                 value={name}
@@ -103,7 +104,7 @@ export function StructureMetadataPanel({
                 }}
               />
               <TextArea
-                size="M"
+                size="S"
                 label="Description"
                 value={structure.description ?? ""}
                 isReadOnly={isReadOnly}
@@ -115,8 +116,10 @@ export function StructureMetadataPanel({
                   }
                 }}
               />
-              <Text>Used in</Text>
-              <Text>TBD</Text>
+              <FieldLabel size="S" id="structure-used-in-label">
+                Used in
+              </FieldLabel>
+              <Text aria-labelledby="structure-used-in-label">TBD</Text>
             </div>
           </AccordionItemPanel>
         </AccordionItem>

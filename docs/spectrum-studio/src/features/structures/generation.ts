@@ -27,6 +27,9 @@ import {
   STRUCTURE_SLOT_KEYS,
   structureBindingId,
   type Structure,
+  type StructureBinding,
+  type StructureDerivedLiteral,
+  type StructureNumberLiteral,
   type StructureReferenceBinding,
   type StructureRuleApplication,
   type StructureSlot,
@@ -34,8 +37,26 @@ import {
 import { STRUCTURE_CATEGORY_IDS, STRUCTURE_TERM_IDS } from "./vocabulary";
 import { leafElements } from "./children";
 
+/** A binding whose Medium value can generate sizes: a token, a typed number, or a derived padding. */
+export type GeneratingBinding =
+  | StructureReferenceBinding
+  | (Omit<StructureBinding, "$ref" | "value"> & {
+      id: string;
+      classification: Classification;
+      value: StructureNumberLiteral | StructureDerivedLiteral;
+    });
+export const isGeneratingBinding = (
+  binding: StructureBinding,
+): binding is GeneratingBinding =>
+  !!structureSlotDefinition(structureSlot(binding)!).family &&
+  ("$ref" in binding ||
+    (binding.value.kind === "number" && binding.value.unit === "px") ||
+    binding.value.kind === "derived");
+/** What a binding generates from; equal keys can share one token group. */
+export const generatingSourceKey = (binding: GeneratingBinding) =>
+  "$ref" in binding ? binding.$ref : canonicalJson(binding.value);
 export interface AppliedStructureBinding {
-  binding: StructureReferenceBinding;
+  binding: GeneratingBinding;
   slot: StructureSlot;
   application: StructureRuleApplication;
   rule: TshirtSizingRule;
@@ -50,11 +71,7 @@ export interface StructureTokenGroup {
 export const structureSizes = (structure: Structure) =>
   structureGeneration(structure).sizeTermIds.map(generatorSizeKey);
 export const eligibleStructureBindings = (structure: Structure) =>
-  structure.properties.filter(
-    (binding): binding is StructureReferenceBinding =>
-      "$ref" in binding &&
-      !!structureSlotDefinition(structureSlot(binding)!).family,
-  );
+  structure.properties.filter(isGeneratingBinding);
 
 export function structureName(
   structure: Structure,
@@ -76,7 +93,12 @@ export function structureNameClassification(
   structure: Structure,
 ): Classification {
   const reference = structureGeneration(structure).nameRef;
-  return reference ? { [reference.categoryId]: reference.termId } : {};
+  return reference
+    ? {
+        ...reference.classification,
+        [reference.categoryId]: reference.termId,
+      }
+    : {};
 }
 
 export function governStructureName(
@@ -124,10 +146,16 @@ export function appliedStructureBindings(
     const rule = resolveTshirtRule(rules, application.ruleId);
     const bindings =
       application.targets.kind === "all"
-        ? eligibleStructureBindings(structure)
-        : application.targets.bindingIds.map((id) => {
+        ? // Typed numbers stay constant unless a ratio rule can scale them.
+          eligibleStructureBindings(structure).filter(
+            (binding) =>
+              rule.movement === "ratio" ||
+              "$ref" in binding ||
+              binding.value.kind !== "number",
+          )
+        : application.targets.bindingIds.flatMap((id) => {
             const binding = structure.properties.find((item) => item.id === id);
-            if (!binding || !("$ref" in binding)) {
+            if (!binding) {
               const slot = STRUCTURE_SLOT_KEYS.find(
                 (slot) => structureBindingId(structure.conceptId, slot) === id,
               );
@@ -135,15 +163,14 @@ export function appliedStructureBindings(
                 `${structure.name} - ${slot ? structureSlotDefinition(slot).label : "Custom target"}: no longer token-backed. Restore a token or edit/remove the application.`,
               );
             }
-            return binding;
+            return isGeneratingBinding(binding) ? [binding] : [];
           });
     if (
       !bindings.length &&
       !application.previewTargets &&
-      !(
-        application.targets.kind === "all" &&
-        leafElements(structure).some((element) => element.bindings.length)
-      )
+      application.targets.kind === "all" &&
+      !structure.properties.some((binding) => !isGeneratingBinding(binding)) &&
+      !leafElements(structure).some((element) => element.bindings.length)
     ) {
       throw new Error(
         `${structure.name}: this application has no eligible token-backed properties. Assign a token or remove the application.`,
@@ -181,13 +208,15 @@ function equivalent(
   const mapping = (rule: TshirtSizingRule) =>
     canonicalJson({
       movement: rule.movement,
+      ratio: rule.ratio ?? null,
+      roundingRuleId: rule.roundingRuleId ?? null,
       mappings: [...rule.mappings].sort((a, b) =>
         a.termId.localeCompare(b.termId),
       ),
       applicability: rule.applicability ?? { kind: "all" },
     });
   return (
-    left.binding.$ref === right.binding.$ref &&
+    generatingSourceKey(left.binding) === generatingSourceKey(right.binding) &&
     mapping(left.rule) === mapping(right.rule)
   );
 }
@@ -209,6 +238,7 @@ const properties: Partial<Record<StructureSlot, string>> = {
   maxWidth: "max-width",
   maxHeight: "max-height",
   gap: "gap",
+  indent: "indent",
   elevation: "shadow",
 };
 export function structureTokenGroups(
@@ -296,9 +326,20 @@ export function assertGenerationReferences(
     if (isTshirtRule(rule) && !isRule(rule))
       throw new Error("A T-shirt rule has invalid settings.");
   for (const item of appliedStructureBindings(structure, rules)) {
-    const reference = references.find(
-      (reference) => reference.id === item.binding.$ref,
-    );
+    if (!("$ref" in item.binding)) {
+      if (item.binding.value.kind !== "derived") continue;
+      const contentRef = item.binding.value.contentRef;
+      const content = references.find(
+        (reference) => reference.id === contentRef,
+      );
+      if (!content || content.error || typeof content.value !== "number")
+        throw new Error(
+          `${structure.name} - ${structureSlotDefinition(item.slot).label}: ${content?.error ?? "repair the unavailable content height token."}`,
+        );
+      continue;
+    }
+    const tokenRef = item.binding.$ref;
+    const reference = references.find((reference) => reference.id === tokenRef);
     if (
       !reference ||
       reference.family !== structureSlotDefinition(item.slot).family ||
