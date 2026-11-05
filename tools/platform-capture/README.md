@@ -165,7 +165,8 @@ design-data render-compare --scenes $R/renders --measured $R/rsp/measured.json -
 # 3. Pixels (a review aid; the numbers above are the verdict)
 node $TC/lib/rasterize/cli.mjs $R/renders --out $R/png
 node $TC/lib/pixel-diff.mjs --renders $R/renders --png $R/png --shots $R/rsp/shots --out $R/pixel
-pnpm --filter @adobe/platform-capture exec reg-cli $R/pixel/actual $R/pixel/expected $R/pixel/diff -R $R/pixel/report.html
+# reg-cli resolves paths against the working directory, so run it inside the output folder
+(cd $R/pixel && "$OLDPWD/$TC/node_modules/.bin/reg-cli" actual expected diff -R report.html -J reg.json)
 ```
 
 `matrix.json` is `{ axes?, cases?, colorSchemes }` of S2 args. The mapping file
