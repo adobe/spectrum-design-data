@@ -21,7 +21,7 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 // output propagation, semantic Changes counts, scoped resets and backward-compatible restoration.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "bd55be86ac643eaece0515ecedf4d0a82848a900f240efc1f4bc878836662850";
+  "a43f56771c8026b5d38c224900dc620e3edf1f477488e6668a5b85d0147f238e";
 const schemaMetadata = new Set([
   "title",
   "description",

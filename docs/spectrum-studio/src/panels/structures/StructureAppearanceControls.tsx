@@ -1,12 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
+  Accordion,
   AccordionItem,
   AccordionItemPanel,
   AccordionItemTitle,
   Divider,
-  SegmentedControl,
-  SegmentedControlItem,
-  Text,
   ToggleButton,
   ToggleButtonGroup,
 } from "@react-spectrum/s2";
@@ -14,6 +12,7 @@ import { useState, type ReactNode } from "react";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../../components/CategoryIcon";
 import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
+import { SideLabelRow } from "../../components/fields/SideLabelRow";
 import { DividableComboBox } from "../../components/fields/DividableComboBox";
 import {
   TokenComboBox,
@@ -27,33 +26,51 @@ import {
   IconPaddingBottom,
   IconPaddingLeft,
 } from "../../assets/svgs/PaddingIcons";
-import type { StructureSlot } from "../../features/structures/model";
-import type { ElementSlot } from "../../features/structures/elements";
+import {
+  IconArrowDown,
+  IconArrowRight,
+} from "../../assets/svgs/DirectionIcons";
+import type { StructureNumberLiteral } from "../../features/structures/model";
 import { STRUCTURE_TERM_IDS as terms } from "../../features/structures/vocabulary";
+import {
+  appearanceSectionsFor,
+  type AppearanceSectionId,
+  type AppearanceSlot,
+} from "./appearanceSections";
 
-export type AppearanceSlot = StructureSlot | ElementSlot;
+export type { AppearanceSlot } from "./appearanceSections";
 export interface AppearanceField {
   label: string;
   options: TokenComboBoxOption[];
   selectedKey: string | null;
   error?: string;
+  customValue?: { displayValue: string; unit?: "px" | "multiplier" };
   isRequired?: boolean;
   isOptionAllowed?: (option: TokenComboBoxOption) => boolean;
 }
 export interface StructureAppearanceControlsProps {
   fields: Partial<Record<AppearanceSlot, AppearanceField>>;
   isReadOnly: boolean;
-  onChange: (changes: Partial<Record<AppearanceSlot, string | null>>) => void;
-  children?: ReactNode;
+  onChange: (
+    changes: Partial<
+      Record<AppearanceSlot, string | null | StructureNumberLiteral>
+    >,
+  ) => void;
+  /** Element-level controls shown above "Show as", outside any section. */
+  header?: ReactNode;
+  /** Extra controls placed in the Layout section (for example Bar orientation). */
+  layoutControls?: ReactNode;
   sizingLayout?: "paired" | "individual";
 }
 const fullWidth = style({ width: "full" });
+const CONTROL_SIZE = "S";
 
 export function StructureAppearanceControls({
   fields,
   isReadOnly,
   onChange,
-  children,
+  header,
+  layoutControls,
   sizingLayout = "paired",
 }: StructureAppearanceControlsProps) {
   const [displayMode, setDisplayMode] = useState<TokenDisplayMode>("tokens");
@@ -61,6 +78,8 @@ export function StructureAppearanceControls({
     const config = fields[slot];
     return config ? (
       <TokenComboBox
+        placeholder="Undefined"
+        size={CONTROL_SIZE}
         key={slot}
         label={label}
         ariaLabel={config.label}
@@ -78,6 +97,27 @@ export function StructureAppearanceControls({
         isRequired={config.isRequired}
         error={config.error}
         isOptionAllowed={config.isOptionAllowed}
+        customValue={
+          config.customValue
+            ? {
+                displayValue: config.customValue.displayValue,
+                onAccept: (text) => {
+                  const value = Number(text.trim());
+                  if (!text.trim() || !Number.isFinite(value) || value < 0)
+                    throw new Error(
+                      "Enter a finite, non-negative number of pixels.",
+                    );
+                  onChange({
+                    [slot]: {
+                      kind: "number",
+                      value,
+                      unit: config.customValue!.unit ?? "px",
+                    },
+                  });
+                },
+              }
+            : undefined
+        }
         onChange={(id) => onChange({ [slot]: id })}
       />
     ) : null;
@@ -93,13 +133,16 @@ export function StructureAppearanceControls({
         {field(height, undefined, "H")}
       </div>
     ) : null;
-  const alignment = (
-    slot: "horizontal" | "vertical",
-    items: { id: string; label: string; icon: string }[],
+  const iconGroup = (
+    slot: "direction" | "horizontal" | "vertical",
+    label: string,
+    items: { id: string; label: string; icon: ReactNode }[],
   ) =>
     fields[slot] ? (
       <ToggleButtonGroup
-        aria-label={`${slot === "horizontal" ? "Horizontal" : "Vertical"} alignment`}
+        size={CONTROL_SIZE}
+        density="compact"
+        aria-label={label}
         selectionMode="single"
         disallowEmptySelection
         selectedKeys={
@@ -113,11 +156,12 @@ export function StructureAppearanceControls({
       >
         {items.map((item) => (
           <ToggleButton key={item.id} id={item.id} aria-label={item.label}>
-            <CategoryIcon category={item.icon} />
+            {item.icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
     ) : null;
+  const alignmentIcon = (icon: string) => <CategoryIcon category={icon} />;
   const divided = (
     label: string,
     slots: readonly [
@@ -139,6 +183,8 @@ export function StructureAppearanceControls({
     });
     return (
       <DividableComboBox
+        placeholder="Undefined"
+        size={CONTROL_SIZE}
         label={label}
         prefix={prefix}
         options={first.options}
@@ -152,133 +198,226 @@ export function StructureAppearanceControls({
       />
     );
   };
-  return (
-    <div
-      className="structureEditorFields"
-      data-component="StructureAppearanceControls"
+  const sideRow = (
+    label: string,
+    selectedKey: string,
+    items: { id: string; label: string }[],
+    onSelect: (id: string) => void,
+    isDisabled = false,
+  ) => (
+    <SideLabelRow
+      label={label}
+      size={CONTROL_SIZE}
+      labelWidth="auto"
+      isDisabled={isDisabled}
     >
-      <div>
-        <Text>Show as</Text>
-        <SegmentedControl
-          aria-label="Show as"
+      {(labelId) => (
+        <ToggleButtonGroup
+          aria-labelledby={labelId}
+          size={CONTROL_SIZE}
+          density="compact"
           isJustified
           styles={fullWidth}
-          selectedKey={displayMode}
-          onSelectionChange={(key) => {
-            if (key === "tokens" || key === "values") setDisplayMode(key);
+          selectionMode="single"
+          disallowEmptySelection
+          isDisabled={isDisabled}
+          selectedKeys={[selectedKey]}
+          onSelectionChange={(keys) => {
+            const id = [...keys][0];
+            if (typeof id === "string") onSelect(id);
           }}
         >
-          <SegmentedControlItem id="tokens">Tokens</SegmentedControlItem>
-          <SegmentedControlItem id="values">Values</SegmentedControlItem>
-        </SegmentedControl>
-      </div>
-      {children}
-      {fields.direction && (
-        <div>
-          <Text>Direction</Text>
-          <SegmentedControl
-            aria-label="Direction"
-            isJustified
-            isDisabled={isReadOnly}
-            selectedKey={fields.direction.selectedKey ?? terms.horizontal}
-            styles={fullWidth}
-            onSelectionChange={(key) => {
-              if (key === terms.horizontal || key === terms.vertical)
-                onChange({ direction: key });
-            }}
-          >
-            <SegmentedControlItem id={terms.horizontal}>
-              Horizontal
-            </SegmentedControlItem>
-            <SegmentedControlItem id={terms.vertical}>
-              Vertical
-            </SegmentedControlItem>
-          </SegmentedControl>
-        </div>
+          {items.map((item) => (
+            <ToggleButton key={item.id} id={item.id}>
+              {item.label}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
       )}
-      {(fields.horizontal || fields.vertical) && (
-        <div className="structureEditorAlignment">
-          {alignment("horizontal", [
-            { id: terms.left, label: "Align left", icon: "alignment.left" },
-            {
-              id: terms.center,
-              label: "Align center",
-              icon: "alignment.center",
-            },
-            { id: terms.right, label: "Align right", icon: "alignment.right" },
-          ])}
-          {fields.horizontal && fields.vertical && (
-            <Divider orientation="vertical" />
-          )}
-          {alignment("vertical", [
-            { id: terms.top, label: "Align top", icon: "alignment.top" },
-            {
-              id: terms.middle,
-              label: "Align middle",
-              icon: "alignment.middle",
-            },
-            {
-              id: terms.bottom,
-              label: "Align bottom",
-              icon: "alignment.bottom",
-            },
-          ])}
-        </div>
-      )}
-      {sizingLayout === "paired" ? (
-        pair("Default size", "width", "height")
-      ) : (
-        <>
-          {field("width", fields.width?.label)}
-          {field("height", fields.height?.label)}
-        </>
-      )}
-      {(["minWidth", "minHeight", "maxWidth", "maxHeight"] as const).some(
-        (slot) => fields[slot],
-      ) && (
-        <NestedPanelAccordion>
-          <AccordionItem id="constraints">
-            <AccordionItemTitle>Constraints</AccordionItemTitle>
-            <AccordionItemPanel>
-              <div className="structureEditorFields">
-                {pair("Minimum", "minWidth", "minHeight")}
-                {pair("Maximum", "maxWidth", "maxHeight")}
-              </div>
-            </AccordionItemPanel>
-          </AccordionItem>
-        </NestedPanelAccordion>
-      )}
-      {(["fontSize", "lineHeight", "size", "thickness", "length"] as const).map(
-        (slot) => field(slot, fields[slot]?.label),
-      )}
-      {field("gap", "Gap", <CategoryIcon category="property.gap" />)}
-      {divided(
-        "Padding",
-        ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"],
-        <IconPaddingAll />,
-        [
-          <IconPaddingTop key="top" />,
-          <IconPaddingRight key="right" />,
-          <IconPaddingBottom key="bottom" />,
-          <IconPaddingLeft key="left" />,
-        ],
-      )}
-      {divided(
-        "Corner radius",
-        [
-          "radiusTopLeft",
-          "radiusTopRight",
-          "radiusBottomRight",
-          "radiusBottomLeft",
-        ],
-        <CategoryIcon category="radius" />,
-        ["top-left", "top-right", "bottom-right", "bottom-left"].map(
-          (corner) => (
-            <CategoryIcon key={corner} category={`property.radius-${corner}`} />
+    </SideLabelRow>
+  );
+  const constraintSlots = [
+    "minWidth",
+    "minHeight",
+    "maxWidth",
+    "maxHeight",
+  ] as const;
+  const sectionContent: Record<AppearanceSectionId, ReactNode> = {
+    layout: (
+      <>
+        {(fields.direction || fields.horizontal || fields.vertical) && (
+          <div className="structureEditorAlignment">
+            {iconGroup("direction", "Direction", [
+              {
+                id: terms.horizontal,
+                label: "Horizontal",
+                icon: <IconArrowRight />,
+              },
+              {
+                id: terms.vertical,
+                label: "Vertical",
+                icon: <IconArrowDown />,
+              },
+            ])}
+            {fields.direction && (fields.horizontal || fields.vertical) && (
+              <Divider orientation="vertical" />
+            )}
+            {iconGroup("horizontal", "Horizontal alignment", [
+              {
+                id: terms.left,
+                label: "Align left",
+                icon: alignmentIcon("alignment.left"),
+              },
+              {
+                id: terms.center,
+                label: "Align center",
+                icon: alignmentIcon("alignment.center"),
+              },
+              {
+                id: terms.right,
+                label: "Align right",
+                icon: alignmentIcon("alignment.right"),
+              },
+            ])}
+            {fields.horizontal && fields.vertical && (
+              <Divider orientation="vertical" />
+            )}
+            {iconGroup("vertical", "Vertical alignment", [
+              {
+                id: terms.top,
+                label: "Align top",
+                icon: alignmentIcon("alignment.top"),
+              },
+              {
+                id: terms.middle,
+                label: "Align middle",
+                icon: alignmentIcon("alignment.middle"),
+              },
+              {
+                id: terms.bottom,
+                label: "Align bottom",
+                icon: alignmentIcon("alignment.bottom"),
+              },
+            ])}
+          </div>
+        )}
+        {layoutControls}
+        {sizingLayout === "paired" ? (
+          pair("Default size", "width", "height")
+        ) : (
+          <>
+            {field("width", fields.width?.label)}
+            {field("height", fields.height?.label)}
+          </>
+        )}
+        {constraintSlots.some((slot) => fields[slot]) && (
+          <NestedPanelAccordion>
+            <AccordionItem id="constraints">
+              <AccordionItemTitle>Constraints</AccordionItemTitle>
+              <AccordionItemPanel>
+                <div className="structureEditorFields">
+                  {pair("Minimum", "minWidth", "minHeight")}
+                  {pair("Maximum", "maxWidth", "maxHeight")}
+                </div>
+              </AccordionItemPanel>
+            </AccordionItem>
+          </NestedPanelAccordion>
+        )}
+        {(["size", "thickness", "length"] as const).map((slot) =>
+          field(slot, fields[slot]?.label),
+        )}
+        {field("gap", "Gap", <CategoryIcon category="property.gap" />)}
+        {divided(
+          "Padding",
+          ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"],
+          <IconPaddingAll />,
+          [
+            <IconPaddingTop key="top" />,
+            <IconPaddingRight key="right" />,
+            <IconPaddingBottom key="bottom" />,
+            <IconPaddingLeft key="left" />,
+          ],
+        )}
+        {divided(
+          "Corner radius",
+          [
+            "radiusTopLeft",
+            "radiusTopRight",
+            "radiusBottomRight",
+            "radiusBottomLeft",
+          ],
+          <CategoryIcon category="radius" />,
+          ["top-left", "top-right", "bottom-right", "bottom-left"].map(
+            (corner) => (
+              <CategoryIcon
+                key={corner}
+                category={`property.radius-${corner}`}
+              />
+            ),
           ),
-        ),
+        )}
+      </>
+    ),
+    typography: (
+      <>
+        {(["fontSize", "lineHeight"] as const).map((slot) =>
+          field(slot, fields[slot]?.label),
+        )}
+      </>
+    ),
+    color: null,
+    elevation: field(
+      "elevation",
+      "Elevation",
+      <CategoryIcon category="elevation" />,
+    ),
+  };
+  const sections = appearanceSectionsFor(
+    (Object.keys(fields) as AppearanceSlot[]).filter((slot) => fields[slot]),
+    layoutControls ? ["layout"] : [],
+  );
+  return (
+    <div
+      className="structureAppearance"
+      data-component="StructureAppearanceControls"
+    >
+      {header && (
+        <div className="structureAppearanceLoose structureEditorFields">
+          {header}
+        </div>
       )}
-      {field("elevation", "Elevation", <CategoryIcon category="elevation" />)}
+      <div className="structureAppearanceLoose">
+        {sideRow(
+          "Show as",
+          displayMode,
+          [
+            { id: "tokens", label: "Tokens" },
+            { id: "values", label: "Values" },
+          ],
+          (id) => {
+            if (id === "tokens" || id === "values") setDisplayMode(id);
+          },
+        )}
+      </div>
+      {sections.length > 0 && (
+        <Accordion
+          size={CONTROL_SIZE}
+          density="spacious"
+          allowsMultipleExpanded
+          defaultExpandedKeys={sections.map((section) => section.id)}
+        >
+          {sections.map((section) => (
+            <AccordionItem key={section.id} id={section.id}>
+              <AccordionItemTitle>{section.label}</AccordionItemTitle>
+              <AccordionItemPanel>
+                <div className="structureEditorFields">
+                  {sectionContent[section.id]}
+                </div>
+              </AccordionItemPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      )}
     </div>
   );
 }

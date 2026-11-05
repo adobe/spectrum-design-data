@@ -10,12 +10,13 @@ export type PickerProps = ComponentProps<typeof SpectrumPicker> &
 export function Picker({
   layout,
   labelPosition = "side",
+  labelWidth,
   ...props
 }: PickerProps) {
   return (
     <SpectrumPicker
       {...props}
-      {...getFieldLayoutProps({ ...props, labelPosition, layout })}
+      {...getFieldLayoutProps({ ...props, labelPosition, layout, labelWidth })}
     />
   );
 }

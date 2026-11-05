@@ -10,12 +10,13 @@ export type NumberFieldProps = ComponentProps<typeof SpectrumNumberField> &
 export function NumberField({
   layout,
   labelPosition = "side",
+  labelWidth,
   ...props
 }: NumberFieldProps) {
   return (
     <SpectrumNumberField
       {...props}
-      {...getFieldLayoutProps({ ...props, labelPosition, layout })}
+      {...getFieldLayoutProps({ ...props, labelPosition, layout, labelWidth })}
     />
   );
 }

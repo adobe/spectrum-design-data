@@ -731,7 +731,7 @@ const record = readAuthoringRecord(
   },
   (value) => value,
 )!;
-assert.equal(record.version, 20);
+assert.equal(record.version, 22);
 assert.notEqual(
   record.working.rules[0].description,
   record.saved.rules[0].description,

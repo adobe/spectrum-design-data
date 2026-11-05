@@ -78,9 +78,11 @@ for (const appearance of ["light", "dark"])
       await expect(selectedTag).toHaveCSS("display", "block");
       await expect(selectedTag).toHaveCSS("text-overflow", "ellipsis");
       const clear = page.getByRole("button", { name: "Clear Default size" });
-      expect((await clear.boundingBox())!.y).toBeGreaterThanOrEqual(
-        (await input.boundingBox())!.y + (await input.boundingBox())!.height,
-      );
+      const clearBox = (await clear.boundingBox())!;
+      const inputBox = (await input.boundingBox())!;
+      // The clear button stays on the same row as the picker; it never wraps.
+      expect(clearBox.y).toBeLessThan(inputBox.y + inputBox.height);
+      expect(clearBox.x).toBeGreaterThanOrEqual(inputBox.x + inputBox.width);
       expect(
         await page
           .locator('[data-component="TokenComboBox"]')
@@ -110,7 +112,12 @@ for (const appearance of ["light", "dark"])
         .locator(".tokenComboBoxPrefix")
         .getByTitle("size-global-100");
       await expect(compactTag).toBeVisible();
-      expect((await compactInput.boundingBox())!.width).toBe(0);
+      // A short token badge hugs its text instead of stretching to fill the field.
+      expect(
+        await compactTag.evaluate(
+          (element) => element.scrollWidth >= element.clientWidth - 1,
+        ),
+      ).toBe(true);
       expect((await compactTag.boundingBox())!.width).toBeGreaterThanOrEqual(
         45,
       );

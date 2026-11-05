@@ -24,7 +24,10 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useMemo, useState, type ReactNode } from "react";
 import { TokenNameTag } from "../../components/tokens/TokenNameTag";
 import type { Rule } from "../../features/logic/model";
-import { eligibleStructureBindings } from "../../features/structures/generation";
+import {
+  eligibleStructureBindings,
+  isGeneratingBinding,
+} from "../../features/structures/generation";
 import {
   structureBinding,
   structureBindingId,
@@ -309,7 +312,7 @@ export function StructureRuleDialog({
                                 slot,
                               )}
                               isDisabled={
-                                (!binding || !("$ref" in binding)) &&
+                                (!binding || !isGeneratingBinding(binding)) &&
                                 !selected.includes(
                                   structureBindingId(structure.conceptId, slot),
                                 )
@@ -338,9 +341,17 @@ export function StructureRuleDialog({
                                   ? binding.value.preset === "hug"
                                     ? "Hug (not eligible)"
                                     : "Fill (not eligible)"
-                                  : binding && "$ref" in binding
-                                    ? "Unavailable token"
-                                    : "Not assigned"}
+                                  : binding &&
+                                      "value" in binding &&
+                                      binding.value.kind === "number"
+                                    ? `${binding.value.value}px (typed value)`
+                                    : binding &&
+                                        "value" in binding &&
+                                        binding.value.kind === "derived"
+                                      ? "Centered in min height"
+                                      : binding && "$ref" in binding
+                                        ? "Unavailable token"
+                                        : "Not assigned"}
                               </span>
                             )}
                           </div>

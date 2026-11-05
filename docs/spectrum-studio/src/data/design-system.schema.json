@@ -15,8 +15,11 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
-            "structures": {
-              "$ref": "#/definitions/StructuresDocument"
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
             },
             "platforms": {
               "type": "array",
@@ -34,12 +37,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Rule"
-              }
-            },
-            "modeSets": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ModeSet"
               }
             },
             "adaptiveClaims": {
@@ -65,6 +62,9 @@
             },
             "taxonomy": {
               "$ref": "#/definitions/TaxonomyDocument"
+            },
+            "structures": {
+              "$ref": "#/definitions/PortableStructuresDocument"
             },
             "foundations": {
               "type": "object",
@@ -141,7 +141,12 @@
             }
           },
           "additionalProperties": false,
-          "required": ["description", "id", "name", "revision"]
+          "required": [
+            "description",
+            "id",
+            "name",
+            "revision"
+          ]
         }
       },
       "additionalProperties": false,
@@ -152,1554 +157,6 @@
         "schemaVersion",
         "system"
       ]
-    },
-    "StructuresDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "description": "Earlier versions are accepted for lossless migration.",
-          "enum": [1, 2, 3, 4, 5],
-          "type": "number"
-        },
-        "structures": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Structure"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["schemaVersion", "structures"]
-    },
-    "Structure": {
-      "type": "object",
-      "properties": {
-        "conceptId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "properties": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StructureBinding"
-          }
-        },
-        "generation": {
-          "$ref": "#/definitions/StructureGeneration"
-        },
-        "elements": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StructureChild"
-          }
-        },
-        "description": {
-          "type": "string"
-        },
-        "editor": {
-          "$ref": "#/definitions/StructureEditorData"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["conceptId", "name", "properties"]
-    },
-    "StructureBinding": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/StructureReferenceBinding"
-        },
-        {
-          "$ref": "#/definitions/StructureLiteralBinding"
-        }
-      ]
-    },
-    "StructureReferenceBinding": {
-      "type": "object",
-      "properties": {
-        "$ref": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "id": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["$ref", "classification", "id"]
-    },
-    "Classification": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "string"
-          }
-        ]
-      }
-    },
-    "StructureLiteralBinding": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "$ref": "#/definitions/StructureLiteral"
-        },
-        "id": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["classification", "id", "value"]
-    },
-    "StructureLiteral": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "sizing"
-            },
-            "preset": {
-              "$ref": "#/definitions/SizingPreset"
-            }
-          },
-          "additionalProperties": false,
-          "required": ["kind", "preset"]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "term"
-            },
-            "termId": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": ["kind", "termId"]
-        }
-      ]
-    },
-    "SizingPreset": {
-      "enum": ["fill", "hug"],
-      "type": "string"
-    },
-    "StructureGeneration": {
-      "type": "object",
-      "properties": {
-        "nameRef": {
-          "$ref": "#/definitions/TaxonomyNameReference"
-        },
-        "sizeTermIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "applications": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StructureRuleApplication"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["applications", "sizeTermIds"]
-    },
-    "TaxonomyNameReference": {
-      "type": "object",
-      "properties": {
-        "categoryId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "termId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "classification": {
-          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["categoryId", "termId"]
-    },
-    "StructureRuleApplication": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "ruleId": {
-          "type": "string"
-        },
-        "targets": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "custom"
-                },
-                "bindingIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["bindingIds", "kind"]
-            }
-          ]
-        },
-        "previewTargets": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "custom"
-                },
-                "bindingIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["bindingIds", "kind"]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": ["id", "ruleId", "targets"]
-    },
-    "StructureChild": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/StructureElement"
-        },
-        {
-          "$ref": "#/definitions/StructureInstance"
-        }
-      ]
-    },
-    "StructureElement": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "$ref": "#/definitions/ElementKind"
-        },
-        "termId": {
-          "type": "string"
-        },
-        "bindings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ElementBinding"
-          }
-        },
-        "glyph": {
-          "type": "string"
-        },
-        "orientation": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["bindings", "id", "kind", "termId"]
-    },
-    "ElementKind": {
-      "enum": ["bar", "text", "uiIcon", "visual", "workflowIcon"],
-      "type": "string"
-    },
-    "ElementBinding": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "slot": {
-          "$ref": "#/definitions/ElementSlot"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "family": {
-          "enum": ["size", "typography"],
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["$ref", "family", "id", "slot"]
-    },
-    "ElementSlot": {
-      "enum": [
-        "fontSize",
-        "height",
-        "length",
-        "lineHeight",
-        "maxHeight",
-        "maxWidth",
-        "minHeight",
-        "minWidth",
-        "size",
-        "thickness",
-        "width"
-      ],
-      "type": "string"
-    },
-    "StructureInstance": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "structureReference"
-        },
-        "structureId": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["id", "kind", "structureId"]
-    },
-    "StructureEditorData": {
-      "type": "object",
-      "properties": {
-        "semanticIdentities": {
-          "$ref": "#/definitions/VariantSemanticIdentities"
-        },
-        "properties": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/OptionProperty"
-          }
-        },
-        "visibility": {
-          "$ref": "#/definitions/Record%3Cstring%2Cboolean%3E"
-        },
-        "visibilityBindings": {
-          "$ref": "#/definitions/Record%3Cstring%2CVisibilityBinding%3E"
-        },
-        "overrides": {
-          "$ref": "#/definitions/Record%3Cstring%2CStructureOptionOverrides%3E"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "overrides",
-        "properties",
-        "visibility",
-        "visibilityBindings"
-      ]
-    },
-    "VariantSemanticIdentities": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "OptionProperty": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/BooleanProperty"
-        },
-        {
-          "$ref": "#/definitions/VariantProperty"
-        }
-      ]
-    },
-    "BooleanProperty": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "defaultValue": {
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["defaultValue", "id", "kind", "name"]
-    },
-    "VariantProperty": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "variant"
-        },
-        "name": {
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        },
-        "defaultOptionId": {
-          "type": "string"
-        },
-        "options": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/VariantOption"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "classification",
-        "defaultOptionId",
-        "id",
-        "kind",
-        "name",
-        "options"
-      ]
-    },
-    "VariantOption": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["classification", "id", "name"]
-    },
-    "Record<string,boolean>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Record<string,VisibilityBinding>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Record<string,StructureOptionOverrides>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Platform": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["id", "name"]
-    },
-    "ComponentsDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "type": "number",
-          "const": 2
-        },
-        "components": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentRecord"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["components", "schemaVersion"]
-    },
-    "ComponentRecord": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "catalogId": {
-          "type": "string"
-        },
-        "declaration": {
-          "$ref": "#/definitions/ComponentDeclaration"
-        },
-        "identities": {
-          "type": "object",
-          "properties": {
-            "parts": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            },
-            "options": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            },
-            "states": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            }
-          },
-          "additionalProperties": false,
-          "required": ["options", "parts", "states"]
-        },
-        "optionOrder": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "assignments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentAssignment"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "assignments",
-        "declaration",
-        "id",
-        "identities",
-        "optionOrder"
-      ]
-    },
-    "ComponentDeclaration": {
-      "type": "object",
-      "properties": {
-        "$id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "meta": {
-          "type": "object",
-          "properties": {
-            "category": {
-              "type": "string"
-            },
-            "documentationUrl": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": ["category", "documentationUrl"]
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "specVersion": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "implementations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "options": {
-          "$ref": "#/definitions/ComponentOptions"
-        },
-        "slots": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "anatomy": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentPart"
-          }
-        },
-        "states": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentState"
-          }
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        "tokenBindings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "documentBlocks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "accessibility": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["$id", "displayName", "meta", "name"]
-    },
-    "JsonValue": {
-      "anyOf": [
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": ["null", "string", "number", "boolean"]
-        }
-      ]
-    },
-    "ComponentOptions": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/ComponentOption"
-      }
-    },
-    "ComponentOption": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          },
-          {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          },
-          {
-            "type": ["null", "string", "number", "boolean"]
-          }
-        ]
-      },
-      "properties": {
-        "type": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OptionType"
-              }
-            },
-            {
-              "enum": [
-                "array",
-                "boolean",
-                "integer",
-                "null",
-                "number",
-                "object",
-                "string"
-              ],
-              "type": "string"
-            }
-          ]
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "value": {
-                "$ref": "#/definitions/JsonValue"
-              },
-              "description": {
-                "type": "string"
-              },
-              "lifecycle": {
-                "type": "object",
-                "additionalProperties": {
-                  "$ref": "#/definitions/JsonValue"
-                }
-              }
-            },
-            "additionalProperties": false,
-            "required": ["value"]
-          }
-        },
-        "default": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/JsonValue"
-              }
-            },
-            {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/definitions/JsonValue"
-              }
-            },
-            {
-              "type": ["null", "string", "number", "boolean"]
-            }
-          ]
-        },
-        "description": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        }
-      }
-    },
-    "OptionType": {
-      "enum": [
-        "array",
-        "boolean",
-        "integer",
-        "null",
-        "number",
-        "object",
-        "string"
-      ],
-      "type": "string"
-    },
-    "ComponentPart": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "required": {
-          "type": "boolean"
-        },
-        "contains": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "documentBlocks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["name"]
-    },
-    "ComponentState": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "trigger": {
-          "enum": ["interaction", "prop"],
-          "type": "string"
-        },
-        "precedence": {
-          "type": "number"
-        },
-        "layered": {
-          "type": "boolean"
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        "announce": {
-          "type": "string"
-        },
-        "communicates": {
-          "type": "string"
-        },
-        "blocksInteraction": {
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["name"]
-    },
-    "DeclarationIdentities": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-    "ComponentAssignment": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "partId": {
-              "type": "string"
-            },
-            "property": {
-              "$ref": "#/definitions/TaxonomyNameReference"
-            },
-            "options": {
-              "$ref": "#/definitions/AssignmentScope"
-            },
-            "description": {
-              "type": "string"
-            },
-            "context": {
-              "type": "string"
-            },
-            "$valueType": {
-              "type": "string"
-            },
-            "value": {
-              "$ref": "#/definitions/LiteralValue"
-            }
-          },
-          "required": ["id", "property", "value"]
-        },
-        {
-          "additionalProperties": false,
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "partId": {
-              "type": "string"
-            },
-            "property": {
-              "$ref": "#/definitions/TaxonomyNameReference"
-            },
-            "options": {
-              "$ref": "#/definitions/AssignmentScope"
-            },
-            "description": {
-              "type": "string"
-            },
-            "context": {
-              "type": "string"
-            },
-            "$valueType": {
-              "type": "string"
-            },
-            "$ref": {
-              "type": "string"
-            }
-          },
-          "required": ["$ref", "id", "property"]
-        }
-      ]
-    },
-    "AssignmentScope": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "string"
-          }
-        ]
-      }
-    },
-    "LiteralValue": {
-      "anyOf": [
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": ["string", "number", "boolean"]
-        }
-      ]
-    },
-    "AliasDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "type": "number",
-          "const": 1
-        },
-        "tokens": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AliasToken"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["schemaVersion", "tokens"]
-    },
-    "AliasToken": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "contexts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["$ref", "contexts", "id", "name"]
-    },
-    "Rule": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ScaleNamingRule"
-        },
-        {
-          "$ref": "#/definitions/RoundingRule"
-        },
-        {
-          "$ref": "#/definitions/TshirtSizingRule"
-        },
-        {
-          "$ref": "#/definitions/ConditionalRule"
-        }
-      ]
-    },
-    "ScaleNamingRule": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "scale-naming"
-        },
-        "baseLabel": {
-          "type": "number"
-        },
-        "aboveIncrement": {
-          "type": "number"
-        },
-        "below": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "automatic"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "fixed"
-                },
-                "increment": {
-                  "type": "number"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["increment", "kind"]
-            }
-          ]
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        },
-        "applicability": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "specific"
-                },
-                "types": {
-                  "type": "array",
-                  "items": {
-                    "enum": [
-                      "color",
-                      "elevation",
-                      "font-size",
-                      "line-height",
-                      "line-height-multiplier",
-                      "opacity",
-                      "radius",
-                      "size",
-                      "spacing",
-                      "workflow-icon-size"
-                    ],
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind", "types"]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "aboveIncrement",
-        "baseLabel",
-        "below",
-        "description",
-        "id",
-        "name",
-        "type"
-      ]
-    },
-    "RoundingRule": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "rounding"
-        },
-        "depth": {
-          "enum": [1, 10, 100, 1000],
-          "type": "number"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        },
-        "applicability": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "specific"
-                },
-                "types": {
-                  "type": "array",
-                  "items": {
-                    "enum": [
-                      "color",
-                      "elevation",
-                      "font-size",
-                      "line-height",
-                      "line-height-multiplier",
-                      "opacity",
-                      "radius",
-                      "size",
-                      "spacing",
-                      "workflow-icon-size"
-                    ],
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind", "types"]
-            }
-          ]
-        },
-        "defaultOutcome": {
-          "$ref": "#/definitions/RoundingOutcome"
-        },
-        "conditions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Condition%3CRoundingOutcome%3E"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "conditions",
-        "defaultOutcome",
-        "depth",
-        "description",
-        "id",
-        "name",
-        "type"
-      ]
-    },
-    "RoundingOutcome": {
-      "description": "A factor of 0 leaves the value unrounded.",
-      "type": "object",
-      "properties": {
-        "factor": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["factor"]
-    },
-    "Condition<RoundingOutcome>": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "comparator": {
-          "$ref": "#/definitions/Comparator"
-        },
-        "threshold": {
-          "type": "number"
-        },
-        "outcome": {
-          "$ref": "#/definitions/RoundingOutcome"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["comparator", "id", "outcome", "threshold"]
-    },
-    "Comparator": {
-      "enum": ["gt", "gte", "lt", "lte"],
-      "type": "string"
-    },
-    "TshirtSizingRule": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": ["generator", "tshirt-sizing"],
-          "type": "string"
-        },
-        "movement": {
-          "$ref": "#/definitions/TshirtMovement"
-        },
-        "mappings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TshirtSizeMapping"
-          }
-        },
-        "defaultTermId": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        },
-        "applicability": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "specific"
-                },
-                "types": {
-                  "type": "array",
-                  "items": {
-                    "enum": [
-                      "color",
-                      "elevation",
-                      "font-size",
-                      "line-height",
-                      "line-height-multiplier",
-                      "opacity",
-                      "radius",
-                      "size",
-                      "spacing",
-                      "workflow-icon-size"
-                    ],
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind", "types"]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": ["description", "id", "mappings", "movement", "name", "type"]
-    },
-    "TshirtMovement": {
-      "enum": ["available-token", "scale-index"],
-      "type": "string"
-    },
-    "TshirtSizeMapping": {
-      "type": "object",
-      "properties": {
-        "termId": {
-          "description": "Registry size-term UUID, not a display label.",
-          "type": "string"
-        },
-        "offset": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["offset", "termId"]
-    },
-    "ConditionalRule": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "conditional"
-        },
-        "when": {
-          "$ref": "#/definitions/RuleConditionGroup"
-        },
-        "branches": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ConditionalBranch"
-          }
-        },
-        "otherwise": {
-          "$ref": "#/definitions/TokenOffsetOutcome"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        },
-        "applicability": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "all"
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind"]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "specific"
-                },
-                "types": {
-                  "type": "array",
-                  "items": {
-                    "enum": [
-                      "color",
-                      "elevation",
-                      "font-size",
-                      "line-height",
-                      "line-height-multiplier",
-                      "opacity",
-                      "radius",
-                      "size",
-                      "spacing",
-                      "workflow-icon-size"
-                    ],
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": ["kind", "types"]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "branches",
-        "description",
-        "id",
-        "name",
-        "otherwise",
-        "type",
-        "when"
-      ]
-    },
-    "RuleConditionGroup": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "group"
-        },
-        "operator": {
-          "enum": ["and", "or"],
-          "type": "string"
-        },
-        "children": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RuleConditionNode"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": ["children", "id", "kind", "operator"]
-    },
-    "RuleConditionNode": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/RuleCondition"
-        },
-        {
-          "$ref": "#/definitions/RuleConditionGroup"
-        }
-      ]
-    },
-    "RuleCondition": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "condition"
-        },
-        "source": {
-          "enum": ["mode", "taxonomy"],
-          "type": "string"
-        },
-        "sourceId": {
-          "type": "string"
-        },
-        "matcher": {
-          "enum": ["is", "is-not"],
-          "type": "string"
-        },
-        "valueId": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["id", "kind", "matcher", "source", "sourceId", "valueId"]
-    },
-    "ConditionalBranch": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "when": {
-          "$ref": "#/definitions/RuleConditionGroup"
-        },
-        "then": {
-          "$ref": "#/definitions/TokenOffsetOutcome"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["id", "then", "when"]
-    },
-    "TokenOffsetOutcome": {
-      "type": "object",
-      "properties": {
-        "offset": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["offset"]
     },
     "ModeSet": {
       "type": "object",
@@ -1739,17 +196,7 @@
         "authoringCapabilities": {
           "type": "array",
           "items": {
-            "enum": [
-              "color.backgroundLightness",
-              "color.backgroundScaleId",
-              "color.contrastMultiplier",
-              "color.scales",
-              "elevation.color",
-              "elevation.depth",
-              "elevation.layerOpacities",
-              "typography.textZoom"
-            ],
-            "type": "string"
+            "$ref": "#/definitions/AuthoringCapability"
           }
         },
         "modes": {
@@ -1760,7 +207,29 @@
         }
       },
       "additionalProperties": false,
-      "required": ["defaultModeId", "description", "id", "key", "modes", "name"]
+      "required": [
+        "defaultModeId",
+        "description",
+        "id",
+        "key",
+        "modes",
+        "name"
+      ]
+    },
+    "AuthoringCapability": {
+      "description": "Legacy capability type is retained only for decoders and cleanup of old snapshots.",
+      "enum": [
+        "color.backgroundLightness",
+        "color.backgroundScaleId",
+        "color.contrastMultiplier",
+        "color.scaleAdjustment",
+        "color.scales",
+        "elevation.color",
+        "elevation.depth",
+        "elevation.layerOpacities",
+        "typography.textZoom"
+      ],
+      "type": "string"
     },
     "Mode": {
       "type": "object",
@@ -1844,7 +313,19 @@
         "contrastMultiplier": {
           "type": "number"
         },
+        "scaleAdjustment": {
+          "description": "Relative transforms existing keys; absolute derives all ramps from one shared color.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RelativeScaleAdjustment"
+            },
+            {
+              "$ref": "#/definitions/AbsoluteScaleAdjustment"
+            }
+          ]
+        },
         "scaleStops": {
+          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
           "type": "object",
           "additionalProperties": {
             "type": "object",
@@ -1863,6 +344,7 @@
           }
         },
         "dataVisSources": {
+          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
           "type": "object",
           "additionalProperties": {
             "type": "object",
@@ -1883,8 +365,63 @@
       },
       "additionalProperties": false
     },
+    "RelativeScaleAdjustment": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "relative"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
+    "AbsoluteScaleAdjustment": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "absolute"
+        },
+        "color": {
+          "$ref": "#/definitions/ColorStopInput"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "color",
+        "method"
+      ]
+    },
+    "ColorStopInput": {
+      "type": "object",
+      "properties": {
+        "lightness": {
+          "type": "number"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "chroma",
+        "hue",
+        "lightness"
+      ]
+    },
     "ColorStopOverride": {
-      "description": "A mode's patch for one stop: literal channels, or a palette link that takes precedence over them.",
       "additionalProperties": false,
       "type": "object",
       "properties": {
@@ -1962,6 +499,1295 @@
       },
       "additionalProperties": false
     },
+    "Platform": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "ComponentsDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 2
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentRecord"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "schemaVersion"
+      ]
+    },
+    "ComponentRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "catalogId": {
+          "type": "string"
+        },
+        "declaration": {
+          "$ref": "#/definitions/ComponentDeclaration"
+        },
+        "identities": {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            },
+            "options": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            },
+            "states": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "options",
+            "parts",
+            "states"
+          ]
+        },
+        "optionOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentAssignment"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "assignments",
+        "declaration",
+        "id",
+        "identities",
+        "optionOrder"
+      ]
+    },
+    "ComponentDeclaration": {
+      "type": "object",
+      "properties": {
+        "$id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "documentationUrl": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "documentationUrl"
+          ]
+        },
+        "$schema": {
+          "type": "string"
+        },
+        "specVersion": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "implementations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "options": {
+          "$ref": "#/definitions/ComponentOptions"
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "anatomy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentPart"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentState"
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        "tokenBindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "accessibility": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "$id",
+        "displayName",
+        "meta",
+        "name"
+      ]
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": [
+            "null",
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    "ComponentOptions": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/ComponentOption"
+      }
+    },
+    "ComponentOption": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          },
+          {
+            "type": [
+              "null",
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OptionType"
+              }
+            },
+            {
+              "enum": [
+                "array",
+                "boolean",
+                "integer",
+                "null",
+                "number",
+                "object",
+                "string"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/definitions/JsonValue"
+              },
+              "description": {
+                "type": "string"
+              },
+              "lifecycle": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/definitions/JsonValue"
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "default": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JsonValue"
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/JsonValue"
+              }
+            },
+            {
+              "type": [
+                "null",
+                "string",
+                "number",
+                "boolean"
+              ]
+            }
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "$ref": {
+          "type": "string"
+        }
+      }
+    },
+    "OptionType": {
+      "enum": [
+        "array",
+        "boolean",
+        "integer",
+        "null",
+        "number",
+        "object",
+        "string"
+      ],
+      "type": "string"
+    },
+    "ComponentPart": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "contains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "ComponentState": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "trigger": {
+          "enum": [
+            "interaction",
+            "prop"
+          ],
+          "type": "string"
+        },
+        "precedence": {
+          "type": "number"
+        },
+        "layered": {
+          "type": "boolean"
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        "announce": {
+          "type": "string"
+        },
+        "communicates": {
+          "type": "string"
+        },
+        "blocksInteraction": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "DeclarationIdentities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ComponentAssignment": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "partId": {
+              "type": "string"
+            },
+            "property": {
+              "$ref": "#/definitions/TaxonomyNameReference"
+            },
+            "options": {
+              "$ref": "#/definitions/AssignmentScope"
+            },
+            "description": {
+              "type": "string"
+            },
+            "context": {
+              "type": "string"
+            },
+            "$valueType": {
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/definitions/LiteralValue"
+            }
+          },
+          "required": [
+            "id",
+            "property",
+            "value"
+          ]
+        },
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "partId": {
+              "type": "string"
+            },
+            "property": {
+              "$ref": "#/definitions/TaxonomyNameReference"
+            },
+            "options": {
+              "$ref": "#/definitions/AssignmentScope"
+            },
+            "description": {
+              "type": "string"
+            },
+            "context": {
+              "type": "string"
+            },
+            "$valueType": {
+              "type": "string"
+            },
+            "$ref": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "$ref",
+            "id",
+            "property"
+          ]
+        }
+      ]
+    },
+    "TaxonomyNameReference": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "termId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "classification": {
+          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "termId"
+      ]
+    },
+    "Classification": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "AssignmentScope": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "LiteralValue": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    "AliasDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AliasToken"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "tokens"
+      ]
+    },
+    "AliasToken": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "$ref": {
+          "type": "string"
+        },
+        "contexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "$ref",
+        "contexts",
+        "id",
+        "name"
+      ]
+    },
+    "Rule": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ScaleNamingRule"
+        },
+        {
+          "$ref": "#/definitions/RoundingRule"
+        },
+        {
+          "$ref": "#/definitions/TshirtSizingRule"
+        },
+        {
+          "$ref": "#/definitions/ConditionalRule"
+        }
+      ]
+    },
+    "ScaleNamingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "scale-naming"
+        },
+        "baseLabel": {
+          "type": "number"
+        },
+        "aboveIncrement": {
+          "type": "number"
+        },
+        "below": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "automatic"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "fixed"
+                },
+                "increment": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "increment",
+                "kind"
+              ]
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "types"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "aboveIncrement",
+        "baseLabel",
+        "below",
+        "description",
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "RoundingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rounding"
+        },
+        "depth": {
+          "enum": [
+            1,
+            10,
+            100,
+            1000
+          ],
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "types"
+              ]
+            }
+          ]
+        },
+        "defaultOutcome": {
+          "$ref": "#/definitions/RoundingOutcome"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Condition%3CRoundingOutcome%3E"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conditions",
+        "defaultOutcome",
+        "depth",
+        "description",
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "RoundingOutcome": {
+      "description": "A factor of 0 leaves the value unrounded.",
+      "type": "object",
+      "properties": {
+        "factor": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "factor"
+      ]
+    },
+    "Condition<RoundingOutcome>": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "comparator": {
+          "$ref": "#/definitions/Comparator"
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "outcome": {
+          "$ref": "#/definitions/RoundingOutcome"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "comparator",
+        "id",
+        "outcome",
+        "threshold"
+      ]
+    },
+    "Comparator": {
+      "enum": [
+        "gt",
+        "gte",
+        "lt",
+        "lte"
+      ],
+      "type": "string"
+    },
+    "TshirtSizingRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "generator",
+            "tshirt-sizing"
+          ],
+          "type": "string"
+        },
+        "movement": {
+          "$ref": "#/definitions/TshirtMovement"
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TshirtSizeMapping"
+          }
+        },
+        "defaultTermId": {
+          "type": "string"
+        },
+        "ratio": {
+          "description": "Ratio movement only: each step multiplies (or divides) Medium by this ratio.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "value"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "parameter"
+                },
+                "scaleTypeId": {
+                  "type": "string"
+                },
+                "parameterId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "parameterId",
+                "scaleTypeId"
+              ]
+            }
+          ]
+        },
+        "roundingRuleId": {
+          "description": "Ratio movement only: rounding rule applied to each multiplied value.",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "types"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "id",
+        "mappings",
+        "movement",
+        "name",
+        "type"
+      ]
+    },
+    "TshirtMovement": {
+      "enum": [
+        "available-token",
+        "ratio",
+        "scale-index"
+      ],
+      "type": "string"
+    },
+    "TshirtSizeMapping": {
+      "type": "object",
+      "properties": {
+        "termId": {
+          "description": "Registry size-term UUID, not a display label.",
+          "type": "string"
+        },
+        "offset": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "offset",
+        "termId"
+      ]
+    },
+    "ConditionalRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "conditional"
+        },
+        "when": {
+          "$ref": "#/definitions/RuleConditionGroup"
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConditionalBranch"
+          }
+        },
+        "otherwise": {
+          "$ref": "#/definitions/TokenOffsetOutcome"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in rules other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        },
+        "applicability": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "specific"
+                },
+                "types": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "color",
+                      "elevation",
+                      "font-size",
+                      "line-height",
+                      "line-height-multiplier",
+                      "opacity",
+                      "radius",
+                      "size",
+                      "spacing",
+                      "workflow-icon-size"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "types"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "branches",
+        "description",
+        "id",
+        "name",
+        "otherwise",
+        "type",
+        "when"
+      ]
+    },
+    "RuleConditionGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "group"
+        },
+        "operator": {
+          "enum": [
+            "and",
+            "or"
+          ],
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConditionNode"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "children",
+        "id",
+        "kind",
+        "operator"
+      ]
+    },
+    "RuleConditionNode": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RuleCondition"
+        },
+        {
+          "$ref": "#/definitions/RuleConditionGroup"
+        }
+      ]
+    },
+    "RuleCondition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "condition"
+        },
+        "source": {
+          "enum": [
+            "mode",
+            "taxonomy"
+          ],
+          "type": "string"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "matcher": {
+          "enum": [
+            "is",
+            "is-not"
+          ],
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "matcher",
+        "source",
+        "sourceId",
+        "valueId"
+      ]
+    },
+    "ConditionalBranch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/definitions/RuleConditionGroup"
+        },
+        "then": {
+          "$ref": "#/definitions/TokenOffsetOutcome"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "then",
+        "when"
+      ]
+    },
+    "TokenOffsetOutcome": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "offset"
+      ]
+    },
     "Interpolation": {
       "anyOf": [
         {
@@ -1998,10 +1824,20 @@
         }
       },
       "additionalProperties": false,
-      "required": ["description", "id", "kind", "method", "name"]
+      "required": [
+        "description",
+        "id",
+        "kind",
+        "method",
+        "name"
+      ]
     },
     "InterpolationMethod": {
-      "enum": ["cosine", "exponential", "linear"],
+      "enum": [
+        "cosine",
+        "exponential",
+        "linear"
+      ],
       "type": "string"
     },
     "ExpressionInterpolation": {
@@ -2073,7 +1909,13 @@
         }
       },
       "additionalProperties": false,
-      "required": ["adaptable", "default", "id", "label", "step"]
+      "required": [
+        "adaptable",
+        "default",
+        "id",
+        "label",
+        "step"
+      ]
     },
     "TokenOverride": {
       "type": "object",
@@ -2096,14 +1938,20 @@
             }
           },
           "additionalProperties": false,
-          "required": ["name", "value"]
+          "required": [
+            "name",
+            "value"
+          ]
         },
         "editedAt": {
           "type": "string"
         }
       },
       "additionalProperties": false,
-      "required": ["baseline", "editedAt"]
+      "required": [
+        "baseline",
+        "editedAt"
+      ]
     },
     "TokenName": {
       "description": "Lightweight subset of the Spectrum token format: a `name` object with\napp-specific keys, a `value`, and a stable `uuid`.",
@@ -2117,7 +1965,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["colorName", "contrastValue"]
+      "required": [
+        "colorName",
+        "contrastValue"
+      ]
     },
     "BrowserTokenEdits": {
       "type": "object",
@@ -2135,7 +1986,10 @@
           "type": "string"
         },
         "status": {
-          "enum": ["deprecated", "draft"],
+          "enum": [
+            "deprecated",
+            "draft"
+          ],
           "type": "string"
         },
         "nameBaseline": {
@@ -2154,7 +2008,10 @@
               }
             },
             "additionalProperties": false,
-            "required": ["baseline", "value"]
+            "required": [
+              "baseline",
+              "value"
+            ]
           }
         },
         "authoring": {
@@ -2162,10 +2019,15 @@
         }
       },
       "additionalProperties": false,
-      "required": ["values"]
+      "required": [
+        "values"
+      ]
     },
     "TokenValue": {
-      "type": ["string", "number"]
+      "type": [
+        "string",
+        "number"
+      ]
     },
     "TokenAuthoring": {
       "type": "object",
@@ -2195,10 +2057,14 @@
               "type": "string"
             },
             "unit": {
-              "enum": ["", "px"],
+              "enum": [
+                "",
+                "px"
+              ],
               "type": "string"
             },
             "targetId": {
+              "description": "Missing for new tokens that do not reference another token yet.",
               "type": "string"
             },
             "groupId": {
@@ -2210,7 +2076,11 @@
             }
           },
           "additionalProperties": false,
-          "required": ["groupId", "targetId", "type", "unit"]
+          "required": [
+            "groupId",
+            "type",
+            "unit"
+          ]
         },
         "lifecycle": {
           "type": "object",
@@ -2235,11 +2105,16 @@
             }
           },
           "additionalProperties": false,
-          "required": ["deprecatedComment", "replacementIds"]
+          "required": [
+            "deprecatedComment",
+            "replacementIds"
+          ]
         }
       },
       "additionalProperties": false,
-      "required": ["assignments"]
+      "required": [
+        "assignments"
+      ]
     },
     "Record<string,TokenAssignment>": {
       "type": "object",
@@ -2315,11 +2190,17 @@
           "type": "string"
         },
         "valueType": {
-          "enum": ["number", "string"],
+          "enum": [
+            "number",
+            "string"
+          ],
           "type": "string"
         },
         "cardinality": {
-          "enum": ["one", "ordered"],
+          "enum": [
+            "one",
+            "ordered"
+          ],
           "type": "string"
         },
         "scopes": {
@@ -2333,6 +2214,15 @@
         },
         "includeInProjections": {
           "type": "boolean"
+        },
+        "appliesTo": {
+          "description": "Which \"Add token\" answer shows this category. Missing means both.",
+          "enum": [
+            "both",
+            "purpose",
+            "raw"
+          ],
+          "type": "string"
         }
       },
       "additionalProperties": false,
@@ -2380,10 +2270,993 @@
         }
       },
       "additionalProperties": false,
-      "required": ["categoryId", "description", "id", "value"]
+      "required": [
+        "categoryId",
+        "description",
+        "id",
+        "value"
+      ]
     },
     "TaxonomyValue": {
-      "type": ["string", "number"]
+      "type": [
+        "string",
+        "number"
+      ]
+    },
+    "PortableStructuresDocument": {
+      "description": "Studio's portable source contract, not an accepted upstream Design Data schema.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "structures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PortableStructure"
+          }
+        },
+        "publications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StructurePublication"
+          }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StructureExample"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "examples",
+        "publications",
+        "schemaVersion",
+        "structures"
+      ]
+    },
+    "PortableStructure": {
+      "type": "object",
+      "properties": {
+        "conceptId": {
+          "type": "string"
+        },
+        "parentStructureId": {
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TaxonomyNameReference"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StructureBinding"
+          }
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/StructureInstance"
+              },
+              {
+                "$ref": "#/definitions/PortableElement"
+              }
+            ]
+          }
+        },
+        "generation": {
+          "$ref": "#/definitions/StructureGeneration"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PortableOption"
+          }
+        },
+        "configuration": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StructureConfiguration"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "bindings",
+        "conceptId",
+        "configuration",
+        "name",
+        "options"
+      ]
+    },
+    "StructureBinding": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/StructureReferenceBinding"
+        },
+        {
+          "$ref": "#/definitions/StructureLiteralBinding"
+        }
+      ]
+    },
+    "StructureReferenceBinding": {
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "$ref",
+        "classification",
+        "id"
+      ]
+    },
+    "StructureLiteralBinding": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/StructureLiteral"
+        },
+        "id": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "id",
+        "value"
+      ]
+    },
+    "StructureLiteral": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/StructureNumberLiteral"
+        },
+        {
+          "$ref": "#/definitions/StructureDerivedLiteral"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "sizing"
+            },
+            "preset": {
+              "$ref": "#/definitions/SizingPreset"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "preset"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "term"
+            },
+            "termId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "termId"
+          ]
+        }
+      ]
+    },
+    "StructureNumberLiteral": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "number"
+        },
+        "value": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "unit": {
+          "enum": [
+            "multiplier",
+            "px"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "unit",
+        "value"
+      ]
+    },
+    "StructureDerivedLiteral": {
+      "description": "Vertical padding that centers a content height (a line height token) inside Min height.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "derived"
+        },
+        "method": {
+          "type": "string",
+          "const": "center-in-min-height"
+        },
+        "contentRef": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "contentRef",
+        "kind",
+        "method"
+      ]
+    },
+    "SizingPreset": {
+      "enum": [
+        "fill",
+        "hug"
+      ],
+      "type": "string"
+    },
+    "StructureInstance": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "structureReference"
+        },
+        "structureId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "structureId"
+      ]
+    },
+    "PortableElement": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ElementKind"
+        },
+        "termId": {
+          "type": "string"
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ElementBinding"
+          }
+        },
+        "orientation": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "bindings",
+        "id",
+        "kind",
+        "termId"
+      ]
+    },
+    "ElementKind": {
+      "enum": [
+        "bar",
+        "slot",
+        "text",
+        "uiIcon",
+        "visual",
+        "workflowIcon"
+      ],
+      "type": "string"
+    },
+    "ElementBinding": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slot": {
+              "$ref": "#/definitions/ElementSlot"
+            },
+            "family": {
+              "enum": [
+                "size",
+                "typography"
+              ],
+              "type": "string"
+            },
+            "$ref": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "$ref",
+            "family",
+            "id",
+            "slot"
+          ]
+        },
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slot": {
+              "$ref": "#/definitions/ElementSlot"
+            },
+            "family": {
+              "enum": [
+                "size",
+                "typography"
+              ],
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/definitions/StructureNumberLiteral"
+            }
+          },
+          "required": [
+            "family",
+            "id",
+            "slot",
+            "value"
+          ]
+        }
+      ]
+    },
+    "ElementSlot": {
+      "enum": [
+        "fontSize",
+        "height",
+        "length",
+        "lineHeight",
+        "maxHeight",
+        "maxWidth",
+        "minHeight",
+        "minWidth",
+        "size",
+        "thickness",
+        "width"
+      ],
+      "type": "string"
+    },
+    "StructureGeneration": {
+      "type": "object",
+      "properties": {
+        "nameRef": {
+          "$ref": "#/definitions/TaxonomyNameReference"
+        },
+        "sizeTermIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StructureRuleApplication"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "applications",
+        "sizeTermIds"
+      ]
+    },
+    "StructureRuleApplication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "targets": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "custom"
+                },
+                "bindingIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "bindingIds",
+                "kind"
+              ]
+            }
+          ]
+        },
+        "previewTargets": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "all"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "custom"
+                },
+                "bindingIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "bindingIds",
+                "kind"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ruleId",
+        "targets"
+      ]
+    },
+    "PortableOption": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BooleanProperty"
+        },
+        {
+          "$ref": "#/definitions/PortableVariant"
+        }
+      ]
+    },
+    "BooleanProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "defaultValue": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "defaultValue",
+        "id",
+        "kind",
+        "name"
+      ]
+    },
+    "PortableVariant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "variant"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "categoryId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "categoryId"
+              ]
+            }
+          ]
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "defaultOptionId": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PortableVariantValue"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "defaultOptionId",
+        "id",
+        "kind",
+        "name",
+        "values"
+      ]
+    },
+    "PortableVariantValue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/PortableOptionName"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "id",
+        "name"
+      ]
+    },
+    "PortableOptionName": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "categoryId": {
+              "type": "string"
+            },
+            "termId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "categoryId",
+            "termId"
+          ]
+        }
+      ]
+    },
+    "StructureConfiguration": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/definitions/StructureTarget"
+        },
+        "when": {
+          "$ref": "#/definitions/StructureCondition"
+        },
+        "effect": {
+          "$ref": "#/definitions/StructureEffect"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "effect",
+        "target"
+      ]
+    },
+    "StructureTarget": {
+      "type": "object",
+      "properties": {
+        "structureId": {
+          "type": "string"
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "structureId"
+      ]
+    },
+    "StructureCondition": {
+      "type": "object",
+      "properties": {
+        "optionId": {
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "optionId",
+        "valueId"
+      ]
+    },
+    "StructureEffect": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "binding"
+            },
+            "bindingId": {
+              "type": "string"
+            },
+            "selection": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "$ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "$ref"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "$ref": "#/definitions/StructureLiteral"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "value"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "bindingId",
+            "kind",
+            "selection"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "size"
+            },
+            "bindingId": {
+              "type": "string"
+            },
+            "termId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "bindingId",
+            "kind",
+            "termId"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "order"
+            },
+            "elementIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "elementIds",
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "visibility"
+            },
+            "elementId": {
+              "type": "string"
+            },
+            "visible": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "elementId",
+            "kind",
+            "visible"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "visibilityBinding"
+            },
+            "elementId": {
+              "type": "string"
+            },
+            "optionId": {
+              "type": "string"
+            },
+            "inverted": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "elementId",
+            "inverted",
+            "kind",
+            "optionId"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "elementFields"
+            },
+            "elementId": {
+              "type": "string"
+            },
+            "fields": {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "bindings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ElementBinding"
+                  }
+                },
+                "name": {
+                  "type": "string"
+                },
+                "orientation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "bindings"
+              ]
+            },
+            "unset": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "name",
+                  "orientation"
+                ],
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "elementId",
+            "fields",
+            "kind",
+            "unset"
+          ]
+        }
+      ]
+    },
+    "StructurePublication": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/definitions/StructureTarget"
+        },
+        "identities": {
+          "$ref": "#/definitions/VariantSemanticIdentities"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "identities",
+        "target"
+      ]
+    },
+    "VariantSemanticIdentities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/VariantSemanticIdentity"
+        }
+      }
+    },
+    "VariantSemanticIdentity": {
+      "type": "object",
+      "properties": {
+        "conceptId": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conceptId",
+        "rows"
+      ]
+    },
+    "StructureExample": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/definitions/StructureTarget"
+        },
+        "elementId": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/definitions/StructureCondition"
+        },
+        "glyph": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "elementId",
+        "glyph",
+        "target"
+      ]
     },
     "OpacityDocument": {
       "type": "object",
@@ -2403,7 +3276,11 @@
         }
       },
       "additionalProperties": false,
-      "required": ["levels", "polarityCompensation", "schemaVersion"]
+      "required": [
+        "levels",
+        "polarityCompensation",
+        "schemaVersion"
+      ]
     },
     "OpacityLevel": {
       "type": "object",
@@ -2414,6 +3291,9 @@
         "value": {
           "type": "number"
         },
+        "scaleIndex": {
+          "type": "number"
+        },
         "rows": {
           "type": "object",
           "additionalProperties": {
@@ -2422,7 +3302,11 @@
         }
       },
       "additionalProperties": false,
-      "required": ["id", "rows", "value"]
+      "required": [
+        "id",
+        "rows",
+        "value"
+      ]
     },
     "CanonicalColorDocument": {
       "type": "object",
@@ -2473,13 +3357,24 @@
         "settings": {
           "type": "object",
           "properties": {
+            "colorScaleType": {
+              "enum": [
+                "dynamic-blend",
+                "opaque",
+                "transparent"
+              ],
+              "type": "string"
+            },
+            "syncDefaultStopsWithOpacity": {
+              "type": "boolean"
+            },
             "side": {
               "$ref": "#/definitions/ContrastSide"
             },
-            "extOffset": {
+            "backgroundBlend": {
               "type": "number"
             },
-            "extSteep": {
+            "colorSourceCurveOffset": {
               "type": "number"
             },
             "guardThreshold": {
@@ -2489,7 +3384,10 @@
               "$ref": "#/definitions/ColorOutputSettings"
             },
             "contrastReference": {
-              "enum": ["dark", "light"],
+              "enum": [
+                "dark",
+                "light"
+              ],
               "type": "string"
             },
             "polarityCompensation": {
@@ -2503,9 +3401,9 @@
           },
           "additionalProperties": false,
           "required": [
+            "backgroundBlend",
             "colorOutput",
-            "extOffset",
-            "extSteep",
+            "colorSourceCurveOffset",
             "guardThreshold",
             "side"
           ]
@@ -2545,7 +3443,13 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": ["chroma", "hue", "id", "lightness", "name"]
+      "required": [
+        "chroma",
+        "hue",
+        "id",
+        "lightness",
+        "name"
+      ]
     },
     "CanonicalNamedSource<ColorScale>": {
       "additionalProperties": false,
@@ -2574,7 +3478,11 @@
             }
           },
           "additionalProperties": false,
-          "required": ["baseContrastId", "namingRuleId", "steps"]
+          "required": [
+            "baseContrastId",
+            "namingRuleId",
+            "steps"
+          ]
         },
         "stops": {
           "type": "array",
@@ -2582,11 +3490,45 @@
             "$ref": "#/definitions/ColorStop"
           }
         },
+        "interpolation": {
+          "enum": [
+            "oklch",
+            "rgb"
+          ],
+          "type": "string"
+        },
+        "disabledCustomContrasts": {
+          "type": "object",
+          "properties": {
+            "steps": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ContrastToken"
+              }
+            },
+            "baseContrastId": {
+              "type": "string"
+            },
+            "namingRuleId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "baseContrastId",
+            "namingRuleId",
+            "steps"
+          ]
+        },
         "name": {
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": ["id", "name", "stops"]
+      "required": [
+        "id",
+        "name",
+        "stops"
+      ]
     },
     "ContrastToken": {
       "type": "object",
@@ -2597,13 +3539,19 @@
         "value": {
           "type": "number"
         },
+        "scaleIndex": {
+          "type": "number"
+        },
         "oppositeValue": {
           "description": "Explicit value at the opposite background extreme; replaces the compensated value.",
           "type": "number"
         }
       },
       "additionalProperties": false,
-      "required": ["id", "value"]
+      "required": [
+        "id",
+        "value"
+      ]
     },
     "ColorStop": {
       "type": "object",
@@ -2626,7 +3574,12 @@
         }
       },
       "additionalProperties": false,
-      "required": ["chroma", "hue", "id", "lightness"]
+      "required": [
+        "chroma",
+        "hue",
+        "id",
+        "lightness"
+      ]
     },
     "CanonicalSurface": {
       "type": "object",
@@ -2647,15 +3600,18 @@
         "contrast": {
           "type": "number"
         },
-        "expanded": {
-          "type": "boolean"
-        },
         "reference": {
-          "enum": ["base", "parent"],
+          "enum": [
+            "base",
+            "parent"
+          ],
           "type": "string"
         },
         "sourceScaleId": {
           "type": "string"
+        },
+        "expanded": {
+          "type": "boolean"
         },
         "previewRole": {
           "$ref": "#/definitions/SurfacePreviewRole"
@@ -2668,10 +3624,21 @@
         }
       },
       "additionalProperties": false,
-      "required": ["id", "name", "previewRole", "showInPreview"]
+      "required": [
+        "id",
+        "name",
+        "previewRole",
+        "showInPreview"
+      ]
     },
     "SurfacePreviewRole": {
-      "enum": ["applied", "auto", "hidden", "nest", "once"],
+      "enum": [
+        "applied",
+        "auto",
+        "hidden",
+        "nest",
+        "once"
+      ],
       "type": "string"
     },
     "CanonicalDataVisScale": {
@@ -2698,7 +3665,10 @@
           "type": "string"
         },
         "kind": {
-          "enum": ["diverging", "sequential"],
+          "enum": [
+            "diverging",
+            "sequential"
+          ],
           "type": "string"
         },
         "staticColors": {
@@ -2715,7 +3685,12 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": ["id", "kind", "name", "points"]
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "points"
+      ]
     },
     "DataVisPoint": {
       "anyOf": [
@@ -2736,7 +3711,12 @@
               "$ref": "#/definitions/PointContrast"
             }
           },
-          "required": ["contrast", "id", "position", "source"]
+          "required": [
+            "contrast",
+            "id",
+            "position",
+            "source"
+          ]
         },
         {
           "additionalProperties": false,
@@ -2759,7 +3739,11 @@
               ]
             }
           },
-          "required": ["id", "position", "source"]
+          "required": [
+            "id",
+            "position",
+            "source"
+          ]
         }
       ]
     },
@@ -2777,7 +3761,10 @@
             }
           },
           "additionalProperties": false,
-          "required": ["color", "kind"]
+          "required": [
+            "color",
+            "kind"
+          ]
         },
         {
           "type": "object",
@@ -2791,25 +3778,12 @@
             }
           },
           "additionalProperties": false,
-          "required": ["kind", "scaleId"]
+          "required": [
+            "kind",
+            "scaleId"
+          ]
         }
       ]
-    },
-    "ColorStopInput": {
-      "type": "object",
-      "properties": {
-        "lightness": {
-          "type": "number"
-        },
-        "hue": {
-          "type": "number"
-        },
-        "chroma": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": ["chroma", "hue", "lightness"]
     },
     "PointContrast": {
       "type": "object",
@@ -2822,7 +3796,9 @@
         }
       },
       "additionalProperties": false,
-      "required": ["value"]
+      "required": [
+        "value"
+      ]
     },
     "UiSwatchSource": {
       "type": "object",
@@ -2839,7 +3815,11 @@
         }
       },
       "additionalProperties": false,
-      "required": ["contrastId", "kind", "scaleId"]
+      "required": [
+        "contrastId",
+        "kind",
+        "scaleId"
+      ]
     },
     "PrimitiveColorSource": {
       "type": "object",
@@ -2853,7 +3833,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["kind", "tokenId"]
+      "required": [
+        "kind",
+        "tokenId"
+      ]
     },
     "FrozenColor": {
       "type": "object",
@@ -2875,7 +3858,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["id", "value"]
+      "required": [
+        "id",
+        "value"
+      ]
     },
     "CanonicalNamedSource<CategoricalDataVisScale>": {
       "additionalProperties": false,
@@ -2911,7 +3897,13 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": ["id", "kind", "members", "name", "preferences"]
+      "required": [
+        "id",
+        "kind",
+        "members",
+        "name",
+        "preferences"
+      ]
     },
     "CategoricalMember": {
       "type": "object",
@@ -2924,7 +3916,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["id", "source"]
+      "required": [
+        "id",
+        "source"
+      ]
     },
     "CategoricalPreferences": {
       "type": "object",
@@ -2968,7 +3963,9 @@
             }
           },
           "additionalProperties": false,
-          "required": ["kind"]
+          "required": [
+            "kind"
+          ]
         },
         {
           "type": "object",
@@ -2982,20 +3979,35 @@
             }
           },
           "additionalProperties": false,
-          "required": ["count", "kind"]
+          "required": [
+            "count",
+            "kind"
+          ]
         }
       ]
     },
     "CvdProfile": {
-      "enum": ["achromatopsia", "deuteranopia", "protanopia", "tritanopia"],
+      "enum": [
+        "achromatopsia",
+        "deuteranopia",
+        "protanopia",
+        "tritanopia"
+      ],
       "type": "string"
     },
     "PaletteStyle": {
-      "enum": ["balanced", "bold"],
+      "enum": [
+        "balanced",
+        "bold"
+      ],
       "type": "string"
     },
     "ContrastSide": {
-      "enum": ["auto", "dark", "light"],
+      "enum": [
+        "auto",
+        "dark",
+        "light"
+      ],
       "type": "string"
     },
     "ColorOutputSettings": {
@@ -3012,14 +4024,27 @@
         }
       },
       "additionalProperties": false,
-      "required": ["authoringGamut", "mapOutputsToSrgb", "outputFormat"]
+      "required": [
+        "authoringGamut",
+        "mapOutputsToSrgb",
+        "outputFormat"
+      ]
     },
     "ColorGamut": {
-      "enum": ["display-p3", "rec2020", "srgb"],
+      "enum": [
+        "display-p3",
+        "rec2020",
+        "srgb"
+      ],
       "type": "string"
     },
     "ColorFormat": {
-      "enum": ["hex", "hsl", "oklch", "rgb"],
+      "enum": [
+        "hex",
+        "hsl",
+        "oklch",
+        "rgb"
+      ],
       "type": "string"
     },
     "TypographyDocument": {
@@ -3111,14 +4136,28 @@
           "$ref": "#/definitions/TaxonomyNameReference"
         }
       },
-      "required": ["font-size", "workflow-icon-size"]
+      "required": [
+        "font-size",
+        "workflow-icon-size"
+      ]
     },
     "TypographyUnit": {
-      "enum": ["em", "pt", "px", "rem"],
+      "enum": [
+        "em",
+        "pt",
+        "px",
+        "rem"
+      ],
       "type": "string"
     },
     "ComponentSize": {
-      "enum": ["l", "m", "s", "xl", "xs"],
+      "enum": [
+        "l",
+        "m",
+        "s",
+        "xl",
+        "xs"
+      ],
       "type": "string"
     },
     "TypographyLineHeight": {
@@ -3192,7 +4231,10 @@
             }
           },
           "additionalProperties": false,
-          "required": ["alignment", "baseSize"]
+          "required": [
+            "alignment",
+            "baseSize"
+          ]
         },
         {
           "type": "object",
@@ -3209,7 +4251,11 @@
             }
           },
           "additionalProperties": false,
-          "required": ["alignment", "baseSize", "lineHeightId"]
+          "required": [
+            "alignment",
+            "baseSize",
+            "lineHeightId"
+          ]
         }
       ]
     },
@@ -3235,7 +4281,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["scales", "schemaVersion"]
+      "required": [
+        "scales",
+        "schemaVersion"
+      ]
     },
     "CanonicalNamedSource<DimensionScale>": {
       "additionalProperties": false,
@@ -3274,6 +4323,10 @@
             "$ref": "#/definitions/ParameterBinding"
           }
         },
+        "startStep": {
+          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
+          "type": "number"
+        },
         "roundingRuleId": {
           "type": "string"
         },
@@ -3310,7 +4363,11 @@
         }
       },
       "additionalProperties": false,
-      "required": ["method", "modeParameterId", "points"]
+      "required": [
+        "method",
+        "modeParameterId",
+        "points"
+      ]
     },
     "BindingPoint": {
       "type": "object",
@@ -3325,7 +4382,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["at", "value"]
+      "required": [
+        "at",
+        "value"
+      ]
     },
     "CanonicalSizeDocument": {
       "type": "object",
@@ -3349,7 +4409,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["scales", "schemaVersion"]
+      "required": [
+        "scales",
+        "schemaVersion"
+      ]
     },
     "CanonicalRadiusDocument": {
       "type": "object",
@@ -3373,7 +4436,10 @@
         }
       },
       "additionalProperties": false,
-      "required": ["scales", "schemaVersion"]
+      "required": [
+        "scales",
+        "schemaVersion"
+      ]
     },
     "ElevationDocument": {
       "type": "object",
@@ -3454,7 +4520,13 @@
         }
       },
       "additionalProperties": false,
-      "required": ["base", "id", "label", "scale", "scaleTypeId"]
+      "required": [
+        "base",
+        "id",
+        "label",
+        "scale",
+        "scaleTypeId"
+      ]
     },
     "Record<string,never>": {
       "type": "object",
@@ -3467,8 +4539,11 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
-            "structures": {
-              "$ref": "#/definitions/StructuresDocument"
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
             },
             "platforms": {
               "type": "array",
@@ -3486,12 +4561,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Rule"
-              }
-            },
-            "modeSets": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ModeSet"
               }
             },
             "adaptiveClaims": {
@@ -3517,6 +4586,9 @@
             },
             "taxonomy": {
               "$ref": "#/definitions/TaxonomyDocument"
+            },
+            "structures": {
+              "$ref": "#/definitions/PortableStructuresDocument"
             },
             "foundations": {
               "type": "object",
@@ -3600,7 +4672,12 @@
             }
           },
           "additionalProperties": false,
-          "required": ["description", "id", "name", "revision"]
+          "required": [
+            "description",
+            "id",
+            "name",
+            "revision"
+          ]
         }
       },
       "additionalProperties": false,
@@ -3651,10 +4728,22 @@
         }
       },
       "additionalProperties": false,
-      "required": ["base", "description", "id", "kind", "name", "parameters"]
+      "required": [
+        "base",
+        "description",
+        "id",
+        "kind",
+        "name",
+        "parameters"
+      ]
     },
     "ScaleTypeKind": {
-      "enum": ["expression", "geometric", "linear", "type-scale"],
+      "enum": [
+        "expression",
+        "geometric",
+        "linear",
+        "type-scale"
+      ],
       "type": "string"
     },
     "ScaleTypeParameter": {
@@ -3689,7 +4778,14 @@
         }
       },
       "additionalProperties": false,
-      "required": ["adaptable", "default", "id", "label", "overridable", "step"]
+      "required": [
+        "adaptable",
+        "default",
+        "id",
+        "label",
+        "overridable",
+        "step"
+      ]
     },
     "ScaleTypeBase": {
       "description": "The value at index 0. The formula supplies a default; a foundation may override it when allowed.",
@@ -3709,7 +4805,12 @@
         }
       },
       "additionalProperties": false,
-      "required": ["adaptable", "default", "overridable", "step"]
+      "required": [
+        "adaptable",
+        "default",
+        "overridable",
+        "step"
+      ]
     },
     "TypeScaleAdaptation": {
       "type": "object",
@@ -3725,7 +4826,11 @@
         }
       },
       "additionalProperties": false,
-      "required": ["interpolationId", "ratioAtLargest", "ratioAtSmallest"]
+      "required": [
+        "interpolationId",
+        "ratioAtLargest",
+        "ratioAtSmallest"
+      ]
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#"

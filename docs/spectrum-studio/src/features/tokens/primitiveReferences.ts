@@ -48,6 +48,8 @@ export interface PrimitiveReference {
   metricId?: string;
   unit?: "px" | "multiplier";
   measurement?: NominalFontSizeMeasurement;
+  /** A generated value with no token of its own (typed, multiplied, or derived); emitted as a literal. */
+  synthetic?: boolean;
 }
 export interface PrimitiveReferenceOutputs {
   spacing: { scale: DimensionScale; values: GeneratedDimensionValue[] }[];

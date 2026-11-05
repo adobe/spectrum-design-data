@@ -107,7 +107,7 @@ const records = canonicalAliasRows(
 );
 assert.ok(records.some((record) => record.token.type === "opacity"));
 assertTshirtGraph(bundle.tokens, undefined, ["2x-small", "2x-large"]);
-assert.equal(bundle.semantics.length, 117);
+assert.equal(bundle.semantics.length, 122);
 const unchanged = bundle.semantics.filter(
   (row) => row.structureId === catalog[1].conceptId,
 );
@@ -142,7 +142,7 @@ for (const [prefix, sizes, values, suffix] of [
   ],
   ["accessory-workflow-item-padding", fiveSizes, [2, 2, 3, 5, 7], ""],
   ["accessory-ui-icon-size", fiveSizes, [8, 10, 10, 12, 14], ""],
-  ["accessory-workflow-icon-size", fiveSizes, [14, 14, 14, 16, 20], ""],
+  ["accessory-workflow-icon-size", fiveSizes, [14, 14, 16, 18, 20], ""],
 ] as const) {
   sizes.forEach((size, index) =>
     expected.set(`${prefix}-${size}${suffix}`, values[index]),
@@ -221,7 +221,7 @@ for (const structure of [accessory, item, workflow]) {
 for (const [index, size] of ["xs", "s", "m", "l", "xl"].entries()) {
   for (const [structure, icons, paddings] of [
     [item, [8, 10, 10, 12, 14], [3, 3, 5, 7, 9]],
-    [workflow, [14, 14, 14, 16, 20], [2, 2, 3, 5, 7]],
+    [workflow, [14, 14, 16, 18, 20], [2, 2, 3, 5, 7]],
   ] as const) {
     const leaf = resolveElements(
       structure,
@@ -245,7 +245,7 @@ for (const [index, size] of ["xs", "s", "m", "l", "xl"].entries()) {
     assert.equal(padding.target.value, paddings[index]);
     assert.equal(
       icons[index] + 2 * paddings[index],
-      (structure === workflow ? [18, 18, 20, 26, 34] : [14, 16, 20, 26, 32])[
+      (structure === workflow ? [18, 18, 22, 28, 34] : [14, 16, 20, 26, 32])[
         index
       ],
     );
@@ -368,8 +368,8 @@ assert.deepEqual(fresh.get(changeGroupsAtom), []);
 assert.deepEqual(fresh.get(tshirtUnsavedImpactAtom), {
   added: 0,
   removed: 0,
-  saved: 97,
-  values: 117,
+  saved: 102,
+  values: 122,
   error: "",
 });
 fresh.set(enterEditModeAtom);

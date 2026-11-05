@@ -61,6 +61,7 @@ import {
 } from "../../features/structures/elementState";
 import { useNotify } from "../../components/notifications/notificationContext";
 import { withLayoutConfiguration } from "../../features/structures/configuration";
+import "./StructureEditorPanel.css";
 
 interface StructureLayersProps {
   structure: Structure;
@@ -194,11 +195,14 @@ export function StructureLayers(props: StructureLayersProps) {
               isLeaf(layer.child) ? `element.${layer.child.kind}` : "structures"
             }
           />
-          <Text>{label}</Text>
+          <Text>
+            <span title={label}>{label}</span>
+          </Text>
           {!isReadOnly && (
             <ActionButtonGroup
               size="M"
               isQuiet
+              UNSAFE_className="structureLayerActions"
               aria-label={`${label} layer actions`}
             >
               <ActionButton
@@ -390,31 +394,33 @@ export function StructureLayers(props: StructureLayersProps) {
     },
   });
   return (
-    <TreeView
-      aria-label="Structure layers"
-      selectionMode="single"
-      selectionStyle="highlight"
-      selectedKeys={[selectedId ?? "main-structure"]}
-      expandedKeys={expanded}
-      onExpandedChange={(keys) => setExpanded(new Set([...keys].map(String)))}
-      dragAndDropHooks={dragAndDropHooks}
-      onSelectionChange={(keys) => {
-        if (keys === "all") return;
-        const key = [...keys][0];
-        props.onSelect(!key || key === "main-structure" ? null : String(key));
-      }}
-    >
-      <TreeViewItem id="main-structure" textValue="Main structure">
-        <TreeViewItemContent>
-          <StructureLayerIcon category="structures" />
-          <Text>Main structure</Text>
-        </TreeViewItemContent>
-        {order.flatMap((id) => {
-          const layer = layers.find((item) => item.child.id === id);
-          return layer ? [renderLayer(layer)] : [];
-        })}
-      </TreeViewItem>
-    </TreeView>
+    <div className="structureLayersTree">
+      <TreeView
+        aria-label="Structure layers"
+        selectionMode="single"
+        selectionStyle="highlight"
+        selectedKeys={[selectedId ?? "main-structure"]}
+        expandedKeys={expanded}
+        onExpandedChange={(keys) => setExpanded(new Set([...keys].map(String)))}
+        dragAndDropHooks={dragAndDropHooks}
+        onSelectionChange={(keys) => {
+          if (keys === "all") return;
+          const key = [...keys][0];
+          props.onSelect(!key || key === "main-structure" ? null : String(key));
+        }}
+      >
+        <TreeViewItem id="main-structure" textValue="Main structure">
+          <TreeViewItemContent>
+            <StructureLayerIcon category="structures" />
+            <Text>Main structure</Text>
+          </TreeViewItemContent>
+          {order.flatMap((id) => {
+            const layer = layers.find((item) => item.child.id === id);
+            return layer ? [renderLayer(layer)] : [];
+          })}
+        </TreeViewItem>
+      </TreeView>
+    </div>
   );
 }
 
@@ -532,7 +538,7 @@ function BooleanBindingButton({
             className={popoverDialogStyles}
           >
             <Picker
-              size="M"
+              size="S"
               label="Boolean property"
               selectedKey={binding?.propertyId ?? null}
               onSelectionChange={(key) => {
@@ -552,7 +558,7 @@ function BooleanBindingButton({
                 ))}
             </Picker>
             <Checkbox
-              size="M"
+              size="S"
               isDisabled={!binding}
               isSelected={binding?.inverted ?? false}
               onChange={(inverted) => {
@@ -562,13 +568,13 @@ function BooleanBindingButton({
               Invert visibility
             </Checkbox>
             <TextField
-              size="M"
+              size="S"
               label="New boolean name"
               value={name}
               onChange={setName}
             />
             <Button
-              size="M"
+              size="S"
               variant="secondary"
               isDisabled={!name.trim()}
               onPress={() => {
@@ -592,7 +598,7 @@ function BooleanBindingButton({
             </Button>
             {binding && (
               <Button
-                size="M"
+                size="S"
                 variant="secondary"
                 onPress={() => {
                   bind(null);

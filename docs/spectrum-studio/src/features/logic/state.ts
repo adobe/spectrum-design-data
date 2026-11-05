@@ -265,8 +265,9 @@ export const saveGeneratorDraftAtom = atom(
       ["rules/library", rules],
     ]);
     withValidatedAuthoringUpdates(get, updates, () => {
-      set(structuresDocumentAtom, prepared.structures);
+      // Remapped component targets must exist before the old size disappears.
       set(componentsDocumentAtom, components);
+      set(structuresDocumentAtom, prepared.structures);
       set(rulesAtom, rules);
       // The Registry writer copies its input; validate that final copy against the complete proposal.
       set(taxonomyDocumentAtom, taxonomy);

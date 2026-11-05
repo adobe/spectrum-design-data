@@ -131,13 +131,13 @@ export function StructureProperties(props: StructurePropertiesProps) {
     } else setEditing(property.id);
   };
   return (
-    <Accordion size="M" density="spacious" defaultExpandedKeys={["properties"]}>
+    <Accordion size="S" density="spacious" defaultExpandedKeys={["properties"]}>
       <AccordionItem id="properties">
         <AccordionItemHeader>
           <AccordionItemTitle>{props.label ?? "Properties"}</AccordionItemTitle>
           {!isReadOnly && (
             <MenuTrigger>
-              <ActionButton size="M" isQuiet aria-label="Add property">
+              <ActionButton size="S" isQuiet aria-label="Add property">
                 <Add />
               </ActionButton>
               <Menu
@@ -155,7 +155,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
           <div className="structureEditorFields">
             {props.showIndentationLevel && (
               <Picker
-                size="M"
+                size="S"
                 label="Indentation level"
                 selectedKey={String(preview.indentationLevel)}
                 onSelectionChange={(key) => {
@@ -255,7 +255,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
                   >
                     {property.kind === "variant" && !editingName && (
                       <Picker
-                        size="M"
+                        size="S"
                         UNSAFE_className="structureVariantPicker"
                         aria-label={`${property.name} option`}
                         selectedKey={selected?.id ?? property.defaultOptionId}
@@ -272,7 +272,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
                     )}
                     {property.kind === "boolean" && !editingName && (
                       <Switch
-                        size="M"
+                        size="S"
                         aria-label={property.name}
                         isSelected={
                           preview.booleans[property.id] ?? property.defaultValue
@@ -290,7 +290,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
                     {unused && !editingName && (
                       <TooltipTrigger>
                         <ActionButton
-                          size="M"
+                          size="S"
                           isQuiet
                           aria-label="boolean option not used"
                         >
@@ -302,7 +302,7 @@ export function StructureProperties(props: StructurePropertiesProps) {
                     {!isReadOnly && !editingName && (
                       <MenuTrigger>
                         <ActionButton
-                          size="M"
+                          size="S"
                           isQuiet
                           aria-label={`More actions for ${property.name}`}
                         >
@@ -465,7 +465,7 @@ function StructurePropertyRow({
           <Text UNSAFE_className={String(nameTextStyles)}>{name}</Text>
         ) : (
           <ActionButton
-            size="M"
+            size="S"
             isQuiet
             UNSAFE_className="structurePropertyNameButton"
             aria-label={`Edit property ${name}`}
@@ -493,7 +493,7 @@ function BooleanNameEditor({
   return (
     <div className="structureNameEditor">
       <TextField
-        size="M"
+        size="S"
         ref={field}
         styles={nameFieldStyles}
         aria-label="Boolean name"
@@ -505,7 +505,7 @@ function BooleanNameEditor({
         }}
       />
       <ActionButton
-        size="M"
+        size="S"
         isQuiet
         aria-label="Save boolean name"
         isDisabled={!name.trim()}
@@ -514,7 +514,7 @@ function BooleanNameEditor({
         <Checkmark />
       </ActionButton>
       <ActionButton
-        size="M"
+        size="S"
         isQuiet
         aria-label="Cancel editing boolean name"
         onPress={onCancel}
@@ -557,7 +557,7 @@ function PropertySetup({
     >
       <TextField
         ref={field}
-        size="M"
+        size="S"
         styles={nameFieldStyles}
         label={kind === "option" ? "Option name" : "Variant name"}
         value={name}
@@ -568,7 +568,7 @@ function PropertySetup({
         }}
       />
       <ActionButton
-        size="M"
+        size="S"
         isQuiet
         aria-label="Add"
         isDisabled={!name.trim()}
@@ -577,7 +577,7 @@ function PropertySetup({
         <Checkmark />
       </ActionButton>
       <ActionButton
-        size="M"
+        size="S"
         isQuiet
         aria-label="Cancel adding property option"
         onPress={onClose}
@@ -651,7 +651,7 @@ function VariantNameEditor({
   return (
     <div className="structureNameEditor">
       <TextField
-        size="M"
+        size="S"
         ref={field}
         styles={nameFieldStyles}
         aria-label={optionId ? "Option name" : "Variant name"}
@@ -676,7 +676,7 @@ function VariantNameEditor({
         }}
       >
         <ActionButton
-          size="M"
+          size="S"
           isQuiet
           aria-label={`Save ${label}`}
           isDisabled={!name.trim()}
@@ -704,13 +704,13 @@ function VariantNameEditor({
               </Text>
               <ButtonGroup align="end" styles={termActionsStyles}>
                 <Button
-                  size="M"
+                  size="S"
                   variant="secondary"
                   onPress={() => setTermRequest(null)}
                 >
                   Cancel
                 </Button>
-                <Button size="M" variant="primary" onPress={() => save(true)}>
+                <Button size="S" variant="primary" onPress={() => save(true)}>
                   Create
                 </Button>
               </ButtonGroup>
@@ -719,7 +719,7 @@ function VariantNameEditor({
         </Popover>
       </DialogTrigger>
       <ActionButton
-        size="M"
+        size="S"
         isQuiet
         aria-label={`Cancel editing ${label}`}
         onPress={onCancel}

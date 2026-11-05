@@ -40,6 +40,8 @@ export interface ScaleSettings {
   base?: number;
   below: number;
   above: number;
+  /** Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve. */
+  startStep?: number;
   /** Per-scale overrides of the formula's parameters; only parts the formula allows take effect. */
   parameters: { [parameterId: string]: number };
   /** Keyed by parameter id, or `base`. */
@@ -112,7 +114,12 @@ export function generateScale(
   );
   const values: GeneratedScaleValue[] = [];
   for (let index = -below; index <= above; index++) {
-    const raw = scaleTypeValue(scaleType, index, base, parameters);
+    const raw = scaleTypeValue(
+      scaleType,
+      index + (settings.startStep ?? 0),
+      base,
+      parameters,
+    );
     values.push({
       index,
       step: scaleStepName(index, below),

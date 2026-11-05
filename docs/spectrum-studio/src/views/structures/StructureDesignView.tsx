@@ -1,9 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  Accordion,
-  AccordionItem,
-  AccordionItemPanel,
-  AccordionItemTitle,
   Button,
   ActionButton,
   IllustratedMessage,
@@ -785,192 +781,180 @@ function StructureDesignContent({
                   }
                 />
               )}
-              <Accordion
-                size="M"
-                density="spacious"
-                defaultExpandedKeys={["appearance"]}
-              >
-                <AccordionItem id="appearance">
-                  <AccordionItemTitle>Appearance</AccordionItemTitle>
-                  <AccordionItemPanel>
-                    {selectedElement &&
-                    !isLeaf(selectedElement) &&
-                    !selectedLayer?.layout ? (
-                      <div className="structureEditorFields">
-                        <Text>
-                          {
-                            catalog.find(
-                              (source) =>
-                                source.conceptId ===
-                                selectedElement.structureId,
-                            )?.name
-                          }
-                        </Text>
-                        <p>
-                          Settings, tokens and sizing rules are inherited from
-                          the source Structure.
-                        </p>
-                        <Button
-                          variant="secondary"
-                          onPress={() => {
-                            selectElement(null);
-                            selectStructure(selectedElement.structureId);
-                          }}
-                        >
-                          Open source Structure
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          onPress={() => selectElement(null)}
-                        >
-                          Back to Structure
-                        </Button>
-                        {editing && (
-                          <Button
-                            variant="secondary"
-                            onPress={() => {
-                              try {
-                                deleteSelected();
-                              } catch (failure) {
-                                notify.error(
-                                  failure instanceof Error
-                                    ? failure.message
-                                    : String(failure),
-                                );
-                              }
-                            }}
-                          >
-                            Remove instance
-                          </Button>
-                        )}
-                      </div>
-                    ) : selectedElement && isLeaf(selectedElement) ? (
-                      <StructureElementEditorPanel
-                        embedded
-                        key={selectedElement.id}
-                        element={selectedElement}
-                        references={references}
-                        isReadOnly={!editing}
-                        report={notify.error}
-                        onChange={(changes) => {
-                          requireCurrentStructure();
-                          updateElement({
-                            structureId:
-                              selectedLayer?.owner.conceptId ??
-                              structure.conceptId,
-                            elementId: selectedElement.id,
-                            optionId: parentVariant?.option
-                              ? parentVariant.option.id
-                              : inspectorVariant?.option &&
-                                  !inspectorVariant.isDefault
-                                ? inspectorVariant.option.id
-                                : undefined,
-                            ...(parentVariant &&
-                              inspectorPath &&
-                              authoredStructure && {
-                                configuration: {
-                                  rootId: authoredStructure.conceptId,
-                                  path: inspectorPath,
-                                },
-                              }),
-                            ...changes,
-                          });
-                        }}
-                      />
-                    ) : (
-                      <StructureEditorPanel
-                        embedded
-                        key={inspectorStructure!.conceptId}
-                        structure={inspectorStructure!}
-                        references={references}
-                        layout={inspectorLayout}
-                        isReadOnly={!editing}
-                        report={notify.error}
-                        onRename={
-                          selectedLayer?.layout
-                            ? (name) => {
-                                const current = requireCurrentInspector();
-                                rename({ id: current.conceptId, name });
-                              }
-                            : undefined
-                        }
-                        onChange={(changes) => {
-                          const frame = stage.current;
-                          const sample = natural.current;
-                          const current = requireCurrentInspector();
-                          if (
-                            parentVariant?.option &&
-                            inspectorPath &&
-                            authoredStructure
-                          ) {
-                            const root = requireCurrentStructure();
-                            editOptionBindings({
-                              target: {
-                                structureId: root.conceptId,
-                                path: inspectorPath.slice(1).split("/"),
-                              },
-                              valueId: parentVariant.option.id,
-                              changes,
-                              layout: inspectorLayout,
-                            });
-                            return;
-                          }
-                          if (
-                            inspectorVariant?.option &&
-                            !inspectorVariant.isDefault
-                          ) {
-                            editOptionBindings({
-                              target: {
-                                structureId: current.conceptId,
-                                path: [],
-                              },
-                              valueId: inspectorVariant.option.id,
-                              changes,
-                              layout: inspectorLayout,
-                            });
-                            return;
-                          }
-                          if (!frame || !sample)
-                            throw new Error(
-                              "The selected structure preview is no longer available.",
-                            );
-                          const currentResolved = resolveStructure(
-                            current,
-                            store.get(primitiveReferencesAtom),
-                            inspectorLayout,
-                            inspectorPreview.indentationLevel,
+              {selectedElement &&
+              !isLeaf(selectedElement) &&
+              !selectedLayer?.layout ? (
+                <div className="structureAppearanceLoose structureEditorFields">
+                  <Text>
+                    {
+                      catalog.find(
+                        (source) =>
+                          source.conceptId === selectedElement.structureId,
+                      )?.name
+                    }
+                  </Text>
+                  <p>
+                    Settings, tokens and sizing rules are inherited from the
+                    source Structure.
+                  </p>
+                  <Button
+                    size="S"
+                    variant="secondary"
+                    onPress={() => {
+                      selectElement(null);
+                      selectStructure(selectedElement.structureId);
+                    }}
+                  >
+                    Open source Structure
+                  </Button>
+                  <Button
+                    size="S"
+                    variant="secondary"
+                    onPress={() => selectElement(null)}
+                  >
+                    Back to Structure
+                  </Button>
+                  {editing && (
+                    <Button
+                      size="S"
+                      variant="secondary"
+                      onPress={() => {
+                        try {
+                          deleteSelected();
+                        } catch (failure) {
+                          notify.error(
+                            failure instanceof Error
+                              ? failure.message
+                              : String(failure),
                           );
-                          const invalidNatural = [
-                            "gap",
-                            "paddingTop",
-                            "paddingRight",
-                            "paddingBottom",
-                            "paddingLeft",
-                          ].some((slot) => slot in currentResolved.issues);
-                          const rect = sample.getBoundingClientRect();
-                          assign({
-                            id: current.conceptId,
-                            changes,
-                            layout:
-                              current.conceptId !== authoredStructure?.conceptId
-                                ? inspectorLayout
-                                : {
-                                    availableWidth: frame.clientWidth,
-                                    availableHeight: frame.clientHeight,
-                                    naturalWidth: invalidNatural
-                                      ? null
-                                      : rect.width,
-                                    naturalHeight: invalidNatural
-                                      ? null
-                                      : rect.height,
-                                  },
-                          });
-                        }}
-                      />
-                    )}
-                  </AccordionItemPanel>
-                </AccordionItem>
-              </Accordion>
+                        }
+                      }}
+                    >
+                      Remove instance
+                    </Button>
+                  )}
+                </div>
+              ) : selectedElement && isLeaf(selectedElement) ? (
+                <StructureElementEditorPanel
+                  embedded
+                  key={selectedElement.id}
+                  element={selectedElement}
+                  references={references}
+                  isReadOnly={!editing}
+                  report={notify.error}
+                  onChange={(changes) => {
+                    requireCurrentStructure();
+                    updateElement({
+                      structureId:
+                        selectedLayer?.owner.conceptId ?? structure.conceptId,
+                      elementId: selectedElement.id,
+                      optionId: parentVariant?.option
+                        ? parentVariant.option.id
+                        : inspectorVariant?.option &&
+                            !inspectorVariant.isDefault
+                          ? inspectorVariant.option.id
+                          : undefined,
+                      ...(parentVariant &&
+                        inspectorPath &&
+                        authoredStructure && {
+                          configuration: {
+                            rootId: authoredStructure.conceptId,
+                            path: inspectorPath,
+                          },
+                        }),
+                      ...changes,
+                    });
+                  }}
+                />
+              ) : (
+                <StructureEditorPanel
+                  embedded
+                  key={inspectorStructure!.conceptId}
+                  structure={inspectorStructure!}
+                  references={references}
+                  layout={inspectorLayout}
+                  isReadOnly={!editing}
+                  report={notify.error}
+                  onRename={
+                    selectedLayer?.layout
+                      ? (name) => {
+                          const current = requireCurrentInspector();
+                          rename({ id: current.conceptId, name });
+                        }
+                      : undefined
+                  }
+                  onChange={(changes) => {
+                    const frame = stage.current;
+                    const sample = natural.current;
+                    const current = requireCurrentInspector();
+                    if (
+                      parentVariant?.option &&
+                      inspectorPath &&
+                      authoredStructure
+                    ) {
+                      const root = requireCurrentStructure();
+                      editOptionBindings({
+                        target: {
+                          structureId: root.conceptId,
+                          path: inspectorPath.slice(1).split("/"),
+                        },
+                        valueId: parentVariant.option.id,
+                        changes,
+                        layout: inspectorLayout,
+                      });
+                      return;
+                    }
+                    if (
+                      inspectorVariant?.option &&
+                      !inspectorVariant.isDefault
+                    ) {
+                      editOptionBindings({
+                        target: {
+                          structureId: current.conceptId,
+                          path: [],
+                        },
+                        valueId: inspectorVariant.option.id,
+                        changes,
+                        layout: inspectorLayout,
+                      });
+                      return;
+                    }
+                    if (!frame || !sample)
+                      throw new Error(
+                        "The selected structure preview is no longer available.",
+                      );
+                    const currentResolved = resolveStructure(
+                      current,
+                      store.get(primitiveReferencesAtom),
+                      inspectorLayout,
+                      inspectorPreview.indentationLevel,
+                    );
+                    const invalidNatural = [
+                      "gap",
+                      "paddingTop",
+                      "paddingRight",
+                      "paddingBottom",
+                      "paddingLeft",
+                    ].some((slot) => slot in currentResolved.issues);
+                    const rect = sample.getBoundingClientRect();
+                    assign({
+                      id: current.conceptId,
+                      changes,
+                      layout:
+                        current.conceptId !== authoredStructure?.conceptId
+                          ? inspectorLayout
+                          : {
+                              availableWidth: frame.clientWidth,
+                              availableHeight: frame.clientHeight,
+                              naturalWidth: invalidNatural ? null : rect.width,
+                              naturalHeight: invalidNatural
+                                ? null
+                                : rect.height,
+                            },
+                    });
+                  }}
+                />
+              )}
             </div>
           </Panel>
         </>

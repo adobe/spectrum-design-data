@@ -1,44 +1,29 @@
 .tokenComboBox {
   min-width: 0;
   width: 100%;
-  container: token-combo-box / inline-size;
 }
 
+/* The picker and its clear button always stay on one row. */
 .tokenComboBoxControls {
   display: flex;
+  flex-wrap: nowrap;
   align-items: end;
   gap: 4px;
   min-width: 0;
   width: 100%;
-  --token-prefix-reserve: 80px;
 }
 
-.tokenComboBox[data-clearable] > .tokenComboBoxControls {
-  --token-prefix-reserve: 108px;
+.tokenComboBoxClear {
+  flex-shrink: 0;
 }
 
-.tokenComboBox[data-invalid] > .tokenComboBoxControls {
-  --token-prefix-reserve: 102px;
-}
-
-.tokenComboBox[data-clearable][data-invalid] > .tokenComboBoxControls {
-  --token-prefix-reserve: 130px;
-}
-
-@container token-combo-box (max-width: 160px) {
-  .tokenComboBox[data-clearable] > .tokenComboBoxControls {
-    flex-direction: column;
-    align-items: stretch;
-    --token-prefix-reserve: 80px;
-  }
-
-  .tokenComboBox[data-clearable][data-invalid] > .tokenComboBoxControls {
-    --token-prefix-reserve: 102px;
-  }
-
-  .tokenComboBoxClear {
-    align-self: end;
-  }
+/*
+ * S2 wraps the prefix in a non-shrinking box. Let it shrink so a long token
+ * badge truncates instead of pushing the field button out of bounds.
+ */
+.tokenComboBox div:has(> .tokenComboBoxPrefix) {
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .tokenComboBoxPrefix {
@@ -46,45 +31,19 @@
   align-items: center;
   gap: 6px;
   min-width: 0;
-  max-width: max(20px, calc(100cqw - var(--token-prefix-reserve)));
 }
 
+.tokenComboBoxPrefix > :not(.tokenNameTag) {
+  flex-shrink: 0;
+}
+
+/* The badge hugs its name and only shrinks (with an ellipsis) when space runs out. */
 .tokenComboBoxPrefix .tokenNameTag {
-  flex: 1 1 auto;
-}
-
-.tokenComboBox[data-show-tag] > .tokenComboBoxControls {
-  --token-prefix-reserve: 56px;
-}
-
-.tokenComboBox[data-show-tag][data-clearable] > .tokenComboBoxControls {
-  --token-prefix-reserve: 84px;
-}
-
-.tokenComboBox[data-show-tag][data-invalid] > .tokenComboBoxControls {
-  --token-prefix-reserve: 78px;
-}
-
-.tokenComboBox[data-show-tag][data-clearable][data-invalid] > .tokenComboBoxControls {
-  --token-prefix-reserve: 106px;
-}
-
-@container token-combo-box (max-width: 160px) {
-  .tokenComboBox[data-show-tag][data-clearable] > .tokenComboBoxControls {
-    --token-prefix-reserve: 56px;
-  }
-
-  .tokenComboBox[data-show-tag][data-clearable][data-invalid] > .tokenComboBoxControls {
-    --token-prefix-reserve: 78px;
-  }
-}
-
-.tokenComboBox[data-show-tag] .tokenComboBoxPrefix {
-  width: max(20px, calc(100cqw - var(--token-prefix-reserve)));
+  flex: 0 1 auto;
 }
 
 .tokenComboBox[data-show-tag] input {
-  flex: 0 0 0;
+  flex: 1 1 0;
   width: 0;
   min-width: 0;
 }

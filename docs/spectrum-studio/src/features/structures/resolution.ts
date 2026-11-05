@@ -31,6 +31,7 @@ const lengthSlots = {
   maxWidth: "maxWidth",
   maxHeight: "maxHeight",
   gap: "gap",
+  indent: "marginInlineStart",
   paddingTop: "paddingTop",
   paddingRight: "paddingRight",
   paddingBottom: "paddingBottom",
@@ -50,6 +51,46 @@ export const isConstraintSlot = (slot: string): slot is ConstraintSlot =>
   slot === "maxWidth" ||
   slot === "minHeight" ||
   slot === "maxHeight";
+
+/** Shared by preview and generation: padding that centers content inside Min height, in whole pixels. */
+export function centerInMinHeight(minHeight: number, content: number) {
+  const raw = Math.round((minHeight - content) / 2);
+  return raw < 0
+    ? {
+        value: 0,
+        issue: `The content height (${content}px) is taller than Min height (${minHeight}px). Padding is set to 0.`,
+      }
+    : { value: raw };
+}
+
+function resolveDerived(
+  structure: Structure,
+  contentRef: string,
+  references: readonly PrimitiveReference[],
+  layout: PreviewLayoutContext,
+): { value?: number; error?: string } {
+  const minimum = structureSelection(structure, "minHeight");
+  if (!minimum)
+    return { error: "Set a Min height so the content can be centered." };
+  const height = resolveLength(minimum, "minHeight", references, layout);
+  if (height.error) return { error: `Min height: ${height.error}` };
+  const content = references.find((item) => item.id === contentRef);
+  if (
+    !content ||
+    content.error ||
+    typeof content.value !== "number" ||
+    !Number.isFinite(content.value)
+  )
+    return {
+      error:
+        content?.error ??
+        "The content height token is unavailable. Choose another line height.",
+    };
+  const centered = centerInMinHeight(height.value!, content.value);
+  return centered.issue
+    ? { value: centered.value, error: centered.issue }
+    : { value: centered.value };
+}
 
 function resolveLength(
   selection: StructureSelection | null,
@@ -76,6 +117,10 @@ function resolveLength(
       };
     return { value: reference.value };
   }
+  if (selection.value.kind === "number")
+    return selection.value.unit === "px"
+      ? { value: selection.value.value }
+      : { error: "Choose a pixel value for this length property." };
   if (selection.value.kind !== "sizing")
     return { error: "Choose a size token, Hug, or Fill." };
   const vertical =
@@ -154,6 +199,7 @@ export function resolveStructure(
   structure: Structure,
   references: readonly PrimitiveReference[],
   layout: PreviewLayoutContext = UNMEASURED_LAYOUT,
+  indentationLevel: 0 | 1 | 2 = 1,
 ) {
   const direction = structureSelection(structure, "direction");
   const column =
@@ -182,9 +228,19 @@ export function resolveStructure(
         selection.value.preset === "hug" ? "max-content" : "100%";
       continue;
     }
-    const resolved = resolveLength(selection, slot, references, layout);
+    const resolved =
+      "value" in selection && selection.value.kind === "derived"
+        ? resolveDerived(
+            structure,
+            selection.value.contentRef,
+            references,
+            layout,
+          )
+        : resolveLength(selection, slot, references, layout);
     if (resolved.error) issues[slot] = resolved.error;
-    else styles[property] = resolved.value;
+    if (resolved.value !== undefined)
+      styles[property] =
+        slot === "indent" ? resolved.value * indentationLevel : resolved.value;
   }
   const horizontal = structureSelection(structure, "horizontal");
   const vertical = structureSelection(structure, "vertical");

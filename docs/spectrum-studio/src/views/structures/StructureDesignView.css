@@ -60,23 +60,11 @@
   padding: 0;
 }
 
-.structurePanelSections,
-.structurePanelSection {
+.structurePanelSections {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-}
-
-.structurePanelSections {
   gap: 0;
-}
-
-.structurePanelSection {
-  gap: 8px;
-}
-
-.structurePanelSectionTitle {
-  font-weight: 600;
+  min-width: 0;
 }
 
 .structureCompactRow,

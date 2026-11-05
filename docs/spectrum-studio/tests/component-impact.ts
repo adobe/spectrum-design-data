@@ -239,9 +239,8 @@ if (none.status === "ready") {
   );
 }
 const working = structuredClone(shipped);
-(
-  working.size!.scales[0] as unknown as { parameters: Record<string, number> }
-).parameters = { step: 5 };
+// The Size scale uses the spacing scale type, so shift its base value.
+working.size!.scales[0].base = 24;
 const impact = componentImpactForSnapshots(shipped, working);
 assert.equal(impact.status, "ready");
 if (impact.status === "ready") {

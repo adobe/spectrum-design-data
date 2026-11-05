@@ -4,19 +4,34 @@ import type { OpacityDocument } from "../opacity/model";
 import { generateElevation } from "../elevation/generate";
 import { elevationOwnerIds } from "../elevation/output";
 import { resolveElevationDocument } from "../elevation/resolution";
-import { tshirtMappings } from "../logic/tshirt";
-import { generatorOutputName, generatorSizeKey } from "../logic/generator";
+import { tshirtMappings, type TshirtVariantMapping } from "../logic/tshirt";
+import {
+  generatorOutputName,
+  generatorSizeKey,
+  generatorTermId,
+} from "../logic/generator";
+import type { TshirtSizingRule } from "../logic/model";
+import { generateTypography } from "../typography/typographyGeneration";
+import { centerInMinHeight } from "../structures/resolution";
 import { generateDimensionScale } from "../scales/foundation";
 import { clampScaleRange } from "../scales/stepNames";
 import { dimensionIssues } from "../scales/issues";
 import {
   assertStructureTaxonomy,
+  STRUCTURE_SLOT_KEYS,
   structureGeneration,
+  structureSlot,
+  structureSlotDefinition,
   type Structure,
+  type StructureBinding,
+  type StructureSlot,
   type StructuresDocument,
 } from "../structures/model";
 import {
+  appliedStructureBindings,
   assertGenerationReferences,
+  type GeneratingBinding,
+  isGeneratingBinding,
   structureName,
   structureTokenName,
   structureNameClassification,
@@ -63,7 +78,10 @@ import {
   TSHIRT_COMPOSITION_PROFILE,
   TSHIRT_NAMING_FIELDS,
 } from "./tshirtProfile";
-import { withTaxonomyProjection } from "../taxonomy/model";
+import {
+  projectClassification,
+  withTaxonomyProjection,
+} from "../taxonomy/model";
 import { appendStructureVariantArtifacts } from "./structureVariantArtifacts";
 export type {
   TshirtArtifactBundle,
@@ -77,6 +95,8 @@ export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   opacity?: OpacityDocument;
   interpolations?: import("../scales/interpolationDefinition").Interpolation[];
   tokenOverrides?: import("../tokens/model").TokenOverrideMap;
+  /** Tokens linked across all structures, kept when a build isolates one structure. */
+  linkedReferenceIds?: readonly string[];
 }
 interface SourceContext {
   kind: TshirtSemanticRow["kind"];
@@ -145,6 +165,173 @@ export function buildTshirtArtifacts(
         ),
       )
     : buildTshirtBatch(snapshot, sourceKind);
+}
+
+function virtualAnchor(
+  structure: Structure,
+  binding: GeneratingBinding,
+  family: PrimitiveReference["family"],
+  value: number,
+): PrimitiveReference {
+  return {
+    id: `structure-value:${binding.id}`,
+    family,
+    sourceId: `structure:${structure.conceptId}`,
+    sourceName: "structure value",
+    index: 0,
+    step: 0,
+    nativeId: binding.id,
+    name: `${value}px`,
+    value,
+    displayValue: `${value}px`,
+    unit: "px",
+    hidden: true,
+    synthetic: true,
+  };
+}
+
+/** The token that equals a generated value exactly, so outputs alias it; otherwise a literal. */
+function exactOrLiteral(
+  template: PrimitiveReference,
+  value: number,
+  references: readonly PrimitiveReference[],
+  preferredSources: ReadonlySet<string> = new Set(),
+): PrimitiveReference {
+  const matches = references.filter(
+    (item) =>
+      item.family === template.family &&
+      !item.hidden &&
+      !item.error &&
+      item.value === value,
+  );
+  // New scales are listed first, so prefer scales the structure already links to keep aliases stable.
+  return (
+    matches.find((item) => preferredSources.has(item.sourceId)) ??
+    matches[0] ?? {
+      ...template,
+      id: `${template.id}:${value}`,
+      name: `${value}px`,
+      value,
+      displayValue: `${value}px`,
+    }
+  );
+}
+
+function virtualMappings(
+  structure: Structure,
+  label: string,
+  binding: GeneratingBinding,
+  rule: TshirtSizingRule,
+  references: readonly PrimitiveReference[],
+  context: Parameters<typeof tshirtMappings>[4],
+  linkedIds: readonly string[] = [],
+): TshirtVariantMapping[] {
+  if ("$ref" in binding) throw new Error("Expected a typed or derived value.");
+  const slot = structureSlot(binding)!;
+  const family = structureSlotDefinition(slot)
+    .family as PrimitiveReference["family"];
+  const sizes = structureSizes(structure);
+  const preferredSources = new Set(
+    linkedIds.flatMap((id) => {
+      const linked = references.find((reference) => reference.id === id);
+      return linked?.family === family ? [linked.sourceId] : [];
+    }),
+  );
+  if (binding.value.kind === "number") {
+    const anchor = virtualAnchor(
+      structure,
+      binding,
+      family,
+      binding.value.value,
+    );
+    if (rule.movement !== "ratio")
+      throw new Error(
+        `${label} - ${structureSlotDefinition(slot).label}: a typed value can only scale with a Multiply by ratio rule. Choose a ratio rule or a token.`,
+      );
+    return tshirtMappings(rule, anchor, references, sizes, context).map(
+      (mapping) =>
+        mapping.target.synthetic
+          ? {
+              ...mapping,
+              target: exactOrLiteral(
+                anchor,
+                mapping.target.value as number,
+                references,
+                preferredSources,
+              ),
+            }
+          : mapping,
+    );
+  }
+  const contentRef = binding.value.contentRef;
+  const content = references.find((item) => item.id === contentRef);
+  if (!content)
+    throw new Error(
+      `${label} - ${structureSlotDefinition(slot).label}: the content height token is unavailable. Choose another line height.`,
+    );
+  const rules = context?.rules ?? [];
+  const minimum = structure.properties.find(
+    (item) => structureSlot(item) === "minHeight",
+  );
+  if (!minimum || !("$ref" in minimum || minimum.value.kind === "number"))
+    throw new Error(
+      `${label} - ${structureSlotDefinition(slot).label}: set a Min height token or value so the content can be centered.`,
+    );
+  const minimumApplied = appliedStructureBindings(structure, rules).find(
+    (item) => item.binding.id === minimum.id,
+  );
+  const minimumAnchor =
+    "$ref" in minimum
+      ? references.find((item) => item.id === minimum.$ref)
+      : virtualAnchor(
+          structure,
+          minimum as GeneratingBinding,
+          "size",
+          (minimum.value as { value: number }).value,
+        );
+  if (!minimumAnchor)
+    throw new Error(
+      `${label} - Min height: the linked token is unavailable. Repair its source reference.`,
+    );
+  const template = virtualAnchor(structure, binding, family, 0);
+  return sizes.map((size) => {
+    const height = minimumApplied
+      ? tshirtMappings(
+          minimumApplied.rule,
+          minimumAnchor,
+          references,
+          [size],
+          context,
+        )[0].target.value
+      : minimumAnchor.value;
+    // Content steps with Min height so every centered padding agrees at each size.
+    const contentHeight = tshirtMappings(
+      minimumApplied?.rule ?? rule,
+      content,
+      references,
+      [size],
+      context,
+    )[0].target.value;
+    if (typeof height !== "number" || typeof contentHeight !== "number")
+      throw new Error(
+        `${label} - ${structureSlotDefinition(slot).label}: Min height and content height must be numbers.`,
+      );
+    const centered = centerInMinHeight(height, contentHeight);
+    return {
+      size,
+      termId: generatorTermId(size),
+      offset: 0,
+      requested: 0,
+      actual: 0,
+      target: exactOrLiteral(
+        template,
+        centered.value,
+        references,
+        preferredSources,
+      ),
+      ...(centered.issue && { warning: `${size}: ${centered.issue}` }),
+    };
+  });
 }
 
 function buildTshirtBatch(
@@ -241,18 +428,35 @@ function buildTshirtBatch(
   const required = new Set(
     [...groupsByStructure.values()].flatMap((groups) =>
       groups.flatMap((group) =>
-        group.bindings.map((item) => item.binding.$ref),
+        group.bindings.flatMap((item) =>
+          "$ref" in item.binding ? [item.binding.$ref] : [],
+        ),
       ),
     ),
   );
+  // Typed and derived values alias a token when they equal one exactly, so load whole families.
+  const virtualFamilies = new Set(
+    [...groupsByStructure.values()].flatMap((groups) =>
+      groups.flatMap((group) =>
+        "$ref" in group.bindings[0].binding
+          ? []
+          : [structureSlotDefinition(group.bindings[0].slot).family],
+      ),
+    ),
+  );
+  const usesFamily = (family: string, ids: string[]) =>
+    virtualFamilies.has(family as never) || ids.some((id) => required.has(id));
   const sourceIds = new Set<string>();
   for (const family of ["spacing", "size", "radius"] as const)
     for (const scale of snapshot[family]?.scales ?? []) {
       const { below, above } = clampScaleRange(scale.below, scale.above);
       if (
-        Array.from({ length: below + above + 1 }, (_, index) =>
-          primitiveReferenceId(family, scale.id, index - below),
-        ).some((id) => required.has(id))
+        usesFamily(
+          family,
+          Array.from({ length: below + above + 1 }, (_, index) =>
+            primitiveReferenceId(family, scale.id, index - below),
+          ),
+        )
       )
         sourceIds.add(scale.id);
     }
@@ -264,9 +468,12 @@ function buildTshirtBatch(
     for (const scale of dimension[family].scales) {
       const { below, above } = clampScaleRange(scale.below, scale.above);
       if (
-        !Array.from({ length: below + above + 1 }, (_, index) =>
-          primitiveReferenceId(family, scale.id, index - below),
-        ).some((id) => required.has(id))
+        !usesFamily(
+          family,
+          Array.from({ length: below + above + 1 }, (_, index) =>
+            primitiveReferenceId(family, scale.id, index - below),
+          ),
+        )
       )
         continue;
       const key = sourceKey(family, scale.id);
@@ -366,15 +573,55 @@ function buildTshirtBatch(
       })
     : [];
   contexts.set(sourceKey("elevation", elevation.id), elevationContexts);
+  let baseline: PrimitiveReference[] | undefined;
+  const baselineReferences = () =>
+    (baseline ??= [
+      ...[...contexts.values()].flatMap((plans) => plans[0]?.references ?? []),
+      ...primitiveReferencesFromOutputs(
+        {
+          spacing: [],
+          size: [],
+          radius: [],
+          elevation: { document: elevation, levels: [] },
+          typography: {
+            document: snapshot.typography,
+            values: generateTypography(
+              snapshot.typography,
+              undefined,
+              rules,
+              scaleTypes,
+              snapshot.interpolations,
+            ),
+            naming: {
+              registry: taxonomy,
+              names: snapshot.typography.metricNames,
+              outputUnit: snapshot.typography.outputUnit,
+            },
+          },
+        },
+        taxonomy,
+      ).filter((reference) => reference.family === "typography"),
+    ]);
   const tokenRows = new Map<string, TshirtTokenRecord>();
   const primitiveRows = new Set<string>();
-  for (const structure of emitting) {
-    assertGenerationReferences(
-      structure,
-      rules,
-      [...contexts.values()].flatMap((plans) => plans[0]?.references ?? []),
+  // Tokens structures already link; typed and derived values alias the same scales.
+  const linkedIds =
+    snapshot.linkedReferenceIds ??
+    structures.structures.flatMap((structure) =>
+      structure.properties.flatMap((item) =>
+        "$ref" in item ? [item.$ref] : [],
+      ),
     );
+  for (const structure of emitting) {
+    assertGenerationReferences(structure, rules, baselineReferences());
     const nameRef = structureGeneration(structure).nameRef!;
+    const namingProjection = projectClassification(
+      taxonomy,
+      structureNameClassification(structure),
+      "structures",
+    );
+    if (namingProjection.issues.length)
+      throw new Error(namingProjection.issues.join(" "));
     const label = structureName(structure, taxonomy);
     const tokenLabel = structureTokenName(structure, taxonomy);
     const structureValue = foundationNameSegment(tokenLabel);
@@ -391,24 +638,56 @@ function buildTshirtBatch(
         value: structureValue,
       });
     for (const group of groupsByStructure.get(structure.conceptId)!) {
-      const referenceId = group.bindings[0].binding.$ref;
-      const groupContexts = [...contexts.values()].find((plans) =>
-        plans[0]?.references.some((item) => item.id === referenceId),
-      );
-      if (!groupContexts?.length)
-        throw new Error(
-          `${label}: the Medium anchor is unavailable. Repair its source reference.`,
+      const lead = group.bindings[0].binding;
+      const runs: {
+        context: SourceContext;
+        mappings: TshirtVariantMapping[];
+      }[] = [];
+      if ("$ref" in lead) {
+        const referenceId = lead.$ref;
+        const groupContexts = [...contexts.values()].find((plans) =>
+          plans[0]?.references.some((item) => item.id === referenceId),
         );
-      for (const context of groupContexts) {
-        const anchor = context.references.find(
-          (item) => item.id === referenceId,
-        )!;
-        const mappings = tshirtMappings(
-          group.bindings[0].rule,
-          anchor,
-          context.references,
-          structureSizes(structure),
-        );
+        if (!groupContexts?.length)
+          throw new Error(
+            `${label}: the Medium anchor is unavailable. Repair its source reference.`,
+          );
+        for (const context of groupContexts) {
+          const anchor = context.references.find(
+            (item) => item.id === referenceId,
+          )!;
+          runs.push({
+            context,
+            mappings: tshirtMappings(
+              group.bindings[0].rule,
+              anchor,
+              context.references,
+              structureSizes(structure),
+              { rules, scaleTypes },
+            ),
+          });
+        }
+      } else {
+        const context: SourceContext = {
+          kind: "baseline",
+          context: {},
+          selection: {},
+          references: baselineReferences(),
+        };
+        runs.push({
+          context,
+          mappings: virtualMappings(
+            structure,
+            label,
+            lead,
+            group.bindings[0].rule,
+            context.references,
+            { rules, scaleTypes },
+            linkedIds,
+          ),
+        });
+      }
+      for (const { context, mappings } of runs) {
         for (const mapping of mappings) {
           if (context.kind === "override" && !mapping.target.valueOverridden)
             continue;
@@ -427,6 +706,7 @@ function buildTshirtBatch(
           const token: TshirtTokenRecord = {
             uuid,
             name: {
+              ...namingProjection.flat,
               [facet]: structureValue,
               property: group.property,
               ...(group.orientation && { orientation: group.orientation }),
@@ -474,6 +754,7 @@ function buildTshirtBatch(
             ruleIds: [...new Set(group.bindings.map((item) => item.rule.id))],
             size: mapping.size,
             target,
+            ...(target.synthetic && { targetKind: "literal" as const }),
             context: context.context,
             selection: context.selection,
             kind: context.kind,
@@ -491,7 +772,7 @@ function buildTshirtBatch(
           if (mapping.warning)
             bundle.diagnostics.push({
               severity: "warning",
-              code: "nearest",
+              code: "$ref" in lead ? "nearest" : "derived",
               message: `${formatTshirtName(token.name)}: ${mapping.warning}`,
               structureId: structure.conceptId,
               bindingIds: row.bindingIds,
@@ -503,6 +784,7 @@ function buildTshirtBatch(
               context: context.context,
             });
           if (
+            !mapping.target.synthetic &&
             !bundle.vocabulary.foundationScales.some(
               (item) => item.sourceId === mapping.target.sourceId,
             )
@@ -648,26 +930,72 @@ export function tshirtPreview(
   selection: Record<string, string>,
   references: readonly PrimitiveReference[],
   options: Record<string, string> = {},
+  sizes: Partial<Record<StructureSlot, string>> = {},
+  previewOnlySlots: readonly StructureSlot[] = [],
 ) {
-  const rows = selectedTshirtRows(
-    bundle,
-    structure.conceptId,
-    size,
-    selection,
-    options,
-  ).map((row) => liveTshirtRow(row, references));
+  const configuredSizes = new Map(
+    Object.entries(sizes).map(([slot, termId]) => [
+      slot,
+      generatorSizeKey(termId),
+    ]),
+  );
+  const rows = [...new Set([size, ...configuredSizes.values()])]
+    .flatMap((selectedSize) =>
+      selectedTshirtRows(
+        bundle,
+        structure.conceptId,
+        selectedSize,
+        selection,
+        options,
+      ).filter((row) =>
+        row.bindingIds.some((id) => {
+          const binding = structure.properties.find((item) => item.id === id);
+          const slot = binding && structureSlot(binding);
+          return ((slot && configuredSizes.get(slot)) || size) === selectedSize;
+        }),
+      ),
+    )
+    .map((row) => liveTshirtRow(row, references));
   const assignments = new Map(
     rows.flatMap((row) =>
-      row.bindingIds.map((bindingId) => [bindingId, row] as const),
+      row.bindingIds.flatMap((bindingId) => {
+        const binding = structure.properties.find(
+          (item) => item.id === bindingId,
+        );
+        const slot = binding && structureSlot(binding);
+        return slot && previewOnlySlots.includes(slot)
+          ? []
+          : [[bindingId, row] as const];
+      }),
     ),
   );
+  for (const slot of STRUCTURE_SLOT_KEYS) {
+    if (!configuredSizes.has(slot)) continue;
+    const binding = structure.properties.find(
+      (item) => structureSlot(item) === slot && isGeneratingBinding(item),
+    );
+    if (
+      binding &&
+      !previewOnlySlots.includes(slot) &&
+      !assignments.has(binding.id)
+    )
+      throw new Error(
+        `${structure.name}: the selected generated size for ${slot} is unavailable.`,
+      );
+  }
   const preview = {
     ...structure,
     properties: structure.properties.map((binding) => {
       const row = assignments.get(binding.id);
-      return row && "$ref" in binding
-        ? { ...binding, $ref: row.token.uuid }
-        : binding;
+      if (!row || !isGeneratingBinding(binding)) return binding;
+      const identity = { ...binding } as Partial<typeof binding> & {
+        value?: unknown;
+      };
+      delete identity.value;
+      return {
+        ...identity,
+        $ref: row.token.uuid,
+      } as StructureBinding;
     }),
   };
   const resolved = rows.map(
@@ -690,7 +1018,10 @@ export function liveTshirtRow(
   row: TshirtSemanticRow,
   references: readonly PrimitiveReference[],
 ): TshirtSemanticRow {
-  const target = references.find((reference) => reference.id === row.target.id);
+  const target =
+    row.targetKind === "literal"
+      ? row.target
+      : references.find((reference) => reference.id === row.target.id);
   if (!target || target.family !== row.target.family || target.error)
     throw new Error(
       target?.error ?? "This generated target is unavailable in the preview.",

@@ -31,6 +31,27 @@ function sizeAttribute(
   )?.initializer;
 }
 
+const panelControlSize = /const CONTROL_SIZE = "([A-Z]+)"/.exec(
+  readFileSync(
+    new URL(
+      "../src/panels/structures/StructureAppearanceControls.tsx",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
+)?.[1];
+assert.equal(panelControlSize, "S", "Appearance controls use small sizing.");
+
+// Dialogs keep their own sizes, and tree rows are scaled down with CSS zoom.
+const exempt: Record<string, readonly string[]> = {
+  StructureLayers: [
+    "SpectrumDialog",
+    "Button",
+    "ActionButtonGroup",
+    "ActionButton",
+  ],
+  StructureRuleDialog: ["*"],
+};
 for (const name of [
   "StructureMetadataPanel",
   "StructureGenerationControls",
@@ -43,22 +64,15 @@ for (const name of [
 ]) {
   for (const element of elements(`panels/structures/${name}.tsx`)) {
     const size = sizeAttribute(element);
-    if (
-      name === "StructureProperties" &&
-      element.tagName.getText() === "Popover"
-    ) {
-      assert(size && ts.isStringLiteral(size));
-      assert.equal(
-        size.text,
-        "S",
-        "Registry confirmation uses a small popover.",
-      );
-      continue;
-    }
+    const tag = element.tagName.getText();
+    if (exempt[name]?.includes("*") || exempt[name]?.includes(tag)) continue;
     if (size && ts.isStringLiteral(size))
-      assert(
-        size.text !== "S" && size.text !== "XS",
-        `${name}: ${element.tagName.getText()} must not use a small size.`,
+      assert.equal(size.text, "S", `${name}: ${tag} must use small sizing.`);
+    if (size && ts.isJsxExpression(size))
+      assert.equal(
+        size.expression?.getText(),
+        "CONTROL_SIZE",
+        `${name}: ${tag} must use the shared small control size.`,
       );
   }
 }
@@ -73,8 +87,12 @@ for (const name of ["TokenComboBox", "DividableComboBox"]) {
   assert(controls.length > 0, `Check the ${name} appearance fields.`);
   for (const control of controls) {
     const size = sizeAttribute(control);
-    assert(size && ts.isStringLiteral(size));
-    assert.equal(size.text, "M", `${name} opts into medium sizing.`);
+    assert(size && ts.isJsxExpression(size));
+    assert.equal(
+      size.expression?.getText(),
+      "CONTROL_SIZE",
+      `${name} opts into small sizing.`,
+    );
     const placeholder = control.attributes.properties.find(
       (attribute): attribute is ts.JsxAttribute =>
         ts.isJsxAttribute(attribute) &&

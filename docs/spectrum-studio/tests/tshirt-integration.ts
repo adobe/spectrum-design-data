@@ -19,6 +19,7 @@ import {
 import {
   applyStructureRuleAtom,
   assignStructureAtom,
+  renameStructureAtom,
   removeStructureRuleAtom,
   restoreStructureRuleAtom,
   removeStructureAtom,
@@ -81,9 +82,6 @@ import {
   outputInventory,
 } from "../src/features/design-data/materialization";
 import { coverageTokenType } from "../src/features/design-data/coverage";
-import { registerTerm } from "../src/features/taxonomy/model";
-import { VARIANT_CATEGORY_IDS } from "../src/features/taxonomy/variantVocabulary";
-import { setStructureTokenNamingAtom } from "../src/features/structures/state";
 
 const makeFixture = (options?: Parameters<typeof createTshirtFixture>[0]) =>
   createTshirtFixture({ ...options, structureName: "Fixture base" });
@@ -174,32 +172,22 @@ assert.deepEqual(
   beforePreview,
   "A staged generator preview writes no authoring state.",
 );
-assert.throws(
-  () =>
-    store.set(applyStructureRuleAtom, {
-      structureId: fixture.structure.conceptId,
-      application: fixture.application,
-    }),
-  /Token naming/,
-);
-store.set(
-  taxonomyDocumentAtom,
-  registerTerm(
-    store.get(taxonomyDocumentAtom),
-    VARIANT_CATEGORY_IDS.structure,
-    fixture.structure.name,
-    TSHIRT_NAME_TERM_ID,
-  ),
-);
-store.set(setStructureTokenNamingAtom, {
-  structureId: fixture.structure.conceptId,
-  termId: TSHIRT_NAME_TERM_ID,
-});
 store.set(applyStructureRuleAtom, {
   structureId: fixture.structure.conceptId,
   application: fixture.application,
   nameTermId: TSHIRT_NAME_TERM_ID,
 });
+const applied = store
+  .get(structuresDocumentAtom)
+  .structures.find(
+    (source) => source.conceptId === fixture.structure.conceptId,
+  )!;
+const appliedName = store
+  .get(taxonomyDocumentAtom)
+  .terms.find(
+    (term) => term.id === structureGeneration(applied).nameRef!.termId,
+  );
+assert.equal(appliedName?.value, "fixture base");
 assert.equal(store.get(tshirtUnsavedImpactAtom).added, 1);
 assert.deepEqual(
   store.get(tokenImpactSummaryAtom),
@@ -443,7 +431,7 @@ store.set(resetAllAuthoringAtom);
 assert.deepEqual(store.get(tshirtUnsavedImpactAtom), {
   added: 0,
   removed: 0,
-  saved: shipped.semantics.length,
+  saved: new Set(shipped.semantics.map((row) => row.conceptId)).size,
   values: shipped.semantics.length,
   error: "",
 });
@@ -670,6 +658,30 @@ assert.equal(
   storage.getItem(TSHIRT_CACHE_KEY),
   beforeOversized,
   "Oversized results cannot replace existing cache data.",
+);
+const renameStore = createStore();
+renameStore.set(restoreAuthoringSnapshotAtom, initial);
+renameStore.set(editSessionSnapshotAtom, createDefaultSnapshot());
+renameStore.set(enterEditModeAtom);
+renameStore.set(applyStructureRuleAtom, {
+  structureId: fixture.structure.conceptId,
+  application: fixture.application,
+  nameTermId: TSHIRT_NAME_TERM_ID,
+});
+renameStore.set(renameStructureAtom, {
+  id: fixture.structure.conceptId,
+  name: "Renamed fixture",
+});
+const renamedArtifacts = buildTshirtArtifacts({
+  ...initial,
+  structures: renameStore.get(structuresDocumentAtom),
+  taxonomy: renameStore.get(taxonomyDocumentAtom),
+});
+assert.ok(
+  renamedArtifacts.semantics.every(
+    (row) => row.token.name.structure === "renamed-fixture",
+  ),
+  "Generated token names follow the Structure metadata name.",
 );
 console.log(
   "T-shirt integration: atomic authoring, saved denominators, semantic inspection, Analysis, guarded edits, rollback and persistent cache passed.",

@@ -6,6 +6,7 @@ import {
 } from "../tokens/primitiveIdentity";
 import {
   taxonomyIdPattern,
+  projectClassification,
   type Classification,
   type TaxonomyDocument,
 } from "../taxonomy/model";
@@ -37,6 +38,10 @@ import { typographyReferenceCoordinates } from "../tokens/primitiveIdentity";
 import type { TypographyDocument } from "../typography/model";
 import { structureVariantIssues, type StructureEditorData } from "./variants";
 import { classificationIssues } from "../option-groups/model";
+import {
+  configurationSources,
+  structureConfigurationIssues,
+} from "./configuration";
 
 export interface StructureRuleApplication {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -52,9 +57,30 @@ export interface StructureGeneration {
 }
 
 export type SizingPreset = "hug" | "fill";
+export interface StructureNumberLiteral {
+  kind: "number";
+  /** @minimum 0 */
+  value: number;
+  unit: "px" | "multiplier";
+}
+/** Vertical padding that centers a content height (a line height token) inside Min height. */
+export interface StructureDerivedLiteral {
+  kind: "derived";
+  method: "center-in-min-height";
+  /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
+  contentRef: string;
+}
 export type StructureLiteral =
   | { kind: "sizing"; preset: SizingPreset }
-  | { kind: "term"; termId: string };
+  | { kind: "term"; termId: string }
+  | StructureNumberLiteral
+  | StructureDerivedLiteral;
+export const DERIVED_PADDING_SLOTS = [
+  "paddingTop",
+  "paddingRight",
+  "paddingBottom",
+  "paddingLeft",
+] as const;
 interface BindingIdentity {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
   id: string;
@@ -74,7 +100,13 @@ export type StructureSelection = { $ref: string } | { value: StructureLiteral };
 export interface Structure {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
   conceptId: string;
+  /**
+   * The containing Structure for an editable nested layout.
+   * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+   */
+  parentStructureId?: string;
   name: string;
+  nameRef?: TaxonomyNameReference;
   properties: StructureBinding[];
   generation?: StructureGeneration;
   elements?: StructureChild[];
@@ -83,10 +115,10 @@ export interface Structure {
 }
 export interface StructuresDocument {
   /** Earlier versions are accepted for lossless migration. */
-  schemaVersion: 1 | 2 | 3 | 4 | 5;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   structures: Structure[];
 }
-export const STRUCTURES_SCHEMA_VERSION = 5;
+export const STRUCTURES_SCHEMA_VERSION = 7;
 export const EMPTY_STRUCTURES: StructuresDocument = {
   schemaVersion: STRUCTURES_SCHEMA_VERSION,
   structures: [],
@@ -163,6 +195,11 @@ export const STRUCTURE_SLOTS = {
     family: "spacing",
     classification: { [categories.property]: terms.gap },
   },
+  indent: {
+    label: "Indent",
+    family: "spacing",
+    classification: { [categories.property]: terms.indent },
+  },
   paddingTop: side("Top padding", terms.padding, terms.top, "spacing"),
   paddingRight: side("Right padding", terms.padding, terms.right, "spacing"),
   paddingBottom: side("Bottom padding", terms.padding, terms.bottom, "spacing"),
@@ -214,6 +251,18 @@ const record = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
 const fields = (value: Record<string, unknown>, allowed: readonly string[]) =>
   Object.keys(value).every((key) => allowed.includes(key));
+const isClassification = (input: unknown) =>
+  record(input) &&
+  Object.entries(input).every(
+    ([key, assigned]) =>
+      taxonomyIdPattern.test(key) &&
+      (typeof assigned === "string"
+        ? taxonomyIdPattern.test(assigned)
+        : Array.isArray(assigned) &&
+          assigned.every(
+            (id) => typeof id === "string" && taxonomyIdPattern.test(id),
+          )),
+  );
 
 export function structureSlot(binding: {
   classification: Readonly<Record<string, unknown>>;
@@ -264,6 +313,24 @@ function isSelection(value: Record<string, unknown>, slot: StructureSlot) {
     );
   const literal = value.value;
   if (!record(literal)) return false;
+  if (literal.kind === "number")
+    return (
+      !!spec.family &&
+      spec.family !== "elevation" &&
+      fields(literal, ["kind", "value", "unit"]) &&
+      typeof literal.value === "number" &&
+      Number.isFinite(literal.value) &&
+      literal.value >= 0 &&
+      literal.unit === "px"
+    );
+  if (literal.kind === "derived")
+    return (
+      (DERIVED_PADDING_SLOTS as readonly string[]).includes(slot) &&
+      fields(literal, ["kind", "method", "contentRef"]) &&
+      literal.method === "center-in-min-height" &&
+      typeof literal.contentRef === "string" &&
+      authoringReferencePattern.test(literal.contentRef)
+    );
   if (literal.kind === "sizing")
     return (
       spec.presets &&
@@ -286,6 +353,8 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
       "visibilityBindings",
       "overrides",
       "semanticIdentities",
+      "layouts",
+      "sizes",
     ]) ||
     !Array.isArray(value.properties) ||
     !record(value.visibility) ||
@@ -295,6 +364,37 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
     return false;
   const identity = (id: unknown) =>
     typeof id === "string" && taxonomyIdPattern.test(id);
+  const sizes = (input: unknown) =>
+    input === undefined ||
+    (record(input) &&
+      Object.entries(input).every(
+        ([slot, term]) =>
+          STRUCTURE_SLOT_KEYS.includes(slot as StructureSlot) && identity(term),
+      ));
+  if (!sizes(value.sizes)) return false;
+  if (
+    value.layouts !== undefined &&
+    (!record(value.layouts) ||
+      !Object.entries(value.layouts).every(
+        ([path, configuration]) =>
+          /^\/[^/]+(?:\/[^/]+)*$/.test(path) &&
+          record(configuration) &&
+          fields(configuration, [
+            "visibility",
+            "visibilityBindings",
+            "overrides",
+            "semanticIdentities",
+          ]) &&
+          isStructureEditorData({
+            visibility: {},
+            visibilityBindings: {},
+            overrides: {},
+            ...configuration,
+            properties: value.properties,
+          }),
+      ))
+  )
+    return false;
   if (
     value.semanticIdentities !== undefined &&
     (!record(value.semanticIdentities) ||
@@ -313,15 +413,6 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
       ))
   )
     return false;
-  const classification = (input: unknown) =>
-    record(input) &&
-    Object.entries(input).every(
-      ([key, assigned]) =>
-        identity(key) &&
-        (typeof assigned === "string"
-          ? identity(assigned)
-          : Array.isArray(assigned) && assigned.every(identity)),
-    );
   if (
     !Object.values(value.visibility).every(
       (visible) => typeof visible === "boolean",
@@ -359,10 +450,12 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
           "kind",
           "name",
           "classification",
+          "categoryId",
           "defaultOptionId",
           "options",
         ]) &&
-        classification(property.classification) &&
+        isClassification(property.classification) &&
+        (property.categoryId === undefined || identity(property.categoryId)) &&
         identity(property.defaultOptionId) &&
         Array.isArray(property.options) &&
         property.options.length > 0 &&
@@ -373,7 +466,7 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
             identity(option.id) &&
             typeof option.name === "string" &&
             !!option.name.trim() &&
-            classification(option.classification),
+            isClassification(option.classification),
         )
       );
     })
@@ -382,7 +475,14 @@ function isStructureEditorData(value: unknown): value is StructureEditorData {
   return Object.values(value.overrides).every((override) => {
     if (
       !record(override) ||
-      !fields(override, ["slots", "order", "visibility", "elements"])
+      !fields(override, [
+        "slots",
+        "sizes",
+        "order",
+        "visibility",
+        "elements",
+      ]) ||
+      !sizes(override.sizes)
     )
       return false;
     if (
@@ -424,7 +524,7 @@ export function isStructuresDocument(
   if (
     !record(value) ||
     !fields(value, ["schemaVersion", "structures"]) ||
-    ![1, 2, 3, 4, STRUCTURES_SCHEMA_VERSION].includes(
+    ![1, 2, 3, 4, 5, 6, STRUCTURES_SCHEMA_VERSION].includes(
       Number(value.schemaVersion),
     ) ||
     !Array.isArray(value.structures)
@@ -437,7 +537,9 @@ export function isStructuresDocument(
       !record(structure) ||
       !fields(structure, [
         "conceptId",
+        "parentStructureId",
         "name",
+        "nameRef",
         "properties",
         "generation",
         "elements",
@@ -447,6 +549,10 @@ export function isStructuresDocument(
       typeof structure.conceptId !== "string" ||
       !taxonomyIdPattern.test(structure.conceptId) ||
       ids.has(structure.conceptId) ||
+      (structure.parentStructureId !== undefined &&
+        (typeof structure.parentStructureId !== "string" ||
+          !taxonomyIdPattern.test(structure.parentStructureId) ||
+          structure.parentStructureId === structure.conceptId)) ||
       typeof structure.name !== "string" ||
       !structure.name.trim() ||
       structure.name !== structure.name.trim() ||
@@ -454,6 +560,20 @@ export function isStructuresDocument(
     )
       return false;
     ids.add(structure.conceptId);
+    if (
+      structure.nameRef !== undefined &&
+      (!record(structure.nameRef) ||
+        !fields(structure.nameRef, [
+          "categoryId",
+          "termId",
+          "classification",
+        ]) ||
+        typeof structure.nameRef.categoryId !== "string" ||
+        !taxonomyIdPattern.test(structure.nameRef.categoryId) ||
+        typeof structure.nameRef.termId !== "string" ||
+        !taxonomyIdPattern.test(structure.nameRef.termId))
+    )
+      return false;
     if (
       structure.description !== undefined &&
       typeof structure.description !== "string"
@@ -515,12 +635,18 @@ export function isStructuresDocument(
       if (
         generation.nameRef !== undefined &&
         (!record(generation.nameRef) ||
-          !fields(generation.nameRef, ["categoryId", "termId"]) ||
+          !fields(generation.nameRef, [
+            "categoryId",
+            "termId",
+            "classification",
+          ]) ||
           ![VARIANT_CATEGORY_IDS.structure, ELEMENT_CATEGORY_ID].includes(
             String(generation.nameRef.categoryId),
           ) ||
           typeof generation.nameRef.termId !== "string" ||
-          !taxonomyIdPattern.test(generation.nameRef.termId))
+          !taxonomyIdPattern.test(generation.nameRef.termId) ||
+          (generation.nameRef.classification !== undefined &&
+            !isClassification(generation.nameRef.classification)))
       )
         return false;
       if (
@@ -627,12 +753,48 @@ export function assertStructureTaxonomy(
   assertStructures(document);
   assertStructureGraph(document.structures);
   for (const structure of document.structures) {
+    if (structure.nameRef) {
+      const category = taxonomy.categories.find(
+        (category) => category.id === structure.nameRef!.categoryId,
+      );
+      if (
+        !category ||
+        !["structure", "element"].includes(category.key) ||
+        !category.scopes.includes("structures") ||
+        category.valueType !== "string" ||
+        category.cardinality !== "one" ||
+        !taxonomy.terms.some(
+          (term) =>
+            term.id === structure.nameRef!.termId &&
+            term.categoryId === category.id,
+        )
+      )
+        throw new Error(
+          `${structure.name}: its Registry name is unavailable or incompatible.`,
+        );
+    }
     const optionIssues = [
       ...structureVariantIssues(structure),
+      ...structureConfigurationIssues(structure, document.structures),
       ...(structure.editor?.properties ?? []).flatMap((property) =>
         property.kind === "boolean"
           ? []
           : [
+              ...(property.categoryId !== undefined &&
+              (!taxonomy.categories.some(
+                (category) =>
+                  category.id === property.categoryId &&
+                  category.scopes.includes("structures"),
+              ) ||
+                property.options.some(
+                  (option) =>
+                    typeof option.classification[property.categoryId!] !==
+                    "string",
+                ))
+                ? [
+                    "A registered option needs an available Registry category and value assignments.",
+                  ]
+                : []),
               ...classificationIssues(property.classification, taxonomy),
               ...property.options.flatMap((option) =>
                 classificationIssues(option.classification, taxonomy),
@@ -641,8 +803,11 @@ export function assertStructureTaxonomy(
       ),
     ];
     if (optionIssues.length) throw new Error(optionIssues.join(" "));
-    for (const override of Object.values(structure.editor?.overrides ?? {}))
-      assertElementTaxonomy(Object.values(override.elements ?? {}), taxonomy);
+    for (const configured of configurationSources(document.structures).filter(
+      (item) => item.conceptId === structure.conceptId,
+    ))
+      for (const override of Object.values(configured.editor?.overrides ?? {}))
+        assertElementTaxonomy(Object.values(override.elements ?? {}), taxonomy);
     assertElementTaxonomy(leafElements(structure), taxonomy);
     const generation = structureGeneration(structure);
     for (const termId of generation.sizeTermIds) {
@@ -685,6 +850,15 @@ export function assertStructureTaxonomy(
           `${structure.name}: its governed Structure name is unavailable or incompatible.`,
         );
       }
+      if (generation.nameRef.classification) {
+        const projection = projectClassification(
+          taxonomy,
+          generation.nameRef.classification,
+          "structures",
+        );
+        if (projection.issues.length)
+          throw new Error(projection.issues.join(" "));
+      }
     }
     for (const binding of structure.properties) {
       const slot = structureSlot(binding)!;
@@ -717,7 +891,7 @@ export function assertStructureReferences(
   typography?: TypographyDocument,
 ) {
   assertStructures(document);
-  for (const structure of document.structures) {
+  for (const structure of configurationSources(document.structures)) {
     for (const override of Object.values(structure.editor?.overrides ?? {})) {
       const option = assignStructure(
         { ...structure, editor: undefined },
@@ -757,6 +931,7 @@ export function assertStructureReferences(
   for (const structure of document.structures)
     for (const element of leafElements(structure))
       for (const binding of element.bindings) {
+        if (typeof binding.$ref !== "string") continue;
         const family = available.get(binding.$ref);
         if (onlyFamily && binding.family !== onlyFamily) continue;
         if (family !== binding.family)
