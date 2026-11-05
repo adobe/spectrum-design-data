@@ -44,10 +44,13 @@ export function measureElement(el, role) {
     const left = Math.min(...boxes.map((b) => b.left));
     const right = Math.max(...boxes.map((b) => b.right));
     props.width = boxes.length ? px(right - left) : 0;
-    // Height is the line height, which is what the scene models. The element's own box can stretch
-    // (flex align) and the text range is only the glyph box; fall back to the range for `normal`.
+    // Height is one line height, which is what the scene models. The element's own box can stretch
+    // (flex align) and the text range is only the glyph box, so the range is used only when the
+    // line height is `normal` or the label wraps (range taller than 1.5 lines). Applies to every
+    // Storybook source, not just the S2 pilot.
     const lh = parseFloat(cs.lineHeight);
-    props.height = Number.isFinite(lh) ? px(lh) : boxes.length ? px(Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top))) : 0;
+    const rangeH = boxes.length ? Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top)) : 0;
+    props.height = px(Number.isFinite(lh) && rangeH <= lh * 1.5 ? lh : rangeH);
     props.fontSize = px(cs.fontSize);
     props.fontWeight = Number(cs.fontWeight);
     props.color = cs.color;

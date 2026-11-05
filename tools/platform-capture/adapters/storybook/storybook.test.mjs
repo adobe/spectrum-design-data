@@ -122,3 +122,14 @@ test("measured output is accepted by design-data render-compare", (t) => {
   // No property the comparison does not know ("unsupported property").
   t.false(report.states[0].skipped.some((s) => s.reason === "unsupported property"));
 });
+
+test("label height is one line height, or the full range when the label wraps", (t) =>
+  withPage(t, async (page) => {
+    await page.setContent(
+      `<body style="margin:0;font:16px/20px Arial"><span id="one">Short</span><div id="two" style="width:50px">Two words here</div><span id="n" style="line-height:normal">Normal</span></body>`,
+    );
+    const h = async (id) => (await (await page.locator(id).elementHandle()).evaluate(measureElement, "label")).props.height;
+    t.is(await h("#one"), 20);
+    t.true((await h("#two")) >= 40); // wrapped: more than one line
+    t.true((await h("#n")) > 10); // `normal` falls back to the text range
+  }));

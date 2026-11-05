@@ -51,17 +51,19 @@ export function expand(baseMapping, matrix, layout) {
   const render = [];
   const capture = [];
   const unmapped = [];
+  const seen = new Set();
   for (const raw of combos) {
     // Always pass defaults explicitly: S2 defaults to primary, the recipe to accent.
     const args = { ...Object.fromEntries(Object.entries(mapping.args).filter(([, r]) => r.default !== undefined).map(([k, r]) => [k, r.default])), ...raw };
     const { options, unmapped: u } = mapArgs(mapping, args);
     for (const scheme of matrix.colorSchemes ?? ["light", "dark"]) {
       const id = stateId(mapping, args, scheme);
+      if (seen.has(id)) continue;
+      seen.add(id);
       if (u.length) {
         unmapped.push({ id, args, unmapped: u });
         continue;
       }
-      if (render.some((s) => s.id === id)) continue;
       const { size, ...rest } = options;
       render.push({ id, component: mapping.component, platform: mapping.platform, size, options: rest, colorScheme: scheme, label: mapping.label });
       capture.push({ id, story: mapping.story, args, colorScheme: scheme, selector: mapping.selector, parts: mapping.parts });

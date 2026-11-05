@@ -164,8 +164,8 @@ node $TC/adapters/storybook/cli.mjs $R/capture.json --source rsp --sha $SHA --ou
 design-data render-compare --scenes $R/renders --measured $R/rsp/measured.json --format markdown -o $R/report.md
 # 3. Pixels (a review aid; the numbers above are the verdict)
 node $TC/lib/rasterize/cli.mjs $R/renders --out $R/png
-node $TC/lib/pixel-diff.mjs --renders $R/renders --png $R/png --shots $R/rsp/shots --scale 2 --out $R/pixel
-npx reg-cli $R/pixel/actual $R/pixel/expected $R/pixel/diff -R $R/pixel/report.html
+node $TC/lib/pixel-diff.mjs --renders $R/renders --png $R/png --shots $R/rsp/shots --out $R/pixel
+pnpm --filter @adobe/platform-capture exec reg-cli $R/pixel/actual $R/pixel/expected $R/pixel/diff -R $R/pixel/report.html
 ```
 
 `matrix.json` is `{ axes?, cases?, colorSchemes }` of S2 args. The mapping file

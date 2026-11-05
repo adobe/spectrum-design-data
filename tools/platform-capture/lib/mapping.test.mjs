@@ -38,3 +38,10 @@ test("expand needs a layout", (t) => {
 test("stateId", (t) => {
   t.is(stateId(mapping, { size: "L", variant: "primary", fillStyle: "outline", isDisabled: true }, "dark"), "button-l-primary-outline-disabled-dark");
 });
+
+test("a combination in both axes and cases is listed once, rendered or unmapped", (t) => {
+  const matrix = { axes: { variant: ["accent", "genai"] }, cases: [{ variant: "accent" }, { variant: "genai" }], colorSchemes: ["light"] };
+  const r = expand(mapping, matrix, layout);
+  t.is(r.render.length, 1);
+  t.is(r.unmapped.length, 1);
+});
