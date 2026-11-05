@@ -7,6 +7,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { chromeUnavailable } from "../../lib/skip.mjs";
 import { MEASURED_FORMAT, argsParam, resolveSource, storyUrl } from "./index.mjs";
 import { collectTokenProperties, findDefaultPart, measureElement } from "./measure.mjs";
 
@@ -57,8 +58,8 @@ async function withPage(t, fn) {
   let browser;
   try {
     browser = await chromium.launch({ channel: "chrome" });
-  } catch {
-    return t.pass("system Chrome not found; skipped");
+  } catch (e) {
+    return chromeUnavailable(t, e);
   }
   try {
     const page = await browser.newPage();

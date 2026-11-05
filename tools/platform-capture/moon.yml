@@ -11,3 +11,7 @@ tasks:
       - "adapters/**/*"
       - "package.json"
       - "/pnpm-lock.yaml"
+      # the render-compare test runs the CLI against the repo dataset
+      - "/packages/design-data/components/**/*.json"
+      - "/packages/design-data/visuals/**/*.json"
+      - "/packages/design-data/relationships/**/*.json"

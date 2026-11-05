@@ -5,6 +5,7 @@ import test from "ava";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { chromeUnavailable } from "../skip.mjs";
 import { collectInputs, defaultScale, rasterize, svgSize } from "./index.mjs";
 
 const svg = (fill) =>
@@ -54,7 +55,7 @@ test("chrome: batch output at the platform default scale, light and dark", async
   try {
     results = await rasterize([batch()], { outDir: out, kit: null });
   } catch (e) {
-    if (/Executable doesn't exist|chrome/i.test(String(e))) return t.log("system Chrome not found; skipped") && t.pass();
+    if (/Executable doesn't exist|chrome/i.test(String(e))) return chromeUnavailable(t, e);
     throw e;
   }
   t.deepEqual(results.map((r) => r.id), ["a-light", "a-dark"]);
@@ -69,7 +70,7 @@ test("chrome: explicit scale overrides the platform default", async (t) => {
     const [r] = await rasterize([f], { outDir: join(out, "png"), scale: 2, kit: null });
     t.deepEqual(pngSize(r.png), [80, 40]);
   } catch (e) {
-    if (/Executable doesn't exist|chrome/i.test(String(e))) return t.pass();
+    if (/Executable doesn't exist|chrome/i.test(String(e))) return chromeUnavailable(t, e);
     throw e;
   }
 });
