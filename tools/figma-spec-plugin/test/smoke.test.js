@@ -111,6 +111,7 @@ function fakeFigma(rejectFamily) {
     createFrame: () => node("FRAME"),
     createRectangle: () => node("RECTANGLE"),
     createEllipse: () => node("ELLIPSE"),
+    createVector: () => node("VECTOR"),
     createText() {
       const t = node("TEXT");
       let chars = "";
@@ -355,6 +356,10 @@ const dump = (n) => ({
   height: n.height,
   layoutMode: n.layoutMode,
   fills: n.fills,
+  vectorPaths: n.vectorPaths,
+  strokes: n.strokes,
+  strokeWeight: n.strokeWeight,
+  cornerRadius: n.cornerRadius,
   children: n.children.map(dump),
 });
 
@@ -375,7 +380,13 @@ const payloadsFor = (component, pages) =>
   });
 
 test("payloads fit use_figma, carry no plugin shell, and render the same tree as the plugin", async (t) => {
-  for (const component of ["action-button", "switch", "heading"]) {
+  for (const component of [
+    "action-button",
+    "switch",
+    "heading",
+    "accordion",
+    "checkbox",
+  ]) {
     const payloads = payloadsFor(component);
     t.true(payloads.length >= 1);
     for (const p of payloads) {
@@ -604,4 +615,63 @@ test("undrawn markers get an outlined row badge and a note under the visual", as
     0,
   );
   t.is(outlined.length, rows);
+});
+
+// Each icon frame holds what scene_to_svg draws for its glyph: a stroked vector for
+// checkmark and chevron (the chevron rotated clockwise about the box center), a pill for dash.
+test("icon parts draw their glyph, not a plus", async (t) => {
+  const unit = {
+    checkmark: [0.1, 0.55, 0.38, 0.82, 0.9, 0.2],
+    chevron: [0.3, 0.1, 0.7, 0.5, 0.3, 0.9],
+  };
+  const seen = new Set();
+  for (const component of ["accordion", "checkbox"]) {
+    const s = generate(component);
+    const { figma, page } = mock();
+    await figma.ui.onmessage({ type: "render-sheet", sheet: s });
+    const icons = s.pages
+      .flatMap((p) => p.blocks)
+      .flatMap((b) => b.render?.scene.nodes ?? [])
+      .filter((n) => n.kind === "icon" && n.glyph);
+    t.true(icons.length > 0, component);
+    const frames = page.children[0].findAll(
+      (f) => f.type === "FRAME" && icons.some((n) => n.part === f.name),
+    );
+    t.true(frames.every((f) => f.children.length === 1));
+    for (const n of icons) {
+      seen.add(n.glyph);
+      const mine = frames.filter((f) => f.name === n.part);
+      if (n.glyph === "dash") {
+        t.true(mine.length > 0);
+        t.true(
+          mine.every(
+            (f) =>
+              f.children[0].type === "RECTANGLE" &&
+              f.children[0].cornerRadius === f.height / 2,
+          ),
+          component,
+        );
+        continue;
+      }
+      const r = n.glyph === "chevron" ? ((n.rotation ?? 0) * Math.PI) / 180 : 0;
+      const want = [];
+      for (let i = 0; i < 6; i += 2) {
+        const [dx, dy] = [unit[n.glyph][i] - 0.5, unit[n.glyph][i + 1] - 0.5];
+        want.push(
+          0.5 + dx * Math.cos(r) - dy * Math.sin(r),
+          0.5 + dx * Math.sin(r) + dy * Math.cos(r),
+        );
+      }
+      const drawn = mine.some((f) => {
+        const [g] = f.children;
+        if (g.type !== "VECTOR" || g.strokeCap !== "ROUND") return false;
+        const pts = g.vectorPaths[0].data.match(/-?[\d.]+/g).map(Number);
+        return pts.every(
+          (v, i) => Math.abs(v / (i % 2 ? f.height : f.width) - want[i]) < 1e-3,
+        );
+      });
+      t.true(drawn, `${component} ${n.part} ${n.glyph} ${n.rotation}`);
+    }
+  }
+  t.deepEqual([...seen].sort(), ["checkmark", "chevron", "dash"]);
 });
