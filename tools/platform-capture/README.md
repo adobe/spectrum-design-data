@@ -75,3 +75,33 @@ SwiftUI/UIKit variant, and also toggles switches. Output is
 * Switches are labelled by the nearest preceding text, so a second switch on a
   screen may carry the first one's name.
 * Contact-sheet crop assumes 1206x2622 screenshots.
+
+## Rasterizing renderer SVGs (`lib/rasterize`)
+
+Turns `design-data render` SVGs into PNGs for review and pixel diffs. Accepts SVG
+files or a `design-data render --batch` output folder (reads `index.json`,
+skips failed states).
+
+```sh
+design-data render --batch states.json --out ~/Spectrum/platform-compare/<run>/renders
+node lib/rasterize/cli.mjs ~/Spectrum/platform-compare/<run>/renders \
+  --out ~/Spectrum/platform-compare/<run>/png
+```
+
+* **Chrome (default).** `playwright-core` with the system Chrome (`channel:
+  'chrome'`), the Adobe Fonts kit (`--kit`, default `flz1ovt`), and
+  `document.fonts.ready` before an element screenshot of the `<svg>`. Needs
+  network for the kit; `--no-kit` skips it. A warning is printed when no kit
+  font loaded.
+* **Scale.** `--scale N`, otherwise 3 for states with platform `ios` (or
+  `--platform ios`) and 2 for everything else.
+* **Light and dark.** The renderer bakes the scheme into the SVG, so batch both
+  `colorScheme` values. PNGs are transparent unless `--background <css>` is set.
+* **Offline fallback: `--engine resvg`.** Needs the `resvg` binary and Adobe
+  Clean installed locally and readable (`--fonts-dir` to point at it). Fonts are
+  never bundled or committed, and resvg's variable-font support is limited, so
+  treat this output as a review aid, not a measurement.
+* Output goes outside the repo. Never commit PNGs.
+
+Test: `pnpm --filter @adobe/platform-capture test` (Chrome tests skip when
+Chrome is missing).
