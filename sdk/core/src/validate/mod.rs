@@ -177,6 +177,12 @@ pub fn validate_all_with_platform(
         if dir.is_dir() {
             graph.visuals = TokenGraph::load_spec_visuals(dir)?;
         }
+        // Icon sets live next to the recipes that will reference them.
+        if let Some(icons) = dir.parent().map(|p| p.join("icons")) {
+            if icons.is_dir() {
+                graph.icons = TokenGraph::load_spec_icons(&icons)?;
+            }
+        }
     }
     // Load manifest.json from the data directory when present.
     let manifest: Option<serde_json::Value> = if platform_manifest.is_some() {
@@ -313,7 +319,7 @@ pub fn validate_catalog_dir(
 }
 
 /// Run Layer 1 schema-shape validation over the standard catalog directories
-/// (`fields`, `components`, `mode-sets`, `registry`) inside `dataset_root`,
+/// (`fields`, `components`, `mode-sets`, `registry`, `guidelines`, `icons`) inside `dataset_root`,
 /// using schema files from `spec_schemas_dir`.
 ///
 /// Each sub-directory is validated only when its schema file is present in
@@ -329,6 +335,7 @@ pub fn validate_catalog_schemas(
         ("mode-sets", "mode-set.schema.json"),
         ("registry", "registry-value.json"),
         ("guidelines", "guideline.schema.json"),
+        ("icons", "icon-set.schema.json"),
     ] {
         let schema_path = spec_schemas_dir.join(schema_file);
         if schema_path.is_file() {

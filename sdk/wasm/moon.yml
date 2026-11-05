@@ -65,6 +65,7 @@ tasks:
       - "/sdk/core/src/registry_data.rs"
       - "/packages/design-data/guidelines/*.json"
       - "/packages/design-data/relationships/*.json"
+      - "/packages/design-data/icons/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
     outputs:

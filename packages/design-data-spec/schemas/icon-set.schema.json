@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/icon-set.schema.json",
+  "title": "Icon set",
+  "description": "Layer 1 structural schema for one icon set in the icons/ catalog (spec/dataset-layout.md): path geometry keyed by icon id, with the source it was imported from. Paths carry no colour; a renderer fills them with the part's colour. A UI icon has one drawing per size, keyed by the scale index of the icon size tokens.",
+  "type": "object",
+  "required": ["set", "source", "icons"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "set": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Set id, also the file name (ui.json is set ui)."
+    },
+    "description": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "description": "Provenance and licence of the imported geometry.",
+      "required": ["repository", "commit", "path", "license", "copyright"],
+      "properties": {
+        "repository": { "type": "string", "format": "uri" },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "Full commit SHA the files were read at."
+        },
+        "path": {
+          "type": "string",
+          "description": "Directory of the source files in the repository."
+        },
+        "license": {
+          "type": "string",
+          "description": "SPDX licence id."
+        },
+        "copyright": { "type": "string" },
+        "notice": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "icons": {
+      "type": "object",
+      "description": "Icons keyed by id (kebab-case; the icon-terms registry id where one exists).",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          { "$ref": "#/$defs/geometry" },
+          {
+            "type": "object",
+            "required": ["sizes"],
+            "properties": {
+              "sizes": {
+                "type": "object",
+                "description": "One drawing per size, keyed by scale index (50, 75, 100, …).",
+                "propertyNames": { "pattern": "^[0-9]+$" },
+                "minProperties": 1,
+                "additionalProperties": { "$ref": "#/$defs/geometry" }
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "geometry": {
+      "type": "object",
+      "required": ["viewBox", "paths"],
+      "properties": {
+        "viewBox": {
+          "type": "string",
+          "pattern": "^-?[0-9.]+ -?[0-9.]+ [0-9.]+ [0-9.]+$",
+          "description": "SVG viewBox: min-x min-y width height."
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["d"],
+            "properties": {
+              "d": {
+                "type": "string",
+                "minLength": 1,
+                "description": "SVG path data in viewBox units."
+              },
+              "fillRule": {
+                "enum": ["nonzero", "evenodd"],
+                "description": "SVG fill-rule; nonzero when absent."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "source": {
+          "type": "string",
+          "description": "Source file name the drawing was read from."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
