@@ -2920,22 +2920,6 @@
         "isDisabled": false,
         "isLabelHidden": [false, true],
         "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Icon",
-    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
-    "uuid": "6cd582d3-d402-5e33-a0db-f7fd75142dc8"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": [false, true],
-        "isPending": false,
         "style": "fill",
         "variant": "primary"
       }
@@ -2969,7 +2953,7 @@
         "isLabelHidden": [false, true],
         "isPending": false,
         "style": "fill",
-        "variant": ["accent", "negative", "primary"]
+        "variant": "primary"
       }
     },
     "context": "Icon",
@@ -3634,22 +3618,6 @@
         "isDisabled": false,
         "isLabelHidden": false,
         "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Label",
-    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
-    "uuid": "301d53ad-af9e-57b4-9688-bd72f6e56bce"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": false,
-        "isPending": false,
         "style": "fill",
         "variant": "primary"
       }
@@ -3683,7 +3651,7 @@
         "isLabelHidden": false,
         "isPending": false,
         "style": "fill",
-        "variant": ["accent", "negative", "primary"]
+        "variant": "primary"
       }
     },
     "context": "Label",

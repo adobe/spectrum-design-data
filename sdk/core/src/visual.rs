@@ -2945,8 +2945,11 @@ mod tests {
             ("accent", "light", "rgb(255, 255, 255)"),
             ("accent", "dark", "rgb(255, 255, 255)"),
             ("negative", "dark", "rgb(255, 255, 255)"),
+            ("accent", "wireframe", "rgb(255, 255, 255)"),
+            ("negative", "wireframe", "rgb(255, 255, 255)"),
             ("primary", "light", "rgb(255, 255, 255)"),
             ("primary", "dark", "rgb(17, 17, 17)"),
+            ("primary", "wireframe", "rgb(254, 254, 255)"),
         ] {
             let mut r = req(&[]);
             r.component = "button".into();
