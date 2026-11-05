@@ -778,12 +778,39 @@ const WEIGHTS = {
 };
 
 const DEFAULT_FONT_STACK =
-  "adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif";
+  "adobe-clean-spectrum-vf, Adobe Clean, 'Source Sans 3', sans-serif";
+
+const GENERIC_FAMILIES = new Set([
+  "serif",
+  "sans-serif",
+  "monospace",
+  "cursive",
+  "fantasy",
+  "system-ui",
+  "ui-serif",
+  "ui-sans-serif",
+  "ui-monospace",
+  "ui-rounded",
+]);
+
+// Mirror of css_font_family in sdk/core/src/visual.rs: every bound family is quoted unless
+// it is a generic keyword, since an unquoted name such as `Source Sans 3` is invalid CSS.
+const cssFamilyName = (f) => {
+  const t = f.replace(/^['"]+|['"]+$/g, "").trim();
+  return GENERIC_FAMILIES.has(t)
+    ? t
+    : `'${t.replaceAll("\\", "\\\\").replaceAll("'", "\\'")}'`;
+};
 
 const cssFontFamily = (f) => {
-  const t = (f ?? "").trim();
-  if (!t) return DEFAULT_FONT_STACK;
-  return `${t.includes(",") ? t : `'${t}'`}, ${DEFAULT_FONT_STACK}`;
+  const bound = (f ?? "")
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .map(cssFamilyName);
+  return bound.length
+    ? `${bound.join(", ")}, ${DEFAULT_FONT_STACK}`
+    : DEFAULT_FONT_STACK;
 };
 
 export const cssFontWeight = (w) => WEIGHTS[w ?? "400"] ?? w ?? "400";
