@@ -177,12 +177,6 @@ pub fn validate_all_with_platform(
         if dir.is_dir() {
             graph.visuals = TokenGraph::load_spec_visuals(dir)?;
         }
-        // Icon sets live next to the recipes that will reference them.
-        if let Some(icons) = dir.parent().map(|p| p.join("icons")) {
-            if icons.is_dir() {
-                graph.icons = TokenGraph::load_spec_icons(&icons)?;
-            }
-        }
     }
     // Load manifest.json from the data directory when present.
     let manifest: Option<serde_json::Value> = if platform_manifest.is_some() {

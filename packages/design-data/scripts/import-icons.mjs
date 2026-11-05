@@ -39,10 +39,27 @@ const attrs = (tag) =>
 
 const num = (v) => String(Number(v));
 
+// Attributes each element may carry. Anything else (style, opacity, clip-rule, stroke,
+// transform, a root fill-rule, …) could change the drawing, so it is an error.
+const ALLOWED = {
+  svg: ["xmlns", "id", "data-name", "width", "height", "viewBox"],
+  path: ["id", "data-name", "fill", "fill-rule", "stroke-width", "d"],
+  circle: [
+    "id",
+    "data-name",
+    "fill",
+    "fill-rule",
+    "stroke-width",
+    "cx",
+    "cy",
+    "r",
+  ],
+};
+
 /**
  * The geometry of one SVG file: its viewBox and every shape as a path (circles become
  * two arcs), keeping each path's fill rule. Throws on anything it cannot keep exactly:
- * other elements, transforms, or fills that are not the icon colour.
+ * other elements or attributes, or fills that are not the icon colour.
  */
 export function parseSvg(svg, file) {
   const fail = (why) => {
@@ -52,26 +69,34 @@ export function parseSvg(svg, file) {
     .replace(/<\?xml[^>]*\?>/, "")
     .replace(/<!--[\s\S]*?-->/g, "");
   const tags = [...body.matchAll(/<\s*([a-zA-Z]+)\b([^>]*)>/g)];
-  const root = tags.find((t) => t[1] === "svg");
-  if (!root) fail("no <svg> element");
-  const viewBox = attrs(root[2]).viewBox;
-  if (!viewBox) fail("no viewBox");
+  if (tags[0]?.[1] !== "svg") fail("no <svg> element");
   const paths = [];
+  let viewBox;
   for (const [, el, rest] of tags) {
-    if (el === "svg") continue;
     const a = attrs(rest);
-    if (a.transform) fail(`<${el}> has a transform`);
+    if (!ALLOWED[el]) fail(`unsupported element <${el}>`);
+    const extra = Object.keys(a).filter((k) => !ALLOWED[el].includes(k));
+    if (extra.length) fail(`<${el}> has unsupported ${extra.join(", ")}`);
+    if (a["stroke-width"] !== undefined && Number(a["stroke-width"]) !== 0)
+      fail(`<${el}> has a stroke`);
+    if (el === "svg") {
+      viewBox = a.viewBox;
+      continue;
+    }
     if (a.fill === undefined || !/^var\(--iconPrimary\b/.test(a.fill))
       fail(`<${el}> fill ${a.fill ?? "(none)"} is not the icon colour`);
-    let d;
-    if (el === "path") d = a.d;
-    else if (el === "circle") {
-      const [cx, cy, r] = [a.cx, a.cy, a.r].map(Number);
+    let d = a.d;
+    if (el === "circle") {
+      // SVG defaults a missing cx or cy to 0; a circle without a radius draws nothing.
+      const [cx, cy, r] = [a.cx ?? 0, a.cy ?? 0, a.r].map(Number);
+      if (![cx, cy, r].every(Number.isFinite) || r <= 0)
+        fail(`<circle> has no valid cx, cy or r`);
       d = `M${num(cx - r)},${num(cy)}a${num(r)},${num(r)} 0 1 0 ${num(2 * r)},0a${num(r)},${num(r)} 0 1 0 ${num(-2 * r)},0Z`;
-    } else fail(`unsupported element <${el}>`);
+    }
     if (!d) fail(`<${el}> has no geometry`);
     paths.push(a["fill-rule"] ? { d, fillRule: a["fill-rule"] } : { d });
   }
+  if (!viewBox) fail("no viewBox");
   if (!paths.length) fail("no shapes");
   return { viewBox: viewBox.trim().split(/\s+/).map(num).join(" "), paths };
 }

@@ -34,9 +34,11 @@ test("paths keep their data and fill rule and drop the colour", () => {
   });
 });
 
-test("circles become two arcs", () => {
+test("circles become two arcs, with a missing centre at 0", () => {
   const g = parseSvg(svg(`<circle cx="3" cy="9" r="1" ${fill}/>`), "x.svg");
   assert.equal(g.paths[0].d, "M2,9a1,1 0 1 0 2,0a1,1 0 1 0 -2,0Z");
+  const o = parseSvg(svg(`<circle r="2" ${fill}/>`), "x.svg");
+  assert.equal(o.paths[0].d, "M-2,0a2,2 0 1 0 4,0a2,2 0 1 0 -4,0Z");
 });
 
 test("anything that cannot be kept exactly is an error", () => {
@@ -45,8 +47,23 @@ test("anything that cannot be kept exactly is an error", () => {
     `<path d="M0 0" ${fill} transform="rotate(90)"/>`,
     `<path d="M0 0" fill="#fff"/>`,
     `<circle cx="8" cy="8" r="8" />`,
+    `<circle cx="8" cy="8" ${fill}/>`,
+    `<circle cx="a" cy="8" r="1" ${fill}/>`,
+    `<path d="M0 0" ${fill} style="fill-rule:evenodd"/>`,
+    `<path d="M0 0" ${fill} opacity=".5"/>`,
+    `<path d="M0 0" ${fill} fill-opacity=".5"/>`,
+    `<path d="M0 0" ${fill} clip-rule="evenodd"/>`,
+    `<path d="M0 0" ${fill} stroke-width="2"/>`,
   ])
-    assert.throws(() => parseSvg(svg(body), "x.svg"), /x\.svg/);
+    assert.throws(() => parseSvg(svg(body), "x.svg"), /x\.svg/, body);
+  assert.throws(
+    () =>
+      parseSvg(
+        `<svg viewBox="0 0 10 10" fill-rule="evenodd"><path d="M0 0" ${fill}/></svg>`,
+        "x.svg",
+      ),
+    /fill-rule/,
+  );
 });
 
 test("UI icons group by name and scale, workflow icons by name; unsized files are skipped", () => {
@@ -85,13 +102,32 @@ test("UI icons group by name and scale, workflow icons by name; unsized files ar
   ]);
 });
 
-test("the committed icon files are what the importer wrote", () => {
+// Hand edits to path data are not caught here; re-run the importer at the recorded SHA
+// to check those. This checks what the files must hold whatever the SHA.
+test("committed icon files: file name is the set, keys match their source files", () => {
   for (const name of ["ui", "workflow"]) {
     const text = readFileSync(
       new URL(`../icons/${name}.json`, import.meta.url),
       "utf8",
     );
     assert.equal(text, JSON.stringify(JSON.parse(text), null, 2) + "\n");
-    assert.match(JSON.parse(text).source.commit, /^[0-9a-f]{40}$/);
+    const data = JSON.parse(text);
+    assert.equal(data.set, name);
+    assert.match(data.source.commit, /^[0-9a-f]{40}$/);
+    for (const [id, icon] of Object.entries(data.icons)) {
+      const drawings = icon.sizes
+        ? Object.entries(icon.sizes)
+        : [[undefined, icon]];
+      for (const [size, g] of drawings) {
+        const m = g.source.match(
+          size === undefined
+            ? /^S2_Icon_([A-Za-z]+)_20_N\.svg$/
+            : /^S2_([A-Za-z]+)Size(\d+)\.svg$/,
+        );
+        assert.ok(m, `${name}:${id} ${g.source}`);
+        assert.equal(kebab(m[1]), id, g.source);
+        if (size !== undefined) assert.equal(m[2], size, g.source);
+      }
+    }
   }
 });

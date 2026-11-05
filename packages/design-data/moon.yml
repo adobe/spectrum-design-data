@@ -71,8 +71,7 @@ tasks:
       - "scripts/validate-visuals.js"
       - "/packages/design-data-spec/schemas/component-visual.schema.json"
 
-  # Self-test of the icon importer, and a check that the committed icons/ files are its
-  # output. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
+  # Self-test of the icon importer, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
   test:
     command: node
     args:
@@ -162,7 +161,6 @@ tasks:
       - "@globs(catalogs)"
       - "@globs(relationships)"
       - "@globs(visuals)"
-      - "@globs(icons)"
       - "/packages/design-data/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.

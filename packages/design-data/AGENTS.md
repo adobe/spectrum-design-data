@@ -30,7 +30,7 @@ When adding or renaming token files, update the MCP env if the path changes.
 ## Tasks
 
 ```bash
-moon run design-data:test    # icon importer self-test; committed icons/ match its output
+moon run design-data:test    # icon importer self-test and icons/ invariants
 ```
 
 ## Key Relationships
