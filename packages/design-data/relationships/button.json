@@ -857,6 +857,78 @@
   {
     "scope": {
       "component": "button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "6361a8fd-bde0-5adb-b8d7-86d80963df57"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "f266ba7d-8860-550a-a766-04f016209cd8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "8caab368-55c0-54bc-92cc-424a8be2cd23"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "3721d7b2-559b-5870-95b7-7565431e89af"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "f858d4df-3bb6-578b-8a6d-2ba92377ef4f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "98dfeb4b-2115-5227-b3f1-5b14a90c0c87"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "b11f34ef-36e1-5bb5-b613-072a9a6b08ed"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "86d0ddea-7413-5b33-9803-14a9e58eb9b9"
+  },
+  {
+    "scope": {
+      "component": "button",
       "property": "color"
     },
     "context": "Background",

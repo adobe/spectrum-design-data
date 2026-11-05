@@ -3487,6 +3487,24 @@ mod tests {
     }
 
     #[test]
+    fn button_label_line_height_follows_the_font_size_tokens() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // line-height-font-size-75..300 (desktop), as in Figma and S2; 1.3 x 18 would be 23.4 at XL.
+        for (size, want) in [("s", 16.0), ("m", 18.0), ("l", 20.0), ("xl", 22.0)] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.size = size.into();
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            let label = scene.nodes.iter().find(|n| n.part == "label").unwrap();
+            assert_eq!(label.h, want, "{size}");
+        }
+    }
+
+    #[test]
     fn an_icon_taller_than_the_label_line_adds_only_the_line_height() {
         let (g, _) = load();
         let height = |icon: &str| {
