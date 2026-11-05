@@ -21,7 +21,8 @@
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
     "root:test-component-content-changes",
-    "figma-spec-plugin:check"
+    "figma-spec-plugin:check",
+    "platform-capture:test"
   ],
   "rust": [
     "sdk:fmt-check",
