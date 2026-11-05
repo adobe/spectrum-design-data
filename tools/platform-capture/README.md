@@ -76,6 +76,46 @@ SwiftUI/UIKit variant, and also toggles switches. Output is
   screen may carry the first one's name.
 * Contact-sheet crop assumes 1206x2622 screenshots.
 
+## Storybook adapter (`adapters/storybook`)
+
+Opens stories in headless Chrome, screenshots the component element only, and
+writes `design-data-measured/1` JSON for `design-data render-compare`
+(`docs/visual-comparison.md`). Public libraries, but still write output outside
+the repo (`~/Spectrum/platform-compare/<run>/`).
+
+```sh
+# React Spectrum S2: immutable per-commit build, pinned by the full main SHA
+SHA=$(gh api repos/adobe/react-spectrum/commits/main --jq .sha)
+node adapters/storybook/cli.mjs capture.json --source rsp --sha $SHA --out <run>/rsp
+
+# Spectrum Web Components gen2 (mutable deployment)
+node adapters/storybook/cli.mjs capture.json --source swc --out <run>/swc
+```
+
+`capture.json` is `{ "states": [{ id, story, args?, colorScheme?, selector, parts? }] }`.
+`id` is the id the batch render gave the matching state. `selector` is the
+component element (the container); `parts` optionally gives CSS selectors for
+`label` and `icon`, otherwise the first element with its own text and the first
+`svg` are used. Playwright selectors pierce open shadow roots. Args go in
+`iframe.html?id=<story>&args=k:v;k2:v2`.
+
+* **Dark mode.** RSP: `document.documentElement.dataset.colorScheme = 'dark'`.
+  SWC: `&globals=theme:dark`. The adapter waits for fonts and colour transitions
+  before measuring.
+* **Output.** `shots/<id>.png` (element screenshot, `--scale` default 2),
+  `measured.json` (container: width, height, padding, cornerRadius, fill; label:
+  width of the text, fontSize, fontWeight, color), and `details.json`
+  (story URLs, font family, and for SWC the token custom properties each part's
+  rules use, with resolved values).
+* **Provenance.** RSP records the full commit SHA and the build URL. SWC
+  records `Last-Modified`, `ETag`, and the `@adobe/spectrum-wc` version. The
+  deployment doesn't expose that version, so it is inferred from npm publish
+  times and labelled so.
+* **SWC tokens.** The deployed gen2 Storybook uses `--swc-*` variables, not
+  `--spectrum-*`; the collector records both prefixes. It lists every matching
+  declaration without resolving the cascade.
+* SWC is lightly tested (one story against the live site).
+
 ## Rasterizing renderer SVGs (`lib/rasterize`)
 
 Turns `design-data render` SVGs into PNGs for review and pixel diffs. Accepts SVG
