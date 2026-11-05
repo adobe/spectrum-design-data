@@ -75,7 +75,7 @@ test("measureElement reads container, label and icon values in CSS px", (t) =>
     const c = (await btn.evaluate(measureElement, "container")).props;
     t.like(c, { height: 40, paddingLeft: 20, paddingRight: 20, paddingTop: 0, cornerRadius: 20, fill: "rgb(10, 20, 30)" });
     const label = await (await page.locator("span").elementHandle()).evaluate(measureElement, "label");
-    t.like(label.props, { fontSize: 16, fontWeight: 700, color: "rgb(255, 255, 255)" });
+    t.like(label.props, { fontSize: 16, fontWeight: 700, color: "rgb(255, 255, 255)", height: 18 });
     t.true(label.props.width > 40 && label.props.width < 80);
     t.regex(label.details.fontFamily, /Arial/);
     const icon = (await (await page.locator("svg").elementHandle()).evaluate(measureElement, "icon")).props;

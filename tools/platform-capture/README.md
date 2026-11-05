@@ -145,3 +145,33 @@ node lib/rasterize/cli.mjs ~/Spectrum/platform-compare/<run>/renders \
 
 Test: `pnpm --filter @adobe/platform-capture test` (Chrome tests skip when
 Chrome is missing).
+
+## Pilot: React Spectrum S2 Button vs the foundation recipe
+
+Run everything from the repo root (the `design-data` CLI finds the dataset from the working
+directory). Output goes outside the repo.
+
+```sh
+R=~/Spectrum/platform-compare/rsp-button; TC=tools/platform-capture
+SHA=$(gh api repos/adobe/react-spectrum/commits/main --jq .sha)
+
+# 1. Matrix of S2 args -> matching render states and capture states (+ unmapped.json)
+node $TC/lib/mapping-cli.mjs $TC/adapters/storybook/mappings/react-spectrum-s2-button.json \
+  $R/matrix.json --layout icon-label --out $R
+# 2. Render the recipe, capture S2, compare numbers
+design-data render --batch $R/states.json --out $R/renders
+node $TC/adapters/storybook/cli.mjs $R/capture.json --source rsp --sha $SHA --out $R/rsp
+design-data render-compare --scenes $R/renders --measured $R/rsp/measured.json --format markdown -o $R/report.md
+# 3. Pixels (a review aid; the numbers above are the verdict)
+node $TC/lib/rasterize/cli.mjs $R/renders --out $R/png
+node $TC/lib/pixel-diff.mjs --renders $R/renders --png $R/png --shots $R/rsp/shots --scale 2 --out $R/pixel
+npx reg-cli $R/pixel/actual $R/pixel/expected $R/pixel/diff -R $R/pixel/report.html
+```
+
+`matrix.json` is `{ axes?, cases?, colorSchemes }` of S2 args. The mapping file
+(`adapters/storybook/mappings/`) maps arg names and values to recipe options; a `null` value
+means the recipe has no equivalent and the state is listed in `unmapped.json` instead of
+rendered. Defaults are always passed explicitly (S2 defaults to `primary`, the recipe to
+`accent`). Skip combinations the component's `constraints` forbid (outline is only defined for
+primary and secondary). Pixel diffs are dominated by width and glyph differences (the recipe
+draws a generic icon), so read them after the numeric report.

@@ -1,0 +1,75 @@
+{
+  "$comment": "Maps React Spectrum S2 Button story args to the foundation button recipe options (packages/design-data/visuals/button.json). A null value means the recipe has no equivalent; such states are not rendered and are reported as unmapped. The Example story renders six Buttons; a layout picks one: label-only is the first, icon-label the second (leading icon + text).",
+  "component": "button",
+  "platform": "react-spectrum",
+  "story": "button--example",
+  "args": {
+    "variant": {
+      "to": "variant",
+      "default": "primary",
+      "values": {
+        "accent": "accent",
+        "negative": "negative",
+        "primary": "primary",
+        "secondary": "secondary",
+        "premium": null,
+        "genai": null
+      }
+    },
+    "fillStyle": {
+      "to": "style",
+      "default": "fill",
+      "values": {
+        "fill": "fill",
+        "outline": "outline"
+      }
+    },
+    "size": {
+      "to": "size",
+      "default": "M",
+      "values": {
+        "S": "s",
+        "M": "m",
+        "L": "l",
+        "XL": "xl"
+      }
+    },
+    "isDisabled": {
+      "to": "isDisabled",
+      "default": false
+    },
+    "isPending": {
+      "to": "isPending",
+      "default": false
+    },
+    "staticColor": {
+      "to": "staticColor",
+      "values": {
+        "white": "white",
+        "black": "black",
+        "auto": null
+      }
+    }
+  },
+  "notArgs": {
+    "children / icon": "Slot content, not an arg. The recipe has an icon option and always draws an icon part; layouts pick the S2 button with or without an icon.",
+    "RAC interaction states (hover, pressed, focus-visible)": "Not args. Recipe states are hover, down, keyboard-focus; not captured in this pilot.",
+    "styles / UNSAFE_style / UNSAFE_className, isPending content": "S2 style escape hatches and pending content have no recipe option."
+  },
+  "layouts": {
+    "label-only": {
+      "selector": "#storybook-root button:nth-of-type(1)",
+      "parts": {
+        "label": "#storybook-root button:nth-of-type(1) [data-rsp-slot=text]"
+      },
+      "label": "Press me"
+    },
+    "icon-label": {
+      "selector": "#storybook-root button:nth-of-type(2)",
+      "parts": {
+        "label": "#storybook-root button:nth-of-type(2) [data-rsp-slot=text]"
+      },
+      "label": "Test"
+    }
+  }
+}

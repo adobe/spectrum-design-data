@@ -44,7 +44,10 @@ export function measureElement(el, role) {
     const left = Math.min(...boxes.map((b) => b.left));
     const right = Math.max(...boxes.map((b) => b.right));
     props.width = boxes.length ? px(right - left) : 0;
-    props.height = boxes.length ? px(Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top))) : 0;
+    // Height is the line height, which is what the scene models. The element's own box can stretch
+    // (flex align) and the text range is only the glyph box; fall back to the range for `normal`.
+    const lh = parseFloat(cs.lineHeight);
+    props.height = Number.isFinite(lh) ? px(lh) : boxes.length ? px(Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top))) : 0;
     props.fontSize = px(cs.fontSize);
     props.fontWeight = Number(cs.fontWeight);
     props.color = cs.color;
