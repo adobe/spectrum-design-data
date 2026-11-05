@@ -59,6 +59,8 @@ const NODE_KEYS = [
   "font_size",
   "font_weight",
   "color",
+  "glyph",
+  "rotation",
 ];
 
 /** A block reduced to the fields the renderer reads (see code.js). */
