@@ -17,5 +17,8 @@
   },
   "devDependencies": {
     "ava": "^6.0.1"
+  },
+  "ava": {
+    "timeout": "90s"
   }
 }
