@@ -290,6 +290,15 @@
       "summary": "High-performance deep object diff library."
     },
     {
+      "path": "tools/platform-capture",
+      "kind": "area",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Captures platform reference renderings (iOS simulator, Storybook) for comparison with renderer output. Images stay out of the repo."
+    },
+    {
       "path": "tools/release-analyzer",
       "kind": "package",
       "audience": "maintainer",
