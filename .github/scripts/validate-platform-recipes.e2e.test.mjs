@@ -165,3 +165,15 @@ test("an ios manifest that cannot apply fails the guard with SPEC-082", () => {
     assert.match(result.stderr, /failed to apply/);
   });
 });
+
+test("an ios recipe icon that is not in the icons catalog fails the guard with SPEC-085", () => {
+  withTree((root) => {
+    const file = join(root, "platforms/ios/extensions/visuals/button-ios.json");
+    const recipe = JSON.parse(readFileSync(file, "utf8"));
+    recipe.parts.icon.icon.name = "no-such-icon";
+    writeFileSync(file, JSON.stringify(recipe));
+    const result = guard(root);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /workflow:no-such-icon/);
+  });
+});

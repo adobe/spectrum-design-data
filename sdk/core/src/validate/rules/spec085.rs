@@ -12,13 +12,15 @@
 //!
 //! Error. The `icon` an icon part references (`set` and `name`) exists in the `icons/`
 //! catalog. Runs only when the catalog is loaded (`validate --icons-path`, or the probed
-//! `packages/design-data/icons`).
+//! `packages/design-data/icons`). With a platform manifest it also checks the platform's
+//! own recipes (`extensions/visuals/`).
 
 use serde_json::Value;
 
+use crate::graph::{Layer, TokenGraph, VisualRecord};
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::visual_util::error;
+use crate::validate::rules::visual_util::{error, platform_graph};
 use crate::visual::IconRef;
 
 pub struct Rule;
@@ -33,12 +35,29 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
-        let graph = ctx.graph;
-        if graph.icons.is_empty() {
+        if ctx.graph.icons.is_empty() {
             return vec![];
         }
+        let mut out = self.check(ctx.graph, ctx.graph.visuals.iter());
+        if let Some(platform) = ctx.manifest.and_then(|m| platform_graph(ctx.graph, m)) {
+            let own = platform
+                .visuals
+                .iter()
+                .filter(|v| v.layer == Layer::Platform);
+            out.extend(self.check(&platform, own));
+        }
+        out
+    }
+}
+
+impl Rule {
+    fn check<'a>(
+        &self,
+        graph: &TokenGraph,
+        visuals: impl Iterator<Item = &'a VisualRecord>,
+    ) -> Vec<Diagnostic> {
         let mut out = Vec::new();
-        for v in &graph.visuals {
+        for v in visuals {
             let Some(parts) = v.raw.get("parts").and_then(Value::as_object) else {
                 continue;
             };

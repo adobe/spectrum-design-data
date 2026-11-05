@@ -67,6 +67,7 @@ tasks:
       - "/packages/design-data/components/**/*"
       - "/packages/design-data/relationships/**/*"
       - "/packages/design-data/visuals/**/*"
+      - "/packages/design-data/icons/**/*"
       - "/packages/design-data/mode-sets/**/*"
       - "/packages/design-data/naming-exceptions.json"
       - ".github/scripts/validate-platform-recipes.mjs"
