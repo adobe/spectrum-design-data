@@ -632,23 +632,42 @@ impl Ctx<'_> {
                     .into_iter()
                     .flatten()
                     .enumerate()
-                    .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
-                        // Dimensions belong on the Layout page; Color blocks share contexts
-                        // such as "Focus indicator" but document the colors.
-                        _ if by_property || page != "Layout" => false,
-                        Some(c) => c == context || c == base,
-                        None => m["part"]
-                            .as_str()
-                            .zip(m["prop"].as_str())
-                            .is_some_and(|pp| hl_props.contains(&pp)),
-                    })
+                    .filter(
+                        |(_, m)| match m["token"]["relationship"]["context"].as_str() {
+                            // Dimensions belong on the Layout page; Color blocks share contexts
+                            // such as "Focus indicator" but document the colors.
+                            _ if by_property || page != "Layout" => false,
+                            // A base-context measurement whose relationship is not one of this
+                            // block's records would name a token the rows do not list.
+                            Some(c) => {
+                                (c == context || c == base)
+                                    && s(&m["token"]["relationship"], "uuid").is_none_or(|u| {
+                                        recs.iter().any(|r| s(r, "uuid") == Some(u))
+                                    })
+                            }
+                            None => m["part"]
+                                .as_str()
+                                .zip(m["prop"].as_str())
+                                .is_some_and(|pp| hl_props.contains(&pp)),
+                        },
+                    )
                     .map(|(index, m)| {
                         let rel = &m["token"]["relationship"];
+                        // Same source and name as the token rows: the bound token's structured
+                        // name; the relationship property only when no record resolves.
+                        let bound = s(rel, "uuid")
+                            .and_then(|u| lookup(self.graph, u))
+                            .and_then(|r| record_token(self.graph, r))
+                            .map(|t| token_name(t, s(rel, "property").unwrap_or("")));
                         json!({
                             "index": index,
                             "prop": m["prop"],
                             "kind": m["kind"],
-                            "label": if rel.is_null() { &m["token"]["token"] } else { &rel["property"] },
+                            "label": match bound {
+                                Some(name) => json!(name),
+                                None if rel.is_null() => m["token"]["token"].clone(),
+                                None => rel["property"].clone(),
+                            },
                             "relationship": rel["uuid"],
                         })
                     })
@@ -698,10 +717,20 @@ impl Ctx<'_> {
                 if by_property {
                     markers.clear();
                 }
+                // A marker is drawn when its part is a node of the scene; the rows keep its
+                // number either way.
+                let nodes = render["scene"]["nodes"].as_array();
+                let drawn = |part: &Option<&str>| {
+                    part.is_some_and(|p| {
+                        nodes.is_some_and(|ns| ns.iter().any(|n| n["part"].as_str() == Some(p)))
+                    })
+                };
                 render["markers"] = json!(markers
                     .iter()
                     .enumerate()
-                    .map(|(i, (_, label, part))| json!({"n": i + 1, "part": part, "label": label}))
+                    .map(|(i, (_, label, part))| json!({
+                        "n": i + 1, "part": part, "label": label, "drawn": drawn(part),
+                    }))
                     .collect::<Vec<_>>());
             }
 

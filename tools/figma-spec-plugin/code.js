@@ -197,6 +197,20 @@ function overlay(parent, block, box) {
   parent.appendChild(o);
   o.x = 0;
   o.y = 0;
+  const undrawn = markers.filter((mk) => !mk.drawn).map((mk) => mk.n);
+  const lines = undrawn.length ? 1 : 0;
+  if (lines) {
+    const note = text(
+      undrawn.join(", ") +
+        ": not drawn in this visual (the recipe does not bind it yet)",
+      11,
+      "Regular",
+      BLUE,
+    );
+    o.appendChild(note);
+    note.x = 12;
+    note.y = box.height - 12 - note.height;
+  }
   measurements.forEach((sel, i) => {
     const m = scene.measurements[sel.index];
     const x = m.x * k + view.x;
@@ -240,10 +254,13 @@ function overlay(parent, block, box) {
     o.appendChild(legend);
     legend.x = 12;
     legend.y =
-      box.height - 12 - legend.height - (measurements.length - 1 - i) * 15;
+      box.height -
+      12 -
+      legend.height -
+      (measurements.length - 1 - i + lines) * 15;
   });
   for (const mk of markers) {
-    const n = mk.part && scene.nodes.find((q) => q.part === mk.part);
+    const n = mk.drawn && scene.nodes.find((q) => q.part === mk.part);
     if (!n) continue;
     const cx = (n.x + n.w / 2) * k + view.x + (mk.n - 1) * 24;
     const cy = n.y * k + view.y - 14;
@@ -314,6 +331,9 @@ const valueText = (values) =>
 function tokenList(block) {
   const f = auto("VERTICAL", { itemSpacing: 8 });
   f.name = "Tokens";
+  const undrawn = ((block.render && block.render.markers) || [])
+    .filter((m) => !m.drawn)
+    .map((m) => m.n);
   const head = auto("HORIZONTAL", {
     itemSpacing: 12,
     counterAxisAlignItems: "CENTER",
@@ -347,8 +367,15 @@ function tokenList(block) {
         slot.appendChild(c);
         c.x = 0;
         c.y = 0;
-        c.fills = [solid(BLUE)];
-        const t = text(it.marker, 11, "Medium", WHITE);
+        const outline = undrawn.indexOf(it.marker) >= 0;
+        if (outline) {
+          c.fills = [];
+          c.strokes = [solid(BLUE)];
+          c.strokeWeight = 1.5;
+        } else {
+          c.fills = [solid(BLUE)];
+        }
+        const t = text(it.marker, 11, "Medium", outline ? BLUE : WHITE);
         slot.appendChild(t);
         t.x = 9 - t.width / 2;
         t.y = 9 - t.height / 2;

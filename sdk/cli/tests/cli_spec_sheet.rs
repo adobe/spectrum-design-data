@@ -90,7 +90,6 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .map(|m| m["label"].as_str().unwrap())
         .collect();
     assert_eq!(labels.len(), 2, "{labels:?}");
-    assert!(labels.iter().all(|l| l.contains("edge-to-visual-only")));
 }
 
 #[test]
@@ -130,16 +129,8 @@ fn button_icon_only_block_is_labelled_by_the_icon_only_relationship() {
     );
     let l = labels(&icon_only);
     assert_eq!(l.len(), 2, "{l:?}");
-    assert!(
-        l.iter()
-            .all(|x| x.starts_with("component-pill-edge-to-visual-only-")),
-        "{l:?}"
-    );
     let normal = labels(&block("Spacing (start/end edges)"));
-    assert!(
-        normal.iter().all(|x| !x.contains("visual-only")),
-        "{normal:?}"
-    );
+    assert!(l.iter().all(|x| !normal.contains(x)), "{l:?} vs {normal:?}");
 }
 
 fn schema_errors(sheet: &Value) -> Vec<String> {
@@ -369,4 +360,77 @@ fn sheets_are_reproducible_byte_for_byte() {
         std::fs::read_to_string(out).unwrap()
     };
     assert!(run("a.json") == run("b.json"), "two runs differ");
+}
+
+const RECIPE_SHEETS: [&str; 7] = [
+    "accordion",
+    "action-button",
+    "badge",
+    "button",
+    "checkbox",
+    "radio-button",
+    "switch",
+];
+
+fn sheet_of(component: &str) -> Value {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", component])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    serde_json::from_slice(&out).unwrap()
+}
+
+#[test]
+fn legend_labels_are_token_names_from_the_same_block_rows() {
+    for component in RECIPE_SHEETS {
+        let sheet = sheet_of(component);
+        for page in sheet["pages"].as_array().unwrap() {
+            for block in page["blocks"].as_array().unwrap() {
+                let names: Vec<&str> = block["rows"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .flat_map(|r| r["items"].as_array().unwrap())
+                    .map(|i| i["token"]["name"].as_str().unwrap())
+                    .collect();
+                let measurements = block["render"]["measurements"].as_array();
+                for m in measurements.into_iter().flatten() {
+                    let label = m["label"].as_str().unwrap();
+                    assert!(
+                        names.contains(&label),
+                        "{component} / {}: legend {label} is not a row token name {names:?}",
+                        block["title"]
+                    );
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn undrawn_markers_are_flagged_and_counted() {
+    for component in RECIPE_SHEETS {
+        let sheet = sheet_of(component);
+        assert!(schema_errors(&sheet).is_empty(), "{component}");
+        let mut undrawn = 0;
+        for page in sheet["pages"].as_array().unwrap() {
+            for block in page["blocks"].as_array().unwrap() {
+                let markers = block["render"]["markers"].as_array();
+                for m in markers.into_iter().flatten() {
+                    if m["part"].is_null() {
+                        assert_eq!(m["drawn"], false);
+                    }
+                    if m["drawn"] == false {
+                        undrawn += 1;
+                    }
+                }
+            }
+        }
+        eprintln!("undrawn markers {component}: {undrawn}");
+    }
 }

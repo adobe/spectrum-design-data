@@ -160,6 +160,13 @@ td.v {
   color: #fff;
   font-size: 11px;
 }
+.marker.undrawn {
+  box-sizing: border-box;
+  line-height: 15px;
+  background: none;
+  border: 1.5px solid #4b75ff;
+  color: #4b75ff;
+}
 .back {
   color: #4b75ff;
   text-decoration: none;

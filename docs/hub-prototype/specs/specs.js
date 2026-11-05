@@ -67,13 +67,17 @@ function visual(block) {
       o += label(x + w / 2, y + h + 26, text);
     }
   }
+  const undrawn = markers.filter((mk) => !mk.drawn).map((mk) => mk.n);
+  const lines = undrawn.length ? 1 : 0;
+  if (lines)
+    o += `<text x="12" y="${BOX.height - 12}" fill="${MARK}" font-size="11">${undrawn.join(", ")}: not drawn in this visual (the recipe does not bind it yet)</text>`;
   measurements.forEach((sel, i) => {
     const m = scene.measurements[sel.index];
-    const y = BOX.height - 12 - (measurements.length - 1 - i) * 15;
+    const y = BOX.height - 12 - (measurements.length - i - 1 + lines) * 15;
     o += `<text x="12" y="${y}" fill="${MARK}" font-size="11">${esc(sel.label)} · ${esc(m.token.value)}</text>`;
   });
   for (const mk of markers) {
-    const n = scene.nodes.find((n) => n.part === mk.part);
+    const n = mk.drawn && scene.nodes.find((n) => n.part === mk.part);
     if (!n) continue;
     const cx = X(n.x + n.w / 2) + (mk.n - 1) * 24;
     const cy = Y(n.y) - 14;
@@ -99,6 +103,9 @@ function placeholder(block) {
 }
 
 function tokens(block) {
+  const undrawn = new Set(
+    (block.render?.markers ?? []).filter((m) => !m.drawn).map((m) => m.n),
+  );
   let h = `<h3>${esc(block.title)}${block.titleSource === "property" ? '<span class="chip generated" title="No relationship context: grouped by property">by property</span>' : ""}${block.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join("")}</h3>`;
   for (const row of block.rows) {
     const cond = Object.entries(row.conditions)
@@ -107,7 +114,7 @@ function tokens(block) {
     if (cond) h += `<div class="row-cond">${esc(cond)}</div>`;
     h += "<table>";
     for (const it of row.items) {
-      h += `<tr><td class="n">${it.marker ? `<span class="marker">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}${it.source === "inline" ? ' <span class="chip">inline value</span>' : ""}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
+      h += `<tr><td class="n">${it.marker ? `<span class="marker${undrawn.has(it.marker) ? " undrawn" : ""}">${it.marker}</span>` : ""}</td><td class="t">${esc(it.token.name)}${it.source === "inline" ? ' <span class="chip">inline value</span>' : ""}</td><td>${esc(it.label)}</td><td class="v">${esc(value(it.values))}</td></tr>`;
     }
     h += "</table>";
   }
