@@ -59,7 +59,7 @@ const NODE_KEYS = [
   "font_size",
   "font_weight",
   "color",
-  "glyph",
+  "icon",
   "rotation",
 ];
 

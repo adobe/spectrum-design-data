@@ -252,7 +252,7 @@
     },
     "checkmark": {
       "kind": "icon",
-      "glyph": "checkmark",
+      "icon": { "set": "ui", "name": "checkmark" },
       "visibleWhen": {
         "options": {
           "isSelected": true,
@@ -338,7 +338,7 @@
     },
     "dash": {
       "kind": "icon",
-      "glyph": "dash",
+      "icon": { "set": "ui", "name": "dash" },
       "visibleWhen": {
         "options": {
           "isIndeterminate": true

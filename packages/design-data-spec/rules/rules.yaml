@@ -1097,3 +1097,37 @@ rules:
     message: "Relationship #{index} has no uuid (component '{component}', property '{property}')"
     spec_ref: spec/relationship-format.md#identity
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-085
+    name: visual-icon-exists
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      Runs only when the `icons/` catalog is loaded (`validate --icons-path`, the probed
+      `packages/design-data/icons`, or `validate-dataset`). The recipe schema requires the
+      reference on every `icon` part; this rule checks it against the catalog.
+    assert: >
+      The `icon` an icon part references (`set` and `name`) MUST exist in the `icons/` catalog.
+    message: "Part '{part}' of '{component}' references icon {set}:{name}, but {reason}"
+    spec_ref: spec/component-visuals.md#icons
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-086
+    name: visual-icon-scale
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      UI icons have one drawing per scale index. The renderer picks the scale from the part's
+      size binding and falls back to the nearest drawing, which is usually a different design
+      (stroke weight and proportions change between sizes). Checked over the request grid,
+      like SPEC-079. Workflow icons have one drawing and are not checked. Runs only when the
+      `icons/` catalog is loaded.
+    assert: >
+      Every `ui` icon a recipe draws SHOULD have a drawing at the scale its size binding gives:
+      the bound size token's `scaleIndex` or `size` key, else the recipe's `sizeScale` entry
+      for the request's size.
+    message: "Part '{part}' of '{component}' draws ui:{name} at scale {scale} ({source}), which has no drawing; the nearest of {available} is drawn instead"
+    spec_ref: spec/component-visuals.md#icons
+    introduced_in: "1.0.0-draft"

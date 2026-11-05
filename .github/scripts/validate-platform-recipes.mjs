@@ -21,6 +21,8 @@
  * - SPEC-082 reports a manifest that fails to apply, or SPEC-039 a manifest query that does
  *   not parse. Either way SPEC-076 and SPEC-079 checked nothing, so "no gap" would be a
  *   false pass.
+ * - SPEC-085 reports a recipe icon that is not in the `icons/` catalog. Plain `validate` checks
+ *   only foundation recipes, so a platform recipe's icon is checked only here.
  * SPEC-080 (info: a recipe replaces a foundation recipe) is not a gap. SPEC-081 (bad
  * `componentAliases`) is an error, so `design-data:validate` already fails on it.
  * Every other diagnostic belongs to `design-data:validate` and is ignored here.
@@ -37,7 +39,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const GUARDED_RULES = new Set(["SPEC-039", "SPEC-076", "SPEC-079", "SPEC-082"]);
+const GUARDED_RULES = new Set([
+  "SPEC-039",
+  "SPEC-076",
+  "SPEC-079",
+  "SPEC-082",
+  "SPEC-085",
+]);
 
 export function findGaps(report) {
   return [...report.errors, ...report.warnings].filter((d) =>
@@ -115,6 +123,8 @@ function main() {
           "./relationships",
           "--visuals-path",
           "./visuals",
+          "--icons-path",
+          "./icons",
           // ios declares platformExtensions that extend the `contrast` mode set; without it the
           // manifest fails to apply and the recipe rules silently do nothing.
           "--mode-sets-path",

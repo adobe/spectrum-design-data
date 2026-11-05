@@ -9,5 +9,8 @@
   "SPEC-069": {
     "accordion": 8,
     "badge": 2
+  },
+  "SPEC-086": {
+    "action-button": 1
   }
 }

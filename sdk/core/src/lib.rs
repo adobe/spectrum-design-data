@@ -597,6 +597,20 @@ mod validation_conformance {
             graph = graph.with_visuals(visual_records);
         }
 
+        if let Some(icons) = dataset.get("icons").and_then(|v| v.as_array()) {
+            let icon_records: Vec<crate::graph::IconSetRecord> = icons
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::IconSetRecord {
+                        set: raw.get("set")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_icons(icon_records);
+        }
+
         if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
             let ms_records: Vec<ModeSetRecord> = mode_sets
                 .iter()
@@ -1040,6 +1054,7 @@ mod manifest_extensions_conformance {
             fields: None,
             guidelines: None,
             relationships: None,
+            icons: None,
             exceptions: None,
             platform_manifest: Some(dir.join("manifest.json")),
             provenance: Provenance::InRepo,

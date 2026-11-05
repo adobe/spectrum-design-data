@@ -147,6 +147,8 @@ tasks:
       - ./relationships
       - --visuals-path
       - ./visuals
+      - --icons-path
+      - ./icons
       - --components-report-only
       - --exceptions-path
       - ./naming-exceptions.json
@@ -161,6 +163,7 @@ tasks:
       - "@globs(catalogs)"
       - "@globs(relationships)"
       - "@globs(visuals)"
+      - "@globs(icons)"
       - "/packages/design-data/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.

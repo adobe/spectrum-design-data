@@ -60,7 +60,7 @@
     },
     "disclosure-icon": {
       "kind": "icon",
-      "glyph": "chevron",
+      "icon": { "set": "ui", "name": "chevron" },
       "props": {
         "width": [
           {

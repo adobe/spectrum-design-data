@@ -235,6 +235,12 @@
     },
     "icon": {
       "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
       "visibleWhen": {
         "options": {
           "isPending": false

@@ -632,16 +632,16 @@ test("icon parts draw their glyph, not a plus", async (t) => {
     const icons = s.pages
       .flatMap((p) => p.blocks)
       .flatMap((b) => b.render?.scene.nodes ?? [])
-      .filter((n) => n.kind === "icon" && n.glyph);
+      .filter((n) => n.kind === "icon" && n.icon?.set === "ui");
     t.true(icons.length > 0, component);
     const frames = page.children[0].findAll(
       (f) => f.type === "FRAME" && icons.some((n) => n.part === f.name),
     );
     t.true(frames.every((f) => f.children.length === 1));
     for (const n of icons) {
-      seen.add(n.glyph);
+      seen.add(n.icon.name);
       const mine = frames.filter((f) => f.name === n.part);
-      if (n.glyph === "dash") {
+      if (n.icon.name === "dash") {
         t.true(mine.length > 0);
         t.true(
           mine.every(
@@ -653,10 +653,14 @@ test("icon parts draw their glyph, not a plus", async (t) => {
         );
         continue;
       }
-      const r = n.glyph === "chevron" ? ((n.rotation ?? 0) * Math.PI) / 180 : 0;
+      const r =
+        n.icon.name === "chevron" ? ((n.rotation ?? 0) * Math.PI) / 180 : 0;
       const want = [];
       for (let i = 0; i < 6; i += 2) {
-        const [dx, dy] = [unit[n.glyph][i] - 0.5, unit[n.glyph][i + 1] - 0.5];
+        const [dx, dy] = [
+          unit[n.icon.name][i] - 0.5,
+          unit[n.icon.name][i + 1] - 0.5,
+        ];
         want.push(
           0.5 + dx * Math.cos(r) - dy * Math.sin(r),
           0.5 + dx * Math.sin(r) + dy * Math.cos(r),
@@ -670,7 +674,7 @@ test("icon parts draw their glyph, not a plus", async (t) => {
           (v, i) => Math.abs(v / (i % 2 ? f.height : f.width) - want[i]) < 1e-3,
         );
       });
-      t.true(drawn, `${component} ${n.part} ${n.glyph} ${n.rotation}`);
+      t.true(drawn, `${component} ${n.part} ${n.icon.name} ${n.rotation}`);
     }
   }
   t.deepEqual([...seen].sort(), ["checkmark", "chevron", "dash"]);

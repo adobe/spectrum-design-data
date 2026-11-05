@@ -100,6 +100,7 @@ pub fn validate_all_with_options_and_names(
         None,
         None,
         None,
+        None,
     )
 }
 
@@ -113,6 +114,8 @@ pub fn validate_all_with_options_and_names(
 /// `visuals_path` — optional directory of component visual recipe JSON files;
 /// when provided, SPEC-060..063 check each recipe against component and
 /// relationship data.
+/// `icons_path` — optional `icons/` catalog; when provided with recipes, SPEC-085 and
+/// SPEC-086 check the icons that recipe parts reference.
 #[allow(clippy::too_many_arguments)]
 pub fn validate_all_with_full_options(
     data_path: &Path,
@@ -124,6 +127,7 @@ pub fn validate_all_with_full_options(
     guidelines_path: Option<&Path>,
     relationships_path: Option<&Path>,
     visuals_path: Option<&Path>,
+    icons_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
     validate_all_with_platform(
         data_path,
@@ -135,6 +139,7 @@ pub fn validate_all_with_full_options(
         guidelines_path,
         relationships_path,
         visuals_path,
+        icons_path,
         None,
     )
 }
@@ -153,6 +158,7 @@ pub fn validate_all_with_platform(
     guidelines_path: Option<&Path>,
     relationships_path: Option<&Path>,
     visuals_path: Option<&Path>,
+    icons_path: Option<&Path>,
     platform_manifest: Option<serde_json::Value>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
@@ -176,6 +182,11 @@ pub fn validate_all_with_platform(
     if let Some(dir) = visuals_path {
         if dir.is_dir() {
             graph.visuals = TokenGraph::load_spec_visuals(dir)?;
+        }
+    }
+    if let Some(dir) = icons_path {
+        if dir.is_dir() {
+            graph.icons = TokenGraph::load_spec_icons(dir)?;
         }
     }
     // Load manifest.json from the data directory when present.
@@ -250,6 +261,7 @@ pub fn validate_dataset(
         Some(&guidelines_dir),
         Some(&relationships_dir),
         Some(&root.join("visuals")),
+        Some(&root.join("icons")),
     )?;
     report.merge(rest);
     Ok(report)

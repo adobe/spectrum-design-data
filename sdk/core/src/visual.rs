@@ -214,13 +214,87 @@ pub struct SceneNode {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub font_family: Option<String>,
     pub color: Option<String>,
-    /// Built-in glyph an `icon` node draws (`checkmark`, `dash`); unset draws the placeholder.
+    /// The icon an `icon` node draws: the part's `icon` reference (`set` and `name`).
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub glyph: Option<String>,
+    pub icon: Option<IconRef>,
     /// Clockwise rotation of an `icon` in degrees about its center; unset draws it upright.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rotation: Option<f64>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// An icon in the `icons/` catalog: `set` (`ui`, `workflow`) and icon `name`.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct IconRef {
+    pub set: String,
+    pub name: String,
+}
+
+impl IconRef {
+    /// The `icon` reference of a recipe part, when it has a string `set` and `name`.
+    pub fn of_part(part: &Value) -> Option<Self> {
+        let icon = part.get("icon")?;
+        Some(Self {
+            set: icon.get("set")?.as_str()?.to_string(),
+            name: icon.get("name")?.as_str()?.to_string(),
+        })
+    }
+
+    /// The built-in shape the renderers draw until icon paths are drawn (p6ga.17.3):
+    /// `checkmark`, `dash` or `chevron` from the `ui` set.
+    fn built_in(icon: Option<&Self>) -> Option<&str> {
+        icon.filter(|i| i.set == "ui")
+            .map(|i| i.name.as_str())
+            .filter(|n| matches!(*n, "checkmark" | "dash" | "chevron"))
+    }
+}
+
+/// Size keys of size-keyed icon size tokens (`workflow-icon-medium` is `size: m`) as scale
+/// indexes, the Spectrum t-shirt scale.
+const SIZE_KEY_SCALE: &[(&str, u32)] = &[
+    ("xs", 50),
+    ("s", 75),
+    ("m", 100),
+    ("l", 200),
+    ("xl", 300),
+    ("xxl", 400),
+];
+
+/// The scale index a size token's `name` gives an icon drawing: its `scaleIndex`, else its
+/// `size` key (`xs` 50, `s` 75, `m` 100, `l` 200, `xl` 300, `xxl` 400).
+pub fn icon_scale_of_name(name: &Value) -> Option<u32> {
+    if let Some(i) = name.get("scaleIndex") {
+        return i
+            .as_u64()
+            .or_else(|| i.as_str().and_then(|s| s.parse().ok()))
+            .and_then(|i| u32::try_from(i).ok());
+    }
+    let size = name.get("size")?.as_str()?;
+    SIZE_KEY_SCALE
+        .iter()
+        .find(|(k, _)| *k == size)
+        .map(|(_, i)| *i)
+}
+
+/// The scale index that picks the drawing of an `icon` node (spec: component-visuals.md,
+/// Icons): the [`icon_scale_of_name`] of the token bound to its `width`, else its `height`;
+/// else `size_index`, the recipe's `sizeScale` entry for the request's size; else 100.
+/// `name_of` maps a scene token label to that token's `name` object. Returns the scale and
+/// the token label it came from (`None` for the fallbacks).
+pub fn icon_scale(
+    node: &SceneNode,
+    size_index: Option<u32>,
+    name_of: impl Fn(&str) -> Option<Value>,
+) -> (u32, Option<String>) {
+    for prop in ["width", "height"] {
+        let Some(t) = node.tokens.iter().find(|t| t.prop == prop) else {
+            continue;
+        };
+        if let Some(scale) = name_of(&t.token).as_ref().and_then(icon_scale_of_name) {
+            return (scale, Some(t.token.clone()));
+        }
+    }
+    (size_index.unwrap_or(100), None)
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -1733,7 +1807,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             font_weight: None,
                             font_family: None,
                             color: None,
-                            glyph: None,
+                            icon: None,
                             rotation: None,
                             tokens: Vec::new(),
                         };
@@ -1750,8 +1824,6 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             "icon" => {
                                 node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(16.0);
                                 node.h = nh.as_ref().and_then(Resolved::num).unwrap_or(node.w);
-                                node.glyph =
-                                    np.get("glyph").and_then(Value::as_str).map(String::from);
                                 let rot = rp(&mut cx, np, "rotation");
                                 track(&mut tokens, "rotation", &rot);
                                 node.rotation = rot.as_ref().and_then(Resolved::num);
@@ -1968,7 +2040,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_weight: None,
         font_family: None,
         color: None,
-        glyph: None,
+        icon: None,
         rotation: None,
         tokens: container_tokens,
     }];
@@ -2084,7 +2156,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: c.font_weight,
             font_family: c.font_family,
             color: c.color,
-            glyph: None,
+            icon: None,
             rotation: None,
             tokens: c.tokens,
         };
@@ -2121,7 +2193,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             let nw = rp(&mut cx, np, "width");
             let nh = rp(&mut cx, np, "height");
             if np.get("kind").and_then(Value::as_str) == Some("icon") {
-                // An icon inside a box is centered on both axes and draws its `glyph`.
+                // An icon inside a box is centered on both axes.
                 let color = rp(&mut cx, np, "color");
                 let rot = rp(&mut cx, np, "rotation");
                 track(&mut tokens, "width", &nw);
@@ -2147,7 +2219,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     font_weight: None,
                     font_family: None,
                     color: color.map(|c| c.value),
-                    glyph: np.get("glyph").and_then(Value::as_str).map(String::from),
+                    icon: None,
                     rotation: rot.as_ref().and_then(Resolved::num),
                     tokens,
                 });
@@ -2194,7 +2266,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 font_weight: None,
                 font_family: None,
                 color: None,
-                glyph: None,
+                icon: None,
                 rotation: None,
                 tokens,
             });
@@ -2227,7 +2299,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: None,
             font_family: None,
             color: color.map(|c| c.value),
-            glyph: None,
+            icon: None,
             rotation: None,
             tokens,
         });
@@ -2352,7 +2424,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: None,
             font_family: None,
             color: None,
-            glyph: None,
+            icon: None,
             rotation: None,
             tokens,
         });
@@ -2405,6 +2477,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         _ => None,
     };
+
+    // Every icon node names the icon its part references.
+    for n in nodes.iter_mut().filter(|n| n.kind == "icon") {
+        n.icon = parts.get(&n.part).and_then(IconRef::of_part);
+    }
 
     Ok(Scene {
         component: req.component.clone(),
@@ -2697,7 +2774,8 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor"))
                 );
             }
-            "icon" if matches!(n.glyph.as_deref(), Some("checkmark" | "dash" | "chevron")) => {
+            "icon" if IconRef::built_in(n.icon.as_ref()).is_some() => {
+                let shape = IconRef::built_in(n.icon.as_ref());
                 let color = esc(n.color.as_deref().unwrap_or("currentColor"));
                 let rot = n.rotation.filter(|r| *r != 0.0).map_or(String::new(), |r| {
                     format!(
@@ -2706,7 +2784,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                         n.y + n.h / 2.0
                     )
                 });
-                if n.glyph.as_deref() == Some("chevron") {
+                if shape == Some("chevron") {
                     let sw = (n.w * 0.16).max(1.0);
                     let _ = write!(
                         s,
@@ -2718,7 +2796,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                         n.x + n.w * 0.3,
                         n.y + n.h * 0.9
                     );
-                } else if n.glyph.as_deref() == Some("dash") {
+                } else if shape == Some("dash") {
                     let _ = write!(
                         s,
                         "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{color}\"/>",
@@ -2891,7 +2969,7 @@ mod tests {
                     "direction": lit("row".into()), "gap": lit("4".into()),
                     "paddingInlineStart": lit("6".into()), "paddingInlineEnd": lit("6".into()),
                     "paddingBlockStart": lit("2".into()), "paddingBlockEnd": lit("2".into()) } },
-                "i": { "kind": "icon", "glyph": "chevron", "props": {
+                "i": { "kind": "icon", "icon": { "set": "ui", "name": "chevron" }, "props": {
                     "width": lit("10".into()), "rotation": lit(90.into()) } },
                 "t": { "kind": "text", "props": { "fontSize": lit("10".into()),
                     "lineHeight": lit("20px".into()), "paddingInlineStart": lit("3".into()) } },
@@ -3149,7 +3227,15 @@ mod tests {
             (b.stroke_width, b.fill.as_deref()),
             (0.0, Some("rgb(41, 41, 41)"))
         );
-        assert_eq!((mark.w, mark.glyph.as_deref()), (10.0, Some("checkmark")));
+        assert_eq!(
+            (
+                mark.w,
+                mark.icon
+                    .as_ref()
+                    .map(|i| (i.set.as_str(), i.name.as_str()))
+            ),
+            (10.0, Some(("ui", "checkmark")))
+        );
         assert_eq!(mark.x + mark.w / 2.0, b.x + b.w / 2.0, "mark is centered");
         assert_eq!(mark.color.as_deref(), Some("rgb(255, 255, 255)"));
 
@@ -3160,7 +3246,7 @@ mod tests {
         );
         let dash = part(&both, "dash").unwrap();
         assert_eq!(
-            (dash.w, dash.h, dash.glyph.as_deref()),
+            (dash.w, dash.h, dash.icon.as_ref().map(|i| i.name.as_str())),
             (7.5, 1.25, Some("dash"))
         );
 

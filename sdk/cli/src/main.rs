@@ -148,6 +148,10 @@ enum Commands {
         /// Directory containing component visual recipe JSON files (enables SPEC-060..063)
         #[arg(long, value_name = "DIR")]
         visuals_path: Option<PathBuf>,
+        /// Directory containing icon sets (enables SPEC-085/086 on recipes; default: probed
+        /// `packages/design-data/icons`)
+        #[arg(long, value_name = "DIR")]
+        icons_path: Option<PathBuf>,
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
@@ -1388,6 +1392,7 @@ struct ValidateOpts {
     components_path: Option<PathBuf>,
     relationships_path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
+    icons_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
     components_report_only: bool,
     strict: bool,
@@ -1404,6 +1409,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         mode_sets: opts.mode_sets_path,
         components: opts.components_path,
         relationships: opts.relationships_path,
+        icons: opts.icons_path,
         ..Default::default()
     })?;
     let path = &resolved.tokens_root;
@@ -1433,6 +1439,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         None,
         relationships_dir.as_deref(),
         opts.visuals_path.as_deref(),
+        resolved.icons.as_deref(),
         platform_manifest,
     )
     .into_diagnostic()
@@ -4135,6 +4142,7 @@ fn main() -> ExitCode {
             components_path,
             relationships_path,
             visuals_path,
+            icons_path,
             names_dir,
             components_report_only,
             strict,
@@ -4148,6 +4156,7 @@ fn main() -> ExitCode {
                 components_path,
                 relationships_path,
                 visuals_path,
+                icons_path,
                 names_dir,
                 components_report_only,
                 strict,

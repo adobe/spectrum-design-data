@@ -224,13 +224,16 @@ function sceneNodes(parent, scene, view) {
       parent.appendChild(g);
       g.x = x;
       g.y = y;
-      if (n.glyph === "dash") {
+      // Only the ui checkmark, dash and chevron have a built-in shape until icon paths are
+      // drawn (p6ga.17.5); any other icon draws the placeholder plus.
+      const shape = n.icon && n.icon.set === "ui" ? n.icon.name : undefined;
+      if (shape === "dash") {
         const d = rect(0, 0, w, h, c.c, c.o);
         d.cornerRadius = h / 2;
         g.appendChild(d);
-      } else if (n.glyph === "checkmark" || n.glyph === "chevron") {
+      } else if (shape === "checkmark" || shape === "chevron") {
         g.appendChild(
-          glyph(n.glyph, w, h, n.rotation, Math.max(n.w * 0.16, 1) * k, c),
+          glyph(shape, w, h, n.rotation, Math.max(n.w * 0.16, 1) * k, c),
         );
       } else {
         const thick = Math.max(w * 0.1, 1);
