@@ -71,6 +71,9 @@ static EMBEDDED_CACHE_BYTES: &[u8] = include_bytes!("embedded_cache.redb");
 include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
 
 #[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_icons.rs"));
+
+#[cfg(feature = "embedded")]
 fn load_embedded_graph() -> Result<TokenGraph, String> {
     let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
     let mut relationships = Vec::new();
@@ -86,7 +89,14 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
             });
         }
     }
-    Ok(graph.with_relationships(relationships))
+    let mut icons = Vec::new();
+    for (filename, text) in EMBEDDED_ICONS {
+        icons.extend(
+            TokenGraph::icon_set_from_str(text, std::path::PathBuf::from("icons").join(filename))
+                .map_err(|e| e.to_string())?,
+        );
+    }
+    Ok(graph.with_relationships(relationships).with_icons(icons))
 }
 
 // ---------------------------------------------------------------------------

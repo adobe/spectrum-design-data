@@ -40,6 +40,7 @@ const requiredPaths = [
   "conformance/invalid/SPEC-044",
   "conformance/valid/SPEC-044",
   "schemas/guideline.schema.json",
+  "schemas/icon-set.schema.json",
   "spec/guideline-format.md",
   "conformance/invalid/SPEC-045",
   "conformance/valid/SPEC-045",

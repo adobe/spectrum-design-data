@@ -18,6 +18,7 @@
     "s2-docs-to-document-blocks:test",
     "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
+    "design-data:test",
     "token-mapping-analyzer:test",
     "root:test-platform-recipes-guard",
     "root:test-component-content-changes",

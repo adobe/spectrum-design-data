@@ -18,6 +18,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `mode-sets/`  | Optional (registered) | Mode set declarations, one per `*.json` file.                        | [`mode-set.schema.json`](../schemas/mode-set.schema.json)         |
 | `registry/`   | Optional (registered) | Registry value collections (vocabulary), one or more `*.json` files. | [`registry-value.json`](../schemas/registry-value.json)           |
 | `guidelines/` | Optional (registered) | One guideline document per `*.json` file.                            | [`guideline.schema.json`](../schemas/guideline.schema.json)       |
+| `icons/`      | Optional (registered) | One icon set (path geometry keyed by icon id) per `*.json` file.     | [`icon-set.schema.json`](../schemas/icon-set.schema.json)         |
 
 **NORMATIVE:** A conformant dataset **MUST** contain a `tokens/` directory holding at least one `*.tokens.json` file. A dataset with no `tokens/` directory, or a `tokens/` directory containing no `*.tokens.json` file, is **not** conformant.
 
@@ -37,6 +38,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `mode-sets/`  | `*.json`           | One declaration per file.                                                      |
 | `registry/`   | `*.json`           | One value collection per file.                                                 |
 | `guidelines/` | `*.json`           | One declaration per file.                                                      |
+| `icons/`      | `*.json`           | One set per file; by convention named after its `set` (`ui.json`).             |
 
 ## Dataset discovery
 

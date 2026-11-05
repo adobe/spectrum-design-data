@@ -313,7 +313,7 @@ pub fn validate_catalog_dir(
 }
 
 /// Run Layer 1 schema-shape validation over the standard catalog directories
-/// (`fields`, `components`, `mode-sets`, `registry`) inside `dataset_root`,
+/// (`fields`, `components`, `mode-sets`, `registry`, `guidelines`, `icons`) inside `dataset_root`,
 /// using schema files from `spec_schemas_dir`.
 ///
 /// Each sub-directory is validated only when its schema file is present in
@@ -329,6 +329,7 @@ pub fn validate_catalog_schemas(
         ("mode-sets", "mode-set.schema.json"),
         ("registry", "registry-value.json"),
         ("guidelines", "guideline.schema.json"),
+        ("icons", "icon-set.schema.json"),
     ] {
         let schema_path = spec_schemas_dir.join(schema_file);
         if schema_path.is_file() {
