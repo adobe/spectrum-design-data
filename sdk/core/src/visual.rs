@@ -2934,6 +2934,37 @@ mod tests {
     }
 
     #[test]
+    fn button_fill_content_color_per_color_scheme() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // Accent and negative content stays white in both schemes; primary flips with gray-25.
+        for (variant, scheme, want) in [
+            ("accent", "light", "rgb(255, 255, 255)"),
+            ("accent", "dark", "rgb(255, 255, 255)"),
+            ("negative", "dark", "rgb(255, 255, 255)"),
+            ("accent", "wireframe", "rgb(255, 255, 255)"),
+            ("negative", "wireframe", "rgb(255, 255, 255)"),
+            ("primary", "light", "rgb(255, 255, 255)"),
+            ("primary", "dark", "rgb(17, 17, 17)"),
+            ("primary", "wireframe", "rgb(254, 254, 255)"),
+        ] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.mode.insert("colorScheme".into(), scheme.into());
+            r.options.insert("variant".into(), variant.into());
+            r.options.insert("style".into(), "fill".into());
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            for part in ["icon", "label"] {
+                let n = scene.nodes.iter().find(|n| n.part == part).unwrap();
+                assert_eq!(n.color.as_deref(), Some(want), "{variant} {scheme} {part}");
+            }
+        }
+    }
+
+    #[test]
     fn measurements_record_each_dimension_with_its_token() {
         let (g, recipe) = load();
         let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
