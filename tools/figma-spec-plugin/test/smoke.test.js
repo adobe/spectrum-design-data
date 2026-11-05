@@ -568,15 +568,27 @@ test("undrawn markers get an outlined row badge and a note under the visual", as
     changelog,
     pages: ["Layout"],
   });
-  const notes = page.children[0].findAll((n) =>
-    n.characters?.includes("not drawn in this visual"),
-  );
-  const undrawnBlocks = sheet.pages
+  const texts = page.children[0]
+    .findAll((n) => n.characters !== undefined)
+    .map((n) => n.characters);
+  const layout = sheet.pages
     .filter((p) => p.title === "Layout")
     .flatMap((p) => p.blocks)
-    .filter((b) => b.render?.markers.some((m) => !m.drawn));
+    .filter((b) => b.render);
+  const markers = layout.flatMap((b) => b.render.markers);
+  const undrawnBlocks = layout.filter((b) =>
+    b.render.markers.some((m) => !m.drawn),
+  );
   t.true(undrawnBlocks.length > 0);
-  t.is(notes.length, undrawnBlocks.length);
+  for (const m of markers)
+    t.true(
+      texts.some((x) => x.startsWith(m.n + " " + m.label)),
+      m.n + " " + m.label,
+    );
+  t.is(
+    texts.filter((x) => x.includes(": not drawn in this visual")).length,
+    markers.filter((m) => !m.drawn).length,
+  );
   const outlined = page.children[0].findAll(
     (n) =>
       n.type === "ELLIPSE" && n.fills.length === 0 && n.strokes?.length === 1,

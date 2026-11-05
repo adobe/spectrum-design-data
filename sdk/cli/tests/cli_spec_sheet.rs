@@ -434,3 +434,55 @@ fn undrawn_markers_are_flagged_and_counted() {
         eprintln!("undrawn markers {component}: {undrawn}");
     }
 }
+
+#[test]
+fn marker_groups_in_a_block_have_distinct_labels_without_the_size_part() {
+    for component in RECIPE_SHEETS {
+        let sheet = sheet_of(component);
+        for page in sheet["pages"].as_array().unwrap() {
+            for block in page["blocks"].as_array().unwrap() {
+                let markers = block["render"]["markers"].as_array();
+                let labels: Vec<&str> = markers
+                    .into_iter()
+                    .flatten()
+                    .map(|m| m["label"].as_str().unwrap())
+                    .collect();
+                let mut unique = labels.clone();
+                unique.sort_unstable();
+                unique.dedup();
+                assert_eq!(
+                    unique.len(),
+                    labels.len(),
+                    "{component} / {}: {labels:?}",
+                    block["title"]
+                );
+                assert!(
+                    labels.iter().all(|l| !l.contains('{')),
+                    "{component} / {}: {labels:?}",
+                    block["title"]
+                );
+            }
+        }
+    }
+    let sheet = sheet_of("button");
+    let block = sheet["pages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|p| p["blocks"].as_array().unwrap())
+        .find(|b| b["title"] == "Spacing (start/end edges)")
+        .unwrap();
+    let labels: Vec<&str> = block["render"]["markers"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|m| m["label"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        labels,
+        [
+            "component-pill-edge-to-visual",
+            "component-pill-edge-to-text"
+        ]
+    );
+}

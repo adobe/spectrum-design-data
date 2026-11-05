@@ -162,7 +162,10 @@
             "properties": {
               "n": { "type": "integer", "minimum": 1 },
               "part": { "type": ["string", "null"] },
-              "label": { "type": "string" },
+              "label": {
+                "description": "The group's relationship property with its size part dropped (the recipe's `{sizeIndex}`/`{size}` template without the placeholder). Distinct within a block.",
+                "type": "string"
+              },
               "drawn": { "type": "boolean" }
             },
             "additionalProperties": false

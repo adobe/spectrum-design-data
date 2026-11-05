@@ -67,10 +67,11 @@ function visual(block) {
       o += label(x + w / 2, y + h + 26, text);
     }
   }
-  const undrawn = markers.filter((mk) => !mk.drawn).map((mk) => mk.n);
-  const lines = undrawn.length ? 1 : 0;
-  if (lines)
-    o += `<text x="12" y="${BOX.height - 12}" fill="${MARK}" font-size="11">${undrawn.join(", ")}: not drawn in this visual (the recipe does not bind it yet)</text>`;
+  const lines = markers.length;
+  markers.forEach((mk, i) => {
+    const y = BOX.height - 12 - (lines - 1 - i) * 15;
+    o += `<text x="12" y="${y}" fill="${MARK}" font-size="11">${mk.n} ${esc(mk.label)}${mk.drawn ? "" : ": not drawn in this visual (the recipe does not bind it yet)"}</text>`;
+  });
   measurements.forEach((sel, i) => {
     const m = scene.measurements[sel.index];
     const y = BOX.height - 12 - (measurements.length - i - 1 + lines) * 15;

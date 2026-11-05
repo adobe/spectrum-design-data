@@ -197,20 +197,23 @@ function overlay(parent, block, box) {
   parent.appendChild(o);
   o.x = 0;
   o.y = 0;
-  const undrawn = markers.filter((mk) => !mk.drawn).map((mk) => mk.n);
-  const lines = undrawn.length ? 1 : 0;
-  if (lines) {
-    const note = text(
-      undrawn.join(", ") +
-        ": not drawn in this visual (the recipe does not bind it yet)",
+  const lines = markers.length;
+  markers.forEach((mk, i) => {
+    const line = text(
+      mk.n +
+        " " +
+        mk.label +
+        (mk.drawn
+          ? ""
+          : ": not drawn in this visual (the recipe does not bind it yet)"),
       11,
       "Regular",
       BLUE,
     );
-    o.appendChild(note);
-    note.x = 12;
-    note.y = box.height - 12 - note.height;
-  }
+    o.appendChild(line);
+    line.x = 12;
+    line.y = box.height - 12 - line.height - (lines - 1 - i) * 15;
+  });
   measurements.forEach((sel, i) => {
     const m = scene.measurements[sel.index];
     const x = m.x * k + view.x;
