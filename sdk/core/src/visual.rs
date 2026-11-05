@@ -2474,15 +2474,47 @@ fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
     )
 }
 
-const DEFAULT_FONT_STACK: &str = "adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif";
+const DEFAULT_FONT_STACK: &str =
+    "adobe-clean-spectrum-vf, Adobe Clean, 'Source Sans 3', sans-serif";
+
+const GENERIC_FAMILIES: &[&str] = &[
+    "serif",
+    "sans-serif",
+    "monospace",
+    "cursive",
+    "fantasy",
+    "system-ui",
+    "ui-serif",
+    "ui-sans-serif",
+    "ui-monospace",
+    "ui-rounded",
+];
+
+/// One family of a bound list. Quoted unless it is a generic keyword: an unquoted name with a
+/// token that is not a CSS identifier (`Source Sans 3`) invalidates the whole declaration.
+fn css_family_name(f: &str) -> String {
+    let f = f.trim_matches(|c| c == '\'' || c == '"').trim();
+    if GENERIC_FAMILIES.contains(&f) {
+        f.to_string()
+    } else {
+        format!("'{}'", f.replace('\\', "\\\\").replace('\'', "\\'"))
+    }
+}
 
 /// A bound family leads the default stack, so a family the browser lacks (an iOS-only one
 /// such as SF Pro) falls through to it instead of the browser's serif default.
 fn css_font_family(f: Option<&str>) -> String {
-    match f.map(str::trim).filter(|f| !f.is_empty()) {
-        Some(f) if f.contains(',') => format!("{f}, {DEFAULT_FONT_STACK}"),
-        Some(f) => format!("'{f}', {DEFAULT_FONT_STACK}"),
-        None => DEFAULT_FONT_STACK.into(),
+    let bound: Vec<String> = f
+        .unwrap_or("")
+        .split(',')
+        .map(str::trim)
+        .filter(|f| !f.is_empty())
+        .map(css_family_name)
+        .collect();
+    if bound.is_empty() {
+        DEFAULT_FONT_STACK.into()
+    } else {
+        format!("{}, {DEFAULT_FONT_STACK}", bound.join(", "))
     }
 }
 
@@ -3446,6 +3478,44 @@ mod tests {
             bound.contains("font-family=\"'SF Pro', adobe-clean-spectrum-vf,"),
             "{bound}"
         );
+    }
+
+    /// An unquoted family is valid CSS only as a sequence of identifiers (no word may start
+    /// with a digit); a quoted one is always valid.
+    fn family_list_is_valid_css(list: &str) -> bool {
+        list.split(',').map(str::trim).all(|f| {
+            f.starts_with('\'')
+                || (!f.is_empty()
+                    && f.split(' ').all(|w| {
+                        let w = w.strip_prefix('-').unwrap_or(w);
+                        w.chars()
+                            .next()
+                            .is_some_and(|c| c.is_ascii_alphabetic() || c == '_')
+                            && w.chars()
+                                .all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_')
+                    }))
+        })
+    }
+
+    #[test]
+    fn emitted_font_family_is_valid_css() {
+        for bound in [
+            None,
+            Some("SF Pro"),
+            Some("Adobe Clean Spectrum VF"),
+            Some("Source Sans 3"),
+            Some("Helvetica Neue 2, monospace"),
+            Some("O'Neil 7"),
+        ] {
+            let list = css_font_family(bound);
+            assert!(family_list_is_valid_css(&list), "{bound:?} -> {list}");
+        }
+        assert!(css_font_family(None).contains("'Source Sans 3'"));
+        assert_eq!(
+            css_font_family(Some("Source Sans 3, monospace")),
+            format!("'Source Sans 3', monospace, {DEFAULT_FONT_STACK}")
+        );
+        assert!(!family_list_is_valid_css("Adobe Clean, Source Sans 3"));
     }
 
     #[test]

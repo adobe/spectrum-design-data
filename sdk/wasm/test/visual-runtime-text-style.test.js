@@ -53,6 +53,12 @@ test("a bound fontFamily leads the default stack", (t) => {
   t.true(bound.includes(`font-family="'SF Pro', adobe-clean-spectrum-vf,`));
 });
 
+test("family names with a digit are quoted so the list is valid CSS", (t) => {
+  const svg = renderSvg(scene({ fontSize: { value: 10 } }));
+  t.true(svg.includes("'Source Sans 3'"));
+  t.false(/, Source Sans 3/.test(svg));
+});
+
 // Parity: the WASM renderer and the JS runtime agree on a recipe that binds the new props.
 const parityRecipe = (labelProps) => ({
   specVersion: "1.0.0-draft",
