@@ -335,11 +335,11 @@ test("measurements of nested parts, the focus ring and the press ratio are drawn
     .map((n) => n.characters)
     .filter((x) => / · /.test(x));
   for (const expected of [
-    "width · 26px",
-    "border-width · 2px",
-    "thickness · 2px",
-    "gap · 2px",
-    "component-size-width-ratio · 0.3333",
+    "switch-control-width-medium · 26px",
+    "border-width-200 · 2px",
+    "focus-indicator-thickness · 2px",
+    "focus-ring-gap · 2px",
+    "component-size-width-ratio-down · 0.3333",
   ])
     t.true(legends.includes(expected), expected + " in " + legends.join("|"));
 });
@@ -558,4 +558,50 @@ test("plan creates, updates or skips a component's Figma file by sheet hash", (t
     message: /fileKey/,
   });
   t.is(actionFor(undefined, "h"), "create");
+});
+
+test("undrawn markers get an outlined row badge and a note under the visual", async (t) => {
+  const { figma, page } = mock();
+  await figma.ui.onmessage({
+    type: "render-sheet",
+    sheet,
+    changelog,
+    pages: ["Layout"],
+  });
+  const texts = page.children[0]
+    .findAll((n) => n.characters !== undefined)
+    .map((n) => n.characters);
+  const layout = sheet.pages
+    .filter((p) => p.title === "Layout")
+    .flatMap((p) => p.blocks)
+    .filter((b) => b.render);
+  const markers = layout.flatMap((b) => b.render.markers);
+  const undrawnBlocks = layout.filter((b) =>
+    b.render.markers.some((m) => !m.drawn),
+  );
+  t.true(undrawnBlocks.length > 0);
+  for (const m of markers)
+    t.true(
+      texts.some((x) => x.startsWith(m.n + " " + m.label)),
+      m.n + " " + m.label,
+    );
+  t.is(
+    texts.filter((x) => x.includes(": not drawn in this visual")).length,
+    markers.filter((m) => !m.drawn).length,
+  );
+  const outlined = page.children[0].findAll(
+    (n) =>
+      n.type === "ELLIPSE" && n.fills.length === 0 && n.strokes?.length === 1,
+  );
+  const rows = undrawnBlocks.reduce(
+    (s, b) =>
+      s +
+      b.rows
+        .flatMap((r) => r.items)
+        .filter((i) =>
+          b.render.markers.some((m) => !m.drawn && m.n === i.marker),
+        ).length,
+    0,
+  );
+  t.is(outlined.length, rows);
 });

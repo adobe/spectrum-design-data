@@ -154,21 +154,25 @@
           }
         },
         "markers": {
-          "description": "Numbered markers 1..n, one per group of token rows that share a recipe property template. `part` is the recipe part the marker sits on, or null when no recipe binding fits.",
+          "description": "Numbered markers 1..n, one per group of token rows that share a recipe property template. `part` is the recipe part the marker sits on, or null when no recipe binding fits. `drawn` is false when the visual has no node for the marker (no part, or the recipe does not draw it); its number stays on the rows and views note it as not drawn.",
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["n", "part", "label"],
+            "required": ["n", "part", "label", "drawn"],
             "properties": {
               "n": { "type": "integer", "minimum": 1 },
               "part": { "type": ["string", "null"] },
-              "label": { "type": "string" }
+              "label": {
+                "description": "The group's relationship property with its size part dropped (the recipe's `{sizeIndex}`/`{size}` template without the placeholder). Distinct within a block.",
+                "type": "string"
+              },
+              "drawn": { "type": "boolean" }
             },
             "additionalProperties": false
           }
         },
         "measurements": {
-          "description": "Scene measurements the block shows on the Layout page: those whose relationship context is the block title (kinds `height`, `width`, `padding`, `gap`, `radius`, `border`, `focus-thickness`, `focus-gap`, `press`). A block renders in the states and options its bindings need (a focus ring in `keyboard-focus`, a pressed scale in `down`). `index` points into scene.measurements and `label` is the relationship property.",
+          "description": "Scene measurements the block shows on the Layout page: those whose relationship context is the block title (kinds `height`, `width`, `padding`, `gap`, `radius`, `border`, `focus-thickness`, `focus-gap`, `press`). A block renders in the states and options its bindings need (a focus ring in `keyboard-focus`, a pressed scale in `down`). `index` points into scene.measurements and `label` is the bound token's name, the same name the token rows show (the relationship property only when no token resolves).",
           "type": "array",
           "items": {
             "type": "object",

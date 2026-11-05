@@ -324,6 +324,16 @@ fn template_matches(template: &str, property: &str) -> bool {
     true
 }
 
+/// A relationship property without its size part: the `{sizeIndex}`/`{size}` placeholder of the
+/// recipe template is dropped with the separator next to it.
+fn group_label(template: &str) -> String {
+    let mut out = template.to_string();
+    for placeholder in ["{sizeIndex}", "{size}"] {
+        out = out.replace(placeholder, "");
+    }
+    out.trim_matches('-').replace("--", "-")
+}
+
 /// Concrete relationship property -> size id, from the recipe's `{sizeIndex}`/`{size}` templates.
 fn size_by_property(recipe: &Value) -> BTreeMap<String, String> {
     let mut map = BTreeMap::new();
@@ -392,6 +402,20 @@ struct Ctx<'a> {
 }
 
 impl Ctx<'_> {
+    /// The property as a size template, for a group no recipe binding names: the size's index
+    /// from the recipe's `sizeScale` stands in for `{sizeIndex}`, the inverse of
+    /// `size_by_property`. Kept as is unless the index occurs exactly once.
+    fn size_template(&self, property: &str, size: &str) -> String {
+        let idx = self
+            .recipe
+            .and_then(|r| r.pointer(&format!("/sizeScale/{size}")))
+            .map(|v| v.to_string().trim_matches('"').to_string());
+        match idx {
+            Some(i) if property.matches(&i).count() == 1 => property.replace(&i, "{sizeIndex}"),
+            _ => property.to_string(),
+        }
+    }
+
     fn render(
         &self,
         recipe: &Value,
@@ -632,23 +656,42 @@ impl Ctx<'_> {
                     .into_iter()
                     .flatten()
                     .enumerate()
-                    .filter(|(_, m)| match m["token"]["relationship"]["context"].as_str() {
-                        // Dimensions belong on the Layout page; Color blocks share contexts
-                        // such as "Focus indicator" but document the colors.
-                        _ if by_property || page != "Layout" => false,
-                        Some(c) => c == context || c == base,
-                        None => m["part"]
-                            .as_str()
-                            .zip(m["prop"].as_str())
-                            .is_some_and(|pp| hl_props.contains(&pp)),
-                    })
+                    .filter(
+                        |(_, m)| match m["token"]["relationship"]["context"].as_str() {
+                            // Dimensions belong on the Layout page; Color blocks share contexts
+                            // such as "Focus indicator" but document the colors.
+                            _ if by_property || page != "Layout" => false,
+                            // A base-context measurement whose relationship is not one of this
+                            // block's records would name a token the rows do not list.
+                            Some(c) => {
+                                (c == context || c == base)
+                                    && s(&m["token"]["relationship"], "uuid").is_none_or(|u| {
+                                        recs.iter().any(|r| s(r, "uuid") == Some(u))
+                                    })
+                            }
+                            None => m["part"]
+                                .as_str()
+                                .zip(m["prop"].as_str())
+                                .is_some_and(|pp| hl_props.contains(&pp)),
+                        },
+                    )
                     .map(|(index, m)| {
                         let rel = &m["token"]["relationship"];
+                        // Same source and name as the token rows: the bound token's structured
+                        // name; the relationship property only when no record resolves.
+                        let bound = s(rel, "uuid")
+                            .and_then(|u| lookup(self.graph, u))
+                            .and_then(|r| record_token(self.graph, r))
+                            .map(|t| token_name(t, s(rel, "property").unwrap_or("")));
                         json!({
                             "index": index,
                             "prop": m["prop"],
                             "kind": m["kind"],
-                            "label": if rel.is_null() { &m["token"]["token"] } else { &rel["property"] },
+                            "label": match bound {
+                                Some(name) => json!(name),
+                                None if rel.is_null() => m["token"]["token"].clone(),
+                                None => rel["property"].clone(),
+                            },
                             "relationship": rel["uuid"],
                         })
                     })
@@ -658,7 +701,7 @@ impl Ctx<'_> {
             // Markers: one per group of rows that share a recipe property template (or, when
             // no recipe binding fits, a relationship property), numbered 1..n in row order.
             // A marker sits on the part of the first binding that fits; none fits: no part.
-            let mut markers: Vec<(String, String, Option<&str>)> = Vec::new();
+            let mut markers: Vec<(String, String, Option<&str>, String)> = Vec::new();
             let mut out_rows: Vec<Value> = Vec::new();
             let mut records = 0;
             for k in &row_order {
@@ -681,8 +724,18 @@ impl Ctx<'_> {
                     let n = match markers.iter().position(|m| m.0 == group) {
                         Some(i) => i,
                         None => {
-                            let label = binding.map_or(it.property.clone(), |b| b.3.clone());
-                            markers.push((group, label, binding.map(|b| b.0.as_str())));
+                            let template = match (binding, it.size.as_deref()) {
+                                (Some(b), _) => b.3.clone(),
+                                (None, Some(sz)) => self.size_template(&it.property, sz),
+                                (None, None) => it.property.clone(),
+                            };
+                            let label = group_label(&template);
+                            markers.push((
+                                group,
+                                label,
+                                binding.map(|b| b.0.as_str()),
+                                it.name.clone(),
+                            ));
                             markers.len() - 1
                         }
                     };
@@ -698,10 +751,28 @@ impl Ctx<'_> {
                 if by_property {
                     markers.clear();
                 }
+                // A marker is drawn when its part is a node of the scene; the rows keep its
+                // number either way.
+                let nodes = render["scene"]["nodes"].as_array();
+                let drawn = |part: &Option<&str>| {
+                    part.is_some_and(|p| {
+                        nodes.is_some_and(|ns| ns.iter().any(|n| n["part"].as_str() == Some(p)))
+                    })
+                };
+                // Groups whose properties are the same (they differ by token) are told apart by
+                // the token of their first row.
+                let labels: Vec<String> = markers.iter().map(|m| m.1.clone()).collect();
+                for m in &mut markers {
+                    if labels.iter().filter(|l| **l == m.1).count() > 1 {
+                        m.1 = format!("{} ({})", m.1, m.3);
+                    }
+                }
                 render["markers"] = json!(markers
                     .iter()
                     .enumerate()
-                    .map(|(i, (_, label, part))| json!({"n": i + 1, "part": part, "label": label}))
+                    .map(|(i, (_, label, part, _))| json!({
+                        "n": i + 1, "part": part, "label": label, "drawn": drawn(part),
+                    }))
                     .collect::<Vec<_>>());
             }
 
