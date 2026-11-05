@@ -701,6 +701,16 @@ importers:
         specifier: ^1.1.9
         version: 1.1.9
 
+  tools/platform-capture:
+    dependencies:
+      playwright-core:
+        specifier: ^1.49.0
+        version: 1.64.1
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/release-analyzer:
     dependencies:
       commander:
@@ -4996,6 +5006,11 @@ packages:
   pkg-dir@4.2.0:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
+
+  playwright-core@1.64.1:
+    resolution: {integrity: sha512-BC4s8y6SEVA6Q1rSxZTto8hI1KUI3xXlHGZgvGqP4IqPdI/a6FX9H29IDNz7vKo9l21b6LfYosScPL6M3xxyDQ==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   please-upgrade-node@3.2.0:
     resolution: {integrity: sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==}
@@ -11172,6 +11187,8 @@ snapshots:
   pkg-dir@4.2.0:
     dependencies:
       find-up: 4.1.0
+
+  playwright-core@1.64.1: {}
 
   please-upgrade-node@3.2.0:
     dependencies:
