@@ -1,5 +1,17 @@
 # @adobe/design-data-wasm
 
+## 0.14.3
+
+### Patch Changes
+
+- [#1650](https://github.com/adobe/spectrum-design-data/pull/1650) [`25df278`](https://github.com/adobe/spectrum-design-data/commit/25df2787641f42fbc3f845c09d36645e7846b1ac) Thanks [@GarthDB](https://github.com/GarthDB)! - Renderer SVG text uses a valid CSS `font-family` list.
+  - The default stack quotes `'Source Sans 3'`. The unquoted name made browsers drop the
+    whole list and render serif.
+  - A family bound by a recipe token (such as `Adobe Clean Spectrum VF`) is quoted unless it
+    is a generic keyword. The Rust renderer and the JS runtime produce the same list.
+  - Spec R2 shows the quoted stack and requires quoting for names that are not CSS
+    identifiers.
+
 ## 0.14.2
 
 ### Patch Changes
