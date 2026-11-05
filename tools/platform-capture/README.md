@@ -2,7 +2,16 @@
 
 <!-- Licensed under the Apache License, Version 2.0. -->
 
-# ios-catalog-capture
+# platform-capture
+
+Captures platform reference renderings so they can be compared with
+design-data renderer output. Layout:
+
+* `adapters/<name>/`: one folder per source. `ios-simulator/` is the iOS
+  Catalog capture described below.
+* `lib/`: code shared by adapters.
+
+## iOS simulator adapter
 
 Captures light and dark simulator screenshots of the Spectrum iOS Catalog app
 (`OneAdobe/spectrum-ios`, `Tools/SpectrumCatalog`) so they can be compared with
@@ -30,7 +39,7 @@ cd <spectrum-ios>/Tools/SpectrumCatalog
 mobilebuildmcp simulator build-and-run --project-path SpectrumCatalog.xcodeproj \
   --scheme SpectrumCatalog --simulator-name "iPhone 17 Pro"
 
-# from this directory; takes about 20 minutes per three components
+# from adapters/ios-simulator/; takes about 20 minutes per three components
 node capture.mjs <outDir>/shots              # or: ... "Button" "Picker"
 ./sheets.sh <outDir>/shots <outDir>/contact-sheets
 node index.mjs <outDir>/shots > states.json
