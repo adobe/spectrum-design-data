@@ -1,5 +1,13 @@
 # @adobe/design-data-mcp
 
+## 1.9.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-design-data@3.8.2
+  - @adobe/design-data@3.3.3
+
 ## 1.9.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @adobe/design-data-agent-mcp
 
+## 1.15.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-design-data@3.8.2
+  - @adobe/design-data@3.3.3
+
 ## 1.15.9
 
 ### Patch Changes
