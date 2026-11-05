@@ -3439,6 +3439,24 @@ mod tests {
     }
 
     #[test]
+    fn button_icon_size_follows_the_workflow_icon_tokens() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // workflow-icon-small/medium/large/extra-large (desktop), as in Figma and S2.
+        for (size, want) in [("s", 16.0), ("m", 18.0), ("l", 20.0), ("xl", 22.0)] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.size = size.into();
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            let icon = scene.nodes.iter().find(|n| n.part == "icon").unwrap();
+            assert_eq!((icon.w, icon.h), (want, want), "{size}");
+        }
+    }
+
+    #[test]
     fn text_height_follows_line_height_and_defaults_to_1_3() {
         let h = |lh: Value| {
             let mut p = serde_json::json!({ "fontSize": { "value": 10 } });
