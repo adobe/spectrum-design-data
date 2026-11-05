@@ -95,6 +95,7 @@
     },
     "icon": {
       "kind": "icon",
+      "icon": { "set": "workflow", "name": "add", "content": true },
       "props": {
         "width": {
           "token": {

@@ -49,7 +49,7 @@ Tooling that operates on "the current dataset" (rather than an explicit path) **
 3. **In-repo probing** — when running inside a monorepo checkout, probe for the standard layout relative to the working directory (`packages/design-data/tokens` and one level up). This preserves the in-repo workflow with zero configuration.
 4. **Embedded snapshot** — when no dataset is found on disk, tooling MAY fall back to a snapshot of the foundation dataset embedded in the binary, materialized to a local cache directory.
 
-**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, and `guidelines/` directly under that root.
+**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, `guidelines/`, and `icons/` directly under that root.
 
 The reference implementation of this algorithm lives in the SDK at `sdk/core/src/data_source/mod.rs` (`resolve`, `from_root`, and `probe_cwd`).
 

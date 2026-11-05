@@ -385,7 +385,6 @@ export function renderScene(compiled, req) {
           if (nkind === "icon") {
             w2 = num(nw) ?? 16;
             h2 = num(nh) ?? w2;
-            if (np.glyph) extra.glyph = np.glyph;
             const rot = rp(np, "rotation");
             track(ntokens, "rotation", rot);
             if (num(rot) !== undefined) extra.rotation = num(rot);
@@ -622,7 +621,6 @@ export function renderScene(compiled, req) {
           color: color ? color.value : null,
           tokens,
         };
-        if (np.glyph) extra.glyph = np.glyph;
         if (num(rot) !== undefined) extra.rotation = num(rot);
         nodes.push(
           node(
@@ -745,6 +743,12 @@ export function renderScene(compiled, req) {
     };
   }
 
+  // Every icon node names the icon its part references.
+  for (const n of nodes) {
+    const ref = n.kind === "icon" ? parts[n.part]?.icon : undefined;
+    if (ref?.set && ref?.name) n.icon = { set: ref.set, name: ref.name };
+  }
+
   const opacity = num(opacityR);
   return {
     component: compiled.component,
@@ -756,6 +760,13 @@ export function renderScene(compiled, req) {
     diagnostics: cx.diags,
   };
 }
+
+// The built-in shape drawn until icon paths are drawn (p6ga.17.3): `checkmark`, `dash` or
+// `chevron` from the `ui` set. Mirrors IconRef::built_in in sdk/core/src/visual.rs.
+const builtInShape = (icon) =>
+  icon?.set === "ui" && ["checkmark", "dash", "chevron"].includes(icon.name)
+    ? icon.name
+    : undefined;
 
 export const roundedPath = (x, y, w, h, [tl, tr, br, bl]) =>
   `M${x + tl} ${y}H${x + w - tr}A${tr} ${tr} 0 0 1 ${x + w} ${y + tr}V${y + h - br}A${br} ${br} 0 0 1 ${x + w - br} ${y + h}H${x + bl}A${bl} ${bl} 0 0 1 ${x} ${y + h - bl}V${y + tl}A${tl} ${tl} 0 0 1 ${x + tl} ${y}Z`;
@@ -873,17 +884,15 @@ export function renderSvg(scene) {
       const r = min / 2 - min / 18;
       const sw = Math.max(min / 9, 1);
       s += `<g ${attrs} fill="none" stroke-width="${sw}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${esc(n.stroke ?? "none")}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${esc(n.color ?? "currentColor")}" stroke-linecap="round"/></g>`;
-    } else if (
-      n.kind === "icon" &&
-      (n.glyph === "checkmark" || n.glyph === "dash" || n.glyph === "chevron")
-    ) {
+    } else if (n.kind === "icon" && builtInShape(n.icon)) {
+      const shape = builtInShape(n.icon);
       const color = esc(n.color ?? "currentColor");
       const rot = n.rotation
         ? ` transform="rotate(${n.rotation} ${n.x + n.w / 2} ${n.y + n.h / 2})"`
         : "";
-      if (n.glyph === "chevron") {
+      if (shape === "chevron") {
         s += `<path ${attrs}${rot} d="M${n.x + n.w * 0.3} ${n.y + n.h * 0.1}L${n.x + n.w * 0.7} ${n.y + n.h * 0.5}L${n.x + n.w * 0.3} ${n.y + n.h * 0.9}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
-      } else if (n.glyph === "dash") {
+      } else if (shape === "dash") {
         s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.h / 2}" fill="${color}"/>`;
       } else {
         s += `<path ${attrs} d="M${n.x + n.w * 0.1} ${n.y + n.h * 0.55}L${n.x + n.w * 0.38} ${n.y + n.h * 0.82}L${n.x + n.w * 0.9} ${n.y + n.h * 0.2}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;

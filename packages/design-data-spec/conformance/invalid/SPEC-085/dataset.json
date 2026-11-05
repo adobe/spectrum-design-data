@@ -1,0 +1,74 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/checkbox.json",
+      "name": "checkbox",
+      "displayName": "Checkbox",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+      },
+      "anatomy": [
+        {
+          "name": "box",
+          "description": "Square control.",
+          "required": true,
+          "contains": ["checkmark"]
+        },
+        {
+          "name": "checkmark",
+          "description": "Mark shown when selected."
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "component": "checkbox",
+      "root": "box",
+      "sizeScale": {
+        "m": 100
+      },
+      "parts": {
+        "box": {
+          "kind": "box",
+          "children": ["checkmark"]
+        },
+        "checkmark": {
+          "kind": "icon",
+          "icon": {
+            "set": "ui",
+            "name": "tick"
+          }
+        }
+      }
+    }
+  ],
+  "icons": [
+    {
+      "set": "ui",
+      "source": {
+        "repository": "https://github.com/adobe/react-spectrum",
+        "commit": "0000000000000000000000000000000000000000",
+        "path": "ui-icons",
+        "license": "Apache-2.0",
+        "copyright": "Copyright 2024 Adobe. All rights reserved."
+      },
+      "icons": {
+        "checkmark": {
+          "sizes": {
+            "100": {
+              "viewBox": "0 0 10 10",
+              "paths": [
+                {
+                  "d": "M1 5l3 3 5-6"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

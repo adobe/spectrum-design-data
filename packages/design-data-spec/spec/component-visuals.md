@@ -53,7 +53,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                            |
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
-| `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`, `chevron`). Unset draws a placeholder. A `chevron` points to the end; `rotation` turns it.                             |
+| `icon`        | object           | For an `icon` part (REQUIRED there, not allowed on other kinds): the icon to draw, `{"set": "ui" \| "workflow", "name": "<id>"}`, plus optional `content` and `optional` flags. See [Icons](#icons).   |
 | `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Parts nested inside it scale with it (a checkbox `box` scales with its mark). Defaults to the whole scene.          |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
@@ -86,7 +86,38 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Column stretch.** In a column root, a flowed `box` with no `width` and no row content fills the column's inner width (a divider or a content region). A flowed `box` with no `height` and no children is as tall as its block padding.
 
-**Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes and draws its `glyph`; the checkbox uses this for its checkmark and dash.
+**Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes; the checkbox uses this for its checkmark and dash.
+
+### Icons
+
+An `icon` part names the icon it draws from the dataset's `icons/` catalog ([`icon-set.schema.json`](../schemas/icon-set.schema.json)):
+
+```json
+"disclosure-icon": { "kind": "icon", "icon": { "set": "ui", "name": "chevron" }, "props": { ... } }
+```
+
+| Field      | Type    | Description                                                                                                                                            |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `set`      | enum    | `ui` (component glyphs such as `chevron`, `checkmark`, `dash`, one drawing per size) or `workflow` (content icons such as `add`, one 20 px drawing).   |
+| `name`     | string  | Icon id in that set. SPEC-085 checks it exists.                                                                                                        |
+| `content`  | boolean | The icon is content, like a label: the recipe's icon is a default that a render request may replace. Default `false` (the icon is part of the design). |
+| `optional` | boolean | With `content`, a render request may also remove the icon. Default `false`.                                                                            |
+
+A `chevron` points to the end; the `rotation` prop turns it (90 when an accordion item is open).
+
+**Content icons.** A render request **MAY** carry `icon`, either `{"set", "name"}` or `"none"`. It applies to every part whose `icon` has `content: true`, the way `label` replaces the text of the recipe's label. `{"set", "name"}` replaces the part's icon. `"none"` removes the part from the layout as if its `visibleWhen` did not hold; it is allowed only on a part with `optional: true`, and on any other part the renderer **MUST** keep the recipe's icon and emit a diagnostic. A request icon that is not in the catalog draws the placeholder with a diagnostic. Parts without `content` ignore the request's `icon`. The button's icon is `content` and `optional` (a label-only button), the badge's is `content` only, because its `icon` option already hides it. Command-line and API spellings of the override (`--icon workflow:edit`, `--icon none`) belong to the tools, not to this format.
+
+**Choosing a drawing.** A `workflow` icon has one drawing, scaled to the part box. A `ui` icon has one drawing per scale index, and the renderer **MUST** choose its scale like this:
+
+1. The token bound to the part's `width` (else `height`) gives it: the token name's `scaleIndex`, else its `size` key (`xs` 50, `s` 75, `m` 100, `l` 200, `xl` 300, `xxl` 400, the scale of `workflow-icon-medium` and its siblings).
+2. Otherwise (a literal size, an inline relationship value or a token whose name has neither field), the recipe's `sizeScale` entry for the request's `size`.
+3. Otherwise 100.
+
+The drawing at that scale is used; when the icon has none, the renderer **MUST** draw the nearest available scale (the larger one on a tie). SPEC-086 warns when a recipe falls back, since another size's drawing has different stroke weights and proportions.
+
+**Drawing.** The renderer scales the icon's `viewBox` uniformly to fit the part box, centered, applies `rotation` about the box center, and fills every path, honoring its `fillRule`, with the part's resolved `color`. Icon data carries no color.
+
+Until icon paths are drawn (p6ga.17.3) the renderers draw built-in shapes for `ui` `checkmark`, `dash` and `chevron` and a placeholder plus for any other icon.
 
 ### Value sources
 
@@ -135,6 +166,8 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-079 | Warning. A platform-owned recipe renders over the request grid with no scene diagnostic. Planned to become an error in a later minor release                                                                 |
 | SPEC-080 | Info. A platform recipe replaces the foundation recipe of the same component name                                                                                                                            |
 | SPEC-083 | Warning. A part binds only props the renderer reads for it (the root, its `kind`, or a `placement`); the schema accepts more, and the renderer ignores the rest                                              |
+| SPEC-085 | Error. An `icon` part's `set` and `name` exist in the `icons/` catalog. Runs when the catalog is loaded (`--icons-path`, or the probed `packages/design-data/icons`)                                         |
+| SPEC-086 | Warning. Over the request grid, every `ui` icon has a drawing at the scale its size binding gives (see [Icons](#icons)), so the renderer does not fall back to the nearest size                              |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 
@@ -154,7 +187,7 @@ These are the conventions the lints above enforce, plus the decisions made while
 1. **Bind through relationships.** A recipe takes a value from the component's relationships by default (SPEC-067). Use a `token` selector only when no relationship covers the value, and a literal only for layout keywords, `transparent`, zero, ratio radii or geometry no token describes (SPEC-068). If the token you need is missing, file the gap; do not hide it behind a literal. Put option-dependent choices in the relationships, not in the recipe: pin `scope.options` on the relationship records (a default with no options, overrides that pin them) and bind the role once, so a variant added later is a data change. **Exception: platform-owned components.** A recipe for a component that a platform manifest declares (for example `button-ios`) MAY bind platform tokens directly with `token` selectors, because the platform's own code binds tokens by name and has no relationship layer. This applies to platform-owned components only; foundation components stay relationship-first. SPEC-062 and, for platform recipes, SPEC-079 keep checking that every selected token resolves. Watch the recipe size: the mapping from option to token then lives in the recipe, so name the platform's tokens so that selectors can template the option values, and measure the recipe's line count (see [Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)).
 2. **Bind current tokens.** Do not bind a deprecated token (SPEC-069; SPEC-058 covers relationships). When the only token is deprecated, bind it and record the gap, so the lint keeps showing it.
 3. **Selection is an option, not a state.** Model "selected" as the `isSelected` option and scope relationships with `options.isSelected: true`. The renderer treats `isSelected` as the `selected` state and `isDisabled` as `disabled` when choosing between tokens that carry a state.
-4. **Cover the component.** Every option and state the component declares either changes the recipe or is listed in `notVisual` (SPEC-066). `notVisual` records a deliberate absence, for example `isReadOnly` (it only suppresses hover and press) or `icon` until a shared icon registry exists.
+4. **Cover the component.** Every option and state the component declares either changes the recipe or is listed in `notVisual` (SPEC-066). `notVisual` records a deliberate absence, for example `isReadOnly` (it only suppresses hover and press).
 5. **Press scales the part the design scales.** Set `pressTarget` to the part the design source scales when pressed: the checkbox scales its `box` (with its mark), the switch scales its `handle`. Parts nested inside the target scale with it, and the label does not.
 6. **Priorities.** Disabled overrides interaction states with `priority: 10` (11 where a more specific disabled case must win). Error uses `priority: 5`.
 7. **Relationship contexts are the design token group label,** with no `S1` or `S2` prefix, and the same label names the same concept in every component (for example `Control (disabled)`).
@@ -165,7 +198,7 @@ New recipes **MUST** be free of SPEC-066 to SPEC-070 warnings. Existing recipes 
 
 ## Render request and scene graph
 
-A render request is tool input, not dataset content: `{component, options, states, modes, overlays}`. A **matrix** is a list of requests plus a layout (rows × columns by option or state).
+A render request is tool input, not dataset content: `{component, options, states, modes, label, icon, overlays}`. `label` replaces the label text and `icon` the content icon (see [Icons](#icons)). A **matrix** is a list of requests plus a layout (rows × columns by option or state).
 
 The scene graph is the contract between resolution and output:
 
@@ -189,7 +222,7 @@ These record the research behind this draft and are not normative.
 
 **R3 — Layout: minimal flex first.** The pilot box model needs row direction, centering, gap, padding and one absolutely placed child. A purpose-built layout of that size avoids a dependency and keeps WASM small. Revisit `taffy` when text-field (wrapping, stacked label and help text) is piloted.
 
-**R4 — Icons.** Glyph geometry is sourced as SVG path data keyed by icon name (`workflow-icon`) and by the pilot's fixed glyphs (hold-icon corner triangle, checkmark). Literal paths are the one allowed use of `{"value": ...}`. A shared icon registry is follow-up work.
+**R4 — Icons.** Icon geometry is SVG path data in the dataset's `icons/` catalog, imported from React Spectrum S2 (UI icons at every size, a few workflow icons). Recipes reference it by set and name ([Icons](#icons)); they hold no path data.
 
 **R5 — Figma.** The Figma backend consumes the scene graph and emits node JSON for a plugin to create frames bound to Figma Variables by token id, reusing the Variable mapping in `sdk/plugins/figma`. It requires no Figma-specific data in recipes.
 

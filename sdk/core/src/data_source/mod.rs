@@ -211,6 +211,8 @@ pub struct CliPathOverrides {
     pub fields: Option<PathBuf>,
     /// `--relationships-path`.
     pub relationships: Option<PathBuf>,
+    /// `--icons-path`.
+    pub icons: Option<PathBuf>,
     /// Naming-exceptions file (`--exceptions-path`).
     pub exceptions: Option<PathBuf>,
     /// Explicit platform manifest.json (`--manifest`), overriding the
@@ -267,6 +269,8 @@ pub struct ResolvedData {
     pub guidelines: Option<PathBuf>,
     /// Directory containing Component/Token Relationship (CTR) array files.
     pub relationships: Option<PathBuf>,
+    /// Directory containing icon sets (`icons/`, `icon-set.schema.json`).
+    pub icons: Option<PathBuf>,
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
     /// Layer 2 **platform** `manifest.json` path from the top-level `manifest` key, if any.
@@ -736,6 +740,11 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         c.is_dir().then_some(c)
     });
 
+    let icons = overrides.icons.clone().or_else(|| {
+        let c = root.join("packages/design-data/icons");
+        c.is_dir().then_some(c)
+    });
+
     let exceptions = overrides.exceptions.clone().or_else(|| {
         // Older tags keep the file under packages/tokens/.
         ["packages/design-data", "packages/tokens"]
@@ -752,6 +761,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         fields,
         guidelines,
         relationships,
+        icons,
         exceptions,
         platform_manifest: None,
         provenance,
@@ -842,6 +852,15 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         candidates.into_iter().find(|c| c.is_dir())
     });
 
+    // icons
+    let icons = overrides.icons.clone().or_else(|| {
+        let candidates = [
+            cwd.join("packages/design-data/icons"),
+            cwd.join("../packages/design-data/icons"),
+        ];
+        candidates.into_iter().find(|c| c.is_dir())
+    });
+
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let candidates = [
@@ -861,6 +880,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         fields,
         guidelines,
         relationships,
+        icons,
         exceptions,
         platform_manifest: None,
         provenance: Provenance::InRepo,
@@ -938,6 +958,7 @@ mod tests {
         fs::create_dir_all(dir.join("packages/design-data/mode-sets")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/components")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/fields")).unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/icons")).unwrap();
         fs::write(
             dir.join("packages/design-data/naming-exceptions.json"),
             b"{}",
@@ -960,6 +981,7 @@ mod tests {
         assert!(resolved.mode_sets.is_some());
         assert!(resolved.components.is_some());
         assert!(resolved.fields.is_some());
+        assert!(resolved.icons.is_some());
         assert!(resolved.exceptions.is_some());
     }
 
@@ -1005,6 +1027,7 @@ mod tests {
         assert!(resolved.mode_sets.is_none());
         assert!(resolved.components.is_none());
         assert!(resolved.fields.is_none());
+        assert!(resolved.icons.is_none());
         assert!(resolved.exceptions.is_none());
     }
 
@@ -1069,6 +1092,10 @@ mod tests {
         );
         assert!(resolved.schemas_root.starts_with(&canon_root));
         assert!(resolved.components.is_some());
+        assert_eq!(
+            resolved.icons,
+            Some(canon_root.join("packages/design-data/icons"))
+        );
     }
 
     #[test]

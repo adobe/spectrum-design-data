@@ -53,9 +53,41 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "iconRef": {
+      "type": "object",
+      "description": "The icon an icon part draws, from the icons/ catalog (icon-set.schema.json). SPEC-085 checks it exists.",
+      "required": ["set", "name"],
+      "properties": {
+        "set": { "enum": ["ui", "workflow"] },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+        },
+        "content": {
+          "type": "boolean",
+          "description": "The icon is content, like a label: this is the recipe's default and a render request may replace it. Default false."
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "A render request may remove this content icon (icon none). Requires content. Default false."
+        }
+      },
+      "if": {
+        "properties": { "optional": { "const": true } },
+        "required": ["optional"]
+      },
+      "then": {
+        "properties": { "content": { "const": true } },
+        "required": ["content"]
+      },
+      "additionalProperties": false
+    },
     "part": {
       "type": "object",
       "required": ["kind"],
+      "if": { "properties": { "kind": { "const": "icon" } } },
+      "then": { "required": ["icon"] },
+      "else": { "not": { "required": ["icon"] } },
       "properties": {
         "kind": {
           "enum": ["box", "text", "icon", "ring", "progress"]
@@ -76,9 +108,8 @@
           "pattern": "^[a-z][a-z0-9-]*$",
           "description": "For a ring: the part it outlines. Defaults to the root."
         },
-        "glyph": {
-          "enum": ["checkmark", "dash", "chevron"],
-          "description": "For an icon nested in a box: the built-in glyph to draw. Unset draws a placeholder."
+        "icon": {
+          "$ref": "#/$defs/iconRef"
         },
         "pressTarget": {
           "type": "string",
