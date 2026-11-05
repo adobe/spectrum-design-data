@@ -79,6 +79,7 @@ export function IconSamplePicker({
   isDisabled = false,
   isCompact = false,
   menuWidth,
+  size,
 }: {
   selectedIcon: SpectrumIconName;
   onChange: (icon: SpectrumIconName) => void;
@@ -86,6 +87,7 @@ export function IconSamplePicker({
   isDisabled?: boolean;
   isCompact?: boolean;
   menuWidth?: number;
+  size?: "S" | "M" | "L" | "XL";
 }) {
   const input = useRef<TextFieldRef>(null),
     measurement = useRef<HTMLDivElement>(null);
@@ -120,6 +122,7 @@ export function IconSamplePicker({
     <>
       <ComboBox
         label="Sample icon"
+        size={size}
         labelPosition={isCompact ? "top" : "side"}
         defaultItems={offered}
         ref={input}

@@ -29,16 +29,22 @@ import { governStructureName, structureName } from "./generation";
 import { captureSnapshot } from "../edit-session/state";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { SIZE_TERM_IDS } from "../taxonomy/variantVocabulary";
-import { updateTaxonomy } from "../taxonomy/model";
+import {
+  registerTerm,
+  taxonomyValueKey,
+  updateTaxonomy,
+} from "../taxonomy/model";
+import { normalizeTermValue } from "../taxonomy/termPresentation";
 import { assertElementReferences } from "./elements";
 import { resolveElements } from "./elementResolution";
 import { eligibleStructureBindings } from "./generation";
 import { rulesAtom } from "../logic/library";
 import { STRUCTURES_SCHEMA_VERSION } from "./model";
-import { assertStructureGraph, leafElements } from "./children";
-import { registerTerm } from "../taxonomy/model";
-import { ELEMENT_CATEGORY_ID } from "./elements";
-import { VARIANT_CATEGORY_IDS } from "../taxonomy/variantVocabulary";
+import {
+  assertStructureGraph,
+  leafElements,
+  ownedStructureIds,
+} from "./children";
 
 export { selectedStructureIdAtom, structuresDocumentAtom };
 export const resolvedStructuresAtom = atom((get) =>
@@ -111,9 +117,49 @@ export const renameStructureAtom = atom(
       (item) => item.conceptId === input.id,
     )!;
     const previousTaxonomy = get(taxonomyDocumentAtom);
+    const generation = structureGeneration(current);
+    let nextTaxonomy = previousTaxonomy;
+    let nextGeneration = generation;
+    if (!current.parentStructureId && generation.nameRef) {
+      const { nameRef } = generation;
+      nextTaxonomy = registerTerm(
+        previousTaxonomy,
+        nameRef.categoryId,
+        name,
+        crypto.randomUUID(),
+      );
+      const term = nextTaxonomy.terms.find(
+        (item) =>
+          item.categoryId === nameRef.categoryId &&
+          taxonomyValueKey(item.value) ===
+            taxonomyValueKey(normalizeTermValue(name)),
+      );
+      if (!term) throw new Error("Choose an available Registry name.");
+      nextGeneration = {
+        ...generation,
+        nameRef: {
+          ...nameRef,
+          termId: term.id,
+          ...(nameRef.classification && {
+            classification: {
+              ...nameRef.classification,
+              [nameRef.categoryId]: term.id,
+            },
+          }),
+        },
+      };
+    } else if (!current.parentStructureId && generation.applications.length) {
+      const governed = governStructureName(current, previousTaxonomy, name);
+      nextTaxonomy = governed.taxonomy;
+      nextGeneration = structureGeneration(governed.structure);
+    }
     const named = {
-      structure: { ...current, name },
-      taxonomy: previousTaxonomy,
+      structure: {
+        ...current,
+        name,
+        ...(current.generation && { generation: nextGeneration }),
+      },
+      taxonomy: nextTaxonomy,
     };
     const next = {
       ...document,
@@ -130,69 +176,6 @@ export const renameStructureAtom = atom(
     });
     if (named.taxonomy !== previousTaxonomy)
       set(taxonomyDocumentAtom, named.taxonomy);
-    set(structuresDocumentAtom, next);
-  },
-);
-export const setStructureTokenNamingAtom = atom(
-  null,
-  (
-    get,
-    set,
-    input: { structureId: string; termId?: string | null; createName?: string },
-  ) => {
-    requireEditing(get(editModeAtom));
-    const document = get(structuresDocumentAtom);
-    const current = document.structures.find(
-      (source) => source.conceptId === input.structureId,
-    );
-    if (!current) throw new Error("The selected Structure is unavailable.");
-    const previous = get(taxonomyDocumentAtom);
-    const termId =
-      input.createName === undefined ? input.termId : crypto.randomUUID();
-    const taxonomy =
-      input.createName === undefined
-        ? previous
-        : registerTerm(
-            previous,
-            VARIANT_CATEGORY_IDS.structure,
-            input.createName.trim(),
-            termId!,
-          );
-    const term = taxonomy.terms.find((term) => term.id === termId);
-    if (
-      termId &&
-      (!term ||
-        ![VARIANT_CATEGORY_IDS.structure, ELEMENT_CATEGORY_ID].includes(
-          term.categoryId,
-        ))
-    )
-      throw new Error("Choose an Element or Structure naming term.");
-    const generation = structureGeneration(current);
-    const { nameRef: oldNameRef, ...settings } = generation;
-    void oldNameRef;
-    const source = {
-      ...current,
-      generation: {
-        ...settings,
-        ...(term && {
-          nameRef: { categoryId: term.categoryId, termId: term.id },
-        }),
-      },
-    };
-    const next = {
-      ...document,
-      structures: document.structures.map((item) =>
-        item === current ? source : item,
-      ),
-    };
-    assertStructureTaxonomy(next, taxonomy);
-    updateTaxonomy(previous, taxonomy);
-    buildTshirtArtifacts({
-      ...captureSnapshot(get),
-      taxonomy,
-      structures: next,
-    });
-    set(taxonomyDocumentAtom, taxonomy);
     set(structuresDocumentAtom, next);
   },
 );
@@ -258,6 +241,7 @@ export interface RemovedStructure {
   structure: Structure;
   index: number;
   wasSelected: boolean;
+  nestedStructures?: { structure: Structure; index: number }[];
 }
 export const removeStructureAtom = atom(
   null,
@@ -268,26 +252,41 @@ export const removeStructureAtom = atom(
       (item) => item.conceptId === id,
     );
     if (index < 0) throw new Error("This structure is no longer available.");
-    const wasSelected = get(selectedStructureIdAtom) === id;
-    const dependents = document.structures.filter((source) =>
-      source.elements?.some(
-        (child) =>
-          child.kind === "structureReference" && child.structureId === id,
-      ),
+    const removedIds = ownedStructureIds(document.structures, id);
+    const nestedStructures = document.structures.flatMap((structure, index) =>
+      removedIds.has(structure.conceptId) && structure.conceptId !== id
+        ? [{ structure, index }]
+        : [],
+    );
+    const wasSelected = removedIds.has(get(selectedStructureIdAtom) ?? "");
+    const dependents = document.structures.filter(
+      (source) =>
+        !removedIds.has(source.conceptId) &&
+        source.elements?.some(
+          (child) =>
+            child.kind === "structureReference" &&
+            removedIds.has(child.structureId),
+        ),
     );
     if (dependents.length)
       throw new Error(
         `${document.structures[index].name} is used by ${dependents.map((source) => source.name).join(", ")}. Remove those instances before deleting the source.`,
       );
-    assertStructureGraph(
-      document.structures.filter((source) => source.conceptId !== id),
+    const structures = document.structures.filter(
+      (source) => !removedIds.has(source.conceptId),
     );
+    assertStructureGraph(structures);
     set(structuresDocumentAtom, {
       ...document,
-      structures: document.structures.filter((item) => item.conceptId !== id),
+      structures,
     });
     if (wasSelected) set(selectedStructureIdAtom, null);
-    return { structure: document.structures[index], index, wasSelected };
+    return {
+      structure: document.structures[index],
+      index,
+      wasSelected,
+      ...(nestedStructures.length && { nestedStructures }),
+    };
   },
 );
 export const restoreStructureAtom = atom(
@@ -295,19 +294,31 @@ export const restoreStructureAtom = atom(
   (get, set, removed: RemovedStructure) => {
     requireEditing(get(editModeAtom));
     const document = get(structuresDocumentAtom);
-    if (
-      document.structures.some(
-        (item) => item.conceptId === removed.structure.conceptId,
-      )
-    )
+    const restoredIds = new Set([
+      removed.structure.conceptId,
+      ...(removed.nestedStructures ?? []).map(
+        ({ structure }) => structure.conceptId,
+      ),
+    ]);
+    if (document.structures.some((item) => restoredIds.has(item.conceptId)))
       throw new Error("This structure has already been restored.");
-    const structures = [...document.structures];
-    structures.splice(
-      Math.min(removed.index, structures.length),
-      0,
-      removed.structure,
-    );
-    const next = { ...document, structures };
+    const restoredStructures = [
+      { structure: removed.structure, index: removed.index },
+      ...(removed.nestedStructures ?? []),
+    ]
+      .sort((left, right) => left.index - right.index)
+      .reduce<Structure[]>(
+        (restored, item) => {
+          restored.splice(
+            Math.min(item.index, restored.length),
+            0,
+            item.structure,
+          );
+          return restored;
+        },
+        [...document.structures],
+      );
+    const next = { ...document, structures: restoredStructures };
     set(validateStructuresAtom, next);
     buildTshirtArtifacts({ ...captureSnapshot(get), structures: next });
     set(structuresDocumentAtom, next);
@@ -338,10 +349,6 @@ export const applyStructureRuleAtom = atom(
       input.application.targets.kind === "all"
         ? eligibleStructureBindings(current).length > 0
         : input.application.targets.bindingIds.length > 0;
-    if (hasLayout && !structureGeneration(current).nameRef)
-      throw new Error(
-        "Choose Token naming in Structure settings before generating layout tokens.",
-      );
     const named = hasLayout
       ? governStructureName(
           current,

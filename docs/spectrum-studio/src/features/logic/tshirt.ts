@@ -1,6 +1,14 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { PrimitiveReference } from "../tokens/primitiveReferences";
-import { isRule, isTshirtRule, type TshirtSizingRule } from "./model";
+import type { ScaleType } from "../scales/scaleType";
+import {
+  isRoundingRule,
+  isRule,
+  isTshirtRule,
+  type Rule,
+  type TshirtSizingRule,
+} from "./model";
+import { applyRoundingRule } from "./evaluate";
 import { generatorSizeKey, generatorTermId } from "./generator";
 import { ruleAppliesToReference } from "./applicability";
 
@@ -26,11 +34,114 @@ export function resolveTshirtRule(
   return rule;
 }
 
+export interface TshirtMappingContext {
+  scaleTypes?: readonly ScaleType[];
+  rules?: readonly Rule[];
+}
+
+/** The multiplier a "ratio" rule applies per step, read from its typed value or linked formula part. */
+export function tshirtRatio(
+  rule: TshirtSizingRule,
+  scaleTypes: readonly ScaleType[] = [],
+): number {
+  const source = rule.ratio;
+  if (rule.movement !== "ratio" || !source)
+    throw new Error("Only a Multiply by ratio rule has a ratio.");
+  const value =
+    source.kind === "value"
+      ? source.value
+      : scaleTypes
+          .find((type) => type.id === source.scaleTypeId)
+          ?.parameters.find((parameter) => parameter.id === source.parameterId)
+          ?.default;
+  if (value === undefined)
+    throw new Error(
+      `${rule.name}: the linked ratio is unavailable. Link another formula part or type a ratio.`,
+    );
+  if (!Number.isFinite(value) || value <= 0)
+    throw new Error(`${rule.name}: the ratio must be a positive number.`);
+  return value;
+}
+
+function ratioMappings(
+  rule: TshirtSizingRule,
+  anchor: PrimitiveReference,
+  references: readonly PrimitiveReference[],
+  sizes: readonly string[],
+  context: TshirtMappingContext,
+): TshirtVariantMapping[] {
+  if (
+    anchor.error ||
+    typeof anchor.value !== "number" ||
+    !Number.isFinite(anchor.value) ||
+    anchor.value < 0
+  )
+    throw new Error(
+      anchor.error ??
+        "The Medium value must be a finite, non-negative number to multiply by a ratio.",
+    );
+  const ratio = tshirtRatio(rule, context.scaleTypes);
+  const rounding = rule.roundingRuleId
+    ? context.rules?.find((item) => item.id === rule.roundingRuleId)
+    : undefined;
+  if (rule.roundingRuleId && (!rounding || !isRoundingRule(rounding)))
+    throw new Error(
+      `${rule.name}: the rounding rule is unavailable. Choose another rounding rule.`,
+    );
+  const base = anchor.value;
+  const unit = anchor.unit ?? "px";
+  return rule.mappings
+    .filter((mapping) => sizes.includes(generatorSizeKey(mapping.termId)))
+    .map((option) => {
+      const size = generatorSizeKey(option.termId);
+      const offset = ruleAppliesToReference(rule, anchor) ? option.offset : 0;
+      const raw = base * ratio ** offset;
+      const value =
+        rounding && isRoundingRule(rounding)
+          ? applyRoundingRule(rounding, raw)
+          : raw;
+      const match =
+        offset === 0
+          ? anchor
+          : [...references]
+              .filter(
+                (item) =>
+                  item.family === anchor.family &&
+                  !item.hidden &&
+                  !item.error &&
+                  item.value === value,
+              )
+              .sort(
+                (left, right) =>
+                  Number(right.sourceId === anchor.sourceId) -
+                  Number(left.sourceId === anchor.sourceId),
+              )[0];
+      const target: PrimitiveReference = match ?? {
+        ...anchor,
+        id: `${anchor.id}:ratio:${offset}`,
+        name: `${value}${unit === "px" ? "px" : ""}`,
+        value,
+        displayValue: unit === "px" ? `${value}px` : String(value),
+        hidden: true,
+        synthetic: true,
+      };
+      return {
+        size,
+        termId: option.termId,
+        offset,
+        requested: offset,
+        actual: offset,
+        target,
+      };
+    });
+}
+
 export function tshirtMappings(
   rule: TshirtSizingRule,
   anchor: PrimitiveReference,
   references: readonly PrimitiveReference[],
   sizes: readonly string[],
+  context: TshirtMappingContext = {},
 ): TshirtVariantMapping[] {
   if (!isRule(rule))
     throw new Error(
@@ -48,6 +159,8 @@ export function tshirtMappings(
   ) {
     throw new Error("Choose supported, distinct T-shirt sizes.");
   }
+  if (rule.movement === "ratio")
+    return ratioMappings(rule, anchor, references, sizes, context);
   const available = references
     .filter(
       (item) =>

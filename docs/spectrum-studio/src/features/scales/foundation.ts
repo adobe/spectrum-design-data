@@ -72,6 +72,7 @@ export function isDimensionScale(value: unknown): value is DimensionScale {
     (scale.base === undefined || isFiniteNumber(scale.base)) &&
     isFiniteNumber(scale.below) &&
     isFiniteNumber(scale.above) &&
+    (scale.startStep === undefined || Number.isSafeInteger(scale.startStep)) &&
     isNumberRecord(scale.parameters) &&
     (scale.bindings === undefined || isBindingRecord(scale.bindings)) &&
     typeof scale.roundingRuleId === "string"

@@ -21,13 +21,19 @@ import {
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
 import { NumberField } from "../../components/fields/NumberField";
 import { Picker } from "../../components/fields/Picker";
 import { TokenComboBox } from "../../components/fields/TokenComboBox";
 import { RuleApplicabilityField } from "../../components/logic/RuleApplicabilityField";
 import { designSystemDefaults } from "../../data/defaults";
-import type { TshirtSizingRule } from "../../features/logic/model";
+import { rulesAtom } from "../../features/logic/library";
+import {
+  isRoundingRule,
+  type TshirtSizingRule,
+} from "../../features/logic/model";
+import { scaleTypesAtom } from "../../features/logic/scaleTypeLibrary";
 import {
   generatorDefault,
   generatorSizeKey,
@@ -38,7 +44,7 @@ import {
   type GeneratorEdit,
 } from "../../features/logic/generatorEdit";
 import { ruleAppliesToReference } from "../../features/logic/applicability";
-import { tshirtMappings } from "../../features/logic/tshirt";
+import { tshirtMappings, tshirtRatio } from "../../features/logic/tshirt";
 import type { TaxonomyDocument } from "../../features/taxonomy/model";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import { VARIANT_CATEGORY_IDS } from "../../features/taxonomy/variantVocabulary";
@@ -97,6 +103,27 @@ export function TshirtSizingRuleEditor({
 }: TshirtSizingRuleEditorProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const rules = useAtomValue(rulesAtom);
+  const scaleTypes = useAtomValue(scaleTypesAtom);
+  const ratioParts = scaleTypes.flatMap((type) =>
+    type.parameters.map((parameter) => ({
+      key: `${type.id}::${parameter.id}`,
+      label: `${type.name} ${parameter.label.toLowerCase()} (${parameter.default})`,
+      scaleTypeId: type.id,
+      parameterId: parameter.id,
+    })),
+  );
+  const ratioKey =
+    rule.ratio?.kind === "parameter"
+      ? `${rule.ratio.scaleTypeId}::${rule.ratio.parameterId}`
+      : "value";
+  let ratioError = "";
+  if (rule.movement === "ratio")
+    try {
+      tshirtRatio(rule, scaleTypes);
+    } catch (failure) {
+      ratioError = failure instanceof Error ? failure.message : String(failure);
+    }
   const terms = [
     ...taxonomy.terms.filter(
       (term) => !edit.terms.some((draft) => draft.id === term.id),
@@ -120,6 +147,7 @@ export function TshirtSizingRuleEditor({
           anchor,
           references,
           rule.mappings.map((mapping) => generatorSizeKey(mapping.termId)),
+          { rules, scaleTypes },
         ),
         error: "",
       };
@@ -129,7 +157,7 @@ export function TshirtSizingRuleEditor({
         error: failure instanceof Error ? failure.message : String(failure),
       };
     }
-  }, [rule, references, selected, eligible]);
+  }, [rule, references, selected, eligible, rules, scaleTypes]);
   return (
     <div className={sectionStyles} data-component="TshirtSizingRuleEditor">
       <div className={fieldsStyles}>
@@ -145,13 +173,25 @@ export function TshirtSizingRuleEditor({
           isDisabled={isReadOnly}
           description="Changing the method resets suggested offsets. Review them before saving."
           onSelectionChange={(key) => {
-            if (key !== "available-token" && key !== "scale-index") return;
+            if (
+              key !== "available-token" &&
+              key !== "scale-index" &&
+              key !== "ratio"
+            )
+              return;
             const position = rule.mappings.findIndex(
               (mapping) => mapping.termId === generatorDefault(rule),
             );
+            const { ratio: _ratio, roundingRuleId: _rounding, ...rest } = rule;
             onChange({
-              ...rule,
+              ...rest,
               movement: key,
+              ...(key === "ratio" && {
+                ratio: rule.ratio ?? { kind: "value" as const, value: 1.125 },
+                ...(rule.roundingRuleId && {
+                  roundingRuleId: rule.roundingRuleId,
+                }),
+              }),
               mappings: rule.mappings.map((mapping, index) => ({
                 ...mapping,
                 offset: (index - position) * (key === "scale-index" ? 100 : 1),
@@ -161,8 +201,97 @@ export function TshirtSizingRuleEditor({
         >
           <PickerItem id="available-token">Available tokens</PickerItem>
           <PickerItem id="scale-index">Numeric scale index</PickerItem>
+          <PickerItem id="ratio">Multiply by ratio</PickerItem>
         </Picker>
+        {rule.movement === "ratio" && (
+          <Picker
+            label="Ratio"
+            labelPosition="top"
+            selectedKey={ratioKey}
+            isDisabled={isReadOnly}
+            description="Each step up multiplies the default value by this ratio. Each step down divides by it."
+            onSelectionChange={(key) => {
+              if (key === "value")
+                return onChange({
+                  ...rule,
+                  ratio: {
+                    kind: "value",
+                    value: rule.ratio ? tshirtRatioOr(rule, scaleTypes) : 1.125,
+                  },
+                });
+              const part = ratioParts.find((item) => item.key === key);
+              if (part)
+                onChange({
+                  ...rule,
+                  ratio: {
+                    kind: "parameter",
+                    scaleTypeId: part.scaleTypeId,
+                    parameterId: part.parameterId,
+                  },
+                });
+            }}
+          >
+            {[
+              <PickerItem key="value" id="value">
+                Type a ratio
+              </PickerItem>,
+              ...ratioParts.map((part) => (
+                <PickerItem key={part.key} id={part.key}>
+                  {part.label}
+                </PickerItem>
+              )),
+            ]}
+          </Picker>
+        )}
+        {rule.movement === "ratio" && rule.ratio?.kind === "value" && (
+          <NumberField
+            label="Ratio value"
+            labelPosition="top"
+            value={rule.ratio.value}
+            minValue={0.001}
+            step={0.001}
+            isReadOnly={isReadOnly}
+            isInvalid={!!ratioError}
+            errorMessage={ratioError}
+            onChange={(value) =>
+              onChange({ ...rule, ratio: { kind: "value", value } })
+            }
+          />
+        )}
+        {rule.movement === "ratio" && (
+          <Picker
+            label="Round each value with"
+            labelPosition="top"
+            selectedKey={rule.roundingRuleId ?? "none"}
+            isDisabled={isReadOnly}
+            onSelectionChange={(key) => {
+              const { roundingRuleId: _rounding, ...rest } = rule;
+              onChange(
+                key === "none" || key === null
+                  ? rest
+                  : { ...rest, roundingRuleId: String(key) },
+              );
+            }}
+          >
+            {[
+              <PickerItem key="none" id="none">
+                No rounding
+              </PickerItem>,
+              ...rules.filter(isRoundingRule).map((item) => (
+                <PickerItem key={item.id} id={item.id}>
+                  {item.name}
+                </PickerItem>
+              )),
+            ]}
+          </Picker>
+        )}
       </div>
+      {rule.movement === "ratio" && ratioError && (
+        <InlineAlert variant="negative">
+          <Heading>Check the ratio</Heading>
+          <Content>{ratioError}</Content>
+        </InlineAlert>
+      )}
       <h3 className={titleStyles}>Generated options</h3>
       {rule.mappings.map((mapping) => {
         const isDefault = mapping.termId === generatorDefault(rule);
@@ -194,8 +323,8 @@ export function TshirtSizingRuleEditor({
               }}
             />
             <NumberField
-              label="Token offset"
-              aria-label={`${label(mapping.termId)} token offset`}
+              label={rule.movement === "ratio" ? "Steps" : "Token offset"}
+              aria-label={`${label(mapping.termId)} ${rule.movement === "ratio" ? "steps" : "token offset"}`}
               labelPosition="top"
               value={mapping.offset}
               step={1}
@@ -383,4 +512,15 @@ export function TshirtSizingRuleEditor({
         ))}
     </div>
   );
+}
+
+function tshirtRatioOr(
+  rule: TshirtSizingRule,
+  scaleTypes: Parameters<typeof tshirtRatio>[1],
+) {
+  try {
+    return tshirtRatio(rule, scaleTypes);
+  } catch {
+    return 1.125;
+  }
 }

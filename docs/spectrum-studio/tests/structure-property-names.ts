@@ -289,7 +289,7 @@ for (const type of ["Switch", "Picker"]) {
   const rendered = renderRow(props);
   const button = rendered.children[0] as RowElement;
   assert.equal(button.type, "ActionButton");
-  assert.equal(button.props.size, "M");
+  assert.equal(button.props.size, "S");
   assert.equal(button.props.UNSAFE_className, "structurePropertyNameButton");
   assert.equal(button.props["aria-label"], `Edit property ${props.name}`);
   const label = button.children[0] as RowElement;

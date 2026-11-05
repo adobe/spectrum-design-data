@@ -45,7 +45,7 @@ export function StructureGenerationControls({
     <>
       <div className="structureCompactRow">
         <Checkbox
-          size="M"
+          size="S"
           isSelected={generation.sizeTermIds.length > 1}
           isDisabled={isReadOnly}
           onChange={(enabled) => {
@@ -71,7 +71,7 @@ export function StructureGenerationControls({
             application={application}
             trigger={
               <ActionButton
-                size="M"
+                size="S"
                 isQuiet
                 aria-label="Edit T-shirt size bindings"
               >
@@ -126,7 +126,7 @@ export function StructureGenerationControls({
       </div>
       {generation.applications.length > 1 && (
         <Picker
-          size="M"
+          size="S"
           label="Sizing rule application"
           selectedKey={application?.id}
           onSelectionChange={(key) => setApplicationId(String(key))}

@@ -27,6 +27,7 @@ export function templateTargets(application: StructureRuleApplication) {
       : { kind: "custom" as const, bindingIds: [] })
   );
 }
+type ElementReferenceBinding = Extract<ElementBinding, { $ref: string }>;
 export function hasCustomElementTargets(
   structure: Structure,
   elementId: string,
@@ -68,15 +69,23 @@ export function appliedElementBindings(
             return found;
           });
     return selected
-      .filter((item) => {
-        const reference = references.find(
-          (reference) => reference.id === item.binding.$ref,
-        );
-        if (reference) return ruleAppliesToReference(rule, reference);
-        return item.binding.family === "size"
-          ? ruleAppliesToReference(rule, { family: "size" })
-          : !rule.applicability || rule.applicability.kind === "all";
-      })
+      .filter(
+        (
+          item,
+        ): item is {
+          element: StructureElement;
+          binding: ElementReferenceBinding;
+        } => {
+          if (!("$ref" in item.binding)) return false;
+          const reference = references.find(
+            (reference) => reference.id === item.binding.$ref,
+          );
+          if (reference) return ruleAppliesToReference(rule, reference);
+          return item.binding.family === "size"
+            ? ruleAppliesToReference(rule, { family: "size" })
+            : !rule.applicability || rule.applicability.kind === "all";
+        },
+      )
       .map((item) => {
         if (claimed.has(item.binding.id))
           throw new Error(
@@ -122,11 +131,41 @@ export function resolveElements(
       styles.height =
         element.orientation === STRUCTURE_TERM_IDS.vertical ? 64 : 2;
     } else {
-      styles.width = element.kind === "visual" ? 64 : 20;
-      styles.height = styles.width;
+      styles.width =
+        element.kind === "visual" ? 64 : element.kind === "slot" ? 96 : 20;
+      styles.height = element.kind === "slot" ? 24 : styles.width;
     }
     for (const binding of element.bindings) {
       try {
+        if (!("$ref" in binding)) {
+          const value = binding.value.value;
+          if (
+            !Number.isFinite(value) ||
+            value < 0 ||
+            !["px", "multiplier"].includes(binding.value.unit)
+          )
+            throw new Error("Choose a finite, non-negative value.");
+          if (binding.slot === "size") {
+            styles.width = value;
+            styles.height = value;
+          } else if (binding.slot === "lineHeight")
+            styles.lineHeight =
+              binding.value.unit === "multiplier" ? value : `${value}px`;
+          else if (binding.slot === "length")
+            styles[
+              element.orientation === STRUCTURE_TERM_IDS.vertical
+                ? "height"
+                : "width"
+            ] = value;
+          else if (binding.slot === "thickness")
+            styles[
+              element.orientation === STRUCTURE_TERM_IDS.vertical
+                ? "width"
+                : "height"
+            ] = value;
+          else styles[binding.slot] = value;
+          continue;
+        }
         const anchor = references.find((item) => item.id === binding.$ref);
         if (
           !anchor ||
@@ -141,7 +180,9 @@ export function resolveElements(
           (item) => item.binding.id === binding.id,
         );
         const mapping = application
-          ? tshirtMappings(application.rule, anchor, references, [size])[0]
+          ? tshirtMappings(application.rule, anchor, references, [size], {
+              rules,
+            })[0]
           : undefined;
         const reference = mapping?.target ?? anchor;
         if (

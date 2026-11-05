@@ -13,16 +13,20 @@ import {
 } from "./model";
 import { canonicalJson } from "../design-data/canonicalJson";
 import { structureName } from "./generation";
-import { ELEMENT_SLOT_LABELS, ELEMENT_TYPES } from "./elements";
+import { ELEMENT_SLOT_LABELS, elementLabel } from "./elements";
 import { templateTargets } from "./elementResolution";
 import { isLeaf, type StructureChild } from "./children";
 const childLabel = (child: StructureChild) =>
-  isLeaf(child) ? ELEMENT_TYPES[child.kind].label : "Structure instance";
+  isLeaf(child) ? elementLabel(child) : "Structure instance";
 
 export function structureFields(structure: Structure): Map<string, string> {
   const generation = structureGeneration(structure);
   return new Map([
-    ["name", structure.name],
+    [
+      "name",
+      structure.nameRef ? canonicalJson(structure.nameRef) : structure.name,
+    ],
+    ["parentStructureId", structure.parentStructureId ?? ""],
     ["description", structure.description ?? ""],
     ["editor", canonicalJson(structure.editor ?? null)],
     ["nameRef", canonicalJson(generation.nameRef ?? null)],
@@ -39,6 +43,7 @@ export function structureFields(structure: Structure): Map<string, string> {
           ][])
         : ([
             [`element/${element.id}/type`, element.termId],
+            [`element/${element.id}/name`, canonicalJson(element.name ?? null)],
             [
               `element/${element.id}/glyph`,
               canonicalJson(element.glyph ?? null),
@@ -93,8 +98,12 @@ function describe(
 ) {
   if (!selection) return undefined;
   if ("$ref" in selection) return `Token ${selection.$ref}`;
+  if (selection.value.kind === "number")
+    return `${selection.value.value}${selection.value.unit === "multiplier" ? "" : "px"}`;
   if (selection.value.kind === "sizing")
     return selection.value.preset === "hug" ? "Hug" : "Fill";
+  if (selection.value.kind === "derived")
+    return `Center content (token ${selection.value.contentRef}) in min height`;
   const id = selection.value.termId;
   return String(
     registry.terms.find((term) => term.id === id)?.value ??
@@ -121,8 +130,18 @@ export function structureChanges(
         ? structureName(original, registry)
         : undefined,
       latestName = latest ? structureName(latest, registry) : undefined;
-    if (originalName !== latestName)
+    if (
+      originalName !== latestName ||
+      canonicalJson(original?.nameRef ?? null) !==
+        canonicalJson(latest?.nameRef ?? null)
+    )
       fields.push({ key: "Name", before: originalName, after: latestName });
+    if (original?.parentStructureId !== latest?.parentStructureId)
+      fields.push({
+        key: "Containing Structure",
+        before: original?.parentStructureId,
+        after: latest?.parentStructureId,
+      });
     if ((original?.description ?? "") !== (latest?.description ?? ""))
       fields.push({
         key: "Description",
@@ -198,10 +217,10 @@ export function structureChanges(
           beforeElement && isLeaf(beforeElement) ? beforeElement : undefined,
         afterLeaf =
           afterElement && isLeaf(afterElement) ? afterElement : undefined;
-      for (const metadata of ["glyph", "orientation"] as const)
+      for (const metadata of ["glyph", "orientation", "name"] as const)
         if (beforeLeaf?.[metadata] !== afterLeaf?.[metadata]) {
           fields.push({
-            key: `${label} - ${metadata === "glyph" ? "Sample icon" : "Orientation"}`,
+            key: `${label} - ${metadata === "glyph" ? "Sample icon" : metadata === "name" ? "Slot name" : "Orientation"}`,
             before: beforeLeaf?.[metadata],
             after: afterLeaf?.[metadata],
           });
@@ -239,15 +258,6 @@ export function structureChanges(
         key: "Generate sizes",
         before: sizes(left?.sizeTermIds),
         after: sizes(right?.sizeTermIds),
-      });
-    if (
-      canonicalJson(left?.nameRef ?? null) !==
-      canonicalJson(right?.nameRef ?? null)
-    )
-      fields.push({
-        key: "Token naming",
-        before: left?.nameRef?.termId,
-        after: right?.nameRef?.termId,
       });
     const applications = new Set(
       [...(left?.applications ?? []), ...(right?.applications ?? [])].map(

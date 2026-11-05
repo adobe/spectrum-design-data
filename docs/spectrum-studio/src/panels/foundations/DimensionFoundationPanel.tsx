@@ -388,6 +388,20 @@ function ScaleEditorContent({
               Number.isFinite(value) && patch({ above: value })
             }
           />
+          <NumberField
+            label="Formula step named 100"
+            labelPosition="side"
+            value={scale.startStep ?? 0}
+            isDisabled={isReadOnly}
+            minValue={-SCALE_BELOW_MAX}
+            maxValue={SCALE_ABOVE_MAX}
+            step={1}
+            description="Starts the scale partway along its formula. 0 names the base value 100."
+            onChange={(value) =>
+              Number.isFinite(value) &&
+              patch({ startStep: Math.round(value) || undefined })
+            }
+          />
         </>
       }
       roundingField={

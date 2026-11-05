@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { assertColorScaleOutput } from "../color-system/colorScaleResolution";
 import { createColorDefaults } from "../../data/defaults";
 import type { ColorSystemDocument } from "../color-system/model";
 import {
@@ -46,6 +47,7 @@ import {
 import type { Interpolation } from "../scales/interpolationDefinition";
 import type { ScaleType } from "../scales/scaleType";
 import type { AuthoredAddress, ChangeContext } from "./contract";
+import { swatchIndex } from "../scales/swatchIndices";
 
 export type ChangeTopic =
   | "foundations"
@@ -144,6 +146,7 @@ export function generateDocumentTokens(
   document: ColorSystemDocument,
   rules: readonly Rule[] = RULE_DEFAULTS,
 ): GeneratedToken[] {
+  assertColorScaleOutput(document);
   const background = resolvedBackgroundLinear(document);
   return [
     ...generatePaletteTokens(document.palette, document.settings.colorOutput),
@@ -401,8 +404,10 @@ function compareModeTokens(
 export const SCALE_FIELDS = [
   "name",
   "stops",
+  "interpolation",
   "hideFromPublishing",
   "customContrasts",
+  "disabledCustomContrasts",
 ];
 export const DATA_VIS_FIELDS = [
   "name",
@@ -421,6 +426,7 @@ export const SPACING_SCALE_FIELDS = [
   "base",
   "below",
   "above",
+  "startStep",
   "parameters",
   "bindings",
   "roundingRuleId",
@@ -443,6 +449,8 @@ export const TSHIRT_RULE_FIELDS = [
   "type",
   "movement",
   "mappings",
+  "ratio",
+  "roundingRuleId",
 ];
 export const SCALE_NAMING_RULE_FIELDS = [
   "applicability",
@@ -496,7 +504,7 @@ export const INTERPOLATION_FIELDS = [
   "parameters",
   "expression",
 ];
-export const CONTRAST_FIELDS = ["value", "oppositeValue"];
+export const CONTRAST_FIELDS = ["value", "oppositeValue", "scaleIndex"];
 export const SURFACE_FIELDS = [
   "name",
   "source",
@@ -519,6 +527,9 @@ export function colorSettingsPair(document: ColorSystemDocument) {
   };
   const after: Record<string, unknown> = {
     ...document.settings,
+    colorScaleType: document.settings.colorScaleType ?? "dynamic-blend",
+    syncDefaultStopsWithOpacity:
+      document.settings.syncDefaultStopsWithOpacity ?? false,
     contrastReference: contrastReference(document),
     polarityCompensation: polarityCompensation(document),
     contrastMultiplier: contrastMultiplier(document),
@@ -562,8 +573,14 @@ export function buildChangeGroups(
     ),
     ...compareObjects(
       "contrast",
-      defaults.contrasts,
-      document.contrasts,
+      defaults.contrasts.map((step, index) => ({
+        ...step,
+        scaleIndex: swatchIndex(step, index),
+      })),
+      document.contrasts.map((step, index) => ({
+        ...step,
+        scaleIndex: swatchIndex(step, index),
+      })),
       CONTRAST_FIELDS,
     ),
     ...compareObjects(

@@ -173,6 +173,81 @@ const endpoint = tshirtMappings(baseRule, irregular[0], irregular, sizes);
 assert.equal(endpoint[0].target.id, endpoint[2].target.id);
 assert.equal(endpoint[0].actual, 0);
 assert.match(endpoint[0].warning!, /Nearest available/);
+const ratioRule: TshirtSizingRule = {
+  ...baseRule,
+  movement: "ratio",
+  ratio: { kind: "parameter", scaleTypeId: "type", parameterId: "ratio" },
+  roundingRuleId: "rule-whole-numbers",
+};
+assert.ok(isRule(ratioRule));
+assert.equal(
+  isRule({ ...baseRule, ratio: { kind: "value", value: 2 } }),
+  false,
+);
+assert.equal(
+  isRule({ ...ratioRule, ratio: { kind: "value", value: 0 } }),
+  false,
+);
+const ratioAnchor = { ...irregular[2], value: 12 };
+const ratioPool = [ratioAnchor, { ...irregular[3], value: 14, hidden: false }];
+const ratioContext = {
+  scaleTypes: [
+    {
+      id: "type",
+      name: "Type scale",
+      description: "",
+      kind: "type-scale" as const,
+      parameters: [
+        {
+          id: "ratio",
+          label: "Ratio",
+          default: 1.125,
+          step: 0.001,
+          adaptable: false,
+          overridable: false,
+        },
+      ],
+      base: { default: 14, step: 1, adaptable: false, overridable: false },
+    },
+  ],
+  rules: [
+    { ...resolveRule([], "rule-whole-numbers"), id: "rule-whole-numbers" },
+  ],
+};
+const ratioOutput = tshirtMappings(
+  ratioRule,
+  ratioAnchor,
+  ratioPool,
+  sizes,
+  ratioContext,
+);
+assert.deepEqual(
+  ratioOutput.map((mapping) => mapping.target.value),
+  [9, 11, 12, 14, 15],
+  "Medium 12 steps by 1.125 and rounds to whole numbers",
+);
+assert.equal(ratioOutput[2].target.id, ratioAnchor.id);
+assert.equal(
+  ratioOutput[3].target.id,
+  ratioPool[1].id,
+  "A value that exactly equals a token aliases that token",
+);
+assert.ok(ratioOutput[0].target.hidden && ratioOutput[4].target.hidden);
+assert.deepEqual(
+  tshirtMappings(
+    { ...ratioRule, ratio: { kind: "value", value: 2 } },
+    ratioAnchor,
+    ratioPool,
+    ["s", "l"],
+    ratioContext,
+  ).map((mapping) => mapping.target.value),
+  [6, 24],
+  "A typed ratio replaces the linked formula part",
+);
+assert.throws(
+  () => tshirtMappings(ratioRule, ratioAnchor, ratioPool, sizes, {}),
+  /linked ratio is unavailable/,
+);
 assert.throws(() => tshirtMappings(baseRule, anchor, [], sizes), /anchor/);
 assert.throws(
   () =>

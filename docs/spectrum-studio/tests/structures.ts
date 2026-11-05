@@ -19,6 +19,7 @@ import {
   STRUCTURE_TERM_IDS,
 } from "../src/features/structures/vocabulary";
 import { structuresDocumentAtom } from "../src/features/structures/documentState";
+import { reconcileStructureNames } from "../src/features/structures/registeredNames";
 import { primitiveReferencesAtom } from "../src/features/tokens/primitiveReferenceState";
 import { addSizeScaleAtom, sizeDocumentAtom } from "../src/features/size/state";
 import {
@@ -76,7 +77,7 @@ import { componentsDocumentAtom } from "../src/features/components/documentState
 
 const store = createStore();
 store.set(componentsDocumentAtom, { schemaVersion: 2, components: [] });
-const taxonomy = store.get(taxonomyDocumentAtom);
+let taxonomy = store.get(taxonomyDocumentAtom);
 for (const category of STRUCTURE_CATEGORIES) {
   const registered = taxonomy.categories.find(
     (item) => item.id === category.id,
@@ -178,7 +179,14 @@ linked = assignStructure(assignStructure(linked, { paddingTop: null }), {
   paddingTop: { $ref: spacing.id },
 });
 assert.equal(structureBinding(linked, "paddingTop")!.id, originalPaddingId);
-const document = { schemaVersion: 1 as const, structures: [linked] };
+const registered = reconcileStructureNames(
+  taxonomy,
+  { schemaVersion: 7, structures: [] },
+  { schemaVersion: 7, structures: [linked] },
+);
+taxonomy = registered.taxonomy;
+const document = registered.document;
+store.set(taxonomyDocumentAtom, taxonomy);
 assertStructureTaxonomy(document, taxonomy);
 assertStructureReferences(
   document,
@@ -199,6 +207,7 @@ assert.throws(
   /Structure 1.*Width/,
 );
 store.set(structuresDocumentAtom, document);
+taxonomy = store.get(taxonomyDocumentAtom);
 const horizontalBinding = structureBinding(linked, "horizontal")!;
 assert.equal(
   structureTaxonomyAssignments(horizontalBinding)[

@@ -62,8 +62,8 @@ assert.deepEqual(
     parameters: global.parameters,
   },
   {
-    name: "Global",
-    scaleTypeId: SIZE_SCALE_TYPE_ID,
+    name: "global",
+    scaleTypeId: "scale-type-spacing",
     base: undefined,
     below: 2,
     above: 12,
@@ -72,12 +72,12 @@ assert.deepEqual(
 );
 assert.ok(isSizeDocument(SIZE_DEFAULTS));
 
-// Generation: a linear ramp of whole numbers with the base at step 100.
+// Generation: the spacing formula, shifted so step 200 is 32px.
 const values = generateSizeScale(global);
 assert.equal(values.length, global.below + 1 + global.above);
 assert.deepEqual(
   values.map((value) => value.value),
-  Array.from({ length: values.length }, (_, index) => 8 * (index + 1)),
+  [16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120, 144, 168, 216, 256],
 );
 assert.equal(
   values.find((value) => value.index === 0)!.name,
@@ -94,7 +94,8 @@ assert.deepEqual(sizeScaleIssues(values), []);
   assert.equal(
     store.get(generatedSizeAtom)[0].values.find((value) => value.index === 0)!
       .value,
-    16,
+    // The spacing formula is offset by its start step, so base 16 lands step 100 on 40.
+    40,
   );
   assert.ok(
     isSizeScaleNameTaken(store.get(sizeDocumentAtom), " global ", "other"),
@@ -103,8 +104,9 @@ assert.deepEqual(sizeScaleIssues(values), []);
     !isSizeScaleNameTaken(store.get(sizeDocumentAtom), "Global", global.id),
   );
 
+  const defaultCount = SIZE_DEFAULTS.scales.length;
   const addedId = store.set(addSizeScaleAtom);
-  assert.equal(store.get(sizeDocumentAtom).scales.length, 2);
+  assert.equal(store.get(sizeDocumentAtom).scales.length, defaultCount + 1);
   const added = store
     .get(sizeDocumentAtom)
     .scales.find((scale) => scale.id === addedId)!;
@@ -115,9 +117,9 @@ assert.deepEqual(sizeScaleIssues(values), []);
   );
 
   store.set(removeSizeScaleAtom, added.id);
-  assert.equal(store.get(sizeDocumentAtom).scales.length, 1);
-  store.set(restoreSizeScaleAtom, { scale: added, index: 1 });
-  assert.equal(store.get(sizeDocumentAtom).scales.length, 2);
+  assert.equal(store.get(sizeDocumentAtom).scales.length, defaultCount);
+  store.set(restoreSizeScaleAtom, { scale: added, index: defaultCount });
+  assert.equal(store.get(sizeDocumentAtom).scales.length, defaultCount + 1);
 }
 
 // Tokens: size tokens are published in the browser unless the scale is hidden.
@@ -125,7 +127,9 @@ assert.deepEqual(sizeScaleIssues(values), []);
   const store = createStore();
   store.set(componentsDocumentAtom, { schemaVersion: 2, components: [] });
   const sizeTokens = () =>
-    store.get(browserTokensAtom).filter((token) => token.type === "size");
+    store
+      .get(browserTokensAtom)
+      .filter((token) => token.type === "size" && token.groupId === global.id);
   assert.equal(sizeTokens().length, values.length);
   assert.ok(sizeTokens().every((token) => token.unit === "px"));
   store.set(updateSizeScaleAtom, {
@@ -181,7 +185,10 @@ assert.deepEqual(sizeScaleIssues(values), []);
     ["foundations", "registry", "tokens"],
   );
   store.set(resetAllChangeDataAtom);
-  assert.equal(store.get(sizeDocumentAtom).scales.length, 1);
+  assert.equal(
+    store.get(sizeDocumentAtom).scales.length,
+    SIZE_DEFAULTS.scales.length,
+  );
 }
 
 // Cancel in edit mode restores size.
@@ -199,7 +206,7 @@ assert.deepEqual(sizeScaleIssues(values), []);
   assert.ok(
     store
       .get(ruleConsumersAtom)
-      .some((consumer) => consumer.label === "Size › Global"),
+      .some((consumer) => consumer.label === "Size › global"),
   );
   const custom = { ...createScaleType(), name: "Custom grid" };
   store.set(addScaleTypeAtom, custom);
@@ -212,7 +219,7 @@ assert.deepEqual(sizeScaleIssues(values), []);
       .get(scaleTypeConsumersAtom)
       .filter((consumer) => consumer.scaleTypeId === custom.id)
       .map((consumer) => consumer.label),
-    ["Size › Global"],
+    ["Size › global"],
   );
   assert.equal(
     store.set(deleteScaleTypeAtom, custom.id),
