@@ -2934,6 +2934,37 @@ mod tests {
     }
 
     #[test]
+    fn button_fill_content_color_per_color_scheme() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // Accent and negative content stays white in both schemes; primary flips with gray-25.
+        for (variant, scheme, want) in [
+            ("accent", "light", "rgb(255, 255, 255)"),
+            ("accent", "dark", "rgb(255, 255, 255)"),
+            ("negative", "dark", "rgb(255, 255, 255)"),
+            ("accent", "wireframe", "rgb(255, 255, 255)"),
+            ("negative", "wireframe", "rgb(255, 255, 255)"),
+            ("primary", "light", "rgb(255, 255, 255)"),
+            ("primary", "dark", "rgb(17, 17, 17)"),
+            ("primary", "wireframe", "rgb(254, 254, 255)"),
+        ] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.mode.insert("colorScheme".into(), scheme.into());
+            r.options.insert("variant".into(), variant.into());
+            r.options.insert("style".into(), "fill".into());
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            for part in ["icon", "label"] {
+                let n = scene.nodes.iter().find(|n| n.part == part).unwrap();
+                assert_eq!(n.color.as_deref(), Some(want), "{variant} {scheme} {part}");
+            }
+        }
+    }
+
+    #[test]
     fn measurements_record_each_dimension_with_its_token() {
         let (g, recipe) = load();
         let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
@@ -3408,6 +3439,24 @@ mod tests {
     }
 
     #[test]
+    fn button_icon_size_follows_the_workflow_icon_tokens() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // workflow-icon-small/medium/large/extra-large (desktop), as in Figma and S2.
+        for (size, want) in [("s", 16.0), ("m", 18.0), ("l", 20.0), ("xl", 22.0)] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.size = size.into();
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            let icon = scene.nodes.iter().find(|n| n.part == "icon").unwrap();
+            assert_eq!((icon.w, icon.h), (want, want), "{size}");
+        }
+    }
+
+    #[test]
     fn text_height_follows_line_height_and_defaults_to_1_3() {
         let h = |lh: Value| {
             let mut p = serde_json::json!({ "fontSize": { "value": 10 } });
@@ -3434,6 +3483,24 @@ mod tests {
             let d = diags(serde_json::json!({ "value": bad }));
             assert_eq!(d.len(), 1, "{bad}: {d:?}");
             assert!(d[0].contains(bad), "{d:?}");
+        }
+    }
+
+    #[test]
+    fn button_label_line_height_follows_the_font_size_tokens() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/button.json")).unwrap(),
+        )
+        .unwrap();
+        // line-height-font-size-75..300 (desktop), as in Figma and S2; 1.3 x 18 would be 23.4 at XL.
+        for (size, want) in [("s", 16.0), ("m", 18.0), ("l", 20.0), ("xl", 22.0)] {
+            let mut r = req(&[]);
+            r.component = "button".into();
+            r.size = size.into();
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            let label = scene.nodes.iter().find(|n| n.part == "label").unwrap();
+            assert_eq!(label.h, want, "{size}");
         }
     }
 
