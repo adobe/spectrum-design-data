@@ -19,6 +19,7 @@ mod changelog;
 mod data;
 mod format;
 mod lifecycle;
+mod render_batch;
 mod spec_sheet;
 
 use std::collections::{HashMap, HashSet};
@@ -225,8 +226,16 @@ enum Commands {
     /// Render a component from its visual recipe to SVG (draft)
     Render {
         /// Component name (e.g. action-button)
-        #[arg(value_name = "COMPONENT")]
-        component: String,
+        #[arg(value_name = "COMPONENT", required_unless_present = "batch")]
+        component: Option<String>,
+        /// Render every state of this JSON file (an array, or {"states": [...]}) with its own
+        /// component, size, states, options, colorScheme, scale, label, platform and id;
+        /// writes <id>.svg and <id>.scene.json per state plus index.json into --out
+        #[arg(long, value_name = "FILE", requires = "out", conflicts_with_all = ["output", "format"])]
+        batch: Option<PathBuf>,
+        /// Directory for --batch outputs
+        #[arg(long, value_name = "DIR", requires = "batch")]
+        out: Option<PathBuf>,
         /// Size key from the recipe's sizeScale (xs, s, m, l, xl)
         #[arg(long, default_value = "m")]
         size: String,
@@ -257,6 +266,27 @@ enum Commands {
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
+    },
+    /// Compare scenes from `render --batch` with measured platform values (draft)
+    RenderCompare {
+        /// Directory of <id>.scene.json files (a `render --batch --out` directory)
+        #[arg(long, value_name = "DIR")]
+        scenes: PathBuf,
+        /// Measured-values JSON (format design-data-measured/1)
+        #[arg(long, value_name = "FILE")]
+        measured: PathBuf,
+        /// Override a tolerance as NAME=VALUE (repeatable): size, fontSize, fontWeight, color
+        #[arg(long = "tolerance", value_name = "NAME=VALUE")]
+        tolerances: Vec<String>,
+        /// Output format
+        #[arg(long, default_value = "json", value_parser = ["json", "markdown"])]
+        format: String,
+        /// Write output here instead of stdout
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
+        /// Exit 1 when any value differs or a state has no scene
+        #[arg(long)]
+        fail_on_diff: bool,
     },
     /// Generate the spec-sheet model (draft) for a component: pages of blocks with scenes and token rows
     SpecSheet {
@@ -1084,8 +1114,19 @@ fn load_visual_env(
     visuals_path: Option<PathBuf>,
     load_visuals: bool,
 ) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
+    load_visual_env_for(path, visuals_path, load_visuals, None)
+}
+
+/// Like [`load_visual_env`], with `platform` overriding the global `--platform`.
+fn load_visual_env_for(
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+    load_visuals: bool,
+    platform: Option<String>,
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: path,
+        platform_id: platform,
         ..Default::default()
     })?;
     let mut graph = TokenGraph::from_json_dir_with_catalogs(
@@ -1177,7 +1218,9 @@ fn run_site(
 
 #[allow(clippy::too_many_arguments)]
 fn run_render(
-    component: String,
+    component: Option<String>,
+    batch: Option<PathBuf>,
+    out: Option<PathBuf>,
     size: String,
     states: Vec<String>,
     options: Vec<String>,
@@ -1189,6 +1232,10 @@ fn run_render(
     format: String,
     output: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
+    if let (Some(file), Some(dir)) = (&batch, &out) {
+        return render_batch::run_batch(file, dir, visuals_path, path);
+    }
+    let component = component.expect("clap requires COMPONENT without --batch");
     let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
     let recipe = &graph
         .visual_recipe(&component)
@@ -4142,8 +4189,25 @@ fn main() -> ExitCode {
             format,
             path,
         } => run_anatomy_suggest(components, format, path),
+        Commands::RenderCompare {
+            scenes,
+            measured,
+            tolerances,
+            format,
+            output,
+            fail_on_diff,
+        } => render_batch::run_compare(
+            &scenes,
+            &measured,
+            tolerances,
+            &format,
+            output,
+            fail_on_diff,
+        ),
         Commands::Render {
             component,
+            batch,
+            out,
             size,
             states,
             options,
@@ -4156,6 +4220,8 @@ fn main() -> ExitCode {
             output,
         } => run_render(
             component,
+            batch,
+            out,
             size,
             states,
             options,

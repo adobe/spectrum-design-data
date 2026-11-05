@@ -2487,7 +2487,7 @@ fn css_font_family(f: Option<&str>) -> String {
 }
 
 /// SVG needs numeric weights; tokens carry names such as `medium`.
-fn css_font_weight(w: Option<&str>) -> String {
+pub(crate) fn css_font_weight(w: Option<&str>) -> String {
     match w.unwrap_or("400") {
         "thin" => "100",
         "extra-light" | "ultra-light" => "200",
