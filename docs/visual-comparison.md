@@ -75,17 +75,21 @@ An adapter writes one JSON document, `design-data-measured/1`:
 * `states[].id` is the id from the batch render. `parts` keys are the **recipe part names** in the scene (`container`, `label`, `icon`). The adapter maps a DOM element or view to a part name; a part the scene lacks is reported as skipped, not as a difference.
 * Every property is optional. Measure what you can.
 
-| Property                                                     | Value                           | Compared with                             |
-| ------------------------------------------------------------ | ------------------------------- | ----------------------------------------- |
-| `width`, `height`                                            | number                          | the part's box                            |
-| `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft` | number                          | the token-bound padding measurement (LTR) |
-| `cornerRadius`                                               | number                          | the part's corner radius                  |
-| `fill`                                                       | colour                          | a box's fill                              |
-| `color`                                                      | colour                          | a text part's colour                      |
-| `fontSize`                                                   | number                          | the text part's font size                 |
-| `fontWeight`                                                 | number (`700`) or name (`bold`) | the text part's weight                    |
+| Property                                                          | Value                           | Compared with                                                               |
+| ----------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------- |
+| `width`, `height`                                                 | number                          | the part's box                                                              |
+| `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`      | number                          | the container's padding (LTR)                                               |
+| `cornerRadius`                                                    | number                          | the part's corner radius                                                    |
+| `cornerRadiusTopLeft`, `…TopRight`, `…BottomRight`, `…BottomLeft` | number                          | one corner (LTR); the uniform radius when the scene has no per-corner radii |
+| `gap`                                                             | number                          | the container's gap (needs two or more children in the scene)               |
+| `borderWidth` (or `strokeWidth`)                                  | number                          | the container's stroke width                                                |
+| `stroke`                                                          | colour                          | the container's stroke colour (`none` when undrawn)                         |
+| `fill`                                                            | colour                          | a box's fill                                                                |
+| `color`                                                           | colour                          | a text part's colour                                                        |
+| `fontSize`                                                        | number                          | the text part's font size                                                   |
+| `fontWeight`                                                      | number (`700`) or name (`bold`) | the text part's weight                                                      |
 
-Units match the scene: CSS pixels on the web, points on iOS. Never device pixels. Take the unscaled layout box (`getBoundingClientRect` at scale 1, or a view's frame), not a transformed one. Colours are `rgb()`, `rgba()` (comma or space syntax), `#rgb`, `#rrggbb`, `#rrggbbaa`, `transparent` or `none`. Padding is only compared when the scene has a token-bound padding for that edge; otherwise the value is reported as skipped. A colour that can't be parsed is skipped, with the reason.
+Units match the scene: CSS pixels on the web, points on iOS. Never device pixels. Take the unscaled layout box (`getBoundingClientRect` at scale 1, or a view's frame), not a transformed one. Colours are `rgb()`, `rgba()` (comma or space syntax), `#rgb`, `#rrggbb`, `#rrggbbaa`, `transparent` or `none`. Padding is compared with the scene's solved padding on the container. A padding with no token binding is still compared, and its row is marked `unbound` (no token in the row). Padding and gap are read from the container only; on other parts they are skipped. `stroke` is compared with the part's drawn stroke, and `none` when the scene draws none (no colour or no positive width). A colour that can't be parsed is skipped, with the reason.
 
 ## 3. Compare
 

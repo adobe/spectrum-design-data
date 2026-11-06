@@ -366,10 +366,22 @@ pub struct Scene {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub opacity: Option<f64>,
     pub nodes: Vec<SceneNode>,
+    /// The container's solved gap and padding, bound to a token or not (left-to-right).
+    pub layout: Layout,
     /// Token-bound dimensions of the layout; empty when none of them is token-bound.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub measurements: Vec<Measurement>,
     pub diagnostics: Vec<String>,
+}
+
+/// Solved container layout values, so a comparison can check literal (unbound) ones too.
+#[derive(Debug, Clone, Serialize)]
+pub struct Layout {
+    /// Set only when two or more children flow, since a gap needs a neighbour.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gap: Option<f64>,
+    /// `[top, right, bottom, left]`.
+    pub padding: [f64; 4],
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -2280,6 +2292,10 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             })
             .unwrap_or(0.0)
     };
+    let layout = Layout {
+        gap: (flow.len() > 1).then_some(gap),
+        padding: [pad_bs, pad_e, pad_be, pad_s],
+    };
     let mut x = ox + pad_s;
     let mut y = oy
         + pad_bs
@@ -2717,6 +2733,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         measurements,
         opacity: opacity.as_ref().and_then(Resolved::num),
         nodes,
+        layout,
         diagnostics: cx.diags,
     })
 }

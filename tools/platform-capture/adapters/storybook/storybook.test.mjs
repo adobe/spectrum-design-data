@@ -50,7 +50,8 @@ const PAGE = `<!doctype html><style>
   :root { --spectrum-accent: rgb(10, 20, 30); --swc-pad: 12px; }
   .btn { display: inline-flex; align-items: center; box-sizing: border-box; height: 40px; padding: 0 20px;
     border-radius: 9999px; background: var(--spectrum-accent); color: rgb(255, 255, 255);
-    font: 700 16px/18px Arial; border: 0; }
+    font: 700 16px/18px Arial; border: 0; gap: 6px; }
+  .btn.outlined { border: 2px solid rgb(1, 2, 3); border-radius: 4px 8px 12px 0; }
 </style><body style="margin:0"><button class="btn"><svg width="10" height="10"></svg><span>Press me</span></button></body>`;
 
 async function withPage(t, fn) {
@@ -75,6 +76,20 @@ test("measureElement reads container, label and icon values in CSS px", (t) =>
     const btn = await page.locator(".btn").elementHandle();
     const c = (await btn.evaluate(measureElement, "container")).props;
     t.like(c, { height: 40, paddingLeft: 20, paddingRight: 20, paddingTop: 0, cornerRadius: 20, fill: "rgb(10, 20, 30)" });
+    t.like(c, { gap: 6, borderWidth: 0, stroke: "none", cornerRadiusTopLeft: 20, cornerRadiusTopRight: 20, cornerRadiusBottomRight: 20, cornerRadiusBottomLeft: 20 });
+    await btn.evaluate((e) => e.classList.add("outlined"));
+    t.like((await btn.evaluate(measureElement, "container")).props, {
+      borderWidth: 2,
+      stroke: "rgb(1, 2, 3)",
+      cornerRadius: 4,
+      cornerRadiusTopRight: 8,
+      cornerRadiusBottomRight: 12,
+      cornerRadiusBottomLeft: 0,
+    });
+    await btn.evaluate((e) => e.classList.remove("outlined"));
+    await btn.evaluate((e) => Object.assign(e.style, { flexDirection: "column", rowGap: "9px", columnGap: "3px" }));
+    t.is((await btn.evaluate(measureElement, "container")).props.gap, 9);
+    await btn.evaluate((e) => Object.assign(e.style, { flexDirection: "", rowGap: "", columnGap: "" }));
     const label = await (await page.locator("span").elementHandle()).evaluate(measureElement, "label");
     t.like(label.props, { fontSize: 16, fontWeight: 700, color: "rgb(255, 255, 255)", height: 18 });
     t.true(label.props.width > 40 && label.props.width < 80);
