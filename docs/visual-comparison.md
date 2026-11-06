@@ -28,6 +28,7 @@ design-data render --batch states.json --out renders/
 | `options`              | `{}`                | Component options (`{ "style": "accent" }`)                                                                               |
 | `colorScheme`, `scale` | `light`, `desktop`  | Mode context                                                                                                              |
 | `label`                | `Label`             | Text for text parts                                                                                                       |
+| `icon`                 | recipe's icon       | `{ "set": "workflow", "name": "edit" }` replaces a content icon; `"none"` hides an optional one (label-only button)       |
 | `platform`             | global `--platform` | A `[platforms.<id>]` entry; the batch loads one graph per platform                                                        |
 | `id`                   | derived             | File stem and the key the measured file uses; derived from the fields (for example `button-m-style-accent-light-desktop`) |
 

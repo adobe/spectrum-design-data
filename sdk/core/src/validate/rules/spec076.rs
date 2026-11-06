@@ -75,6 +75,7 @@ pub(crate) fn requests(graph: &TokenGraph, v: &VisualRecord) -> Vec<RenderReques
                             ("scale".to_string(), scale.to_string()),
                         ]),
                         label: "Label".into(),
+                        icon: None,
                     });
                 }
             }

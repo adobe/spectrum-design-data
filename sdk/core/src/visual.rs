@@ -133,6 +133,49 @@ pub struct RenderRequest {
     /// Mode context, e.g. `colorScheme` → `light`, `scale` → `desktop`.
     pub mode: HashMap<String, String>,
     pub label: String,
+    /// Replaces the icon of every part whose `icon` has `content: true`, or hides it.
+    pub icon: Option<IconOverride>,
+}
+
+/// A request's `icon`: `{ "set", "name" }` or `"none"` (spec: component-visuals.md, Content icons).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum IconOverride {
+    None,
+    Icon { set: String, name: String },
+}
+
+impl<'de> serde::Deserialize<'de> for IconOverride {
+    fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
+        use serde::de::Error;
+        let v = Value::deserialize(d)?;
+        if v.as_str() == Some("none") {
+            return Ok(Self::None);
+        }
+        let field = |k: &str| v.get(k).and_then(Value::as_str).map(String::from);
+        match (field("set"), field("name")) {
+            (Some(set), Some(name)) => Ok(Self::Icon { set, name }),
+            _ => Err(D::Error::custom(
+                "icon must be \"none\" or an object with string set and name",
+            )),
+        }
+    }
+}
+
+impl std::str::FromStr for IconOverride {
+    type Err = String;
+    /// `none` or `set:name`, the CLI spelling.
+    fn from_str(s: &str) -> Result<Self, String> {
+        if s == "none" {
+            return Ok(Self::None);
+        }
+        match s.split_once(':') {
+            Some((set, name)) if !set.is_empty() && !name.is_empty() => Ok(Self::Icon {
+                set: set.into(),
+                name: name.into(),
+            }),
+            _ => Err(format!("--icon expects 'none' or SET:NAME, got '{s}'")),
+        }
+    }
 }
 
 /// The label scenes and compiled recipes use for a token record.
@@ -1108,6 +1151,12 @@ impl<'a> CompileCx<'a> {
     }
 }
 
+/// Whether `part` is an icon part whose `icon` has `content: true`, and `optional: true`.
+fn is_content_icon(part: &Value) -> (bool, bool) {
+    let flag = |k: &str| part.pointer(&format!("/icon/{k}")) == Some(&Value::Bool(true));
+    (flag("content"), flag("optional"))
+}
+
 impl Ctx<'_> {
     /// An unset `label` option follows the request label: empty means icon-only.
     fn option(&self, name: &str) -> Value {
@@ -1167,6 +1216,10 @@ impl Ctx<'_> {
     }
 
     fn visible(&self, part: &Value) -> bool {
+        // `icon: none` removes an optional content icon like a failed `visibleWhen`.
+        if self.req.icon == Some(IconOverride::None) && is_content_icon(part) == (true, true) {
+            return false;
+        }
         self.when_score(part.get("visibleWhen")).is_some()
     }
 
@@ -1614,6 +1667,16 @@ fn compile_variant(
     };
     let option_defaults = component_option_defaults(graph, &req.component);
     let mut compiled = cx.compile_parts(parts);
+    if let Some(IconOverride::Icon { set, name }) = &req.icon {
+        for icon in compiled
+            .values_mut()
+            .filter_map(|p| p.get_mut("icon"))
+            .filter(|i| i["content"] == true)
+        {
+            icon["set"] = set.clone().into();
+            icon["name"] = name.clone().into();
+        }
+    }
     let mut drawings = serde_json::Map::new();
     cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
     Ok(CompiledVariant {
@@ -1638,9 +1701,10 @@ impl SceneCache {
         let mut hasher = std::collections::hash_map::DefaultHasher::new();
         recipe.to_string().hash(&mut hasher);
         let key = format!(
-            "{}\u{1f}{}\u{1f}{modes:?}\u{1f}{:016x}",
+            "{}\u{1f}{}\u{1f}{modes:?}\u{1f}{:?}\u{1f}{:016x}",
             req.component,
             req.size,
+            req.icon,
             hasher.finish()
         );
         if let Some(v) = self.variants.borrow().get(&key) {
@@ -2611,11 +2675,27 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         _ => None,
     };
 
+    if req.icon == Some(IconOverride::None)
+        && cx.option("isLabelHidden") == Value::Bool(true)
+        && parts.values().any(|p| {
+            is_content_icon(p) == (true, true) && cx.when_score(p.get("visibleWhen")).is_some()
+        })
+    {
+        cx.diags
+            .push("icon none with isLabelHidden leaves the component with nothing to draw".into());
+    }
+
     // Every icon node names the icon its part references and carries its compiled drawing.
     for n in nodes.iter_mut().filter(|n| n.kind == "icon") {
         let Some(part) = parts.get(&n.part) else {
             continue;
         };
+        if req.icon == Some(IconOverride::None) && is_content_icon(part) == (true, false) {
+            cx.diags.push(format!(
+                "icon none is not allowed on part '{}' (its icon is not optional); keeping the recipe's icon",
+                n.part
+            ));
+        }
         n.icon = IconRef::of_part(part).map(|mut icon| {
             icon.drawing = part
                 .get("drawing")
@@ -4180,6 +4260,136 @@ mod tests {
             .and_then(|i| i.drawing.as_ref())
             .map(|d| d["viewBox"].as_str().unwrap().to_string());
         (view_box, scene.diagnostics.clone())
+    }
+
+    /// The `mark` icon part of the gadget recipe, rendered with a request `icon`.
+    fn override_scene(icon: Value, request: Option<IconOverride>) -> Scene {
+        let g = icon_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {
+                "box": {"kind": "box", "children": ["mark"]},
+                "mark": {"kind": "icon", "icon": icon,
+                    "props": {"width": {"value": 10}, "height": {"value": 10}}}
+            }
+        });
+        let req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            icon: request,
+            ..Default::default()
+        };
+        build_scene(&g, &recipe, &req).unwrap()
+    }
+
+    fn pick(set: &str, name: &str) -> Option<IconOverride> {
+        Some(IconOverride::Icon {
+            set: set.into(),
+            name: name.into(),
+        })
+    }
+
+    #[test]
+    fn a_request_icon_replaces_a_content_icon() {
+        let icon = serde_json::json!({"set": "ui", "name": "mark", "content": true});
+        let scene = override_scene(icon, pick("workflow", "add"));
+        assert_eq!(drawn(&scene), (Some("0 0 2 2".into()), vec![]));
+        let n = scene.nodes.iter().find(|n| n.part == "mark").unwrap();
+        assert_eq!(n.icon.as_ref().unwrap().name, "add");
+    }
+
+    #[test]
+    fn a_request_icon_leaves_a_part_without_content_alone() {
+        let icon = serde_json::json!({"set": "ui", "name": "mark"});
+        let scene = override_scene(icon, pick("workflow", "add"));
+        assert_eq!(drawn(&scene), (Some("0 0 7 7".into()), vec![]));
+    }
+
+    #[test]
+    fn icon_none_removes_an_optional_content_icon() {
+        let icon =
+            serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
+        let scene = override_scene(icon, Some(IconOverride::None));
+        assert!(scene.nodes.iter().all(|n| n.part != "mark"));
+        assert!(scene.diagnostics.is_empty());
+    }
+
+    #[test]
+    fn icon_none_on_a_required_content_icon_keeps_it_with_a_diagnostic() {
+        let icon = serde_json::json!({"set": "ui", "name": "mark", "content": true});
+        let scene = override_scene(icon, Some(IconOverride::None));
+        let (view_box, diags) = drawn(&scene);
+        assert_eq!(view_box.as_deref(), Some("0 0 7 7"));
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].contains("'mark'") && diags[0].contains("not optional"));
+    }
+
+    #[test]
+    fn icon_none_with_a_hidden_label_warns_only_when_the_icon_would_draw() {
+        let icon =
+            serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
+        let g = icon_graph();
+        let recipe = |visible: bool| {
+            serde_json::json!({
+                "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+                "parts": {
+                    "box": {"kind": "box", "children": ["mark"]},
+                    "mark": {"kind": "icon", "icon": icon,
+                        "visibleWhen": {"options": {"shown": visible}},
+                        "props": {"width": {"value": 10}, "height": {"value": 10}}}
+                }
+            })
+        };
+        let req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            icon: Some(IconOverride::None),
+            options: HashMap::from([
+                ("isLabelHidden".into(), true.into()),
+                ("shown".into(), true.into()),
+            ]),
+            ..Default::default()
+        };
+        let warned = |visible| {
+            !build_scene(&g, &recipe(visible), &req)
+                .unwrap()
+                .diagnostics
+                .is_empty()
+        };
+        assert!(warned(true));
+        assert!(!warned(false));
+    }
+
+    #[test]
+    fn an_unknown_request_icon_draws_the_placeholder_with_a_diagnostic() {
+        let icon = serde_json::json!({"set": "ui", "name": "mark", "content": true});
+        let scene = override_scene(icon, pick("workflow", "nope"));
+        assert_eq!(
+            drawn(&scene),
+            (
+                None,
+                vec![
+                    "icon workflow:nope has no drawing for size 'm'; drawing a placeholder".into()
+                ]
+            )
+        );
+    }
+
+    #[test]
+    fn icon_override_parses_the_cli_and_json_spellings() {
+        assert_eq!("none".parse(), Ok(IconOverride::None));
+        assert_eq!(
+            "workflow:edit".parse(),
+            Ok(pick("workflow", "edit").unwrap())
+        );
+        assert!("edit".parse::<IconOverride>().is_err());
+        let j = |v: Value| serde_json::from_value::<IconOverride>(v).ok();
+        assert_eq!(j(serde_json::json!("none")), Some(IconOverride::None));
+        assert_eq!(
+            j(serde_json::json!({"set": "a", "name": "b"})),
+            pick("a", "b")
+        );
+        assert_eq!(j(serde_json::json!("other")), None);
     }
 
     #[test]

@@ -131,3 +131,55 @@ fn batch_requires_out_and_reports_failed_states() {
     .code(1)
     .stderr(contains("no visual recipe for 'no-such-component'"));
 }
+
+#[test]
+fn icon_none_makes_a_label_only_button_in_render_and_in_a_batch() {
+    let scene = |args: &[&str]| -> Value {
+        let out = Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(repo_root())
+            .args(["render", "button", "--format", "scene"])
+            .args(args)
+            .output()
+            .unwrap();
+        serde_json::from_slice(&out.stdout).unwrap()
+    };
+    let has_icon = |s: &Value| {
+        s["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|n| n["part"] == "icon")
+    };
+    assert!(has_icon(&scene(&[])));
+    assert!(!has_icon(&scene(&["--icon", "none"])));
+    let edit = scene(&["--icon", "workflow:edit"]);
+    let node = edit["nodes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|n| n["part"] == "icon")
+        .unwrap();
+    assert_eq!(node["icon"]["name"], "edit");
+
+    let dir = tempfile::tempdir().unwrap();
+    let states = dir.path().join("states.json");
+    std::fs::write(
+        &states,
+        json!([{ "id": "bare", "component": "button", "icon": "none" }]).to_string(),
+    )
+    .unwrap();
+    let out = dir.path().join("renders");
+    dd(&[
+        "render",
+        "--batch",
+        states.to_str().unwrap(),
+        "--out",
+        out.to_str().unwrap(),
+    ])
+    .success();
+    let bare: Value =
+        serde_json::from_str(&std::fs::read_to_string(out.join("bare.scene.json")).unwrap())
+            .unwrap();
+    assert!(!has_icon(&bare));
+}

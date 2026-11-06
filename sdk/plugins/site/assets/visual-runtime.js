@@ -174,7 +174,12 @@ function makeCtx(compiled, req) {
   };
 
   return {
-    visible: (part) => whenScore(part.visibleWhen) !== null,
+    // `icon: "none"` removes an optional content icon like a failed `visibleWhen`.
+    visible: (part) =>
+      !(req.icon === "none" && part.icon?.content && part.icon?.optional) &&
+      whenScore(part.visibleWhen) !== null,
+    option,
+    shownByRecipe: (part) => whenScore(part.visibleWhen) !== null,
     evalSource,
     diags,
   };
@@ -203,9 +208,11 @@ const node = (part, kind, x, y, w, h, extra = {}) => ({
 /**
  * Lay out a compiled recipe for one request.
  * @param {object} compiled one entry of `data.compiled` from `design-data site`
- * @param {{size, states, options, mode, label}} req
+ * @param {{size, states, options, mode, label, icon}} req `icon` is `"none"` or `{set, name}`
+ * @param {object} [icons] drawings (`{viewBox, paths}`) by `set:name` for a `req.icon` to
+ *   draw, such as `data.icons`; an icon not in it draws the placeholder
  */
-export function renderScene(compiled, req) {
+export function renderScene(compiled, req, icons = {}) {
   if (!(req.size in compiled.sizeScale)) {
     throw new Error(`recipe has no sizeScale entry for size '${req.size}'`);
   }
@@ -743,17 +750,40 @@ export function renderScene(compiled, req) {
     };
   }
 
+  if (
+    req.icon === "none" &&
+    cx.option("isLabelHidden") === true &&
+    Object.values(parts).some(
+      (p) => p.icon?.content && p.icon?.optional && cx.shownByRecipe(p),
+    )
+  )
+    cx.diags.push(
+      "icon none with isLabelHidden leaves the component with nothing to draw",
+    );
+
   // Every icon node names the icon its part references and carries its compiled drawing.
   for (const n of nodes) {
     const part = n.kind === "icon" ? parts[n.part] : undefined;
     if (!part) continue;
-    const ref = part.icon;
+    if (req.icon === "none" && part.icon?.content && !part.icon.optional) {
+      cx.diags.push(
+        `icon none is not allowed on part '${n.part}' (its icon is not optional); keeping the recipe's icon`,
+      );
+    }
+    const pick = part.icon?.content && req.icon?.set ? req.icon : undefined;
+    const ref = pick ?? part.icon;
     if (ref?.set && ref?.name) {
       n.icon = { set: ref.set, name: ref.name };
-      const drawing = compiled.drawings?.[part.drawing];
+      const drawing = pick
+        ? icons[`${ref.set}:${ref.name}`]
+        : compiled.drawings?.[part.drawing];
       if (drawing) n.icon.drawing = drawing;
+      else if (pick)
+        cx.diags.push(
+          `icon ${ref.set}:${ref.name} has no drawing for size '${req.size}'; drawing a placeholder`,
+        );
     }
-    if (part.drawingMiss) cx.diags.push(part.drawingMiss);
+    if (!pick && part.drawingMiss) cx.diags.push(part.drawingMiss);
   }
 
   const opacity = num(opacityR);
