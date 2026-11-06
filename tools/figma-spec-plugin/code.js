@@ -132,49 +132,28 @@ function pill(str, color, ink) {
   return f;
 }
 
-// The stroked built-in glyphs, with the same points and stroke as `scene_to_svg`
-// (sdk/core/src/visual.rs), in the icon box's own coordinates. Only the chevron rotates,
-// clockwise about the box center, as there.
-const GLYPH_POINTS = {
-  checkmark: [
-    [0.1, 0.55],
-    [0.38, 0.82],
-    [0.9, 0.2],
-  ],
-  chevron: [
-    [0.3, 0.1],
-    [0.7, 0.5],
-    [0.3, 0.9],
-  ],
-};
-
-function glyph(name, w, h, rotation, strokeWidth, c) {
-  const t = name === "chevron" && rotation ? (rotation * Math.PI) / 180 : 0;
-  const [cos, sin] = [Math.cos(t), Math.sin(t)];
-  const pts = GLYPH_POINTS[name].map(([px, py]) => {
-    const dx = px * w - w / 2;
-    const dy = py * h - h / 2;
-    return [w / 2 + dx * cos - dy * sin, h / 2 + dx * sin + dy * cos];
-  });
-  const v = figma.createVector();
-  v.name = name;
-  v.vectorPaths = [
-    {
-      windingRule: "NONE",
-      data: pts
-        .map(
-          ([px, py], i) =>
-            `${i ? "L" : "M"} ${+px.toFixed(4)} ${+py.toFixed(4)}`,
-        )
-        .join(" "),
-    },
-  ];
-  v.fills = [];
-  v.strokes = [solid(c.c, c.o)];
-  v.strokeWeight = strokeWidth;
-  v.strokeCap = "ROUND";
-  v.strokeJoin = "ROUND";
-  return v;
+// The icon as a standalone SVG: the drawing's own viewBox fitted into the part box with the
+// default xMidYMid meet, which is the centred uniform fit `scene_to_svg` computes. The fill is
+// the part's resolved colour, and a rotation turns the drawing clockwise about the box centre
+// (the viewBox centre, as the fit centres it).
+function iconSvg(drawing, w, h, rotation, c) {
+  const [vx, vy, vw, vh] = drawing.viewBox.split(/\s+/).map(Number);
+  const hex = (v) =>
+    Math.round(v * 255)
+      .toString(16)
+      .padStart(2, "0");
+  const fill = `#${hex(c.c.r)}${hex(c.c.g)}${hex(c.c.b)}`;
+  const alpha = c.o < 1 ? ` fill-opacity="${c.o}"` : "";
+  const paths = drawing.paths
+    .map(
+      (p) =>
+        `<path d="${p.d}" fill="${fill}"${alpha}${p.fillRule ? ` fill-rule="${p.fillRule}"` : ""}/>`,
+    )
+    .join("");
+  const body = rotation
+    ? `<g transform="rotate(${rotation} ${vx + vw / 2} ${vy + vh / 2})">${paths}</g>`
+    : paths;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${drawing.viewBox}" width="${w}" height="${h}">${body}</svg>`;
 }
 
 function sceneNodes(parent, scene, view) {
@@ -216,32 +195,22 @@ function sceneNodes(parent, scene, view) {
       t.y = y;
     } else if (n.kind === "icon") {
       const c = parseColor(n.color) || { c: INK, o: 1 };
-      const g = figma.createFrame();
+      const drawing = n.icon && n.icon.drawing;
+      const g = drawing
+        ? figma.createNodeFromSvg(iconSvg(drawing, w, h, n.rotation, c))
+        : figma.createFrame();
       g.name = n.part;
-      g.fills = [];
-      g.resize(w, h);
       g.clipsContent = false;
-      parent.appendChild(g);
-      g.x = x;
-      g.y = y;
-      // Only the ui checkmark, dash and chevron have a built-in shape until icon paths are
-      // drawn (p6ga.17.5); any other icon draws the placeholder plus.
-      const shape = n.icon && n.icon.set === "ui" ? n.icon.name : undefined;
-      if (shape === "dash") {
-        // The part box is the icon size; the S2 dash is a centred bar about 0.9 x 0.2 of it.
-        const bh = h * 0.2;
-        const d = rect(w * 0.05, (h - bh) / 2, w * 0.9, bh, c.c, c.o);
-        d.cornerRadius = bh / 2;
-        g.appendChild(d);
-      } else if (shape === "checkmark" || shape === "chevron") {
-        g.appendChild(
-          glyph(shape, w, h, n.rotation, Math.max(n.w * 0.16, 1) * k, c),
-        );
-      } else {
+      if (!drawing) {
+        g.fills = [];
+        g.resize(w, h);
         const thick = Math.max(w * 0.1, 1);
         g.appendChild(rect(0, (h - thick) / 2, w, thick, c.c, c.o));
         g.appendChild(rect((w - thick) / 2, 0, thick, h, c.c, c.o));
       }
+      parent.appendChild(g);
+      g.x = x;
+      g.y = y;
     }
   }
 }

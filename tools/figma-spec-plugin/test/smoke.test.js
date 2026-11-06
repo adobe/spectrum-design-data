@@ -112,6 +112,16 @@ function fakeFigma(rejectFamily) {
     createRectangle: () => node("RECTANGLE"),
     createEllipse: () => node("ELLIPSE"),
     createVector: () => node("VECTOR"),
+    createNodeFromSvg(svg) {
+      const f = node("FRAME");
+      f.svg = svg;
+      f.fills = [];
+      const [w, h] = ["width", "height"].map((a) =>
+        Number(svg.match(new RegExp(`<svg[^>]* ${a}="([^"]+)"`))[1]),
+      );
+      f.resize(w, h);
+      return f;
+    },
     createText() {
       const t = node("TEXT");
       let chars = "";
@@ -617,14 +627,19 @@ test("undrawn markers get an outlined row badge and a note under the visual", as
   t.is(outlined.length, rows);
 });
 
-// Each icon frame holds what scene_to_svg draws for its glyph: a stroked vector for
-// checkmark and chevron (the chevron rotated clockwise about the box center), a pill for dash.
-test("icon parts draw their glyph, not a plus", async (t) => {
-  const unit = {
-    checkmark: [0.1, 0.55, 0.38, 0.82, 0.9, 0.2],
-    chevron: [0.3, 0.1, 0.7, 0.5, 0.3, 0.9],
-  };
+// Each icon part is the catalog drawing from createNodeFromSvg: the part's own viewBox fitted
+// into the part box, filled with the resolved colour, rotated about the centre.
+const hex = (color) =>
+  "#" +
+  color
+    .match(/\d+/g)
+    .slice(0, 3)
+    .map((v) => Number(v).toString(16).padStart(2, "0"))
+    .join("");
+
+test("icon parts draw their catalog paths via createNodeFromSvg", async (t) => {
   const seen = new Set();
+  let rotated = 0;
   for (const component of ["accordion", "checkbox"]) {
     const s = generate(component);
     const { figma, page } = mock();
@@ -632,53 +647,50 @@ test("icon parts draw their glyph, not a plus", async (t) => {
     const icons = s.pages
       .flatMap((p) => p.blocks)
       .flatMap((b) => b.render?.scene.nodes ?? [])
-      .filter((n) => n.kind === "icon" && n.icon?.set === "ui");
+      .filter((n) => n.kind === "icon");
     t.true(icons.length > 0, component);
-    const frames = page.children[0].findAll(
-      (f) => f.type === "FRAME" && icons.some((n) => n.part === f.name),
+    const frames = page.children[0].findAll((f) => f.svg);
+    t.is(frames.length, icons.length, component);
+    t.is(
+      page.children[0].findAll((f) => f.type === "RECTANGLE" && !f.svg).length >
+        0,
+      true,
     );
-    t.true(frames.every((f) => f.children.length === 1));
     for (const n of icons) {
-      seen.add(n.icon.name);
-      const mine = frames.filter((f) => f.name === n.part);
-      if (n.icon.name === "dash") {
-        t.true(mine.length > 0);
-        t.true(
-          mine.every(
-            (f) =>
-              f.children[0].type === "RECTANGLE" &&
-              f.children[0].cornerRadius === f.children[0].height / 2 &&
-              Math.abs(
-                f.children[0].y + f.children[0].height / 2 - f.height / 2,
-              ) < 1e-9,
-          ),
-          component,
-        );
-        continue;
-      }
-      const r =
-        n.icon.name === "chevron" ? ((n.rotation ?? 0) * Math.PI) / 180 : 0;
-      const want = [];
-      for (let i = 0; i < 6; i += 2) {
-        const [dx, dy] = [
-          unit[n.icon.name][i] - 0.5,
-          unit[n.icon.name][i + 1] - 0.5,
-        ];
-        want.push(
-          0.5 + dx * Math.cos(r) - dy * Math.sin(r),
-          0.5 + dx * Math.sin(r) + dy * Math.cos(r),
-        );
-      }
-      const drawn = mine.some((f) => {
-        const [g] = f.children;
-        if (g.type !== "VECTOR" || g.strokeCap !== "ROUND") return false;
-        const pts = g.vectorPaths[0].data.match(/-?[\d.]+/g).map(Number);
-        return pts.every(
-          (v, i) => Math.abs(v / (i % 2 ? f.height : f.width) - want[i]) < 1e-3,
-        );
-      });
-      t.true(drawn, `${component} ${n.part} ${n.icon.name} ${n.rotation}`);
+      t.truthy(n.icon.drawing, `${component} ${n.part}`);
+      seen.add(`${n.icon.set}/${n.icon.name}`);
+      const f = frames.find(
+        (x) =>
+          x.name === n.part &&
+          x.svg.includes(`viewBox="${n.icon.drawing.viewBox}"`) &&
+          x.svg.includes(`d="${n.icon.drawing.paths[0].d}"`) &&
+          x.svg.includes(`fill="${hex(n.color)}"`) &&
+          x.svg.includes(`rotate(${n.rotation} `) === !!n.rotation,
+      );
+      t.truthy(f, `${component} ${n.part} ${n.icon.name}`);
+      t.false(f.clipsContent);
+      if (n.rotation) rotated++;
     }
   }
-  t.deepEqual([...seen].sort(), ["checkmark", "chevron", "dash"]);
+  t.true(seen.has("ui/chevron") && seen.has("ui/dash"));
+  t.true(rotated > 0);
+});
+
+test("an icon without a drawing keeps the placeholder plus", async (t) => {
+  const s = structuredClone(generate("checkbox"));
+  let n = 0;
+  for (const node of s.pages
+    .flatMap((p) => p.blocks)
+    .flatMap((b) => b.render?.scene.nodes ?? []))
+    if (node.kind === "icon") {
+      delete node.icon.drawing;
+      n++;
+    }
+  const { figma, page } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  t.is(page.children[0].findAll((f) => f.svg).length, 0);
+  const plus = page.children[0].findAll(
+    (f) => f.type === "FRAME" && f.children.length === 2 && f.name === "dash",
+  );
+  t.true(n > 0 && plus.length > 0);
 });
