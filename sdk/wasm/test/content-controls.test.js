@@ -5,6 +5,7 @@ import {
   contentSupport,
   iconChoices,
   iconRequest,
+  labelText,
   readContentParams,
   sceneQuery,
   writeContentParams,
@@ -92,4 +93,12 @@ test("an empty label stays in the scene request while other empty values drop", 
     }),
     { name: "button", label: "", size: "m" },
   );
+});
+
+test("zooming restores the label text, but an off Label switch keeps what was typed", (t) => {
+  t.is(labelText("Save", false), "Save");
+  t.is(labelText("", false), "");
+  t.is(labelText("", true), undefined);
+  t.is(labelText("Save", true), "Save");
+  t.is(labelText(undefined, false), undefined);
 });

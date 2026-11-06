@@ -76,3 +76,8 @@ export const sceneQuery = (o) =>
         (v !== "" || k === "label"),
     ),
   );
+
+// The text to put back in the label input for a request's label, or undefined to leave it.
+// With a Label switch, an off switch also sends "", and the typed text must survive that.
+export const labelText = (label, hasSwitch) =>
+  label === undefined || (hasSwitch && label === "") ? undefined : label;
