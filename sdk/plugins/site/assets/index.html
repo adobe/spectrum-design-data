@@ -780,7 +780,7 @@
     <script type="module">
       import { backend } from "./backend.js";
       import { platformSwitcher } from "./platform-switcher.js";
-      import { roundedPath, cssFontWeight } from "./visual-runtime.js";
+      import { roundedPath, cssFontWeight, iconSvg } from "./visual-runtime.js";
       import {
         advisoriesOf,
         errorsOf,
@@ -944,10 +944,11 @@
           return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"/>`;
         if (n.kind === "ring")
           return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>`;
-        if (n.part === "hold-icon")
-          return `<path d="M${n.x + n.w} ${n.y} V${n.y + n.h} H${n.x}Z" fill="${n.color}"/>`;
         if (n.kind === "icon")
-          return `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`;
+          return (
+            iconSvg(n) ??
+            `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`
+          );
         if (n.kind === "progress") {
           const cx = n.x + n.w / 2,
             cy = n.y + n.h / 2,

@@ -113,11 +113,11 @@ A `chevron` points to the end; the `rotation` prop turns it (90 when an accordio
 2. Otherwise (a literal size, an inline relationship value or a token whose name has neither field), the recipe's `sizeScale` entry for the request's `size`.
 3. Otherwise 100.
 
-The drawing at that scale is used; when the icon has none, the renderer **MUST** draw the nearest available scale (the larger one on a tie). SPEC-086 warns when a recipe falls back, since another size's drawing has different stroke weights and proportions.
+The drawing at that scale is used; when the icon has none, the renderer **MUST** draw the nearest available scale (the larger one on a tie). SPEC-086 warns when a recipe falls back, since another size's drawing has different stroke weights and proportions. The scale is chosen once per size and mode, from the bindings the part has with no states and default options, so a state or option never changes the drawing. A renderer **MAY** make this choice when it compiles the recipe.
 
-**Drawing.** The renderer scales the icon's `viewBox` uniformly to fit the part box, centered, applies `rotation` about the box center, and fills every path, honoring its `fillRule`, with the part's resolved `color`. Icon data carries no color.
+**Drawing.** The renderer scales the icon's `viewBox` uniformly to fit the part box, centered, applies `rotation` about the box center, and fills every path, honoring its `fillRule`, with the part's resolved `color`. Icon data carries no color. A part box that is not square leaves the icon at the smaller side, so an icon part's `width` and `height` are the icon's size, not the size of the shape it draws.
 
-Until icon paths are drawn (p6ga.17.3) the renderers draw built-in shapes for `ui` `checkmark`, `dash` and `chevron` and a placeholder plus for any other icon.
+An icon with no drawing (no such set or icon in the catalog, or no catalog) **MUST** draw a placeholder plus in the part box and emit a diagnostic naming the set, the icon and the request's size.
 
 ### Value sources
 

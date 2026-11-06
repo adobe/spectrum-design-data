@@ -743,10 +743,17 @@ export function renderScene(compiled, req) {
     };
   }
 
-  // Every icon node names the icon its part references.
+  // Every icon node names the icon its part references and carries its compiled drawing.
   for (const n of nodes) {
-    const ref = n.kind === "icon" ? parts[n.part]?.icon : undefined;
-    if (ref?.set && ref?.name) n.icon = { set: ref.set, name: ref.name };
+    const part = n.kind === "icon" ? parts[n.part] : undefined;
+    if (!part) continue;
+    const ref = part.icon;
+    if (ref?.set && ref?.name) {
+      n.icon = { set: ref.set, name: ref.name };
+      const drawing = compiled.drawings?.[part.drawing];
+      if (drawing) n.icon.drawing = drawing;
+    }
+    if (part.drawingMiss) cx.diags.push(part.drawingMiss);
   }
 
   const opacity = num(opacityR);
@@ -760,13 +767,6 @@ export function renderScene(compiled, req) {
     diagnostics: cx.diags,
   };
 }
-
-// The built-in shape drawn until icon paths are drawn (p6ga.17.3): `checkmark`, `dash` or
-// `chevron` from the `ui` set. Mirrors IconRef::built_in in sdk/core/src/visual.rs.
-const builtInShape = (icon) =>
-  icon?.set === "ui" && ["checkmark", "dash", "chevron"].includes(icon.name)
-    ? icon.name
-    : undefined;
 
 export const roundedPath = (x, y, w, h, [tl, tr, br, bl]) =>
   `M${x + tl} ${y}H${x + w - tr}A${tr} ${tr} 0 0 1 ${x + w} ${y + tr}V${y + h - br}A${br} ${br} 0 0 1 ${x + w - br} ${y + h}H${x + bl}A${bl} ${bl} 0 0 1 ${x} ${y + h - bl}V${y + tl}A${tl} ${tl} 0 0 1 ${x + tl} ${y}Z`;
@@ -832,6 +832,56 @@ const esc = (s) =>
     .replaceAll("<", "&lt;")
     .replaceAll('"', "&quot;");
 
+/**
+ * Uniform scale `k` and offset that fit an icon `viewBox` into the box `x, y, w, h`,
+ * centered, for `translate(tx ty) scale(k)`. Mirrors `icon_fit` in Rust.
+ */
+export function iconFit(viewBox, x, y, w, h) {
+  const v = String(viewBox)
+    .split(/[\s,]+/)
+    .filter(Boolean)
+    .map(Number);
+  if (v.length !== 4 || v.some((n) => Number.isNaN(n))) return undefined;
+  const [vx, vy, vw, vh] = v;
+  if (!(vw > 0 && vh > 0)) return undefined;
+  const k = Math.min(w / vw, h / vh);
+  return {
+    k,
+    tx: x + (w - vw * k) / 2 - vx * k,
+    ty: y + (h - vh * k) / 2 - vy * k,
+  };
+}
+
+/**
+ * An icon node's drawing, or undefined without one: a group with the part attributes and
+ * rotation, an unfilled rect of the part box, and the fitted paths in the node color.
+ * Mirrors `icon_svg` in Rust.
+ */
+export function iconSvg(n, attrs = "") {
+  const drawing = n.icon?.drawing;
+  const fit = drawing && iconFit(drawing.viewBox, n.x, n.y, n.w, n.h);
+  if (!fit || !Array.isArray(drawing.paths)) return undefined;
+  const color = esc(n.color ?? "currentColor");
+  const rot = n.rotation
+    ? ` transform="rotate(${n.rotation} ${n.x + n.w / 2} ${n.y + n.h / 2})"`
+    : "";
+  const paths = drawing.paths
+    .map(
+      (p) =>
+        `<path d="${esc(p.d ?? "")}" fill="${color}"${p.fillRule ? ` fill-rule="${esc(p.fillRule)}"` : ""}/>`,
+    )
+    .join("");
+  return `<g ${attrs}${rot}><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" fill="none"/><g transform="translate(${fit.tx} ${fit.ty}) scale(${fit.k})">${paths}</g></g>`;
+}
+
+// A plus sized to the part box, drawn for an icon with no drawing.
+const placeholderSvg = (n, attrs) => {
+  const cx = n.x + n.w / 2;
+  const cy = n.y + n.h / 2;
+  const r = Math.min(n.w, n.h) * 0.35;
+  return `<path ${attrs} d="M${cx - r} ${cy}H${cx + r}M${cx} ${cy - r}V${cy + r}" stroke="${esc(n.color ?? "currentColor")}" stroke-width="${Math.max(n.w / 10, 1)}" stroke-linecap="round" fill="none"/>`;
+};
+
 /** Serialize a scene as SVG, matching `scene_to_svg` in Rust. */
 export function renderSvg(scene) {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}">`;
@@ -884,24 +934,8 @@ export function renderSvg(scene) {
       const r = min / 2 - min / 18;
       const sw = Math.max(min / 9, 1);
       s += `<g ${attrs} fill="none" stroke-width="${sw}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${esc(n.stroke ?? "none")}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${esc(n.color ?? "currentColor")}" stroke-linecap="round"/></g>`;
-    } else if (n.kind === "icon" && builtInShape(n.icon)) {
-      const shape = builtInShape(n.icon);
-      const color = esc(n.color ?? "currentColor");
-      const rot = n.rotation
-        ? ` transform="rotate(${n.rotation} ${n.x + n.w / 2} ${n.y + n.h / 2})"`
-        : "";
-      if (shape === "chevron") {
-        s += `<path ${attrs}${rot} d="M${n.x + n.w * 0.3} ${n.y + n.h * 0.1}L${n.x + n.w * 0.7} ${n.y + n.h * 0.5}L${n.x + n.w * 0.3} ${n.y + n.h * 0.9}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
-      } else if (shape === "dash") {
-        s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.h / 2}" fill="${color}"/>`;
-      } else {
-        s += `<path ${attrs} d="M${n.x + n.w * 0.1} ${n.y + n.h * 0.55}L${n.x + n.w * 0.38} ${n.y + n.h * 0.82}L${n.x + n.w * 0.9} ${n.y + n.h * 0.2}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
-      }
     } else if (n.kind === "icon") {
-      const cx = n.x + n.w / 2;
-      const cy = n.y + n.h / 2;
-      const r = min * 0.35;
-      s += `<path ${attrs} d="M${cx - r} ${cy}H${cx + r}M${cx} ${cy - r}V${cy + r}" stroke="${esc(n.color ?? "currentColor")}" stroke-width="${Math.max(n.w / 10, 1)}" stroke-linecap="round" fill="none"/>`;
+      s += iconSvg(n, attrs) ?? placeholderSvg(n, attrs);
     }
     if (i === spanEnd) s += "</g>";
   }

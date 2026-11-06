@@ -116,7 +116,8 @@ pub fn write_site(
     list.sort_by(|a, b| a["displayName"].as_str().cmp(&b["displayName"].as_str()));
     let figma = figma_names(graph, &compiled)?;
     let mut data = serde_json::json!({
-        "components": list, "byName": by_name, "compiled": compiled, "figma": figma
+        "components": list, "byName": by_name, "compiled": compiled, "figma": figma,
+        "icons": workflow_icons(graph),
     });
     if let Some(p) = platform {
         data["platform"] = serde_json::json!({ "id": p.id, "name": p.name });
@@ -139,6 +140,24 @@ pub fn write_site(
     )?;
     write(".nojekyll", "")?;
     Ok(compiled.len())
+}
+
+/// The demo workflow icons (one drawing each), keyed `workflow:<name>` like a compiled
+/// recipe's `drawings`, so the explorer can swap a content icon without the catalog.
+fn workflow_icons(graph: &TokenGraph) -> serde_json::Map<String, serde_json::Value> {
+    graph
+        .icons
+        .iter()
+        .filter(|s| s.set == "workflow")
+        .filter_map(|s| s.raw.get("icons")?.as_object())
+        .flatten()
+        .map(|(name, icon)| {
+            (
+                format!("workflow:{name}"),
+                serde_json::json!({ "viewBox": icon.get("viewBox"), "paths": icon.get("paths") }),
+            )
+        })
+        .collect()
 }
 
 /// Whether `component` has an implementation row the platform's manifest owns (the

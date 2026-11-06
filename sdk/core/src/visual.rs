@@ -223,11 +223,15 @@ pub struct SceneNode {
     pub tokens: Vec<TokenRef>,
 }
 
-/// An icon in the `icons/` catalog: `set` (`ui`, `workflow`) and icon `name`.
+/// An icon in the `icons/` catalog: `set` (`ui`, `workflow`) and icon `name`. On a scene
+/// node, `drawing` is the geometry the recipe compile chose (`viewBox` and `paths`, each a
+/// `d` with an optional `fillRule`); unset when the catalog has no drawing for it.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct IconRef {
     pub set: String,
     pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub drawing: Option<Value>,
 }
 
 impl IconRef {
@@ -237,15 +241,8 @@ impl IconRef {
         Some(Self {
             set: icon.get("set")?.as_str()?.to_string(),
             name: icon.get("name")?.as_str()?.to_string(),
+            drawing: None,
         })
-    }
-
-    /// The built-in shape the renderers draw until icon paths are drawn (p6ga.17.3):
-    /// `checkmark`, `dash` or `chevron` from the `ui` set.
-    fn built_in(icon: Option<&Self>) -> Option<&str> {
-        icon.filter(|i| i.set == "ui")
-            .map(|i| i.name.as_str())
-            .filter(|n| matches!(*n, "checkmark" | "dash" | "chevron"))
     }
 }
 
@@ -286,12 +283,30 @@ pub fn icon_scale(
     size_index: Option<u32>,
     name_of: impl Fn(&str) -> Option<Value>,
 ) -> (u32, Option<String>) {
+    icon_scale_by(
+        |prop| {
+            node.tokens
+                .iter()
+                .find(|t| t.prop == prop)
+                .map(|t| t.token.clone())
+        },
+        size_index,
+        name_of,
+    )
+}
+
+/// [`icon_scale`] over `token_of(prop)`, the token label bound to `width` or `height`.
+fn icon_scale_by(
+    token_of: impl Fn(&str) -> Option<String>,
+    size_index: Option<u32>,
+    name_of: impl Fn(&str) -> Option<Value>,
+) -> (u32, Option<String>) {
     for prop in ["width", "height"] {
-        let Some(t) = node.tokens.iter().find(|t| t.prop == prop) else {
+        let Some(token) = token_of(prop) else {
             continue;
         };
-        if let Some(scale) = name_of(&t.token).as_ref().and_then(icon_scale_of_name) {
-            return (scale, Some(t.token.clone()));
+        if let Some(scale) = name_of(&token).as_ref().and_then(icon_scale_of_name) {
+            return (scale, Some(token));
         }
     }
     (size_index.unwrap_or(100), None)
@@ -377,6 +392,8 @@ struct Lookup {
     relationships: std::cell::RefCell<HashMap<String, Vec<PinnedRef>>>,
     /// Component → its relationship-owned scoped values (see `scoped_values`).
     scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
+    /// Token label → its `name` object, built on first use (see `CompileCx::name_of`).
+    names: std::cell::OnceCell<HashMap<String, Value>>,
 }
 
 impl Lookup {
@@ -402,6 +419,8 @@ pub struct CompiledVariant {
     root: String,
     option_defaults: HashMap<String, Value>,
     parts: serde_json::Map<String, Value>,
+    /// Icon geometry the parts' `drawing` keys name (see `CompileCx::attach_drawings`).
+    drawings: serde_json::Map<String, Value>,
 }
 
 /// Compiled variants shared across renders of one graph, so a matrix of requests compiles
@@ -982,6 +1001,99 @@ impl<'a> CompileCx<'a> {
         }
         out_parts
     }
+
+    /// The token `name` object of a scene token label (graph tokens, then the component's
+    /// relationship-scoped values, then a relationship `$ref`).
+    fn name_of(&self, label: &str) -> Option<Value> {
+        let names = self.lookup.names.get_or_init(|| {
+            self.graph
+                .tokens
+                .values()
+                .filter_map(|t| t.raw.get("name").map(|n| (token_label(t), n.clone())))
+                .collect()
+        });
+        names
+            .get(label)
+            .cloned()
+            .or_else(|| {
+                self.scoped
+                    .iter()
+                    .find(|t| token_label(t) == label)
+                    .and_then(|t| t.raw.get("name").cloned())
+            })
+            .or_else(|| {
+                self.graph
+                    .resolve_relationship_ref(label)
+                    .and_then(|t| t.raw.get("name").cloned())
+            })
+    }
+
+    /// Choose the drawing of every icon part (spec: component-visuals.md, Icons): the
+    /// [`icon_scale`] rule over the size tokens the part binds for this size and mode with
+    /// default states and options, then the nearest drawing ([`TokenGraph::icon`]). The
+    /// geometry goes into `drawings` under `set:name@scale` (`set:name` for a single
+    /// drawing) and the part gets that key as `drawing`, or a `drawingMiss` diagnostic.
+    fn attach_drawings(
+        &self,
+        parts: &mut serde_json::Map<String, Value>,
+        drawings: &mut serde_json::Map<String, Value>,
+    ) {
+        let req = RenderRequest {
+            component: self.req.component.clone(),
+            size: self.req.size.clone(),
+            mode: self.req.mode.clone(),
+            ..Default::default()
+        };
+        let defaults = component_option_defaults(self.graph, &req.component);
+        let size_index = self.size_index.parse().ok();
+        for part in parts.values_mut() {
+            let Some(icon) = IconRef::of_part(part) else {
+                continue;
+            };
+            let mut cx = Ctx {
+                req: &req,
+                option_defaults: &defaults,
+                diags: Vec::new(),
+            };
+            let mut token_of = HashMap::new();
+            for prop in ["width", "height"] {
+                if let Some(r) = cx
+                    .eval(part.get("props").and_then(|p| p.get(prop)))
+                    .filter(|r| !r.token.is_empty())
+                {
+                    token_of.insert(prop, r.token);
+                }
+            }
+            let (scale, _) = icon_scale_by(
+                |prop| token_of.get(prop).cloned(),
+                size_index,
+                |l| self.name_of(l),
+            );
+            let Some(found) = self.graph.icon(&icon.set, &icon.name, scale) else {
+                part["drawingMiss"] = Value::String(format!(
+                    "icon {}:{} has no drawing for size '{}'; drawing a placeholder",
+                    icon.set, icon.name, req.size
+                ));
+                continue;
+            };
+            let single = self
+                .graph
+                .icons
+                .iter()
+                .find(|s| s.set == icon.set)
+                .and_then(|s| s.raw.get("icons")?.get(&icon.name))
+                .is_some_and(|i| i.get("sizes").is_none());
+            let key = if single {
+                format!("{}:{}", icon.set, icon.name)
+            } else {
+                format!("{}:{}@{scale}", icon.set, icon.name)
+            };
+            drawings.entry(key.clone()).or_insert_with(|| {
+                serde_json::json!({ "viewBox": found.get("viewBox"), "paths": found.get("paths") })
+            });
+            part["drawing"] = Value::String(key);
+        }
+    }
 }
 
 impl Ctx<'_> {
@@ -1420,6 +1532,7 @@ pub fn compile_recipe(
     let lookup = Lookup::default();
     let scoped = lookup.scoped(graph, component);
     let mut variants = serde_json::Map::new();
+    let mut drawings = serde_json::Map::new();
     for (size, idx) in scale {
         for mode in modes {
             let req = RenderRequest {
@@ -1440,7 +1553,9 @@ pub fn compile_recipe(
                 mode.get("colorScheme").map_or("", String::as_str),
                 mode.get("scale").map_or("", String::as_str)
             );
-            variants.insert(key, Value::Object(cx.compile_parts(parts)));
+            let mut compiled = cx.compile_parts(parts);
+            cx.attach_drawings(&mut compiled, &mut drawings);
+            variants.insert(key, Value::Object(compiled));
         }
     }
     Ok(serde_json::json!({
@@ -1449,6 +1564,7 @@ pub fn compile_recipe(
         "sizeScale": recipe.get("sizeScale"),
         "optionDefaults": option_defaults,
         "variants": variants,
+        "drawings": drawings,
     }))
 }
 
@@ -1484,10 +1600,14 @@ fn compile_variant(
         size_index,
         scoped: &scoped,
     };
+    let mut compiled = cx.compile_parts(parts);
+    let mut drawings = serde_json::Map::new();
+    cx.attach_drawings(&mut compiled, &mut drawings);
     Ok(CompiledVariant {
         root: root.into(),
         option_defaults: component_option_defaults(graph, &req.component),
-        parts: cx.compile_parts(parts),
+        parts: compiled,
+        drawings,
     })
 }
 
@@ -2478,9 +2598,22 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         _ => None,
     };
 
-    // Every icon node names the icon its part references.
+    // Every icon node names the icon its part references and carries its compiled drawing.
     for n in nodes.iter_mut().filter(|n| n.kind == "icon") {
-        n.icon = parts.get(&n.part).and_then(IconRef::of_part);
+        let Some(part) = parts.get(&n.part) else {
+            continue;
+        };
+        n.icon = IconRef::of_part(part).map(|mut icon| {
+            icon.drawing = part
+                .get("drawing")
+                .and_then(Value::as_str)
+                .and_then(|k| variant.drawings.get(k))
+                .cloned();
+            icon
+        });
+        if let Some(miss) = part.get("drawingMiss").and_then(Value::as_str) {
+            cx.diags.push(miss.to_string());
+        }
     }
 
     Ok(Scene {
@@ -2632,6 +2765,78 @@ fn collect_nested(parts: &serde_json::Map<String, Value>, id: &str, out: &mut Ve
     }
 }
 
+/// Uniform scale `k` and offset `(tx, ty)` that fit an icon `viewBox` (`min-x min-y width
+/// height`) into the box `x, y, w, h`, centered, for `translate(tx ty) scale(k)`. `None`
+/// when the viewBox is not four numbers with a positive width and height.
+pub fn icon_fit(view_box: &str, x: f64, y: f64, w: f64, h: f64) -> Option<(f64, f64, f64)> {
+    let v: Vec<f64> = view_box
+        .split(|c: char| c.is_whitespace() || c == ',')
+        .filter(|t| !t.is_empty())
+        .map(str::parse)
+        .collect::<Result<_, _>>()
+        .ok()?;
+    let [vx, vy, vw, vh] = v[..] else {
+        return None;
+    };
+    if !(vw > 0.0 && vh > 0.0) {
+        return None;
+    }
+    let k = (w / vw).min(h / vh);
+    Some((
+        k,
+        x + (w - vw * k) / 2.0 - vx * k,
+        y + (h - vh * k) / 2.0 - vy * k,
+    ))
+}
+
+/// An icon node's drawing: a group that carries the part attributes and its rotation about
+/// the box center, an unfilled rect of the part box (so the group measures as the box),
+/// and the paths fitted into the box and filled with the node color. `None` without a
+/// drawable `icon.drawing`.
+fn icon_svg(n: &SceneNode, attrs: &str) -> Option<String> {
+    let drawing = n.icon.as_ref()?.drawing.as_ref()?;
+    let (k, tx, ty) = icon_fit(drawing.get("viewBox")?.as_str()?, n.x, n.y, n.w, n.h)?;
+    let color = esc(n.color.as_deref().unwrap_or("currentColor"));
+    let rot = n.rotation.filter(|r| *r != 0.0).map_or(String::new(), |r| {
+        format!(
+            " transform=\"rotate({r} {} {})\"",
+            n.x + n.w / 2.0,
+            n.y + n.h / 2.0
+        )
+    });
+    let mut s = format!(
+        "<g {attrs}{rot}><rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"none\"/><g transform=\"translate({tx} {ty}) scale({k})\">",
+        n.x, n.y, n.w, n.h
+    );
+    for p in drawing.get("paths")?.as_array()? {
+        let d = p.get("d").and_then(Value::as_str).unwrap_or_default();
+        let rule = p
+            .get("fillRule")
+            .and_then(Value::as_str)
+            .map_or(String::new(), |r| format!(" fill-rule=\"{}\"", esc(r)));
+        let _ = write!(s, "<path d=\"{}\" fill=\"{color}\"{rule}/>", esc(d));
+    }
+    s.push_str("</g></g>");
+    Some(s)
+}
+
+/// A plus sized to the part box, drawn for an icon with no drawing.
+fn placeholder_svg(n: &SceneNode, attrs: &str) -> String {
+    let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
+    let r = n.w.min(n.h) * 0.35;
+    format!(
+        "<path {attrs} d=\"M{} {}H{}M{} {}V{}\" stroke=\"{}\" stroke-width=\"{}\" stroke-linecap=\"round\" fill=\"none\"/>",
+        cx - r,
+        cy,
+        cx + r,
+        cx,
+        cy - r,
+        cy + r,
+        esc(n.color.as_deref().unwrap_or("currentColor")),
+        (n.w / 10.0).max(1.0)
+    )
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -2774,68 +2979,8 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor"))
                 );
             }
-            "icon" if IconRef::built_in(n.icon.as_ref()).is_some() => {
-                let shape = IconRef::built_in(n.icon.as_ref());
-                let color = esc(n.color.as_deref().unwrap_or("currentColor"));
-                let rot = n.rotation.filter(|r| *r != 0.0).map_or(String::new(), |r| {
-                    format!(
-                        " transform=\"rotate({r} {} {})\"",
-                        n.x + n.w / 2.0,
-                        n.y + n.h / 2.0
-                    )
-                });
-                if shape == Some("chevron") {
-                    let sw = (n.w * 0.16).max(1.0);
-                    let _ = write!(
-                        s,
-                        "<path {attrs}{rot} d=\"M{} {}L{} {}L{} {}\" stroke=\"{color}\" stroke-width=\"{sw}\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>",
-                        n.x + n.w * 0.3,
-                        n.y + n.h * 0.1,
-                        n.x + n.w * 0.7,
-                        n.y + n.h * 0.5,
-                        n.x + n.w * 0.3,
-                        n.y + n.h * 0.9
-                    );
-                } else if shape == Some("dash") {
-                    let _ = write!(
-                        s,
-                        "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{color}\"/>",
-                        n.x,
-                        n.y,
-                        n.w,
-                        n.h,
-                        n.h / 2.0
-                    );
-                } else {
-                    let sw = (n.w * 0.16).max(1.0);
-                    let _ = write!(
-                        s,
-                        "<path {attrs} d=\"M{} {}L{} {}L{} {}\" stroke=\"{color}\" stroke-width=\"{sw}\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>",
-                        n.x + n.w * 0.1,
-                        n.y + n.h * 0.55,
-                        n.x + n.w * 0.38,
-                        n.y + n.h * 0.82,
-                        n.x + n.w * 0.9,
-                        n.y + n.h * 0.2
-                    );
-                }
-            }
             "icon" => {
-                // Built-in placeholder glyph (a plus) sized to the part box.
-                let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
-                let r = n.w.min(n.h) * 0.35;
-                let _ = write!(
-                    s,
-                    "<path {attrs} d=\"M{} {}H{}M{} {}V{}\" stroke=\"{}\" stroke-width=\"{}\" stroke-linecap=\"round\" fill=\"none\"/>",
-                    cx - r,
-                    cy,
-                    cx + r,
-                    cx,
-                    cy - r,
-                    cy + r,
-                    esc(n.color.as_deref().unwrap_or("currentColor")),
-                    (n.w / 10.0).max(1.0)
-                );
+                s.push_str(&icon_svg(n, &attrs).unwrap_or_else(|| placeholder_svg(n, &attrs)));
             }
             _ => {}
         }
@@ -2872,7 +3017,8 @@ mod tests {
         .expect("graph")
         .with_relationships(
             TokenGraph::load_spec_relationships(&r.join("relationships")).expect("rels"),
-        );
+        )
+        .with_icons(TokenGraph::load_spec_icons(&r.join("icons")).expect("icons"));
         let recipe: Value = serde_json::from_str(
             &std::fs::read_to_string(r.join("visuals/action-button.json")).unwrap(),
         )
@@ -3247,7 +3393,7 @@ mod tests {
         let dash = part(&both, "dash").unwrap();
         assert_eq!(
             (dash.w, dash.h, dash.icon.as_ref().map(|i| i.name.as_str())),
-            (7.5, 1.25, Some("dash"))
+            (10.0, 10.0, Some("dash"))
         );
 
         let accent = scene("m", &["isSelected", "isEmphasized"], &[]);
@@ -3931,5 +4077,197 @@ mod tests {
             fill["miss"],
             "fill: no relationship 'fill-{style}' / 'Fill'"
         );
+    }
+
+    /// A `gadget` with mark-size tokens keyed by scale index (75) and size (`l`), a `ui`
+    /// icon `mark` drawn at 75, 200 and 300 (viewBox width = scale / 10), and a single
+    /// `workflow` drawing.
+    fn icon_graph() -> TokenGraph {
+        let mut g = TokenGraph::default();
+        g.components.push(crate::graph::ComponentRecord {
+            name: "gadget".into(),
+            file: PathBuf::from("components/gadget.json"),
+            raw: serde_json::json!({"name": "gadget"}),
+            layer: crate::graph::Layer::Foundation,
+        });
+        for (key, name, value) in [
+            (
+                "mark-75",
+                serde_json::json!({"property": "mark-size", "scaleIndex": 75}),
+                "12px",
+            ),
+            (
+                "mark-l",
+                serde_json::json!({"property": "mark-size", "size": "l"}),
+                "20px",
+            ),
+        ] {
+            g.tokens.insert(
+                key.into(),
+                crate::graph::TokenRecord {
+                    name: key.into(),
+                    file: PathBuf::from("tokens.json"),
+                    index: 0,
+                    schema_url: None,
+                    uuid: Some(key.into()),
+                    alias_target: None,
+                    raw: serde_json::json!({"value": value, "name": name}),
+                    layer: Default::default(),
+                },
+            );
+        }
+        let drawing = |w: u32| serde_json::json!({"viewBox": format!("0 0 {w} {w}"), "paths": [{"d": format!("M0 0H{w}")}]});
+        let set = |set: &str, icons: Value| {
+            TokenGraph::icon_set_from_str(
+                &serde_json::json!({"set": set, "icons": icons}).to_string(),
+                PathBuf::from(format!("icons/{set}.json")),
+            )
+            .unwrap()
+            .unwrap()
+        };
+        g.with_icons(vec![
+            set(
+                "ui",
+                serde_json::json!({"mark": {"sizes":
+                    {"75": drawing(7), "200": drawing(20), "300": drawing(30)}}}),
+            ),
+            set("workflow", serde_json::json!({"add": drawing(2)})),
+        ])
+    }
+
+    /// Render `gadget` at size `m` (sizeScale `scale`) with one icon part inside a box.
+    fn icon_scene(icon: Value, props: Value, scale: u32) -> (Scene, Value) {
+        let g = icon_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": scale},
+            "parts": {
+                "box": {"kind": "box", "children": ["holder"]},
+                "holder": {"kind": "box", "children": ["mark"],
+                    "props": {"width": {"value": 60}, "height": {"value": 60}}},
+                "mark": {"kind": "icon", "icon": icon, "props": props}
+            }
+        });
+        let req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        let compiled = compile_recipe(&g, &recipe, "gadget", &[HashMap::new()]).unwrap();
+        (build_scene(&g, &recipe, &req).unwrap(), compiled)
+    }
+
+    fn drawn(scene: &Scene) -> (Option<String>, Vec<String>) {
+        let n = scene.nodes.iter().find(|n| n.part == "mark").unwrap();
+        let view_box = n
+            .icon
+            .as_ref()
+            .and_then(|i| i.drawing.as_ref())
+            .map(|d| d["viewBox"].as_str().unwrap().to_string());
+        (view_box, scene.diagnostics.clone())
+    }
+
+    #[test]
+    fn a_scale_keyed_size_token_picks_the_ui_drawing() {
+        let width = serde_json::json!({"width":
+            {"token": {"property": "mark-size", "scaleIndex": 75}}});
+        let (scene, compiled) =
+            icon_scene(serde_json::json!({"set": "ui", "name": "mark"}), width, 300);
+        assert_eq!(drawn(&scene), (Some("0 0 7 7".into()), vec![]));
+        assert_eq!(compiled["variants"]["m||"]["mark"]["drawing"], "ui:mark@75");
+        assert_eq!(compiled["drawings"]["ui:mark@75"]["viewBox"], "0 0 7 7");
+    }
+
+    #[test]
+    fn a_size_keyed_size_token_picks_by_its_size_key() {
+        let width = serde_json::json!({"width":
+            {"token": {"property": "mark-size", "size": "l"}}});
+        let (scene, compiled) =
+            icon_scene(serde_json::json!({"set": "ui", "name": "mark"}), width, 75);
+        assert_eq!(
+            drawn(&scene).0.as_deref(),
+            Some("0 0 20 20"),
+            "l is scale 200"
+        );
+        assert_eq!(
+            compiled["variants"]["m||"]["mark"]["drawing"],
+            "ui:mark@200"
+        );
+    }
+
+    #[test]
+    fn without_a_size_token_the_size_scale_picks_the_nearest_drawing() {
+        let ui = serde_json::json!({"set": "ui", "name": "mark"});
+        let (scene, _) = icon_scene(ui.clone(), serde_json::json!({}), 100);
+        assert_eq!(
+            drawn(&scene).0.as_deref(),
+            Some("0 0 7 7"),
+            "100 is nearest 75"
+        );
+        let (scene, compiled) = icon_scene(ui, serde_json::json!({}), 250);
+        assert_eq!(
+            drawn(&scene).0.as_deref(),
+            Some("0 0 30 30"),
+            "a tie takes the larger"
+        );
+        assert_eq!(
+            compiled["variants"]["m||"]["mark"]["drawing"],
+            "ui:mark@250"
+        );
+    }
+
+    #[test]
+    fn a_workflow_icon_has_one_drawing_whatever_the_scale() {
+        let wf = serde_json::json!({"set": "workflow", "name": "add"});
+        let (scene, compiled) = icon_scene(wf, serde_json::json!({}), 300);
+        assert_eq!(drawn(&scene), (Some("0 0 2 2".into()), vec![]));
+        assert_eq!(
+            compiled["variants"]["m||"]["mark"]["drawing"],
+            "workflow:add"
+        );
+    }
+
+    #[test]
+    fn a_missing_icon_draws_the_placeholder_with_a_diagnostic() {
+        let (scene, compiled) = icon_scene(
+            serde_json::json!({"set": "ui", "name": "nope"}),
+            serde_json::json!({}),
+            100,
+        );
+        let msg = "icon ui:nope has no drawing for size 'm'; drawing a placeholder";
+        assert_eq!(drawn(&scene), (None, vec![msg.to_string()]));
+        assert_eq!(compiled["variants"]["m||"]["mark"]["drawingMiss"], msg);
+        assert!(scene_to_svg(&scene).contains("<path data-part=\"mark\" data-tokens=\"\" d=\"M"));
+    }
+
+    #[test]
+    fn an_icon_fits_its_box_uniformly_and_centered() {
+        // A 20x10 viewBox in a 40x40 box scales by 2 and centers vertically.
+        assert_eq!(
+            icon_fit("0 0 20 10", 10.0, 10.0, 40.0, 40.0),
+            Some((2.0, 10.0, 20.0))
+        );
+        // The viewBox origin is shifted onto the box.
+        assert_eq!(
+            icon_fit("5,5 10 10", 0.0, 0.0, 20.0, 20.0),
+            Some((2.0, -10.0, -10.0))
+        );
+        assert_eq!(icon_fit("0 0 0 10", 0.0, 0.0, 20.0, 20.0), None);
+        assert_eq!(icon_fit("0 0 10", 0.0, 0.0, 20.0, 20.0), None);
+    }
+
+    #[test]
+    fn an_icon_rotates_about_its_box_center_in_the_part_color() {
+        let props = serde_json::json!({
+            "width": {"value": 40}, "rotation": {"value": 90}, "color": {"value": "red"}
+        });
+        let (scene, _) = icon_scene(serde_json::json!({"set": "ui", "name": "mark"}), props, 300);
+        let n = scene.nodes.iter().find(|n| n.part == "mark").unwrap();
+        let (cx, cy) = (n.x + 20.0, n.y + 20.0);
+        let svg = scene_to_svg(&scene);
+        let want = format!(
+            "<g data-part=\"mark\" data-tokens=\"\" transform=\"rotate(90 {cx} {cy})\"><rect x=\"{}\" y=\"{}\" width=\"40\" height=\"40\" fill=\"none\"/><g transform=\"translate({} {}) scale({})\"><path d=\"M0 0H30\" fill=\"red\"/></g></g>",
+            n.x, n.y, n.x, n.y, 40.0 / 30.0
+        );
+        assert!(svg.contains(&want), "{svg}");
     }
 }

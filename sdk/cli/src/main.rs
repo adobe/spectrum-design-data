@@ -1146,6 +1146,12 @@ fn load_visual_env_for(
             .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
         graph = graph.with_relationships(rels);
     }
+    if let Some(dir) = resolved.icons.as_deref() {
+        let icons = TokenGraph::load_spec_icons(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load icons from {}", dir.display()))?;
+        graph = graph.with_icons(icons);
+    }
     let visuals_dir = visuals_path.unwrap_or_else(|| {
         let sibling = |p: &Path| p.parent().map(|d| d.join("visuals"));
         [

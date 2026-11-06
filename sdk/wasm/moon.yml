@@ -107,6 +107,7 @@ tasks:
       - "/packages/design-data/components/*.json"
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/design-data/relationships/*.json"
+      - "/packages/design-data/icons/*.json"
       - "/packages/design-data/mode-sets/*.json"
       - "/packages/design-data/fields/*.json"
     outputs:
