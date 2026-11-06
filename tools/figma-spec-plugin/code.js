@@ -228,8 +228,10 @@ function sceneNodes(parent, scene, view) {
       // drawn (p6ga.17.5); any other icon draws the placeholder plus.
       const shape = n.icon && n.icon.set === "ui" ? n.icon.name : undefined;
       if (shape === "dash") {
-        const d = rect(0, 0, w, h, c.c, c.o);
-        d.cornerRadius = h / 2;
+        // The part box is the icon size; the S2 dash is a centred bar about 0.9 x 0.2 of it.
+        const bh = h * 0.2;
+        const d = rect(w * 0.05, (h - bh) / 2, w * 0.9, bh, c.c, c.o);
+        d.cornerRadius = bh / 2;
         g.appendChild(d);
       } else if (shape === "checkmark" || shape === "chevron") {
         g.appendChild(

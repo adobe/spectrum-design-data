@@ -1037,6 +1037,7 @@ impl<'a> CompileCx<'a> {
         &self,
         parts: &mut serde_json::Map<String, Value>,
         drawings: &mut serde_json::Map<String, Value>,
+        defaults: &HashMap<String, Value>,
     ) {
         let req = RenderRequest {
             component: self.req.component.clone(),
@@ -1044,7 +1045,6 @@ impl<'a> CompileCx<'a> {
             mode: self.req.mode.clone(),
             ..Default::default()
         };
-        let defaults = component_option_defaults(self.graph, &req.component);
         let size_index = self.size_index.parse().ok();
         for part in parts.values_mut() {
             let Some(icon) = IconRef::of_part(part) else {
@@ -1052,7 +1052,7 @@ impl<'a> CompileCx<'a> {
             };
             let mut cx = Ctx {
                 req: &req,
-                option_defaults: &defaults,
+                option_defaults: defaults,
                 diags: Vec::new(),
             };
             let mut token_of = HashMap::new();
@@ -1069,7 +1069,14 @@ impl<'a> CompileCx<'a> {
                 size_index,
                 |l| self.name_of(l),
             );
-            let Some(found) = self.graph.icon(&icon.set, &icon.name, scale) else {
+            // A drawing the renderers cannot fit (bad viewBox, no paths) counts as missing.
+            let Some(found) = self.graph.icon(&icon.set, &icon.name, scale).filter(|d| {
+                d.get("viewBox")
+                    .and_then(Value::as_str)
+                    .and_then(|v| icon_fit(v, 0.0, 0.0, 1.0, 1.0))
+                    .is_some()
+                    && d.get("paths").and_then(Value::as_array).is_some()
+            }) else {
                 part["drawingMiss"] = Value::String(format!(
                     "icon {}:{} has no drawing for size '{}'; drawing a placeholder",
                     icon.set, icon.name, req.size
@@ -1554,7 +1561,7 @@ pub fn compile_recipe(
                 mode.get("scale").map_or("", String::as_str)
             );
             let mut compiled = cx.compile_parts(parts);
-            cx.attach_drawings(&mut compiled, &mut drawings);
+            cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
             variants.insert(key, Value::Object(compiled));
         }
     }
@@ -1600,12 +1607,13 @@ fn compile_variant(
         size_index,
         scoped: &scoped,
     };
+    let option_defaults = component_option_defaults(graph, &req.component);
     let mut compiled = cx.compile_parts(parts);
     let mut drawings = serde_json::Map::new();
-    cx.attach_drawings(&mut compiled, &mut drawings);
+    cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
     Ok(CompiledVariant {
         root: root.into(),
-        option_defaults: component_option_defaults(graph, &req.component),
+        option_defaults,
         parts: compiled,
         drawings,
     })
@@ -4128,8 +4136,11 @@ mod tests {
         g.with_icons(vec![
             set(
                 "ui",
-                serde_json::json!({"mark": {"sizes":
-                    {"75": drawing(7), "200": drawing(20), "300": drawing(30)}}}),
+                serde_json::json!({
+                    "mark": {"sizes": {"75": drawing(7), "200": drawing(20), "300": drawing(30)}},
+                    "broken": {"sizes": {"100":
+                        {"viewBox": "0 0 0 10", "paths": [{"d": "M0 0"}]}}}
+                }),
             ),
             set("workflow", serde_json::json!({"add": drawing(2)})),
         ])
@@ -4237,6 +4248,49 @@ mod tests {
         assert_eq!(drawn(&scene), (None, vec![msg.to_string()]));
         assert_eq!(compiled["variants"]["m||"]["mark"]["drawingMiss"], msg);
         assert!(scene_to_svg(&scene).contains("<path data-part=\"mark\" data-tokens=\"\" d=\"M"));
+    }
+
+    #[test]
+    fn an_unfittable_drawing_is_a_miss_with_a_diagnostic() {
+        let (scene, compiled) = icon_scene(
+            serde_json::json!({"set": "ui", "name": "broken"}),
+            serde_json::json!({}),
+            100,
+        );
+        let msg = "icon ui:broken has no drawing for size 'm'; drawing a placeholder";
+        assert_eq!(drawn(&scene), (None, vec![msg.to_string()]));
+        assert_eq!(compiled["variants"]["m||"]["mark"]["drawingMiss"], msg);
+    }
+
+    #[test]
+    fn a_state_never_changes_the_drawing() {
+        // The hover width is a size-keyed `l` token (scale 200), but the drawing is chosen
+        // from the default state's binding (scale 75) and only the box grows.
+        let width = serde_json::json!({"width": [
+            {"token": {"property": "mark-size", "scaleIndex": 75}},
+            {"when": {"states": ["hover"]}, "token": {"property": "mark-size", "size": "l"}}
+        ]});
+        let g = icon_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 300},
+            "parts": {
+                "box": {"kind": "box", "children": ["holder"]},
+                "holder": {"kind": "box", "children": ["mark"],
+                    "props": {"width": {"value": 60}, "height": {"value": 60}}},
+                "mark": {"kind": "icon", "icon": {"set": "ui", "name": "mark"}, "props": width}
+            }
+        });
+        for (states, w) in [(vec![], 12.0), (vec!["hover".to_string()], 20.0)] {
+            let req = RenderRequest {
+                component: "gadget".into(),
+                size: "m".into(),
+                states,
+                ..Default::default()
+            };
+            let scene = build_scene(&g, &recipe, &req).unwrap();
+            assert_eq!(drawn(&scene).0.as_deref(), Some("0 0 7 7"));
+            assert_eq!(scene.nodes.iter().find(|n| n.part == "mark").unwrap().w, w);
+        }
     }
 
     #[test]
