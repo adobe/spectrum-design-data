@@ -111,3 +111,71 @@ test("iconFit scales uniformly and centers, like icon_fit in Rust", (t) => {
   t.is(iconFit("0 0 0 10", 0, 0, 20, 20), undefined);
   t.is(iconFit("0 0 10", 0, 0, 20, 20), undefined);
 });
+
+const workflow = JSON.parse(
+  readFileSync(
+    new URL(
+      "../../../packages/design-data/icons/workflow.json",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
+);
+const edit = {
+  viewBox: workflow.icons.edit.viewBox,
+  paths: workflow.icons.edit.paths,
+};
+const icons = { "workflow:edit": edit };
+
+// A content icon part, optional or not, drawn by both engines under a request `icon`.
+const withIcon = (extra, icon) => {
+  const ref = { set: "ui", name: "chevron", content: true, ...extra };
+  return {
+    recipe: recipe(ref),
+    compiled: compiled(ref, { drawing: "ui:chevron@100" }),
+    icon,
+  };
+};
+
+const both = (t, extra, icon) => {
+  const c = withIcon(extra, icon);
+  const r = { ...req, icon };
+  const js = renderScene(c.compiled, r, icons);
+  const ds = Dataset.embedded();
+  try {
+    const wasm = JSON.parse(ds.renderScene(c.recipe, r));
+    t.deepEqual(js.diagnostics, wasm.diagnostics);
+    t.deepEqual(js.nodes, wasm.nodes);
+    t.is(renderSvg(js), ds.renderSvg(c.recipe, r));
+  } finally {
+    ds.free();
+  }
+  return js;
+};
+
+test("a request icon replaces a content icon the same in both engines", (t) => {
+  const scene = both(t, {}, { set: "workflow", name: "edit" });
+  const mark = scene.nodes.find((n) => n.part === "mark");
+  t.is(mark.icon.name, "edit");
+  t.deepEqual(mark.icon.drawing, edit);
+  t.deepEqual(scene.diagnostics, []);
+});
+
+test("icon none removes an optional content icon the same in both engines", (t) => {
+  const scene = both(t, { optional: true }, "none");
+  t.false(scene.nodes.some((n) => n.part === "mark"));
+  t.deepEqual(scene.diagnostics, []);
+});
+
+test("icon none on a required content icon keeps it with a diagnostic in both engines", (t) => {
+  const scene = both(t, {}, "none");
+  t.is(scene.nodes.find((n) => n.part === "mark").icon.name, "chevron");
+  t.is(scene.diagnostics.length, 1);
+});
+
+test("an unknown request icon draws the placeholder with a diagnostic in both engines", (t) => {
+  const scene = both(t, {}, { set: "workflow", name: "nope" });
+  t.deepEqual(scene.diagnostics, [
+    "icon workflow:nope has no drawing for size 'm'; drawing a placeholder",
+  ]);
+});

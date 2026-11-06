@@ -258,6 +258,9 @@ enum Commands {
         /// Label text for text parts
         #[arg(long, default_value = "Label")]
         label: String,
+        /// Content icon: SET:NAME (e.g. workflow:edit) replaces it, `none` hides an optional one
+        #[arg(long, value_name = "SET:NAME|none")]
+        icon: Option<visual::IconOverride>,
         /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
         #[arg(long, value_name = "DIR")]
         visuals_path: Option<PathBuf>,
@@ -1237,6 +1240,7 @@ fn run_render(
     color_scheme: String,
     scale: String,
     label: String,
+    icon: Option<visual::IconOverride>,
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     format: String,
@@ -1276,6 +1280,7 @@ fn run_render(
             ("scale".to_string(), scale),
         ]),
         label,
+        icon,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
     for d in &scene.diagnostics {
@@ -4229,6 +4234,7 @@ fn main() -> ExitCode {
             color_scheme,
             scale,
             label,
+            icon,
             visuals_path,
             path,
             format,
@@ -4243,6 +4249,7 @@ fn main() -> ExitCode {
             color_scheme,
             scale,
             label,
+            icon,
             visuals_path,
             path,
             format,

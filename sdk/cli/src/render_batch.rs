@@ -41,6 +41,8 @@ struct BatchState {
     scale: String,
     #[serde(default = "label")]
     label: String,
+    /// `{ "set", "name" }` or `"none"`: replaces or hides the content icon.
+    icon: Option<visual::IconOverride>,
     /// A `[platforms.<id>]` entry; the global `--platform` when absent.
     platform: Option<String>,
 }
@@ -153,6 +155,7 @@ pub fn run_batch(
                     ("scale".to_string(), st.scale.clone()),
                 ]),
                 label: st.label.clone(),
+                icon: st.icon.clone(),
             };
             let scene = visual::build_scene(&env.0, recipe, &req)?;
             let value = serde_json::to_value(&scene).map_err(|e| e.to_string())?;

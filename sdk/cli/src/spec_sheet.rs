@@ -436,6 +436,7 @@ impl Ctx<'_> {
             ]
             .into(),
             label: "Label".into(),
+            icon: None,
         };
         let scene =
             visual::build_scene(self.graph, recipe, &req).map_err(|e| miette::miette!(e))?;
