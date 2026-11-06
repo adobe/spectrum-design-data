@@ -13,8 +13,9 @@
 //! Warning. A recipe's `derived` entry declares a relationship context whose value follows
 //! from the layout. For every size and scale, the token the relationship gives (resolved by
 //! binding it to the root's padding in a scratch copy of the recipe) must equal what the
-//! formula gives from the solved scene. A token with no value for a scale is reported once
-//! per entry, listing the scales and sizes.
+//! formula gives from the solved scene. A context whose relationship resolves no token is
+//! reported once per entry, listing the scales and sizes. A token with a desktop value only
+//! resolves for mobile too, so it shows as a mobile mismatch.
 
 use std::collections::{BTreeMap, BTreeSet};
 
