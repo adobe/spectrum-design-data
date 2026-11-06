@@ -282,6 +282,14 @@
       .controls h5 {
         margin: 8px 0 0;
       }
+      .controls input.content {
+        font: inherit;
+        padding: 6px 8px;
+        border: 1px solid #c8c8c8;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text, #222);
+      }
       select {
         font: inherit;
         padding: 6px 8px;
@@ -782,6 +790,12 @@
       import { platformSwitcher } from "./platform-switcher.js";
       import { roundedPath, cssFontWeight, iconSvg } from "./visual-runtime.js";
       import {
+        DEFAULT_LABEL,
+        iconChoices,
+        readContentParams,
+        writeContentParams,
+      } from "./content-controls.js";
+      import {
         advisoriesOf,
         errorsOf,
         fixes,
@@ -822,11 +836,12 @@
         const el = $("diagnostics");
         el.hidden = seenDiagnostics.size === 0;
         el.innerHTML = seenDiagnostics.size
-          ? `<strong>${seenDiagnostics.size} binding${seenDiagnostics.size === 1 ? "" : "s"} did not resolve</strong><ul>${[...seenDiagnostics].map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`
+          ? `<strong>${seenDiagnostics.size} render diagnostic${seenDiagnostics.size === 1 ? "" : "s"}</strong><ul>${[...seenDiagnostics].map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`
           : "";
       }
 
       let C; // component definition + recipe summary
+      let content; // {label, icon: {optional}|null, icons} the recipe lets the demo change
       let controlOpts; // option name -> {type, values, supported}
       let constraints = []; // valid option constraints for C
 
@@ -1043,6 +1058,22 @@
               : "")
           );
         };
+        content = backend.content(C.name);
+        const start = readContentParams(new URLSearchParams(location.search));
+        if (content.label)
+          rows.push(
+            `<label class="f" id="content-label-wrap">Label text<input type="text" id="content-label" class="content" value="${attr(start.label)}" /></label>`,
+          );
+        if (content.icon) {
+          const choices = iconChoices(
+            Object.fromEntries(content.icons.map((k) => [k, 1])),
+            content.icon.optional,
+          ).map(([v, t]) => [v || NONE, t]);
+          const has = choices.some(([v]) => v === start.icon);
+          rows.push(
+            picker("content-icon", "Icon", choices, has ? start.icon : NONE),
+          );
+        }
         rows.push(group(order.filter((n) => controlOpts[n].supported)));
         const unsupported = order.filter((n) => !controlOpts[n].supported);
         if (unsupported.length)
@@ -1056,8 +1087,14 @@
           '<div id="support" class="support" role="status" aria-live="polite"></div>',
         );
         $("controls").innerHTML = rows.join("");
+        const contentChanged = () => {
+          refresh();
+          syncUrl();
+        };
+        $("content-label")?.addEventListener("input", contentChanged);
+        $("content-icon")?.addEventListener("change", contentChanged);
         $("controls")
-          .querySelectorAll("sp-picker, sp-switch")
+          .querySelectorAll("sp-picker:not(#content-icon), sp-switch")
           .forEach((e) =>
             e.addEventListener("change", async () => {
               await enableDependency(e);
@@ -1090,8 +1127,10 @@
           name: C.name,
           scheme: read($("scheme")),
           scale: read($("scale")),
-          label: "Label",
+          label: $("content-label") ? $("content-label").value : DEFAULT_LABEL,
         };
+        if ($("content-icon") && read($("content-icon")))
+          o.icon = read($("content-icon"));
         if (view.mode !== "usage" && $("state") && read($("state")))
           o.state = read($("state"));
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
@@ -1479,6 +1518,9 @@
       // Copy a request back into the controls so the zoomed view matches the clicked cell.
       function syncControls(req) {
         for (const k of ["scheme", "scale"]) if (req[k]) write($(k), req[k]);
+        if ($("content-label") && req.label)
+          $("content-label").value = req.label;
+        if ($("content-icon")) write($("content-icon"), req.icon ?? "");
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
@@ -2097,6 +2139,10 @@
       function syncUrl() {
         const u = new URL(location.href);
         u.searchParams.set("tab", view.mode);
+        writeContentParams(u.searchParams, {
+          label: $("content-label")?.value,
+          icon: $("content-icon") ? read($("content-icon")) : "",
+        });
         if (view.mode === "usage") u.searchParams.delete("cell");
         else {
           const { name, ...req } = liveOptions();
