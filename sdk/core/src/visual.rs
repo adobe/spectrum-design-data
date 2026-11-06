@@ -1064,6 +1064,11 @@ impl<'a> CompileCx<'a> {
                     token_of.insert(prop, r.token);
                 }
             }
+            // No catalog loaded (plain `validate` without `--icons-path`): nothing to judge,
+            // as SPEC-085. The part still draws the placeholder.
+            if self.graph.icons.is_empty() {
+                continue;
+            }
             let (scale, _) = icon_scale_by(
                 |prop| token_of.get(prop).cloned(),
                 size_index,
@@ -4247,6 +4252,27 @@ mod tests {
         let msg = "icon ui:nope has no drawing for size 'm'; drawing a placeholder";
         assert_eq!(drawn(&scene), (None, vec![msg.to_string()]));
         assert_eq!(compiled["variants"]["m||"]["mark"]["drawingMiss"], msg);
+        assert!(scene_to_svg(&scene).contains("<path data-part=\"mark\" data-tokens=\"\" d=\"M"));
+    }
+
+    #[test]
+    fn without_an_icon_catalog_the_placeholder_has_no_diagnostic() {
+        let mut g = icon_graph();
+        g.icons.clear();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {
+                "box": {"kind": "box", "children": ["mark"]},
+                "mark": {"kind": "icon", "icon": {"set": "workflow", "name": "add"}}
+            }
+        });
+        let req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        let scene = build_scene(&g, &recipe, &req).unwrap();
+        assert_eq!(drawn(&scene), (None, vec![]));
         assert!(scene_to_svg(&scene).contains("<path data-part=\"mark\" data-tokens=\"\" d=\"M"));
     }
 
