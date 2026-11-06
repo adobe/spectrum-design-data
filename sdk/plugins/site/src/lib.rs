@@ -23,6 +23,7 @@ use design_data_figma as figma;
 const INDEX: &str = include_str!("../assets/index.html");
 const BACKEND: &str = include_str!("../assets/backend.js");
 const RUNTIME: &str = include_str!("../assets/visual-runtime.js");
+const CONTENT: &str = include_str!("../assets/content-controls.js");
 const CONSTRAINTS: &str = include_str!("../assets/constraints.js");
 const SWITCHER: &str = include_str!("../assets/platform-switcher.js");
 const CONTROLS: &str = include_str!("../assets/spectrum-controls.js");
@@ -133,6 +134,7 @@ pub fn write_site(
     write("spectrum-controls.js", CONTROLS)?;
     write("THIRD-PARTY-NOTICES.txt", NOTICES)?;
     write("constraints.js", CONSTRAINTS)?;
+    write("content-controls.js", CONTENT)?;
     write("platform-switcher.js", SWITCHER)?;
     write(
         "data.json",

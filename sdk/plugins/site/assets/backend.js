@@ -14,6 +14,7 @@
 // any base path, such as GitHub Pages.
 
 import { renderScene } from "./visual-runtime.js";
+import { contentSupport, iconRequest } from "./content-controls.js";
 
 const data = await fetch(new URL("./data.json", import.meta.url)).then((r) =>
   r.json(),
@@ -37,6 +38,13 @@ export const backend = {
     return { ...c, name };
   },
 
+  // Whether the component's recipe has label text and a content icon to change, and the
+  // demo icons to pick from, keyed `set:name`.
+  content: (name) => ({
+    ...contentSupport(data.compiled[name]),
+    icons: Object.keys(data.icons ?? {}),
+  }),
+
   // `q` holds `name`, `size`, `scheme`, `scale`, `label`, `state` and `opt.<option>` keys.
   scene: async (q) => {
     const options = {};
@@ -46,13 +54,18 @@ export const backend = {
       const opt = k.slice(4);
       if (opt in (data.byName[q.name].options ?? {})) options[opt] = parse(v);
     }
-    const scene = renderScene(data.compiled[q.name], {
-      size: q.size ?? "m",
-      states: q.state && q.state !== "default" ? [q.state] : [],
-      options,
-      mode: { colorScheme: q.scheme ?? "light", scale: q.scale ?? "desktop" },
-      label: q.label ?? "Label",
-    });
+    const scene = renderScene(
+      data.compiled[q.name],
+      {
+        size: q.size ?? "m",
+        states: q.state && q.state !== "default" ? [q.state] : [],
+        options,
+        mode: { colorScheme: q.scheme ?? "light", scale: q.scale ?? "desktop" },
+        label: q.label ?? "Label",
+        icon: iconRequest(q.icon),
+      },
+      data.icons,
+    );
     const id = data.platform?.id;
     if (id)
       scene.diagnostics = scene.diagnostics.map(
