@@ -647,7 +647,10 @@ test("icon parts draw their glyph, not a plus", async (t) => {
           mine.every(
             (f) =>
               f.children[0].type === "RECTANGLE" &&
-              f.children[0].cornerRadius === f.height / 2,
+              f.children[0].cornerRadius === f.children[0].height / 2 &&
+              Math.abs(
+                f.children[0].y + f.children[0].height / 2 - f.height / 2,
+              ) < 1e-9,
           ),
           component,
         );

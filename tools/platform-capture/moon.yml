@@ -15,3 +15,4 @@ tasks:
       - "/packages/design-data/components/**/*.json"
       - "/packages/design-data/visuals/**/*.json"
       - "/packages/design-data/relationships/**/*.json"
+      - "/packages/design-data/icons/**/*.json"

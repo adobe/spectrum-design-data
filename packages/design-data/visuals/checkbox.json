@@ -352,7 +352,7 @@
                 "size": "s"
               }
             },
-            "value": 6.5
+            "value": 8
           },
           {
             "when": {
@@ -360,7 +360,7 @@
                 "size": "m"
               }
             },
-            "value": 7.5
+            "value": 10
           },
           {
             "when": {
@@ -368,7 +368,7 @@
                 "size": "l"
               }
             },
-            "value": 9.65
+            "value": 10
           },
           {
             "when": {
@@ -376,7 +376,7 @@
                 "size": "xl"
               }
             },
-            "value": 11
+            "value": 12
           }
         ],
         "height": [
@@ -386,7 +386,7 @@
                 "size": "s"
               }
             },
-            "value": 1.25
+            "value": 8
           },
           {
             "when": {
@@ -394,7 +394,7 @@
                 "size": "m"
               }
             },
-            "value": 1.25
+            "value": 10
           },
           {
             "when": {
@@ -402,7 +402,7 @@
                 "size": "l"
               }
             },
-            "value": 1.65
+            "value": 10
           },
           {
             "when": {
@@ -410,7 +410,7 @@
                 "size": "xl"
               }
             },
-            "value": 2
+            "value": 12
           }
         ],
         "color": {
