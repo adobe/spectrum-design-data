@@ -1144,8 +1144,9 @@ rules:
       the context to the root's padding in a scratch copy of the recipe, solves each size at
       each scale (`desktop`, `mobile`) and compares. A context whose relationship resolves no
       token is reported once per entry. A token with a desktop value only is not missing: it
-      resolves for mobile too, so it shows as a mobile mismatch. A disagreement is one warning per scale, so a desktop one is told apart from mobile. Mobile values that the tokens do not carry yet show up here
-      until the token data is fixed.
+      resolves for mobile too, so it shows as a mobile mismatch. A disagreement is one warning per
+      scale, so a desktop one is told apart from mobile. Mobile values that the tokens do not
+      carry yet show up here until the token data is fixed.
     assert: >
       For every size and scale, the token a `derived` context's relationship gives SHOULD equal
       the value of its formula over the solved scene.
