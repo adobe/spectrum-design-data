@@ -352,11 +352,18 @@ fn expected(
         "borderWidth" | "strokeWidth" => {
             bound(field("stroke_width").map(|v| (v, token_of(node, "strokeWidth"))))
         }
-        "stroke" => Some((
-            field("stroke").unwrap_or(json!("none")),
-            token_of(node, "stroke"),
-            false,
-        )),
+        "stroke" => {
+            // The renderer draws a stroke only with a positive width.
+            let drawn = node
+                .get("stroke_width")
+                .and_then(Value::as_f64)
+                .is_some_and(|w| w > 0.0);
+            Some((
+                field("stroke").filter(|_| drawn).unwrap_or(json!("none")),
+                token_of(node, "stroke"),
+                false,
+            ))
+        }
         "gap" => {
             return match scene.pointer("/layout/gap").filter(|_| is_root) {
                 Some(g) => Ok((g.clone(), token_of(node, "gap"), false)),
@@ -415,7 +422,12 @@ fn expected(
                 .pointer(&format!("/layout/padding/{i}"))
                 .filter(|_| is_root)
             {
-                Some(v) => Ok((v.clone(), None, true)),
+                // A token that resolves to 0 has no measurement but still binds the padding.
+                Some(v) => {
+                    let token = token_of(node, prop);
+                    let unbound = token.is_none();
+                    Ok((v.clone(), token, unbound))
+                }
                 None => Err(format!("scene has no solved {prop} on '{part}'")),
             };
         }
@@ -886,6 +898,12 @@ mod tests {
         assert!(run(json!({"container": {"strokeWidth": 2}}), None).is_clean());
         let r = run(json!({"container": {"stroke": "none"}}), None);
         assert_eq!(diff(&r, "stroke").unit, "channel");
+        // A stroke colour without a width is not drawn, so it is compared as none.
+        let mut s = scene();
+        s["nodes"][0]["stroke_width"] = json!(0.0);
+        let scenes = BTreeMap::from([("s1".to_string(), s)]);
+        let m = measured(json!({"container": {"stroke": "none"}}));
+        assert!(compare(&scenes, &m, None).unwrap().is_clean());
     }
 
     #[test]
@@ -924,6 +942,19 @@ mod tests {
         assert!(d.unbound && d.token.is_none());
         assert_eq!((d.expected.clone(), d.delta), (json!(4.0), 2.0));
         assert!(to_markdown(&r).contains("unbound"));
+        // A token-bound padding that resolves to 0 has no measurement but keeps its token.
+        let mut s = scene();
+        s["layout"]["padding"] = json!([0, 14, 4, 14]);
+        s["nodes"][0]["tokens"]
+            .as_array_mut()
+            .unwrap()
+            .push(json!({"prop": "paddingBlockStart", "token": "button-zero-pad"}));
+        let scenes = BTreeMap::from([("s1".to_string(), s)]);
+        let m = measured(json!({"container": {"paddingTop": 3}}));
+        let r = compare(&scenes, &m, None).unwrap();
+        let d = diff(&r, "paddingTop");
+        assert!(!d.unbound);
+        assert_eq!(d.token.as_deref(), Some("button-zero-pad"));
         // A zero literal padding is still checked.
         let mut s = scene();
         s["layout"]["padding"] = json!([0, 0, 0, 14]);

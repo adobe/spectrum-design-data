@@ -29,8 +29,8 @@ export function measureElement(el, role) {
     props.cornerRadiusTopRight = radius(cs.borderTopRightRadius);
     props.cornerRadiusBottomRight = radius(cs.borderBottomRightRadius);
     props.cornerRadiusBottomLeft = radius(cs.borderBottomLeftRadius);
-    // `gap` is "normal" (0) unless set; a border with width 0 or style none is not drawn.
-    props.gap = px(cs.columnGap) || 0;
+    // `gap` is "normal" (0) unless set; a column stacks along row-gap. A border with width 0 or style none is not drawn.
+    props.gap = px(cs.flexDirection.startsWith("column") ? cs.rowGap : cs.columnGap) || 0;
     const sides = ["Top", "Right", "Bottom", "Left"].map((e) => ({ w: parseFloat(cs[`border${e}Width`]) || 0, c: cs[`border${e}Color`], s: cs[`border${e}Style`] }));
     const drawn = sides.find((e) => e.w > 0 && e.s !== "none");
     props.borderWidth = drawn ? px(drawn.w) : 0;

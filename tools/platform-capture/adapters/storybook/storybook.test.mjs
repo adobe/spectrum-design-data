@@ -87,6 +87,9 @@ test("measureElement reads container, label and icon values in CSS px", (t) =>
       cornerRadiusBottomLeft: 0,
     });
     await btn.evaluate((e) => e.classList.remove("outlined"));
+    await btn.evaluate((e) => Object.assign(e.style, { flexDirection: "column", rowGap: "9px", columnGap: "3px" }));
+    t.is((await btn.evaluate(measureElement, "container")).props.gap, 9);
+    await btn.evaluate((e) => Object.assign(e.style, { flexDirection: "", rowGap: "", columnGap: "" }));
     const label = await (await page.locator("span").elementHandle()).evaluate(measureElement, "label");
     t.like(label.props, { fontSize: 16, fontWeight: 700, color: "rgb(255, 255, 255)", height: 18 });
     t.true(label.props.width > 40 && label.props.width < 80);
