@@ -11,6 +11,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
+use design_data_core::derived;
 use design_data_core::graph::TokenGraph;
 use design_data_core::naming;
 use design_data_core::visual::{self, RenderRequest};
@@ -31,6 +32,9 @@ const BLOCK_H: f64 = 360.0;
 const MARGIN_X: f64 = 200.0;
 const MARGIN_Y: f64 = 160.0;
 const MAX_SCALE: f64 = 5.0;
+
+/// The `prop` of a highlight that comes from a recipe's `derived` entry.
+const DERIVED: &str = "derived";
 
 fn s<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
     v.get(key).and_then(Value::as_str)
@@ -195,6 +199,10 @@ fn recipe_bindings(recipe: &Value) -> Vec<(String, String, String, String)> {
                 }
             }
         }
+    }
+    // A derived context has no prop to bind; `derived` stands in so the block highlights the part.
+    for d in derived::declared(recipe) {
+        out.push((d.part, DERIVED.to_string(), d.context, d.property));
     }
     out
 }
@@ -623,6 +631,7 @@ impl Ctx<'_> {
             if by_property {
                 hl.clear();
             }
+            let mut notes: Vec<String> = Vec::new();
             let mut render = match self.recipe {
                 Some(recipe) => {
                     let mut options = Map::new();
@@ -643,10 +652,14 @@ impl Ctx<'_> {
                 None => Value::Null,
             };
             if !render.is_null() {
-                render["highlight"] = json!(hl
-                    .iter()
-                    .map(|b| json!({"part": b.0, "prop": b.1}))
-                    .collect::<Vec<_>>());
+                let mut highlight: Vec<Value> = Vec::new();
+                for b in &hl {
+                    let h = json!({"part": b.0, "prop": b.1});
+                    if !highlight.contains(&h) {
+                        highlight.push(h);
+                    }
+                }
+                render["highlight"] = json!(highlight);
                 // Measurements are the scene's own. A relationship-bound one belongs to the block
                 // when its context is the title or the base context the highlight fell back to;
                 // a direct token selector has no relationship, so the highlighted props decide.
@@ -698,11 +711,16 @@ impl Ctx<'_> {
                     })
                     .collect();
                 render["measurements"] = json!(measurements);
+                if !by_property && page == "Layout" {
+                    if let Some(recipe) = self.recipe {
+                        add_derived_measurements(&mut render, recipe, &hl, &mut notes);
+                    }
+                }
             }
             // Markers: one per group of rows that share a recipe property template (or, when
             // no recipe binding fits, a relationship property), numbered 1..n in row order.
             // A marker sits on the part of the first binding that fits; none fits: no part.
-            let mut markers: Vec<(String, String, Option<&str>, String)> = Vec::new();
+            let mut markers: Vec<(String, String, Option<&str>, String, bool)> = Vec::new();
             let mut out_rows: Vec<Value> = Vec::new();
             let mut records = 0;
             for k in &row_order {
@@ -736,6 +754,7 @@ impl Ctx<'_> {
                                 label,
                                 binding.map(|b| b.0.as_str()),
                                 it.name.clone(),
+                                binding.is_some_and(|b| b.1 == DERIVED),
                             ));
                             markers.len() - 1
                         }
@@ -771,9 +790,15 @@ impl Ctx<'_> {
                 render["markers"] = json!(markers
                     .iter()
                     .enumerate()
-                    .map(|(i, (_, label, part, _))| json!({
-                        "n": i + 1, "part": part, "label": label, "drawn": drawn(part),
-                    }))
+                    .map(|(i, (_, label, part, _, derived))| {
+                        let mut m = json!({
+                            "n": i + 1, "part": part, "label": label, "drawn": drawn(part),
+                        });
+                        if *derived {
+                            m["derived"] = json!(true);
+                        }
+                        m
+                    })
                     .collect::<Vec<_>>());
             }
 
@@ -832,12 +857,90 @@ impl Ctx<'_> {
                 "render": render,
                 "records": records,
                 "rows": out_rows,
-                "notes": [],
+                "notes": notes,
                 "changes": changes,
                 "badges": badges,
             }));
         }
         Ok(blocks)
+    }
+}
+
+/// Adds a measurement for each derived context the block highlights: the band from the
+/// container edge that the formula gives over the solved scene, labelled as derived from
+/// height. It joins `scene.measurements`, so views draw it like any other span, and a note
+/// states the formula.
+fn add_derived_measurements(
+    render: &mut Value,
+    recipe: &Value,
+    hl: &[&(String, String, String, String)],
+    notes: &mut Vec<String>,
+) {
+    let nodes = render["scene"]["nodes"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default();
+    let node_h = |part: &str| {
+        nodes
+            .iter()
+            .find(|n| n["part"].as_str() == Some(part))
+            .and_then(|n| n["h"].as_f64())
+    };
+    let Some(root) = recipe
+        .get("root")
+        .and_then(Value::as_str)
+        .and_then(|r| nodes.iter().find(|n| n["part"].as_str() == Some(r)))
+    else {
+        return;
+    };
+    let (x, y, w, h) = (
+        root["x"].as_f64().unwrap_or_default(),
+        root["y"].as_f64().unwrap_or_default(),
+        root["w"].as_f64().unwrap_or_default(),
+        root["h"].as_f64().unwrap_or_default(),
+    );
+    for d in derived::declared(recipe) {
+        if !hl
+            .iter()
+            .any(|b| b.1 == DERIVED && b.2 == d.context && b.3 == d.property)
+        {
+            continue;
+        }
+        let Some(v) = d.value(h, node_h) else {
+            continue;
+        };
+        let prop = d.padding_prop();
+        let text = if v.fract() == 0.0 {
+            format!("{v}px")
+        } else {
+            format!("{v:.2}px")
+        };
+        let band_y = if d.bottom { y + h - v } else { y };
+        let scene_ms = render["scene"]["measurements"]
+            .as_array()
+            .cloned()
+            .unwrap_or_default();
+        let index = scene_ms.len();
+        let mut all = scene_ms;
+        all.push(json!({
+            "kind": "padding", "part": recipe["root"], "prop": prop,
+            "x": x, "y": band_y, "w": w, "h": v,
+            "token": {"prop": prop, "token": "derived from height", "value": text, "chain": []},
+        }));
+        render["scene"]["measurements"] = json!(all);
+        if let Some(list) = render["measurements"].as_array_mut() {
+            list.push(json!({
+                "index": index, "prop": prop, "kind": "padding",
+                "label": "derived from height", "relationship": null, "derived": true,
+            }));
+        }
+        let note = format!(
+            "Derived from height: {}. The recipe does not bind this context to its token.",
+            d.from
+        );
+        if !notes.contains(&note) {
+            notes.push(note);
+        }
     }
 }
 

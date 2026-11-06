@@ -20,6 +20,7 @@ pub mod compat;
 pub mod component;
 pub mod constraints;
 pub mod data_source;
+pub mod derived;
 pub mod diff;
 pub mod discovery;
 pub mod export;

@@ -400,6 +400,10 @@ fn legend_labels_are_token_names_from_the_same_block_rows() {
                     .collect();
                 let measurements = block["render"]["measurements"].as_array();
                 for m in measurements.into_iter().flatten() {
+                    // A derived span names no token; its label says so.
+                    if m["derived"] == true {
+                        continue;
+                    }
                     let label = m["label"].as_str().unwrap();
                     assert!(
                         names.contains(&label),
@@ -485,4 +489,59 @@ fn marker_groups_in_a_block_have_distinct_labels_without_the_size_part() {
             "component-pill-edge-to-text"
         ]
     );
+}
+
+#[test]
+fn derived_vertical_contexts_show_a_marker_and_a_measurement_labelled_derived() {
+    for (component, titles) in [
+        (
+            "button",
+            vec![
+                "Spacing (top edge to icon)",
+                "Spacing (top/bottom edge to label)",
+            ],
+        ),
+        (
+            "checkbox",
+            vec![
+                "Spacing (top edge to control)",
+                "Spacing (top/bottom edge to label)",
+            ],
+        ),
+    ] {
+        let out = Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(repo_root())
+            .args(["spec-sheet", component])
+            .assert()
+            .success()
+            .get_output()
+            .stdout
+            .clone();
+        let sheet: Value = serde_json::from_slice(&out).expect("sheet is JSON");
+        assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+        for title in titles {
+            let block = blocks_of(&sheet)
+                .into_iter()
+                .find(|b| b["title"] == title)
+                .unwrap_or_else(|| panic!("{component}: no block {title}"));
+            let r = &block["render"];
+            let markers = r["markers"].as_array().unwrap();
+            assert!(!markers.is_empty(), "{component} {title}");
+            assert!(markers
+                .iter()
+                .all(|m| m["derived"] == true && m["drawn"] == true));
+            let ms = r["measurements"].as_array().unwrap();
+            assert!(!ms.is_empty(), "{component} {title}");
+            for m in ms {
+                assert_eq!(m["label"], "derived from height");
+                let scene = &r["scene"]["measurements"][m["index"].as_u64().unwrap() as usize];
+                assert!(scene["h"].as_f64().unwrap() > 0.0);
+            }
+            assert!(block["notes"][0]
+                .as_str()
+                .unwrap()
+                .starts_with("Derived from height"));
+        }
+    }
 }
