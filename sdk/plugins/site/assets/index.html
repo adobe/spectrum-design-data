@@ -791,6 +791,7 @@
       import { roundedPath, cssFontWeight, iconSvg } from "./visual-runtime.js";
       import {
         DEFAULT_LABEL,
+        sceneQuery,
         iconChoices,
         readContentParams,
         writeContentParams,
@@ -816,11 +817,7 @@
           .replace(/^./, (c) => c.toUpperCase());
       const cache = new Map();
       function getScene(o) {
-        const q = Object.fromEntries(
-          Object.entries(o).filter(
-            ([, v]) => v !== undefined && v !== false && v !== "" && v !== null,
-          ),
-        );
+        const q = sceneQuery(o);
         const key = JSON.stringify(q);
         if (!cache.has(key)) cache.set(key, backend.scene(q));
         const p = cache.get(key);
@@ -1518,7 +1515,12 @@
       // Copy a request back into the controls so the zoomed view matches the clicked cell.
       function syncControls(req) {
         for (const k of ["scheme", "scale"]) if (req[k]) write($(k), req[k]);
-        if ($("content-label") && req.label)
+        // With the Label switch present, an off switch also sends "": keep the typed text.
+        if (
+          $("content-label") &&
+          req.label !== undefined &&
+          !($("opt-label") && !req.label)
+        )
           $("content-label").value = req.label;
         if ($("content-icon")) write($("content-icon"), req.icon ?? "");
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {

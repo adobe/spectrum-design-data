@@ -6,6 +6,7 @@ import {
   iconChoices,
   iconRequest,
   readContentParams,
+  sceneQuery,
   writeContentParams,
 } from "../../plugins/site/assets/content-controls.js";
 
@@ -78,4 +79,17 @@ test("label and icon round trip through the query string", (t) => {
     label: "",
     icon: "none",
   });
+});
+
+test("an empty label stays in the scene request while other empty values drop", (t) => {
+  t.deepEqual(
+    sceneQuery({
+      name: "button",
+      label: "",
+      icon: "",
+      size: "m",
+      "opt.a": false,
+    }),
+    { name: "button", label: "", size: "m" },
+  );
 });

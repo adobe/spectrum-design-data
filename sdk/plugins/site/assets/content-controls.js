@@ -63,3 +63,16 @@ export function writeContentParams(params, { label, icon }) {
   if (icon) params.set("icon", icon);
   else params.delete("icon");
 }
+
+// The scene request for the options `o`: unset values are dropped, but an empty label is
+// kept, since it asks for an icon-only render.
+export const sceneQuery = (o) =>
+  Object.fromEntries(
+    Object.entries(o).filter(
+      ([k, v]) =>
+        v !== undefined &&
+        v !== false &&
+        v !== null &&
+        (v !== "" || k === "label"),
+    ),
+  );
