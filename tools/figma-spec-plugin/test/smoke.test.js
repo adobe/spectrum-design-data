@@ -694,3 +694,33 @@ test("an icon without a drawing keeps the placeholder plus", async (t) => {
   );
   t.true(n > 0 && plus.length > 0);
 });
+
+test("an icon Figma cannot import draws the placeholder instead of failing the sheet", async (t) => {
+  const s = generate("checkbox");
+  const { figma, page } = mock();
+  figma.createNodeFromSvg = () => {
+    throw new Error("cannot parse svg");
+  };
+  await figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  const dash = page.children[0].findAll(
+    (f) => f.type === "FRAME" && f.name === "dash" && f.children.length === 2,
+  );
+  t.true(dash.length > 0);
+});
+
+test("a comma-separated viewBox still centres the rotation", async (t) => {
+  const s = structuredClone(generate("accordion"));
+  let n = 0;
+  for (const node of s.pages
+    .flatMap((p) => p.blocks)
+    .flatMap((b) => b.render?.scene.nodes ?? []))
+    if (node.kind === "icon" && node.rotation) {
+      node.icon.drawing.viewBox = "0,0,10,10";
+      n++;
+    }
+  const { figma, page } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  const svgs = page.children[0].findAll((f) => f.svg).map((f) => f.svg);
+  t.true(n > 0);
+  t.false(svgs.some((v) => v.includes("NaN")));
+});

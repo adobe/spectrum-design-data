@@ -137,7 +137,7 @@ function pill(str, color, ink) {
 // the part's resolved colour, and a rotation turns the drawing clockwise about the box centre
 // (the viewBox centre, as the fit centres it).
 function iconSvg(drawing, w, h, rotation, c) {
-  const [vx, vy, vw, vh] = drawing.viewBox.split(/\s+/).map(Number);
+  const [vx, vy, vw, vh] = drawing.viewBox.split(/[\s,]+/).map(Number);
   const hex = (v) =>
     Math.round(v * 255)
       .toString(16)
@@ -147,7 +147,7 @@ function iconSvg(drawing, w, h, rotation, c) {
   const paths = drawing.paths
     .map(
       (p) =>
-        `<path d="${p.d}" fill="${fill}"${alpha}${p.fillRule ? ` fill-rule="${p.fillRule}"` : ""}/>`,
+        `<path d="${String(p.d).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;")}" fill="${fill}"${alpha}${p.fillRule ? ` fill-rule="${p.fillRule}"` : ""}/>`,
     )
     .join("");
   const body = rotation
@@ -196,18 +196,24 @@ function sceneNodes(parent, scene, view) {
     } else if (n.kind === "icon") {
       const c = parseColor(n.color) || { c: INK, o: 1 };
       const drawing = n.icon && n.icon.drawing;
-      const g = drawing
-        ? figma.createNodeFromSvg(iconSvg(drawing, w, h, n.rotation, c))
-        : figma.createFrame();
-      g.name = n.part;
-      g.clipsContent = false;
-      if (!drawing) {
+      let g;
+      if (drawing) {
+        try {
+          g = figma.createNodeFromSvg(iconSvg(drawing, w, h, n.rotation, c));
+        } catch (e) {
+          g = null; // a drawing Figma cannot import draws the placeholder, not a failed sheet
+        }
+      }
+      if (!g) {
+        g = figma.createFrame();
         g.fills = [];
         g.resize(w, h);
         const thick = Math.max(w * 0.1, 1);
         g.appendChild(rect(0, (h - thick) / 2, w, thick, c.c, c.o));
         g.appendChild(rect((w - thick) / 2, 0, thick, h, c.c, c.o));
       }
+      g.name = n.part;
+      g.clipsContent = false;
       parent.appendChild(g);
       g.x = x;
       g.y = y;
