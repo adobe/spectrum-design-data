@@ -127,6 +127,9 @@ pub struct Difference {
     /// Set when the difference may come from the renderer, not the data.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub possible_cause: Option<&'static str>,
+    /// The scene value is a literal, not bound to a token (padding read from the solved layout).
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub unbound: bool,
     pub gap: GapSuggestion,
 }
 
@@ -286,6 +289,13 @@ enum Kind {
     Color,
 }
 
+const CORNERS: [(&str, &str); 4] = [
+    ("cornerRadiusTopLeft", "cornerRadiusStartStart"),
+    ("cornerRadiusTopRight", "cornerRadiusStartEnd"),
+    ("cornerRadiusBottomRight", "cornerRadiusEndEnd"),
+    ("cornerRadiusBottomLeft", "cornerRadiusEndStart"),
+];
+
 const PADDING: [(&str, &str); 4] = [
     ("paddingTop", "paddingBlockStart"),
     ("paddingRight", "paddingInlineEnd"),
@@ -295,11 +305,12 @@ const PADDING: [(&str, &str); 4] = [
 
 fn kind_of(property: &str) -> Option<Kind> {
     Some(match property {
-        "width" | "height" | "cornerRadius" => Kind::Size,
+        "width" | "height" | "cornerRadius" | "gap" | "borderWidth" | "strokeWidth" => Kind::Size,
+        p if CORNERS.iter().any(|(k, _)| *k == p) => Kind::Size,
         p if PADDING.iter().any(|(k, _)| *k == p) => Kind::Size,
         "fontSize" => Kind::FontSize,
         "fontWeight" => Kind::FontWeight,
-        "fill" | "color" => Kind::Color,
+        "fill" | "color" | "stroke" => Kind::Color,
         _ => return None,
     })
 }
@@ -322,33 +333,64 @@ fn token_of(node: &Value, prop: &str) -> Option<String> {
 }
 
 /// The scene's value for one part property, as a JSON value, with the token it came from.
+/// The flag is true for a padding read from the solved layout because no token binds it.
 /// `Err` is the reason the scene has no such value.
 fn expected(
     scene: &Value,
     node: &Value,
     part: &str,
     property: &str,
-) -> Result<(Value, Option<String>), String> {
+) -> Result<(Value, Option<String>, bool), String> {
     let field = |k: &str| node.get(k).filter(|v| !v.is_null()).cloned();
     let missing = || format!("scene part '{part}' has no {property}");
+    let is_root = scene.pointer("/nodes/0/part").and_then(Value::as_str) == Some(part);
+    let bound = |r: Option<(Value, Option<String>)>| r.map(|(v, t)| (v, t, false));
     match property {
-        "width" => field("w").map(|v| (v, token_of(node, "width"))),
-        "height" => field("h").map(|v| (v, token_of(node, "height"))),
-        "cornerRadius" => field("radius").map(|v| (v, token_of(node, "cornerRadius"))),
-        "fontSize" => field("font_size")
-            .filter(|v| v.as_f64().is_some_and(|n| n > 0.0))
-            .map(|v| (v, token_of(node, "fontSize"))),
-        "fontWeight" => field("font_weight").map(|v| (v, token_of(node, "fontWeight"))),
+        "width" => bound(field("w").map(|v| (v, token_of(node, "width")))),
+        "height" => bound(field("h").map(|v| (v, token_of(node, "height")))),
+        "cornerRadius" => bound(field("radius").map(|v| (v, token_of(node, "cornerRadius")))),
+        "borderWidth" | "strokeWidth" => {
+            bound(field("stroke_width").map(|v| (v, token_of(node, "strokeWidth"))))
+        }
+        "stroke" => Some((
+            field("stroke").unwrap_or(json!("none")),
+            token_of(node, "stroke"),
+            false,
+        )),
+        "gap" => {
+            return match scene.pointer("/layout/gap").filter(|_| is_root) {
+                Some(g) => Ok((g.clone(), token_of(node, "gap"), false)),
+                None => Err(format!(
+                    "scene has no gap on '{part}' (not the container, or fewer than two children)"
+                )),
+            }
+        }
+        "fontSize" => bound(
+            field("font_size")
+                .filter(|v| v.as_f64().is_some_and(|n| n > 0.0))
+                .map(|v| (v, token_of(node, "fontSize"))),
+        ),
+        "fontWeight" => bound(field("font_weight").map(|v| (v, token_of(node, "fontWeight")))),
         "fill" => Some((
             field("fill").unwrap_or(json!("none")),
             token_of(node, "fill"),
+            false,
         )),
-        "color" => field("color").map(|v| (v, token_of(node, "color"))),
+        "color" => bound(field("color").map(|v| (v, token_of(node, "color")))),
+        p if CORNERS.iter().any(|(k, _)| *k == p) => {
+            let i = CORNERS.iter().position(|(k, _)| *k == p).unwrap();
+            let radius = node
+                .pointer(&format!("/radii/{i}"))
+                .cloned()
+                .or_else(|| field("radius"));
+            bound(radius.map(|v| (v, token_of(node, CORNERS[i].1))))
+        }
         p => {
-            let prop = PADDING
+            let (i, prop) = PADDING
                 .iter()
-                .find(|(k, _)| *k == p)
-                .map(|(_, r)| *r)
+                .enumerate()
+                .find(|(_, (k, _))| *k == p)
+                .map(|(i, (_, r))| (i, *r))
                 .ok_or_else(|| format!("unsupported property '{p}'"))?;
             let m = scene
                 .get("measurements")
@@ -359,19 +401,22 @@ fn expected(
                     m.get("part").and_then(Value::as_str) == Some(part)
                         && m.get("prop").and_then(Value::as_str) == Some(prop)
                 });
-            return match m {
-                Some(m) => {
-                    let span = if prop.contains("Inline") { "w" } else { "h" };
-                    Ok((
-                        m.get(span).cloned().unwrap_or(Value::Null),
-                        m.pointer("/token/token")
-                            .and_then(Value::as_str)
-                            .map(str::to_string),
-                    ))
-                }
-                None => Err(format!(
-                    "scene has no token-bound {prop} on '{part}' (zero or unbound padding)"
-                )),
+            if let Some(m) = m {
+                let span = if prop.contains("Inline") { "w" } else { "h" };
+                return Ok((
+                    m.get(span).cloned().unwrap_or(Value::Null),
+                    m.pointer("/token/token")
+                        .and_then(Value::as_str)
+                        .map(str::to_string),
+                    false,
+                ));
+            }
+            return match scene
+                .pointer(&format!("/layout/padding/{i}"))
+                .filter(|_| is_root)
+            {
+                Some(v) => Ok((v.clone(), None, true)),
+                None => Err(format!("scene has no solved {prop} on '{part}'")),
             };
         }
     }
@@ -417,7 +462,7 @@ fn compare_state(
                 skip(&mut out, property, "unsupported property".into());
                 continue;
             };
-            let (exp, token) = match expected(scene, node, part, property) {
+            let (exp, token, unbound) = match expected(scene, node, part, property) {
                 Ok(e) => e,
                 Err(reason) => {
                     skip(&mut out, property, reason);
@@ -475,6 +520,7 @@ fn compare_state(
                 unit,
                 token,
                 possible_cause,
+                unbound,
                 gap: GapSuggestion {
                     title: String::new(),
                     labels: Vec::new(),
@@ -622,6 +668,8 @@ pub fn to_markdown(r: &Report) -> String {
             for d in &st.differences {
                 let note = if d.possible_cause.is_some() {
                     "possibly caused by the R2 text-width estimate"
+                } else if d.unbound {
+                    "unbound: the scene value is not token-bound"
                 } else {
                     ""
                 };
@@ -664,12 +712,17 @@ mod tests {
             "component": "button",
             "nodes": [
                 {"part": "container", "kind": "box", "w": 95.0, "h": 39.0, "radius": 19.5,
+                 "radii": [19.5, 19.5, 4.0, 0.0], "stroke": "rgb(0, 0, 0)", "stroke_width": 2.0,
                  "fill": "rgb(59, 99, 251)", "font_size": 0.0, "font_weight": null, "color": null,
-                 "tokens": [{"prop": "fill", "token": "button-accent-background-color-default"}]},
+                 "tokens": [{"prop": "fill", "token": "button-accent-background-color-default"},
+                            {"prop": "gap", "token": "button-gap"},
+                            {"prop": "strokeWidth", "token": "button-border-width"},
+                            {"prop": "cornerRadiusEndEnd", "token": "button-corner-radius-end-end"}]},
                 {"part": "label", "kind": "text", "w": 47.0, "h": 23.0, "radius": 0.0,
                  "fill": null, "font_size": 18.0, "font_weight": "600", "color": "rgb(255, 255, 255)",
                  "tokens": []}
             ],
+            "layout": {"gap": 8.0, "padding": [4.0, 14.0, 4.0, 14.0]},
             "measurements": [
                 {"kind": "padding", "part": "container", "prop": "paddingInlineStart",
                  "x": 0.0, "y": 0.0, "w": 14.0, "h": 39.0,
@@ -757,12 +810,12 @@ mod tests {
     #[test]
     fn unmatched_things_are_reported_not_compared() {
         let r = run(
-            json!({"ghost": {"width": 1}, "container": {"paddingTop": 8, "borderWidth": 1}}),
+            json!({"ghost": {"width": 1}, "label": {"gap": 8, "paddingTop": 4}, "container": {"nope": 1}}),
             None,
         );
         assert!(r.is_clean());
         assert_eq!(r.summary.compared, 0);
-        assert_eq!(r.summary.skipped, 3);
+        assert_eq!(r.summary.skipped, 4);
         let md = to_markdown(&r);
         assert!(md.contains("scene has no part 'ghost'"), "{md}");
 
@@ -789,5 +842,98 @@ mod tests {
         assert_eq!(c("none"), Rgba::CLEAR);
         assert!(parse_color("currentColor").is_none());
         assert_eq!(c("rgb(0,0,0)").distance(c("rgba(0,0,0,0.5)")), 127.5);
+    }
+
+    fn diff<'a>(r: &'a Report, property: &str) -> &'a Difference {
+        r.states[0]
+            .differences
+            .iter()
+            .find(|d| d.property == property)
+            .unwrap_or_else(|| panic!("no difference for {property}: {r:#?}"))
+    }
+
+    #[test]
+    fn gap_is_compared_with_the_container_gap_and_its_token() {
+        let r = run(json!({"container": {"gap": 8}}), None);
+        assert!(r.is_clean());
+        assert_eq!(r.summary.compared, 1);
+        let r = run(json!({"container": {"gap": 6}}), None);
+        let d = diff(&r, "gap");
+        assert_eq!((d.delta, d.token.as_deref()), (-2.0, Some("button-gap")));
+    }
+
+    #[test]
+    fn gap_is_skipped_without_two_children_or_off_the_container() {
+        let mut s = scene();
+        s["layout"] = json!({"padding": [0, 0, 0, 0]});
+        let scenes = BTreeMap::from([("s1".to_string(), s)]);
+        let r = compare(&scenes, &measured(json!({"container": {"gap": 8}})), None).unwrap();
+        assert_eq!((r.summary.compared, r.summary.skipped), (0, 1));
+    }
+
+    #[test]
+    fn border_width_and_stroke_are_compared() {
+        let r = run(
+            json!({"container": {"borderWidth": 0, "stroke": "rgb(0, 0, 0)"}}),
+            None,
+        );
+        assert_eq!(r.summary.compared, 2);
+        let d = diff(&r, "borderWidth");
+        assert_eq!(
+            (d.delta, d.token.as_deref()),
+            (-2.0, Some("button-border-width"))
+        );
+        assert!(run(json!({"container": {"strokeWidth": 2}}), None).is_clean());
+        let r = run(json!({"container": {"stroke": "none"}}), None);
+        assert_eq!(diff(&r, "stroke").unit, "channel");
+    }
+
+    #[test]
+    fn per_corner_radii_use_radii_or_fall_back_to_the_uniform_radius() {
+        let r = run(
+            json!({"container": {
+                "cornerRadiusTopLeft": 19.5, "cornerRadiusTopRight": 19.5,
+                "cornerRadiusBottomRight": 8, "cornerRadiusBottomLeft": 0
+            }}),
+            None,
+        );
+        assert_eq!(r.summary.compared, 4);
+        let d = diff(&r, "cornerRadiusBottomRight");
+        assert_eq!(
+            (d.expected.clone(), d.delta, d.token.as_deref()),
+            (json!(4.0), 4.0, Some("button-corner-radius-end-end"))
+        );
+        assert_eq!(r.summary.differences, 1);
+
+        let mut s = scene();
+        s["nodes"][0]["radii"] = Value::Null;
+        let scenes = BTreeMap::from([("s1".to_string(), s)]);
+        let m = measured(json!({"container": {"cornerRadiusBottomLeft": 19.5}}));
+        assert!(compare(&scenes, &m, None).unwrap().is_clean());
+    }
+
+    #[test]
+    fn unbound_padding_is_compared_from_the_solved_layout_and_labelled() {
+        // paddingLeft is token-bound in the scene; paddingTop is a literal.
+        let r = run(
+            json!({"container": {"paddingLeft": 14, "paddingTop": 6}}),
+            None,
+        );
+        assert_eq!(r.summary.compared, 2);
+        let d = diff(&r, "paddingTop");
+        assert!(d.unbound && d.token.is_none());
+        assert_eq!((d.expected.clone(), d.delta), (json!(4.0), 2.0));
+        assert!(to_markdown(&r).contains("unbound"));
+        // A zero literal padding is still checked.
+        let mut s = scene();
+        s["layout"]["padding"] = json!([0, 0, 0, 14]);
+        let scenes = BTreeMap::from([("s1".to_string(), s)]);
+        let r = compare(
+            &scenes,
+            &measured(json!({"container": {"paddingRight": 0}})),
+            None,
+        )
+        .unwrap();
+        assert_eq!((r.summary.compared, r.is_clean()), (1, true));
     }
 }

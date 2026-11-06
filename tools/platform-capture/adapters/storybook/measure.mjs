@@ -19,9 +19,22 @@ export function measureElement(el, role) {
     props.paddingBottom = px(cs.paddingBottom);
     props.paddingLeft = px(cs.paddingLeft);
     // Capsules compute to huge or percentage radii; the drawn radius is capped at half the short side.
-    const r = cs.borderTopLeftRadius.split(" ")[0];
-    const half = Math.min(rect.width, rect.height) / 2;
-    props.cornerRadius = px(r.endsWith("%") ? (parseFloat(r) / 100) * Math.min(rect.width, rect.height) : Math.min(parseFloat(r), half));
+    const short = Math.min(rect.width, rect.height);
+    const radius = (v) => {
+      const r = v.split(" ")[0];
+      return px(r.endsWith("%") ? (parseFloat(r) / 100) * short : Math.min(parseFloat(r), short / 2));
+    };
+    props.cornerRadius = radius(cs.borderTopLeftRadius);
+    props.cornerRadiusTopLeft = props.cornerRadius;
+    props.cornerRadiusTopRight = radius(cs.borderTopRightRadius);
+    props.cornerRadiusBottomRight = radius(cs.borderBottomRightRadius);
+    props.cornerRadiusBottomLeft = radius(cs.borderBottomLeftRadius);
+    // `gap` is "normal" (0) unless set; a border with width 0 or style none is not drawn.
+    props.gap = px(cs.columnGap) || 0;
+    const sides = ["Top", "Right", "Bottom", "Left"].map((e) => ({ w: parseFloat(cs[`border${e}Width`]) || 0, c: cs[`border${e}Color`], s: cs[`border${e}Style`] }));
+    const drawn = sides.find((e) => e.w > 0 && e.s !== "none");
+    props.borderWidth = drawn ? px(drawn.w) : 0;
+    props.stroke = drawn ? drawn.c : "none";
     props.fill = cs.backgroundColor;
   } else if (role === "label") {
     // Union of the text boxes; slotted text is read through the slot's assigned nodes.
