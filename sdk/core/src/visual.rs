@@ -2677,7 +2677,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
 
     if req.icon == Some(IconOverride::None)
         && cx.option("isLabelHidden") == Value::Bool(true)
-        && parts.values().any(|p| is_content_icon(p) == (true, true))
+        && parts.values().any(|p| {
+            is_content_icon(p) == (true, true) && cx.when_score(p.get("visibleWhen")).is_some()
+        })
     {
         cx.diags
             .push("icon none with isLabelHidden leaves the component with nothing to draw".into());
@@ -4320,6 +4322,42 @@ mod tests {
         assert_eq!(view_box.as_deref(), Some("0 0 7 7"));
         assert_eq!(diags.len(), 1);
         assert!(diags[0].contains("'mark'") && diags[0].contains("not optional"));
+    }
+
+    #[test]
+    fn icon_none_with_a_hidden_label_warns_only_when_the_icon_would_draw() {
+        let icon =
+            serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
+        let g = icon_graph();
+        let recipe = |visible: bool| {
+            serde_json::json!({
+                "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+                "parts": {
+                    "box": {"kind": "box", "children": ["mark"]},
+                    "mark": {"kind": "icon", "icon": icon,
+                        "visibleWhen": {"options": {"shown": visible}},
+                        "props": {"width": {"value": 10}, "height": {"value": 10}}}
+                }
+            })
+        };
+        let req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            icon: Some(IconOverride::None),
+            options: HashMap::from([
+                ("isLabelHidden".into(), true.into()),
+                ("shown".into(), true.into()),
+            ]),
+            ..Default::default()
+        };
+        let warned = |visible| {
+            !build_scene(&g, &recipe(visible), &req)
+                .unwrap()
+                .diagnostics
+                .is_empty()
+        };
+        assert!(warned(true));
+        assert!(!warned(false));
     }
 
     #[test]

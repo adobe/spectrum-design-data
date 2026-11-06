@@ -179,6 +179,7 @@ function makeCtx(compiled, req) {
       !(req.icon === "none" && part.icon?.content && part.icon?.optional) &&
       whenScore(part.visibleWhen) !== null,
     option,
+    shownByRecipe: (part) => whenScore(part.visibleWhen) !== null,
     evalSource,
     diags,
   };
@@ -752,7 +753,9 @@ export function renderScene(compiled, req, icons = {}) {
   if (
     req.icon === "none" &&
     cx.option("isLabelHidden") === true &&
-    Object.values(parts).some((p) => p.icon?.content && p.icon?.optional)
+    Object.values(parts).some(
+      (p) => p.icon?.content && p.icon?.optional && cx.shownByRecipe(p),
+    )
   )
     cx.diags.push(
       "icon none with isLabelHidden leaves the component with nothing to draw",
