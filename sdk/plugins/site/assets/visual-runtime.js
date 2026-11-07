@@ -70,6 +70,11 @@ export function parseTextMetrics(obj) {
     throw new Error("text metrics: must be a JSON object");
   const weights = [];
   for (const [key, val] of Object.entries(obj)) {
+    if (key === "meta") {
+      if (val === null || typeof val !== "object" || Array.isArray(val))
+        throw new Error("text metrics: 'meta' must be an object");
+      continue;
+    }
     if (NOTE_KEYS.includes(key)) {
       if (!isStr(val))
         throw new Error(`text metrics: '${key}' must be a string`);

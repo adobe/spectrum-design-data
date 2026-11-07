@@ -116,6 +116,31 @@ component element (the container); `parts` optionally gives CSS selectors for
   declaration without resolving the cascade.
 * SWC is lightly tested (one story against the live site).
 
+## Text metrics from the Adobe Fonts kit (`adapters/text-metrics`)
+
+Generates a `--text-metrics` table (advances for ASCII 32..126 and pair kerning at weights
+400 and 700, format of `sdk/core/src/text-metrics/source-sans-3.json`) for Adobe Clean
+Spectrum VF by measuring it in headless Chrome through the kit. With it, `design-data render`
+label widths match React Spectrum S2 (proposal 015, `qkj5.133`); the committed default
+(Source Sans 3) is about 6.6 % wider.
+
+```sh
+node adapters/text-metrics/cli.mjs [--kit <css url>] [--family adobe-clean-spectrum-vf] [--out <file>]
+design-data render --batch states.json --out <dir> --text-metrics <file>
+design-data render-compare --scenes <dir> --measured <measured.json>   # prints the stamp
+```
+
+* **Never commit or publish the output.** It is derived from a licensed font. The default
+  `--out` is `.cache/text-metrics/` (git-ignored); a test fails if a tracked JSON file holds
+  a table from another font. Do not upload it as a CI artifact or ship it in a deployed site.
+* **Stamp.** The file has `meta: { generated, kit, family, test700At14px }`.
+  `render --batch` prints it and records it in `index.json`; `render-compare` prints it.
+  Chrome measured `Test` at 700 and 14 px as 23.673 px on macOS and 23.665 on Linux, so a
+  change of more than a few hundredths means the font changed.
+* **Needs** system Chrome and network access to the kit. The opt-in live check runs with
+  `TEXT_METRICS_KIT_TEST=1 pnpm ava adapters/text-metrics`.
+* Not covered: non-ASCII (0.46 em), italics, weights other than 400 and 700.
+
 ## Rasterizing renderer SVGs (`lib/rasterize`)
 
 Turns `design-data render` SVGs into PNGs for review and pixel diffs. Accepts SVG
