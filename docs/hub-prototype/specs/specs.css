@@ -11,6 +11,7 @@ body {
 }
 header {
   display: flex;
+  flex-wrap: wrap;
   gap: 32px;
   align-items: baseline;
   padding: 20px 32px;
@@ -192,4 +193,18 @@ table.index th {
 table.index td {
   padding: 6px 12px 6px 0;
   border-bottom: 1px solid #f0f0f0;
+}
+.links {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 14px;
+}
+.links a {
+  white-space: nowrap;
+  color: #4b75ff;
+  text-decoration: none;
+}
+.links small {
+  color: #666;
 }

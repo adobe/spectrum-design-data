@@ -2212,6 +2212,17 @@
         platformSwitcher(backend.platform(), name).then((html) => {
           $("nav").insertAdjacentHTML("beforeend", html);
         });
+        // The spec sheets exist only on the multi-platform deployment (../specs/).
+        fetch("../specs/data/sheets/index.json")
+          .then((r) => (r.ok ? r.json() : null))
+          .then((idx) => {
+            if (!idx?.components?.some((c) => c.component === name)) return;
+            $("nav").insertAdjacentHTML(
+              "beforeend",
+              `<div><h4>Specs</h4><ul><li><a href="../specs/sheet.html?component=${encodeURIComponent(name)}">Spec sheet and changelog</a></li></ul></div>`,
+            );
+          })
+          .catch(() => {});
         await load(name);
         const initial = params.get("tab");
         if (tabs.includes(initial) && initial !== "usage") {
