@@ -644,7 +644,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-cli"
-version = "0.21.0"
+version = "0.21.1"
 dependencies = [
  "assert_cmd",
  "chrono",
@@ -759,6 +759,15 @@ dependencies = [
  "tsify-next",
  "wasm-bindgen",
  "wasm-bindgen-test",
+]
+
+[[package]]
+name = "design-data-wasm-visual"
+version = "0.0.0"
+dependencies = [
+ "design-data-core",
+ "serde_json",
+ "wasm-bindgen",
 ]
 
 [[package]]

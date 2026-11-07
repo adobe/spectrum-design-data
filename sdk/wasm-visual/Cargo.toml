@@ -1,0 +1,21 @@
+[package]
+name = "design-data-wasm-visual"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Slim solve-only WebAssembly engine for component visual recipes: one precompiled variant in, SVG or scene JSON out."
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+design-data-core = { path = "../core", default-features = false, features = ["wasm"] }
+wasm-bindgen = "0.2"
+serde_json = "1.0"
+
+# wasm-pack's bundled wasm-opt rejects bulk-memory; scripts/build.mjs sizes with the release
+# profile overrides below instead.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

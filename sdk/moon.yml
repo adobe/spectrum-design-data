@@ -22,6 +22,7 @@ fileGroups:
     - "cli/tests/**/*.rs"
     - "tui/tests/**/*.rs"
     - "wasm/src/**/*.rs"
+    - "wasm-visual/src/**/*.rs"
     - "plugins/*/src/**/*.rs"
     - "plugins/*/tests/**/*.rs"
     - "*/build.rs"
