@@ -1,5 +1,16 @@
 # @adobe/design-data-wasm
 
+## 0.16.0
+
+### Minor Changes
+
+- [#1678](https://github.com/adobe/spectrum-design-data/pull/1678) [`c223628`](https://github.com/adobe/spectrum-design-data/commit/c2236288e5cfa47bfe9f4099abb24d03f7c10acf) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-088 (relationship-duplicate-record), a warning for exact duplicate relationship records.
+
+  Two records in the same file with equal scope, context and `$ref` or value are reported, so
+  `Dataset.validate()` in the WASM package can now return it. Spec sheets also resolve a `$ref`
+  that names a mode-set group (`setUuid`), showing one value per member scale instead of
+  skipping the record.
+
 ## 0.15.0
 
 ### Minor Changes

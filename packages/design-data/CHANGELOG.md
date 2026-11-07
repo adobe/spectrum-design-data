@@ -1,5 +1,16 @@
 # @adobe/spectrum-design-data
 
+## 3.9.1
+
+### Patch Changes
+
+- [#1678](https://github.com/adobe/spectrum-design-data/pull/1678) [`c223628`](https://github.com/adobe/spectrum-design-data/commit/c2236288e5cfa47bfe9f4099abb24d03f7c10acf) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove 477 exact duplicate relationship records in 40 components.
+
+  Two records in the same file with equal scope, context and `$ref` (or value) were repeated. The
+  first copy stays, and no `uuid` that other data references was removed. Token values and legacy
+  output are unchanged. `packages/design-data/scripts/dedupe-relationship-records.mjs` re-runs the
+  cleanup.
+
 ## 3.9.0
 
 ### Minor Changes
