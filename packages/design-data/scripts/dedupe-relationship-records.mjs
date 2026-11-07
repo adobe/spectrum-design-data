@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 // Removes exact duplicate relationship records: two records in the same file with equal
-// scope, context and `$ref` (or inline value). The first copy is kept. A copy whose `uuid`
+// scope, context, `$ref` (or inline value) and `setUuid`. The first copy is kept. A copy whose `uuid`
 // is referenced anywhere else in the repo is kept instead of (or as well as) the first, so
 // no reference is orphaned. Re-running on deduplicated data changes nothing.
 //

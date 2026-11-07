@@ -1161,11 +1161,12 @@ rules:
     category: relationship
     note: >
       An exact duplicate adds nothing to resolution, and a changelog that pairs records by
-      identity cannot tell the copies apart. Pairs whose token has a scale counterpart are
-      reported by SPEC-072 instead.
+      identity cannot tell the copies apart. Records with different `setUuid` are not duplicates.
+      SPEC-072 may also report a pair whose token has a scale counterpart, so the two rules can
+      overlap.
     assert: >
-      Two relationship records in the same file SHOULD NOT have equal scope, context and
-      `$ref` (or inline value).
+      Two relationship records in the same file SHOULD NOT have equal scope, context,
+      `$ref` (or inline value) and `setUuid`.
     message: "Relationship {scope} (context '{context}') repeats an earlier record with the same {ref_or_value}; remove the duplicate"
     spec_ref: spec/relationship-format.md
     introduced_in: "1.0.0-draft"

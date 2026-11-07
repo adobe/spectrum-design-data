@@ -12,7 +12,8 @@
 //!
 //! Two relationship records in the same file with equal scope, context and `$ref` (or
 //! inline value) are an exact duplicate: the second adds nothing and makes a changelog
-//! pair the records ambiguously. Scale-counterpart pairs are SPEC-072.
+//! pair the records ambiguously. Records in different mode-set groups (`setUuid`) are not
+//! duplicates. SPEC-072 may also report a pair whose token has a scale counterpart.
 //!
 //! Warning: a repeat is harmless to resolution, only redundant.
 
@@ -36,7 +37,7 @@ impl ValidationRule for Rule {
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
-        let mut seen: HashSet<(String, String, String, String)> = HashSet::new();
+        let mut seen: HashSet<(String, String, String, String, String)> = HashSet::new();
         for rel in &ctx.graph.relationships {
             let raw = &rel.raw;
             let scope = raw.get("scope").map(Value::to_string).unwrap_or_default();
@@ -46,7 +47,14 @@ impl ValidationRule for Rule {
                 None => raw.get("value").map(Value::to_string).unwrap_or_default(),
             };
             let file = rel.file.display().to_string();
-            if seen.insert((file, scope.clone(), context.to_string(), target.clone())) {
+            let set = raw.get("setUuid").and_then(Value::as_str).unwrap_or("");
+            if seen.insert((
+                file,
+                scope.clone(),
+                context.to_string(),
+                target.clone(),
+                set.to_string(),
+            )) {
                 continue;
             }
             out.push(Diagnostic {
@@ -126,6 +134,15 @@ mod tests {
             rel("badge.json", 0, rec("u4", "Spacing", "t")),
         ]);
         assert_eq!(n, 0);
+    }
+
+    #[test]
+    fn records_in_different_mode_set_groups_are_not_duplicates() {
+        let mut a = rec("u1", "Spacing", "t");
+        a["setUuid"] = json!("s1");
+        let mut b = rec("u2", "Spacing", "t");
+        b["setUuid"] = json!("s2");
+        assert_eq!(run(vec![rel("tag.json", 0, a), rel("tag.json", 1, b)]), 0);
     }
 
     #[test]

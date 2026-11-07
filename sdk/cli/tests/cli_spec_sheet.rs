@@ -551,19 +551,12 @@ fn derived_vertical_contexts_show_a_marker_and_a_measurement_labelled_derived() 
 #[test]
 fn setuuid_refs_resolve_and_every_record_is_shown() {
     let sheet = sheet_of("contextual-help");
-    let row_values: Vec<&Value> = blocks_of(&sheet)
+    let desktop_and_mobile = blocks_of(&sheet)
         .iter()
         .flat_map(|b| b["rows"].as_array().unwrap())
         .flat_map(|r| r["items"].as_array().unwrap())
-        .map(|i| &i["values"])
-        .collect();
-    assert!(
-        row_values
-            .iter()
-            .any(|v| v["desktop"].is_object() || v["desktop"].is_string())
-            && row_values.iter().any(|v| v.get("mobile").is_some()),
-        "{row_values:#?}"
-    );
+        .any(|i| i["values"].get("desktop").is_some() && i["values"].get("mobile").is_some());
+    assert!(desktop_and_mobile, "a setUuid ref shows each member scale");
 
     let mut expected = std::collections::BTreeMap::<String, usize>::new();
     for e in std::fs::read_dir(repo_root().join("packages/design-data/relationships")).unwrap() {
