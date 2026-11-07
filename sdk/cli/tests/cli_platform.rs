@@ -799,8 +799,9 @@ fn ios_render_button_draws_button_ios_and_foundation_is_unchanged() {
         "{ios}"
     );
     // Figma m: 95 x 39 (icon 19.33 + gap 6 + label 18px, 14 + 8 padding); the label line height is the bound 23.04.
+    // The label is measured with the committed Source Sans 3 table ("Label" at 600: 42.828 px), 1.4 px wider than Figma's Adobe Clean.
     let near = |v: &serde_json::Value, want: f64| (v.as_f64().unwrap() - want).abs() < 1e-6;
-    assert!(near(&container["w"], 94.73), "{ios}");
+    assert!(near(&container["w"], 96.158), "{ios}");
     assert!(near(&container["h"], 39.04), "{ios}");
     let label = ios["nodes"]
         .as_array()

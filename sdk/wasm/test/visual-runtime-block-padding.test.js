@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import test from "ava";
+import "./helpers/text-metrics.js";
 import { renderScene } from "../../plugins/site/assets/visual-runtime.js";
 
 // The compiled form of the recipe built by `padded_box` in sdk/core/src/visual.rs: a box with a

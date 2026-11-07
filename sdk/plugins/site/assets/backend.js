@@ -13,11 +13,19 @@
 // them out. No WASM and no server; all URLs are relative so the site works under
 // any base path, such as GitHub Pages.
 
-import { renderScene } from "./visual-runtime.js";
+import { renderScene, setTextMetrics } from "./visual-runtime.js";
 import { contentSupport, iconRequest } from "./content-controls.js";
 
 const data = await fetch(new URL("./data.json", import.meta.url)).then((r) =>
   r.json(),
+);
+
+// The text-measurement table the CLI used when it wrote this site (a `--text-metrics` file or
+// the committed default), so labels measure the same here as in `design-data render`.
+setTextMetrics(
+  await fetch(new URL("./text-metrics.json", import.meta.url)).then((r) =>
+    r.json(),
+  ),
 );
 
 const parse = (v) => (v === "true" ? true : v);

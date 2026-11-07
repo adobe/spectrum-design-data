@@ -13,6 +13,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "ava";
+import "./helpers/text-metrics.js";
 import { Dataset } from "../pkg/node/design_data_wasm.js";
 import {
   renderScene,

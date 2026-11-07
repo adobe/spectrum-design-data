@@ -99,7 +99,7 @@ Non-default contrast records are excluded, matching native graph legacy output.
 ```js
 const byFile = ds.legacyOutput();
 const flat = Object.assign({}, ...Object.values(byFile));
-console.log(flat['picker-border-width'].value);
+console.log(flat["picker-border-width"].value);
 ```
 
 ### `Dataset`
@@ -154,3 +154,7 @@ import type {
 ## License
 
 Apache-2.0 — see [LICENSE](../../LICENSE).
+
+### Third-party notices
+
+The visual renderer's default text-measurement table (glyph advances and kerning) is measured from Source Sans 3, Copyright 2010-2024 Adobe (<http://www.adobe.com/>), with Reserved Font Name "Source", licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/open-font-license-official-text/). The full text is in `sdk/core/src/text-metrics/OFL-SourceSans3.txt` in the repository.

@@ -49,7 +49,7 @@ cd sdk && cargo build -p design-data-cli
 cd .. && sdk/target/debug/design-data site --out docs/hub-prototype/dist
 ```
 
-The output is `index.html`, `backend.js`, `constraints.js`, `visual-runtime.js`, `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. It uses relative URLs only, so you can publish it to any static host, including a GitHub Pages project site. The page lists every component but only those with a recipe are selectable.
+The output is `index.html`, `backend.js`, `constraints.js`, `visual-runtime.js`, `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `text-metrics.json`, `OFL-SourceSans3.txt`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. It uses relative URLs only, so you can publish it to any static host, including a GitHub Pages project site. The page lists every component but only those with a recipe are selectable.
 
 `visual-runtime.js` mirrors the Rust renderer (`sdk/core/src/visual.rs`); `sdk/wasm/test/visual-runtime-parity.test.js` keeps the two in lockstep. The WASM `Dataset.renderScene` API remains for apps that need live token data.
 

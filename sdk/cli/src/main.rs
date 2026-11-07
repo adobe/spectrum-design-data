@@ -44,6 +44,7 @@ use design_data_core::primer;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
+use design_data_core::text_metrics::TextMetrics;
 use design_data_core::validate;
 use design_data_core::visual;
 use design_data_core::write::{write_token, WriteTokenInput};
@@ -214,6 +215,9 @@ enum Commands {
         /// Directory containing cascade-format .tokens.json files
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
+        /// Text-measurement table written to the site and used by its renderer (default: committed Source Sans 3)
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
     },
     /// Suggest candidate anatomy parts from relationships, for human review (draft)
     AnatomySuggest {
@@ -273,6 +277,9 @@ enum Commands {
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
+        /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
     },
     /// Compare scenes from `render --batch` with measured platform values (draft)
     RenderCompare {
@@ -318,6 +325,9 @@ enum Commands {
         /// Write output here instead of stdout (a directory with --all)
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
+        /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
     },
     /// Append a release to each component's changelog (changelog/<component>.json) by diffing
     /// two git revisions of the dataset
@@ -1221,12 +1231,38 @@ fn run_site(
     components: Vec<String>,
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
+    text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
+    // Validate the file, then ship its text as is so the site measures what the CLI does.
+    let table = match &text_metrics {
+        Some(p) => {
+            load_text_metrics(Some(p))?;
+            Some(std::fs::read_to_string(p).into_diagnostic()?)
+        }
+        None => None,
+    };
     let (graph, _, platform) = load_visual_env(path, visuals_path, true)?;
-    let count = design_data_site::write_site(&graph, &components, &out, platform.as_ref())
-        .map_err(|e| miette::miette!("{e}"))?;
+    let count = design_data_site::write_site(
+        &graph,
+        &components,
+        &out,
+        platform.as_ref(),
+        table.as_deref(),
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
     eprintln!("Wrote site for {count} component(s) to {}", out.display());
     Ok(ExitCode::SUCCESS)
+}
+
+/// Read and validate a `--text-metrics` file; `None` keeps the committed default table.
+fn load_text_metrics(path: Option<&Path>) -> miette::Result<Option<TextMetrics>> {
+    let Some(p) = path else { return Ok(None) };
+    let text = std::fs::read_to_string(p)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read --text-metrics {}", p.display()))?;
+    TextMetrics::parse(&text)
+        .map(Some)
+        .map_err(|e| miette::miette!("--text-metrics {}: {e}", p.display()))
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -1245,9 +1281,11 @@ fn run_render(
     path: Option<PathBuf>,
     format: String,
     output: Option<PathBuf>,
+    text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
+    let text_metrics = load_text_metrics(text_metrics.as_deref())?;
     if let (Some(file), Some(dir)) = (&batch, &out) {
-        return render_batch::run_batch(file, dir, visuals_path, path);
+        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
     }
     let component = component.expect("clap requires COMPONENT without --batch");
     let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
@@ -1281,6 +1319,7 @@ fn run_render(
         ]),
         label,
         icon,
+        text_metrics,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
     for d in &scene.diagnostics {
@@ -4203,7 +4242,8 @@ fn main() -> ExitCode {
             components,
             visuals_path,
             path,
-        } => run_site(out, components, path, visuals_path),
+            text_metrics,
+        } => run_site(out, components, path, visuals_path, text_metrics),
         Commands::AnatomySuggest {
             components,
             format,
@@ -4239,6 +4279,7 @@ fn main() -> ExitCode {
             path,
             format,
             output,
+            text_metrics,
         } => run_render(
             component,
             batch,
@@ -4254,6 +4295,7 @@ fn main() -> ExitCode {
             path,
             format,
             output,
+            text_metrics,
         ),
         Commands::SpecSheet {
             component,
@@ -4263,7 +4305,17 @@ fn main() -> ExitCode {
             changelog_dir,
             path,
             output,
-        } => spec_sheet::run(component, all, size, changelog, changelog_dir, path, output),
+            text_metrics,
+        } => spec_sheet::run(
+            component,
+            all,
+            size,
+            changelog,
+            changelog_dir,
+            path,
+            output,
+            text_metrics,
+        ),
         Commands::Changelog {
             from,
             to,

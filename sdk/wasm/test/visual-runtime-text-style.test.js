@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import test from "ava";
+import "./helpers/text-metrics.js";
 import { Dataset } from "../pkg/node/design_data_wasm.js";
 import {
   renderScene,

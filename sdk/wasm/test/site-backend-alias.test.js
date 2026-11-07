@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 
+import { readFileSync } from "node:fs";
 import test from "ava";
 
 const compiled = {
@@ -20,13 +21,22 @@ const compiled = {
 
 // Under a platform alias the site data holds the target's definition (name
 // "button-ios") under the alias key ("button").
-globalThis.fetch = async () => ({
-  json: async () => ({
-    components: [{ name: "button", hasVisual: true }],
-    byName: { button: { name: "button-ios", options: {} } },
-    compiled: { button: compiled },
-    platform: { id: "ios", name: "Spectrum iOS" },
-  }),
+const table = JSON.parse(
+  readFileSync(
+    new URL("../../core/src/text-metrics/source-sans-3.json", import.meta.url),
+    "utf8",
+  ),
+);
+globalThis.fetch = async (url) => ({
+  json: async () =>
+    String(url).endsWith("text-metrics.json")
+      ? table
+      : {
+          components: [{ name: "button", hasVisual: true }],
+          byName: { button: { name: "button-ios", options: {} } },
+          compiled: { button: compiled },
+          platform: { id: "ios", name: "Spectrum iOS" },
+        },
 });
 const { backend } = await import("../../plugins/site/assets/backend.js");
 

@@ -13,7 +13,6 @@
 // ranked candidates), so no token graph or WASM is needed. Keep it in lockstep with the
 // Rust renderer; sdk/wasm/test/visual-runtime-parity.test.js enforces that.
 
-const AVG_ADVANCE_EM = 0.46;
 const RING_MARGIN = 8;
 
 // A corner radius cannot exceed half the box's width or height, like CSS `border-radius`.
@@ -55,8 +54,106 @@ const layoutKeyword = (cx, name, r, allowed) => {
 const axisOffset = (mode, free) =>
   mode === "start" ? 0 : mode === "end" ? free : free / 2;
 
-const textWidth = (text, fontSize) =>
-  [...text].length * fontSize * AVG_ADVANCE_EM;
+// Text measurement mirrors sdk/core/src/text_metrics.rs: the table is the file
+// sdk/core/src/text-metrics/source-sans-3.json (or an override of the same format), which
+// the site ships as text-metrics.json. Load it with setTextMetrics before rendering, or pass
+// `textMetrics` in the request.
+const FALLBACK_ADVANCE_EM = 0.46;
+const FIRST_CHAR = 32;
+const ADVANCES = 95;
+const NOTE_KEYS = ["font", "source", "generated", "format"];
+const REQUIRED_WEIGHTS = [400, 700];
+
+// Validate a table object and index it: weights sorted ascending, kerning keyed by pair.
+export function parseTextMetrics(obj) {
+  if (obj === null || typeof obj !== "object" || Array.isArray(obj))
+    throw new Error("text metrics: must be a JSON object");
+  const weights = [];
+  for (const [key, val] of Object.entries(obj)) {
+    if (NOTE_KEYS.includes(key)) {
+      if (!isStr(val))
+        throw new Error(`text metrics: '${key}' must be a string`);
+      continue;
+    }
+    const w = Number(key);
+    if (!Number.isInteger(w) || w < 1 || w > 1000)
+      throw new Error(`text metrics: unknown key '${key}'`);
+    const at = (what) => new Error(`text metrics: weight ${key}: ${what}`);
+    if (val === null || typeof val !== "object" || Array.isArray(val))
+      throw at("must be an object");
+    for (const k of Object.keys(val))
+      if (k !== "adv" && k !== "kern")
+        throw at(`unknown key '${k}' (expected adv, kern)`);
+    const { adv, kern = {} } = val;
+    if (!Array.isArray(adv) || !adv.every(Number.isFinite))
+      throw at("'adv' must hold only numbers");
+    if (adv.length !== ADVANCES)
+      throw at(`'adv' must hold ${ADVANCES} advances, found ${adv.length}`);
+    const pairs = new Map();
+    for (const [pair, k] of Object.entries(kern)) {
+      if ([...pair].length !== 2)
+        throw at(`kern key '${pair}' must be two characters`);
+      if (!Number.isFinite(k)) throw at(`kern '${pair}' must be a number`);
+      pairs.set(pair, k);
+    }
+    weights.push([w, { adv, kern: pairs }]);
+  }
+  weights.sort((a, b) => a[0] - b[0]);
+  for (const need of REQUIRED_WEIGHTS)
+    if (!weights.some(([w]) => w === need))
+      throw new Error(`text metrics: missing weight ${need}`);
+  return weights;
+}
+
+let defaultMetrics = null;
+const parsed = new WeakMap();
+
+export const setTextMetrics = (obj) => {
+  defaultMetrics = parseTextMetrics(obj);
+};
+
+const metricsFor = (obj) => {
+  if (!obj) {
+    if (!defaultMetrics)
+      throw new Error(
+        "text metrics not loaded: call setTextMetrics or pass textMetrics in the request",
+      );
+    return defaultMetrics;
+  }
+  if (!parsed.has(obj)) parsed.set(obj, parseTextMetrics(obj));
+  return parsed.get(obj);
+};
+
+const widthEm = (t, text) => {
+  let sum = 0;
+  let prev = null;
+  for (const c of text) {
+    const i = c.codePointAt(0) - FIRST_CHAR;
+    sum += i >= 0 && i < ADVANCES ? t.adv[i] : FALLBACK_ADVANCE_EM * 1000;
+    if (prev !== null) sum += t.kern.get(prev + c) ?? 0;
+    prev = c;
+  }
+  return sum / 1000;
+};
+
+// Weights between two table weights interpolate linearly; outside them the nearest applies.
+const textWidth = (req, text, fontSize, fontWeight) => {
+  const ws = metricsFor(req.textMetrics);
+  const n = Number(cssFontWeight(fontWeight));
+  const weight =
+    Number.isFinite(n) && cssFontWeight(fontWeight) !== "" ? n : 400;
+  const hi = ws.findIndex(([w]) => w >= weight);
+  let em;
+  if (hi < 0) em = widthEm(ws[ws.length - 1][1], text);
+  else if (hi === 0) em = widthEm(ws[0][1], text);
+  else {
+    const [loW, lo] = ws[hi - 1];
+    const [hiW, high] = ws[hi];
+    const f = (weight - loW) / (hiW - loW);
+    em = widthEm(lo, text) * (1 - f) + widthEm(high, text) * f;
+  }
+  return em * fontSize;
+};
 
 // `true` also matches any non-empty string, e.g. an icon name; an unset option
 // matches `false`.
@@ -420,7 +517,7 @@ export function renderScene(compiled, req, icons = {}) {
             extra.font_weight = fw ? fw.value : null;
             if (ff) extra.font_family = ff.value;
             extra.text = req.label ?? "";
-            w2 = textWidth(extra.text, extra.font_size);
+            w2 = textWidth(req, extra.text, extra.font_size, extra.font_weight);
             h2 = lineHeight(lh, extra.font_size);
             ow = w2 + tp[0] + tp[1];
             oh = h2 + tp[2] + tp[3];
@@ -502,7 +599,7 @@ export function renderScene(compiled, req, icons = {}) {
       c.fontSize = num(fs) ?? 14;
       c.fontWeight = fw ? fw.value : null;
       c.text = req.label ?? "";
-      c.w = textWidth(c.text, c.fontSize);
+      c.w = textWidth(req, c.text, c.fontSize, c.fontWeight);
       if (lh && num(lh) === undefined)
         cx.diags.push(
           `lineHeight '${lh.value}' is not a number or px value; using 1.3 x font size`,

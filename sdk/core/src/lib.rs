@@ -36,6 +36,7 @@ pub mod registry;
 pub mod report;
 pub mod schema;
 pub mod suggest;
+pub mod text_metrics;
 pub mod validate;
 pub mod visual;
 pub mod visual_compare;

@@ -62,6 +62,7 @@ tasks:
       - "/sdk/core/src/**/*.rs"
       - "/sdk/core/Cargo.toml"
       - "/sdk/core/build.rs"
+      - "/sdk/core/src/text-metrics/*"
       - "/sdk/core/src/registry_data.rs"
       - "/packages/design-data/guidelines/*.json"
       - "/packages/design-data/relationships/*.json"
@@ -100,6 +101,7 @@ tasks:
         --out "$MOON_WORKSPACE_ROOT/sdk/target/site-data"
     inputs:
       - "/sdk/core/src/**/*.rs"
+      - "/sdk/core/src/text-metrics/*"
       - "/sdk/cli/src/**/*.rs"
       - "/sdk/plugins/site/src/**/*"
       - "/sdk/plugins/site/assets/*"
@@ -121,6 +123,8 @@ tasks:
     command: [pnpm, ava, test]
     inputs:
       - "test/**/*.test.js"
+      - "test/helpers/*.js"
+      - "/sdk/core/src/text-metrics/*"
       - "ava.config.js"
       - "scripts/verify-package.mjs"
       - "package.json"
