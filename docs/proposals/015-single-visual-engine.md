@@ -2,7 +2,7 @@
 
 # Proposal 015: One visual layout engine (Rust solve, slim WASM in the browser)
 
-**Status:** Draft, for owner decision. Spike only: no engine swap, no schema or recipe change comes with this document.\
+**Status:** Accepted 2026-11-07 (Option A, merged in #1683). No engine swap, no schema or recipe change comes with this document; the work is tracked as beads `hck9.5` to `hck9.8`, `hck9.10` and `hck9.11`.\
 **Affects:** `sdk/core/src/visual.rs`, `sdk/plugins/site/assets/visual-runtime.js`, `sdk/wasm/test/visual-runtime-*.test.js`, a new slim WASM target\
 **Bead:** `spectrum-design-data-hck9`. Waiting on this decision: `qkj5.133` (label width), `qkj5.13` (wrapping), `p6ga.8.76` (nested recipes), `p6ga.8.77` (fill width), `p6ga.11.3` (accordion container).\
 **Prototype:** branch `spike/hck9-single-engine` (not merged): `sdk/spikes/hck9-slim-engine` (slim WASM crate), `sdk/spikes/hck9-measure` (measurement scripts), `CompiledVariant::from_compiled` and a table-driven `text_width_w` in `sdk/core/src/visual.rs`.
