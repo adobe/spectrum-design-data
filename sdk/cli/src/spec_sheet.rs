@@ -407,6 +407,7 @@ struct Ctx<'a> {
     component: &'a str,
     size: &'a str,
     labels: Labels,
+    scenes: visual::SceneCache,
 }
 
 impl Ctx<'_> {
@@ -446,8 +447,8 @@ impl Ctx<'_> {
             label: "Label".into(),
             icon: None,
         };
-        let scene =
-            visual::build_scene(self.graph, recipe, &req).map_err(|e| miette::miette!(e))?;
+        let scene = visual::build_scene_cached(self.graph, recipe, &req, &self.scenes)
+            .map_err(|e| miette::miette!(e))?;
         // Fit the scene into the block once, so renderers only apply this view.
         let scale = ((BLOCK_W - MARGIN_X) / scene.width)
             .min((BLOCK_H - MARGIN_Y) / scene.height)
@@ -979,6 +980,7 @@ fn build_sheet(
         component: &component,
         size,
         labels: Labels::new(graph, &component, registry),
+        scenes: Default::default(),
     };
 
     let mut pages: Vec<Value> = Vec::new();

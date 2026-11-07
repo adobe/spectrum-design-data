@@ -449,6 +449,9 @@ struct Lookup {
     scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
     /// Token label → its `name` object, built on first use (see `CompileCx::name_of`).
     names: std::cell::OnceCell<HashMap<String, Value>>,
+    /// Component, property, trimmed context → indices into `TokenGraph::relationships`, in
+    /// graph order, built on first use so `relationship_cands` does not scan them all.
+    by_scope: std::cell::OnceCell<HashMap<(String, String, String), Vec<usize>>>,
 }
 
 impl Lookup {
@@ -818,32 +821,41 @@ impl<'a> CompileCx<'a> {
                 .and_then(Value::as_object)
                 .map(|o| o.keys().map(String::as_str).collect())
                 .unwrap_or_default();
-            let mut refs = Vec::new();
-            for r in &self.graph.relationships {
-                let scope = r.raw.get("scope");
-                let comp = scope
-                    .and_then(|s| s.get("component"))
-                    .and_then(Value::as_str);
-                let p = scope
-                    .and_then(|s| s.get("property"))
-                    .and_then(Value::as_str);
-                let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
-                if comp == Some(&self.req.component)
-                    && p == Some(property.as_str())
-                    && c == Some(context.as_str())
-                {
-                    if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                        refs.push((
-                            rf.to_string(),
-                            pinned_options(scope, &declared),
-                            scope_state_ids(scope),
-                            RelationshipRef {
-                                uuid: r.uuid.clone(),
-                                context: context.clone(),
-                                property: property.clone(),
-                            },
-                        ));
+            let by_scope = self.lookup.by_scope.get_or_init(|| {
+                let mut index: HashMap<(String, String, String), Vec<usize>> = HashMap::new();
+                for (i, r) in self.graph.relationships.iter().enumerate() {
+                    let scope = r.raw.get("scope");
+                    let s = |k: &str| scope.and_then(|s| s.get(k)).and_then(Value::as_str);
+                    let c = r.raw.get("context").and_then(Value::as_str).map(str::trim);
+                    if let (Some(comp), Some(p), Some(c)) = (s("component"), s("property"), c) {
+                        index
+                            .entry((comp.to_string(), p.to_string(), c.to_string()))
+                            .or_default()
+                            .push(i);
                     }
+                }
+                index
+            });
+            let mut refs = Vec::new();
+            let scope_key = (
+                self.req.component.clone(),
+                property.clone(),
+                context.clone(),
+            );
+            for &i in by_scope.get(&scope_key).into_iter().flatten() {
+                let r = &self.graph.relationships[i];
+                let scope = r.raw.get("scope");
+                if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
+                    refs.push((
+                        rf.to_string(),
+                        pinned_options(scope, &declared),
+                        scope_state_ids(scope),
+                        RelationshipRef {
+                            uuid: r.uuid.clone(),
+                            context: context.clone(),
+                            property: property.clone(),
+                        },
+                    ));
                 }
             }
             self.lookup
