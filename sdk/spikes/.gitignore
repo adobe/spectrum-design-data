@@ -1,0 +1,4 @@
+hck9-slim-engine/pkg/
+hck9-slim-engine/target/
+hck9-measure/node_modules/
+hck9-measure/*-metrics.json

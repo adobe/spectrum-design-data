@@ -481,6 +481,26 @@ pub struct CompiledVariant {
     drawings: serde_json::Map<String, Value>,
 }
 
+impl CompiledVariant {
+    /// SPIKE (hck9): rebuild a variant from one `compile_recipe` output (the `compiled[name]`
+    /// entry of the site's data.json) and a `size|colorScheme|scale` key, with no graph.
+    pub fn from_compiled(compiled: &Value, key: &str) -> Result<Self, String> {
+        let obj = |v: &Value| v.as_object().cloned().unwrap_or_default();
+        let parts = compiled["variants"]
+            .get(key)
+            .and_then(Value::as_object)
+            .cloned()
+            .ok_or_else(|| format!("no compiled variant '{key}'"))?;
+        let root = compiled["root"].as_str().ok_or("compiled recipe has no root")?;
+        Ok(Self {
+            root: root.into(),
+            option_defaults: obj(&compiled["optionDefaults"]).into_iter().collect(),
+            parts,
+            drawings: obj(&compiled["drawings"]),
+        })
+    }
+}
+
 /// Compiled variants shared across renders of one graph, so a matrix of requests compiles
 /// each recipe, size and mode once. Use one cache per graph; results are identical to
 /// compiling every time.
@@ -1475,6 +1495,45 @@ fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
     }
 }
 
+/// SPIKE (hck9): advance + pair-kerning table for Adobe Clean Spectrum VF at wght 400 and 700,
+/// ASCII only, measured in Chrome via canvas measureText at 1000 px (units per 1000 em).
+/// Weights in between interpolate linearly; other characters fall back to AVG_ADVANCE_EM.
+fn metrics() -> &'static Value {
+    static M: std::sync::OnceLock<Value> = std::sync::OnceLock::new();
+    M.get_or_init(|| serde_json::from_str(include_str!("text_metrics_proto.json")).unwrap())
+}
+
+fn width_em(text: &str, w: &str) -> f64 {
+    let t = &metrics()[w];
+    let adv = |c: char| -> f64 {
+        let i = c as usize;
+        if (32..127).contains(&i) {
+            t["adv"][i - 32].as_f64().unwrap_or(460.0)
+        } else {
+            460.0
+        }
+    };
+    let mut sum = 0.0;
+    let mut prev: Option<char> = None;
+    for c in text.chars() {
+        sum += adv(c);
+        if let Some(p) = prev {
+            let key: String = [p, c].iter().collect();
+            sum += t["kern"][key.as_str()].as_f64().unwrap_or(0.0);
+        }
+        prev = Some(c);
+    }
+    sum / 1000.0
+}
+
+fn text_width_w(text: &str, font_size: f64, weight: Option<&str>) -> f64 {
+    let wt: f64 = css_font_weight(weight).parse().unwrap_or(400.0);
+    let f = ((wt - 400.0) / 300.0).clamp(0.0, 1.0);
+    let em = width_em(text, "400") * (1.0 - f) + width_em(text, "700") * f;
+    em * font_size
+}
+
+#[allow(dead_code)]
 fn text_width(text: &str, font_size: f64) -> f64 {
     text.chars().count() as f64 * font_size * AVG_ADVANCE_EM
 }
@@ -2078,7 +2137,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                     fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                                 node.font_weight = fw.map(|f| f.value);
                                 node.text = Some(req.label.clone());
-                                node.w = text_width(&req.label, node.font_size);
+                                node.w = text_width_w(&req.label, node.font_size, node.font_weight.as_deref());
                                 node.h = line_height(lh.as_ref(), node.font_size);
                                 (ow, oh) = (node.w + tp[0] + tp[1], node.h + tp[2] + tp[3]);
                                 (ox, oy) = (tp[0], tp[2]);
@@ -2171,7 +2230,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
                 let text = req.label.clone();
-                c.w = text_width(&text, c.font_size);
+                c.w = text_width_w(&text, c.font_size, c.font_weight.as_deref());
                 if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
                     cx.diags.push(format!(
                         "lineHeight '{}' is not a number or px value; using 1.3 x font size",

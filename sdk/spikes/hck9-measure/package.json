@@ -1,0 +1,2 @@
+{ "name": "hck9-measure", "private": true, "type": "module",
+  "dependencies": { "playwright-core": "*", "@fontsource-variable/source-sans-3": "*" } }

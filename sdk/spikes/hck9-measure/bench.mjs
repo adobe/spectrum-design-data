@@ -1,0 +1,13 @@
+import { chromium } from "playwright-core";
+import { writeFileSync, readFileSync } from "node:fs";
+const browser = await chromium.launch({ channel: "chrome" });
+const page = await browser.newPage();
+page.on("pageerror", (e) => console.log("ERR", e.message));
+await page.goto("http://127.0.0.1:8765/bench.html");
+await page.waitForFunction("window.RESULT", null, { timeout: 60000 });
+const r = await page.evaluate(() => window.RESULT);
+const cli = readFileSync("cli-m.svg", "utf8");
+writeFileSync("wasm-m.svg", r.wasmSvg); writeFileSync("js-m.svg", r.jsSvg);
+for (const [k, v] of Object.entries(r)) if (typeof v === "number") console.log(k, v.toFixed(3));
+console.log("wasm svg == CLI svg:", r.wasmSvg.trim() === cli.trim(), "| js svg == CLI svg:", r.jsSvg.trim() === cli.trim());
+await browser.close();

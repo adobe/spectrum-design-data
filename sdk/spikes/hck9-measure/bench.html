@@ -1,0 +1,26 @@
+<!doctype html><body><script type="module">
+import init, { Engine } from "./pkg/hck9_slim_engine.js";
+import { renderScene, renderSvg } from "./visual-runtime.js";
+const out = {};
+let t = performance.now();
+await init();
+out.wasmInitMs = performance.now() - t;
+const full = await fetch("./data.json").then(r => r.json());
+const one = await fetch("./button-m-light-desktop.json").then(r => r.text());
+const key = "m|light|desktop";
+t = performance.now();
+const eng = new Engine(one, key);
+out.engineNewOneVariantMs = performance.now() - t;
+t = performance.now();
+const eng2 = new Engine(JSON.stringify(full.compiled.button), key);
+out.engineNewFullComponentMs = performance.now() - t;
+const req = { component: "button", size: "m", mode: { colorScheme: "light", scale: "desktop" }, label: "Test", states: [], options: {} };
+const reqs = JSON.stringify(req);
+out.wasmSvg = eng.svg(reqs);
+const N = 2000;
+t = performance.now(); for (let i = 0; i < N; i++) eng.svg(reqs); out.wasmPerSceneMs = (performance.now() - t) / N;
+const jreq = { size: "m", states: [], options: {}, mode: req.mode, label: "Test" };
+out.jsSvg = renderSvg(renderScene(full.compiled.button, jreq, full.icons));
+t = performance.now(); for (let i = 0; i < N; i++) renderSvg(renderScene(full.compiled.button, jreq, full.icons)); out.jsPerSceneMs = (performance.now() - t) / N;
+window.RESULT = out;
+</script>
