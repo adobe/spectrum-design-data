@@ -84,7 +84,7 @@ fn render_uses_the_given_table_and_rejects_a_bad_one() {
 
     dd(&["render", "button", "--text-metrics", bad.to_str().unwrap()])
         .failure()
-        .stderr(contains("--text-metrics").and(contains("must hold 95 advances")));
+        .stderr(contains("--text-metrics").and(contains("weight 700")));
     dd(&["render", "button", "--text-metrics", "/nonexistent.json"])
         .failure()
         .stderr(contains("failed to read --text-metrics"));
@@ -190,5 +190,5 @@ fn site_ships_the_table_it_was_built_with() {
         bad.to_str().unwrap(),
     ])
     .failure()
-    .stderr(contains("must hold 95 advances"));
+    .stderr(contains("weight 700"));
 }
