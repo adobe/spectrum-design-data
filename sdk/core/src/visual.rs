@@ -22,9 +22,8 @@ use serde::Serialize;
 use serde_json::Value;
 
 use crate::graph::{name_ctx_score, TokenGraph};
+use crate::text_metrics::TextMetrics;
 
-/// Average glyph advance as a fraction of the font size (calibrated to Adobe Clean medium widths in the S2 Web Figma action button: "Label" is 25-41px across sizes).
-const AVG_ADVANCE_EM: f64 = 0.46;
 const RING_MARGIN: f64 = 8.0;
 
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
@@ -135,6 +134,9 @@ pub struct RenderRequest {
     pub label: String,
     /// Replaces the icon of every part whose `icon` has `content: true`, or hides it.
     pub icon: Option<IconOverride>,
+    /// Replaces the default text-measurement table (the `textMetrics` request field).
+    #[serde(rename = "textMetrics")]
+    pub text_metrics: Option<TextMetrics>,
 }
 
 /// A request's `icon`: `{ "set", "name" }` or `"none"` (spec: component-visuals.md, Content icons).
@@ -1475,8 +1477,16 @@ fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
     }
 }
 
-fn text_width(text: &str, font_size: f64) -> f64 {
-    text.chars().count() as f64 * font_size * AVG_ADVANCE_EM
+fn text_width(req: &RenderRequest, text: &str, font_size: f64, weight: Option<&str>) -> f64 {
+    // Digits and a point only, so "inf", "nan" and "+700" read the same as in visual-runtime.js.
+    let weight = Some(css_font_weight(weight))
+        .filter(|w| w.bytes().all(|b| b.is_ascii_digit() || b == b'.'))
+        .and_then(|w| w.parse().ok())
+        .unwrap_or(400.0);
+    req.text_metrics
+        .as_ref()
+        .unwrap_or_else(|| TextMetrics::default_table())
+        .width(text, font_size, weight)
 }
 
 /// Whether an option value satisfies one wanted value. `true` also matches any
@@ -2078,7 +2088,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                     fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                                 node.font_weight = fw.map(|f| f.value);
                                 node.text = Some(req.label.clone());
-                                node.w = text_width(&req.label, node.font_size);
+                                node.w = text_width(
+                                    req,
+                                    &req.label,
+                                    node.font_size,
+                                    node.font_weight.as_deref(),
+                                );
                                 node.h = line_height(lh.as_ref(), node.font_size);
                                 (ow, oh) = (node.w + tp[0] + tp[1], node.h + tp[2] + tp[3]);
                                 (ox, oy) = (tp[0], tp[2]);
@@ -2171,7 +2186,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
                 let text = req.label.clone();
-                c.w = text_width(&text, c.font_size);
+                c.w = text_width(req, &text, c.font_size, c.font_weight.as_deref());
                 if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
                     cx.diags.push(format!(
                         "lineHeight '{}' is not a number or px value; using 1.3 x font size",
@@ -3248,7 +3263,7 @@ mod tests {
         assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
         let n = |id: &str| scene.nodes.iter().find(|n| n.part == id).unwrap();
         let (r, row, i, t, bar) = (n("r"), n("row"), n("i"), n("t"), n("bar"));
-        let text_w = text_width("Action", 10.0);
+        let text_w = text_width(&req(&[]), "Action", 10.0, None);
         // 6 + icon 10 + gap 4 + (3 + text) + 6 wide, 2 + 20 + 2 high.
         assert_eq!((row.w, row.h), (29.0 + text_w, 24.0));
         assert_eq!((r.w, r.h), (row.w, 25.0));

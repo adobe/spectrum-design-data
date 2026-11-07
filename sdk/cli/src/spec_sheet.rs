@@ -14,6 +14,7 @@ use std::process::ExitCode;
 use design_data_core::derived;
 use design_data_core::graph::TokenGraph;
 use design_data_core::naming;
+use design_data_core::text_metrics::TextMetrics;
 use design_data_core::visual::{self, RenderRequest};
 use miette::{IntoDiagnostic, WrapErr};
 use serde_json::{json, Map, Value};
@@ -439,6 +440,7 @@ struct Ctx<'a> {
     size: &'a str,
     labels: Labels,
     scenes: visual::SceneCache,
+    text_metrics: Option<&'a TextMetrics>,
 }
 
 impl Ctx<'_> {
@@ -477,6 +479,7 @@ impl Ctx<'_> {
             .into(),
             label: "Label".into(),
             icon: None,
+            text_metrics: self.text_metrics.cloned(),
         };
         let scene = visual::build_scene_cached(self.graph, recipe, &req, &self.scenes)
             .map_err(|e| miette::miette!(e))?;
@@ -1003,6 +1006,7 @@ fn build_sheet(
     component: &str,
     size: &str,
     changelog: Option<&Value>,
+    text_metrics: Option<&TextMetrics>,
 ) -> miette::Result<Value> {
     let recipe = graph.visual_recipe(component).map(|r| &r.raw);
     let component = graph.canonical_component(component).to_string();
@@ -1013,6 +1017,7 @@ fn build_sheet(
         size,
         labels: Labels::new(graph, &component, registry),
         scenes: Default::default(),
+        text_metrics,
     };
 
     let mut pages: Vec<Value> = Vec::new();
@@ -1061,6 +1066,7 @@ fn run_all(
     size: &str,
     changelog_dir: Option<&Path>,
     out_dir: &Path,
+    text_metrics: Option<&TextMetrics>,
 ) -> miette::Result<ExitCode> {
     std::fs::create_dir_all(out_dir)
         .into_diagnostic()
@@ -1071,7 +1077,14 @@ fn run_all(
             Some(p) if p.is_file() => Some(read_changelog(&p)?),
             _ => None,
         };
-        let sheet = build_sheet(graph, registry, &component, size, changelog.as_ref())?;
+        let sheet = build_sheet(
+            graph,
+            registry,
+            &component,
+            size,
+            changelog.as_ref(),
+            text_metrics,
+        )?;
         let blocks: usize = sheet["pages"]
             .as_array()
             .into_iter()
@@ -1104,6 +1117,7 @@ fn run_all(
     Ok(ExitCode::SUCCESS)
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn run(
     component: Option<String>,
     all: bool,
@@ -1112,7 +1126,9 @@ pub fn run(
     changelog_dir: Option<PathBuf>,
     path: Option<PathBuf>,
     output: Option<PathBuf>,
+    text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
+    let text_metrics = super::load_text_metrics(text_metrics.as_deref())?;
     let (graph, visuals_dir, _) = super::load_visual_env(path, None, true)?;
     let registry = visuals_dir
         .parent()
@@ -1120,7 +1136,14 @@ pub fn run(
         .unwrap_or_default();
     if all {
         let out_dir = output.ok_or_else(|| miette::miette!("--all needs --output <DIR>"))?;
-        return run_all(&graph, &registry, &size, changelog_dir.as_deref(), &out_dir);
+        return run_all(
+            &graph,
+            &registry,
+            &size,
+            changelog_dir.as_deref(),
+            &out_dir,
+            text_metrics.as_ref(),
+        );
     }
     let component = component.ok_or_else(|| miette::miette!("give a component or --all"))?;
     if !components_with_relationships(&graph)
@@ -1129,7 +1152,14 @@ pub fn run(
         return Err(miette::miette!("no relationships for '{component}'"));
     }
     let changelog = changelog.as_deref().map(read_changelog).transpose()?;
-    let sheet = build_sheet(&graph, &registry, &component, &size, changelog.as_ref())?;
+    let sheet = build_sheet(
+        &graph,
+        &registry,
+        &component,
+        &size,
+        changelog.as_ref(),
+        text_metrics.as_ref(),
+    )?;
     let text = serde_json::to_string_pretty(&sheet).into_diagnostic()?;
     match output {
         Some(p) => write_text(&p, text)?,

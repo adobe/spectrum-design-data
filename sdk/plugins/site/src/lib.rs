@@ -17,6 +17,7 @@ use std::path::Path;
 use design_data_core::graph::{Layer, TokenGraph};
 use design_data_core::manifest::PlatformIdentity;
 use design_data_core::naming::extract_legacy_key;
+use design_data_core::text_metrics::{DEFAULT_TABLE_JSON, DEFAULT_TABLE_LICENSE};
 use design_data_core::visual;
 use design_data_figma as figma;
 
@@ -38,6 +39,7 @@ pub fn write_site(
     components: &[String],
     out: &Path,
     platform: Option<&PlatformIdentity>,
+    text_metrics: Option<&str>,
 ) -> Result<usize, String> {
     let modes: Vec<HashMap<String, String>> = ["light", "dark", "wireframe"]
         .iter()
@@ -136,6 +138,14 @@ pub fn write_site(
     write("constraints.js", CONSTRAINTS)?;
     write("content-controls.js", CONTENT)?;
     write("platform-switcher.js", SWITCHER)?;
+    // The caller validated an override; with none, ship the default table and its licence.
+    write(
+        "text-metrics.json",
+        text_metrics.unwrap_or(DEFAULT_TABLE_JSON),
+    )?;
+    if text_metrics.is_none() {
+        write("OFL-SourceSans3.txt", DEFAULT_TABLE_LICENSE)?;
+    }
     write(
         "data.json",
         &serde_json::to_string(&data).map_err(|e| e.to_string())?,

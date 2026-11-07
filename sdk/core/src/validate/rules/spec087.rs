@@ -45,6 +45,7 @@ fn request(component: &str, size: &str, scale: &str) -> RenderRequest {
         .into(),
         label: "Label".into(),
         icon: None,
+        text_metrics: None,
     }
 }
 

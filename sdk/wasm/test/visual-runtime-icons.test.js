@@ -2,6 +2,7 @@
 
 import { readFileSync } from "node:fs";
 import test from "ava";
+import "./helpers/text-metrics.js";
 import { Dataset } from "../pkg/node/design_data_wasm.js";
 import {
   iconFit,

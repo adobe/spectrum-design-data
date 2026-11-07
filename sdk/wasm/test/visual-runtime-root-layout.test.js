@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
 import test from "ava";
+import "./helpers/text-metrics.js";
 import { renderScene } from "../../plugins/site/assets/visual-runtime.js";
 
 // The compiled form of `stack` in sdk/core/src/visual.rs: two boxes (20x10 and 40x30) in a

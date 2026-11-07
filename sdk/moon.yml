@@ -13,6 +13,7 @@ layer: library
 fileGroups:
   sources:
     - "core/src/**/*.rs"
+    - "core/src/text-metrics/*"
     - "cli/src/**/*.rs"
     - "tui/src/**/*.rs"
     # Integration tests live outside src/ — previously missing here, so CI

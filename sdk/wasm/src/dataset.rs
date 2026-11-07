@@ -232,7 +232,8 @@ impl Dataset {
     /// Resolve a component visual recipe into a scene graph, returned as a JSON string.
     ///
     /// `recipe` is a parsed `visuals/<component>.json` document. `request` is
-    /// `{ component, size, states, options, mode, label }`.
+    /// `{ component, size, states, options, mode, label, icon?, textMetrics? }`; `textMetrics` replaces
+    /// the default text-measurement table (same format as `core/src/text-metrics/source-sans-3.json`).
     #[wasm_bindgen(js_name = "renderScene")]
     pub fn render_scene(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
         let scene = self.scene(recipe, request)?;

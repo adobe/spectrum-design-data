@@ -16,6 +16,7 @@ use std::collections::{BTreeMap, HashMap};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
+use design_data_core::text_metrics::TextMetrics;
 use design_data_core::visual::{self, RenderRequest};
 use design_data_core::visual_compare::{self, MeasuredFile, Tolerances};
 use miette::{IntoDiagnostic, WrapErr};
@@ -109,6 +110,7 @@ pub fn run_batch(
     out: &Path,
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
+    text_metrics: Option<TextMetrics>,
 ) -> miette::Result<ExitCode> {
     let states = read_states(file)?;
     std::fs::create_dir_all(out)
@@ -156,6 +158,7 @@ pub fn run_batch(
                 ]),
                 label: st.label.clone(),
                 icon: st.icon.clone(),
+                text_metrics: text_metrics.clone(),
             };
             let scene = visual::build_scene(&env.0, recipe, &req)?;
             let value = serde_json::to_value(&scene).map_err(|e| e.to_string())?;
