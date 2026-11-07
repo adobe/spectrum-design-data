@@ -14,6 +14,15 @@ const esc = (s) =>
 const params = new URLSearchParams(location.search);
 const component = params.get("component") ?? "action-button";
 const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null));
+const FIGMA_TIP =
+  "Generated Figma spec file. It is in a test folder, so only people with access can open it.";
+const figmaUrl = (e) =>
+  `https://www.figma.com/design/${encodeURIComponent(e.fileKey)}`;
+const figmaFiles = await fetch("data/figma-files.json")
+  .then((r) => (r.ok ? r.json() : null))
+  .catch(() => null);
+const figmaFile = (c) =>
+  figmaFiles?.files?.[c]?.fileKey ? figmaFiles.files[c] : null;
 const [sheet, changelog] = await Promise.all([
   getJson(`data/sheets/${component}.json`),
   getJson(`data/changelog/${component}.json`),
@@ -201,6 +210,23 @@ if (!sheet.visual)
   document
     .getElementById("title")
     .insertAdjacentHTML("afterend", `<span class="badge">${NO_VISUAL}</span>`);
+const links = [];
+if (sheet.visual)
+  links.push(
+    `<a href="../rsp/?c=${encodeURIComponent(component)}">Open in explorer</a>`,
+  );
+const fig = figmaFile(component);
+if (fig)
+  links.push(
+    `<a href="${esc(figmaUrl(fig))}" target="_blank" rel="noopener" title="${esc(FIGMA_TIP)}">Open Figma spec file</a>`,
+    `<small>Generated ${esc(fig.generatedAt)}. Generated only: annotate on the Notes page.</small>`,
+  );
+document
+  .querySelector("header .back")
+  .insertAdjacentHTML(
+    "afterend",
+    links.length ? `<span class="links">${links.join(" ")}</span>` : "",
+  );
 document.getElementById("pages").innerHTML = sheet.pages
   .map((p) => `<button>${esc(p.title)}</button>`)
   .join("");

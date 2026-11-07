@@ -81,6 +81,10 @@ cpSync(join(here, "specs"), join(dist, "specs"), { recursive: true });
 cpSync(data, join(dist, "specs/data"), { recursive: true });
 cpSync(changelogs, join(dist, "specs/data/changelog"), { recursive: true });
 copyFileSync(
+  join(root, "tools/figma-spec-plugin/figma-files.json"),
+  join(dist, "specs/data/figma-files.json"),
+);
+copyFileSync(
   join(root, "sdk/plugins/site/assets/visual-runtime.js"),
   join(dist, "specs/visual-runtime.js"),
 );
