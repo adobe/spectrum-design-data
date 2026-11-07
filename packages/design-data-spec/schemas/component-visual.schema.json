@@ -40,6 +40,40 @@
         "minimum": 0
       }
     },
+    "derived": {
+      "type": "array",
+      "description": "Relationship contexts the recipe does not bind because their value follows from the solved layout (spec/component-visuals.md, Derived contexts). SPEC-087 checks each against its token.",
+      "items": {
+        "type": "object",
+        "required": ["context", "property", "part", "from"],
+        "properties": {
+          "context": {
+            "type": "string",
+            "description": "The relationship `context` this entry derives."
+          },
+          "property": {
+            "type": "string",
+            "description": "The relationship `scope.property`, as in a `relationship` selector; may use {sizeIndex}, {size}."
+          },
+          "part": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "The part the spacing leads to. Spec sheets put the marker there."
+          },
+          "edge": {
+            "enum": ["top", "bottom"],
+            "default": "top",
+            "description": "The container edge the spacing starts from."
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^\\(height - [a-z][a-z0-9-]*\\.(lineHeight|height)\\) / 2$",
+            "description": "The only formula: `(height - <part>.lineHeight) / 2` or `(height - <part>.height) / 2`. `height` is the container's solved height."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "parts": {
       "type": "object",
       "minProperties": 1,

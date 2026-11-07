@@ -58,6 +58,11 @@ impl ValidationRule for Rule {
                     }
                 }
             });
+            used.extend(
+                crate::derived::declared(&v.raw)
+                    .into_iter()
+                    .map(|d| d.context),
+            );
             let all: BTreeSet<String> = component_relationships(ctx.graph, &v.component)
                 .into_iter()
                 .filter_map(|r| r.context)

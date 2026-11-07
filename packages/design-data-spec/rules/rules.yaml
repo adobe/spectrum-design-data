@@ -1131,3 +1131,25 @@ rules:
     message: "Part '{part}' of '{component}' draws ui:{name} at scale {scale} ({source}), which has no drawing; the nearest of {available} is drawn instead"
     spec_ref: spec/component-visuals.md#icons
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-087
+    name: visual-derived-context-matches-token
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A recipe's `derived` entry declares a relationship context whose value follows from the
+      solved layout (`(height - label.lineHeight) / 2`) instead of being bound. The context's
+      token is still the documented value, so it must agree with the formula. The check binds
+      the context to the root's padding in a scratch copy of the recipe, solves each size at
+      each scale (`desktop`, `mobile`) and compares. A context whose relationship resolves no
+      token is reported once per entry. A token with a desktop value only is not missing: it
+      resolves for mobile too, so it shows as a mobile mismatch. A disagreement is one warning per
+      scale, so a desktop one is told apart from mobile. Mobile values that the tokens do not
+      carry yet show up here until the token data is fixed.
+    assert: >
+      For every size and scale, the token a `derived` context's relationship gives SHOULD equal
+      the value of its formula over the solved scene.
+    message: "Derived context '{context}' of '{component}' ({from}): the token value differs from the formula at {scale} for {sizes}"
+    spec_ref: spec/component-visuals.md#derived-contexts
+    introduced_in: "1.0.0-draft"

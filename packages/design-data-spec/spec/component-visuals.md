@@ -41,6 +41,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `component`   | string | REQUIRED    | Component `name`.                                                                                                                                                                             |
 | `root`        | string | REQUIRED    | Key of the root part in `parts`.                                                                                                                                                              |
 | `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors. A component with no `size` option declares one entry, the size renderers draw. |
+| `derived`     | array  | OPTIONAL    | Relationship contexts the recipe derives from the layout instead of binding. See [Derived contexts](#derived-contexts). SPEC-087.                                                             |
 | `notVisual`   | array  | OPTIONAL    | Component options and states that deliberately have no visual in this recipe (for example `["isReadOnly"]`). SPEC-066.                                                                        |
 | `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                                                                                                   |
 
@@ -141,6 +142,31 @@ An entry on `cornerRadius` **MAY** set `relativeTo: "height"`, making its numeri
 
 **NORMATIVE:** A renderer **MUST NOT** substitute a literal for a value source it cannot resolve. It **MUST** emit a diagnostic naming the part, property and selector, and omit that property.
 
+### Derived contexts
+
+Some relationship contexts describe a value the layout already implies. The vertical spacing from a container's edge to its label is `(height - line height) / 2` for a content-centred container, so a recipe that binds the container's height and centres its content gets that spacing for free. Binding the spacing token as well would fix the value where the design source derives it (and break it when the label wraps or the scale changes). A recipe lists such a context under `derived` rather than binding it:
+
+```json
+"derived": [
+  {
+    "context": "Spacing (top/bottom edge to label)",
+    "property": "component-top-to-text-{sizeIndex}",
+    "part": "label",
+    "from": "(height - label.lineHeight) / 2"
+  }
+]
+```
+
+| Field      | Description                                                                                                                               |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `context`  | The relationship `context` that is derived.                                                                                               |
+| `property` | The relationship `scope.property` of the records it covers, as in a `relationship` selector.                                              |
+| `part`     | The part the spacing leads to. Spec sheets put the marker there.                                                                          |
+| `edge`     | `top` (default) or `bottom`: the container edge the spacing starts from.                                                                  |
+| `from`     | The formula. Only `(height - <part>.lineHeight) / 2` and `(height - <part>.height) / 2` exist; `height` is the container's solved height. |
+
+**NORMATIVE:** A renderer **MUST NOT** read a `derived` entry; it changes no scene. `<part>.lineHeight` is the part's solved height, which is its line height for a single-line label; tooling **MUST** solve with a label that does not wrap. Tooling reads a `derived` entry for two things. A spec sheet shows the context with a highlight on `part`, a marker and a measurement of the formula's value over the solved scene, labelled as derived from height. SPEC-087 compares, for every size and scale, the token the context's relationship gives with the formula's value over the solved scene. The comparison is a warning: a context whose relationship resolves no token is reported once, and a disagreement means the token data or the recipe's layout is wrong, never that the recipe binds the token. A control that is centred on the first label line (a checkbox or switch control) declares the label's formula, since the shared token is the space above the label line.
+
 ### Interim: relationship `context` strings
 
 Relationship `context` is free text today (for example `Background (selected, emphasized)`). Recipes bind to those strings so the pilot can ship without changing relationship data. This is brittle: a reworded context breaks a recipe, and SPEC-062 reports a `relationship` selector that matches no relationship. **RECOMMENDED:** a follow-up adds structured `options` to relationships so recipes can select by option and state instead of by label.
@@ -168,6 +194,7 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-083 | Warning. A part binds only props the renderer reads for it (the root, its `kind`, or a `placement`); the schema accepts more, and the renderer ignores the rest                                              |
 | SPEC-085 | Error. An `icon` part's `set` and `name` exist in the `icons/` catalog. Runs when the catalog is loaded (`--icons-path`, or the probed `packages/design-data/icons`)                                         |
 | SPEC-086 | Warning. Over the request grid, every `ui` icon has a drawing at the scale its size binding gives (see [Icons](#icons)), so the renderer does not fall back to the nearest size                              |
+| SPEC-087 | Warning. For every size and scale, the token a `derived` context gives equals the value of its formula over the solved scene (see [Derived contexts](#derived-contexts))                                     |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 

@@ -166,7 +166,11 @@
                 "description": "The group's relationship property with its size part dropped (the recipe's `{sizeIndex}`/`{size}` template without the placeholder). Distinct within a block.",
                 "type": "string"
               },
-              "drawn": { "type": "boolean" }
+              "drawn": { "type": "boolean" },
+              "derived": {
+                "description": "True when the group is a context the recipe derives from the layout (`derived` in the recipe) instead of binding.",
+                "type": "boolean"
+              }
             },
             "additionalProperties": false
           }
@@ -182,7 +186,11 @@
               "prop": { "type": "string" },
               "kind": { "type": "string" },
               "label": { "type": "string" },
-              "relationship": { "type": ["string", "null"] }
+              "relationship": { "type": ["string", "null"] },
+              "derived": {
+                "description": "True for a context the recipe derives from the layout. The span is appended to scene.measurements (kind `padding`, token `derived from height`), and `label` is `derived from height` instead of a token name.",
+                "type": "boolean"
+              }
             },
             "additionalProperties": false
           }

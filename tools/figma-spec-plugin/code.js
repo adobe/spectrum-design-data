@@ -238,6 +238,7 @@ function overlay(parent, block, box) {
       mk.n +
         " " +
         mk.label +
+        (mk.derived ? " (derived)" : "") +
         (mk.drawn
           ? ""
           : ": not drawn in this visual (the recipe does not bind it yet)"),

@@ -12,5 +12,13 @@
   },
   "SPEC-086": {
     "action-button": 1
+  },
+  "SPEC-087": {
+    "action-button": 4,
+    "badge": 6,
+    "button": 3,
+    "checkbox": 6,
+    "radio-button": 6,
+    "switch": 6
   }
 }

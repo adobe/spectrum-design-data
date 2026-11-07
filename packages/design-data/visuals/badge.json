@@ -9,6 +9,27 @@
     "l": 200,
     "xl": 300
   },
+  "derived": [
+    {
+      "context": "Spacing (top edge to icon)",
+      "property": "component-top-to-workflow-icon-{sizeIndex}",
+      "part": "icon",
+      "from": "(height - label.lineHeight) / 2"
+    },
+    {
+      "context": "Spacing (top/bottom edge to label)",
+      "property": "component-top-to-text-{sizeIndex}",
+      "part": "label",
+      "from": "(height - label.lineHeight) / 2"
+    },
+    {
+      "context": "Spacing (top/bottom edge to label)",
+      "property": "component-bottom-to-text-{sizeIndex}",
+      "part": "label",
+      "edge": "bottom",
+      "from": "(height - label.lineHeight) / 2"
+    }
+  ],
   "parts": {
     "container": {
       "kind": "box",

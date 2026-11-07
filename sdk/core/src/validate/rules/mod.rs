@@ -95,6 +95,7 @@ mod spec083;
 mod spec084;
 mod spec085;
 mod spec086;
+mod spec087;
 mod visual_util;
 
 use std::collections::HashSet;
@@ -280,6 +281,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec084::Rule),
         Box::new(spec085::Rule),
         Box::new(spec086::Rule),
+        Box::new(spec087::Rule),
     ]
 }
 
