@@ -155,3 +155,39 @@ test("both loaders reject a bad table with a clear error", (t) => {
     ds.free();
   }
 });
+
+test("both loaders reject the same malformed kern and weight keys", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    const w = defaultTable[700];
+    const tables = [
+      { ...defaultTable, 700: { ...w, kern: null } },
+      { ...defaultTable, 700: { ...w, kern: [] } },
+      { ...defaultTable, "400.0": w },
+      { ...defaultTable, "4e2": w },
+      { ...defaultTable, "0x190": w },
+    ];
+    for (const bad of tables) {
+      t.throws(() => parseTextMetrics(bad), { message: /^text metrics: / });
+      t.throws(() => ds.renderScene(recipe(), request("a", bad)));
+    }
+  } finally {
+    ds.free();
+  }
+});
+
+test("odd weight values measure as 400 in both engines", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    for (const w of ["inf", "nan", "+700", "0x2bc", "1e3", ""]) {
+      const req = request("Test");
+      t.is(
+        textWidth(renderScene(compiled(w), req)),
+        textWidth(JSON.parse(ds.renderScene(recipe(w), req))),
+        w,
+      );
+    }
+  } finally {
+    ds.free();
+  }
+});

@@ -76,7 +76,7 @@ export function parseTextMetrics(obj) {
       continue;
     }
     const w = Number(key);
-    if (!Number.isInteger(w) || w < 1 || w > 1000)
+    if (!/^\d+$/.test(key) || w < 1 || w > 1000)
       throw new Error(`text metrics: unknown key '${key}'`);
     const at = (what) => new Error(`text metrics: weight ${key}: ${what}`);
     if (val === null || typeof val !== "object" || Array.isArray(val))
@@ -85,6 +85,8 @@ export function parseTextMetrics(obj) {
       if (k !== "adv" && k !== "kern")
         throw at(`unknown key '${k}' (expected adv, kern)`);
     const { adv, kern = {} } = val;
+    if (kern === null || typeof kern !== "object" || Array.isArray(kern))
+      throw at("'kern' must be an object");
     if (!Array.isArray(adv) || !adv.every(Number.isFinite))
       throw at("'adv' must hold only numbers");
     if (adv.length !== ADVANCES)
@@ -139,9 +141,9 @@ const widthEm = (t, text) => {
 // Weights between two table weights interpolate linearly; outside them the nearest applies.
 const textWidth = (req, text, fontSize, fontWeight) => {
   const ws = metricsFor(req.textMetrics);
-  const n = Number(cssFontWeight(fontWeight));
-  const weight =
-    Number.isFinite(n) && cssFontWeight(fontWeight) !== "" ? n : 400;
+  const css = cssFontWeight(fontWeight);
+  // Digits and a point only, like text_width in visual.rs.
+  const weight = /^(\d+\.?\d*|\.\d+)$/.test(css) ? Number(css) : 400;
   const hi = ws.findIndex(([w]) => w >= weight);
   let em;
   if (hi < 0) em = widthEm(ws[ws.length - 1][1], text);

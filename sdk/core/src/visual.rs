@@ -1478,7 +1478,11 @@ fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
 }
 
 fn text_width(req: &RenderRequest, text: &str, font_size: f64, weight: Option<&str>) -> f64 {
-    let weight = css_font_weight(weight).parse().unwrap_or(400.0);
+    // Digits and a point only, so "inf", "nan" and "+700" read the same as in visual-runtime.js.
+    let weight = Some(css_font_weight(weight))
+        .filter(|w| w.bytes().all(|b| b.is_ascii_digit() || b == b'.'))
+        .and_then(|w| w.parse().ok())
+        .unwrap_or(400.0);
     req.text_metrics
         .as_ref()
         .unwrap_or_else(|| TextMetrics::default_table())

@@ -99,7 +99,7 @@ Non-default contrast records are excluded, matching native graph legacy output.
 ```js
 const byFile = ds.legacyOutput();
 const flat = Object.assign({}, ...Object.values(byFile));
-console.log(flat["picker-border-width"].value);
+console.log(flat['picker-border-width'].value);
 ```
 
 ### `Dataset`

@@ -71,9 +71,9 @@ impl TextMetrics {
                 }
                 continue;
             }
-            let w: u32 = key
-                .parse()
-                .ok()
+            let w: u32 = Some(key.as_str())
+                .filter(|k| k.bytes().all(|b| b.is_ascii_digit()))
+                .and_then(|k| k.parse().ok())
                 .filter(|w| (1..=1000).contains(w))
                 .ok_or_else(|| {
                     format!(

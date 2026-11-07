@@ -10,3 +10,7 @@ at weight 700 (S2 uses Adobe Clean, a different font); container widths follow, 
 change. Characters outside ASCII measure 0.46 em. `Dataset.renderScene`, `renderSvg` and
 `renderScene` in the site runtime accept a `textMetrics` table in the request to replace the
 default; a malformed table throws an error that names the problem.
+
+The site runtime's `renderScene` now throws `text metrics not loaded` unless `setTextMetrics` was
+called or the request has `textMetrics`. Callers of `visual-runtime.js` outside this repository
+must load the table first (the site ships it as `text-metrics.json`).
