@@ -85,12 +85,12 @@ export function parseTextMetrics(obj) {
       if (k !== "adv" && k !== "kern")
         throw at(`unknown key '${k}' (expected adv, kern)`);
     const { adv, kern = {} } = val;
-    if (kern === null || typeof kern !== "object" || Array.isArray(kern))
-      throw at("'kern' must be an object");
     if (!Array.isArray(adv) || !adv.every(Number.isFinite))
       throw at("'adv' must hold only numbers");
     if (adv.length !== ADVANCES)
       throw at(`'adv' must hold ${ADVANCES} advances, found ${adv.length}`);
+    if (kern === null || typeof kern !== "object" || Array.isArray(kern))
+      throw at("'kern' must be an object");
     const pairs = new Map();
     for (const [pair, k] of Object.entries(kern)) {
       if ([...pair].length !== 2)
