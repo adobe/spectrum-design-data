@@ -545,3 +545,35 @@ fn derived_vertical_contexts_show_a_marker_and_a_measurement_labelled_derived() 
         }
     }
 }
+
+/// A `$ref` naming a mode-set group (`setUuid`) resolves like the graph does: the row shows
+/// one value per member scale, and every relationship record is counted by exactly one row.
+#[test]
+fn setuuid_refs_resolve_and_every_record_is_shown() {
+    let sheet = sheet_of("contextual-help");
+    let desktop_and_mobile = blocks_of(&sheet)
+        .iter()
+        .flat_map(|b| b["rows"].as_array().unwrap())
+        .flat_map(|r| r["items"].as_array().unwrap())
+        .any(|i| i["values"].get("desktop").is_some() && i["values"].get("mobile").is_some());
+    assert!(desktop_and_mobile, "a setUuid ref shows each member scale");
+
+    let mut expected = std::collections::BTreeMap::<String, usize>::new();
+    for e in std::fs::read_dir(repo_root().join("packages/design-data/relationships")).unwrap() {
+        let v: Value =
+            serde_json::from_str(&std::fs::read_to_string(e.unwrap().path()).unwrap()).unwrap();
+        for r in v.as_array().unwrap() {
+            if let Some(c) = r["scope"]["component"].as_str() {
+                *expected.entry(c.to_string()).or_default() += 1;
+            }
+        }
+    }
+    for sheet in all_sheets() {
+        let c = sheet["component"].as_str().unwrap();
+        let records: u64 = blocks_of(&sheet)
+            .iter()
+            .map(|b| b["records"].as_u64().unwrap())
+            .sum();
+        assert_eq!(Some(&(records as usize)), expected.get(c), "{c}");
+    }
+}

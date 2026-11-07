@@ -65,15 +65,6 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "3f26c6c5-7cbf-52bf-adb3-c00f0e85ca8c"
-  },
-  {
-    "scope": {
-      "component": "alert-banner",
       "property": "spacing"
     },
     "context": "Spacing (start edge to text and icon)",
@@ -112,45 +103,9 @@
       "component": "alert-banner",
       "property": "space-between"
     },
-    "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "d76aa8a1-806e-5ab3-8e62-965cd6ae84c3"
-  },
-  {
-    "scope": {
-      "component": "alert-banner",
-      "property": "space-between"
-    },
     "context": "Spacing (top/bottom edge to text)",
     "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
     "uuid": "7cb97fbe-8fcf-5eac-ae9b-8bb53d804282"
-  },
-  {
-    "scope": {
-      "component": "alert-banner",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "fcf9ab37-3c0f-58b1-9be0-e5bb8ff3e2ff"
-  },
-  {
-    "scope": {
-      "component": "alert-banner",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "9d4cce87-ea07-5df1-95fb-edd85641bc26"
-  },
-  {
-    "scope": {
-      "component": "alert-banner",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "9bea1699-4c90-5daa-845e-845b172a2334"
   },
   {
     "scope": {

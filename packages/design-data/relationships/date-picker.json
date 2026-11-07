@@ -524,29 +524,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d0802ec2-04a6-547b-b409-4c6f7780fce1"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "f59c42b5-38cd-5a74-88ad-c610909c8ae9"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "b6b166a9-92ba-59ce-81c8-f52576eef3b3"
   },
   {
     "scope": {
@@ -673,15 +655,6 @@
     "context": "Spacing (top/bottom edge to alert icon)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "87d965e5-25c0-55ae-a2d1-7ece841f84fe"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "fe403228-4ff0-5149-86ff-932379e2ef70"
   },
   {
     "scope": {

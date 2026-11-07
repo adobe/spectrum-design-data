@@ -74,15 +74,6 @@
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "ab2d192e-45a7-51ca-9df2-bb7e4f8ad75d"
-  },
-  {
-    "scope": {
-      "component": "toast",
       "property": "spacing"
     },
     "context": "Spacing (text to button, horizontal)",
@@ -130,45 +121,9 @@
       "component": "toast",
       "property": "space-between"
     },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "793d7534-6499-58d4-984f-b46e52a0b493"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "7878e1cc-1983-541b-8894-5a27f0f07a86"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "3b9c9a77-c425-5a82-bce2-1036a79add9c"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
     "context": "20px (desktop), 22px (mobile)",
     "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
     "uuid": "4b43756a-1aa3-563a-89c5-28175758e8b7"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
-    "context": "20px (desktop), 22px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "b4adc507-f442-5967-b1d7-5d11ede9741a"
   },
   {
     "scope": {

@@ -128,42 +128,6 @@
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
-    },
-    "context": "Spacing (padding)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "f482f984-9d51-5c94-b3c3-9de1e1054e40"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "space-between"
-    },
-    "context": "Spacing (padding)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "39d98120-5b87-51f4-8283-55f1e9203b7e"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "space-between"
-    },
-    "context": "Spacing (padding)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "a04d6416-d6bb-53c4-b8d5-02171556be2d"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "space-between"
-    },
-    "context": "Spacing (padding)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "05650146-70bb-5d0a-9cf4-83e34d07ed39"
-  },
-  {
-    "scope": {
-      "component": "rating",
       "property": "spacing"
     },
     "context": "Spacing",

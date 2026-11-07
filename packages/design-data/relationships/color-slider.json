@@ -83,15 +83,6 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (field label value to track)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "3ce0dd95-6176-5dae-939a-ab7c4bab5e06"
-  },
-  {
-    "scope": {
-      "component": "color-slider",
       "property": "color"
     },
     "context": "Border",

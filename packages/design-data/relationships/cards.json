@@ -580,15 +580,6 @@
       "component": "cards",
       "property": "space-between"
     },
-    "context": "Spacing (title to action button)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "a076d033-c433-5416-8d33-7f9d1747dca3"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "space-between"
-    },
     "context": "Spacing (header to description)",
     "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee",
     "uuid": "a741c48d-0c7c-5f27-99b6-811902df7220"

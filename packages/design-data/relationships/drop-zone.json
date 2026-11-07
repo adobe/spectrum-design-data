@@ -137,15 +137,6 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Text area (filled, hover)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "1a3b2e86-e52a-55b3-b344-979be1ba9874"
-  },
-  {
-    "scope": {
-      "component": "drop-zone",
       "property": "font-family"
     },
     "context": "Title area and body area",

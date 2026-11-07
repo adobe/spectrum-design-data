@@ -119,29 +119,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "33290a1a-6420-59bb-9691-9ed1bf76bb65"
-  },
-  {
-    "scope": {
-      "component": "tooltip",
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to text)",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "1aec6506-bda5-5233-a416-a2b12fb533b3"
-  },
-  {
-    "scope": {
-      "component": "tooltip",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "59451d5e-3a85-5e67-870d-cc00a656102c"
   },
   {
     "scope": {

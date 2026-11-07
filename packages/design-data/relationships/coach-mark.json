@@ -65,15 +65,6 @@
   {
     "scope": {
       "component": "coach-mark",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom/start/end edge to text)",
-    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
-    "uuid": "1bde69e4-0aeb-5338-bf0c-88d61847b626"
-  },
-  {
-    "scope": {
-      "component": "coach-mark",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to footer)",
@@ -97,15 +88,6 @@
     "context": "Spacing (pagination to bottom)",
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "uuid": "d4fcb4b4-049d-5102-9e2b-9840e0ead5f1"
-  },
-  {
-    "scope": {
-      "component": "coach-mark",
-      "property": "space-between"
-    },
-    "context": "Spacing (pagination to bottom)",
-    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
-    "uuid": "4dca2e36-2d99-59ac-9170-7433e970fd24"
   },
   {
     "scope": {

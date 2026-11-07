@@ -47,29 +47,11 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "6e0d0563-6194-51ec-862e-c28e32483c88"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top edge to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "4dd881d2-198a-5a4e-866c-750b31052d7e"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "779dc929-c527-5638-ad04-9d3f63b742df"
   },
   {
     "scope": {
@@ -83,29 +65,11 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "421455ab-7b45-5d77-b078-69ff45c03ef1"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top edge to text)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "59edd022-fe40-5129-ac59-d914dd90283a"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "e4ced9e2-4dce-5e65-a8af-93cbff8795cf"
   },
   {
     "scope": {

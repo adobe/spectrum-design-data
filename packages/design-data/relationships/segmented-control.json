@@ -47,29 +47,11 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-visual-only-100"
-    },
-    "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "aab88755-fcea-5280-b6a5-f93ba2d4d799"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "a6ba1172-53f8-5c84-bbc6-1d5a35ce5e22"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "2c5f240c-abc7-5bae-97a4-fc69e4217b65"
   },
   {
     "scope": {
@@ -119,15 +101,6 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "19fe4fa9-68e1-57be-bbd1-559631c3bcc2"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
@@ -137,29 +110,11 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "5e0556cc-35d2-51e9-85b3-78574757cf46"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a788fe1d-e9b8-5e59-8e48-bf835a1a1165"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "0c10d859-ff3d-5d83-b997-19a9489fce87"
   },
   {
     "scope": {

@@ -76,15 +76,6 @@
       "component": "list-view",
       "property": "space-between"
     },
-    "context": "Spacing (edge to drag handle)",
-    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
-    "uuid": "4b5dc630-3ca0-568e-a323-3ab161712d12"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "3aba7454-b0a3-50d9-9112-8647fbede252"
@@ -94,63 +85,9 @@
       "component": "list-view",
       "property": "space-between"
     },
-    "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "fa5b8fbe-4fc7-5b05-adc2-ff80848d2a5a"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "e6a1326e-0787-5e47-b339-849b905144ca"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "7466e785-dfd2-564a-a9bb-bc6ce6a900e5"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
     "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
     "uuid": "cafe166c-5ebc-549c-9ced-47e0fafc6f60"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
-    "uuid": "a38e445f-014a-57c7-8bec-b7a7a557adca"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
-    "uuid": "edc00f27-d846-5c6c-b569-6850622e68f1"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
-    "uuid": "52845c8b-0149-5206-bb6c-c83fc777bb10"
   },
   {
     "scope": {
@@ -184,15 +121,6 @@
       "component": "list-view",
       "property": "space-between"
     },
-    "context": "Spacing (content items to text)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "b0c89b29-4b7e-5e42-9851-e93b50f3446a"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
     "context": "Spacing (navigation indicator to edge, actions to edge)",
     "$ref": "3cd1e483-969b-492c-8d44-d29348c981a5",
     "uuid": "b621c573-f3f9-50e2-b82d-df7bdf8e365a"
@@ -202,27 +130,9 @@
       "component": "list-view",
       "property": "space-between"
     },
-    "context": "Spacing (navigation indicator to edge, actions to edge)",
-    "$ref": "3cd1e483-969b-492c-8d44-d29348c981a5",
-    "uuid": "8bb9b2cb-b9ff-52bd-ba61-a96b1d4cff1a"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
     "context": "Spacing (edge to Navigation icon)",
     "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
     "uuid": "bda94cef-b7a2-5de1-aa47-d49c46eb9598"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to Navigation icon)",
-    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
-    "uuid": "5ba81306-d482-5f4f-945a-4504ffc1a77f"
   },
   {
     "scope": {
@@ -389,15 +299,6 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (vertical)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "75ac9290-7d61-548a-9d0b-b071cc2ecec4"
-  },
-  {
-    "scope": {
-      "component": "list-view",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (vertical)",
@@ -407,29 +308,11 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (vertical)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "af406d8d-d19b-5741-8dfc-3757bd9edda7"
-  },
-  {
-    "scope": {
-      "component": "list-view",
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (vertical)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "0e2f8680-4803-5577-86e2-c7c8fad0cb02"
-  },
-  {
-    "scope": {
-      "component": "list-view",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (vertical)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "7047c78f-f34f-55bc-b024-384de05db739"
   },
   {
     "scope": {

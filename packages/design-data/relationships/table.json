@@ -56,33 +56,6 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "b8fc0a1c-84ab-544a-87c7-b785d324e1d2"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "569b7916-bec7-52e5-bd5f-6e12f3cc2632"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "eee4fed7-6a21-53e6-9b51-7a5eb0b94803"
-  },
-  {
-    "scope": {
-      "component": "table",
       "property": "height"
     },
     "context": "Row height (minimum, compact density)",
@@ -139,15 +112,6 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Spacing (row top/bottom to text, compact density)",
-    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
-    "uuid": "14179109-dadb-5382-a30b-e6dc72df2dbc"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
     "context": "Note: desktop 11px, mobile 14px;",
     "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "uuid": "8cefd8c5-1068-5f53-949f-8c492fc01bbd"
@@ -157,63 +121,9 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
-    "uuid": "1d7f87bf-6e24-5f7c-b5eb-3557e8a0ab98"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
-    "uuid": "3590507f-8775-5bd3-90be-5b8379acaede"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
-    "uuid": "1db0aa20-20b8-5903-9345-92b321cfda26"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
     "context": "Spacing (row top/bottom to text, spacious density)",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "029b20fc-ed1f-523a-befe-6eadb4990106"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
-    "uuid": "ec0b1c12-c800-564e-a2d5-5240f21b2c30"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
-    "uuid": "4e47b685-51b4-5015-bdf0-f3ffa0993ec2"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
-    "uuid": "cca70f4c-374e-57ab-97d8-1d4a317dbb65"
   },
   {
     "scope": {
@@ -232,15 +142,6 @@
     "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "e8f3e949-ca0a-5139-a6a2-202d76483d1c"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "7fa69f1e-c908-5bca-aa9c-56908b2ecb7c"
   },
   {
     "scope": {
@@ -265,27 +166,9 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Spacing (checkbox to text)",
-    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
-    "uuid": "6625fade-9ff3-5600-9220-d7c214a83163"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
     "context": "Note: desktop 8px, mobile 11px;",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a1b394fb-aba5-5d22-b8a5-933eabde3919"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d998eb01-3ee0-5ee6-b75a-f273506287d1"
   },
   {
     "scope": {
@@ -301,15 +184,6 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
-    "uuid": "32150616-db99-5bdf-88b9-5e85f9d2437c"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
     "context": "Note: desktop 12px, mobile 16px;",
     "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "uuid": "c17c382a-20cd-504c-830a-8956a6fe7cb6"
@@ -319,27 +193,9 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Note: desktop 12px, mobile 16px;",
-    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
-    "uuid": "4fd9a569-b31e-5d67-a218-7f9333b74e6b"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
     "context": "Note: desktop 16px, mobile 21px;",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "ff932c8e-b02e-5dac-94fb-d1be16e69d25"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "space-between"
-    },
-    "context": "Note: desktop 16px, mobile 21px;",
-    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
-    "uuid": "1d2e9335-f558-5f23-a7c9-0bfdd32c796d"
   },
   {
     "scope": {
@@ -371,29 +227,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d35eaca0-1569-5f96-88ef-9e26fe345436"
-  },
-  {
-    "scope": {
-      "component": "table",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text) ",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "040d0d01-1040-50da-9127-e78157ab0aac"
-  },
-  {
-    "scope": {
-      "component": "table",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "e42501a2-813a-558f-aee4-85429e3a26be"
   },
   {
     "scope": {

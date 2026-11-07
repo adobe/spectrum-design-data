@@ -2536,6 +2536,15 @@ impl TokenGraph {
         })
     }
 
+    /// Relationships that are members of the mode-set group `set_uuid`
+    /// (their `setUuid` equals it), in file order.
+    pub fn relationship_set_members(&self, set_uuid: &str) -> Vec<&RelationshipRecord> {
+        self.relationships
+            .iter()
+            .filter(|r| r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(set_uuid))
+            .collect()
+    }
+
     /// Whether `target` resolves to a relationship's own `uuid`, or to a
     /// mode-set group id that only survives as `setUuid` on sibling
     /// relationships — i.e. a CTR-side alias anchor, for callers that already

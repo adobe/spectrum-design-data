@@ -1153,3 +1153,20 @@ rules:
     message: "Derived context '{context}' of '{component}' ({from}): the token value differs from the formula at {scale} for {sizes}"
     spec_ref: spec/component-visuals.md#derived-contexts
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-088
+    name: relationship-duplicate-record
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An exact duplicate adds nothing to resolution, and a changelog that pairs records by
+      identity cannot tell the copies apart. Records with different `setUuid` are not duplicates.
+      SPEC-072 may also report a pair whose token has a scale counterpart, so the two rules can
+      overlap.
+    assert: >
+      Two relationship records in the same file SHOULD NOT have equal scope, context,
+      `$ref` (or inline value) and `setUuid`.
+    message: "Relationship {scope} (context '{context}') repeats an earlier record with the same {ref_or_value}; remove the duplicate"
+    spec_ref: spec/relationship-format.md
+    introduced_in: "1.0.0-draft"
