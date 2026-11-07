@@ -25,7 +25,7 @@ use crate::derived::declared;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{component_of, size_entries, warning};
-use crate::visual::{build_scene, RenderRequest};
+use crate::visual::{build_scene_cached, RenderRequest, SceneCache};
 
 const SCALES: [&str; 2] = ["desktop", "mobile"];
 const TOLERANCE: f64 = 0.01;
@@ -76,6 +76,9 @@ impl ValidationRule for Rule {
             ) else {
                 continue;
             };
+            // Shared by every entry, size and scale: base scenes repeat per entry, and the
+            // scratch recipes reuse the same relationship lookups.
+            let cache = SceneCache::default();
             for (i, d) in entries.iter().enumerate() {
                 let path = format!("/derived/{i}");
                 let parts = v.raw.get("parts");
@@ -106,14 +109,14 @@ impl ValidationRule for Rule {
                 for (size, _) in size_entries(&v.raw) {
                     for scale in SCALES {
                         let req = request(&v.component, &size, scale);
-                        let Ok(base) = build_scene(graph, &v.raw, &req) else {
+                        let Ok(base) = build_scene_cached(graph, &v.raw, &req, &cache) else {
                             continue; // render failures are SPEC-062's and SPEC-079's
                         };
                         let part_h = |p: &str| base.nodes.iter().find(|n| n.part == p).map(|n| n.h);
                         let Some(want) = part_h(root).and_then(|h| d.value(h, part_h)) else {
                             continue;
                         };
-                        let Ok(bound) = build_scene(graph, &scratch, &req) else {
+                        let Ok(bound) = build_scene_cached(graph, &scratch, &req, &cache) else {
                             continue;
                         };
                         let prop = d.padding_prop();
