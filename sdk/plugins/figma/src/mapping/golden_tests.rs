@@ -180,6 +180,41 @@ fn unprefixed_specs_name_variables_by_bare_token_name() {
 }
 
 #[test]
+fn modeless_layer_never_sends_hidden_from_publishing() {
+    let graph = fixture_graph();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
+    let tokens = export_tokens(&graph).unwrap();
+    let mut meta = metadata_with_modeless_collection();
+    meta.variables.insert(
+        "v-hidden-modeless".to_string(),
+        serde_json::from_value(serde_json::json!({
+            "id": "v-hidden-modeless",
+            "name": "accent-color-100",
+            "key": "k",
+            "variableCollectionId": "c-spectrum",
+            "resolvedType": "COLOR",
+            "valuesByMode": {},
+            "hiddenFromPublishing": true,
+        }))
+        .unwrap(),
+    );
+    for variable in meta.variables.values_mut() {
+        variable.hidden_from_publishing = true;
+    }
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap();
+    assert!(body
+        .variables
+        .iter()
+        .any(|v| v.action == "UPDATE" && v.id.as_deref() == Some("v-hidden-modeless")));
+    assert!(body.variables.iter().any(|v| v.action == "UPDATE"));
+    assert!(body.variable_collections.is_empty());
+    let sent = serde_json::to_string(&body).unwrap();
+    assert!(!sent.contains("hiddenFromPublishing"), "{sent}");
+}
+
+#[test]
 fn bare_names_do_not_match_same_named_variables_in_other_collections() {
     let graph = fixture_graph();
     let specs = without_folder_prefix(collection_specs(&graph.mode_sets).unwrap());
