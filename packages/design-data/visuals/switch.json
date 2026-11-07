@@ -220,6 +220,12 @@
             "context": "Font size"
           }
         },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-font-size-{sizeIndex}",
+            "context": "Label"
+          }
+        },
         "fontWeight": {
           "relationship": { "property": "font-weight", "context": "Font size" }
         },

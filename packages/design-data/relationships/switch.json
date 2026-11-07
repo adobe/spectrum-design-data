@@ -1676,5 +1676,77 @@
     "context": "Control (disabled)",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "211ef619-ec3d-5945-af9e-10b8a8dc6a49"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "207b1748-344e-5f61-b2a8-c1c100e92989"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "37df39cb-6656-5de2-ad95-6e519dbb1838"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "8789f476-f8d6-5492-8d45-46a21aaddef0"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "2d4d6346-d842-5928-a329-954c17378b65"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "b0913e6b-2ad9-5e8d-a71b-5ac3acf6169a"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "05c0e894-7abd-500b-b8cf-be9cf9c6c097"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "e2fbd0f6-a851-5e15-895b-8428567e9911"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "56252d9a-2549-55af-92d9-24336ec4dde5"
   }
 ]

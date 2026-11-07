@@ -3316,5 +3316,95 @@
     "context": "Progress",
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "d2d2f88f-649b-5c8a-84fb-5590b929b0bc"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-50"
+    },
+    "context": "Label",
+    "$ref": "3696e3bf-2b72-4b08-9893-ac618f904771",
+    "uuid": "263d4e83-5655-593e-ab3d-79322b342e17"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-50"
+    },
+    "context": "Label",
+    "$ref": "242bf245-e7f0-4826-bcec-e19c0ed5e93f",
+    "uuid": "73ee065f-d7d2-58bd-a541-45a03284401e"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "1cf4b612-57e3-5366-85af-4fc1dd145ca5"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "3c5d7c8e-2c14-501f-97ea-ef9a8f026763"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "f879a7e5-7599-53b3-bfe8-0ea9443ae4a0"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "9961397b-d2a7-5e00-be4f-a5eb253d1080"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "0b0ece98-8e7b-539f-b88e-14424940d0b0"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "d176909d-59e8-5b26-b341-a4ae7927b0dc"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "a27d0ff7-8cba-5cd6-b2ca-f9f6182679e4"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "391b7338-a360-5409-ac1b-f968e88ad21a"
   }
 ]
