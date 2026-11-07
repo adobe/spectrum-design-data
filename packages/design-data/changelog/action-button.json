@@ -357,6 +357,32 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.9.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+      "commits": [
+        {
+          "commit": "160dcb099128afc1574ec9c7fdab5df28526eb53",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1667,"title":"feat(design-data-spec): recipe icon parts reference the icons catalog","url":"https://github.com/adobe/spectrum-design-data/pull/1667"},
+          "entries": [
+            {"id":"160dcb09-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/hold-icon","name":"hold-icon","fields":[{"path":"icon.name","after":"corner-triangle"},{"path":"icon.set","after":"ui"}]},
+            {"id":"160dcb09-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/icon","name":"icon","fields":[{"path":"icon.content","after":true},{"path":"icon.name","after":"add"},{"path":"icon.set","after":"workflow"}]}
+          ]
+        },
+        {
+          "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1673,"title":"feat(sdk): derive vertical edge spacing from height in recipes, with SPEC-087 check","url":"https://github.com/adobe/spectrum-design-data/pull/1673"},
+          "entries": [
+            {"id":"dd30d971-0","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/derived","name":"derived","fields":[{"path":"derived","after":[{"context":"Spacing (top edge to icon)","property":"component-top-to-workflow-icon-{sizeIndex}","part":"icon","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top edge to label)","property":"component-top-to-text-{sizeIndex}","part":"label","from":"(height - label.lineHeight) / 2"}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

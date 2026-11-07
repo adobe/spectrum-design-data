@@ -293,6 +293,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.9.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+      "commits": [
+        {
+          "commit": "160dcb099128afc1574ec9c7fdab5df28526eb53",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1667,"title":"feat(design-data-spec): recipe icon parts reference the icons catalog","url":"https://github.com/adobe/spectrum-design-data/pull/1667"},
+          "entries": [
+            {"id":"160dcb09-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/disclosure-icon","name":"disclosure-icon","fields":[{"path":"glyph","before":"chevron"},{"path":"icon.name","after":"chevron"},{"path":"icon.set","after":"ui"}]}
+          ]
+        }
+      ]
     }
   ]
 }

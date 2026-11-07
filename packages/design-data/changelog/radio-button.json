@@ -159,6 +159,23 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.9.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+      "commits": [
+        {
+          "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1673,"title":"feat(sdk): derive vertical edge spacing from height in recipes, with SPEC-087 check","url":"https://github.com/adobe/spectrum-design-data/pull/1673"},
+          "entries": [
+            {"id":"dd30d971-0","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"radio-button/visual/derived","name":"derived","fields":[{"path":"derived","after":[{"context":"Spacing (top edge to control)","property":"space-between","part":"control","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-top-to-text-{sizeIndex}","part":"label","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-bottom-to-text-{sizeIndex}","part":"label","edge":"bottom","from":"(height - label.lineHeight) / 2"}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

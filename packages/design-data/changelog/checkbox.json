@@ -186,6 +186,40 @@
           "metadata": {"count":9,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.9.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+      "commits": [
+        {
+          "commit": "160dcb099128afc1574ec9c7fdab5df28526eb53",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1667,"title":"feat(design-data-spec): recipe icon parts reference the icons catalog","url":"https://github.com/adobe/spectrum-design-data/pull/1667"},
+          "entries": [
+            {"id":"160dcb09-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/checkmark","name":"checkmark","fields":[{"path":"glyph","before":"checkmark"},{"path":"icon.name","after":"checkmark"},{"path":"icon.set","after":"ui"}]},
+            {"id":"160dcb09-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/dash","name":"dash","fields":[{"path":"glyph","before":"dash"},{"path":"icon.name","after":"dash"},{"path":"icon.set","after":"ui"}]}
+          ]
+        },
+        {
+          "commit": "4887473689907243213225da695cc7944f9f0dfc",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1668,"title":"feat(sdk): renderers draw the real S2 icon paths from the icons catalog","url":"https://github.com/adobe/spectrum-design-data/pull/1668"},
+          "entries": [
+            {"id":"48874736-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/dash","name":"dash","fields":[{"path":"props.height","before":[{"when":{"options":{"size":"s"}},"value":1.25},{"when":{"options":{"size":"m"}},"value":1.25},{"when":{"options":{"size":"l"}},"value":1.65},{"when":{"options":{"size":"xl"}},"value":2}],"after":[{"when":{"options":{"size":"s"}},"value":8},{"when":{"options":{"size":"m"}},"value":10},{"when":{"options":{"size":"l"}},"value":10},{"when":{"options":{"size":"xl"}},"value":12}]},{"path":"props.width","before":[{"when":{"options":{"size":"s"}},"value":6.5},{"when":{"options":{"size":"m"}},"value":7.5},{"when":{"options":{"size":"l"}},"value":9.65},{"when":{"options":{"size":"xl"}},"value":11}],"after":[{"when":{"options":{"size":"s"}},"value":8},{"when":{"options":{"size":"m"}},"value":10},{"when":{"options":{"size":"l"}},"value":10},{"when":{"options":{"size":"xl"}},"value":12}]}]}
+          ]
+        },
+        {
+          "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1673,"title":"feat(sdk): derive vertical edge spacing from height in recipes, with SPEC-087 check","url":"https://github.com/adobe/spectrum-design-data/pull/1673"},
+          "entries": [
+            {"id":"dd30d971-0","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/derived","name":"derived","fields":[{"path":"derived","after":[{"context":"Spacing (top edge to control)","property":"space-between","part":"box","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-top-to-text-{sizeIndex}","part":"label","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-bottom-to-text-{sizeIndex}","part":"label","edge":"bottom","from":"(height - label.lineHeight) / 2"}]}]}
+          ]
+        }
+      ]
     }
   ]
 }
