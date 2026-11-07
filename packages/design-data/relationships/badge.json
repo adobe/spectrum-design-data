@@ -3003,5 +3003,77 @@
     "context": "Label",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "71642b0c-09fc-57df-8f5d-e7869de1b441"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "430e7353-129b-5420-90bd-bf4774610419"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "985c656f-d67d-593c-ba06-e1d9c79289f2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "83cdfe77-76e9-5f37-88e2-549dc0a1497b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "c8acfdef-438e-5d1a-9db8-00c3d5332aa4"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "8a31452d-9559-5577-90de-c7501ce7edaa"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "f9221b0f-d949-5148-a119-b9f43561c35c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "ed5dd93b-1249-5946-88bc-825d46e5c300"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "7a73a52c-026b-5cf6-bb2d-ae5e0deaedfc"
   }
 ]

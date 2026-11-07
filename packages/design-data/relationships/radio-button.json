@@ -1025,5 +1025,77 @@
       "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
       "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
     }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "b5297c7d-1a64-5ace-9550-2623dff97ed8"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-75"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "3a0bcbec-8c1a-5194-be28-8e51949f5c5c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "3dff8525-bb9c-5176-84d4-469de6a0e542"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-100"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "4212479a-92a0-57bf-9931-89f86473cbe2"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "9d863603-bb95-54d2-8205-50aee6a6a623"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-200"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "28bcecd1-a895-5209-9418-1af24e95efa6"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "70d1b626-e0a7-53b3-ba2b-cf15bcc25964"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-font-size-300"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "88f55aae-e836-5150-9a73-87ab32b1cf03"
   }
 ]

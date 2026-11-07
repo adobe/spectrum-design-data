@@ -14,11 +14,11 @@
     "action-button": 1
   },
   "SPEC-087": {
-    "action-button": 4,
-    "badge": 6,
+    "action-button": 2,
+    "badge": 3,
     "button": 3,
-    "checkbox": 6,
-    "radio-button": 6,
-    "switch": 6
+    "checkbox": 3,
+    "radio-button": 3,
+    "switch": 3
   }
 }
