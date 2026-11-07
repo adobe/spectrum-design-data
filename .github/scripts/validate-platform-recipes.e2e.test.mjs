@@ -21,10 +21,10 @@ import {
   rmSync,
 } from "node:fs";
 import { writeFileSync } from "node:fs";
-import { spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { test } from "node:test";
+import { describe, test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 const repo = fileURLToPath(new URL("../..", import.meta.url));
@@ -49,11 +49,21 @@ function copyTree() {
   return root;
 }
 
-const guard = (root) =>
-  spawnSync("node", [script, "--repo-root", root], {
-    encoding: "utf8",
-    maxBuffer: 1 << 28,
+// Async so the tests below run concurrently; each validate is single-threaded and slow in debug.
+const run = (file, args, options = {}) =>
+  new Promise((resolve) => {
+    execFile(
+      file,
+      args,
+      { encoding: "utf8", maxBuffer: 1 << 28, ...options },
+      (error, stdout, stderr) =>
+        resolve({ status: error ? error.code : 0, stdout, stderr }),
+    );
   });
+
+// Every case edits ios, so the guard checks only ios; `validate-platform-recipes` covers the rest.
+const guard = (root) =>
+  run("node", [script, "--repo-root", root, "--platform", "ios"]);
 
 // Adds the foundation badge recipe to ios, with `edit` applied to the parsed recipe. Badge, not
 // button: ios aliases `button` to its own `button-ios` recipe, so a copy of the foundation button
@@ -80,100 +90,103 @@ function breakFirstBinding(node) {
   return false;
 }
 
-function withTree(body) {
+async function withTree(body) {
   const root = copyTree();
   try {
-    body(root);
+    await body(root);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
 }
 
-test("ios as shipped passes with its button-ios recipe", () => {
-  withTree((root) => {
-    assert.ok(
-      existsSync(
-        join(root, "platforms/ios/extensions/visuals/button-ios.json"),
-      ),
-    );
-    const result = guard(root);
-    assert.equal(result.status, 0, result.stderr);
-    assert.match(result.stdout, /ios: every recipe binding resolves/);
+describe("platform recipe guard on ios", { concurrency: true }, () => {
+  test("ios as shipped passes with its button-ios recipe", async () => {
+    await withTree(async (root) => {
+      assert.ok(
+        existsSync(
+          join(root, "platforms/ios/extensions/visuals/button-ios.json"),
+        ),
+      );
+      const result = await guard(root);
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /ios: every recipe binding resolves/);
+    });
   });
-});
 
-test("a resolving ios recipe that replaces the foundation recipe passes and is noticed", () => {
-  withTree((root) => {
-    addIosRecipe(root);
-    const result = guard(root);
-    assert.equal(result.status, 0, result.stderr);
-    const report = spawnSync(
-      cli,
-      [
-        "validate",
-        "./tokens",
-        "--platform",
-        "ios",
-        "--components-path",
-        "./components",
-        "--relationships-path",
-        "./relationships",
-        "--visuals-path",
-        "./visuals",
-        "--mode-sets-path",
-        "./mode-sets",
-        "--components-report-only",
-        "--exceptions-path",
-        "./naming-exceptions.json",
-        "--format",
-        "json",
-      ],
-      {
-        cwd: join(root, "packages/design-data"),
-        encoding: "utf8",
-        maxBuffer: 1 << 28,
-      },
-    );
-    const rules = JSON.parse(report.stdout).warnings.map((d) => d.rule_id);
-    assert.ok(rules.includes("SPEC-080"), "SPEC-080 reports the replacement");
-    assert.ok(!rules.includes("SPEC-079"), "the recipe resolves");
+  test("a resolving ios recipe that replaces the foundation recipe passes and is noticed", async () => {
+    await withTree(async (root) => {
+      addIosRecipe(root);
+      const result = await guard(root);
+      assert.equal(result.status, 0, result.stderr);
+      const report = await run(
+        cli,
+        [
+          "validate",
+          "./tokens",
+          "--platform",
+          "ios",
+          "--components-path",
+          "./components",
+          "--relationships-path",
+          "./relationships",
+          "--visuals-path",
+          "./visuals",
+          "--mode-sets-path",
+          "./mode-sets",
+          "--components-report-only",
+          "--exceptions-path",
+          "./naming-exceptions.json",
+          "--format",
+          "json",
+        ],
+        {
+          cwd: join(root, "packages/design-data"),
+        },
+      );
+      const rules = JSON.parse(report.stdout).warnings.map((d) => d.rule_id);
+      assert.ok(rules.includes("SPEC-080"), "SPEC-080 reports the replacement");
+      assert.ok(!rules.includes("SPEC-079"), "the recipe resolves");
+    });
   });
-});
 
-test("an ios recipe whose binding does not resolve fails the guard", () => {
-  withTree((root) => {
-    addIosRecipe(root, breakFirstBinding);
-    const result = guard(root);
-    assert.equal(result.status, 1);
-    assert.match(result.stderr, /ios: \d+ recipe binding gap/);
-    assert.match(result.stderr, /Missing context/);
+  test("an ios recipe whose binding does not resolve fails the guard", async () => {
+    await withTree(async (root) => {
+      addIosRecipe(root, breakFirstBinding);
+      const result = await guard(root);
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /ios: \d+ recipe binding gap/);
+      assert.match(result.stderr, /Missing context/);
+    });
   });
-});
 
-test("an ios manifest that cannot apply fails the guard with SPEC-082", () => {
-  withTree((root) => {
-    const file = join(
-      root,
-      "platforms/ios/extensions/platform-extensions/ios-contrast.json",
-    );
-    const ext = JSON.parse(readFileSync(file, "utf8"));
-    ext.extends = "no-such-mode-set";
-    writeFileSync(file, JSON.stringify(ext));
-    const result = guard(root);
-    assert.equal(result.status, 1);
-    assert.match(result.stderr, /ios: \d+ recipe binding gap/);
-    assert.match(result.stderr, /failed to apply/);
+  test("an ios manifest that cannot apply fails the guard with SPEC-082", async () => {
+    await withTree(async (root) => {
+      const file = join(
+        root,
+        "platforms/ios/extensions/platform-extensions/ios-contrast.json",
+      );
+      const ext = JSON.parse(readFileSync(file, "utf8"));
+      ext.extends = "no-such-mode-set";
+      writeFileSync(file, JSON.stringify(ext));
+      const result = await guard(root);
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /ios: \d+ recipe binding gap/);
+      assert.match(result.stderr, /failed to apply/);
+    });
   });
-});
 
-test("an ios recipe icon that is not in the icons catalog fails the guard with SPEC-085", () => {
-  withTree((root) => {
-    const file = join(root, "platforms/ios/extensions/visuals/button-ios.json");
-    const recipe = JSON.parse(readFileSync(file, "utf8"));
-    recipe.parts.icon.icon.name = "no-such-icon";
-    writeFileSync(file, JSON.stringify(recipe));
-    const result = guard(root);
-    assert.equal(result.status, 1);
-    assert.match(result.stderr, /workflow:no-such-icon/);
+  test("an ios recipe icon that is not in the icons catalog fails the guard with SPEC-085", async () => {
+    await withTree(async (root) => {
+      const file = join(
+        root,
+        "platforms/ios/extensions/visuals/button-ios.json",
+      );
+      const recipe = JSON.parse(readFileSync(file, "utf8"));
+      recipe.parts.icon.icon.name = "no-such-icon";
+      writeFileSync(file, JSON.stringify(recipe));
+      const result = await guard(root);
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /workflow:no-such-icon/);
+    });
   });
 });

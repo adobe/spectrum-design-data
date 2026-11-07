@@ -27,10 +27,11 @@
  * `componentAliases`) is an error, so `design-data:validate` already fails on it.
  * Every other diagnostic belongs to `design-data:validate` and is ignored here.
  *
- * Usage: node .github/scripts/validate-platform-recipes.mjs [--report <file.json>] [--repo-root <dir>]
+ * Usage: node .github/scripts/validate-platform-recipes.mjs [--report <file.json>] [--repo-root <dir>] [--platform <id>]
  * `--report` checks one saved `validate --format json` report instead of running the CLI.
  * `--repo-root` reads `platforms/`, `packages/design-data` and `.design-data.toml` from another
  * tree (the end-to-end test uses a copy with a recipe added); the CLI is always this repo's.
+ * `--platform` checks one platform instead of every `platforms/<id>`.
  */
 
 import { execFileSync } from "node:child_process";
@@ -96,6 +97,12 @@ function main() {
     process.exit(1);
   }
 
+  const platformIndex = process.argv.indexOf("--platform");
+  const only = platformIndex === -1 ? null : process.argv[platformIndex + 1];
+  if (platformIndex !== -1 && !only) {
+    console.error("--platform needs a platform id.");
+    process.exit(2);
+  }
   const ids = readdirSync(platformsDir, { withFileTypes: true })
     .filter(
       (entry) =>
@@ -103,7 +110,12 @@ function main() {
         existsSync(join(platformsDir, entry.name, "manifest.json")),
     )
     .map((entry) => entry.name)
+    .filter((id) => !only || id === only)
     .sort();
+  if (only && ids.length === 0) {
+    console.error(`--platform ${only}: no platforms/${only}/manifest.json.`);
+    process.exit(2);
+  }
 
   let failed = false;
 
