@@ -413,6 +413,76 @@
           "metadata": {"count":44,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.options.isDisabled","scope.options.isLabelHidden","scope.options.isPending","scope.options.state","scope.options.staticColor","scope.options.style","scope.options.variant"]}
         }
       ]
+    },
+    {
+      "release": "3.9.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-06",
+      "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+      "commits": [
+        {
+          "commit": "c3f714bd2543fd7a623b6d4c00d755fe073c63c8",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1659,"title":"fix(design-data): keep button accent/negative content static white in dark mode","url":"https://github.com/adobe/spectrum-design-data/pull/1659"},
+          "entries": [
+            {"id":"c3f714bd-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"221ec939-df2d-5e31-bece-0236ba5a8721","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[{"path":"$ref","before":"a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"c3f714bd-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"d8c8d45d-55db-5493-b30a-9ca081b174c9","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[{"path":"$ref","before":"a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"c3f714bd-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"71f25f9c-a3c4-5452-8870-26df362426d2","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"ac61b090-d356-4f7f-ac6d-b4f20617c9e3"},
+            {"id":"c3f714bd-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"6cd582d3-d402-5e33-a0db-f7fd75142dc8","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"0906f3b2-74a9-4012-9e26-4d8f68f0eba9"},
+            {"id":"c3f714bd-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"cdd4f512-ee13-5ab9-909e-4a1da50f593f","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"ac61b090-d356-4f7f-ac6d-b4f20617c9e3"},
+            {"id":"c3f714bd-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":false,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"301d53ad-af9e-57b4-9688-bd72f6e56bce","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"0906f3b2-74a9-4012-9e26-4d8f68f0eba9"}
+          ],
+          "metadata": {"count":6,"fields":["scope.options.variant"]}
+        },
+        {
+          "commit": "176277ae913a94b5985b150bf715bceeb684a96d",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1662,"title":"fix(design-data): bind button icons to the live workflow-icon size tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1662"},
+          "entries": [
+            {"id":"176277ae-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-75","options":null},"record":"9bb67660-4d60-5fa5-be25-571150512c88","name":"workflow-icon-size-75","fields":[{"path":"$ref","before":"85cdef34-0682-45eb-ac06-98c76883cdf7","after":"f7d9ca4c-6d3f-4053-962a-152a19531389"}]},
+            {"id":"176277ae-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-75","options":null},"record":"d30faf2e-255b-573b-bf9a-11151dbf84a6","name":"workflow-icon-size-75","fields":[{"path":"$ref","before":"b720c214-babe-426d-9629-9ec60d5e8622","after":"a659c66d-1e77-4818-95ea-501e65162841"}]},
+            {"id":"176277ae-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"7a88bd9e-d699-5620-9cc7-2af06788ee67","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"176277ae-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"a0685dba-bd82-58cc-9cc9-f3b6cf46fec7","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"176277ae-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-200","options":null},"record":"70a5b087-03ad-55b1-8b12-aa8e50cc2d30","name":"workflow-icon-size-200","fields":[{"path":"$ref","before":"6392e605-932e-456d-be53-149b624a04e2","after":"dc8b54c5-d70c-46ff-838f-9e64e1877cc0"}]},
+            {"id":"176277ae-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-200","options":null},"record":"0bcb601b-787d-58ac-93ec-8ca5a4a6421c","name":"workflow-icon-size-200","fields":[{"path":"$ref","before":"9948e083-8c75-48f7-8e58-32c75ec76116","after":"94f62adc-c5fb-48f8-ba05-7c639b936643"}]},
+            {"id":"176277ae-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-300","options":null},"record":"296f2a9d-745c-56e3-8d26-2ee1b063e9eb","name":"workflow-icon-size-300","fields":[{"path":"$ref","before":"25908278-79d3-47f4-9b53-adbdd1c13e2a","after":"e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"}]},
+            {"id":"176277ae-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-300","options":null},"record":"f1f644b5-5e2b-5e4e-89d0-4ccb42f8f42f","name":"workflow-icon-size-300","fields":[{"path":"$ref","before":"df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c","after":"65f791f8-a88f-4765-a57e-3e023a436642"}]}
+          ]
+        },
+        {
+          "commit": "f65e0628d3e1e4adfde7c98439075e19e8382989",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1663,"title":"fix(design-data): bind button label line height to per-size tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1663"},
+          "entries": [
+            {"id":"f65e0628-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-75","options":null},"record":"6361a8fd-bde0-5adb-b8d7-86d80963df57","name":"line-height-font-size-75","fields":[],"after":"8e85a017-2c5d-4a52-92df-c0426e00c3c3"},
+            {"id":"f65e0628-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-75","options":null},"record":"f266ba7d-8860-550a-a766-04f016209cd8","name":"line-height-font-size-75","fields":[],"after":"25be5bf4-e450-4a58-89e2-a04e02b7b78b"},
+            {"id":"f65e0628-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-100","options":null},"record":"8caab368-55c0-54bc-92cc-424a8be2cd23","name":"line-height-font-size-100","fields":[],"after":"0c323ed8-47c4-4fbb-bb66-a393a1e992cd"},
+            {"id":"f65e0628-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-100","options":null},"record":"3721d7b2-559b-5870-95b7-7565431e89af","name":"line-height-font-size-100","fields":[],"after":"898fde6d-f477-46a6-8323-698dee558580"},
+            {"id":"f65e0628-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-200","options":null},"record":"f858d4df-3bb6-578b-8a6d-2ba92377ef4f","name":"line-height-font-size-200","fields":[],"after":"efb450f9-976a-47cb-a7cc-667b9fe967a9"},
+            {"id":"f65e0628-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-200","options":null},"record":"98dfeb4b-2115-5227-b3f1-5b14a90c0c87","name":"line-height-font-size-200","fields":[],"after":"790dde8d-c117-4759-be93-2498297c6fa3"},
+            {"id":"f65e0628-6","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-300","options":null},"record":"b11f34ef-36e1-5bb5-b613-072a9a6b08ed","name":"line-height-font-size-300","fields":[],"after":"52e64384-f918-4415-8d02-da3af639890f"},
+            {"id":"f65e0628-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-300","options":null},"record":"86d0ddea-7413-5b33-9803-14a9e58eb9b9","name":"line-height-font-size-300","fields":[],"after":"80beb678-586c-4277-9db0-1ab373ec8f80"},
+            {"id":"f65e0628-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"button/visual/parts/label","name":"label","fields":[{"path":"props.lineHeight.relationship.context","after":"Label"},{"path":"props.lineHeight.relationship.property","after":"line-height-font-size-{sizeIndex}"}]}
+          ]
+        },
+        {
+          "commit": "160dcb099128afc1574ec9c7fdab5df28526eb53",
+          "date": "2026-11-05",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1667,"title":"feat(design-data-spec): recipe icon parts reference the icons catalog","url":"https://github.com/adobe/spectrum-design-data/pull/1667"},
+          "entries": [
+            {"id":"160dcb09-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"button/visual/parts/icon","name":"icon","fields":[{"path":"icon.content","after":true},{"path":"icon.name","after":"add"},{"path":"icon.optional","after":true},{"path":"icon.set","after":"workflow"}]}
+          ]
+        },
+        {
+          "commit": "dd30d97159cb02c9efe6cdd916c2faf5795fb9c1",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1673,"title":"feat(sdk): derive vertical edge spacing from height in recipes, with SPEC-087 check","url":"https://github.com/adobe/spectrum-design-data/pull/1673"},
+          "entries": [
+            {"id":"dd30d971-0","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"button/visual/derived","name":"derived","fields":[{"path":"derived","after":[{"context":"Spacing (top edge to icon)","property":"component-top-to-workflow-icon-{sizeIndex}","part":"icon","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-top-to-text-{sizeIndex}","part":"label","from":"(height - label.lineHeight) / 2"},{"context":"Spacing (top/bottom edge to label)","property":"component-bottom-to-text-{sizeIndex}","part":"label","edge":"bottom","from":"(height - label.lineHeight) / 2"}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

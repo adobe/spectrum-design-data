@@ -1,5 +1,52 @@
 # @adobe/design-data-spec
 
+## 4.13.0
+
+### Minor Changes
+
+- [#1667](https://github.com/adobe/spectrum-design-data/pull/1667) [`160dcb0`](https://github.com/adobe/spectrum-design-data/commit/160dcb099128afc1574ec9c7fdab5df28526eb53) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe icon parts reference icons from the `icons/` catalog instead of the `glyph` enum.
+  - **spec**: `"icon": {"set": "ui" | "workflow", "name": "<id>"}` is required on every `icon` part,
+    and `glyph` is removed from the draft recipe schema with no alias. `content` and `optional` mark
+    an icon a render request may replace or remove. `component-visuals.md` adds an Icons section that
+    defines how a drawing is chosen from the size token (`scaleIndex`, else `size` key, else
+    `sizeScale`, nearest scale on a miss). New rules: SPEC-085 (error, the icon exists) and SPEC-086
+    (warning, a UI icon has a drawing at its scale). `icons/` joins the dataset discovery list.
+  - **design-data**: accordion and checkbox reference `ui` chevron, checkmark and dash. Button,
+    badge and action-button icons default to `workflow:add`, and the action-button hold icon is
+    `ui:corner-triangle`.
+  - **wasm**: scene icon nodes carry `icon` (`set`, `name`) instead of `glyph`. Drawings are
+    unchanged.
+
+- [#1668](https://github.com/adobe/spectrum-design-data/pull/1668) [`4887473`](https://github.com/adobe/spectrum-design-data/commit/4887473689907243213225da695cc7944f9f0dfc) Thanks [@GarthDB](https://github.com/GarthDB)! - Renderers draw the real Spectrum 2 icon paths from the `icons/` catalog.
+  - **wasm**: `renderScene`/`renderSvg` draw each icon part's catalog drawing, fitted to the part
+    box, rotated about its center and filled with the part colour. Scene icon nodes carry
+    `icon.drawing` (`viewBox`, `paths`). An icon with no drawing draws a placeholder plus and adds
+    a diagnostic. Buttons, badges and action buttons now show `workflow:add`, the hold icon the
+    corner triangle, and the accordion chevron and checkbox marks the S2 UI paths.
+  - **spec**: the drawing is chosen once per size and mode, a non-square part box leaves the icon
+    at its smaller side, and a missing drawing must draw a placeholder with a diagnostic.
+  - **design-data**: the checkbox dash part box is the icon size (8/10/10/12, like the
+    checkmark) instead of the bar size, so the S2 dash drawing fits it.
+
+- [#1661](https://github.com/adobe/spectrum-design-data/pull/1661) [`6080645`](https://github.com/adobe/spectrum-design-data/commit/608064534fc01696964d3dae7f09d61bd7dac29e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an `icons/` catalog with Spectrum 2 icon path data from React Spectrum.
+  - `icons/ui.json` holds the 11 S2 UI icons with every size drawing (for example
+    `chevron` at 50, 75, 100, 200, 300 and 400). `icons/workflow.json` holds five demo
+    workflow icons: add, edit, delete, settings and search.
+  - Paths carry no colour. Each set records the source commit, file names, licence
+    (Apache-2.0) and copyright.
+  - The spec adds `icon-set.schema.json` and registers `icons/` as an optional dataset
+    directory, so `validate-dataset` checks it.
+  - The WASM package embeds both sets in its dataset (about 38 KB raw, 12 KB gzip).
+    Recipes do not use them yet.
+
+- [#1673](https://github.com/adobe/spectrum-design-data/pull/1673) [`dd30d97`](https://github.com/adobe/spectrum-design-data/commit/dd30d97159cb02c9efe6cdd916c2faf5795fb9c1) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can declare a relationship context as derived instead of bound.
+
+  The recipe schema gains a `derived` array (`context`, `property`, `part`, optional `edge`, and
+  `from`). The only formula is `(height - <part>.lineHeight) / 2` (or `.height`). New rule SPEC-087
+  warns when the token of a derived context disagrees with its formula for any size and scale, so
+  `Dataset.validate()` in the WASM package now reports those warnings. The spec sheet schema gains
+  `derived` on markers and measurements.
+
 ## 4.12.1
 
 ### Patch Changes
