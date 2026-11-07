@@ -30,6 +30,7 @@ enum Scenario {
     Rejected,
     NumericNear,
     NumericFar,
+    HiddenFlags,
 }
 
 struct Server {
@@ -112,6 +113,10 @@ impl Server {
         let stopped = Arc::clone(&stop);
         let thread = thread::spawn(move || {
             let mut live = baseline();
+            if scenario == Scenario::HiddenFlags {
+                live["meta"]["variables"]["number"]["hiddenFromPublishing"] = json!(true);
+                live["meta"]["variableCollections"]["scale"]["hiddenFromPublishing"] = json!(true);
+            }
             let mut gets = 0;
             while !stopped.load(Ordering::SeqCst) {
                 let (mut stream, _) = match listener.accept() {
@@ -383,6 +388,25 @@ fn dry_run_is_one_read_and_creates_no_artifacts() {
     assert!(payload["variables"].is_array());
     assert_eq!(server.methods(), ["GET"]);
     assert!(!directory.path().join("reports").exists());
+}
+
+#[test]
+fn dry_run_never_touches_hidden_from_publishing() {
+    let server = Server::new(Scenario::HiddenFlags);
+    let (output, _directory) = run(&server, &["--dry-run"]);
+    assert!(output.status.success());
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(!stdout.contains("hiddenFromPublishing"), "{stdout}");
+    let payload: Value = serde_json::from_str(&stdout).unwrap();
+    let hidden_update = payload["variables"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v["action"] == "UPDATE" && v["id"] == "number");
+    assert!(hidden_update, "hidden variable should be updated: {stdout}");
+    assert!(payload["variableCollections"]
+        .as_array()
+        .is_none_or(|a| a.is_empty()));
 }
 
 #[test]
