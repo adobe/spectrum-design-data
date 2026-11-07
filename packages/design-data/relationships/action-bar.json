@@ -41,15 +41,6 @@
       "property": "space-between"
     },
     "context": "Spacing (padding)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "uuid": "9591b7f7-dde1-50bf-bdfa-dea94e3c1bd2"
-  },
-  {
-    "scope": {
-      "component": "action-bar",
-      "property": "space-between"
-    },
-    "context": "Spacing (padding)",
     "$ref": "7f237198-3842-49bc-aa79-e723fbe6c78e",
     "uuid": "5d1ce6b9-81ac-5fce-8115-d78b70795afa"
   },

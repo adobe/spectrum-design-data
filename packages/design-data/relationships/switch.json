@@ -392,26 +392,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "ce8388dd-9bd8-50e0-bf20-399bc212fe22"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "fc5cb192-731b-53b4-b61b-3bd2fda53478"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "8425131e-e8a6-55f2-a3c5-46f71e2d198e"
   },
   {
     "scope": {
@@ -428,26 +410,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "0b2050c8-78f5-52ef-8af9-2ab5a4b66fa8"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "ea736184-e4b6-56eb-84fa-f2171fca321f"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "f6ed95d2-a16e-5c95-a4b4-c7a8554510d6"
   },
   {
     "scope": {
@@ -464,26 +428,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "3c4cc945-4461-5c2a-bb96-a919652d4064"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "b5aee3e4-4f1d-5c22-a000-051d56c6d891"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "f51cd790-3b1b-5f82-a04c-3f8c9a565eda"
   },
   {
     "scope": {
@@ -500,26 +446,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "cc367870-6127-5731-a5f9-7b5940fd4317"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "7d29fae2-3b6c-5c38-adef-cf995a874b1a"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "87b03ebf-fb59-5fec-98f6-51e40af9c489"
   },
   {
     "scope": {
@@ -533,29 +461,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "0d90e00f-4095-5e97-8616-d6086dd9c20f"
-  },
-  {
-    "scope": {
-      "component": "switch",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "1e6d72fa-7a4f-5f43-8606-f3425714b568"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "59cf73d0-3007-5bb8-a41e-27994a7028d6"
   },
   {
     "scope": {
@@ -569,29 +479,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "2899eccd-66bb-590a-a301-19ae0ef5bca4"
-  },
-  {
-    "scope": {
-      "component": "switch",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "d1d6e114-23c8-5bf8-8ff4-3a4383bc1f30"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "f05692ae-8804-5510-891c-d847cd89b7c7"
   },
   {
     "scope": {
@@ -605,29 +497,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "1df542dd-8b24-5b73-a8af-7debfa6dca49"
-  },
-  {
-    "scope": {
-      "component": "switch",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "718e9cb3-6ecc-55b6-b0d2-29d79b009ea8"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "63b3271c-3e5d-581c-8f26-8d55f1dbfa5f"
   },
   {
     "scope": {
@@ -641,29 +515,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "c5c0a45e-2f00-5852-bffa-17fa5ef858ae"
-  },
-  {
-    "scope": {
-      "component": "switch",
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "46dc3dd5-dacd-5f1b-b94b-4c42b4b14626"
-  },
-  {
-    "scope": {
-      "component": "switch",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "d69c56be-0f8e-516b-8760-92e0d94e1437"
   },
   {
     "scope": {

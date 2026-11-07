@@ -275,26 +275,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701",
-    "uuid": "f7ec461e-6ede-5f1c-b1f6-bb973abf5ebb"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "135e9ac1-67e2-510b-8054-a315a480c60c"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "e4b249d8-f15a-5f8f-b2d3-0d60aeac14b2"
   },
   {
     "scope": {
@@ -311,26 +293,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "fa3e5331-c1f9-52d6-8a0a-66f830f9f7ef"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "da16b946-8281-5327-905c-49aa8dd74bfd"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "1cbd6ef6-f531-5228-be40-22839e9ed174"
   },
   {
     "scope": {
@@ -344,29 +308,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to label)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "303959f4-f771-56e9-b7e1-3a8c40a40f8d"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-edge-to-visual-50"
     },
     "context": "Spacing (start/end edges)",
     "$ref": "e1030243-729a-4afe-a6d5-47b8e620e2ce",
     "uuid": "80d71379-b42f-597e-94ad-1620855e3494"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-edge-to-visual-50"
-    },
-    "context": "Spacing (start/end edges)",
-    "$ref": "e1030243-729a-4afe-a6d5-47b8e620e2ce",
-    "uuid": "901c2418-0f00-536b-8dd4-8be705a7b15b"
   },
   {
     "scope": {
@@ -452,15 +398,6 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-50"
-    },
-    "context": "Spacing (start/end edges)",
-    "$ref": "e1030243-729a-4afe-a6d5-47b8e620e2ce",
-    "uuid": "e0bbfd99-c050-5718-8450-8333d26f96af"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
@@ -542,29 +479,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-50"
-    },
-    "context": "Spacing (start/end edges, icon only)",
-    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
-    "uuid": "a2157a9f-e2f1-58ca-8b1d-087785b9b84b"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-edge-to-visual-only-75"
     },
     "context": "Spacing (start/end edges, icon only)",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "9ae574ca-16e2-5b59-9406-45aace2a3291"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-edge-to-visual-only-75"
-    },
-    "context": "Spacing (start/end edges, icon only)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "2ec42598-f181-58d5-8dbd-7d871901a6e5"
   },
   {
     "scope": {
@@ -578,29 +497,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-100"
-    },
-    "context": "Spacing (start/end edges, icon only)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "a782c5d7-9a15-5f3c-9e9b-4732b47ff79f"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-edge-to-visual-only-200"
     },
     "context": "Spacing (start/end edges, icon only)",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "8084cb7b-7955-5eb9-8104-199c2d83d7a0"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-edge-to-visual-only-200"
-    },
-    "context": "Spacing (start/end edges, icon only)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "ef6f4da4-e1a5-560d-be82-1c480074cee6"
   },
   {
     "scope": {
@@ -614,29 +515,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-300"
-    },
-    "context": "Spacing (start/end edges, icon only)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "0a6108b3-2349-5b3a-a61b-6e13a6e13c95"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-workflow-icon-50"
     },
     "context": "Spacing (top edge to icon)",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
     "uuid": "58b5fbab-5fbe-5d02-a434-99183946cba7"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-top-to-workflow-icon-50"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
-    "uuid": "96742e52-80bb-5443-b99d-7aba04c6d2a9"
   },
   {
     "scope": {
@@ -650,29 +533,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-75"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "1f6e99bc-c257-5136-b56d-1e237c7b23fc"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top edge to icon)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "41709fbb-e914-55a9-9509-069e1645f57b"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "ea748354-c468-5c42-b3a1-8381fec31954"
   },
   {
     "scope": {
@@ -686,29 +551,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-200"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "69ff7edb-9af8-5f2f-a43f-f87ccf2c755d"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-workflow-icon-300"
     },
     "context": "Spacing (top edge to icon)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "40f23d34-9c43-5fa4-8222-477810968f2c"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-top-to-workflow-icon-300"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "816a54a1-bb20-574d-a65f-60726a100ed6"
   },
   {
     "scope": {
@@ -722,29 +569,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-50"
-    },
-    "context": "Spacing (top edge to label)",
-    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
-    "uuid": "5cda48c6-7caf-5f1f-b57b-8a61a091bbc2"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top edge to label)",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "b6bafe60-33eb-5ed5-bcde-e537486cdc27"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "6454b170-0a08-5e5f-9c39-b8af592836fa"
   },
   {
     "scope": {
@@ -758,15 +587,6 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "c61a8643-c2a8-5364-b036-bf81c9800e26"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top edge to label)",
@@ -776,29 +596,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "067c59f3-c011-5fa9-b9f8-dec2ca98eef0"
-  },
-  {
-    "scope": {
-      "component": "action-button",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "70abdede-ed1b-5c90-8342-7bb29a47d7cf"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "0ea96b62-489a-5be0-9cbf-5e0fc50a05fa"
   },
   {
     "scope": {
@@ -851,15 +653,6 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to hold icon)",
-    "$ref": "32bdfee6-cc93-4d53-9d08-2591646d38e9",
-    "uuid": "987c5845-f04c-5c72-aa59-328ff48275de"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to hold icon)",
     "$ref": "31fe1f21-a95a-4354-b6d1-e40dc66990fb",
     "uuid": "f7f3353e-4901-5033-9f16-a51f3ae400fd"
   },
@@ -869,26 +662,8 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to hold icon)",
-    "$ref": "31fe1f21-a95a-4354-b6d1-e40dc66990fb",
-    "uuid": "36c97ee5-2fd9-5041-bc4c-42d14d35284d"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to hold icon)",
     "$ref": "5ddb3980-2cbd-41cb-9b60-2139c5ce9544",
     "uuid": "e947937e-40d7-5aa7-94b5-2cb865c7e08a"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (edge to hold icon)",
-    "$ref": "5ddb3980-2cbd-41cb-9b60-2139c5ce9544",
-    "uuid": "28f0c034-2996-5bef-889b-8b7a7bc79d24"
   },
   {
     "scope": {

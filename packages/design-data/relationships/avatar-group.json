@@ -83,29 +83,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "to-avatar-50"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701",
-    "uuid": "8fc16c79-51b6-5376-ba8a-2912ef319ed2"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
       "property": "to-avatar-75"
     },
     "context": "Spacing (avatar to avatar)",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "e6c783ca-4dce-536b-a27f-17d562b47f6a"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
-      "property": "to-avatar-75"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "35eb7261-c1e4-5fa5-a043-b04af27f62d4"
   },
   {
     "scope": {
@@ -119,29 +101,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "to-avatar-100"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "624391a5-c5e8-567c-9758-93a2c9da6452"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
       "property": "to-avatar-200"
     },
     "context": "Spacing (avatar to avatar)",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "05feb8e0-3db2-574b-bf36-cc8b5fcc8b88"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
-      "property": "to-avatar-200"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "3fc6c4e5-0d1e-5e1b-ad5e-952c9fec25e0"
   },
   {
     "scope": {
@@ -155,15 +119,6 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "to-avatar-300"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "acd0ab8d-18d2-5da0-bb86-1f77b9cb79bd"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
       "property": "to-avatar-400"
     },
     "context": "Spacing (avatar to avatar)",
@@ -173,29 +128,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "to-avatar-400"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "f3078f76-5c45-4b40-8d3c-523afcc4d2af",
-    "uuid": "b58538b8-7365-5c06-8405-211bce6ca4e4"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
       "property": "to-avatar-500"
     },
     "context": "Spacing (avatar to avatar)",
     "$ref": "dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7",
     "uuid": "b1722b35-b986-5c15-89e7-7b9274f5745a"
-  },
-  {
-    "scope": {
-      "component": "avatar-group",
-      "property": "to-avatar-500"
-    },
-    "context": "Spacing (avatar to avatar)",
-    "$ref": "dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7",
-    "uuid": "50d31834-217d-542e-ba4a-c4e59855aacf"
   },
   {
     "scope": {

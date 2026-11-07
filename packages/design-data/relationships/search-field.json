@@ -356,26 +356,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to text)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "41bca9a6-c5dc-5219-a32e-285e0e42591a"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "3e75b90b-7b02-524a-bfb1-8d2edd48189c"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "86c854bd-2070-5520-a2de-ab87096566b1"
   },
   {
     "scope": {
@@ -392,26 +374,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to text)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "7f0126e4-5992-54c3-86a7-bca9946a4ea9"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "19d843e0-73a8-5ca3-9714-4b56f8fc413a"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "6918ca64-97ed-58f7-a686-50bffc1e7dda"
   },
   {
     "scope": {
@@ -425,29 +389,11 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-75"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "0a9bfdb5-13f5-5297-a44a-fa9b123b1ca5"
-  },
-  {
-    "scope": {
-      "component": "search-field",
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top edge to icon)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "b0d95185-c11c-5a8a-b261-38791c31a7c1"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "e8752348-792e-5075-a883-f0243166db4f"
   },
   {
     "scope": {
@@ -461,29 +407,11 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-200"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "4259dc04-c1a4-543b-983e-e788f023409c"
-  },
-  {
-    "scope": {
-      "component": "search-field",
       "property": "component-top-to-workflow-icon-300"
     },
     "context": "Spacing (top edge to icon)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "99cd75c3-d72e-5a89-be4a-d53cf8e417a1"
-  },
-  {
-    "scope": {
-      "component": "search-field",
-      "property": "component-top-to-workflow-icon-300"
-    },
-    "context": "Spacing (top edge to icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "42551ea7-f5c1-55f6-a5d5-06f2c33de980"
   },
   {
     "scope": {

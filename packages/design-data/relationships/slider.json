@@ -380,29 +380,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "c589a92e-e614-5d4d-88b8-034394a6cb46"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "5f763ea6-cf5f-5c5c-8067-2ba9af924f5f"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "102e5f2a-e62e-5950-ac0b-581579fbcc09"
   },
   {
     "scope": {
@@ -416,29 +398,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "0e57064b-6635-52be-afd6-02e7aa891977"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "5987f109-4e60-5f29-b821-1ec55135977b"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "192a6768-667f-517b-ac55-95c74f285c0e"
   },
   {
     "scope": {
@@ -452,29 +416,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "2cbdbb8b-36e2-5a7a-a24a-db76efee01ae"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a7a8e8a8-fffc-57f6-bcf7-a00dcbd0c8cf"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "5d321325-85d6-5e84-a5ba-719ebf1870b3"
   },
   {
     "scope": {
@@ -488,29 +434,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "22adfce7-54da-5165-bfa2-7286d51aebea"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "2c15d2ec-27ed-5e2f-b877-a9048d18e9a2"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "c36e0947-81ce-550d-b93b-9f2fea75fc40"
   },
   {
     "scope": {
@@ -668,29 +596,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "control-to-field-label-side-small"
-    },
-    "context": "Spacing (field label to slider control)",
-    "$ref": "bd1948af-f4eb-46ed-9ab5-cbd93b5e0935",
-    "uuid": "1d71629c-9d1f-58e1-b640-38edb339520c"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "control-to-field-label-side-medium"
     },
     "context": "Spacing (field label to slider control)",
     "$ref": "06d1563b-7d67-400a-bcfa-bc320c2b7a28",
     "uuid": "0da7a89b-4a1a-5107-a392-db314803e31b"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "control-to-field-label-side-medium"
-    },
-    "context": "Spacing (field label to slider control)",
-    "$ref": "06d1563b-7d67-400a-bcfa-bc320c2b7a28",
-    "uuid": "334c446b-cebf-5df4-b215-021c7b414139"
   },
   {
     "scope": {
@@ -704,29 +614,11 @@
   {
     "scope": {
       "component": "slider",
-      "property": "control-to-field-label-side-large"
-    },
-    "context": "Spacing (field label to slider control)",
-    "$ref": "236385bb-9e50-484c-912d-a71fe33924f4",
-    "uuid": "414f6631-334e-5309-beb2-e799a21aa6c1"
-  },
-  {
-    "scope": {
-      "component": "slider",
       "property": "control-to-field-label-side-extra-large"
     },
     "context": "Spacing (field label to slider control)",
     "$ref": "c9c7652f-0332-417f-8520-e2202d7a08dc",
     "uuid": "a2cd0676-5ed6-54b9-8b43-02555399ffb6"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "control-to-field-label-side-extra-large"
-    },
-    "context": "Spacing (field label to slider control)",
-    "$ref": "c9c7652f-0332-417f-8520-e2202d7a08dc",
-    "uuid": "7a027f97-eeb4-5b07-b8b8-ea68c2a32606"
   },
   {
     "scope": {
@@ -743,26 +635,8 @@
       "property": "space-between"
     },
     "context": "Spacing (slider to field)",
-    "$ref": "bd1948af-f4eb-46ed-9ab5-cbd93b5e0935",
-    "uuid": "31a4c23f-2103-5a9f-89ea-c7dc5bbfbbab"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "space-between"
-    },
-    "context": "Spacing (slider to field)",
     "$ref": "06d1563b-7d67-400a-bcfa-bc320c2b7a28",
     "uuid": "b82ca226-cd18-5c0a-8a87-56bf3e3a8932"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "space-between"
-    },
-    "context": "Spacing (slider to field)",
-    "$ref": "06d1563b-7d67-400a-bcfa-bc320c2b7a28",
-    "uuid": "6f0259e0-e26e-5c26-b226-436364b10cba"
   },
   {
     "scope": {
@@ -779,26 +653,8 @@
       "property": "space-between"
     },
     "context": "Spacing (slider to field)",
-    "$ref": "236385bb-9e50-484c-912d-a71fe33924f4",
-    "uuid": "09d6819b-3e19-560e-9fe1-dcceb25bf542"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "space-between"
-    },
-    "context": "Spacing (slider to field)",
     "$ref": "c9c7652f-0332-417f-8520-e2202d7a08dc",
     "uuid": "29e8c7d6-f41b-57aa-86b3-7494cba38fe7"
-  },
-  {
-    "scope": {
-      "component": "slider",
-      "property": "space-between"
-    },
-    "context": "Spacing (slider to field)",
-    "$ref": "c9c7652f-0332-417f-8520-e2202d7a08dc",
-    "uuid": "8fbcfd0d-87da-5314-b057-7e40a8f6a8ad"
   },
   {
     "scope": {

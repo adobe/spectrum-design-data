@@ -86,26 +86,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "ae979965-8998-5f65-8284-47f99d18e4f3"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "f13c02f0-a444-5f14-abfa-4604f4e36e37"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d54cc8b2-f9a0-5194-98f2-f199486df419"
   },
   {
     "scope": {
@@ -122,26 +104,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "6039e57f-6752-58f2-babc-07705be42566"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "7cd44228-243a-5534-b006-7d9c4a6c68e8"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "97ac194d-ae2b-5d17-b094-49ceb794c3f3"
   },
   {
     "scope": {
@@ -275,26 +239,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "349d5866-0be2-561b-a2a4-25ab9f5eb9cb"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "180635f7-8b4d-5463-b619-1ff47b3e5921"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "3d72e78b-f532-591b-ac72-4c7aa42aeade"
   },
   {
     "scope": {
@@ -311,26 +257,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "eac1dae1-5279-5f43-8296-6263a4e43443"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "be6a00c8-9bd4-5e32-9150-7e768f5d2124"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "563c7706-7746-5da6-bb4d-4c91b75f5351"
   },
   {
     "scope": {
@@ -344,29 +272,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "9cd3d2c4-388d-59c2-a020-20407508e572"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "c8c79a48-e698-5e1a-a7be-a19b7a10cfc4"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "e72a8720-a176-5d4b-baf6-8d599a395276"
   },
   {
     "scope": {
@@ -380,29 +290,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "55a7d64f-5d57-5442-8e2e-e847dd36c85e"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "c11548b2-ad47-583c-b535-1fb577975b45"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "1d614659-7a17-5735-9c33-8378aa0ef06b"
   },
   {
     "scope": {
@@ -416,29 +308,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "f78f9e53-a40a-59f3-acc4-2e1662ea62e2"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "d7ca6b58-05b4-5387-a8e6-fbef62a65a13"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d34ed2de-7ede-58dc-89a0-9984affb69eb"
   },
   {
     "scope": {
@@ -452,29 +326,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "e17b48ab-a3a0-5873-b7e0-a6bcb090a8d4"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "3990031e-ec6f-5dd2-8911-ab321d92c010"
-  },
-  {
-    "scope": {
-      "component": "radio-button",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "9229a040-fb26-509a-9166-d016b35d616b"
   },
   {
     "scope": {

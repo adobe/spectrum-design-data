@@ -140,26 +140,8 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "020325a1-de4e-55fd-9b1d-484c4ee287e2"
-  },
-  {
-    "scope": {
-      "component": "steplist",
-      "property": "space-between"
-    },
-    "context": "Spacing (text to visual)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "85de6a7c-0e8a-5334-8d17-d179d227b00b"
-  },
-  {
-    "scope": {
-      "component": "steplist",
-      "property": "space-between"
-    },
-    "context": "Spacing (text to visual)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "7c0755a9-a458-5a94-8474-86c825b87458"
   },
   {
     "scope": {
@@ -176,26 +158,8 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "770950f7-b053-5cf3-9fec-c67194a4a58d"
-  },
-  {
-    "scope": {
-      "component": "steplist",
-      "property": "space-between"
-    },
-    "context": "Spacing (text to visual)",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "05f22117-2c93-5a29-b159-0cb6df6104e6"
-  },
-  {
-    "scope": {
-      "component": "steplist",
-      "property": "space-between"
-    },
-    "context": "Spacing (text to visual)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "898b7f66-a966-507c-a78d-a568e058073a"
   },
   {
     "scope": {

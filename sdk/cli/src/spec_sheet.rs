@@ -49,13 +49,44 @@ fn entries(v: &Value) -> Vec<&Value> {
 
 /// Token or inline relationship record for a `$ref` uuid.
 fn lookup<'a>(graph: &'a TokenGraph, uuid: &str) -> Option<&'a Value> {
-    graph.resolve_alias_key(uuid).map(|t| &t.raw).or_else(|| {
-        graph
+    graph
+        .resolve_alias_key(uuid)
+        .map(|t| &t.raw)
+        .or_else(|| {
+            graph
+                .relationships
+                .iter()
+                .find(|r| r.uuid.as_deref() == Some(uuid))
+                .map(|r| &r.raw)
+        })
+        .or_else(|| graph.relationship_set_members(uuid).first().map(|r| &r.raw))
+}
+
+/// The records a relationship shows. A `$ref` naming a mode-set group (`setUuid`) shows each
+/// member, one per scale; a record that pins a scale shows only the member for it.
+fn record_tokens<'a>(graph: &'a TokenGraph, raw: &'a Value) -> Vec<&'a Value> {
+    let Some(rf) = s(raw, "$ref") else {
+        return record_token(graph, raw).into_iter().collect();
+    };
+    if graph.resolve_alias_key(rf).is_some()
+        || graph
             .relationships
             .iter()
-            .find(|r| r.uuid.as_deref() == Some(uuid))
-            .map(|r| &r.raw)
-    })
+            .any(|r| r.uuid.as_deref() == Some(rf))
+    {
+        return lookup(graph, rf).into_iter().collect();
+    }
+    let scale = raw.pointer("/scope/options/scale").and_then(Value::as_str);
+    graph
+        .relationship_set_members(rf)
+        .into_iter()
+        .map(|r| &r.raw)
+        .filter(|m| {
+            scale.is_none_or(|sc| {
+                m.pointer("/scope/options/scale").and_then(Value::as_str) == Some(sc)
+            })
+        })
+        .collect()
 }
 
 /// The token a relationship record shows: the record its `$ref` names, or the record itself
@@ -476,81 +507,82 @@ impl Ctx<'_> {
         for r in recs {
             let scope = r.get("scope").unwrap_or(&Value::Null);
             let prop = s(scope, "property").unwrap_or("");
-            let Some(tok) = record_token(self.graph, r) else {
-                continue;
-            };
-            let inline = s(r, "$ref").is_none();
-            let states: Vec<String> = scope
-                .get("options")
-                .and_then(|o| o.get("state"))
-                .and_then(Value::as_array)
-                .map(|a| {
-                    a.iter()
-                        .filter_map(|v| v.as_str().map(String::from))
-                        .collect()
-                })
-                .unwrap_or_default();
-            let size = sizes
-                .get(prop)
-                .cloned()
-                .or_else(|| tok.get("name").and_then(|n| s(n, "size")).map(String::from));
-            let name = token_name(tok, prop);
-            let scale = tok
-                .get("name")
-                .and_then(|n| s(n, "scale").or_else(|| s(n, "colorScheme")))
-                .or_else(|| {
-                    [tok, r].iter().find_map(|v| {
-                        ["scale", "colorScheme"]
-                            .iter()
-                            .find_map(|k| v.pointer(&format!("/scope/options/{k}"))?.as_str())
+            for (i, tok) in record_tokens(self.graph, r).into_iter().enumerate() {
+                // A group expands to several members but is one record.
+                let counted = usize::from(i == 0);
+                let inline = s(r, "$ref").is_none();
+                let states: Vec<String> = scope
+                    .get("options")
+                    .and_then(|o| o.get("state"))
+                    .and_then(Value::as_array)
+                    .map(|a| {
+                        a.iter()
+                            .filter_map(|v| v.as_str().map(String::from))
+                            .collect()
                     })
-                })
-                .unwrap_or("value")
-                .to_string();
-            let concept = ["conceptId", "setUuid", "uuid"]
-                .iter()
-                .find_map(|k| s(tok, k))
-                .unwrap_or_default()
-                .to_string();
-            let value = tok.get("value").cloned().unwrap_or_else(|| {
-                let target = s(tok, "$ref").and_then(|t| lookup(self.graph, t));
-                json!({"alias": target.map(|t| token_name(t, prop))})
-            });
-            if let Some(it) = items.iter_mut().find(|i| {
-                i.size == size
-                    && i.states == states
-                    && i.name == name
-                    && i.concept == concept
-                    && i.property == prop
-            }) {
-                it.values.insert(scale, value);
-                it.records += 1;
-                continue;
+                    .unwrap_or_default();
+                let size = sizes
+                    .get(prop)
+                    .cloned()
+                    .or_else(|| tok.get("name").and_then(|n| s(n, "size")).map(String::from));
+                let name = token_name(tok, prop);
+                let scale = tok
+                    .get("name")
+                    .and_then(|n| s(n, "scale").or_else(|| s(n, "colorScheme")))
+                    .or_else(|| {
+                        [tok, r].iter().find_map(|v| {
+                            ["scale", "colorScheme"]
+                                .iter()
+                                .find_map(|k| v.pointer(&format!("/scope/options/{k}"))?.as_str())
+                        })
+                    })
+                    .unwrap_or("value")
+                    .to_string();
+                let concept = ["conceptId", "setUuid", "uuid"]
+                    .iter()
+                    .find_map(|k| s(tok, k))
+                    .unwrap_or_default()
+                    .to_string();
+                let value = tok.get("value").cloned().unwrap_or_else(|| {
+                    let target = s(tok, "$ref").and_then(|t| lookup(self.graph, t));
+                    json!({"alias": target.map(|t| token_name(t, prop))})
+                });
+                if let Some(it) = items.iter_mut().find(|i| {
+                    i.size == size
+                        && i.states == states
+                        && i.name == name
+                        && i.concept == concept
+                        && i.property == prop
+                }) {
+                    it.values.insert(scale, value);
+                    it.records += counted;
+                    continue;
+                }
+                let state_label = states
+                    .iter()
+                    .map(|x| self.labels.label("state", x))
+                    .collect::<Vec<_>>()
+                    .join(" / ");
+                let label = match (&size, states.is_empty()) {
+                    (Some(sz), true) => self.labels.label("size", sz),
+                    (Some(sz), false) => format!("{} {state_label}", self.labels.label("size", sz)),
+                    (None, true) => "Default".to_string(),
+                    (None, false) => state_label,
+                };
+                items.push(Item {
+                    inline,
+                    records: counted,
+                    concept,
+                    marker: None,
+                    label,
+                    size,
+                    states,
+                    name,
+                    uuid: s(r, "$ref").map(String::from),
+                    property: prop.to_string(),
+                    values: Map::from_iter([(scale, value)]),
+                });
             }
-            let state_label = states
-                .iter()
-                .map(|x| self.labels.label("state", x))
-                .collect::<Vec<_>>()
-                .join(" / ");
-            let label = match (&size, states.is_empty()) {
-                (Some(sz), true) => self.labels.label("size", sz),
-                (Some(sz), false) => format!("{} {state_label}", self.labels.label("size", sz)),
-                (None, true) => "Default".to_string(),
-                (None, false) => state_label,
-            };
-            items.push(Item {
-                inline,
-                records: 1,
-                concept,
-                marker: None,
-                label,
-                size,
-                states,
-                name,
-                uuid: s(r, "$ref").map(String::from),
-                property: prop.to_string(),
-                values: Map::from_iter([(scale, value)]),
-            });
         }
         items
     }

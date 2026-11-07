@@ -86,26 +86,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "ab65d309-f624-5e10-a16a-7c20b26abbdc"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "1aa4bcea-e4de-598e-9ce4-2830b30b5d57"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "4b748e7e-84a6-5fc2-88f7-18064983f075"
   },
   {
     "scope": {
@@ -122,26 +104,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to control)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "3d6e8bad-557c-561b-9326-90ccf109e4aa"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "1b67484a-47c3-5c55-be3e-b41962225c40"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to control)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "c19c374f-9f5f-5c2f-9c0a-e4b4fbca1235"
   },
   {
     "scope": {
@@ -338,26 +302,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
-    "uuid": "e70e5ac4-c776-590f-9ecf-6781e8b30950"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "d66711cb-bdfd-5428-94d9-899f18d85a3b"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
-    "uuid": "5c2a0d1a-9c31-567f-81d6-722a262955e7"
   },
   {
     "scope": {
@@ -374,26 +320,8 @@
       "property": "space-between"
     },
     "context": "Spacing (control to label)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
-    "uuid": "d05f5db6-e71d-5b61-ae86-1fe3b87ca776"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "f15dfa5d-8eb8-522c-b645-20a130426f67"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "space-between"
-    },
-    "context": "Spacing (control to label)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
-    "uuid": "8feec0ff-3d88-5c4c-9bc5-c877a2aceb8a"
   },
   {
     "scope": {
@@ -407,29 +335,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "92f3dd3e-cefc-513b-947f-32de608acf0b"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "ce1fff87-5304-5841-8215-8bd6f060574c"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "b8adb5c5-bd50-50f3-99e8-92d7b3c73f7a"
   },
   {
     "scope": {
@@ -443,29 +353,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "12fa228a-f26f-55f9-a8e3-39d46f8cd6bd"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "89024f56-8f71-5d67-b641-82c2d66ac2b9"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "0874f5c0-f36a-5dd8-8c34-1808cbb80165"
   },
   {
     "scope": {
@@ -479,29 +371,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "a1a5a2dc-1dbb-537b-b44c-e376e011e7ff"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "1757f0c4-8409-59f0-ac18-a0ccfc419009"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "d097d7fd-e14a-52b0-b224-3eecedb7ed4e"
   },
   {
     "scope": {
@@ -515,29 +389,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "7ad1444e-96b1-5ef5-9b9f-cdfe28abe15a"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "06e50ff4-90f5-5803-a77b-f16a80587a23"
-  },
-  {
-    "scope": {
-      "component": "checkbox",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "396e9d26-3227-5ff1-a916-a6e781b19c0a"
   },
   {
     "scope": {
