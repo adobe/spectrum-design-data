@@ -197,7 +197,7 @@ fn site_ships_the_table_it_was_built_with() {
 fn batch_and_compare_print_the_table_stamp() {
     let dir = tempfile::tempdir().unwrap();
     let mut t = default_table();
-    t["meta"] = json!({ "generated": "2026-11-07", "kit": "https://kit.example/x.css" });
+    t["meta"] = json!({ "kit": "https://kit.example/x.css", "generated": "2026-11-07" });
     let table = dir.path().join("stamped.json");
     std::fs::write(&table, t.to_string()).unwrap();
     let states = dir.path().join("states.json");
@@ -207,7 +207,7 @@ fn batch_and_compare_print_the_table_stamp() {
     )
     .unwrap();
     let out = dir.path().join("out");
-    let stamp = "text metrics: generated=2026-11-07, kit=https://kit.example/x.css";
+    let stamp = "text metrics: generated=2026-11-07";
     dd(&[
         "render",
         "--batch",

@@ -134,7 +134,7 @@ design-data render-compare --scenes <dir> --measured <measured.json>   # prints 
   `--out` is `.cache/text-metrics/` (git-ignored); a test fails if a tracked JSON file holds
   a table from another font. Do not upload it as a CI artifact or ship it in a deployed site.
 * **Stamp.** The file has `meta: { generated, kit, family, test700At14px }`.
-  `render --batch` prints it and records it in `index.json`; `render-compare` prints it.
+  `render --batch` prints it and records it in `index.json`; `render-compare` prints it. The printed and recorded stamp leaves out the kit URL; the table file keeps it.
   Chrome measured `Test` at 700 and 14 px as 23.673 px on macOS and 23.665 on Linux, so a
   change of more than a few hundredths means the font changed.
 * **Needs** system Chrome and network access to the kit. The opt-in live check runs with

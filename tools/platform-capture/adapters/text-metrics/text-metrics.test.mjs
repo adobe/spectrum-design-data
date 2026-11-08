@@ -54,7 +54,7 @@ const stubDom = (loaded = true) => {
         measureText: (s) => ({ width: width(s, size) }),
       }),
     }),
-    fonts: { load: async () => (loaded ? [{ status: "loaded" }] : []) },
+    fonts: { load: async () => (loaded ? [{ status: "loaded" }] : []), check: () => loaded },
   };
 };
 
@@ -64,7 +64,7 @@ test.serial("measureInPage returns 1/1000 em advances, rounded kerning and the 1
   t.is(r.weights[400].adv.length, N);
   t.true(r.weights[400].adv.every((a) => a === 500));
   t.deepEqual(r.weights[700].kern, { To: -50 });
-  t.is(r.test700At14px, 28 - 0);
+  t.is(r.test700At14px, 28);
 });
 
 test.serial("measureInPage fails when the font does not load", async (t) => {
@@ -84,7 +84,9 @@ test("the default output is git-ignored", (t) => {
   }
 });
 
-test("no tracked JSON file holds a table other than the committed Source Sans 3 default", (t) => {
+const DEFAULT_TABLE = "sdk/core/src/text-metrics/source-sans-3.json";
+
+test("the committed Source Sans 3 default is the only tracked text-metrics table", (t) => {
   let files;
   try {
     files = execFileSync("git", ["ls-files", "*.json"], { cwd: root, encoding: "utf8", maxBuffer: 1 << 28 }).split("\n").filter(Boolean);
@@ -93,22 +95,21 @@ test("no tracked JSON file holds a table other than the committed Source Sans 3 
   }
   const offenders = [];
   for (const f of files) {
-    const p = join(root, f);
-    let size;
+    if (f === DEFAULT_TABLE) continue;
+    let text;
     try {
-      size = statSync(p).size;
+      if (statSync(join(root, f)).size > 5_000_000) continue;
+      text = readFileSync(join(root, f), "utf8");
     } catch {
       continue;
     }
-    if (size > 5_000_000) continue;
-    const text = readFileSync(p, "utf8");
     if (!text.includes('"adv"')) continue;
     try {
-      const j = JSON.parse(text);
-      if (Array.isArray(j?.[700]?.adv) && j.font !== "Source Sans 3") offenders.push(f);
+      if (Array.isArray(JSON.parse(text)?.[700]?.adv)) offenders.push(f);
     } catch {}
   }
-  t.deepEqual(offenders, [], "a text-metrics table from another font is tracked; Adobe Clean widths must never be committed");
+  t.deepEqual(offenders, [], "a text-metrics table is tracked outside the Source Sans 3 default; Adobe Clean widths must never be committed");
+  t.is(JSON.parse(readFileSync(join(root, DEFAULT_TABLE), "utf8")).font, "Source Sans 3");
 });
 
 // Opt-in: loads the real kit (network, and VPN where the kit needs it).

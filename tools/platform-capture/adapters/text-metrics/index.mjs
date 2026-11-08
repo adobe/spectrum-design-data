@@ -24,8 +24,10 @@ export async function measureInPage({ family, weights, first, last }) {
   const cv = document.createElement("canvas").getContext("2d");
   const out = {};
   for (const w of weights) {
-    const faces = await document.fonts.load(`${w} 100px ${family}`);
-    if (!faces.length || faces.some((f) => f.status !== "loaded")) {
+    // Load with the measured characters, so a unicode-range split loads every subset used below.
+    const sample = String.fromCharCode(...Array.from({ length: last - first + 1 }, (_, i) => first + i));
+    const faces = await document.fonts.load(`${w} 100px ${family}`, sample);
+    if (!faces.length || faces.some((f) => f.status !== "loaded") || !document.fonts.check(`${w} 100px ${family}`, sample)) {
       throw new Error(`font '${family}' did not load at weight ${w}`);
     }
     cv.font = `${w} 1000px ${family}`;

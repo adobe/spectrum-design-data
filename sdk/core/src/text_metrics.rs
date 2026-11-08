@@ -107,14 +107,18 @@ impl TextMetrics {
         })
     }
 
-    /// The table's `meta` stamp as `key=value, ...`, or `None` for a table without one.
+    /// The table's `meta` stamp as `key=value, ...` sorted by key, or `None` for a table without
+    /// one. The kit URL (`kit`) is left out: the stamp is printed and written next to scenes that
+    /// may be shared, and the kit ID should not travel with them.
     pub fn stamp(&self) -> Option<String> {
-        let m = self.meta.as_ref().filter(|m| !m.is_empty())?;
+        let m = self.meta.as_ref()?;
         let part = |(k, v): (&String, &Value)| match v.as_str() {
             Some(s) => format!("{k}={s}"),
             None => format!("{k}={v}"),
         };
-        Some(m.iter().map(part).collect::<Vec<_>>().join(", "))
+        let mut parts: Vec<_> = m.iter().filter(|(k, _)| *k != "kit").map(part).collect();
+        parts.sort();
+        (!parts.is_empty()).then(|| parts.join(", "))
     }
 
     /// Width of `text` in px at `font_size` and CSS `weight`. Weights between two table
@@ -265,7 +269,7 @@ mod tests {
         assert_eq!(TextMetrics::parse(&plain).unwrap().stamp(), None);
         let stamped = plain.replacen(
             r#""font":"t""#,
-            r#""font":"t","meta":{"generated":"2026-11-07","testWidth700At14px":23.665}"#,
+            r#""font":"t","meta":{"kit":"https://kit.test/x.css","testWidth700At14px":23.665,"generated":"2026-11-07"}"#,
             1,
         );
         let t = TextMetrics::parse(&stamped).unwrap();
