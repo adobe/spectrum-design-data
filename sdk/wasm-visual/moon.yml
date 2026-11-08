@@ -12,6 +12,7 @@ layer: library
 language: rust
 # The slim solve-only visual engine (proposal 015, step 2). Not in .github/ci-targets.json: it
 # runs only when a task input changes, so PRs that do not touch the renderer hit the Moon cache.
+# It is listed in excludedFromCI (the CI guard requires every runInCI task to be listed).
 # Add it to the Rust job when the site loads it (step 3).
 fileGroups:
   renderer:
