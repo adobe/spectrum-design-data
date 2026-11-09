@@ -10,6 +10,24 @@ alwaysApply: true
 
 - This project has to be WCAG 2.2 AA compliant
 
+## Token and custom-value entry
+
+- Read the **Token entry contract** in `.agents/skills/component-catalog/SKILL.md`
+  before using or changing `TokenComboBox` or `DividableComboBox`.
+- Token-name/value search, list selection, direct custom typing, Enter/blur
+  acceptance, Escape cancellation and Delete/Backspace clearing are standard
+  shared capabilities. Configure the component rather than adding a Manual or
+  Custom sentinel, a second input, a token/custom switch, a local keyboard
+  handler, or another combobox implementation for these interactions.
+- Keep custom entry available while a token is selected wherever the domain
+  permits literals. Only token references receive a token badge; literals
+  retain normal Spectrum input text.
+- Put reusable missing behavior in the shared component with tests. Keep domain
+  parsing, eligibility and writes in existing owners and pass them as options
+  or callbacks. Reference-only operations and structured editors remain valid;
+  document their domain rationale instead of treating them as general entry
+  workarounds.
+
 ## Attention hierarchy
 
 - Prioritize a single focal point of high attention on a page. Refrain from adding multiple high-attention elements.
@@ -54,12 +72,21 @@ alwaysApply: true
 - 32px is the step adove 16px for padding
 - 40px is the step above 32px for padding
 
+## Top-level foundation accordions
+
+- When a foundation has System settings, place it immediately above Mode sets in the same top-level `FoundationModeSettings` accordion. Never nest it inside a section, card, another accordion, or `NestedPanelAccordion`.
+- Pass a foundation-specific `<AccordionItem id="system-settings">` through `FoundationModeSettings`'s `before` prop, as Opacity and Typography do. Color's shared settings already use this position.
+- Let `FoundationModeSettings` supply the shared S2 size `M`, spacious density, and accordion appearance. Do not restyle the System settings header independently.
+- Match the existing settings content inset: remove padding from `AccordionItemPanel` and use an inner layout with 8 px horizontal padding.
+- If a foundation panel owns `FoundationModeSettings`, do not also mount it around that panel in `src/pages/Foundations.tsx`.
+- Keep `tests/foundation-panel-layout.ts` passing when adding or moving foundation settings.
+
 ## Nested panel accordions
 
 - Use `NestedPanelAccordion` from `src/components/NestedPanelAccordion.tsx` for accordions inside foundation panel sections or cards.
 - It keeps the S2 accordion small and quiet, with `layer-1` background, `lg` corners and 8 px padding on the accordion root, including the collapsed header.
 - Keep `AccordionItemPanel` free of duplicate nested background, corner and padding styles. Use an inner layout for field spacing.
-- Keep top-level foundation accordions unchanged. Native S2 item composition and expansion props remain available through the wrapper.
+- Reserve this wrapper for nested controls, not top-level System settings or Mode sets. Native S2 item composition and expansion props remain available through the wrapper.
 
 ## Foundation cards
 

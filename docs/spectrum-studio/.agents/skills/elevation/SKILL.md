@@ -16,15 +16,19 @@ export). Roadmap: EPIC-1.6 (planned in the roadmap table although the foundation
 - One scale per document: a UUID `id`, a Registry `name` (`TaxonomyNameReference`), `below` and `above`
   level counts, `depth` (0 to 200 %), an opaque `color`, optional `hideFromPublishing`.
 - Up to 8 `layers` (`ELEVATION_LAYER_MAX`), each a random UUID `id`, a unique `label`, a `scaleTypeId`
-  (Power or Linear, the locked formulas in `formulas.ts`), `base` blur, `scale` and `opacity` (0 to 100 %).
+  (Power or Linear, the locked formulas in `formulas.ts`), `base` blur, `scale` and
+  exactly one opacity input: `opacityTokenId`, `manualOpacity` (0 to 1), or
+  historical `opacity` (0 to 100 %, compatibility only).
   Linear layers must not produce negative blur at the smallest level.
-- Opacity belongs to each layer; the shared color must be opaque (`isOpaqueShadowColor`).
+- Each layer owns its opacity reference or manual fraction; the shared color
+  must be opaque (`isOpaqueShadowColor`).
 - `elevationIssues` returns readable problems and `isElevationDocument` accepts only a document with
   none. Use them rather than writing new checks.
 
 ## Generation (`generate.ts`)
 
-`generateElevation(document, formulas, colorOutput?)` is the only path. For each level and layer it
+`resolveElevationDocument` resolves opacity token references through `resolveOpacity`
+before `generateElevation(document, formulas, colorOutput?)`. For each level and layer generation
 takes the blur from the layer's formula, sets the vertical offset to blur times depth, fixes X offset
 and spread at 0, and applies the layer opacity to the shadow color (serialized with the user's color
 output format). `shadowCss` joins the layers into one value, or `none` with no layers. Preview, tokens,
@@ -33,14 +37,30 @@ from `scales/stepNames`.
 
 ## Modes (`resolution.ts`)
 
-`resolveElevationDocument(document, modes, sets, preview)` applies mode values, then preview overrides.
+`resolveElevationDocument(document, modes, sets, preview, opacitySource)` applies mode values, then preview overrides.
 It ignores a set's default mode and only the set that owns each capability applies.
 
 - **Dials**: `elevation.depth` and `elevation.color` are real parameters in `FOUNDATION_PARAMETERS`
   (edited through `updateElevationModeParameterAtom`). Neither is bindable to a formula part yet.
-- **Per-layer opacities** (`elevation.layerOpacities`, capability only) are a sparse per-mode patch
-  keyed by layer id. This is not a dial. See debt DEBT-028: it stands in for an opacity system that does
-  not exist yet.
+- **Opacity:** `opacityTokenId` follows the Opacity foundation's final value in
+  the selected modes and preview. `manualOpacity` remains fixed. Historical
+  per-layer mode patches are upgraded by `edit-session/opacityUpgrade.ts`;
+  do not add new patches.
+
+## Opacity entry
+
+Use `panels/elevation/ShadowOpacityControls.tsx` and the shared `TokenComboBox`
+contract in `component-catalog`. One field supports token-name/value search,
+list selection and direct percentage entry. Keep `customValue` available when
+a reference is selected. `3` and `3%` mean three percent, stored as `0.03`;
+0% and 100% are valid. Token references use badges; custom percentages use
+normal Spectrum input text.
+
+Do not add a “Manual percentage” option, a second NumberField, or local
+token-deletion handling. The shared component owns acceptance and clearing.
+Opacity is required: deleting a token opens an empty replacement draft without
+writing an invalid layer. Write through `updateShadowLayerAtom`, which preserves
+the exclusive reference/manual input and existing validation.
 
 ## Tokens and CSS (`output.ts`)
 
@@ -65,8 +85,8 @@ intended edit-time validation.
 
 Open items are in `docs/known-debt.md`. Follow Working rule 5 in `AGENTS.md`. Do not copy:
 
-- Per-mode opacity patches (DEBT-028). Opacity should come from a future opacity system with its own
-  dials, which shadows reference. Do not add more per-mode structural patches.
+- Historical per-mode opacity patches. Use current Opacity foundation references
+  rather than adding structural patches.
 - Level ids built from document id and index (`elevation-{documentId}-{index}`): new identities follow
   the design-data UUID guidelines (`tokens`, DEBT-017).
 - Throwing from generation or restore for stored data (DEBT-029). Return issues.
@@ -75,6 +95,7 @@ Open items are in `docs/known-debt.md`. Follow Working rule 5 in `AGENTS.md`. Do
 ## Checks
 
 `test:elevation` and `tests/shadow-artifacts.ts` (run the file directly; there is no package script);
+`test:token-combobox` and `tests/elevation-opacity.ts` cover shared entry and opacity propagation;
 `test:mode-combinations` and `test:modes` for mode behavior; `test:changelog`, `test:impact` and
 `pnpm check:changelog-coverage` when persisted data changes. Browser: `elevation.spec.ts`, with
 `pageerror` asserted empty (`verify-change`). `test:elevation` is listed as failing in the sandbox

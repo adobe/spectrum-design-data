@@ -6,6 +6,8 @@ Canonical instructions for every AI tool in this repository. `CLAUDE.md` files o
 
 Shared rules and skills live in `.ai/` (see [.ai/README.md](.ai/README.md)). Edit them there, then run `pnpm ai:sync`. Never edit `.github/instructions/`, `.cursor/rules/`, or the `.claude/`/`.cursor/` symlinks by hand.
 
+For sessions doing **Spectrum Studio** work, read [Studio's instructions](docs/spectrum-studio/AGENTS.md) and perform the [Studio startup check](.ai/rules/spectrum-studio-upgrades.md) before editing. This fetch-and-report check does not authorize a rebase. It does not apply to sessions working only on other projects.
+
 ## Repository Rules
 
 * **pnpm\@10.17.1** only (never npm or yarn); **moon** for tasks (`moon run <project>:<task>`, `moon query projects`); **AVA** for JS tests; Node 22.12 toolchain (packages support >=20.12); ESM throughout.
@@ -76,6 +78,8 @@ cp -rf source dest          # NOT: cp -r source dest
 * `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
 ## Session Completion
+
+**Studio upgrade exception:** use the skill's pinned-target rebase procedure, not the generic `git pull --rebase` below. The startup check and upgrade workflow do not authorize commits, pushes, or force pushes. Publishing requires the user's explicit authorization.
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
 

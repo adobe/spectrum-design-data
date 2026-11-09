@@ -119,6 +119,15 @@ sources are currently untested (`tests/impact.ts` uses synthetic records).
 - Source resets must preserve unrelated edits. Generated resets need an
   explicit supported override. Never reset by display name; use the `id` or
   `conceptId`. Never guess a source or bypass a formula lock.
+- Clearing token overrides must retain publication identity metadata, including
+  the `sourceId`, `conceptId`, and allocated row UUIDs for inactive output. Use
+  `resetTokenEdit` in `tokens/canonicalIdentity.ts` for individual and bulk token
+  resets rather than deleting the whole edit record. A full reset to shipped
+  defaults is separate and restores the shipped identities.
+- Test that individual and bulk override resets remove the intended edits
+  without changing publication IDs or breaking component and alias references.
+  Identity metadata alone must not count as a manual edit, a Changes item, or
+  changed Token impact.
 - Mode-specific values: `modeSets` compares twice (as a set and per mode).
   Prune mode values on reset when layers are removed.
 - Collections also compare document-level fields outside the collection.

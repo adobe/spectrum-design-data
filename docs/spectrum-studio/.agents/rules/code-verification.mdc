@@ -17,12 +17,37 @@ checks. The short version:
    if types or exports changed.
 2. **When a feature is complete:** run `pnpm lint` once, and `pnpm build` once
    if build, bundling, or data-vis inputs changed.
-3. **Slow checks** (Playwright, performance chains, `test:data-vis`,
-   `test:prioritized-work`) run only when the change touches what they cover or
-   the user asks. Run each at most once, at the end.
-4. Fix every error the checks report before calling the task complete, then
-   re-run only the failing check.
+3. **Browser checks:** prefer non-browser tests. UI or story changes do not
+   automatically require a browser run. If needed, common interaction and
+   rendering checks run only in isolated Storybook stories.
+4. **App-browser permission:** before Playwright, browser canvas or manual
+   checks on actual app pages, ask the user. Explain why isolated Storybook
+   coverage is insufficient and name the proposed scenario. General approval
+   to implement or verify is not permission. If the user is unavailable, skip
+   the app check and report the gap.
 5. In the final message, list the checks run (with results) and the relevant
    checks skipped (with the reason).
+
+Performance chains, `test:data-vis` and `test:prioritized-work` run only when
+the change touches what they cover or the user asks, once at the end.
+Fix errors caused by the change, then rerun only the failing check. Report
+pre-existing or unconfirmed failures without expanding into unrelated fixes.
+
+## Search and resource limits
+
+- Search only `docs/spectrum-studio/` and, when needed, source `packages/`.
+  Never search dependencies, vendor files, caches, generated output, reports
+  or `.git`. Read explicitly named instruction files directly.
+- Default to one scoped search. Never exceed 10 concurrent ripgrep processes
+  across the task and delegated work; this includes tools and shell wrappers.
+  Use `--threads 1` for shell `rg`.
+- Run one resource-heavy job at a time. Do not overlap builds, tests, type
+  checks, browser runners or baseline preparation. Browser tests use
+  `--workers=1`; reuse an appropriate existing server.
+- Protect the user's device, not just task throughput. On stalls or
+  sluggishness, stop task-owned work and ask before retrying. Do not launch
+  more jobs, duplicate servers or repository copies to work around the issue.
+- Ask before costly baseline work. If it is not approved, report uncertainty
+  rather than treating more verification as mandatory.
 
 Use `pnpm`, not `npm`.
