@@ -9,6 +9,7 @@ export function ColorHandle({
   valueNow = 0,
   valueMin,
   valueMax,
+  valueText,
   orientation,
   ariaLabel = "Selected color",
   isDragging,
@@ -24,6 +25,7 @@ export function ColorHandle({
   valueNow?: number;
   valueMin?: number;
   valueMax?: number;
+  valueText?: string;
   orientation?: "horizontal" | "vertical";
   ariaLabel?: string;
   isDragging: boolean;
@@ -47,6 +49,7 @@ export function ColorHandle({
       aria-valuenow={valueNow}
       aria-valuemin={valueMin}
       aria-valuemax={valueMax}
+      aria-valuetext={valueText}
       aria-orientation={orientation}
       aria-label={ariaLabel}
       onFocus={() => setIsFocused(true)}

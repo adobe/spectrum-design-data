@@ -448,7 +448,7 @@ export function ColorPickerContents({
             if (event.key === "Enter") {
               event.preventDefault();
               finishHexEdit();
-            }
+            } else event.continuePropagation();
           }}
           validationBehavior="aria"
           isInvalid={activeHexDraft?.isInvalid ?? false}

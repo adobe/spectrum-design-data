@@ -21,6 +21,7 @@ export interface ValuePreviewProps extends PreviewTextOptions {
   fillSurface?: boolean;
   children?: ReactNode;
   opacitySurface?: ElementsSurfaceStyle;
+  compact?: boolean;
 }
 
 function OpacityShape({
@@ -65,6 +66,7 @@ export function ValuePreview({
   fillSurface = false,
   children,
   opacitySurface,
+  compact = false,
   ...textOptions
 }: ValuePreviewProps) {
   const presentation = valuePreviewPresentation(preview, textOptions);
@@ -96,7 +98,7 @@ export function ValuePreview({
   const isIcon = kind === "icon-color" || kind === "icon-size";
   return (
     <span
-      className={`valuePreview${large ? " valuePreviewLarge" : ""}${fillSurface ? " valuePreviewFillSurface" : ""}`}
+      className={`valuePreview${large ? " valuePreviewLarge" : ""}${compact ? " valuePreviewCompact" : ""}${fillSurface ? " valuePreviewFillSurface" : ""}`}
       data-value-preview={kind}
       data-preview-unavailable={error ? true : undefined}
       role={label ? (children ? "group" : "img") : undefined}

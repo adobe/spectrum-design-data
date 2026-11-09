@@ -15,6 +15,10 @@
   padding: 16px;
   justify-content: center;
 }
+.valuePreviewCompact {
+  width: auto;
+  min-width: 24px;
+}
 .valuePreviewFillSurface {
   position: absolute;
   inset: 0;
