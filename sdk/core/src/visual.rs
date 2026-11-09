@@ -38,6 +38,8 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "direction",
             "align",
             "justify",
+            "width",
+            "minWidth",
             "height",
             "paddingInlineStart",
             "paddingInlineEnd",
@@ -65,6 +67,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "color",
             "width",
             "height",
+            "grow",
             "cornerRadius",
             "fill",
             "stroke",
@@ -89,6 +92,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "fontSize",
             "fontWeight",
             "lineHeight",
+            "grow",
         ],
     ),
     ("ring", &["stroke", "strokeWidth", "gapToParent"]),
@@ -132,6 +136,8 @@ pub struct RenderRequest {
     /// Mode context, e.g. `colorScheme` → `light`, `scale` → `desktop`.
     pub mode: HashMap<String, String>,
     pub label: String,
+    /// Demo width in px: replaces the root's `width` (the root's `minWidth` still applies).
+    pub width: Option<f64>,
     /// Replaces the icon of every part whose `icon` has `content: true`, or hides it.
     pub icon: Option<IconOverride>,
     /// Replaces the default text-measurement table (the `textMetrics` request field).
@@ -582,13 +588,24 @@ pub(crate) const OPTION_STATES: &[(&str, &str)] =
 /// relationship's `options` become name fields, so `size`, `scale` and `state` filter them;
 /// a true boolean option in `OPTION_STATES` adds its state.
 fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::TokenRecord> {
+    let of_component = |r: &crate::graph::RelationshipRecord| {
+        r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
+    };
+    // Values another component owns but this one's relationships point at (accordion widths
+    // are `field` widths).
+    let referenced: std::collections::HashSet<&str> = graph
+        .relationships
+        .iter()
+        .filter(|r| of_component(r))
+        .filter_map(|r| r.raw.get("$ref").and_then(Value::as_str))
+        .collect();
     graph
         .relationships
         .iter()
         .filter(|r| {
             r.raw.get("value").is_some()
                 && r.raw.get("$ref").is_none()
-                && r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
+                && (of_component(r) || r.uuid.as_deref().is_some_and(|u| referenced.contains(u)))
         })
         .map(|r| {
             let scope = r.raw.get("scope");
@@ -1409,7 +1426,11 @@ impl Ctx<'_> {
             .and_then(Value::as_str)
             .map(String::from);
         if let Some(v) = chosen.get("value") {
-            return value_to_string(v).map(|value| Resolved {
+            let literal = match v {
+                Value::Bool(b) => Some(b.to_string()),
+                v => value_to_string(v),
+            };
+            return literal.map(|value| Resolved {
                 value,
                 token: String::new(),
                 relative_to,
@@ -1919,6 +1940,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
 
     let height = rp(&mut cx, root, "height");
+    let root_width = rp(&mut cx, root, "width");
+    let min_width = rp(&mut cx, root, "minWidth");
     let pad_s = rp(&mut cx, root, "paddingInlineStart");
     let pad_e = rp(&mut cx, root, "paddingInlineEnd");
     let pad_bs = rp(&mut cx, root, "paddingBlockStart");
@@ -1942,6 +1965,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     for (n, r) in [
         ("stroke", &stroke),
         ("strokeWidth", &stroke_w),
+        ("width", &root_width),
+        ("minWidth", &min_width),
         ("height", &height),
         ("paddingInlineStart", &pad_s),
         ("paddingInlineEnd", &pad_e),
@@ -1953,7 +1978,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     ] {
         track(&mut container_tokens, n, r);
     }
-    let [m_height, m_pad_s, m_pad_e, m_pad_bs, m_pad_be, m_gap, m_radius] = [
+    let [m_width, m_min_width, m_height, m_pad_s, m_pad_e, m_pad_bs, m_pad_be, m_gap, m_radius] = [
+        ("width", &root_width),
+        ("minWidth", &min_width),
         ("height", &height),
         ("paddingInlineStart", &pad_s),
         ("paddingInlineEnd", &pad_e),
@@ -1964,6 +1991,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     ]
     .map(|(n, r)| token_ref(n, r));
     let explicit_h = height.as_ref().and_then(Resolved::num);
+    let fixed_w = req
+        .width
+        .filter(|w| w.is_finite() && *w > 0.0)
+        .or_else(|| root_width.as_ref().and_then(Resolved::num));
+    let min_w = min_width.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let block_padded = pad_bs.is_some() || pad_be.is_some();
     let pad_bs = pad_bs.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_be = pad_be.as_ref().and_then(Resolved::num).unwrap_or(0.0);
@@ -2008,6 +2040,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
         row: Option<Row>,
+        auto_w: bool,
+        grow: f64,
     }
     // A flowed box with a bound `direction` lays its children out in a row. Items keep their
     // outer size (a text part includes its padding) and the offset of the node inside it.
@@ -2017,12 +2051,14 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         oh: f64,
         ox: f64,
         oy: f64,
+        grow: f64,
     }
     struct Row {
         items: Vec<RowItem>,
         align: String,
         gap: f64,
         pad_s: f64,
+        pad_e: f64,
         pad_bs: f64,
         pad_be: f64,
     }
@@ -2066,6 +2102,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             radius: None,
             tokens,
             row: None,
+            auto_w: false,
+            grow: 0.0,
         };
         match kind {
             "box" => {
@@ -2074,6 +2112,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 track(&mut c.tokens, "width", &w);
                 track(&mut c.tokens, "height", &bh);
                 c.w = w.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                c.auto_w = w.is_none();
+                let g = rp(&mut cx, part, "grow");
+                c.grow = grow_share(&g);
                 c.h = bh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
                 c.radius = rp(&mut cx, part, "cornerRadius");
                 track(&mut c.tokens, "cornerRadius", &c.radius);
@@ -2161,6 +2202,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                         node.color = color.map(|c| c.value);
                         let (ow, oh);
                         let (mut ox, mut oy) = (0.0, 0.0);
+                        let grow = if matches!(nkind, "text" | "box") {
+                            grow_share(&rp(&mut cx, np, "grow"))
+                        } else {
+                            0.0
+                        };
                         match nkind {
                             "icon" => {
                                 node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(16.0);
@@ -2249,6 +2295,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             oh,
                             ox,
                             oy,
+                            grow,
                         });
                     }
                     let sum = items.iter().map(|i| i.ow).sum::<f64>()
@@ -2265,6 +2312,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                         align: ralign,
                         gap: rgap,
                         pad_s: pads[0],
+                        pad_e: pads[1],
                         pad_bs: pads[2],
                         pad_be: pads[3],
                     });
@@ -2305,6 +2353,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 }
                 c.h = line_height(lh.as_ref(), c.font_size);
                 c.text = Some(text);
+                c.grow = grow_share(&rp(&mut cx, part, "grow"));
             }
             _ => {}
         }
@@ -2332,7 +2381,13 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         .fold(0.0, f64::max);
     let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
-    let w = pad_s + if column { widest } else { sum_w } + pad_e;
+    let content_w = pad_s + if column { widest } else { sum_w } + pad_e;
+    let w = fixed_w.unwrap_or(content_w).max(min_w);
+    if w < content_w - 1e-6 {
+        cx.diags.push(format!(
+            "width {w} is narrower than the content ({content_w}); the content overflows"
+        ));
+    }
     // An unset `height` is the content plus the block padding: the tallest flowed child in a
     // row (only when the recipe binds block padding; otherwise the 32 default), or the
     // stacked children in a column.
@@ -2411,6 +2466,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 });
             }
         };
+        add("width", m_width, (ox, oy, w, h));
+        add("width", m_min_width, (ox, oy, w, h));
         add("height", m_height, (ox, oy, w, h));
         add("padding", m_pad_s, (ox, oy, pad_s, h));
         add("padding", m_pad_e, (ox + w - pad_e, oy, pad_e, h));
@@ -2442,13 +2499,28 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             0.0
         };
     let mut gap_from: Option<f64> = None;
+    let total_grow: f64 = if column {
+        0.0
+    } else {
+        flow.iter().map(|c| c.grow).sum()
+    };
+    let free_w = (w - sum_w - pad_s - pad_e).max(0.0);
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
-        let cw = if column && c.kind == "box" && c.w == 0.0 {
+        let cw = if column && c.kind == "box" && c.auto_w {
             w - pad_s - pad_e
         } else {
             c.w
         };
+        // A growing part of a row takes its share of the space the row has left. A text part
+        // keeps its own width (the text stays at the start of the grown space).
+        let extra = if total_grow > 0.0 {
+            free_w * c.grow / total_grow
+        } else {
+            0.0
+        };
+        let adv = cw + extra;
+        let cw = if c.kind == "box" { adv } else { cw };
         let (cx0, cy0) = if column {
             (x + axis_offset(&align, w - pad_s - pad_e - cw), y)
         } else {
@@ -2477,7 +2549,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 });
             }
         }
-        gap_from = Some(if column { cy0 + ch } else { cx0 + cw });
+        gap_from = Some(if column { cy0 + ch } else { cx0 + adv });
         let row = c.row.take();
         let nested_ids: Vec<String> = parts
             .get(&c.id)
@@ -2517,12 +2589,23 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         if column {
             y += ch + gap;
         } else {
-            x += cw + gap;
+            x += adv + gap;
         }
         if let Some(row) = row {
             let inner_h = ch - row.pad_bs - row.pad_be;
             let mut rx = cx0 + row.pad_s;
+            let used = row.items.iter().map(|i| i.ow).sum::<f64>()
+                + row.gap * row.items.len().saturating_sub(1) as f64;
+            let free = (cw - row.pad_s - row.pad_e - used).max(0.0);
+            let shares: f64 = row.items.iter().map(|i| i.grow).sum();
             for mut it in row.items {
+                if shares > 0.0 && it.grow > 0.0 {
+                    let extra = free * it.grow / shares;
+                    it.ow += extra;
+                    if it.node.kind == "box" {
+                        it.node.w += extra;
+                    }
+                }
                 it.node.x = rx + it.ox;
                 it.node.y = cy0 + row.pad_bs + axis_offset(&row.align, inner_h - it.oh) + it.oy;
                 rx += it.ow + row.gap;
@@ -2868,6 +2951,20 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         layout,
         diagnostics: cx.diags,
     })
+}
+
+/// A part's `grow`: `true` is one share of the row's free space, a positive number is that many
+/// shares, anything else (or unset) does not grow.
+fn grow_share(r: &Option<Resolved>) -> f64 {
+    match r.as_ref().map(|r| r.value.trim()) {
+        Some("true") => 1.0,
+        Some(v) => v
+            .parse()
+            .ok()
+            .filter(|n: &f64| n.is_finite() && *n > 0.0)
+            .unwrap_or(0.0),
+        None => 0.0,
+    }
 }
 
 /// A root layout keyword (`direction`, `align`, `justify`): the first allowed value is the
@@ -3304,6 +3401,157 @@ mod tests {
                 "a": box_("20", "10"), "b": box_("40", "30")
             }
         })
+    }
+
+    fn lit(v: Value) -> Value {
+        serde_json::json!({ "value": v })
+    }
+
+    /// A row root (padding 10, gap 4) of boxes `a` (w 20), `b` (w 40) and `c` (w 10).
+    fn width_recipe(root: Value, grow_a: Value, grow_c: Value) -> Value {
+        let mut p = serde_json::json!({
+            "height": lit(30.into()),
+            "paddingInlineStart": lit(10.into()),
+            "paddingInlineEnd": lit(10.into()),
+            "gap": lit(4.into()),
+        });
+        for (k, v) in root.as_object().unwrap() {
+            p[k] = lit(v.clone());
+        }
+        let child = |w: u32, g: Value| {
+            let mut props = serde_json::json!({ "width": lit(w.into()), "height": lit(10.into()) });
+            if !g.is_null() {
+                props["grow"] = lit(g);
+            }
+            serde_json::json!({ "kind": "box", "props": props })
+        };
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["a", "b", "c"], "props": p },
+                "a": child(20, grow_a), "b": child(40, Value::Null), "c": child(10, grow_c)
+            }
+        })
+    }
+
+    fn solve_width(recipe: &Value, width: Option<f64>) -> Scene {
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.width = width;
+        build_scene(&g, recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn the_root_width_follows_width_min_width_and_the_request() {
+        let none = Value::Null;
+        let w = |root: Value, req: Option<f64>| {
+            let s = solve_width(&width_recipe(root, none.clone(), none.clone()), req);
+            (s.nodes[0].w, s.diagnostics)
+        };
+        // Hug: padding + children + gaps.
+        assert_eq!(w(serde_json::json!({}), None), (98.0, vec![]));
+        // minWidth wider than the content wins; narrower than the content does nothing.
+        assert_eq!(w(serde_json::json!({ "minWidth": 120 }), None).0, 120.0);
+        assert_eq!(w(serde_json::json!({ "minWidth": 50 }), None).0, 98.0);
+        // A wider width is the outer width, padding inside it.
+        assert_eq!(
+            w(serde_json::json!({ "width": 150 }), None),
+            (150.0, vec![])
+        );
+        // A narrower width does not clip: it reports the overflow.
+        let (narrow, d) = w(serde_json::json!({ "width": 60 }), None);
+        assert_eq!(narrow, 60.0);
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert!(d[0].contains("overflows"), "{d:?}");
+        // minWidth lifts a too-narrow width back over the content: no overflow.
+        assert_eq!(
+            w(serde_json::json!({ "width": 60, "minWidth": 100 }), None),
+            (100.0, vec![])
+        );
+        // The request width overrides the recipe width but not minWidth.
+        assert_eq!(w(serde_json::json!({ "width": 150 }), Some(200.0)).0, 200.0);
+        assert_eq!(w(serde_json::json!({}), Some(200.0)).0, 200.0);
+        assert_eq!(
+            w(
+                serde_json::json!({ "width": 150, "minWidth": 110 }),
+                Some(80.0)
+            )
+            .0,
+            110.0
+        );
+        // A request width that is not a positive number is ignored.
+        assert_eq!(w(serde_json::json!({ "width": 150 }), Some(0.0)).0, 150.0);
+    }
+
+    #[test]
+    fn growing_parts_split_the_space_left_after_fixed_parts_gaps_and_padding() {
+        let at = |s: &Scene, id: &str| {
+            let n = part(s, id).unwrap();
+            (n.x - 8.0, n.w)
+        };
+        // Free: 200 - 20 padding - (20 + 40 + 10) - 8 gaps = 102, split 51 / 51.
+        let s = solve_width(
+            &width_recipe(
+                serde_json::json!({ "width": 200 }),
+                true.into(),
+                true.into(),
+            ),
+            None,
+        );
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        assert_eq!(at(&s, "a"), (10.0, 71.0));
+        assert_eq!(at(&s, "b"), (85.0, 40.0));
+        assert_eq!(at(&s, "c"), (129.0, 61.0));
+        // A number is a share: 2 : 1 of 102.
+        let s = solve_width(
+            &width_recipe(serde_json::json!({}), 2.into(), 1.into()),
+            Some(200.0),
+        );
+        assert_eq!(at(&s, "a").1, 88.0);
+        assert_eq!(at(&s, "c").1, 44.0);
+        // A hugging root has no free space: nothing grows.
+        let s = solve_width(
+            &width_recipe(serde_json::json!({}), true.into(), true.into()),
+            None,
+        );
+        assert_eq!(
+            (at(&s, "a").1, at(&s, "c").1, s.nodes[0].w),
+            (20.0, 10.0, 98.0)
+        );
+        // A row that is too narrow never shrinks a part.
+        let s = solve_width(
+            &width_recipe(serde_json::json!({ "width": 60 }), true.into(), true.into()),
+            None,
+        );
+        assert_eq!((at(&s, "a").1, at(&s, "c").1), (20.0, 10.0));
+        assert_eq!(s.diagnostics.len(), 1);
+    }
+
+    #[test]
+    fn a_growing_text_keeps_its_width_and_the_next_part_moves_to_the_row_end() {
+        let (g, _) = load();
+        let recipe = |grow: bool| {
+            let mut t = serde_json::json!({ "fontSize": lit(14.into()) });
+            if grow {
+                t["grow"] = lit(true.into());
+            }
+            serde_json::json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": {
+                    "r": { "kind": "box", "children": ["t", "i"], "props": {
+                        "width": lit(300.into()), "height": lit(20.into()),
+                        "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) } },
+                    "t": { "kind": "text", "props": t },
+                    "i": { "kind": "box", "props": { "width": lit(16.into()), "height": lit(16.into()) } }
+                }
+            })
+        };
+        let s = |grow| build_scene(&g, &recipe(grow), &req(&[])).unwrap();
+        let (fixed, grown) = (s(false), s(true));
+        let (t, ti) = (part(&grown, "t").unwrap(), part(&grown, "i").unwrap());
+        assert_eq!(t.x, part(&fixed, "t").unwrap().x);
+        assert_eq!(t.w, part(&fixed, "t").unwrap().w);
+        assert_eq!(ti.x + ti.w, 8.0 + 300.0 - 10.0);
     }
 
     #[test]

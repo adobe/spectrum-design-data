@@ -11,7 +11,7 @@
 //! SPEC-083: visual-props-read-by-renderer
 //!
 //! Warning. A recipe may bind only the props the renderer reads for that part. The schema
-//! accepts more (`minWidth`), and the renderer ignores the
+//! accepts more (`rotation` on a box), and the renderer ignores the
 //! rest without a word. The list is `visual::READ_PROPS`, which the solver's `rp` checks in
 //! debug builds, so it cannot drift from what the solver reads.
 
@@ -86,7 +86,7 @@ mod tests {
             vec![(
                 "switch",
                 recipe(
-                    json!({ "fill": {"value": "red"}, "minWidth": {"value": 1}, "width": {"value": 4} }),
+                    json!({ "fill": {"value": "red"}, "rotation": {"value": 1}, "gapToParent": {"value": 4} }),
                     json!({ "fontSize": {"value": 12}, "opacity": {"value": 1} }),
                 ),
             )],
@@ -98,8 +98,8 @@ mod tests {
             paths,
             [
                 "/parts/l/props/opacity",
-                "/parts/r/props/minWidth",
-                "/parts/r/props/width"
+                "/parts/r/props/gapToParent",
+                "/parts/r/props/rotation"
             ]
         );
         assert!(d.iter().all(|d| d.severity == Severity::Warning));

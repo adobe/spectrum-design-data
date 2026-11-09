@@ -49,6 +49,7 @@ const roles = new Set([
   "switch",
   "checkbox",
   "textbox",
+  "spinbutton",
   "button",
   "radio",
 ]);
@@ -170,6 +171,12 @@ try {
       await page.evaluate(() => document.activeElement?.id),
       "content-label",
       `${where}: Label text label focuses its input`,
+    );
+    await page.click("#lbl-content-width");
+    assert.equal(
+      await page.evaluate(() => document.activeElement?.id),
+      "content-width",
+      `${where}: Width label focuses its input`,
     );
   };
   const check = async (path) => {

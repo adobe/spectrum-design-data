@@ -93,7 +93,7 @@ export const backend = {
     icons: Object.keys(data.icons ?? {}),
   }),
 
-  // `q` holds `name`, `size`, `scheme`, `scale`, `label`, `state` and `opt.<option>` keys.
+  // `q` holds `name`, `size`, `scheme`, `scale`, `label`, `width`, `state` and `opt.<option>` keys.
   scene: async (q) => {
     const [, metrics] = await Promise.all([loadData(), loadMetrics()]);
     const options = {};
@@ -114,6 +114,7 @@ export const backend = {
       options,
       mode: { colorScheme: scheme, scale },
       label: q.label ?? "Label",
+      width: q.width ? Number(q.width) : undefined,
       icon: iconRequest(q.icon),
     });
     const scene = JSON.parse(

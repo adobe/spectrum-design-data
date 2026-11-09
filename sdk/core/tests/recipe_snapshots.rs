@@ -206,6 +206,7 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                             label: "Label".into(),
                             icon: None,
                             text_metrics: None,
+                            width: None,
                         };
                         let label = format!(
                             "{name} [{}] size={size} state={} {scheme}/{scale}",

@@ -482,6 +482,7 @@ impl Ctx<'_> {
             label: "Label".into(),
             icon: None,
             text_metrics: self.text_metrics.cloned(),
+            width: None,
         };
         let scene = visual::build_scene_cached(self.graph, recipe, &req, &self.scenes)
             .map_err(|e| miette::miette!(e))?;

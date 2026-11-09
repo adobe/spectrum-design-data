@@ -42,6 +42,8 @@ struct BatchState {
     scale: String,
     #[serde(default = "label")]
     label: String,
+    /// Demo width in px (the request `width`); the recipe's own width when absent.
+    width: Option<f64>,
     /// `{ "set", "name" }` or `"none"`: replaces or hides the content icon.
     icon: Option<visual::IconOverride>,
     /// A `[platforms.<id>]` entry; the global `--platform` when absent.
@@ -85,6 +87,7 @@ fn derived_id(s: &BatchState) -> String {
         v => format!("{k}-{v}"),
     }));
     parts.extend(s.states.iter().cloned());
+    parts.extend(s.width.map(|w| format!("w{w}")));
     parts.push(s.color_scheme.clone());
     parts.push(s.scale.clone());
     slug(&parts.join("-"))
@@ -102,7 +105,7 @@ fn read_states(file: &Path) -> miette::Result<Vec<BatchState>> {
     }
     serde_json::from_value(v)
         .into_diagnostic()
-        .wrap_err("a batch file is an array of states (or {\"states\": [...]}): component, size, states, options, colorScheme, scale, label, platform, id")
+        .wrap_err("a batch file is an array of states (or {\"states\": [...]}): component, size, states, options, colorScheme, scale, label, width, platform, id")
 }
 
 pub fn run_batch(
@@ -163,6 +166,7 @@ pub fn run_batch(
                 label: st.label.clone(),
                 icon: st.icon.clone(),
                 text_metrics: text_metrics.clone(),
+                width: st.width,
             };
             let scene = visual::build_scene(&env.0, recipe, &req)?;
             let value = serde_json::to_value(&scene).map_err(|e| e.to_string())?;

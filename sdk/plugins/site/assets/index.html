@@ -1105,6 +1105,9 @@
           rows.push(
             `<label class="f" id="content-label-wrap"><span id="lbl-content-label">Label text</span><input type="text" id="content-label" aria-labelledby="lbl-content-label" class="content" value="${attr(start.label)}" /></label>`,
           );
+        rows.push(
+          `<label class="f" id="content-width-wrap"><span id="lbl-content-width">Width (px)</span><input type="number" id="content-width" aria-labelledby="lbl-content-width" class="content" min="1" step="1" placeholder="Hug" /></label>`,
+        );
         if (content.icon) {
           const choices = iconChoices(
             Object.fromEntries(content.icons.map((k) => [k, 1])),
@@ -1133,6 +1136,7 @@
           syncUrl();
         };
         $("content-label")?.addEventListener("input", contentChanged);
+        $("content-width").addEventListener("input", contentChanged);
         $("content-icon")?.addEventListener("change", contentChanged);
         $("controls")
           .querySelectorAll("sp-picker:not(#content-icon), sp-switch")
@@ -1172,6 +1176,7 @@
         };
         if ($("content-icon") && read($("content-icon")))
           o.icon = read($("content-icon"));
+        if ($("content-width")?.value) o.width = $("content-width").value;
         if (view.mode !== "usage" && $("state") && read($("state")))
           o.state = read($("state"));
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
@@ -1564,6 +1569,7 @@
           if (text !== undefined) $("content-label").value = text;
         }
         if ($("content-icon")) write($("content-icon"), req.icon ?? "");
+        if ($("content-width")) $("content-width").value = req.width ?? "";
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);

@@ -268,6 +268,9 @@ enum Commands {
         /// Label text for text parts
         #[arg(long, default_value = "Label")]
         label: String,
+        /// Demo width in px; replaces the recipe's root width (its minWidth still applies)
+        #[arg(long, value_name = "PX")]
+        width: Option<f64>,
         /// Content icon: SET:NAME (e.g. workflow:edit) replaces it, `none` hides an optional one
         #[arg(long, value_name = "SET:NAME|none")]
         icon: Option<visual::IconOverride>,
@@ -1296,6 +1299,7 @@ fn run_render(
     color_scheme: String,
     scale: String,
     label: String,
+    width: Option<f64>,
     icon: Option<visual::IconOverride>,
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
@@ -1340,6 +1344,7 @@ fn run_render(
         label,
         icon,
         text_metrics,
+        width,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
     for d in &scene.diagnostics {
@@ -4304,6 +4309,7 @@ fn main() -> ExitCode {
             color_scheme,
             scale,
             label,
+            width,
             icon,
             visuals_path,
             path,
@@ -4320,6 +4326,7 @@ fn main() -> ExitCode {
             color_scheme,
             scale,
             label,
+            width,
             icon,
             visuals_path,
             path,
