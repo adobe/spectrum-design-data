@@ -2117,10 +2117,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let min_w = min_width
         .as_ref()
         .and_then(|r| {
-            r.num().map(|v| match r.relative_to.as_deref() {
-                Some("height") => v * min_h.or(explicit_h).unwrap_or(32.0),
-                _ => v,
-            })
+            let v = r.num()?;
+            if r.relative_to.as_deref() != Some("height") {
+                return Some(v);
+            }
+            let basis = min_h.or(explicit_h);
+            if basis.is_none() {
+                cx.diags.push(
+                    "minWidth is relative to the height, but the root has no height or minHeight; minWidth is ignored"
+                        .to_string(),
+                );
+            }
+            basis.map(|h| v * h)
         })
         .unwrap_or(0.0);
     let block_padded = pad_bs.is_some() || pad_be.is_some();
