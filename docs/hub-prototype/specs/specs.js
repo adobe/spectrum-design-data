@@ -1,10 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 
-// Renders the generated spec sheet and changelog JSON. Every visual is drawn from the block's
-// scene; this file converts scene coordinates to screen space and draws marks, and computes no
-// layout of its own.
-
-import { renderSvg } from "./visual-runtime.js";
+// Renders the generated spec sheet and changelog JSON. Every visual is the block's pre-rendered
+// svg (`spec-sheet --svg`) with marks drawn from its scene; this file converts scene coordinates
+// to screen space, and computes no layout of its own.
 
 const esc = (s) =>
   String(s ?? "").replace(
@@ -44,7 +42,8 @@ function visual(block) {
   const ty = (BOX.height - scene.height * k) / 2;
   const X = (x) => x * k + tx;
   const Y = (y) => y * k + ty;
-  const inner = renderSvg(scene)
+  // A sheet built without --svg has no svg: draw only the marks.
+  const inner = (block.render.svg ?? "")
     .replace(/^<svg[^>]*>/, "")
     .replace(/<\/svg>$/, "");
   let o = "";
