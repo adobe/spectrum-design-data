@@ -32,8 +32,8 @@ A state declaration is a **JSON object** that appears as an element of a compone
 | `name`        | string  | REQUIRED | Kebab-case state identifier. **MUST** match the pattern `^[a-z][a-z0-9-]*$`. Used as the value of the `state` field in token name objects. |
 | `description` | string  | OPTIONAL | Plain-text description of the state's semantics and the conditions under which it is active.                                               |
 | `trigger`     | string  | OPTIONAL | `"prop"` for persistent prop-driven states; `"interaction"` for runtime interaction states. See [Trigger semantics](#trigger-semantics).   |
-| `precedence`  | integer | OPTIONAL | Resolution precedence; higher value wins when multiple non-layered states are active simultaneously. Defaults to `0` if omitted.           |
-| `layered`     | boolean | OPTIONAL | When `true`, this state composes on top of the winning non-layered state rather than competing with it. Default: `false`.                  |
+| `precedence`  | integer | OPTIONAL | Resolution precedence among active `interaction` states; higher value wins. Defaults to the canonical value for the name, else `0`.        |
+| `layered`     | boolean | OPTIONAL | **Deprecated.** Accepted for compatibility and ignored by resolvers. Resolution is per property, so no state needs to be layered.          |
 | `lifecycle`   | object  | OPTIONAL | Version lifecycle metadata for this state — see [lifecycle](#lifecycle).                                                                   |
 
 **NORMATIVE:** No properties beyond those listed above are permitted in a state declaration object. Additional fields **MUST** cause a Layer 1 schema error.
@@ -63,19 +63,17 @@ When `trigger` is omitted, the trigger type is unspecified. Validators **MAY** w
 
 ### `precedence`
 
-**OPTIONAL.** A non-negative integer indicating this state's weight in the resolution algorithm. When multiple non-layered states are simultaneously active, the state with the highest `precedence` integer wins for token selection.
+**OPTIONAL.** A non-negative integer indicating this state's weight when several `interaction` states are active at once. For a given property, the active interaction state with the highest `precedence` that defines a token for that property wins (see [Precedence and resolution algorithm](#precedence-and-resolution-algorithm)).
 
-When `precedence` is omitted, it is treated as `0`.
+When `precedence` is omitted, the [canonical default](#canonical-state-vocabulary) for the state's name applies (after alias normalization), and `0` for a custom name.
 
-**RECOMMENDED:** Components **SHOULD** declare explicit `precedence` values when two or more states could be active simultaneously, to avoid relying on declaration-order tie-breaking.
+**RECOMMENDED:** A component **SHOULD** declare `precedence` only to deviate from the canonical default, or for custom interaction states that can be active together with another interaction state. Two active interaction states with the same effective `precedence` are a tie (see the algorithm).
 
 ### `layered`
 
-**OPTIONAL.** A boolean indicating whether this state composes on top of the winning non-layered state instead of competing with it. Default: `false`.
+**DEPRECATED.** Earlier drafts let a state compose on top of a winning non-layered state. Resolution is now per property: a state whose tokens define a property already overrides lower-precedence states for that property, and leaves other properties alone. A focus ring needs no special treatment, because it is an anatomy part whose visibility is bound to the `focus` state.
 
-When `layered: true`, the state does not participate in the non-layered precedence competition. Instead, after the winning non-layered state is determined, all active `layered: true` states are applied on top of it in order of their `precedence` values (higher precedence layered states apply last / outermost).
-
-Typical use: focus ring states (`focus`, `focus-visible`) that must be visible regardless of whether the component is also in a `hover` or `selected` state.
+Schemas still accept `layered` so existing data validates. Resolvers **MUST** ignore it, and validators **SHOULD** warn when it is present.
 
 ### `lifecycle`
 
@@ -102,7 +100,7 @@ Examples:
 * `isIndeterminate: true` activates the `indeterminate` state.
 * `isReadOnly: true` activates the `read-only` state.
 
-`prop` states are typically mutually exclusive with each other in practice (a component is either disabled or selected, rarely both), but the spec permits multiple `prop` states to be simultaneously active; the precedence algorithm resolves which token set applies.
+A `prop` state selects which token set applies (for example the `selected` tokens). `prop` states are typically mutually exclusive in practice (a component is either disabled or selected, rarely both), but the spec permits several to be active; the one that matches a token's `state` array most completely applies (see the algorithm).
 
 ### `interaction` trigger
 
@@ -116,61 +114,63 @@ Examples:
 * `active` / `pressed` — active while a pointer button or key is held down.
 * `dragging` — active while a drag-and-drop gesture originating from the component is in progress.
 
-`interaction` states may overlay `prop` states (e.g. a disabled button may still receive a hover event on some platforms). When both are active, the precedence algorithm determines which token set wins, or, if the interaction state is `layered: true`, the interaction state's tokens are applied on top.
+`interaction` states act within the token set that the `prop` states select: a `selected` component that is pressed uses the tokens for `selected` plus `down` when they exist. A component that is `disabled` ignores its interaction states.
 
 ## Precedence and resolution algorithm
 
 The following algorithm is **NORMATIVE** for conforming validators and renderers that implement state-aware token resolution.
 
-**Inputs:** A set of currently active state names for a given component instance.
+**Inputs:** A set of currently active state names for a given component instance, and the property being resolved.
 
-**Algorithm:**
+**Algorithm:** Run once per property.
 
-1. Partition the active states into two groups:
-   * **Non-layered states:** states with `layered: false` (or `layered` omitted).
-   * **Layered states:** states with `layered: true`.
+1. Normalize the active state names to canonical ids using the aliases in the [canonical state vocabulary](#canonical-state-vocabulary) (for example `pressed` and `active` are `down`, and `focus` is `keyboard-focus`).
 
-2. Among non-layered states, select the **winning state**:
-   * Compare `precedence` values. The state with the highest `precedence` integer wins.
-   * If `precedence` is omitted, treat it as `0`.
-   * If two non-layered states tie on `precedence`, the state that appears **earlier** in the component's `states` array wins. **MUST** be treated as a tie; implementations **SHOULD** emit a warning (see SPEC-006 for the analogous cascade tie rule).
+2. If `disabled` is active, drop every active `interaction` state.
 
-3. Resolve tokens for the winning non-layered state. If no non-layered state is active, resolve the `default` state (or baseline tokens when no `default` state is declared).
+3. Collect the candidate tokens for the property: those whose `state` array contains only active states. A token with an empty `state` array is the default and is always a candidate.
 
-4. For each active layered state, in ascending `precedence` order (lowest first, so the highest-precedence layered state is applied last and sits outermost):
-   * Apply the layered state's tokens on top of the tokens resolved in step 3. Tokens explicitly declared for the layered state override the corresponding tokens from the non-layered resolution.
+4. Pick the candidate whose `state` array matches the most active states (specificity). A token scoped to `["selected", "down"]` beats one scoped to `["down"]` or `["selected"]` when both are active.
 
-5. The resulting merged token set is the resolved appearance for the component instance in its current state combination.
+5. If candidates tie on specificity, pick the one whose highest-`precedence` interaction state is greatest. If those tie as well, compare the next highest, and so on.
 
-**Example:** A checkbox is simultaneously `selected` (precedence 80) and `hover` (precedence 50). `focus` (precedence 60, layered) is also active.
+6. If candidates still tie, the one that appears **earlier** in source order wins. This **MUST** be treated as a tie; implementations **SHOULD** emit a warning (see SPEC-006 for the analogous cascade tie rule).
 
-* Non-layered active states: `selected` (80), `hover` (50). Winner: `selected`.
-* Layered active state: `focus`. Applied on top of `selected`.
-* Resolution: `selected` tokens, with `focus` tokens composited over them.
+7. If no candidate remains, the property falls back to the `default` state (or baseline tokens when no `default` state is declared).
+
+The result is the resolved appearance for the component instance. States that define no token for a property do not affect it, so a focus state that only binds a ring stroke never changes a fill.
+
+**Example:** A button is `hover`, `keyboard-focus` and `down` at once, with default precedences (50, 60, 70).
+
+* Fill: tokens exist for `hover`, `keyboard-focus` and `down`, so `down` (70) wins. This is pressed > focus > hover.
+* Ring stroke: only `keyboard-focus` defines it, so it applies.
+* Label color: only `hover` and `down` define it, so `down` wins.
+
+**Example:** A checkbox is `selected`, `hover` and `down`. A token scoped to `["selected", "down"]` matches two active states and beats a token scoped to `["down"]` that matches one. Specificity is compared before precedence.
 
 ## Canonical state vocabulary
 
 The following state names are defined by the cross-platform design audit and **SHOULD** be used in preference to custom names when their semantics match. Using canonical names enables cross-component tooling, documentation generation, and token audits.
 
-| Name            | Trigger     | Precedence | Layered | Semantics                                                                 |
-| --------------- | ----------- | ---------- | ------- | ------------------------------------------------------------------------- |
-| `default`       | —           | 0          | false   | No special state; baseline component appearance.                          |
-| `hover`         | interaction | 50         | false   | Pointer device is positioned over the component's interactive area.       |
-| `dragging`      | interaction | 55         | false   | A drag-and-drop gesture originating from this component is in progress.   |
-| `focus`         | interaction | 60         | true    | Component holds keyboard or programmatic focus.                           |
-| `focus-visible` | interaction | 65         | true    | Focus received via keyboard navigation; used for visible focus ring only. |
-| `active`        | interaction | 70         | false   | Pointer button or activation key is currently held down.                  |
-| `pressed`       | interaction | 70         | false   | Alias for `active`; prefer `active` for new declarations.                 |
-| `invalid`       | prop        | 75         | false   | Component value has failed validation.                                    |
-| `valid`         | prop        | 75         | false   | Component value has passed validation.                                    |
-| `selected`      | prop        | 80         | false   | Component is in a selected state (checkbox checked, tab active, etc.).    |
-| `indeterminate` | prop        | 85         | false   | Component has partial selection (tri-state checkbox mixed state).         |
-| `read-only`     | prop        | 90         | false   | Component value is visible but not editable by the user.                  |
-| `disabled`      | prop        | 100        | false   | Component is non-interactive; all user input is suppressed.               |
+| Name             | Aliases              | Trigger     | Precedence | Semantics                                                                                   |
+| ---------------- | -------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------- |
+| `default`        |                      | —           | 0          | No special state; baseline component appearance.                                            |
+| `hover`          |                      | interaction | 50         | Pointer device is positioned over the component's interactive area.                         |
+| `dragging`       |                      | interaction | 55         | A drag-and-drop gesture originating from this component is in progress.                     |
+| `keyboard-focus` | `focus`, `key-focus` | interaction | 60         | Component holds keyboard focus (focus-visible). A custom name is allowed for pointer focus. |
+| `down`           | `active`, `pressed`  | interaction | 70         | Pointer button or activation key is currently held down.                                    |
+| `invalid`        |                      | prop        | —          | Component value has failed validation.                                                      |
+| `valid`          |                      | prop        | —          | Component value has passed validation.                                                      |
+| `selected`       |                      | prop        | —          | Component is selected (checkbox checked, tab active, etc.).                                 |
+| `indeterminate`  |                      | prop        | —          | Component has partial selection (tri-state checkbox mixed state).                           |
+| `read-only`      |                      | prop        | —          | Component value is visible but not editable by the user.                                    |
+| `disabled`       |                      | prop        | —          | Component is non-interactive; interaction states are ignored.                               |
+
+`prop` states have no precedence. They select the token set through specificity (step 4 above). Precedence orders `interaction` states only.
 
 Custom state names are permitted. When a custom name is used, the state declaration object **SHOULD** include a `description` field explaining its semantics (rule SPEC-026).
 
-**NORMATIVE:** The values in the canonical vocabulary table (trigger type, precedence, layered) are **RECOMMENDED defaults**. A component declaration MAY override any of these values for a canonical state name by explicitly declaring a different value in the state declaration object. When overriding a canonical default, the `description` **SHOULD** explain the deviation.
+**NORMATIVE:** The values in the canonical vocabulary table (trigger type, precedence) are **RECOMMENDED defaults**. A component declaration MAY override any of these values for a canonical state name by explicitly declaring a different value in the state declaration object. When overriding a canonical default, the `description` **SHOULD** explain the deviation.
 
 ## Cross-reference with token name objects
 
@@ -206,54 +206,46 @@ The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to st
 
 ## Full example
 
-A complete `states` array for a checkbox component, demonstrating prop states (`selected`, `indeterminate`, `disabled`), interaction states (`hover`, `focus` with `layered: true`, `pressed`), and explicit precedence values:
+A complete `states` array for a checkbox component, demonstrating prop states (`selected`, `indeterminate`, `disabled`) and interaction states (`hover`, `keyboard-focus`, `down`). Precedence is omitted because every interaction state uses its canonical default:
 
 ```json
 "states": [
   {
     "name": "default",
     "description": "Baseline unchecked checkbox appearance.",
-    "trigger": "prop",
-    "precedence": 0
+    "trigger": "prop"
   },
   {
     "name": "hover",
     "description": "Applied while a pointer device is positioned over the checkbox.",
-    "trigger": "interaction",
-    "precedence": 50
+    "trigger": "interaction"
   },
   {
-    "name": "focus",
-    "description": "Applied while the checkbox holds keyboard or programmatic focus. Composes on top of the active non-layered state.",
-    "trigger": "interaction",
-    "precedence": 60,
-    "layered": true
+    "name": "keyboard-focus",
+    "description": "Applied while the checkbox holds keyboard focus.",
+    "trigger": "interaction"
   },
   {
-    "name": "pressed",
+    "name": "down",
     "description": "Applied while the pointer button or Space key is held down during activation.",
-    "trigger": "interaction",
-    "precedence": 70
+    "trigger": "interaction"
   },
   {
     "name": "selected",
     "description": "Applied when isSelected is true (checkbox checked).",
-    "trigger": "prop",
-    "precedence": 80
+    "trigger": "prop"
   },
   {
     "name": "indeterminate",
     "description": "Applied when isIndeterminate is true (tri-state mixed selection).",
-    "trigger": "prop",
-    "precedence": 85
+    "trigger": "prop"
   },
   {
     "name": "disabled",
     "description": "Applied when isDisabled is true. Suppresses all user input.",
-    "trigger": "prop",
-    "precedence": 100
+    "trigger": "prop"
   }
 ]
 ```
 
-In this example, if the checkbox is simultaneously `selected` (80) and `hover` (50) with `focus` (60, layered) active, the resolution is: `selected` wins the non-layered competition; `focus` tokens are then applied on top of the `selected` tokens.
+If the checkbox is `selected`, `hover` and `down` with `keyboard-focus` active, then for the box fill a token scoped to `["selected", "down"]` wins by specificity. For the ring stroke only `keyboard-focus` defines a token, so it applies. For a property that only `hover` and `keyboard-focus` define, `keyboard-focus` (60) beats `hover` (50).

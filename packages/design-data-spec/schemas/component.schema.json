@@ -391,12 +391,12 @@
         "precedence": {
           "type": "integer",
           "minimum": 0,
-          "description": "Resolution precedence; higher integer wins when multiple states are active simultaneously."
+          "description": "Resolution precedence among active interaction states; higher integer wins. Defaults to the canonical value for the state name, else 0."
         },
         "layered": {
           "type": "boolean",
           "default": false,
-          "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+          "description": "Deprecated and ignored by resolvers; see the state model."
         },
         "announce": {
           "type": "string",
