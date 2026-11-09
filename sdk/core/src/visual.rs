@@ -2428,10 +2428,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     // parts share what is left equally. With no fixed width the text hugs and never breaks.
     let gaps = gap * flow.len().saturating_sub(1) as f64;
     let mut word_overflow = false;
+    let mut fixed_over = false;
     let n_wrap = flow.iter().filter(|c| c.overflow.is_some()).count();
     if let (Some(fw), true) = (fixed_w, n_wrap > 0) {
         let inner = fw.max(min_w) - pad_s - pad_e;
-        let avail = if column {
+        let raw = if column {
             inner
         } else {
             let others: f64 = flow
@@ -2441,6 +2442,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 .sum();
             (inner - gaps - others) / n_wrap as f64
         };
+        // Padding, gaps and the other parts can leave nothing: every word then overflows.
+        fixed_over = raw < -1e-6;
+        let avail = raw.max(0.0);
         for c in flow.iter_mut().filter(|c| c.overflow.is_some()) {
             let text = c.text.clone().unwrap_or_default();
             let (fs, fwt) = (c.font_size, c.font_weight.clone());
@@ -2457,7 +2461,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             if let Some(word) = wide {
                 word_overflow = true;
                 cx.diags.push(format!(
-                    "the word '{word}' is wider than the available width ({avail}); it overflows its line"
+                    "the word '{word}' is wider than the available width ({avail:.1}); it overflows its line"
                 ));
             }
             if lines.len() > 1 {
@@ -2496,7 +2500,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
     let content_w = pad_s + if column { widest } else { sum_w } + pad_e;
     let w = fixed_w.unwrap_or(content_w).max(min_w);
-    if w < content_w - 1e-6 && !word_overflow {
+    if w < content_w - 1e-6 && (!word_overflow || fixed_over) {
         cx.diags.push(format!(
             "width {w} is narrower than the content ({content_w}); the content overflows"
         ));
@@ -3838,6 +3842,13 @@ mod tests {
         let s = wrap_scene(Some("wrap"), Some(40.0), "extraordinarily long");
         assert_eq!(s.diagnostics.len(), 1, "{:?}", s.diagnostics);
         assert!(s.diagnostics[0].contains("extraordinarily"));
+    }
+
+    #[test]
+    fn padding_that_leaves_no_width_reports_both_diagnostics() {
+        let s = wrap_scene(Some("wrap"), Some(10.0), "alpha beta");
+        assert_eq!(s.diagnostics.len(), 2, "{:?}", s.diagnostics);
+        assert!(s.diagnostics[0].contains("alpha") && s.diagnostics[0].contains("0.0"));
     }
 
     #[test]
