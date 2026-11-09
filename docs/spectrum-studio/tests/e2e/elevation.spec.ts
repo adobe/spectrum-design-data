@@ -11,6 +11,7 @@ import {
 } from "../../src/features/edit-session/storage";
 import { expectFixedChartSizing } from "./chartSizing";
 import { openTaxonomyCell } from "./taxonomyCell";
+import { resolveOpacity } from "../../src/features/opacity/generation";
 
 const errors = new WeakMap<Page, string[]>();
 test.beforeEach(({ page }) => {
@@ -280,18 +281,59 @@ test("Referenced opacity supports manual values, shared mode overrides and compl
       .locator('[data-component="ElevationEditor"]')
       .getByRole("textbox", { name: "Opacity (%)" }),
   ).toHaveCount(0);
-  const opacity = page.getByRole("combobox", { name: "Opacity", exact: true });
-  await opacity.fill("Manual");
-  await page.getByRole("option", { name: /Manual percentage/ }).click();
-  await number(page, "Opacity (%) — manual", "40");
+  const opacity = page.getByRole("combobox", { name: /^Opacity(?: |$)/ });
+  await opacity.focus();
+  await opacity.press("Delete");
+  await expect(opacity).toHaveValue("");
+  expect((await record(page)).working.elevation!.layers[0].opacityTokenId).toBe(
+    opacityId,
+  );
+  await opacity.fill("3.25%");
+  await opacity.press("Enter");
   await expect
     .poll(
       async () =>
         (await record(page)).working.elevation!.layers[0].manualOpacity,
     )
-    .toBe(0.4);
-  await opacity.fill("opacity-800");
-  await page.getByRole("option", { name: /opacity-800/ }).click();
+    .toBe(0.0325);
+  await expect(opacity).toHaveValue("3.25%");
+  await expect(page.getByRole("spinbutton", { name: /Opacity/ })).toHaveCount(
+    0,
+  );
+  await opacity.fill("40.25");
+  await opacity.press("Tab");
+  await expect
+    .poll(
+      async () =>
+        (await record(page)).working.elevation!.layers[0].manualOpacity,
+    )
+    .toBe(0.4025);
+  await opacity.fill("101%");
+  await opacity.press("Enter");
+  await expect(opacity).toHaveAttribute("aria-invalid", "true");
+  expect((await record(page)).working.elevation!.layers[0].manualOpacity).toBe(
+    0.4025,
+  );
+  await opacity.press("Escape");
+  await expect(opacity).toHaveValue("40.25%");
+  for (const percentage of ["0%", "100%"]) {
+    await opacity.fill(percentage);
+    await opacity.press("Enter");
+    await expect(opacity).not.toHaveAttribute("aria-invalid", "true");
+    await expect
+      .poll(async () => {
+        const working = (await record(page)).working;
+        const layer = working.elevation!.layers[0];
+        const levels = resolveOpacity(working, []).levels;
+        return (
+          layer.manualOpacity ??
+          levels.find((level) => level.id === layer.opacityTokenId)?.value
+        );
+      })
+      .toBe(Number.parseFloat(percentage) / 100);
+  }
+  await opacity.fill("20%");
+  await opacity.press("Enter");
   await expect
     .poll(
       async () =>

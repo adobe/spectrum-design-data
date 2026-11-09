@@ -1611,7 +1611,7 @@ for (const scope of ["filtered", "all"])
       exact: true,
     });
     const slider = dialog.getByRole("slider", {
-      name: "Text size",
+      name: "Adaptive text scaling",
       exact: true,
     });
     await slider.focus();

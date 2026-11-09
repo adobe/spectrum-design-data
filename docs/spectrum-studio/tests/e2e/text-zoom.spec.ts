@@ -39,7 +39,7 @@ test("text size adaptive control rescales the typography preview from exported C
   expect(await fontSize(page, atZero.length - 1)).toBe(atZero.at(-1)!.fontSize);
 
   await page.getByRole("button", { name: "Adaptive controls" }).first().click();
-  const slider = page.getByRole("slider", { name: "Text size" });
+  const slider = page.getByRole("slider", { name: "Adaptive text scaling" });
   await slider.focus();
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("ArrowRight");
@@ -90,7 +90,7 @@ test("editing a text scaling mode stores the zoom on that mode", async ({
     "2",
   );
 
-  const field = page.getByRole("textbox", { name: "Text size" });
+  const field = page.getByRole("textbox", { name: "Adaptive text scaling" });
   await field.fill("3");
   await field.press("Enter");
   await expect(page.locator(".typographyRampPreview")).toHaveAttribute(

@@ -380,7 +380,10 @@ test("Adaptive text size updates icon samples without changing authored Analysis
     .getByRole("button", { name: "Adaptive controls", exact: true })
     .first()
     .click();
-  const slider = page.getByRole("slider", { name: "Text size", exact: true });
+  const slider = page.getByRole("slider", {
+    name: "Adaptive text scaling",
+    exact: true,
+  });
   await slider.press("Home");
   for (let step = -4; step < 3; step++) await slider.press("ArrowRight");
   await page.keyboard.press("Escape");
@@ -417,7 +420,9 @@ test("Adaptive text size updates icon samples without changing authored Analysis
     ),
   );
   await analysis.getByRole("button", { name: /Compare$/ }).click();
-  await page.getByRole("option", { name: "Zoom steps", exact: true }).click();
+  await page
+    .getByRole("option", { name: "Adaptive text scaling steps", exact: true })
+    .click();
   await analysis.getByRole("button", { name: /Lines$/ }).click();
   await page.getByRole("option", { name: /Zoom 3/ }).click();
   await page.keyboard.press("Escape");

@@ -21,7 +21,12 @@ test.afterEach(({ page }) => {
 for (const story of [
   "components-panel--default",
   "components-token-combobox--default",
+  "components-token-combobox--literal-and-reference",
+  "components-token-combobox--required-entry",
+  "components-token-combobox--missing-entry",
+  "components-token-combobox--rejected-selection",
   "components-dividable-combobox--default",
+  "components-dividable-combobox--literal-values",
 ]) {
   test(`${story} completes its keyboard and pointer interactions`, async ({
     page,
@@ -33,6 +38,31 @@ for (const story of [
     );
   });
 }
+
+test("Token ComboBox inline entry accepts blur, matches values and cancels with Escape", async ({
+  page,
+}) => {
+  await page.goto(
+    "/iframe.html?id=components-token-combobox--inline-entry&viewMode=story",
+  );
+  const trigger = page.getByRole("button", { name: "Value", exact: true });
+  await trigger.click();
+  const input = page.getByRole("combobox", { name: "Value", exact: true });
+  await input.fill("12px");
+  await input.press("Tab");
+  await expect(trigger).toHaveText("12px");
+  await trigger.click();
+  await input.fill("invalid");
+  await input.press("Tab");
+  await expect(input).toHaveAttribute("aria-invalid", "true");
+  await input.focus();
+  await input.press("Escape");
+  await expect(trigger).toHaveText("12px");
+  await trigger.click();
+  await input.fill("24px");
+  await input.press("Enter");
+  await expect(page.getByLabel("Accepted value")).toHaveText("size-a");
+});
 
 for (const appearance of ["light", "dark"])
   for (const width of [1280, 480]) {
@@ -240,6 +270,37 @@ test("Automatic menus fit long token names; custom pixel widths override content
     .poll(async () => Math.round((await list.boundingBox())!.width))
     .toBe(256);
   expect(longWidth).toBeGreaterThan(200);
+});
+
+test("Token ComboBox supports selection and dismissal after reopening", async ({
+  page,
+}) => {
+  await page.goto(
+    "/iframe.html?id=components-token-combobox--preset&viewMode=story",
+  );
+  const field = page.getByRole("combobox", { name: /^Default size(?: |$)/ });
+  await field.focus();
+  await field.press("ArrowDown");
+  await page.getByRole("option", { name: "Fill", exact: true }).click();
+  await expect(field).toHaveValue("Fill");
+  await expect(page.getByRole("listbox")).toBeHidden();
+
+  await field.press("ArrowDown");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await field.press("Escape");
+  await expect(page.getByRole("listbox")).toBeHidden();
+  await expect(field).toHaveValue("Fill");
+
+  await field.press("ArrowDown");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page
+    .getByRole("option", { name: "size-global-200", exact: true })
+    .click();
+  await expect(page.getByRole("listbox")).toBeHidden();
+  await field.press("Tab");
+  await expect(
+    page.locator(".tokenComboBoxPrefix").getByTitle("size-global-200"),
+  ).toBeVisible();
 });
 
 test("Presets use plain text and native sections; token-only menus have no separator", async ({
