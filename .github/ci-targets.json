@@ -54,6 +54,8 @@
   "excludedFromCI": [
     "sdk-wasm-visual:build",
     "sdk-wasm-visual:test",
+    "sdk-wasm-visual:build-web",
+    "sdk-wasm-visual:browser-parity",
     "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
     "component-diff-generator:diff",

@@ -21,6 +21,7 @@ tasks:
       - "specs/**/*"
       - "/packages/design-data/changelog/**/*"
       - "/sdk/**/*.rs"
+      - "/sdk/wasm-visual/scripts/build.mjs"
       - "/sdk/plugins/site/assets/**/*"
       - "/packages/design-data/**/*"
       - "/platforms/**/*"

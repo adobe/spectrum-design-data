@@ -218,6 +218,12 @@ enum Commands {
         /// Text-measurement table written to the site and used by its renderer (default: committed Source Sans 3)
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
+        /// The slim engine's web build (`sdk/wasm-visual` `pkg/web`), copied to `engine/` (see `moon run sdk-wasm-visual:build-web`)
+        #[arg(long, value_name = "DIR", conflicts_with = "data_only")]
+        engine: Option<PathBuf>,
+        /// Write the data without the renderer; the page then shows that it has no engine
+        #[arg(long)]
+        data_only: bool,
     },
     /// Suggest candidate anatomy parts from relationships, for human review (draft)
     AnatomySuggest {
@@ -1237,7 +1243,15 @@ fn run_site(
     path: Option<PathBuf>,
     visuals_path: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
+    engine: Option<PathBuf>,
+    data_only: bool,
 ) -> miette::Result<ExitCode> {
+    if engine.is_none() && !data_only {
+        miette::bail!(
+            "the site needs the slim engine: build it with `moon run sdk-wasm-visual:build-web` and pass \
+             `--engine sdk/wasm-visual/pkg/web` (or `--data-only` to write the data without a renderer)"
+        );
+    }
     // Validate the file, then ship its text as is so the site measures what the CLI does.
     let table = match &text_metrics {
         Some(p) => {
@@ -1253,6 +1267,7 @@ fn run_site(
         &out,
         platform.as_ref(),
         table.as_deref(),
+        engine.as_deref(),
     )
     .map_err(|e| miette::miette!("{e}"))?;
     eprintln!("Wrote site for {count} component(s) to {}", out.display());
@@ -4248,7 +4263,17 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             text_metrics,
-        } => run_site(out, components, path, visuals_path, text_metrics),
+            engine,
+            data_only,
+        } => run_site(
+            out,
+            components,
+            path,
+            visuals_path,
+            text_metrics,
+            engine,
+            data_only,
+        ),
         Commands::AnatomySuggest {
             components,
             format,

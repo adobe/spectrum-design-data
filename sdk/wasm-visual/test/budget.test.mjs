@@ -12,7 +12,7 @@
 // out) solves in under 0.2 ms. Run after `node scripts/build.mjs`; `node --test test/`.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -31,7 +31,17 @@ const MAX_RAW = 300_000;
 const MAX_GZIP = 120_000;
 const MAX_SCENE_MS = 0.2;
 
-it("the wasm fits its size budget", () => {
+it("the wasm fits its size budget (node and web targets)", () => {
+  const web = new URL(
+    "../pkg/web/design_data_wasm_visual_bg.wasm",
+    import.meta.url,
+  );
+  if (existsSync(web)) {
+    const w = readFileSync(web);
+    const g = gzipSync(w, { level: 9 }).length;
+    console.log(`web wasm ${w.length} B raw, ${g} B gzip`);
+    assert.ok(w.length <= MAX_RAW && g <= MAX_GZIP, "web wasm over budget");
+  }
   const gzip = gzipSync(wasm, { level: 9 }).length;
   console.log(`wasm ${wasm.length} B raw, ${gzip} B gzip`);
   assert.ok(wasm.length <= MAX_RAW, `${wasm.length} B raw > ${MAX_RAW}`);
@@ -40,9 +50,13 @@ it("the wasm fits its size budget", () => {
 
 it("a scene solves within its latency budget", () => {
   const out = mkdtempSync(join(tmpdir(), "slim-budget-"));
-  execFileSync(cli, ["site", "--out", out], { cwd: root, stdio: "ignore" });
-  const c = JSON.parse(readFileSync(join(out, "data.json"))).compiled.button;
-  const engine = Engine.fromCompiled(JSON.stringify(c), "m|light|desktop");
+  execFileSync(cli, ["site", "--data-only", "--out", out], {
+    cwd: root,
+    stdio: "ignore",
+  });
+  const engine = new Engine(
+    readFileSync(join(out, "variants/button/m-light-desktop.json"), "utf8"),
+  );
   const requests = [
     {},
     { icon: { set: "workflow", name: "edit" } },

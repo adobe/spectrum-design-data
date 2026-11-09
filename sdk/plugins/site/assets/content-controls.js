@@ -8,27 +8,11 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-// Label text and content icon controls: which of them a component's recipe supports,
-// the choices for the icon picker, and their round trip through the URL query string.
+// Label text and content icon controls: the choices for the icon picker and their round trip
+// through the URL query string. What a recipe supports comes from data.json (`content`).
 
 export const DEFAULT_LABEL = "Label";
 export const NO_ICON = "none";
-
-const parts = (compiled) =>
-  Object.values(compiled?.variants ?? {}).flatMap((v) => Object.values(v));
-
-// What the recipe lets the demo change: `label` when a part draws text, `icon` (with
-// whether "none" is allowed) when a part holds a swappable content icon.
-export function contentSupport(compiled) {
-  const all = parts(compiled);
-  const icons = all.filter((p) => p.icon?.content);
-  return {
-    label: all.some((p) => p.kind === "text"),
-    icon: icons.length
-      ? { optional: icons.every((p) => p.icon.optional) }
-      : null,
-  };
-}
 
 // Picker choices as [value, text]; the empty value keeps the recipe's own icon.
 export function iconChoices(icons, optional) {

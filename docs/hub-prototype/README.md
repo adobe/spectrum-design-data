@@ -2,7 +2,7 @@
 
 # Hub prototype
 
-A static, data-driven component page modeled on the Spectrum Hub design. `design-data site` resolves every token binding in the visual recipes (`packages/design-data/visuals/`) at build time, and a small vanilla JS runtime lays out and draws each scene in the browser. There is no server and no WASM at runtime.
+A static, data-driven component page modeled on the Spectrum Hub design. `design-data site` resolves every token binding in the visual recipes (`packages/design-data/visuals/`) at build time, and the slim WASM engine (`sdk/wasm-visual`, the Rust solver `design_data_core::visual::solve`) lays out each scene in the browser; a small vanilla JS backend draws it. There is no server. New layout features are written once, in Rust.
 
 ```bash
 moon run hub-prototype:build        # builds the CLI and every platform into dist/
@@ -26,7 +26,7 @@ Each build's nav fetches `../platforms.json`. When it loads, the nav lists the o
 
 ## Build task
 
-`moon run hub-prototype:build` runs `build.mjs`, which builds the CLI, empties `dist/`, builds `dist/rsp/` and `dist/spios/`, writes `dist/platforms.json` and copies `landing.html` to `dist/index.html`.
+`moon run hub-prototype:build` runs `build.mjs`, which builds the CLI and the engine (`node scripts/build.mjs web` in `sdk/wasm-visual`, needs `wasm-pack` and the `wasm32-unknown-unknown` target; output `pkg/web` is never committed), empties `dist/`, builds `dist/rsp/` and `dist/spios/` (each with `--engine sdk/wasm-visual/pkg/web`), writes `dist/platforms.json` and copies `landing.html` to `dist/index.html`.
 
 ## Add a platform
 
@@ -45,13 +45,26 @@ The site is at <https://design-data-visual-render.entapp.adproto.com/>.
 ## Single build
 
 ```bash
+moon run sdk-wasm-visual:build-web   # sdk/wasm-visual/pkg/web (never committed)
 cd sdk && cargo build -p design-data-cli
-cd .. && sdk/target/debug/design-data site --out docs/hub-prototype/dist
+cd .. && sdk/target/debug/design-data site --engine sdk/wasm-visual/pkg/web --out docs/hub-prototype/dist
 ```
 
-The output is `index.html`, `backend.js`, `constraints.js`, `visual-runtime.js`, `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `text-metrics.json`, `OFL-SourceSans3.txt`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. It uses relative URLs only, so you can publish it to any static host, including a GitHub Pages project site. The page lists every component but only those with a recipe are selectable.
+The site needs the engine: without `--engine`, `design-data site` stops with a message saying how to build and pass it. `--data-only` writes everything except the renderer (for tests and data checks); the page then shows a banner that the engine is missing. The CLI does not embed the `.wasm`, so the binary stays small and nothing built is committed.
 
-`visual-runtime.js` mirrors the Rust renderer (`sdk/core/src/visual.rs`); `sdk/wasm/test/visual-runtime-parity.test.js` keeps the two in lockstep. The WASM `Dataset.renderScene` API remains for apps that need live token data.
+The output is `index.html`, `backend.js`, `constraints.js`, `content-controls.js`, `visual-runtime.js` (still used by `index.html` for drawing helpers and by the spec sheets until hck9.8), `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `variants/`, `engine/`, `text-metrics.json`, `OFL-SourceSans3.txt`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. All URLs are relative, so you can publish it to any static host, including a GitHub Pages project site or a sub-path (checked at `/a/b/rsp/`). The page lists every component but only those with a recipe are selectable.
+
+How the page renders:
+
+* `data.json` (about 113 KB, was 7.4 MB) holds the component list, options, constraints, icons, Figma names, the platform and, per component, a summary (variant keys, option defaults, whether the recipe has a label and a swappable icon).
+* `variants/<component>/<size>-<scheme>-<scale>.json` is one precompiled variant (about 74 KB, 7 KB gzip), the document `new Engine(json)` reads. `backend.js` fetches one the first time it draws that size and mode, builds an `Engine`, and keeps it.
+* `engine/` is `design_data_wasm_visual.js` plus the `.wasm` (about 297 KB raw), loaded with a dynamic `import()` on the first scene.
+* `text-metrics.json` is the table the CLI used (a `--text-metrics` file or the committed Source Sans 3 default). `backend.js` sends it as `request.textMetrics`, so labels measure as in `design-data render`. Never ship an Adobe Clean (kit) table with a hosted site.
+* A failed fetch or solve shows a red message at the top of the page.
+
+The `.wasm` is served by `serve.mjs` as `application/wasm`. Browsers need that type only for streaming compile; wasm-bindgen falls back to a plain compile with a console warning on any other type. The adt host's header is not verified yet; check it on the first redeploy (`curl -I .../rsp/engine/design_data_wasm_visual_bg.wasm`).
+
+`visual-runtime.js` still mirrors the Rust renderer (`sdk/wasm/test/visual-runtime-parity.test.js` keeps the two in lockstep) until it is deleted in hck9.8. The site's engine is checked against `design-data render` byte for byte in headless Chrome by `moon run sdk-wasm-visual:browser-parity` (not in CI; needs Chrome). The WASM `Dataset.renderScene` API remains for apps that need live token data.
 
 ## Navigating the stage
 
