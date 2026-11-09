@@ -217,6 +217,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.9.3",
+      "version": "1.3.1",
+      "bump": "patch",
+      "date": "2026-11-09",
+      "commit": "5f38c0a00507a59c5c575dfd8efedf9ca9d92251",
+      "commits": [
+        {
+          "commit": "dc9fed67d02e83eb2d22ec710a44d5dd845b9563",
+          "date": "2026-11-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1702,"title":"feat(design-data): wrap the label in checkbox, radio-button and switch recipes","url":"https://github.com/adobe/spectrum-design-data/pull/1702"},
+          "entries": [
+            {"id":"dc9fed67-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/container","name":"container","fields":[{"path":"props.height.relationship.context","before":"Minimum height"},{"path":"props.height.relationship.property","before":"component-height-{sizeIndex}"},{"path":"props.minHeight.relationship.context","after":"Minimum height"},{"path":"props.minHeight.relationship.property","after":"component-height-{sizeIndex}"}]},
+            {"id":"dc9fed67-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/label","name":"label","fields":[{"path":"props.overflow.value","after":"wrap"}]}
+          ]
+        }
+      ]
     }
   ]
 }

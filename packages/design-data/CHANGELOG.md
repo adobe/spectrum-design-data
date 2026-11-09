@@ -1,5 +1,29 @@
 # @adobe/spectrum-design-data
 
+## 3.9.3
+
+### Patch Changes
+
+- [#1702](https://github.com/adobe/spectrum-design-data/pull/1702) [`dc9fed6`](https://github.com/adobe/spectrum-design-data/commit/dc9fed67d02e83eb2d22ec710a44d5dd845b9563) Thanks [@GarthDB](https://github.com/GarthDB)! - Checkbox, radio button and switch visual recipes: the container binds its
+  "Minimum height" relationship as `minHeight` and the label sets
+  `overflow: wrap`, so a long label wraps at a narrow width and the control stays
+  on the first line. One-line renders are unchanged.
+
+- [#1703](https://github.com/adobe/spectrum-design-data/pull/1703) [`5f38c0a`](https://github.com/adobe/spectrum-design-data/commit/5f38c0a00507a59c5c575dfd8efedf9ca9d92251) Thanks [@GarthDB](https://github.com/GarthDB)! - Accordion: the item can show its direct actions, an icon-only action button and a
+  switch, spaced by the "Spacing (section title to action area)" relationship. The
+  component gains the `hasActionButton` and `hasSwitch` options (per item in a
+  data-driven accordion: `items[].hasActionButton`, `items[].hasSwitch`) and the
+  anatomy parts `direct-actions`, `action-button` and `switch`. Renders with both
+  options off are unchanged.
+
+- [#1700](https://github.com/adobe/spectrum-design-data/pull/1700) [`2a6ccd3`](https://github.com/adobe/spectrum-design-data/commit/2a6ccd3796290fa0e4de081072d8d28556524ce7) Thanks [@GarthDB](https://github.com/GarthDB)! - Accordion visual recipe: the item's root binds `width` (the field width tokens
+  through its "Width (default)" relationship) for sizes m, l and xl, and the title
+  grows to fill the header row.
+
+- [#1701](https://github.com/adobe/spectrum-design-data/pull/1701) [`6ee52bc`](https://github.com/adobe/spectrum-design-data/commit/6ee52bc9f0e03eca4bbb063a175171b6f4e886a1) Thanks [@GarthDB](https://github.com/GarthDB)! - Badge visual recipe: the container binds its "Minimum height" relationship as
+  `minHeight` and the label sets `overflow: wrap`, so a long label wraps at a
+  narrow width and the badge grows. One-line renders are unchanged.
+
 ## 3.9.2
 
 ### Patch Changes
