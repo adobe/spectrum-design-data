@@ -2160,8 +2160,13 @@
       // ---- page chrome --------------------------------------------------------
       function renderPage() {
         document.title = `${C.displayName} · Spectrum Hub prototype`;
+        const platform = backend.platform();
+        const root =
+          platform && platform.id !== "react-spectrum"
+            ? platform.name
+            : "Web > RSP";
         $("crumb").textContent =
-          `Web > RSP > ${humanize(C.meta?.category ?? "components")}`;
+          `${root} > ${humanize(C.meta?.category ?? "components")}`;
         $("title").textContent = C.displayName;
         $("desc").textContent = C.description ?? "";
         $("blocks").innerHTML = (C.documentBlocks ?? [])
