@@ -15,7 +15,7 @@ State names appear in the `state` field of token name objects, an ordered array 
 States fall into two trigger types:
 
 * **`prop`** — set by a persistent component API property (e.g. `isDisabled`, `isSelected`). The state remains active until the property value changes.
-* **`interaction`** — set by runtime user interaction (hover, focus, pressed, dragging). The state is transient and is cleared when the interaction ends.
+* **`interaction`** — set by runtime user interaction (hover, focus, pressed). The state is transient and is cleared when the interaction ends.
 
 Full normative rules for the `states` array within a component declaration are in this document. The component declaration format is defined in [`spec/component-format.md`](component-format.md).
 
@@ -112,7 +112,6 @@ Examples:
 * `focus` — active while the component holds keyboard focus.
 * `focus-visible` — active when focus was received via keyboard navigation (not pointer).
 * `active` / `pressed` — active while a pointer button or key is held down.
-* `dragging` — active while a drag-and-drop gesture originating from the component is in progress.
 
 `interaction` states act within the token set that the `prop` states select: a `selected` component that is pressed uses the tokens for `selected` plus `down` when they exist. A component that is `disabled` ignores its interaction states.
 
@@ -132,7 +131,7 @@ The following algorithm is **NORMATIVE** for conforming validators and renderers
 
 4. Pick the candidate whose `state` array matches the most active states (specificity). A token scoped to `["selected", "down"]` beats one scoped to `["down"]` or `["selected"]` when both are active.
 
-5. If candidates tie on specificity, pick the one whose highest-`precedence` interaction state is greatest. If those tie as well, compare the next highest, and so on.
+5. If candidates tie on specificity, compare their matched interaction states by precedence. For each candidate, sort the precedence values of its matched `interaction` states from highest to lowest, then compare the two lists element by element. The first difference decides, and the candidate with the higher value wins. If one list is a prefix of the other, the longer list wins. A candidate with no matched interaction state has an empty list, so it loses to any other. For example, `["hover", "keyboard-focus"]` (60, 50) beats `["hover"]` (50) and loses to `["down"]` (70).
 
 6. If candidates still tie, the one that appears **earlier** in source order wins. This **MUST** be treated as a tie; implementations **SHOULD** emit a warning (see SPEC-006 for the analogous cascade tie rule).
 
@@ -152,21 +151,25 @@ The result is the resolved appearance for the component instance. States that de
 
 The following state names are defined by the cross-platform design audit and **SHOULD** be used in preference to custom names when their semantics match. Using canonical names enables cross-component tooling, documentation generation, and token audits.
 
-| Name             | Aliases              | Trigger     | Precedence | Semantics                                                                                   |
-| ---------------- | -------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------- |
-| `default`        |                      | —           | 0          | No special state; baseline component appearance.                                            |
-| `hover`          |                      | interaction | 50         | Pointer device is positioned over the component's interactive area.                         |
-| `dragging`       |                      | interaction | 55         | A drag-and-drop gesture originating from this component is in progress.                     |
-| `keyboard-focus` | `focus`, `key-focus` | interaction | 60         | Component holds keyboard focus (focus-visible). A custom name is allowed for pointer focus. |
-| `down`           | `active`, `pressed`  | interaction | 70         | Pointer button or activation key is currently held down.                                    |
-| `invalid`        |                      | prop        | —          | Component value has failed validation.                                                      |
-| `valid`          |                      | prop        | —          | Component value has passed validation.                                                      |
-| `selected`       |                      | prop        | —          | Component is selected (checkbox checked, tab active, etc.).                                 |
-| `indeterminate`  |                      | prop        | —          | Component has partial selection (tri-state checkbox mixed state).                           |
-| `read-only`      |                      | prop        | —          | Component value is visible but not editable by the user.                                    |
-| `disabled`       |                      | prop        | —          | Component is non-interactive; interaction states are ignored.                               |
+| Name             | Aliases                               | Trigger     | Precedence | Semantics                                                                                   |
+| ---------------- | ------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------- |
+| `default`        |                                       | —           | 0          | No special state; baseline component appearance.                                            |
+| `hover`          |                                       | interaction | 50         | Pointer device is positioned over the component's interactive area.                         |
+| `keyboard-focus` | `focus`, `focus-visible`, `key-focus` | interaction | 60         | Component holds keyboard focus (focus-visible). A custom name is allowed for pointer focus. |
+| `down`           | `active`, `pressed`                   | interaction | 70         | Pointer button or activation key is currently held down.                                    |
+| `drag-and-drop`  |                                       | prop        | —          | A drag-and-drop gesture involving this component is in progress.                            |
+| `invalid`        |                                       | prop        | —          | Component value has failed validation.                                                      |
+| `valid`          |                                       | prop        | —          | Component value has passed validation.                                                      |
+| `selected`       |                                       | prop        | —          | Component is selected (checkbox checked, tab active, etc.).                                 |
+| `indeterminate`  |                                       | prop        | —          | Component has partial selection (tri-state checkbox mixed state).                           |
+| `read-only`      |                                       | prop        | —          | Component value is visible but not editable by the user.                                    |
+| `disabled`       |                                       | prop        | —          | Component is non-interactive; interaction states are ignored.                               |
 
-`prop` states have no precedence. They select the token set through specificity (step 4 above). Precedence orders `interaction` states only.
+`prop` states have no precedence. They select the token set through specificity (step 4 above). Precedence orders `interaction` states only, and a `precedence` declared on a `prop` state is ignored.
+
+`focus-visible` was a separate state in earlier drafts. It is now an alias of `keyboard-focus`, which already means focus received through keyboard navigation.
+
+**Aliases and the registry:** the alias column is the normative synonym list. `registry/states.json` currently lists `focus` and `keyboard-focus`, and `active` and `down`, as separate entries with equal default precedence (`pressed` is an alias of `active` there). Resolvers **MUST** treat the synonyms in this table as one state (step 1) until the registry is consolidated, so equal numbers never produce a tie between two names for the same state.
 
 Custom state names are permitted. When a custom name is used, the state declaration object **SHOULD** include a `description` field explaining its semantics (rule SPEC-026).
 

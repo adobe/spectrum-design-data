@@ -109,7 +109,7 @@ The `describe_component` tool returns the component declaration object as stored
   "states": [
     { "name": "hover",    "trigger": "interaction", "precedence": 50 },
     { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
-    { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+    { "name": "disabled", "trigger": "prop" }
   ],
   "tokenBindings": [
     { "token": "component-height-100", "context": "Minimum height" },

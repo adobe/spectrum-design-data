@@ -12,3 +12,5 @@ that matches more active states wins before precedence is compared.
 state registry now carries default precedence (hover 50, focus and
 keyboard-focus 60, down and active 70), so components declare precedence only
 to deviate. The renderer does not read precedence yet (follow-up work).
+
+Button no longer declares explicit precedence or `layered`; it uses the registry defaults.

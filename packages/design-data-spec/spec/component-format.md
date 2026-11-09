@@ -311,7 +311,7 @@ See [`spec/state-model.md`](state-model.md) for the full state resolution algori
 "states": [
   { "name": "hover",    "trigger": "interaction", "precedence": 50 },
   { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
-  { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+  { "name": "disabled", "trigger": "prop" }
 ]
 ```
 
@@ -446,7 +446,7 @@ A complete button component declaration:
   "states": [
     { "name": "hover", "trigger": "interaction", "precedence": 50 },
     { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
-    { "name": "disabled", "trigger": "prop", "precedence": 100 }
+    { "name": "disabled", "trigger": "prop" }
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
@@ -479,7 +479,6 @@ A complete button component declaration:
     {
       "name": "disabled",
       "trigger": "prop",
-      "precedence": 100,
       "announce": "Button disabled",
       "communicates": "disabled",
       "blocksInteraction": true

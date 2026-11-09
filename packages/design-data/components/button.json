@@ -216,15 +216,10 @@
     "notes": "label is optional (isLabelHidden); focus-indicator is state-only; progress kept (styled by button, option-driven)."
   },
   "states": [
-    { "name": "hover", "trigger": "interaction", "precedence": 50 },
-    { "name": "down", "trigger": "interaction", "precedence": 55 },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction",
-      "precedence": 60,
-      "layered": true
-    },
-    { "name": "disabled", "trigger": "prop", "precedence": 100 }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "disabled", "trigger": "prop" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
