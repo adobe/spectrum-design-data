@@ -266,7 +266,7 @@
         align-content: start;
         background: transparent;
       }
-      .controls label.f {
+      .controls .f {
         display: grid;
         gap: 6px;
         font-size: 14px;
@@ -830,6 +830,17 @@
         readConstraints,
       } from "./constraints.js";
       const $ = (id) => document.getElementById(id);
+      // Pickers are not labelable, so a click on a row's label focuses the picker the way SWC's
+      // sp-field-label does. Gen2 renders the label inside its fields, so this goes away with it.
+      $("controls").addEventListener("click", (e) => {
+        const lbl = e.target.closest?.('span[id^="lbl-"]');
+        if (!lbl) return;
+        const ctl = lbl.parentElement.querySelector(
+          `sp-picker[aria-labelledby="${lbl.id}"]`,
+        );
+        ctl?.focus();
+        ctl?.forceFocusVisible?.();
+      });
       // A failed load or solve is shown, not left as a blank page.
       function showFatal(e) {
         const el = $("fatal");
@@ -1020,7 +1031,7 @@
         controlOpts = {};
         const rows = [];
         const picker = (id, title, values, value, extra = "") =>
-          `<label class="f ${extra}" id="${id}-wrap"><span id="lbl-${id}">${title}</span><sp-picker id="${id}" aria-labelledby="lbl-${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+          `<div class="f ${extra}" id="${id}-wrap"><span id="lbl-${id}">${title}</span><sp-picker id="${id}" aria-labelledby="lbl-${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
         const mode = (id, title, values) =>
           picker(id, title, values, values[0][0]);
         for (const [name, def] of Object.entries(opts)) {
@@ -1062,7 +1073,7 @@
             ).concat(vals.map((v) => [v, shown(name, v)]));
             const label = humanize(name);
             const sel = def.default === undefined ? NONE : def.default;
-            return `<label class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labelledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+            return `<div class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labelledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
           }
           return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
@@ -1111,7 +1122,7 @@
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
-            `<label class="f hidden" id="state-wrap"><span id="lbl-state">State</span><sp-picker id="state" aria-labelledby="lbl-state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
+            `<div class="f hidden" id="state-wrap"><span id="lbl-state">State</span><sp-picker id="state" aria-labelledby="lbl-state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></div>`,
           );
         rows.push(
           '<div id="support" class="support" role="status" aria-live="polite"></div>',
