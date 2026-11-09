@@ -16,3 +16,11 @@ tasks:
       - "/packages/design-data/visuals/**/*.json"
       - "/packages/design-data/relationships/**/*.json"
       - "/packages/design-data/icons/**/*.json"
+  # Needs system Chrome and `moon run hub-prototype:build`; not part of the always-run CI set.
+  test-site-switch:
+    command: [node, e2e/site-switch.mjs]
+    inputs:
+      - "e2e/**/*"
+      - "/sdk/plugins/site/assets/**/*"
+    options:
+      runInCI: false
