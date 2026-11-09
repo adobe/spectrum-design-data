@@ -29,6 +29,7 @@ import Settings from "./Settings";
 import Registry from "./Registry";
 import Logic from "./Logic";
 import Analysis from "./Analysis";
+import Accessibility from "./Accessibility";
 import { CurrentColorOutputBoundary } from "../components/ColorOutputBoundary";
 import { DerivedContentBoundary } from "../components/DerivedContentBoundary";
 
@@ -37,6 +38,7 @@ const pages: Record<string, ComponentType> = {
   home: Home,
   "system-health": SystemHealth,
   analysis: Analysis,
+  accessibility: Accessibility,
   foundations: Foundations,
   design: Design,
   logic: Logic,

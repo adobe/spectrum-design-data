@@ -55,6 +55,13 @@ const navItems: readonly NavSidebarItem[] = [
     statusVariant: "negative",
   },
   {
+    id: "accessibility",
+    label: "Accessibility",
+    Icon: getCategoryIcon("accessibility"),
+    status: "TBD",
+    statusVariant: "notice",
+  },
+  {
     id: "foundations",
     label: "Foundations",
     Icon: getCategoryIcon("foundations"),
