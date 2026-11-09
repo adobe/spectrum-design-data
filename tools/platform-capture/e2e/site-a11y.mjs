@@ -138,7 +138,11 @@ try {
   const pickerLabelClicks = async (where) => {
     const ids = await page.$$eval("#controls .f > span[id^='lbl-']", (els) =>
       els
-        .filter((e) => e.nextElementSibling?.localName === "sp-picker")
+        .filter(
+          (e) =>
+            e.nextElementSibling?.localName === "sp-picker" &&
+            !e.nextElementSibling.disabled,
+        )
         .map((e) => e.id),
     );
     assert.ok(ids.length > 3, `${where}: picker rows found`);
