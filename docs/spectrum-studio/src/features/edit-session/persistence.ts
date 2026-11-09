@@ -13,7 +13,10 @@ import {
   reportPersistenceIssueAtom,
 } from "../../state/persist";
 import { modeSelectionAtom } from "../modes/selection";
+import { upgradeScaleSelection } from "../modes/scaleKeys";
 import { upgradeComponentOrderSnapshot } from "./componentOrderUpgrade";
+import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
+import { browserTokenEditsAtom } from "../tokens/browserEdits";
 import { upgradeColorFamilySnapshot } from "./colorFamilyUpgrade";
 import { upgradeTermCasingSnapshot } from "./termCasingUpgrade";
 import { upgradeStructureVariantsSnapshot } from "./structureVariantsUpgrade";
@@ -106,7 +109,18 @@ export function initializeAuthoringPersistence(
     const record = readAuthoringRecord(
       assertStoredSnapshot,
       (value, version) => {
-        if (version === 19 || version === 20 || version === 21) return value;
+        if (
+          version === 19 ||
+          version === 20 ||
+          version === 21 ||
+          version === 22 ||
+          version === 23 ||
+          version === 24 ||
+          version === 25 ||
+          version === 26 ||
+          version === 27
+        )
+          return value;
         if (version === 18) {
           if (!isSnapshot(value) || !value)
             throw new Error("Stored authoring data is invalid or incomplete.");
@@ -154,6 +168,8 @@ export function initializeAuthoringPersistence(
           ),
         );
       },
+      (message) => report(message),
+      upgradeCanonicalTokenIdentities,
     );
     if (record) {
       if (upgraded) {
@@ -188,6 +204,13 @@ export function initializeAuthoringPersistence(
           );
       }
       writeAuthoringRecord(record);
+      store.set(
+        modeSelectionAtom,
+        upgradeScaleSelection(
+          store.get(modeSelectionAtom),
+          record.working.modeSets,
+        ),
+      );
       store.set(restoreAuthoringSnapshotAtom, record.working);
       store.set(editSessionSnapshotAtom, record.saved);
       store.set(foundationModeAttachmentsAtom, record.attachments);
@@ -206,7 +229,9 @@ export function initializeAuthoringPersistence(
       store.set(
         modeSelectionAtom,
         Object.fromEntries(
-          Object.entries(preferences.modeSelection).filter(([key, id]) =>
+          Object.entries(
+            upgradeScaleSelection(preferences.modeSelection, sets),
+          ).filter(([key, id]) =>
             sets.some(
               (set) =>
                 set.key === key && set.modes.some((mode) => mode.id === id),
@@ -288,6 +313,19 @@ export function initializeAuthoringPersistence(
           try {
             if (state.input.persist) {
               writeAuthoringRecord(state.value.record);
+              if (
+                JSON.stringify(current.working.browserTokenEdits) !==
+                JSON.stringify(state.value.record.working.browserTokenEdits)
+              )
+                store.set(
+                  restoreAuthoringSnapshotAtom,
+                  state.value.record.working,
+                );
+              if (
+                JSON.stringify(current.saved) !==
+                JSON.stringify(state.value.record.saved)
+              )
+                store.set(editSessionSnapshotAtom, state.value.record.saved);
               pending = false;
             }
           } catch (failure) {
@@ -306,6 +344,16 @@ export function initializeAuthoringPersistence(
     assertStoredSnapshot(record.working);
     assertStoredSnapshot(record.saved);
     writeAuthoringRecord(record);
+    if (
+      JSON.stringify(store.get(browserTokenEditsAtom)) !==
+      JSON.stringify(record.working.browserTokenEdits)
+    )
+      store.set(restoreAuthoringSnapshotAtom, record.working);
+    if (
+      JSON.stringify(store.get(editSessionSnapshotAtom)) !==
+      JSON.stringify(record.saved)
+    )
+      store.set(editSessionSnapshotAtom, record.saved);
     pending = false;
   };
   const request = (

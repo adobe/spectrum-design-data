@@ -26,6 +26,12 @@ export interface DomainDefinition {
 }
 
 export const CHANGE_DOMAINS = {
+  componentSizing: {
+    topic: "foundations",
+    category: "size",
+    label: "Component size",
+    sourceKind: "component-sizing",
+  },
   colorSystem: {
     topic: "foundations",
     category: "color",
@@ -129,6 +135,12 @@ export const CHANGE_DOMAINS = {
     label: "Adaptive claims",
     sourceKind: "adaptive-claim",
   },
+  foundationParameterSettings: {
+    topic: "foundations",
+    category: "modes",
+    label: "Foundation parameter settings",
+    sourceKind: "settings",
+  },
   tokenOverrides: {
     topic: "tokens",
     category: "token-edits",
@@ -179,9 +191,13 @@ export const FIELD_EXCLUSIONS: Readonly<Record<string, string>> = {
     "Recovery baseline for manual editing, not an independent authored value.",
   baseline:
     "Recovery baseline for manual editing, not an independent authored value.",
+  baselines:
+    "Per-mode recovery baselines for manual editing, not independent authored values.",
   editedAt: "Edit timestamp, not design data.",
   semanticIdentities:
     "Stored random output identities; authored bindings and options own their Changes fields.",
+  identity:
+    "Persisted token publication IDs and canonical vocabulary, not editable token settings.",
 };
 export interface AuthoredSlot {
   id: string;
@@ -520,6 +536,20 @@ export function compareAuthoring(
         settingsAfter,
         "Color settings",
       );
+    } else if (domain === "foundationParameterSettings") {
+      for (const id of new Set([
+        ...Object.keys(record(before) ? before : {}),
+        ...Object.keys(record(after) ? after : {}),
+      ])) {
+        const foundation = id.split(".")[0];
+        compareObject(
+          { ...definition, category: foundation },
+          [domain, id],
+          readPath(before, [id]),
+          readPath(after, [id]),
+          `${FOUNDATION_LABELS[foundation]} / ${id.split(".")[1]}`,
+        );
+      }
     } else if (domain === "taxonomy") {
       for (const key of ["categories", "terms"])
         collection(

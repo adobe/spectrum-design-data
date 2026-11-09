@@ -10,6 +10,7 @@ import {
   ButtonGroup,
   Checkbox,
   Content,
+  ContextualHelp,
   Dialog,
   DialogContainer,
   Heading,
@@ -52,6 +53,7 @@ import {
 } from "../../components/editable";
 import { RoundingRulePicker } from "../../components/logic/RoundingRulePicker";
 import { authoringCapabilityOwnersAtom } from "../../features/modes/capabilities";
+import { FOUNDATION_PARAMETERS } from "../../features/modes/parameters";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { lineHeightName } from "../../features/typography/lineHeightNames";
 import { termLabel } from "../../features/taxonomy/termPresentation";
@@ -63,6 +65,7 @@ import {
   TYPOGRAPHY_UNITS,
 } from "../../features/typography/units";
 import { FoundationModeSettings } from "./FoundationModeSettings";
+import { FoundationParameterSettings } from "./FoundationParameterSettings";
 import { TypeScaleFields } from "../typography/TypeScaleFields";
 import { LineHeightCard } from "../typography/LineHeightCard";
 
@@ -75,6 +78,9 @@ const stack = style({
 });
 const panel = style({ padding: 0 });
 const note = style({ font: "body-sm", color: "neutral-subdued", margin: 0 });
+const textAdjustmentParameter = FOUNDATION_PARAMETERS.find(
+  (parameter) => parameter.id === "typography.textZoom",
+)!;
 
 export function FoundationsTypographyPanel() {
   const notify = useNotify();
@@ -135,6 +141,7 @@ export function FoundationsTypographyPanel() {
       <AccordionItemTitle>System settings</AccordionItemTitle>
       <AccordionItemPanel UNSAFE_className={String(panel)}>
         <div className={stack}>
+          <FoundationParameterSettings foundation="typography" />
           <Checkbox
             isSelected={document.hideFromPublishing ?? false}
             isDisabled={isReadOnly}
@@ -404,7 +411,13 @@ export function FoundationsTypographyPanel() {
         unclaimedControl={
           !modeOwners["typography.textZoom"] && (
             <EditableNumberField
-              label="Text size"
+              label={textAdjustmentParameter.label}
+              contextualHelp={
+                <ContextualHelp>
+                  <Heading>{textAdjustmentParameter.label}</Heading>
+                  <Content>{textAdjustmentParameter.description}</Content>
+                </ContextualHelp>
+              }
               value={resolved.textZoom}
               minValue={TEXT_ZOOM_MIN}
               maxValue={TEXT_ZOOM_MAX}

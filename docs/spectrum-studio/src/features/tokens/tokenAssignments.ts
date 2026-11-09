@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { isTokenTier } from "./tier";
 import type { BrowserTokenSource } from "./browserModel";
 import type {
   TokenAssignment,
@@ -6,6 +7,7 @@ import type {
   TokenShadowLayer,
 } from "./browserEditTypes";
 import { assertShadowValue } from "../design-data/shadowValue";
+import { isTokenIdentity } from "./canonicalIdentity";
 
 export const modePairs = (key: string): [string, string][] => {
   const parsed: unknown = JSON.parse(key);
@@ -151,9 +153,12 @@ export function isTokenAuthoring(value: unknown): value is TokenAuthoring {
           "classification",
           "manual",
           "lifecycle",
+          "identity",
         ].includes(key),
     )
   )
+    return false;
+  if (value.identity !== undefined && !isTokenIdentity(value.identity))
     return false;
   if (
     value.baselines !== undefined &&
@@ -186,6 +191,7 @@ export function isTokenAuthoring(value: unknown): value is TokenAuthoring {
         "elevation",
       ].includes(String(value.manual.type)) ||
       !["px", ""].includes(String(value.manual.unit)) ||
+      (value.manual.tier !== undefined && !isTokenTier(value.manual.tier)) ||
       (value.manual.targetId !== undefined && !text(value.manual.targetId)) ||
       !text(value.manual.groupId) ||
       (value.manual.scope !== undefined && value.manual.scope !== "structures"))

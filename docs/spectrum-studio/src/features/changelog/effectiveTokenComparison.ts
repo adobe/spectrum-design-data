@@ -30,7 +30,12 @@ function inventory(snapshot: EditSessionSnapshot) {
 export function hasEffectiveTokenEdits(...snapshots: EditSessionSnapshot[]) {
   return snapshots.some((snapshot) =>
     Object.values(snapshot.browserTokenEdits ?? {}).some(
-      (edit) => edit.authoring,
+      (edit) =>
+        edit.authoring &&
+        (Object.keys(edit.authoring.assignments).length > 0 ||
+          Object.keys(edit.authoring).some(
+            (key) => key !== "identity" && key !== "assignments",
+          )),
     ),
   );
 }

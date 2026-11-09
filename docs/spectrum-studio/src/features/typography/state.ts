@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { persistedAtom } from "../../state/persist";
+import { upgradeTypographySizingDocument } from "../foundations/componentSizing";
 import { TYPOGRAPHY_DEFAULTS } from "./defaults";
 import {
   generateTypography,
@@ -51,6 +52,10 @@ const storedTypographyDocumentAtom = persistedAtom<TypographyDocument>({
   schemaVersion: TYPOGRAPHY_SCHEMA_VERSION,
   initialize: () => TYPOGRAPHY_DEFAULTS,
   validate: isTypographyDocument,
+  migrate: (data) => {
+    const upgraded = upgradeTypographySizingDocument(data);
+    return isTypographyDocument(upgraded) ? upgraded : null;
+  },
 });
 export const typographyDocumentAtom = withTaxonomyContributions(
   storedTypographyDocumentAtom,
@@ -444,7 +449,7 @@ export const generatedTypographyAtom = atom((get) =>
 /** Same routing as color parameters: preview outside edit mode, else the owning mode or the base. */
 export const updateTextZoomAtom = atom(null, (get, set, value: number) => {
   if (!Number.isFinite(value))
-    throw new Error("Enter a finite Text size setting.");
+    throw new Error("Enter a finite Adaptive text scaling setting.");
   const textZoom = clampTextZoom(value);
   if (!get(editModeAtom)) {
     set(setPreviewParameterAtom, {

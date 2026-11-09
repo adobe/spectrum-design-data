@@ -16,7 +16,6 @@ import {
   Checkbox,
   CheckboxGroup,
   Content,
-  ContextualHelp,
   DialogContainer,
   Form,
   Heading,
@@ -49,12 +48,12 @@ import Close from "@react-spectrum/s2/icons/Close";
 import {
   updateTaxonomy,
   type TaxonomyCategory,
-  type TaxonomyCategoryTier,
   type TaxonomyDocument,
   type TaxonomyTerm,
 } from "../../features/taxonomy/model";
 import type { ReferencedTaxonomySource } from "../../features/taxonomy/referenceValidation";
 import { useTaxonomyValidation } from "../../features/taxonomy/useTaxonomyValidation";
+import { TOKEN_TIERS } from "../../features/tokens/tier";
 
 const editorStyles = style({
   display: "flex",
@@ -496,33 +495,23 @@ export function TaxonomyEditor({
         >
           Required classification
         </Checkbox>
-        <Picker
-          label="Asked when adding"
-          contextualHelp={
-            <ContextualHelp>
-              <Heading>Asked when adding</Heading>
-              <Content>
-                <Text>
-                  Which new tokens get a question for this category in the Add
-                  token walk-through.
-                </Text>
-              </Content>
-            </ContextualHelp>
-          }
-          selectedKey={draft.appliesTo ?? "both"}
+        <CheckboxGroup
+          label="Applicable token tiers"
+          value={draft.allowedTokenTiers ?? [...TOKEN_TIERS]}
           isDisabled={!editable}
-          styles={fieldStyles}
-          onSelectionChange={(key) =>
+          onChange={(tiers) =>
             setDraft({
               ...draft,
-              appliesTo: key as TaxonomyCategoryTier,
+              allowedTokenTiers: TOKEN_TIERS.filter((tier) =>
+                tiers.includes(tier),
+              ),
             })
           }
         >
-          <PickerItem id="both">All tokens</PickerItem>
-          <PickerItem id="raw">Raw value tokens</PickerItem>
-          <PickerItem id="purpose">Purpose-based tokens</PickerItem>
-        </Picker>
+          <Checkbox value="primitive">Primitive</Checkbox>
+          <Checkbox value="semantic">Semantic</Checkbox>
+          <Checkbox value="component">Component</Checkbox>
+        </CheckboxGroup>
       </section>
       {editable && (
         <div className={actionsStyles}>

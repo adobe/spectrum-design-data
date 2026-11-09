@@ -12,11 +12,17 @@ export function aliasBrowserTokens(
   live: readonly BrowserToken[] = [],
 ): BrowserToken[] {
   return document.tokens.flatMap((alias) => {
-    const context = alias.contexts.find((context) =>
-      (JSON.parse(context) as [string, string][]).every(
-        ([axis, mode]) => selection[axis] === mode,
-      ),
-    );
+    const context = alias.contexts
+      .map((context) => ({
+        context,
+        pairs: JSON.parse(context) as [string, string][],
+      }))
+      .filter(({ pairs }) =>
+        pairs.every(([axis, mode]) => selection[axis] === mode),
+      )
+      .sort(
+        (left, right) => right.pairs.length - left.pairs.length,
+      )[0]?.context;
     const target =
       context === undefined
         ? undefined

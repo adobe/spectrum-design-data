@@ -61,6 +61,7 @@ export interface ScaleLibrary {
   scaleTypes?: readonly ScaleType[];
   rules?: readonly Rule[];
   valueType?: RuleValueType;
+  rawValueMultiplier?: number;
 }
 
 /** Current value of each mode parameter, keyed by parameter id (e.g. `typography.textZoom`). */
@@ -114,12 +115,13 @@ export function generateScale(
   );
   const values: GeneratedScaleValue[] = [];
   for (let index = -below; index <= above; index++) {
-    const raw = scaleTypeValue(
-      scaleType,
-      index + (settings.startStep ?? 0),
-      base,
-      parameters,
-    );
+    const raw =
+      scaleTypeValue(
+        scaleType,
+        index + (settings.startStep ?? 0),
+        base,
+        parameters,
+      ) * (library.rawValueMultiplier ?? 1);
     values.push({
       index,
       step: scaleStepName(index, below),

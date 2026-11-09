@@ -26,6 +26,7 @@ import {
   projectClassification,
   type Classification,
 } from "../../features/taxonomy/model";
+import { categoryAllowsTier } from "../../features/tokens/tier";
 
 export interface TokenDetailsDialogProps {
   tokens: BrowserToken[];
@@ -172,15 +173,17 @@ export function TokenDetailsDialog({
                             (category) => category.id === id,
                           )!,
                       )
-                      .filter((category) =>
-                        category.scopes.includes(
-                          token.type as
-                            | "colors"
-                            | "typography"
-                            | "spacing"
-                            | "size"
-                            | "radius",
-                        ),
+                      .filter(
+                        (category) =>
+                          categoryAllowsTier(category, token.tier) &&
+                          category.scopes.includes(
+                            token.type as
+                              | "colors"
+                              | "typography"
+                              | "spacing"
+                              | "size"
+                              | "radius",
+                          ),
                       )
                       .map((category) => {
                         const assigned = classification[category.id];

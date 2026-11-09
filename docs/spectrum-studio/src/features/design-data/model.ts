@@ -8,6 +8,8 @@ import type { OpacityDocument } from "../opacity/model";
 import type { ElevationDocument } from "../elevation/model";
 import type { CanonicalRadiusDocument } from "../taxonomy/naming";
 import type { ModeSet, AdaptiveClaims } from "../modes/model";
+import type { FoundationParameterSettings } from "../modes/foundationSettings";
+import type { ComponentSizingDocument } from "../foundations/componentSizing";
 import type { Platform } from "../platforms/model";
 import type { TokenOverrideMap } from "../tokens/model";
 import type { Rule } from "../logic/model";
@@ -31,6 +33,7 @@ export interface DesignSystemDataset {
   schemaVersion: 1;
   dataset: { id: string; name: string; description: string; revision: number };
   system: {
+    componentSizing?: ComponentSizingDocument;
     components?: ComponentsDocument;
     aliases?: AliasDocument;
     browserTokenEdits?: BrowserTokenEdits;
@@ -48,6 +51,7 @@ export interface DesignSystemDataset {
     modeSets: ModeSet[];
     platforms: Platform[];
     adaptiveClaims: AdaptiveClaims;
+    foundationParameterSettings?: FoundationParameterSettings;
     tokenOverrides: TokenOverrideMap;
     rules: Rule[];
     interpolations: Interpolation[];

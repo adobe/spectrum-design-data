@@ -19,6 +19,22 @@ import { ELEVATION_DEFAULTS } from "../../elevation/defaults";
 import { elevationFields } from "../../elevation/changes";
 import { semanticTokenSource, structureFoundationSource } from "./structures";
 import { opacityFoundationSource } from "./opacityFoundation";
+import { foundationSettingsSource } from "./foundationSettings";
+import { componentSizingDocumentAtom } from "../../foundations/componentSizingState";
+import { COMPONENT_SIZING_DEFAULTS } from "../../foundations/componentSizing";
+
+const componentSizingSource: FoundationImpactSource = {
+  id: "component-sizing",
+  recordsAtom: atom((get) => [
+    {
+      id: "componentSizing/componentSize",
+      category: "size",
+      edited:
+        get(componentSizingDocumentAtom).componentSize !==
+        COMPONENT_SIZING_DEFAULTS.componentSize,
+    },
+  ]),
+};
 
 const taxonomySource: FoundationImpactSource = {
   id: "registry",
@@ -54,6 +70,8 @@ const elevationSource: FoundationImpactSource = {
 };
 
 export const FOUNDATION_IMPACT_SOURCES: readonly FoundationImpactSource[] = [
+  componentSizingSource,
+  foundationSettingsSource,
   opacityFoundationSource,
   colorFoundationSource,
   typographyFoundationSource,

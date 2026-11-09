@@ -396,7 +396,7 @@ export function appendStructureVariantArtifacts(
         bundle.vocabulary.elements.push({
           id: term.id,
           label: String(term.value),
-          value: row.token.name.element,
+          value: String(row.token.name.element),
         });
     }
     for (const category of source.taxonomy.categories.filter((item) =>

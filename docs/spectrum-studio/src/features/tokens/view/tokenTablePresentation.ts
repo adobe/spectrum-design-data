@@ -8,6 +8,7 @@ export interface TokenTablePresentationRow {
   label: string;
   contextLabel: string;
   token?: BrowserToken;
+  modeContext?: string;
   sourcePathIds: string[];
   children: TokenTablePresentationRow[];
 }

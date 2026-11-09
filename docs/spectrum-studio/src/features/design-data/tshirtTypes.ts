@@ -10,7 +10,7 @@ import type {
 
 export interface TshirtDiagnostic {
   severity: "warning";
-  code: "nearest" | "derived";
+  code: "nearest" | "derived" | "identity";
   message: string;
   structureId: string;
   bindingIds: string[];
@@ -23,6 +23,7 @@ export interface TshirtDiagnostic {
 }
 
 export interface TshirtSemanticRow {
+  sourceId?: string;
   propertyId?: string;
   optionId?: string;
   canonicalName?: string;

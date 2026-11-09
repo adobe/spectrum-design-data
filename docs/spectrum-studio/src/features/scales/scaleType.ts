@@ -223,7 +223,7 @@ export function scaleTypeIssues(scaleType: ScaleType): string[] {
       !scaleType.parameters[0]?.overridable
     )
       issues.push(
-        "Type scale always follows Text size and supports explicit consumer bases.",
+        "Type scale always follows Adaptive text scaling and supports explicit consumer bases.",
       );
     const adaptation = scaleType.textSizeAdaptation;
     if (

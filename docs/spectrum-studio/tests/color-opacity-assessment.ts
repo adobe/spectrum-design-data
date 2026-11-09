@@ -378,7 +378,7 @@ assert.equal(
   "unassessable",
 );
 const report = compareDesignData(resolved, reference);
-assert.match(reportMarkdown(report), /Colors and opacities/);
+assert.match(reportMarkdown(report), /## Tokens/);
 assert.match(colorOpacityMarkdown(evaluated), /App value \| Design data value/);
 assert.equal(
   reportWithFreshness(report, "stale").colorOpacity?.exactPercent,
@@ -390,7 +390,7 @@ assert.ok(
   ),
 );
 
-// Source names never determine color/opacity scope.
+// Source names never determine foundational-token scope.
 const canonical: AnalysisRecord[] = [];
 for (const file of [
   "color-palette",
@@ -414,9 +414,7 @@ for (const file of [
   );
 }
 const active = canonical.filter(
-  (row) =>
-    !row.lifecycle?.deprecatedIn &&
-    ["color", "opacity"].includes(String(row.structuredName?.property)),
+  (row) => !row.lifecycle?.deprecatedIn && row.category === "tokens",
 );
 assert.ok(
   active.some(
@@ -426,6 +424,9 @@ assert.ok(
   ),
 );
 assert.ok(active.some((row) => row.source.includes("icons") && row.reference));
+assert.ok(
+  active.some((row) => row.structuredName?.property === "content-color"),
+);
 const canonicalReport = assessColorsAndOpacities(
   input([]),
   input(canonical, "reference"),

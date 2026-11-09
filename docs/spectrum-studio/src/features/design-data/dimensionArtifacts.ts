@@ -4,6 +4,10 @@ import nativeSchema from "../../data/design-system.schema.json" with { type: "js
 import { designSystemDefaults } from "../../data/defaults";
 import type { ColorSystemDocument } from "../color-system/model";
 import type { TypographyDocument } from "../typography/model";
+import {
+  SIZING_PARAMETER_IDS,
+  type ComponentSizingDocument,
+} from "../foundations/componentSizing";
 import type { SpacingDocument } from "../spacing/model";
 import type { SizeDocument } from "../size/model";
 import type { RadiusDocument } from "../radius/model";
@@ -40,11 +44,13 @@ import {
   type BrowserTokenEdits,
 } from "../tokens/browserModel";
 import {
+  blockingProjectionIssues,
   isTaxonomyDocument,
   type TaxonomyDocument,
   type TaxonomyProjection,
 } from "../taxonomy/model";
 import { tokenUuid } from "../tokens/model";
+import { scaleIdentityContext } from "../modes/scaleKeys";
 import { canonicalJson } from "./canonicalJson";
 
 export const DIMENSION_PROFILE = "leonardo-proposed-dimensions-v3";
@@ -52,6 +58,7 @@ export const DIMENSION_FOUNDATION_SCHEMA =
   "urn:leonardo:proposal:dimension-foundations:3";
 export const DIMENSION_TOKEN_SCHEMA = "urn:leonardo:proposal:dimension-token:3";
 export interface DimensionAuthoringSource {
+  componentSizing?: ComponentSizingDocument;
   colorSystem: ColorSystemDocument;
   typography: TypographyDocument;
   spacing?: SpacingDocument;
@@ -282,6 +289,10 @@ function validateSource(source: DimensionArtifactSource) {
         (binding) => owners[binding.modeParameterId],
       ),
     );
+    if (plan.domain === "size" || plan.domain === "radius") {
+      const owner = owners["size.componentSize"];
+      if (owner) dependencyIds.add(owner);
+    }
     const axes =
       plan.kind === "baseline"
         ? []
@@ -307,9 +318,14 @@ function validateSource(source: DimensionArtifactSource) {
       fail("Baseline plan is not evaluated at declared defaults.");
     if (
       Object.keys(plan.parameters).length !==
-        Object.keys(BINDABLE_PARAMETER_RANGES).length ||
+        Object.keys(BINDABLE_PARAMETER_RANGES).length +
+          SIZING_PARAMETER_IDS.length ||
       Object.keys(BINDABLE_PARAMETER_RANGES).some(
         (id) => !Number.isFinite(plan.parameters[id]),
+      ) ||
+      SIZING_PARAMETER_IDS.some(
+        (id) =>
+          !Number.isFinite(plan.parameters[id]) || plan.parameters[id] <= 0,
       )
     )
       fail("Missing or invalid captured generator inputs.");
@@ -396,8 +412,10 @@ export function captureDimensionSource(
     ),
     modeSets: snapshot.modeSets,
     edits: Object.fromEntries(
-      Object.entries(snapshot.browserTokenEdits ?? {}).filter(([id]) =>
-        DIMENSION_SCOPES.some((domain) => id.startsWith(`${domain}-`)),
+      Object.entries(snapshot.browserTokenEdits ?? {}).filter(([id, edit]) =>
+        DIMENSION_SCOPES.some((domain) =>
+          (edit.authoring?.identity?.sourceId ?? id).startsWith(`${domain}-`),
+        ),
       ),
     ),
     plans: [],
@@ -445,7 +463,11 @@ export function captureDimensionSource(
       selection: { ...selection },
       context,
       parameters: resolveModeParameterValues(
-        { color: snapshot.colorSystem, typography: snapshot.typography },
+        {
+          color: snapshot.colorSystem,
+          typography: snapshot.typography,
+          componentSizing: snapshot.componentSizing,
+        },
         modes,
         undefined,
         { modeSets: source.modeSets },
@@ -462,6 +484,10 @@ export function captureDimensionSource(
           .map((binding) => owners[binding.modeParameterId])
           .filter(Boolean),
       );
+      if (domain === "size" || domain === "radius") {
+        const owner = owners["size.componentSize"];
+        if (owner) dependencyIds.add(owner);
+      }
       const axes = source.modeSets.filter((axis) => dependencyIds.has(axis.id));
       const count = modeCombinationCount(axes);
       if (count > 256)
@@ -474,7 +500,11 @@ export function captureDimensionSource(
           makePlan(domain, scale.id, "binding", selection, axes);
       const overrideSelections = new Map<string, Record<string, string>>();
       for (const [id, edit] of Object.entries(source.edits))
-        if (id.startsWith(`${domain}-${scale.id}-`))
+        if (
+          (edit.authoring?.identity?.sourceId ?? id).startsWith(
+            `${domain}-${scale.id}-`,
+          )
+        )
           for (const key of Object.keys(edit.values)) {
             const pairs = JSON.parse(key) as [string, string][];
             const selection = Object.fromEntries(pairs);
@@ -597,11 +627,11 @@ function emit(source: DimensionArtifactSource) {
         `dimension-concept:${plan.domain}:${scale.id}:${step}`,
       );
       const uuid = tokenUuid(
-        `dimension-row:${conceptId}:${canonicalJson(plan.context)}`,
+        `dimension-row:${conceptId}:${canonicalJson(scaleIdentityContext(plan.context, source.modeSets))}`,
       );
       const projection =
         row.projection ?? fail(`Unresolved dimension taxonomy for ${row.id}.`);
-      if (projection.issues.length)
+      if (blockingProjectionIssues(projection).length)
         fail(`Unresolved dimension taxonomy for ${row.id}.`);
       const fields = Object.fromEntries(
         Object.entries(projection.flat).map(([key, value]) => {
@@ -648,11 +678,13 @@ function emit(source: DimensionArtifactSource) {
   }
   for (const [id, edit] of Object.entries(source.edits))
     if (Object.keys(edit.values).length) {
+      const coordinate = edit.authoring?.identity?.sourceId ?? id;
       const domain =
-        DIMENSION_SCOPES.find((domain) => id.startsWith(`${domain}-`)) ??
-        fail(`Unknown dimension assignment ${id}.`);
+        DIMENSION_SCOPES.find((domain) =>
+          coordinate.startsWith(`${domain}-`),
+        ) ?? fail(`Unknown dimension assignment ${id}.`);
       const scale = source[domain].scales.find((item) =>
-        id.startsWith(`${domain}-${item.id}-`),
+        coordinate.startsWith(`${domain}-${item.id}-`),
       );
       if (scale && !isFoundationPublished(scale)) continue;
       if (

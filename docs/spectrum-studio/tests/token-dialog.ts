@@ -27,6 +27,7 @@ import {
 
 const source = (id: string, value: number): BrowserTokenSource => ({
   id,
+  tier: "primitive",
   name: id,
   generatedName: id,
   value,

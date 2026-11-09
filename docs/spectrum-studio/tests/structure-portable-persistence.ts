@@ -90,7 +90,7 @@ const options = {
 } as const;
 writeAuthoringRecord(options);
 const serialized = localStorage.getItem(AUTHORING_STORAGE_KEY)!;
-assert.equal(JSON.parse(serialized).version, 22);
+assert.equal(JSON.parse(serialized).version, AUTHORING_RECORD_VERSION);
 writeAuthoringRecord(options);
 assert.equal(localStorage.writes, 1, "Identical writes are not repeated.");
 const record = readAuthoringRecord(assertStoredSnapshot)!;

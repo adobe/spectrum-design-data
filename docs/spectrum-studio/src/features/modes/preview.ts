@@ -11,7 +11,7 @@ import {
   clearPreviewParametersAtom,
   previewOverridesAtom,
 } from "./previewState";
-import { adaptiveClaimsAtom } from "./adaptive";
+import { ADAPTIVE_COLOR_CHANNEL_IDS } from "./foundationSettings";
 import {
   parameterValuesMatch,
   responsibleParameterIds,
@@ -40,18 +40,30 @@ export const displayedModeIdsAtom = atom((get) => {
   const selection = get(modeSelectionAtom);
   const preview = get(previewOverridesAtom);
   const base = get(foundationDocumentsAtom);
-  const claims = get(adaptiveClaimsAtom);
 
   const displayed: Record<string, string> = {};
   for (const modeSet of modeSets) {
     const active = resolveActiveMode(modeSet, selection);
-    const parameterIds = responsibleParameterIds(modeSets, modeSet.id, claims);
-    const current = parameterIds.map(
+    const parameterIds = responsibleParameterIds(modeSets, modeSet.id);
+    const colorIsCustom = ADAPTIVE_COLOR_CHANNEL_IDS.some(
+      (id, index) =>
+        parameterIds.includes(id) &&
+        preview[id] !== undefined &&
+        !parameterValuesMatch(preview[id], index === 0 ? 0 : 100),
+    );
+    if (colorIsCustom) {
+      displayed[modeSet.key] = CUSTOM_MODE_KEY;
+      continue;
+    }
+    const comparableIds = parameterIds.filter(
+      (id) => !ADAPTIVE_COLOR_CHANNEL_IDS.some((channel) => channel === id),
+    );
+    const current = comparableIds.map(
       (id) => preview[id] ?? effectiveValue(active, id, base),
     );
 
     const matches = modeSet.modes.filter((mode) =>
-      parameterIds.every((id, index) =>
+      comparableIds.every((id, index) =>
         parameterValuesMatch(effectiveValue(mode, id, base), current[index]),
       ),
     );
@@ -73,7 +85,7 @@ export const resetModeAtom = atom(
     if (!modeSet) return;
     set(
       clearPreviewParametersAtom,
-      responsibleParameterIds(modeSets, modeSet.id, get(adaptiveClaimsAtom)),
+      responsibleParameterIds(modeSets, modeSet.id),
     );
   },
 );

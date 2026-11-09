@@ -13,20 +13,17 @@ import {
   Text,
   TextArea,
   TextField,
-  Tooltip,
-  TooltipTrigger,
 } from "@react-spectrum/s2";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { css, style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import ChevronLeft from "@react-spectrum/s2/icons/ChevronLeft";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { editSessionSnapshotAtom } from "../../features/edit-session/state";
 import { useNotify } from "../../components/notifications/notificationContext";
 import { CategoryIcon } from "../../components/CategoryIcon";
 import { ModeParameterControl } from "../../components/ModeParameterControl";
-import { EditableSlider } from "../../components/editable";
-import { NumberField } from "../../components/fields/NumberField";
 import { ScaleAdjustmentControls } from "../../panels/foundations/ScaleAdjustmentControls";
 import { normalizedAdjustment } from "../../features/color-system/scaleAdjustment";
 import { Picker } from "../../components/fields/Picker";
@@ -34,7 +31,6 @@ import { useIsReadOnly } from "../../components/editable";
 import { MODE_ICON_OPTIONS } from "../../features/modes/icons";
 import {
   AUTHORING_CAPABILITY_OPTIONS,
-  BINDABLE_PARAMETER_RANGES,
   capabilityOwners,
   effectiveParameterValue,
   FOUNDATION_PARAMETERS,
@@ -60,8 +56,16 @@ import {
 import {
   adaptiveClaimsAtom,
   claimsForModeSet,
-  commitModeSetClaimsAtom,
 } from "../../features/modes/adaptive";
+import {
+  removeModeCapability,
+  restoreModeCapability,
+  type FoundationSettingId,
+} from "../../features/modes/foundationSettings";
+import {
+  clearRememberedModeSettingsAtom,
+  foundationParameterSettingsAtom,
+} from "../../features/modes/foundationSettingsState";
 import { foundationDocumentsAtom } from "../../features/modes/foundationDocuments";
 import {
   editingModeSetIdAtom,
@@ -69,10 +73,6 @@ import {
   pendingModeSetFoundationAtom,
 } from "../../state/view/modesView";
 import { setParameterValue } from "../../features/modes/parameters";
-import {
-  colorSystemDocumentAtom,
-  updateColorSystemSettingsAtom,
-} from "../../features/color-system/state";
 import { ModeSetPreview } from "../../components/ModeSetPreview";
 import {
   modeSetDraftHasChanges,
@@ -97,9 +97,14 @@ const headerStyles = style({
   gap: 12,
 });
 const titleStyles = style({ font: "heading-lg", margin: 0, flexGrow: 1 });
+const editorContainerStyles = css("container: mode-editor / inline-size;");
+const cardsContainerStyles = css("container: mode-cards / inline-size;");
 const columnsStyles = style({
   display: "grid",
-  gridTemplateColumns: "minmax(300px, 0.8fr) minmax(0, 1.5fr)",
+  gridTemplateColumns: {
+    default: "minmax(300px, 0.8fr) minmax(0, 1.5fr)",
+    "@container mode-editor (width < 900px)": "minmax(0, 1fr)",
+  },
   alignItems: "start",
   gap: 24,
 });
@@ -136,7 +141,7 @@ const foundationHeadingStyles = style({
 });
 const tableStyles = style({
   display: "grid",
-  gridTemplateColumns: "minmax(0, 1fr) 64px 72px",
+  gridTemplateColumns: "minmax(0, 1fr) 120px",
   alignItems: "center",
 });
 const tableHeaderStyles = style({
@@ -164,10 +169,12 @@ const switchCellStyles = style({
 });
 const modeCardStyles = style({
   display: "grid",
-  gridTemplateColumns: "minmax(180px, 0.8fr) minmax(0, 1fr) 36px",
-  alignItems: "start",
-  gap: 12,
-  padding: 12,
+  gridTemplateColumns: {
+    default: "repeat(3, minmax(0, 1fr))",
+    "@container mode-cards (width < 800px)": "minmax(0, 1fr)",
+  },
+  alignItems: "stretch",
+  minWidth: 0,
   borderRadius: "lg",
   backgroundColor: "layer-2",
 });
@@ -176,46 +183,20 @@ const modeMetadataStyles = style({
   flexDirection: "column",
   gap: 12,
   minWidth: 0,
+  padding: 12,
 });
 const modeParametersStyles = style({
   display: "flex",
   flexDirection: "column",
   gap: 12,
   minWidth: 0,
+  padding: 12,
 });
 const previewColumnStyles = style({
   display: "flex",
-  justifyContent: "center",
-  gridColumn: "1 / -1",
+  minWidth: 0,
+  minHeight: { "@container mode-cards (width < 800px)": 120 },
 });
-const polarityStyles = style({
-  display: "grid",
-  gridTemplateColumns: "minmax(0, 1fr) 72px",
-  gap: 8,
-  alignItems: "end",
-});
-
-function clearCapabilityOverrides(
-  mode: Mode,
-  capability: AuthoringCapability,
-): Mode {
-  if (capability === "color.scaleAdjustment") {
-    const color = { ...mode.foundations.color };
-    delete color.scaleAdjustment;
-    const foundations = { ...mode.foundations };
-    if (Object.keys(color).length) foundations.color = color;
-    else delete foundations.color;
-    return {
-      ...mode,
-      foundations,
-    };
-  }
-  const parameter = FOUNDATION_PARAMETERS.find(
-    (candidate) => candidate.id === capability,
-  );
-  return parameter ? setParameterValue(mode, parameter.id, undefined) : mode;
-}
-
 function modeParameterDocuments(documents: FoundationDocuments) {
   return documents;
 }
@@ -245,26 +226,24 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
       pendingFoundation,
     ),
   );
-  const [adaptiveIds, setAdaptiveIds] = useState<string[]>(() =>
-    Object.keys(claimsForModeSet(store.get(adaptiveClaimsAtom), modeSetId)),
-  );
+  const [remembered, setRemembered] = useState<
+    Partial<Record<AuthoringCapability, ModeSet>>
+  >({});
+  const savedSnapshot = useAtomValue(editSessionSnapshotAtom);
+  useEffect(() => setRemembered({}), [savedSnapshot]);
+  const parameterSettings = useAtomValue(foundationParameterSettingsAtom);
+  const clearRemembered = useSetAtom(clearRememberedModeSettingsAtom);
   const documents = useAtomValue(foundationDocumentsAtom);
-  const colorSystem = useAtomValue(colorSystemDocumentAtom);
-  const updateColorSettings = useSetAtom(updateColorSystemSettingsAtom);
-  const [polarityCompensation, setPolarityCompensation] = useState(
-    colorSystem.settings.polarityCompensation ?? 0,
-  );
   const [discardPromptOpen, setDiscardPromptOpen] = useState(false);
   const addSet = useSetAtom(addModeSetAtom);
   const replaceSet = useSetAtom(replaceModeSetAtom);
-  const commitClaims = useSetAtom(commitModeSetClaimsAtom);
   const setAttachments = useSetAtom(attachmentsAtom);
   const owners = capabilityOwners(sets);
 
   if (!draft)
     return (
       <div className="pageMainContent" data-component="ModeSetEditorLayout">
-        <div className={pageStyles}>
+        <div className={`${pageStyles} ${editorContainerStyles}`}>
           <Button variant="secondary" onPress={() => editingId(null)}>
             Back to Modes
           </Button>
@@ -275,6 +254,7 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
 
   const isReadOnly = readOnly;
   const close = () => {
+    clearRemembered(modeSetId);
     editingId(null);
     setPendingFoundation(null);
   };
@@ -286,16 +266,14 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
         FOUNDATION_MODE_ATTACHMENT_DEFAULTS[modeSetId] ??
         [],
     ),
-    adaptiveParameterIds: Object.keys(
-      claimsForModeSet(store.get(adaptiveClaimsAtom), modeSetId),
-    ),
-    polarityCompensation: colorSystem.settings.polarityCompensation ?? 0,
+    adaptiveParameterIds: [],
+    polarityCompensation: 0,
   };
   const isDirty = modeSetDraftHasChanges(originalDraft, {
     modeSet: draft,
     foundations,
-    adaptiveParameterIds: adaptiveIds,
-    polarityCompensation,
+    adaptiveParameterIds: [],
+    polarityCompensation: 0,
   });
   const requestClose = () => {
     if (isDirty) setDiscardPromptOpen(true);
@@ -312,22 +290,27 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
           }
         : current,
     );
-  const setCapability = (capability: AuthoringCapability, selected: boolean) =>
-    setDraft((current) => {
-      if (!current) return current;
-      const currentCaps = current.authoringCapabilities ?? [];
-      return {
-        ...current,
-        authoringCapabilities: selected
-          ? [...new Set([...currentCaps, capability])]
-          : currentCaps.filter((item) => item !== capability),
-        modes: selected
-          ? current.modes
-          : current.modes.map((mode) =>
-              clearCapabilityOverrides(mode, capability),
-            ),
-      };
-    });
+  const setCapability = (
+    capability: AuthoringCapability,
+    selected: boolean,
+  ) => {
+    if (!selected) {
+      setRemembered((current) => ({ ...current, [capability]: draft }));
+      setDraft(
+        (current) => current && removeModeCapability(current, capability),
+      );
+    } else {
+      setDraft(
+        (current) =>
+          current &&
+          restoreModeCapability(
+            current,
+            remembered[capability] ?? current,
+            capability,
+          ),
+      );
+    }
+  };
   const save = () => {
     if (!draft) return;
     const next = ensureModeSetKeys(draft);
@@ -339,13 +322,11 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
         });
         if (!added) return;
       } else replaceSet(next);
-      commitClaims({ modeSetId: next.id, parameterIds: adaptiveIds });
       setAttachments({
         ...store.get(attachmentsAtom),
         [next.id]: foundations,
       });
-      if (foundations.includes("color") || foundations.includes("opacity"))
-        updateColorSettings({ polarityCompensation });
+      clearRemembered(next.id);
       close();
     } catch (failure) {
       notify.error(
@@ -501,7 +482,9 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
               </div>
               {foundations.map((foundation) => {
                 const options = AUTHORING_CAPABILITY_OPTIONS.filter(
-                  (option) => option.foundation === foundation,
+                  (option) =>
+                    option.foundation === foundation &&
+                    parameterSettings[option.id as FoundationSettingId]?.modal,
                 );
                 return (
                   <section key={foundation} className={foundationCardStyles}>
@@ -522,14 +505,27 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                             setFoundations((current) =>
                               current.filter((item) => item !== foundation),
                             );
-                            for (const option of options)
-                              setCapability(option.id, false);
-                            setAdaptiveIds((current) =>
-                              current.filter(
-                                (id) =>
-                                  !options.some((option) => option.id === id),
+                            const removed = AUTHORING_CAPABILITY_OPTIONS.filter(
+                              (option) => option.foundation === foundation,
+                            );
+                            setDraft(
+                              (current) =>
+                                current &&
+                                removed.reduce(
+                                  (next, option) =>
+                                    removeModeCapability(next, option.id),
+                                  current,
+                                ),
+                            );
+                            setRemembered((current) =>
+                              Object.fromEntries(
+                                Object.entries(current).filter(
+                                  ([id]) =>
+                                    !removed.some((option) => option.id === id),
+                                ),
                               ),
                             );
+                            clearRemembered({ modeSetId, foundation });
                           }}
                         >
                           <Delete />
@@ -541,29 +537,18 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                         Opacity values follow the selected Color background.
                       </p>
                     )}
-                    {foundation !== "opacity" && (
+                    {options.length > 0 && (
                       <div className={tableStyles} role="table">
                         <span className={tableHeaderStyles} role="columnheader">
                           Parameter
                         </span>
                         <span className={tableHeaderStyles} role="columnheader">
-                          Modal
-                        </span>
-                        <span className={tableHeaderStyles} role="columnheader">
-                          Adaptive
+                          Control by mode set
                         </span>
                         {options.map((option) => {
                           const owner = owners[option.id];
                           const locked =
                             owner !== undefined && owner !== draft.id;
-                          const adaptiveOwner =
-                            store.get(adaptiveClaimsAtom)[option.id];
-                          const adaptiveLocked =
-                            adaptiveOwner !== undefined &&
-                            adaptiveOwner !== draft.id;
-                          const adaptiveAllowed =
-                            option.id !== "color.scaleAdjustment" &&
-                            option.id in BINDABLE_PARAMETER_RANGES;
                           const ownerName = sets.find(
                             (set) => set.id === owner,
                           )?.name;
@@ -576,7 +561,7 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                               </span>
                               <span className={switchCellStyles}>
                                 <Switch
-                                  aria-label={`Modal ${option.label}`}
+                                  aria-label={`Control by mode set ${option.label}`}
                                   size="S"
                                   isSelected={draft.authoringCapabilities?.includes(
                                     option.id,
@@ -584,98 +569,23 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                                   isDisabled={isReadOnly || locked}
                                   onChange={(selected) => {
                                     setCapability(option.id, selected);
-                                    if (!selected)
-                                      setAdaptiveIds((current) =>
-                                        current.filter(
-                                          (id) => id !== option.id,
-                                        ),
-                                      );
                                   }}
                                 />
-                              </span>
-                              <span className={switchCellStyles}>
-                                {adaptiveAllowed ? (
-                                  <Switch
-                                    aria-label={`Adaptive ${option.label}`}
-                                    size="S"
-                                    isSelected={adaptiveIds.includes(option.id)}
-                                    isDisabled={
-                                      isReadOnly || locked || adaptiveLocked
-                                    }
-                                    onChange={(selected) => {
-                                      if (selected)
-                                        setCapability(option.id, true);
-                                      setAdaptiveIds((current) =>
-                                        selected
-                                          ? [
-                                              ...new Set([
-                                                ...current,
-                                                option.id,
-                                              ]),
-                                            ]
-                                          : current.filter(
-                                              (id) => id !== option.id,
-                                            ),
-                                      );
-                                    }}
-                                  />
-                                ) : (
-                                  <TooltipTrigger>
-                                    <span>
-                                      <Switch
-                                        aria-label={`Adaptive ${option.label} not available`}
-                                        size="S"
-                                        isDisabled
-                                      />
-                                    </span>
-                                    <Tooltip>Not available</Tooltip>
-                                  </TooltipTrigger>
-                                )}
                               </span>
                             </div>
                           );
                         })}
                       </div>
                     )}
-                    {(foundation === "color" || foundation === "opacity") && (
-                      <>
-                        <div className={polarityStyles}>
-                          <EditableSlider
-                            label="Polarity compensation (dark modes)"
-                            value={polarityCompensation}
-                            minValue={0}
-                            maxValue={1}
-                            step={0.01}
-                            formatOptions={{ style: "percent" }}
-                            isReadOnly={isReadOnly}
-                            onChange={(value) =>
-                              setPolarityCompensation(
-                                Array.isArray(value) ? value[0] : value,
-                              )
-                            }
-                          />
-                          <NumberField
-                            aria-label="Polarity compensation percent"
-                            value={polarityCompensation}
-                            minValue={0}
-                            maxValue={1}
-                            step={0.01}
-                            formatOptions={{ style: "percent" }}
-                            isReadOnly={isReadOnly}
-                            onChange={setPolarityCompensation}
-                          />
-                        </div>
-                        <p>
-                          Adjusts color contrast as the background gets darker.
-                        </p>
-                      </>
-                    )}
                   </section>
                 );
               })}
             </section>
           </div>
-          <section className={panelStyles} aria-label="Modes">
+          <section
+            className={`${panelStyles} ${cardsContainerStyles}`}
+            aria-label="Modes"
+          >
             <div className={panelHeaderStyles}>
               <h3 className={modesHeadingStyles}>Modes</h3>
               {!isReadOnly && (
@@ -696,7 +606,19 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
             {draft.modes.map((mode) => {
               const isDefault = mode.id === draft.defaultModeId;
               return (
-                <section key={mode.id} className={modeCardStyles}>
+                <section
+                  key={mode.id}
+                  className={modeCardStyles}
+                  data-component="ModeCard"
+                >
+                  <div className={previewColumnStyles}>
+                    <ModeSetPreview
+                      modeSet={{ ...draft, modes: [mode] }}
+                      foundations={foundations}
+                      fillWidth
+                      showMultipleColorScales
+                    />
+                  </div>
                   <div className={modeMetadataStyles}>
                     <TextField
                       label="Name"
@@ -755,7 +677,24 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                     </Switch>
                   </div>
                   <div className={modeParametersStyles}>
-                    <h4 className={sectionHeadingStyles}>Mode parameters</h4>
+                    <div className={panelHeaderStyles}>
+                      <h4 className={sectionHeadingStyles}>Mode parameters</h4>
+                      <ActionButton
+                        isQuiet
+                        aria-label={`Delete mode ${mode.name}`}
+                        isDisabled={isReadOnly || draft.modes.length <= 1}
+                        onPress={() =>
+                          setDraft({
+                            ...draft,
+                            modes: draft.modes.filter(
+                              (item) => item.id !== mode.id,
+                            ),
+                          })
+                        }
+                      >
+                        <Delete />
+                      </ActionButton>
+                    </div>
                     {isDefault ? (
                       <Text>Uses foundation values</Text>
                     ) : (
@@ -801,27 +740,6 @@ export function ModeSetEditorLayout({ modeSetId }: { modeSetId: string }) {
                           }
                         />
                       )}
-                  </div>
-                  <ActionButton
-                    isQuiet
-                    aria-label={`Delete mode ${mode.name}`}
-                    isDisabled={isReadOnly || draft.modes.length <= 1}
-                    onPress={() =>
-                      setDraft({
-                        ...draft,
-                        modes: draft.modes.filter(
-                          (item) => item.id !== mode.id,
-                        ),
-                      })
-                    }
-                  >
-                    <Delete />
-                  </ActionButton>
-                  <div className={previewColumnStyles}>
-                    <ModeSetPreview
-                      modeSet={{ ...draft, modes: [mode] }}
-                      foundations={foundations}
-                    />
                   </div>
                 </section>
               );

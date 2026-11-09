@@ -210,7 +210,7 @@ assert.equal(
 assert.throws(
   () =>
     textSizeComparisonSettings({ ...TYPOGRAPHY_DEFAULTS, textZoom: NaN }, sets),
-  /valid Text size/,
+  /valid Adaptive text scaling/,
 );
 assert.throws(
   () =>
@@ -224,7 +224,7 @@ assert.throws(
     textSizeComparisonSettings(TYPOGRAPHY_DEFAULTS, [
       { ...owner, modes: [mode("default"), mode("invalid", NaN)] },
     ]),
-  /valid Text size/,
+  /valid Adaptive text scaling/,
 );
 
 const document = {

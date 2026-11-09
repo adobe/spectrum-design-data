@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, type Getter } from "jotai";
+import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
 import { clearPersistenceIssuesAtom, persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom } from "../color-system/state";
@@ -10,6 +11,12 @@ import {
 } from "../color-system/model";
 import { storedCustomContrasts } from "../color-system/customContrastConfig";
 import { typographyDocumentAtom } from "../typography/state";
+import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
+import {
+  COMPONENT_SIZING_DEFAULTS,
+  isComponentSizingDocument,
+  type ComponentSizingDocument,
+} from "../foundations/componentSizing";
 import {
   isTypographyDocument,
   type TypographyDocument,
@@ -173,8 +180,19 @@ import { componentColorWitnessAtom } from "../components/colorWitness";
 import { opacityDocumentAtom } from "../opacity/state";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
 import { isOpacityDocument, type OpacityDocument } from "../opacity/model";
+import {
+  foundationParameterDefaults,
+  isFoundationParameterSettings,
+  unavailableModalCapability,
+  type FoundationParameterSettings,
+} from "../modes/foundationSettings";
+import {
+  clearRememberedModeSettingsAtom,
+  foundationParameterSettingsAtom,
+} from "../modes/foundationSettingsState";
 
 export interface EditSessionSnapshot {
+  componentSizing?: ComponentSizingDocument;
   components?: ComponentsDocument;
   aliases?: AliasDocument;
   taxonomy?: TaxonomyDocument;
@@ -198,6 +216,7 @@ export interface EditSessionSnapshot {
   modeSets: ModeSet[];
   platforms: Platform[];
   adaptiveClaims: AdaptiveClaims;
+  foundationParameterSettings?: FoundationParameterSettings;
 }
 
 export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
@@ -206,6 +225,8 @@ export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
   const snapshot = data as Partial<EditSessionSnapshot>;
   return (
     isColorSystemDocument(snapshot.colorSystem) &&
+    (snapshot.componentSizing === undefined ||
+      isComponentSizingDocument(snapshot.componentSizing)) &&
     (snapshot.components === undefined ||
       isComponentsDocument(snapshot.components)) &&
     (snapshot.aliases === undefined || isAliasDocument(snapshot.aliases)) &&
@@ -230,6 +251,8 @@ export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
       isBrowserTokenEdits(snapshot.browserTokenEdits)) &&
     isModeSetList(snapshot.modeSets) &&
     isPlatformList(snapshot.platforms) &&
+    (snapshot.foundationParameterSettings === undefined ||
+      isFoundationParameterSettings(snapshot.foundationParameterSettings)) &&
     isAdaptiveClaims(snapshot.adaptiveClaims)
   );
 }
@@ -303,6 +326,7 @@ export const editSessionSnapshotAtom =
 
 function captureSourceSnapshot(get: Getter): EditSessionSnapshot {
   const snapshot: EditSessionSnapshot = {
+    componentSizing: get(componentSizingDocumentAtom),
     components: get(componentsDocumentAtom),
     aliases: get(aliasesAtom),
     taxonomy: get(taxonomyDocumentAtom),
@@ -322,6 +346,7 @@ function captureSourceSnapshot(get: Getter): EditSessionSnapshot {
     modeSets: get(modeSetsAtom),
     platforms: get(platformsAtom),
     adaptiveClaims: get(adaptiveClaimsAtom),
+    foundationParameterSettings: get(foundationParameterSettingsAtom),
   };
   return snapshot;
 }
@@ -347,6 +372,9 @@ export const authoringSnapshotAtom = atom((get) =>
 
 export function createDefaultSnapshot(): EditSessionSnapshot {
   return {
+    componentSizing: structuredClone(
+      designSystemDefaults.system.componentSizing ?? COMPONENT_SIZING_DEFAULTS,
+    ),
     components: structuredClone(
       designSystemDefaults.system.components ?? EMPTY_COMPONENTS,
     ),
@@ -364,10 +392,13 @@ export function createDefaultSnapshot(): EditSessionSnapshot {
     scaleTypes: structuredClone([...SCALE_TYPE_DEFAULTS]),
     interpolations: structuredClone([...INTERPOLATION_DEFAULTS]),
     tokenOverrides: {},
-    browserTokenEdits: {},
+    browserTokenEdits: structuredClone(
+      designSystemDefaults.system.browserTokenEdits ?? {},
+    ),
     modeSets: structuredClone([...MODE_SET_DEFAULTS]),
     platforms: structuredClone([...PLATFORM_DEFAULTS]),
     adaptiveClaims: { ...ADAPTIVE_CLAIM_DEFAULTS },
+    foundationParameterSettings: foundationParameterDefaults(),
   };
 }
 
@@ -516,6 +547,16 @@ export function assertStoredSnapshot(
   if (!value.typography.metricNames)
     throw new Error("Stored typography has no registered metric names.");
   assertTypographyNames(value.typography, value.taxonomy);
+  if (
+    value.foundationParameterSettings &&
+    unavailableModalCapability(
+      value.modeSets,
+      value.foundationParameterSettings,
+    )
+  )
+    throw new Error(
+      "Enable this parameter's Modal setting in Foundations before restoring its mode-set support.",
+    );
   const normalized = normalizeModeState({
     modeSets: value.modeSets,
     selection: {},
@@ -616,6 +657,7 @@ export const restoreAuthoringSnapshotAtom = atom(
   (_get, set, snapshot: EditSessionSnapshot) => {
     assertStoredSnapshot(snapshot);
     set(clearStructurePreviewsAtom);
+    set(clearRememberedModeSettingsAtom);
     set(taxonomyContributionsEnabledAtom, false);
     try {
       set(
@@ -624,6 +666,10 @@ export const restoreAuthoringSnapshotAtom = atom(
           structuredClone(designSystemDefaults.system.taxonomy),
       );
       set(colorSystemDocumentAtom, snapshot.colorSystem);
+      set(
+        componentSizingDocumentAtom,
+        snapshot.componentSizing ?? { ...COMPONENT_SIZING_DEFAULTS },
+      );
       set(typographyDocumentAtom, snapshot.typography);
       if (snapshot.spacing) set(spacingDocumentAtom, snapshot.spacing);
       if (snapshot.size) set(sizeDocumentAtom, snapshot.size);
@@ -653,13 +699,18 @@ export const restoreAuthoringSnapshotAtom = atom(
       set(browserTokenEditsAtom, snapshot.browserTokenEdits ?? {});
       set(modeSetsAtom, snapshot.modeSets);
       set(platformsAtom, snapshot.platforms);
-      set(adaptiveClaimsAtom, snapshot.adaptiveClaims);
+      set(adaptiveClaimsAtom, {});
+      set(
+        foundationParameterSettingsAtom,
+        snapshot.foundationParameterSettings ??
+          foundationParameterDefaults(snapshot.adaptiveClaims),
+      );
       set(
         modeSelectionAtom,
         normalizeModeState({
           modeSets: snapshot.modeSets,
           selection: _get(modeSelectionAtom),
-          claims: snapshot.adaptiveClaims,
+          claims: {},
         }).selection,
       );
       set(previewOverridesAtom, {});
@@ -672,8 +723,15 @@ export const restoreAuthoringSnapshotAtom = atom(
 export function captureAuthoringRecord(
   get: Getter,
 ): AuthoringRecord<EditSessionSnapshot> {
-  const working = captureSnapshot(get);
-  const saved = get(editSessionSnapshotAtom) ?? createDefaultSnapshot();
+  const allocations = new Map<string, string>();
+  const working = upgradeCanonicalTokenIdentities(
+    captureSnapshot(get),
+    allocations,
+  );
+  const saved = upgradeCanonicalTokenIdentities(
+    get(editSessionSnapshotAtom) ?? createDefaultSnapshot(),
+    allocations,
+  );
   return {
     version: AUTHORING_RECORD_VERSION,
     working,
@@ -719,7 +777,9 @@ export const cancelEditAtom = atom(null, (get, set) => {
 
 /** Save commits working data and its cancellation baseline together. */
 export const saveEditAtom = atom(null, (get, set) => {
-  const snapshot = structuredClone(captureSnapshot(get));
+  const snapshot = upgradeCanonicalTokenIdentities(
+    structuredClone(captureSnapshot(get)),
+  );
   const attachments = structuredClone(
     pruneFoundationModeAttachments(
       get(foundationModeAttachmentsAtom),
@@ -754,10 +814,12 @@ export const saveEditAtom = atom(null, (get, set) => {
     savedAttachments: attachments,
   });
   set(editSessionSnapshotAtom, snapshot);
+  set(browserTokenEditsAtom, snapshot.browserTokenEdits ?? {});
   set(aliasesAtom, snapshot.aliases);
   set(foundationModeAttachmentsAtom, attachments);
   set(savedFoundationModeAttachmentsAtom, attachments);
   set(clearPersistenceIssuesAtom, "authoring");
+  set(clearRememberedModeSettingsAtom);
   return { skippedAliases: aliasPlan.skippedNames };
 });
 
@@ -804,6 +866,7 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "design/structures": "structures",
   "registry/taxonomy": "taxonomy",
   "modes/mode-sets": "modeSets",
+  "foundations/parameter-settings": "foundationParameterSettings",
   "rules/library": "rules",
   "logic/scale-types": "scaleTypes",
   "logic/interpolations": "interpolations",

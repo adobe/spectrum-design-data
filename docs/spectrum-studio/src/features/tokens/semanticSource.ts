@@ -14,9 +14,12 @@ export function semanticTokenSource(
     registry,
     row.classification,
     "structures",
+    "semantic",
   );
   return {
     id: row.conceptId,
+    ...(row.sourceId && { sourceId: row.sourceId }),
+    tier: "semantic",
     type: row.target.family === "color" ? "colors" : row.target.family,
     groupId: row.target.metricId ?? row.structureId,
     groupLabel: row.structureName,

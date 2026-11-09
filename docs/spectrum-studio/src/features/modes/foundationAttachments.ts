@@ -2,11 +2,7 @@
 import { atom } from "jotai";
 import { editModeAtom } from "../../state/view/editMode";
 import { foundationModeAttachmentsAtom } from "../../state/view/foundationModeAttachments";
-import {
-  adaptiveClaimsAtom,
-  commitModeSetClaimsAtom,
-  type AdaptiveClaims,
-} from "./adaptive";
+import { adaptiveClaimsAtom, commitModeSetClaimsAtom } from "./adaptive";
 import { addModeSetAtom, modeSetsAtom, replaceModeSetAtom } from "./state";
 import {
   AUTHORING_CAPABILITY_OPTIONS,
@@ -27,6 +23,8 @@ import { tokenModeSetIds } from "../tokens/browserModel";
 import { scaleContrasts } from "../color-system/contrastSteps";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { opacityDocumentAtom } from "../opacity/state";
+import { clearRememberedModeSettingsAtom } from "./foundationSettingsState";
+import { previewIdsForCapability } from "./foundationSettings";
 
 export const modeSetFoundationsAtom = atom((get) => {
   const attachments = get(foundationModeAttachmentsAtom);
@@ -46,7 +44,6 @@ export const modeSetFoundationsAtom = atom((get) => {
 export function foundationRemovalIssue(
   set: ModeSet,
   foundation: FoundationId,
-  claims: AdaptiveClaims,
 ): string | null {
   const capabilities = AUTHORING_CAPABILITY_OPTIONS.filter(
     (option) => option.foundation === foundation,
@@ -61,8 +58,6 @@ export function foundationRemovalIssue(
   ) {
     return "Remove this foundation's mode overrides before removing the mode set.";
   }
-  if (capabilities.some(({ id }) => claims[id] === set.id))
-    return "Turn off this foundation's adaptive controls in Modes before removing the mode set.";
   return null;
 }
 
@@ -227,7 +222,14 @@ export const detachFoundationModeSetAtom = atom(
         ),
       ),
     );
-    set(clearPreviewParametersAtom, removedParameters);
+    set(
+      clearPreviewParametersAtom,
+      removedParameters.flatMap(previewIdsForCapability),
+    );
+    set(clearRememberedModeSettingsAtom, {
+      modeSetId: target.id,
+      foundation: input.foundation,
+    });
     if (
       input.foundation === "spacing" ||
       input.foundation === "size" ||

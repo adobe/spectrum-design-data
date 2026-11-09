@@ -228,6 +228,7 @@ export function referenceRecords(
     "scale",
     "platform",
   ],
+  onInvalid?: (message: string) => void,
 ): AnalysisRecord[] {
   const category = source.includes("/") ? source.split("/")[0] : "dataset";
   const entries = Array.isArray(data)
@@ -235,9 +236,13 @@ export function referenceRecords(
     : object(data) && Array.isArray(data.values)
       ? data.values
       : [data];
-  return entries.map((entry: unknown, index) => {
-    if (!object(entry))
-      throw new Error(`${source}/${index}: expected an object record`);
+  return entries.flatMap((entry: unknown, index): AnalysisRecord[] => {
+    if (!object(entry)) {
+      const message = `${source}/${index}: expected an object record`;
+      if (!onInvalid) throw new Error(message);
+      onInvalid(message);
+      return [];
+    }
     const pointer = Array.isArray(data)
       ? `/${index}`
       : object(data) && Array.isArray(data.values)
@@ -253,49 +258,69 @@ export function referenceRecords(
       object(entry.value) && typeof entry.value.unit === "string"
         ? entry.value
         : undefined;
-    return {
-      id: `${source}#${identity ?? pointer}`,
-      category,
-      name:
-        typeof entry.name === "string"
-          ? entry.name
-          : canonicalJson(entry.name ?? entry.id ?? source),
-      source,
-      pointer,
-      classification: "authored",
-      ...(object(entry.lifecycle) &&
-        typeof entry.lifecycle.deprecatedIn === "string" && {
-          lifecycle: { deprecatedIn: entry.lifecycle.deprecatedIn },
+    return [
+      {
+        id: `${source}#${identity ?? pointer}`,
+        category,
+        name:
+          typeof entry.name === "string"
+            ? entry.name
+            : canonicalJson(entry.name ?? entry.id ?? source),
+        source,
+        pointer,
+        classification: "authored",
+        ...(typeof entry.$schema === "string" ? { schema: entry.$schema } : {}),
+        ...(object(entry.lifecycle) && {
+          lifecycle: {
+            ...(typeof entry.lifecycle.introduced === "string" && {
+              introduced: entry.lifecycle.introduced,
+            }),
+            ...(typeof entry.lifecycle.deprecatedIn === "string" && {
+              deprecatedIn: entry.lifecycle.deprecatedIn,
+            }),
+            ...(typeof entry.lifecycle.deprecatedComment === "string" && {
+              deprecatedComment: entry.lifecycle.deprecatedComment,
+            }),
+            ...((typeof entry.lifecycle.replacedBy === "string" ||
+              (Array.isArray(entry.lifecycle.replacedBy) &&
+                entry.lifecycle.replacedBy.every(
+                  (id: unknown) => typeof id === "string",
+                ))) && {
+              replacedBy: entry.lifecycle.replacedBy as string | string[],
+            }),
+          },
         }),
-      ...(object(entry.name) ? { structuredName: entry.name } : {}),
-      ...(identity ? { identity } : {}),
-      ...(typeof entry.conceptId === "string"
-        ? { conceptId: entry.conceptId }
-        : {}),
-      ...(category === "registry" &&
-      object(data) &&
-      typeof data.type === "string"
-        ? { vocabulary: data.type }
-        : {}),
-      value: category === "tokens" ? (dimension?.value ?? entry.value) : entry,
-      ...(dimension ? { unit: dimension.unit as string } : {}),
-      ...(typeof entry.$ref === "string" ? { reference: entry.$ref } : {}),
-      ...(object(entry.name)
-        ? {
-            context: Object.fromEntries(
-              Object.entries(entry.name).filter(
-                ([key, value]) =>
-                  modeKeys.includes(key) &&
-                  (typeof value === "string" ||
-                    (Array.isArray(value) &&
-                      value.every(
-                        (member: unknown) => typeof member === "string",
-                      ))),
-              ),
-            ) as Record<string, string | string[]>,
-          }
-        : {}),
-    };
+        ...(object(entry.name) ? { structuredName: entry.name } : {}),
+        ...(identity ? { identity } : {}),
+        ...(typeof entry.conceptId === "string"
+          ? { conceptId: entry.conceptId }
+          : {}),
+        ...(category === "registry" &&
+        object(data) &&
+        typeof data.type === "string"
+          ? { vocabulary: data.type }
+          : {}),
+        value:
+          category === "tokens" ? (dimension?.value ?? entry.value) : entry,
+        ...(dimension ? { unit: dimension.unit as string } : {}),
+        ...(typeof entry.$ref === "string" ? { reference: entry.$ref } : {}),
+        ...(object(entry.name)
+          ? {
+              context: Object.fromEntries(
+                Object.entries(entry.name).filter(
+                  ([key, value]) =>
+                    modeKeys.includes(key) &&
+                    (typeof value === "string" ||
+                      (Array.isArray(value) &&
+                        value.every(
+                          (member: unknown) => typeof member === "string",
+                        ))),
+                ),
+              ) as Record<string, string | string[]>,
+            }
+          : {}),
+      },
+    ];
   });
 }
 
@@ -356,7 +381,12 @@ export async function loadReferenceInput(
       if (source === "package.json") continue;
       try {
         input.records.push(
-          ...referenceRecords(source, JSON.parse(text), [...modeKeys]),
+          ...referenceRecords(
+            source,
+            JSON.parse(text),
+            [...modeKeys],
+            (message) => input.errors.push(message),
+          ),
         );
       } catch (error) {
         input.errors.push(

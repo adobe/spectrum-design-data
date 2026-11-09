@@ -3,6 +3,7 @@ import { tokenDisplayName, type ResolvedToken } from "./model";
 import type { BrowserTokenEdits } from "./browserEditTypes";
 import type { ColorSystemDocument } from "../color-system/model";
 import { normalizeManualColorOutput } from "./colorOutput";
+import { tokenEdit } from "./canonicalIdentity";
 
 export function canonicalTokenModeKey(selection: Record<string, string>) {
   return JSON.stringify(
@@ -36,7 +37,7 @@ export function resolveBrowserColorToken(
   modeKey: string,
   document?: ColorSystemDocument,
 ): ResolvedToken {
-  const edit = edits[token.uuid];
+  const edit = tokenEdit(edits, token.uuid);
   if (!edit)
     return document ? normalizeManualColorOutput(token, document) : token;
   const name = edit.name,

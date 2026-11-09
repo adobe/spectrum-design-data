@@ -50,7 +50,7 @@ export async function resolveColorOpacityValues(
         stderr = "";
       const timer = setTimeout(() => {
         child.kill();
-        reject(new Error("Color/opacity resolution timed out."));
+        reject(new Error("Token resolution timed out."));
       }, 30000);
       child.on("error", reject);
       child.stdout.setEncoding("utf8").on("data", (chunk: string) => {
@@ -101,7 +101,7 @@ export async function resolveColorOpacityValues(
       },
     };
   } catch (error) {
-    const message = `Color/opacity resolution unavailable: ${error instanceof Error ? error.message : String(error)}`;
+    const message = `Token resolution unavailable: ${error instanceof Error ? error.message : String(error)}`;
     return {
       ...input,
       resolvedValues: undefined,

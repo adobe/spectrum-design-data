@@ -122,9 +122,54 @@
   }
 }
 .analysisValueTable {
-  height: min(65vh, 640px);
-  min-height: 320px;
+  height: auto;
+  min-height: 0;
   overflow-x: auto;
+}
+.analysisFitTable {
+  height: auto;
+  max-height: none;
+  min-height: 0;
+}
+.analysisTokenHeading,
+.analysisModeControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.analysisTokenHeading {
+  justify-content: space-between;
+  margin-top: 32px;
+}
+.analysisTokenToolbar.tokenBrowserToolbar {
+  padding-inline: 0;
+  margin-bottom: 16px;
+}
+.analysisTokenTable {
+  padding-bottom: 16px;
+}
+.analysisTokenName {
+  max-width: 100%;
+  white-space: normal;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+.analysisResultBadge {
+  display: inline-flex;
+  width: fit-content;
+  justify-self: start;
+  white-space: nowrap;
+}
+.analysisAdjacentSamples {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+}
+.analysisAdjacentSamples > * {
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Halves touch with no border or gap so differences are visible by eye. */
@@ -144,5 +189,8 @@
 .analysisComparedValue {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+}
+.analysisComparedValue code {
+  overflow-wrap: anywhere;
 }

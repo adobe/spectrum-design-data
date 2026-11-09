@@ -49,6 +49,15 @@ assert.deepEqual(
   },
 );
 assert.equal(normalizedAdjustment(absolute), absolute);
+for (const enabled of [true, false]) {
+  assert.deepEqual(
+    normalizedAdjustment({ method: "relative", enabled, hue: 0, chroma: 100 }),
+    { method: "relative", enabled },
+    "An explicit checkbox state survives neutral values and reset.",
+  );
+  assert.ok(isScaleAdjustment({ ...absolute, enabled }));
+  assert.ok(isScaleAdjustment({ method: "relative", enabled }));
+}
 assert.ok(isScaleAdjustment(absolute));
 assert.ok(isScaleAdjustment({ method: "relative" }));
 for (const invalid of [
@@ -56,6 +65,8 @@ for (const invalid of [
   [],
   { method: "tint" },
   { method: "relative", hue: NaN },
+  { method: "relative", enabled: "false" },
+  { ...absolute, enabled: 0 },
   { method: "absolute" },
   { method: "absolute", color: { ...key, lightness: 2 } },
   { method: "absolute", color: { ...key, chroma: 126 } },
@@ -78,6 +89,28 @@ assert.equal(
   applyScaleAdjustment(snapshot.colorSystem, { method: "relative", hue: 0 }),
   snapshot.colorSystem,
 );
+for (const adjustment of [
+  absolute,
+  { method: "relative", hue: 20, chroma: 50 } as const,
+]) {
+  const disabled = { ...adjustment, enabled: false };
+  const before = structuredClone(disabled);
+  assert.equal(adjustKeyColor(key, disabled), key);
+  assert.equal(
+    applyScaleAdjustment(snapshot.colorSystem, disabled),
+    snapshot.colorSystem,
+  );
+  assert.deepEqual(
+    disabled,
+    before,
+    "Disabling preserves the authored settings.",
+  );
+  assert.deepEqual(
+    applyScaleAdjustment(snapshot.colorSystem, { ...disabled, enabled: true }),
+    applyScaleAdjustment(snapshot.colorSystem, adjustment),
+    "Re-enabling restores exactly the previous output.",
+  );
+}
 
 // Different stop counts, positions and interpolation methods must all converge.
 snapshot.colorSystem.scales[1].interpolation = "oklch";

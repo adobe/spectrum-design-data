@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { EditSessionSnapshot } from "../edit-session/state";
+import { tokenOwningModeKey as scopeKey } from "../tokens/owningModes";
 import { browserSourcesForSnapshot } from "../tokens/browserSavedState";
 import {
   canonicalTokenModeKey,
   projectBrowserTokens,
   resolveBrowserTokens,
-  tokenModeSetIds,
   tokenValueText,
   type BrowserToken,
 } from "../tokens/browserModel";
@@ -14,17 +14,13 @@ import type { TokenImpactRecord } from "../impact/model";
 import type { ChangeField, ChangeItem } from "./changes";
 import type { AuthoringComparison } from "./registry";
 import { sameValue, type SourcePath } from "./contract";
-import { parameterOwners } from "../modes/parameters";
 import {
   modeCombinationCount,
   modeCombinations,
   selectionForModes,
 } from "../modes/combinations";
-import { elevationOwnerIds } from "../elevation/output";
-import { opacityAxes } from "../opacity/generation";
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import { opacityOutputIssues } from "../opacity/output";
-import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { isFoundationPublished } from "../foundations/types";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import {
@@ -118,86 +114,6 @@ function modeLabel(key: string, snapshot: EditSessionSnapshot): string {
         return `${set?.name ?? setId}: ${set?.modes.find((mode) => mode.id === modeId)?.name ?? modeId}`;
       })
       .join(" / ") || "Default"
-  );
-}
-function scopeKey(
-  token: BrowserToken,
-  snapshot: EditSessionSnapshot,
-  fullKey: string,
-  other?: EditSessionSnapshot,
-  allowMissing = false,
-): string {
-  const owners = parameterOwners(snapshot.modeSets);
-  const axes = new Set<string>();
-  const addOwner = (id: string) => {
-    if (owners[id]) axes.add(owners[id]);
-  };
-  if (token.dataVis) {
-    const scale = snapshot.colorSystem.dataVisScales.find(
-      (candidate) => candidate.id === token.dataVis?.scaleId,
-    );
-    const member =
-      scale?.kind === "categorical"
-        ? scale.members.find(
-            (candidate) => candidate.id === token.dataVis?.memberId,
-          )
-        : undefined;
-    if (!scale || !member) {
-      if (!allowMissing)
-        throw new Error("A categorical Changes value has no authored member.");
-    } else
-      for (const axis of categoricalMemberAxes(
-        scale.id,
-        member,
-        snapshot.modeSets,
-        snapshot.browserTokenEdits ?? {},
-        scale,
-      ))
-        axes.add(axis);
-  } else if (token.type === "opacity") {
-    for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
-  } else if (token.type === "elevation") {
-    for (const axis of elevationOwnerIds(
-      snapshot.modeSets,
-      snapshot,
-      snapshot.elevation,
-    ))
-      axes.add(axis);
-  } else if (token.type === "colors" && !token.paletteColorId) {
-    if (opacityStopsEnabled(snapshot.colorSystem.settings))
-      for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
-    for (const key of [
-      "color.backgroundScaleId",
-      "color.backgroundLightness",
-      "color.contrastMultiplier",
-    ])
-      addOwner(key);
-  } else if (token.type === "typography") {
-    addOwner("typography.textZoom");
-  } else if (
-    token.type === "spacing" ||
-    token.type === "size" ||
-    token.type === "radius"
-  ) {
-    const scale = snapshot[token.type]?.scales.find(
-      (candidate) => candidate.id === token.groupId,
-    );
-    for (const binding of Object.values(scale?.bindings ?? {}))
-      addOwner(binding.modeParameterId);
-  }
-  for (const key of Object.keys(
-    snapshot.browserTokenEdits?.[token.id]?.values ?? {},
-  )) {
-    for (const axis of tokenModeSetIds(key)) axes.add(axis);
-  }
-  if (other)
-    for (const axis of tokenModeSetIds(
-      scopeKey(token, other, fullKey, undefined, true),
-    ))
-      axes.add(axis);
-  const pairs: [string, string][] = JSON.parse(fullKey);
-  return canonicalTokenModeKey(
-    Object.fromEntries(pairs.filter(([id]) => axes.has(id))),
   );
 }
 function primitiveRows(
@@ -353,6 +269,7 @@ function dependencyPaths(
       "largeSizes",
       "componentSize",
       "textZoom",
+      "textSize",
       "minTextSize",
       "maxTextSize",
       "textRoundingRuleId",
@@ -436,6 +353,8 @@ function dependencyPaths(
       (candidate) => candidate.id === token.groupId,
     );
     paths.push(entity(token.type, "scales", token.groupId));
+    if (token.type !== "spacing")
+      paths.push(["componentSizing", "componentSize"]);
     if (scale) {
       paths.push(
         entity("scaleTypes", undefined, scale.scaleTypeId),

@@ -12,6 +12,7 @@ import {
 } from "../typography/units";
 import { filterTokenTableData } from "./view/tokenTableModel";
 import {
+  blockingProjectionIssues,
   resolveSourceClassification,
   projectClassification,
   withTaxonomyProjection,
@@ -37,6 +38,8 @@ import {
 } from "./tokenAssignments";
 import type { UiSwatchSource } from "../color-system/data-vis/model";
 import type { ValuePreviewDescriptor } from "./valuePreview";
+import { UNCLASSIFIED_TIER_MESSAGE, type TokenTier } from "./tier";
+import { tokenIdentity } from "./canonicalIdentity";
 export {
   canonicalTokenModeKey,
   resolveBrowserColorToken,
@@ -56,6 +59,9 @@ export interface NominalFontSizeMeasurement {
 }
 
 export interface BrowserTokenSource {
+  /** Stable generator coordinate retained independently of the emitted concept ID. */
+  sourceId?: string;
+  tier?: TokenTier;
   originalSource?: BrowserTokenSource;
   rowId?: string;
   modeKey?: string;
@@ -145,18 +151,39 @@ export function tokenValueText(
 
 export const MISSING_VALUE_MESSAGE = "Set a value for this token.";
 
+export function canonicalBrowserSources(
+  sources: readonly BrowserTokenSource[],
+  edits: BrowserTokenEdits,
+): BrowserTokenSource[] {
+  return sources.map((source) => {
+    const identity = tokenIdentity(edits, source.sourceId ?? source.id);
+    return identity
+      ? {
+          ...source,
+          sourceId: identity.sourceId,
+          id: identity.conceptId,
+          ...(source.referenceId && {
+            referenceId:
+              tokenIdentity(edits, source.referenceId)?.conceptId ??
+              source.referenceId,
+          }),
+        }
+      : source;
+  });
+}
+
 export function resolveBrowserTokens(
   sources: BrowserTokenSource[],
   edits: BrowserTokenEdits,
   modeKey: string,
   { includeManual = false }: { includeManual?: boolean } = {},
 ): BrowserToken[] {
-  const allSources = [...sources];
+  const allSources = canonicalBrowserSources(sources, edits);
   for (const [id, edit] of Object.entries(edits)) {
     const manual = edit.authoring?.manual;
     if (!manual || allSources.some((source) => source.id === id)) continue;
     const target = manual.targetId
-      ? sources.find((source) => source.id === manual.targetId)
+      ? allSources.find((source) => source.id === manual.targetId)
       : undefined;
     allSources.push({
       id,
@@ -169,6 +196,7 @@ export function resolveBrowserTokens(
       value: target?.value ?? "",
       generatedValue: target?.value ?? "",
       manual: true,
+      tier: manual.tier,
       referenceId: manual.targetId,
       classificationScope: manual.scope,
     });
@@ -200,6 +228,12 @@ export function resolveBrowserTokens(
         !!source.legacyStale ||
         !!source.resolvedValue?.stale,
       classificationOverride: edit?.authoring?.classification,
+      ...(source.manual && {
+        tier: edit?.authoring?.manual
+          ? edit.authoring.manual.tier
+          : source.tier,
+        classificationScope: edit?.authoring?.manual?.scope,
+      }),
       lifecycle: edit?.authoring?.lifecycle,
     };
   });
@@ -297,7 +331,7 @@ export function filterBrowserTokens(
     const terms = query.trim().toLowerCase().split(/\s+/);
     return candidates.filter((token) => {
       const text =
-        `${token.name} ${tokenValueText(token)} ${token.groupLabel} ${token.alias ? `compatibility alias ${token.alias.targetName}` : token.semantic ? `semantic generated ${"$ref" in token.semantic.token ? "alias" : "literal"} ${token.semantic.target.name}` : "primitive"} ${token.projection?.segments.map((segment) => `${segment.categoryName} ${segment.values.join(" ")}`).join(" ")} ${token.projection?.issues.join(" ")}`.toLowerCase();
+        `${token.name} ${tokenValueText(token)} ${token.groupLabel} ${token.tier ?? "unclassified"} ${token.alias ? `compatibility alias ${token.alias.targetName}` : token.semantic ? `generated ${"$ref" in token.semantic.token ? "alias" : "literal"} ${token.semantic.target.name}` : ""} ${token.projection?.segments.map((segment) => `${segment.categoryName} ${segment.values.join(" ")}`).join(" ")} ${token.projection?.issues.join(" ")}`.toLowerCase();
       return terms.every((term) => text.includes(term));
     });
   }
@@ -410,10 +444,13 @@ function projectTokenBatch(
           : token.type === "motion"
             ? "size"
             : token.type,
+        token.tier,
       );
       return {
         ...token,
-        name: projection.issues.length ? token.name : projection.name,
+        name: blockingProjectionIssues(projection).length
+          ? token.name
+          : projection.name,
         projection,
       };
     }
@@ -439,6 +476,7 @@ function projectTokenBatch(
         | "opacity"
         | "elevation",
       token.taxonomySource,
+      token.tier,
     );
     if (token.validationError) projection.issues.push(token.validationError);
     if (token.nameOverridden && !assigned)
@@ -447,13 +485,23 @@ function projectTokenBatch(
       );
     return {
       ...token,
-      name: projection.issues.length ? token.name : projection.name,
+      name: blockingProjectionIssues(projection).length
+        ? token.name
+        : projection.name,
       projection,
     };
   });
   const names = new Map<string, typeof projected>();
   for (const token of projected)
-    if (token.projection.issues.length === 0)
+    if (token.manual && !token.tier) {
+      token.projection.issues.push(UNCLASSIFIED_TIER_MESSAGE);
+      token.projection.tierIssues = [
+        ...(token.projection.tierIssues ?? []),
+        UNCLASSIFIED_TIER_MESSAGE,
+      ];
+    }
+  for (const token of projected)
+    if (blockingProjectionIssues(token.projection).length === 0)
       names.set(token.name, [...(names.get(token.name) ?? []), token]);
   for (const [name, members] of names)
     if (new Set(members.map((token) => token.id)).size > 1) {
@@ -605,10 +653,16 @@ export function applyBrowserTokenEdits(
         (source.type === "opacity" ? source.generatedValue : source.value)
       )
         delete edit.values[key];
-      else edit.values[key] = { value, baseline: source.generatedValue };
+      else {
+        edit.values[key] = { value, baseline: source.generatedValue };
+        const identity = edit.authoring?.identity;
+        if (identity && !identity.rows[key])
+          identity.rows[key] = crypto.randomUUID();
+      }
     }
     if (
       Object.keys(edit.values).length ||
+      edit.authoring !== undefined ||
       edit.name !== undefined ||
       edit.description !== undefined ||
       edit.status !== undefined
@@ -623,6 +677,9 @@ export function isBrowserTokenEdits(
   value: unknown,
 ): value is BrowserTokenEdits {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const identitySources = new Set<string>();
+  const identityConcepts = new Set<string>();
+  const identityRows = new Set<string>();
   return Object.values(value).every((entry: unknown) => {
     if (!entry || typeof entry !== "object" || Array.isArray(entry))
       return false;
@@ -635,6 +692,20 @@ export function isBrowserTokenEdits(
       return false;
     if (edit.authoring !== undefined && !isTokenAuthoring(edit.authoring))
       return false;
+    const identity = edit.authoring?.identity;
+    if (identity) {
+      if (
+        identitySources.has(identity.sourceId) ||
+        identityConcepts.has(identity.conceptId)
+      )
+        return false;
+      identitySources.add(identity.sourceId);
+      identityConcepts.add(identity.conceptId);
+      for (const uuid of Object.values(identity.rows)) {
+        if (identityRows.has(uuid)) return false;
+        identityRows.add(uuid);
+      }
+    }
     if (edit.description !== undefined && typeof edit.description !== "string")
       return false;
     if (

@@ -1,5 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
+  AccordionItem,
+  AccordionItemTitle,
+  AccordionItemPanel,
+} from "@react-spectrum/s2";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { FoundationModeSettings } from "./FoundationModeSettings";
+import { FoundationParameterSettings } from "./FoundationParameterSettings";
+import {
   addSizeScaleAtom,
   generatedSizeAtom,
   isSizeScaleNameTaken,
@@ -25,10 +33,23 @@ const sizeFoundation: DimensionFoundationBinding = {
 };
 
 export function FoundationsSizePanel() {
+  const systemSettings = (
+    <AccordionItem id="system-settings">
+      <AccordionItemTitle>System settings</AccordionItemTitle>
+      <AccordionItemPanel UNSAFE_className={String(style({ padding: 0 }))}>
+        <div className={style({ padding: 8 })}>
+          <FoundationParameterSettings foundation="size" />
+        </div>
+      </AccordionItemPanel>
+    </AccordionItem>
+  );
   return (
-    <DimensionFoundationPanel
-      foundation={sizeFoundation}
-      componentName="FoundationsSizePanel"
-    />
+    <>
+      <FoundationModeSettings foundation="size" before={systemSettings} />
+      <DimensionFoundationPanel
+        foundation={sizeFoundation}
+        componentName="FoundationsSizePanel"
+      />
+    </>
   );
 }

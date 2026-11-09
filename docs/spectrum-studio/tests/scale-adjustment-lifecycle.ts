@@ -36,6 +36,8 @@ import {
 } from "../src/features/changelog/resetPlans";
 import { buildColorLibrary } from "../src/features/color-system/cssLibrary";
 import { buildScaleData } from "../src/features/color-system/scaleGeneration";
+import { resolveColorDocument } from "../src/features/color-system/resolution";
+import { modeAdjustmentRows } from "../src/features/modes/presentation";
 import { flushPersistedState } from "../src/state/persist";
 
 const original = createDefaultSnapshot();
@@ -46,6 +48,51 @@ const adjustmentOf = (snapshot: typeof original) =>
     .find((set) => set.id === scheme.id)!
     .modes.find((mode) => mode.id === wireframe.id)!.foundations.color!
     .scaleAdjustment;
+const disabled = structuredClone(original);
+adjustmentOf(disabled)!.enabled = false;
+assertStoredSnapshot(disabled);
+const disabledScheme = disabled.modeSets.find((set) => set.id === scheme.id)!;
+const disabledMode = disabledScheme.modes.find(
+  (mode) => mode.id === wireframe.id,
+)!;
+const unadjustedMode = structuredClone(wireframe);
+delete unadjustedMode.foundations.color!.scaleAdjustment;
+assert.deepEqual(
+  resolveColorDocument(original.colorSystem, [disabledMode], undefined, {
+    modeSets: disabled.modeSets,
+  }),
+  resolveColorDocument(original.colorSystem, [unadjustedMode], undefined, {
+    modeSets: original.modeSets,
+  }),
+  "Disabled settings do not affect the shared preview/output resolver.",
+);
+assert.deepEqual(modeAdjustmentRows(disabledMode, disabledScheme), []);
+const disabledComparison = compareAuthoring(original, disabled);
+const disabledFields = disabledComparison.groups
+  .flatMap((group) => group.items)
+  .flatMap((item) => item.fields);
+assert.equal(
+  disabledFields.length,
+  1,
+  "The toggle is exactly one authored change.",
+);
+const enabledField = disabledFields[0];
+assert.equal(enabledField.address?.path.at(-1), "enabled");
+const disabledReset = prepareChangeReset(
+  { ...disabled, attachments: {} },
+  sourceResetPlan("Restore adjustment enabled", [enabledField.address!]),
+);
+assert.deepEqual(adjustmentOf(disabledReset), adjustmentOf(original));
+assert.equal(
+  modeFoundationParameters(disabled.modeSets).filter((slot) => slot.edited)
+    .length,
+  1,
+);
+assert.ok(
+  comparePrimitiveTokens(original, disabled, disabledComparison).records.some(
+    (record) => record.modeValues.some((value) => value.changed),
+  ),
+);
 const legacy = (adjustment: unknown) => ({
   ...original,
   modeSets: original.modeSets.map((set) => ({
@@ -220,6 +267,20 @@ if (componentImpact.status === "ready")
     ],
     [2, 3],
   );
+const disabledComponentImpact = componentImpactForSnapshots(componentBase, {
+  ...disabled,
+  components: structuredClone(componentBase.components),
+});
+assert.equal(disabledComponentImpact.status, "ready");
+if (disabledComponentImpact.status === "ready")
+  assert.deepEqual(
+    [
+      disabledComponentImpact.summary.affected.count,
+      disabledComponentImpact.summary.affected.total,
+    ],
+    [2, 3],
+    "Disabling affects linked assignments without adding token concepts.",
+  );
 
 const previousWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const storage = new Map<string, string>();
@@ -330,6 +391,57 @@ try {
     method: "absolute",
     color: { ...DEFAULT_ABSOLUTE_COLOR, hue: 200 },
   });
+  const retainedColor = { ...DEFAULT_ABSOLUTE_COLOR, hue: 200 };
+  reload.set(updateModeScaleAdjustmentAtom, {
+    modeId: wireframe.id,
+    adjustment: { method: "absolute", enabled: false, color: retainedColor },
+  });
+  reload.set(saveEditAtom);
+  flushPersistedState();
+  stop();
+  const disabledReload = createStore();
+  const stopDisabled = initializeAuthoringPersistence(disabledReload, {
+    validateScheduled: null,
+  });
+  assert.deepEqual(
+    adjustmentOf(disabledReload.get(authoringSourceSnapshotAtom)),
+    {
+      method: "absolute",
+      enabled: false,
+      color: retainedColor,
+    },
+  );
+  disabledReload.set(updateModeScaleAdjustmentAtom, {
+    modeId: wireframe.id,
+    adjustment: { method: "absolute", enabled: true, color: retainedColor },
+  });
+  disabledReload.set(cancelEditAtom);
+  assert.deepEqual(
+    adjustmentOf(disabledReload.get(authoringSourceSnapshotAtom)),
+    {
+      method: "absolute",
+      enabled: false,
+      color: retainedColor,
+    },
+    "Cancel restores both disabled state and the retained color.",
+  );
+  disabledReload.set(updateModeScaleAdjustmentAtom, {
+    modeId: wireframe.id,
+    adjustment: { method: "relative", enabled: true, hue: 30, chroma: 50 },
+  });
+  disabledReload.set(updateModeScaleAdjustmentAtom, {
+    modeId: wireframe.id,
+    adjustment: { method: "relative", enabled: true },
+  });
+  assert.deepEqual(
+    adjustmentOf(disabledReload.get(authoringSourceSnapshotAtom)),
+    {
+      method: "relative",
+      enabled: true,
+    },
+    "Reset keeps Adjust colors selected with neutral values.",
+  );
+  stopDisabled();
   reload.set(updateModeScaleAdjustmentAtom, {
     modeId: wireframe.id,
     adjustment: { method: "relative", hue: 0, chroma: 100 },
@@ -342,7 +454,6 @@ try {
       ?.scaleAdjustment,
     undefined,
   );
-  stop();
 } finally {
   if (previousWindow)
     Object.defineProperty(globalThis, "window", previousWindow);

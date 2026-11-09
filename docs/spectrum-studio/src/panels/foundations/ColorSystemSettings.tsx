@@ -21,6 +21,7 @@ import {
 import { SharedColorOutputControls } from "../color-system/SharedColorOutputControls";
 import { useNotify } from "../../components/notifications/notificationContext";
 import type { ColorScaleType } from "../../features/color-system/model";
+import { FoundationParameterSettings } from "./FoundationParameterSettings";
 
 const scaleTypes: { id: ColorScaleType; label: string }[] = [
   { id: "dynamic-blend", label: "Dynamic blend" },
@@ -52,6 +53,7 @@ export function ColorSystemSettings() {
   const type = document.settings.colorScaleType ?? "dynamic-blend";
   return (
     <div className={stack}>
+      <FoundationParameterSettings foundation="color" />
       <SharedColorOutputControls />
       <div className={row}>
         <EditableSlider

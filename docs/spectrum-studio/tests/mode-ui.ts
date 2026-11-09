@@ -246,7 +246,7 @@ store.set(resetModeAtom, { modeSetKey: "colorScheme", modeId: "mode-dark" });
 assert.equal(store.get(previewColorSchemeAtom), "dark");
 store.set(appColorSchemeAtom, "light");
 assert.equal(store.get(previewColorSchemeAtom), "dark");
-assert.equal(MODE_SETS_SCHEMA_VERSION, 10);
+assert.equal(MODE_SETS_SCHEMA_VERSION, 11);
 
 const color = store.get(modeSetsAtom).find((set) => set.key === "colorScheme")!;
 assert.throws(

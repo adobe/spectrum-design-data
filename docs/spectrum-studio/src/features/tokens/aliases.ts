@@ -47,15 +47,27 @@ export function aliasTargetsForContext<T extends AliasTarget>(
     new Set(pairs.map((pair) => pair[0])).size !== pairs.length
   )
     return [];
-  // Static targets retain scoped aliases without inventing mode-dependent value rows.
-  return targets.filter(
+  const selection = new Map(pairs);
+  const compatible = targets.filter(
     (target) =>
       target.id === id &&
-      target.context === "[]" &&
       target.compatibleModes &&
+      (JSON.parse(target.context) as [string, string][]).every(
+        ([axis, mode]) => selection.get(axis) === mode,
+      ) &&
       pairs.every(([axis, mode]) =>
         target.compatibleModes![axis]?.includes(mode),
       ),
+  );
+  const specificity = Math.max(
+    -1,
+    ...compatible.map(
+      (target) => (JSON.parse(target.context) as [string, string][]).length,
+    ),
+  );
+  return compatible.filter(
+    (target) =>
+      (JSON.parse(target.context) as [string, string][]).length === specificity,
   );
 }
 

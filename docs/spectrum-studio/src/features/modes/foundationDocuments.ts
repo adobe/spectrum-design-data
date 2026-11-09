@@ -4,6 +4,7 @@ import { colorSystemDocumentAtom } from "../color-system/state";
 import { typographyDocumentAtom } from "../typography/state";
 import type { FoundationDocuments } from "./parameters";
 import { elevationDocumentAtom } from "../elevation/state";
+import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
 
 /** Saved base documents that mode parameters inherit from. */
 export const foundationDocumentsAtom = atom(
@@ -11,5 +12,6 @@ export const foundationDocumentsAtom = atom(
     color: get(colorSystemDocumentAtom),
     typography: get(typographyDocumentAtom),
     elevation: get(elevationDocumentAtom),
+    componentSizing: get(componentSizingDocumentAtom),
   }),
 );

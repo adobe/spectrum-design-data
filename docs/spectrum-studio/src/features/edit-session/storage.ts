@@ -5,6 +5,14 @@ import {
 } from "../../state/view/foundationModeAttachments";
 import { upgradeGeneratorRulesSnapshot } from "./generatorRulesUpgrade";
 import { upgradeScaleAdjustmentSnapshot } from "./scaleAdjustmentUpgrade";
+import { upgradeFoundationSettingsSnapshot } from "./foundationSettingsUpgrade";
+import { upgradeTokenTierData } from "./tokenTierUpgrade";
+import { upgradePlatformScaleSnapshot } from "./platformScaleUpgrade";
+import { upgradeScaleKeys } from "../modes/scaleKeys";
+import {
+  upgradeComponentSizingSnapshot,
+  upgradeSizingFields,
+} from "./componentSizingUpgrade";
 import {
   encodeStructureSource,
   decodeStructureSource,
@@ -12,7 +20,7 @@ import {
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
-export const AUTHORING_RECORD_VERSION = 22;
+export const AUTHORING_RECORD_VERSION = 28;
 
 export interface AuthoringRecord<T> {
   version:
@@ -37,7 +45,13 @@ export interface AuthoringRecord<T> {
     | 19
     | 20
     | 21
-    | 22;
+    | 22
+    | 23
+    | 24
+    | 25
+    | 26
+    | 27
+    | 28;
   working: T;
   saved: T;
   isEditing: boolean;
@@ -85,8 +99,16 @@ export function readAuthoringRecord<T>(
       | 18
       | 19
       | 20
-      | 21,
+      | 21
+      | 22
+      | 23
+      | 24
+      | 25
+      | 26
+      | 27,
   ) => unknown,
+  reportIssue?: (message: string) => void,
+  reconcile?: (value: T, identities: Map<string, string>) => T,
 ): AuthoringRecord<T> | null {
   if (typeof window === "undefined") return null;
   const raw = window.localStorage.getItem(AUTHORING_STORAGE_KEY);
@@ -115,6 +137,12 @@ export function readAuthoringRecord<T>(
       value.version !== 19 &&
       value.version !== 20 &&
       value.version !== 21 &&
+      value.version !== 22 &&
+      value.version !== 23 &&
+      value.version !== 24 &&
+      value.version !== 25 &&
+      value.version !== 26 &&
+      value.version !== 27 &&
       value.version !== AUTHORING_RECORD_VERSION) ||
     typeof value.isEditing !== "boolean" ||
     !isFoundationModeAttachments(value.attachments) ||
@@ -125,32 +153,84 @@ export function readAuthoringRecord<T>(
     );
   }
   const identities = new Map<string, string>();
-  const working = decodeStructureSource(
-    value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgradeGeneratorRulesSnapshot(
-          upgrade(upgradeScaleAdjustmentSnapshot(value.working), value.version),
-        )
-      : value.working,
-    identities,
+  const working = upgradeTokenTierData(
+    decodeStructureSource(
+      value.version !== AUTHORING_RECORD_VERSION && upgrade
+        ? upgradeGeneratorRulesSnapshot(
+            upgrade(
+              upgradeScaleAdjustmentSnapshot(
+                upgradeSizingFields(upgradeTokenTierData(value.working)),
+              ),
+              value.version,
+            ),
+          )
+        : value.working,
+      identities,
+    ),
   );
-  const saved = decodeStructureSource(
-    value.version !== AUTHORING_RECORD_VERSION && upgrade
-      ? upgradeGeneratorRulesSnapshot(
-          upgrade(upgradeScaleAdjustmentSnapshot(value.saved), value.version),
-        )
-      : value.saved,
-    identities,
+  const saved = upgradeTokenTierData(
+    decodeStructureSource(
+      value.version !== AUTHORING_RECORD_VERSION && upgrade
+        ? upgradeGeneratorRulesSnapshot(
+            upgrade(
+              upgradeScaleAdjustmentSnapshot(
+                upgradeSizingFields(upgradeTokenTierData(value.saved)),
+              ),
+              value.version,
+            ),
+          )
+        : value.saved,
+      identities,
+    ),
   );
-  validate(working);
-  validate(saved);
+  const platformWorking =
+    value.version < 25
+      ? upgradePlatformScaleSnapshot(working, identities)
+      : working;
+  const platformSaved =
+    value.version < 25
+      ? upgradePlatformScaleSnapshot(saved, identities)
+      : saved;
+  const sizingWorking =
+    value.version < 26 && upgrade
+      ? upgradeComponentSizingSnapshot(platformWorking, identities, reportIssue)
+      : platformWorking;
+  const sizingSaved =
+    value.version < 26 && upgrade
+      ? upgradeComponentSizingSnapshot(platformSaved, identities, reportIssue)
+      : platformSaved;
+  const keyedWorking =
+    value.version < 27
+      ? upgradeScaleKeys(sizingWorking, reportIssue)
+      : sizingWorking;
+  const keyedSaved =
+    value.version < 27
+      ? upgradeScaleKeys(sizingSaved, reportIssue)
+      : sizingSaved;
+  validate(keyedWorking);
+  validate(keyedSaved);
+  const upgradedWorking =
+    value.version !== AUTHORING_RECORD_VERSION && upgrade
+      ? upgradeFoundationSettingsSnapshot(keyedWorking)
+      : keyedWorking;
+  const upgradedSaved =
+    value.version !== AUTHORING_RECORD_VERSION && upgrade
+      ? upgradeFoundationSettingsSnapshot(keyedSaved)
+      : keyedSaved;
+  validate(upgradedWorking);
+  validate(upgradedSaved);
   const record: AuthoringRecord<T> = {
     version: upgrade ? AUTHORING_RECORD_VERSION : value.version,
-    working,
-    saved,
+    working: reconcile
+      ? reconcile(upgradedWorking, identities)
+      : upgradedWorking,
+    saved: reconcile ? reconcile(upgradedSaved, identities) : upgradedSaved,
     isEditing: value.isEditing,
     attachments: value.attachments,
     savedAttachments: value.savedAttachments,
   };
+  validate(record.working);
+  validate(record.saved);
   return record;
 }
 

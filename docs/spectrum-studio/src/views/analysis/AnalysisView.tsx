@@ -57,9 +57,10 @@ import {
   type CoverageUnit,
 } from "../../features/design-data/coverage";
 import "./AnalysisView.css";
-import { ColorOpacityTable } from "./ColorOpacityTable";
+import { AnalysisTokens } from "./AnalysisTokens";
 import { modeCoverageRows } from "./colorOpacityPresentation";
 import { ClassificationReview } from "./ClassificationReview";
+import { unavailableTokenReference } from "../../features/design-data/tokenInventory";
 
 const classifications = [
   "all",
@@ -93,7 +94,7 @@ function download(report: AnalysisReport, format: "json" | "md") {
 
 export default function AnalysisView() {
   const storedArtifacts = useAtomValueRawSync(dimensionArtifactStateAtom);
-  const [dataset, setDataset] = useState<AnalysisDataset>("defaults");
+  const [dataset, setDataset] = useState<AnalysisDataset>("working");
   const [view, setView] = useState("overview");
   const [coverageUnit, setCoverageUnit] = useState<CoverageUnit>("concepts");
   const [coverageGroup, setCoverageGroup] = useState<string>();
@@ -180,9 +181,19 @@ export default function AnalysisView() {
   }, [refresh]);
 
   const staleReference = status === "stale" || status === "refreshing";
+  const comparisonReference = useMemo(
+    () =>
+      reference ??
+      (status === "unavailable"
+        ? unavailableTokenReference(
+            error || "Reference inventory is unavailable.",
+          )
+        : undefined),
+    [reference, status, error],
+  );
   const work = useAnalysisWork(
     dataset,
-    reference,
+    comparisonReference,
     view === "gaps",
     staleReference,
   );
@@ -422,7 +433,7 @@ export default function AnalysisView() {
           onSelectionChange={(key) => setView(String(key))}
         >
           <PickerItem id="overview">Coverage overview</PickerItem>
-          <PickerItem id="palette">Colors and opacities</PickerItem>
+          <PickerItem id="palette">Tokens</PickerItem>
           <PickerItem id="schemas">Schema and model gaps</PickerItem>
           <PickerItem id="details">Detailed comparison</PickerItem>
           <PickerItem id="gaps">Alignment gap register</PickerItem>
@@ -536,7 +547,8 @@ export default function AnalysisView() {
                 <TableView
                   aria-label="Required mode support"
                   selectionMode="none"
-                  styles={style({ width: "full", height: "full" })}
+                  styles={style({ width: "full", height: "fit" })}
+                  UNSAFE_className="analysisFitTable"
                 >
                   <TableHeader>
                     <Column isRowHeader>Mode set</Column>
@@ -590,8 +602,8 @@ export default function AnalysisView() {
           )}
         {report?.colorOpacity &&
           (view === "overview" || view === "palette") && (
-            <section aria-label="Color and opacity comparison">
-              <Heading level={2}>Colors and opacities</Heading>
+            <section aria-label="Token comparison">
+              <Heading level={2}>Tokens</Heading>
               <p>
                 Pass: {report.colorOpacity.counts.pass}. Acceptable:{" "}
                 {report.colorOpacity.counts.acceptable}. Fail:{" "}
@@ -603,14 +615,20 @@ export default function AnalysisView() {
                 {report.colorOpacity.counts.rows} required mode values. Parent
                 results include classifications and every required mode.
                 Non-exact colors are Acceptable when Delta E 2000 is less than
-                2, with the same alpha. Opacity must match exactly.
+                2, with the same alpha. Other foundation values must match
+                exactly after unit normalization.
               </p>
               {view === "overview" ? (
                 <Button variant="secondary" onPress={() => setView("palette")}>
-                  Compare colors and opacities
+                  Compare tokens
                 </Button>
               ) : (
-                <ColorOpacityTable assessment={report.colorOpacity} />
+                <AnalysisTokens
+                  key={`${dataset}:${report.inputs.app.hash}:${report.inputs.reference.hash}:${report.freshness}`}
+                  assessment={report.colorOpacity}
+                  dataset={dataset}
+                  onApplied={() => setDataset("working")}
+                />
               )}
             </section>
           )}

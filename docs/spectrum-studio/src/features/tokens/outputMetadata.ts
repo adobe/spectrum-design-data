@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { CanonicalAliasRow } from "./aliasTargets";
+import { aliasTargetsForContext } from "./aliases";
 
 export function tokenOutputMetadata(
   row: CanonicalAliasRow,
@@ -7,19 +8,12 @@ export function tokenOutputMetadata(
 ) {
   const lifecycle = row.token.lifecycle;
   const replacements = (lifecycle?.replacementIds ?? []).map((id) => {
-    const selection = new Map(JSON.parse(row.context) as [string, string][]);
-    const target = rows.find(
-      (target) =>
-        target.token.id === id &&
-        (JSON.parse(target.context) as [string, string][]).every(
-          ([axis, mode]) => selection.get(axis) === mode,
-        ),
-    );
-    if (!target)
+    const targets = aliasTargetsForContext(rows, id, row.context);
+    if (targets.length !== 1)
       throw new Error(
         `Replacement for ${row.name} is unavailable in this mode.`,
       );
-    return target.rowId;
+    return targets[0].rowId;
   });
   return {
     ...(row.token.description && { description: row.token.description }),

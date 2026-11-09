@@ -17,6 +17,7 @@ function parameters(document: TypographyDocument): Map<string, unknown> {
     "largeSizes",
     "componentSize",
     "textZoom",
+    "textSize",
     "minTextSize",
     "maxTextSize",
     "textRoundingRuleId",

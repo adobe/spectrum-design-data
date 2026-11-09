@@ -25,6 +25,7 @@ import {
   type BrowserTokenSource,
 } from "../tokens/browserModel";
 import { browserSourcesForSnapshot } from "../tokens/browserSavedState";
+import { resetTokenEdit } from "../tokens/canonicalIdentity";
 import {
   staticCategoricalTokenIds,
   editStaticMemberOverrides,
@@ -162,7 +163,8 @@ export function hasManualTokenEdits(snapshot: EditSessionSnapshot): boolean {
         edit.name !== undefined ||
         edit.description !== undefined ||
         edit.status !== undefined ||
-        (!dormant.has(id) && Object.keys(edit.values).length > 0),
+        (!dormant.has(edit.authoring?.identity?.sourceId ?? id) &&
+          Object.keys(edit.values).length > 0),
     ) ||
     staticOverrideAddresses(snapshot).length > 0
   );
@@ -507,11 +509,15 @@ export function prepareChangeReset(
       Object.entries(working.tokenOverrides).filter(([id]) => dormant.has(id)),
     );
     candidate.browserTokenEdits = Object.fromEntries(
-      Object.entries(working.browserTokenEdits ?? {})
-        .filter(
-          ([id, edit]) => dormant.has(id) && Object.keys(edit.values).length,
-        )
-        .map(([id, edit]) => [id, { values: edit.values }]),
+      Object.entries(working.browserTokenEdits ?? {}).flatMap(([id, edit]) => {
+        const retained = resetTokenEdit(
+          edit,
+          dormant.has(edit.authoring?.identity?.sourceId ?? id)
+            ? edit.values
+            : {},
+        );
+        return retained ? [[id, retained]] : [];
+      }),
     );
   }
   assertAttachments(candidate);

@@ -17,7 +17,9 @@ export type BarTone =
   | "magenta"
   | "cyan"
   | "indigo"
-  | "red";
+  | "red"
+  | "green"
+  | "gray";
 
 /** Chart-agnostic segment; fractions are shares of the whole bar. */
 export interface BarSegment {

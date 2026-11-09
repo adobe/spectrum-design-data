@@ -102,6 +102,7 @@ export function validateReferencedTaxonomy(
           entry.evidence,
           entry.scope,
           entry.context,
+          entry.tier,
         );
         for (const [categoryId, assignment] of Object.entries(
           resolved.classification,
@@ -138,9 +139,22 @@ export function validateReferencedTaxonomy(
           entry.evidence,
           entry.scope,
           entry.context,
+          entry.tier,
         );
-        if (projection.issues.length)
-          throw new Error(projection.issues.join(" "));
+        const before = resolveSourceClassification(
+          previous,
+          entry.id,
+          entry.evidence,
+          entry.scope,
+          entry.context,
+          entry.tier,
+        );
+        const newIssues = projection.issues.filter(
+          (issue) =>
+            !projection.tierIssues?.includes(issue) ||
+            !before.tierIssues?.includes(issue),
+        );
+        if (newIssues.length) throw new Error(newIssues.join(" "));
         const owner = projectedNames.get(projection.name.toLowerCase());
         if (owner && owner !== entry.id)
           throw new Error(
@@ -153,9 +167,20 @@ export function validateReferencedTaxonomy(
           document,
           row.classification,
           "structures",
+          "semantic",
         );
-        if (projection.issues.length)
-          throw new Error(projection.issues.join(" "));
+        const before = projectClassification(
+          previous,
+          row.classification,
+          "structures",
+          "semantic",
+        );
+        const newIssues = projection.issues.filter(
+          (issue) =>
+            !projection.tierIssues?.includes(issue) ||
+            !before.tierIssues?.includes(issue),
+        );
+        if (newIssues.length) throw new Error(newIssues.join(" "));
         const owner = projectedNames.get(projection.name.toLowerCase());
         if (owner && owner !== row.conceptId)
           throw new Error(

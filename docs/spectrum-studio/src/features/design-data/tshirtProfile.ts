@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import tokenSchema from "../../data/design-data-shadow-profile/token.schema.json" with { type: "json" };
+import tokenSchema from "../../../../../packages/design-data-spec/schemas/token.schema.json" with { type: "json" };
 import colorSchema from "../../data/design-data-shadow-profile/value-types/color.schema.json" with { type: "json" };
 import documentSchema from "../../data/design-data-shadow-profile/document-block.schema.json" with { type: "json" };
 import shadowSchema from "../../data/design-data-shadow-profile/value-types/drop-shadow.schema.json" with { type: "json" };
@@ -30,7 +30,8 @@ import type { GeneratedShadow } from "../elevation/model";
 export type TshirtTokenValue = string | DraftShadowLayer[];
 interface TokenIdentity {
   uuid: string;
-  name: Record<string, string>;
+  conceptId?: string;
+  name: Record<string, string | number>;
   $valueType?: string;
 }
 export type TshirtTokenRecord = TokenIdentity &
@@ -61,8 +62,8 @@ export const TSHIRT_PROFILE = {
   gapId: "LTAX-009",
   limitations: [
     "Schema-valid row UUID subset, not complete written-spec, SDK, cascade or dataset conformance.",
-    "Concept IDs and derivations remain separate lineage because the closed token schema rejects conceptId.",
-    "String scaleIndex satisfies the token schema but differs from its integer field declaration.",
+    "Token objects use the current canonical concept-identity schema; derivations remain separate authoring lineage.",
+    "Canonical integer scaleIndex values and existing string indices are both schema-valid.",
     "Formatting explicitly includes scaleIndex; the upstream legacy formatter currently excludes it.",
     "Foundation scale names and physical positions are declared extensions, not upstream-accepted vocabulary.",
     "Finite px dimensions use local exact-value checks; no upstream dimension value schema exists at this pin.",
@@ -138,7 +139,10 @@ for (const field of TSHIRT_NAMING_FIELDS)
       `Invalid T-shirt field declaration: ${ajv.errorsText(validateField.errors)}`,
     );
 
-export function formatTshirtName(name: Record<string, string>): string {
+export function formatTshirtName(
+  name: Record<string, string | number>,
+): string {
+  if (typeof name.legacyKey === "string") return name.legacyKey;
   const parts = TSHIRT_NAMING_FIELDS.slice()
     .sort(
       (left, right) =>
@@ -205,23 +209,23 @@ export function assertTshirtToken(
   if (
     value.name.size &&
     !sizes.values.some((size) => size.id === value.name.size) &&
-    !declaredSizes.includes(value.name.size)
+    !declaredSizes.includes(String(value.name.size))
   )
     throw new Error("Unmapped T-shirt size.");
   if (
     value.name.position &&
     !positions.values.some((position) => position.id === value.name.position) &&
-    !PHYSICAL_POSITIONS.includes(value.name.position)
+    !PHYSICAL_POSITIONS.includes(String(value.name.position))
   )
     throw new Error("Undeclared physical position.");
   if (
     value.name.orientation &&
-    !["horizontal", "vertical"].includes(value.name.orientation)
+    !["horizontal", "vertical"].includes(String(value.name.orientation))
   )
     throw new Error("Undeclared orientation.");
   if (
     value.name.scaleIndex !== undefined &&
-    !/^-?\d+$/.test(value.name.scaleIndex)
+    !/^-?\d+$/.test(String(value.name.scaleIndex))
   )
     throw new Error("The subset uses a decimal string scaleIndex.");
   if (
@@ -330,7 +334,7 @@ export function assertTshirtGraph(
                   "min-height",
                   "max-width",
                   "max-height",
-                ].includes(token.name.property)
+                ].includes(String(token.name.property))
               ? "size"
               : token.name.property;
       if (

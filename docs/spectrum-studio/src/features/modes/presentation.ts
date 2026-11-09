@@ -81,10 +81,12 @@ export function modeAdjustmentRows(
   modeSet: ModeSet,
   output?: ColorOutputSettings,
 ) {
-  const adjustment = mode.foundations.color?.scaleAdjustment;
-  const adjustments = modeSet.modes.map(
-    (candidate) => candidate.foundations.color?.scaleAdjustment,
-  );
+  const stored = mode.foundations.color?.scaleAdjustment;
+  const adjustment = stored?.enabled === false ? undefined : stored;
+  const adjustments = modeSet.modes.map((candidate) => {
+    const value = candidate.foundations.color?.scaleAdjustment;
+    return value?.enabled === false ? undefined : value;
+  });
   if (new Set(adjustments.map((value) => JSON.stringify(value))).size < 2)
     return [];
   if (adjustment?.method === "absolute")

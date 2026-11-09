@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { Rule } from "../logic/model";
 import type { ModeSet } from "../modes/model";
+import { modeCombinations } from "../modes/combinations";
 import { parameterOwners, textZoomPercent } from "../modes/parameters";
 import { generateScale } from "../scales/generate";
 import type { Interpolation } from "../scales/interpolationDefinition";
@@ -36,6 +37,7 @@ export type ComparisonSource = "modes" | "zoom";
 
 export interface ComparisonSetting extends ComparisonItem {
   textZoom: number;
+  textSize: number;
 }
 
 export type ComparisonDataset = ScaleComparisonDataset<ComparisonSetting>;
@@ -58,7 +60,7 @@ function assertZoom(value: number) {
     value > TEXT_ZOOM_MAX
   ) {
     throw new Error(
-      "Choose a valid Text size setting before comparing values.",
+      "Choose a valid Adaptive text scaling setting before comparing values.",
     );
   }
 }
@@ -68,8 +70,12 @@ export function textSizeComparisonSettings(
   modeSets: readonly ModeSet[],
 ) {
   assertZoom(document.textZoom);
-  const ownerId = parameterOwners([...modeSets])["typography.textZoom"];
-  const owner = modeSets.find((set) => set.id === ownerId);
+  const owners = parameterOwners([...modeSets]);
+  const axes = modeSets.filter((set) =>
+    ["typography.textZoom", "typography.textSize"].some(
+      (id) => owners[id] === set.id,
+    ),
+  );
   const zoom: ComparisonSetting[] = Array.from(
     { length: TEXT_ZOOM_MAX - TEXT_ZOOM_MIN + 1 },
     (_, index) => {
@@ -77,31 +83,46 @@ export function textSizeComparisonSettings(
       return {
         id: `zoom:${value}`,
         textZoom: value,
+        textSize: document.textSize,
         position: value,
         isRequired: value === document.textZoom,
-        label: `${value === document.textZoom ? "Default" : `Zoom ${value}`} (${textZoomPercent(value)}%)`,
+        label: `${value === document.textZoom ? "Default" : `Adjustment ${value}`} (${textZoomPercent(value)}%)`,
       };
     },
   );
-  if (!owner) return { zoom };
-  if (!owner.modes.some((mode) => mode.id === owner.defaultModeId)) {
+  if (!axes.length) return { zoom };
+  if (
+    axes.some(
+      (owner) => !owner.modes.some((mode) => mode.id === owner.defaultModeId),
+    )
+  ) {
     throw new Error(
-      "Choose an available default mode before comparing Text size.",
+      "Choose an available default mode before comparing typography.",
     );
   }
-  const modes = owner.modes
-    .map((mode) => {
-      const textZoom = resolveTypographyDocument(document, [mode], undefined, {
-        modeSets: [...modeSets],
-      }).textZoom;
+  const modes = modeCombinations(axes)
+    .map((combination) => {
+      const resolved = resolveTypographyDocument(
+        document,
+        combination,
+        undefined,
+        {
+          modeSets: [...modeSets],
+        },
+      );
+      const { textZoom, textSize } = resolved;
       assertZoom(textZoom);
-      const isRequired = mode.id === owner.defaultModeId;
+      const isRequired = combination.every(
+        (mode, index) => mode.id === axes[index].defaultModeId,
+      );
+      const name = combination.map((mode) => mode.name).join(" / ");
       return {
-        id: mode.id,
+        id: combination.map((mode) => mode.id).join("/"),
         textZoom,
+        textSize,
         position: textZoom,
         isRequired,
-        label: `${mode.name}${isRequired && mode.name.trim().toLowerCase() !== "default" ? " (default)" : ""} (${textZoomPercent(textZoom)}%)`,
+        label: `${name}${isRequired && name.trim().toLowerCase() !== "default" ? " (default)" : ""} (${Number((textSize * textZoomPercent(textZoom)).toFixed(2))}%)`,
       };
     })
     .sort((a, b) => a.textZoom - b.textZoom)
@@ -111,14 +132,15 @@ export function textSizeComparisonSettings(
 
 function comparisonDatasets(
   settings: ReturnType<typeof textSizeComparisonSettings>,
-  generate: (textZoom: number) => ComparisonSample,
+  generate: (textZoom: number, textSize: number) => ComparisonSample,
 ): ComparisonDatasets {
-  const samples = new Map<number, ComparisonSample>();
+  const samples = new Map<string, ComparisonSample>();
   const build = (items: readonly ComparisonSetting[]): ComparisonDataset => {
     const rows = items.map((item) => {
-      if (!samples.has(item.textZoom))
-        samples.set(item.textZoom, generate(item.textZoom));
-      return samples.get(item.textZoom)!;
+      const key = `${item.textZoom}:${item.textSize}`;
+      if (!samples.has(key))
+        samples.set(key, generate(item.textZoom, item.textSize));
+      return samples.get(key)!;
     });
     const first = rows[0];
     if (!first || !first.steps.some((step) => step.isRequired)) {
@@ -185,9 +207,9 @@ export function buildTypographyComparisons(
   let metadata: Pick<ComparisonSample, "steps" | "metrics"> | undefined;
   return comparisonDatasets(
     textSizeComparisonSettings(document, modeSets),
-    (textZoom) => {
+    (textZoom, textSize) => {
       const tokens = generateTypography(
-        document,
+        { ...document, textSize },
         textZoom,
         library.rules,
         library.scaleTypes,
@@ -258,10 +280,10 @@ export function buildTypeScaleComparisons(
   };
   return comparisonDatasets(
     textSizeComparisonSettings(document, modeSets),
-    (textZoom) => {
+    (textZoom, textSize) => {
       const points = generateScale(
         typographyScaleSettings(
-          preview,
+          { ...preview, textSize },
           [formula],
           options.interpolations,
           textZoom,

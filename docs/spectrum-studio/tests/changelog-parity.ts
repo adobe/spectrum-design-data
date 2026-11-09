@@ -145,6 +145,7 @@ const context = canonicalTokenModeKey(
   ),
 );
 manual.browserTokenEdits![baselinePrimitive.tokenId] = {
+  ...manual.browserTokenEdits![baselinePrimitive.tokenId],
   status: "deprecated",
   values: {},
 };
@@ -163,6 +164,7 @@ const sizeSource = sourceForResetContext(
 )!;
 const equalOverride = structuredClone(shipped);
 equalOverride.browserTokenEdits![sizeSource.id] = {
+  ...equalOverride.browserTokenEdits![sizeSource.id],
   values: {
     [context]: { value: sizeSource.value, baseline: sizeSource.generatedValue },
   },
@@ -183,7 +185,12 @@ const equalCard = equalOutput.items.find((item) => item.id === sizeSource.id)!;
 assert.ok(equalCard.fields.some((field) => field.key === "Manual override"));
 assert.ok(!equalCard.fields.some((field) => field.key === "Value"));
 const generatedCard = primitives.items.find(
-  (item) => item.id === "typography-font-size-50",
+  (item) =>
+    item.id ===
+    Object.entries(shipped.browserTokenEdits!).find(
+      ([, edit]) =>
+        edit.authoring?.identity?.sourceId === "typography-font-size-50",
+    )?.[0],
 )!;
 const generatedValue = generatedCard.fields.find(
   (field) => field.key === "Value",
@@ -210,7 +217,11 @@ assert.ok(
     .every((choice) => choice.description.includes("Color scheme:")),
 );
 const named = structuredClone(shipped);
-named.browserTokenEdits![sizeSource.id] = { name: "A custom size", values: {} };
+named.browserTokenEdits![sizeSource.id] = {
+  ...named.browserTokenEdits![sizeSource.id],
+  name: "A custom size",
+  values: {},
+};
 const namedField = comparePrimitiveTokens(
   shipped,
   named,
@@ -239,6 +250,7 @@ const white = sources.find(
 assert.ok(white);
 const colorNotation = structuredClone(shipped);
 colorNotation.browserTokenEdits![white.id] = {
+  ...colorNotation.browserTokenEdits![white.id],
   values: { [context]: { value: "#FFFFFF", baseline: white.generatedValue } },
 };
 const notationComparison = comparePrimitiveTokens(

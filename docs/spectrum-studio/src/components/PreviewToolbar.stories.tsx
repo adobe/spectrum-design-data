@@ -45,9 +45,11 @@ export const Default: Story = {
       canvas.getByRole("button", { name: "Adaptive controls" }),
     );
     await waitFor(() =>
-      expect(body.getByRole("group", { name: "Text size" })).toBeVisible(),
+      expect(
+        body.getByRole("group", { name: "Adaptive text scaling" }),
+      ).toBeVisible(),
     );
-    const slider = body.getByRole("slider", { name: "Text size" });
+    const slider = body.getByRole("slider", { name: "Adaptive text scaling" });
     await expect(slider).toBeEnabled();
     slider.focus();
     await userEvent.keyboard("{ArrowRight}");

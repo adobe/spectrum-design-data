@@ -128,7 +128,7 @@ const exported = buildCanonicalTaxonomyExport(
 );
 assert(
   exported.aliases.every((alias) =>
-    exported.tokens.some((token) => token.id === alias.$ref),
+    exported.tokens.some((token) => token.uuid === alias.$ref),
   ),
 );
 assert(exported.tokens.every((token) => "value" in token !== "$ref" in token));
@@ -268,13 +268,29 @@ const unboundAliases = aliasBrowserTokens(saved.aliases!, targets, {});
 assert.equal(
   unboundAliases.length,
   5,
-  "Text owns five unbound gap aliases after its shared Registry term is renamed.",
+  "Text owns five fallback gap aliases after its shared Registry term is renamed.",
 );
 assert.ok(
-  unboundAliases.every(
-    (token) =>
-      token.alias?.contexts.length === 1 && token.alias.contexts[0] === "[]",
-  ),
+  unboundAliases.every((token) => token.alias?.contexts.includes("[]")),
+);
+const branchedAlias = saved.aliases!.tokens.find(
+  (alias) => alias.contexts.includes("[]") && alias.contexts.length > 1,
+)!;
+assert(branchedAlias, "A fallback alias retains its deliberate mode branch.");
+const branchContext = branchedAlias.contexts.find(
+  (context) => context !== "[]",
+)!;
+const branchTarget = targets.find(
+  (row) => row.id === branchedAlias.$ref && row.context === branchContext,
+)!;
+assert.equal(
+  aliasBrowserTokens(
+    { ...saved.aliases!, tokens: [branchedAlias] },
+    targets,
+    Object.fromEntries(JSON.parse(branchContext)),
+  )[0]?.value,
+  branchTarget.token.value,
+  "A specific alias context takes precedence over its fallback.",
 );
 const spacingStore = createStore();
 spacingStore.set(editSessionSnapshotAtom, createDefaultSnapshot());
@@ -324,7 +340,9 @@ assert(
 const selectionStore = createStore();
 selectionStore.set(enterEditModeAtom);
 const selectionTaxonomy = selectionStore.get(taxonomyDocumentAtom);
-const visual = selectionTaxonomy.terms.find((item) => item.value === "Visual")!;
+const visual = selectionTaxonomy.terms.find(
+  (item) => item.id === "44d05161-a960-4fed-ac11-723b4021cca0",
+)!;
 selectionStore.set(editFoundationNameAtom, {
   id: "typography:font-size",
   termId: visual.id,

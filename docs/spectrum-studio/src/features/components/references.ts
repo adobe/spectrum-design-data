@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { tokenIdentity } from "../tokens/canonicalIdentity";
 import Color from "colorjs.io";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import {
@@ -50,8 +51,10 @@ import {
 } from "../tokens/browserModel";
 import { dialogRowsForMode } from "../tokens/dialogModel";
 import { projectShadowValue } from "../design-data/shadowValue";
+import type { TokenTier } from "../tokens/tier";
 
 interface ComponentTokenMetadata {
+  tier?: TokenTier;
   id: string;
   browserId?: string;
   name: string;
@@ -131,6 +134,7 @@ function buildComponentColorTokens(
         displayValue: String(token.value),
         ownerId: token.conceptId,
         kind: "primitive",
+        tier: "primitive",
         context: Object.fromEntries(
           Object.entries(token.name).filter(([key]) =>
             source.modeSets.some((axis) => axis.key === key),
@@ -149,6 +153,7 @@ function buildComponentColorTokens(
         displayValue: "Color output unavailable",
         ownerId: token.conceptId,
         kind: "primitive",
+        tier: "primitive",
         context: Object.fromEntries(
           Object.entries(token.name).filter(([key]) =>
             source.modeSets.some((axis) => axis.key === key),
@@ -203,6 +208,7 @@ function buildComponentTokenCatalog(
       ),
       ownerId: lineage.scaleId,
       kind: "primitive",
+      tier: "primitive",
     });
   }
   const scaleColors: PreparedScaleColors[] = [];
@@ -225,6 +231,7 @@ function buildComponentTokenCatalog(
       context: row.context,
       ownerId: row.conceptId,
       kind: "primitive",
+      tier: "primitive",
     });
   }
   const colors =
@@ -257,6 +264,7 @@ function buildComponentTokenCatalog(
       displayValue: `${token.value.length} shadow layers`,
       ownerId: source.elevation.id,
       kind: "primitive",
+      tier: "primitive",
       context: Object.fromEntries(
         Object.entries(token.name).filter(([key]) =>
           source.modeSets.some((axis) => axis.key === key),
@@ -271,18 +279,21 @@ function buildComponentTokenCatalog(
       token.value ??
       variants.tokens.find((target) => target.uuid === token.$ref)?.value;
     if (!isJsonValue(value) || value === null)
-      throw new Error("A semantic component target cannot resolve to a value.");
+      throw new Error(
+        `Semantic component target ${token.uuid} cannot resolve ${token.$ref ?? "its literal"} to a value.`,
+      );
     add({
       id: token.uuid,
       browserId: row.conceptId,
       name: projectClassification(taxonomy, row.classification, "structures")
         .name,
-      property: token.name.property,
+      property: String(token.name.property),
       value,
       displayValue: typeof value === "string" ? value : canonicalJson(value),
       context: row.context,
       ownerId: row.structureId,
       kind: "semantic",
+      tier: "semantic",
     });
   }
   if (
@@ -293,7 +304,8 @@ function buildComponentTokenCatalog(
       variants,
       "preserve-for-review",
     );
-    for (const [id, componentToken] of result) {
+    const rowsByMode = new Map<string, Map<string, (typeof rows)[number]>>();
+    for (const [id, componentToken] of [...result]) {
       if (!componentToken.browserId) continue;
       const selection = Object.fromEntries(
         source.modeSets.flatMap((axis) => {
@@ -304,10 +316,21 @@ function buildComponentTokenCatalog(
           return mode ? [[axis.id, mode.id]] : [];
         }),
       );
-      const row = dialogRowsForMode(
-        rows,
-        canonicalTokenModeKey(selection),
-      ).find((row) => row.token.id === componentToken.browserId);
+      const identity = tokenIdentity(
+        source.browserTokenEdits ?? {},
+        componentToken.browserId,
+      );
+      const modeKey = canonicalTokenModeKey(selection);
+      let selectedRows = rowsByMode.get(modeKey);
+      if (!selectedRows) {
+        selectedRows = new Map(
+          dialogRowsForMode(rows, modeKey).map((row) => [row.token.id, row]),
+        );
+        rowsByMode.set(modeKey, selectedRows);
+      }
+      const row = selectedRows.get(
+        identity?.conceptId ?? componentToken.browserId,
+      );
       if (!row) continue;
       const token = row.token;
       if (token.validationError) throw new Error(token.validationError);
@@ -319,8 +342,13 @@ function buildComponentTokenCatalog(
           : typeof token.value === "number" && token.unit === "px"
             ? `${token.value}px`
             : token.value;
-      result.set(id, {
+      result.delete(id);
+      const rowId = identity ? row.rowId : id;
+      result.set(rowId, {
         ...componentToken,
+        id: rowId,
+        browserId: token.id,
+        tier: token.tier,
         outputError: undefined,
         value,
         name: token.name,
@@ -364,6 +392,7 @@ function buildComponentTokenCatalog(
           typeof value === "object" ? canonicalJson(value) : String(value),
         ownerId: token.id,
         kind: "semantic",
+        tier: token.tier,
         context,
       });
     }

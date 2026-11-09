@@ -88,6 +88,14 @@ export function resolveColorDocument(
   }
   resolved = applyScaleAdjustment(resolvePaletteLinks(resolved), adjustment);
   if (preview) {
+    const hue = preview["color.hueShift"];
+    const chroma = preview["color.saturation"];
+    if (typeof hue === "number" || typeof chroma === "number")
+      resolved = applyScaleAdjustment(resolved, {
+        method: "relative",
+        ...(typeof hue === "number" && { hue }),
+        ...(typeof chroma === "number" && { chroma }),
+      });
     const scaleId = preview["color.backgroundScaleId"];
     const lightness = preview["color.backgroundLightness"];
     const multiplier = preview["color.contrastMultiplier"];

@@ -45,6 +45,12 @@ import {
   toPortableStructures,
   fromPortableStructures,
 } from "../structures/portableConversion";
+import { upgradeTokenTierData } from "../edit-session/tokenTierUpgrade";
+import { upgradeScaleKeys } from "../modes/scaleKeys";
+import {
+  isComponentSizingDocument,
+  upgradeNativeSizingFields,
+} from "../foundations/componentSizing";
 
 const validateShape = new Ajv({
   allErrors: true,
@@ -103,6 +109,13 @@ export function composeDesignSystemDefaults(
   input: unknown,
   formulaDefaults: readonly ScaleType[],
 ): CompleteDesignSystemDataset {
+  if (input && typeof input === "object" && "system" in input)
+    input = {
+      ...input,
+      system: upgradeScaleKeys(
+        upgradeNativeSizingFields(upgradeTokenTierData(input.system)),
+      ),
+    };
   if (!validateShape(input)) {
     throw new DatasetValidationError(
       (validateShape.errors ?? []).map(
@@ -185,6 +198,13 @@ export function composeDesignSystemDefaults(
   const issues: string[] = taxonomyIssues(result.system.taxonomy).map(
     (issue) => `/system/taxonomy: ${issue}`,
   );
+  if (
+    result.system.componentSizing !== undefined &&
+    !isComponentSizingDocument(result.system.componentSizing)
+  )
+    issues.push(
+      "/system/componentSizing: enter a positive finite component size",
+    );
   if (
     result.system.foundations.opacity &&
     !isOpacityDocument(result.system.foundations.opacity)

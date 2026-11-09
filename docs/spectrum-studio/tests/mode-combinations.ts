@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import {
   MODE_SET_DEFAULTS,
+  ensureModeSetKeys,
   type Mode,
   type ModeSet,
 } from "../src/features/modes/model";
@@ -13,6 +14,29 @@ import {
   modesForSelection,
   selectionForModes,
 } from "../src/features/modes/combinations";
+
+const platformScale = MODE_SET_DEFAULTS.find(
+  (modeSet) => modeSet.key === "scale",
+);
+assert.ok(platformScale);
+assert.equal(platformScale.name, "Scale");
+assert.equal(platformScale.modes.length, 2);
+assert.equal(platformScale.defaultModeId, platformScale.modes[0].id);
+assert.equal(platformScale.modes[0].key, "desktop");
+assert.deepEqual(platformScale.modes[0].foundations, {});
+assert.deepEqual(platformScale.authoringCapabilities, [
+  "size.componentSize",
+  "typography.textSize",
+]);
+assert.deepEqual(ensureModeSetKeys(platformScale), platformScale);
+assert.equal(
+  modeCombinationCount([...MODE_SET_DEFAULTS]),
+  2 *
+    modeCombinationCount(
+      MODE_SET_DEFAULTS.filter((modeSet) => modeSet !== platformScale),
+    ),
+  "Scale adds two resolution scenarios; publication counts use only owning axes.",
+);
 
 function mode(id: string): Mode {
   return {

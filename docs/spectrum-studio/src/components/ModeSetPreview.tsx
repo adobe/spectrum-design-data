@@ -37,11 +37,12 @@ import {
 import { colorOutputSettingsAtom } from "../features/color-system/state";
 import type { FoundationId } from "../features/modes/parameters";
 
-const previewStyles = style({
+const previewStyles = style<{ isFluid: boolean }>({
   display: "flex",
   flexDirection: "column",
-  width: 194,
-  minWidth: 194,
+  width: { default: 194, isFluid: "full" },
+  minWidth: { default: 194, isFluid: 0 },
+  boxSizing: { isFluid: "border-box" },
   alignSelf: "stretch",
   paddingTop: 8,
   paddingBottom: 8,
@@ -62,9 +63,13 @@ const rowStyles = style<{ isColor: boolean }>({
   justifyContent: "center",
   gap: { default: 4, isColor: 0 },
   minHeight: 34,
+  paddingStart: { isColor: 8 },
+  paddingEnd: { isColor: 8 },
 });
 const swatchStyles = style({
-  width: 34,
+  flexGrow: 1,
+  flexBasis: 0,
+  minWidth: 0,
   alignSelf: "stretch",
   marginY: 8,
 });
@@ -86,7 +91,19 @@ const fallbackStyles = style({
   color: "neutral-subdued",
 });
 
-function ColorPreview({ mode }: { mode: Mode }) {
+function previewColorScaleIndices(length: number) {
+  return [...new Set([0, Math.floor(length / 2), length - 1])].filter(
+    (index) => index >= 0,
+  );
+}
+
+function ColorPreview({
+  mode,
+  showMultipleScales,
+}: {
+  mode: Mode;
+  showMultipleScales: boolean;
+}) {
   const base = useAtomValue(colorSystemDocumentAtom);
   const sets = useAtomValue(modeSetsAtom);
   const opacity = useAtomValue(opacitySourceAtom);
@@ -95,12 +112,6 @@ function ColorPreview({ mode }: { mode: Mode }) {
     opacity: opacity.opacity,
     browserTokenEdits: opacity.browserTokenEdits,
   });
-  const scale = resolved.scales[0];
-  if (!scale) return null;
-  const contrastSteps = scaleContrasts(resolved, scale);
-  const selectedContrasts = previewContrastIndices(contrastSteps.length).map(
-    (index) => contrastSteps[index],
-  );
   const backgroundScale = resolved.scales.find(
     (candidate) => candidate.id === resolved.backgroundScaleId,
   );
@@ -112,32 +123,52 @@ function ColorPreview({ mode }: { mode: Mode }) {
     { ...backgroundColor, lightness: resolved.backgroundLightness },
     gamut,
   );
-  const scaleData = buildScaleData(scale, resolved.settings.colorOutput);
-  const colors = selectedContrasts.map(
-    (contrast) =>
-      generateSelectedColor(
-        scaleData,
-        paletteColorLinear(
-          { ...backgroundColor, lightness: resolved.backgroundLightness },
-          gamut,
-        ),
-        contrast,
-        resolved.settings,
-      ).css,
-  );
   return (
-    <div
-      className={rowStyles({ isColor: true })}
-      style={{ backgroundColor: background }}
-    >
-      {colors.map((color, index) => (
-        <span
-          key={`${scale.id}-${index}`}
-          className={swatchStyles}
-          style={{ backgroundColor: color }}
-        />
-      ))}
-    </div>
+    <>
+      {(showMultipleScales
+        ? previewColorScaleIndices(resolved.scales.length)
+        : [0]
+      ).map((scaleIndex) => {
+        const scale = resolved.scales[scaleIndex];
+        if (!scale) return null;
+        const contrastSteps = scaleContrasts(resolved, scale);
+        const selectedContrasts = previewContrastIndices(
+          contrastSteps.length,
+        ).map((index) => contrastSteps[index]);
+        const scaleData = buildScaleData(scale, resolved.settings.colorOutput);
+        const colors = selectedContrasts.map(
+          (contrast) =>
+            generateSelectedColor(
+              scaleData,
+              paletteColorLinear(
+                {
+                  ...backgroundColor,
+                  lightness: resolved.backgroundLightness,
+                },
+                gamut,
+              ),
+              contrast,
+              resolved.settings,
+            ).css,
+        );
+        return (
+          <div
+            key={scale.id}
+            className={rowStyles({ isColor: true })}
+            style={{ backgroundColor: background }}
+            data-color-scale-id={scale.id}
+          >
+            {colors.map((color, index) => (
+              <span
+                key={`${scale.id}-${index}`}
+                className={swatchStyles}
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -219,12 +250,17 @@ function PreviewRow({
   mode,
   modeSet,
   foundation,
+  showMultipleColorScales,
 }: {
   mode: Mode;
   modeSet: ModeSet;
   foundation: FoundationId | undefined;
+  showMultipleColorScales: boolean;
 }) {
-  if (foundation === "color") return <ColorPreview mode={mode} />;
+  if (foundation === "color")
+    return (
+      <ColorPreview mode={mode} showMultipleScales={showMultipleColorScales} />
+    );
   if (foundation === "typography") return <TypographyPreview mode={mode} />;
   if (foundation === "elevation") return <ElevationPreview mode={mode} />;
   const icon =
@@ -237,13 +273,20 @@ function PreviewRow({
 export function ModeSetPreview({
   modeSet,
   foundations = [],
+  fillWidth = false,
+  showMultipleColorScales = false,
 }: {
   modeSet: ModeSet;
   foundations?: readonly FoundationId[];
+  fillWidth?: boolean;
+  showMultipleColorScales?: boolean;
 }) {
   const foundation = modeSetPreviewFoundation(modeSet, foundations);
   return (
-    <div className={previewStyles} aria-label={`${modeSet.name} previews`}>
+    <div
+      className={previewStyles({ isFluid: fillWidth })}
+      aria-label={`${modeSet.name} previews`}
+    >
       <div className={previewContentStyles}>
         {modeSet.modes.map((mode) => (
           <PreviewRow
@@ -251,6 +294,7 @@ export function ModeSetPreview({
             mode={mode}
             modeSet={modeSet}
             foundation={foundation}
+            showMultipleColorScales={showMultipleColorScales}
           />
         ))}
       </div>

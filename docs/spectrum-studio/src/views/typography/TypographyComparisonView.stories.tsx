@@ -14,6 +14,7 @@ const steps = [50, 100, 200, 300, 400].map((step, position) => ({
 const settings = [-1, 0, 1, 2].map((textZoom) => ({
   id: `zoom:${textZoom}`,
   textZoom,
+  textSize: 1,
   position: textZoom,
   isRequired: textZoom === 0,
   label: textZoom === 0 ? "Default (100%)" : `Zoom ${textZoom}`,

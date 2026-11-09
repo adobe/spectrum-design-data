@@ -91,6 +91,7 @@ export function typographyScaleSettings(
     scaleTypeId: formula.id,
     base:
       (base ?? formula.base.default) *
+      document.textSize *
       Math.pow(
         TEXT_ZOOM_STEP_RATIO,
         componentSizeIndex(document.componentSize) + textZoom,

@@ -17,11 +17,19 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 // independent resets, linked opacity propagation, exact source identities and Save/Cancel/reload.
 // scale-adjustment-lifecycle.ts and changelog-schema-review.ts cover shared absolute colors,
 // atomic method resets, independent envelope upgrades and exact source/token/component impact.
+// Optional enabled flags retain settings through Save/Cancel/reload and have narrow resets for both methods.
 // swatch-indices.ts covers optional color/opacity indices, atomic uniqueness, stable values/IDs,
 // output propagation, semantic Changes counts, scoped resets and backward-compatible restoration.
+// token-tiers.ts covers category tier restrictions and manual tiers, exact field counts,
+// narrow resets, local output metadata and independent saved/working upgrades.
+// reference-overrides.ts covers the corrected assignment/baseline map schema, exact-mode
+// writes, baseline exclusions, Changes reset addresses, Save/Cancel/reload and staleness.
+// component-sizing-lifecycle.ts and changelog-schema-review.ts --sizing-only cover the shared
+// size source, typography baseline, both modal overrides and availability settings, including
+// valid narrow resets, independent upgrades, exact Impact unions and Save/Cancel/reload.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "a43f56771c8026b5d38c224900dc620e3edf1f477488e6668a5b85d0147f238e";
+  "4c38855ac8495e7782715744fd50043f246b6fe0f170bbde661926bc1fdd3579";
 const schemaMetadata = new Set([
   "title",
   "description",
@@ -44,9 +52,39 @@ function schemaShape(value: unknown): unknown {
 export function assertChangeSchemaCoverage(value: {
   definitions: Record<string, object>;
 }) {
+  const definitions = structuredClone(value.definitions);
+  // Publication metadata is checked separately; it must not change authored Changes slots.
+  assert.deepEqual(
+    schemaShape(definitions.TokenIdentity),
+    schemaShape({
+      type: "object",
+      properties: {
+        sourceId: { type: "string" },
+        conceptId: { type: "string" },
+        name: {
+          type: "object",
+          additionalProperties: { type: ["string", "number"] },
+        },
+        rows: { type: "object", additionalProperties: { type: "string" } },
+      },
+      additionalProperties: false,
+      required: ["conceptId", "name", "rows", "sourceId"],
+    }),
+  );
+  const authoring = definitions.TokenAuthoring;
+  assert(
+    "properties" in authoring &&
+      authoring.properties &&
+      typeof authoring.properties === "object",
+  );
+  assert.deepEqual(Reflect.get(authoring.properties, "identity"), {
+    $ref: "#/definitions/TokenIdentity",
+  });
+  Reflect.deleteProperty(authoring.properties, "identity");
+  delete definitions.TokenIdentity;
   assert.equal(
     createHash("sha256")
-      .update(JSON.stringify(schemaShape(value.definitions)))
+      .update(JSON.stringify(schemaShape(definitions)))
       .digest("hex"),
     reviewedShape,
     "Authoring fields changed. Review Changes coverage, reset support and fixtures before accepting the new shape.",

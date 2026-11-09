@@ -37,6 +37,21 @@ export function resolveTshirtRule(
 export interface TshirtMappingContext {
   scaleTypes?: readonly ScaleType[];
   rules?: readonly Rule[];
+  componentSize?: number;
+}
+
+function componentMultiplier(
+  rule: TshirtSizingRule,
+  anchor: PrimitiveReference,
+  context: TshirtMappingContext,
+) {
+  return ruleAppliesToReference(rule, anchor) &&
+    (anchor.family === "spacing" ||
+      (anchor.synthetic &&
+        (anchor.family === "size" || anchor.family === "radius"))) &&
+    anchor.unit !== "multiplier"
+    ? (context.componentSize ?? 1)
+    : 1;
 }
 
 /** The multiplier a "ratio" rule applies per step, read from its typed value or linked formula part. */
@@ -89,19 +104,20 @@ function ratioMappings(
       `${rule.name}: the rounding rule is unavailable. Choose another rounding rule.`,
     );
   const base = anchor.value;
+  const multiplier = componentMultiplier(rule, anchor, context);
   const unit = anchor.unit ?? "px";
   return rule.mappings
     .filter((mapping) => sizes.includes(generatorSizeKey(mapping.termId)))
     .map((option) => {
       const size = generatorSizeKey(option.termId);
       const offset = ruleAppliesToReference(rule, anchor) ? option.offset : 0;
-      const raw = base * ratio ** offset;
+      const raw = base * ratio ** offset * multiplier;
       const value =
         rounding && isRoundingRule(rounding)
           ? applyRoundingRule(rounding, raw)
           : raw;
       const match =
-        offset === 0
+        offset === 0 && multiplier === 1
           ? anchor
           : [...references]
               .filter(
@@ -227,6 +243,19 @@ export function tshirtMappings(
             : closest;
         }, anchor);
         actual = target.step!;
+      }
+      const multiplier = componentMultiplier(rule, anchor, context);
+      if (multiplier !== 1 && typeof target.value === "number") {
+        const value = target.value * multiplier;
+        target = {
+          ...target,
+          id: `${target.id}:component-size:${multiplier}`,
+          value,
+          name: `${value}px`,
+          displayValue: `${value}px`,
+          hidden: true,
+          synthetic: true,
+        };
       }
       return {
         size,

@@ -145,7 +145,6 @@ export function FoundationsOpacityPanel() {
         }
       />
       <section className={swatchesStyles} aria-label="Opacity swatches">
-        <Text>Opacity swatches</Text>
         <EditOnly>
           <div className={actionStyles}>
             <ActionButton

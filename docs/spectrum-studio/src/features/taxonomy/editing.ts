@@ -36,6 +36,7 @@ import {
   type ReferencedTaxonomySource,
 } from "./referenceValidation";
 import { componentColorWitnessAtom } from "../components/colorWitness";
+import type { TokenTier } from "../tokens/tier";
 
 export const taxonomyComponentReferencesAtom = atom((get) =>
   get(componentsDocumentAtom).components.flatMap((component) =>
@@ -48,6 +49,7 @@ export const taxonomyComponentReferencesAtom = atom((get) =>
 );
 
 export interface TaxonomyEvidenceSource {
+  tier?: TokenTier;
   id: string;
   name: string;
   scope: TaxonomyScope;
@@ -67,6 +69,7 @@ export function taxonomyEvidenceProjections(
         source.evidence,
         source.scope,
         source.context,
+        source.tier,
       ),
     ),
   );
@@ -98,6 +101,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
   (get) => [
     ...get(browserTokenSourcesAtom).map((source) => ({
       id: source.id,
+      tier: source.tier,
       name: source.name,
       scope: source.type as TaxonomyScope,
       evidence: source.taxonomyEvidence ?? {},
@@ -189,6 +193,7 @@ export const referencedTaxonomySourceAtom = atom(
     sources: get(taxonomyEvidenceSourcesAtom),
     tokens: get(browserTokenSourcesAtom).map((source) => ({
       id: source.id,
+      tier: source.tier,
       name: source.name,
       scope: source.type as TaxonomyScope,
       evidence: source.taxonomyEvidence ?? {},

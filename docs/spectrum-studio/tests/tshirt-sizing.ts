@@ -308,6 +308,7 @@ const padding: StructureSlot[] = [
 ];
 function fixture() {
   const snapshot = createDefaultSnapshot();
+  snapshot.modeSets = snapshot.modeSets.filter((set) => set.key !== "scale");
   snapshot.rules!.push(baseRule);
   let structure = assignStructure(
     createStructure("Base", "c0000000-0000-4000-8000-000000000010"),

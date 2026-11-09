@@ -130,7 +130,7 @@ export async function computeAnalysisComparison(
       if (!response.ok) throw new Error(await response.text());
       const result: unknown = await response.json();
       if (!isResolutionResult(result))
-        throw new Error("Invalid color/opacity resolution response.");
+        throw new Error("Invalid token resolution response.");
       app = {
         ...app,
         resolvedValues: result.resolvedValues,
@@ -143,7 +143,7 @@ export async function computeAnalysisComparison(
         ...app,
         limitations: [
           ...app.limitations,
-          `Color/opacity resolution unavailable: ${error instanceof Error ? error.message : String(error)}`,
+          `Token resolution unavailable: ${error instanceof Error ? error.message : String(error)}`,
         ],
       };
     }
