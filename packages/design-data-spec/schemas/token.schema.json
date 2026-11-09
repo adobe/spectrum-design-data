@@ -72,6 +72,10 @@
           "type": "string",
           "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from the `scale` mode set."
         },
+        "scaleIndex": {
+          "oneOf": [{ "type": "string" }, { "type": "integer" }],
+          "description": "Semantic: position in a foundation scale. Canonical data uses integers; strings remain accepted for compatibility."
+        },
         "density": {
           "type": "string",
           "description": "Semantic: space within or around component parts (e.g. spacious, compact)."
@@ -200,6 +204,11 @@
           "type": "string",
           "format": "uuid"
         },
+        "conceptId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Stable identity shared by every mode row of the same design concept."
+        },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
         },
@@ -261,6 +270,11 @@
         "uuid": {
           "type": "string",
           "format": "uuid"
+        },
+        "conceptId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Stable identity shared by every mode row of the same design concept."
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
