@@ -239,6 +239,8 @@ The scene graph is the contract between resolution and output:
 
 A build step **MAY** pre-resolve every `token` and `relationship` binding per `size|colorScheme|scale` into a ranked list of candidates (`{value, token, states}`), so a renderer needs no token graph. Only state-dependent selection remains at render time: take the first candidate whose `states` all apply, else the first. Backends that consume compiled recipes (for example the dependency-free JS runtime emitted by `design-data site`) **MUST** produce the same scene as the Rust reference renderer; the reference renderer is the source of truth and parity is tested.
 
+A compiled recipe **MUST NOT** depend on the request's `icon`: the request icon is applied when the scene is solved. For this a compiled content icon part (`icon.content: true`) carries `iconChoices`, an object mapping `set:name` to the key in the recipe's `drawings` of that icon's drawing at the part's scale (an icon with no usable drawing is absent), so a backend with one precompiled variant and no icon catalog can honour the request icon with the rules in [Icons](#icons). `iconChoices` is absent when the build had no icon catalog. Backends that predate `iconChoices` ignore it, and the existing `drawing`, `drawingMiss` and `drawings` fields are unchanged.
+
 ## Backend and tooling decisions (research outcomes)
 
 These record the research behind this draft and are not normative.

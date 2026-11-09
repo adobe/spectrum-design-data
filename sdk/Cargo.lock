@@ -762,6 +762,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "design-data-wasm-visual"
+version = "0.0.0"
+dependencies = [
+ "design-data-core",
+ "serde_json",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "difflib"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -154,6 +154,15 @@
       "summary": "WebAssembly bindings for design-data-core."
     },
     {
+      "path": "sdk/wasm-visual",
+      "kind": "crate",
+      "audience": "maintainer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Slim solve-only WebAssembly engine for component visual recipes."
+    },
+    {
       "path": "platforms",
       "kind": "area",
       "audience": "consumer",
