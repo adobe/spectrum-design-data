@@ -102,6 +102,14 @@ After finishing a feature, check whether it introduced a new pattern, component,
 - If the item is directly related to the work, include fixing it in the plan as a **Proposed addition** (Working rule 1) and ask before doing it. Do not fix unrelated items or fix anything without the user's answer.
 - Add newly found items to `docs/known-debt.md` (with the user's approval, as for other rules and docs). When an item is fixed and its check passes, remove it from the register. Mention each item at most once per task.
 
+### 6. Final commit approval
+
+- Every implementation plan must include a final task: **Ask the user whether to commit the completed changes.** Place it after implementation and required verification, before marking the overall task complete.
+- When those steps are complete, use the host's interactive prompt mechanism (`ask_user` in Copilot, or the equivalent in another agent/chat tool). Ask: "Would you like me to create a local commit for these changes?" Offer "Yes, create a local commit" and "No, leave changes uncommitted". Do not substitute a completion summary or an offer to commit later for this prompt. If the host has no interactive prompt mechanism, ask in chat and wait for an answer.
+- Commit only after explicit approval. Plan approval, implementation approval, silence, or an unavailable user is not commit approval. If the user declines or cannot respond, leave changes uncommitted and record that outcome in the final plan task and handoff.
+- A prompt-tool call is not proof that the user saw a prompt. If the host returns without collecting a choice, report that approval could not be collected and leave changes uncommitted. Do not claim the user declined, ignored, or failed to answer a prompt without evidence.
+- Approval covers only the completed task's changes. Inspect the diff and staging area, exclude unrelated user work, and follow the repository's commit conventions. It does not authorize pushing, opening a pull request, amending commits, or changing branches.
+
 ## Roadmap alignment (IMPORTANT)
 
 This project is a design system authoring tool with a long-term roadmap in [docs/ROADMAP.md](docs/ROADMAP.md) (initiatives `INIT-n`, epics `EPIC-n.m`).
