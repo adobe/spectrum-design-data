@@ -47,14 +47,14 @@ An agent loop benefits from a small, structural overview at session start so tha
 
 **NORMATIVE:** A conforming implementation MUST expose a `primer` operation returning a JSON object with at least:
 
-| Field            | Type    | Meaning                                                           |                                                                   |
-| ---------------- | ------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `specVersion`    | string  | The spec version the dataset declares (see [Overview](index.md)). |                                                                   |
-| `manifest`       | object  | null                                                              | Resolved platform manifest, if any (see [Manifest](manifest.md)). |
-| `modeSets`       | array   | Declared mode sets with modes and defaults.                       |                                                                   |
-| `components`     | array   | Component identifiers exposed by the dataset (post Phase 6).      |                                                                   |
-| `taxonomyFields` | array   | Active name-object fields and their declared vocabulary.          |                                                                   |
-| `tokenCount`     | integer | Total tokens in the merged cascade.                               |                                                                   |
+| Field            | Type           | Meaning                                                           |
+| ---------------- | -------------- | ----------------------------------------------------------------- |
+| `specVersion`    | string         | The spec version the dataset declares (see [Overview](index.md)). |
+| `manifest`       | object \| null | Resolved platform manifest, if any (see [Manifest](manifest.md)). |
+| `modeSets`       | array          | Declared mode sets with modes and defaults.                       |
+| `components`     | array          | Component identifiers exposed by the dataset (post Phase 6).      |
+| `taxonomyFields` | array          | Active name-object fields and their declared vocabulary.          |
+| `tokenCount`     | integer        | Total tokens in the merged cascade.                               |
 
 **RECOMMENDED:** The primer payload SHOULD fit within 2,000 tokens of LLM context for typical Spectrum-scale datasets. Implementations that produce larger payloads SHOULD provide a `--summary` mode.
 
