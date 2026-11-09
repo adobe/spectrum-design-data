@@ -29,6 +29,8 @@ const LAST_CHAR: u32 = 126;
 const ADVANCES: usize = (LAST_CHAR - FIRST_CHAR + 1) as usize;
 /// Top-level keys that describe the table; everything else must be a weight.
 const NOTE_KEYS: &[&str] = &["font", "source", "generated", "format"];
+/// Optional object stamping a generated table (date, kit URL, a reference width); never read by `width`.
+const META_KEY: &str = "meta";
 const REQUIRED_WEIGHTS: &[u32] = &[400, 700];
 /// The committed default table (Source Sans 3), as the file the site ships and `visual-runtime.js` reads.
 pub const DEFAULT_TABLE_JSON: &str = include_str!("text-metrics/source-sans-3.json");
@@ -44,7 +46,10 @@ struct Weight {
 
 /// Advances and kerning at two or more weights, validated on load.
 #[derive(Debug, Clone)]
-pub struct TextMetrics(Arc<Vec<(u32, Weight)>>);
+pub struct TextMetrics {
+    weights: Arc<Vec<(u32, Weight)>>,
+    meta: Option<Arc<Map<String, Value>>>,
+}
 
 impl TextMetrics {
     /// The committed Source Sans 3 table.
@@ -64,7 +69,14 @@ impl TextMetrics {
     pub fn from_value(v: &Value) -> Result<Self, String> {
         let obj = v.as_object().ok_or("must be a JSON object")?;
         let mut weights = Vec::new();
+        let mut meta = None;
         for (key, val) in obj {
+            if key == META_KEY {
+                meta = Some(Arc::new(
+                    val.as_object().ok_or("'meta' must be an object")?.clone(),
+                ));
+                continue;
+            }
             if NOTE_KEYS.contains(&key.as_str()) {
                 if !val.is_string() {
                     return Err(format!("'{key}' must be a string"));
@@ -89,13 +101,30 @@ impl TextMetrics {
                 return Err(format!("missing weight {need}"));
             }
         }
-        Ok(Self(Arc::new(weights)))
+        Ok(Self {
+            weights: Arc::new(weights),
+            meta,
+        })
+    }
+
+    /// The table's `meta` stamp as `key=value, ...` sorted by key, or `None` for a table without
+    /// one. The kit URL (`kit`) is left out: the stamp is printed and written next to scenes that
+    /// may be shared, and the kit ID should not travel with them.
+    pub fn stamp(&self) -> Option<String> {
+        let m = self.meta.as_ref()?;
+        let part = |(k, v): (&String, &Value)| match v.as_str() {
+            Some(s) => format!("{k}={s}"),
+            None => format!("{k}={v}"),
+        };
+        let mut parts: Vec<_> = m.iter().filter(|(k, _)| *k != "kit").map(part).collect();
+        parts.sort();
+        (!parts.is_empty()).then(|| parts.join(", "))
     }
 
     /// Width of `text` in px at `font_size` and CSS `weight`. Weights between two table
     /// weights interpolate linearly; outside them the nearest table weight applies.
     pub fn width(&self, text: &str, font_size: f64, weight: f64) -> f64 {
-        let ws = &*self.0;
+        let ws = &*self.weights;
         let hi = ws.iter().position(|(w, _)| f64::from(*w) >= weight);
         let em = match hi {
             None => width_em(&ws[ws.len() - 1].1, text),
@@ -232,6 +261,27 @@ mod tests {
         // Source Sans 3 "Test" at 700 is 1.803 em in Chrome (proposal 015).
         let w = table().width("Test", 14.0, 700.0);
         assert!((w - 25.246).abs() < 0.02, "{w}");
+    }
+
+    #[test]
+    fn meta_is_optional_and_reported_as_a_stamp() {
+        let plain = file(500.0, "{}");
+        assert_eq!(TextMetrics::parse(&plain).unwrap().stamp(), None);
+        let stamped = plain.replacen(
+            r#""font":"t""#,
+            r#""font":"t","meta":{"kit":"https://kit.test/x.css","testWidth700At14px":23.665,"generated":"2026-11-07"}"#,
+            1,
+        );
+        let t = TextMetrics::parse(&stamped).unwrap();
+        assert_eq!(
+            t.stamp().unwrap(),
+            "generated=2026-11-07, testWidth700At14px=23.665"
+        );
+        assert_eq!(t.width("a", 10.0, 400.0), 5.0);
+        let bad = plain.replacen(r#""font":"t""#, r#""font":"t","meta":"x""#, 1);
+        assert!(TextMetrics::parse(&bad)
+            .unwrap_err()
+            .contains("'meta' must be an object"));
     }
 
     #[test]

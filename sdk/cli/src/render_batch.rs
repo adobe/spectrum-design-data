@@ -113,6 +113,10 @@ pub fn run_batch(
     text_metrics: Option<TextMetrics>,
 ) -> miette::Result<ExitCode> {
     let states = read_states(file)?;
+    let stamp = text_metrics.as_ref().and_then(TextMetrics::stamp);
+    if let Some(s) = &stamp {
+        eprintln!("text metrics: {s}");
+    }
     std::fs::create_dir_all(out)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to create {}", out.display()))?;
@@ -191,7 +195,12 @@ pub fn run_batch(
     }
     std::fs::write(
         out.join("index.json"),
-        serde_json::to_string_pretty(&json!({ "states": index })).into_diagnostic()? + "\n",
+        serde_json::to_string_pretty(&match stamp {
+            Some(s) => json!({ "textMetrics": s, "states": index }),
+            None => json!({ "states": index }),
+        })
+        .into_diagnostic()?
+            + "\n",
     )
     .into_diagnostic()?;
     eprintln!(
@@ -238,6 +247,14 @@ pub fn run_compare(
     output: Option<PathBuf>,
     fail_on_diff: bool,
 ) -> miette::Result<ExitCode> {
+    // `render --batch` records the --text-metrics stamp in index.json; show it so a font update is visible.
+    if let Some(s) = std::fs::read_to_string(scenes.join("index.json"))
+        .ok()
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|v| v["textMetrics"].as_str().map(str::to_string))
+    {
+        eprintln!("text metrics: {s}");
+    }
     let scenes = read_scenes(scenes)?;
     let text = std::fs::read_to_string(measured)
         .into_diagnostic()

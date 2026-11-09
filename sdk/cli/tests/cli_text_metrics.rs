@@ -192,3 +192,47 @@ fn site_ships_the_table_it_was_built_with() {
     .failure()
     .stderr(contains("weight 700"));
 }
+
+#[test]
+fn batch_and_compare_print_the_table_stamp() {
+    let dir = tempfile::tempdir().unwrap();
+    let mut t = default_table();
+    t["meta"] = json!({ "kit": "https://kit.example/x.css", "generated": "2026-11-07" });
+    let table = dir.path().join("stamped.json");
+    std::fs::write(&table, t.to_string()).unwrap();
+    let states = dir.path().join("states.json");
+    std::fs::write(
+        &states,
+        json!([{ "id": "b", "component": "button" }]).to_string(),
+    )
+    .unwrap();
+    let out = dir.path().join("out");
+    let stamp = "text metrics: generated=2026-11-07";
+    dd(&[
+        "render",
+        "--batch",
+        states.to_str().unwrap(),
+        "--out",
+        out.to_str().unwrap(),
+        "--text-metrics",
+        table.to_str().unwrap(),
+    ])
+    .success()
+    .stderr(contains(stamp));
+    let index: Value =
+        serde_json::from_str(&std::fs::read_to_string(out.join("index.json")).unwrap()).unwrap();
+    assert!(index["textMetrics"]
+        .as_str()
+        .unwrap()
+        .contains("2026-11-07"));
+    let measured = dir.path().join("measured.json");
+    std::fs::write(&measured, json!({ "states": [] }).to_string()).unwrap();
+    dd(&[
+        "render-compare",
+        "--scenes",
+        out.to_str().unwrap(),
+        "--measured",
+        measured.to_str().unwrap(),
+    ])
+    .stderr(contains(stamp));
+}

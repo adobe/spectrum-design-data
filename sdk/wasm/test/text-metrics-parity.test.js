@@ -191,3 +191,12 @@ test("odd weight values measure as 400 in both engines", (t) => {
     ds.free();
   }
 });
+
+test("a meta stamp is accepted when it is an object", (t) => {
+  t.notThrows(() =>
+    parseTextMetrics({ ...defaultTable, meta: { generated: "2026-11-07" } }),
+  );
+  t.throws(() => parseTextMetrics({ ...defaultTable, meta: "x" }), {
+    message: /'meta' must be an object/,
+  });
+});

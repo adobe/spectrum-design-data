@@ -191,3 +191,6 @@ opencode.jsonc
 tools/platform-capture/adapters/ios-simulator/shots/
 tools/platform-capture/adapters/ios-simulator/contact-sheets/
 tools/figma-spec-plugin/.out/
+
+# Text-metrics tables generated from the Adobe Fonts kit are derived from a licensed font (never commit).
+tools/platform-capture/.cache/
