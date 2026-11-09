@@ -34,7 +34,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["icon", "progress", "label"],
+      "children": ["icon", "progress", "label", "trailing-icon"],
       "props": {
         "direction": {
           "value": "row"
@@ -45,11 +45,23 @@
         "justify": {
           "value": "center"
         },
-        "height": {
+        "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
             "context": "Minimum height"
           }
+        },
+        "minWidth": {
+          "when": {
+            "options": {
+              "isLabelHidden": false
+            }
+          },
+          "relationship": {
+            "property": "minimum-width-multiplier",
+            "context": "Minimum width (with label)"
+          },
+          "relativeTo": "height"
         },
         "paddingInlineStart": [
           {
@@ -295,6 +307,49 @@
         ]
       }
     },
+    "trailing-icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add"
+      },
+      "visibleWhen": {
+        "options": {
+          "hasTrailingIcon": true,
+          "isLabelHidden": false,
+          "isPending": false
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "color": [
+          {
+            "when": {
+              "options": {
+                "hasTrailingIcon": true,
+                "isLabelHidden": false,
+                "isPending": false
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Icon"
+            }
+          }
+        ]
+      }
+    },
     "label": {
       "kind": "text",
       "visibleWhen": {
@@ -304,6 +359,9 @@
         }
       },
       "props": {
+        "overflow": {
+          "value": "wrap"
+        },
         "fontSize": {
           "relationship": {
             "property": "font-size-{sizeIndex}",
@@ -375,7 +433,7 @@
     "focus-indicator": {
       "kind": "ring",
       "visibleWhen": {
-        "states": ["focus"]
+        "states": ["keyboard-focus"]
       },
       "props": {
         "stroke": [

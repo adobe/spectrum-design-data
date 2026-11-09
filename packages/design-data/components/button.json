@@ -121,7 +121,7 @@
   "options": {
     "variant": {
       "type": "string",
-      "default": "accent",
+      "default": "primary",
       "description": "Visual emphasis level.",
       "values": [
         { "value": "accent" },
@@ -148,6 +148,11 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isPending": { "type": "boolean", "default": false },
     "isLabelHidden": { "type": "boolean", "default": false },
+    "hasTrailingIcon": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show an icon after the label. Figma: Show trailing icon."
+    },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
@@ -186,14 +191,18 @@
       "description": "Text label of the button.",
       "required": false
     },
-    { "name": "icon", "description": "Icon placed at the start of the button." }
+    { "name": "icon", "description": "Icon placed at the start of the button." },
+    {
+      "name": "trailing-icon",
+      "description": "Icon placed at the end of the button, after the label."
+    }
   ],
   "anatomy": [
     {
       "name": "container",
       "description": "Pill-shaped background that holds the icon and label.",
       "required": true,
-      "contains": ["icon", "progress", "label"]
+      "contains": ["icon", "progress", "label", "trailing-icon"]
     },
     { "name": "icon", "description": "Leading icon." },
     {
@@ -205,9 +214,13 @@
       "description": "Button text. Hidden when the label is hidden or the button is pending."
     },
     {
+      "name": "trailing-icon",
+      "description": "Trailing icon shown after the label (hasTrailingIcon). Hidden when the label is hidden or the button is pending."
+    },
+    {
       "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus.",
-      "presentIn": ["focus"]
+      "presentIn": ["keyboard-focus"]
     }
   ],
   "anatomyReview": {
@@ -219,7 +232,7 @@
     { "name": "hover", "trigger": "interaction", "precedence": 50 },
     { "name": "down", "trigger": "interaction", "precedence": 55 },
     {
-      "name": "focus",
+      "name": "keyboard-focus",
       "trigger": "interaction",
       "precedence": 60,
       "layered": true

@@ -2114,7 +2114,15 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         .width
         .filter(|w| w.is_finite() && *w > 0.0)
         .or_else(|| root_width.as_ref().and_then(Resolved::num));
-    let min_w = min_width.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let min_w = min_width
+        .as_ref()
+        .and_then(|r| {
+            r.num().map(|v| match r.relative_to.as_deref() {
+                Some("height") => v * min_h.or(explicit_h).unwrap_or(32.0),
+                _ => v,
+            })
+        })
+        .unwrap_or(0.0);
     let block_padded = pad_bs.is_some() || pad_be.is_some();
     let pad_bs = pad_bs.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_be = pad_be.as_ref().and_then(Resolved::num).unwrap_or(0.0);

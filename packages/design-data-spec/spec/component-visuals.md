@@ -181,7 +181,7 @@ A conditional entry is a value source plus `when`. A condition has optional `opt
 
 **NORMATIVE:** When several entries match a request, the renderer **MUST** choose the one with the most conditions (options + states + modes). Ties go to the later entry in document order. An entry without `when` is the default. An entry **MAY** set an integer `priority` (default 0); a higher priority wins before condition count is compared. Use it for states that override every other combination, such as `disabled`.
 
-An entry on `cornerRadius` **MAY** set `relativeTo: "height"`, making its numeric value a ratio of the container height (a pill is `0.5`). A `stroke` on a `box` is drawn inside its bounds, so `strokeWidth` does not change the layout size.
+An entry on `cornerRadius` **MAY** set `relativeTo: "height"`, making its numeric value a ratio of the container height (a pill is `0.5`). An entry on the root's `minWidth` **MAY** set it too: the value is then a multiple of the root's one-line height (`minHeight`, else `height`), so a minimum width such as `2.25` times the height reads from a multiplier token. A `stroke` on a `box` is drawn inside its bounds, so `strokeWidth` does not change the layout size.
 
 **NORMATIVE:** A renderer **MUST NOT** substitute a literal for a value source it cannot resolve. It **MUST** emit a diagnostic naming the part, property and selector, and omit that property.
 
