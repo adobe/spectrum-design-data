@@ -310,6 +310,42 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.9.3",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-09",
+      "commit": "5f38c0a00507a59c5c575dfd8efedf9ca9d92251",
+      "commits": [
+        {
+          "commit": "2a6ccd3796290fa0e4de081072d8d28556524ce7",
+          "date": "2026-11-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1700,"title":"feat(renderer): root width/minWidth, grow and a request width","url":"https://github.com/adobe/spectrum-design-data/pull/1700"},
+          "entries": [
+            {"id":"2a6ccd37-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/item","name":"item","fields":[{"path":"props.width.relationship.context","after":"Width (default)"},{"path":"props.width.relationship.property","after":"width"},{"path":"props.width.when.options.size","after":["m","l","xl"]}]},
+            {"id":"2a6ccd37-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/title","name":"title","fields":[{"path":"props.grow.value","after":true}]}
+          ]
+        },
+        {
+          "commit": "5f38c0a00507a59c5c575dfd8efedf9ca9d92251",
+          "date": "2026-11-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1703,"title":"feat(renderer): nest a component recipe inside another (accordion direct actions)","url":"https://github.com/adobe/spectrum-design-data/pull/1703"},
+          "entries": [
+            {"id":"5f38c0a0-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/options/hasActionButton","name":"hasActionButton","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered accordion item shows an icon-only action button on its trailing edge. Per-item in a data-driven accordion is items[].hasActionButton."}},
+            {"id":"5f38c0a0-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/options/hasSwitch","name":"hasSwitch","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered accordion item shows a switch on its trailing edge. Per-item in a data-driven accordion is items[].hasSwitch."}},
+            {"id":"5f38c0a0-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"Icon-only action button (the action-button component) in the direct actions. Shown when hasActionButton is on."}},
+            {"id":"5f38c0a0-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/anatomy/direct-actions","name":"direct-actions","fields":[],"after":{"name":"direct-actions","description":"Row on the trailing edge of the header that holds the optional action button and switch. Absent when neither is shown.","contains":["action-button","switch"]}},
+            {"id":"5f38c0a0-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/anatomy/switch","name":"switch","fields":[],"after":{"name":"switch","description":"Switch (the switch component) in the direct actions. Shown when hasSwitch is on."}},
+            {"id":"5f38c0a0-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/header","name":"header","fields":[{"path":"contains","before":["disclosure-icon","title"],"after":["disclosure-icon","title","direct-actions"]}]},
+            {"id":"5f38c0a0-6","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/header","name":"header","fields":[{"path":"description","before":"Row holding the disclosure icon and the title. It is the interactive heading.","after":"Row holding the disclosure icon, the title and the optional direct actions. It is the interactive heading."}]},
+            {"id":"5f38c0a0-7","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"accordion/visual/parts/action-button","name":"action-button","fields":[]},
+            {"id":"5f38c0a0-8","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"accordion/visual/parts/direct-actions","name":"direct-actions","fields":[]},
+            {"id":"5f38c0a0-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/header","name":"header","fields":[{"path":"children","before":["disclosure-icon","title"],"after":["disclosure-icon","title","direct-actions"]}]},
+            {"id":"5f38c0a0-10","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"accordion/visual/parts/switch","name":"switch","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

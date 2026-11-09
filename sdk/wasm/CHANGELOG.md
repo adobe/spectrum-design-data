@@ -1,5 +1,23 @@
 # @adobe/design-data-wasm
 
+## 0.18.0
+
+### Minor Changes
+
+- [#1700](https://github.com/adobe/spectrum-design-data/pull/1700) [`2a6ccd3`](https://github.com/adobe/spectrum-design-data/commit/2a6ccd3796290fa0e4de081072d8d28556524ce7) Thanks [@GarthDB](https://github.com/GarthDB)! - `renderScene` and `renderSvg` accept an optional `width` (px) in the request:
+  the demo width of the root. It overrides the recipe's root `width` and never
+  goes below its `minWidth`.
+
+### Patch Changes
+
+- [#1703](https://github.com/adobe/spectrum-design-data/pull/1703) [`5f38c0a`](https://github.com/adobe/spectrum-design-data/commit/5f38c0a00507a59c5c575dfd8efedf9ca9d92251) Thanks [@GarthDB](https://github.com/GarthDB)! - `renderScene` and `renderSvg` draw a recipe's `component` parts (a nested action
+  button and switch in the accordion item), with namespaced scene parts such as
+  `action-button.icon`. Renders of recipes without `component` parts are unchanged.
+
+- [#1701](https://github.com/adobe/spectrum-design-data/pull/1701) [`6ee52bc`](https://github.com/adobe/spectrum-design-data/commit/6ee52bc9f0e03eca4bbb063a175171b6f4e886a1) Thanks [@GarthDB](https://github.com/GarthDB)! - `renderScene` and `renderSvg` wrap a text part that sets `overflow` when the
+  request has a `width`: the scene has one text node per line and the root grows to
+  fit. Renders of recipes without `overflow` are unchanged.
+
 ## 0.17.0
 
 ### Minor Changes

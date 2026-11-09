@@ -1,5 +1,64 @@
 # @adobe/design-data-spec
 
+## 4.15.0
+
+### Minor Changes
+
+- [#1703](https://github.com/adobe/spectrum-design-data/pull/1703) [`5f38c0a`](https://github.com/adobe/spectrum-design-data/commit/5f38c0a00507a59c5c575dfd8efedf9ca9d92251) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a part of kind `component` draws another component's recipe
+  inside the host (nested recipes).
+
+  The part names the `component`, a `sizeMap` from each host size to a nested size,
+  and `with` options that are literals or `{"option": name}` read from the host's
+  request. The nested recipe is solved on its own and its nodes join the scene: the
+  root node keeps the host part id and the others are `<part>.<inner>`, so anatomy
+  views and spec-sheet markers still see one part. Host states do not reach it.
+  A row box can group `component` parts and drops out when none is visible. Nesting
+  is limited to two levels and may not cycle. New rule SPEC-089
+  (`visual-nested-component-valid`); `component-visual.schema.json` accepts the new
+  kind and its `component`, `sizeMap` and `with` fields. Compiled recipes gain
+  `nested` and `nestedSize` on `component` parts only.
+
+- [#1700](https://github.com/adobe/spectrum-design-data/pull/1700) [`2a6ccd3`](https://github.com/adobe/spectrum-design-data/commit/2a6ccd3796290fa0e4de081072d8d28556524ce7) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a root can bind `width` and `minWidth`, and a part can
+  `grow` to fill the rest of a row.
+
+  The root's outer width is `max(minWidth, width)`, padding inside it; a root
+  with neither still hugs its content. `grow` (`true` or a positive share) on a
+  `box` or `text` in a row splits the space left after the other parts, gaps and
+  padding. A render request gains an optional `width` (px), the demo width, which
+  overrides the recipe's `width` but not its `minWidth`. A fixed width narrower
+  than the content overflows without clipping and adds a scene diagnostic.
+  `component-visual.schema.json` accepts `grow`. A flowed row box with no `width`
+  now fills a column root. SPEC-083's fixture uses `rotation` on a box, since
+  `minWidth` is now read.
+
+- [#1701](https://github.com/adobe/spectrum-design-data/pull/1701) [`6ee52bc`](https://github.com/adobe/spectrum-design-data/commit/6ee52bc9f0e03eca4bbb063a175171b6f4e886a1) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a `text` part can wrap or truncate its label, and a root can
+  bind `minHeight`.
+
+  A text part that is a direct child of the root binds `overflow` (`wrap` or
+  `truncate`, after React Spectrum's `overflowMode`). With a fixed width (a request
+  `width` or a root `width`) it breaks greedily after spaces and hyphens against
+  the width the root leaves it, measured with the text table; without one, or
+  without `overflow`, it hugs on one line as before. A word wider than the width
+  is never split: it overflows and adds a scene diagnostic. A wrapped label is one
+  scene text node per line. `minHeight` makes the root a minimum: a row root with
+  no block padding pads by `(minHeight - one line) / 2` and grows by a line height
+  per extra line. `component-visual.schema.json` accepts `minHeight` and
+  `overflow`.
+
+- [#1692](https://github.com/adobe/spectrum-design-data/pull/1692) [`cc4a279`](https://github.com/adobe/spectrum-design-data/commit/cc4a279782ea922938fdf8f6f43706a341f60447) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an optional `render.svg` string to the component spec-sheet schema.
+
+  `design-data spec-sheet --svg` writes each block's visual as SVG (the same
+  renderer as `design-data render`) next to its scene, so a view can draw the
+  visual without a renderer of its own. Sheets written without `--svg` are
+  unchanged.
+
+### Patch Changes
+
+- [#1698](https://github.com/adobe/spectrum-design-data/pull/1698) [`9590728`](https://github.com/adobe/spectrum-design-data/commit/95907289353fb320b85b66d7602ea8b19d591e2d) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: layout and text measurement now exist once, in Rust.
+  The spec no longer describes a JavaScript runtime that mirrors the
+  reference renderer. Browsers load the same solver as WASM and only draw
+  the scene.
+
 ## 4.14.1
 
 ### Patch Changes
