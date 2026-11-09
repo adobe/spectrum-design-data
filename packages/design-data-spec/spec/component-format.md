@@ -301,8 +301,8 @@ Each state carries at minimum:
 | ------------ | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`       | string  | REQUIRED | State identifier (e.g. `hover`, `focus`, `disabled`).                                                                                     |
 | `trigger`    | string  | OPTIONAL | `"prop"` for persistent prop-driven states (e.g. `isDisabled`) or `"interaction"` for runtime interaction states (hover, focus, pressed). |
-| `precedence` | integer | OPTIONAL | Resolution precedence; higher integer wins when multiple states are active.                                                               |
-| `layered`    | boolean | OPTIONAL | `true` for states that compose with others (e.g. focus ring over hover). Default: `false`.                                                |
+| `precedence` | integer | OPTIONAL | Resolution precedence among active interaction states; higher integer wins. Defaults to the canonical value for the name.                 |
+| `layered`    | boolean | OPTIONAL | **Deprecated**; ignored by resolvers. See the state model.                                                                                |
 | `lifecycle`  | object  | OPTIONAL | Version lifecycle metadata for this state. When `lifecycle.deprecated` is set, SPEC-037 fires on referencing tokens.                      |
 
 See [`spec/state-model.md`](state-model.md) for the full state resolution algorithm, trigger semantics, and precedence rules.
@@ -310,8 +310,8 @@ See [`spec/state-model.md`](state-model.md) for the full state resolution algori
 ```json
 "states": [
   { "name": "hover",    "trigger": "interaction", "precedence": 50 },
-  { "name": "focus",    "trigger": "interaction", "precedence": 60, "layered": true },
-  { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+  { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
+  { "name": "disabled", "trigger": "prop" }
 ]
 ```
 
@@ -445,13 +445,8 @@ A complete button component declaration:
   ],
   "states": [
     { "name": "hover", "trigger": "interaction", "precedence": 50 },
-    {
-      "name": "focus",
-      "trigger": "interaction",
-      "precedence": 60,
-      "layered": true
-    },
-    { "name": "disabled", "trigger": "prop", "precedence": 100 }
+    { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
+    { "name": "disabled", "trigger": "prop" }
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
@@ -484,7 +479,6 @@ A complete button component declaration:
     {
       "name": "disabled",
       "trigger": "prop",
-      "precedence": 100,
       "announce": "Button disabled",
       "communicates": "disabled",
       "blocksInteraction": true

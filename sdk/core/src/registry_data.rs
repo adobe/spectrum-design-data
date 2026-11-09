@@ -2491,6 +2491,7 @@ const STATES_JSON: &str = r##"{
       "id": "hover",
       "label": "Hover",
       "description": "Mouse hover state",
+      "precedence": 50,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2538,6 +2539,7 @@ const STATES_JSON: &str = r##"{
       "label": "Active",
       "aliases": ["pressed"],
       "description": "Active or pressed state",
+      "precedence": 70,
       "usedIn": ["component-options", "component-schemas"],
       "relatedTerms": ["down"]
     },
@@ -2545,6 +2547,7 @@ const STATES_JSON: &str = r##"{
       "id": "focus",
       "label": "Focus",
       "description": "Focused state (generic)",
+      "precedence": 60,
       "usedIn": ["component-options", "component-schemas"]
     },
     {
@@ -2552,6 +2555,7 @@ const STATES_JSON: &str = r##"{
       "label": "Keyboard Focus",
       "aliases": ["keyboard focus", "key-focus"],
       "description": "Focused via keyboard navigation",
+      "precedence": 60,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2610,6 +2614,7 @@ const STATES_JSON: &str = r##"{
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
+      "precedence": 70,
       "usedIn": ["tokens", "component-schemas"],
       "relatedTerms": ["active"]
     },
