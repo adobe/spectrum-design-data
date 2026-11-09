@@ -88,6 +88,27 @@ async function finishEditing(page: Page) {
     .click();
 }
 
+test("resolved background preview sits to the right of the base scale picker", async ({
+  page,
+}) => {
+  const picker = page.getByRole("button", { name: /Base color scale$/ });
+  const preview = page.getByRole("button", {
+    name: /^Copy resolved background color /,
+  });
+  const pickerBounds = await picker.boundingBox();
+  const previewBounds = await preview.boundingBox();
+
+  expect(pickerBounds).not.toBeNull();
+  expect(previewBounds).not.toBeNull();
+  expect(previewBounds!.x).toBeGreaterThan(
+    pickerBounds!.x + pickerBounds!.width,
+  );
+  expect(previewBounds!.y + previewBounds!.height / 2).toBeCloseTo(
+    pickerBounds!.y + pickerBounds!.height / 2,
+    0,
+  );
+});
+
 test("base scale selection reuses gradients, follows output gamut and saves by identity", async ({
   page,
 }) => {

@@ -65,7 +65,7 @@ async function setTextZoom(page: Page, zoom: number) {
     .getByRole("radio", { name: "Preview", exact: true })
     .dispatchEvent("click");
   await page.getByRole("button", { name: "Adaptive controls" }).first().click();
-  const slider = page.getByRole("slider", { name: "Text size" });
+  const slider = page.getByRole("slider", { name: "Adaptive text scaling" });
   await slider.focus();
   await page.keyboard.press("Home");
   for (let step = TEXT_ZOOM_MIN; step < zoom; step++)
@@ -207,7 +207,7 @@ test("Text size in its owning mode popover matches spectrum-density", async ({
   for (const { userTextZoom, tokens } of REFERENCE) {
     const slider = page
       .getByRole("dialog")
-      .getByRole("slider", { name: "Text size", exact: true });
+      .getByRole("slider", { name: "Adaptive text scaling", exact: true });
     await slider.press("Home");
     for (let step = TEXT_ZOOM_MIN; step < userTextZoom; step++)
       await slider.press("ArrowRight");

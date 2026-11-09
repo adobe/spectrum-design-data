@@ -1418,6 +1418,69 @@ test("Static choices cancel without edits and all three types restore their reta
   }
 });
 
+test("Static colors accept custom entry and token selection in one field across Save and reload", async ({
+  page,
+}) => {
+  const snapshot = createDataVisSnapshot();
+  const scale = sequence(snapshot);
+  scale.staticColors = scale.points.map((point) => ({
+    id: point.id,
+    position: point.position,
+    value: "#345678",
+  }));
+  await seed(page, snapshot);
+  let dialog = await openScale(page, "Data sequence");
+  const field = dialog.getByRole("combobox", { name: /^Color token\b/ });
+  const accepted = async () =>
+    sequence((await record(page)).working).staticColors![0];
+  await expect(field).toHaveValue("#345678");
+  await expect(
+    dialog.getByRole("button", { name: /Color source$/ }),
+  ).toHaveCount(0);
+  await field.fill("#234567");
+  await field.press("Tab");
+  await expect.poll(async () => (await accepted()).value).toBe("#234567");
+  expect((await accepted()).tokenId).toBeUndefined();
+  await dialog
+    .getByRole("button", { name: "Show suggestions Color token", exact: true })
+    .click();
+  const option = page
+    .getByRole("option")
+    .filter({ has: page.locator(".tokenNameTag") })
+    .first();
+  const name = await option.locator(".tokenNameTag").getAttribute("title");
+  await option.click();
+  await expect.poll(async () => (await accepted()).tokenId).toBeTruthy();
+  await expect(dialog.getByTitle(name!)).toBeVisible();
+  await field.fill("not-a-color");
+  await field.press("Enter");
+  await expect(field).toHaveAttribute("aria-invalid", "true");
+  expect((await accepted()).tokenId).toBeDefined();
+  await field.press("Escape");
+  await field.fill("#456789");
+  await field.press("Enter");
+  await expect.poll(async () => (await accepted()).value).toBe("#456789");
+  expect((await accepted()).tokenId).toBeUndefined();
+  await expect(field).toHaveValue("#456789");
+  await closeScale(page, dialog);
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Save", exact: true })
+    .click();
+  await expect
+    .poll(
+      async () => sequence((await record(page)).saved).staticColors![0].value,
+    )
+    .toBe("#456789");
+  await page.reload();
+  await foundations(page);
+  await innerTab(page, "Data vis");
+  dialog = await openScale(page, "Data sequence");
+  await expect(
+    dialog.getByRole("combobox", { name: /^Color token\b/ }),
+  ).toHaveValue("#456789");
+});
+
 test("Default-mode capture differs from current Dark colors and remains usable in a narrow editor", async ({
   page,
 }, info) => {

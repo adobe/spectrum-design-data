@@ -162,7 +162,9 @@ test("Shared controls protect the authored default and transpose exact values wi
   ).toHaveCount(0);
   await expect(baselinePath).toHaveAttribute("points", originalPath!);
   await root.getByRole("button", { name: /Compare$/ }).click();
-  await page.getByRole("option", { name: "Zoom steps", exact: true }).click();
+  await page
+    .getByRole("option", { name: "Adaptive text scaling steps", exact: true })
+    .click();
   await expect(root).toHaveAttribute("data-comparison-source", "zoom");
   await expect(
     root.locator('g[data-series-id="zoom:2"][data-baseline="true"]'),
@@ -214,7 +216,7 @@ test("Named text-size overrides coexist with adaptation and retain Save, Cancel 
     .click();
   const slider = page
     .getByRole("dialog")
-    .getByRole("slider", { name: "Text size", exact: true });
+    .getByRole("slider", { name: "Adaptive text scaling", exact: true });
   await slider.press("ArrowRight");
   await page.keyboard.press("Escape");
   const root = page.locator('[data-component="TypographyComparisonView"]');
@@ -278,7 +280,7 @@ test("Named text-size overrides coexist with adaptation and retain Save, Cancel 
     .getByRole("button", { name: "Adaptive controls", exact: true })
     .click();
   await expect(
-    page.getByRole("slider", { name: "Text size", exact: true }),
+    page.getByRole("slider", { name: "Adaptive text scaling", exact: true }),
   ).toBeVisible();
   await page.keyboard.press("Escape");
   await page.reload();

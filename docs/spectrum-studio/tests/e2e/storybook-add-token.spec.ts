@@ -16,7 +16,7 @@ test.describe("Add token walk-through", () => {
     await story(page, "walk-through");
     const dialog = page.getByRole("dialog");
     await expect(dialog.getByText("Step 1 of 3")).toBeVisible();
-    await dialog.getByRole("option", { name: /Raw value/ }).click();
+    await dialog.getByRole("option", { name: /Primitive/ }).click();
     await dialog.getByRole("button", { name: "Next" }).click();
     await dialog.getByRole("option", { name: /Colors/ }).click();
     await expect(dialog.getByText(/^Step 2 of \d+$/)).toBeVisible();

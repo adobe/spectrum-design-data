@@ -308,7 +308,7 @@ test("Typography retains its unclaimed Text size control and empty rendering doe
     "Typography has no mode sets. Add one to create options.",
   );
   await expect(
-    page.getByRole("textbox", { name: "Text size", exact: true }),
+    page.getByRole("textbox", { name: "Adaptive text scaling", exact: true }),
   ).toBeVisible();
   const snapshot = await working(page);
   const toggle = page.getByRole("button", { name: "Mode sets", exact: true });
@@ -326,9 +326,11 @@ test("Typography retains its unclaimed Text size control and empty rendering doe
   await expect(message).toHaveText(
     "Typography has no mode sets. Select Edit to add one.",
   );
-  await expect(page.getByText("Text size", { exact: true })).toBeVisible();
   await expect(
-    page.getByRole("textbox", { name: "Text size", exact: true }),
+    page.getByText("Adaptive text scaling", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("textbox", { name: "Adaptive text scaling", exact: true }),
   ).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "Add mode set to typography" }),
@@ -553,14 +555,20 @@ test("enabled variables appear only in mode popovers including shared defaults",
     exact: true,
   });
   await expect(
-    typographyPanel.getByRole("textbox", { name: "Text size", exact: true }),
+    typographyPanel.getByRole("textbox", {
+      name: "Adaptive text scaling",
+      exact: true,
+    }),
   ).toHaveCount(0);
   await expect(
-    typographyPanel.getByRole("slider", { name: "Text size", exact: true }),
+    typographyPanel.getByRole("slider", {
+      name: "Adaptive text scaling",
+      exact: true,
+    }),
   ).toHaveCount(0);
   await expect(
     typographyPanel.getByRole("button", {
-      name: "Text size Follows",
+      name: "Adaptive text scaling Follows",
       exact: true,
     }),
   ).toHaveCount(0);
@@ -584,7 +592,7 @@ test("enabled variables appear only in mode popovers including shared defaults",
   ).toBeVisible();
   await page
     .getByRole("dialog")
-    .getByRole("slider", { name: "Text size", exact: true })
+    .getByRole("slider", { name: "Adaptive text scaling", exact: true })
     .press("ArrowRight");
   await expect
     .poll(async () => (await working(page)).typography.textZoom)
@@ -760,7 +768,7 @@ test("attaching shared sets and enabling variables synchronizes with Modes", asy
     page.getByRole("region", { name: "Color scheme mode set" }),
   ).toHaveCount(0);
   await expect(
-    setup.getByRole("checkbox", { name: /Text size/ }),
+    setup.getByRole("checkbox", { name: /Adaptive text scaling/ }),
   ).toBeDisabled();
   await setup.getByRole("button", { name: "Apply", exact: true }).click();
   const sharedCard = page.getByRole("region", {
@@ -1005,7 +1013,7 @@ test("temporary adaptive previews do not enter saved source or survive refresh",
     .click();
   const slider = page
     .getByRole("dialog")
-    .getByRole("slider", { name: "Text size" });
+    .getByRole("slider", { name: "Adaptive text scaling" });
   await slider.press("ArrowRight");
   await expect(slider).toHaveValue("1");
   await page.keyboard.press("Escape");

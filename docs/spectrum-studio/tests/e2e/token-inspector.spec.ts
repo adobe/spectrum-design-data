@@ -29,8 +29,7 @@ test("Token dialog switches from view-only to editing and retains saved values a
   await open.click();
   const field = dialog.getByRole("combobox", { name: "Mode value" });
   await field.fill("#123456");
-  await field.press("ArrowDown");
-  await page.getByRole("option", { name: /Use this value/ }).click();
+  await field.press("Enter");
   await field.press("Escape");
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await expect(dialog).toHaveCount(0);

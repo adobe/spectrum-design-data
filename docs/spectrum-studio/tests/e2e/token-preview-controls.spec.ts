@@ -74,7 +74,7 @@ for (const width of [1280, 390]) {
       exact: true,
     });
     const slider = dialog.getByRole("slider", {
-      name: "Text size",
+      name: "Adaptive text scaling",
       exact: true,
     });
     await expect(slider).toBeVisible();

@@ -16,6 +16,75 @@ async function appearance(card: Locator) {
   });
 }
 
+test("System settings shares the top-level foundation accordion design", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/");
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: "Foundations", exact: true })
+    .click();
+  const headingAppearance = (button: Locator) =>
+    button.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+        padding: style.padding,
+        minHeight: style.minHeight,
+        background: style.backgroundColor,
+        radius: style.borderRadius,
+      };
+    });
+  let expected: Awaited<ReturnType<typeof headingAppearance>> | undefined;
+  let contentInset: number | undefined;
+  for (const tab of ["Colors", "Opacity", "Typography", "Elevation"]) {
+    await page.getByRole("tab", { name: tab, exact: true }).click();
+    const panel = page.getByRole("tabpanel", { name: tab, exact: true });
+    const settings = panel.getByRole("button", {
+      name: "System settings",
+      exact: true,
+    });
+    const modes = panel.getByRole("button", { name: "Mode sets", exact: true });
+    await expect(settings).toHaveCount(1);
+    await expect(modes).toHaveCount(1);
+    const actual = await headingAppearance(settings);
+    expected ??= actual;
+    expect(actual).toEqual(expected);
+    expect(await headingAppearance(modes)).toEqual(expected);
+    expect(
+      await settings.evaluate((element) => {
+        const buttons = [
+          ...element.closest('[role="tabpanel"]')!.querySelectorAll("button"),
+        ];
+        return (
+          buttons.indexOf(element as HTMLButtonElement) <
+          buttons.findIndex(
+            (button) => button.textContent?.trim() === "Mode sets",
+          )
+        );
+      }),
+    ).toBe(true);
+    await settings.click();
+    if (tab !== "Opacity") {
+      const table = panel.getByRole("table", {
+        name: /parameter availability$/,
+      });
+      await expect(table).toBeVisible();
+      const settingsBounds = await settings.boundingBox();
+      const tableBounds = await table.boundingBox();
+      expect(settingsBounds).not.toBeNull();
+      expect(tableBounds).not.toBeNull();
+      const inset = tableBounds!.x - settingsBounds!.x;
+      contentInset ??= inset;
+      expect(inset).toBeCloseTo(contentInset, 1);
+    }
+  }
+  expect(errors).toEqual([]);
+});
+
 for (const dark of [false, true]) {
   test(`foundation cards share their ${dark ? "dark" : "light"} appearance without changing their editors`, async ({
     page,

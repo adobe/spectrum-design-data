@@ -161,7 +161,7 @@ test("Shipped Action Button and Menu show complete declarations without read-onl
     animations: "disabled",
   });
 });
-test("Property literals require explicit acceptance, retain UUIDs and survive Save/reload/Cancel", async ({
+test("Property literals accept blur locally, retain UUIDs and survive Apply/Save/reload/Cancel", async ({
   page,
 }) => {
   await start(page);
@@ -186,16 +186,7 @@ test("Property literals require explicit acceptance, retain UUIDs and survive Sa
   await input.press("Tab");
   await form.getByRole("textbox", { name: "Description", exact: true }).click();
   expect((await record(page)).working.components).toEqual(before);
-  await input.focus();
-  await input.fill("");
-  await input.fill("32px");
-  await expect(
-    page.getByRole("option", { name: "Use this value", exact: true }),
-  ).toBeVisible();
-  await page
-    .getByRole("option", { name: "Use this value", exact: true })
-    .click();
-  await input.press("Tab");
+  await expect(input).toHaveValue("32px");
   await form
     .getByRole("textbox", { name: "Description", exact: true })
     .fill("Authored component height");
@@ -231,6 +222,8 @@ test("Property literals require explicit acceptance, retain UUIDs and survive Sa
     })
     .first()
     .click();
+  await input.fill("48px");
+  await input.press("Tab");
   await dialog
     .getByRole("button", { name: "Cancel changes", exact: true })
     .click();

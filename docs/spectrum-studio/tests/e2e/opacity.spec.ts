@@ -3,6 +3,26 @@ import { expect, test } from "@playwright/test";
 import { enableEditMode } from "./editMode";
 import { selectMode } from "./modeControl";
 
+test("Opacity panel keeps its accessible region name without a visible heading", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: "Foundations", exact: true })
+    .click();
+  await page.getByRole("tab", { name: "Opacity", exact: true }).click();
+
+  const swatches = page.getByRole("region", {
+    name: "Opacity swatches",
+    exact: true,
+  });
+  await expect(swatches).toBeVisible();
+  await expect(
+    swatches.getByText("Opacity swatches", { exact: true }),
+  ).toHaveCount(0);
+});
+
 test("Opacity swatch ink follows the preview background independently of app appearance", async ({
   page,
 }) => {
