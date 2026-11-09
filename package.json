@@ -64,7 +64,8 @@
     "patchedDependencies": {
       "unplugin-parcel-macros@0.1.1": "patches/unplugin-parcel-macros@0.1.1.patch",
       "react-stately@3.50.0": "patches/react-stately@3.50.0.patch",
-      "react-aria@3.52.1": "patches/react-aria@3.52.1.patch"
+      "react-aria@3.52.1": "patches/react-aria@3.52.1.patch",
+      "react-dom@19.2.4": "patches/react-dom@19.2.4.patch"
     }
   }
 }
