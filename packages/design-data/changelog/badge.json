@@ -301,6 +301,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.9.3",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-09",
+      "commit": "5f38c0a00507a59c5c575dfd8efedf9ca9d92251",
+      "commits": [
+        {
+          "commit": "6ee52bc9f0e03eca4bbb063a175171b6f4e886a1",
+          "date": "2026-11-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1701,"title":"feat(visual): wrap and truncate text, root minHeight, badge label wraps","url":"https://github.com/adobe/spectrum-design-data/pull/1701"},
+          "entries": [
+            {"id":"6ee52bc9-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"badge/visual/parts/container","name":"container","fields":[{"path":"props.height.relationship.context","before":"Minimum height"},{"path":"props.height.relationship.property","before":"component-height-{sizeIndex}"},{"path":"props.minHeight.relationship.context","after":"Minimum height"},{"path":"props.minHeight.relationship.property","after":"component-height-{sizeIndex}"}]},
+            {"id":"6ee52bc9-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"badge/visual/parts/label","name":"label","fields":[{"path":"props.overflow.value","after":"wrap"}]}
+          ]
+        }
+      ]
     }
   ]
 }
