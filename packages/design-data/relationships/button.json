@@ -1258,11 +1258,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "accent",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
+    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65",
     "uuid": "2b34d93f-7232-5a7a-a7d6-5127aa1c6e12"
   },
   {
@@ -1275,11 +1275,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "accent",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e",
+    "$ref": "af809118-7a97-409c-925f-8d7636a791c8",
     "uuid": "43fdc490-8037-51be-8877-51f1ba598b8a"
   },
   {
@@ -1292,11 +1292,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "accent",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18",
+    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67",
     "uuid": "ce1a41b9-259d-5d2b-b649-77e7860a9524"
   },
   {
@@ -1459,11 +1459,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "negative",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc",
+    "$ref": "41a6ee21-8db2-410b-a694-fca1fbf70f2a",
     "uuid": "a1bdaaf4-831a-5ca5-b7fa-7325c484a976"
   },
   {
@@ -1476,11 +1476,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "negative",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb",
+    "$ref": "f1470931-f4f8-47d9-b118-5b813e4c154a",
     "uuid": "75de3bfa-8c25-5334-b799-b089eca3e363"
   },
   {
@@ -1493,11 +1493,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "negative",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5",
+    "$ref": "abcf178e-0e44-4f57-a62c-382cb9478be2",
     "uuid": "ae787a3e-44cd-5e50-ac70-59fd22a62f49"
   },
   {
@@ -1796,11 +1796,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
     "uuid": "e55c35c9-e7b6-54e3-921f-bfc5ef90a703"
   },
   {
@@ -1813,11 +1813,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
     "uuid": "a5cd97f7-cca7-53b9-9246-487cd48879e7"
   },
   {
@@ -1830,11 +1830,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
     "uuid": "196ac443-310e-5999-8412-22c6737d6abe"
   },
   {
@@ -1997,11 +1997,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "6c8da4cb-fe9d-5f7a-abde-446daaffcdb6"
   },
   {
@@ -2014,11 +2014,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "55cb47b9-3360-5799-a220-16772ee794a8"
   },
   {
@@ -2031,11 +2031,11 @@
         "isPending": [false, true],
         "style": "fill",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Background",
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "5735c70b-5ab2-5666-8268-d3673b467e96"
   },
   {
@@ -2498,7 +2498,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -2515,7 +2515,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -2532,7 +2532,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "primary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -2699,7 +2699,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -2716,7 +2716,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -2733,7 +2733,7 @@
         "isPending": [false, true],
         "style": "outline",
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
@@ -3114,7 +3114,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3131,7 +3131,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3148,7 +3148,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3315,7 +3315,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3332,7 +3332,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3349,7 +3349,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Icon",
@@ -3812,7 +3812,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",
@@ -3829,7 +3829,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",
@@ -3846,7 +3846,7 @@
         "isPending": false,
         "style": ["fill", "outline"],
         "variant": "secondary",
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",
@@ -4013,7 +4013,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",
@@ -4030,7 +4030,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",
@@ -4047,7 +4047,7 @@
         "isPending": false,
         "style": "outline",
         "variant": ["primary", "secondary"],
-        "state": ["focus"]
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Label",

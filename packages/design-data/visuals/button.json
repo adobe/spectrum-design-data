@@ -45,11 +45,23 @@
         "justify": {
           "value": "center"
         },
-        "height": {
+        "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
             "context": "Minimum height"
           }
+        },
+        "minWidth": {
+          "when": {
+            "options": {
+              "isLabelHidden": false
+            }
+          },
+          "relationship": {
+            "property": "minimum-width-multiplier",
+            "context": "Minimum width (with label)"
+          },
+          "relativeTo": "height"
         },
         "paddingInlineStart": [
           {
@@ -304,6 +316,9 @@
         }
       },
       "props": {
+        "overflow": {
+          "value": "wrap"
+        },
         "fontSize": {
           "relationship": {
             "property": "font-size-{sizeIndex}",
@@ -375,7 +390,7 @@
     "focus-indicator": {
       "kind": "ring",
       "visibleWhen": {
-        "states": ["focus"]
+        "states": ["keyboard-focus"]
       },
       "props": {
         "stroke": [

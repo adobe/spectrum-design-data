@@ -641,7 +641,7 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
         .assert()
         .success()
         .stderr(contains(
-            "warning: platform 'fixture-drop': height: no relationship 'component-height-100'",
+            "warning: platform 'fixture-drop': minHeight: no relationship 'component-height-100'",
         ));
 
     for args in [
