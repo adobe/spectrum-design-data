@@ -2304,11 +2304,14 @@
 
       // Show the component named by the URL: ?c=, then ?tab and ?cell (deep links,
       // back/forward). Label and icon come from the URL in buildControls.
+      let showSeq = 0;
       async function show(name) {
+        const mine = ++showSeq;
         const params = new URLSearchParams(location.search);
         try {
           if (!(await load(name))) return;
         } catch (e) {
+          if (mine !== showSeq) return;
           showFatal(e);
           if (currentName)
             history.replaceState(
@@ -2322,9 +2325,9 @@
         const seq = ++navSeq;
         markNav(name);
         $("nav-status").textContent = C.displayName;
-        updateLinks(name, seq);
+        updateLinks(name, seq).catch(() => {});
         const initial = params.get("tab");
-        if (tabs.includes(initial) && initial !== "usage") {
+        if (mine === showSeq && tabs.includes(initial) && initial !== "usage") {
           const cell = params.get("cell");
           if (cell) syncControls({ ...JSON.parse(cell) });
           await setMode(initial, cell ? {} : undefined);
