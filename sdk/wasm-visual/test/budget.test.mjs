@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-// Budgets: the .wasm stays within 310 KB raw and 120 KB gzip, and one scene (JSON in, JSON
+// Budgets: the .wasm stays within 315 KB raw and 122 KB gzip, and one scene (JSON in, JSON
 // out) solves in under 0.2 ms. Run after `node scripts/build.mjs`; `node --test test/`.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -27,8 +27,8 @@ const pkg = "../pkg/node/design_data_wasm_visual";
 const wasm = readFileSync(new URL(`${pkg}_bg.wasm`, import.meta.url));
 const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 
-const MAX_RAW = 310_000;
-const MAX_GZIP = 120_000;
+const MAX_RAW = 315_000;
+const MAX_GZIP = 122_000;
 const MAX_SCENE_MS = 0.2;
 
 it("the wasm fits its size budget (node and web targets)", () => {

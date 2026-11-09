@@ -41,6 +41,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "width",
             "minWidth",
             "height",
+            "minHeight",
             "paddingInlineStart",
             "paddingInlineEnd",
             "paddingBlockStart",
@@ -93,6 +94,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "fontWeight",
             "lineHeight",
             "grow",
+            "overflow",
         ],
     ),
     ("ring", &["stroke", "strokeWidth", "gapToParent"]),
@@ -1619,6 +1621,7 @@ fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
     }
 }
 
+#[inline(never)]
 fn text_width(req: &RenderRequest, text: &str, font_size: f64, weight: Option<&str>) -> f64 {
     // Digits and a point only, so "inf", "nan" and "+700" fall back to 400.
     let weight = Some(css_font_weight(weight))
@@ -1629,6 +1632,38 @@ fn text_width(req: &RenderRequest, text: &str, font_size: f64, weight: Option<&s
         .as_ref()
         .unwrap_or_else(|| TextMetrics::default_table())
         .width(text, font_size, weight)
+}
+
+/// Break `text` into lines no wider than `avail`, greedily. A line ends after a space or a
+/// hyphen; trailing spaces do not count toward a line's width. A word wider than `avail`
+/// cannot be broken: it takes a line of its own and is returned as the second value.
+fn break_lines(
+    text: &str,
+    avail: f64,
+    measure: &dyn Fn(&str) -> f64,
+) -> (Vec<String>, Option<String>) {
+    let fits = |s: &str| measure(s.trim_end()) <= avail + 1e-6;
+    let (mut lines, mut line, mut wide) = (Vec::new(), String::new(), None);
+    for piece in text.split_inclusive([' ', '-']) {
+        if !line.is_empty() && !fits(&format!("{line}{piece}")) {
+            lines.push(line.trim_end().to_string());
+            line.clear();
+        }
+        if line.is_empty() && !fits(piece) && wide.is_none() {
+            wide = Some(piece.trim_end().to_string());
+        }
+        line.push_str(piece);
+    }
+    lines.push(line.trim_end().to_string());
+    (lines, wide)
+}
+
+/// The longest prefix of `text` that fits `avail` with "..." after it (just "..." when none).
+fn truncate_line(text: &str, avail: f64, measure: &dyn Fn(&str) -> f64) -> String {
+    let n = text.chars().count();
+    let cut = |k: usize| format!("{}...", text.chars().take(k).collect::<String>().trim_end());
+    let keep = (0..n).rev().find(|&k| measure(&cut(k)) <= avail + 1e-6);
+    cut(keep.unwrap_or(0))
 }
 
 /// Whether an option value satisfies one wanted value. `true` also matches any
@@ -1940,6 +1975,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
 
     let height = rp(&mut cx, root, "height");
+    let min_height = rp(&mut cx, root, "minHeight");
     let root_width = rp(&mut cx, root, "width");
     let min_width = rp(&mut cx, root, "minWidth");
     let pad_s = rp(&mut cx, root, "paddingInlineStart");
@@ -1968,6 +2004,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         ("width", &root_width),
         ("minWidth", &min_width),
         ("height", &height),
+        ("height", &min_height),
         ("paddingInlineStart", &pad_s),
         ("paddingInlineEnd", &pad_e),
         ("paddingBlockStart", &pad_bs),
@@ -1978,19 +2015,25 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     ] {
         track(&mut container_tokens, n, r);
     }
-    let [m_width, m_min_width, m_height, m_pad_s, m_pad_e, m_pad_bs, m_pad_be, m_gap, m_radius] = [
-        ("width", &root_width),
-        ("minWidth", &min_width),
-        ("height", &height),
-        ("paddingInlineStart", &pad_s),
-        ("paddingInlineEnd", &pad_e),
-        ("paddingBlockStart", &pad_bs),
-        ("paddingBlockEnd", &pad_be),
-        ("gap", &gap),
-        ("cornerRadius", &radius),
-    ]
-    .map(|(n, r)| token_ref(n, r));
-    let explicit_h = height.as_ref().and_then(Resolved::num);
+    let [m_width, m_min_width, m_height, m_min_height, m_pad_s, m_pad_e, m_pad_bs, m_pad_be, m_gap, m_radius] =
+        [
+            ("width", &root_width),
+            ("minWidth", &min_width),
+            ("height", &height),
+            ("height", &min_height),
+            ("paddingInlineStart", &pad_s),
+            ("paddingInlineEnd", &pad_e),
+            ("paddingBlockStart", &pad_bs),
+            ("paddingBlockEnd", &pad_be),
+            ("gap", &gap),
+            ("cornerRadius", &radius),
+        ]
+        .map(|(n, r)| token_ref(n, r));
+    let min_h = min_height.as_ref().and_then(Resolved::num);
+    let explicit_h = height
+        .as_ref()
+        .and_then(Resolved::num)
+        .map(|h| h.max(min_h.unwrap_or(0.0)));
     let fixed_w = req
         .width
         .filter(|w| w.is_finite() && *w > 0.0)
@@ -2042,6 +2085,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         row: Option<Row>,
         auto_w: bool,
         grow: f64,
+        // `wrap` or `truncate` when the text part sets `overflow`; `lines` then holds the
+        // broken lines and `line_h` is one line's height (`h` is all lines).
+        overflow: Option<&'static str>,
+        line_h: f64,
+        lines: Vec<String>,
     }
     // A flowed box with a bound `direction` lays its children out in a row. Items keep their
     // outer size (a text part includes its padding) and the offset of the node inside it.
@@ -2104,6 +2152,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             row: None,
             auto_w: false,
             grow: 0.0,
+            overflow: None,
+            line_h: 0.0,
+            lines: Vec::new(),
         };
         match kind {
             "box" => {
@@ -2352,51 +2403,133 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     ));
                 }
                 c.h = line_height(lh.as_ref(), c.font_size);
+                c.line_h = c.h;
                 c.text = Some(text);
                 c.grow = grow_share(&rp(&mut cx, part, "grow"));
+                let ov = rp(&mut cx, part, "overflow");
+                c.overflow = match ov.as_ref().map(|r| r.value.trim()) {
+                    None => None,
+                    Some("wrap") => Some("wrap"),
+                    Some("truncate") => Some("truncate"),
+                    Some(v) => {
+                        cx.diags
+                            .push(format!("overflow '{v}' is not one of wrap, truncate"));
+                        None
+                    }
+                };
             }
             _ => {}
         }
         flow.push(c);
     }
 
+    // A text part with `overflow` breaks (or truncates) against the width the root leaves it:
+    // the fixed width minus the inline padding, the gaps and the other parts. Several such
+    // parts share what is left equally. With no fixed width the text hugs and never breaks.
+    let gaps = gap * flow.len().saturating_sub(1) as f64;
+    let mut word_overflow = false;
+    let mut fixed_over = false;
+    let n_wrap = flow.iter().filter(|c| c.overflow.is_some()).count();
+    if let (Some(fw), true) = (fixed_w, n_wrap > 0) {
+        let inner = fw.max(min_w) - pad_s - pad_e;
+        let raw = if column {
+            inner
+        } else {
+            let others: f64 = flow
+                .iter()
+                .filter(|c| c.overflow.is_none())
+                .map(|c| c.w)
+                .sum();
+            (inner - gaps - others) / n_wrap as f64
+        };
+        // Padding, gaps and the other parts can leave nothing: every word then overflows.
+        fixed_over = raw < -1e-6;
+        let avail = raw.max(0.0);
+        for c in flow.iter_mut().filter(|c| c.overflow.is_some()) {
+            let text = c.text.clone().unwrap_or_default();
+            let (fs, fwt) = (c.font_size, c.font_weight.clone());
+            let measure = |s: &str| text_width(req, s, fs, fwt.as_deref());
+            if c.overflow == Some("truncate") {
+                if c.w > avail + 1e-6 {
+                    let cut = truncate_line(&text, avail, &measure);
+                    c.w = measure(&cut);
+                    c.text = Some(cut);
+                }
+                continue;
+            }
+            let (lines, wide) = break_lines(&text, avail, &measure);
+            if let Some(word) = wide {
+                word_overflow = true;
+                cx.diags.push(format!(
+                    "the word '{word}' is wider than the available width ({avail:.1}); it overflows its line"
+                ));
+            }
+            if lines.len() > 1 {
+                c.w = lines.iter().map(|l| measure(l)).fold(0.0, f64::max);
+                c.h = c.line_h * lines.len() as f64;
+                c.lines = lines;
+            }
+        }
+    }
+
     // As in Figma, an icon taller than the label line adds only the line height to the row,
-    // so the icon overflows the content box evenly instead of growing the container.
+    // so the icon overflows the content box evenly instead of growing the container. The
+    // line is one line's height: a label that wraps does not make the icon any shorter.
     let line = flow
         .iter()
         .filter(|c| c.kind == "text")
-        .map(|c| c.h)
+        .map(|c| c.line_h)
         .fold(0.0, f64::max);
-    let gaps = gap * flow.len().saturating_sub(1) as f64;
     let widest = flow.iter().map(|c| c.w).fold(0.0, f64::max);
-    let tallest = flow
-        .iter()
-        .map(|c| {
-            if c.kind == "icon" && line > 0.0 {
-                c.h.min(line)
-            } else {
-                c.h
-            }
-        })
-        .fold(0.0, f64::max);
+    let tall = |first_line: bool| {
+        flow.iter()
+            .map(|c| {
+                if c.kind == "icon" && line > 0.0 {
+                    c.h.min(line)
+                } else if first_line && c.kind == "text" {
+                    c.line_h
+                } else {
+                    c.h
+                }
+            })
+            .fold(0.0, f64::max)
+    };
+    let (tallest, tallest_one_line) = (tall(false), tall(true));
+    let multi_line = flow.iter().any(|c| !c.lines.is_empty());
     let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
     let content_w = pad_s + if column { widest } else { sum_w } + pad_e;
     let w = fixed_w.unwrap_or(content_w).max(min_w);
-    if w < content_w - 1e-6 {
+    if w < content_w - 1e-6 && (!word_overflow || fixed_over) {
         cx.diags.push(format!(
             "width {w} is narrower than the content ({content_w}); the content overflows"
         ));
     }
+    // A row with a `minHeight` and no block padding of its own pads each side by
+    // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
+    // container and keeps that padding.
+    let (pad_bs, pad_be) = match min_h {
+        Some(m) if explicit_h.is_none() && !column && !block_padded => {
+            let p = ((m - tallest_one_line) / 2.0).max(0.0);
+            (p, p)
+        }
+        _ => (pad_bs, pad_be),
+    };
     // An unset `height` is the content plus the block padding: the tallest flowed child in a
-    // row (only when the recipe binds block padding; otherwise the 32 default), or the
-    // stacked children in a column.
-    let h = explicit_h.unwrap_or(if column {
-        sum_h + pad_bs + pad_be
-    } else if block_padded {
-        tallest + pad_bs + pad_be
-    } else {
-        32.0
+    // row (only when the recipe binds block padding or a `minHeight`; otherwise the 32
+    // default), or the stacked children in a column. `minHeight` is the floor.
+    let h = explicit_h.unwrap_or_else(|| {
+        let content = if column {
+            sum_h + pad_bs + pad_be
+        } else if block_padded || min_h.is_some() {
+            tallest + pad_bs + pad_be
+        } else {
+            32.0
+        };
+        match min_h {
+            Some(m) if content <= m + 1e-6 => m,
+            _ => content,
+        }
     });
 
     let ox = RING_MARGIN;
@@ -2469,6 +2602,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         add("width", m_width, (ox, oy, w, h));
         add("width", m_min_width, (ox, oy, w, h));
         add("height", m_height, (ox, oy, w, h));
+        add("height", m_min_height, (ox, oy, w, h));
         add("padding", m_pad_s, (ox, oy, pad_s, h));
         add("padding", m_pad_e, (ox + w - pad_e, oy, pad_e, h));
         add("padding", m_pad_bs, (ox, oy, w, pad_bs));
@@ -2526,7 +2660,13 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         } else {
             (
                 x,
-                oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
+                oy + pad_bs
+                    + if multi_line && align == "center" && c.kind != "text" {
+                        // Beside a wrapped label a part centres on the first line.
+                        (line - c.h) / 2.0
+                    } else {
+                        axis_offset(&align, h - pad_bs - pad_be - c.h)
+                    },
             )
         };
         let ch = c.h;
@@ -2551,6 +2691,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         gap_from = Some(if column { cy0 + ch } else { cx0 + adv });
         let row = c.row.take();
+        let lines = std::mem::take(&mut c.lines);
         let nested_ids: Vec<String> = parts
             .get(&c.id)
             .and_then(|p| p.get("children"))
@@ -2585,7 +2726,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         if c.kind == "box" {
             own.radius = clamp_radius(px(&c.radius, ch), cw, ch);
         }
-        nodes.push(own);
+        if lines.is_empty() {
+            nodes.push(own);
+        } else {
+            for (i, l) in lines.into_iter().enumerate() {
+                let mut n = own.clone();
+                n.w = text_width(req, &l, n.font_size, n.font_weight.as_deref());
+                n.h = c.line_h;
+                n.y = cy0 + i as f64 * c.line_h;
+                n.text = Some(l);
+                nodes.push(n);
+            }
+        }
         if column {
             y += ch + gap;
         } else {
@@ -3587,6 +3739,126 @@ mod tests {
         assert_eq!(t.x, part(&fixed, "t").unwrap().x);
         assert_eq!(t.w, part(&fixed, "t").unwrap().w);
         assert_eq!(ti.x + ti.w, 8.0 + 300.0 - 10.0);
+    }
+
+    // One unit per character, so a line of n characters is n px wide.
+    fn unit(s: &str) -> f64 {
+        s.chars().count() as f64
+    }
+
+    #[test]
+    fn the_breaker_fills_lines_greedily_after_spaces_and_hyphens() {
+        let b = |t: &str, w: f64| break_lines(t, w, &unit);
+        assert_eq!(b("", 5.0), (vec!["".to_string()], None));
+        assert_eq!(b("Word", 10.0).0, ["Word"]);
+        assert_eq!(b("one two three", 7.0).0, ["one two", "three"]);
+        assert_eq!(b("one two three", 3.0).0, ["one", "two", "three"]);
+        // Trailing spaces never count toward a line.
+        assert_eq!(b("one two  ", 7.0).0, ["one two"]);
+        assert_eq!(b("a well-known fact", 9.0).0, ["a well-", "known", "fact"]);
+        // A word wider than the width keeps its own line, overflows and is reported.
+        let (lines, wide) = b("tiny enormous", 5.0);
+        assert_eq!(
+            (lines, wide),
+            (
+                vec!["tiny".into(), "enormous".into()],
+                Some("enormous".into())
+            )
+        );
+        // Characters outside the table measure through the measurer (the table's fallback).
+        assert_eq!(b("日本 語", 2.0).0, ["日本", "語"]);
+    }
+
+    #[test]
+    fn truncating_cuts_the_text_to_fit_with_an_ellipsis() {
+        assert_eq!(truncate_line("abcdefgh", 6.0, &unit), "abc...");
+        assert_eq!(truncate_line("abc defgh", 7.0, &unit), "abc...");
+        assert_eq!(truncate_line("abcdefgh", 2.0, &unit), "...");
+    }
+
+    fn wrap_recipe(overflow: Option<&str>) -> Value {
+        let lit = |v: Value| serde_json::json!({ "value": v });
+        let mut label = serde_json::json!({ "fontSize": lit(10.into()),
+            "lineHeight": lit("12px".into()) });
+        if let Some(o) = overflow {
+            label["overflow"] = lit(o.into());
+        }
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["i", "t"], "props": {
+                    "minHeight": lit(20.into()), "gap": lit(4.into()),
+                    "paddingInlineStart": lit(6.into()), "paddingInlineEnd": lit(6.into()) } },
+                "i": { "kind": "icon", "icon": { "set": "ui", "name": "chevron" },
+                    "props": { "width": lit(8.into()) } },
+                "t": { "kind": "text", "props": label }
+            }
+        })
+    }
+
+    fn wrap_scene(overflow: Option<&str>, width: Option<f64>, label: &str) -> Scene {
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.width = width;
+        r.label = label.into();
+        build_scene(&g, &wrap_recipe(overflow), &r).unwrap()
+    }
+
+    #[test]
+    fn a_text_part_wraps_only_with_overflow_and_a_width() {
+        let label = "alpha beta gamma delta";
+        let hug = wrap_scene(Some("wrap"), None, label);
+        assert_eq!(hug.nodes.iter().filter(|n| n.kind == "text").count(), 1);
+        // Without `overflow` a narrow width overflows (a diagnostic) and the text stays whole.
+        let plain = wrap_scene(None, Some(60.0), label);
+        assert_eq!(plain.nodes.iter().filter(|n| n.kind == "text").count(), 1);
+        assert_eq!(plain.diagnostics.len(), 1);
+        let one = hug.nodes.iter().find(|n| n.kind == "text").unwrap().w;
+        let s = wrap_scene(Some("wrap"), Some(one * 0.6), label);
+        let lines: Vec<&SceneNode> = s.nodes.iter().filter(|n| n.kind == "text").collect();
+        assert!(lines.len() >= 2, "{lines:?}");
+        assert!(lines.iter().all(|n| n.part == "t" && n.h == 12.0));
+        for (i, n) in lines.iter().enumerate() {
+            assert_eq!(n.x, lines[0].x);
+            assert_eq!(n.y, lines[0].y + 12.0 * i as f64);
+        }
+        let joined: Vec<&str> = lines.iter().map(|n| n.text.as_deref().unwrap()).collect();
+        assert_eq!(joined.join(" "), label);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // The container grows by a line each; the single-line height is the minimum (20).
+        assert_eq!(hug.nodes[0].h, 20.0);
+        assert_eq!(s.nodes[0].h, 20.0 + 12.0 * (lines.len() - 1) as f64);
+        assert_eq!(s.nodes[0].w, one * 0.6);
+        // The padding above the first line stays (20 - 12) / 2, and the icon sits centred on
+        // the first line, as for a single line.
+        assert_eq!(lines[0].y, s.nodes[0].y + 4.0);
+        let icon = s.nodes.iter().find(|n| n.kind == "icon").unwrap();
+        let one_line_icon = hug.nodes.iter().find(|n| n.kind == "icon").unwrap();
+        assert_eq!(icon.y - s.nodes[0].y, one_line_icon.y - hug.nodes[0].y);
+    }
+
+    #[test]
+    fn a_word_wider_than_the_width_overflows_with_a_diagnostic() {
+        let s = wrap_scene(Some("wrap"), Some(40.0), "extraordinarily long");
+        assert_eq!(s.diagnostics.len(), 1, "{:?}", s.diagnostics);
+        assert!(s.diagnostics[0].contains("extraordinarily"));
+    }
+
+    #[test]
+    fn padding_that_leaves_no_width_reports_both_diagnostics() {
+        let s = wrap_scene(Some("wrap"), Some(10.0), "alpha beta");
+        assert_eq!(s.diagnostics.len(), 2, "{:?}", s.diagnostics);
+        assert!(s.diagnostics[0].contains("alpha") && s.diagnostics[0].contains("0.0"));
+    }
+
+    #[test]
+    fn truncate_keeps_one_line() {
+        let s = wrap_scene(Some("truncate"), Some(60.0), "alpha beta gamma delta");
+        let t: Vec<&SceneNode> = s.nodes.iter().filter(|n| n.kind == "text").collect();
+        assert_eq!(t.len(), 1);
+        assert!(t[0].text.as_deref().unwrap().ends_with("..."));
+        assert_eq!(s.nodes[0].h, 20.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
     }
 
     #[test]
