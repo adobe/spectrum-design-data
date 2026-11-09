@@ -90,6 +90,8 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Grow.** In a row (the root, or a row box), parts with `grow` split the space left after the other parts, the `gap`s and the padding, in proportion to their shares. A growing part starts from its content width and gains its share, so with no free space (a hugging root, or content as wide as the row) nothing changes, and a row that is too narrow never shrinks a part. A growing `box` is wider by its share; a growing `text` keeps its own width and starts at the start of its grown space (the text does not move, wrap or truncate). `grow` has no effect in a column or on an `icon`.
 
+**Extra width.** Parts without `grow` do not stretch: in a row root wider than its content they stay grouped and placed by `justify` (centered by default), like a hugging root's content.
+
 **Column stretch.** In a column root, a flowed `box` with no `width` (a divider, a content region, or a row box such as an accordion header) fills the column's inner width. A flowed `box` with no `height` and no children is as tall as its block padding.
 
 **Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes; the checkbox uses this for its checkmark and dash.

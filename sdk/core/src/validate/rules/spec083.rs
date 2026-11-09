@@ -106,6 +106,27 @@ mod tests {
     }
 
     #[test]
+    fn min_width_is_read_on_the_root_only() {
+        let g = graph(
+            json!({"name": "switch"}),
+            vec![],
+            vec![],
+            vec![(
+                "switch",
+                json!({ "component": "switch", "root": "r", "parts": {
+                    "r": { "kind": "box", "children": ["b"], "props": { "minWidth": {"value": 1} } },
+                    "b": { "kind": "box", "props": { "minWidth": {"value": 1} } } } }),
+            )],
+        );
+        let d = run(&Rule, &g);
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert_eq!(
+            d[0].instance_path.as_deref(),
+            Some("/parts/b/props/minWidth")
+        );
+    }
+
+    #[test]
     fn a_text_child_may_bind_box_props_and_a_placed_part_only_color() {
         let g = graph(
             json!({"name": "switch"}),
