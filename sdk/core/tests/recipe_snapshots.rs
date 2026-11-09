@@ -75,6 +75,7 @@ fn load_graph() -> TokenGraph {
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("rels"),
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
+    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
 }
 
 fn read_json(path: PathBuf) -> Value {

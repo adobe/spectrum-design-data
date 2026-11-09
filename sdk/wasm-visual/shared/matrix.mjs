@@ -142,6 +142,16 @@ export function buildStates(sites) {
           for (const size of sizes)
             add(`icon-${tag}`, size, "light", "desktop", { request: { icon } });
       }
+      // The item with its nested action button and switch, at every size and in dark.
+      if (site === "accordion" && platform === "foundation")
+        for (const size of sizes)
+          for (const scheme of ["light", "dark"])
+            add("direct-actions", size, scheme, "desktop", {
+              request: {
+                options: { hasActionButton: true, hasSwitch: true },
+                width: 300,
+              },
+            });
       add("metrics", mid, "light", "desktop", {
         request: { label: "Custom metrics" },
         metrics: wide,

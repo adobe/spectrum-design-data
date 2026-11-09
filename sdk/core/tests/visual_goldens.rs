@@ -49,6 +49,7 @@ fn load_graph() -> TokenGraph {
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("rels"),
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
+    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
 }
 
 /// The option values for one golden: `pick` maps an option definition to a value or skips it.
@@ -145,6 +146,15 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         };
         out.push(("wrapped-label-narrow", narrow(false)));
         out.push(("wrapped-label-icon-narrow", narrow(true)));
+    }
+    // The item with its trailing action button and switch (nested recipes), at the default
+    // size: the case the M size Figma measurements are compared with.
+    if name == "accordion" {
+        let on = ["hasActionButton", "hasSwitch"]
+            .iter()
+            .map(|o| (o.to_string(), Value::Bool(true)))
+            .collect();
+        out.push(("direct-actions", req(vec![], on, "light", "desktop")));
     }
     out
 }

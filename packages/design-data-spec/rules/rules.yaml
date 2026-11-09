@@ -1170,3 +1170,24 @@ rules:
     message: "Relationship {scope} (context '{context}') repeats an earlier record with the same {ref_or_value}; remove the duplicate"
     spec_ref: spec/relationship-format.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-089
+    name: visual-nested-component-valid
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      Checks the `component` part kind (spec/component-visuals.md, Nested recipes) against the
+      recipes and components the graph holds; the recipe is looked up through the component
+      alias, as the renderer does. It runs over the loaded graph only, so a platform recipe that
+      nests a component is checked when the platform graph is loaded.
+    assert: >
+      A `component` part MUST name a declared component that has a visual recipe. Each `with`
+      key MUST be an option of that component with a valid value, and a `{option}` binding MUST
+      name an option of the host of the same type. `sizeMap` MUST have an entry for every
+      `sizeScale` key of the host, each a `sizeScale` key of the nested recipe. A recipe MUST NOT
+      nest itself, directly or through other recipes, or nest more than two levels deep. The part
+      MUST NOT be the root and MUST be a child of the root or of a box with a `direction`.
+    message: "Component part '{part}' of '{component}': {reason}"
+    spec_ref: spec/component-visuals.md#nested-recipes
+    introduced_in: "1.0.0-draft"

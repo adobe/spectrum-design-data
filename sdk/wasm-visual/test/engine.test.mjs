@@ -102,6 +102,27 @@ describe("Engine equals design-data render", () => {
     assert.ok(scene("wrap").nodes[0].h > scene("default").nodes[0].h);
   });
 
+  it("draws the nested action button and switch of an accordion from one variant", () => {
+    const { nodes, diagnostics } = cliOut.get(
+      "foundation-accordion-m-light-desktop-direct-actions",
+    ).scene;
+    const parts = nodes.map((n) => n.part);
+    for (const part of [
+      "direct-actions",
+      "action-button",
+      "action-button.icon",
+      "switch",
+      "switch.track",
+      "switch.handle",
+    ])
+      assert.ok(parts.includes(part), part);
+    assert.deepEqual(diagnostics, []);
+    const box = (part) => nodes.find((n) => n.part === part);
+    // The nested root keeps the host part id and bounds its namespaced parts.
+    const [button, icon] = [box("action-button"), box("action-button.icon")];
+    assert.ok(icon.x >= button.x && icon.x + icon.w <= button.x + button.w);
+  });
+
   it("anchors on the single `render` command", () => {
     const file = join(dir, "single.svg");
     run(

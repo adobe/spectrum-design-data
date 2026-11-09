@@ -119,12 +119,64 @@
     "part": {
       "type": "object",
       "required": ["kind"],
-      "if": { "properties": { "kind": { "const": "icon" } } },
-      "then": { "required": ["icon"] },
-      "else": { "not": { "required": ["icon"] } },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "icon" } } },
+          "then": { "required": ["icon"] },
+          "else": { "not": { "required": ["icon"] } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "component" } } },
+          "then": {
+            "required": ["component", "sizeMap"],
+            "not": {
+              "anyOf": [{ "required": ["props"] }, { "required": ["children"] }]
+            }
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                { "required": ["component"] },
+                { "required": ["sizeMap"] },
+                { "required": ["with"] }
+              ]
+            }
+          }
+        }
+      ],
       "properties": {
         "kind": {
-          "enum": ["box", "text", "icon", "ring", "progress"]
+          "enum": ["box", "text", "icon", "ring", "progress", "component"]
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For a component part: the component whose recipe is embedded (spec/component-visuals.md, Nested recipes). SPEC-089 checks it."
+        },
+        "sizeMap": {
+          "type": "object",
+          "description": "For a component part: maps each size of the host's sizeScale to a size of the nested recipe's sizeScale.",
+          "additionalProperties": { "type": "string" }
+        },
+        "with": {
+          "type": "object",
+          "description": "For a component part: options of the nested component, each a literal or {\"option\": name} (read from the host's request). Not `options`: that key means a condition elsewhere in a recipe.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "object",
+                "required": ["option"],
+                "properties": {
+                  "option": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
         },
         "children": {
           "type": "array",
