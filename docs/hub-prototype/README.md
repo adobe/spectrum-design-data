@@ -52,7 +52,7 @@ cd .. && sdk/target/debug/design-data site --engine sdk/wasm-visual/pkg/web --ou
 
 The site needs the engine: without `--engine`, `design-data site` stops with a message saying how to build and pass it. `--data-only` writes everything except the renderer (for tests and data checks); the page then shows a banner that the engine is missing. The CLI does not embed the `.wasm`, so the binary stays small and nothing built is committed.
 
-The output is `index.html`, `backend.js`, `constraints.js`, `content-controls.js`, `visual-runtime.js` (still used by `index.html` for drawing helpers and by the spec sheets until hck9.8), `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `variants/`, `engine/`, `text-metrics.json`, `OFL-SourceSans3.txt`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. All URLs are relative, so you can publish it to any static host, including a GitHub Pages project site or a sub-path (checked at `/a/b/rsp/`). The page lists every component but only those with a recipe are selectable.
+The output is `index.html`, `backend.js`, `constraints.js`, `content-controls.js`, `draw-helpers.js` (SVG path and icon helpers `index.html` uses to paint a scene), `spectrum-controls.js`, `THIRD-PARTY-NOTICES.txt`, `data.json`, `variants/`, `engine/`, `text-metrics.json`, `OFL-SourceSans3.txt`, `platform-switcher.js` and `.nojekyll`. The control panel uses Spectrum Web Components (Spectrum 2 theme), bundled into `spectrum-controls.js` by `sdk/plugins/site/controls/build.sh`. All URLs are relative, so you can publish it to any static host, including a GitHub Pages project site or a sub-path (checked at `/a/b/rsp/`). The page lists every component but only those with a recipe are selectable.
 
 How the page renders:
 
@@ -64,7 +64,7 @@ How the page renders:
 
 The `.wasm` is served by `serve.mjs` as `application/wasm`. Browsers need that type only for streaming compile; wasm-bindgen falls back to a plain compile with a console warning on any other type. The adt host's header is not verified yet; check it on the first redeploy (`curl -I .../rsp/engine/design_data_wasm_visual_bg.wasm`).
 
-`visual-runtime.js` still mirrors the Rust renderer (`sdk/wasm/test/visual-runtime-parity.test.js` keeps the two in lockstep) until it is deleted in hck9.8. The site's engine is checked against `design-data render` byte for byte in headless Chrome by `moon run sdk-wasm-visual:browser-parity` (not in CI; needs Chrome). The WASM `Dataset.renderScene` API remains for apps that need live token data.
+There is no JavaScript renderer: layout and text measurement run once, in Rust (`design_data_core::visual::solve`), and the page loads it as the slim WASM. The site's engine is checked against `design-data render` byte for byte in headless Chrome by `moon run sdk-wasm-visual:browser-parity` (not in CI; needs Chrome). The WASM `Dataset.renderScene` API remains for apps that need live token data.
 
 ## Navigating the stage
 

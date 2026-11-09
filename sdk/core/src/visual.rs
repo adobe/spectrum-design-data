@@ -1599,7 +1599,7 @@ fn line_height(lh: Option<&Resolved>, font_size: f64) -> f64 {
 }
 
 fn text_width(req: &RenderRequest, text: &str, font_size: f64, weight: Option<&str>) -> f64 {
-    // Digits and a point only, so "inf", "nan" and "+700" read the same as in visual-runtime.js.
+    // Digits and a point only, so "inf", "nan" and "+700" fall back to 400.
     let weight = Some(css_font_weight(weight))
         .filter(|w| w.bytes().all(|b| b.is_ascii_digit() || b == b'.'))
         .and_then(|w| w.parse().ok())
@@ -3928,6 +3928,16 @@ mod tests {
             let icon = scene.nodes.iter().find(|n| n.part == "icon").unwrap();
             assert_eq!((icon.w, icon.h), (want, want), "{size}");
         }
+    }
+
+    #[test]
+    fn odd_font_weights_measure_as_400() {
+        let r = req(&[]);
+        let regular = text_width(&r, "Test", 14.0, Some("400"));
+        for w in ["inf", "nan", "+700", "0x2bc", "1e3", ""] {
+            assert_eq!(text_width(&r, "Test", 14.0, Some(w)), regular, "{w:?}");
+        }
+        assert!(text_width(&r, "Test", 14.0, Some("700")) > regular);
     }
 
     #[test]
