@@ -148,11 +148,6 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isPending": { "type": "boolean", "default": false },
     "isLabelHidden": { "type": "boolean", "default": false },
-    "hasTrailingIcon": {
-      "type": "boolean",
-      "default": false,
-      "description": "Show an icon after the label. Figma: Show trailing icon."
-    },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
@@ -191,18 +186,14 @@
       "description": "Text label of the button.",
       "required": false
     },
-    { "name": "icon", "description": "Icon placed at the start of the button." },
-    {
-      "name": "trailing-icon",
-      "description": "Icon placed at the end of the button, after the label."
-    }
+    { "name": "icon", "description": "Icon placed at the start of the button." }
   ],
   "anatomy": [
     {
       "name": "container",
       "description": "Pill-shaped background that holds the icon and label.",
       "required": true,
-      "contains": ["icon", "progress", "label", "trailing-icon"]
+      "contains": ["icon", "progress", "label"]
     },
     { "name": "icon", "description": "Leading icon." },
     {
@@ -212,10 +203,6 @@
     {
       "name": "label",
       "description": "Button text. Hidden when the label is hidden or the button is pending."
-    },
-    {
-      "name": "trailing-icon",
-      "description": "Trailing icon shown after the label (hasTrailingIcon). Hidden when the label is hidden or the button is pending."
     },
     {
       "name": "focus-indicator",
