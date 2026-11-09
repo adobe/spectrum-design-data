@@ -105,3 +105,20 @@ test(
     }
   }),
 );
+
+test(
+  "a request width is the demo width of the root and keeps the recipe's minWidth",
+  withDataset((t, ds) => {
+    const rootWidth = (props, req) => {
+      const r = recipe();
+      Object.assign(r.parts.box.props, props);
+      return JSON.parse(ds.renderScene(r, req)).nodes[0].w;
+    };
+    t.is(rootWidth({}, request("Test")), 40);
+    t.is(rootWidth({}, { ...request("Test"), width: 120 }), 120);
+    t.is(
+      rootWidth({ minWidth: { value: 90 } }, { ...request("Test"), width: 60 }),
+      90,
+    );
+  }),
+);

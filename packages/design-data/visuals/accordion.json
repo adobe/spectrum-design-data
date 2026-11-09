@@ -12,6 +12,10 @@
       "props": {
         "direction": { "value": "column" },
         "align": { "value": "start" },
+        "width": {
+          "when": { "options": { "size": ["m", "l", "xl"] } },
+          "relationship": { "property": "width", "context": "Width (default)" }
+        },
         "fill": [
           {
             "when": { "states": ["hover"] },
@@ -146,6 +150,7 @@
     "title": {
       "kind": "text",
       "props": {
+        "grow": { "value": true },
         "paddingInlineStart": {
           "relationship": {
             "property": "padding-horizontal",

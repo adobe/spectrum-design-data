@@ -36,7 +36,7 @@ impl Engine {
     }
 
     /// The SVG for a `RenderRequest` as JSON (`component`, `size`, `states`, `options`,
-    /// `mode`, `label`, `icon`, `textMetrics`); `size` and `mode` must be the variant's.
+    /// `mode`, `label`, `width`, `icon`, `textMetrics`); `size` and `mode` must be the variant's.
     pub fn svg(&self, request_json: &str) -> Result<String, JsError> {
         Ok(scene_to_svg(&self.solve(request_json)?))
     }

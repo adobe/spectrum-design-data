@@ -115,6 +115,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             label: "Label".into(),
             icon: None,
             text_metrics: None,
+            width: None,
         }
     };
     let mut all_on = pick(options, enum_at(false));

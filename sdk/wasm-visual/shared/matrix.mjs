@@ -115,6 +115,8 @@ export function buildStates(sites) {
         request: { label: "A much longer custom label than the default" },
       });
       add("nolabel", mid, "dark", "mobile", { request: { label: "" } });
+      for (const width of [40, 300])
+        add(`width-${width}`, mid, "light", "desktop", { request: { width } });
       for (const state of ["hover", "down", "keyboard-focus"])
         add(state, mid, "light", "desktop", { request: { states: [state] } });
       for (const [name, value] of Object.entries(c.optionDefaults))
@@ -168,6 +170,7 @@ export function cliRender(dir, states) {
       colorScheme: s.request.mode.colorScheme,
       scale: s.request.mode.scale,
       label: s.request.label,
+      width: s.request.width,
       icon: s.request.icon,
     }));
     const file = join(dir, `${name}-batch.json`);

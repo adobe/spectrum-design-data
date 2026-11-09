@@ -183,3 +183,59 @@ fn icon_none_makes_a_label_only_button_in_render_and_in_a_batch() {
             .unwrap();
     assert!(!has_icon(&bare));
 }
+
+fn root_width(scene: &Value) -> f64 {
+    scene["nodes"][0]["w"].as_f64().unwrap()
+}
+
+#[test]
+fn width_sets_the_demo_width_for_render_and_for_a_batch_state() {
+    let hug = dd(&["render", "accordion", "--format", "scene"])
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let hug: Value = serde_json::from_slice(&hug).unwrap();
+    // The recipe's own width for the medium size, from the field width tokens.
+    assert_eq!(root_width(&hug), 208.0);
+
+    let out = dd(&["render", "accordion", "--format", "scene", "--width", "300"])
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    assert_eq!(root_width(&serde_json::from_slice(&out).unwrap()), 300.0);
+
+    let dir = tempfile::tempdir().unwrap();
+    let states = dir.path().join("states.json");
+    std::fs::write(
+        &states,
+        json!([
+            { "component": "accordion" },
+            { "component": "accordion", "width": 120 }
+        ])
+        .to_string(),
+    )
+    .unwrap();
+    let renders = dir.path().join("renders");
+    dd(&[
+        "render",
+        "--batch",
+        states.to_str().unwrap(),
+        "--out",
+        renders.to_str().unwrap(),
+    ])
+    .success();
+    let read = |id: &str| -> Value {
+        serde_json::from_str(
+            &std::fs::read_to_string(renders.join(format!("{id}.scene.json"))).unwrap(),
+        )
+        .unwrap()
+    };
+    assert_eq!(
+        root_width(&read("accordion-m-light-desktop")),
+        208.0,
+        "a state without a width keeps the recipe's"
+    );
+    assert_eq!(root_width(&read("accordion-m-w120-light-desktop")), 120.0);
+}

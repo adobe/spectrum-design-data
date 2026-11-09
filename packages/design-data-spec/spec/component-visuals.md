@@ -60,20 +60,21 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 ### Visual properties
 
-| Property                                                                                       | Applies to | Meaning                                                                                                                        |
-| ---------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `direction`, `align`, `justify`                                                                | box        | Root layout: `direction` `row` (default) or `column`; `align` and `justify` `start`, `center` (default) or `end`.              |
-| `gap`                                                                                          | box        | Space between flowed children.                                                                                                 |
-| `paddingInlineStart`, `paddingInlineEnd`, `paddingBlockStart`, `paddingBlockEnd`               | box        | Inner padding.                                                                                                                 |
-| `height`, `minWidth`, `width`                                                                  | box, icon  | Dimensions. Box width defaults to content.                                                                                     |
-| `cornerRadius`                                                                                 | box, ring  | Corner radius.                                                                                                                 |
-| `cornerRadiusStartStart`, `cornerRadiusStartEnd`, `cornerRadiusEndStart`, `cornerRadiusEndEnd` | box        | Per-corner radius (block-inline). Each falls back to `cornerRadius`. Renderers draw left-to-right, so start-start is top-left. |
-| `fill`, `stroke`, `strokeWidth`, `opacity`                                                     | box, ring  | Paint.                                                                                                                         |
-| `color`                                                                                        | text, icon | Content color.                                                                                                                 |
-| `trackColor`                                                                                   | progress   | Color of the progress track behind the arc.                                                                                    |
-| `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style. `lineHeight` sets the line box height.                                                                             |
-| `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
-| `rotation`                                                                                     | icon       | Clockwise rotation in degrees about the icon's center (a `chevron` is 90 when open).                                           |
+| Property                                                                                       | Applies to | Meaning                                                                                                                              |
+| ---------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `direction`, `align`, `justify`                                                                | box        | Root layout: `direction` `row` (default) or `column`; `align` and `justify` `start`, `center` (default) or `end`.                    |
+| `gap`                                                                                          | box        | Space between flowed children.                                                                                                       |
+| `paddingInlineStart`, `paddingInlineEnd`, `paddingBlockStart`, `paddingBlockEnd`               | box        | Inner padding.                                                                                                                       |
+| `height`, `minWidth`, `width`                                                                  | box, icon  | Dimensions. Box width defaults to content. The root also reads `width` and `minWidth` (see **Root width**); `minWidth` is root only. |
+| `grow`                                                                                         | box, text  | Fill the rest of a row: `true` (one share) or a positive number (that many shares). See **Grow**.                                    |
+| `cornerRadius`                                                                                 | box, ring  | Corner radius.                                                                                                                       |
+| `cornerRadiusStartStart`, `cornerRadiusStartEnd`, `cornerRadiusEndStart`, `cornerRadiusEndEnd` | box        | Per-corner radius (block-inline). Each falls back to `cornerRadius`. Renderers draw left-to-right, so start-start is top-left.       |
+| `fill`, `stroke`, `strokeWidth`, `opacity`                                                     | box, ring  | Paint.                                                                                                                               |
+| `color`                                                                                        | text, icon | Content color.                                                                                                                       |
+| `trackColor`                                                                                   | progress   | Color of the progress track behind the arc.                                                                                          |
+| `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style. `lineHeight` sets the line box height.                                                                                   |
+| `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                        |
+| `rotation`                                                                                     | icon       | Clockwise rotation in degrees about the icon's center (a `chevron` is 90 when open).                                                 |
 
 **Text height.** A `text` part is as high as its line box: a `lineHeight` ending in `px` is that height, a unitless `lineHeight` multiplies `fontSize`, and with no `lineHeight` it is 1.3 times `fontSize`. A bound `fontFamily` leads the SVG font stack, so a family the viewer lacks falls back to the default stack.
 
@@ -85,7 +86,13 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Row boxes.** A flowed `box` that binds `direction: "row"` lays its `children` out in a row instead of insetting them: `icon`, `text` and `box` children in order, `gap` apart, between its `paddingInlineStart` and `paddingInlineEnd`, centered across (`align` moves them). Without a `width` it is as wide as its children plus padding; without a `height` it is as tall as the tallest child plus its block padding. A `text` child may bind its own padding props, which add to its cell. Only `row` is supported.
 
-**Column stretch.** In a column root, a flowed `box` with no `width` and no row content fills the column's inner width (a divider or a content region). A flowed `box` with no `height` and no children is as tall as its block padding.
+**Root width.** The root's outer width is `max(minWidth, width)`, where `width` is the request's `width` if it has one, else the recipe's root `width`, else the content width. With neither a `width` nor a `minWidth` the root hugs its content, as before. Padding stays inside the outer width, so the content area is the outer width minus the inline padding. A request `width` overrides the recipe's `width` but never goes below `minWidth`. **NORMATIVE:** When a fixed width (from the recipe or the request) is smaller than the content, the renderer **MUST NOT** clip or shrink the content: it overflows the root, and the scene's `diagnostics` **MUST** say so. Wrapping and truncating text is not part of this rule.
+
+**Grow.** In a row (the root, or a row box), parts with `grow` split the space left after the other parts, the `gap`s and the padding, in proportion to their shares. A growing part starts from its content width and gains its share, so with no free space (a hugging root, or content as wide as the row) nothing changes, and a row that is too narrow never shrinks a part. A growing `box` is wider by its share; a growing `text` keeps its own width and starts at the start of its grown space (the text does not move, wrap or truncate). `grow` has no effect in a column or on an `icon`.
+
+**Extra width.** Parts without `grow` do not stretch: in a row root wider than its content they stay grouped and placed by `justify` (centered by default), like a hugging root's content.
+
+**Column stretch.** In a column root, a flowed `box` with no `width` (a divider, a content region, or a row box such as an accordion header) fills the column's inner width. A flowed `box` with no `height` and no children is as tall as its block padding.
 
 **Nested boxes.** A flowed `box` child paints itself (`fill`, `stroke`, `strokeWidth`, `cornerRadius`) and may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes; the checkbox uses this for its checkmark and dash.
 
@@ -225,7 +232,7 @@ New recipes **MUST** be free of SPEC-066 to SPEC-070 warnings. Existing recipes 
 
 ## Render request and scene graph
 
-A render request is tool input, not dataset content: `{component, options, states, modes, label, icon, overlays}`. `label` replaces the label text and `icon` the content icon (see [Icons](#icons)). A **matrix** is a list of requests plus a layout (rows × columns by option or state).
+A render request is tool input, not dataset content: `{component, options, states, modes, label, icon, width, overlays}`. `label` replaces the label text, `icon` the content icon (see [Icons](#icons)) and `width` (px, optional) is the demo width of the root (see **Root width**); empty means the recipe's own width. A **matrix** is a list of requests plus a layout (rows × columns by option or state).
 
 The scene graph is the contract between resolution and output:
 
