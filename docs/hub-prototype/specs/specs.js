@@ -43,9 +43,11 @@ function visual(block) {
   const X = (x) => x * k + tx;
   const Y = (y) => y * k + ty;
   // A sheet built without --svg has no svg: draw only the marks.
+  if (block.render.svg == null)
+    console.warn(`${block.id}: no render.svg (build the sheet with --svg)`);
   const inner = (block.render.svg ?? "")
     .replace(/^<svg[^>]*>/, "")
-    .replace(/<\/svg>$/, "");
+    .replace(/<\/svg>\s*$/, "");
   let o = "";
   const label = (x, y, text, anchor = "middle") =>
     `<g><rect x="${anchor === "end" ? x - 8 - text.length * 6 : anchor === "start" ? x - 4 : x - 4 - text.length * 3}" y="${y - 10}" width="${text.length * 6 + 8}" height="18" rx="9" fill="${MARK}"/>` +
