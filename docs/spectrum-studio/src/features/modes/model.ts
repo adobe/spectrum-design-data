@@ -1,6 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorStopInput } from "../color-system/model";
+import { isSizingMultiplier } from "../foundations/componentSizing";
+import { upgradeScaleKeys } from "./scaleKeys";
 export type AdaptiveClaims = { [parameterId: string]: string };
+
+export function isAdaptiveClaims(data: unknown): data is AdaptiveClaims {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return false;
+  return Object.values(data).every((owner) => typeof owner === "string");
+}
 
 import {
   isScaleAdjustment,
@@ -19,7 +26,7 @@ import {
   type DataVisSourceOverrides,
 } from "../color-system/data-vis/model";
 
-export const MODE_SETS_SCHEMA_VERSION = 10;
+export const MODE_SETS_SCHEMA_VERSION = 12;
 
 /** Mode sets with this key drive design-system preview appearance, not app chrome. */
 export const COLOR_SCHEME_MODE_SET_KEY = "colorScheme";
@@ -31,6 +38,8 @@ export const AUTHORING_CAPABILITIES = [
   "color.contrastMultiplier",
   "color.scaleAdjustment",
   "typography.textZoom",
+  "typography.textSize",
+  "size.componentSize",
   "elevation.depth",
   "elevation.color",
   "elevation.layerOpacities", // Historical decoding only; upgraded to opacity references.
@@ -64,11 +73,13 @@ export interface ColorFoundationOverride {
 
 export interface TypographyFoundationOverride {
   textZoom?: number;
+  textSize?: number;
 }
 
 export interface ModeFoundations {
   color?: ColorFoundationOverride;
   typography?: TypographyFoundationOverride;
+  size?: { componentSize?: number };
   elevation?: ElevationOverride;
 }
 
@@ -239,7 +250,9 @@ function isTypographyOverride(
   if (!value || typeof value !== "object") return false;
   const override = value as TypographyFoundationOverride;
   return (
-    override.textZoom === undefined || typeof override.textZoom === "number"
+    (override.textZoom === undefined ||
+      typeof override.textZoom === "number") &&
+    (override.textSize === undefined || isSizingMultiplier(override.textSize))
   );
 }
 
@@ -255,6 +268,14 @@ function isMode(value: unknown): value is Mode {
   if (
     mode.foundations.typography !== undefined &&
     !isTypographyOverride(mode.foundations.typography)
+  )
+    return false;
+  if (
+    mode.foundations.size !== undefined &&
+    (!mode.foundations.size ||
+      typeof mode.foundations.size !== "object" ||
+      (mode.foundations.size.componentSize !== undefined &&
+        !isSizingMultiplier(mode.foundations.size.componentSize)))
   )
     return false;
   if (
@@ -331,8 +352,13 @@ export function migrateModeSets(
   data: unknown,
   fromVersion: number,
 ): ModeSet[] | null {
-  const cleaned = stripRemovedScaleOverrides(data);
+  const stripped = stripRemovedScaleOverrides(data);
+  const cleaned = isModeSetList(stripped)
+    ? upgradeScaleKeys({ modeSets: stripped }).modeSets
+    : stripped;
   if (
+    fromVersion === 11 ||
+    fromVersion === 10 ||
     fromVersion === 9 ||
     fromVersion === 8 ||
     fromVersion === 7 ||

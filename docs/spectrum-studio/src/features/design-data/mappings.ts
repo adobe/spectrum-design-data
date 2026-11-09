@@ -5,8 +5,10 @@ import type {
   ReviewedMapping,
 } from "./comparison";
 import { modeDeclarations } from "./modeCoverage";
+import { fontSizeStep } from "./foundationValues";
 
-export const REVIEWED_MAPPING_VERSION = "foundation-color-ramp-v1";
+export const REVIEWED_MAPPING_VERSION =
+  "foundation-color-ramp-v1-typography-size-v1";
 
 const object = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -208,4 +210,71 @@ export function reviewedColorMappings(
     }
   }
   return mappings;
+}
+
+export function reviewedTypographyMappings(
+  app: AnalysisInput,
+  reference: AnalysisInput,
+): ReviewedMapping[] {
+  const axes = modeDeclarations(app).map((set) => set.key);
+  const referenceAxes = new Set(
+    modeDeclarations(reference).map((set) => set.key),
+  );
+  const candidates = reference.records.filter(
+    (row) =>
+      row.category === "tokens" &&
+      !row.lifecycle?.deprecatedIn &&
+      fontSizeStep(row) !== undefined,
+  );
+  return app.records.flatMap((left): ReviewedMapping[] => {
+    const step = fontSizeStep(left);
+    if (
+      left.category !== "tokens" ||
+      left.tokenType !== "typography" ||
+      left.lifecycle?.deprecatedIn ||
+      left.tokenStatus === "deprecated" ||
+      step === undefined ||
+      left.structuredName?.element !== "text" ||
+      left.structuredName.property !== "size" ||
+      Object.keys(left.structuredName).some(
+        (key) => !["element", "property", "scaleIndex", ...axes].includes(key),
+      ) ||
+      Object.keys(left.context ?? {}).some(
+        (axis) =>
+          !referenceAxes.has(axis) &&
+          left.context?.[axis] !== declaredDefaultMode(app, axis),
+      )
+    )
+      return [];
+    return candidates
+      .filter(
+        (right) =>
+          fontSizeStep(right) === step &&
+          Object.keys(right.structuredName ?? {}).every((key) =>
+            ["property", "scaleIndex", "legacyKey", ...referenceAxes].includes(
+              key,
+            ),
+          ) &&
+          [
+            ...new Set([
+              ...Object.keys(left.context ?? {}),
+              ...Object.keys(right.context ?? {}),
+            ]),
+          ]
+            .filter((axis) => referenceAxes.has(axis))
+            .every(
+              (axis) =>
+                modeValue(left, app, axis) !== undefined &&
+                modeValue(left, app, axis) ===
+                  modeValue(right, reference, axis),
+            ),
+      )
+      .map((right) => ({
+        kind: "typography-size",
+        app: left.id,
+        reference: right.id,
+        rationale:
+          "Reviewed typography-size-v1: Registry text/size metric maps to the canonical font-size metric at the same scaleIndex and shared mode. App-only axes use declared defaults; original names and UUIDs are retained. Values are compared, never used to establish identity.",
+      }));
+  });
 }

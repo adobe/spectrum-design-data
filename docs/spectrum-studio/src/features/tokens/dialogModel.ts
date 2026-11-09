@@ -20,8 +20,15 @@ import {
   modePairs,
   shadowText,
 } from "./tokenAssignments";
+import {
+  categoryAllowsTier,
+  isTokenTier,
+  UNCLASSIFIED_TIER_MESSAGE,
+  type TokenTier,
+} from "./tier";
 
 export interface TokenDialogDraft {
+  tier?: TokenTier;
   tokenId: string;
   modeKey: string;
   assignments: Record<string, TokenAssignment | null>;
@@ -38,6 +45,7 @@ export function createDialogDraft(
   modeKey: string,
 ): TokenDialogDraft {
   return {
+    tier: token.tier,
     tokenId: token.id,
     modeKey,
     assignments: {},
@@ -80,6 +88,13 @@ function draftEdits(
   const next = structuredClone(edits);
   const edit = next[draft.tokenId] ?? { values: {} };
   const authoring: TokenAuthoring = edit.authoring ?? { assignments: {} };
+  if (authoring.manual && draft.tier !== undefined) {
+    if (!isTokenTier(draft.tier))
+      throw new Error("Choose a supported token tier.");
+    authoring.manual.tier = draft.tier;
+    if (draft.tier === "primitive") delete authoring.manual.scope;
+    else authoring.manual.scope = "structures";
+  }
   if (!draft.deprecated && authoring.lifecycle)
     delete authoring.lifecycle.frozen;
   if (!draft.deprecated) delete edit.status;
@@ -189,9 +204,31 @@ export function commitDialogDraft(
       JSON.stringify(original.lifecycle?.replacementIds ?? []) &&
     JSON.stringify(draft.classification) ===
       JSON.stringify(original.classificationOverride) &&
+    draft.tier === original.tier &&
     (!draft.deprecated || original.lifecycle?.frozen)
   )
     return edits;
+  if (!original.manual && draft.tier !== original.tier)
+    throw new Error("Generated token tiers come from their source.");
+  if (draft.classification) {
+    const previous =
+      original.classificationOverride ??
+      original.projection?.classification ??
+      {};
+    for (const [id, assignment] of Object.entries(draft.classification)) {
+      const category = taxonomy.categories.find(
+        (category) => category.id === id,
+      );
+      if (
+        category &&
+        JSON.stringify(assignment) !== JSON.stringify(previous[id]) &&
+        !categoryAllowsTier(category, draft.tier)
+      )
+        throw new Error(
+          `${category.name} does not apply to ${draft.tier ?? "unclassified"} tokens.`,
+        );
+    }
+  }
   if (
     original.status === "deprecated" &&
     draft.deprecated &&
@@ -261,6 +298,7 @@ export function commitDialogDraft(
         assignments: { "[]": { kind: "reference", targetId: draft.tokenId } },
         classification: alias.classification,
         manual: {
+          tier: original.tier,
           type: original.type,
           unit: original.unit,
           targetId: draft.tokenId,
@@ -285,11 +323,19 @@ export function commitDialogDraft(
         item.id === draft.tokenId ||
         draft.aliases.some((alias) => alias.id === item.id),
     );
-    for (const item of changed)
-      if (item.validationError || item.projection?.issues.length)
-        throw new Error(
-          item.validationError ?? item.projection!.issues.join(" "),
-        );
+    for (const item of changed) {
+      const before = resolveDialogTokens(rows, edits, taxonomy, key).find(
+        (candidate) => candidate.id === item.id,
+      );
+      const newIssues =
+        item.projection?.issues.filter(
+          (issue) =>
+            !item.projection?.tierIssues?.includes(issue) ||
+            !before?.projection?.tierIssues?.includes(issue),
+        ) ?? [];
+      if (item.validationError || newIssues.length)
+        throw new Error(item.validationError ?? newIssues.join(" "));
+    }
     for (const id of lifecycle.replacementIds) {
       const replacement = tokens.find((item) => item.id === id);
       if (
@@ -337,6 +383,7 @@ export function commitDialogDraft(
   if (!draft.description) delete edit.description;
   if (
     !Object.keys(authoring.assignments).length &&
+    !authoring.identity &&
     !authoring.manual &&
     !authoring.classification &&
     !authoring.lifecycle
@@ -352,7 +399,7 @@ export function dialogClassification(
   classification: Classification | undefined,
   taxonomy: TaxonomyDocument,
 ) {
-  return projectClassification(
+  const projection = projectClassification(
     taxonomy,
     classification ??
       token.taxonomySource?.governed ??
@@ -363,7 +410,16 @@ export function dialogClassification(
       : token.type === "motion"
         ? "size"
         : token.type,
+    token.tier,
   );
+  if (token.manual && !token.tier) {
+    projection.issues.push(UNCLASSIFIED_TIER_MESSAGE);
+    projection.tierIssues = [
+      ...(projection.tierIssues ?? []),
+      UNCLASSIFIED_TIER_MESSAGE,
+    ];
+  }
+  return projection;
 }
 
 export function tokenComponentUsage(

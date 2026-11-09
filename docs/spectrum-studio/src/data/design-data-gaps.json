@@ -2,13 +2,47 @@
   "schemaVersion": 1,
   "gaps": [
     {
+      "id": "LTAX-021",
+      "title": "Conceptual token tiers and tier-scoped Registry categories",
+      "links": ["GAP-006", "JTC-003"],
+      "kind": "spec-schema",
+      "direction": "app-to-reference",
+      "owner": "joint",
+      "scope": "Explicit Primitive, Semantic and Component token tiers, independent of literal/reference shape. Foundation producers own Primitive tiers, Structure producers own Semantic tiers, manual authoring persists a selected tier, and Registry categories own optional allowedTokenTiers. Existing raw/purpose category settings upgrade conservatively; uncertain manual tiers remain unclassified. Published schema and canonical data are unchanged.",
+      "profile": "reference-checkout",
+      "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/token-tiers-and-category-scope.md"
+      },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-021-C1",
+          "description": "Review producer-owned tiers, literal/reference independence, three-way manual creation, category restrictions and tier-aware shared projection caching.",
+          "check": "manual",
+          "evidence": ["tests/token-tiers.ts", "tests/token-creation-flow.ts", "src/features/tokens/tier.ts", "src/features/taxonomy/model.ts"]
+        },
+        {
+          "id": "LTAX-021-C2",
+          "description": "Review saved/working migration, uncertain-tier diagnostics, authored Changes/reset accounting and local taxonomy metadata. Local checks do not establish upstream schema acceptance.",
+          "check": "manual",
+          "evidence": ["src/features/edit-session/tokenTierUpgrade.ts", "tests/token-tiers.ts", "src/features/taxonomy/export.ts", "docs/rfcs/token-tiers-and-category-scope.md"]
+        }
+      ],
+      "blockers": ["Upstream token and field schemas do not yet represent tier or allowedTokenTiers", "RFC has not been submitted or accepted"],
+      "history": []
+    },
+    {
       "id": "LTAX-020",
       "title": "Guided token creation and Registry category relevance",
       "links": ["GAP-006", "JTC-003"],
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "Edit-mode Add token walk-through: a raw-value or purpose-based choice, one of seven value types, one existing-term question per relevant Registry category in name order, live name preview and duplicate blocking. Creates an untargeted manual draft with type-default modes whose values are set in the Token Dialog. The optional Registry category appliesTo field (raw, purpose or both) only decides which questions appear; it is app-owned authoring metadata with no design-data-spec equivalent and adds no token tier to output.",
+      "scope": "Edit-mode Add token walk-through with seven value types, existing-term questions in name order, live name preview and duplicate blocking. Creates an untargeted manual draft whose values are set in the Token Dialog. The former raw/purpose choice and appliesTo question filter are superseded by explicit Primitive, Semantic and Component tiers and category allowedTokenTiers, tracked separately in LTAX-021.",
       "profile": "reference-checkout",
       "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
       "implementation": "implemented",
@@ -18,7 +52,7 @@
       "criteria": [
         {
           "id": "LTAX-020-C1",
-          "description": "Review appliesTo filtering (missing means both), name-order questions, skip, duplicate blocking and edit-mode-only creation.",
+          "description": "Review tier/category filtering (unrestricted when omitted), name-order questions, skip, duplicate blocking and edit-mode-only creation.",
           "check": "manual",
           "evidence": [
             "tests/token-creation-flow.ts",
@@ -454,7 +488,8 @@
       ],
       "blockers": [
         "Explicit review and reference-policy acceptance remain required",
-        "Compatibility packets and dimension v3 are local profiles, not accepted upstream schema/resolver contracts; pinned T-shirt/shadow serializers remain separate"
+        "Compatibility packets and dimension v3 are local profiles, not accepted upstream schema/resolver contracts; pinned T-shirt/shadow serializers remain separate",
+        "Modal Component size adds owning contexts to Size and Radius without changing global Spacing; proportional Radius does not establish historical desktop/mobile reference parity"
       ],
       "history": [
         {
@@ -688,7 +723,7 @@
       "kind": "app-capability",
       "direction": "joint",
       "owner": "leonardo",
-      "scope": "Existing supported mode variables, shared base/nondefault overrides including custom-color main-ratio patches owned by Overall contrast, reversible per-scale custom contrast settings retained while shared steps are active, foundation interface attachments, independent preview/app appearance and durable saved/working state; no new token assignments from interface membership",
+      "scope": "Supported mode variables and shared base/nondefault overrides, including independent Component size and Base text size baselines in Scale (desktop/mobile), custom-color main-ratio patches owned by Overall contrast, retained per-scale custom contrast settings, interface-only foundation attachments, independent preview/app appearance and durable saved/working state. Component size affects Size, Radius and eligible Structure geometry, not global Spacing or borders. Adaptive Component size remains deferred.",
       "profile": "reference-checkout",
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "implemented",
@@ -714,7 +749,8 @@
       ],
       "blockers": [
         "Pinned specification and SDK differ on omitted mode-field matching; no manual resolution-contract acceptance is recorded",
-        "Direct overrides are limited to Color, Typography and Elevation capabilities; Spacing, Size and Radius use explicit bindings, and Motion remains a placeholder"
+        "Direct overrides include shared Component size and Base text size; other Spacing, Size and Radius parameters still use explicit bindings, and Motion remains a placeholder",
+        "Proportional padding does not reproduce the five decreasing mobile Base horizontal-padding pairs; proportional Radius is requested behavior, not reference desktop/mobile parity"
       ],
       "history": [
         {
@@ -946,6 +982,7 @@
       "blockers": [
         "No explicit manual architecture or upstream mapping acceptance is recorded.",
         "The pinned reference does not establish support for this app-owned Type scale variant, dynamic mappings or hideFromPublishing metadata.",
+        "Modal Base text size is independent of Adaptive text scaling. Exact 14px/17px reference font-size parity requires the compatible 18-position range, 1.125 ratio and whole-pixel rounding; icon/line-height parity remains separate. Scale mode declarations use the reference scale/desktop/mobile keys.",
         "Passing local application and Storybook browser checks does not establish reference SDK or manual architecture acceptance; canonical publication/materialization coverage remains separately scoped, with an existing fingerprint failure blocking its later assertions."
       ],
       "history": []

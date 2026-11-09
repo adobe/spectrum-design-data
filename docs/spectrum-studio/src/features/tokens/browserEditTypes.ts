@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import type { TokenTier } from "./tier";
 export type TokenValue = string | number;
 
 export interface TokenShadowLayer {
@@ -14,10 +15,12 @@ export type TokenAssignment =
   | { kind: "reference"; targetId: string };
 
 export interface TokenAuthoring {
-  assignments: Record<string, TokenAssignment>;
-  baselines?: Record<string, TokenValue>;
+  identity?: import("./canonicalIdentity").TokenIdentity;
+  assignments: { [modeKey: string]: TokenAssignment };
+  baselines?: { [modeKey: string]: TokenValue };
   classification?: Record<string, string | string[]>;
   manual?: {
+    tier?: TokenTier;
     type:
       | "colors"
       | "typography"

@@ -15,12 +15,98 @@ meanings. Scoped reset plans are validated before applying through the existing
 restore owner; generated reset choices do not add semantic override support or
 change the storage envelope. See [Changes comparison contract](archive/changelog-plan.md).
 
+## Canonical token identity and mode ownership
+
+Authoring envelope **28** stores token publication identities alongside token
+edits. A concept has one `conceptId`; each emitted mode row has its own `uuid`.
+Confirmed layout, typography and palette meanings adopt the actual design-data
+IDs and structured names. App-only meanings and rows receive stored UUIDs at
+authoring or reconciliation boundaries, not during rendering or export.
+Unconfirmed meanings remain in the inventory without borrowing an upstream
+identity.
+
+The identity's `sourceId` is the generator's internal coordinate. It keeps
+foundation and Structure references connected after token IDs change; it is not
+a second public token ID. Reconciliation updates token assignments, aliases,
+lifecycle replacements and component references while preserving authored
+values. Saved and working snapshots share identity allocations but retain their
+separate edits. Identity metadata alone does not count as a Changes item.
+Inactive output retains its allocated identities. Clearing token overrides
+retains those identities and the references that use them.
+
+Evaluation selections supply the inputs needed to run a generator. They are
+not token conditions. Output declares only the modes owned by the definition,
+its dependencies or explicit assignments. An invariant primitive does not
+inherit its semantic consumer's modes. A fallback row and a mobile override
+remain separate, even when their values happen to match; the specific row
+takes precedence over the fallback.
+
+Tokens, aliases, component values and Analysis use the shared canonical rows.
+Canonical token records contain `uuid`, `conceptId`, a structured `name`, and
+exactly one of `value` or `$ref`, plus supported metadata. Internal review and
+authoring fields stay outside those records. The canonical schema accepts an
+optional UUID `conceptId` and integer-or-string `scaleIndex`, as used by the
+reference data.
+
+`tests/canonical-token-contract.ts` covers output shape, mode ownership,
+distinct equal-valued branches, and new, removed and re-enabled modes.
+`tests/canonical-identity-lifecycle.ts` covers prototype reference migration,
+independent saved/working edits, identity conflicts, Save, Cancel, reload and
+reset.
+
+## Platform scale default upgrade
+
+Envelope **26** extends that earlier upgrade with the Scale display name and
+desktop/mobile modes. The system Component size source starts at 1;
+Typography schema 9 adds Base text size at 1. Mobile stores separate overrides of
+1.25 and 17/14. Availability settings add both parameters as Modal, not Adaptive.
+
+Envelope **27** changes the shipped set's native key from `platformScale` to
+`scale` and its desktop mode key from `default` to `desktop`. Existing set,
+mode and token identities are retained. The upgrade also translates component
+conditions and saved mode choices. Default status is independent of a mode's
+name-derived key. Native imports use the same key upgrade. Conflicts are reported
+without overwriting authored keys or conditions; published renames remain
+separate work.
+
+The upgrade processes saved and working sources independently before strict
+validation. It extends stored variant identities, including derived padding,
+without allocating IDs during preview or export. Customized mode sets or
+conflicting ownership are retained and reported. A set deleted in a current
+record stays deleted. Narrow Changes resets preserve unrelated edits, while
+Save, Cancel and reload retain each baseline. Native imports also upgrade
+legacy Typography without rounding its existing values.
+
+See [Component and text sizing](component-sizing.md) for calculation order,
+reference differences and the separate future adaptive adjustment.
+
+Authoring envelope 25 adds the neutral Platform scale mode set to older saved
+and working snapshots. Changing shipped defaults alone does not update an
+existing browser session, because restored snapshots replace the defaults.
+The upgrade preserves existing mode sets and edits, and does not replace a
+mode set with the same ID or key.
+
+The existing Structure identity synchronizer adds the new mode contexts.
+Saved and working snapshots share newly allocated row identities while keeping
+their original identities. After the upgrade, removing Platform scale remains
+a normal authored edit; reload does not add it again. A page reload applies
+the upgrade to an already open app. `tests/platform-scale-persistence.ts`
+covers restoration into the Modes page's state, independent baselines,
+fresh defaults, and deletion after upgrade.
+
 ## Relative and absolute color adjustments
 
 A mode stores one color-adjustment method. Relative shifts each key color's hue
 and multiplies its saturation, keeping the scale's lightnesses and interpolation.
 Absolute stores one complete key color and derives every scale from it using RGB
 interpolation. The built-in Wireframe mode uses #486ec2.
+
+The **Adjust colors** checkbox saves an optional `enabled` flag with the
+adjustment. Turning it off hides the controls and skips the adjustment in
+resolved output without deleting the method or its values. Existing adjustments
+without the flag remain enabled. Relative reset keeps the checkbox selected and
+restores a 0-degree hue shift and 100% saturation. Save, Cancel and reload retain
+both the flag and the settings.
 
 The shared color affects resolved output, not the original scale definitions.
 Leaving the mode restores their original keys, palette links and interpolation.
@@ -531,8 +617,8 @@ Registry Property UUIDs and own either a typed literal or one actual emitted tok
 UUID. Selecting a contextual target includes its required context conditions.
 Unavailable targets, conflicting contexts and incompatible typed values fail
 explicitly. Remap component dependencies before removing their tokens or Property
-terms. Typing and blur do not accept literals; use the explicit value action,
-Apply changes, and then global Save. Local cancellation discards the form; global
+terms. Enter or leaving the field accepts a valid token or literal into the local
+form. Apply changes, then global Save to persist it. Local cancellation discards the form; global
 Cancel restores the saved document. Changes supports component and topic reverts.
 
 Authoring envelope **14** advances the native Components document to schema **2**.
@@ -580,8 +666,10 @@ authored token metadata intact. Formula fallback updates consumers before
 removing the old formula. Registry usage includes component Property references
 as authoring dependencies, without adding generated token occurrences.
 
-Accepting a literal keeps it distinct from matching token values, including
-after keyboard focus moves away. Typing and unaccepted forms do not write
+An explicitly accepted literal stays distinct from matching token values, including
+after keyboard focus moves away. Changed input accepts an unambiguous exact
+token name or value automatically; the custom-value menu action explicitly keeps
+a literal. Typing and unapplied forms do not write
 canonical data; applying the form writes the working snapshot, and application
 Save updates the saved snapshot.
 
@@ -890,7 +978,8 @@ collection. Named structures have a version-four `conceptId` UUID and governed
 property bindings. Each binding has a stable deterministic UUID, a Registry
 category-ID to term-ID classification, and exactly one of `$ref` or typed
 `value`. Literal values are only Hug/Fill sizing presets or Position-term
-references; Values display does not introduce custom literal editing.
+references. Fields that permit number literals accept them directly through the
+shared token field; Values display changes presentation, not reference identity.
 
 Property, Position, Constraint and Axis terms classify size, bounds, alignment,
 gap, padding sides, corners and a complete elevation. Role lookup uses shipped
@@ -960,6 +1049,32 @@ empty input is visually collapsed but remains mounted, focusable and accessible;
 focus immediately restores the native search input. The tag stays in S2's public
 prefix slot, not inside the HTML input. Presets, Values display, Mixed and missing
 references retain their normal text inputs.
+
+`TokenComboBox` also owns direct custom entry. Enter or leaving the field accepts
+changed input: a unique eligible exact name, then a unique eligible exact value,
+selects an option. Unit-aware equality is supplied through `normalizeValue`;
+ambiguous values stay custom when the domain permits them. Partial queries only
+filter suggestions. The custom-value menu action can explicitly retain a literal
+equal to a token. An accepted literal uses native input text, never a token tag,
+and unchanged focus/blur does not relink it.
+
+Escape restores the last accepted value. Invalid edits show an error without
+writing. Delete/Backspace clears a selected token from the focused entry;
+optional fields use their null callback, while required fields retain an empty
+replacement draft with validation rather than writing invalid data or choosing
+a default. Selecting a list item does not also accept a blur draft.
+`DividableComboBox` forwards the same literal/reference behavior to shared and
+individual fields, with atomic shared writes and literal-aware Mixed state.
+
+Shadow opacity uses this one field for a token reference or direct percentage:
+`3` and `3%` store `manualOpacity: 0.03`; 0% and 100% remain valid. There is no
+Manual menu sentinel or second numeric field. Structure numbers, token values,
+component assignment drafts, rounding preview values and Static data-vis colors
+reuse the same interaction contract with domain-owned validation. Scale-index
+positive/unique restrictions remain local domain configuration. Reference-only
+replacement/term/offset operations and adaptive scale-source relationships retain
+their identity requirements. Graphical color and structured shadow editors
+remain domain tools, not alternate scalar-entry modes.
 
 Editor TokenComboBoxes measure the longest eligible name or description by
 default, including unpublished/error descriptions and native row spacing. Menus

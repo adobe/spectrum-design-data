@@ -93,7 +93,7 @@ export function createTshirtFixture(
     taxonomy: defaults.taxonomy,
     rules: defaults.rules,
     scaleTypes: defaults.scaleTypes,
-    modeSets: defaults.modeSets,
+    modeSets: defaults.modeSets.filter((set) => set.key !== "scale"),
     structures: defaults.structures,
     browserTokenEdits: {},
     interpolations: defaults.interpolations,

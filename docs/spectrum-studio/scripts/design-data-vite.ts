@@ -14,6 +14,32 @@ import {
   attachReferenceAssessment,
 } from "./design-data-assessment";
 
+export const analysisWatchEvents = [
+  "change",
+  "add",
+  "unlink",
+  "addDir",
+  "unlinkDir",
+] as const;
+
+export function analysisInputInvalidator(
+  roots: readonly string[],
+  documents: readonly string[],
+  invalidate: () => void,
+): (path: string) => void {
+  return (path) => {
+    const file = resolve(path);
+    if (
+      !file.includes("/node_modules/") &&
+      (roots.some(
+        (directory) => file === directory || file.startsWith(`${directory}/`),
+      ) ||
+        documents.includes(file))
+    )
+      invalidate();
+  };
+}
+
 export function designDataAnalysisPlugin(): Plugin {
   return {
     name: "design-data-analysis",
@@ -54,17 +80,10 @@ export function designDataAnalysisPlugin(): Plugin {
           200,
         );
       };
-      const invalidate = (path: string) => {
-        const file = resolve(path);
-        if (
-          (!roots.some((directory) => file.startsWith(`${directory}/`)) &&
-            !documents.includes(file)) ||
-          file.includes("/node_modules/")
-        )
-          return;
+      const invalidate = analysisInputInvalidator(roots, documents, () => {
         cached = undefined;
         notify();
-      };
+      });
       const gitFiles = await assessmentGitWatchPaths(root);
       const bindGitWatchers = () => {
         gitWatchers.forEach((watcher) => watcher.close());
@@ -97,18 +116,14 @@ export function designDataAnalysisPlugin(): Plugin {
       };
       bindGitWatchers();
       server.watcher.add([...roots, ...documents]);
-      server.watcher
-        .on("change", invalidate)
-        .on("add", invalidate)
-        .on("unlink", invalidate);
+      for (const event of analysisWatchEvents)
+        server.watcher.on(event, invalidate);
       server.httpServer?.once("close", () => {
         closed = true;
         gitWatchers.forEach((watcher) => watcher.close());
         clearTimeout(timer);
-        server.watcher
-          .off("change", invalidate)
-          .off("add", invalidate)
-          .off("unlink", invalidate);
+        for (const event of analysisWatchEvents)
+          server.watcher.off(event, invalidate);
       });
       server.middlewares.use(
         "/__design-data/reference",

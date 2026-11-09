@@ -60,6 +60,7 @@ export type ChangeTopic =
   | "platforms";
 export type ChangeKind = "modified" | "new" | "removed" | "deprecated";
 export type FoundationKind =
+  | "component-sizing"
   | "palette-color"
   | "scale"
   | "data-vis-scale"

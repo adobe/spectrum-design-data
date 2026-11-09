@@ -15,20 +15,26 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
+            "componentSizing": {
+              "$ref": "#/definitions/ComponentSizingDocument"
+            },
+            "foundationParameterSettings": {
+              "$ref": "#/definitions/FoundationParameterSettings"
+            },
             "modeSets": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/ModeSet"
               }
             },
+            "components": {
+              "$ref": "#/definitions/ComponentsDocument"
+            },
             "platforms": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Platform"
               }
-            },
-            "components": {
-              "$ref": "#/definitions/ComponentsDocument"
             },
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
@@ -38,6 +44,9 @@
               "items": {
                 "$ref": "#/definitions/Rule"
               }
+            },
+            "browserTokenEdits": {
+              "$ref": "#/definitions/BrowserTokenEdits"
             },
             "adaptiveClaims": {
               "type": "object",
@@ -56,9 +65,6 @@
               "additionalProperties": {
                 "$ref": "#/definitions/TokenOverride"
               }
-            },
-            "browserTokenEdits": {
-              "$ref": "#/definitions/BrowserTokenEdits"
             },
             "taxonomy": {
               "$ref": "#/definitions/TaxonomyDocument"
@@ -158,6 +164,83 @@
         "system"
       ]
     },
+    "ComponentSizingDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "componentSize": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "componentSize",
+        "schemaVersion"
+      ]
+    },
+    "FoundationParameterSettings": {
+      "type": "object",
+      "properties": {
+        "size.componentSize": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "typography.textSize": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.backgroundLightness": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.backgroundScaleId": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.contrastMultiplier": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.scaleAdjustment": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "typography.textZoom": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "elevation.depth": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "elevation.color": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "color.backgroundLightness",
+        "color.backgroundScaleId",
+        "color.contrastMultiplier",
+        "color.scaleAdjustment",
+        "elevation.color",
+        "elevation.depth",
+        "size.componentSize",
+        "typography.textSize",
+        "typography.textZoom"
+      ]
+    },
+    "FoundationParameterSetting": {
+      "type": "object",
+      "properties": {
+        "modal": {
+          "type": "boolean"
+        },
+        "adaptive": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "adaptive",
+        "modal"
+      ]
+    },
     "ModeSet": {
       "type": "object",
       "properties": {
@@ -227,6 +310,8 @@
         "elevation.color",
         "elevation.depth",
         "elevation.layerOpacities",
+        "size.componentSize",
+        "typography.textSize",
         "typography.textZoom"
       ],
       "type": "string"
@@ -294,6 +379,15 @@
         },
         "typography": {
           "$ref": "#/definitions/TypographyFoundationOverride"
+        },
+        "size": {
+          "type": "object",
+          "properties": {
+            "componentSize": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
         },
         "elevation": {
           "$ref": "#/definitions/ElevationOverride"
@@ -372,6 +466,9 @@
           "type": "string",
           "const": "relative"
         },
+        "enabled": {
+          "type": "boolean"
+        },
         "hue": {
           "type": "number"
         },
@@ -390,6 +487,9 @@
         "method": {
           "type": "string",
           "const": "absolute"
+        },
+        "enabled": {
+          "type": "boolean"
         },
         "color": {
           "$ref": "#/definitions/ColorStopInput"
@@ -477,6 +577,9 @@
       "properties": {
         "textZoom": {
           "type": "number"
+        },
+        "textSize": {
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -498,22 +601,6 @@
         }
       },
       "additionalProperties": false
-    },
-    "Platform": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "name"
-      ]
     },
     "ComponentsDocument": {
       "type": "object",
@@ -1082,6 +1169,22 @@
             "boolean"
           ]
         }
+      ]
+    },
+    "Platform": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
       ]
     },
     "AliasDocument": {
@@ -1788,6 +1891,283 @@
         "offset"
       ]
     },
+    "BrowserTokenEdits": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/BrowserTokenEdit"
+      }
+    },
+    "BrowserTokenEdit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "deprecated",
+            "draft"
+          ],
+          "type": "string"
+        },
+        "nameBaseline": {
+          "type": "string"
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/definitions/TokenValue"
+              },
+              "baseline": {
+                "$ref": "#/definitions/TokenValue"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "baseline",
+              "value"
+            ]
+          }
+        },
+        "authoring": {
+          "$ref": "#/definitions/TokenAuthoring"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "values"
+      ]
+    },
+    "TokenValue": {
+      "type": [
+        "string",
+        "number"
+      ]
+    },
+    "TokenAuthoring": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/TokenIdentity"
+        },
+        "assignments": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/TokenAssignment"
+          }
+        },
+        "baselines": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/TokenValue"
+          }
+        },
+        "classification": {
+          "$ref": "#/definitions/Record%3Cstring%2Cstring%7Cstring%5B%5D%3E"
+        },
+        "manual": {
+          "type": "object",
+          "properties": {
+            "tier": {
+              "enum": [
+                "component",
+                "primitive",
+                "semantic"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "colors",
+                "elevation",
+                "opacity",
+                "radius",
+                "size",
+                "spacing",
+                "typography"
+              ],
+              "type": "string"
+            },
+            "unit": {
+              "enum": [
+                "",
+                "px"
+              ],
+              "type": "string"
+            },
+            "targetId": {
+              "description": "Missing for new tokens that do not reference another token yet.",
+              "type": "string"
+            },
+            "groupId": {
+              "type": "string"
+            },
+            "scope": {
+              "const": "structures",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "groupId",
+            "type",
+            "unit"
+          ]
+        },
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "introduced": {
+              "type": "string"
+            },
+            "deprecatedIn": {
+              "type": "string"
+            },
+            "deprecatedComment": {
+              "type": "string"
+            },
+            "replacementIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "frozen": {
+              "$ref": "#/definitions/Record%3Cstring%2C%7Bkind%3A%22literal%22%3Bvalue%3ATokenValue%3Bshadows%3F%3ATokenShadowLayer%5B%5D%7Cundefined%3B%7D%3E"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "deprecatedComment",
+            "replacementIds"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "assignments"
+      ]
+    },
+    "TokenIdentity": {
+      "type": "object",
+      "properties": {
+        "sourceId": {
+          "description": "Generator source coordinate, not a second token identity.",
+          "type": "string"
+        },
+        "conceptId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conceptId",
+        "name",
+        "rows",
+        "sourceId"
+      ]
+    },
+    "TokenAssignment": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "literal"
+            },
+            "value": {
+              "$ref": "#/definitions/TokenValue"
+            },
+            "shadows": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TokenShadowLayer"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "reference"
+            },
+            "targetId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "targetId"
+          ]
+        }
+      ]
+    },
+    "TokenShadowLayer": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "string"
+        },
+        "y": {
+          "type": "string"
+        },
+        "blur": {
+          "type": "string"
+        },
+        "spread": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "blur",
+        "color",
+        "spread",
+        "x",
+        "y"
+      ]
+    },
+    "Record<string,string|string[]>": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Record<string,{kind:\"literal\";value:TokenValue;shadows?:TokenShadowLayer[]|undefined;}>": {
+      "type": "object",
+      "additionalProperties": false
+    },
     "Interpolation": {
       "anyOf": [
         {
@@ -1970,168 +2350,6 @@
         "contrastValue"
       ]
     },
-    "BrowserTokenEdits": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/BrowserTokenEdit"
-      }
-    },
-    "BrowserTokenEdit": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "status": {
-          "enum": [
-            "deprecated",
-            "draft"
-          ],
-          "type": "string"
-        },
-        "nameBaseline": {
-          "type": "string"
-        },
-        "values": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "value": {
-                "$ref": "#/definitions/TokenValue"
-              },
-              "baseline": {
-                "$ref": "#/definitions/TokenValue"
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "baseline",
-              "value"
-            ]
-          }
-        },
-        "authoring": {
-          "$ref": "#/definitions/TokenAuthoring"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "values"
-      ]
-    },
-    "TokenValue": {
-      "type": [
-        "string",
-        "number"
-      ]
-    },
-    "TokenAuthoring": {
-      "type": "object",
-      "properties": {
-        "assignments": {
-          "$ref": "#/definitions/Record%3Cstring%2CTokenAssignment%3E"
-        },
-        "baselines": {
-          "$ref": "#/definitions/Record%3Cstring%2CTokenValue%3E"
-        },
-        "classification": {
-          "$ref": "#/definitions/Record%3Cstring%2Cstring%7Cstring%5B%5D%3E"
-        },
-        "manual": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "enum": [
-                "colors",
-                "elevation",
-                "opacity",
-                "radius",
-                "size",
-                "spacing",
-                "typography"
-              ],
-              "type": "string"
-            },
-            "unit": {
-              "enum": [
-                "",
-                "px"
-              ],
-              "type": "string"
-            },
-            "targetId": {
-              "description": "Missing for new tokens that do not reference another token yet.",
-              "type": "string"
-            },
-            "groupId": {
-              "type": "string"
-            },
-            "scope": {
-              "const": "structures",
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "groupId",
-            "type",
-            "unit"
-          ]
-        },
-        "lifecycle": {
-          "type": "object",
-          "properties": {
-            "introduced": {
-              "type": "string"
-            },
-            "deprecatedIn": {
-              "type": "string"
-            },
-            "deprecatedComment": {
-              "type": "string"
-            },
-            "replacementIds": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "frozen": {
-              "$ref": "#/definitions/Record%3Cstring%2C%7Bkind%3A%22literal%22%3Bvalue%3ATokenValue%3Bshadows%3F%3ATokenShadowLayer%5B%5D%7Cundefined%3B%7D%3E"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "deprecatedComment",
-            "replacementIds"
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "assignments"
-      ]
-    },
-    "Record<string,TokenAssignment>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Record<string,TokenValue>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Record<string,string|string[]>": {
-      "type": "object",
-      "additionalProperties": false
-    },
-    "Record<string,{kind:\"literal\";value:TokenValue;shadows?:TokenShadowLayer[]|undefined;}>": {
-      "type": "object",
-      "additionalProperties": false
-    },
     "TaxonomyDocument": {
       "type": "object",
       "properties": {
@@ -2215,14 +2433,17 @@
         "includeInProjections": {
           "type": "boolean"
         },
-        "appliesTo": {
-          "description": "Which \"Add token\" answer shows this category. Missing means both.",
-          "enum": [
-            "both",
-            "purpose",
-            "raw"
-          ],
-          "type": "string"
+        "allowedTokenTiers": {
+          "description": "Missing means all tiers. Independent of value type and domain scopes.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "component",
+              "primitive",
+              "semantic"
+            ],
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -4052,7 +4273,7 @@
       "properties": {
         "schemaVersion": {
           "type": "number",
-          "const": 8
+          "const": 9
         },
         "metricNames": {
           "$ref": "#/definitions/TypographyMetricNames"
@@ -4074,6 +4295,9 @@
           "description": "Retained until product defaults and their size/spacing presentation are defined (EPIC-2.5)."
         },
         "textZoom": {
+          "type": "number"
+        },
+        "textSize": {
           "type": "number"
         },
         "minTextSize": {
@@ -4120,6 +4344,7 @@
         "schemaVersion",
         "smallSizes",
         "textRoundingRuleId",
+        "textSize",
         "textZoom"
       ]
     },
@@ -4539,20 +4764,26 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
+            "componentSizing": {
+              "$ref": "#/definitions/ComponentSizingDocument"
+            },
+            "foundationParameterSettings": {
+              "$ref": "#/definitions/FoundationParameterSettings"
+            },
             "modeSets": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/ModeSet"
               }
             },
+            "components": {
+              "$ref": "#/definitions/ComponentsDocument"
+            },
             "platforms": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Platform"
               }
-            },
-            "components": {
-              "$ref": "#/definitions/ComponentsDocument"
             },
             "aliases": {
               "$ref": "#/definitions/AliasDocument"
@@ -4562,6 +4793,9 @@
               "items": {
                 "$ref": "#/definitions/Rule"
               }
+            },
+            "browserTokenEdits": {
+              "$ref": "#/definitions/BrowserTokenEdits"
             },
             "adaptiveClaims": {
               "type": "object",
@@ -4580,9 +4814,6 @@
               "additionalProperties": {
                 "$ref": "#/definitions/TokenOverride"
               }
-            },
-            "browserTokenEdits": {
-              "$ref": "#/definitions/BrowserTokenEdits"
             },
             "taxonomy": {
               "$ref": "#/definitions/TaxonomyDocument"

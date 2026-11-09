@@ -55,6 +55,7 @@ export function categoricalBrowserSources(
       return {
         id: dataVisMemberId(scale.id, member.id),
         type: "colors" as const,
+        tier: "primitive" as const,
         groupId: scale.id,
         groupLabel: scale.name,
         name: projection.name,

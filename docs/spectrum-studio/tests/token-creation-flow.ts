@@ -31,20 +31,23 @@ const before = store.get(authoringSnapshotAtom);
 const taxonomy = before.taxonomy!;
 const key = (id: string) =>
   taxonomy.categories.find((category) => category.id === id)!.key;
-const keys = (tier: "raw" | "purpose", type: "colors" | "spacing") =>
+const keys = (
+  tier: "primitive" | "semantic" | "component",
+  type: "colors" | "spacing",
+) =>
   newTokenQuestions(taxonomy, tier, type).map((question) =>
     key(question.category.id),
   );
 
-// Questions follow scope, appliesTo and the taxonomy's name order.
-const rawColors = keys("raw", "colors");
+// Questions follow scope, allowed tiers and the taxonomy's name order.
+const rawColors = keys("primitive", "colors");
 assert.ok(rawColors.includes("colorFamily"));
 assert.ok(rawColors.includes("property"));
 assert.ok(
   !rawColors.includes("structure"),
   "Purpose-only categories are hidden.",
 );
-const purposeColors = keys("purpose", "colors");
+const purposeColors = keys("semantic", "colors");
 assert.ok(purposeColors.includes("structure"));
 assert.ok(
   !purposeColors.includes("colorFamily"),
@@ -55,7 +58,7 @@ assert.ok(
   "Categories without terms are skipped.",
 );
 const orderIndex = (id: string) => taxonomy.order.indexOf(id);
-const rawIds = newTokenQuestions(taxonomy, "raw", "colors").map(
+const rawIds = newTokenQuestions(taxonomy, "primitive", "colors").map(
   (question) => question.category.id,
 );
 assert.deepEqual(
@@ -63,18 +66,19 @@ assert.deepEqual(
   [...rawIds].sort((a, b) => orderIndex(a) - orderIndex(b)),
 );
 
-// A missing appliesTo counts as "both".
+// A missing restriction allows every tier.
 const structure = taxonomy.categories.find((item) => item.key === "structure")!;
 const legacy: TaxonomyDocument = {
   ...taxonomy,
   categories: taxonomy.categories.map((category) => {
     if (category.id !== structure.id) return category;
-    const { appliesTo: _omit, ...rest } = category;
+    const rest = { ...category };
+    delete rest.allowedTokenTiers;
     return rest;
   }),
 };
 assert.ok(
-  newTokenQuestions(legacy, "raw", "colors").some(
+  newTokenQuestions(legacy, "primitive", "colors").some(
     (question) => question.category.id === structure.id,
   ),
 );
@@ -82,7 +86,8 @@ assert.ok(
 // Steps: tier, type, one per question, review.
 assert.equal(newTokenSteps(taxonomy, { terms: {} }).length, 3);
 assert.equal(
-  newTokenSteps(taxonomy, { tier: "raw", type: "colors", terms: {} }).length,
+  newTokenSteps(taxonomy, { tier: "primitive", type: "colors", terms: {} })
+    .length,
   rawColors.length + 3,
 );
 
@@ -97,7 +102,7 @@ const term = (categoryKey: string, value: string | number) => {
   return [category.id, match.id] as const;
 };
 const answers: NewTokenAnswers = {
-  tier: "raw",
+  tier: "primitive",
   type: "colors",
   terms: Object.fromEntries([
     term("colorFamily", "photoshop blue"),
@@ -164,17 +169,17 @@ assert.ok(
   "Changes lists the new token.",
 );
 
-// Changes lists an appliesTo edit as its own resettable field.
+// Changes lists tier restrictions as their own resettable field.
 {
   const edited = structuredClone(before);
   const category = edited.taxonomy.categories[0];
-  category.appliesTo = "raw";
+  category.allowedTokenTiers = ["primitive"];
   const field = compareAuthoring(before, edited)
     .groups.flatMap((group) => group.items)
     .flatMap((item) => item.fields)
-    .find((entry) => entry.address?.path.at(-1) === "appliesTo");
-  assert.ok(field, "Changes lists the appliesTo edit.");
-  assert.equal(field.after, "raw");
+    .find((entry) => entry.address?.path.at(-1) === "allowedTokenTiers");
+  assert.ok(field, "Changes lists the tier restriction edit.");
+  assert.equal(field.after, JSON.stringify(["primitive"]));
 }
 
 // The new color draft gets the color mode axes and accepts a value in the dialog.
@@ -193,7 +198,7 @@ assert.ok(valued?.value, "The saved value resolves.");
 
 // Purpose-based drafts use structure scope.
 const purposeAnswers: NewTokenAnswers = {
-  tier: "purpose",
+  tier: "semantic",
   type: "spacing",
   terms: Object.fromEntries([
     term("structure", "list"),

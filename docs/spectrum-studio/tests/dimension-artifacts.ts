@@ -37,7 +37,35 @@ const baseline = await buildDimensionArtifacts(
   captureDimensionSource(snapshot),
 );
 assert(baseline.tokens.length > 0);
-assert(baseline.tokens.every((token) => Object.keys(token.name).length === 2));
+for (const token of baseline.tokens) {
+  const row = baseline.lineage.find((row) => row.uuid === token.uuid)!;
+  const conditions = Object.fromEntries(
+    snapshot.modeSets.flatMap((axis) => {
+      const mode = axis.modes.find((mode) => mode.key === token.name[axis.key]);
+      return mode ? [[axis.key, mode.key]] : [];
+    }),
+  );
+  assert.deepEqual(
+    token.name,
+    {
+      ...row.taxonomy!.flat,
+      scaleIndex: row.step,
+      ...conditions,
+    },
+    "Dimension output uses Registry fields and declared mode conditions.",
+  );
+}
+const spacingRows = baseline.lineage.filter((row) => row.domain === "spacing");
+assert(spacingRows.every((row) => row.kind === "baseline"));
+for (const domain of ["size", "radius"] as const) {
+  const rows = baseline.lineage.filter((row) => row.domain === domain);
+  assert(
+    rows.some(
+      (row) =>
+        row.kind === "binding" && row.selection["mode-set-platform-scale"],
+    ),
+  );
+}
 assert.equal(
   new Set(baseline.tokens.map((token) => token.uuid)).size,
   baseline.tokens.length,
@@ -54,22 +82,24 @@ for (const value of raw)
   assert.equal(
     baseline.tokens.find(
       (token) =>
-        token.name.tokenCategory === "Spacing" &&
-        token.name.scaleIndex === value.step,
+        token.uuid ===
+        spacingRows.find(
+          (row) => row.scaleId === scale.id && row.step === value.step,
+        )?.uuid,
     )?.value,
     `${value.value}px`,
   );
 store.set(enterEditModeAtom);
 store.set(editFoundationNameAtom, {
   id: `spacing:${scale.id}`,
-  value: "Dimension label",
+  value: "dimension label",
 });
 const classified = store.get(authoringSnapshotAtom);
 assert.equal(
   store
     .get(taxonomyDocumentAtom)
     .terms.find((term) => term.id === scale.nameRef!.termId)?.value,
-  "Dimension label",
+  "dimension label",
 );
 const classifiedBundle = await buildDimensionArtifacts(
   captureDimensionSource(classified),
@@ -171,7 +201,11 @@ assert(
 );
 assert(
   boundBundle.tokens
-    .filter((token) => token.name.tokenCategory === "Spacing")
+    .filter((token) =>
+      boundBundle.lineage.some(
+        (row) => row.uuid === token.uuid && row.domain === "spacing",
+      ),
+    )
     .every(
       (token) =>
         token.name.colorScheme === undefined &&
@@ -220,7 +254,9 @@ const hiddenBundle = await buildDimensionArtifacts(
 );
 assert(hiddenBundle.foundation.source.spacing.scales.length > 0);
 assert(
-  !hiddenBundle.tokens.some((token) => token.name.tokenCategory === "Spacing"),
+  !hiddenBundle.lineage.some(
+    (row) => row.domain === "spacing" && row.scaleId === scale.id,
+  ),
 );
 
 for (const invalid of [

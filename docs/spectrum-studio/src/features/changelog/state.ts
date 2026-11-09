@@ -1,5 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
+import { COMPONENT_SIZING_DEFAULTS } from "../foundations/componentSizing";
 import { atom, type Getter, type Setter } from "jotai";
+import { compareAuthoring } from "./registry";
+import { foundationParameterDefaults } from "../modes/foundationSettings";
 import {
   colorSystemDocumentAtom,
   removePaletteColorAtom,
@@ -22,6 +26,7 @@ import { PALETTE_SCALE_ID } from "../tokens/model";
 import { buildCascadeTokenExport } from "../tokens/cascadeExport";
 import { tokenOverridesAtom } from "../tokens/overrides";
 import { browserTokenEditsAtom } from "../tokens/browserEdits";
+import { resetTokenEdit } from "../tokens/canonicalIdentity";
 import { resetBrowserTokenAtom } from "../tokens/browserState";
 import { savedBrowserTokensAtom } from "../tokens/browserSavedState";
 import { tokenValueText } from "../tokens/browserModel";
@@ -393,6 +398,35 @@ export const legacyChangeGroupsAtom = atom((get) => {
       count: components.reduce((count, item) => count + item.fields.length, 0),
       items: components,
     });
+  const snapshot = get(authoringSnapshotAtom);
+  const settingChanges = compareAuthoring(
+    {
+      ...snapshot,
+      foundationParameterSettings: foundationParameterDefaults(),
+      componentSizing: { ...COMPONENT_SIZING_DEFAULTS },
+    },
+    snapshot,
+  )
+    .groups.flatMap((group) => group.items)
+    .filter((item) =>
+      item.fields.some(
+        (field) =>
+          field.address?.path[0] === "foundationParameterSettings" ||
+          field.address?.path[0] === "componentSizing",
+      ),
+    );
+  if (settingChanges.length) {
+    let group = groups.find((item) => item.id === "foundations");
+    if (!group) {
+      group = { id: "foundations", label: "Foundations", count: 0, items: [] };
+      groups.push(group);
+    }
+    group.items.push(...settingChanges);
+    group.count += settingChanges.reduce(
+      (sum, item) => sum + item.fields.length,
+      0,
+    );
+  }
   return groups;
 });
 
@@ -850,7 +884,9 @@ export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
   }
   if (item.topic === "tokens" && get(browserTokenEditsAtom)[item.id]) {
     const next = { ...get(browserTokenEditsAtom) };
-    delete next[item.id];
+    const retained = resetTokenEdit(next[item.id]);
+    if (retained) next[item.id] = retained;
+    else delete next[item.id];
     set(browserTokenEditsAtom, next);
     const legacy = { ...get(tokenOverridesAtom) };
     delete legacy[item.id];
@@ -996,6 +1032,10 @@ export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
     }
     if (item.sourceKind === "typography") {
       set(restoreTypographyDefaultsAtom);
+      return;
+    }
+    if (item.sourceKind === "component-sizing") {
+      set(componentSizingDocumentAtom, { ...COMPONENT_SIZING_DEFAULTS });
       return;
     }
     if (item.sourceKind === "spacing-scale") {
@@ -1293,11 +1333,15 @@ export const revertChangeTopicAtom = atom(
     set(
       browserTokenEditsAtom,
       Object.fromEntries(
-        Object.entries(get(browserTokenEditsAtom))
-          .filter(
-            ([id, edit]) => dormant.has(id) && Object.keys(edit.values).length,
-          )
-          .map(([id, edit]) => [id, { values: edit.values }]),
+        Object.entries(get(browserTokenEditsAtom)).flatMap(([id, edit]) => {
+          const retained = resetTokenEdit(
+            edit,
+            dormant.has(edit.authoring?.identity?.sourceId ?? id)
+              ? edit.values
+              : {},
+          );
+          return retained ? [[id, retained]] : [];
+        }),
       ),
     );
     set(aliasesAtom, { schemaVersion: 1, tokens: [] });

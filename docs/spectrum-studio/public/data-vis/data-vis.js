@@ -4825,20 +4825,22 @@ var Co = {
 function wo(e) {
 	if (e.method === "absolute") return e;
 	let t = e.hue ?? Co.hue, n = e.chroma ?? Co.chroma;
-	if (!(t === 0 && n === 100)) return {
+	if (!(t === 0 && n === 100 && e.enabled === void 0)) return {
 		method: "relative",
+		...e.enabled !== void 0 && { enabled: e.enabled },
 		...t !== 0 && { hue: t },
 		...n !== 100 && { chroma: n }
 	};
 }
 var To = (e) => typeof e == "number" && Number.isFinite(e);
 function Eo(e) {
-	return !e || typeof e != "object" || Array.isArray(e) || !("method" in e) ? !1 : e.method === "relative" ? (!("hue" in e) || To(e.hue)) && (!("chroma" in e) || To(e.chroma)) : e.method === "absolute" && "color" in e && so(e.color);
+	return !e || typeof e != "object" || Array.isArray(e) || !("method" in e) || "enabled" in e && typeof e.enabled != "boolean" ? !1 : e.method === "relative" ? (!("hue" in e) || To(e.hue)) && (!("chroma" in e) || To(e.chroma)) : e.method === "absolute" && "color" in e && so(e.color);
 }
 function Do(e) {
 	return (e % 360 + 360) % 360;
 }
 function Oo(e, t) {
+	if (t.enabled === !1) return e;
 	if (t.method === "absolute") return {
 		...e,
 		...t.color
@@ -4851,7 +4853,7 @@ function Oo(e, t) {
 	};
 }
 function ko(e, t) {
-	return !t || !wo(t) ? e : {
+	return !t || t.enabled === !1 || !wo(t) ? e : {
 		...e,
 		scales: e.scales.map((e) => t.method === "absolute" ? {
 			...e,
@@ -4909,14 +4911,20 @@ function Ao(t, r, i, { applyMultiplier: a = !0, applyPolarity: o = !0, modeSets:
 		};
 	}
 	if (c = ko(n(c), u), i) {
-		let e = i["color.backgroundScaleId"], t = i["color.backgroundLightness"], n = i["color.contrastMultiplier"];
+		let e = i["color.hueShift"], t = i["color.saturation"];
+		(typeof e == "number" || typeof t == "number") && (c = ko(c, {
+			method: "relative",
+			...typeof e == "number" && { hue: e },
+			...typeof t == "number" && { chroma: t }
+		}));
+		let n = i["color.backgroundScaleId"], r = i["color.backgroundLightness"], a = i["color.contrastMultiplier"];
 		c = {
 			...c,
-			...typeof e == "string" ? { backgroundScaleId: e } : {},
-			...typeof t == "number" ? { backgroundLightness: t } : {},
-			...typeof n == "number" ? { settings: {
+			...typeof n == "string" ? { backgroundScaleId: n } : {},
+			...typeof r == "number" ? { backgroundLightness: r } : {},
+			...typeof a == "number" ? { settings: {
 				...c.settings,
-				contrastMultiplier: n
+				contrastMultiplier: a
 			} } : {}
 		};
 	}

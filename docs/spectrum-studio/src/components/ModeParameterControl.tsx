@@ -2,14 +2,17 @@
 import {
   ActionButton,
   ColorSlider,
+  Content,
+  ContextualHelp,
   DialogTrigger,
+  Heading,
   Picker,
   Popover,
   Slider,
 } from "@react-spectrum/s2";
 import { Dialog } from "react-aria-components";
 import { parseColor } from "react-aria-components";
-import { useEffect, useRef, type ComponentRef } from "react";
+import { useEffect, useRef, useState, type ComponentRef } from "react";
 import { MAX_CONTRAST_MULTIPLIER } from "../features/color-system/polarity";
 import {
   TEXT_ZOOM_RANGE,
@@ -17,6 +20,7 @@ import {
   type FoundationParameterDefinition,
 } from "../features/modes/parameters";
 import { ColorScalePicker } from "./color-picker/ColorScalePicker";
+import { NumberField } from "./fields/NumberField";
 import { ColorPickerContents } from "./color-picker/ColorPickerContents";
 import { popoverDialogStyles } from "./popoverLayout";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
@@ -37,10 +41,18 @@ export function ModeParameterControl({
   const sliderRef = useRef<ComponentRef<typeof Slider>>(null);
   const pickerRef = useRef<ComponentRef<typeof Picker>>(null);
   const colorRef = useRef<ComponentRef<typeof ColorSlider>>(null);
+  const numberRef = useRef<ComponentRef<typeof NumberField>>(null);
+  const [editingPercentage, setEditingPercentage] = useState(false);
+  const contextualHelp = parameter.description ? (
+    <ContextualHelp>
+      <Heading>{parameter.label}</Heading>
+      <Content>{parameter.description}</Content>
+    </ContextualHelp>
+  ) : undefined;
   useEffect(() => {
     if (!focusOnMount) return;
-    if (sliderRef.current || pickerRef.current)
-      (sliderRef.current ?? pickerRef.current)?.focus();
+    if (sliderRef.current || pickerRef.current || numberRef.current)
+      (sliderRef.current ?? pickerRef.current ?? numberRef.current)?.focus();
     // ColorSlider exposes a public DOM ref, not a focusable ref.
     else
       colorRef.current
@@ -49,6 +61,28 @@ export function ModeParameterControl({
         ?.focus();
   }, [focusOnMount]);
   switch (parameter.control) {
+    case "sizingPercentage":
+      return (
+        <NumberField
+          label={parameter.label}
+          contextualHelp={contextualHelp}
+          value={Number(value)}
+          ref={numberRef}
+          onFocusChange={setEditingPercentage}
+          formatOptions={{
+            style: "percent",
+            maximumFractionDigits: editingPercentage ? 20 : 2,
+          }}
+          onChange={(next) => {
+            if (Number.isFinite(next) && next > 0) onChange(next);
+          }}
+          validate={(next) =>
+            Number.isFinite(next) && next > 0
+              ? null
+              : "Enter a percentage greater than zero."
+          }
+        />
+      );
     case "shadowDepth":
       return (
         <Slider
@@ -95,6 +129,7 @@ export function ModeParameterControl({
       return (
         <Slider
           label={parameter.label}
+          contextualHelp={contextualHelp}
           value={Number(value)}
           {...TEXT_ZOOM_RANGE}
           ref={sliderRef}

@@ -33,6 +33,10 @@ difference, not proof that upstream lacks vocabulary or serialization ordering.
 
 ## Proposed local contract
 
+The companion [token tiers proposal](token-tiers-and-category-scope.md) adds
+conceptual tier metadata and category eligibility independently of names,
+literal values, and references.
+
 Categories have immutable version-four UUIDs, unique machine field keys, value type, cardinality,
 scope and required status. One category flag, "Include in names and hierarchy",
 controls both projections. Exclusion never removes flat classification.

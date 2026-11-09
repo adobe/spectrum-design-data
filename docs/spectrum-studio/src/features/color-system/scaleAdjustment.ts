@@ -6,12 +6,14 @@ export type AdjustmentMethod = "relative" | "absolute";
 
 export interface RelativeScaleAdjustment {
   method: "relative";
+  enabled?: boolean;
   hue?: number;
   chroma?: number;
 }
 
 export interface AbsoluteScaleAdjustment {
   method: "absolute";
+  enabled?: boolean;
   color: ColorStopInput;
 }
 
@@ -36,9 +38,11 @@ export function normalizedAdjustment(
   if (adjustment.method === "absolute") return adjustment;
   const hue = adjustment.hue ?? NEUTRAL_ADJUSTMENT_VALUES.hue;
   const chroma = adjustment.chroma ?? NEUTRAL_ADJUSTMENT_VALUES.chroma;
-  if (hue === 0 && chroma === 100) return undefined;
+  if (hue === 0 && chroma === 100 && adjustment.enabled === undefined)
+    return undefined;
   return {
     method: "relative",
+    ...(adjustment.enabled !== undefined && { enabled: adjustment.enabled }),
     ...(hue !== 0 && { hue }),
     ...(chroma !== 100 && { chroma }),
   };
@@ -50,6 +54,7 @@ const finite = (value: unknown): value is number =>
 export function isScaleAdjustment(value: unknown): value is ScaleAdjustment {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   if (!("method" in value)) return false;
+  if ("enabled" in value && typeof value.enabled !== "boolean") return false;
   if (value.method === "relative")
     return (
       (!("hue" in value) || finite(value.hue)) &&
@@ -68,6 +73,7 @@ export function adjustKeyColor<T extends ColorStopInput>(
   color: T,
   adjustment: ScaleAdjustment,
 ): T {
+  if (adjustment.enabled === false) return color;
   if (adjustment.method === "absolute")
     return { ...color, ...adjustment.color };
   const { hue = 0, chroma = 100 } = adjustment;
@@ -85,7 +91,12 @@ export function applyScaleAdjustment(
   document: ColorSystemDocument,
   adjustment: ScaleAdjustment | undefined,
 ): ColorSystemDocument {
-  if (!adjustment || !normalizedAdjustment(adjustment)) return document;
+  if (
+    !adjustment ||
+    adjustment.enabled === false ||
+    !normalizedAdjustment(adjustment)
+  )
+    return document;
   return {
     ...document,
     scales: document.scales.map((scale) =>

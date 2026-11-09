@@ -26,8 +26,10 @@ import {
 import { paletteChannelsFromCss } from "../color-system/palette";
 import { tokenOverridesAtom } from "./overrides";
 import { browserTokenEditsAtom } from "./browserEdits";
+import { resetTokenEdit } from "./canonicalIdentity";
 import {
   applyBrowserTokenEdits,
+  canonicalBrowserSources,
   canonicalTokenModeKey,
   parseBrowserTokenValue,
   projectBrowserTokens,
@@ -222,7 +224,12 @@ export const editBrowserTokensAtom = atom(
         if (input.patch.value !== undefined)
           draft.assignments[row.context] = {
             kind: "literal",
-            value: input.patch.value,
+            value: parseBrowserTokenValue(
+              typeof input.patch.value === "number"
+                ? { ...row.token, displayUnit: undefined }
+                : row.token,
+              String(input.patch.value),
+            ),
           };
         if (input.patch.name !== undefined)
           throw new Error(
@@ -434,25 +441,29 @@ export const resetBrowserTokenAtom = atom(null, (get, set, id: string) => {
     throw new Error("Generated variants have no direct overrides to reset.");
   if (!get(editModeAtom)) return;
   const next = { ...get(browserTokenEditsAtom) };
-  const source = get(browserTokenSourcesAtom).find(
-    (source) => source.id === id,
+  const source = canonicalBrowserSources(
+    get(browserTokenSourcesAtom),
+    next,
+  ).find((source) => source.id === id);
+  const retained = resetTokenEdit(
+    next[id],
+    source?.dataVis?.static ? next[id]?.values : {},
   );
+  if (retained) next[id] = retained;
+  else delete next[id];
   if (source?.dataVis?.static) {
-    const values = next[id]?.values;
-    if (values && Object.keys(values).length) next[id] = { values };
-    else delete next[id];
     set(
       colorSystemDocumentAtom,
       editStaticMemberOverrides(
         get(colorSystemDocumentAtom),
-        new Map([[id, null]]),
+        new Map([[source.sourceId ?? id, null]]),
       ),
     );
-  } else delete next[id];
+  }
   set(browserTokenEditsAtom, next);
   const taxonomy = get(taxonomyDocumentAtom);
   const classifications = { ...taxonomy.classifications };
   delete classifications[id];
   set(taxonomyDocumentAtom, { ...taxonomy, classifications });
-  if (!source?.dataVis?.static) set(resetTokenAtom, id);
+  if (!source?.dataVis?.static) set(resetTokenAtom, source?.sourceId ?? id);
 });

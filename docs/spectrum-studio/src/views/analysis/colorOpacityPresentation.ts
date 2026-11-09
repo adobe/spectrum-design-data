@@ -91,13 +91,29 @@ export function colorOpacityTree(
       (concept) =>
         (verdict === "all" || concept.verdict === verdict) &&
         (!search ||
-          `${concept.label} ${concept.family ?? ""} ${concept.type}`
+          `${concept.label} ${concept.family ?? ""} ${concept.type} ${concept.rows
+            .map((row) =>
+              [
+                row.app?.name,
+                row.reference.name,
+                JSON.stringify(row.app?.structuredName),
+                JSON.stringify(row.reference.structuredName),
+              ].join(" "),
+            )
+            .join(" ")}`
             .toLowerCase()
             .includes(search)),
     )
     .map((concept) => ({
       id: `token:${concept.id}`,
-      label: concept.label,
+      label: [
+        concept.label,
+        ...new Set(
+          concept.rows.flatMap((row) =>
+            row.app && row.app.name !== concept.label ? [row.app.name] : [],
+          ),
+        ),
+      ].join(" / "),
       concept,
       children: concept.rows
         .filter(

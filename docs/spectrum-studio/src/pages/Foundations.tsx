@@ -187,12 +187,7 @@ export default function Foundations() {
               id: "size",
               label: "Size",
               icon: <CategoryIcon category="size" />,
-              content: (
-                <>
-                  <FoundationModeSettings foundation="size" />
-                  <FoundationsSizePanel />
-                </>
-              ),
+              content: <FoundationsSizePanel />,
               noPadding: true,
             },
             {
@@ -211,12 +206,7 @@ export default function Foundations() {
               id: "elevation",
               label: "Elevation",
               icon: <CategoryIcon category="elevation" />,
-              content: (
-                <>
-                  <FoundationModeSettings foundation="elevation" />
-                  <FoundationsElevationPanel />
-                </>
-              ),
+              content: <FoundationsElevationPanel />,
               noPadding: true,
             },
             {

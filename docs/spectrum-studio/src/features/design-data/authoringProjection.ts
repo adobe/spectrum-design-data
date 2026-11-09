@@ -18,6 +18,7 @@ export function projectSnapshot(
       canonicalDesignSystemDataset({
         ...defaults,
         system: {
+          componentSizing: snapshot.componentSizing,
           components: snapshot.components,
           aliases: snapshot.aliases,
           browserTokenEdits: snapshot.browserTokenEdits,
@@ -36,6 +37,7 @@ export function projectSnapshot(
           modeSets: snapshot.modeSets,
           platforms: snapshot.platforms,
           adaptiveClaims: snapshot.adaptiveClaims,
+          foundationParameterSettings: snapshot.foundationParameterSettings,
           tokenOverrides: snapshot.tokenOverrides,
           rules: snapshot.rules ?? defaults.system.rules,
           interpolations:

@@ -42,7 +42,7 @@ function answersFor(
   };
 }
 
-const rawColor = answersFor("raw", "colors", [
+const rawColor = answersFor("primitive", "colors", [
   ["colorFamily", "photoshop blue"],
   ["scaleIndex", 20],
 ]);
@@ -82,7 +82,7 @@ export const WalkThrough: Story = {
     await expect(body.getByText("Step 1 of 3")).toBeVisible();
     const next = body.getByRole("button", { name: "Next" });
     await expect(next).toBeDisabled();
-    await userEvent.click(body.getByRole("option", { name: /Raw value/ }));
+    await userEvent.click(body.getByRole("option", { name: /Primitive/ }));
     await userEvent.click(next);
     await userEvent.click(body.getByRole("option", { name: /Colors/ }));
     await waitFor(() =>
@@ -107,7 +107,7 @@ export const RawColorReview: Story = {
 
 export const PurposeBasedSpacing: Story = {
   args: {
-    initialAnswers: answersFor("purpose", "spacing", [
+    initialAnswers: answersFor("semantic", "spacing", [
       ["structure", "list"],
       ["property", "gap"],
     ]),

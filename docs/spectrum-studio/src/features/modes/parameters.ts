@@ -1,6 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  COLOR_SCHEME_MODE_SET_KEY,
   type AuthoringCapability,
   type Mode,
   type ModeFoundations,
@@ -8,11 +7,17 @@ import {
 } from "./model";
 import type { ColorSystemDocument } from "../color-system/model";
 import type { TypographyDocument } from "../typography/model";
+import {
+  isSizingMultiplier,
+  SIZING_PARAMETER_IDS,
+  type ComponentSizingDocument,
+} from "../foundations/componentSizing";
 import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN } from "../typography/model";
 import { TEXT_ZOOM_STEP_RATIO } from "../typography/typographyGeneration";
 import { MAX_CONTRAST_MULTIPLIER } from "../color-system/polarity";
 import type { ElevationDocument } from "../elevation/model";
 import { capabilityOwners } from "./ownership";
+import { previewIdsForCapability } from "./foundationSettings";
 export { capabilityOwners } from "./ownership";
 
 export type FoundationId =
@@ -40,11 +45,13 @@ export interface FoundationParameterDefinition {
   id: string;
   foundation: FoundationId;
   label: string;
+  description?: string;
   control:
     | "backgroundScale"
     | "backgroundLightness"
     | "contrastMultiplier"
     | "textZoom"
+    | "sizingPercentage"
     | "shadowDepth"
     | "shadowColor";
 }
@@ -54,6 +61,7 @@ export interface FoundationDocuments {
   color?: ColorSystemDocument;
   typography?: TypographyDocument;
   elevation?: ElevationDocument;
+  componentSizing?: ComponentSizingDocument;
 }
 
 export const FOUNDATIONS: readonly FoundationDefinition[] = [
@@ -89,8 +97,24 @@ export const FOUNDATION_PARAMETERS: readonly FoundationParameterDefinition[] = [
   {
     id: "typography.textZoom",
     foundation: "typography",
-    label: "Text size",
+    label: "Adaptive text scaling",
+    description:
+      "Adjust text for reading preferences without changing the baseline. Smaller text and headings can adjust at different rates.",
     control: "textZoom",
+  },
+  {
+    id: "typography.textSize",
+    foundation: "typography",
+    label: "Base text size",
+    description:
+      "Set the starting text size as a percentage of the type scale before reading adjustments.",
+    control: "sizingPercentage",
+  },
+  {
+    id: "size.componentSize",
+    foundation: "size",
+    label: "Component size",
+    control: "sizingPercentage",
   },
   {
     id: "elevation.depth",
@@ -170,7 +194,17 @@ export const AUTHORING_CAPABILITY_OPTIONS: readonly {
     foundation: "color",
     label: "Hue & saturation",
   },
-  { id: "typography.textZoom", foundation: "typography", label: "Text size" },
+  {
+    id: "typography.textZoom",
+    foundation: "typography",
+    label: "Adaptive text scaling",
+  },
+  {
+    id: "typography.textSize",
+    foundation: "typography",
+    label: "Base text size",
+  },
+  { id: "size.componentSize", foundation: "size", label: "Component size" },
   { id: "elevation.depth", foundation: "elevation", label: "Depth" },
   { id: "elevation.color", foundation: "elevation", label: "Shadow color" },
 ];
@@ -228,6 +262,16 @@ const PARAMETER_FIELDS: Record<
   "typography.textZoom": {
     foundation: "typography",
     key: "textZoom",
+    isNumeric: true,
+  },
+  "typography.textSize": {
+    foundation: "typography",
+    key: "textSize",
+    isNumeric: true,
+  },
+  "size.componentSize": {
+    foundation: "size",
+    key: "componentSize",
     isNumeric: true,
   },
   "elevation.depth": { foundation: "elevation", key: "depth", isNumeric: true },
@@ -291,6 +335,10 @@ export function baseParameterValue(
     );
   if (parameterId === "typography.textZoom")
     return documents.typography?.textZoom;
+  if (parameterId === "typography.textSize")
+    return documents.typography?.textSize;
+  if (parameterId === "size.componentSize")
+    return documents.componentSizing?.componentSize;
   if (parameterId === "elevation.depth") return documents.elevation?.depth;
   if (parameterId === "elevation.color") return documents.elevation?.color;
   return undefined;
@@ -317,6 +365,11 @@ export function formatParameterValue(
   documents: FoundationDocuments,
 ) {
   if (value === undefined) return "";
+  if (parameter.control === "sizingPercentage")
+    return new Intl.NumberFormat(undefined, {
+      style: "percent",
+      maximumFractionDigits: 2,
+    }).format(Number(value));
   if (parameter.control === "shadowDepth") return `${value}%`;
   if (parameter.control === "shadowColor") return String(value);
   if (
@@ -367,6 +420,12 @@ export function setParameterValue(
   }
   const field = PARAMETER_FIELDS[parameterId];
   if (!field) return mode;
+  if (
+    value !== undefined &&
+    SIZING_PARAMETER_IDS.some((id) => id === parameterId) &&
+    !isSizingMultiplier(value)
+  )
+    throw new Error("Enter a percentage greater than zero.");
   const overrides: Record<string, unknown> = {
     ...mode.foundations[field.foundation],
   };
@@ -419,20 +478,13 @@ export function parameterValuesMatch(
   return a === b;
 }
 
-/**
- * Which mode set's control reflects a parameter. An adaptive claim wins over an
- * override-derived owner; only genuinely unowned parameters fall back to the color scheme set.
- */
+/** Preview controls follow mode capabilities independently of adaptive ownership. */
 export function responsibleParameterIds(
   modeSets: ModeSet[],
   modeSetId: string,
-  claims: Record<string, string> = {},
 ): string[] {
-  const owners = { ...parameterOwners(modeSets), ...claims };
-  const fallbackId = modeSets.find(
-    (modeSet) => modeSet.key === COLOR_SCHEME_MODE_SET_KEY,
-  )?.id;
-  return FOUNDATION_PARAMETERS.filter(
-    (parameter) => (owners[parameter.id] ?? fallbackId) === modeSetId,
-  ).map((parameter) => parameter.id);
+  return (
+    modeSets.find((modeSet) => modeSet.id === modeSetId)
+      ?.authoringCapabilities ?? []
+  ).flatMap(previewIdsForCapability);
 }

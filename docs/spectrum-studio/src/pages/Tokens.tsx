@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNotify } from "../components/notifications/notificationContext";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import { editModeAtom } from "../state/view/editMode";
@@ -14,12 +14,42 @@ import { AddTokenDialog } from "../panels/tokens/AddTokenDialog";
 import { DialogContainer } from "@react-spectrum/s2";
 import { TokenInspectorContainer } from "../panels/tokens/TokenInspectorContainer";
 import type { TokenPanelId } from "../features/tokens/view/tokenPanelRegistry";
-import { TokenBrowserView } from "../views/tokens/TokenBrowserView";
+import {
+  TokenBrowserView,
+  type TokenBrowserViewProps,
+} from "../views/tokens/TokenBrowserView";
 import { semanticBrowserStateAtom } from "../features/tokens/semanticBrowserState";
 import { tshirtCacheStatusAtom } from "../features/design-data/tshirtCacheState";
 import { deleteAliasAtom, aliasesAtom } from "../features/tokens/aliasState";
 import { isSelectableBrowserToken } from "../features/tokens/view/tokenTablePresentation";
 import { PreviewToolbar } from "../components/PreviewToolbar";
+import { tokenDialogCatalogAtom } from "../features/tokens/dialogState";
+import { allModeTokenTableRows } from "../features/tokens/view/allModeTokenTable";
+
+function AllModeTokenBrowser(props: TokenBrowserViewProps) {
+  const catalog = useAtomValue(tokenDialogCatalogAtom);
+  const aliases = useAtomValue(aliasesAtom);
+  const rows = useMemo(
+    () =>
+      catalog.status === "ready"
+        ? allModeTokenTableRows(
+            catalog.rows,
+            catalog.snapshot.modeSets,
+            aliases,
+          )
+        : [],
+    [catalog, aliases],
+  );
+  return (
+    <TokenBrowserView
+      {...props}
+      modeRows={rows}
+      catalogError={
+        catalog.status === "unavailable" ? catalog.error : undefined
+      }
+    />
+  );
+}
 
 export default function Tokens() {
   const notify = useNotify();
@@ -41,6 +71,7 @@ export default function Tokens() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState<TokenPanelId | "all">("all");
   const [view, setView] = useState<"list" | "grid">("list");
+  const [modeView, setModeView] = useState<"selected" | "all">("selected");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const openToken = useCallback(
     (id: string) =>
@@ -64,9 +95,15 @@ export default function Tokens() {
       return next.size === current.size ? current : next;
     });
   }, [tokens]);
+  const Browser = modeView === "all" ? AllModeTokenBrowser : TokenBrowserView;
   return (
     <>
-      <TokenBrowserView
+      <Browser
+        modeView={modeView}
+        onModeViewChange={(value) => {
+          setModeView(value);
+          setSelectedIds(new Set());
+        }}
         tokens={tokens}
         isEditing={isEditing}
         query={query}

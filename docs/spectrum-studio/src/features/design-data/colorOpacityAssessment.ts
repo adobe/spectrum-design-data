@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type {
   AnalysisInput,
+  AnalysisFinding,
   AnalysisRecord,
   ReviewedMapping,
 } from "./comparison";
@@ -17,10 +18,26 @@ import {
   modeResultsMarkdown,
   type ModeResultSummary,
 } from "./modeResults";
+import {
+  foundationValueType,
+  foundationProperty,
+  compareFoundationValue,
+  differenceText,
+  type FoundationValueType,
+  type ScalarValue,
+} from "./foundationValues";
+import {
+  buildTokenInventory,
+  inventoryTokenLabel,
+  isInventoryToken,
+  isDeprecatedInventoryToken,
+  tokenInventoryMarkdown,
+  type TokenInventory,
+} from "./tokenInventory";
 
 export type ValueVerdict = "pass" | "acceptable" | "fail" | "unassessable";
 export type ValueContext = Record<string, string>;
-export const VALUE_CONTEXT_POLICY = "reference-required-modes-v2";
+export const VALUE_CONTEXT_POLICY = "reference-required-token-inventory-v4";
 export interface ResolvedModeValue {
   selectedId?: string;
   label?: string;
@@ -31,7 +48,9 @@ export interface ResolvedModeValue {
   issue: string | null;
 }
 export interface ColorOpacityRow {
+  candidateIds?: string[];
   deltaE2000?: number;
+  difference?: ScalarValue;
   id: string;
   context: ValueContext;
   appContext?: ValueContext;
@@ -53,13 +72,14 @@ export interface ClassificationDifference {
 export interface ColorOpacityConcept {
   id: string;
   label: string;
-  type: "color" | "opacity";
+  type: FoundationValueType;
   family?: string;
   verdict: ValueVerdict;
   differences: ClassificationDifference[];
   rows: ColorOpacityRow[];
 }
 export interface ColorOpacityAssessment {
+  inventory?: TokenInventory;
   modeBreakdown: ModeResultSummary[];
   colorPolicy: typeof COLOR_ALIGNMENT_POLICY;
   modeCoverage: ModeCoverage;
@@ -68,8 +88,8 @@ export interface ColorOpacityAssessment {
     app?: AnalysisInput["valueResolution"];
     reference?: AnalysisInput["valueResolution"];
   };
-  schemaVersion: 3;
-  scope: "colors-and-opacities";
+  schemaVersion: 4;
+  scope: "foundation-tokens";
   concepts: ColorOpacityConcept[];
   counts: Record<ValueVerdict, number> & {
     concepts: number;
@@ -88,7 +108,7 @@ export interface ColorOpacityEnhancement {
   id: string;
   conceptId: string;
   label: string;
-  type: "color" | "opacity";
+  type: FoundationValueType;
   context: ValueContext;
   app?: AnalysisRecord;
   value: unknown;
@@ -106,8 +126,7 @@ export const valueContextKey = (context: ValueContext) =>
 export const resolutionKey = (id: string, context: ValueContext) =>
   canonicalJson([id, context]);
 export const isValueToken = (row: AnalysisRecord) =>
-  ["tokens", "compatibility-aliases"].includes(row.category) &&
-  ["color", "opacity"].includes(String(row.structuredName?.property));
+  row.category === "tokens" && foundationValueType(row) !== undefined;
 
 const contextIndexes = new WeakMap<
   AnalysisRecord[],
@@ -240,6 +259,17 @@ export function contextMatches(
   });
 }
 
+function mostSpecificRows(rows: AnalysisRecord[], axes: readonly string[]) {
+  const specificity = (row: AnalysisRecord) =>
+    axes.filter(
+      (axis) =>
+        row.context?.[axis] !== undefined ||
+        row.structuredName?.[axis] !== undefined,
+    ).length;
+  const maximum = Math.max(-1, ...rows.map(specificity));
+  return rows.filter((row) => specificity(row) === maximum);
+}
+
 function declaredAxisModes(input: AnalysisInput, axis: string): string[] {
   const declarations = modeDeclarations(input).filter(
     (declaration) => declaration.key === axis,
@@ -356,22 +386,19 @@ export function resolutionRequests(
     : input.source.kind === "reference"
       ? declaredContextVariants(input)
       : [];
-  const queries = input.records
-    .filter(isValueToken)
-    .filter((row) => !row.lifecycle?.deprecatedIn)
-    .flatMap((row) =>
-      [
-        ...new Map(
-          [...requiredValueContexts(row, input), ...extraContexts]
-            .filter((context) => contextMatches(row, context, input, false))
-            .map((context) => [valueContextKey(context), context]),
-        ).values(),
-      ].map((context) => ({
-        id: row.id,
-        context,
-        selectConcept: true,
-      })),
-    );
+  const queries = input.records.filter(isInventoryToken).flatMap((row) =>
+    [
+      ...new Map(
+        [...requiredValueContexts(row, input), ...extraContexts]
+          .filter((context) => contextMatches(row, context, input, false))
+          .map((context) => [valueContextKey(context), context]),
+      ).values(),
+    ].map((context) => ({
+      id: row.id,
+      context,
+      selectConcept: true,
+    })),
+  );
   return {
     modeSets: modeAxes(input).map((axis) => {
       const declaration = input.records.find(
@@ -540,12 +567,13 @@ export function assessColorsAndOpacities(
   reference: AnalysisInput,
   mappings: readonly ReviewedMapping[] = [],
   modeCoverage = assessModeCoverage(app, reference, mappings),
+  findings: readonly AnalysisFinding[] = [],
 ): ColorOpacityAssessment {
   const inventory = reference.records.filter(isValueToken);
-  const eligible = inventory.filter((row) => !row.lifecycle?.deprecatedIn);
+  const eligible = inventory.filter((row) => !isDeprecatedInventoryToken(row));
   const appRows = app.records
     .filter(isValueToken)
-    .filter((row) => !row.lifecycle?.deprecatedIn);
+    .filter((row) => !isDeprecatedInventoryToken(row));
   const axes = [...new Set([...modeAxes(app), ...modeAxes(reference)])];
   const vocabulary = reference.records.filter(
     (row) =>
@@ -556,8 +584,14 @@ export function assessColorsAndOpacities(
   );
   const nameIndex = new Map<string, AnalysisRecord[]>();
   const identityIndex = new Map<string, AnalysisRecord[]>();
+  const conceptIndex = new Map<string, AnalysisRecord[]>();
   const appById = new Map(appRows.map((row) => [row.id, row]));
   for (const row of appRows) {
+    if (row.conceptId)
+      conceptIndex.set(row.conceptId, [
+        ...(conceptIndex.get(row.conceptId) ?? []),
+        row,
+      ]);
     const key = canonicalJson(appNames.get(row.id));
     nameIndex.set(key, [...(nameIndex.get(key) ?? []), row]);
     if (row.identity)
@@ -578,7 +612,7 @@ export function assessColorsAndOpacities(
       id,
       label:
         reference.resolvedValues?.find((row) => row.id === right.id)?.label ??
-        (right.name.startsWith("{")
+        (inventoryTokenLabel(right).startsWith("{")
           ? Object.entries(name)
               .map(([key, value]) =>
                 key === "property"
@@ -588,9 +622,8 @@ export function assessColorsAndOpacities(
                     : value,
               )
               .join("-")
-          : right.name),
-      type:
-        name.property === "opacity" ? ("opacity" as const) : ("color" as const),
+          : inventoryTokenLabel(right)),
+      type: foundationValueType(right)!,
       family:
         typeof name.colorFamily === "string" ? name.colorFamily : undefined,
       verdict: "unassessable" as ValueVerdict,
@@ -598,7 +631,16 @@ export function assessColorsAndOpacities(
       rows: [],
     };
     grouped.set(id, concept);
-    const counterparts = [
+    const mapped = mappings.filter((mapping) => mapping.reference === right.id);
+    const mappedTypographyConcepts = new Set(
+      mapped
+        .filter((mapping) => mapping.kind === "typography-size")
+        .flatMap((mapping) => appById.get(mapping.app)?.conceptId ?? []),
+    );
+    const sharedConcept = right.conceptId
+      ? conceptIndex.get(right.conceptId)
+      : undefined;
+    const counterparts = sharedConcept ?? [
       ...new Map(
         [
           ...(right.identity ? (identityIndex.get(right.identity) ?? []) : []),
@@ -609,6 +651,11 @@ export function assessColorsAndOpacities(
               const row = appById.get(mapping.app);
               return row ? [row] : [];
             }),
+          ...appRows.filter(
+            (row) =>
+              row.conceptId !== undefined &&
+              mappedTypographyConcepts.has(row.conceptId),
+          ),
         ].map((row) => [row.id, row]),
       ).values(),
     ];
@@ -650,7 +697,7 @@ export function assessColorsAndOpacities(
           winner.selectedId === left.id
         );
       });
-      const matches = options;
+      const matches = mostSpecificRows(options, axes);
       const left = matches.length === 1 ? matches[0] : undefined;
       const row: ColorOpacityRow = {
         id: resolutionKey(`${right.id}${right.pointer}`, context),
@@ -659,6 +706,7 @@ export function assessColorsAndOpacities(
         modeFailures: baseline.failures,
         reference: right,
         app: left,
+        candidateIds: matches.map((candidate) => candidate.id),
         verdict: "unassessable",
         issues: [...contextIssues(right, reference), ...baseline.issues],
         appChain: [],
@@ -698,10 +746,16 @@ export function assessColorsAndOpacities(
       }
       selected.add(left.id);
       const leftName = appNames.get(left.id)!;
-      for (const field of new Set([
-        ...Object.keys(leftName),
-        ...Object.keys(name),
-      ])) {
+      const reviewedTypography = mapped.some(
+        (mapping) =>
+          mapping.kind === "typography-size" &&
+          (mapping.app === left.id ||
+            (left.conceptId !== undefined &&
+              mappedTypographyConcepts.has(left.conceptId))),
+      );
+      for (const field of reviewedTypography
+        ? []
+        : new Set([...Object.keys(leftName), ...Object.keys(name)])) {
         if (
           canonicalJson(leftName[field] ?? null) !==
             canonicalJson(name[field] ?? null) &&
@@ -732,9 +786,13 @@ export function assessColorsAndOpacities(
         if (av === undefined || bv === undefined)
           row.issues.push("Opacity must be a finite alpha from 0 to 1.");
         else row.verdict = av === bv ? "pass" : "fail";
-      } else {
+        if (av !== undefined && bv !== undefined)
+          row.difference = { value: av - bv, unit: "" };
+      } else if (concept.type === "color") {
         const comparison = exactPaletteColor(a.value, b.value);
-        row.deltaE2000 = comparison.deltaE2000;
+        row.deltaE2000 =
+          comparison.deltaE2000 ??
+          (comparison.valueAlignment === "exact" ? 0 : undefined);
         row.verdict = {
           exact: "pass",
           close: "acceptable",
@@ -743,6 +801,18 @@ export function assessColorsAndOpacities(
         }[comparison.valueAlignment] as ValueVerdict;
         if (comparison.valueReason && row.verdict !== "pass")
           row.issues.push(comparison.valueReason);
+      } else {
+        const result = compareFoundationValue(
+          concept.type,
+          a.value,
+          b.value,
+          left.unit,
+          right.unit,
+          foundationProperty(right),
+        );
+        row.verdict = result.verdict;
+        row.difference = result.difference;
+        if (result.issue) row.issues.push(result.issue);
       }
     }
   }
@@ -802,11 +872,14 @@ export function assessColorsAndOpacities(
         },
       );
       if (!declarationsValid) continue;
-      const options = counterparts.filter((row) => {
-        if (!contextMatches(row, context, app, false)) return false;
-        const winner = resolvedValue(app, row.id, context);
-        return !winner?.selectedId || winner.selectedId === row.id;
-      });
+      const options = mostSpecificRows(
+        counterparts.filter((row) => {
+          if (!contextMatches(row, context, app, false)) return false;
+          const winner = resolvedValue(app, row.id, context);
+          return !winner?.selectedId || winner.selectedId === row.id;
+        }),
+        axes,
+      );
       if (!options.length) continue;
       const row = options.length === 1 ? options[0] : undefined;
       const resolved = row
@@ -838,6 +911,9 @@ export function assessColorsAndOpacities(
     if (
       reference.inventoryStatus !== "complete" ||
       reference.errors.length ||
+      app.errors.length ||
+      app.inventoryStatus === "partial" ||
+      app.inventoryStatus === "unavailable" ||
       reference.source.hash === "unavailable"
     )
       concept.verdict = "unassessable";
@@ -855,7 +931,20 @@ export function assessColorsAndOpacities(
   };
   for (const concept of concepts) counts[concept.verdict]++;
   return {
-    schemaVersion: 3,
+    inventory: buildTokenInventory(
+      app,
+      reference,
+      concepts,
+      (record, input) => {
+        const contexts = requiredValueContexts(record, input);
+        return (contexts.length ? contexts : [{}]).map((context) => {
+          const resolved = effectiveValue(record, context, input);
+          return { context, value: resolved.value, issue: resolved.issue };
+        });
+      },
+      findings,
+    ),
+    schemaVersion: 4,
     colorPolicy: COLOR_ALIGNMENT_POLICY,
     modeBreakdown: summarizeModeResults(
       concepts,
@@ -865,7 +954,7 @@ export function assessColorsAndOpacities(
     ),
     modeCoverage,
     enhancements,
-    scope: "colors-and-opacities",
+    scope: "foundation-tokens",
     concepts,
     counts,
     resolution: {
@@ -875,18 +964,22 @@ export function assessColorsAndOpacities(
     exactPercent:
       counts.concepts &&
       reference.inventoryStatus === "complete" &&
-      !reference.errors.length
+      !reference.errors.length &&
+      !app.errors.length &&
+      app.inventoryStatus !== "partial" &&
+      app.inventoryStatus !== "unavailable"
         ? (counts.pass / counts.concepts) * 100
         : null,
     acceptablePercent:
       counts.concepts &&
       reference.inventoryStatus === "complete" &&
-      !reference.errors.length
+      !reference.errors.length &&
+      !app.errors.length &&
+      app.inventoryStatus !== "partial" &&
+      app.inventoryStatus !== "unavailable"
         ? ((counts.pass + counts.acceptable) / counts.concepts) * 100
         : null,
-    excluded: inventory
-      .filter((row) => row.lifecycle?.deprecatedIn)
-      .map((row) => row.id),
+    excluded: inventory.filter(isDeprecatedInventoryToken).map((row) => row.id),
     appOnly: appRows
       .filter((row) => !selected.has(row.id))
       .map((row) => row.id),
@@ -900,16 +993,19 @@ export function colorOpacityMarkdown(assessment: ColorOpacityAssessment) {
       .replaceAll("|", "\\|")
       .replaceAll("\n", " ");
   return [
-    "## Colors and opacities",
+    "## Tokens",
     "",
+    ...(assessment.inventory
+      ? [tokenInventoryMarkdown(assessment.inventory), ""]
+      : []),
     `Resolution engines: app ${assessment.resolution.app?.engine ?? "unavailable"}; reference ${assessment.resolution.reference?.engine ?? "unavailable"}.`,
     "",
     `${assessment.counts.concepts} tokens; ${assessment.counts.rows} required mode values.`,
-    `Non-exact colors are Acceptable when Delta E ${assessment.colorPolicy.deltaEMethod} is less than ${assessment.colorPolicy.acceptableDeltaEExclusive} and alpha matches. Opacity must match exactly.`,
+    `Non-exact colors are Acceptable when Delta E ${assessment.colorPolicy.deltaEMethod} is less than ${assessment.colorPolicy.acceptableDeltaEExclusive} and alpha matches. Opacity and other foundation values must match exactly after unit normalization. Numeric differences are App minus Design data.`,
     modeResultsMarkdown(assessment.modeBreakdown),
     "",
-    "| Token | Mode | App value | Design data value | Value result | Token overview |",
-    "| --- | --- | --- | --- | --- | --- |",
+    "| Token | Mode | App value | Design data value | Difference | Value result | Token overview |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
     ...assessment.concepts.flatMap((concept) =>
       concept.rows.map(
         (row) =>
@@ -917,7 +1013,7 @@ export function colorOpacityMarkdown(assessment: ColorOpacityAssessment) {
             Object.entries(row.context)
               .map(([key, value]) => `${key}: ${value}`)
               .join(", ") || "All modes",
-          )} | ${cell(row.appValue)} | ${cell(row.referenceValue)} | ${verdictLabel[row.verdict]} | ${verdictLabel[concept.verdict]} |`,
+          )} | ${cell(row.appValue)} | ${cell(row.referenceValue)} | ${cell(differenceText(row))} | ${verdictLabel[row.verdict]} | ${verdictLabel[concept.verdict]} |`,
       ),
     ),
     "",

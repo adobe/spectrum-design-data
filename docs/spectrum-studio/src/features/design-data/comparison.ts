@@ -10,6 +10,7 @@ import {
   REVIEWED_MAPPING_VERSION,
   declaredDefaultMode,
   reviewedColorMappings,
+  reviewedTypographyMappings,
 } from "./mappings";
 import {
   architectureMarkdown,
@@ -26,7 +27,9 @@ import { canonicalJson } from "./canonicalJson";
 import {
   assessColorsAndOpacities,
   colorOpacityMarkdown,
+  modeAxes,
 } from "./colorOpacityAssessment";
+import { compareFoundationValue } from "./foundationValues";
 export { canonicalJson } from "./canonicalJson";
 import {
   buildCoverage,
@@ -42,7 +45,16 @@ import {
 } from "./paletteAssessment";
 
 export interface AnalysisRecord {
-  lifecycle?: { deprecatedIn?: string };
+  schema?: string;
+  tokenStatus?: import("../tokens/browserModel").BrowserToken["status"];
+  tokenType?: import("../tokens/view/tokenPanelRegistry").TokenPanelId;
+  browserTokenId?: string;
+  lifecycle?: {
+    introduced?: string;
+    deprecatedIn?: string;
+    deprecatedComment?: string;
+    replacedBy?: string | string[];
+  };
   taxonomy?: import("../taxonomy/model").TaxonomyProjection;
   id: string;
   category: string;
@@ -84,6 +96,7 @@ export interface AnalysisSource {
 }
 
 export interface AnalysisInput {
+  inventoryExclusions?: { source: string; reason: string }[];
   resolvedValues?: import("./colorOpacityAssessment").ResolvedModeValue[];
   valueResolution?: {
     datasetHash: string;
@@ -104,6 +117,7 @@ export interface AnalysisInput {
 }
 
 export interface ReviewedMapping {
+  kind?: "typography-size";
   app: string;
   reference: string;
   rationale: string;
@@ -236,7 +250,10 @@ export function compareDesignData(
   reference: AnalysisInput,
   suppliedMappings?: readonly ReviewedMapping[],
 ): AnalysisReport {
-  const mappings = suppliedMappings ?? reviewedColorMappings(app, reference);
+  const mappings = suppliedMappings ?? [
+    ...reviewedColorMappings(app, reference),
+    ...reviewedTypographyMappings(app, reference),
+  ];
   const appOwnedDefinitions = new Set([
     "foundations",
     "authoring/rules",
@@ -291,8 +308,42 @@ export function compareDesignData(
     reference,
     mappings,
   );
-  const candidatesFor = (left: AnalysisRecord) =>
-    reference.records.filter(
+  const axes = [...new Set([...modeAxes(app), ...modeAxes(reference)])];
+  const candidatesFor = (left: AnalysisRecord) => {
+    const concept =
+      left.conceptId &&
+      reference.records.filter(
+        (right) =>
+          right.category === left.category &&
+          right.conceptId === left.conceptId,
+      );
+    if (concept && concept.length) {
+      const exact = concept.filter(
+        (right) => left.identity && left.identity === right.identity,
+      );
+      if (exact.length) return exact;
+      return concept.filter((right) =>
+        [
+          ...new Set([
+            ...axes,
+            ...Object.keys(left.context ?? {}),
+            ...Object.keys(right.context ?? {}),
+          ]),
+        ].every((axis) => {
+          const a =
+            left.context?.[axis] ??
+            left.structuredName?.[axis] ??
+            declaredDefaultMode(app, axis);
+          const b =
+            right.context?.[axis] ??
+            right.structuredName?.[axis] ??
+            declaredDefaultMode(reference, axis) ??
+            declaredDefaultMode(app, axis);
+          return canonicalJson(a ?? null) === canonicalJson(b ?? null);
+        }),
+      );
+    }
+    return reference.records.filter(
       (right) =>
         right.category === left.category &&
         (mappings.some(
@@ -300,6 +351,7 @@ export function compareDesignData(
         ) ||
           (left.identity !== undefined && left.identity === right.identity)),
     );
+  };
   const candidatesByApp = new Map(
     app.records.map((left) => [left.id, candidatesFor(left)]),
   );
@@ -428,12 +480,25 @@ export function compareDesignData(
     }
     used.add(right.id);
     const confidence = mapping.length ? "reviewed-mapping" : "exact-identity";
-    const defaultKeys = mapping[0]?.contextDefaults ?? [];
+    const sharedConcept = left.conceptId && left.conceptId === right.conceptId;
+    const defaultKeys = [
+      ...new Set([
+        ...(mapping[0]?.contextDefaults ?? []),
+        ...(sharedConcept
+          ? [
+              ...Object.keys(left.context ?? {}),
+              ...Object.keys(right.context ?? {}),
+            ]
+          : []),
+      ]),
+    ];
     const normalizedContext = (record: AnalysisRecord, input: AnalysisInput) =>
       Object.fromEntries([
         ...defaultKeys.flatMap((key) => {
           const value =
-            record.structuredName?.[key] ?? declaredDefaultMode(input, key);
+            record.structuredName?.[key] ??
+            declaredDefaultMode(input, key) ??
+            (sharedConcept ? declaredDefaultMode(app, key) : undefined);
           return typeof value === "string" ||
             (Array.isArray(value) &&
               value.every((member: unknown) => typeof member === "string"))
@@ -442,7 +507,13 @@ export function compareDesignData(
         }),
         ...Object.entries(record.context ?? {}),
       ]);
-    const leftContext = normalizedContext(left, app);
+    const typographyMapping = mapping[0]?.kind === "typography-size";
+    const leftContext = Object.fromEntries(
+      Object.entries(normalizedContext(left, app)).filter(
+        ([key]) =>
+          !typographyMapping || Object.hasOwn(right.context ?? {}, key),
+      ),
+    );
     const rightContext = normalizedContext(right, reference);
     const missingDefaults = defaultKeys.filter(
       (key) =>
@@ -499,7 +570,12 @@ export function compareDesignData(
       );
       continue;
     }
-    if (coverageValid && left.structuredName && right.structuredName) {
+    if (
+      coverageValid &&
+      !typographyMapping &&
+      left.structuredName &&
+      right.structuredName
+    ) {
       const fields = mapping[0]?.nameFields ?? {};
       const contextKeys = new Set([
         ...defaultKeys,
@@ -549,7 +625,26 @@ export function compareDesignData(
           );
       }
     }
-    const classification = compareValue(left, right);
+    const typographyValue =
+      typographyMapping && !left.reference && !right.reference
+        ? compareFoundationValue(
+            "typography",
+            left.value,
+            right.value,
+            left.unit,
+            right.unit,
+            "font-size",
+          )
+        : undefined;
+    const classification = typographyValue
+      ? (
+          {
+            pass: "equal",
+            fail: "value-difference",
+            unassessable: "unassessable",
+          } as const
+        )[typographyValue.verdict]
+      : compareValue(left, right);
     const diagnostic =
       classification === "structure-difference"
         ? " Value representations have different shapes; numeric equivalence is not claimed."
@@ -618,6 +713,7 @@ export function compareDesignData(
       reference,
       mappings,
       modeCoverage,
+      findings,
     ),
     inputs: { app: app.source, reference: reference.source },
     valid: !findings.some(
@@ -835,6 +931,25 @@ export function reportWithFreshness(
       report.colorOpacity && {
         colorOpacity: {
           ...report.colorOpacity,
+          ...(report.colorOpacity.inventory && {
+            inventory: {
+              ...report.colorOpacity.inventory,
+              status: {
+                ...report.colorOpacity.inventory.status,
+                reference: "stale" as const,
+              },
+              entries: report.colorOpacity.inventory.entries.map((entry) => ({
+                ...entry,
+                presence: "unconfirmed" as const,
+                reason: [
+                  entry.reason,
+                  "Reference evidence is stale; refresh the comparison.",
+                ]
+                  .filter(Boolean)
+                  .join(" "),
+              })),
+            },
+          }),
           modeCoverage: staleModes(report.colorOpacity.modeCoverage),
           enhancements: [],
           modeBreakdown: summarizeModeResults(
@@ -859,6 +974,8 @@ export function reportWithFreshness(
             verdict: "unassessable" as const,
             rows: concept.rows.map((row) => ({
               ...row,
+              deltaE2000: undefined,
+              difference: undefined,
               verdict: "unassessable" as const,
               issues: [
                 ...row.issues,

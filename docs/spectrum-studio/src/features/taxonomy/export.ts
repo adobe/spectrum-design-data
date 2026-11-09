@@ -12,12 +12,16 @@ import {
 } from "./model";
 import type { CanonicalAliasRow } from "../tokens/aliasTargets";
 import { aliasReferencePacket, type AliasDocument } from "../tokens/aliases";
+import { projectShadowValue } from "../design-data/shadowValue";
+import type { TokenTier } from "../tokens/tier";
+import { tokenOutputMetadata } from "../tokens/outputMetadata";
 export const TAXONOMY_PROFILE = "leonardo-flat-taxonomy-v1";
 export interface TaxonomyExport {
   schemaVersion: 1;
   profileId: typeof TAXONOMY_PROFILE;
   taxonomy: TaxonomyDocument;
   tokens: {
+    tier?: TokenTier;
     id: string;
     context: string;
     value: string | number;
@@ -70,6 +74,7 @@ export function buildTaxonomyExport(
     taxonomy: structuredClone(document),
     tokens: tokens.map(({ token, context }) => ({
       id: token.id,
+      tier: token.tier,
       context,
       value: token.value,
       classification: token.projection!.classification,
@@ -91,16 +96,7 @@ export function buildCanonicalTaxonomyExport(
     const projection = row.token.projection;
     if (!projection || projection.issues.length)
       throw new Error(`Taxonomy export blocked for ${row.name}.`);
-    const base = {
-      id: row.rowId,
-      conceptId: row.id,
-      context: row.context,
-      classification: projection.classification,
-      flatName: projection.flat,
-      name: row.name,
-      path: projection.segments,
-    };
-    return { ...base, ...canonicalTaxonomyValue(row, rows) };
+    return canonicalTokenRecord(row, rows);
   });
   return {
     schemaVersion: 1,
@@ -128,7 +124,7 @@ export function canonicalTaxonomyValue(
     const selection = Object.fromEntries(
       JSON.parse(row.context) as [string, string][],
     );
-    const targets = rows.filter(
+    const candidates = rows.filter(
       (candidate) =>
         candidate.token.id === row.token.referenceId &&
         (JSON.parse(candidate.context) as [string, string][]).every(
@@ -136,15 +132,56 @@ export function canonicalTaxonomyValue(
             ({ ...semantic?.selection, ...selection })[axis] === mode,
         ),
     );
+    const specificity = Math.max(
+      -1,
+      ...candidates.map(
+        (candidate) =>
+          (JSON.parse(candidate.context) as [string, string][]).length,
+      ),
+    );
+    const targets = candidates.filter(
+      (candidate) =>
+        (JSON.parse(candidate.context) as [string, string][]).length ===
+        specificity,
+    );
     if (targets.length !== 1)
       throw new Error(
         `Taxonomy export blocked: ${row.name} needs exactly one emitted primitive target.`,
       );
     return { $ref: targets[0].rowId };
   }
+
   if (row.token.literalShadows) return { value: row.token.literalShadows };
+  if (row.token.type === "elevation" && row.token.shadows)
+    return { value: projectShadowValue(row.token.shadows) };
   return {
     value: row.token.value,
     ...(row.token.unit && { unit: row.token.unit }),
+  };
+}
+
+export function canonicalTokenRecord(
+  row: CanonicalAliasRow,
+  rows: readonly CanonicalAliasRow[],
+) {
+  const resolved = canonicalTaxonomyValue(row, rows);
+  const value =
+    "$ref" in resolved
+      ? resolved
+      : {
+          value:
+            typeof resolved.value === "number" && resolved.unit
+              ? `${resolved.value}${resolved.unit}`
+              : resolved.value,
+        };
+  return {
+    uuid: row.rowId,
+    conceptId: row.id,
+    name:
+      row.canonicalName ??
+      row.token.semantic?.token.name ??
+      row.token.projection!.flat,
+    ...value,
+    ...tokenOutputMetadata(row, rows),
   };
 }

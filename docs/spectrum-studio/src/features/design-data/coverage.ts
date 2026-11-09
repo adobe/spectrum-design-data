@@ -4,6 +4,7 @@ import type {
   AnalysisInput,
   AnalysisRecord,
 } from "./comparison";
+import { foundationProperty, foundationValueType } from "./foundationValues";
 
 export type CoverageUnit = "concepts" | "rows";
 export type InventoryStatus = "complete" | "partial" | "unavailable";
@@ -79,7 +80,7 @@ const colorProperties = new Set([
 ]);
 /** Grouping is not matching: declared properties/native pointers never create counterpart identities. */
 export function coverageTokenType(record: AnalysisRecord): string {
-  const property = record.structuredName?.property;
+  const property = foundationProperty(record);
   const name = record.conceptId ?? record.name;
   if (typeof property === "string" && colorProperties.has(property))
     return property !== "color" ||
@@ -107,7 +108,9 @@ export function coverageTokenType(record: AnalysisRecord): string {
   )
     return "font-size";
   if (
-    property === "line-height" ||
+    ["line-height", "line-height-multiplier", "unitless-line-height"].includes(
+      property,
+    ) ||
     (typeof property === "string" && /^line-height-\d+$/.test(property)) ||
     (record.pointer === "/system/foundations/typography" &&
       name.includes("line-height"))
@@ -118,7 +121,8 @@ export function coverageTokenType(record: AnalysisRecord): string {
     ["typography", "font-style", "text-align", "letter-spacing"].includes(
       String(property),
     ) ||
-    record.pointer === "/system/foundations/typography"
+    record.pointer === "/system/foundations/typography" ||
+    foundationValueType(record) === "typography"
   )
     return "typography";
   if (

@@ -19,16 +19,19 @@ import type {
 } from "../../features/taxonomy/model";
 import { inspectorStyles as styles } from "./tokenInspectorStyles";
 import { termLabel } from "../../features/taxonomy/termPresentation";
+import { categoryAllowsTier, type TokenTier } from "../../features/tokens/tier";
 
 export function ClassificationTerms({
   value,
   taxonomy,
   scope,
+  tier,
   onChange,
 }: {
   value: Classification;
   taxonomy: TaxonomyDocument;
   scope: TaxonomyScope;
+  tier?: TokenTier;
   onChange: (value: Classification) => void;
 }) {
   const [category, setCategory] = useState<string>();
@@ -51,7 +54,9 @@ export function ClassificationTerms({
   const options = taxonomy.categories
     .filter(
       (item) =>
-        item.scopes.includes(scope) && (!category || item.id === category),
+        item.scopes.includes(scope) &&
+        categoryAllowsTier(item, tier) &&
+        (!category || item.id === category),
     )
     .flatMap((item) =>
       taxonomy.terms

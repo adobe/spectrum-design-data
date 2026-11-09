@@ -29,6 +29,7 @@ How a built feature works. Read when working in that area.
 | [category-icons.md](category-icons.md)                                 | Category icons and the icon catalog check |
 | [token-value-previews.md](token-value-previews.md)                     | Token value previews                      |
 | [structure-element-templates.md](structure-element-templates.md)       | Structure element templates               |
+| [component-sizing.md](component-sizing.md)                           | Scale modes and independent sizing baselines |
 
 ## Hashed evidence pin
 
@@ -47,6 +48,7 @@ Plans that were done are in [archive/](archive/README.md). The gap register and
 | [rfcs/classification-standard-and-migration.md](rfcs/classification-standard-and-migration.md)   | LTAX-011                                                                     |
 | [rfcs/foundation-recipes-and-stable-identity.md](rfcs/foundation-recipes-and-stable-identity.md) | Recipe storage and UUID-preserving migration proposal; DEBT-017 remains open |
 | [rfcs/portable-structures.md](rfcs/portable-structures.md)                                       | LTAX-013; local Structure authoring contract and separate upstream proposal  |
+| [rfcs/token-tiers-and-category-scope.md](rfcs/token-tiers-and-category-scope.md)                   | LTAX-021; conceptual token tiers and tier-scoped Registry categories          |
 
 ## Other
 

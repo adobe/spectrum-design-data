@@ -6,6 +6,7 @@ import {
   selectedTshirtRows,
 } from "../design-data/tshirtArtifacts";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
+import { blockingProjectionIssues } from "../taxonomy/model";
 import { primitiveReferencesAtom } from "./primitiveReferenceState";
 import { browserModeContextAtom } from "./browserState";
 import type { BrowserToken } from "./browserModel";
@@ -34,9 +35,11 @@ export const semanticBrowserStateAtom = atom(
             (canonical) => {
               const row = liveTshirtRow(canonical, references);
               const source = semanticTokenSource(row, registry);
-              const projection = source.projection!;
-              if (projection.issues.length)
-                throw new Error(projection.issues.join(" "));
+              const blockingIssues = blockingProjectionIssues(
+                source.projection,
+              );
+              if (blockingIssues.length)
+                throw new Error(blockingIssues.join(" "));
               return {
                 ...source,
                 description: row.mapping.warning ?? "",

@@ -12,6 +12,7 @@ import {
 import {
   createDefaultSnapshot,
   editSessionSnapshotAtom,
+  authoringSourceSnapshotAtom,
 } from "../edit-session/state";
 import { modeSetsAtom } from "../modes/state";
 import {
@@ -53,6 +54,7 @@ import { resolveToken } from "./state";
 import { browserSourcesFromOutputs } from "./browserSources";
 import { browserTokenEditsAtom } from "./browserEdits";
 import {
+  canonicalBrowserSources,
   canonicalTokenModeKey,
   projectBrowserTokens,
   resolveBrowserTokens,
@@ -61,24 +63,20 @@ import {
 import { resolveBrowserColorToken } from "./colorResolution";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
 import { categoricalBrowserSources } from "../color-system/data-vis/output";
-import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
 import { designSystemDefaults } from "../../data/defaults";
+import { tokenIdentity } from "./canonicalIdentity";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import { radiusDocumentAtom } from "../radius/state";
 import { RADIUS_DEFAULTS } from "../radius/defaults";
 import { generateRadiusScale } from "../radius/generate";
 import type { RadiusDocument } from "../radius/model";
-import { parameterOwners } from "../modes/parameters";
 import { modeCombinations, selectionForModes } from "../modes/combinations";
 import { ELEVATION_DEFAULTS } from "../elevation/defaults";
 import { elevationDocumentAtom } from "../elevation/state";
 import { generateElevation } from "../elevation/generate";
 import { resolveElevationDocument } from "../elevation/resolution";
-import {
-  browserElevationSources,
-  elevationOwnerIds,
-} from "../elevation/output";
+import { browserElevationSources } from "../elevation/output";
 import type { ElevationDocument } from "../elevation/model";
 import { savedTshirtArtifactsAtom } from "../design-data/tshirtState";
 import { colorSourceTokenIds } from "./colorGeneration";
@@ -90,6 +88,12 @@ import type { OpacityDocument } from "../opacity/model";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
 import { opacityDocumentAtom } from "../opacity/state";
 import { browserOpacitySources } from "../opacity/output";
+import { tokenOwningModeKey } from "./owningModes";
+import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
+import {
+  COMPONENT_SIZING_DEFAULTS,
+  type ComponentSizingDocument,
+} from "../foundations/componentSizing";
 
 function savedSources(
   color: ColorSystemDocument,
@@ -108,7 +112,14 @@ function savedSources(
   edits: BrowserTokenEdits = {},
   { includeColors = true }: { includeColors?: boolean } = {},
   opacity?: OpacityDocument,
+  componentSizing: ComponentSizingDocument = COMPONENT_SIZING_DEFAULTS,
 ) {
+  const parameters = resolveModeParameterValues(
+    { color, typography, componentSizing },
+    modes,
+    undefined,
+    { modeSets: sets },
+  );
   const library = spacing.pendingRules
     ? [...rules, ...spacing.pendingRules]
     : rules;
@@ -138,85 +149,82 @@ function savedSources(
         ),
       )
     : [];
-  return [
-    ...browserOpacitySources(
-      { opacity, colorSystem: color, modeSets: sets, browserTokenEdits: edits },
-      modes,
-      registry,
-    ),
-    ...browserSourcesFromOutputs(
-      colors,
-      generateTypography(
-        resolveTypographyDocument(typography, modes, undefined, {
-          modeSets: sets,
-        }),
-        undefined,
-        rules,
-        scaleTypes,
-        interpolations,
-      ),
-      spacing.scales.map((scale) => ({
-        scale,
-        values: generateSpacingScale(
-          scale,
-          library,
-          scaleTypes,
-          resolveModeParameterValues({ color, typography }, modes, undefined, {
-            modeSets: sets,
-          }),
-        ),
-      })),
-      size.scales.map((scale) => ({
-        scale,
-        values: generateSizeScale(
-          scale,
-          size.pendingRules ? [...rules, ...size.pendingRules] : rules,
-          scaleTypes,
-          resolveModeParameterValues({ color, typography }, modes, undefined, {
-            modeSets: sets,
-          }),
-        ),
-      })),
-      {
-        names: typography.metricNames,
-        outputUnit: typography.outputUnit,
-        registry,
-      },
-      { document, registry, rules },
-      radius.scales.map((scale) => ({
-        scale,
-        values: generateRadiusScale(
-          scale,
-          radius.pendingRules ? [...rules, ...radius.pendingRules] : rules,
-          scaleTypes,
-          resolveModeParameterValues({ color, typography }, modes, undefined, {
-            modeSets: sets,
-          }),
-        ),
-      })),
-    ),
-    ...browserElevationSources(
-      elevation,
-      generateElevation(
-        resolveElevationDocument(elevation, modes, sets, undefined, {
+  return canonicalBrowserSources(
+    [
+      ...browserOpacitySources(
+        {
           opacity,
           colorSystem: color,
           modeSets: sets,
           browserTokenEdits: edits,
-        }),
-        scaleTypes,
-        document.settings.colorOutput,
+        },
+        modes,
+        registry,
       ),
-      registry,
-    ),
-    ...(includeColors
-      ? categoricalBrowserSources(
-          document,
-          finalUiSwatches(document, colors),
+      ...browserSourcesFromOutputs(
+        colors,
+        generateTypography(
+          resolveTypographyDocument(typography, modes, undefined, {
+            modeSets: sets,
+          }),
+          undefined,
+          rules,
+          scaleTypes,
+          interpolations,
+        ),
+        spacing.scales.map((scale) => ({
+          scale,
+          values: generateSpacingScale(scale, library, scaleTypes, parameters),
+        })),
+        size.scales.map((scale) => ({
+          scale,
+          values: generateSizeScale(
+            scale,
+            size.pendingRules ? [...rules, ...size.pendingRules] : rules,
+            scaleTypes,
+            parameters,
+          ),
+        })),
+        {
+          names: typography.metricNames,
+          outputUnit: typography.outputUnit,
           registry,
-        )
-      : []),
-  ];
+        },
+        { document, registry, rules },
+        radius.scales.map((scale) => ({
+          scale,
+          values: generateRadiusScale(
+            scale,
+            radius.pendingRules ? [...rules, ...radius.pendingRules] : rules,
+            scaleTypes,
+            parameters,
+          ),
+        })),
+      ),
+      ...browserElevationSources(
+        elevation,
+        generateElevation(
+          resolveElevationDocument(elevation, modes, sets, undefined, {
+            opacity,
+            colorSystem: color,
+            modeSets: sets,
+            browserTokenEdits: edits,
+          }),
+          scaleTypes,
+          document.settings.colorOutput,
+        ),
+        registry,
+      ),
+      ...(includeColors
+        ? categoricalBrowserSources(
+            document,
+            finalUiSwatches(document, colors),
+            registry,
+          )
+        : []),
+    ],
+    edits,
+  );
 }
 
 /** Generate from an explicit authored snapshot, without selected modes or temporary previews. */
@@ -241,6 +249,7 @@ export function browserSourcesForSnapshot(
     snapshot.browserTokenEdits ?? {},
     {},
     snapshot.opacity,
+    snapshot.componentSizing,
   );
 }
 
@@ -266,7 +275,7 @@ export const savedBrowserTokensAtom = atom((get) => {
     designSystemDefaults.system.taxonomy,
     RADIUS_DEFAULTS,
     ELEVATION_DEFAULTS,
-    {},
+    designSystemDefaults.system.browserTokenEdits ?? {},
     {},
     OPACITY_DEFAULTS,
   );
@@ -290,6 +299,7 @@ export const savedBrowserTokensAtom = atom((get) => {
       edits,
       {},
       get(opacityDocumentAtom),
+      get(componentSizingDocumentAtom),
     );
     const baselineModes = defaults
       .map(
@@ -313,7 +323,7 @@ export const savedBrowserTokensAtom = atom((get) => {
       designSystemDefaults.system.taxonomy,
       RADIUS_DEFAULTS,
       ELEVATION_DEFAULTS,
-      {},
+      designSystemDefaults.system.browserTokenEdits ?? {},
       {},
       OPACITY_DEFAULTS,
     );
@@ -368,6 +378,9 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
         opacity: snapshot.opacity,
         browserTokenEdits: snapshot.browserTokenEdits,
       }),
+    ).map(
+      (id) =>
+        tokenIdentity(snapshot.browserTokenEdits ?? {}, id)?.conceptId ?? id,
     ),
     ...savedSources(
       snapshot.colorSystem,
@@ -386,6 +399,7 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
       snapshot.browserTokenEdits,
       { includeColors: false },
       snapshot.opacity,
+      snapshot.componentSizing,
     ).map((token) => token.id),
     ...generated.bundle.semantics.map((row) => row.conceptId),
   ]);
@@ -394,13 +408,15 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
 export const browserTokenImpactRecordsAtom = atom(
   (get): TokenImpactRecord[] => {
     const records = new Map<string, TokenImpactRecord>();
-    const owners = parameterOwners(get(modeSetsAtom));
-    const radius = get(radiusDocumentAtom);
-    const edits = get(browserTokenEditsAtom);
+    const snapshot = get(authoringSourceSnapshotAtom);
     for (const combination of get(savedBrowserTokensAtom)) {
       const baseline = new Map(
         projectBrowserTokens(
-          resolveBrowserTokens(combination.baseline, {}, combination.modeKey),
+          resolveBrowserTokens(
+            combination.baseline,
+            designSystemDefaults.system.browserTokenEdits ?? {},
+            combination.modeKey,
+          ),
           designSystemDefaults.system.taxonomy,
         ).map((token) => [token.id, token]),
       );
@@ -415,79 +431,11 @@ export const browserTokenImpactRecordsAtom = atom(
           manuallyOverridden: false,
           metadataChanged: false,
         };
-        let scopeKey = combination.modeKey;
-        if (token.type === "opacity") scopeKey = token.modeKey!;
-        if (token.dataVis) {
-          const scale = get(colorSystemDocumentAtom).dataVisScales.find(
-            (scale) => scale.id === token.dataVis!.scaleId,
-          );
-          const member =
-            scale?.kind === "categorical"
-              ? scale.members.find(
-                  (member) => member.id === token.dataVis!.memberId,
-                )
-              : undefined;
-          if (!scale || !member)
-            throw new Error(
-              "Categorical impact requires its saved member identity.",
-            );
-          const axes = categoricalMemberAxes(
-            scale.id,
-            member,
-            get(modeSetsAtom),
-            edits,
-            scale,
-          );
-          const selection = Object.fromEntries(
-            JSON.parse(combination.modeKey) as [string, string][],
-          );
-          scopeKey = canonicalTokenModeKey(
-            Object.fromEntries(
-              Object.entries(selection).filter(([axis]) => axes.has(axis)),
-            ),
-          );
-        }
-        if (token.type === "elevation") {
-          const axes = elevationOwnerIds(
-            get(modeSetsAtom),
-            {
-              opacity: get(opacityDocumentAtom),
-              colorSystem: get(colorSystemDocumentAtom),
-              modeSets: get(modeSetsAtom),
-              browserTokenEdits: edits,
-            },
-            get(elevationDocumentAtom),
-          );
-          const selection = Object.fromEntries(
-            JSON.parse(combination.modeKey) as [string, string][],
-          );
-          scopeKey = canonicalTokenModeKey(
-            Object.fromEntries(
-              Object.entries(selection).filter(([axis]) => axes.has(axis)),
-            ),
-          );
-        }
-        if (
-          token.type === "radius" &&
-          !edits[token.id]?.values[combination.modeKey]
-        ) {
-          const scale = radius.scales.find(
-            (scale) => scale.id === token.groupId,
-          );
-          const axes = new Set(
-            Object.values(scale?.bindings ?? {}).map(
-              (binding) => owners[binding.modeParameterId],
-            ),
-          );
-          const selection = Object.fromEntries(
-            JSON.parse(combination.modeKey) as [string, string][],
-          );
-          scopeKey = canonicalTokenModeKey(
-            Object.fromEntries(
-              Object.entries(selection).filter(([axis]) => axes.has(axis)),
-            ),
-          );
-        }
+        const scopeKey = tokenOwningModeKey(
+          token,
+          snapshot,
+          combination.modeKey,
+        );
         const valueId = `${token.id}:${scopeKey}`;
         const prior = record.modeValues.find(
           (value) => value.valueId === valueId,

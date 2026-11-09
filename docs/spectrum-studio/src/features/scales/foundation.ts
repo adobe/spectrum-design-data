@@ -20,6 +20,7 @@ import {
 } from "./scaleType";
 import type { TaxonomyNameReference } from "../taxonomy/naming";
 import { foundationNameSegment } from "../taxonomy/formatting";
+import { resolveSizingFactors } from "../foundations/componentSizing";
 
 /** A scale type plus the base, range, and parameter overrides that make one scale of dimensions. Index 0 is the base. */
 export interface DimensionScale
@@ -148,11 +149,18 @@ export function generateDimensionScale(
   scaleTypes: readonly ScaleType[] = SCALE_TYPE_DEFAULTS,
   modeValues: ModeParameterValues = {},
 ): GeneratedDimensionValue[] {
+  const sizing = resolveSizingFactors(modeValues);
   return generateScale(
     scale,
     {
       rules,
       scaleTypes,
+      rawValueMultiplier:
+        prefix === "size" || prefix === "radius"
+          ? sizing.status === "ready"
+            ? sizing.componentSize
+            : Number.NaN
+          : 1,
       valueType:
         prefix === "spacing" || prefix === "size" || prefix === "radius"
           ? prefix

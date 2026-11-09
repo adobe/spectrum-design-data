@@ -43,6 +43,7 @@ import {
   outputScenario,
 } from "./materialization";
 import { generateElevation } from "../elevation/generate";
+import { projectShadowValue } from "./shadowValue";
 import { resolveElevationDocument } from "../elevation/resolution";
 import { browserElevationSources } from "../elevation/output";
 import { buildTshirtArtifacts } from "./tshirtArtifacts";
@@ -56,23 +57,28 @@ import {
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { componentRelationships } from "../components/projection";
 import { opacityRows, opacityOutputIssues } from "../opacity/output";
-import { canonicalTaxonomyValue } from "../taxonomy/export";
+import { canonicalTokenRecord } from "../taxonomy/export";
 import {
   tokenOutputMetadata,
   tokenOutputDiagnostics,
 } from "../tokens/outputMetadata";
 
 function overrideEvidence(row: BrowserToken): Partial<AnalysisRecord> {
-  return row.nameOverridden || row.valueOverridden
-    ? {
-        overrides: {
-          ...(row.nameOverridden ? { generatedName: row.generatedName } : {}),
-          ...(row.valueOverridden
-            ? { generatedValue: row.generatedValue }
-            : {}),
-        },
-      }
-    : {};
+  return {
+    tokenType: row.type,
+    tokenStatus: row.status,
+    browserTokenId: row.id,
+    ...(row.nameOverridden || row.valueOverridden
+      ? {
+          overrides: {
+            ...(row.nameOverridden ? { generatedName: row.generatedName } : {}),
+            ...(row.valueOverridden
+              ? { generatedValue: row.generatedValue }
+              : {}),
+          },
+        }
+      : {}),
+  };
 }
 
 export function projectAuthoringDataset(
@@ -100,6 +106,11 @@ export function projectAuthoringDataset(
       pointer,
       classification: "authored",
       ...extra,
+      ...(category === "tokens" &&
+        !extra.structuredName &&
+        extra.taxonomy && {
+          structuredName: extra.taxonomy.flat,
+        }),
     });
   };
   const system = dataset.system;
@@ -220,6 +231,7 @@ export function projectAuthoringDataset(
     const variants = buildTshirtArtifacts(
       {
         colorSystem: system.foundations.color,
+        componentSizing: system.componentSizing,
         typography: system.foundations.typography,
         spacing: system.foundations.spacing,
         size: system.foundations.size,
@@ -398,6 +410,7 @@ export function projectAuthoringDataset(
         "/system/foundations/color",
         {
           structuredName: token.name,
+          tokenType: "colors",
           identity: token.uuid,
           conceptId: token.conceptId,
           context,
@@ -444,6 +457,8 @@ export function projectAuthoringDataset(
         "/system/foundations/opacity",
         {
           identity: row.uuid,
+          browserTokenId: row.conceptId,
+          tokenType: "opacity",
           conceptId: row.conceptId,
           context: row.context,
           structuredName: {
@@ -470,7 +485,7 @@ export function projectAuthoringDataset(
     for (const modes of combinations) {
       const context = contextForModes(axes, modes);
       const modeValues = resolveModeParameterValues(
-        system.foundations,
+        { ...system.foundations, componentSizing: system.componentSizing },
         modes,
         undefined,
         { modeSets: system.modeSets },
@@ -506,13 +521,14 @@ export function projectAuthoringDataset(
           "tokens",
           `${row.id}:${suffix}`,
           row.name,
-          row.shadows,
+          row.literalShadows ?? projectShadowValue(row.shadows ?? []),
           "/system/foundations/elevation",
           {
             classification: "generated",
             conceptId: row.id,
             context,
             taxonomy: row.projection,
+            ...overrideEvidence(row),
           },
         );
         observe(`${row.id}:${suffix}`, "elevation", context, "evaluation");
@@ -637,7 +653,7 @@ export function projectAuthoringDataset(
         }
       }
     }
-    if (Object.values(browserEdits).some((edit) => edit.authoring)) {
+    {
       const rows = canonicalAliasRows(
         completeAliasSource({
           ...system,
@@ -654,8 +670,13 @@ export function projectAuthoringDataset(
         (row) => !row.recordId.startsWith("tokens:"),
       );
       for (const row of rows) {
-        const context = namedContext(row.context);
-        const value = canonicalTaxonomyValue(row, rows);
+        const context = Object.fromEntries(
+          Object.entries(namedContext(row.context)).filter(
+            ([axis]) =>
+              !row.canonicalName || Object.hasOwn(row.canonicalName, axis),
+          ),
+        );
+        const value = canonicalTokenRecord(row, rows);
         add(
           "tokens",
           row.rowId,
@@ -668,9 +689,8 @@ export function projectAuthoringDataset(
             context,
             classification: "generated",
             taxonomy: row.token.projection,
-            structuredName: row.token.projection?.flat,
+            structuredName: row.canonicalName ?? row.token.projection?.flat,
             ...("$ref" in value ? { reference: value.$ref } : {}),
-            ...("unit" in value ? { unit: value.unit } : {}),
             ...tokenOutputMetadata(row, rows),
             ...overrideEvidence(row.token),
           },
@@ -706,6 +726,33 @@ export function projectAuthoringDataset(
   return {
     source,
     records,
+    inventoryExclusions: Object.entries(system.foundations).flatMap(
+      ([name, document]) => [
+        ...("hideFromPublishing" in document &&
+        document.hideFromPublishing === true
+          ? [
+              {
+                source: `/system/foundations/${name}`,
+                reason:
+                  "Foundation is excluded from publishing; no token output is expected.",
+              },
+            ]
+          : []),
+        ...("scales" in document && Array.isArray(document.scales)
+          ? document.scales.flatMap((scale, index) =>
+              "hideFromPublishing" in scale && scale.hideFromPublishing === true
+                ? [
+                    {
+                      source: `/system/foundations/${name}/scales/${index}`,
+                      reason:
+                        "Scale is excluded from publishing; no token output is expected.",
+                    },
+                  ]
+                : [],
+            )
+          : []),
+      ],
+    ),
     outputMetadata,
     inventoryStatus: errors.length ? "partial" : "complete",
     categories: [...new Set(records.map((record) => record.category))].sort(),

@@ -81,7 +81,7 @@ const app = input([
   token("high", { colorScheme: "light", contrast: "high" }, "rgb(250, 0, 0)"),
 ]);
 const baseline = assessColorsAndOpacities(app, reference);
-assert.equal(baseline.schemaVersion, 3);
+assert.equal(baseline.schemaVersion, 4);
 assert.equal(baseline.concepts[0].verdict, "pass");
 assert.equal(baseline.counts.rows, 1);
 assert.deepEqual(baseline.concepts[0].rows[0].context, {
@@ -177,8 +177,8 @@ const differentDefault = input([
 const defaultResult = assessColorsAndOpacities(differentDefault, reference);
 assert.equal(
   defaultResult.concepts[0].verdict,
-  "unassessable",
-  "Without native evidence two wildcard/explicit candidates remain ambiguous, rather than choosing an arbitrary row.",
+  "pass",
+  "The explicit required mode takes precedence over its fallback, independently of the app's default.",
 );
 differentDefault.resolvedValues = [
   {

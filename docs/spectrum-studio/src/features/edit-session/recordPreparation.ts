@@ -8,6 +8,7 @@ import { assertStoredSnapshot, type EditSessionSnapshot } from "./state";
 import { AUTHORING_RECORD_VERSION, type AuthoringRecord } from "./storage";
 import type { ComponentContrastWitness } from "../components/contrastWitness";
 import type { ComponentColorWitness } from "../components/colorWitness";
+import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
 
 export interface PreparedAuthoringResult {
   record: AuthoringRecord<EditSessionSnapshot>;
@@ -26,12 +27,17 @@ export function prepareAuthoringRecord(
   ) {
     throw new Error("The pending authoring record has an unsupported format.");
   }
-  const working = prepareAuthoringSnapshot(input.working);
+  const allocations = new Map<string, string>();
+  const working = prepareAuthoringSnapshot(
+    upgradeCanonicalTokenIdentities(input.working, allocations),
+  );
+  const saved = upgradeCanonicalTokenIdentities(input.saved, allocations);
   assertStoredSnapshot(working);
-  assertStoredSnapshot(input.saved);
+  assertStoredSnapshot(saved);
   return {
     ...input,
     working,
+    saved,
     attachments: pruneFoundationModeAttachments(
       input.attachments,
       working.modeSets,

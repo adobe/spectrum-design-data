@@ -2,20 +2,13 @@
 import { atom } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { designSystemDefaults } from "../../data/defaults";
-import type { AdaptiveClaims } from "./model";
-export type { AdaptiveClaims } from "./model";
+import { isAdaptiveClaims, type AdaptiveClaims } from "./model";
+export { isAdaptiveClaims, type AdaptiveClaims } from "./model";
 
 export const ADAPTIVE_CLAIMS_SCHEMA_VERSION = 2;
 export const ADAPTIVE_CLAIM_DEFAULTS: Readonly<AdaptiveClaims> = {
   ...designSystemDefaults.system.adaptiveClaims,
 };
-
-export function isAdaptiveClaims(data: unknown): data is AdaptiveClaims {
-  if (!data || typeof data !== "object" || Array.isArray(data)) return false;
-  return Object.values(data as Record<string, unknown>).every(
-    (owner) => typeof owner === "string",
-  );
-}
 
 /** v2 ships text zoom as an adaptive control alongside the text scaling mode set. */
 export function migrateAdaptiveClaims(

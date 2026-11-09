@@ -29,6 +29,7 @@ import {
   mergeClassifications,
 } from "../option-groups/model";
 import {
+  blockingProjectionIssues,
   projectClassification,
   type TaxonomyDocument,
 } from "../taxonomy/model";
@@ -39,6 +40,7 @@ import {
 import { generatorTermId } from "../logic/generator";
 import { kebabCaseNameFormatter } from "../taxonomy/formatting";
 import { canonicalTokenModeKey } from "../tokens/browserModel";
+import { scaleIdentityContext } from "../modes/scaleKeys";
 import { semanticIdentityKey } from "../structures/semanticIdentity";
 import type { TshirtAuthoringSource } from "./tshirtArtifacts";
 import type { TshirtArtifactBundle, TshirtSemanticRow } from "./tshirtTypes";
@@ -62,6 +64,7 @@ import { tokenUuid } from "../tokens/model";
 import type { OptionProperty } from "../option-groups/model";
 import type { TshirtSizingRule } from "../logic/model";
 import type { StructureLiteralBinding } from "../structures/model";
+import { resolveModeParameterValues } from "../modes/parameterResolution";
 
 interface LeafContext {
   context: Record<string, string>;
@@ -94,6 +97,16 @@ function resourcesFor(
       includeUnpublished: true,
     },
   );
+  const modeValues = resolveModeParameterValues(
+    {
+      color: complete.colorSystem,
+      typography: complete.typography,
+      componentSizing: complete.componentSizing,
+    },
+    [],
+    undefined,
+    { modeSets: complete.modeSets },
+  );
   const dimensions = (family: "size" | "spacing" | "radius") =>
     complete[family].scales.map((scale) => ({
       scale,
@@ -102,6 +115,7 @@ function resourcesFor(
         scale,
         complete.rules,
         complete.scaleTypes,
+        modeValues,
       ),
     }));
   const references = primitiveReferencesFromOutputs(
@@ -166,11 +180,13 @@ function contextsFor(
         )
       : [];
   const invalid = related.find(
-    (row) => row.token.validationError || row.token.projection?.issues.length,
+    (row) =>
+      row.token.validationError ||
+      blockingProjectionIssues(row.token.projection).length,
   );
   if (invalid)
     throw new Error(
-      `The leaf binding's mode values are invalid (${invalid.token.validationError ?? invalid.token.projection?.issues.join(" ")}). Repair its primitive source.`,
+      `The leaf binding's mode values are invalid (${invalid.token.validationError ?? blockingProjectionIssues(invalid.token.projection).join(" ")}). Repair its primitive source.`,
     );
   if ("$ref" in binding && !related.length)
     throw new Error(
@@ -207,7 +223,8 @@ function referencesForContext(
     const row = context.related
       .filter(
         (item) =>
-          item.id === reference.id &&
+          (item.id === reference.id ||
+            (item.token.sourceId ?? item.token.id) === reference.nativeId) &&
           (JSON.parse(item.context) as [string, string][]).every(
             ([axis, mode]) => context.selection[axis] === mode,
           ),
@@ -265,6 +282,7 @@ function propertyClassification(
 
 function emitLeafRow(
   bundle: TshirtArtifactBundle,
+  modeSets: TshirtAuthoringSource["modeSets"],
   taxonomy: TaxonomyDocument,
   contextStructure: Structure,
   identityStructure: Structure,
@@ -313,7 +331,7 @@ function emitLeafRow(
     tokenUuid(
       `structure-semantic-row:v1:${tokenUuid(
         `structure-semantic:v1:${contextStructure.conceptId}:${canonicalJson(classification.classification)}`,
-      )}:${canonicalJson(leafContext.context)}`,
+      )}:${canonicalJson(scaleIdentityContext(leafContext.context, modeSets))}`,
     );
   if (
     optionId &&
@@ -456,6 +474,7 @@ function appendBindings(
         const { target, ...mapping } = mapped;
         emitLeafRow(
           bundle,
+          source.modeSets,
           resources.taxonomy,
           contextStructure,
           bindingStructure,

@@ -12,6 +12,9 @@ import {
 } from "../logic/generator";
 import type { TshirtSizingRule } from "../logic/model";
 import { generateTypography } from "../typography/typographyGeneration";
+import { resolveTypographyDocument } from "../typography/resolution";
+import { resolveModeParameterValues } from "../modes/parameterResolution";
+import { parameterOwners } from "../modes/parameters";
 import { centerInMinHeight } from "../structures/resolution";
 import { generateDimensionScale } from "../scales/foundation";
 import { clampScaleRange } from "../scales/stepNames";
@@ -45,8 +48,10 @@ import {
   modeCombinationCount,
   modeSelections,
   modesForSelection,
+  contextForModes,
 } from "../modes/combinations";
 import { canonicalTokenModeKey } from "../tokens/browserModel";
+import { scaleIdentityContext } from "../modes/scaleKeys";
 import { tokenUuid } from "../tokens/model";
 import { primitiveReferenceId } from "../tokens/primitiveIdentity";
 import {
@@ -83,6 +88,12 @@ import {
   withTaxonomyProjection,
 } from "../taxonomy/model";
 import { appendStructureVariantArtifacts } from "./structureVariantArtifacts";
+import {
+  tokenEdit,
+  tokenIdentity,
+  tokenIdentityRow,
+} from "../tokens/canonicalIdentity";
+import { canonicalTokenByUuid } from "../tokens/canonicalCatalogue";
 export type {
   TshirtArtifactBundle,
   TshirtSemanticRow,
@@ -113,6 +124,7 @@ const primitiveProperty = (family: PrimitiveReference["family"]) =>
 function primitiveRecord(
   target: PrimitiveReference,
   context: SourceContext,
+  modeSets: TshirtAuthoringSource["modeSets"],
 ): { token: TshirtTokenRecord; conceptId: string } {
   if (target.step === undefined || !target.sourceName)
     throw new Error(
@@ -130,7 +142,7 @@ function primitiveRecord(
           `elevation-shadow:${target.nativeId}:${canonicalTokenModeKey(context.selection)}`,
         )
       : tokenUuid(
-          `dimension-row:${conceptId}:${canonicalJson(context.context)}`,
+          `dimension-row:${conceptId}:${canonicalJson(scaleIdentityContext(context.context, modeSets))}`,
         );
   return {
     conceptId,
@@ -156,7 +168,7 @@ export function buildTshirtArtifacts(
   snapshot: TshirtAuthoringSource,
   sourceKind: TshirtArtifactBundle["sourceKind"] = "working",
 ): TshirtArtifactBundle {
-  return snapshot.taxonomy
+  const bundle = snapshot.taxonomy
     ? withTaxonomyProjection(snapshot.taxonomy, () =>
         appendStructureVariantArtifacts(
           snapshot,
@@ -165,6 +177,115 @@ export function buildTshirtArtifacts(
         ),
       )
     : buildTshirtBatch(snapshot, sourceKind);
+  const replacements = new Map<string, TshirtTokenRecord>();
+  const edits = snapshot.browserTokenEdits ?? {};
+  for (const lineage of bundle.primitiveLineage) {
+    const identity = tokenIdentity(edits, lineage.nativeId);
+    if (!identity) continue;
+    const overrideContext = canonicalTokenModeKey(
+      Object.fromEntries(
+        snapshot.modeSets.flatMap((axis) => {
+          const mode = axis.modes.find(
+            (mode) => mode.key === lineage.context[axis.key],
+          );
+          return mode ? [[axis.id, mode.id]] : [];
+        }),
+      ),
+    );
+    const uuid = tokenEdit(edits, lineage.nativeId)?.values[overrideContext]
+      ? identity.rows[overrideContext]
+      : (identity.rows[overrideContext] ??
+        tokenIdentityRow(identity, snapshot.modeSets, lineage.context));
+    if (!uuid) continue;
+    const rowContext = Object.keys(identity.rows).find(
+      (key) => identity.rows[key] === uuid,
+    )!;
+    const conditions = Object.fromEntries(
+      (JSON.parse(rowContext) as [string, string][]).flatMap(
+        ([axisId, modeId]) => {
+          const axis = snapshot.modeSets.find((axis) => axis.id === axisId);
+          const mode = axis?.modes.find((mode) => mode.id === modeId);
+          return axis && mode ? [[axis.key, mode.key]] : [];
+        },
+      ),
+    );
+    const original = bundle.tokens.find((token) => token.uuid === lineage.uuid);
+    if (!original) continue;
+    replacements.set(original.uuid, {
+      ...original,
+      uuid,
+      conceptId: identity.conceptId,
+      name: canonicalTokenByUuid.get(uuid)?.name ?? {
+        ...identity.name,
+        ...conditions,
+      },
+    });
+    lineage.uuid = uuid;
+    lineage.conceptId = identity.conceptId;
+  }
+  for (const row of bundle.semantics) {
+    const identity = tokenIdentity(
+      snapshot.browserTokenEdits ?? {},
+      row.sourceId ?? row.conceptId,
+    );
+    if (!identity) continue;
+    const context = canonicalTokenModeKey(
+      Object.fromEntries(
+        Object.entries(row.context).flatMap(([key, mode]) => {
+          const axis = snapshot.modeSets.find((axis) => axis.key === key);
+          const option = axis?.modes.find((option) => option.key === mode);
+          return axis && option ? [[axis.id, option.id]] : [];
+        }),
+      ),
+    );
+    const uuid = identity.rows[context] ?? row.token.uuid;
+    if (!identity.rows[context])
+      bundle.diagnostics.push({
+        severity: "warning",
+        code: "identity",
+        message: `${formatTshirtName(row.token.name)} needs a persisted row identity for ${context}.`,
+        structureId: row.structureId,
+        bindingIds: row.bindingIds,
+        ruleIds: row.ruleIds,
+        size: row.size,
+        requested: row.mapping.requested,
+        actual: row.mapping.actual,
+        targetId: row.target.id,
+        context: row.context,
+      });
+    const token = {
+      ...row.token,
+      uuid,
+      conceptId: identity.conceptId,
+      name: canonicalTokenByUuid.get(uuid)?.name ?? {
+        ...identity.name,
+        ...row.context,
+      },
+    };
+    replacements.set(row.token.uuid, token);
+    row.sourceId ??= row.conceptId;
+    row.conceptId = identity.conceptId;
+    row.token = token;
+  }
+  const tokens = new Map<string, TshirtTokenRecord>();
+  for (const token of [
+    ...bundle.tokens,
+    ...bundle.semantics.map((row) => row.token),
+  ]) {
+    let next = replacements.get(token.uuid) ?? token;
+    if (next.$ref && replacements.has(next.$ref))
+      next = { ...next, $ref: replacements.get(next.$ref)!.uuid };
+    const existing = tokens.get(next.uuid);
+    if (existing && canonicalJson(existing) !== canonicalJson(next))
+      throw new Error(
+        `Generated token ${next.uuid} has conflicting publication records: ${canonicalJson(existing)} and ${canonicalJson(next)}. Review its source identities.`,
+      );
+    tokens.set(next.uuid, next);
+  }
+  bundle.tokens = [...tokens.values()];
+  for (const row of bundle.semantics)
+    row.token = tokens.get(row.token.uuid) ?? row.token;
+  return bundle;
 }
 
 function virtualAnchor(
@@ -573,35 +694,97 @@ function buildTshirtBatch(
       })
     : [];
   contexts.set(sourceKey("elevation", elevation.id), elevationContexts);
-  let baseline: PrimitiveReference[] | undefined;
-  const baselineReferences = () =>
-    (baseline ??= [
-      ...[...contexts.values()].flatMap((plans) => plans[0]?.references ?? []),
-      ...primitiveReferencesFromOutputs(
-        {
-          spacing: [],
-          size: [],
-          radius: [],
-          elevation: { document: elevation, levels: [] },
-          typography: {
-            document: snapshot.typography,
-            values: generateTypography(
-              snapshot.typography,
-              undefined,
-              rules,
-              scaleTypes,
-              snapshot.interpolations,
+  const parameterOwnership = parameterOwners(snapshot.modeSets);
+  const defaults = Object.fromEntries(
+    snapshot.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
+  );
+  const parametersForSelection = (selection: Record<string, string>) =>
+    resolveModeParameterValues(
+      {
+        color: snapshot.colorSystem,
+        typography: snapshot.typography,
+        componentSizing: snapshot.componentSizing,
+      },
+      modesForSelection(snapshot.modeSets, { ...defaults, ...selection }),
+      undefined,
+      { modeSets: snapshot.modeSets },
+    );
+  const typographyAxes = snapshot.modeSets.filter((axis) =>
+    ["typography.textZoom", "typography.textSize"].some(
+      (id) => parameterOwnership[id] === axis.id,
+    ),
+  );
+  const typographyContexts = modeSelections(typographyAxes, defaults).map(
+    (selection): SourceContext => {
+      const modes = modesForSelection(snapshot.modeSets, selection);
+      const isDefault = typographyAxes.every(
+        (axis) => selection[axis.id] === axis.defaultModeId,
+      );
+      const document = resolveTypographyDocument(
+        snapshot.typography,
+        modes,
+        undefined,
+        { modeSets: snapshot.modeSets },
+      );
+      return {
+        kind: isDefault ? "baseline" : "binding",
+        selection,
+        context: isDefault
+          ? {}
+          : contextForModes(
+              typographyAxes,
+              modesForSelection(typographyAxes, selection),
             ),
-            naming: {
-              registry: taxonomy,
-              names: snapshot.typography.metricNames,
-              outputUnit: snapshot.typography.outputUnit,
+        references: primitiveReferencesFromOutputs(
+          {
+            spacing: [],
+            size: [],
+            radius: [],
+            elevation: { document: elevation, levels: [] },
+            typography: {
+              document,
+              values: generateTypography(
+                document,
+                undefined,
+                rules,
+                scaleTypes,
+                snapshot.interpolations,
+              ),
+              naming: {
+                registry: taxonomy,
+                names: document.metricNames,
+                outputUnit: document.outputUnit,
+              },
             },
           },
-        },
-        taxonomy,
-      ).filter((reference) => reference.family === "typography"),
-    ]);
+          taxonomy,
+        ),
+      };
+    },
+  );
+  contexts.set(sourceKey("typography", "metrics"), typographyContexts);
+  const referencesForSelection = (selection: Record<string, string>) => {
+    const active = { ...defaults, ...selection };
+    return [...contexts.values()].flatMap((plans) => {
+      const matches = plans.filter((plan) =>
+        Object.entries(plan.context).every(([key, value]) => {
+          const axis = snapshot.modeSets.find((set) => set.key === key);
+          return axis?.modes.some(
+            (mode) => mode.id === active[axis.id] && mode.key === value,
+          );
+        }),
+      );
+      const selected = matches.sort(
+        (a, b) =>
+          Number(b.kind === "override") - Number(a.kind === "override") ||
+          Object.keys(b.context).length - Object.keys(a.context).length,
+      )[0];
+      return selected?.references ?? [];
+    });
+  };
+  let baseline: PrimitiveReference[] | undefined;
+  const baselineReferences = () =>
+    (baseline ??= referencesForSelection(defaults));
   const tokenRows = new Map<string, TshirtTokenRecord>();
   const primitiveRows = new Set<string>();
   // Tokens structures already link; typed and derived values alias the same scales.
@@ -652,7 +835,36 @@ function buildTshirtBatch(
           throw new Error(
             `${label}: the Medium anchor is unavailable. Repair its source reference.`,
           );
-        for (const context of groupContexts) {
+        const componentAxis = snapshot.modeSets.find(
+          (axis) => axis.id === parameterOwnership["size.componentSize"],
+        );
+        const componentContexts = groupContexts.flatMap((context) => {
+          const anchor = context.references.find(
+            (item) => item.id === referenceId,
+          )!;
+          if (
+            anchor.family !== "spacing" ||
+            !componentAxis ||
+            context.context[componentAxis.key] !== undefined ||
+            context.kind === "override"
+          )
+            return [context];
+          return componentAxis.modes.map(
+            (mode): SourceContext => ({
+              ...context,
+              kind:
+                mode.id === componentAxis.defaultModeId
+                  ? context.kind
+                  : "binding",
+              selection: { ...context.selection, [componentAxis.id]: mode.id },
+              context:
+                mode.id === componentAxis.defaultModeId
+                  ? context.context
+                  : { ...context.context, [componentAxis.key]: mode.key },
+            }),
+          );
+        });
+        for (const context of componentContexts) {
           const anchor = context.references.find(
             (item) => item.id === referenceId,
           )!;
@@ -663,29 +875,81 @@ function buildTshirtBatch(
               anchor,
               context.references,
               structureSizes(structure),
-              { rules, scaleTypes },
+              {
+                rules,
+                scaleTypes,
+                componentSize: parametersForSelection(context.selection)[
+                  "size.componentSize"
+                ],
+              },
             ),
           });
         }
       } else {
-        const context: SourceContext = {
-          kind: "baseline",
-          context: {},
-          selection: {},
-          references: baselineReferences(),
-        };
-        runs.push({
-          context,
-          mappings: virtualMappings(
-            structure,
-            label,
-            lead,
-            group.bindings[0].rule,
-            context.references,
-            { rules, scaleTypes },
-            linkedIds,
-          ),
-        });
+        const dependencies = new Set<string>();
+        if (lead.value.kind === "number") {
+          const owner = parameterOwnership["size.componentSize"];
+          if (owner) dependencies.add(owner);
+        } else {
+          const minimum = structure.properties.find(
+            (item) => structureSlot(item) === "minHeight",
+          );
+          const ids = [
+            lead.value.contentRef,
+            ...(minimum && "$ref" in minimum ? [minimum.$ref] : []),
+          ];
+          for (const plans of contexts.values())
+            if (
+              plans.some((plan) =>
+                plan.references.some((reference) => ids.includes(reference.id)),
+              )
+            )
+              for (const plan of plans)
+                for (const key of Object.keys(plan.context)) {
+                  const axis = snapshot.modeSets.find((set) => set.key === key);
+                  if (axis) dependencies.add(axis.id);
+                }
+          if (minimum && !("$ref" in minimum)) {
+            const owner = parameterOwnership["size.componentSize"];
+            if (owner) dependencies.add(owner);
+          }
+        }
+        const virtualAxes = snapshot.modeSets.filter((axis) =>
+          dependencies.has(axis.id),
+        );
+        for (const selection of modeSelections(virtualAxes, defaults)) {
+          const isDefault = virtualAxes.every(
+            (axis) => selection[axis.id] === axis.defaultModeId,
+          );
+          const context: SourceContext = {
+            kind: isDefault ? "baseline" : "binding",
+            context: isDefault
+              ? {}
+              : contextForModes(
+                  virtualAxes,
+                  modesForSelection(virtualAxes, selection),
+                ),
+            selection,
+            references: referencesForSelection(selection),
+          };
+          runs.push({
+            context,
+            mappings: virtualMappings(
+              structure,
+              label,
+              lead,
+              group.bindings[0].rule,
+              context.references,
+              {
+                rules,
+                scaleTypes,
+                componentSize:
+                  parametersForSelection(selection)["size.componentSize"],
+              },
+              linkedIds,
+            ),
+          });
+        }
       }
       for (const { context, mappings } of runs) {
         for (const mapping of mappings) {
@@ -700,9 +964,13 @@ function buildTshirtBatch(
             `structure-semantic:v1:${structure.conceptId}:${canonicalJson(classification)}`,
           );
           const uuid = tokenUuid(
-            `structure-semantic-row:v1:${conceptId}:${canonicalJson(context.context)}`,
+            `structure-semantic-row:v1:${conceptId}:${canonicalJson(scaleIdentityContext(context.context, snapshot.modeSets))}`,
           );
-          const primitive = primitiveRecord(mapping.target, context);
+          const primitive = primitiveRecord(
+            mapping.target,
+            context,
+            snapshot.modeSets,
+          );
           const token: TshirtTokenRecord = {
             uuid,
             name: {

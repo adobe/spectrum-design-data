@@ -38,14 +38,19 @@ const BOX_LIMIT = 6;
 
 const TIERS: { id: NewTokenTier; label: string; description: string }[] = [
   {
-    id: "raw",
-    label: "Raw value",
+    id: "primitive",
+    label: "Primitive",
     description: "A palette color or a step on a scale.",
   },
   {
-    id: "purpose",
-    label: "Purpose-based",
-    description: "A value for a specific use, like a button background.",
+    id: "semantic",
+    label: "Semantic",
+    description: "A token for a shared purpose or reusable structure.",
+  },
+  {
+    id: "component",
+    label: "Component",
+    description: "A token for a specific component.",
   },
 ];
 
@@ -201,8 +206,8 @@ export function AddTokenDialog({
               <Button
                 variant="secondary"
                 onPress={() => {
-                  const { [step.category.id]: _skipped, ...terms } =
-                    answers.terms;
+                  const terms = { ...answers.terms };
+                  delete terms[step.category.id];
                   setAnswers({ ...answers, terms });
                   setIndex(index + 1);
                 }}

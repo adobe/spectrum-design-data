@@ -14,6 +14,8 @@ const TONES: Record<BarTone, string> = {
   cyan: style({ backgroundColor: "cyan-800" }),
   indigo: style({ backgroundColor: "indigo-800" }),
   red: style({ backgroundColor: "red-800" }),
+  green: style({ backgroundColor: "green-800" }),
+  gray: style({ backgroundColor: "gray-200" }),
 };
 
 const remainderStyles = style({ backgroundColor: "gray-200" });

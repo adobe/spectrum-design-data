@@ -6,6 +6,7 @@ import {
 } from "../color-system/colorScaleResolution";
 import { resolvedBackgroundLinear } from "../color-system/surfaceGeneration";
 import type { TypographyDocument } from "../typography/model";
+import type { ComponentSizingDocument } from "../foundations/componentSizing";
 import { generateTypography } from "../typography/typographyGeneration";
 import { resolveTypographyDocument } from "../typography/resolution";
 import type { DimensionDocument } from "../scales/foundation";
@@ -58,8 +59,14 @@ import { opacityAxes } from "../opacity/generation";
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import type { OpacityDocument } from "../opacity/model";
 import { semanticTokenSource } from "./semanticSource";
+import {
+  canonicalPrimitiveProperties,
+  tokenIdentity,
+} from "./canonicalIdentity";
+import { canonicalTokenByUuid } from "./canonicalCatalogue";
 
 export interface AliasAuthoringSource {
+  componentSizing?: ComponentSizingDocument;
   opacity?: OpacityDocument;
   colorSystem: ColorSystemDocument;
   typography: TypographyDocument;
@@ -78,6 +85,7 @@ export interface AliasAuthoringSource {
 
 export interface CanonicalAliasRow extends AliasExportTarget {
   token: BrowserToken;
+  canonicalName?: Record<string, string | number>;
 }
 
 export function completeAliasSource(
@@ -118,6 +126,7 @@ export function completeAliasSource(
     );
   }
   return {
+    componentSizing: value.componentSizing,
     opacity: value.opacity,
     colorSystem,
     typography,
@@ -153,6 +162,15 @@ export function canonicalAliasRows(
     axes.map((axis) => [axis.id, axis.modes.map((mode) => mode.id)]),
   );
   const rows = new Map<string, CanonicalAliasRow>();
+  const semanticAxes = new Map<string, Set<string>>();
+  for (const row of semantics?.semantics ?? []) {
+    const owned = semanticAxes.get(row.conceptId) ?? new Set<string>();
+    for (const key of Object.keys(row.context)) {
+      const axis = axes.find((axis) => axis.key === key);
+      if (axis) owned.add(axis.id);
+    }
+    semanticAxes.set(row.conceptId, owned);
+  }
   for (const selection of combinations) {
     const modes = modesForSelection(axes, selection);
     const modeKey = canonicalTokenModeKey(selection);
@@ -204,7 +222,11 @@ export function canonicalAliasRows(
       source.interpolations,
     );
     const parameters = resolveModeParameterValues(
-      { color: source.colorSystem, typography: source.typography },
+      {
+        color: source.colorSystem,
+        typography: source.typography,
+        componentSizing: source.componentSizing,
+      },
       modes,
       undefined,
       { modeSets: source.modeSets },
@@ -270,9 +292,9 @@ export function canonicalAliasRows(
       ...(semantics?.semantics ?? [])
         .filter((row) => !excludeColors || row.target.family !== "color")
         .filter((row) =>
-          Object.entries(row.selection).every(
-            ([axis, mode]) => selection[axis] === mode,
-          ),
+          Object.entries(row.selection)
+            .filter(([axis]) => semanticAxes.get(row.conceptId)?.has(axis))
+            .every(([axis, mode]) => selection[axis] === mode),
         )
         .map((row) => semanticTokenSource(row, source.taxonomy)),
     );
@@ -295,7 +317,7 @@ export function canonicalAliasRows(
         if (owners[parameter]) result.add(owners[parameter]);
       };
       if (target.semantic)
-        Object.keys(target.semantic.selection).forEach((axis) =>
+        (semanticAxes.get(target.semantic.conceptId) ?? []).forEach((axis) =>
           result.add(axis),
         );
       else if (target.manual) {
@@ -312,8 +334,10 @@ export function canonicalAliasRows(
           ].forEach(own);
         else if (definition?.type === "opacity")
           opacityAxes(source).forEach((axis) => result.add(axis.id));
-        else if (definition?.type === "typography") own("typography.textZoom");
-        else if (definition?.type === "elevation")
+        else if (definition?.type === "typography") {
+          own("typography.textZoom");
+          own("typography.textSize");
+        } else if (definition?.type === "elevation")
           elevationOwnerIds(source.modeSets, source, source.elevation).forEach(
             (axis) => result.add(axis),
           );
@@ -345,8 +369,10 @@ export function canonicalAliasRows(
             "color.contrastMultiplier",
           ].forEach(own);
         }
-      } else if (target.type === "typography") own("typography.textZoom");
-      else if (target.type === "elevation")
+      } else if (target.type === "typography") {
+        own("typography.textZoom");
+        own("typography.textSize");
+      } else if (target.type === "elevation")
         elevationOwnerIds(source.modeSets, source, source.elevation).forEach(
           (axis) => result.add(axis),
         );
@@ -357,6 +383,7 @@ export function canonicalAliasRows(
         target.type === "spacing" ||
         target.type === "radius"
       ) {
+        if (target.type !== "spacing") own("size.componentSize");
         const scale = source[target.type].scales.find(
           (scale) => scale.id === target.groupId,
         );
@@ -395,7 +422,7 @@ export function canonicalAliasRows(
       if (token.manual) {
         referenceAxes(token.id).forEach((axis) => owned.add(axis));
       } else if (token.semantic) {
-        for (const axis of Object.keys(token.semantic.selection))
+        for (const axis of semanticAxes.get(token.semantic.conceptId) ?? [])
           owned.add(axis);
       } else if (token.type === "colors" && !token.paletteColorId) {
         if (token.dataVis) {
@@ -434,8 +461,9 @@ export function canonicalAliasRows(
         for (const axis of opacityAxes(source)) owned.add(axis.id);
       } else if (token.type === "typography") {
         own("typography.textZoom");
+        own("typography.textSize");
         const value = typeValues.find((item) =>
-          token.id.endsWith(`-${item.scale}`),
+          (token.sourceId ?? token.id).endsWith(`-${item.scale}`),
         );
         if (!value)
           throw new Error("Typography alias target has no source position.");
@@ -449,7 +477,9 @@ export function canonicalAliasRows(
           source.elevation,
         ))
           owned.add(axis);
-        const level = levels.find((item) => item.id === token.id)!;
+        const level = levels.find(
+          (item) => item.id === (token.sourceId ?? token.id),
+        )!;
         id = primitiveReferenceId(
           "elevation",
           source.elevation.id,
@@ -460,6 +490,7 @@ export function canonicalAliasRows(
         token.type === "size" ||
         token.type === "radius"
       ) {
+        if (token.type !== "spacing") own("size.componentSize");
         const scale = source[token.type].scales.find(
           (item) => item.id === token.groupId,
         )!;
@@ -471,7 +502,9 @@ export function canonicalAliasRows(
               : radius
         ).find((item) => item.scale.id === scale.id)!;
         const value = output.values.find(
-          (item) => token.id === `${token.type}-${scale.id}-${item.step}`,
+          (item) =>
+            (token.sourceId ?? token.id) ===
+            `${token.type}-${scale.id}-${item.step}`,
         )!;
         id = primitiveReferenceId(token.type, scale.id, value.index);
         for (const binding of Object.values(scale.bindings ?? {}))
@@ -494,22 +527,77 @@ export function canonicalAliasRows(
           owned.add(axis);
       if (token.referenceId)
         referenceAxes(token.referenceId).forEach((axis) => owned.add(axis));
+      const semanticContext = token.semantic
+        ? Object.fromEntries(
+            Object.entries(token.semantic.context).flatMap(([key, mode]) => {
+              const axis = axes.find((axis) => axis.key === key);
+              const selected = axis?.modes.find((item) => item.key === mode);
+              return axis && selected ? [[axis.id, selected.id]] : [];
+            }),
+          )
+        : undefined;
       const context = canonicalTokenModeKey(
-        Object.fromEntries(
-          Object.entries(selection).filter(([axis]) => owned.has(axis)),
-        ),
+        semanticContext
+          ? {
+              ...semanticContext,
+              ...Object.fromEntries(
+                Object.entries(selection).filter(
+                  ([axis, mode]) =>
+                    owned.has(axis) &&
+                    !semanticAxes.get(token.semantic!.conceptId)?.has(axis) &&
+                    axes.find((candidate) => candidate.id === axis)
+                      ?.defaultModeId !== mode,
+                ),
+              ),
+            }
+          : Object.fromEntries(
+              Object.entries(selection).filter(([axis]) => owned.has(axis)),
+            ),
       );
+      const identity = tokenIdentity(
+        source.browserTokenEdits,
+        token.sourceId ?? token.id,
+      );
+      if (identity) id = identity.conceptId;
       const key = JSON.stringify([id, context]);
+      const rowId =
+        identity?.rows[context] ??
+        (token.type === "opacity"
+          ? token.rowId!
+          : tokenUuid(`canonical-token-row:v1:${id}:${context}`));
+      const canonical = canonicalTokenByUuid.get(rowId);
       const row = {
         id,
         context,
-        rowId:
-          token.type === "opacity"
-            ? token.rowId!
-            : tokenUuid(`canonical-token-row:v1:${id}:${context}`),
+        rowId,
         name: token.name,
         token,
-        ...(token.dataVis?.static && { compatibleModes }),
+        canonicalName: {
+          ...(canonicalPrimitiveProperties[token.type] && {
+            property: canonicalPrimitiveProperties[token.type]!,
+          }),
+          ...(identity?.name ??
+            token.semantic?.token.name ??
+            token.projection?.flat),
+          ...Object.fromEntries(
+            (JSON.parse(context) as [string, string][]).flatMap(
+              ([axisId, modeId]) => {
+                const axis = axes.find((axis) => axis.id === axisId);
+                const mode = axis?.modes.find((mode) => mode.id === modeId);
+                if (
+                  canonical &&
+                  axis &&
+                  !Object.hasOwn(canonical.name, axis.key) &&
+                  axis.defaultModeId === modeId
+                )
+                  return [];
+                return axis && mode ? [[axis.key, mode.key]] : [];
+              },
+            ),
+          ),
+          ...canonical?.name,
+        },
+        compatibleModes,
       };
       const previous = rows.get(key);
       if (
@@ -543,6 +631,15 @@ export function canonicalAliasSourceTargets(
   });
   return [
     ...canonicalAliasRows(source, semantics, "strict", { excludeColors: true }),
-    ...inventory.colorReferences,
+    ...inventory.colorReferences.map((target) => {
+      const identity = tokenIdentity(source.browserTokenEdits, target.id);
+      return identity
+        ? {
+            ...target,
+            id: identity.conceptId,
+            rowId: identity.rows[target.context] ?? target.rowId,
+          }
+        : target;
+    }),
   ];
 }

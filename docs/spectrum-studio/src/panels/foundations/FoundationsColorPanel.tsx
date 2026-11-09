@@ -243,16 +243,30 @@ export function FoundationsColorPanel() {
         </div>
       ))}
       <div className={generationSettingsStyles}>
-        {!modeOwners["color.backgroundScaleId"] && (
-          <div className={pickerRowStyles}>
+        <div className={pickerRowStyles}>
+          {!modeOwners["color.backgroundScaleId"] && (
             <ColorScalePicker
               label="Base color scale"
               document={colorDocument}
               selectedKey={colorDocument.backgroundScaleId}
               onSelectionChange={updateBackgroundScale}
             />
-          </div>
-        )}
+          )}
+          <Button
+            aria-label={`Copy resolved background color ${resolvedBackground.css}`}
+            UNSAFE_className={String(resolvedColorSwatchButtonStyles)}
+            onPress={async () => {
+              await navigator.clipboard.writeText(resolvedBackground.css);
+              notify.copied();
+            }}
+          >
+            <ColorSwatch
+              color={resolvedBackground.hex}
+              aria-label="Resolved background color"
+              size="L"
+            />
+          </Button>
+        </div>
         <div className={backgroundColorControlsStyles}>
           {!modeOwners["color.backgroundLightness"] &&
             (isReadOnly ? (
@@ -276,20 +290,6 @@ export function FoundationsColorPanel() {
                 }
               />
             ))}
-          <Button
-            aria-label={`Copy resolved background color ${resolvedBackground.css}`}
-            UNSAFE_className={String(resolvedColorSwatchButtonStyles)}
-            onPress={async () => {
-              await navigator.clipboard.writeText(resolvedBackground.css);
-              notify.copied();
-            }}
-          >
-            <ColorSwatch
-              color={resolvedBackground.hex}
-              aria-label="Resolved background color"
-              size="L"
-            />
-          </Button>
         </div>
         {contrastOnlyControls &&
           !modeOwners["color.contrastMultiplier"] &&

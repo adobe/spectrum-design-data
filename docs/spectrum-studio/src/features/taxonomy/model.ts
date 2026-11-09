@@ -2,6 +2,11 @@
 import { kebabCaseNameFormatter, serializeTaxonomyPath } from "./formatting";
 import { numericValuesMayBeShared, taxonomyValueIssue } from "./valueDomains";
 import { normalizeTermValue } from "./termPresentation";
+import {
+  categoryAllowsTier,
+  isTokenTier,
+  type TokenTier,
+} from "../tokens/tier";
 
 export type DimensionScope = "spacing" | "size" | "radius";
 export const DIMENSION_SCOPES = ["spacing", "size", "radius"] as const;
@@ -13,8 +18,6 @@ export type TaxonomyScope =
   | "structures"
   | DimensionScope;
 export type TaxonomyValue = string | number;
-export type TaxonomyCategoryTier = "raw" | "purpose" | "both";
-export const TAXONOMY_CATEGORY_TIERS = ["raw", "purpose", "both"] as const;
 export interface TaxonomyCategory {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
   id: string;
@@ -26,8 +29,8 @@ export interface TaxonomyCategory {
   scopes: TaxonomyScope[];
   required: boolean;
   includeInProjections: boolean;
-  /** Which "Add token" answer shows this category. Missing means both. */
-  appliesTo?: TaxonomyCategoryTier;
+  /** Missing means all tiers. Independent of value type and domain scopes. */
+  allowedTokenTiers?: TokenTier[];
 }
 export interface TaxonomyTerm {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -60,11 +63,21 @@ export interface TaxonomySegment {
   values: TaxonomyValue[];
 }
 export interface TaxonomyProjection {
+  tierIssues?: string[];
   classification: Classification;
   segments: TaxonomySegment[];
   name: string;
   flat: Record<string, TaxonomyValue | TaxonomyValue[]>;
   issues: string[];
+}
+export function blockingProjectionIssues(
+  projection: TaxonomyProjection | undefined,
+): string[] {
+  return (
+    projection?.issues.filter(
+      (issue) => !projection.tierIssues?.includes(issue),
+    ) ?? []
+  );
 }
 export const taxonomyValueKey = (value: TaxonomyValue) =>
   String(value).trim().toLowerCase();
@@ -138,7 +151,7 @@ export function taxonomyIssues(value: unknown): string[] {
         "scopes",
         "required",
         "includeInProjections",
-        "appliesTo",
+        "allowedTokenTiers",
       ]) ||
       typeof category.id !== "string" ||
       !taxonomyIdPattern.test(category.id) ||
@@ -155,10 +168,12 @@ export function taxonomyIssues(value: unknown): string[] {
       new Set(category.scopes).size !== category.scopes.length ||
       typeof category.required !== "boolean" ||
       typeof category.includeInProjections !== "boolean" ||
-      (category.appliesTo !== undefined &&
-        !TAXONOMY_CATEGORY_TIERS.includes(
-          category.appliesTo as TaxonomyCategoryTier,
-        ))
+      (category.allowedTokenTiers !== undefined &&
+        (!Array.isArray(category.allowedTokenTiers) ||
+          !category.allowedTokenTiers.length ||
+          category.allowedTokenTiers.some((tier) => !isTokenTier(tier)) ||
+          new Set(category.allowedTokenTiers).size !==
+            category.allowedTokenTiers.length))
     ) {
       issues.push("Malformed category, field key, type, cardinality or scope.");
       continue;
@@ -341,6 +356,7 @@ function copyProjection(
     ...projection,
     classification,
     issues: [...projection.issues],
+    ...(projection.tierIssues && { tierIssues: [...projection.tierIssues] }),
     segments: projection.segments.map((segment) => ({
       ...segment,
       termIds: [...segment.termIds],
@@ -359,13 +375,15 @@ export function projectClassification(
   document: TaxonomyDocument,
   classification: Classification,
   scope: TaxonomyScope,
+  tier?: TokenTier,
 ): TaxonomyProjection {
   const context = projectionContexts.get(document);
   const key =
-    context && JSON.stringify([scope, Object.entries(classification)]);
+    context && JSON.stringify([scope, tier, Object.entries(classification)]);
   const cached = key && context?.projections.get(key);
   if (cached) return copyProjection(cached, classification);
   const issues = context ? [...context.issues] : taxonomyIssues(document);
+  const tierIssues: string[] = [];
   const segments: TaxonomySegment[] = [],
     flat: TaxonomyProjection["flat"] = {};
   for (const id of Object.keys(classification))
@@ -382,12 +400,18 @@ export function projectClassification(
     if (!category) continue;
     const assignment = classification[id];
     if (assignment === undefined) {
-      if (category.required && category.scopes.includes(scope))
+      if (
+        category.required &&
+        category.scopes.includes(scope) &&
+        (tier === undefined || categoryAllowsTier(category, tier))
+      )
         issues.push(`Missing required ${category.name}.`);
       continue;
     }
     if (!category.scopes.includes(scope))
       issues.push(`${category.name} does not apply to ${scope}.`);
+    if (tier !== undefined && !categoryAllowsTier(category, tier))
+      tierIssues.push(`${category.name} does not apply to ${tier} tokens.`);
     if (category.cardinality !== "one" || Array.isArray(assignment))
       issues.push(
         `Only one term per group is supported. Review ${category.name} without discarding its existing assignments.`,
@@ -441,7 +465,8 @@ export function projectClassification(
     segments,
     flat,
     name: serializeTaxonomyPath(segments),
-    issues,
+    issues: [...issues, ...tierIssues],
+    ...(tierIssues.length && { tierIssues }),
   };
   if (context && key && context.projections.size < 2048)
     context.projections.set(key, copyProjection(projection, classification));
@@ -452,6 +477,7 @@ export function resolveEvidence(
   document: TaxonomyDocument,
   evidence: Record<string, TaxonomyValue>,
   scope: TaxonomyScope,
+  tier?: TokenTier,
 ): TaxonomyProjection {
   const classification: Classification = {};
   const issues: string[] = [];
@@ -475,7 +501,12 @@ export function resolveEvidence(
       classification[category.id] =
         category.cardinality === "ordered" ? [term.id] : term.id;
   }
-  const projection = projectClassification(document, classification, scope);
+  const projection = projectClassification(
+    document,
+    classification,
+    scope,
+    tier,
+  );
   return { ...projection, issues: [...issues, ...projection.issues] };
 }
 
@@ -485,9 +516,15 @@ export function resolveSourceClassification(
   evidence: Record<string, TaxonomyValue>,
   scope: TaxonomyScope,
   context?: TaxonomySourceContext,
+  tier?: TokenTier,
 ): TaxonomyProjection {
   if (context?.governed) {
-    const projection = projectClassification(document, context.governed, scope);
+    const projection = projectClassification(
+      document,
+      context.governed,
+      scope,
+      tier,
+    );
     if (document.classifications[sourceId]) {
       projection.issues.push(
         "Generated classification is governed by the foundation; remove token overrides.",
@@ -496,8 +533,8 @@ export function resolveSourceClassification(
     return projection;
   }
   const explicit = document.classifications[sourceId];
-  if (explicit) return projectClassification(document, explicit, scope);
-  return resolveEvidence(document, evidence, scope);
+  if (explicit) return projectClassification(document, explicit, scope, tier);
+  return resolveEvidence(document, evidence, scope, tier);
 }
 
 export function registerTerm(

@@ -16,6 +16,7 @@ import {
   displayedModeIdsAtom,
   resetModeAtom,
 } from "../features/modes/preview";
+export const ALL_MODES_KEY = "__all-modes__";
 
 const segmentedRowStyles = style({
   display: "flex",
@@ -48,12 +49,14 @@ export function ModeSetPicker({
   modeSet,
   selectedKey,
   onSelectionChange,
+  allModesLabel,
 }: {
   modeSet: ModeSet;
   selectedKey: string;
   onSelectionChange: (modeId: string) => void;
+  allModesLabel?: string;
 }) {
-  if (modeSet.modes.length < 2) return null;
+  if (modeSet.modes.length < 2 && !allModesLabel) return null;
 
   const displayedKey = selectedKey;
   const isCustom = displayedKey === CUSTOM_MODE_KEY;
@@ -67,7 +70,7 @@ export function ModeSetPicker({
     if (key !== null) onSelectionChange(String(key));
   };
 
-  if (modeSet.modes.length === 2) {
+  if (modeSet.modes.length === 2 && !allModesLabel) {
     const control = (
       // CUSTOM_MODE_KEY matches no item, which leaves every segment unselected.
       <SegmentedControl
@@ -108,6 +111,11 @@ export function ModeSetPicker({
       onSelectionChange={selectMode}
       UNSAFE_style={modeSetIcon ? { alignItems: "center" } : undefined}
     >
+      {allModesLabel && (
+        <PickerItem id={ALL_MODES_KEY}>
+          <Text>{allModesLabel}</Text>
+        </PickerItem>
+      )}
       {modeSet.modes.map((mode) => (
         <PickerItem key={mode.id} id={mode.id} textValue={mode.name}>
           {showIcons ? MODE_ICONS[mode.iconId] : null}

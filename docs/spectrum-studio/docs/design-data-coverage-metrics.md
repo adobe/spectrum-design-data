@@ -17,33 +17,92 @@ problem and suppress coverage charts, rather than presenting absence as 0% cover
 
 ## What the percentages mean
 
-### Color and opacity comparison
+### Token comparison
 
-The **Colors and opacities** view includes every non-deprecated standalone color
-and opacity token, regardless of source filename. It includes semantic tokens,
-aliases, private tokens, and component-qualified tokens. Color and opacity fields
-inside shadows are not standalone tokens and are outside this report.
+The **Tokens** view shows active tokens from both sources, including generated
+and manual app tokens, semantic tokens, compatibility aliases, and types the
+analysis cannot yet classify or compare. Deprecated tokens from either source
+are hidden from the table but retained in the underlying inventory and reports.
+App-only tokens remain visible. Unknown types show **Unclassified**, not an
+empty result.
 
-Expand a token to see one child row per required mode context. The paired values
-remain in their original notation. Select a row for classification differences,
-raw references, resolution chains, and source locations.
+Analysis opens on **Working authoring**, including current edits but excluding
+temporary preview controls. Saved data and shipped defaults remain available.
+Source files, record IDs, schema evidence, alias targets, and diagnostics are
+retained in `colorOpacity.inventory` in JSON and the complete inventory section
+in Markdown. Sources excluded from publishing are listed with a reason; the
+analysis does not invent token output for them. A failed source makes the
+inventory partial, so unmatched records cannot establish confirmed absence.
 
-| Result | Meaning |
-| --- | --- |
-| Pass | Classifications align and every required value matches. |
-| Acceptable | Classifications align and every required color is exact or has Delta E 2000 below 2, with matching alpha. |
-| Fail | An established counterpart has different classifications, lacks a required mode, or exceeds the value policy. |
-| Unable to evaluate | The counterpart is unconfirmed or ambiguous, or resolution, inventory, or freshness evidence is unavailable. |
+Inventory is separate from migration scoring. Nondeprecated supported reference
+tokens define migration requirements. App-only, deprecated, compatibility-alias,
+and unclassified inventory rows do not inflate those requirements or become
+failures just because they are inventoried. Inventory-only rows cannot be selected
+for applying reference values. Elevation compares complete shadow layers, not
+their fields as standalone tokens.
+
+Font-size steps belong to **Typography**, not the layout **Size** category.
+Confirmed app `text`/`size` metrics adopt the reference `font-size` concept and
+row identities through the shared authoring reconciliation. Analysis matches
+the shared concept first, then its row and mode context. Reviewed typography
+mappings remain a fallback for unreconciled inputs; equal values never establish
+identity. Additional text-scaling variants stay in the inventory and
+enhancements without adding migration requirements.
+
+Mode conditions describe real variations, not every setting selected to run a
+generator. For example, `accessory-gap-extra-large` shares the reference's
+canonical 8px baseline identity, while the app's deliberate mobile 10px branch
+has a separate row under the same concept. Unrelated Color scheme, Contrast
+and Text scaling selections do not create extra rows. A specific branch takes
+precedence over its fallback, and equal-valued authored branches remain
+separate. Adopting identity does not copy reference values or make differences
+pass.
+
+With all modes shown, expand a token to see its required mode contexts. Choosing
+any mode filter flattens the table to one row per matching context, with the mode
+combination in the name. The table reuses the Tokens page's search, category
+filters, and mode controls, without adaptive controls, grid view, or Add token.
+The paired values remain in their original notation. Open a token name for
+classification differences, references, resolution chains, and source locations.
+
+| Result             | Meaning                                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Pass               | Classifications align and every required value matches.                                                       |
+| Acceptable         | Classifications align and every required color is exact or has Delta E 2000 below 2, with matching alpha.     |
+| Fail               | An established counterpart has different classifications, lacks a required mode, or exceeds the value policy. |
+| Unable to evaluate | The counterpart is unconfirmed or ambiguous, or resolution, inventory, or freshness evidence is unavailable.  |
 
 Each child badge describes its value only. The parent includes classifications
 and every required context. Filtering does not change the parent's result.
 Fail takes precedence over incomplete evidence; incomplete evidence takes
 precedence over Acceptable. An empty mode inventory cannot pass.
 
-The last column, **Visual comparison**, shows the app value (left) and the
-design data value (right) as two touching swatches with no border or gap.
-Opacity values are drawn over a checkerboard. If either value can't be
-resolved, the cell reads Unavailable.
+Value cells put a compact preview beside the value. **Difference** shows Delta E
+2000 for colors and app minus design-data for compatible numeric values, including
+the unit and a plus sign for positive differences. Other assessed values show
+Not applicable; unresolved or stale differences show Unavailable.
+
+The last column, **Visual comparison**, shows the app value on the left and
+design-data on the right, using touching swatches for color and opacity.
+Opacity uses the preview surface for that row's mode combination, not the global
+preview settings. If a value or its required preview surface is unavailable, the
+visual comparison reads Unavailable.
+
+#### Apply reference values
+
+In edit mode, checkboxes select exact token instances. Selecting a parent selects
+its visible eligible mode instances; Select all respects the current filters.
+Unconfirmed, unresolved, stale, and deprecated instances cannot be selected.
+The action bar opens **Bulk edit**, whose only option is **Apply design-data value
+as override**. It starts unchecked.
+
+Applying replaces any existing assignment in each selected instance's exact mode
+combination. The batch validates before a single write; a conflicting reference
+value, invalid assignment, or changed source leaves the batch unapplied.
+The comparison then switches to **Working authoring**. These are ordinary manual
+overrides, visible in Tokens, Changes, Impact, component values, and canonical
+output. They retain generated baselines and participate in the existing Save,
+Cancel, staleness, and reset behavior. Applying does not save the edit session.
 
 #### Results by mode
 
@@ -51,6 +110,8 @@ The **Results by mode** table separates Pass, Acceptable, Fail, and Unable to
 evaluate for each required reference mode. It counts individual mode values,
 not the token's overall result. For example, a token can pass in Light and fail
 in Dark while its overall result remains Fail.
+Its stacked bars show the same counts: Pass is green, Fail red, Acceptable orange,
+and Unable to evaluate light gray.
 
 Select **View results** to inspect a mode's values. Mode-set filters can be
 combined, such as Dark and High contrast, and **Mode value result** isolates
@@ -79,14 +140,22 @@ The shared grouping helper also supports future token types.
 Opacity is exact after normalization to a finite alpha from 0 to 1. For example,
 `0.4`, `"0.4"`, and `"40%"` are equivalent. There is no opacity tolerance.
 Color comparison reuses the exact and Delta E 2000 rules described below.
+Other supported foundational values require exact normalized equality. Numeric
+values compare only in compatible units; absolute conversions include px/pt and
+ms/s. Relative units such as rem and em are not guessed. Typography strings compare
+exactly for supported string properties. Shadows compare their ordered layers,
+dimensions, and normalized colors. Unsupported values, including Motion while
+Studio has no generator for it, remain Unable to evaluate.
 
-The additive `colorOpacity` report section uses schema version 3 and records its
-color policy and each non-exact comparison's Delta E 2000 distance. Analysis,
+The retained `colorOpacity` report key now uses schema version 4 with
+`scope: "foundation-tokens"`. It records the color policy, Delta E 2000 distances,
+and normalized numeric differences. Analysis,
 CLI JSON, and Markdown use the same assessment. Counts separate source records,
-token concepts, and required mode values. App-only records and deprecated records
-retain their IDs but do not increase reference coverage. Partial, empty, or stale
+token concepts, and required mode values. App-only tokens remain searchable;
+deprecated records remain in reports, not the table. Neither increases reference
+coverage. Partial, empty, or stale
 inventories do not publish a completion percentage. Saved and working datasets
-remain provisional; shipped defaults remain the baseline.
+remain provisional; shipped defaults are an alternative comparison source.
 
 Required contexts come from the reference token, its concept siblings, and its
 alias dependencies. A declared mode set does not require every token to have a
@@ -140,8 +209,9 @@ a binary older than its resolver sources is unavailable until rebuilt. Hosted
 builds without that server adapter can compare literals but cannot claim resolved
 alias coverage.
 
-This measures the gap. It does not generate missing data, change values to pass,
-accept exceptions, alter UUIDs, or establish upstream schema adoption.
+Comparison itself never changes authored data. Only the explicit override action
+writes values. It does not create missing generators, accept exceptions, alter
+UUIDs, or establish upstream schema adoption.
 
 ### Primitive palette compatibility report
 

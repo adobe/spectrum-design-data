@@ -9,6 +9,7 @@ import type {
   GeneratedShadow,
 } from "../elevation/model";
 import type { TaxonomyDocument } from "../taxonomy/model";
+import { blockingProjectionIssues } from "../taxonomy/model";
 import { browserElevationSources } from "../elevation/output";
 import { browserSourcesFromOutputs } from "./browserSources";
 import {
@@ -162,7 +163,7 @@ export function primitiveReferencesFromOutputs(
       ),
       registry,
     ).map((row) => {
-      const identity = identities.get(row.id);
+      const identity = identities.get(row.sourceId ?? row.id);
       if (!identity)
         throw new Error(`Missing authoring source identity for ${row.id}.`);
       const valueError =
@@ -173,12 +174,11 @@ export function primitiveReferencesFromOutputs(
           row.value < 0)
           ? "Choose a finite, non-negative length from this foundation."
           : undefined;
+      const blockingIssues = blockingProjectionIssues(row.projection);
       const error =
         valueError ??
         row.validationError ??
-        (row.projection?.issues.length
-          ? row.projection.issues.join(" ")
-          : undefined);
+        (blockingIssues.length ? blockingIssues.join(" ") : undefined);
       return {
         ...identity,
         id:

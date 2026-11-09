@@ -19,6 +19,15 @@ import {
 import { foundationModeAttachmentsAtom } from "../../state/view/foundationModeAttachments";
 import type { FoundationId } from "./parameters";
 import { clearPreviewParametersAtom } from "./previewState";
+import {
+  clearRememberedModeSettingsAtom,
+  foundationParameterSettingsAtom,
+} from "./foundationSettingsState";
+import {
+  previewIdsForCapability,
+  unavailableModalCapability,
+  type FoundationParameterSettings,
+} from "./foundationSettings";
 import { dataVisModeOwnershipIssues } from "../color-system/data-vis/patches";
 import { dataVisSourceIssues } from "../color-system/data-vis/references";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
@@ -65,12 +74,22 @@ export const modeSetsAtom = persistedAtom<ModeSet[]>({
   migrate: migrateModeSets,
 });
 
-function writeModeSources(
+export function writeModeSources(
   get: Getter,
   set: Setter,
   modeSets: ModeSet[],
   edits: BrowserTokenEdits = get(browserTokenEditsAtom),
+  parameterSettings?: FoundationParameterSettings,
 ) {
+  if (
+    unavailableModalCapability(
+      modeSets,
+      parameterSettings ?? get(foundationParameterSettingsAtom),
+    )
+  )
+    throw new Error(
+      "Enable this parameter's Modal setting in Foundations before assigning it to a mode set.",
+    );
   const opacity = synchronizeOpacityRows({
     opacity: get(opacityDocumentAtom),
     colorSystem: get(colorSystemDocumentAtom),
@@ -88,12 +107,17 @@ function writeModeSources(
       ["tokens/browser/edits", edits],
       ["foundations/opacity", opacity],
       ["design/structures", structures],
+      ...(parameterSettings
+        ? [["foundations/parameter-settings", parameterSettings] as const]
+        : []),
     ]),
     () => {
       set(modeSetsAtom, modeSets);
       set(browserTokenEditsAtom, edits);
       set(opacityDocumentAtom, opacity);
       set(structuresDocumentAtom, structures);
+      if (parameterSettings)
+        set(foundationParameterSettingsAtom, parameterSettings);
     },
   );
 }
@@ -168,10 +192,7 @@ export const removeModeSetAtom = atom(null, (get, set, id: string) => {
       memberIds.has(tokenId),
     ),
   };
-  set(
-    clearPreviewParametersAtom,
-    owned.filter((capability) => capability.startsWith("elevation.")),
-  );
+  set(clearPreviewParametersAtom, owned.flatMap(previewIdsForCapability));
   writeModeSources(
     get,
     set,
@@ -179,6 +200,7 @@ export const removeModeSetAtom = atom(null, (get, set, id: string) => {
     edits.edits,
   );
   set(releaseModeSetClaimsAtom, id);
+  set(clearRememberedModeSettingsAtom, id);
   const attachments = { ...get(foundationModeAttachmentsAtom) };
   delete attachments[id];
   set(foundationModeAttachmentsAtom, attachments);

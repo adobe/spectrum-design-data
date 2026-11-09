@@ -73,6 +73,7 @@ function sourceBatch(
     temporaryTokenGroupForPrimitiveColorTokens(colors).flatMap((group) =>
       group.tokens.map((token) => ({
         id: token.uuid,
+        tier: "primitive",
         type: "colors",
         groupId: group.id,
         groupLabel: group.label,
@@ -115,6 +116,7 @@ function sourceBatch(
   ).flatMap((group) =>
     typographyTokens.map((token) => ({
       id: `typography-${group.id}-${token.scale}`,
+      tier: "primitive",
       type: "typography",
       groupId: group.id,
       groupLabel: group.label,
@@ -158,6 +160,7 @@ function sourceBatch(
         values.map(
           (token): BrowserTokenSource => ({
             id: `${domain}-${scale.id}-${token.step}`,
+            tier: "primitive",
             type: domain,
             groupId: scale.id,
             groupLabel: scale.name,

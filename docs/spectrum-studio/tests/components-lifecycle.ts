@@ -251,6 +251,7 @@ linked.components[0].assignments.push({
 });
 store.set(editComponentsAtom, linked);
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [color.id]: { description: "Keep this authored metadata", values: {} },
 });
 const protectedSnapshot = structuredClone(store.get(authoringSnapshotAtom));

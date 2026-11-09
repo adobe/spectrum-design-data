@@ -8,6 +8,7 @@ import {
   type FoundationDocuments,
 } from "./parameters";
 import type { PreviewOverrides } from "./previewState";
+import { SIZING_PARAMETER_IDS } from "../foundations/componentSizing";
 
 /** Current value of every bindable mode parameter, keyed by parameter id. */
 export type ModeParameterValues = Record<string, number>;
@@ -39,6 +40,20 @@ export function resolveModeParameterValues(
       range.max,
       Math.max(range.min, typeof value === "number" ? value : range.neutral),
     );
+  }
+  for (const id of SIZING_PARAMETER_IDS) {
+    let value = baseParameterValue(documents, id) ?? 1;
+    for (const mode of modes) {
+      const modeSet = modeSets?.find((set) =>
+        set.modes.some((candidate) => candidate.id === mode.id),
+      );
+      if (modeSet && mode.id === modeSet.defaultModeId) continue;
+      if (owners && modeSet?.id !== owners[id]) continue;
+      const override = parameterValue(mode, id);
+      if (override !== undefined) value = override;
+    }
+    // These are modal baselines, not replacement-style adaptive previews.
+    values[id] = typeof value === "number" ? value : Number.NaN;
   }
   return values;
 }

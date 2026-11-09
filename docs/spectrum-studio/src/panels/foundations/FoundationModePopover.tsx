@@ -45,6 +45,9 @@ import {
 } from "../../features/elevation/state";
 
 import { popoverDialogStyles } from "../../components/popoverLayout";
+import { updateSizingParameterAtom } from "../../features/modes/sizingState";
+import { componentSizingDocumentAtom } from "../../features/foundations/componentSizingState";
+import { modeParameterValuesAtom } from "../../features/modes/parameterValues";
 
 const bodyStyles = style({
   display: "flex",
@@ -72,7 +75,18 @@ function AuthoringParameter({
   const scale = useSetAtom(updateBackgroundScaleAtom);
   const contrast = useSetAtom(updateContrastMultiplierAtom);
   const text = useSetAtom(updateTextZoomAtom);
-  const documents = { color, typography, elevation };
+  const componentSizing = useAtomValue(componentSizingDocumentAtom);
+  const modeValues = useAtomValue(modeParameterValuesAtom);
+  const sizing = useSetAtom(updateSizingParameterAtom);
+  const documents = {
+    color,
+    typography,
+    elevation,
+    componentSizing: {
+      ...componentSizing,
+      componentSize: modeValues["size.componentSize"],
+    },
+  };
   const value = baseParameterValue(documents, parameter.id);
   if (value === undefined)
     throw new Error(`No resolved value is available for ${parameter.label}.`);
@@ -85,6 +99,9 @@ function AuthoringParameter({
       onChange={(next) => {
         try {
           switch (parameter.control) {
+            case "sizingPercentage":
+              sizing({ parameterId: parameter.id, value: Number(next) });
+              break;
             case "backgroundScale":
               scale(String(next));
               break;

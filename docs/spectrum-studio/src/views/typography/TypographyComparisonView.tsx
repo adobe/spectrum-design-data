@@ -154,7 +154,12 @@ export function TypographyComparisonView({
   );
   const axes = view === "settings" ? dataset.steps : dataset.settings;
   const reference = axes.find((item) => item.isRequired)!;
-  const xLabel = view === "settings" ? "Token step" : "Text size setting";
+  const xLabel =
+    view === "settings"
+      ? "Token step"
+      : source === "modes"
+        ? "Mode"
+        : "Adaptive text scaling";
   const rows =
     view === "settings"
       ? dataset.settings.flatMap((setting, row) =>
@@ -195,7 +200,7 @@ export function TypographyComparisonView({
             }}
           >
             <SegmentedControlItem id="settings">
-              <Text>By size setting</Text>
+              <Text>By setting</Text>
             </SegmentedControlItem>
             <SegmentedControlItem id="tokens">
               <Text>By token</Text>
@@ -211,7 +216,7 @@ export function TypographyComparisonView({
             <PickerItem id="modes" isDisabled={!datasets.modes}>
               Named modes
             </PickerItem>
-            <PickerItem id="zoom">Zoom steps</PickerItem>
+            <PickerItem id="zoom">Adaptive text scaling steps</PickerItem>
           </Picker>
           <Picker
             label="Lines"
@@ -254,18 +259,19 @@ export function TypographyComparisonView({
           className={noteStyle}
         >{`${lineCount} ${selected.length === 1 ? "line" : "lines"} shown. ${
           view === "settings"
-            ? "Your default text size stays visible."
-            : "The base token stays visible. The reference marks your default text size."
+            ? "Your default setting stays visible."
+            : "The base token stays visible. The reference marks your default setting."
         }`}</p>
         {!datasets.modes && (
           <p role="status" className={noteStyle}>
-            No mode set manages Text size. You can compare zoom steps.
+            No mode set manages typography. You can compare adaptive text
+            scaling steps.
           </p>
         )}
         {datasets.modes?.settings.length === 1 && (
           <p className={noteStyle}>
-            Only the default mode is available. Compare zoom steps to see other
-            sizes.
+            Only the default mode is available. Compare adaptive text scaling
+            steps to see other sizes.
           </p>
         )}
       </section>

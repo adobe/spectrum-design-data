@@ -26,12 +26,13 @@ function reviewField(
   name: string,
   mutate: (snapshot: EditSessionSnapshot) => void,
   matches: (field: ChangeField) => boolean,
+  baseline: EditSessionSnapshot = shipped,
 ) {
-  const working = structuredClone(shipped);
+  const working = structuredClone(baseline);
   working.platforms[0].name = "Keep this unrelated edit";
   mutate(working);
   assertStoredSnapshot(working);
-  const field = compareAuthoring(shipped, working)
+  const field = compareAuthoring(baseline, working)
     .groups.flatMap((group) => group.items)
     .flatMap((item) => item.fields)
     .find(matches);
@@ -40,15 +41,101 @@ function reviewField(
     { ...working, attachments: {} },
     sourceResetPlan(`Restore ${name}`, [field.address]),
   );
+  assertStoredSnapshot(reset);
   assert.deepEqual(
     readPath(reset, field.address.path),
-    readPath(shipped, field.address.path),
+    readPath(baseline, field.address.path),
     `${name} resets to its shipped value.`,
   );
   assert.equal(reset.platforms[0].name, "Keep this unrelated edit");
 }
 const endsWith = (key: string) => (field: ChangeField) =>
   field.address?.path.at(-1) === key;
+
+reviewField(
+  "Component size base",
+  (snapshot) => {
+    snapshot.componentSizing!.componentSize = 1.1;
+  },
+  (field) => field.address?.path[0] === "componentSizing",
+);
+reviewField(
+  "Text size base",
+  (snapshot) => {
+    snapshot.typography.textSize = 1.05;
+  },
+  (field) =>
+    field.address?.path[0] === "typography" &&
+    field.address.path.at(-1) === "textSize",
+);
+for (const parameter of ["componentSize", "textSize"] as const)
+  reviewField(
+    `Modal ${parameter}`,
+    (snapshot) => {
+      const mobile = snapshot.modeSets.find((set) => set.key === "scale")!
+        .modes[1];
+      if (parameter === "componentSize")
+        mobile.foundations.size!.componentSize = 1.3;
+      else mobile.foundations.typography!.textSize = 1.25;
+    },
+    (field) =>
+      field.address?.path[0] === "modeSets" &&
+      field.address.path.at(-1) === parameter,
+  );
+for (const parameter of ["size.componentSize", "typography.textSize"] as const)
+  reviewField(
+    `${parameter} availability`,
+    (snapshot) => {
+      snapshot.foundationParameterSettings![parameter].adaptive = false;
+      snapshot.foundationParameterSettings![parameter].modal = false;
+      snapshot.modeSets = snapshot.modeSets.map((set) => ({
+        ...set,
+        authoringCapabilities: set.authoringCapabilities?.filter(
+          (id) => id !== parameter,
+        ),
+        modes: set.modes.map((mode) => {
+          const next = structuredClone(mode);
+          if (parameter === "size.componentSize")
+            delete next.foundations.size?.componentSize;
+          else delete next.foundations.typography?.textSize;
+          return next;
+        }),
+      }));
+    },
+    (field) =>
+      field.address?.path.includes(parameter) === true &&
+      field.address.path.at(-1) === "modal",
+  );
+
+if (process.argv.includes("--sizing-only")) {
+  console.log(
+    "Sizing schema review: both bases, modal overrides and availability settings have narrow, valid resets.",
+  );
+  process.exit(0);
+}
+
+for (const method of ["relative", "absolute"] as const) {
+  const baseline = structuredClone(shipped);
+  if (method === "relative")
+    baseline.modeSets
+      .find((set) => set.key === "colorScheme")!
+      .modes.find(
+        (mode) => mode.key === "wireframe",
+      )!.foundations.color!.scaleAdjustment = { method, hue: 20, chroma: 50 };
+  reviewField(
+    `${method} adjustment enabled`,
+    (snapshot) => {
+      const mode = snapshot.modeSets
+        .find((set) => set.key === "colorScheme")!
+        .modes.find((mode) => mode.key === "wireframe")!;
+      mode.foundations.color!.scaleAdjustment!.enabled = false;
+    },
+    (field) =>
+      field.address?.path.includes("scaleAdjustment") === true &&
+      field.address.path.at(-1) === "enabled",
+    baseline,
+  );
+}
 
 reviewField(
   "Color scale type",
@@ -68,9 +155,9 @@ reviewField(
 reviewField(
   "Registry category applicability",
   (snapshot) => {
-    snapshot.taxonomy!.categories[0].appliesTo = "raw";
+    snapshot.taxonomy!.categories[0].allowedTokenTiers = ["primitive"];
   },
-  endsWith("appliesTo"),
+  endsWith("allowedTokenTiers"),
 );
 for (const key of ["backgroundBlend", "colorSourceCurveOffset"] as const)
   reviewField(
@@ -223,11 +310,20 @@ const familyTerm = manual.taxonomy!.terms.find(
 )!;
 const draft = createNewTokenEdit(
   manual.taxonomy!,
-  { tier: "raw", type: "colors", terms: { [family.id]: familyTerm.id } },
+  { tier: "primitive", type: "colors", terms: { [family.id]: familyTerm.id } },
   manual.browserTokenEdits ?? {},
   [],
 );
 manual.browserTokenEdits = { ...manual.browserTokenEdits, ...draft };
+reviewField(
+  "Manual token tier",
+  (snapshot) => {
+    snapshot.browserTokenEdits[Object.keys(draft)[0]].authoring!.manual!.tier =
+      "component";
+  },
+  endsWith("tier"),
+  manual,
+);
 assertStoredSnapshot(manual);
 const restoredManual = prepareChangeReset(
   { ...manual, attachments: {} },

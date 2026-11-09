@@ -1,5 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { TypographyDocument } from "./model";
+import type { ModeSet } from "../modes/model";
+import { parameterOwners } from "../modes/parameters";
+import { resolveTypographyDocument } from "./resolution";
 import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN } from "./model";
 import { generateTypography } from "./typographyGeneration";
 import {
@@ -50,6 +53,7 @@ export function buildTypographyCss(
     interpolations = TYPOGRAPHY_INTERPOLATIONS,
     taxonomy,
     registry,
+    modeSets,
   }: {
     scope?: string;
     purpose?: "authoring" | "publishing";
@@ -58,6 +62,7 @@ export function buildTypographyCss(
     interpolations?: readonly Interpolation[];
     taxonomy?: TaxonomyDocument;
     registry?: TaxonomyDocument;
+    modeSets?: readonly ModeSet[];
   } = {},
 ) {
   if (purpose === "publishing" && document.hideFromPublishing) return "";
@@ -101,6 +106,63 @@ export function buildTypographyCss(
         ),
         "}",
       );
+    }
+    if (modeSets) {
+      const ownerId = parameterOwners([...modeSets])["typography.textSize"];
+      const owner = modeSets.find((set) => set.id === ownerId);
+      for (const mode of owner?.modes ?? []) {
+        const resolved = resolveTypographyDocument(
+          document,
+          [mode],
+          undefined,
+          { modeSets: [...modeSets] },
+        );
+        const attribute = `[data-${owner!.key}=${JSON.stringify(mode.key)}]`;
+        const selector = scope
+          ? `${scope}${attribute}, ${scope} ${attribute}`
+          : attribute;
+        lines.push(
+          "",
+          `${selector} {`,
+          ...declarations(
+            resolved,
+            resolved.textZoom,
+            "  ",
+            rules,
+            scaleTypes,
+            interpolations,
+            taxonomy,
+            naming,
+          ),
+          "}",
+        );
+        for (let zoom = TEXT_ZOOM_MIN; zoom <= TEXT_ZOOM_MAX; zoom++) {
+          const zoomAttribute = `[${TEXT_ZOOM_ATTRIBUTE}="${zoom}"]`;
+          const combined = [
+            `${attribute}${zoomAttribute}`,
+            `${attribute} ${zoomAttribute}`,
+          ];
+          lines.push(
+            "",
+            `${combined
+              .flatMap((part) =>
+                scope ? [`${scope}${part}`, `${scope} ${part}`] : [part],
+              )
+              .join(", ")} {`,
+            ...declarations(
+              resolved,
+              zoom,
+              "  ",
+              rules,
+              scaleTypes,
+              interpolations,
+              taxonomy,
+              naming,
+            ),
+            "}",
+          );
+        }
+      }
     }
     return lines.join("\n");
   };

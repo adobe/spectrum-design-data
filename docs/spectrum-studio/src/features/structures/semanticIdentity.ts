@@ -25,13 +25,21 @@ const hasSemanticSlotOverride = (
 ) =>
   !!selection &&
   ("$ref" in selection ||
-    ("value" in selection && selection.value.kind === "number"));
+    ("value" in selection &&
+      (selection.value.kind === "number" ||
+        selection.value.kind === "derived")));
 
 export function synchronizeVariantIdentities(
   document: StructuresDocument,
   modeSets: readonly ModeSet[],
+  rowIdentity: (conceptId: string, context: string) => string = () =>
+    crypto.randomUUID(),
 ): StructuresDocument {
-  const direct = synchronizeDirectVariantIdentities(document, modeSets);
+  const direct = synchronizeDirectVariantIdentities(
+    document,
+    modeSets,
+    rowIdentity,
+  );
   let changed = false;
   const structures = direct.structures.map((root) => {
     if (!root.editor?.layouts) return root;
@@ -44,6 +52,7 @@ export function synchronizeVariantIdentities(
       const synchronized = synchronizeDirectVariantIdentities(
         { ...direct, structures: [{ ...target, editor }] },
         modeSets,
+        rowIdentity,
       ).structures[0].editor!;
       if (synchronized.semanticIdentities !== editor.semanticIdentities) {
         layouts[path] = {
@@ -62,6 +71,7 @@ export function synchronizeVariantIdentities(
 function synchronizeDirectVariantIdentities(
   document: StructuresDocument,
   modeSets: readonly ModeSet[],
+  rowIdentity: (conceptId: string, context: string) => string,
 ): StructuresDocument {
   if (
     !document.structures.some((structure) =>
@@ -133,7 +143,10 @@ function synchronizeDirectVariantIdentities(
           }
           for (const context of keys)
             if (!options[key].rows[context]) {
-              options[key].rows[context] = crypto.randomUUID();
+              options[key].rows[context] = rowIdentity(
+                options[key].conceptId,
+                context,
+              );
               updated = true;
             }
         }

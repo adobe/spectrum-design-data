@@ -85,8 +85,8 @@ const navItems: readonly NavSidebarItem[] = [
     id: "components",
     label: "Components",
     Icon: getCategoryIcon("components"),
-    status: "WIP",
-    statusVariant: "informative",
+    status: "TBD",
+    statusVariant: "notice",
   },
   {
     id: "logic",
@@ -99,8 +99,6 @@ const navItems: readonly NavSidebarItem[] = [
     id: "modes",
     label: "Modes",
     Icon: getCategoryIcon("modes"),
-    status: "WIP",
-    statusVariant: "informative",
   },
   {
     id: "registry",

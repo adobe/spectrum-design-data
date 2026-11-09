@@ -17,6 +17,12 @@ import {
   type TokenTablePresentationRow,
 } from "../src/features/tokens/view/tokenTablePresentation";
 import { createTshirtFixture } from "./fixtures/tshirt";
+import { createMode, createModeSet } from "../src/features/modes/model";
+import type { CanonicalAliasRow } from "../src/features/tokens/aliasTargets";
+import {
+  allModeTokenTableRows,
+  filterAllModeTokenTableRows,
+} from "../src/features/tokens/view/allModeTokenTable";
 
 function token(
   id: string,
@@ -358,6 +364,170 @@ assert.deepEqual(
   ["red-color-100", "red-color-200"],
 );
 assert.deepEqual(display([]), []);
+
+const scheme = createModeSet();
+scheme.name = "Color scheme";
+scheme.modes[0].name = "Light";
+const darkMode = { ...createMode(), name: "Dark" };
+scheme.modes.push(darkMode);
+const contrast = createModeSet();
+contrast.name = "Contrast";
+contrast.modes[0].name = "Regular";
+const allSets = [scheme, contrast];
+const lightContext = JSON.stringify([[scheme.id, scheme.defaultModeId]]);
+const darkContext = JSON.stringify([[scheme.id, darkMode.id]]);
+const canonicalRow = (
+  item: BrowserToken,
+  context = "[]",
+): CanonicalAliasRow => ({
+  id: item.id,
+  name: item.name,
+  context,
+  rowId: JSON.stringify([item.id, context]),
+  token: item,
+});
+const colorRows = [
+  canonicalRow(red100, lightContext),
+  canonicalRow({ ...red100, value: "#112233" }, darkContext),
+  canonicalRow(orange),
+  canonicalRow(semantic, darkContext),
+];
+const allTree = allModeTokenTableRows(colorRows, allSets, {
+  schemaVersion: 1,
+  tokens: [
+    {
+      id: "scoped-alias",
+      name: "old-red",
+      $ref: red100.id,
+      contexts: [lightContext, darkContext],
+    },
+    {
+      id: "static-alias",
+      name: "old-orange",
+      $ref: orange.id,
+      contexts: ["[]"],
+    },
+  ],
+});
+assert.equal(
+  allTree.length,
+  5,
+  "Each token and compatibility alias has one parent.",
+);
+const allRed = allTree.find((row) => row.token?.id === red100.id)!;
+assert.equal(allRed.label, red100.name);
+assert.deepEqual(
+  allRed.children.map((row) => [row.label, row.token?.value, row.modeContext]),
+  [
+    ["Color scheme: Light", red100.value, lightContext],
+    ["Color scheme: Dark", "#112233", darkContext],
+  ],
+  "Children use catalog values and label only relevant mode axes.",
+);
+assert.equal(
+  allTree.find((row) => row.token?.id === orange.id)!.children[0].label,
+  "Default",
+);
+assert.equal(
+  allTree.find((row) => row.token?.id === semantic.id)!.children[0].modeContext,
+  darkContext,
+  "A semantic token absent from the active mode still appears.",
+);
+assert.deepEqual(
+  allTree
+    .find((row) => row.token?.id === "scoped-alias")!
+    .children.map((row) => row.token?.value),
+  [red100.value, "#112233"],
+);
+assert.equal(
+  allTree.find((row) => row.token?.id === "static-alias")!.children[0].token
+    ?.alias?.targetName,
+  orange.name,
+);
+const allIds = allTree.flatMap((row) => [
+  row.id,
+  ...row.children.map((child) => child.id),
+]);
+assert.equal(
+  new Set(allIds).size,
+  allIds.length,
+  "Token and mode row identities never collide.",
+);
+assert.notEqual(allRed.id, allRed.children[0].id);
+assert.deepEqual(
+  filterAllModeTokenTableRows(allTree, "colors", "#112233").map(
+    (row) => row.token?.id,
+  ),
+  [red100.id, "scoped-alias"],
+  "Search matches values from non-active modes.",
+);
+assert.equal(
+  filterAllModeTokenTableRows(allTree, "colors", "red 100")[0].children.length,
+  2,
+);
+assert.deepEqual(
+  filterAllModeTokenTableRows(allTree, "spacing", "red 100"),
+  [],
+);
+assert.deepEqual(allModeTokenTableRows([], allSets), []);
+const equalTree = allModeTokenTableRows(
+  [canonicalRow(red100, lightContext), canonicalRow(red100, darkContext)],
+  allSets,
+);
+assert.equal(
+  equalTree[0].children.length,
+  2,
+  "Equal values do not collapse distinct contexts.",
+);
+const renamedTree = allModeTokenTableRows(colorRows, [
+  {
+    ...scheme,
+    name: "Scheme",
+    modes: scheme.modes.map((mode) => ({
+      ...mode,
+      name: `Renamed ${mode.name}`,
+    })),
+  },
+  contrast,
+]);
+assert.deepEqual(
+  renamedTree[0].children.map((row) => row.id),
+  allRed.children.map((row) => row.id),
+  "Display labels never determine mode row identity.",
+);
+const jointContext = JSON.stringify(
+  [
+    [contrast.id, contrast.defaultModeId],
+    [scheme.id, darkMode.id],
+  ].sort(([a], [b]) => a.localeCompare(b)),
+);
+assert.equal(
+  allModeTokenTableRows([canonicalRow(red100, jointContext)], allSets)[0]
+    .children[0].label,
+  "Color scheme: Dark / Contrast: Regular",
+  "Mode labels follow the authored set order, not canonical ID ordering.",
+);
+const manualReference = {
+  ...red100,
+  id: "manual-reference",
+  referenceId: orange.id,
+  referenceName: orange.name,
+  valueOverridden: true,
+};
+const manualTree = allModeTokenTableRows(
+  [canonicalRow(manualReference)],
+  allSets,
+);
+assert.equal(
+  manualTree[0].children[0].token,
+  manualReference,
+  "Resolved references and override metadata are preserved.",
+);
+assert.deepEqual(
+  colorRows.map((row) => row.context),
+  [lightContext, darkContext, "[]", darkContext],
+  "Presentation does not mutate canonical rows.",
+);
 console.log(
   "Token table compaction, unique endpoints, token-bearing parents, scoped selection and term-only Grid headings passed.",
 );

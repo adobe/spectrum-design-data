@@ -75,6 +75,7 @@
     "source.typography": "typography",
     "source.spacing-scale": "spacing",
     "source.size-scale": "size",
+    "source.component-sizing": "size",
     "source.radius-scale": "radius",
     "source.elevation": "elevation",
     "source.opacity": "opacity",

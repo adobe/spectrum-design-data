@@ -8,8 +8,9 @@ import {
   type TaxonomyTerm,
 } from "../taxonomy/model";
 import type { BrowserTokenEdit, BrowserTokenEdits } from "./browserEditTypes";
+import { categoryAllowsTier, type TokenTier } from "./tier";
 
-export type NewTokenTier = "raw" | "purpose";
+export type NewTokenTier = TokenTier;
 export type NewTokenType = NonNullable<
   NonNullable<BrowserTokenEdit["authoring"]>["manual"]
 >["type"];
@@ -44,7 +45,7 @@ export type NewTokenStep =
 export const classificationScopeFor = (
   tier: NewTokenTier,
   type: NewTokenType,
-): TaxonomyScope => (tier === "purpose" ? "structures" : type);
+): TaxonomyScope => (tier === "primitive" ? type : "structures");
 
 /** Categories asked for this tier and type, in the taxonomy's name order. */
 export function newTokenQuestions(
@@ -58,7 +59,7 @@ export function newTokenQuestions(
     if (
       !category ||
       !category.scopes.includes(scope) ||
-      ![tier, "both"].includes(category.appliesTo ?? "both")
+      !categoryAllowsTier(category, tier)
     )
       return [];
     const terms = taxonomy.terms.filter((term) => term.categoryId === id);
@@ -116,6 +117,7 @@ export function newTokenPreview(
     taxonomy,
     classification,
     classificationScopeFor(answers.tier, answers.type),
+    answers.tier,
   );
   const duplicate = projection.name
     ? existing.find((token) => token.name === projection.name)
@@ -155,10 +157,11 @@ export function createNewTokenEdit(
         assignments: {},
         classification: newTokenClassification(taxonomy, answers),
         manual: {
+          tier: answers.tier!,
           type,
           unit: newTokenUnit(type),
           groupId: `manual-${type}`,
-          ...(answers.tier === "purpose"
+          ...(answers.tier !== "primitive"
             ? { scope: "structures" as const }
             : {}),
         },

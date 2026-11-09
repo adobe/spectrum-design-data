@@ -4,6 +4,7 @@ import { modeCombinationCount } from "../modes/combinations";
 import type { Mode } from "../modes/model";
 import type { PreviewOverrides } from "../modes/previewState";
 import {
+  blockingProjectionIssues,
   projectClassification,
   type TaxonomyDocument,
 } from "../taxonomy/model";
@@ -66,7 +67,7 @@ export function browserOpacitySources(
       ...(index && step && { [index.id]: step.id }),
     };
     const projection = registry
-      ? projectClassification(registry, governed, "opacity")
+      ? projectClassification(registry, governed, "opacity", "primitive")
       : undefined;
     const issues = [
       ...result.issues,
@@ -75,16 +76,19 @@ export function browserOpacitySources(
             "Opacity mode-row identity is unavailable. Save the required mode context before exporting.",
           ]
         : []),
-      ...(projection?.issues ?? []),
+      ...blockingProjectionIssues(projection),
     ];
     const name =
-      projection && !projection.issues.length ? projection.name : level.name;
+      projection && !blockingProjectionIssues(projection).length
+        ? projection.name
+        : level.name;
     return {
       id: level.id,
       rowId: level.uuid,
       modeKey: result.modeKey,
       resolvedValue: { overridden: level.overridden, stale: level.stale },
       type: "opacity",
+      tier: "primitive",
       groupId: "opacity",
       groupLabel: "Opacity",
       name,
@@ -120,6 +124,7 @@ export function opacityRows(
       ),
       name: token.name,
       type: "opacity" as const,
+      tier: token.tier,
       value: token.value as number,
       generatedValue: token.generatedValue as number,
       issues: token.validationError ? [token.validationError] : [],

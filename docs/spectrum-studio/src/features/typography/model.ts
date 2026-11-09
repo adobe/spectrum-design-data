@@ -26,7 +26,7 @@ export type TypographyMetricId =
   | "workflow-icon-size"
   | `${string}-lineHeight`
   | `${string}-unitlessLineHeight`;
-export const TYPOGRAPHY_SCHEMA_VERSION = 8;
+export const TYPOGRAPHY_SCHEMA_VERSION = 9;
 export const TEXT_ZOOM_MIN = -4;
 export const TEXT_ZOOM_MAX = 8;
 export const clampTextZoom = (value: number) =>
@@ -61,6 +61,7 @@ export interface TypographyDocument extends FoundationPublishingMetadata {
   /** Retained until product defaults and their size/spacing presentation are defined (EPIC-2.5). */
   componentSize: ComponentSize;
   textZoom: number;
+  textSize: number;
   minTextSize: number;
   maxTextSize: number;
   textRoundingRuleId: string;
@@ -137,6 +138,7 @@ export function isTypographyDocument(
     document.largeSizes! < 0 ||
     document.largeSizes! > 14 ||
     !isComponentSize(document.componentSize) ||
+    !positive(document.textSize) ||
     !Number.isInteger(document.textZoom) ||
     document.textZoom! < TEXT_ZOOM_MIN ||
     document.textZoom! > TEXT_ZOOM_MAX ||

@@ -82,6 +82,10 @@ import {
   outputInventory,
 } from "../src/features/design-data/materialization";
 import { coverageTokenType } from "../src/features/design-data/coverage";
+import {
+  canonicalAliasRows,
+  completeAliasSource,
+} from "../src/features/tokens/aliasTargets";
 
 const makeFixture = (options?: Parameters<typeof createTshirtFixture>[0]) =>
   createTshirtFixture({ ...options, structureName: "Fixture base" });
@@ -307,6 +311,10 @@ assert.throws(
 );
 store.set(saveEditAtom);
 const saved = structuredClone(store.get(authoringSnapshotAtom));
+const publishedTokenIds = store
+  .get(browserTokensAtom)
+  .filter((token) => token.semantic)
+  .map((token) => token.id);
 assert.equal(
   store
     .get(tokenImpactSummaryAtom)
@@ -342,7 +350,7 @@ assert.deepEqual(
     .get(browserTokensAtom)
     .filter((token) => token.semantic)
     .map((token) => token.id),
-  tokens.map((token) => token.id),
+  publishedTokenIds,
 );
 const removedStructure = store.set(
   removeStructureAtom,
@@ -407,9 +415,19 @@ const analysis = store.get(analysisWorkingInputAtom);
 assert.deepEqual(analysis.errors, []);
 assert.ok(isOutputMetadata(analysis.outputMetadata, analysis.records));
 const semanticRecords = analysis.records.filter((record) =>
-  fixture.bundle.semantics.some((row) => record.identity === row.token.uuid),
+  publishedTokenIds.includes(record.conceptId!),
 );
 assert.equal(semanticRecords.length, 3);
+const expectedRows = canonicalAliasRows(
+  completeAliasSource(store.get(authoringSnapshotAtom)),
+  buildTshirtArtifacts(store.get(authoringSnapshotAtom)),
+).filter((row) => publishedTokenIds.includes(row.id));
+assert.equal(expectedRows.length, 3);
+assert.deepEqual(
+  semanticRecords.map((record) => record.identity).sort(),
+  expectedRows.map((row) => row.rowId).sort(),
+  "Analysis must retain the canonical publication identities.",
+);
 assert.ok(
   semanticRecords.every(
     (record) =>

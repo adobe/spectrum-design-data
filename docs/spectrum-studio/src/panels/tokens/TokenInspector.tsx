@@ -57,6 +57,7 @@ import {
 } from "../../features/color-system/previewSurface";
 import type { ColorSystemDocument } from "../../features/color-system/model";
 import { modesForSelection } from "../../features/modes/combinations";
+import { TOKEN_TIERS, isTokenTier } from "../../features/tokens/tier";
 
 export interface TokenInspectorProps {
   token: BrowserToken;
@@ -347,10 +348,26 @@ export function TokenInspector(props: TokenInspectorProps) {
               )}
               {editable && (
                 <>
+                  {token.manual && (
+                    <Picker
+                      label="Token tier"
+                      selectedKey={draft.tier ?? null}
+                      onSelectionChange={(tier) => {
+                        if (isTokenTier(tier)) setDraft({ ...draft, tier });
+                      }}
+                    >
+                      {TOKEN_TIERS.map((tier) => (
+                        <PickerItem key={tier} id={tier}>
+                          {tier[0].toUpperCase() + tier.slice(1)}
+                        </PickerItem>
+                      ))}
+                    </Picker>
+                  )}
                   <section className={styles.stack} aria-label="Classification">
                     <Text>Classification</Text>
                     <ClassificationTerms
                       taxonomy={taxonomy}
+                      tier={token.tier}
                       scope={
                         token.semantic || token.classificationScope
                           ? "structures"
@@ -602,6 +619,7 @@ export function TokenInspector(props: TokenInspectorProps) {
               <div className={styles.stack}>
                 <Text>Classification</Text>
                 <ClassificationTerms
+                  tier={token.tier}
                   value={aliasClassification}
                   taxonomy={taxonomy}
                   scope={

@@ -2,6 +2,11 @@
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import { STRUCTURES_SCHEMA_VERSION } from "../src/features/structures/model";
+import {
+  encodeStructureSource,
+  decodeStructureSource,
+} from "../src/features/edit-session/structureSourceCodec";
+import { compareAuthoring } from "../src/features/changelog/registry";
 
 class MemoryStorage implements Storage {
   data = new Map<string, string>();
@@ -156,7 +161,7 @@ flushPersistedState();
 assert.equal(localStorage.writes, initialWrites + 1);
 const record = JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!);
 assert.equal(record.working.colorSystem.settings.backgroundBlend, 0.5);
-assert.deepEqual(record.saved, createDefaultSnapshot());
+assert.deepEqual(record.saved, encodeStructureSource(createDefaultSnapshot()));
 dispose();
 const staleMembership = createStore();
 dispose = initializeAuthoringPersistence(staleMembership);
@@ -346,7 +351,7 @@ const { replaceScaleTypeAtom, scaleTypesAtom } =
 const { taxonomyDocumentAtom } = await import("../src/features/taxonomy/state");
 const { browserTokenEditsAtom } =
   await import("../src/features/tokens/browserEdits");
-const { browserModeContextAtom, editBrowserTokensAtom } =
+const { browserModeContextAtom, browserTokensAtom, editBrowserTokensAtom } =
   await import("../src/features/tokens/browserState");
 const typographyEdit = createStore();
 dispose = initializeAuthoringPersistence(typographyEdit);
@@ -367,16 +372,35 @@ typographyEdit.set(updateTypographyAtom, {
   outputUnit: "pt",
   iconography: { alignment: "line-height", baseSize: 30, lineHeightId },
 });
+const textSize = typographyEdit
+  .get(browserTokensAtom)
+  .find((token) => token.sourceId === "typography-font-size-100")!;
+assert.ok(textSize);
 typographyEdit.set(editBrowserTokensAtom, {
-  ids: ["typography-font-size-100"],
+  ids: [textSize.id],
   modeKey: typographyEdit.get(browserModeContextAtom).key,
   patch: { value: "12pt" },
 });
+assert.equal(
+  typographyEdit
+    .get(browserTokensAtom)
+    .find((token) => token.id === textSize.id)!.value,
+  16,
+  "Displayed point values are stored and resolved in canonical pixels.",
+);
+const pendingTypography = structuredClone(
+  typographyEdit.get(authoringSnapshotAtom),
+);
+assertStoredSnapshot(pendingTypography);
+flushPersistedState();
 const workingTypography = structuredClone(
   typographyEdit.get(authoringSnapshotAtom),
 );
-assertStoredSnapshot(workingTypography);
-flushPersistedState();
+assert.equal(
+  compareAuthoring(pendingTypography, workingTypography).groups.length,
+  0,
+  "Allocating new line-height publications during flush does not change authored data.",
+);
 dispose();
 
 const typographyReload = createStore();
@@ -554,11 +578,14 @@ for (const version of [1, 2, 3] as const) {
         (item) => item.id === category.id,
       ),
   );
-  older.taxonomy!.order = older.taxonomy!.order.filter(
-    (id) =>
-      ![...STRUCTURE_CATEGORIES, ...VARIANT_CATEGORIES].some(
-        (item) => item.id === id,
-      ),
+  older.taxonomy!.categories.forEach((category) => {
+    category.scopes = category.scopes.filter((scope) => scope !== "structures");
+  });
+  older.taxonomy!.categories = older.taxonomy!.categories.filter(
+    (category) => category.scopes.length > 0,
+  );
+  older.taxonomy!.order = older.taxonomy!.order.filter((id) =>
+    older.taxonomy!.categories.some((category) => category.id === id),
   );
   older.taxonomy!.terms = older.taxonomy!.terms.filter(
     (term) =>
@@ -569,9 +596,6 @@ for (const version of [1, 2, 3] as const) {
       (category) => category.id === term.categoryId,
     ),
   );
-  older.taxonomy!.categories.forEach((category) => {
-    category.scopes = category.scopes.filter((scope) => scope !== "structures");
-  });
   if (version === 1) delete older.radius;
   if (version < 3) delete older.elevation;
   const working = structuredClone(older);
@@ -599,11 +623,15 @@ for (const version of [1, 2, 3] as const) {
     upgrade.get(editSessionSnapshotAtom)!.spacing!.scales[0].base,
     9,
   );
-  assert.deepEqual(upgradedRecord.working.structures, {
+  const decodedWorking = decodeStructureSource(upgradedRecord.working);
+  const decodedSaved = decodeStructureSource(upgradedRecord.saved);
+  assertStoredSnapshot(decodedWorking);
+  assertStoredSnapshot(decodedSaved);
+  assert.deepEqual(decodedWorking.structures, {
     schemaVersion: STRUCTURES_SCHEMA_VERSION,
     structures: [],
   });
-  assert.deepEqual(upgradedRecord.saved.structures, {
+  assert.deepEqual(decodedSaved.structures, {
     schemaVersion: STRUCTURES_SCHEMA_VERSION,
     structures: [],
   });
@@ -698,6 +726,9 @@ for (const version of [12, 13] as const) {
 }
 const variantsSaved = createDefaultSnapshot();
 variantsSaved.components!.components = [];
+// Keep Base and its referenced Text Structure, not later shipped families.
+variantsSaved.structures!.structures =
+  variantsSaved.structures!.structures.slice(0, 2);
 const variantsWorking = structuredClone(variantsSaved);
 variantsSaved.structures!.schemaVersion = 4;
 variantsWorking.structures!.schemaVersion = 4;
@@ -766,8 +797,8 @@ preservedCatalog.taxonomy!.terms.push({
 });
 const preservedBytes = JSON.stringify({
   version: AUTHORING_RECORD_VERSION,
-  working: preservedCatalog,
-  saved: preservedCatalog,
+  working: encodeStructureSource(preservedCatalog),
+  saved: encodeStructureSource(preservedCatalog),
   isEditing: false,
   attachments: {},
   savedAttachments: {},
@@ -781,7 +812,11 @@ assert.deepEqual(
   "New shipped vocabulary must not purge valid saved custom terms.",
 );
 assert.deepEqual(preservedStore.get(editSessionSnapshotAtom), preservedCatalog);
-assert.equal(localStorage.getItem(AUTHORING_STORAGE_KEY), preservedBytes);
+assert.deepEqual(
+  JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+  JSON.parse(preservedBytes),
+  "Restoring valid custom vocabulary preserves every stored field.",
+);
 preservedStore.set(resetAllAuthoringAtom);
 assert.deepEqual(
   preservedStore.get(authoringSnapshotAtom),

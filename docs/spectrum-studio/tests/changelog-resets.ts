@@ -10,6 +10,7 @@ import {
 } from "../src/features/edit-session/state";
 import {
   canonicalTokenModeKey,
+  canonicalBrowserSources,
   resolveBrowserTokens,
   type BrowserTokenSource,
 } from "../src/features/tokens/browserModel";
@@ -134,17 +135,22 @@ const otherModeKey = canonicalTokenModeKey(
     ]),
   ),
 );
-const source: BrowserTokenSource = {
-  id: `spacing-${scale.id}-100`,
-  type: "spacing",
-  groupId: scale.id,
-  groupLabel: "Global",
-  name: "space",
-  generatedName: "space",
-  value: 14,
-  generatedValue: 14,
-  unit: "px",
-};
+const source: BrowserTokenSource = canonicalBrowserSources(
+  [
+    {
+      id: `spacing-${scale.id}-100`,
+      type: "spacing",
+      groupId: scale.id,
+      groupLabel: "Global",
+      name: "space",
+      generatedName: "space",
+      value: 14,
+      generatedValue: 14,
+      unit: "px",
+    },
+  ],
+  initial.browserTokenEdits!,
+)[0];
 const field: ChangeField = {
   id: "value",
   key: "Value",
@@ -192,6 +198,7 @@ assert.deepEqual(
 );
 const withOtherEdit = structuredClone(initial);
 withOtherEdit.browserTokenEdits![source.id] = {
+  ...withOtherEdit.browserTokenEdits![source.id],
   description: "Retain this",
   values: { [otherModeKey]: { value: 11, baseline: 14 } },
 };
@@ -539,7 +546,7 @@ assert.equal(
 assert.deepEqual(store.get(editSessionSnapshotAtom), saved);
 const increasedContrast = structuredClone(defaults);
 const red = increasedContrast.colorSystem.scales.find(
-  (scale) => scale.name === "Red",
+  (scale) => scale.id === "scale-6",
 )!;
 const contrast = (red.customContrasts?.steps ??
   increasedContrast.colorSystem.contrasts)[0];

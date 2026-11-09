@@ -54,6 +54,7 @@ export function browserElevationSources(
     return {
       id: level.id,
       type: "elevation",
+      tier: "primitive",
       groupId: document.id,
       groupLabel,
       name,

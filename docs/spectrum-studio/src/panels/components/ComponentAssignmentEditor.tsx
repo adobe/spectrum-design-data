@@ -250,6 +250,7 @@ export function ComponentAssignmentEditor({
                 id: token.id,
                 kind: "token",
                 name: token.name,
+                matchValue: token.displayValue,
                 displayValue: `${token.displayValue}${
                   Object.keys(token.context).length
                     ? ` (${Object.entries(token.context)
@@ -291,8 +292,8 @@ export function ComponentAssignmentEditor({
               }}
             />
             <p>
-              Accept typed values with Use this value. Apply this form before
-              saving the application.
+              Accept typed values with Enter or by leaving the field. Apply this
+              form before saving the application.
             </p>
             <p>
               Choose published dimension, color, shadow or Structure tokens.
