@@ -1,6 +1,6 @@
 [package]
 name = "design-data-cli"
-version = "0.24.2"
+version = "0.24.3"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
