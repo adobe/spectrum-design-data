@@ -70,6 +70,7 @@ run(
   [
     "spec-sheet",
     "--all",
+    "--svg",
     "--changelog-dir",
     changelogs,
     "-o",
@@ -83,8 +84,4 @@ cpSync(changelogs, join(dist, "specs/data/changelog"), { recursive: true });
 copyFileSync(
   join(root, "tools/figma-spec-plugin/figma-files.json"),
   join(dist, "specs/data/figma-files.json"),
-);
-copyFileSync(
-  join(root, "sdk/plugins/site/assets/visual-runtime.js"),
-  join(dist, "specs/visual-runtime.js"),
 );

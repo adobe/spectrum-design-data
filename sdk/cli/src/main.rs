@@ -328,6 +328,11 @@ enum Commands {
         /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
+        /// Also write each block's visual as an SVG string (render.svg) next to its scene.
+        /// Larger sheets and different hashes: leave it off for the Figma spec plugin
+        /// (45,000-character payloads, per-component hashes)
+        #[arg(long)]
+        svg: bool,
     },
     /// Append a release to each component's changelog (changelog/<component>.json) by diffing
     /// two git revisions of the dataset
@@ -4306,6 +4311,7 @@ fn main() -> ExitCode {
             path,
             output,
             text_metrics,
+            svg,
         } => spec_sheet::run(
             component,
             all,
@@ -4315,6 +4321,7 @@ fn main() -> ExitCode {
             path,
             output,
             text_metrics,
+            svg,
         ),
         Commands::Changelog {
             from,

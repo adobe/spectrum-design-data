@@ -441,6 +441,8 @@ struct Ctx<'a> {
     labels: Labels,
     scenes: visual::SceneCache,
     text_metrics: Option<&'a TextMetrics>,
+    /// Also write `render.svg` (`scene_to_svg`), so views need no renderer of their own.
+    svg: bool,
 }
 
 impl Ctx<'_> {
@@ -487,7 +489,7 @@ impl Ctx<'_> {
         let scale = ((BLOCK_W - MARGIN_X) / scene.width)
             .min((BLOCK_H - MARGIN_Y) / scene.height)
             .min(MAX_SCALE);
-        Ok(json!({
+        let mut render = json!({
             "view": {
                 "scale": scale,
                 "x": (BLOCK_W - scene.width * scale) / 2.0,
@@ -502,7 +504,11 @@ impl Ctx<'_> {
                 "mode": req.mode.iter().collect::<BTreeMap<_, _>>(),
             },
             "scene": scene,
-        }))
+        });
+        if self.svg {
+            render["svg"] = json!(visual::scene_to_svg(&scene));
+        }
+        Ok(render)
     }
 
     fn row_items(&self, recs: &[&Value], sizes: &BTreeMap<String, String>) -> Vec<Item> {
@@ -1007,6 +1013,7 @@ fn build_sheet(
     size: &str,
     changelog: Option<&Value>,
     text_metrics: Option<&TextMetrics>,
+    svg: bool,
 ) -> miette::Result<Value> {
     let recipe = graph.visual_recipe(component).map(|r| &r.raw);
     let component = graph.canonical_component(component).to_string();
@@ -1018,6 +1025,7 @@ fn build_sheet(
         labels: Labels::new(graph, &component, registry),
         scenes: Default::default(),
         text_metrics,
+        svg,
     };
 
     let mut pages: Vec<Value> = Vec::new();
@@ -1067,6 +1075,7 @@ fn run_all(
     changelog_dir: Option<&Path>,
     out_dir: &Path,
     text_metrics: Option<&TextMetrics>,
+    svg: bool,
 ) -> miette::Result<ExitCode> {
     std::fs::create_dir_all(out_dir)
         .into_diagnostic()
@@ -1084,6 +1093,7 @@ fn run_all(
             size,
             changelog.as_ref(),
             text_metrics,
+            svg,
         )?;
         let blocks: usize = sheet["pages"]
             .as_array()
@@ -1127,6 +1137,7 @@ pub fn run(
     path: Option<PathBuf>,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
+    svg: bool,
 ) -> miette::Result<ExitCode> {
     let text_metrics = super::load_text_metrics(text_metrics.as_deref())?;
     let (graph, visuals_dir, _) = super::load_visual_env(path, None, true)?;
@@ -1143,6 +1154,7 @@ pub fn run(
             changelog_dir.as_deref(),
             &out_dir,
             text_metrics.as_ref(),
+            svg,
         );
     }
     let component = component.ok_or_else(|| miette::miette!("give a component or --all"))?;
@@ -1159,6 +1171,7 @@ pub fn run(
         &size,
         changelog.as_ref(),
         text_metrics.as_ref(),
+        svg,
     )?;
     let text = serde_json::to_string_pretty(&sheet).into_diagnostic()?;
     match output {

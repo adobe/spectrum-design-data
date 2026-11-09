@@ -577,3 +577,33 @@ fn setuuid_refs_resolve_and_every_record_is_shown() {
         assert_eq!(Some(&(records as usize)), expected.get(c), "{c}");
     }
 }
+
+#[test]
+fn svg_flag_adds_a_rendered_svg_to_each_visual_and_nothing_else() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "button", "--svg"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let mut with_svg: Value = serde_json::from_slice(&out).unwrap();
+    assert_eq!(schema_errors(&with_svg), Vec::<String>::new());
+    let mut rendered = 0;
+    for page in with_svg["pages"].as_array_mut().unwrap() {
+        for block in page["blocks"].as_array_mut().unwrap() {
+            let Some(render) = block["render"].as_object_mut() else {
+                continue;
+            };
+            let svg = render.remove("svg").expect("render.svg with --svg");
+            let svg = svg.as_str().unwrap();
+            assert!(svg.starts_with("<svg") && svg.trim_end().ends_with("</svg>"));
+            rendered += 1;
+        }
+    }
+    assert!(rendered > 0);
+    // Without the svg strings, --svg output is the default sheet.
+    assert_eq!(with_svg, sheet_of("button"));
+}
