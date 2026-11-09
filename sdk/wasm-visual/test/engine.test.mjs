@@ -84,6 +84,24 @@ describe("Engine equals design-data render", () => {
     }
   });
 
+  it("wraps a badge label over several text nodes and grows the badge", () => {
+    const scene = (tag) =>
+      cliOut.get(
+        states.find(
+          (s) =>
+            s.platform === "foundation" &&
+            s.site === "badge" &&
+            s.id.endsWith(`-${tag}`),
+        ).id,
+      ).scene;
+    const text = (tag) => scene(tag).nodes.filter((n) => n.kind === "text");
+    assert.equal(text("default").length, 1);
+    const wrapped = text("wrap");
+    assert.ok(wrapped.length > 1, `${wrapped.length} lines`);
+    assert.ok(wrapped.every((n) => n.part === "label"));
+    assert.ok(scene("wrap").nodes[0].h > scene("default").nodes[0].h);
+  });
+
   it("anchors on the single `render` command", () => {
     const file = join(dir, "single.svg");
     run(

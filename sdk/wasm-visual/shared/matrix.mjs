@@ -114,6 +114,12 @@ export function buildStates(sites) {
       add("label", mid, "light", "desktop", {
         request: { label: "A much longer custom label than the default" },
       });
+      add("wrap", mid, "light", "desktop", {
+        request: {
+          label: "A much longer custom label than the default",
+          width: 120,
+        },
+      });
       add("nolabel", mid, "dark", "mobile", { request: { label: "" } });
       for (const width of [40, 300])
         add(`width-${width}`, mid, "light", "desktop", { request: { width } });

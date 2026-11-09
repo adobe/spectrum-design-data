@@ -189,6 +189,39 @@ fn root_width(scene: &Value) -> f64 {
 }
 
 #[test]
+fn a_long_badge_label_wraps_at_a_narrow_width_and_hugs_without_one() {
+    let scene = |extra: &[&str]| -> Value {
+        let mut args = vec![
+            "render",
+            "badge",
+            "--format",
+            "scene",
+            "--option",
+            "label=true",
+        ];
+        args.extend(["--label", "Three word label that is long"]);
+        args.extend(extra);
+        serde_json::from_slice(&dd(&args).success().get_output().stdout).unwrap()
+    };
+    let lines = |s: &Value| {
+        s["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|n| n["part"] == "label")
+            .count()
+    };
+    let height = |s: &Value| s["nodes"][0]["h"].as_f64().unwrap();
+    let hug = scene(&[]);
+    let narrow = scene(&["--width", "90"]);
+    assert_eq!(lines(&hug), 1);
+    assert!(lines(&narrow) > 1);
+    assert!(height(&narrow) > height(&hug));
+    assert_eq!(root_width(&narrow), 90.0);
+    assert!(narrow["diagnostics"].as_array().unwrap().is_empty());
+}
+
+#[test]
 fn width_sets_the_demo_width_for_render_and_for_a_batch_state() {
     let hug = dd(&["render", "accordion", "--format", "scene"])
         .success()

@@ -29,6 +29,7 @@ const SIZE_PROPS: &[&str] = &[
     "width",
     "height",
     "minWidth",
+    "minHeight",
     "gap",
     "gapToParent",
     "strokeWidth",

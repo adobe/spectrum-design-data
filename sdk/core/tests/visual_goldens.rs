@@ -120,7 +120,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     };
     let mut all_on = pick(options, enum_at(false));
     all_on.extend(pick(options, bools));
-    vec![
+    let mut out = vec![
         ("default", req(vec![], HashMap::new(), "light", "desktop")),
         (
             "all-on-dark-mobile",
@@ -130,7 +130,23 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "first-values-wireframe",
             req(vec![], pick(options, enum_at(true)), "wireframe", "desktop"),
         ),
-    ]
+    ];
+    // Badge wraps its label (`overflow`): a narrow width forces two lines, and the icon
+    // centres on the first.
+    if name == "badge" {
+        let narrow = |icon: bool| {
+            let mut r = req(vec![], HashMap::new(), "light", "desktop");
+            r.label = "Three word label".into();
+            r.width = Some(if icon { 104.0 } else { 80.0 });
+            if icon {
+                r.options.insert("icon".into(), Value::Bool(true));
+            }
+            r
+        };
+        out.push(("wrapped-label-narrow", narrow(false)));
+        out.push(("wrapped-label-icon-narrow", narrow(true)));
+    }
+    out
 }
 
 #[test]

@@ -44,7 +44,7 @@
         "justify": {
           "value": "center"
         },
-        "height": {
+        "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
             "context": "Minimum height"
@@ -285,6 +285,9 @@
         }
       },
       "props": {
+        "overflow": {
+          "value": "wrap"
+        },
         "fontSize": {
           "relationship": {
             "property": "font-size-{sizeIndex}",

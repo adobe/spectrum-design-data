@@ -724,3 +724,36 @@ test("a comma-separated viewBox still centres the rotation", async (t) => {
   t.true(n > 0);
   t.false(svgs.some((v) => v.includes("NaN")));
 });
+
+test("a wrapped label arrives as one text node per line and draws as one text layer per line", async (t) => {
+  const s = structuredClone(sheet);
+  const scene = s.pages
+    .flatMap((p) => p.blocks)
+    .map((b) => b.render?.scene)
+    .find((sc) => sc?.nodes.some((n) => n.kind === "text"));
+  const first = scene.nodes.find((n) => n.kind === "text");
+  const lines = ["Two line", "label"];
+  scene.nodes.splice(
+    scene.nodes.indexOf(first),
+    1,
+    ...lines.map((text, i) => ({
+      ...first,
+      text,
+      y: first.y + first.h * i,
+    })),
+  );
+  const { figma, page } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  const drawn = page.children[0].findAll(
+    (n) => n.type === "TEXT" && lines.includes(n.characters),
+  );
+  t.deepEqual(
+    drawn.map((n) => n.characters),
+    lines,
+  );
+  t.is(drawn[0].name, first.part);
+  t.is(drawn[1].name, first.part);
+  t.is(drawn[1].lineHeight.value, drawn[0].lineHeight.value);
+  t.true(drawn[1].y > drawn[0].y);
+  t.is(drawn[1].x, drawn[0].x);
+});
