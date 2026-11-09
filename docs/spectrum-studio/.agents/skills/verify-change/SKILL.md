@@ -13,13 +13,32 @@ checks are the exception, not the default. Use `pnpm`, never `npm`.
 State one line: **what changed, which check covers it, why.** If no check
 applies (docs, rules, comments), say so and run nothing.
 
+Browser testing is not required merely because UI code or a story changed.
+Prefer non-browser checks. If browser evidence is needed, use the smallest
+isolated Storybook check that covers the behavior. Common input, focus,
+keyboard, menu and layout checks must not run against app pages.
+
+Before testing an actual app page in any browser, ask the user for permission.
+Explain the behavior to verify, why an isolated story cannot cover it and the
+proposed scope. This includes Playwright, browser canvas actions and manual
+inspection. General approval to implement or verify is not permission to test
+app pages. Without an explicit answer, skip that check and state the gap.
+
+Follow the search and resource limits in `AGENTS.md`, Working rule 3. Search
+only Studio and, when needed, `packages/`; exclude dependency, vendor, cache,
+generated-output and report directories. Default to one scoped search and
+one resource-heavy job at a time. The task-wide ceiling is 10 concurrent
+ripgrep processes, including delegated work; shell `rg` uses `--threads 1`.
+Browser runners use `--workers=1`. Do not run builds, tests, type checks or
+baseline preparation concurrently.
+
 ## Tiers
 
 | Tier | When | Checks |
 | --- | --- | --- |
 | 1. Targeted | After each meaningful edit | The affected `tests/*.ts` script from the map below. `pnpm typecheck` only if types, exports, schema or file moves changed |
 | 2. Domain | When the domain's change is finished | The full domain row from the map (all scripts listed), plus `pnpm test:changelog` and `pnpm test:impact` if persisted design data changed |
-| 3. Feature complete | Once, when the whole feature is done | `pnpm lint`. Add `pnpm build` only if build config, bundling, or data-vis inputs changed. One browser smoke path if the UI changed |
+| 3. Feature complete | Once, when the whole feature is done | `pnpm lint`. Add `pnpm build` only if build config, bundling, or data-vis inputs changed. A focused Storybook browser check only if needed; app checks require explicit permission |
 | 4. Slow, gated | Only if a trigger below applies or the user asks | Performance chains, Playwright suites, `test:data-vis`, `test:design-data-sdk`, `analyze:design-data`. Run each at most once, at the end |
 
 `pnpm typecheck` = `check:category-icons` + `check:changelog-coverage` + `tsc` (app and node).
@@ -46,8 +65,8 @@ applies (docs, rules, comments), say so and run nothing.
 | `src/data/design-system.*` defaults or schema | `test:defaults` (`pnpm schema:defaults` regenerates), `check:changelog-coverage` |
 | Foundation creation, foundations panels | `test:foundation-creation` |
 | Home page | `test:home-quick-links` |
-| Layout-only views, panels, pages (no logic) | `pnpm typecheck`, plus the one Playwright spec for that surface |
-| Storybook stories | the matching `tests/e2e/storybook-*.spec.ts` only, via `pnpm test:e2e:storybook` |
+| Layout-only views, panels, pages (no logic) | `pnpm typecheck`; a focused Storybook check only if browser evidence is needed. Ask before any app-page check |
+| Storybook stories | Non-browser checks first; if needed, select only affected stories in the matching `tests/e2e/storybook-*.spec.ts`, with `--workers=1` |
 | Docs added, moved, renamed or archived | `pnpm check:docs-index` (every doc listed in `docs/README.md` or `docs/archive/README.md`, every index link resolves). Also `check:design-data-gaps` if a doc cited by the gap register moved |
 | Rules, skills, other markdown | No tests |
 
@@ -62,15 +81,21 @@ Run only when the trigger applies, or the user asks. Once, at the end.
 | `test:prioritized-work` (19 scripts) | Workers, derived/prioritized work, virtualizer, transitions, code chunking, or authoring validation/persistence batching changed (`*.worker.ts`, `*Work.ts`, `features/code`) |
 | `test:color-system` | Color scale generation, CSS library generation, or their workers changed |
 | `test:data-vis` (builds a bundle, then 10 scripts) | Data-vis generation, export, or the data-vis build config changed |
-| Playwright (`pnpm exec playwright test tests/e2e/<name>.spec.ts`) | A UI surface changed. Run the one spec for it, never the whole folder. Config starts `pnpm dev` itself |
-| Storybook e2e | A story or the component it covers changed |
+| App-page Playwright | Only after explicit user permission, with a rationale for why an isolated story cannot cover the behavior. Run only the approved scenario, with `--workers=1`; the config may start `pnpm dev` |
+| Storybook e2e | Changed behavior needs browser evidence that non-browser checks cannot provide. Run only affected stories, with `--workers=1`, not the whole suite |
 | `test:design-data-sdk`, `analyze:design-data` | Only when the user asks. They need the reference checkout (`DESIGN_DATA_PATH`) |
 
-## Browser smoke paths
+## Browser scope
 
-- Color-system changes: open Foundations, open the Colors subpanel, open the Scale Editor, open the Evaluation view, exercise any changed comparison or output control. The existing `tests/e2e/color-system-smoke.spec.ts` covers this.
-- Any other UI surface: open the changed surface, perform the changed interaction once.
-- Every smoke path collects `pageerror` events and asserts the list is empty. Typecheck and build do not replace this.
+- Use isolated stories for basic interactions and rendering. Do not repeat
+  their coverage on app pages.
+- App-only integration, such as routing or saved state across reload, may
+  justify requesting permission. It does not authorize running the check.
+  Explain why the specific integration cannot be covered in a story.
+- Stay within the approved scenario. Do not expand to other pages, viewport
+  matrices or the full suite.
+- Collect `pageerror` events in any browser check that is run. Skipping an
+  unnecessary or unapproved browser check is not a completion failure.
 
 ## Rules
 
@@ -78,8 +103,8 @@ Run only when the trigger applies, or the user asks. Once, at the end.
 - After a failure, re-run only the failing check.
 - Do not "validate" by re-reading code. Run a named check or say none applies.
 - Do not run `pnpm build` to check types. Use `pnpm typecheck`.
-- If a command seems slow, say so and ask before repeating it. Timings have not been measured yet; record them here when the user shares them.
-- When a check fails, first find out whether it also fails at the last commit, before trying to fix it. Extract HEAD into a scratch folder outside the repo (`git archive HEAD | tar -x -C <scratch>`, then link `node_modules`) and run the same check there. If it fails identically, it was already failing: do not change code to fix it. Report it, with the check name, the error, and what you learned, and ask the user whether to investigate. Never use `git stash`, `git checkout`, or a reset to test this; the working tree and stashes may hold the user's unfinished work.
+- If a command stalls or the device becomes sluggish, stop task-owned work, report it and ask before retrying. Do not add concurrent jobs or retry while the user is unavailable.
+- When a check fails, compare against the last commit in the cheapest scoped way before changing unrelated code. Do not automatically copy the repository, start more servers or run broad baseline checks. Ask before expensive baseline work; app-browser permission still applies. If confirmation is unavailable, report that the baseline is unconfirmed. If the failure is pre-existing, report the check and error and ask before investigating or fixing it. Never use `git stash`, `git checkout` or a reset to test this; the working tree and stashes may hold the user's unfinished work.
 - Never fix a failing check by updating a pin, fingerprint, or snapshot. See `authoring-lifecycle` and `design-data-contract`.
 
 ## Final report format

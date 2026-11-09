@@ -46,6 +46,16 @@ For the color picker specifically, include sRGB, Display P3, OKLCH, cartesian, p
 
 ## Interaction and accessibility
 
+- Run browser checks only when needed; prefer non-browser checks when they
+  cover the changed behavior. A story or UI change alone is not a reason to
+  launch a browser.
+- Common input, focus, keyboard, menu and layout checks belong in isolated
+  Storybook stories, not actual app pages.
+- Before any app-page browser check, ask the user and explain why isolated
+  Storybook coverage is insufficient. Name the proposed scenario and wait
+  for explicit permission; if the user is unavailable, skip it.
+- Run only affected stories with one browser worker (`--workers=1`). Do not
+  run browser checks alongside builds, tests, type checks or baseline jobs.
 - Use Storybook `play` functions for deterministic interaction checks.
 - Assert accessible names, roles, focus movement, keyboard operation, and meaningful state changes.
 - Do not use screenshots as the only verification for interactive behavior.
@@ -64,9 +74,9 @@ For the color picker specifically, include sRGB, Display P3, OKLCH, cartesian, p
 
 Before considering a story set complete:
 
-1. Run the project lint and build checks.
-2. Run the Storybook static build.
-3. Run the story interaction checks.
-4. Inspect the important stories in light and dark themes at desktop and narrow sizes.
-5. Keep application E2E coverage focused on application integration; do not duplicate every Storybook interaction test there.
+1. Use `verify-change` to select applicable non-browser checks; do not run builds automatically for story-only changes.
+2. Run a Storybook static build only when needed to check Storybook configuration or bundling.
+3. Run focused browser interaction checks only when the changed behavior needs them.
+4. Check themes and viewports only when relevant to the change, in isolated stories.
+5. App-page integration checks require explicit user permission and a reason isolated stories cannot cover them. Do not duplicate basic Storybook coverage in the app.
 6. Do not add stories for unrelated components unless the user asks for them.

@@ -24,6 +24,8 @@ This package lives at `docs/spectrum-studio` in the `adobe/spectrum-design-data`
 
 ## Start here (new to this project)
 
+At the start of Studio work in each new session, perform the [Studio startup check](../../.ai/rules/spectrum-studio-upgrades.md): fetch and report whether this branch is behind main, without changing working files or rebasing. Run [upgrade-studio-from-main](../../.ai/skills/upgrade-studio-from-main/SKILL.md) only when the user requests the upgrade. That workflow does not authorize automatic commits or pushes, including through the root session-completion instructions.
+
 **Domain map** (where to look, and which skill to read first):
 
 | Area | Code | Skill |
@@ -86,10 +88,21 @@ Do this once per goal, not at the start of every session. If the contributor's r
 
 - Before running any test, say in one line what changed, which check covers it, and why.
 - Start with the narrowest check: the affected `tests/*.ts` script, then `tsc`. Run `pnpm lint` and `pnpm build` once when a feature is complete, not after every edit. Use the `verify-change` skill to pick checks.
-- Playwright (`tests/e2e`), performance and long chains (`test:prioritized-work`, `test:color-system`, `test:data-vis`) run only when the change touches what they cover or the user asks. Run each at most once, at the end.
+- Browser tests are optional, not an automatic completion step for UI changes. Use non-browser checks first. Run a focused, isolated Storybook check only when the changed behavior needs a browser; common checks for input, focus, keyboard, menus and layout belong in stories, not app pages.
+- Before any browser testing of actual app pages, ask the user for permission. Explain what needs testing, why an isolated story cannot cover it, and the proposed scope. This applies to Playwright, the browser canvas and manual browser checks. General implementation or verification approval is not app-browser approval. If the user is unavailable, skip the app check and report the gap.
+- Performance and long chains (`test:prioritized-work`, `test:color-system`, `test:data-vis`) run only when the change touches what they cover or the user asks. Run each at most once, at the end.
 - Do not re-run a passing check without a code change. Do not "validate" by re-reading code; run a named check or say none applies.
 - When a check fails, first confirm whether it also fails at the last commit (see `verify-change`). If it was already failing, report it and ask before fixing it. Never use `git stash`, `git checkout`, or a reset to find out.
 - The final message lists the checks run (with results) and the relevant checks skipped (with the reason).
+
+#### Search boundaries and device resources
+
+- Keep all file discovery and content searches inside `docs/spectrum-studio/`. Search `packages/` only when source-package evidence is needed. Do not broaden to the repository root, sibling projects, parent folders, external checkouts or session archives. Read explicitly named instruction files directly rather than searching their directories.
+- Never search or traverse `node_modules`, `.pnpm`, `.git`, vendor directories, caches, build output, coverage, browser reports or test-result directories. Set explicit paths and file globs; exclude these directories even when ignored files are included.
+- Default to one scoped search at a time. Never run more than **10 concurrent ripgrep processes** across this task and its delegated work, including shell commands and tool calls. Ten is a ceiling, not a target. Combine related patterns instead of launching a search per term. Shell `rg` commands use `--threads 1`.
+- Run only one resource-heavy job at a time: tests, builds, type checks, browser runners or baseline preparation. Use `--workers=1` for browser tests. Reuse an existing appropriate server rather than starting duplicate servers or repository copies.
+- Do not maximize parallelism or consume resources that could degrade the user's other applications. If commands stall or the device becomes sluggish, stop task-owned work, report the issue and ask before retrying. Do not launch more jobs to work around a stall or touch unrelated user processes.
+- Ask before preparing additional repository copies or running expensive baseline checks. When confirmation is too costly or unavailable, report the uncertainty instead of expanding the investigation.
 
 ### 4. Rule stewardship
 
@@ -149,9 +162,11 @@ Rules in `.agents/rules/` are not loaded automatically by every tool. Read the o
 Skills in `.agents/skills/` load on demand. Read the matching one before starting:
 
 The shared `parametric-systems-design` skill below lives in the root `.ai/skills/`, not the local skills directory.
+The Studio upgrade rule and skill also live in the root `.ai/` directory.
 
 | Skill | Read it when |
 | --- | --- |
+| [upgrade-studio-from-main](../../.ai/skills/upgrade-studio-from-main/SKILL.md) | The user requests bringing main into the Studio working branch; review impact, rebase safely, verify compatibility and request approval for migrations |
 | [parametric-systems-design](../../.ai/skills/parametric-systems-design/SKILL.md) | Required before planning or implementing changes to authored data, relationships, naming, formulas, rules, generators, or output, including UI-led requests |
 | `verify-change` | Before running any test, lint, build, Playwright, or performance command, and when finishing a feature |
 | `component-catalog` | Adding or editing any UI: fields, previews, cards, loading, toasts, mode or color controls |
