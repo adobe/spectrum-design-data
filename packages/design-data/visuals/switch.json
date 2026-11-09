@@ -34,7 +34,7 @@
       "props": {
         "direction": { "value": "row" },
         "align": { "value": "center" },
-        "height": {
+        "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
             "context": "Minimum height"
@@ -214,6 +214,9 @@
       "kind": "text",
       "visibleWhen": { "options": { "hideLabel": false } },
       "props": {
+        "overflow": {
+          "value": "wrap"
+        },
         "fontSize": {
           "relationship": {
             "property": "font-size-{sizeIndex}",
