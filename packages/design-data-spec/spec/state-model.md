@@ -109,9 +109,8 @@ An `interaction` state is driven by transient user input. The state is active on
 Examples:
 
 * `hover` — active while a pointer device is positioned over the component's interactive area.
-* `focus` — active while the component holds keyboard focus.
-* `focus-visible` — active when focus was received via keyboard navigation (not pointer).
-* `active` / `pressed` — active while a pointer button or key is held down.
+* `keyboard-focus` (also `focus` and `focus-visible`) — active while the component holds focus received through keyboard navigation.
+* `down` (also `active` and `pressed`) — active while a pointer button or key is held down.
 
 `interaction` states act within the token set that the `prop` states select: a `selected` component that is pressed uses the tokens for `selected` plus `down` when they exist. A component that is `disabled` ignores its interaction states.
 
@@ -131,9 +130,9 @@ The following algorithm is **NORMATIVE** for conforming validators and renderers
 
 4. Pick the candidate whose `state` array matches the most active states (specificity). A token scoped to `["selected", "down"]` beats one scoped to `["down"]` or `["selected"]` when both are active.
 
-5. If candidates tie on specificity, compare their matched interaction states by precedence. For each candidate, sort the precedence values of its matched `interaction` states from highest to lowest, then compare the two lists element by element. The first difference decides, and the candidate with the higher value wins. If one list is a prefix of the other, the longer list wins. A candidate with no matched interaction state has an empty list, so it loses to any other. For example, `["hover", "keyboard-focus"]` (60, 50) beats `["hover"]` (50) and loses to `["down"]` (70).
+5. If candidates tie on specificity, compare their matched interaction states by precedence. For each candidate, sort the precedence values of its matched `interaction` states from highest to lowest, then compare the two lists element by element. The first difference decides, and the candidate with the higher value wins. If one list is a prefix of the other, the longer list wins. A candidate with no matched interaction state has an empty list, so it loses to any candidate that has one. For example, `["hover", "keyboard-focus"]` (60, 50) beats `["hover"]` (50) and loses to `["down"]` (70).
 
-6. If candidates still tie, the one that appears **earlier** in source order wins. This **MUST** be treated as a tie; implementations **SHOULD** emit a warning (see SPEC-006 for the analogous cascade tie rule).
+6. If candidates still tie (including two candidates that both have no matched interaction state), the one that appears **earlier** in source order wins. This **MUST** be treated as a tie; implementations **SHOULD** emit a warning (see SPEC-006 for the analogous cascade tie rule).
 
 7. If no candidate remains, the property falls back to the `default` state (or baseline tokens when no `default` state is declared).
 
