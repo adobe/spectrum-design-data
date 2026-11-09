@@ -29,19 +29,45 @@ if (!prebuilt || !existsSync(join(prebuilt, "data.json"))) {
   const bin = join(repo, "sdk/target/debug/design-data");
   out = mkdtempSync(join(tmpdir(), "site-"));
   const cli = existsSync(bin)
-    ? [bin, ["site", "--out", out]]
+    ? [bin, ["site", "--data-only", "--out", out]]
     : [
         "cargo",
-        ["run", "-q", "-p", "design-data-cli", "--", "site", "--out", out],
+        [
+          "run",
+          "-q",
+          "-p",
+          "design-data-cli",
+          "--",
+          "site",
+          "--data-only",
+          "--out",
+          out,
+        ],
       ];
   execFileSync(cli[0], cli[1], { cwd: repo, stdio: "pipe" });
 }
 
 const data = JSON.parse(readFileSync(join(out, "data.json"), "utf8"));
+// data.json keeps a summary; the variants are one file each (what the site's engine reads).
+const assemble = (component) => {
+  const { variants: keys, ...meta } = data.compiled[component];
+  const c = { ...meta, variants: {}, drawings: {} };
+  for (const key of keys) {
+    const v = JSON.parse(
+      readFileSync(
+        join(out, "variants", component, `${key.replace(/\|/g, "-")}.json`),
+        "utf8",
+      ),
+    );
+    c.variants[key] = v.parts;
+    Object.assign(c.drawings, v.drawings);
+  }
+  return c;
+};
 const readJson = (path) => JSON.parse(readFileSync(join(repo, path), "utf8"));
 const load = (component) => ({
   component,
-  compiled: data.compiled[component],
+  compiled: assemble(component),
   recipe: readJson(`packages/design-data/visuals/${component}.json`),
   schema: readJson(`packages/design-data/components/${component}.json`),
 });

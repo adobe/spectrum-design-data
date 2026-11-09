@@ -97,7 +97,7 @@ tasks:
       - -c
       - >-
         cd "$MOON_WORKSPACE_ROOT" &&
-        cargo run -q --manifest-path sdk/Cargo.toml -p design-data-cli -- site
+        cargo run -q --manifest-path sdk/Cargo.toml -p design-data-cli -- site --data-only
         --out "$MOON_WORKSPACE_ROOT/sdk/target/site-data"
     inputs:
       - "/sdk/core/src/**/*.rs"

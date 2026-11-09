@@ -887,7 +887,13 @@ fn site_lists_the_alias_key_with_the_target_data_and_hides_the_target() {
         Command::cargo_bin("design-data")
             .expect("design-data binary")
             .current_dir(project.path())
-            .args(["site", "--components", "button,button-ios", "--out"])
+            .args([
+                "site",
+                "--data-only",
+                "--components",
+                "button,button-ios",
+                "--out",
+            ])
             .arg(&dir)
             .args(platform)
             .assert()
@@ -918,7 +924,13 @@ fn site_under_a_platform_lists_only_implemented_components() {
         Command::cargo_bin("design-data")
             .expect("design-data binary")
             .current_dir(project.path())
-            .args(["site", "--components", "badge,button,button-ios", "--out"])
+            .args([
+                "site",
+                "--data-only",
+                "--components",
+                "badge,button,button-ios",
+                "--out",
+            ])
             .arg(&dir)
             .args(platform)
             .assert()

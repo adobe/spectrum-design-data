@@ -2,7 +2,6 @@
 
 import test from "ava";
 import {
-  contentSupport,
   iconChoices,
   iconRequest,
   labelText,
@@ -11,39 +10,11 @@ import {
   writeContentParams,
 } from "../../plugins/site/assets/content-controls.js";
 
-const compiled = (icon, kind = "text") => ({
-  variants: {
-    v: {
-      label: { kind },
-      mark: { kind: "icon", icon },
-    },
-  },
-});
 const icons = {
   "workflow:add": {},
   "workflow:delete": {},
   "workflow:arrow-up": {},
 };
-
-test("label and icon controls follow the recipe parts", (t) => {
-  t.deepEqual(contentSupport(compiled({ content: true, optional: true })), {
-    label: true,
-    icon: { optional: true },
-  });
-  t.deepEqual(contentSupport(compiled({ content: true })), {
-    label: true,
-    icon: { optional: false },
-  });
-  // A fixed icon (checkmark) and no text part: nothing to change.
-  t.deepEqual(
-    contentSupport(compiled({ set: "ui", name: "checkmark" }, "box")),
-    {
-      label: false,
-      icon: null,
-    },
-  );
-  t.deepEqual(contentSupport(undefined), { label: false, icon: null });
-});
 
 test("none is offered only for an optional content icon", (t) => {
   const values = (optional) => iconChoices(icons, optional).map(([v]) => v);

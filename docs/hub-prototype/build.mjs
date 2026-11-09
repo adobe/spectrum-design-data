@@ -48,9 +48,24 @@ const run = (cmd, args, cwd) =>
   execFileSync(cmd, args, { cwd, stdio: "inherit" });
 
 run("cargo", ["build", "-p", "design-data-cli"], join(root, "sdk"));
+// The slim WASM engine (proposal 015) every site loads; never committed.
+const engineDir = join(root, "sdk/wasm-visual");
+run("node", ["scripts/build.mjs", "web"], engineDir);
 rmSync(dist, { recursive: true, force: true });
 for (const p of platforms)
-  run(cli, ["site", "--platform", p.id, "--out", join(dist, p.path)], root);
+  run(
+    cli,
+    [
+      "site",
+      "--platform",
+      p.id,
+      "--engine",
+      join(engineDir, "pkg/web"),
+      "--out",
+      join(dist, p.path),
+    ],
+    root,
+  );
 mkdirSync(dist, { recursive: true });
 writeFileSync(
   join(dist, "platforms.json"),

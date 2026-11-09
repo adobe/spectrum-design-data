@@ -30,8 +30,17 @@ const SWITCHER: &str = include_str!("../assets/platform-switcher.js");
 const CONTROLS: &str = include_str!("../assets/spectrum-controls.js");
 const NOTICES: &str = include_str!("../assets/THIRD-PARTY-NOTICES.txt");
 
+/// The files of the slim engine's `pkg/web` output that the site serves from `engine/`.
+const ENGINE_FILES: [&str; 2] = [
+    "design_data_wasm_visual.js",
+    "design_data_wasm_visual_bg.wasm",
+];
+
 /// Write the site for `components` (all when empty) to `out`. Returns the number
-/// of components that had a visual recipe. Recipes come from `graph.visuals`; under a
+/// of components that had a visual recipe. `engine` is the slim engine's web build
+/// (`sdk/wasm-visual` `pkg/web`), copied to `engine/`; without it the site has no renderer.
+/// Each variant is its own file, `variants/<component>/<size>-<scheme>-<scale>.json`,
+/// which the engine reads whole. Recipes come from `graph.visuals`; under a
 /// platform, only components the platform implements are listed, and `componentAliases`
 /// lists the alias key with its target's data and hides the target.
 pub fn write_site(
@@ -40,6 +49,7 @@ pub fn write_site(
     out: &Path,
     platform: Option<&PlatformIdentity>,
     text_metrics: Option<&str>,
+    engine: Option<&Path>,
 ) -> Result<usize, String> {
     let modes: Vec<HashMap<String, String>> = ["light", "dark", "wireframe"]
         .iter()
@@ -116,10 +126,22 @@ pub fn write_site(
                 .map_err(|e| format!("{}: {e}", c.name))?,
         );
     }
+    let engine_files = match engine {
+        Some(dir) => ENGINE_FILES
+            .iter()
+            .map(|f| {
+                std::fs::read(dir.join(f))
+                    .map(|b| (*f, b))
+                    .map_err(|e| format!("engine file {}: {e}", dir.join(f).display()))
+            })
+            .collect::<Result<Vec<_>, _>>()?,
+        None => Vec::new(),
+    };
     list.sort_by(|a, b| a["displayName"].as_str().cmp(&b["displayName"].as_str()));
     let figma = figma_names(graph, &compiled)?;
+    let variants = split_variants(&compiled)?;
     let mut data = serde_json::json!({
-        "components": list, "byName": by_name, "compiled": compiled, "figma": figma,
+        "components": list, "byName": by_name, "compiled": summaries(&compiled), "figma": figma,
         "icons": workflow_icons(graph),
     });
     if let Some(p) = platform {
@@ -151,7 +173,78 @@ pub fn write_site(
         &serde_json::to_string(&data).map_err(|e| e.to_string())?,
     )?;
     write(".nojekyll", "")?;
+    for (rel, body) in &variants {
+        let path = out.join(rel);
+        std::fs::create_dir_all(path.parent().unwrap_or(out))
+            .and_then(|()| std::fs::write(&path, body))
+            .map_err(|e| format!("failed to write {rel}: {e}"))?;
+    }
+    if !engine_files.is_empty() {
+        std::fs::create_dir_all(out.join("engine")).map_err(|e| e.to_string())?;
+        for (name, bytes) in engine_files {
+            std::fs::write(out.join("engine").join(name), bytes)
+                .map_err(|e| format!("failed to write engine/{name}: {e}"))?;
+        }
+    }
     Ok(compiled.len())
+}
+
+/// One `(relative path, JSON)` per component, size, colour scheme and scale: the document
+/// `Engine` reads, so the page fetches only the variant it draws.
+fn split_variants(
+    compiled: &serde_json::Map<String, serde_json::Value>,
+) -> Result<Vec<(String, String)>, String> {
+    let mut out = Vec::new();
+    for (name, c) in compiled {
+        for key in c["variants"]
+            .as_object()
+            .into_iter()
+            .flatten()
+            .map(|(k, _)| k)
+        {
+            let doc = visual::CompiledVariant::from_compiled(c, key)
+                .map_err(|e| format!("{name} {key}: {e}"))?
+                .to_value();
+            out.push((
+                format!("variants/{name}/{}.json", key.replace('|', "-")),
+                serde_json::to_string(&doc).map_err(|e| e.to_string())?,
+            ));
+        }
+    }
+    Ok(out)
+}
+
+/// What `data.json` keeps of a compiled recipe: its variant keys, option defaults and what
+/// the demo can change (label text, a swappable content icon), without the variants.
+fn summaries(
+    compiled: &serde_json::Map<String, serde_json::Value>,
+) -> serde_json::Map<String, serde_json::Value> {
+    compiled
+        .iter()
+        .map(|(name, c)| {
+            let variants = c["variants"].as_object();
+            let parts: Vec<&serde_json::Value> = variants
+                .into_iter()
+                .flat_map(|v| v.values())
+                .flat_map(|p| p.as_object().into_iter().flat_map(|p| p.values()))
+                .collect();
+            let icons: Vec<_> = parts.iter().filter(|p| p["icon"]["content"] == true).collect();
+            let icon = if icons.is_empty() {
+                serde_json::Value::Null
+            } else {
+                serde_json::json!({ "optional": icons.iter().all(|p| p["icon"]["optional"] == true) })
+            };
+            let keys: Vec<&String> = variants.into_iter().flat_map(|v| v.keys()).collect();
+            (
+                name.clone(),
+                serde_json::json!({
+                    "root": c["root"], "sizeScale": c["sizeScale"],
+                    "optionDefaults": c["optionDefaults"], "variants": keys,
+                    "content": { "label": parts.iter().any(|p| p["kind"] == "text"), "icon": icon },
+                }),
+            )
+        })
+        .collect()
 }
 
 /// The demo workflow icons (one drawing each), keyed `workflow:<name>` like a compiled

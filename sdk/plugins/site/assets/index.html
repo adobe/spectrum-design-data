@@ -649,6 +649,20 @@
   </head>
   <body>
     <div class="shell">
+      <div
+        id="fatal"
+        role="alert"
+        hidden
+        style="
+          grid-column: 1/-1;
+          padding: 12px 16px;
+          background: #fde7e7;
+          color: #8a1010;
+          border: 1px solid #d31510;
+          border-radius: 8px;
+          font: 14px sans-serif;
+        "
+      ></div>
       <nav class="side card" id="nav"></nav>
 
       <main>
@@ -805,6 +819,13 @@
         readConstraints,
       } from "./constraints.js";
       const $ = (id) => document.getElementById(id);
+      // A failed load or solve is shown, not left as a blank page.
+      function showFatal(e) {
+        const el = $("fatal");
+        el.textContent = e?.message ?? String(e);
+        el.hidden = false;
+      }
+      window.addEventListener("unhandledrejection", (e) => showFatal(e.reason));
       const esc = (s) =>
         String(s ?? "")
           .replace(/&/g, "&amp;")
@@ -2230,7 +2251,7 @@
           if (cell) syncControls({ ...JSON.parse(cell) });
           await setMode(initial, cell ? {} : undefined);
         }
-      })();
+      })().catch(showFatal);
     </script>
   </body>
 </html>

@@ -152,6 +152,7 @@ fn site_ships_the_table_it_was_built_with() {
     let default_out = dir.path().join("default");
     dd(&[
         "site",
+        "--data-only",
         "--out",
         default_out.to_str().unwrap(),
         "--components",
@@ -170,6 +171,7 @@ fn site_ships_the_table_it_was_built_with() {
     let out = dir.path().join("wide");
     dd(&[
         "site",
+        "--data-only",
         "--out",
         out.to_str().unwrap(),
         "--components",
@@ -184,6 +186,7 @@ fn site_ships_the_table_it_was_built_with() {
     );
     dd(&[
         "site",
+        "--data-only",
         "--out",
         dir.path().join("x").to_str().unwrap(),
         "--text-metrics",
@@ -235,4 +238,47 @@ fn batch_and_compare_print_the_table_stamp() {
         measured.to_str().unwrap(),
     ])
     .stderr(contains(stamp));
+}
+
+#[test]
+fn site_needs_an_engine_and_writes_one_file_per_variant() {
+    let dir = tempfile::tempdir().unwrap();
+    let out = dir.path().join("site");
+    dd(&["site", "--out", out.to_str().unwrap()])
+        .failure()
+        .stderr(contains("needs the slim engine"));
+
+    let engine = dir.path().join("pkg");
+    std::fs::create_dir(&engine).unwrap();
+    for f in [
+        "design_data_wasm_visual.js",
+        "design_data_wasm_visual_bg.wasm",
+    ] {
+        std::fs::write(engine.join(f), f).unwrap();
+    }
+    dd(&[
+        "site",
+        "--out",
+        out.to_str().unwrap(),
+        "--components",
+        "button",
+        "--engine",
+        engine.to_str().unwrap(),
+    ])
+    .success();
+    assert!(out.join("engine/design_data_wasm_visual_bg.wasm").is_file());
+    let data: Value =
+        serde_json::from_str(&std::fs::read_to_string(out.join("data.json")).unwrap()).unwrap();
+    let keys = data["compiled"]["button"]["variants"].as_array().unwrap();
+    assert!(!keys.is_empty());
+    for key in keys {
+        let file = key.as_str().unwrap().replace('|', "-");
+        let v: Value = serde_json::from_str(
+            &std::fs::read_to_string(out.join(format!("variants/button/{file}.json"))).unwrap(),
+        )
+        .unwrap();
+        assert!(v["parts"].is_object() && v["root"].is_string());
+    }
+    assert_eq!(data["compiled"]["button"]["content"]["label"], true);
+    assert!(data["compiled"]["button"]["content"]["icon"]["optional"].is_boolean());
 }
