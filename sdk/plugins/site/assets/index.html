@@ -1020,7 +1020,7 @@
         controlOpts = {};
         const rows = [];
         const picker = (id, title, values, value, extra = "") =>
-          `<label class="f ${extra}" id="${id}-wrap"><span id="${id}-name">${title}</span><sp-picker id="${id}" aria-labelledby="${id}-name" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+          `<label class="f ${extra}" id="${id}-wrap"><span id="lbl-${id}">${title}</span><sp-picker id="${id}" aria-labelledby="lbl-${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
         const mode = (id, title, values) =>
           picker(id, title, values, values[0][0]);
         for (const [name, def] of Object.entries(opts)) {
@@ -1062,7 +1062,7 @@
             ).concat(vals.map((v) => [v, shown(name, v)]));
             const label = humanize(name);
             const sel = def.default === undefined ? NONE : def.default;
-            return `<label class="f ${supported ? "" : "off"}"><span id="opt-${name}-name">${label}</span><sp-picker id="opt-${name}" aria-labelledby="opt-${name}-name" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
+            return `<label class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labelledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></label>`;
           }
           return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
@@ -1092,7 +1092,7 @@
         const start = readContentParams(new URLSearchParams(location.search));
         if (content.label)
           rows.push(
-            `<label class="f" id="content-label-wrap"><span id="content-label-name">Label text</span><input type="text" id="content-label" aria-labelledby="content-label-name" class="content" value="${attr(start.label)}" /></label>`,
+            `<label class="f" id="content-label-wrap"><span id="lbl-content-label">Label text</span><input type="text" id="content-label" aria-labelledby="lbl-content-label" class="content" value="${attr(start.label)}" /></label>`,
           );
         if (content.icon) {
           const choices = iconChoices(
@@ -1111,7 +1111,7 @@
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
-            `<label class="f hidden" id="state-wrap"><span id="state-name">State</span><sp-picker id="state" aria-labelledby="state-name" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
+            `<label class="f hidden" id="state-wrap"><span id="lbl-state">State</span><sp-picker id="state" aria-labelledby="lbl-state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></label>`,
           );
         rows.push(
           '<div id="support" class="support" role="status" aria-live="polite"></div>',

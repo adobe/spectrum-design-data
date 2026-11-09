@@ -6,6 +6,7 @@
 // Unless required by applicable law or agreed to in writing, software distributed under
 // the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 // OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
 
 // Drives system Chrome against the built Hub prototype (`moon run hub-prototype:build`) and checks
 // from the accessibility tree that every form control in the explorer has a name.
@@ -78,16 +79,12 @@ try {
     page.$$eval("#controls label.f > span", (els) =>
       els.filter((e) => e.offsetParent).map((e) => e.textContent.trim()),
     );
-  const check = async (path) => {
-    await page.goto(`${origin}${path}`);
-    await page.waitForSelector("#controls sp-picker");
-    await page.waitForFunction(() => customElements.get("sp-picker"));
-    await page.waitForTimeout(500);
-    const names = await unnamed(path);
+  const verify = async (where) => {
+    const names = await unnamed(where);
     for (const l of await visibleLabels())
       assert.ok(
         names.some((n) => n.includes(l)),
-        `${path}: "${l}" names a control (got ${names.join("|")})`,
+        `${where}: "${l}" names a control (got ${names.join("|")})`,
       );
     const ids = await page.evaluate(() =>
       [...document.querySelectorAll("#controls [id]")].map((e) => e.id),
@@ -95,19 +92,28 @@ try {
     assert.equal(
       new Set(ids).size,
       ids.length,
-      `${path}: duplicate ids ${ids.filter((x, i) => ids.indexOf(x) !== i).slice(0, 5)}`,
+      `${where}: duplicate ids ${ids.filter((x, i) => ids.indexOf(x) !== i).slice(0, 5)}`,
     );
-    const loose = await page.$$eval("#controls sp-picker", (els) =>
+    // Each label span must be the labelledby target of the control right after it.
+    const loose = await page.$$eval("#controls label.f > span", (els) =>
       els
         .filter(
-          (e) =>
-            !document
-              .getElementById(e.getAttribute("aria-labelledby"))
-              ?.textContent.trim(),
+          (e) => e.nextElementSibling?.getAttribute("aria-labelledby") !== e.id,
         )
         .map((e) => e.id),
     );
-    assert.deepEqual(loose, [], `${path}: sp-picker without a label element`);
+    assert.deepEqual(
+      loose,
+      [],
+      `${where}: label span not wired to its control`,
+    );
+  };
+  const check = async (path) => {
+    await page.goto(`${origin}${path}`);
+    await page.waitForSelector("#controls sp-picker");
+    await page.waitForFunction(() => customElements.get("sp-picker"));
+    await page.waitForTimeout(500);
+    await verify(path);
   };
   for (const p of [
     "/rsp/?c=button",
@@ -127,11 +133,7 @@ try {
       "?c=checkbox",
   );
   await page.waitForTimeout(500);
-  await unnamed("after in-place switch");
-  const ids = await page.evaluate(() =>
-    [...document.querySelectorAll("#controls [id]")].map((e) => e.id),
-  );
-  assert.equal(new Set(ids).size, ids.length, "duplicate ids after switch");
+  await verify("after in-place switch");
   console.log("site-a11y: ok");
 } finally {
   await browser.close();
