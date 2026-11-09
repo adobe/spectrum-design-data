@@ -146,6 +146,13 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         out.push(("wrapped-label-narrow", narrow(false)));
         out.push(("wrapped-label-icon-narrow", narrow(true)));
     }
+    // Checkbox, radio button and switch wrap their label too: the control stays on the first line.
+    if matches!(name, "checkbox" | "radio-button" | "switch") {
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.label = "Three word label".into();
+        r.width = Some(100.0);
+        out.push(("wrapped-label-narrow", r));
+    }
     out
 }
 
