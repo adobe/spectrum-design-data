@@ -1,5 +1,16 @@
 # @adobe/design-data-spec
 
+## 4.14.1
+
+### Patch Changes
+
+- [#1690](https://github.com/adobe/spectrum-design-data/pull/1690) [`c33212a`](https://github.com/adobe/spectrum-design-data/commit/c33212a8996e883625598123e95fec48ed7cd319) Thanks [@GarthDB](https://github.com/GarthDB)! - Compiled recipes describe `iconChoices` for content icons.
+
+  A compiled recipe no longer depends on the request `icon`. Each content icon part lists the
+  drawing key of every catalog icon in `iconChoices`, so a renderer with one precompiled variant
+  and no catalog can apply the request icon. Existing `drawing`, `drawingMiss` and `drawings`
+  fields are unchanged.
+
 ## 4.14.0
 
 ### Minor Changes

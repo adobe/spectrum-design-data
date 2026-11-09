@@ -236,6 +236,31 @@
           "metadata": {"count":16,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.9.2",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-08",
+      "commit": "af33d29b19dd01200d7bd9bb7b59ab28bc117e8f",
+      "commits": [
+        {
+          "commit": "31332b8ab5b9a8987e8670c9dabd6262408fa7b1",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1681,"title":"fix(design-data): bind label line-height tokens in five recipes","url":"https://github.com/adobe/spectrum-design-data/pull/1681"},
+          "entries": [
+            {"id":"31332b8a-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-75","options":null},"record":"85a1e567-ddc0-53b2-8be4-2fd9c5deab62","name":"line-height-font-size-75","fields":[],"after":"8e85a017-2c5d-4a52-92df-c0426e00c3c3"},
+            {"id":"31332b8a-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-75","options":null},"record":"ee4cf9f0-ddcc-5a6a-bfe3-70523d1eb51a","name":"line-height-font-size-75","fields":[],"after":"25be5bf4-e450-4a58-89e2-a04e02b7b78b"},
+            {"id":"31332b8a-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-100","options":null},"record":"3d343522-5955-5187-a1e6-ffaaef6f56ff","name":"line-height-font-size-100","fields":[],"after":"0c323ed8-47c4-4fbb-bb66-a393a1e992cd"},
+            {"id":"31332b8a-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-100","options":null},"record":"8cd69ab1-027a-5ff1-b97a-f2379d06b63e","name":"line-height-font-size-100","fields":[],"after":"898fde6d-f477-46a6-8323-698dee558580"},
+            {"id":"31332b8a-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-200","options":null},"record":"24f5d145-fce9-591e-bdcd-5efb5b3c5b84","name":"line-height-font-size-200","fields":[],"after":"efb450f9-976a-47cb-a7cc-667b9fe967a9"},
+            {"id":"31332b8a-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-200","options":null},"record":"6d527a62-e5c2-5653-960d-223c9a820be5","name":"line-height-font-size-200","fields":[],"after":"790dde8d-c117-4759-be93-2498297c6fa3"},
+            {"id":"31332b8a-6","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-300","options":null},"record":"f8ee9085-92df-57e9-a185-14ee172e8530","name":"line-height-font-size-300","fields":[],"after":"52e64384-f918-4415-8d02-da3af639890f"},
+            {"id":"31332b8a-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-font-size-300","options":null},"record":"7e7178a7-5ab9-51d2-afc2-2dfd38ff1e65","name":"line-height-font-size-300","fields":[],"after":"80beb678-586c-4277-9db0-1ab373ec8f80"},
+            {"id":"31332b8a-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/label","name":"label","fields":[{"path":"props.lineHeight.relationship.context","after":"Label"},{"path":"props.lineHeight.relationship.property","after":"line-height-font-size-{sizeIndex}"}]}
+          ]
+        }
+      ]
     }
   ]
 }

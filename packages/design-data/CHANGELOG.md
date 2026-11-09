@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 3.9.2
+
+### Patch Changes
+
+- [#1681](https://github.com/adobe/spectrum-design-data/pull/1681) [`31332b8`](https://github.com/adobe/spectrum-design-data/commit/31332b8ab5b9a8987e8670c9dabd6262408fa7b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Action button, badge, checkbox, radio button and switch labels now bind line-height tokens.
+
+  These recipes left the label line height unbound, so it rendered at 1.3 times the font size.
+  New Label relationships (desktop and mobile, per size) and a `lineHeight` binding in each recipe
+  give the Figma and React Spectrum S2 line heights. SPEC-087 now passes on desktop for all five.
+
 ## 3.9.1
 
 ### Patch Changes
