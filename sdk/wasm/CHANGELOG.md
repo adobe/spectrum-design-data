@@ -1,5 +1,22 @@
 # @adobe/design-data-wasm
 
+## 0.17.0
+
+### Minor Changes
+
+- [#1685](https://github.com/adobe/spectrum-design-data/pull/1685) [`2218913`](https://github.com/adobe/spectrum-design-data/commit/2218913b576cb2e60cb9a7a672613a3b4a077eea) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual renderer measures label text with a font table instead of a flat 0.46 em per character.
+
+  The default table is Source Sans 3 (SIL OFL): glyph advances and pair kerning at weights 400
+  and 700, with 500 and 600 interpolated. Labels are about 4 to 6.6% wider than React Spectrum S2
+  at weight 700 (S2 uses Adobe Clean, a different font); container widths follow, heights do not
+  change. Characters outside ASCII measure 0.46 em. `Dataset.renderScene`, `renderSvg` and
+  `renderScene` in the site runtime accept a `textMetrics` table in the request to replace the
+  default; a malformed table throws an error that names the problem.
+
+  The site runtime's `renderScene` now throws `text metrics not loaded` unless `setTextMetrics` was
+  called or the request has `textMetrics`. Callers of `visual-runtime.js` outside this repository
+  must load the table first (the site ships it as `text-metrics.json`).
+
 ## 0.16.0
 
 ### Minor Changes
