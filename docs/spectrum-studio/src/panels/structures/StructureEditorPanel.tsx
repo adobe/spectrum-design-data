@@ -134,9 +134,7 @@ export function StructureEditorPanel({
                 : selection.value.termId,
       customValue:
         definition.family &&
-        definition.family !== "elevation" &&
-        (!selection ||
-          ("value" in selection && selection.value.kind === "number"))
+        definition.family !== "elevation"
           ? {
               displayValue:
                 selection &&

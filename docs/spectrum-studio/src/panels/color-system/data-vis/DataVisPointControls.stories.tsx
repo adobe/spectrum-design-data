@@ -2,6 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
 import { useState } from "react";
+import { NotificationProvider } from "../../../components/notifications/NotificationProvider";
 import {
   DataVisPointControls,
   type DataVisPointControlsProps,
@@ -84,7 +85,13 @@ function Controlled(args: DataVisPointControlsProps) {
         staticColor={staticColor}
         contrastOverridden={contrastOverridden}
         onStaticValueChange={(value) => {
-          if (staticColor) setStaticColor({ ...staticColor, value });
+          if (staticColor)
+            setStaticColor({
+              ...staticColor,
+              value,
+              tokenId: undefined,
+              overrideValue: undefined,
+            });
           args.onStaticValueChange?.(value);
         }}
         onStaticTokenChange={(tokenId) => {
@@ -159,13 +166,15 @@ const meta = {
   parameters: { layout: "padded" },
   decorators: [
     (Story) => (
-      <div
-        data-data-vis-story
-        className={storySurface}
-        style={{ width: "100%", maxWidth: 520, minWidth: 0 }}
-      >
-        <Story />
-      </div>
+      <NotificationProvider>
+        <div
+          data-data-vis-story
+          className={storySurface}
+          style={{ width: "100%", maxWidth: 520, minWidth: 0 }}
+        >
+          <Story />
+        </div>
+      </NotificationProvider>
     ),
   ],
 } satisfies Meta<typeof DataVisPointControls>;
@@ -278,6 +287,20 @@ export const StaticColor: Story = {
     await expect(
       canvas.queryByRole("textbox", { name: "Contrast" }),
     ).toBeNull();
+    const value = canvas.getByRole("combobox", { name: /^Color token\b/ });
+    await userEvent.click(value);
+    await userEvent.clear(value);
+    await userEvent.type(value, "#123456{Enter}");
+    await expect(args.onStaticValueChange).toHaveBeenLastCalledWith("#123456");
+    await userEvent.clear(value);
+    await userEvent.type(value, storyPrimitiveColors[0].name);
+    await userEvent.tab();
+    await expect(args.onStaticTokenChange).toHaveBeenLastCalledWith(
+      storyPrimitiveColors[0].id,
+    );
+    await userEvent.click(value);
+    await userEvent.type(value, "#654321{Enter}");
+    await expect(args.onStaticValueChange).toHaveBeenLastCalledWith("#654321");
     const stop = canvas.getByRole("button", { name: "Selected color stop" });
     stop.focus();
     await userEvent.keyboard("{ArrowRight}");

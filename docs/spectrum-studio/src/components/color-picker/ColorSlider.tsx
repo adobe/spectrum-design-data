@@ -23,6 +23,7 @@ interface ColorSliderProps {
   size?: number;
   range?: readonly [number, number];
   ariaLabel?: string;
+  valueText?: string;
   onChange: (color: Color) => void;
 }
 
@@ -34,6 +35,7 @@ export const ColorSlider = memo(function ColorSlider({
   size = 200,
   range: constrainedRange,
   ariaLabel,
+  valueText,
   onChange,
 }: ColorSliderProps) {
   const parsedColor = useMemo(
@@ -215,6 +217,7 @@ export const ColorSlider = memo(function ColorSlider({
           valueMax={range[1]}
           orientation={orientation}
           ariaLabel={ariaLabel}
+          valueText={valueText}
           isDragging={isDragging || focused}
           onKeyDown={handleKeyDown}
           onPointerDown={beginPointer}

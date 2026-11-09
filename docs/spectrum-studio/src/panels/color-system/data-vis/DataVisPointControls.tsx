@@ -25,6 +25,7 @@ import type { UiSwatch } from "../../../features/color-system/data-vis/resolutio
 import type { PrimitiveColor } from "../../../features/color-system/data-vis/primitiveColors";
 import { tokenStableKey, tokenUuid } from "../../../features/tokens/model";
 import { ScaleColorPreview } from "../../../views/color-system/ScaleColorPreview";
+import { concreteColor } from "../../../features/color-system/data-vis/colors";
 
 const fields = style({ display: "flex", flexDirection: "column", gap: 12 });
 const row = style({ display: "flex", alignItems: "end", gap: 12, minWidth: 0 });
@@ -308,7 +309,6 @@ export function DataVisPointControls({
 
 export function StaticColorControls({
   color,
-  document,
   primitiveColors,
   readOnly = false,
   onValueChange,
@@ -329,57 +329,40 @@ export function StaticColorControls({
   maximumPosition?: number;
   onPositionChange?: (position: number) => void;
 }) {
-  const notify = useNotify();
   const value = frozenColorValue(color);
-  const firstToken = primitiveColors.find(
-    (color) => !color.hidden && !color.error,
-  );
   return (
     <div className={fields}>
-      <ColorScalePicker
-        label="Color source"
-        labelPosition="top"
-        isReadOnly={readOnly}
-        isDisabled={!onTokenChange}
-        document={{ ...document, scales: [] }}
-        selectedKey={color.tokenId ? TOKEN_SOURCE : CUSTOM_SOURCE}
-        baseOptions={[
-          { id: CUSTOM_SOURCE, label: "Custom color" },
-          { id: TOKEN_SOURCE, label: "Color token", isDisabled: !firstToken },
-        ]}
-        onSelectionChange={(key) => {
-          if (key === CUSTOM_SOURCE) onTokenChange?.(null);
-          else {
-            if (!firstToken) {
-              notify.error("No published primitive colors are available.");
-              return;
-            }
-            onTokenChange?.(firstToken.id);
-          }
+      <TokenComboBox
+        label="Color token"
+        isRequired
+        isDisabled={readOnly}
+        prefix={
+          <ScaleColorPreview
+            colors={[value]}
+            continuous={false}
+            size="S"
+            label={`Captured color ${value}`}
+          />
+        }
+        selectedKey={color.tokenId ?? null}
+        options={tokenOptions(primitiveColors)}
+        isOptionAllowed={() => !!onTokenChange}
+        onChange={(id) => {
+          if (id) onTokenChange?.(id);
         }}
+        customValue={
+          onValueChange
+            ? {
+                displayValue: value,
+                onAccept: (text) => {
+                  concreteColor(text);
+                  onValueChange(text);
+                },
+              }
+            : undefined
+        }
       />
-      {color.tokenId ? (
-        <TokenComboBox
-          label="Color token"
-          isRequired
-          isDisabled={readOnly || !onTokenChange}
-          prefix={
-            <ScaleColorPreview
-              colors={[value]}
-              continuous={false}
-              size="S"
-              label={`Captured color ${value}`}
-            />
-          }
-          selectedKey={color.tokenId}
-          options={tokenOptions(primitiveColors)}
-          onChange={(id) => {
-            if (id) onTokenChange?.(id);
-          }}
-        />
-      ) : readOnly || !onValueChange ? (
-        <Text>{value}</Text>
-      ) : (
+      {!readOnly && onValueChange && (
         <ColorPickerContents
           color={value}
           onChange={(value) => onValueChange(value)}

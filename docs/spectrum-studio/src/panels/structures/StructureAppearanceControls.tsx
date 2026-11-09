@@ -18,7 +18,12 @@ import {
   TokenComboBox,
   type TokenComboBoxOption,
   type TokenDisplayMode,
+  type TokenComboBoxProps,
 } from "../../components/fields/TokenComboBox";
+import {
+  normalizeNumericEntry,
+  numericEntryValue,
+} from "../../components/fields/tokenEntry";
 import {
   IconPaddingAll,
   IconPaddingTop,
@@ -65,6 +70,20 @@ export interface StructureAppearanceControlsProps {
 const fullWidth = style({ width: "full" });
 const CONTROL_SIZE = "S";
 
+function numberLiteral(
+  text: string,
+  unit: "px" | "multiplier" = "px",
+): StructureNumberLiteral {
+  const value = numericEntryValue(text, unit === "px" ? "px" : "");
+  if (value === undefined || value < 0)
+    throw new Error(
+      unit === "px"
+        ? "Enter a finite, non-negative number of pixels."
+        : "Enter a finite, non-negative multiplier.",
+    );
+  return { kind: "number", value, unit };
+}
+
 export function StructureAppearanceControls({
   fields,
   isReadOnly,
@@ -74,6 +93,18 @@ export function StructureAppearanceControls({
   sizingLayout = "paired",
 }: StructureAppearanceControlsProps) {
   const [displayMode, setDisplayMode] = useState<TokenDisplayMode>("tokens");
+  const customValue = (
+    slot: AppearanceSlot,
+  ): TokenComboBoxProps["customValue"] => {
+    const config = fields[slot]?.customValue;
+    return config
+      ? {
+          displayValue: config.displayValue,
+          onAccept: (text) =>
+            onChange({ [slot]: numberLiteral(text, config.unit) }),
+        }
+      : undefined;
+  };
   const field = (slot: AppearanceSlot, label?: string, prefix?: ReactNode) => {
     const config = fields[slot];
     return config ? (
@@ -97,27 +128,13 @@ export function StructureAppearanceControls({
         isRequired={config.isRequired}
         error={config.error}
         isOptionAllowed={config.isOptionAllowed}
-        customValue={
-          config.customValue
-            ? {
-                displayValue: config.customValue.displayValue,
-                onAccept: (text) => {
-                  const value = Number(text.trim());
-                  if (!text.trim() || !Number.isFinite(value) || value < 0)
-                    throw new Error(
-                      "Enter a finite, non-negative number of pixels.",
-                    );
-                  onChange({
-                    [slot]: {
-                      kind: "number",
-                      value,
-                      unit: config.customValue!.unit ?? "px",
-                    },
-                  });
-                },
-              }
-            : undefined
+        normalizeValue={(text) =>
+          normalizeNumericEntry(
+            text,
+            config.customValue?.unit === "multiplier" ? "" : "px",
+          )
         }
+        customValue={customValue(slot)}
         onChange={(id) => onChange({ [slot]: id })}
       />
     ) : null;
@@ -180,6 +197,9 @@ export function StructureAppearanceControls({
       prefix: prefixes[index],
       selectedKey: fields[slots[index]]!.selectedKey,
       error: fields[slots[index]]!.error,
+      customValue: customValue(slots[index]),
+      isRequired: fields[slots[index]]!.isRequired,
+      isOptionAllowed: fields[slots[index]]!.isOptionAllowed,
     });
     return (
       <DividableComboBox
@@ -191,6 +211,20 @@ export function StructureAppearanceControls({
         displayMode={displayMode}
         isDisabled={isReadOnly}
         fields={[config(0), config(1), config(2), config(3)]}
+        normalizeValue={(text) => normalizeNumericEntry(text, "px")}
+        onSharedCustomValue={
+          slots.every((slot) => fields[slot]?.customValue)
+            ? (text) =>
+                onChange(
+                  Object.fromEntries(
+                    slots.map((slot) => [
+                      slot,
+                      numberLiteral(text, fields[slot]?.customValue?.unit),
+                    ]),
+                  ),
+                )
+            : undefined
+        }
         onSharedChange={(id) =>
           onChange(Object.fromEntries(slots.map((slot) => [slot, id])))
         }

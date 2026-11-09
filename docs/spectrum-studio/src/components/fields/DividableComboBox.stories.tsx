@@ -3,6 +3,8 @@ import RectangleHoriz from "@react-spectrum/s2/icons/RectangleHoriz";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
+import { NotificationProvider } from "../notifications/NotificationProvider";
+import { normalizeNumericEntry, numericEntryValue } from "./tokenEntry";
 import {
   DividableComboBox,
   type DividableComboBoxProps,
@@ -84,9 +86,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 280, maxWidth: "100%" }}>
-        <Story />
-      </div>
+      <NotificationProvider>
+        <div style={{ width: 280, maxWidth: "100%" }}>
+          <Story />
+        </div>
+      </NotificationProvider>
     ),
   ],
   render: (args) => <ControlledFields {...args} />,
@@ -164,6 +168,142 @@ export const Empty: Story = {
       { ...fields[2], selectedKey: null },
       { ...fields[3], selectedKey: null },
     ],
+  },
+};
+function LiteralFields(args: DividableComboBoxProps) {
+  const [values, setValues] = useState(["4px", "6px", "4px", "4px"]);
+  const [selected, setSelected] = useState<(string | null)[]>([
+    null,
+    null,
+    null,
+    null,
+  ]);
+  function accept(text: string, index?: number) {
+    const value = numericEntryValue(text, "px");
+    if (value === undefined || value < 0)
+      throw new Error("Enter a non-negative pixel length.");
+    setValues((current) =>
+      current.map((item, position) =>
+        index === undefined || index === position ? `${value}px` : item,
+      ),
+    );
+    setSelected((current) =>
+      current.map((item, position) =>
+        index === undefined || index === position ? null : item,
+      ),
+    );
+  }
+  return (
+    <DividableComboBox
+      {...args}
+      normalizeValue={(text) => normalizeNumericEntry(text, "px")}
+      fields={[
+        {
+          ...fields[0],
+          selectedKey: selected[0],
+          customValue: {
+            displayValue: values[0],
+            onAccept: (text) => accept(text, 0),
+          },
+        },
+        {
+          ...fields[1],
+          selectedKey: selected[1],
+          customValue: {
+            displayValue: values[1],
+            onAccept: (text) => accept(text, 1),
+          },
+        },
+        {
+          ...fields[2],
+          selectedKey: selected[2],
+          customValue: {
+            displayValue: values[2],
+            onAccept: (text) => accept(text, 2),
+          },
+        },
+        {
+          ...fields[3],
+          selectedKey: selected[3],
+          customValue: {
+            displayValue: values[3],
+            onAccept: (text) => accept(text, 3),
+            isAllowed: (text) => {
+              const value = numericEntryValue(text, "px");
+              return value !== undefined && value <= 64;
+            },
+          },
+        },
+      ]}
+      onSharedCustomValue={(text) => accept(text)}
+      onSharedChange={(id) => {
+        setSelected([id, id, id, id]);
+        if (id === null) setValues(["", "", "", ""]);
+      }}
+      onIndividualChange={(index, id) => {
+        setSelected((current) =>
+          current.map((item, position) => (index === position ? id : item)),
+        );
+        if (id === null)
+          setValues((current) =>
+            current.map((item, position) => (index === position ? "" : item)),
+          );
+      }}
+    />
+  );
+}
+export const LiteralValues: Story = {
+  render: (args) => <LiteralFields {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggle = canvas.getByRole("button", {
+      name: "Use individual padding values",
+    });
+    const top = canvas.getByRole("combobox", { name: "Top padding" });
+    await expect(top).toHaveValue("4px");
+    await expect(
+      canvas.getByRole("combobox", { name: "Right padding" }),
+    ).toHaveValue("6px");
+    await userEvent.click(toggle);
+    const shared = canvas.getByRole("combobox", { name: "Padding" });
+    await expect(shared).toHaveAttribute("placeholder", "Mixed");
+    await userEvent.click(shared);
+    await userEvent.type(shared, "0px{Enter}");
+    await userEvent.tab();
+    await expect(shared).toHaveValue("0px");
+    await userEvent.click(toggle);
+    for (const label of ["Top", "Right", "Bottom", "Left"])
+      await expect(
+        canvas.getByRole("combobox", { name: `${label} padding` }),
+      ).toHaveValue("0px");
+    await userEvent.click(
+      canvas.getByRole("combobox", { name: "Top padding" }),
+    );
+    await userEvent.clear(
+      canvas.getByRole("combobox", { name: "Top padding" }),
+    );
+    await userEvent.type(
+      canvas.getByRole("combobox", { name: "Top padding" }),
+      "8px{Enter}",
+    );
+    await userEvent.tab();
+    await expect(
+      canvas.getByRole("combobox", { name: "Top padding" }),
+    ).toHaveValue("8px");
+    await userEvent.click(toggle);
+    await expect(shared).toHaveAttribute("placeholder", "Mixed");
+    await userEvent.click(shared);
+    await userEvent.type(shared, "96px{Enter}");
+    await expect(shared).toHaveAttribute("aria-invalid", "true");
+    await userEvent.keyboard("{Escape}");
+    await userEvent.click(toggle);
+    await expect(
+      canvas.getByRole("combobox", { name: "Top padding" }),
+    ).toHaveValue("8px");
+    await expect(
+      canvas.getByRole("combobox", { name: "Left padding" }),
+    ).toHaveValue("0px");
+    canvasElement.dataset.playComplete = "true";
   },
 };
 export const Disabled: Story = { args: { isDisabled: true } };

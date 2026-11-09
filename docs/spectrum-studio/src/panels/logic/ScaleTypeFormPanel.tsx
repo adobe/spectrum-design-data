@@ -222,8 +222,8 @@ export function ScaleTypeFormPanel({
             onChange={onChange}
           />
           <p className={noteStyles}>
-            Font size and ratio always follow Text size. The ratio at the normal
-            setting is the selected Scale ratio.
+            Font size and ratio always follow Adaptive text scaling. The ratio
+            at the normal setting is the selected Scale ratio.
           </p>
         </section>
       ) : (

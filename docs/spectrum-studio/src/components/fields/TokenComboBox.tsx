@@ -23,12 +23,14 @@ import {
 import { TokenNameTag } from "../tokens/TokenNameTag";
 import "./TokenComboBox.css";
 import { fittedMenuWidth } from "./menuSizing";
+import { exactTokenEntryMatch, type ValueNormalizer } from "./tokenEntry";
 
 export interface TokenComboBoxOption {
   id: string;
   kind: "preset" | "token";
   name: string;
   displayValue: string;
+  matchValue?: string;
   hidden?: boolean;
   error?: string;
 }
@@ -50,6 +52,7 @@ export interface TokenComboBoxProps {
   isOptionAllowed?: (option: TokenComboBoxOption) => boolean;
   menuWidth?: number;
   inline?: boolean;
+  normalizeValue?: ValueNormalizer;
   customValue?: {
     displayValue: string;
     onAccept: (text: string) => void;
@@ -89,6 +92,7 @@ export function TokenComboBox({
   isOptionAllowed,
   menuWidth,
   inline = false,
+  normalizeValue,
   customValue,
 }: TokenComboBoxProps) {
   const notify = useNotify();
@@ -115,6 +119,7 @@ export function TokenComboBox({
   const restoreFocus = useRef(false);
   const committed = useRef(selectedKey);
   const keyboardSelection = useRef(false);
+  const draft = useRef<{ text: string; dirty: boolean } | null>(null);
   committed.current = selectedKey;
   const labelId = useId();
   const valueId = useId();
@@ -220,6 +225,7 @@ export function TokenComboBox({
     </ComboBoxItem>
   );
   function finishEditing(focusTrigger = false) {
+    draft.current = null;
     keyboardSelection.current = false;
     setEditing(false);
     setQuery("");
@@ -230,16 +236,64 @@ export function TokenComboBox({
       setMenuOpen(false);
     }
   }
-  function acceptCustomValue(reportError = false) {
+  function acceptCustomValue() {
     if (!customValue || isDisabled) return;
     try {
-      customValue.onAccept(query);
-      finishEditing(!reportError);
+      const text = draft.current?.text ?? query;
+      if (customValue.isAllowed && !customValue.isAllowed(text))
+        throw new Error("This value is not available. Enter another value.");
+      customValue.onAccept(text);
+      finishEditing(true);
     } catch (failure) {
       setCustomError(
         failure instanceof Error ? failure.message : String(failure),
       );
-      if (reportError) notify.error(failure);
+    }
+  }
+  function acceptOption(id: string | null) {
+    try {
+      onChange(id);
+      committed.current = id;
+      finishEditing(true);
+    } catch (failure) {
+      setCustomError(
+        failure instanceof Error ? failure.message : String(failure),
+      );
+    }
+  }
+  function clearValue() {
+    if (isDisabled) return;
+    if (isRequired) {
+      draft.current = { text: "", dirty: true };
+      setEditing(true);
+      setQuery("");
+      setCustomError("Enter a value or choose an option.");
+      return;
+    }
+    acceptOption(null);
+  }
+  function acceptEntry() {
+    if (isDisabled || !draft.current?.dirty) {
+      finishEditing();
+      return;
+    }
+    const text = draft.current.text;
+    if (!text.trim()) {
+      clearValue();
+      return;
+    }
+    const match = exactTokenEntryMatch(
+      options,
+      text,
+      isOptionAllowed,
+      normalizeValue,
+    );
+    if (match) {
+      acceptOption(match.id);
+    } else if (customValue) {
+      acceptCustomValue();
+    } else {
+      setCustomError("Choose an available option.");
     }
   }
   if (inline && !inlineEditing) {
@@ -265,17 +319,25 @@ export function TokenComboBox({
       data-invalid={!!fieldError || undefined}
       data-show-tag={showTag || undefined}
       onKeyDownCapture={(event) => {
-        if (!numeric || event.nativeEvent.isComposing) return;
-        if (event.key === "ArrowDown" || event.key === "ArrowUp")
-          keyboardSelection.current = true;
+        if (isDisabled || event.nativeEvent.isComposing) return;
+        if (event.target !== input.current?.getInputElement()) return;
         if (
-          event.key === "Enter" &&
-          !keyboardSelection.current &&
-          event.target === input.current?.getInputElement()
+          (event.key === "Delete" || event.key === "Backspace") &&
+          selectedKey !== null &&
+          !draft.current?.dirty &&
+          (!selected || selected.kind === "token")
         ) {
           event.preventDefault();
           event.stopPropagation();
-          acceptCustomValue();
+          clearValue();
+          return;
+        }
+        if (event.key === "ArrowDown" || event.key === "ArrowUp")
+          keyboardSelection.current = true;
+        if (event.key === "Enter" && !keyboardSelection.current) {
+          event.preventDefault();
+          event.stopPropagation();
+          acceptEntry();
         }
       }}
     >
@@ -324,28 +386,21 @@ export function TokenComboBox({
             ) : undefined
           }
           onFocus={() => {
+            if (draft.current) return;
+            draft.current = { text: inputValue, dirty: false };
             setQuery(inputValue);
             setEditing(true);
           }}
           onBlur={() => {
-            if (inline) {
-              if (
-                editing &&
-                query !==
-                  (selected?.displayValue ?? customValue?.displayValue ?? "")
-              )
-                acceptCustomValue(true);
-              finishEditing();
-            } else if (!customValue) finishEditing();
+            acceptEntry();
           }}
           onKeyDown={(event) => {
-            if (customValue && event.key === "Escape") {
+            if (event.key === "Escape") {
               if (inline) event.stopPropagation();
               finishEditing(true);
             }
           }}
           onInputChange={(text) => {
-            if (numeric && !/^(?:\d+(?:\.\d*)?|\.\d*)?$/.test(text)) return;
             keyboardSelection.current = false;
             if (!editing && customValue && text === customValue.displayValue)
               return;
@@ -358,6 +413,7 @@ export function TokenComboBox({
             )
               return;
             setEditing(true);
+            draft.current = { text, dirty: true };
             setQuery(text);
             setCustomError(undefined);
           }}
@@ -383,19 +439,12 @@ export function TokenComboBox({
               );
               return;
             }
-            committed.current = option.id;
-            onChange(option.id);
-            finishEditing(true);
+            acceptOption(option.id);
           }}
         >
           {customValue &&
             editing &&
             query.trim() &&
-            (!numeric ||
-              (Number(query) > 0 &&
-                !choices.some(
-                  (option) => Number(option.name) === Number(query),
-                ))) &&
             (!customValue.isAllowed || customValue.isAllowed(query)) && (
               <ComboBoxItem id={customKey} textValue={query}>
                 <Text slot="label">{numeric ? query : "Use this value"}</Text>
@@ -428,13 +477,7 @@ export function TokenComboBox({
               isQuiet
               isDisabled={isDisabled}
               aria-label={`Clear ${ariaLabel ?? label ?? "token"}`}
-              onPress={() => {
-                committed.current = null;
-                onChange(null);
-                setEditing(false);
-                setQuery("");
-                setCustomError(undefined);
-              }}
+              onPress={clearValue}
             >
               <Close />
             </ActionButton>

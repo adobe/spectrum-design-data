@@ -3,11 +3,13 @@ import RectangleHoriz from "@react-spectrum/s2/icons/RectangleHoriz";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { useState } from "react";
+import { NotificationProvider } from "../notifications/NotificationProvider";
 import {
   TokenComboBox,
   type TokenComboBoxOption,
   type TokenComboBoxProps,
 } from "./TokenComboBox";
+import { normalizeNumericEntry, numericEntryValue } from "./tokenEntry";
 
 const options: TokenComboBoxOption[] = [
   { id: "hug", kind: "preset", name: "Hug", displayValue: "Hug" },
@@ -40,8 +42,8 @@ function ControlledField(args: TokenComboBoxProps) {
       {...args}
       selectedKey={selected}
       onChange={(id) => {
-        setSelected(id);
         args.onChange(id);
+        setSelected(id);
       }}
     />
   );
@@ -58,9 +60,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 260, maxWidth: "100%" }}>
-        <Story />
-      </div>
+      <NotificationProvider>
+        <div style={{ width: 260, maxWidth: "100%" }}>
+          <Story />
+        </div>
+      </NotificationProvider>
     ),
   ],
   render: (args) => <ControlledField {...args} />,
@@ -114,6 +118,47 @@ export const Missing: Story = {
   name: "Unavailable reference",
   args: { selectedKey: "removed" },
 };
+export const MissingEntry: Story = {
+  args: { selectedKey: "removed" },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("combobox", {
+      name: /^Default size(?: |$)/,
+    });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await userEvent.click(input);
+    await userEvent.keyboard("{Backspace}");
+    await expect(args.onChange).toHaveBeenLastCalledWith(null);
+    await expect(input).not.toHaveAttribute("aria-invalid", "true");
+    canvasElement.dataset.playComplete = "true";
+  },
+};
+export const RejectedSelection: Story = {
+  args: {
+    onChange: fn(() => {
+      throw new Error("This change is not allowed.");
+    }),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("combobox", {
+      name: /^Default size(?: |$)/,
+    });
+    await userEvent.click(input);
+    await userEvent.type(input, "size-global-200{Enter}");
+    await expect(input).toHaveValue("size-global-200");
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(canvas.getByText("This change is not allowed.")).toBeVisible();
+    await userEvent.keyboard("{Escape}");
+    await expect(canvas.getByTitle("size-global-100")).toBeVisible();
+    await userEvent.click(input);
+    await userEvent.keyboard("{Delete}");
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await userEvent.keyboard("{Escape}");
+    await expect(canvas.getByTitle("size-global-100")).toBeVisible();
+    canvasElement.dataset.playComplete = "true";
+  },
+};
 export const FilteredSelection: Story = {
   name: "Incompatible selection retained",
   args: {
@@ -166,24 +211,27 @@ export const CustomMenuWidth: Story = {
 };
 
 function LiteralField(args: TokenComboBoxProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(args.selectedKey);
   const [value, setValue] = useState("4px");
   return (
     <>
       <TokenComboBox
         {...args}
+        normalizeValue={(text) => normalizeNumericEntry(text, "px")}
         selectedKey={selected}
         onChange={(id) => {
           setSelected(id);
+          if (id === null) setValue("");
           args.onChange(id);
         }}
         customValue={{
           displayValue: value,
           onAccept: (text) => {
-            if (!/^\d+px$/.test(text))
+            const next = numericEntryValue(text, "px");
+            if (next === undefined || next < 0)
               throw new Error("Enter a non-negative pixel length.");
             setSelected(null);
-            setValue(text);
+            setValue(`${next}px`);
           },
         }}
       />
@@ -192,7 +240,7 @@ function LiteralField(args: TokenComboBoxProps) {
   );
 }
 export const LiteralAndReference: Story = {
-  name: "Explicit literal and reference",
+  name: "Direct literal and reference",
   args: {
     label: "Value",
     selectedKey: null,
@@ -208,19 +256,32 @@ export const LiteralAndReference: Story = {
     await userEvent.type(input, "8px");
     await userEvent.tab();
     await expect(canvas.getByLabelText("Accepted value")).toHaveTextContent(
-      "4px",
+      "8px",
     );
+    await expect(input).toHaveValue("8px");
+    await expect(
+      canvas.queryByTitle("size-global-100"),
+    ).not.toBeInTheDocument();
     await userEvent.click(input);
     await userEvent.clear(input);
-    await userEvent.type(input, "8px");
-    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await userEvent.type(input, "24");
+    await userEvent.keyboard("{Enter}");
     await waitFor(() =>
-      expect(canvas.getByLabelText("Accepted value")).toHaveTextContent("8px"),
+      expect(canvas.getByLabelText("Accepted value")).toHaveTextContent(
+        "size-a",
+      ),
     );
+    await userEvent.tab();
+    await expect(canvas.getByTitle("size-global-100")).toBeVisible();
+    await userEvent.click(input);
+    await userEvent.keyboard("{Delete}");
+    await expect(args.onChange).toHaveBeenLastCalledWith(null);
+    await expect(input).toHaveValue("");
+    await userEvent.type(input, "8px{Enter}");
     await userEvent.click(input);
     await userEvent.clear(input);
     await userEvent.type(input, "invalid");
-    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await userEvent.keyboard("{Enter}");
     await expect(
       await body.findByText("Enter a non-negative pixel length."),
     ).toBeVisible();
@@ -253,4 +314,45 @@ export const LiteralAndReference: Story = {
     );
     canvasElement.dataset.playComplete = "true";
   },
+};
+
+export const RequiredEntry: Story = {
+  args: {
+    label: "Value",
+    isRequired: true,
+    selectedKey: "size-a",
+    options: options.filter((option) => option.kind === "token"),
+  },
+  render: (args) => <LiteralField {...args} />,
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("combobox", { name: /^Value(?: |$)/ });
+    await userEvent.click(input);
+    await userEvent.keyboard("{Backspace}");
+    await expect(input).toHaveValue("");
+    await userEvent.tab();
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(args.onChange).not.toHaveBeenCalled();
+    await expect(canvas.getByLabelText("Accepted value")).toHaveTextContent(
+      "size-a",
+    );
+    await userEvent.click(input);
+    await userEvent.keyboard("{Escape}");
+    await userEvent.tab();
+    await expect(canvas.getByTitle("size-global-100")).toBeVisible();
+    await userEvent.click(input);
+    await userEvent.type(input, "0px{Enter}");
+    await userEvent.tab();
+    await expect(input).toHaveValue("0px");
+    await expect(canvas.getByLabelText("Accepted value")).toHaveTextContent(
+      "0px",
+    );
+    canvasElement.dataset.playComplete = "true";
+  },
+};
+
+export const InlineEntry: Story = {
+  ...LiteralAndReference,
+  args: { ...LiteralAndReference.args, inline: true },
+  play: undefined,
 };

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { NumberField } from "../fields/NumberField";
 import { Picker } from "../fields/Picker";
 import { TokenComboBox } from "../fields/TokenComboBox";
+import { numericEntryValue, normalizeNumericEntry } from "../fields/tokenEntry";
 import {
   ruleAppliesToReference,
   referenceValueType,
@@ -158,31 +159,37 @@ export function RoundingRuleEditor({
       )}
 
       <h4 className={titleStyles}>Preview</h4>
-      {eligible.length > 0 && (
-        <TokenComboBox
-          label="Default value"
-          selectedKey={selected}
-          onChange={setSelected}
-          options={eligible.map((reference) => ({
-            id: reference.id,
-            kind: "token",
-            name: reference.name,
-            displayValue: reference.displayValue,
-            hidden: reference.hidden,
-            error: reference.error,
-          }))}
-        />
-      )}
+      <TokenComboBox
+        label="Default value"
+        normalizeValue={(text) =>
+          normalizeNumericEntry(text, token?.unit === "px" ? "px" : "")
+        }
+        selectedKey={selected}
+        onChange={setSelected}
+        isRequired
+        customValue={{
+          displayValue: String(testValue),
+          onAccept: (text) => {
+            const next = numericEntryValue(
+              text,
+              token?.unit === "px" ? "px" : "",
+            );
+            if (next === undefined)
+              throw new Error("Enter a finite test value.");
+            setTestValue(next);
+            setSelected(null);
+          },
+        }}
+        options={eligible.map((reference) => ({
+          id: reference.id,
+          kind: "token",
+          name: reference.name,
+          displayValue: reference.displayValue,
+          hidden: reference.hidden,
+          error: reference.error,
+        }))}
+      />
       <div className={rowStyles}>
-        {!token && (
-          <NumberField
-            label="Test value"
-            labelPosition="top"
-            value={testValue}
-            onChange={(value) => Number.isFinite(value) && setTestValue(value)}
-            step={0.1}
-          />
-        )}
         <p
           className={resultStyles}
           aria-live="polite"
