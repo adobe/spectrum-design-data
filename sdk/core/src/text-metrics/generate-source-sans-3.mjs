@@ -3,7 +3,8 @@
 // 400 and 700, measured with canvas measureText at 1000 px in Chrome, so units are 1/1000 em.
 // Run from a directory with playwright-core and @fontsource-variable/source-sans-3 installed:
 //   node generate-source-sans-3.mjs > source-sans-3.json
-// Changing the table changes every visual golden; regenerate them (VISUAL_PARITY_UPDATE=1).
+// Changing the table changes every visual golden; regenerate them with
+// `VISUAL_PARITY_UPDATE=1 cargo test -p design-data-core --test visual_goldens`.
 import { chromium } from "playwright-core";
 import { readFileSync } from "node:fs";
 

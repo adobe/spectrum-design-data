@@ -12,8 +12,8 @@
 //! font weight, so label widths do not depend on a font parser or the viewer's fonts.
 //!
 //! The default table is Source Sans 3 (SIL OFL), committed at
-//! `text-metrics/source-sans-3.json`. `sdk/plugins/site/assets/visual-runtime.js` reads the
-//! same file and must produce the same widths. A different table (the same format) can be
+//! `text-metrics/source-sans-3.json`. The site ships the
+//! same file to the slim WASM engine, which runs this code. A different table (the same format) can be
 //! passed per request or with the CLI's `--text-metrics`.
 
 use std::collections::HashMap;
@@ -32,7 +32,7 @@ const NOTE_KEYS: &[&str] = &["font", "source", "generated", "format"];
 /// Optional object stamping a generated table (date, kit URL, a reference width); never read by `width`.
 const META_KEY: &str = "meta";
 const REQUIRED_WEIGHTS: &[u32] = &[400, 700];
-/// The committed default table (Source Sans 3), as the file the site ships and `visual-runtime.js` reads.
+/// The committed default table (Source Sans 3), as the file the site ships.
 pub const DEFAULT_TABLE_JSON: &str = include_str!("text-metrics/source-sans-3.json");
 /// The font's licence, shipped next to the default table.
 pub const DEFAULT_TABLE_LICENSE: &str = include_str!("text-metrics/OFL-SourceSans3.txt");

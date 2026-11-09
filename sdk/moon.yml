@@ -79,6 +79,7 @@ tasks:
       - --workspace
     inputs:
       - "@globs(sources)"
+      - "core/tests/fixtures/**/*"
       - "core/src/registry_data.rs"
       # Embedded snapshot sources — re-run tests when token data changes.
       - "/packages/design-data/tokens/*.tokens.json"
