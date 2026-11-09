@@ -3442,6 +3442,41 @@ mod tests {
     }
 
     #[test]
+    fn scoped_values_add_only_the_values_a_relationship_references() {
+        let rel = |i: usize, raw: Value| crate::graph::RelationshipRecord {
+            file: PathBuf::from("r.json"),
+            index: i,
+            uuid: raw.get("uuid").and_then(Value::as_str).map(String::from),
+            raw,
+        };
+        let value = |comp: &str, uuid: &str| {
+            serde_json::json!({ "scope": { "component": comp, "property": "width" },
+                "value": "1px", "uuid": uuid })
+        };
+        let g = TokenGraph::default().with_relationships(vec![
+            rel(0, value("a", "own")),
+            rel(1, value("b", "shared")),
+            rel(2, value("b", "unreferenced")),
+            rel(
+                3,
+                serde_json::json!({ "scope": { "component": "a", "property": "width" },
+                    "context": "Width", "$ref": "shared", "uuid": "link" }),
+            ),
+        ]);
+        let ids = |c: &str| {
+            let mut v: Vec<_> = scoped_values(&g, c)
+                .into_iter()
+                .filter_map(|t| t.uuid)
+                .collect();
+            v.sort();
+            v
+        };
+        assert_eq!(ids("a"), ["own", "shared"]);
+        assert_eq!(ids("b"), ["shared", "unreferenced"]);
+        assert!(ids("c").is_empty());
+    }
+
+    #[test]
     fn the_root_width_follows_width_min_width_and_the_request() {
         let none = Value::Null;
         let w = |root: Value, req: Option<f64>| {
