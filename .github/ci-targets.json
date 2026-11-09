@@ -52,6 +52,8 @@
     "figma-spec-plugin:test"
   ],
   "excludedFromCI": [
+    "sdk-wasm-visual:build",
+    "sdk-wasm-visual:test",
     "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
     "component-diff-generator:diff",

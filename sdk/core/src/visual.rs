@@ -483,6 +483,68 @@ pub struct CompiledVariant {
     drawings: serde_json::Map<String, Value>,
 }
 
+impl CompiledVariant {
+    /// Rebuild a variant from a [`compile_recipe`] output (the `compiled[name]` entry of the
+    /// site's `data.json`) and a `size|colorScheme|scale` key, with no token graph. Its
+    /// `drawings` are narrowed to the ones the variant's parts name.
+    pub fn from_compiled(compiled: &Value, key: &str) -> Result<Self, String> {
+        let parts = compiled["variants"]
+            .get(key)
+            .and_then(Value::as_object)
+            .cloned()
+            .ok_or_else(|| format!("no compiled variant '{key}'"))?;
+        let root = compiled["root"]
+            .as_str()
+            .ok_or("compiled recipe has no root")?;
+        if !parts.contains_key(root) {
+            return Err("root part not found".into());
+        }
+        let all = compiled["drawings"].as_object();
+        let used = |k: &str| {
+            all.and_then(|a| a.get(k))
+                .map(|d| (k.to_string(), d.clone()))
+        };
+        let drawings = parts
+            .values()
+            .flat_map(|p| {
+                let choices = p["iconChoices"].as_object().into_iter().flatten();
+                choices.map(|(_, k)| k).chain(p.get("drawing"))
+            })
+            .filter_map(|k| used(k.as_str()?))
+            .collect();
+        Ok(Self {
+            root: root.into(),
+            option_defaults: compiled["optionDefaults"]
+                .as_object()
+                .map(|o| o.iter().map(|(k, v)| (k.clone(), v.clone())).collect())
+                .unwrap_or_default(),
+            parts,
+            drawings,
+        })
+    }
+
+    /// The variant as one JSON document, `{root, optionDefaults, parts, drawings}`.
+    pub fn to_value(&self) -> Value {
+        serde_json::json!({
+            "root": self.root,
+            "optionDefaults": self.option_defaults,
+            "parts": self.parts,
+            "drawings": self.drawings,
+        })
+    }
+
+    /// Read a variant written by [`CompiledVariant::to_value`].
+    pub fn from_value(v: &Value) -> Result<Self, String> {
+        let wrap = serde_json::json!({
+            "root": v["root"],
+            "optionDefaults": v["optionDefaults"],
+            "variants": { "": v["parts"] },
+            "drawings": v["drawings"],
+        });
+        Self::from_compiled(&wrap, "")
+    }
+}
+
 /// Compiled variants shared across renders of one graph, so a matrix of requests compiles
 /// each recipe, size and mode once. Use one cache per graph; results are identical to
 /// compiling every time.
@@ -1143,37 +1205,96 @@ impl<'a> CompileCx<'a> {
                 size_index,
                 |l| self.name_of(l),
             );
-            // A drawing the renderers cannot fit (bad viewBox, no paths) counts as missing.
-            let Some(found) = self.graph.icon(&icon.set, &icon.name, scale).filter(|d| {
-                d.get("viewBox")
-                    .and_then(Value::as_str)
-                    .and_then(|v| icon_fit(v, 0.0, 0.0, 1.0, 1.0))
-                    .is_some()
-                    && d.get("paths").and_then(Value::as_array).is_some()
-            }) else {
-                part["drawingMiss"] = Value::String(format!(
-                    "icon {}:{} has no drawing for size '{}'; drawing a placeholder",
-                    icon.set, icon.name, req.size
-                ));
+            // A content icon also gets every catalog icon's drawing at this scale, so `solve`
+            // can apply a request `icon` without the catalog: `iconChoices` maps `set:name`
+            // to a `drawings` key. An icon missing from it is unknown or has no usable drawing.
+            if is_content_icon(part).0 {
+                let mut choices = serde_json::Map::new();
+                for set in &self.graph.icons {
+                    let names = set.raw.get("icons").and_then(Value::as_object);
+                    for name in names.into_iter().flat_map(|m| m.keys()) {
+                        if let Some(key) = self.attach_drawing(drawings, &set.set, name, scale) {
+                            choices.insert(format!("{}:{name}", set.set), Value::String(key));
+                        }
+                    }
+                }
+                part["iconChoices"] = Value::Object(choices);
+            }
+            let Some(key) = self.attach_drawing(drawings, &icon.set, &icon.name, scale) else {
+                part["drawingMiss"] = Value::String(drawing_miss(&icon.set, &icon.name, &req.size));
                 continue;
             };
-            let single = self
-                .graph
-                .icons
-                .iter()
-                .find(|s| s.set == icon.set)
-                .and_then(|s| s.raw.get("icons")?.get(&icon.name))
-                .is_some_and(|i| i.get("sizes").is_none());
-            let key = if single {
-                format!("{}:{}", icon.set, icon.name)
-            } else {
-                format!("{}:{}@{scale}", icon.set, icon.name)
-            };
-            drawings.entry(key.clone()).or_insert_with(|| {
-                serde_json::json!({ "viewBox": found.get("viewBox"), "paths": found.get("paths") })
-            });
             part["drawing"] = Value::String(key);
         }
+    }
+
+    /// Add the drawing of icon `set:name` nearest `scale` to `drawings` and return its key
+    /// (`set:name@scale`, `set:name` for a single drawing); `None` when the catalog has no
+    /// usable drawing. A drawing the renderers cannot fit (bad viewBox, no paths) counts as missing.
+    fn attach_drawing(
+        &self,
+        drawings: &mut serde_json::Map<String, Value>,
+        set: &str,
+        name: &str,
+        scale: u32,
+    ) -> Option<String> {
+        let found = self.graph.icon(set, name, scale).filter(|d| {
+            d.get("viewBox")
+                .and_then(Value::as_str)
+                .and_then(|v| icon_fit(v, 0.0, 0.0, 1.0, 1.0))
+                .is_some()
+                && d.get("paths").and_then(Value::as_array).is_some()
+        })?;
+        let single = self
+            .graph
+            .icons
+            .iter()
+            .find(|s| s.set == set)
+            .and_then(|s| s.raw.get("icons")?.get(name))
+            .is_some_and(|i| i.get("sizes").is_none());
+        let key = if single {
+            format!("{set}:{name}")
+        } else {
+            format!("{set}:{name}@{scale}")
+        };
+        drawings.entry(key.clone()).or_insert_with(
+            || serde_json::json!({ "viewBox": found.get("viewBox"), "paths": found.get("paths") }),
+        );
+        Some(key)
+    }
+}
+
+fn drawing_miss(set: &str, name: &str, size: &str) -> String {
+    format!("icon {set}:{name} has no drawing for size '{size}'; drawing a placeholder")
+}
+
+/// The icon an `icon` part draws for `req`: its reference, the `drawings` key of its geometry
+/// and a diagnostic for a missing drawing. A request icon replaces a content icon (it changes
+/// nothing about layout, so only these three differ): its drawing comes from the part's
+/// `iconChoices`, and an icon not in them is unknown or has no usable drawing, which is a
+/// miss only when the variant was compiled with a catalog (a part with `iconChoices`).
+fn part_icon<'a>(
+    part: &'a Value,
+    req: &RenderRequest,
+) -> (Option<IconRef>, Option<&'a str>, Option<String>) {
+    let Some(IconOverride::Icon { set, name }) =
+        req.icon.as_ref().filter(|_| is_content_icon(part).0)
+    else {
+        let key = part.get("drawing").and_then(Value::as_str);
+        let miss = part.get("drawingMiss").and_then(Value::as_str);
+        return (IconRef::of_part(part), key, miss.map(String::from));
+    };
+    let icon = IconRef {
+        set: set.clone(),
+        name: name.clone(),
+        drawing: None,
+    };
+    let Some(choices) = part.get("iconChoices") else {
+        return (Some(icon), None, None);
+    };
+    match choices.get(format!("{set}:{name}")).and_then(Value::as_str) {
+        Some(key) => (Some(icon), Some(key), None),
+        None => (Some(icon), None, Some(drawing_miss(set, name, &req.size))),
     }
 }
 
@@ -1701,16 +1822,6 @@ fn compile_variant(
     };
     let option_defaults = component_option_defaults(graph, &req.component);
     let mut compiled = cx.compile_parts(parts);
-    if let Some(IconOverride::Icon { set, name }) = &req.icon {
-        for icon in compiled
-            .values_mut()
-            .filter_map(|p| p.get_mut("icon"))
-            .filter(|i| i["content"] == true)
-        {
-            icon["set"] = set.clone().into();
-            icon["name"] = name.clone().into();
-        }
-    }
     let mut drawings = serde_json::Map::new();
     cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
     Ok(CompiledVariant {
@@ -1735,10 +1846,9 @@ impl SceneCache {
         let mut hasher = std::collections::hash_map::DefaultHasher::new();
         recipe.to_string().hash(&mut hasher);
         let key = format!(
-            "{}\u{1f}{}\u{1f}{modes:?}\u{1f}{:?}\u{1f}{:016x}",
+            "{}\u{1f}{}\u{1f}{modes:?}\u{1f}{:016x}",
             req.component,
             req.size,
-            req.icon,
             hasher.finish()
         );
         if let Some(v) = self.variants.borrow().get(&key) {
@@ -2739,17 +2849,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 n.part
             ));
         }
-        n.icon = IconRef::of_part(part).map(|mut icon| {
-            icon.drawing = part
-                .get("drawing")
-                .and_then(Value::as_str)
-                .and_then(|k| variant.drawings.get(k))
-                .cloned();
+        let (icon, key, miss) = part_icon(part, req);
+        n.icon = icon.map(|mut icon| {
+            icon.drawing = key.and_then(|k| variant.drawings.get(k)).cloned();
             icon
         });
-        if let Some(miss) = part.get("drawingMiss").and_then(Value::as_str) {
-            cx.diags.push(miss.to_string());
-        }
+        cx.diags.extend(miss);
     }
 
     Ok(Scene {
@@ -4331,6 +4436,45 @@ mod tests {
             set: set.into(),
             name: name.into(),
         })
+    }
+
+    #[test]
+    fn a_variant_rebuilt_without_the_graph_solves_like_build_scene() {
+        let g = icon_graph();
+        let icon =
+            serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {
+                "box": {"kind": "box", "children": ["mark"]},
+                "mark": {"kind": "icon", "icon": icon,
+                    "props": {"width": {"value": 10}, "height": {"value": 10}}}
+            }
+        });
+        let modes = [HashMap::new()];
+        let compiled = compile_recipe(&g, &recipe, "gadget", &modes).unwrap();
+        let whole = CompiledVariant::from_compiled(&compiled, "m||").unwrap();
+        let single = CompiledVariant::from_value(&whole.to_value()).unwrap();
+        let requests = [
+            None,
+            pick("workflow", "add"),
+            pick("ui", "nope"),
+            Some(IconOverride::None),
+        ];
+        for icon in requests {
+            let req = RenderRequest {
+                component: "gadget".into(),
+                size: "m".into(),
+                icon,
+                ..Default::default()
+            };
+            let want = serde_json::to_value(build_scene(&g, &recipe, &req).unwrap()).unwrap();
+            for v in [&whole, &single] {
+                let got = serde_json::to_value(solve(v, &req).unwrap()).unwrap();
+                assert_eq!(got, want, "{:?}", req.icon);
+            }
+        }
+        assert!(CompiledVariant::from_compiled(&compiled, "xl||").is_err());
     }
 
     #[test]
