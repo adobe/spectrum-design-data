@@ -663,7 +663,18 @@
           font: 14px sans-serif;
         "
       ></div>
-      <nav class="side card" id="nav"></nav>
+      <nav class="side card" id="nav" aria-label="Components"></nav>
+      <div
+        id="nav-status"
+        role="status"
+        style="
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+        "
+      ></div>
 
       <main>
         <header class="head card">
@@ -2146,14 +2157,23 @@
           .join("");
       }
 
+      let loadSeq = 0;
+      let currentName;
+      // Resolves false when a newer load superseded this one.
       async function load(name) {
-        C = await backend.component(name);
+        const seq = ++loadSeq;
+        const next = await backend.component(name);
+        if (seq !== loadSeq) return false;
+        C = next;
+        currentName = name;
+        resetView();
         seenDiagnostics.clear();
         noteDiagnostics();
         constraints = readConstraints(C);
         renderPage();
         buildControls();
         await refresh({ refit: true });
+        return seq === loadSeq;
       }
 
       const tabs = ["usage", "anatomy", "specs"];
@@ -2172,11 +2192,7 @@
         history.replaceState(null, "", u);
       }
 
-      async function setMode(t, from) {
-        const prev = view.mode;
-        if (t === prev) return;
-        if (prev === "usage" && !from)
-          syncControls(await maxParts(liveOptions()));
+      function applyTabUi(t) {
         view.mode = t;
         document
           .querySelectorAll(".tabs button")
@@ -2185,6 +2201,24 @@
         document
           .querySelectorAll("[data-panel]")
           .forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== t));
+        $("stage").dataset.mode = t;
+      }
+
+      // What a page reload used to reset; buildControls (next) restores option,
+      // label and icon defaults, and refresh({ refit }) the viewport.
+      function resetView() {
+        stageToken++;
+        cellReqs = [];
+        applyTabUi("usage");
+        vp.fit = true;
+      }
+
+      async function setMode(t, from) {
+        const prev = view.mode;
+        if (t === prev) return;
+        if (prev === "usage" && !from)
+          syncControls(await maxParts(liveOptions()));
+        applyTabUi(t);
         if (prev !== "usage" && t !== "usage") {
           $("stage").dataset.mode = t;
           vp.fit = true;
@@ -2221,36 +2255,109 @@
         setMode("anatomy", cell.querySelector("svg").getBoundingClientRect());
       });
 
-      (async () => {
-        const list = await backend.components();
-        const params = new URLSearchParams(location.search);
-        const wanted = list.find(
-          (c) => c.name === params.get("c") && c.hasVisual,
-        );
-        const name = (wanted ?? list.find((c) => c.hasVisual)).name;
+      let components = [];
+      let sheets; // the spec sheet index, fetched once
+      let navSeq = 0;
+
+      const firstVisual = () => components.find((c) => c.hasVisual);
+      const wantedName = () => {
+        const c = new URLSearchParams(location.search).get("c");
+        return (
+          components.find((x) => x.name === c && x.hasVisual) ?? firstVisual()
+        ).name;
+      };
+
+      function buildNav(name) {
         $("nav").innerHTML =
-          `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
-        platformSwitcher(backend.platform(), name).then((html) => {
-          $("nav").insertAdjacentHTML("beforeend", html);
-        });
+          `<div><h4>${esc(backend.platform()?.name ?? "Foundation")}</h4><ul>${components.map((c) => `<li class="${c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div><div id="nav-extra"></div>`;
+        markNav(name);
+      }
+
+      function markNav(name) {
+        $("nav")
+          .querySelectorAll("li")
+          .forEach((li) => {
+            const a = li.querySelector("a");
+            const on = a?.getAttribute("href") === `?c=${name}`;
+            li.classList.toggle("on", on);
+            if (on) a.setAttribute("aria-current", "page");
+            else a?.removeAttribute("aria-current");
+          });
+      }
+
+      // Links that embed the component name: other platforms and the spec sheet.
+      async function updateLinks(name, seq) {
         // The spec sheets exist only on the multi-platform deployment (../specs/).
-        fetch("../specs/data/sheets/index.json")
+        sheets ??= fetch("../specs/data/sheets/index.json")
           .then((r) => (r.ok ? r.json() : null))
-          .then((idx) => {
-            if (!idx?.components?.some((c) => c.component === name)) return;
-            $("nav").insertAdjacentHTML(
-              "beforeend",
-              `<div><h4>Specs</h4><ul><li><a href="../specs/sheet.html?component=${encodeURIComponent(name)}">Spec sheet and changelog</a></li></ul></div>`,
+          .catch(() => null);
+        const [platforms, idx] = await Promise.all([
+          platformSwitcher(backend.platform(), name),
+          sheets,
+        ]);
+        if (seq !== navSeq) return;
+        const spec = idx?.components?.some((c) => c.component === name)
+          ? `<div><h4>Specs</h4><ul><li><a href="../specs/sheet.html?component=${encodeURIComponent(name)}">Spec sheet and changelog</a></li></ul></div>`
+          : "";
+        $("nav-extra").innerHTML = platforms + spec;
+      }
+
+      // Show the component named by the URL: ?c=, then ?tab and ?cell (deep links,
+      // back/forward). Label and icon come from the URL in buildControls.
+      async function show(name) {
+        const params = new URLSearchParams(location.search);
+        try {
+          if (!(await load(name))) return;
+        } catch (e) {
+          showFatal(e);
+          if (currentName)
+            history.replaceState(
+              null,
+              "",
+              `?c=${encodeURIComponent(currentName)}`,
             );
-          })
-          .catch(() => {});
-        await load(name);
+          return;
+        }
+        $("fatal").hidden = true;
+        const seq = ++navSeq;
+        markNav(name);
+        $("nav-status").textContent = C.displayName;
+        updateLinks(name, seq);
         const initial = params.get("tab");
         if (tabs.includes(initial) && initial !== "usage") {
           const cell = params.get("cell");
           if (cell) syncControls({ ...JSON.parse(cell) });
           await setMode(initial, cell ? {} : undefined);
         }
+      }
+
+      $("nav").addEventListener("click", (e) => {
+        const a = e.target.closest("a[href^='?c=']");
+        if (
+          !a ||
+          e.defaultPrevented ||
+          e.button !== 0 ||
+          e.ctrlKey ||
+          e.metaKey ||
+          e.shiftKey ||
+          e.altKey ||
+          (a.target && a.target !== "_self")
+        )
+          return;
+        e.preventDefault();
+        const name = new URL(a.href).searchParams.get("c");
+        history.pushState(null, "", a.getAttribute("href"));
+        show(name).catch(showFatal);
+      });
+      window.addEventListener("popstate", () => {
+        show(wantedName()).catch(showFatal);
+      });
+
+      (async () => {
+        components = await backend.components();
+        const name = wantedName();
+        buildNav(name);
+        await show(name);
       })().catch(showFatal);
     </script>
   </body>
