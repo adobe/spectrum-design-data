@@ -30,7 +30,7 @@
     },
     "header": {
       "kind": "box",
-      "children": ["disclosure-icon", "title"],
+      "children": ["disclosure-icon", "title", "direct-actions"],
       "props": {
         "direction": { "value": "row" },
         "align": { "value": "center" },
@@ -61,6 +61,38 @@
           }
         }
       }
+    },
+    "direct-actions": {
+      "kind": "box",
+      "children": ["action-button", "switch"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "gap": {
+          "relationship": {
+            "property": "spacing",
+            "context": "Spacing (section title to action area)"
+          }
+        }
+      }
+    },
+    "action-button": {
+      "kind": "component",
+      "component": "action-button",
+      "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
+      "visibleWhen": { "options": { "hasActionButton": true } },
+      "with": {
+        "hideLabel": true,
+        "hasHoldIcon": true,
+        "isDisabled": { "option": "isDisabled" }
+      }
+    },
+    "switch": {
+      "kind": "component",
+      "component": "switch",
+      "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
+      "visibleWhen": { "options": { "hasSwitch": true } },
+      "with": { "hideLabel": true, "isDisabled": { "option": "isDisabled" } }
     },
     "disclosure-icon": {
       "kind": "icon",

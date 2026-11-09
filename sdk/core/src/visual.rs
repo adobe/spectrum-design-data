@@ -99,6 +99,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
     ),
     ("ring", &["stroke", "strokeWidth", "gapToParent"]),
     ("placed", &["color"]),
+    ("component", &[]),
 ];
 
 /// The props the solver reads for a part: its role is `root` for the root part, `placed` when
@@ -570,7 +571,13 @@ struct CompileCx<'a> {
     size_index: String,
     /// Component-scoped values that live in relationship files (see `scoped_values`).
     scoped: &'a [crate::graph::TokenRecord],
+    /// Canonical names of the recipes being compiled, outermost first and ending with this
+    /// one: a `component` part may not name one of them (cycle) or nest past `MAX_NEST_DEPTH`.
+    stack: &'a [String],
 }
+
+/// How many levels of `component` parts a recipe may nest (host, nested, nested in nested).
+pub const MAX_NEST_DEPTH: usize = 2;
 
 /// Solve-time context: picks among compiled candidates for one request.
 struct Ctx<'a> {
@@ -1123,13 +1130,19 @@ impl<'a> CompileCx<'a> {
         (list, miss)
     }
 
-    /// Compile every binding of every part (`props` and a placement `inset`).
+    /// Compile every binding of every part (`props` and a placement `inset`), and embed the
+    /// compiled recipe of every `component` part (see `compile_nested`).
     fn compile_parts(
         &self,
         parts: &serde_json::Map<String, Value>,
-    ) -> serde_json::Map<String, Value> {
+    ) -> Result<serde_json::Map<String, Value>, String> {
         let mut out_parts = parts.clone();
-        for part in out_parts.values_mut() {
+        for (id, part) in out_parts.iter_mut() {
+            if part.get("kind").and_then(Value::as_str) == Some("component") {
+                let (nested, size) = self.compile_nested(id, part)?;
+                part["nested"] = nested;
+                part["nestedSize"] = Value::String(size);
+            }
             if let Some(inset) = part.get_mut("placement").and_then(|p| p.get_mut("inset")) {
                 match inset {
                     Value::Array(entries) => entries
@@ -1149,7 +1162,51 @@ impl<'a> CompileCx<'a> {
                 }
             }
         }
-        out_parts
+        Ok(out_parts)
+    }
+
+    /// The compiled variant of a `component` part's recipe, for this host size and mode, and
+    /// the nested size `sizeMap` chose. The recipe resolves through the platform alias.
+    fn compile_nested(&self, id: &str, part: &Value) -> Result<(Value, String), String> {
+        let name = part
+            .get("component")
+            .and_then(Value::as_str)
+            .ok_or_else(|| format!("component part '{id}' names no component"))?;
+        let canonical = self.graph.canonical_component(name).to_string();
+        if self.stack.contains(&canonical) {
+            return Err(format!(
+                "component part '{id}' nests '{canonical}' inside itself ({})",
+                self.stack.join(" > ")
+            ));
+        }
+        if self.stack.len() > MAX_NEST_DEPTH {
+            return Err(format!(
+                "component part '{id}' nests '{canonical}' more than {MAX_NEST_DEPTH} levels deep ({})",
+                self.stack.join(" > ")
+            ));
+        }
+        let recipe = self
+            .graph
+            .visual_recipe(name)
+            .ok_or_else(|| format!("component part '{id}': '{name}' has no visual recipe"))?;
+        let size = part
+            .pointer(&format!("/sizeMap/{}", self.req.size))
+            .and_then(Value::as_str)
+            .ok_or_else(|| {
+                format!(
+                    "component part '{id}' has no sizeMap entry for size '{}'",
+                    self.req.size
+                )
+            })?
+            .to_string();
+        let req = RenderRequest {
+            component: canonical,
+            size: size.clone(),
+            mode: self.req.mode.clone(),
+            ..Default::default()
+        };
+        let nested = compile_variant(self.graph, &recipe.raw, &req, self.lookup, self.stack)?;
+        Ok((nested.to_value(), size))
     }
 
     /// The token `name` object of a scene token label (graph tokens, then the component's
@@ -1689,6 +1746,15 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             }
                         }
                     }
+                    if k == "with" {
+                        // A `component` part binds a nested option to a host option.
+                        let hosts = x.as_object().into_iter().flat_map(|w| w.values());
+                        for name in hosts.filter_map(|v| v.get("option")?.as_str()) {
+                            if !used.iter().any(|u| u == name) {
+                                used.push(name.to_string());
+                            }
+                        }
+                    }
                     if k == "options" {
                         if let Some(opts) = x.as_object() {
                             for name in opts.keys() {
@@ -1807,6 +1873,7 @@ pub fn compile_recipe(
 
     let lookup = Lookup::default();
     let scoped = lookup.scoped(graph, component);
+    let stack = [graph.canonical_component(component).to_string()];
     let mut variants = serde_json::Map::new();
     let mut drawings = serde_json::Map::new();
     for (size, idx) in scale {
@@ -1823,13 +1890,14 @@ pub fn compile_recipe(
                 req: &req,
                 size_index: value_to_string(idx).unwrap_or_default(),
                 scoped: &scoped,
+                stack: &stack,
             };
             let key = format!(
                 "{size}|{}|{}",
                 mode.get("colorScheme").map_or("", String::as_str),
                 mode.get("scale").map_or("", String::as_str)
             );
-            let mut compiled = cx.compile_parts(parts);
+            let mut compiled = cx.compile_parts(parts)?;
             cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
             variants.insert(key, Value::Object(compiled));
         }
@@ -1846,11 +1914,13 @@ pub fn compile_recipe(
 
 /// Compile a recipe for the component, size and mode of `req` (the only parts of the
 /// request that need the token graph). `lookup` memoizes graph scans across variants.
+/// `ancestors` are the recipes this one is nested in (empty for a top-level render).
 fn compile_variant(
     graph: &TokenGraph,
     recipe: &Value,
     req: &RenderRequest,
     lookup: &Lookup,
+    ancestors: &[String],
 ) -> Result<CompiledVariant, String> {
     let size_index = recipe
         .get("sizeScale")
@@ -1869,15 +1939,21 @@ fn compile_variant(
         return Err("root part not found".into());
     }
     let scoped = lookup.scoped(graph, &req.component);
+    let stack: Vec<String> = ancestors
+        .iter()
+        .cloned()
+        .chain([graph.canonical_component(&req.component).to_string()])
+        .collect();
     let cx = CompileCx {
         graph,
         lookup,
         req,
         size_index,
         scoped: &scoped,
+        stack: &stack,
     };
     let option_defaults = component_option_defaults(graph, &req.component);
-    let mut compiled = cx.compile_parts(parts);
+    let mut compiled = cx.compile_parts(parts)?;
     let mut drawings = serde_json::Map::new();
     cx.attach_drawings(&mut compiled, &mut drawings, &option_defaults);
     Ok(CompiledVariant {
@@ -1910,7 +1986,7 @@ impl SceneCache {
         if let Some(v) = self.variants.borrow().get(&key) {
             return Ok(v.clone());
         }
-        let v = std::rc::Rc::new(compile_variant(graph, recipe, req, &self.lookup)?);
+        let v = std::rc::Rc::new(compile_variant(graph, recipe, req, &self.lookup, &[])?);
         self.variants.borrow_mut().insert(key, v.clone());
         Ok(v)
     }
@@ -2090,6 +2166,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         overflow: Option<&'static str>,
         line_h: f64,
         lines: Vec<String>,
+        // A `component` part's solved recipe.
+        nested: Option<Nested>,
     }
     // A flowed box with a bound `direction` lays its children out in a row. Items keep their
     // outer size (a text part includes its padding) and the offset of the node inside it.
@@ -2100,6 +2178,11 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         ox: f64,
         oy: f64,
         grow: f64,
+        // A `component` row item, or the component parts a row box groups (`group`).
+        nested: Option<Nested>,
+        group: Vec<Nested>,
+        group_gap: f64,
+        group_align: String,
     }
     struct Row {
         items: Vec<RowItem>,
@@ -2111,6 +2194,7 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         pad_be: f64,
     }
     let mut flow: Vec<Child> = Vec::new();
+    let mut nested_out: Vec<SceneNode> = Vec::new();
     let mut placed: Vec<(String, &Value)> = Vec::new();
     let child_ids: Vec<String> = root
         .get("children")
@@ -2132,7 +2216,9 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         let kind = part.get("kind").and_then(Value::as_str).unwrap_or("box");
         let mut tokens = Vec::new();
-        let color = rp(&mut cx, part, "color");
+        let color = (kind != "component")
+            .then(|| rp(&mut cx, part, "color"))
+            .flatten();
         track(&mut tokens, "color", &color);
         let mut c = Child {
             id: id.clone(),
@@ -2155,8 +2241,16 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             overflow: None,
             line_h: 0.0,
             lines: Vec::new(),
+            nested: None,
         };
         match kind {
+            "component" => {
+                let Some(n) = solve_component(&mut cx, id, part) else {
+                    continue;
+                };
+                (c.w, c.h) = (n.w, n.h);
+                c.nested = Some(n);
+            }
             "box" => {
                 let w = rp(&mut cx, part, "width");
                 let bh = rp(&mut cx, part, "height");
@@ -2222,6 +2316,25 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             continue;
                         }
                         let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
+                        if nkind == "component" {
+                            if let Some(n) = solve_component(&mut cx, &nid, np) {
+                                let mut node = blank_node(&nid, nkind);
+                                (node.w, node.h) = (n.w, n.h);
+                                items.push(RowItem {
+                                    ow: n.w,
+                                    oh: n.h,
+                                    node,
+                                    ox: 0.0,
+                                    oy: 0.0,
+                                    grow: 0.0,
+                                    nested: Some(n),
+                                    group: Vec::new(),
+                                    group_gap: 0.0,
+                                    group_align: String::new(),
+                                });
+                            }
+                            continue;
+                        }
                         let mut tokens = Vec::new();
                         let mut node = SceneNode {
                             part: nid.clone(),
@@ -2251,8 +2364,10 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                         track(&mut tokens, "height", &nh);
                         track(&mut tokens, "color", &color);
                         node.color = color.map(|c| c.value);
-                        let (ow, oh);
+                        let (mut ow, mut oh);
                         let (mut ox, mut oy) = (0.0, 0.0);
+                        let mut group: Vec<Nested> = Vec::new();
+                        let (mut group_gap, mut group_align) = (0.0, String::new());
                         let grow = if matches!(nkind, "text" | "box") {
                             grow_share(&rp(&mut cx, np, "grow"))
                         } else {
@@ -2337,6 +2452,57 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                     node.h,
                                 );
                                 (ow, oh) = (node.w, node.h);
+                                // A row box that holds component parts lays them out in a row
+                                // and is dropped when none of them shows.
+                                let comps: Vec<String> = np
+                                    .get("children")
+                                    .and_then(Value::as_array)
+                                    .into_iter()
+                                    .flatten()
+                                    .filter_map(Value::as_str)
+                                    .filter(|c| {
+                                        parts
+                                            .get(*c)
+                                            .and_then(|p| p.get("kind"))
+                                            .and_then(Value::as_str)
+                                            == Some("component")
+                                    })
+                                    .map(String::from)
+                                    .collect();
+                                if !comps.is_empty() {
+                                    for cid in &comps {
+                                        let cp = &parts[cid];
+                                        if !cx.visible(cp) {
+                                            continue;
+                                        }
+                                        group.extend(solve_component(&mut cx, cid, cp));
+                                    }
+                                    if group.is_empty() {
+                                        continue;
+                                    }
+                                    let gdir = rp(&mut cx, np, "direction");
+                                    layout_keyword(&mut cx, "direction", &gdir, &["row"]);
+                                    let galign = rp(&mut cx, np, "align");
+                                    group_align = layout_keyword(
+                                        &mut cx,
+                                        "align",
+                                        &galign,
+                                        &["start", "center", "end"],
+                                    );
+                                    let ggap = rp(&mut cx, np, "gap");
+                                    track(&mut tokens, "gap", &ggap);
+                                    group_gap =
+                                        ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                    let sum = group.iter().map(|n| n.w).sum::<f64>()
+                                        + group_gap * (group.len() - 1) as f64;
+                                    if nw.is_none() {
+                                        node.w = sum;
+                                    }
+                                    if nh.is_none() {
+                                        node.h = group.iter().map(|n| n.h).fold(0.0, f64::max);
+                                    }
+                                    (ow, oh) = (node.w, node.h);
+                                }
                             }
                         }
                         node.tokens = tokens;
@@ -2347,6 +2513,10 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             ox,
                             oy,
                             grow,
+                            nested: None,
+                            group,
+                            group_gap,
+                            group_align,
                         });
                     }
                     let sum = items.iter().map(|i| i.ow).sum::<f64>()
@@ -2690,6 +2860,15 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             }
         }
         gap_from = Some(if column { cy0 + ch } else { cx0 + adv });
+        if let Some(n) = c.nested.take() {
+            place_nested(&mut nested_out, n, cx0, cy0);
+            if column {
+                y += ch + gap;
+            } else {
+                x += adv + gap;
+            }
+            continue;
+        }
         let row = c.row.take();
         let lines = std::mem::take(&mut c.lines);
         let nested_ids: Vec<String> = parts
@@ -2761,7 +2940,18 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 it.node.x = rx + it.ox;
                 it.node.y = cy0 + row.pad_bs + axis_offset(&row.align, inner_h - it.oh) + it.oy;
                 rx += it.ow + row.gap;
+                if let Some(n) = it.nested {
+                    place_nested(&mut nested_out, n, it.node.x, it.node.y);
+                    continue;
+                }
+                let (gx, gy, gh) = (it.node.x, it.node.y, it.node.h);
                 nodes.push(it.node);
+                let mut gx = gx;
+                for n in it.group {
+                    let (w, y) = (n.w, gy + axis_offset(&it.group_align, gh - n.h));
+                    place_nested(&mut nested_out, n, gx, y);
+                    gx += w + it.group_gap;
+                }
             }
             continue;
         }
@@ -2772,6 +2962,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         for nid in nested_ids {
             let Some(np) = parts.get(&nid) else { continue };
             if !cx.visible(np) {
+                continue;
+            }
+            if np.get("kind").and_then(Value::as_str) == Some("component") {
+                cx.diags.push(format!(
+                    "component part '{nid}' is only laid out in the root's flow or a row box; it is not drawn"
+                ));
                 continue;
             }
             let mut tokens = Vec::new();
@@ -3092,6 +3288,8 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         cx.diags.extend(miss);
     }
 
+    nodes.extend(nested_out);
+
     Ok(Scene {
         component: req.component.clone(),
         width: w + 2.0 * RING_MARGIN,
@@ -3103,6 +3301,113 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         layout,
         diagnostics: cx.diags,
     })
+}
+
+/// A `component` part solved on its own: its root size and its nodes, relative to the root's
+/// top-left corner. The root node keeps the part's id; inner ones are `<id>.<part>`.
+struct Nested {
+    w: f64,
+    h: f64,
+    nodes: Vec<SceneNode>,
+}
+
+/// Solve a `component` part's embedded recipe (see `CompileCx::compile_nested`). The nested
+/// request has its own component and size, the host's mode and text metrics, no states (the
+/// host's hover, down and focus do not reach it) and no label or icon override; `with`
+/// options are literals or `{ "option": name }`, read from the host request.
+fn solve_component(cx: &mut Ctx, id: &str, part: &Value) -> Option<Nested> {
+    let nested = part.get("nested")?;
+    let variant = match CompiledVariant::from_value(nested) {
+        Ok(v) => v,
+        Err(e) => {
+            cx.diags.push(format!("component part '{id}': {e}"));
+            return None;
+        }
+    };
+    let mut options = HashMap::new();
+    for (name, v) in part
+        .get("with")
+        .and_then(Value::as_object)
+        .into_iter()
+        .flatten()
+    {
+        let v = match v.get("option").and_then(Value::as_str) {
+            Some(host) => cx.option(host),
+            None => v.clone(),
+        };
+        if !v.is_null() {
+            options.insert(name.clone(), v);
+        }
+    }
+    let req = RenderRequest {
+        component: part.get("component")?.as_str()?.to_string(),
+        size: part.get("nestedSize")?.as_str()?.to_string(),
+        options,
+        mode: cx.req.mode.clone(),
+        text_metrics: cx.req.text_metrics.clone(),
+        ..Default::default()
+    };
+    let scene = match solve(&variant, &req) {
+        Ok(s) => s,
+        Err(e) => {
+            cx.diags.push(format!("component part '{id}': {e}"));
+            return None;
+        }
+    };
+    cx.diags
+        .extend(scene.diagnostics.iter().map(|d| format!("{id}: {d}")));
+    let root = scene.nodes.first()?;
+    let (ox, oy, w, h) = (root.x, root.y, root.w, root.h);
+    let nodes = scene
+        .nodes
+        .into_iter()
+        .enumerate()
+        .map(|(i, mut n)| {
+            n.x -= ox;
+            n.y -= oy;
+            if i == 0 {
+                n.part = id.to_string();
+            } else {
+                n.part = format!("{id}.{}", n.part);
+            }
+            n
+        })
+        .collect();
+    Some(Nested { w, h, nodes })
+}
+
+/// Append a nested part's nodes with its top-left corner at `(x, y)`.
+fn place_nested(out: &mut Vec<SceneNode>, n: Nested, x: f64, y: f64) {
+    out.extend(n.nodes.into_iter().map(|mut node| {
+        node.x += x;
+        node.y += y;
+        node
+    }));
+}
+
+/// A node with no geometry or paint, for parts that only host other nodes.
+fn blank_node(part: &str, kind: &str) -> SceneNode {
+    SceneNode {
+        part: part.into(),
+        kind: kind.into(),
+        x: 0.0,
+        y: 0.0,
+        w: 0.0,
+        h: 0.0,
+        fill: None,
+        stroke: None,
+        stroke_width: 0.0,
+        radius: 0.0,
+        radii: None,
+        text: None,
+        font_size: 0.0,
+        font_weight: None,
+        font_family: None,
+        color: None,
+        icon: None,
+        rotation: None,
+        tokens: Vec::new(),
+    }
 }
 
 /// A part's `grow`: `true` is one share of the row's free space, a positive number is that many
@@ -4461,7 +4766,7 @@ mod tests {
 
     #[test]
     fn every_part_kind_has_a_read_props_entry() {
-        for kind in ["box", "text", "icon", "ring", "progress"] {
+        for kind in ["box", "text", "icon", "ring", "progress", "component"] {
             assert!(read_props(kind).is_some(), "no READ_PROPS entry for {kind}");
         }
         assert!(read_props("root").is_some() && read_props("placed").is_some());
@@ -5312,5 +5617,248 @@ mod tests {
             n.x, n.y, n.x, n.y, 40.0 / 30.0
         );
         assert!(svg.contains(&want), "{svg}");
+    }
+
+    fn nest_graph(replace: &[(&str, Value)]) -> TokenGraph {
+        let (g, _) = load();
+        let mut visuals = TokenGraph::load_spec_visuals(&root().join("visuals")).expect("visuals");
+        for (name, raw) in replace {
+            let v = visuals.iter_mut().find(|v| v.component == *name).unwrap();
+            v.raw = raw.clone();
+        }
+        g.with_visuals(visuals)
+    }
+
+    fn comp(component: &str, with: Value) -> Value {
+        let map: serde_json::Map<String, Value> = ["s", "m", "l", "xl"]
+            .iter()
+            .map(|k| (k.to_string(), Value::String(k.to_string())))
+            .collect();
+        serde_json::json!({ "kind": "component", "component": component,
+            "sizeMap": map, "with": with })
+    }
+
+    fn lit_props(pairs: &[(&str, f64)]) -> Value {
+        Value::Object(
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), serde_json::json!({ "value": v })))
+                .collect(),
+        )
+    }
+
+    fn host(parts: Value) -> Value {
+        serde_json::json!({ "component": "accordion", "root": "r",
+            "sizeScale": { "s": 100, "m": 200, "l": 300, "xl": 400 }, "parts": parts })
+    }
+
+    fn nest_scene(
+        g: &TokenGraph,
+        recipe: &Value,
+        size: &str,
+        states: &[&str],
+        opts: &[(&str, Value)],
+    ) -> Result<Scene, String> {
+        let mut r = req(states);
+        r.component = "accordion".into();
+        r.size = size.into();
+        r.options = opts
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.clone()))
+            .collect();
+        build_scene(g, recipe, &r)
+    }
+
+    fn row_host() -> Value {
+        host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a", "b"], "props": lit_props(&[
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0), ("gap", 4.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true })),
+            "b": comp("switch", serde_json::json!({ "hideLabel": true,
+                "isSelected": { "option": "isSelected" } }))
+        }))
+    }
+
+    #[test]
+    fn a_nested_recipe_sizes_the_host_flow_and_names_its_parts() {
+        let g = nest_graph(&[]);
+        let s = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        let n = |id: &str| part(&s, id).unwrap_or_else(|| panic!("no node {id}"));
+        // Icon-only action button at M is 32 square; the switch (no label) is 26 wide.
+        let (a, b) = (n("a"), n("b"));
+        assert_eq!((a.w, a.h, b.w), (32.0, 32.0, 26.0));
+        assert_eq!((a.x, b.x), (8.0 + 6.0, 8.0 + 6.0 + 32.0 + 4.0));
+        assert_eq!(s.nodes[0].w, 6.0 + 32.0 + 4.0 + 26.0 + 6.0);
+        // The nested root keeps the host id; inner parts are namespaced and sit inside it.
+        let icon = n("a.icon");
+        assert!(icon.x >= a.x && icon.x + icon.w <= a.x + a.w);
+        let track = n("b.track");
+        assert!(track.x == b.x && track.y >= b.y);
+        assert!(s
+            .nodes
+            .iter()
+            .all(|n| n.part != "icon" && n.part != "track"));
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn sizemap_picks_the_nested_size() {
+        let g = nest_graph(&[]);
+        let mut r = row_host();
+        r["parts"]["a"]["sizeMap"]["s"] = "xl".into();
+        let s = nest_scene(&g, &r, "s", &[], &[]).unwrap();
+        assert_eq!(part(&s, "a").unwrap().h, 48.0);
+        let l = nest_scene(&g, &r, "l", &[], &[]).unwrap();
+        assert_eq!(part(&l, "a").unwrap().h, 40.0);
+    }
+
+    #[test]
+    fn with_options_are_literals_or_host_options() {
+        let g = nest_graph(&[]);
+        let handle_x = |o: &[(&str, Value)]| {
+            let s = nest_scene(&g, &row_host(), "m", &[], o).unwrap();
+            part(&s, "b.handle").unwrap().x - part(&s, "b").unwrap().x
+        };
+        // The switch handle moves to the end only when the host's isSelected reaches it.
+        assert!(handle_x(&[("isSelected", true.into())]) > handle_x(&[]) + 8.0);
+        // The literal hideLabel dropped the label part's width.
+        let s = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        assert_eq!(part(&s, "b").unwrap().w, 26.0);
+    }
+
+    #[test]
+    fn host_states_do_not_reach_a_nested_part() {
+        let g = nest_graph(&[]);
+        let plain = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        let hover = nest_scene(&g, &row_host(), "m", &["hover", "down"], &[]).unwrap();
+        for id in ["a", "b", "a.icon", "b.track", "b.handle"] {
+            assert_eq!(
+                part(&plain, id).unwrap().fill,
+                part(&hover, id).unwrap().fill,
+                "{id}"
+            );
+        }
+        assert!(hover.press.is_none());
+    }
+
+    #[test]
+    fn a_row_box_groups_component_parts_and_drops_out_when_none_shows() {
+        let g = nest_graph(&[]);
+        let mut a = comp("action-button", serde_json::json!({ "hideLabel": true }));
+        let mut b = comp("switch", serde_json::json!({ "hideLabel": true }));
+        a["visibleWhen"] = serde_json::json!({ "options": { "isOpen": true } });
+        b["visibleWhen"] = serde_json::json!({ "options": { "isQuiet": true } });
+        let mut group_props = lit_props(&[("gap", 8.0)]);
+        group_props["direction"] = serde_json::json!({ "value": "row" });
+        let r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["h"], "props": lit_props(&[]) },
+            "h": { "kind": "box", "children": ["g"], "props": {
+                "direction": { "value": "row" } } },
+            "g": { "kind": "box", "children": ["a", "b"], "props": group_props },
+            "a": a, "b": b
+        }));
+        let s = nest_scene(
+            &g,
+            &r,
+            "m",
+            &[],
+            &[("isOpen", true.into()), ("isQuiet", true.into())],
+        )
+        .unwrap();
+        let group = part(&s, "g").unwrap();
+        assert_eq!((group.w, group.h), (32.0 + 8.0 + 26.0, 32.0));
+        let (pa, pb) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
+        assert_eq!((pa.x, pb.x), (group.x, group.x + 40.0));
+        let one = nest_scene(&g, &r, "m", &[], &[("isOpen", true.into())]).unwrap();
+        assert_eq!(part(&one, "g").unwrap().w, 32.0);
+        let none = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert!(part(&none, "g").is_none() && part(&none, "a").is_none());
+    }
+
+    #[test]
+    fn a_nested_recipe_that_nests_itself_is_rejected() {
+        let direct = nest_graph(&[(
+            "switch",
+            serde_json::json!({ "component": "switch", "root": "r",
+                "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+                "parts": { "r": { "kind": "box", "children": ["x"] },
+                    "x": comp("switch", serde_json::json!({})) } }),
+        )]);
+        let err = nest_scene(&direct, &row_host(), "m", &[], &[]).unwrap_err();
+        assert!(err.contains("inside itself"), "{err}");
+        // A cycle through another recipe: accordion > action-button > switch > action-button.
+        let mut ab = serde_json::json!({ "component": "action-button", "root": "r",
+            "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+            "parts": { "r": { "kind": "box", "children": ["x"] },
+                "x": comp("switch", serde_json::json!({})) } });
+        ab["sizeScale"]["xs"] = 50.into();
+        let sw = serde_json::json!({ "component": "switch", "root": "r",
+            "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+            "parts": { "r": { "kind": "box", "children": ["x"] },
+                "x": comp("action-button", serde_json::json!({})) } });
+        let g = nest_graph(&[("action-button", ab), ("switch", sw)]);
+        let err = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap_err();
+        assert!(err.contains("inside itself"), "{err}");
+    }
+
+    #[test]
+    fn nesting_is_limited_to_two_levels() {
+        let level = |component: &str, child: &str| {
+            serde_json::json!({ "component": component, "root": "r",
+                "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+                "parts": { "r": { "kind": "box", "children": ["x"] },
+                    "x": comp(child, serde_json::json!({})) } })
+        };
+        let host_of = |child: &str| {
+            host(serde_json::json!({
+                "r": { "kind": "box", "children": ["x"] },
+                "x": comp(child, serde_json::json!({}))
+            }))
+        };
+        // accordion > action-button > switch is two levels of nesting: allowed.
+        let two = nest_graph(&[("action-button", level("action-button", "switch"))]);
+        assert!(nest_scene(&two, &host_of("action-button"), "m", &[], &[]).is_ok());
+        // One more (switch > badge) is not.
+        let three = nest_graph(&[
+            ("action-button", level("action-button", "switch")),
+            ("switch", level("switch", "badge")),
+        ]);
+        let err = nest_scene(&three, &host_of("action-button"), "m", &[], &[]).unwrap_err();
+        assert!(err.contains("levels deep"), "{err}");
+    }
+
+    #[test]
+    fn a_missing_component_or_size_is_a_compile_error() {
+        let g = nest_graph(&[]);
+        let mut r = row_host();
+        r["parts"]["a"]["component"] = "no-such-component".into();
+        let err = nest_scene(&g, &r, "m", &[], &[]).unwrap_err();
+        assert!(err.contains("no visual recipe"), "{err}");
+        let mut r = row_host();
+        r["parts"]["a"]["sizeMap"]
+            .as_object_mut()
+            .unwrap()
+            .remove("m");
+        let err = nest_scene(&g, &r, "m", &[], &[]).unwrap_err();
+        assert!(err.contains("no sizeMap entry"), "{err}");
+    }
+
+    #[test]
+    fn a_component_part_outside_a_row_is_reported_not_drawn() {
+        let g = nest_graph(&[]);
+        let r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["b"], "props": lit_props(&[]) },
+            "b": { "kind": "box", "children": ["a"], "props": lit_props(&[("height", 40.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert!(part(&s, "a").is_none());
+        assert!(s.diagnostics.iter().any(|d| d.contains("not drawn")));
+    }
+
+    #[test]
+    fn recipe_options_counts_a_host_option_a_component_part_reads() {
+        let (used, structural) = recipe_options(&row_host());
+        assert!(used.contains(&"isSelected".to_string()) && structural.is_empty());
     }
 }

@@ -67,6 +67,16 @@
       "default": false,
       "description": "Whether the rendered accordion item is expanded. Drives the chevron direction and the content area. Per-item expansion in a data-driven accordion is items[].isExpanded."
     },
+    "hasActionButton": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered accordion item shows an icon-only action button on its trailing edge. Per-item in a data-driven accordion is items[].hasActionButton."
+    },
+    "hasSwitch": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered accordion item shows a switch on its trailing edge. Per-item in a data-driven accordion is items[].hasSwitch."
+    },
     "density": {
       "type": "string",
       "default": "regular",
@@ -124,9 +134,9 @@
     },
     {
       "name": "header",
-      "description": "Row holding the disclosure icon and the title. It is the interactive heading.",
+      "description": "Row holding the disclosure icon, the title and the optional direct actions. It is the interactive heading.",
       "required": true,
-      "contains": ["disclosure-icon", "title"]
+      "contains": ["disclosure-icon", "title", "direct-actions"]
     },
     {
       "name": "disclosure-icon",
@@ -137,6 +147,19 @@
       "name": "title",
       "description": "Text label of the item. It wraps when it exceeds the available width.",
       "required": true
+    },
+    {
+      "name": "direct-actions",
+      "description": "Row on the trailing edge of the header that holds the optional action button and switch. Absent when neither is shown.",
+      "contains": ["action-button", "switch"]
+    },
+    {
+      "name": "action-button",
+      "description": "Icon-only action button (the action-button component) in the direct actions. Shown when hasActionButton is on."
+    },
+    {
+      "name": "switch",
+      "description": "Switch (the switch component) in the direct actions. Shown when hasSwitch is on."
     },
     {
       "name": "content",

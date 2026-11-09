@@ -84,7 +84,9 @@ impl ValidationRule for Rule {
                     .and_then(|s| s.get(&req.size))
                     .and_then(Value::as_u64)
                     .and_then(|i| u32::try_from(i).ok());
-                for n in &scene.nodes {
+                // A nested recipe's nodes (`<part>.<inner>`) are at its own scales, which its own
+                // recipe is checked for.
+                for n in scene.nodes.iter().filter(|n| !n.part.contains('.')) {
                     let Some(icon) = n.icon.as_ref().filter(|i| i.set == "ui") else {
                         continue;
                     };

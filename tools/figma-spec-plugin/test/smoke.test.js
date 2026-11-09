@@ -355,6 +355,26 @@ test("measurements of nested parts, the focus ring and the press ratio are drawn
     t.true(legends.includes(expected), expected + " in " + legends.join("|"));
 });
 
+test("a nested recipe's namespaced parts are drawn as layers named by their part", async (t) => {
+  const sheet = generate("accordion");
+  const block = sheet.pages
+    .flatMap((p) => p.blocks)
+    .find((b) =>
+      b.render?.scene?.nodes.some((n) => n.part === "action-button"),
+    );
+  t.truthy(block, "an accordion block with the nested action button");
+  const parts = block.render.scene.nodes.map((n) => n.part);
+  for (const part of ["action-button.icon", "switch", "switch.track"])
+    t.true(parts.includes(part), part);
+  const { figma, page, messages } = mock();
+  await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
+  t.truthy(messages.find((m) => m.type === "render-complete"));
+  const layers = page.findAll((n) => /^(action-button|switch)\b/.test(n.name));
+  const names = layers.map((n) => n.name);
+  for (const part of ["action-button", "action-button.icon", "switch.track"])
+    t.true(names.includes(part), `${part} in ${names.join("|")}`);
+});
+
 // What a node is, ignoring ids: type, name, text, geometry, fills and children.
 const dump = (n) => ({
   type: n.type,
