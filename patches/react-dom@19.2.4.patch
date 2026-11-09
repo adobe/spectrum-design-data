@@ -1,0 +1,34 @@
+diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
+index fa853b3a79413c8ddc553441ee259d4b34f59d69..71208c81c5549e0e63f754b1d5613a2413301a56 100644
+--- a/cjs/react-dom-client.development.js
++++ b/cjs/react-dom-client.development.js
+@@ -4004,7 +4004,11 @@
+                       nextKind = Object.prototype.toString.call(nextValue);
+                     if (
+                       prevKind === nextKind &&
+-                      ("[object Object]" === nextKind ||
++                      (("[object Object]" === nextKind &&
++                        (Object.getPrototypeOf(key) === Object.prototype ||
++                          Object.getPrototypeOf(key) === null) &&
++                        (Object.getPrototypeOf(nextValue) === Object.prototype ||
++                          Object.getPrototypeOf(nextValue) === null)) ||
+                         "[object Array]" === nextKind)
+                     ) {
+                       prevKind = [
+diff --git a/cjs/react-dom-profiling.development.js b/cjs/react-dom-profiling.development.js
+index bd05f9896fe1cece27ef86a15c6ba6c83ef95575..7ed3b0b43393b3ea8d8b11f8dacecf5a732b19dc 100644
+--- a/cjs/react-dom-profiling.development.js
++++ b/cjs/react-dom-profiling.development.js
+@@ -4012,7 +4012,11 @@
+                       nextKind = Object.prototype.toString.call(nextValue);
+                     if (
+                       prevKind === nextKind &&
+-                      ("[object Object]" === nextKind ||
++                      (("[object Object]" === nextKind &&
++                        (Object.getPrototypeOf(key) === Object.prototype ||
++                          Object.getPrototypeOf(key) === null) &&
++                        (Object.getPrototypeOf(nextValue) === Object.prototype ||
++                          Object.getPrototypeOf(nextValue) === null)) ||
+                         "[object Array]" === nextKind)
+                     ) {
+                       prevKind = [
