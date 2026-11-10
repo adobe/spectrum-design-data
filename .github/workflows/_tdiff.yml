@@ -26,7 +26,7 @@ jobs:
       - name: SETUP NODE
         uses: actions/setup-node@v4
         with:
-          node-version: "20.12.2"
+          node-version: "20.17.0"
       - name: NPM INSTALL
         working-directory: ./tools/diff-generator
         run: |
