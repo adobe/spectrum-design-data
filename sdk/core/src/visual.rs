@@ -1102,18 +1102,12 @@ impl<'a> CompileCx<'a> {
                     })
                 });
                 let default = registry.state_precedence(id);
-                match decl {
-                    Some(d) if d.get("trigger").and_then(Value::as_str) != Some("interaction") => d
-                        .get("precedence")
-                        .and_then(Value::as_u64)
-                        .map(|p| p as u32),
-                    Some(d) => Some(
-                        d.get("precedence")
-                            .and_then(Value::as_u64)
-                            .map_or(default.unwrap_or(0), |p| p as u32),
-                    ),
-                    None => default,
+                let trigger = decl.and_then(|d| d.get("trigger").and_then(Value::as_str));
+                if trigger == Some("prop") || (trigger.is_none() && default.is_none()) {
+                    return None;
                 }
+                let declared = decl.and_then(|d| d.get("precedence").and_then(Value::as_u64));
+                Some(declared.map_or(default.unwrap_or(0), |p| p as u32))
             })
             .collect();
         out.sort_unstable_by(|a, b| b.cmp(a));
@@ -1605,7 +1599,15 @@ impl Ctx<'_> {
                 best = Some((c, st.len(), prec));
             }
         }
-        let chosen = best.map(|(c, _, _)| c).or_else(|| fit.first().copied());
+        // Nothing matched: the default, never an interaction candidate while disabled.
+        let chosen = best.map(|(c, _, _)| c).or_else(|| {
+            let default = fit.iter().find(|c| precedence(c).is_empty()).copied();
+            if disabled {
+                default.or_else(|| fit.first().copied())
+            } else {
+                fit.first().copied()
+            }
+        });
         let Some(chosen) = chosen else {
             if let Some(miss) = entry
                 .get("miss")
@@ -3988,6 +3990,10 @@ mod tests {
             ("disabled", &["disabled"], &[]),
         ];
         assert_eq!(winner(fill, &["disabled", "hover"]), "disabled");
+        // No disabled candidate: the default wins over a hover that ranks first.
+        let no_disabled: &[(&str, &[&str], &[u32])] =
+            &[("hover", &["hover"], &[50]), ("default", &[], &[])];
+        assert_eq!(winner(no_disabled, &["disabled", "hover"]), "default");
         let tie: &[(&str, &[&str], &[u32])] =
             &[("a", &["hover"], &[50]), ("b", &["keyboard-focus"], &[50])];
         assert_eq!(winner(tie, &["hover", "keyboard-focus"]), "a");
