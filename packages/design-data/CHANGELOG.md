@@ -1,5 +1,32 @@
 # @adobe/spectrum-design-data
 
+## 3.10.0
+
+### Minor Changes
+
+- [#1704](https://github.com/adobe/spectrum-design-data/pull/1704) [`f7cf8f0`](https://github.com/adobe/spectrum-design-data/commit/f7cf8f02df71ee69d116cbd1b929305ea5eb03c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Button: the `variant` default is now `primary`, matching Figma, React Spectrum S2
+  and SWC Gen2 (it was `accent`). The visual recipe binds
+  "Minimum height" as `minHeight`, the label sets `overflow: wrap`, and the root
+  `minWidth` reads the `minimum-width-multiplier` token (2.25 times the height) when
+  a label shows. The `focus` state is renamed `keyboard-focus`, as in the other recipes and in the
+  relationship scopes, and the focus fill now takes the hover look (the key-focus
+  tokens for accent, negative and primary, gray-200 for secondary), as React
+  Spectrum S2 and SWC Gen2 do.
+  The renderer reads `relativeTo: "height"` on a root `minWidth`.
+
+### Patch Changes
+
+- [#1708](https://github.com/adobe/spectrum-design-data/pull/1708) [`2e6bc57`](https://github.com/adobe/spectrum-design-data/commit/2e6bc5767d35ad32418b800f98b2162733eda879) Thanks [@GarthDB](https://github.com/GarthDB)! - State model: combined interaction states now resolve per property, with
+  `keyboard-focus` as a non-layered state between `hover` (50) and `down` (70), so
+  pressed beats focus beats hover. `prop` states pick the token set and a token
+  that matches more active states wins before precedence is compared.
+  `layered` is deprecated: schemas still accept it and resolvers ignore it. The
+  state registry now carries default precedence (hover 50, focus and
+  keyboard-focus 60, down and active 70), so components declare precedence only
+  to deviate. The renderer does not read precedence yet (follow-up work).
+
+  Button no longer declares explicit precedence or `layered`; it uses the registry defaults.
+
 ## 3.9.3
 
 ### Patch Changes
