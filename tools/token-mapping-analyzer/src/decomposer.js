@@ -738,6 +738,14 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
 }
 
 /**
+ * Canonical tokens mark deprecation with a truthy `lifecycle.deprecatedIn`;
+ * legacy-format records still carry a top-level `deprecated`.
+ */
+export function isDeprecated(token) {
+  return !!(token?.lifecycle?.deprecatedIn || token?.deprecated);
+}
+
+/**
  * Serialize a name object to kebab-case using the declared field order.
  * Uses tokenNameMap to output long-form aliases (e.g., xl → extra-large)
  * for legacy compatibility.
