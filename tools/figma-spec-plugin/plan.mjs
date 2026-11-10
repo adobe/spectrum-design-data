@@ -60,6 +60,8 @@ export function plan({
   textMetrics,
 }) {
   const registry = readJson(registryPath);
+  if (sheetsDir && textMetrics)
+    throw new Error("textMetrics only applies when plan generates the sheets");
   const sheets = sheetsDir ?? join(out, "sheets");
   mkdirSync(sheets, { recursive: true });
   if (!sheetsDir)
@@ -176,7 +178,7 @@ function main(argv) {
     const a = rest[i];
     if (a === "-o") opts.out = rest[++i];
     else if (a === "--registry") opts.registry = rest[++i];
-    else if (a === "--text-metrics") opts.textMetrics = rest[++i];
+    else if (a === "--text-metrics") opts.textMetrics = resolve(rest[++i]);
     else if (a === "--all") opts.all = true;
     else if (a === "--hash") opts.hash = rest[++i];
     else if (a === "--file-key") opts.fileKey = rest[++i];
