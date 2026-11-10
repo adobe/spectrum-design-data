@@ -1601,9 +1601,17 @@ impl Ctx<'_> {
         }
         // Nothing matched: the default, never an interaction candidate while disabled.
         let chosen = best.map(|(c, _, _)| c).or_else(|| {
-            let default = fit.iter().find(|c| precedence(c).is_empty()).copied();
+            let no_states = |c: &Value| {
+                c.get("states")
+                    .and_then(Value::as_array)
+                    .is_none_or(|s| s.is_empty())
+            };
             if disabled {
-                default.or_else(|| fit.first().copied())
+                fit.iter()
+                    .find(|c| no_states(c))
+                    .or_else(|| fit.iter().find(|c| precedence(c).is_empty()))
+                    .or_else(|| fit.first())
+                    .copied()
             } else {
                 fit.first().copied()
             }
@@ -3994,6 +4002,10 @@ mod tests {
         let no_disabled: &[(&str, &[&str], &[u32])] =
             &[("hover", &["hover"], &[50]), ("default", &[], &[])];
         assert_eq!(winner(no_disabled, &["disabled", "hover"]), "default");
+        // A prop-state candidate that is not active ranks first: still the default.
+        let prop_first: &[(&str, &[&str], &[u32])] =
+            &[("selected", &["selected"], &[]), ("default", &[], &[])];
+        assert_eq!(winner(prop_first, &["disabled", "hover"]), "default");
         let tie: &[(&str, &[&str], &[u32])] =
             &[("a", &["hover"], &[50]), ("b", &["keyboard-focus"], &[50])];
         assert_eq!(winner(tie, &["hover", "keyboard-focus"]), "a");
