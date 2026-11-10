@@ -110,6 +110,35 @@ pub struct RegistryData {
     /// no accompanying `component` or `structure` field. Cross-cutting parts like
     /// `focus-ring`/`focus-indicator` have no single owning component.
     anatomy_standalone_scope: HashSet<String>,
+    /// Default interaction precedence per state id and alias (`states.json`).
+    state_precedence: HashMap<String, u32>,
+}
+
+/// Parse a registry JSON file's `precedence` values, keyed by id and alias.
+fn parse_state_precedence(json_str: &str) -> HashMap<String, u32> {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    let mut map = HashMap::new();
+    for entry in v
+        .get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        let Some(p) = entry.get("precedence").and_then(Value::as_u64) else {
+            continue;
+        };
+        let ids = entry.get("id").into_iter().chain(
+            entry
+                .get("aliases")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten(),
+        );
+        for id in ids.filter_map(Value::as_str) {
+            map.insert(id.to_string(), p as u32);
+        }
+    }
+    map
 }
 
 /// Parse a registry JSON file into a set of value IDs (and their aliases).
@@ -195,7 +224,13 @@ impl RegistryData {
             registries: build_registry_map(),
             token_names: build_token_name_map(),
             anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
+            state_precedence: parse_state_precedence(STATES_JSON),
         })
+    }
+
+    /// The registry's default interaction precedence for a state id or alias.
+    pub fn state_precedence(&self, id: &str) -> Option<u32> {
+        self.state_precedence.get(id).copied()
     }
 
     /// Anatomy-term ids flagged `standaloneScope: true` — see the field doc comment
