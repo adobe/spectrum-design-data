@@ -753,6 +753,14 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
  * @param {object} tokenNameMap - id → tokenName for legacy alias expansion
  * @param {string[]} [serializationOrder] - ordered field names from field catalog
  */
+/**
+ * Canonical tokens mark deprecation with a truthy `lifecycle.deprecatedIn`;
+ * legacy-format records still carry a top-level `deprecated`.
+ */
+export function isDeprecated(token) {
+  return !!(token?.lifecycle?.deprecatedIn || token?.deprecated);
+}
+
 export function serialize(
   nameObject,
   tokenNameMap = {},
