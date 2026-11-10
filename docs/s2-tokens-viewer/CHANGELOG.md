@@ -1,5 +1,12 @@
 # s2-tokens-viewer
 
+## 0.3.12
+
+### Patch Changes
+
+- Updated dependencies [[`f7cf8f0`](https://github.com/adobe/spectrum-design-data/commit/f7cf8f02df71ee69d116cbd1b929305ea5eb03c7), [`dcc5be9`](https://github.com/adobe/spectrum-design-data/commit/dcc5be988f302a727233ec45c88c0bca16e899ed), [`2e6bc57`](https://github.com/adobe/spectrum-design-data/commit/2e6bc5767d35ad32418b800f98b2162733eda879)]:
+  - @adobe/design-data-wasm@0.18.1
+
 ## 0.3.11
 
 ### Patch Changes
