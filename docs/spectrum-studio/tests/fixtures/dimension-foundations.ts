@@ -4,26 +4,83 @@ import {
   designSystemDefaults,
 } from "../../src/data/defaults";
 import { RULE_DEFAULTS } from "../../src/features/logic/defaults";
+import type { Rule } from "../../src/features/logic/model";
 import { MODE_SET_DEFAULTS } from "../../src/features/modes/model";
 import { resolveModeParameterValues } from "../../src/features/modes/parameterResolution";
 import type { DimensionComparisonInput } from "../../src/features/scales/dimensionComparisons";
-import { generateDimensionScale } from "../../src/features/scales/foundation";
+import {
+  generateDimensionScale,
+  type DimensionScale,
+} from "../../src/features/scales/foundation";
 import { SCALE_TYPE_DEFAULTS } from "../../src/features/scales/scaleType";
 import { SPACING_DEFAULTS } from "../../src/features/spacing/defaults";
 import { governedFoundationContext } from "../../src/features/taxonomy/foundationGovernance";
+import { reconcileDimensionSourceNames } from "../../src/features/taxonomy/naming";
 import {
   projectClassification,
   taxonomyDimensionSourceId,
 } from "../../src/features/taxonomy/model";
 import { TYPOGRAPHY_DEFAULTS } from "../../src/features/typography/defaults";
 
+export function dimensionExampleSources() {
+  const horizontal: DimensionScale = {
+    id: "spacing-example-horizontal",
+    name: "Example horizontal spacing",
+    scaleTypeId: "scale-type-typography",
+    base: 10,
+    below: 2,
+    above: 2,
+    parameters: {},
+    roundingRuleId: "rule-example-spacing",
+    hideFromPublishing: true,
+  };
+  const gap: DimensionScale = {
+    ...horizontal,
+    id: "spacing-example-gap",
+    name: "Example gap",
+    base: 6,
+    roundingRuleId: "rule-whole-numbers",
+  };
+  const exampleRule: Rule = {
+    id: horizontal.roundingRuleId,
+    name: "Example spacing rounding",
+    description: "Rounds values below five to one and larger values to two.",
+    type: "rounding",
+    depth: 1,
+    defaultOutcome: { factor: 2 },
+    conditions: [
+      {
+        id: "example-small-spacing",
+        comparator: "lt",
+        threshold: 5,
+        outcome: { factor: 1 },
+      },
+    ],
+  };
+  const { taxonomy, document } = reconcileDimensionSourceNames(
+    structuredClone(designSystemDefaults.system.taxonomy),
+    SPACING_DEFAULTS,
+    {
+      ...structuredClone(SPACING_DEFAULTS),
+      scales: [...structuredClone(SPACING_DEFAULTS.scales), horizontal, gap],
+    },
+    "spacing",
+  );
+  return {
+    taxonomy,
+    document,
+    rules: [...structuredClone(RULE_DEFAULTS), exampleRule],
+    horizontal: document.scales.find((scale) => scale.id === horizontal.id)!,
+    gap: document.scales.find((scale) => scale.id === gap.id)!,
+  };
+}
+
 export function dimensionExampleInput(
   adaptive = false,
   multiple = false,
 ): DimensionComparisonInput {
-  const scale = structuredClone(
-    SPACING_DEFAULTS.scales.find((scale) => scale.name === "Base gap")!,
-  );
+  const fixture = dimensionExampleSources();
+  const scale = fixture.gap;
   const documents = {
     color: createColorDefaults(),
     typography: structuredClone(TYPOGRAPHY_DEFAULTS),
@@ -58,12 +115,12 @@ export function dimensionExampleInput(
   const values = generateDimensionScale(
     "spacing",
     scale,
-    RULE_DEFAULTS,
+    fixture.rules,
     SCALE_TYPE_DEFAULTS,
     current,
   ).map((value) => {
     const context = governedFoundationContext(
-      designSystemDefaults.system.taxonomy,
+      fixture.taxonomy,
       "spacing",
       scale.nameRef!,
       taxonomyDimensionSourceId("spacing", scale.id),
@@ -72,7 +129,7 @@ export function dimensionExampleInput(
     return {
       ...value,
       name: projectClassification(
-        designSystemDefaults.system.taxonomy,
+        fixture.taxonomy,
         context.governed!,
         "spacing",
       ).name,
@@ -84,7 +141,7 @@ export function dimensionExampleInput(
     documents,
     modeSets,
     current,
-    rules: structuredClone([...RULE_DEFAULTS]),
+    rules: fixture.rules,
     scaleTypes: structuredClone([...SCALE_TYPE_DEFAULTS]),
   };
 }

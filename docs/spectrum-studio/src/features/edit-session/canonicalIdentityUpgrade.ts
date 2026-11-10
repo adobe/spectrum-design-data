@@ -14,6 +14,7 @@ import {
   canonicalPrimitiveProperties,
   tokenIdentity,
   tokenIdentityRow,
+  reconcileTokenIdentityRows,
   type TokenIdentity,
 } from "../tokens/canonicalIdentity";
 import { componentTokenCatalog } from "../components/references";
@@ -73,8 +74,30 @@ export function upgradeCanonicalTokenIdentities<
       if (!allocations.has(rowKey)) allocations.set(rowKey, uuid);
     }
   }
+  const allocate = (key: string) => {
+    let id = allocations.get(key);
+    if (!id) {
+      id = crypto.randomUUID();
+      allocations.set(key, id);
+    }
+    return id;
+  };
   const bundle = buildTshirtArtifacts(snapshot);
   const rows = canonicalAliasRows(source, bundle, "preserve-for-review");
+  const contexts = new Map<string, Set<string>>();
+  for (const row of rows) {
+    const coordinate = row.token.sourceId ?? row.token.id;
+    const required = contexts.get(coordinate) ?? new Set<string>();
+    required.add(row.context);
+    contexts.set(coordinate, required);
+  }
+  const reconciledEdits = reconcileTokenIdentityRows(
+    source.browserTokenEdits,
+    source.modeSets,
+    source.modeSets,
+    contexts,
+    (sourceId, context) => allocate(`row:${sourceId}:${context}`),
+  );
   let componentTargets = snapshot.components?.components.some(
     (component) => component.assignments.length,
   )
@@ -134,15 +157,7 @@ export function upgradeCanonicalTokenIdentities<
     const key = canonicalJson(name);
     names.set(key, [...(names.get(key) ?? []), token]);
   }
-  const allocate = (key: string) => {
-    let id = allocations.get(key);
-    if (!id) {
-      id = crypto.randomUUID();
-      allocations.set(key, id);
-    }
-    return id;
-  };
-  const edits: BrowserTokenEdits = structuredClone(source.browserTokenEdits);
+  const edits: BrowserTokenEdits = structuredClone(reconciledEdits);
   const remap = new Map<string, string>();
   const generated = new Map<string, typeof rows>();
   for (const row of rows) {
@@ -150,11 +165,16 @@ export function upgradeCanonicalTokenIdentities<
     generated.set(coordinate, [...(generated.get(coordinate) ?? []), row]);
   }
   for (const [coordinate, group] of generated) {
-    const existing = tokenIdentity(source.browserTokenEdits, coordinate);
-    const candidates =
+    const existing = tokenIdentity(reconciledEdits, coordinate);
+    const namedCandidates =
       names.get(canonicalJson(serializedName(group[0], axes))) ?? [];
-    const concepts = new Set(candidates.map((token) => token.conceptId));
+    const concepts = new Set(namedCandidates.map((token) => token.conceptId));
     if (!existing && concepts.size > 1) continue;
+    // Inactive sources retain their publications, even when a new source has the same name.
+    const candidates = namedCandidates.filter((candidate) => {
+      const owner = edits[candidate.conceptId]?.authoring?.identity?.sourceId;
+      return !owner || owner === coordinate || generated.has(owner);
+    });
     const conceptId =
       existing?.conceptId ??
       candidates[0]?.conceptId ??

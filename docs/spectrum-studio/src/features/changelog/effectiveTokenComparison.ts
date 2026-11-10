@@ -23,6 +23,8 @@ function inventory(snapshot: EditSessionSnapshot) {
     buildTshirtArtifacts(snapshot),
     "preserve-for-review",
   );
+  const blocked = rows.find((row) => row.outputError);
+  if (blocked?.outputError) throw blocked.outputError;
   inventories.set(snapshot, rows);
   return rows;
 }

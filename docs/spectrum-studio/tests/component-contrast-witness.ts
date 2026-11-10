@@ -19,6 +19,7 @@ import {
 } from "../src/features/color-system/state";
 import { editModeAtom } from "../src/state/view/editMode";
 import { tokenStableKey, tokenUuid } from "../src/features/tokens/model";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const source = createDefaultSnapshot();
 const witness = createComponentContrastWitness(source);
@@ -45,6 +46,7 @@ assert.deepEqual(
 for (const component of source.components!.components)
   for (const row of component.assignments)
     if ("$ref" in row) {
+      assert.ok(typeof row.$ref === "string");
       assert.deepEqual(
         after.get(row.$ref),
         before.get(row.$ref),
@@ -131,9 +133,17 @@ const globalTokenId = tokenUuid(
 );
 const colorReference = dependent
   .components!.components.flatMap((component) => component.assignments)
-  .find((row) => "$ref" in row && before.get(row.$ref)?.property === "color")!;
+  .find(
+    (row) =>
+      typeof row.$ref === "string" &&
+      before.get(row.$ref)?.property === "color",
+  )!;
 assert.ok("$ref" in colorReference);
-colorReference.$ref = globalTokenId;
+colorReference.$ref = [...before.values()].find(
+  (token) =>
+    token.browserId ===
+    tokenIdentity(dependent.browserTokenEdits!, globalTokenId)?.conceptId,
+)!.id;
 assert.equal(
   createComponentContrastWitness(dependent),
   null,
@@ -182,6 +192,7 @@ try {
     "A proven independent edit performs no all-mode color evaluation in the guard.",
   );
   const current = store.get(colorSystemDocumentAtom);
+  const beforeInvalid = catalogConversions;
   assert.throws(
     () =>
       store.set(colorSystemDocumentAtom, {
@@ -190,9 +201,11 @@ try {
           index ? contrast : { ...contrast, value: NaN },
         ),
       }),
-    (error: unknown) =>
-      error instanceof Error &&
-      error.stack?.includes("buildComponentTokenCatalog") === true,
+    Error,
+  );
+  assert.ok(
+    catalogConversions > beforeInvalid,
+    "Invalid contrast values cannot reuse an independence proof to bypass catalog validation.",
   );
   assert.equal(
     store.get(colorSystemDocumentAtom),

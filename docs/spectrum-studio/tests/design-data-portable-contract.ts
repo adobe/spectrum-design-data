@@ -39,6 +39,19 @@ import {
   type BrowserTokenEdits,
 } from "../src/features/tokens/browserModel";
 import { dimensionNameClassification } from "../src/features/taxonomy/foundationNames";
+import {
+  canonicalAliasRows,
+  completeAliasSource,
+} from "../src/features/tokens/aliasTargets";
+import {
+  reconcileTokenIdentityRows,
+  tokenIdentity,
+} from "../src/features/tokens/canonicalIdentity";
+import {
+  captureDimensionSource,
+  dimensionPublicationContexts,
+} from "../src/features/design-data/dimensionArtifacts";
+import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
 
 // Test-only proposal envelope around current native payloads. This is not a new
 // portable schema, importer, evaluator or independently conforming implementation.
@@ -145,11 +158,68 @@ const editModeKey = canonicalTokenModeKey(
     ]),
   ),
 );
-const nativeBrowserEdits: BrowserTokenEdits = {
-  [`spacing-${native.system.foundations.spacing.scales[0].id}-100`]: {
-    values: { [editModeKey]: { value: 777, baseline: 8 } },
+const fixtureEdits: BrowserTokenEdits = structuredClone(
+  native.system.browserTokenEdits ?? {},
+);
+const spacingSourceId = `spacing-${native.system.foundations.spacing.scales[0].id}-100`;
+const spacingIdentity = tokenIdentity(fixtureEdits, spacingSourceId);
+assert.ok(spacingIdentity);
+fixtureEdits[spacingIdentity.conceptId] = {
+  ...fixtureEdits[spacingIdentity.conceptId],
+  values: {
+    ...fixtureEdits[spacingIdentity.conceptId].values,
+    [editModeKey]: { value: 777, baseline: 8 },
   },
 };
+const dimensionFixtureSource = {
+  ...native.system.foundations,
+  colorSystem: native.system.foundations.color,
+  taxonomy: native.system.taxonomy,
+  modeSets: native.system.modeSets,
+  rules: native.system.rules,
+  scaleTypes: native.system.scaleTypes,
+  interpolations: native.system.interpolations,
+  tokenOverrides: native.system.tokenOverrides ?? {},
+  browserTokenEdits: fixtureEdits,
+};
+const fixtureSource = completeAliasSource(dimensionFixtureSource);
+const requiredContexts = new Map(
+  [
+    ...dimensionPublicationContexts(
+      captureDimensionSource(dimensionFixtureSource),
+    ),
+  ].filter(([id]) => id.startsWith("spacing-")),
+);
+for (const row of canonicalAliasRows(
+  fixtureSource,
+  undefined,
+  "preserve-for-review",
+  { excludeColors: true, includeUnpublished: true },
+)) {
+  if (row.token.type !== "spacing") continue;
+  const id = row.token.sourceId ?? row.token.id;
+  const contexts = requiredContexts.get(id) ?? new Set<string>();
+  contexts.add(row.context);
+  requiredContexts.set(id, contexts);
+}
+const nativeBrowserEdits = reconcileTokenIdentityRows(
+  fixtureEdits,
+  native.system.modeSets,
+  native.system.modeSets,
+  requiredContexts,
+);
+for (const [id, edit] of Object.entries(fixtureEdits)) {
+  const identity = edit.authoring?.identity;
+  if (!identity?.sourceId.startsWith("spacing-")) {
+    assert.deepEqual(nativeBrowserEdits[id], edit);
+    continue;
+  }
+  const retained = tokenIdentity(nativeBrowserEdits, identity.sourceId);
+  assert.ok(retained);
+  assert.equal(retained.conceptId, identity.conceptId);
+  for (const uuid of Object.values(identity.rows))
+    assert.ok(Object.values(retained.rows).includes(uuid));
+}
 const bundle = {
   proposalVersion: "0.1-review-only",
   status: "proposal-not-adopted",
@@ -279,16 +349,78 @@ assert.equal(
   recordContent(projected),
   "R4-RT-003: existing projected identities, contexts, units, values and recipe outputs are unchanged; object-member enumeration is not row order semantics",
 );
+const editedIdentity = tokenIdentity(nativeBrowserEdits, spacingSourceId);
+assert.ok(editedIdentity);
+const editedRows = restoredProjection.records.filter(
+  (row) =>
+    row.category === "tokens" &&
+    row.identity === editedIdentity.rows[editModeKey],
+);
 assert.equal(
-  restoredProjection.records.filter(
-    (row) =>
-      row.category === "tokens" &&
-      row.name === "spacing-100" &&
-      row.value === 777,
-  ).length,
+  editedRows.length,
   1,
   "R4-EDIT-001: exact-mode value override scope and generated baseline survive with the governed canonical name",
 );
+assert.equal(editedRows[0].value, "777px");
+assert.equal(editedRows[0].conceptId, spacingIdentity.conceptId);
+assert.equal(
+  restoredProjection.records.filter(
+    (row) => row.category === "tokens" && row.value === "777px",
+  ).length,
+  1,
+);
+const editedAlias = canonicalAliasRows(
+  { ...fixtureSource, browserTokenEdits: nativeBrowserEdits },
+  undefined,
+  "preserve-for-review",
+  { excludeColors: true, includeUnpublished: true },
+).find(
+  (row) =>
+    row.token.sourceId === spacingSourceId && row.context === editModeKey,
+);
+assert.ok(editedAlias);
+assert.equal(editedRows[0].name, "spacing-100");
+assert.deepEqual(editedRows[0].structuredName, editedAlias.canonicalName);
+const textAxis = native.system.modeSets.find(
+  (axis) => axis.key === "textScaling",
+);
+assert.ok(textAxis);
+const largestTextMode = textAxis.modes.find((mode) => mode.key === "largest");
+assert.ok(largestTextMode);
+const adaptiveBindingContext = canonicalTokenModeKey({
+  [textAxis.id]: largestTextMode.id,
+});
+const fallbackRowId = editedIdentity.rows["[]"];
+const bindingRowId = editedIdentity.rows[adaptiveBindingContext];
+assert.ok(fallbackRowId);
+assert.ok(bindingRowId);
+assert.equal(fallbackRowId, spacingIdentity.rows["[]"]);
+assert.equal(
+  new Set([fallbackRowId, bindingRowId, editedIdentity.rows[editModeKey]]).size,
+  3,
+  "Fallback, nondefault adaptive output and exact-mode override retain independent publication identities.",
+);
+const largestSpacing = beforeOutput[2].spacing[0].find(
+  (value) => value.step === 100,
+);
+assert.ok(largestSpacing);
+assert.notEqual(largestSpacing.value, 8);
+const published = buildTshirtArtifacts({
+  ...dimensionFixtureSource,
+  structures: native.system.structures,
+  componentSizing: native.system.componentSizing,
+  browserTokenEdits: nativeBrowserEdits,
+});
+for (const [id, value] of [
+  [fallbackRowId, 8],
+  [bindingRowId, largestSpacing.value],
+] as const) {
+  const rows = published.tokens.filter((row) => row.uuid === id);
+  assert.equal(rows.length, 1);
+  assert.ok("value" in rows[0]);
+  assert.equal(rows[0].value, `${value}px`);
+  assert.equal(rows[0].conceptId, spacingIdentity.conceptId);
+}
 assert.equal(
   restoredProjection.outputMetadata?.assignments[0].valueEvidence?.baseline,
   8,

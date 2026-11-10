@@ -597,8 +597,8 @@ export function TaxonomyEditor({
                         applyTerm(term, "value", String(term.value));
                       }}
                     >
-                      {/* eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add term action. */}
                       <TextField
+                        // eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add term action.
                         autoFocus
                         name="value"
                         aria-label="New term name"
@@ -675,10 +675,10 @@ export function TaxonomyEditor({
                         onSubmit={(event) => {
                           event.preventDefault();
                         }}
-                        // eslint-disable-next-line jsx-a11y/no-autofocus -- S2's documented popover focuses the input after the user opens it.
                         renderEditing={() => (
                           <>
                             <TextField
+                              // eslint-disable-next-line jsx-a11y/no-autofocus -- S2's documented popover focuses the input after the user opens it.
                               autoFocus
                               name={field}
                               label={field === "value" ? "Term" : "Description"}

@@ -22,7 +22,12 @@ import {
   captureDimensionSource,
   validateDimensionBundle,
 } from "../src/features/design-data/dimensionArtifacts";
-import { canonicalTokenModeKey } from "../src/features/tokens/browserModel";
+import {
+  applyBrowserTokenEdits,
+  canonicalTokenModeKey,
+} from "../src/features/tokens/browserModel";
+import { browserSourcesForSnapshot } from "../src/features/tokens/browserSavedState";
+import { modesForSelection } from "../src/features/modes/combinations";
 import {
   AUTHORING_CAPABILITY_OPTIONS,
   FOUNDATION_PARAMETERS,
@@ -291,12 +296,19 @@ assert(target);
 const edited = structuredClone(snapshot);
 const browserId = `size-${target.scaleId}-${target.step}`;
 const modeKey = canonicalTokenModeKey(target.selection);
-edited.browserTokenEdits = {
-  ...edited.browserTokenEdits,
-  [browserId]: {
-    values: { [modeKey]: { value: 77, baseline: target.generatedValue } },
-  },
-};
+const sources = browserSourcesForSnapshot(
+  edited,
+  modesForSelection(edited.modeSets, target.selection),
+);
+const published = sources.find((source) => source.sourceId === browserId)!;
+assert.ok(published);
+edited.browserTokenEdits = applyBrowserTokenEdits(
+  sources,
+  edited.browserTokenEdits!,
+  [published.id],
+  modeKey,
+  { value: 77 },
+);
 const explicit = await buildDimensionArtifacts(captureDimensionSource(edited));
 const override = explicit.lineage.find(
   (row) =>

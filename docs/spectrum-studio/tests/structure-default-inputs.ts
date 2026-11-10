@@ -12,8 +12,10 @@ import {
   resolveTshirtRule,
 } from "../src/features/logic/tshirt";
 import { isStructureInstance } from "../src/features/structures/children";
+import { selectModeAtom } from "../src/features/modes/selection";
 
 const snapshot = createDefaultSnapshot();
+assert.ok(snapshot.rules);
 const references = createStore().get(primitiveReferencesAtom);
 const bundle = buildTshirtArtifacts(snapshot);
 const generatedIds = new Set(
@@ -69,7 +71,7 @@ for (const structure of snapshot.structures!.structures) {
     if (element.kind !== "workflowIcon" && element.kind !== "uiIcon") continue;
     const binding = element.bindings.find((binding) => binding.slot === "size");
     assert.ok(
-      binding && "$ref" in binding,
+      binding && "$ref" in binding && typeof binding.$ref === "string",
       `${structure.name} icon has a foundation input.`,
     );
     const primitive = primitives.get(binding.$ref)!;
@@ -92,6 +94,7 @@ const workflow = base.elements!.find(
 assert.ok(!isStructureInstance(workflow));
 const binding = workflow.bindings[0];
 assert.ok("$ref" in binding);
+assert.ok(typeof binding.$ref === "string");
 const anchor = primitives.get(binding.$ref)!;
 assert.equal(anchor.name, "workflow-icon-size-100");
 const application = base.generation!.applications.find(
@@ -109,14 +112,15 @@ const rows = bundle.semantics.filter(
   (row) =>
     row.structureId === base.conceptId &&
     row.bindingIds.includes(binding.id) &&
-    row.context.textScaling === "default",
+    row.context.textScaling === "default" &&
+    row.context.scale === "desktop",
 );
 assert.deepEqual(
   rows.map((row) => row.target.id),
   mappings.map((mapping) => mapping.target.id),
 );
 for (const mapping of mappings) {
-  const resolved = resolveElements(
+  const resolved: ReturnType<typeof resolveElements>[number] = resolveElements(
     base,
     references,
     snapshot.rules,
@@ -125,6 +129,11 @@ for (const mapping of mappings) {
   assert.deepEqual(resolved.issues, []);
   assert.equal(resolved.styles.width, mapping.target.value);
 }
+const scale = snapshot.modeSets.find((axis) => axis.key === "scale")!;
+const textScaling = snapshot.modeSets.find(
+  (axis) => axis.key === "textScaling",
+)!;
+assert.ok(scale && textScaling);
 for (const [name, values] of [
   ["Base", [14, 16, 18, 20, 22]],
   ["Accessory", [14, 14, 16, 18, 20]],
@@ -139,15 +148,98 @@ for (const [name, values] of [
   );
   assert.equal(
     outputs.length,
-    15,
-    `${name} inherits the shared foundation's three text-scaling modes.`,
+    5 * scale.modes.length * textScaling.modes.length,
+    `${name} inherits every owned Scale and Text scaling combination.`,
   );
   assert.deepEqual(
     outputs
-      .filter((row) => row.context.textScaling === "default")
+      .filter(
+        (row) =>
+          row.context.textScaling === "default" &&
+          row.context.scale === "desktop",
+      )
       .map((row) => row.target.value),
     values,
   );
+  const input = [
+    structure,
+    ...snapshot.structures!.structures.filter(
+      (child) => child.parentStructureId === structure.conceptId,
+    ),
+  ].find((candidate) =>
+    candidate.elements?.some((element) => element.kind === "workflowIcon"),
+  );
+  assert.ok(input);
+  const icon = input.elements!.find(
+    (element) => element.kind === "workflowIcon",
+  );
+  assert.ok(icon && !isStructureInstance(icon));
+  const sizeBinding = icon.bindings.find((binding) => binding.slot === "size");
+  assert.ok(sizeBinding && "$ref" in sizeBinding);
+  const rule = resolveTshirtRule(
+    snapshot.rules!,
+    input.generation!.applications.find(
+      (application) =>
+        application.previewTargets?.kind === "custom" &&
+        application.previewTargets.bindingIds.includes(sizeBinding.id),
+    )!.ruleId,
+  );
+  for (const scaleMode of scale.modes) {
+    for (const textMode of textScaling.modes) {
+      const contextStore = createStore();
+      contextStore.set(selectModeAtom, {
+        modeSetKey: scale.key,
+        modeId: scaleMode.id,
+      });
+      contextStore.set(selectModeAtom, {
+        modeSetKey: textScaling.key,
+        modeId: textMode.id,
+      });
+      const contextReferences = contextStore.get(primitiveReferencesAtom);
+      const contextAnchor = contextReferences.find(
+        (reference) => reference.id === sizeBinding.$ref,
+      )!;
+      assert.ok(contextAnchor);
+      const expected = tshirtMappings(rule, contextAnchor, contextReferences, [
+        "xs",
+        "s",
+        "m",
+        "l",
+        "xl",
+      ]);
+      const contextual = outputs.filter(
+        (row) =>
+          row.context.scale === scaleMode.key &&
+          row.context.textScaling === textMode.key,
+      );
+      assert.deepEqual(
+        contextual.map((row) => [
+          row.size,
+          row.target.id,
+          row.target.value,
+          row.token.value,
+        ]),
+        expected.map((mapping) => [
+          mapping.size,
+          mapping.target.id,
+          mapping.target.value,
+          `${mapping.target.value}px`,
+        ]),
+        `${name}: ${scaleMode.key}/${textMode.key} output matches its shared foundation and rule.`,
+      );
+      for (const mapping of expected) {
+        const preview: ReturnType<typeof resolveElements>[number] =
+          resolveElements(
+            input,
+            contextReferences,
+            snapshot.rules,
+            mapping.size,
+          ).find((element) => element.element.id === icon.id)!;
+        assert.deepEqual(preview.issues, []);
+        assert.equal(preview.styles.width, mapping.target.value);
+      }
+    }
+  }
 }
 const changed = structuredClone(snapshot);
 changed.typography.iconography = { alignment: "text", baseSize: 24 };
@@ -158,7 +250,8 @@ const changedRows = buildTshirtArtifacts(changed).semantics.filter(
   (row) =>
     row.structureId === base.conceptId &&
     row.bindingIds.includes(binding.id) &&
-    row.context.textScaling === "default",
+    row.context.textScaling === "default" &&
+    row.context.scale === "desktop",
 );
 assert.deepEqual(
   changedRows.map((row) => row.token.uuid),

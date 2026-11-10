@@ -40,7 +40,14 @@ import {
 } from "../src/features/edit-session/storage";
 import { isSnapshot } from "../src/features/edit-session/state";
 
-const shipped = createDefaultSnapshot();
+const defaults = createDefaultSnapshot();
+assert.ok(defaults.rules && defaults.taxonomy && defaults.spacing);
+const shipped = {
+  ...defaults,
+  rules: defaults.rules,
+  taxonomy: defaults.taxonomy,
+  spacing: defaults.spacing,
+};
 const example = shipped.rules.find(
   (rule): rule is ConditionalRule =>
     rule.id === INTERACTION_COLORS_RULE_ID && rule.type === "conditional",
@@ -237,6 +244,7 @@ const legacy = {
   rules: shipped.rules.filter((rule) => rule.id !== example.id),
 };
 const upgraded = upgradeConditionalRulesSnapshot(legacy);
+assert.ok(upgraded.rules);
 assert.deepEqual(upgraded.rules.at(-1), example);
 assert.equal(upgradeConditionalRulesSnapshot(upgraded), upgraded);
 assert.equal(
@@ -259,7 +267,13 @@ Object.defineProperty(globalThis, "window", {
   },
 });
 function validateSnapshot(value: unknown): asserts value is typeof shipped {
-  assert.ok(isSnapshot(value) && value);
+  assert.ok(
+    isSnapshot(value) &&
+      value &&
+      value.rules &&
+      value.taxonomy &&
+      value.spacing,
+  );
 }
 stored.set(
   AUTHORING_STORAGE_KEY,
@@ -326,6 +340,7 @@ const address = fields.find((field) =>
   field.address?.path.includes("otherwise"),
 )!.address!;
 const reset = restorePath(working, shipped, address);
+assert.ok(reset.rules);
 const resetRule = reset.rules.find(
   (rule): rule is ConditionalRule =>
     rule.id === example.id && rule.type === "conditional",
@@ -354,6 +369,7 @@ const reorderFields = reordered.groups
 const order = reorderFields.find((field) => field.address?.collectionOrder)!;
 assert.ok(order);
 const ordered = restorePath(mutated, shipped, order.address!);
+assert.ok(ordered.rules);
 const orderedRule = ordered.rules.find(
   (rule): rule is ConditionalRule =>
     rule.id === example.id && rule.type === "conditional",

@@ -89,10 +89,7 @@ assert.equal(
   step.value,
   "Reset retains the Light starting value.",
 );
-const expected = effectiveContrast(
-  { id: step.id, value: step.value },
-  context.polarity,
-);
+const expected = effectiveContrast({ value: step.value }, context.polarity);
 near(resolvedStep().value, expected);
 assert.notEqual(
   expected,

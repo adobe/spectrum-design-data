@@ -47,18 +47,21 @@ import {
   revertBlockedColorValueAtom,
 } from "../src/features/changelog/state";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import {
   savedBrowserConceptIdsAtom,
   savedBrowserTokensAtom,
 } from "../src/features/tokens/browserSavedState";
 import { browserTokensAtom } from "../src/features/tokens/browserState";
 import { generateElevation } from "../src/features/elevation/generate";
+import { resolveElevationDocument } from "../src/features/elevation/resolution";
 import { buildShadowArtifacts } from "../src/features/design-data/shadowArtifacts";
 import { dataVisContextFingerprintAtom } from "../src/features/color-system/data-vis/state";
 import { colorSystemDocumentAtom } from "../src/features/color-system/state";
 
 const baseline = createDefaultSnapshot(),
   source = completeAliasSource(baseline);
+assert.ok(baseline.scaleTypes);
 const hydrated = hydrateColorSystem(createColorInputDefaults());
 assert.doesNotThrow(
   () => buildColorLibrary(hydrated),
@@ -187,8 +190,12 @@ formatSnapshot.tokenOverrides[token.uuid] = {
 };
 const formatStore = createStore();
 formatStore.set(restoreAuthoringSnapshotAtom, formatSnapshot);
+const formattedId = tokenIdentity(
+  formatSnapshot.browserTokenEdits!,
+  token.uuid,
+)!.conceptId;
 assert.equal(
-  formatStore.get(browserTokensAtom).find((row) => row.id === token.uuid)
+  formatStore.get(browserTokensAtom).find((row) => row.id === formattedId)
     ?.value,
   "rgb(0, 0, 0)",
 );
@@ -197,7 +204,7 @@ assert.ok(
     .get(savedBrowserTokensAtom)
     .every(
       (context) =>
-        context.tokens.find((row) => row.id === token.uuid)?.value ===
+        context.tokens.find((row) => row.id === formattedId)?.value ===
         "rgb(0, 0, 0)",
     ),
 );
@@ -226,11 +233,14 @@ blocked.tokenOverrides[id] = {
   editedAt: "2026-01-01T00:00:00.000Z",
   baseline: { name: originalToken.name, value: originalToken.value },
 };
-const aliasTarget = emitted.find((row) => row.id === id)!;
+const blockedIdentity = tokenIdentity(blocked.browserTokenEdits!, id)!;
+const aliasTarget = canonicalAliasRows(source).find(
+  (row) => row.id === blockedIdentity.conceptId,
+)!;
 blocked.aliases!.tokens.push({
   id: tokenUuid("blocked-color-alias"),
   name: "Retained color reference",
-  $ref: id,
+  $ref: blockedIdentity.conceptId,
   contexts: [aliasTarget.context],
 });
 const category = blocked.taxonomy!.categories.find(
@@ -242,13 +252,13 @@ const property = blocked.taxonomy!.terms.find(
 blocked.components!.components[0].assignments.push({
   id: tokenUuid("blocked-color-assignment"),
   property: { categoryId: category.id, termId: property.id },
-  $ref: id,
+  $ref: aliasTarget.rowId,
 });
 assertStoredSnapshot(blocked);
 const store = createStore();
 store.set(restoreAuthoringSnapshotAtom, blocked);
 assert.ok(
-  store.get(savedBrowserConceptIdsAtom).has(id),
+  store.get(savedBrowserConceptIdsAtom).has(blockedIdentity.conceptId),
   "A saved color concept must remain identifiable even when its output is unavailable.",
 );
 assert.deepEqual(
@@ -274,7 +284,11 @@ assert.ok(
 );
 assert.throws(() => buildCascadeTokenExport(input), ColorOutputError);
 const catalog = componentTokenCatalog(blocked);
-assert.ok(catalog.find((row) => row.id === id)?.outputError);
+assert.ok(
+  catalog.find(
+    (row) => row.browserId === blockedIdentity.conceptId && row.outputError,
+  ),
+);
 assert.throws(
   () =>
     assertComponentReferences(blocked.components!, blocked.taxonomy!, catalog),
@@ -288,12 +302,16 @@ assert.equal(
 );
 assert.ok(changes.status === "blocked" && changes.error.details.tokenId === id);
 store.set(browserTokenEditsAtom, {
-  [id]: { description: "Retained description", values: {} },
+  ...store.get(browserTokenEditsAtom),
+  [blockedIdentity.conceptId]: {
+    ...store.get(browserTokenEditsAtom)[blockedIdentity.conceptId],
+    description: "Retained description",
+  },
 });
 store.set(revertBlockedColorValueAtom, id);
 assert.equal(captureSnapshot(store.get).tokenOverrides[id], undefined);
 assert.equal(
-  store.get(browserTokenEditsAtom)[id].description,
+  store.get(browserTokenEditsAtom)[blockedIdentity.conceptId].description,
   "Retained description",
 );
 assert.equal(
@@ -305,6 +323,23 @@ assert.doesNotThrow(
   () => store.get(browserTokensAtom),
   "A failed saved baseline must not prevent browsing recovered working output.",
 );
+const canonicalEdits = structuredClone(store.get(browserTokenEditsAtom));
+canonicalEdits[blockedIdentity.conceptId].authoring!.assignments["[]"] = {
+  kind: "literal",
+  value: "#ffffff",
+};
+store.set(browserTokenEditsAtom, canonicalEdits);
+assert.equal(
+  store.get(changeGroupsResultAtom).status,
+  "blocked",
+  "Canonical assignments use the same manual-color output guard.",
+);
+store.set(revertBlockedColorValueAtom, id);
+const recovered = store.get(browserTokenEditsAtom)[blockedIdentity.conceptId];
+assert.deepEqual(recovered.authoring!.assignments, {});
+assert.deepEqual(recovered.authoring!.identity, blockedIdentity);
+assert.equal(recovered.description, "Retained description");
+assert.equal(store.get(changeGroupsResultAtom).status, "ready");
 
 const packet = buildDataVisSourcePacket({
   ...baseline,
@@ -380,7 +415,17 @@ const fingerprints = new Set([
   fingerprintStore.get(dataVisContextFingerprintAtom),
 ]);
 for (const colorOutput of settingsCases) {
-  const levels = generateElevation(elevation, baseline.scaleTypes, colorOutput);
+  const opacitySource = {
+    opacity: baseline.opacity,
+    colorSystem: baseline.colorSystem,
+    modeSets: baseline.modeSets,
+    browserTokenEdits: baseline.browserTokenEdits,
+  };
+  const levels = generateElevation(
+    resolveElevationDocument(elevation, [], [], undefined, opacitySource),
+    baseline.scaleTypes,
+    colorOutput,
+  );
   const shadows = buildShadowArtifacts({
     sourceKind: "working",
     elevation,
@@ -388,6 +433,7 @@ for (const colorOutput of settingsCases) {
     formulas: baseline.scaleTypes,
     modeSets: [],
     colorOutput,
+    opacitySource,
   });
   assert.deepEqual(
     shadows.tokens.map((token) => token.value.map((layer) => layer.color)),

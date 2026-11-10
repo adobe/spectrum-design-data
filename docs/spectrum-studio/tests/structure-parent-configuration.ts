@@ -12,7 +12,10 @@ import {
   saveEditAtom,
 } from "../src/features/edit-session/state";
 import { createStructure } from "../src/features/structures/model";
-import { createElement } from "../src/features/structures/elements";
+import {
+  createElement,
+  isStructureElement,
+} from "../src/features/structures/elements";
 import {
   createBooleanProperty,
   createLocalVariantProperty,
@@ -259,7 +262,9 @@ store.set(updateElementAtom, {
   configuration: { rootId: root.conceptId, path: `/${first.id}` },
   name: "Variant content",
 });
-assert.equal(current(layout.conceptId).elements![0].name, visual.name);
+const unconfiguredVisual = current(layout.conceptId).elements![0];
+assert.ok(isStructureElement(unconfiguredVisual));
+assert.equal(unconfiguredVisual.name, visual.name);
 assert.equal(
   current().editor!.layouts![`/${first.id}`].overrides![none.id].elements![
     visual.id

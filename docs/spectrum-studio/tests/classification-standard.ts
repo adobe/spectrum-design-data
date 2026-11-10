@@ -465,6 +465,7 @@ assert.equal(
 );
 assert.deepEqual(compatibility.source.taxonomy, unbound);
 assert.equal(compatibility.tokens.length, 1);
+assert.ok("value" in compatibility.tokens[0]);
 assert.equal(compatibility.tokens[0].value, source.token.value);
 assert.equal(
   canonicalJson(compatibility.source.records),
@@ -606,6 +607,7 @@ const unmappedPacket = await buildClassificationReviewExport(
   EMPTY_ALIASES,
   "compatibility",
 );
+assert.ok("value" in unmappedPacket.tokens[0]);
 assert.equal(unmappedPacket.tokens[0].value, missing.token.value);
 assert.equal(
   unmappedPacket.assessment.occurrences.filter((entry) =>
@@ -895,6 +897,14 @@ const colorMessages = classificationReviewMessages(
     (entry) => entry.recordId === generatedColor.rowId,
   ),
 );
+assert.ok(generatedColor.token.projection);
+const sourceReferenceCategories = new Set(
+  snapshot.taxonomy.categories
+    .filter((category) =>
+      classificationStandard.sourceReferenceKeys.includes(category.key),
+    )
+    .map((category) => category.id),
+);
 assert(
   colorMessages.some((message) =>
     message.includes(
@@ -907,12 +917,16 @@ assert(
     message.includes(concept("Color").definition),
   ),
 );
-assert(
+assert.equal(
   colorMessages.some((message) =>
     message.includes(
       "has not finalized how these source names should be recorded",
     ),
   ),
+  Object.keys(generatedColor.token.projection.classification).some((id) =>
+    sourceReferenceCategories.has(id),
+  ),
+  "Source-reference guidance appears only when the token actually uses a provisional source category.",
 );
 assert(
   !colorMessages.some((message) =>
@@ -921,8 +935,12 @@ assert(
     ),
   ),
 );
+const reviewedColor = nativePacket.tokens.find(
+  (token) => token.id === generatedColor.rowId,
+);
+assert.ok(reviewedColor && "value" in reviewedColor);
 assert.equal(
-  nativePacket.tokens.find((token) => token.id === generatedColor.rowId)?.value,
+  reviewedColor.value,
   generatedColor.token.value,
   "Clearer review language preserves the generated color value.",
 );
@@ -956,7 +974,7 @@ assert(nativePacket.assessment.counts.nonStandard > 0);
 assert(
   nativePacket.assessment.occurrences.some(
     (entry) =>
-      entry.value === "Body" &&
+      entry.value === "body" &&
       entry.targetId === "component:body" &&
       entry.fixRequired,
   ),
@@ -1063,9 +1081,14 @@ for (const alteredBundle of [
 
 const legacyEdit = structuredClone(snapshot);
 const nativeToken = rows.find((record) => !record.token.semantic)!;
+const nativeEdit = legacyEdit.browserTokenEdits![nativeToken.token.id];
+assert.ok(nativeEdit?.authoring?.identity);
 legacyEdit.browserTokenEdits = {
   ...legacyEdit.browserTokenEdits,
-  [nativeToken.token.id]: { name: "retained-non-standard-name", values: {} },
+  [nativeToken.token.id]: {
+    ...nativeEdit,
+    name: "retained-non-standard-name",
+  },
 };
 assert.throws(
   () => canonicalAliasRows(completeAliasSource(legacyEdit), bundle),
@@ -1096,10 +1119,11 @@ assert(
     (entry) => entry.recordId === retained.rowId && entry.fixRequired,
   ),
 );
-assert.equal(
-  legacyPacket.tokens.find((token) => token.id === retained.rowId)!.value,
-  retained.token.value,
+const retainedLegacyToken = legacyPacket.tokens.find(
+  (token) => token.id === retained.rowId,
 );
+assert.ok(retainedLegacyToken && "value" in retainedLegacyToken);
+assert.equal(retainedLegacyToken.value, retained.token.value);
 console.log(
   `Classification schemas, definition/owner/applicability gates, per-instance flags, preservation and ${rows.length} native output rows passed.`,
 );

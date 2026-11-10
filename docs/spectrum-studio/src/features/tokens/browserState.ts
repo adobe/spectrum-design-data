@@ -211,6 +211,7 @@ export const editBrowserTokensAtom = atom(
       );
       const available = dialogRowsForMode(rows, input.modeKey);
       let edits = get(browserTokenEditsAtom);
+      const staticValues = new Map<string, string>();
       for (const id of new Set(input.ids)) {
         const row = available.find((row) => row.token.id === id);
         if (!row) throw new Error("The selected token is no longer available.");
@@ -221,29 +222,40 @@ export const editBrowserTokensAtom = atom(
           draft.description = input.patch.description;
         if (input.patch.classification !== undefined)
           draft.classification = input.patch.classification;
-        if (input.patch.value !== undefined)
-          draft.assignments[row.context] = {
-            kind: "literal",
-            value: parseBrowserTokenValue(
-              typeof input.patch.value === "number"
-                ? { ...row.token, displayUnit: undefined }
-                : row.token,
-              String(input.patch.value),
-            ),
-          };
+        if (input.patch.value !== undefined) {
+          if (row.token.paletteColorId && input.ids.length > 1)
+            throw new Error(
+              "Palette colors need distinct values, so edit their values one at a time.",
+            );
+          const value = parseBrowserTokenValue(
+            typeof input.patch.value === "number"
+              ? { ...row.token, displayUnit: undefined }
+              : row.token,
+            String(input.patch.value),
+          );
+          if (row.token.dataVis?.static) {
+            if (typeof value !== "string")
+              throw new Error("A Static categorical token requires a color.");
+            staticValues.set(row.token.sourceId ?? row.id, value);
+          } else draft.assignments[row.context] = { kind: "literal", value };
+        }
         if (input.patch.name !== undefined)
           throw new Error(
             "Choose registered classification terms to change token names.",
           );
         edits = commitDialogDraft(draft, rows, edits, snapshot.taxonomy!);
       }
-      withValidatedAuthoringUpdates(
-        get,
-        new Map([["tokens/browser/edits", edits]]),
-        () => {
-          set(browserTokenEditsAtom, edits);
-        },
-      );
+      const updates = new Map<string, unknown>([
+        ["tokens/browser/edits", edits],
+      ]);
+      const document = staticValues.size
+        ? editStaticMemberOverrides(get(colorSystemDocumentAtom), staticValues)
+        : undefined;
+      if (document) updates.set("foundations/color", document);
+      withValidatedAuthoringUpdates(get, updates, () => {
+        if (document) set(colorSystemDocumentAtom, document);
+        set(browserTokenEditsAtom, edits);
+      });
       return;
     }
     if (

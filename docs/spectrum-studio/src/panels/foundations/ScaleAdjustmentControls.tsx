@@ -21,7 +21,7 @@ import { Picker } from "../../components/fields/Picker";
 import { ColorPickerContents } from "../../components/color-picker/ColorPickerContents";
 import { ColorSlider } from "../../components/color-picker/ColorSlider";
 import { getColorSpaceConfig } from "../../components/color-picker/colorUtils";
-import { useDefaultPickerGamut } from "../../components/color-picker/ColorPickerDefaults";
+import { useDefaultPickerGamut } from "../../components/color-picker/pickerGamut";
 import { popoverDialogStyles } from "../../components/popoverLayout";
 import type { Mode } from "../../features/modes/model";
 import {

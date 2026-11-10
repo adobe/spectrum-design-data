@@ -54,20 +54,20 @@ store.set(enterEditModeAtom);
 const initialTokens = store.get(browserTokensAtom);
 const initial = captureSnapshot(store.get);
 
-for (const [add, document] of [
-  [addSpacingScaleAtom, spacingDocumentAtom],
-  [addSizeScaleAtom, sizeDocumentAtom],
-  [addRadiusScaleAtom, radiusDocumentAtom],
+for (const [add, readDocument] of [
+  [addSpacingScaleAtom, () => store.get(spacingDocumentAtom)],
+  [addSizeScaleAtom, () => store.get(sizeDocumentAtom)],
+  [addRadiusScaleAtom, () => store.get(radiusDocumentAtom)],
 ] as const) {
-  const before = store.get(document).scales;
+  const before = readDocument().scales;
   const first = store.set(add);
   const second = store.set(add);
   assert.deepEqual(
-    store.get(document).scales.map((scale) => scale.id),
+    readDocument().scales.map((scale) => scale.id),
     [second, first, ...before.map((scale) => scale.id)],
   );
   assert.deepEqual(
-    store.get(document).scales.slice(2),
+    readDocument().scales.slice(2),
     before,
     "Existing scales keep their order and contents.",
   );

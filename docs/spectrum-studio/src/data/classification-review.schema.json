@@ -127,6 +127,20 @@
         "rowId": { "$ref": "#/definitions/uuid" },
         "context": { "$ref": "#/definitions/text" },
         "name": { "$ref": "#/definitions/text" },
+        "canonicalName": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [{ "type": "string" }, { "type": "number" }]
+          }
+        },
+        "compatibleModes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "$ref": "#/definitions/text" }
+          }
+        },
         "token": { "type": "object" }
       }
     },

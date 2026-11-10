@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import { createColorDefaults } from "../src/data/defaults";
+import { assertStoredSnapshot } from "../src/features/edit-session/state";
 import { createRule, isRule } from "../src/features/logic/model";
 import {
   STANDARD_SCALE_NAMING_RULE,
@@ -51,12 +52,14 @@ assert.throws(() => scaleNamingIndices(fixed, 13, -1), /base/);
 assert.ok(!isRule({ ...fixed, aboveIncrement: Number.NaN }));
 
 const base = createColorDefaults();
-base.scales = base.scales.filter((scale) => scale.name !== "Gray");
+base.scales = base.scales.filter((scale) => scale.id !== "scale-gray");
+base.dataVisScales = [];
 base.contrasts = Array.from({ length: 16 }, (_, index) => ({
   id: `shared-${index}`,
   value: 1 + index,
 }));
 const gray = base.scales[0];
+base.backgroundScaleId = gray.id;
 gray.customContrasts = {
   steps: Array.from({ length: 13 }, (_, index) => ({
     id: `gray-${index}`,
@@ -235,10 +238,14 @@ const { rulesAtom } = await import("../src/features/logic/library");
 const { taxonomyDocumentAtom } = await import("../src/features/taxonomy/state");
 const { buildColorLibrary } =
   await import("../src/features/color-system/cssLibrary");
-const { captureSnapshot, assertStoredSnapshot, createDefaultSnapshot } =
+const { captureSnapshot, createDefaultSnapshot, restoreAuthoringSnapshotAtom } =
   await import("../src/features/edit-session/state");
 const { upgradeCustomContrastSnapshot } =
   await import("../src/features/edit-session/customContrastUpgrade");
+const { upgradeCanonicalTokenIdentities } =
+  await import("../src/features/edit-session/canonicalIdentityUpgrade");
+const { tokenIdentity, tokenEdit } =
+  await import("../src/features/tokens/canonicalIdentity");
 const { generatedColorTokensAtom } =
   await import("../src/features/tokens/state");
 const { tokenOverridesAtom } = await import("../src/features/tokens/overrides");
@@ -261,8 +268,26 @@ const { canonicalDesignSystemDataset, composeDesignSystemDefaults } =
   await import("../src/features/design-data/validation");
 const { designSystemDefaults } = await import("../src/data/defaults");
 const store = createStore();
-store.set(colorSystemDocumentAtom, base);
-store.set(modeSetsAtom, [axis]);
+const beforeReplacement = structuredClone(captureSnapshot(store.get));
+assert.throws(
+  () => store.set(colorSystemDocumentAtom, base),
+  /no longer published/,
+  "Synthetic swatches cannot replace colors referenced by shipped components.",
+);
+assert.deepEqual(captureSnapshot(store.get), beforeReplacement);
+const fixture = createDefaultSnapshot();
+fixture.colorSystem = base;
+fixture.modeSets = [
+  axis,
+  ...fixture.modeSets.filter(
+    (set) => !set.authoringCapabilities?.includes("color.contrastMultiplier"),
+  ),
+];
+fixture.components = { ...fixture.components!, components: [] };
+assert.ok(fixture.structures);
+fixture.structures = { ...fixture.structures, structures: [] };
+fixture.browserTokenEdits = {};
+store.set(restoreAuthoringSnapshotAtom, structuredClone(fixture));
 store.set(adaptiveClaimsAtom, {});
 assert.throws(
   () => store.set(editCustomContrastsAtom, { kind: "add", scaleId: gray.id }),
@@ -322,8 +347,7 @@ assert.equal(
   13,
 );
 const undoStore = createStore();
-undoStore.set(colorSystemDocumentAtom, structuredClone(base));
-undoStore.set(modeSetsAtom, [structuredClone(axis)]);
+undoStore.set(restoreAuthoringSnapshotAtom, structuredClone(fixture));
 undoStore.set(editModeAtom, true);
 undoStore.set(modeSelectionAtom, { contrast: high.id });
 for (const stepId of ["gray-0", "gray-1"])
@@ -412,8 +436,9 @@ store.set(editCustomContrastsAtom, {
 assertStoredSnapshot(captureSnapshot(store.get));
 const oldSnapshot = createDefaultSnapshot();
 oldSnapshot.colorSystem.scales = oldSnapshot.colorSystem.scales.filter(
-  (scale) => scale.name !== "Gray",
+  (scale) => scale.id !== "scale-gray",
 );
+oldSnapshot.colorSystem.dataVisScales = [];
 oldSnapshot.rules = oldSnapshot.rules!.filter(
   (rule) => rule.type !== "scale-naming",
 );
@@ -509,14 +534,9 @@ const fractionalRule = {
 };
 const fractionalColor = structuredClone(base);
 fractionalColor.scales[0].customContrasts!.namingRuleId = fractionalRule.id;
-const fractionalCss = buildColorLibrary(
-  fractionalColor,
-  [],
-  [],
-  [],
-  undefined,
-  [fractionalRule],
-);
+const fractionalCss = buildColorLibrary(fractionalColor, [], [], undefined, [
+  fractionalRule,
+]);
 assert.match(fractionalCss, /--contrast-silver-0-25:/);
 assert.match(fractionalCss, /\.color-contrast-0-25 \{/);
 assert.ok(!fractionalCss.includes(".color-contrast-0.25"));
@@ -541,16 +561,23 @@ assert.equal(
   ]["gray-3"],
   4.5,
 );
+store.set(
+  restoreAuthoringSnapshotAtom,
+  upgradeCanonicalTokenIdentities(captureSnapshot(store.get)),
+);
+const publication = tokenIdentity(store.get(browserTokenEditsAtom), ids[0])!;
+assert.ok(publication);
 const aliasTarget = canonicalAliasRows(
   completeAliasSource(captureSnapshot(store.get)),
-).find((row) => row.id === ids[0])!;
+).find((row) => row.id === publication.conceptId)!;
+assert.ok(aliasTarget);
 store.set(aliasesAtom, {
   schemaVersion: 1,
   tokens: [
     {
       id: tokenUuid("custom-test-alias"),
       name: "old-gray-name",
-      $ref: ids[0],
+      $ref: publication.conceptId,
       contexts: [aliasTarget.context],
     },
   ],
@@ -563,7 +590,11 @@ store.set(tokenOverridesAtom, {
   },
 });
 store.set(browserTokenEditsAtom, {
-  [ids[0]]: { description: "Keep on Undo", values: {} },
+  ...store.get(browserTokenEditsAtom),
+  [publication.conceptId]: {
+    ...tokenEdit(store.get(browserTokenEditsAtom), ids[0])!,
+    description: "Keep on Undo",
+  },
 });
 const deletion = store.set(removeColorScaleAtom, gray.id);
 assert.ok(deletion.ok && deletion.removedScale);
@@ -572,7 +603,14 @@ assert.equal(
   undefined,
 );
 assert.equal(store.get(tokenOverridesAtom)[ids[0]], undefined);
-assert.equal(store.get(browserTokenEditsAtom)[ids[0]], undefined);
+assert.equal(
+  tokenEdit(store.get(browserTokenEditsAtom), ids[0])!.description,
+  undefined,
+);
+assert.deepEqual(
+  tokenIdentity(store.get(browserTokenEditsAtom), ids[0]),
+  publication,
+);
 assert.equal(store.get(aliasesAtom).tokens.length, 0);
 store.set(restoreColorScaleAtom, deletion.removedScale);
 assert.equal(
@@ -582,7 +620,7 @@ assert.equal(
   4.5,
 );
 assert.equal(
-  store.get(browserTokenEditsAtom)[ids[0]].description,
+  tokenEdit(store.get(browserTokenEditsAtom), ids[0])!.description,
   "Keep on Undo",
 );
 assert.equal(store.get(aliasesAtom).tokens.length, 1);
@@ -595,6 +633,14 @@ assert.equal(store.get(tokenOverridesAtom)[ids[0]], undefined);
 assert.equal(store.get(aliasesAtom).tokens.length, 0);
 store.set(restoreCustomContrastsAtom, removedStep);
 assert.equal(store.get(tokenOverridesAtom)[ids[0]].value, "#333333");
+assert.equal(
+  tokenEdit(store.get(browserTokenEditsAtom), ids[0])!.description,
+  "Keep on Undo",
+);
+assert.deepEqual(
+  tokenIdentity(store.get(browserTokenEditsAtom), ids[0]),
+  publication,
+);
 const beforeDetachment = store.set(editCustomContrastsAtom, {
   kind: "disable",
   scaleId: gray.id,
@@ -621,14 +667,22 @@ console.log(
 const { createGraySnapshot } = await import("./fixtures/customContrasts");
 const { browserTokenImpactRecordsAtom, savedBrowserConceptIdsAtom } =
   await import("../src/features/tokens/browserSavedState");
-const {
-  restoreAuthoringSnapshotAtom,
-  editSessionSnapshotAtom: savedSnapshotAtom,
-} = await import("../src/features/edit-session/state");
+const { editSessionSnapshotAtom: savedSnapshotAtom } =
+  await import("../src/features/edit-session/state");
 const { changeGroupsAtom, revertChangeTopicAtom, revertChangeItemAtom } =
   await import("../src/features/changelog/state");
 const accounting = createStore();
-const sharedSnapshot = createGraySnapshot(false);
+const sharedSnapshot = createDefaultSnapshot();
+const sharedScale = sharedSnapshot.colorSystem.scales.find(
+  (scale) => !scale.customContrasts,
+)!;
+assert.ok(sharedScale);
+sharedSnapshot.colorSystem.scales = [
+  sharedScale,
+  ...sharedSnapshot.colorSystem.scales.filter(
+    (scale) => scale.id !== sharedScale.id,
+  ),
+];
 const {
   buildDimensionArtifacts,
   captureDimensionSource,
@@ -682,9 +736,14 @@ assert.equal(
   "Saving 13 instead of 16 swatches removes exactly three saved concepts.",
 );
 const scopedIds = new Set(
-  sharedSnapshot.colorSystem.contrasts
-    .slice(0, 13)
-    .map((step) => tokenUuid(tokenStableKey(grayId, step.id))),
+  sharedSnapshot.colorSystem.contrasts.slice(0, 13).map((step) => {
+    const identity = tokenIdentity(
+      accounting.get(browserTokenEditsAtom),
+      tokenUuid(tokenStableKey(grayId, step.id)),
+    );
+    assert.ok(identity, "Each saved swatch has a canonical concept.");
+    return identity.conceptId;
+  }),
 );
 const colorImpact = () =>
   accounting
@@ -722,8 +781,22 @@ accounting.set(previewOverridesAtom, {});
 const scaleChange = accounting
   .get(changeGroupsAtom)
   .flatMap((group) => group.items)
-  .find((item) => item.sourceKind === "scale" && item.id === grayId)!;
-assert.ok(scaleChange.fields.some((field) => field.key === "Custom Contrasts"));
+  .find(
+    (item) =>
+      item.sourceKind === "scale" &&
+      item.address?.path.some(
+        (segment) =>
+          typeof segment === "object" &&
+          "id" in segment &&
+          segment.id === grayId,
+      ),
+  )!;
+assert.ok(scaleChange);
+assert.ok(
+  scaleChange.fields.some((field) =>
+    field.address?.path.includes("customContrasts"),
+  ),
+);
 accounting.set(revertChangeItemAtom, scaleChange);
 assert.equal(
   accounting.get(colorSystemDocumentAtom).scales[0].customContrasts,
@@ -787,14 +860,18 @@ const {
   resetAllAuthoringAtom,
 } = await import("../src/features/edit-session/state");
 const { flushPersistedState } = await import("../src/state/persist");
-const v6Saved = createDefaultSnapshot();
-v6Saved.colorSystem.scales = v6Saved.colorSystem.scales.filter(
-  (scale) => scale.name !== "Gray",
-);
+const v6Saved = structuredClone(fixture);
+for (const scale of v6Saved.colorSystem.scales) {
+  delete scale.customContrasts;
+  delete scale.disabledCustomContrasts;
+}
 v6Saved.rules = v6Saved.rules!.filter((rule) => rule.type !== "scale-naming");
 v6Saved.modeSets = v6Saved.modeSets.filter(
   (axis) => axis.key !== "colorScheme",
 );
+for (const set of v6Saved.modeSets)
+  for (const mode of set.modes)
+    if (mode.foundations.color) delete mode.foundations.color.scaleContrasts;
 const v6Working = structuredClone(v6Saved);
 v6Working.colorSystem.settings.backgroundBlend = 0.32;
 storage.setItem(
@@ -843,12 +920,26 @@ for (let index = 0; index < 3; index++)
       .get(colorSystemDocumentAtom)
       .scales[0].customContrasts!.steps.at(-1)!.id,
   });
+const beforeSave = structuredClone(captureSnapshot(lifecycle.get));
 const saveResult = lifecycle.set(saveEditAtom);
 assert.ok(
   saveResult.skippedAliases.length > 0,
   "Only names reused by other reindexed swatches skip compatibility aliases.",
 );
 const savedCustom = structuredClone(lifecycle.get(editSessionSnapshotAtom));
+assert.ok(savedCustom);
+for (const edit of Object.values(beforeSave.browserTokenEdits!)) {
+  const identity = edit.authoring?.identity;
+  if (!identity) continue;
+  const retained = tokenIdentity(
+    savedCustom.browserTokenEdits!,
+    identity.sourceId,
+  );
+  assert.ok(retained);
+  assert.equal(retained.conceptId, identity.conceptId);
+  for (const [context, uuid] of Object.entries(identity.rows))
+    assert.equal(retained.rows[context], uuid);
+}
 lifecycle.set(editCustomContrastsAtom, {
   kind: "value",
   scaleId: lifecycleScaleId,

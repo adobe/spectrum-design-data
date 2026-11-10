@@ -11,12 +11,19 @@ import {
 import { tokenOverridesAtom } from "../src/features/tokens/overrides";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import { isPaletteToken } from "../src/features/tokens/model";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const unused = mock.method(colorTokenSetAtom, "read", () => {
   throw new Error("Empty edit counts must not request generated color values.");
 });
 try {
   const empty = createStore();
+  assert.ok(
+    Object.values(empty.get(browserTokenEditsAtom)).some(
+      (edit) => edit.authoring?.identity,
+    ),
+    "Shipped publication identities must not count as authored edits.",
+  );
   assert.equal(empty.get(overriddenTokenCountAtom), 0);
   assert.equal(empty.get(staleTokenCountAtom), 0);
   assert.equal(unused.mock.callCount(), 0);
@@ -48,9 +55,20 @@ store.set(tokenOverridesAtom, {
 assert.equal(store.get(overriddenTokenCountAtom), 1);
 assert.equal(store.get(staleTokenCountAtom), 1);
 store.set(tokenOverridesAtom, {});
+const baselineEdits = store.get(browserTokenEditsAtom);
+const identity = tokenIdentity(baselineEdits, original.uuid);
+assert.ok(identity);
 store.set(browserTokenEditsAtom, {
-  [original.uuid]: { description: "Count demand fixture", values: {} },
+  ...baselineEdits,
+  [identity.conceptId]: {
+    ...baselineEdits[identity.conceptId],
+    description: "Count demand fixture",
+  },
 });
+assert.deepEqual(
+  tokenIdentity(store.get(browserTokenEditsAtom), original.uuid),
+  identity,
+);
 const canonical = store.get(colorTokenSetAtom).tokens;
 assert.equal(
   store.get(overriddenTokenCountAtom),
@@ -61,7 +79,7 @@ assert.equal(
   store.get(staleTokenCountAtom),
   canonical.filter((token) => token.stale).length,
 );
-store.set(browserTokenEditsAtom, {});
+store.set(browserTokenEditsAtom, baselineEdits);
 assert.equal(store.get(overriddenTokenCountAtom), 0);
 assert.equal(store.get(staleTokenCountAtom), 0);
 console.log(

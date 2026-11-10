@@ -58,6 +58,8 @@ import {
 import { scaleContrasts } from "../src/features/color-system/contrastSteps";
 import { parsedOutputLinear } from "../src/features/color-system/outputContrast";
 import { resolvedBackgroundLinear } from "../src/features/color-system/surfaceGeneration";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 
 const correctedLightValues = new Map([
   ["fuchsia-color-1500", "#360041"],
@@ -78,6 +80,8 @@ const verifiedCorrections = new Set<string>();
 
 const base = createColorDefaults();
 const snapshot = createDefaultSnapshot();
+assert.ok(snapshot.taxonomy);
+const taxonomy = snapshot.taxonomy;
 const store = createStore();
 store.set(restoreAuthoringSnapshotAtom, snapshot);
 function select(scheme: string, contrast = 1) {
@@ -112,7 +116,12 @@ function compiled(id: string) {
 select("light");
 const pool = store.get(dataVisPrimitiveColorsAtom);
 const historical = structuredClone(snapshot);
+// The original 1f119ffd profile used blended OKLCh generation and Hex output.
 historical.colorSystem.settings.colorOutput.outputFormat = "hex";
+historical.colorSystem.settings.backgroundBlend = 0.36;
+historical.colorSystem.settings.colorScaleType = "dynamic-blend";
+for (const scale of historical.colorSystem.scales)
+  scale.interpolation = "oklch";
 const historicalStore = createStore();
 historicalStore.set(restoreAuthoringSnapshotAtom, historical);
 historicalStore.set(modeSelectionAtom, store.get(modeSelectionAtom));
@@ -131,23 +140,20 @@ for (const expected of sequentialDefaults) {
   assert.ok(isDataVisScale(scale));
   assert.equal(scale.id, `data-vis-${expected.name.toLowerCase()}`);
   assert.equal(scale.kind, "sequential");
-  if (scale.kind === "categorical")
-    throw new Error("Expected a sequential default.");
   assert.equal(
     scale.staticColors,
     undefined,
     "Shipped sequential colors are live, not captured.",
   );
   assert.ok(scale.nameRef);
-  const term = snapshot.taxonomy.terms.find(
-    (term) => term.id === scale.nameRef!.termId,
-  );
+  const term = taxonomy.terms.find((term) => term.id === scale.nameRef!.termId);
   assert.equal(term?.value, expected.name.toLowerCase());
   assert.equal(term?.categoryId, scale.nameRef.categoryId);
   assert.equal(
-    snapshot.taxonomy.terms.filter(
+    taxonomy.terms.filter(
       (term) =>
         term.categoryId === scale.nameRef!.categoryId &&
+        typeof term.value === "string" &&
         term.value.toLowerCase() === expected.name.toLowerCase(),
     ).length,
     1,
@@ -228,11 +234,23 @@ for (const expected of sequentialDefaults) {
         ),
       }))
       .sort((a, b) => a.distance - b.distance || a.id.localeCompare(b.id))[0];
-    assert.equal(
-      tokenId,
-      nearest.id,
-      `${expected.name} ${index * 25}% retains its nearest published Light-mode source from the original Hex-output profile.`,
-    );
+    if (expected.name === "Seahawks" && index === 3) {
+      assert.equal(
+        tokenId,
+        "2c220bfa-05ea-86a7-ab7d-c43139804971",
+        "55c39335 explicitly replaced the removed Wireframe source with cyan-color-1100.",
+      );
+      assert.notEqual(
+        tokenId,
+        nearest.id,
+        "An explicit source replacement is retained, not recalculated as a nearest-color selection.",
+      );
+    } else
+      assert.equal(
+        tokenId,
+        nearest.id,
+        `${expected.name} ${index * 25}% retains its nearest published Light-mode source from the original Hex-output profile.`,
+      );
     assert.equal(compiled(scale.id).evaluate(index / 4), token.value);
   }
   assert.deepEqual(
@@ -261,6 +279,7 @@ assert.ok(
 );
 
 const previous = createDefaultSnapshot();
+assert.ok(previous.taxonomy);
 previous.colorSystem.dataVisScales = [];
 const defaultNameIds = new Set(
   base.dataVisScales.map((scale) => scale.nameRef!.termId),
@@ -374,7 +393,12 @@ assert.deepEqual(
 );
 
 store.set(editBrowserTokensAtom, {
-  ids: [sequentialDefaults[0].stops[2][1]],
+  ids: [
+    tokenIdentity(
+      store.get(browserTokenEditsAtom),
+      sequentialDefaults[0].stops[2][1],
+    )!.conceptId,
+  ],
   modeKey: store.get(browserModeContextAtom).key,
   patch: { value: "#123456" },
 });
@@ -383,10 +407,18 @@ assert.equal(
   "rgb(18, 52, 86)",
   "A final UI-token override updates Fire exactly.",
 );
+const editedSourceId = tokenIdentity(
+  store.get(browserTokenEditsAtom),
+  sequentialDefaults[0].stops[2][1],
+)!.conceptId;
+const editedPacket = buildDataVisSourcePacket(captureSnapshot(store.get));
+assert.deepEqual(
+  editedPacket.browserTokenEdits[editedSourceId],
+  store.get(browserTokenEditsAtom)[editedSourceId],
+  "Packet pruning retains canonical edits through their source identity.",
+);
 assert.equal(
-  createDataVisRuntime(
-    buildDataVisSourcePacket(captureSnapshot(store.get)),
-  ).continuous(fire.id)(0.5),
+  createDataVisRuntime(editedPacket).continuous(fire.id)(0.5),
   "rgb(18, 52, 86)",
 );
 select("dark");
@@ -403,7 +435,12 @@ assert.deepEqual(
 );
 
 store.set(editBrowserTokensAtom, {
-  ids: [sequentialDefaults[0].stops[3][1]],
+  ids: [
+    tokenIdentity(
+      store.get(browserTokenEditsAtom),
+      sequentialDefaults[0].stops[3][1],
+    )!.conceptId,
+  ],
   modeKey: store.get(browserModeContextAtom).key,
   patch: { value: "#654321" },
 });
@@ -426,11 +463,7 @@ const linkedUiScaleIds = new Set(
 );
 for (const scaleId of linkedUiScaleIds) {
   assert.match(
-    blockedUiSourceRemoval(
-      store.get(colorSystemDocumentAtom),
-      snapshot.modeSets,
-      scaleId,
-    )!,
+    blockedUiSourceRemoval(store.get(colorSystemDocumentAtom), scaleId)!,
     /replacement/i,
   );
   assert.throws(

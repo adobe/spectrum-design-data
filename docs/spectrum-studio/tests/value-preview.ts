@@ -87,7 +87,6 @@ const styles = (
     createValuePreview(kind, value, unit),
     { fontSize },
   );
-  assert.equal(result.status, "ready");
   if (result.status !== "ready") throw new Error(result.message);
   return result.styles;
 };
@@ -206,7 +205,6 @@ assert.equal(
   sourceValuePreview({
     ...resolved,
     taxonomySource: {
-      id: "source",
       governed: { [STRUCTURE_CATEGORY_IDS.property]: [ids.size, ids.color] },
     },
   }).kind,

@@ -16,7 +16,11 @@ import {
   updateColorOutputSettingsAtom,
 } from "../src/features/color-system/state";
 import { editModeAtom } from "../src/state/view/editMode";
-import { AUTHORING_RECORD_VERSION } from "../src/features/edit-session/storage";
+import {
+  AUTHORING_RECORD_VERSION,
+  AUTHORING_STORAGE_KEY,
+  writeAuthoringRecord,
+} from "../src/features/edit-session/storage";
 
 const baseline = createDefaultSnapshot();
 for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
@@ -58,7 +62,6 @@ for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
   };
   assert.equal(migrateColorSystemDocument(invalid, 4), null);
 }
-assert.equal(AUTHORING_RECORD_VERSION, 22);
 const store = createStore();
 const original = structuredClone(store.get(colorSystemDocumentAtom));
 assert.throws(
@@ -96,6 +99,42 @@ assert.throws(
   () => store.set(colorSystemDocumentAtom, invalid),
   /Invalid Color/,
 );
+const data = new Map<string, string>();
+const previous = Object.getOwnPropertyDescriptor(globalThis, "window");
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    localStorage: {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+    },
+  },
+});
+try {
+  writeAuthoringRecord({
+    version: AUTHORING_RECORD_VERSION,
+    working: { ...baseline, colorSystem: store.get(colorSystemDocumentAtom) },
+    saved: baseline,
+    isEditing: true,
+    attachments: {},
+    savedAttachments: {},
+  });
+  const serialized = data.get(AUTHORING_STORAGE_KEY);
+  assert(serialized);
+  const record = JSON.parse(serialized);
+  assert.equal(record.version, AUTHORING_RECORD_VERSION);
+  assert.deepEqual(
+    record.working.colorSystem.settings.colorOutput,
+    store.get(colorOutputSettingsAtom),
+  );
+  assert.deepEqual(
+    record.saved.colorSystem.settings.colorOutput,
+    baseline.colorSystem.settings.colorOutput,
+  );
+} finally {
+  if (previous) Object.defineProperty(globalThis, "window", previous);
+  else Reflect.deleteProperty(globalThis, "window");
+}
 console.log(
   "Color output: independent legacy semantics, schema/envelope boundaries, source preservation, edit guards and atomic format fallback passed.",
 );

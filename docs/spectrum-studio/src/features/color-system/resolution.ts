@@ -8,6 +8,13 @@ import { applyContrastMultiplier, applyPolarityCompensation } from "./polarity";
 import { patchDataVisContrasts } from "./data-vis/model";
 import { applyScaleAdjustment, type ScaleAdjustment } from "./scaleAdjustment";
 
+export const COLOR_PARAMETERS = [
+  "color.backgroundScaleId",
+  "color.backgroundLightness",
+  "color.contrastMultiplier",
+  "color.scaleAdjustment",
+] as const;
+
 export function resolveColorDocument(
   base: ColorSystemDocument,
   modes: readonly Mode[],

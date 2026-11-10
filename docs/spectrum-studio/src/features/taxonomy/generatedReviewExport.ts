@@ -306,6 +306,7 @@ export async function assertGeneratedClassificationCompatibility(
     value.bundle.tokens,
     variants ? (token) => names.get(token.uuid) : undefined,
     value.bundle.vocabulary.sizes?.map((term) => term.value),
+    value.bundle.modeSets,
   );
   const version = generator ? 4 : variants ? 3 : extended ? 2 : 1;
   if (

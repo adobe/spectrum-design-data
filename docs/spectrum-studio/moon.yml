@@ -35,8 +35,7 @@ tasks:
       - "tests/**/*"
       - "docs/**/*"
       - "/pnpm-lock.yaml"
-  # Full `pnpm lint` (typecheck plus ESLint). Local only: ESLint reports existing
-  # errors tracked in docs/known-debt.md (DEBT-032). Move to CI once they are fixed.
+  # Full lint, including bounded non-browser test typing.
   lint:
     command:
       - pnpm
@@ -44,9 +43,8 @@ tasks:
       - lint
     options:
       cache: false
-      runInCI: false
-  # Curated checks: the `test:*` scripts that pass (see `test:ci` in package.json).
-  # Failing checks are tracked in docs/known-debt.md and stay local until fixed.
+      runInCI: true
+  # Complete non-browser inventory, sequential execution and all-failure reporting.
   test:
     command:
       - pnpm

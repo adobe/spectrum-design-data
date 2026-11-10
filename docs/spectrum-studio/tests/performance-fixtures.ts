@@ -16,7 +16,7 @@ for (const custom of [false, true]) {
     new Set(defaults.colorSystem.scales.map((scale) => scale.id)),
     "Contrast fixtures retain every shipped source identity.",
   );
-  assert.equal(snapshot.colorSystem.scales[0].name, "Gray");
+  assert.equal(snapshot.colorSystem.scales[0].name, "gray");
   assert.equal(
     snapshot.colorSystem.scales[0].customContrasts?.steps.length,
     custom ? 13 : undefined,

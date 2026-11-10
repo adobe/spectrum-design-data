@@ -59,7 +59,7 @@ import {
   setPreviewParameterAtom,
 } from "../modes/previewState";
 import { editModeAtom } from "../../state/view/editMode";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { COLOR_SCHEME_MODE_SET_KEY } from "../modes/model";
 import { effectiveParameterValue, parameterOwners } from "../modes/parameters";
 import { modeCombinationCount, modeCombinations } from "../modes/combinations";

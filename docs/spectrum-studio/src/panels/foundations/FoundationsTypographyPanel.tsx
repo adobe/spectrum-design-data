@@ -37,9 +37,9 @@ import {
 } from "../../features/typography/state";
 import {
   interpolationsAtom,
-  replaceScaleTypeAtom,
   scaleTypesAtom,
 } from "../../features/logic/scaleTypeLibrary";
+import { replaceScaleTypeWithConsumersAtom } from "../../features/logic/scaleTypeReferences";
 import {
   TYPOGRAPHY_SCALE_TYPE_ID,
   type ScaleType,
@@ -94,7 +94,7 @@ export function FoundationsTypographyPanel() {
   const interpolations = useAtomValue(interpolationsAtom);
   const formula = library.find((item) => item.id === TYPOGRAPHY_SCALE_TYPE_ID);
   const update = useSetAtom(updateTypographyAtom);
-  const replaceFormula = useSetAtom(replaceScaleTypeAtom);
+  const replaceFormula = useSetAtom(replaceScaleTypeWithConsumersAtom);
   const updateTextZoom = useSetAtom(updateTextZoomAtom);
   const store = useStore();
   const rename = useSetAtom(renameLineHeightAtom);

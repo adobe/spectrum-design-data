@@ -245,7 +245,7 @@ coverageRoot.editor = {
 const coverageCases: {
   name: string;
   count: number;
-  mutate: (editor: typeof coverageRoot.editor) => void;
+  mutate: (editor: NonNullable<typeof coverageRoot.editor>) => void;
 }[] = [
   {
     name: "property label",
@@ -376,6 +376,7 @@ for (const slot of [
   );
 }
 let constrained = structuredClone(sizingStore.get(authoringSnapshotAtom));
+assert.ok(constrained.rules);
 const resolvedVisual = resolveElements(
   sizingOwner(),
   sizingStore.get(primitiveReferencesAtom),
@@ -415,8 +416,38 @@ for (const field of compareAuthoring(unbound, constrained)
   .flatMap((item) => item.fields))
   resetConstraints = restorePath(resetConstraints, unbound, field.address!);
 assertStoredSnapshot(resetConstraints);
-assert.deepEqual(resetConstraints, unbound);
+assert.deepEqual(
+  { ...resetConstraints, browserTokenEdits: unbound.browserTokenEdits },
+  unbound,
+);
+assert.deepEqual(
+  resetConstraints.browserTokenEdits,
+  constrained.browserTokenEdits,
+  "Resetting authored constraints retains inactive publication identities.",
+);
+assert.deepEqual(
+  compareAuthoring(unbound, resetConstraints).slots.filter(
+    (slot) => slot.changed,
+  ),
+  [],
+  "Retained identity bookkeeping is not an authored change.",
+);
 sizingStore.set(saveEditAtom);
+const savedConstraints = structuredClone(
+  sizingStore.get(authoringSnapshotAtom),
+);
+assert.deepEqual(
+  { ...savedConstraints, browserTokenEdits: constrained.browserTokenEdits },
+  constrained,
+  "Save allocates publication identities without changing authored constraints.",
+);
+assert.deepEqual(
+  compareAuthoring(constrained, savedConstraints).slots.filter(
+    (slot) => slot.changed,
+  ),
+  [],
+);
+constrained = savedConstraints;
 sizingStore.set(updateElementAtom, {
   structureId: ownerId,
   elementId: visual.id,

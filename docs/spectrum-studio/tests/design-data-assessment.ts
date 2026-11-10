@@ -24,7 +24,7 @@ import {
   rm,
   symlink,
 } from "node:fs/promises";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import { tmpdir } from "node:os";
 import { appRoot } from "../scripts/design-data-loader";
 import {
@@ -129,6 +129,37 @@ assert.equal(
   ).findings[0].freshness,
   "stale",
 );
+const mixedRegistry: AssessmentRegistry = {
+  ...registry,
+  evidence: [
+    ...registry.evidence,
+    { ...registry.evidence[0], id: "E2", path: "missing.md" },
+  ],
+  requirements: [{ ...registry.requirements[0], evidenceIds: ["E1", "E2"] }],
+  findings: [{ ...registry.findings[0], evidenceIds: ["E1", "E2"] }],
+};
+for (const observations of [
+  [
+    { evidenceId: "E1", sha256: "2".repeat(64) },
+    { evidenceId: "E2", sha256: null },
+  ],
+  [
+    { evidenceId: "E2", sha256: null },
+    { evidenceId: "E1", sha256: "2".repeat(64) },
+  ],
+]) {
+  const mixed = buildArchitectureAssessment(
+    mixedRegistry,
+    [profile],
+    observations,
+  );
+  assert.equal(
+    mixed.findings[0].freshness,
+    "stale",
+    "Changed evidence remains stale even when another dependency is unavailable.",
+  );
+  assert.equal(mixed.requirements[0].freshness, "stale");
+}
 assert.equal(
   buildArchitectureAssessment(registry, [profile], []).findings[0].freshness,
   "unverified",
@@ -417,29 +448,45 @@ try {
     "unavailable",
   );
   assert(
-    unavailable.findings.some(
-      (item) => item.id === "PR1454-001" && item.freshness === "unverified",
-    ),
-  );
-  assert(
     unavailable.evidence.every((item) => item.execution === "review-not-rerun"),
   );
   assert.equal(unavailable.requiredInputFailures.length, 1);
+  const missingEvidence = await loadArchitectureAssessment(
+    join(directory, "missing"),
+    ["Required fixture checkout unavailable"],
+    {
+      ...registry,
+      evidence: [{ ...definition, profileId: "reference-checkout" }],
+    },
+  );
+  assert.equal(missingEvidence.findings[0].freshness, "unverified");
+  assert.equal(missingEvidence.requirements[0].freshness, "unverified");
+  assert.equal(missingEvidence.evidence[0].verification.state, "unavailable");
+  assert.equal(missingEvidence.requiredInputFailures.length, 1);
 
   // Exercise Git-object reading using the app's already-existing commit, never a new commit/ref.
+  const repositoryRoot = execFileSync(
+    "git",
+    ["-C", appRoot, "rev-parse", "--show-toplevel"],
+    { encoding: "utf8" },
+  ).trim();
   const revision = execFileSync("git", ["-C", appRoot, "rev-parse", "HEAD"], {
     encoding: "utf8",
   }).trim();
-  const path = "src/data/design-system.defaults.json";
-  const blob = execFileSync("git", [
-    "-C",
-    appRoot,
-    "show",
-    `${revision}:${path}`,
-  ]);
+  const path = join(
+    relative(repositoryRoot, appRoot),
+    "src/data/design-system.defaults.json",
+  )
+    .split("\\")
+    .join("/");
+  const blob = execFileSync(
+    "git",
+    ["-C", appRoot, "show", `${revision}:${path}`],
+    { maxBuffer: 16 * 1024 * 1024 },
+  );
   const pinned = {
     ...profile,
-    root: appRoot,
+    root: repositoryRoot,
     kind: "pinned-git" as const,
     reviewedRevision: revision,
   };

@@ -16,22 +16,22 @@ import { projectClassification } from "../src/features/taxonomy/model";
 
 const complete = composeDesignSystemDefaults(dataset, SCALE_TYPE_DEFAULTS);
 const canonical = canonicalDesignSystemDataset(complete);
-const { scaleTypes, ...system } = canonical.system;
+const { scaleTypes } = canonical.system;
 assert.deepEqual(
-  { ...canonical, system },
+  canonical,
   dataset,
   "composition round-trips every canonical shipped JSON value without persisting resolved labels",
 );
 assert.deepEqual(
   scaleTypes,
-  SCALE_TYPE_DEFAULTS,
-  "composition includes all code-defined formula defaults",
+  dataset.system.scaleTypes,
+  "composition preserves the complete authored formula library",
 );
 assert.notEqual(
   complete.system.foundations.color,
   dataset.system.foundations.color,
 );
-assert.notEqual(scaleTypes[0], SCALE_TYPE_DEFAULTS[0]);
+assert.notEqual(scaleTypes[0], dataset.system.scaleTypes[0]);
 assert.ok(Object.isFrozen(designSystemDefaults.system.scaleTypes[0]));
 assert.deepEqual(createColorDefaults(), complete.system.foundations.color);
 assert.deepEqual(
@@ -40,16 +40,17 @@ assert.deepEqual(
   "complete input retains its own formula library",
 );
 
-const taxonomy = dataset.system.taxonomy;
+const taxonomy = complete.system.taxonomy;
 const elementCategory = "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa";
 const propertyCategory = "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a";
 const attributeCategory = "ca732a26-decb-4746-9afc-3567ec0d445e";
 const metricCategory = "3b8d399b-9a38-4c85-b3da-fa242530b721";
 assert.equal(
   taxonomy.categories.find((category) => category.id === metricCategory)?.key,
-  "typographyMetric",
-  "Keep the approved source-name category identity and order, not its obsolete compound seed terms.",
+  undefined,
+  "Current defaults do not restore the retired compound metric category.",
 );
+assert.ok(!taxonomy.order.includes(metricCategory));
 assert.equal(
   taxonomy.terms.filter((term) => term.categoryId === metricCategory).length,
   0,
@@ -64,7 +65,7 @@ const mappings = [
   [
     "font-size",
     "34e351e7-37c2-4df2-ac75-4f04e25272f3",
-    "Text",
+    "text",
     "273990a0-e71e-4249-9628-7e8fa689747b",
     "size",
     "text-size-100",
@@ -72,7 +73,7 @@ const mappings = [
   [
     "workflow-icon-size",
     "b8b5a40d-a9c1-49bd-8df7-ed52571b4206",
-    "Workflow-icon",
+    "workflow-icon",
     "273990a0-e71e-4249-9628-7e8fa689747b",
     "size",
     "workflow-icon-size-100",
@@ -80,49 +81,49 @@ const mappings = [
   [
     "body-lineHeight",
     "1853e628-2844-45e9-8a8c-fe305d941f09",
-    "Body",
+    "body",
     "25628e5a-e4d7-4a41-adba-4fc01ab76343",
-    "Line height",
+    "line height",
     "body-line-height-100",
   ],
   [
     "body-unitlessLineHeight",
     "1853e628-2844-45e9-8a8c-fe305d941f09",
-    "Body",
+    "body",
     "845cdc7d-14e9-4e24-a69e-28d4968ec1dd",
-    "Unitless line height",
+    "unitless line height",
     "body-unitless-line-height-100",
   ],
   [
     "heading-lineHeight",
     "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
-    "Heading",
+    "heading",
     "25628e5a-e4d7-4a41-adba-4fc01ab76343",
-    "Line height",
+    "line height",
     "heading-line-height-100",
   ],
   [
     "heading-unitlessLineHeight",
     "89fa5d09-9e0c-48cd-9666-4935afbe86e8",
-    "Heading",
+    "heading",
     "845cdc7d-14e9-4e24-a69e-28d4968ec1dd",
-    "Unitless line height",
+    "unitless line height",
     "heading-unitless-line-height-100",
   ],
   [
     "component-lineHeight",
     "ac662c53-df93-4c8a-aecd-2981b2446d67",
-    "Component",
+    "component",
     "25628e5a-e4d7-4a41-adba-4fc01ab76343",
-    "Line height",
+    "line height",
     "component-line-height-100",
   ],
   [
     "component-unitlessLineHeight",
     "ac662c53-df93-4c8a-aecd-2981b2446d67",
-    "Component",
+    "component",
     "845cdc7d-14e9-4e24-a69e-28d4968ec1dd",
-    "Unitless line height",
+    "unitless line height",
     "component-unitless-line-height-100",
   ],
 ] as const;
@@ -190,7 +191,7 @@ assert.equal(
   taxonomy.terms.find(
     (term) => term.id === "ccfdbc1d-60a4-4c7f-ac64-51961c2fa5e9",
   )?.value,
-  "Floating surface",
+  "floating surface",
 );
 assert.equal(
   taxonomy.terms.find(

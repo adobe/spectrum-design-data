@@ -5,6 +5,7 @@ import { browserTokenEditsAtom } from "../tokens/browserEdits";
 import type { BrowserTokenEdits } from "../tokens/browserModel";
 import { aliasesAtom } from "../tokens/aliasState";
 import type { AliasDocument } from "../tokens/aliases";
+import { resetTokenEdit, tokenIdentity } from "../tokens/canonicalIdentity";
 
 export interface RemovedColorTokenRecords {
   overrides: TokenOverrideMap;
@@ -20,28 +21,39 @@ export function removeColorTokenRecords(
   const overrides = get(tokenOverridesAtom),
     edits = get(browserTokenEditsAtom),
     aliases = get(aliasesAtom);
+  const removedIds = new Set(ids);
+  for (const id of ids) {
+    const identity = tokenIdentity(edits, id);
+    if (identity) {
+      removedIds.add(identity.sourceId);
+      removedIds.add(identity.conceptId);
+    }
+  }
   const removed = {
     overrides: Object.fromEntries(
-      Object.entries(overrides).filter(([id]) => ids.has(id)),
+      Object.entries(overrides).filter(([id]) => removedIds.has(id)),
     ),
     browserEdits: Object.fromEntries(
-      Object.entries(edits).filter(([id]) => ids.has(id)),
+      Object.entries(edits).filter(([id]) => removedIds.has(id)),
     ),
-    aliases: aliases.tokens.filter((alias) => ids.has(alias.$ref)),
+    aliases: aliases.tokens.filter((alias) => removedIds.has(alias.$ref)),
   };
+  const remainingEdits = { ...edits };
+  for (const [id, edit] of Object.entries(removed.browserEdits)) {
+    const retained = resetTokenEdit(edit);
+    if (retained) remainingEdits[id] = retained;
+    else delete remainingEdits[id];
+  }
   set(
     tokenOverridesAtom,
     Object.fromEntries(
-      Object.entries(overrides).filter(([id]) => !ids.has(id)),
+      Object.entries(overrides).filter(([id]) => !removedIds.has(id)),
     ),
   );
-  set(
-    browserTokenEditsAtom,
-    Object.fromEntries(Object.entries(edits).filter(([id]) => !ids.has(id))),
-  );
+  set(browserTokenEditsAtom, remainingEdits);
   set(aliasesAtom, {
     ...aliases,
-    tokens: aliases.tokens.filter((alias) => !ids.has(alias.$ref)),
+    tokens: aliases.tokens.filter((alias) => !removedIds.has(alias.$ref)),
   });
   return removed;
 }
@@ -52,10 +64,24 @@ export function restoreColorTokenRecords(
   removed: RemovedColorTokenRecords,
 ) {
   set(tokenOverridesAtom, { ...removed.overrides, ...get(tokenOverridesAtom) });
-  set(browserTokenEditsAtom, {
+  const currentEdits = get(browserTokenEditsAtom);
+  const browserEdits = {
     ...removed.browserEdits,
-    ...get(browserTokenEditsAtom),
-  });
+    ...currentEdits,
+  };
+  for (const [id, edit] of Object.entries(removed.browserEdits)) {
+    const current = currentEdits[id];
+    const identity = current?.authoring?.identity;
+    if (
+      identity &&
+      JSON.stringify(current) === JSON.stringify(resetTokenEdit(current))
+    )
+      browserEdits[id] = {
+        ...edit,
+        authoring: { assignments: {}, ...edit.authoring, identity },
+      };
+  }
+  set(browserTokenEditsAtom, browserEdits);
   set(aliasesAtom, (current) => ({
     ...current,
     tokens: [

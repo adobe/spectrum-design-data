@@ -8,7 +8,7 @@ import {
 import { modeOverridesCapability } from "./parameters";
 import { adaptiveClaimsAtom, type AdaptiveClaims } from "./adaptive";
 import { modeSelectionAtom, type ModeSelection } from "./selection";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 
 export interface ModeState {
   modeSets: ModeSet[];

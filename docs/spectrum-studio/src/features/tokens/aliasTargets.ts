@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../color-system/model";
+import { COLOR_PARAMETERS } from "../color-system/resolution";
 import {
   resolveColorScaleDocument as resolveColorDocument,
   assertColorScaleOutput,
@@ -20,7 +21,7 @@ import {
 import { resolveElevationDocument } from "../elevation/resolution";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import type { ModeSet } from "../modes/model";
-import { parameterOwners } from "../modes/parameters";
+import { capabilityOwners } from "../modes/ownership";
 import {
   modeCombinationCount,
   modeSelections,
@@ -50,7 +51,8 @@ import type { TokenOverrideMap } from "./model";
 import { resolveToken } from "./model";
 import { isFoundationPublished } from "../foundations/types";
 import type { TshirtArtifactBundle } from "../design-data/tshirtTypes";
-import { resolveBrowserColorToken } from "./colorResolution";
+import { resolveBrowserColorTokens } from "./colorResolution";
+import type { ColorOutputError } from "../color-system/outputContrast";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
 import { categoricalBrowserSources } from "../color-system/data-vis/output";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
@@ -61,6 +63,7 @@ import type { OpacityDocument } from "../opacity/model";
 import { semanticTokenSource } from "./semanticSource";
 import {
   canonicalPrimitiveProperties,
+  tokenEditModeKeys,
   tokenIdentity,
 } from "./canonicalIdentity";
 import { canonicalTokenByUuid } from "./canonicalCatalogue";
@@ -86,6 +89,7 @@ export interface AliasAuthoringSource {
 export interface CanonicalAliasRow extends AliasExportTarget {
   token: BrowserToken;
   canonicalName?: Record<string, string | number>;
+  outputError?: ColorOutputError;
 }
 
 export function completeAliasSource(
@@ -157,7 +161,9 @@ export function canonicalAliasRows(
       "Too many declared mode combinations to validate alias targets.",
     );
   const combinations = modeSelections(axes);
-  const owners = parameterOwners(source.modeSets);
+  const owners: Readonly<Partial<Record<string, string>>> = capabilityOwners(
+    source.modeSets,
+  );
   const compatibleModes = Object.fromEntries(
     axes.map((axis) => [axis.id, axis.modes.map((mode) => mode.id)]),
   );
@@ -181,8 +187,12 @@ export function canonicalAliasRows(
     });
     assertColorScaleOutput(colors);
     const background = resolvedBackgroundLinear(colors);
-    const generatedColors = (
-      excludeColors
+    const blockedColors = new Map<
+      string,
+      { token: import("./model").ResolvedToken; error: ColorOutputError }
+    >();
+    const generatedColors = resolveBrowserColorTokens(
+      (excludeColors
         ? []
         : [
             ...colors.scales.flatMap((scale) =>
@@ -200,13 +210,18 @@ export function canonicalAliasRows(
               colors.settings.colorOutput,
             ),
           ]
-    ).map((token) =>
-      resolveBrowserColorToken(
-        resolveToken(token, source.tokenOverrides[token.uuid]),
-        source.browserTokenEdits,
-        modeKey,
-        colors,
-      ),
+      ).map((token) => resolveToken(token, source.tokenOverrides[token.uuid])),
+      source.browserTokenEdits,
+      modeKey,
+      colors,
+      projectionPolicy === "preserve-for-review"
+        ? (token, error) => {
+            blockedColors.set(token.uuid, { token, error });
+          }
+        : undefined,
+    );
+    generatedColors.push(
+      ...[...blockedColors.values()].map(({ token }) => token),
     );
     const typography = resolveTypographyDocument(
       source.typography,
@@ -288,6 +303,10 @@ export function canonicalAliasRows(
             source.taxonomy,
           )),
     ];
+    for (const token of sources) {
+      const blocked = blockedColors.get(token.id);
+      if (blocked) token.validationError = blocked.error.message;
+    }
     sources.push(
       ...(semantics?.semantics ?? [])
         .filter((row) => !excludeColors || row.target.family !== "color")
@@ -326,12 +345,7 @@ export function canonicalAliasRows(
           referenceAxes(definition.targetId, visited).forEach((axis) =>
             result.add(axis),
           );
-        else if (definition?.type === "colors")
-          [
-            "color.backgroundScaleId",
-            "color.backgroundLightness",
-            "color.contrastMultiplier",
-          ].forEach(own);
+        else if (definition?.type === "colors") COLOR_PARAMETERS.forEach(own);
         else if (definition?.type === "opacity")
           opacityAxes(source).forEach((axis) => result.add(axis.id));
         else if (definition?.type === "typography") {
@@ -363,11 +377,7 @@ export function canonicalAliasRows(
         } else {
           if (opacityStopsEnabled(source.colorSystem.settings))
             opacityAxes(source).forEach((axis) => result.add(axis.id));
-          [
-            "color.backgroundScaleId",
-            "color.backgroundLightness",
-            "color.contrastMultiplier",
-          ].forEach(own);
+          COLOR_PARAMETERS.forEach(own);
         }
       } else if (target.type === "typography") {
         own("typography.textZoom");
@@ -391,12 +401,7 @@ export function canonicalAliasRows(
           own(binding.modeParameterId),
         );
       }
-      const edit = source.browserTokenEdits[id];
-      for (const key of [
-        ...Object.keys(edit?.values ?? {}),
-        ...Object.keys(edit?.authoring?.assignments ?? {}),
-        ...Object.keys(edit?.authoring?.lifecycle?.frozen ?? {}),
-      ])
+      for (const key of tokenEditModeKeys(source.browserTokenEdits, id))
         (JSON.parse(key) as [string, string][]).forEach(([axis]) =>
           result.add(axis),
         );
@@ -450,12 +455,7 @@ export function canonicalAliasRows(
         } else {
           if (opacityStopsEnabled(source.colorSystem.settings))
             opacityAxes(source).forEach((axis) => owned.add(axis.id));
-          for (const parameter of [
-            "color.backgroundScaleId",
-            "color.backgroundLightness",
-            "color.contrastMultiplier",
-          ])
-            own(parameter);
+          COLOR_PARAMETERS.forEach(own);
         }
       } else if (token.type === "opacity") {
         for (const axis of opacityAxes(source)) owned.add(axis.id);
@@ -510,21 +510,19 @@ export function canonicalAliasRows(
         for (const binding of Object.values(scale.bindings ?? {}))
           own(binding.modeParameterId);
       }
-      for (const key of Object.keys(
-        token.dataVis?.static
-          ? {}
-          : (source.browserTokenEdits[token.id]?.values ?? {}),
-      )) {
+      const authoring = source.browserTokenEdits[token.id]?.authoring;
+      const editedContexts = token.dataVis?.static
+        ? [
+            ...Object.keys(authoring?.assignments ?? {}),
+            ...Object.keys(authoring?.lifecycle?.frozen ?? {}),
+          ]
+        : tokenEditModeKeys(source.browserTokenEdits, token.id);
+      for (const key of editedContexts) {
         const edited = Object.fromEntries(
           JSON.parse(key) as [string, string][],
         );
         for (const axis of Object.keys(edited)) owned.add(axis);
       }
-      for (const key of Object.keys(
-        source.browserTokenEdits[token.id]?.authoring?.assignments ?? {},
-      ))
-        for (const [axis] of JSON.parse(key) as [string, string][])
-          owned.add(axis);
       if (token.referenceId)
         referenceAxes(token.referenceId).forEach((axis) => owned.add(axis));
       const semanticContext = token.semantic
@@ -566,12 +564,14 @@ export function canonicalAliasRows(
           ? token.rowId!
           : tokenUuid(`canonical-token-row:v1:${id}:${context}`));
       const canonical = canonicalTokenByUuid.get(rowId);
+      const blocked = blockedColors.get(token.sourceId ?? token.id);
       const row = {
         id,
         context,
         rowId,
         name: token.name,
         token,
+        ...(blocked && { outputError: blocked.error }),
         canonicalName: {
           ...(canonicalPrimitiveProperties[token.type] && {
             property: canonicalPrimitiveProperties[token.type]!,
@@ -629,17 +629,23 @@ export function canonicalAliasSourceTargets(
     taxonomy: source.taxonomy,
     rules: source.rules,
   });
+  const compatibleModes = Object.fromEntries(
+    source.modeSets
+      .filter((axis) => axis.modes.length)
+      .map((axis) => [axis.id, axis.modes.map((mode) => mode.id)]),
+  );
   return [
     ...canonicalAliasRows(source, semantics, "strict", { excludeColors: true }),
     ...inventory.colorReferences.map((target) => {
       const identity = tokenIdentity(source.browserTokenEdits, target.id);
-      return identity
+      const canonical = identity
         ? {
             ...target,
             id: identity.conceptId,
             rowId: identity.rows[target.context] ?? target.rowId,
           }
         : target;
+      return { ...canonical, compatibleModes };
     }),
   ];
 }

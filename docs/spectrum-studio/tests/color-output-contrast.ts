@@ -12,7 +12,6 @@ import {
 import { buildScaleData } from "../src/features/color-system/scaleGeneration";
 import { generateColors } from "../src/features/color-system/dynamicGeneration";
 import {
-  ColorOutputError,
   measureOutputContrast,
   parsedOutputLinear,
 } from "../src/features/color-system/outputContrast";
@@ -95,7 +94,7 @@ assert.equal(JSON.stringify(scale), source);
 
 // Verify that custom scale contrast stops (like Gray's 21:1 target) against #181818
 // return the closest achievable contrast without throwing ColorOutputError.
-const grayScale = {
+const grayScale: ColorScale = {
   id: "scale-gray",
   name: "Gray",
   stops: [{ id: "key", lightness: 50, hue: 0, chroma: 0 }],
@@ -105,7 +104,7 @@ const grayScale = {
     namingRuleId: "rule-standard-scale-naming",
   },
 };
-const grayData = buildScaleData(grayScale as any, DEFAULT_COLOR_OUTPUT);
+const grayData = buildScaleData(grayScale, DEFAULT_COLOR_OUTPUT);
 const bg181818 = parsedOutputLinear("#181818", "srgb");
 const grayOutput = generateColors(grayData, bg181818, 21, {
   side: "light",

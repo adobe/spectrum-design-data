@@ -11,6 +11,7 @@ import {
 import { SPACING_SCALE_TYPE_ID } from "../scales/scaleType";
 import { SPACING_DEFAULTS } from "./defaults";
 import { SPACING_SCHEMA_VERSION } from "./model";
+import { dimensionPublicationUpdates } from "../scales/foundationPublicationState";
 
 const foundation = createDimensionFoundationState({
   key: "foundations/spacing",
@@ -18,6 +19,8 @@ const foundation = createDimensionFoundationState({
   defaults: SPACING_DEFAULTS,
   tokenPrefix: "spacing",
   customIdPrefix: "spacing-scale-custom",
+  related: (get, previous, next, taxonomy) =>
+    dimensionPublicationUpdates("spacing", get, previous, next, taxonomy),
   migrate: (data, fromVersion) =>
     fromVersion === 3
       ? migrateDimensionScalesToFormulas(

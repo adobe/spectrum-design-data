@@ -108,10 +108,10 @@ export function ComponentDefinitionEditor({
         submit();
       }}
     >
-      {/* eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit component action. */}
       <TextField
         label="Display name"
         value={draft.name}
+        // eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit component action.
         autoFocus={!component}
         isRequired
         onChange={(name) => update({ name })}

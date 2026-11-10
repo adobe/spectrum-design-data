@@ -102,7 +102,17 @@ console.log(process.argv.includes('--version') ? 'Fixture SDK, not conformance e
     expected,
     "CLI and direct assessments must share every palette outcome and policy.",
   );
-  assert.equal(await readFile(markdown, "utf8"), reportMarkdown(report));
+  const written = await readFile(markdown, "utf8");
+  const rendered = reportMarkdown(report);
+  const writtenLines = written.split("\n");
+  const renderedLines = rendered.split("\n");
+  const difference = writtenLines.findIndex(
+    (line, index) => line !== renderedLines[index],
+  );
+  assert.ok(
+    written === rendered,
+    `Written and JSON-rendered Markdown differ at line ${difference + 1}:\n${writtenLines[difference]}\n${renderedLines[difference]}`,
+  );
   assert.match(child.stdout, /Wrote /);
   console.log(
     "Palette CLI JSON, Markdown, source evidence and direct-assessment parity passed using a fixture SDK only.",

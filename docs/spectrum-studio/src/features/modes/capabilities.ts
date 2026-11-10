@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 import { modeSelectionAtom, resolveActiveMode } from "./selection";
 import { COLOR_SCHEME_MODE_SET_KEY } from "./model";
 import { capabilityOwners } from "./parameters";

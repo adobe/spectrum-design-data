@@ -714,6 +714,9 @@ export function projectAuthoringDataset(
             ),
           )
           .map((key) => browserAssignmentId(row.token.id, key));
+        const sourceId = row.token.sourceId ?? row.id;
+        if (row.token.dataVis?.static && staticValues.has(sourceId))
+          assignments.push(browserAssignmentId(sourceId, "[]"));
         observe(row.rowId, recipe, context, "serialized-context", assignments);
       }
       errors.push(

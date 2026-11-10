@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../color-system/model";
+import { COLOR_PARAMETERS } from "../color-system/resolution";
 import {
   contrastMultiplier,
   contrastReference,
@@ -14,7 +15,8 @@ import { opacityAxes } from "../opacity/generation";
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import { resolvedBackgroundLinear } from "../color-system/surfaceGeneration";
 import { modeSetDefaultMode, type Mode, type ModeSet } from "../modes/model";
-import { effectiveParameterValue, parameterOwners } from "../modes/parameters";
+import { effectiveParameterValue } from "../modes/parameters";
+import { capabilityOwners } from "../modes/ownership";
 import { modeCombinationCount, modeCombinations } from "../modes/combinations";
 import type { PreviewOverrides } from "../modes/previewState";
 import { contrastTokenLabel, generatePaletteTokens } from "./generation";
@@ -23,9 +25,12 @@ import {
   type ColorTokenOutcomeReuse,
 } from "./colorGeneration";
 import { ColorOutputError } from "../color-system/outputContrast";
+import { resolveBrowserColorTokens } from "./colorResolution";
 import {
   tokenStableKey,
   tokenUuid,
+  PALETTE_SCALE_ID,
+  resolveToken,
   type ResolvedToken,
   type TokenOverrideMap,
 } from "./model";
@@ -35,7 +40,6 @@ import {
   resolveBrowserTokens,
   tokenModeSetIds,
   type BrowserTokenEdits,
-  type BrowserTokenSource,
 } from "./browserModel";
 import {
   resolveSourceClassification,
@@ -58,12 +62,14 @@ import { RULE_DEFAULTS } from "../logic/defaults";
 import { isFoundationPublished } from "../foundations/types";
 import { sanitizeTokenName } from "../color-system/cssLibrary";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
-import { categoricalMemberValue } from "../color-system/data-vis/categoricalValues";
+import { categoricalMemberSources } from "../color-system/data-vis/categoricalValues";
+import { browserColorSources } from "./colorBrowserSources";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
 import { concreteColor } from "../color-system/data-vis/colors";
 import { serializeOutputColor } from "../color-system/outputSerialization";
 import type { AliasTarget } from "./aliases";
+import { tokenEdit, tokenEditModeKeys } from "./canonicalIdentity";
 
 export const CASCADE_EXPORT_SCHEMA_VERSION = 2;
 
@@ -178,13 +184,11 @@ export function buildCascadeTokenInventory(
       );
     projections[uuid] = projection;
   }
-  const owners = parameterOwners(modeSets);
+  const owners = capabilityOwners(modeSets);
   const contrastOwnerId = owners["color.contrastMultiplier"];
-  const colorOwners = new Set([
-    contrastOwnerId,
-    owners["color.backgroundLightness"],
-    owners["color.backgroundScaleId"],
-  ]);
+  const colorOwners = new Set(
+    COLOR_PARAMETERS.map((parameter) => owners[parameter]),
+  );
   if (opacityStopsEnabled(base.settings))
     for (const axis of opacityAxes({
       opacity,
@@ -201,11 +205,9 @@ export function buildCascadeTokenInventory(
       ).map((contrast) => tokenUuid(tokenStableKey(scale.id, contrast.id))),
     ),
   );
-  const explicitAxes = new Set(
-    Object.entries(browserEdits)
-      .filter(([id]) => colorTokenIds.has(id))
-      .flatMap(([, edit]) => Object.keys(edit.values).flatMap(tokenModeSetIds)),
-  );
+  const editedAxes = (id: string) =>
+    tokenEditModeKeys(browserEdits, id).flatMap(tokenModeSetIds);
+  const explicitAxes = new Set([...colorTokenIds].flatMap(editedAxes));
   const uiAxes = new Set([...colorOwners, ...explicitAxes]);
   const memberAxes = new Map(
     base.dataVisScales.flatMap((scale) =>
@@ -360,12 +362,7 @@ export function buildCascadeTokenInventory(
         reuse,
       )) {
         const { token } = outcome;
-        const owned = new Set([
-          ...colorOwners,
-          ...Object.keys(browserEdits[token.uuid]?.values ?? {}).flatMap(
-            tokenModeSetIds,
-          ),
-        ]);
+        const owned = new Set([...colorOwners, ...editedAxes(token.uuid)]);
         if (outcome.status === "blocked") {
           if (taxonomy)
             classify(
@@ -373,7 +370,7 @@ export function buildCascadeTokenInventory(
               token.uuid,
               { property: "color", colorFamily: token.name.colorName },
               !!overrides[token.uuid]?.name ||
-                browserEdits[token.uuid]?.name !== undefined,
+                tokenEdit(browserEdits, token.uuid)?.name !== undefined,
               governedColorContext(
                 document,
                 taxonomy,
@@ -420,7 +417,7 @@ export function buildCascadeTokenInventory(
               token.uuid,
               { property: "color", colorFamily: token.name.colorName },
               !!overrides[token.uuid]?.name ||
-                browserEdits[token.uuid]?.name !== undefined,
+                tokenEdit(browserEdits, token.uuid)?.name !== undefined,
               governedColorContext(
                 document,
                 taxonomy,
@@ -481,7 +478,75 @@ export function buildCascadeTokenInventory(
         });
     }
 
-    const swatches = finalUiSwatches(document, finalColors);
+    const paletteColors = generatePaletteTokens(
+      document.palette,
+      document.settings.colorOutput,
+    ).map((token) => resolveToken(token, overrides[token.uuid]));
+    const assignedColors = resolveBrowserColorTokens(
+      [...finalColors, ...paletteColors],
+      browserEdits,
+      modeKey,
+      document,
+      (token, error) => {
+        const uuid = rowUuid(token.uuid);
+        const index = tokens.findIndex((row) => row.uuid === uuid);
+        if (index >= 0) tokens.splice(index, 1);
+        block(token.uuid, { property: "color", ...token.name }, error);
+        blockedUi.set(token.uuid, error);
+      },
+    );
+    for (const token of assignedColors) {
+      const uuid = rowUuid(token.uuid);
+      const row = tokens.find((row) => row.uuid === uuid);
+      if (row) row.value = token.value;
+      if (token.source.scaleId !== PALETTE_SCALE_ID) continue;
+      if (taxonomy)
+        classify(
+          token.uuid,
+          token.uuid,
+          { property: "color", colorFamily: token.name.colorName },
+          token.nameOverridden,
+          governedColorContext(
+            base,
+            taxonomy,
+            token.source.scaleId,
+            token.source.contrastId,
+          ),
+        );
+      remember(token.uuid, new Set(), token.uuid, {
+        colorFamily: token.name.colorName,
+      });
+      tokens.push({
+        uuid: token.uuid,
+        conceptId: conceptIdFor(token.uuid),
+        name: canonicalName(token.uuid, {
+          property: "color",
+          colorFamily: token.name.colorName,
+        }),
+        value: token.value,
+      });
+    }
+    const swatches = finalUiSwatches(document, assignedColors);
+    const categoricalRows = new Map(
+      resolveBrowserTokens(
+        [
+          ...browserColorSources(assignedColors),
+          ...document.dataVisScales.flatMap((scale) =>
+            scale.kind === "categorical"
+              ? categoricalMemberSources(
+                  scale,
+                  swatches,
+                  document.settings.colorOutput,
+                )
+              : [],
+          ),
+        ],
+        browserEdits,
+        modeKey,
+      )
+        .filter((token) => !!token.dataVis)
+        .map((token) => [token.sourceId ?? token.id, token]),
+    );
     for (const scale of document.dataVisScales)
       if (scale.kind === "categorical" && isFoundationPublished(scale)) {
         scale.members.forEach((member, index) => {
@@ -534,37 +599,11 @@ export function buildCascadeTokenInventory(
             );
             return;
           }
-          const output = categoricalMemberValue(
-            scale,
-            member.id,
-            swatches,
-            document.settings.colorOutput,
-          );
-          const source: BrowserTokenSource = {
-            id,
-            type: "colors",
-            groupId: scale.id,
-            groupLabel: scale.name,
-            name: `${sanitizeTokenName(scale.name)}-${index + 1}`,
-            generatedName: `${sanitizeTokenName(scale.name)}-${index + 1}`,
-            value: output.value,
-            generatedValue: output.generatedValue,
-            unit: "",
-            legacyOverridden: output.overridden,
-            dataVis: {
-              scaleId: scale.id,
-              memberId: member.id,
-              ordinal: index + 1,
-              source: member.source,
-              hidden: false,
-              static: !!scale.staticColors,
-            },
-          };
-          const [resolved] = resolveBrowserTokens(
-            [source],
-            browserEdits,
-            modeKey,
-          );
+          const resolved = categoricalRows.get(id);
+          if (!resolved)
+            throw new Error("A categorical color is unavailable for export.");
+          if (resolved.validationError)
+            throw new Error(resolved.validationError);
           if (taxonomy)
             classify(
               uuid,
@@ -595,7 +634,8 @@ export function buildCascadeTokenInventory(
               ...fields,
             },
             value:
-              scale.staticColors || resolved.valueOverridden
+              !resolved.lifecycle?.frozen &&
+              (scale.staticColors || resolved.valueOverridden)
                 ? serializeOutputColor(
                     concreteColor(String(resolved.value)),
                     document.settings.colorOutput,
@@ -620,41 +660,6 @@ export function buildCascadeTokenInventory(
         });
       },
     );
-  }
-
-  // Palette colors are fixed across modes, so each has one row with no mode fields.
-  for (const token of generatePaletteTokens(
-    base.palette,
-    base.settings.colorOutput,
-  )) {
-    if (taxonomy)
-      classify(
-        token.uuid,
-        token.uuid,
-        { property: "color", colorFamily: token.name.colorName },
-        !!browserEdits[token.uuid]?.name,
-        governedColorContext(
-          base,
-          taxonomy,
-          token.source.scaleId,
-          token.source.contrastId,
-        ),
-      );
-    colorReferences.set(JSON.stringify([token.uuid, "[]"]), {
-      id: token.uuid,
-      rowId: token.uuid,
-      context: "[]",
-      name: projections[token.uuid]?.name ?? token.name.colorName,
-    });
-    tokens.push({
-      uuid: token.uuid,
-      conceptId: conceptIdFor(token.uuid),
-      name: canonicalName(token.uuid, {
-        property: "color",
-        colorFamily: token.name.colorName,
-      }),
-      value: token.value,
-    });
   }
 
   const multiplierSeed = tokenUuid("system:contrast-multiplier");

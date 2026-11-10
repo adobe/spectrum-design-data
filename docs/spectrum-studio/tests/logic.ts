@@ -45,6 +45,7 @@ import {
   generatedSpacingAtom,
 } from "../src/features/spacing/state";
 import { designSystemDefaults } from "../src/data/defaults";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 
 const rule = (id: string) =>
   RULE_DEFAULTS.find((candidate) => candidate.id === id) as RoundingRule;
@@ -233,7 +234,7 @@ assert.deepEqual(
   consumersOf(SPACING_ROUNDING_RULE_ID, documents).map(
     (consumer) => consumer.label,
   ),
-  ["Spacing › Global"],
+  ["Spacing › global"],
 );
 const coarse = { ...spacing, conditions: [], defaultOutcome: { factor: 32 } };
 const [impact] = draftRuleImpact(coarse, RULE_DEFAULTS, documents);
@@ -268,7 +269,7 @@ const custom = {
 store.set(addRuleAtom, custom);
 const globalConsumer = store
   .get(ruleConsumersAtom)
-  .find((consumer) => consumer.label === "Spacing › Global")!;
+  .find((consumer) => consumer.label === "Spacing › global")!;
 store.set(setRuleReferenceAtom, {
   consumer: globalConsumer,
   ruleId: custom.id,
@@ -301,17 +302,59 @@ assert.equal(
   "locked rules are read-only",
 );
 assert.equal(store.set(removeRuleAtom, WHOLE_NUMBERS_RULE_ID), null);
+const otherConsumers = (["size", "radius"] as const).map((foundation) => {
+  const consumer = store
+    .get(ruleConsumersAtom)
+    .find((candidate) => candidate.slot.foundation === foundation);
+  assert.ok(consumer);
+  store.set(setRuleReferenceAtom, { consumer, ruleId: custom.id });
+  return consumer;
+});
+const publicationIdentities = structuredClone(store.get(browserTokenEditsAtom));
 const removed = store.set(removeRuleAtom, custom.id)!;
 assert.equal(
   store.get(spacingDocumentAtom).scales[0].roundingRuleId,
   WHOLE_NUMBERS_RULE_ID,
 );
+for (const consumer of otherConsumers)
+  assert.equal(
+    store
+      .get(ruleConsumersAtom)
+      .find((candidate) => candidate.id === consumer.id)!.ruleId,
+    WHOLE_NUMBERS_RULE_ID,
+    "Rule removal updates every consuming foundation together.",
+  );
 store.set(restoreRuleAtom, removed);
 assert.equal(
   store.get(spacingDocumentAtom).scales[0].roundingRuleId,
   custom.id,
 );
 assert.ok(store.get(rulesAtom).some((candidate) => candidate.id === custom.id));
+for (const consumer of otherConsumers)
+  assert.equal(
+    store
+      .get(ruleConsumersAtom)
+      .find((candidate) => candidate.id === consumer.id)!.ruleId,
+    custom.id,
+  );
+const removedAgain = store.set(removeRuleAtom, custom.id)!;
+store.set(setRuleReferenceAtom, {
+  consumer: otherConsumers[0],
+  ruleId: NO_ROUNDING_RULE_ID,
+});
+store.set(restoreRuleAtom, removedAgain);
+assert.equal(
+  store
+    .get(ruleConsumersAtom)
+    .find((candidate) => candidate.id === otherConsumers[0].id)!.ruleId,
+  NO_ROUNDING_RULE_ID,
+  "Undo preserves a consumer changed after deletion.",
+);
+assert.deepEqual(
+  store.get(browserTokenEditsAtom),
+  publicationIdentities,
+  "Deleting and restoring a rule retains publication metadata.",
+);
 const textConsumer = store
   .get(ruleConsumersAtom)
   .find((consumer) => consumer.id === "typography/text-size")!;

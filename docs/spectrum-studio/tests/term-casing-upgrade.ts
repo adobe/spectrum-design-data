@@ -10,6 +10,7 @@ import {
   cancelEditAtom,
 } from "../src/features/edit-session/state";
 import { upgradeTermCasingSnapshot } from "../src/features/edit-session/termCasingUpgrade";
+import { upgradeGeneratorRulesSnapshot } from "../src/features/edit-session/generatorRulesUpgrade";
 import {
   canonicalAliasSourceTargets,
   completeAliasSource,
@@ -63,6 +64,7 @@ legacy.colorSystem.scales = legacy.colorSystem.scales.filter(
 legacy.colorSystem.dataVisScales = [];
 const original = structuredClone(legacy);
 const upgraded = upgradeTermCasingSnapshot(legacy);
+const restoredBaseline = upgradeGeneratorRulesSnapshot(upgraded);
 assert.deepEqual(legacy, original, "Migration never mutates its saved input.");
 assert.equal(upgradeTermCasingSnapshot(upgraded), upgraded);
 assert(
@@ -176,9 +178,9 @@ for (const independentEdit of [false, true]) {
   assert.deepEqual(store.get(persistenceIssuesAtom), []);
   assert.deepEqual(
     store.get(authoringSnapshotAtom),
-    upgradeTermCasingSnapshot(working),
+    upgradeGeneratorRulesSnapshot(upgradeTermCasingSnapshot(working)),
   );
-  assert.deepEqual(store.get(editSessionSnapshotAtom), upgraded);
+  assert.deepEqual(store.get(editSessionSnapshotAtom), restoredBaseline);
   assert.deepEqual(store.get(foundationModeAttachmentsAtom), attachments);
   assert.deepEqual(store.get(savedFoundationModeAttachmentsAtom), attachments);
   assert.equal(
@@ -196,7 +198,7 @@ for (const independentEdit of [false, true]) {
   store.set(cancelEditAtom);
   assert.deepEqual(
     store.get(authoringSnapshotAtom),
-    upgraded,
+    restoredBaseline,
     "Cancel restores the normalized saved baseline.",
   );
   store.set(enterEditModeAtom);

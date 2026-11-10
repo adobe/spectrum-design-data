@@ -24,6 +24,7 @@ import {
 import { primitiveReferencesAtom } from "../src/features/tokens/primitiveReferenceState";
 import { primitiveReferenceId } from "../src/features/tokens/primitiveIdentity";
 import { canonicalTokenModeKey } from "../src/features/tokens/browserModel";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import type { PrimitiveReference } from "../src/features/tokens/primitiveReferences";
 import { COMPONENT_SIZES } from "../src/features/foundations/componentSizes";
 import {
@@ -69,6 +70,11 @@ assert.ok(
   anchor,
   "Fixtures require the actual generated scale index, not a parsed token name.",
 );
+const anchorIdentity = tokenIdentity(
+  createDefaultSnapshot().browserTokenEdits!,
+  anchor.nativeId,
+);
+assert.ok(anchorIdentity);
 assert.deepEqual(
   createTshirtMappings("available-token").map((item) => item.offset),
   [-2, -1, 0, 1, 2],
@@ -308,6 +314,7 @@ const padding: StructureSlot[] = [
 ];
 function fixture() {
   const snapshot = createDefaultSnapshot();
+  snapshot.browserTokenEdits = {};
   snapshot.modeSets = snapshot.modeSets.filter((set) => set.key !== "scale");
   snapshot.rules!.push(baseRule);
   let structure = assignStructure(
@@ -356,7 +363,7 @@ assert.deepEqual(
   ["base-padding-small", "base-padding-medium", "base-padding-large"],
 );
 assert.ok(output.semantics.every((row) => row.bindingIds.length === 4));
-assertTshirtGraph(output.tokens);
+assertTshirtGraph(output.tokens, undefined, [], output.modeSets);
 for (const row of output.semantics) {
   assert.ok("$ref" in row.token);
   assert.ok(
@@ -402,7 +409,7 @@ const overridden = structuredClone(hidden);
 const selection = Object.fromEntries(
   overridden.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
 );
-overridden.browserTokenEdits![anchor.nativeId] = {
+overridden.browserTokenEdits![anchorIdentity.sourceId] = {
   values: {
     [canonicalTokenModeKey(selection)]: {
       value: 20.1250001,
@@ -431,7 +438,7 @@ assert.equal(
 );
 assert.ok(overriddenOutput.semantics.every((row) => !("$ref" in row.token)));
 const equalAssignment = structuredClone(overridden);
-equalAssignment.browserTokenEdits![anchor.nativeId].values[
+equalAssignment.browserTokenEdits![anchorIdentity.sourceId].values[
   canonicalTokenModeKey(selection)
 ].value = Number(anchor.value);
 assert.equal(
@@ -447,10 +454,12 @@ const live = tshirtPreview(
   references,
 );
 assert.ok(
-  padding.every(
-    (slot) =>
-      structureBinding(live.structure, slot)!.$ref === live.rows[0].token.uuid,
-  ),
+  padding.every((slot) => {
+    const binding = structureBinding(live.structure, slot);
+    return (
+      binding && "$ref" in binding && binding.$ref === live.rows[0].token.uuid
+    );
+  }),
 );
 assert.deepEqual(
   snapshot.structures!.structures[0].properties.map((binding) =>
@@ -660,11 +669,47 @@ for (const family of ["radius", "elevation"] as const) {
 }
 
 const valid = buildTshirtArtifacts(snapshot).tokens;
+const sizePrimitive: TshirtTokenRecord = {
+  uuid: crypto.randomUUID(),
+  name: { property: "size", scaleIndex: 100 },
+  value: "4px",
+};
+for (const property of ["length", "thickness"]) {
+  const barToken: TshirtTokenRecord = {
+    uuid: crypto.randomUUID(),
+    name: { structure: "test-bar", property },
+    $ref: sizePrimitive.uuid,
+  };
+  assert.doesNotThrow(() => assertTshirtGraph([sizePrimitive, barToken]));
+  assert.throws(
+    () =>
+      assertTshirtGraph([
+        {
+          ...sizePrimitive,
+          name: { ...sizePrimitive.name, property: "spacing" },
+        },
+        barToken,
+      ]),
+    /incompatible primitive family/,
+  );
+}
 assert.throws(
-  () => assertTshirtToken({ ...valid[0], conceptId: crypto.randomUUID() }),
+  () =>
+    assertTshirtToken({
+      ...sizePrimitive,
+      name: { ...sizePrimitive.name, property: "unregistered-property" },
+    }),
+  /Unmapped property/,
+);
+assert.throws(
+  () => assertTshirtToken({ ...valid[0], conceptId: "invalid" }),
   /token record/,
 );
+assert.doesNotThrow(() =>
+  assertTshirtToken({ ...valid[0], conceptId: crypto.randomUUID() }),
+);
 const alias = buildTshirtArtifacts(snapshot).semantics[0].token;
+assert.ok(!("value" in alias));
 assert.throws(
   () => assertTshirtToken({ ...alias, value: "20px" }),
   /token record/,
@@ -700,10 +745,12 @@ const qualifiedTarget = {
 };
 assert.throws(
   () =>
-    assertTshirtGraph([
-      qualifiedTarget,
-      { ...alias, $ref: qualifiedTarget.uuid },
-    ]),
+    assertTshirtGraph(
+      [qualifiedTarget, { ...alias, $ref: qualifiedTarget.uuid }],
+      undefined,
+      [],
+      snapshot.modeSets,
+    ),
   /incompatible colorScheme context/,
 );
 const cycle: TshirtTokenRecord = { ...alias, $ref: alias.uuid };

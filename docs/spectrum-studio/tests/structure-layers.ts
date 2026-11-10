@@ -73,8 +73,10 @@ const base = catalog.find((structure) => structure.name === "Base")!;
 const text = structureLayers(base, catalog).find(
   (layer) =>
     !isLeaf(layer.child) &&
-    catalog.find((structure) => structure.conceptId === layer.child.structureId)
-      ?.name === "Text",
+    catalog.find(
+      (structure) =>
+        !isLeaf(layer.child) && structure.conceptId === layer.child.structureId,
+    )?.name === "Text",
 )!;
 assert.ok(text);
 assert.equal(text.layout, undefined);

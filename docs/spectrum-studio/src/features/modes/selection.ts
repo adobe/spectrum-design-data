@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { persistedAtom } from "../../state/persist";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 import { parameterOwners, setParameterValue } from "./parameters";
 import {
   createMode,

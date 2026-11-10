@@ -147,6 +147,7 @@ export function enforceOutputContrast(
   isDark: boolean,
   _source?: string,
 ) {
+  void _source;
   validateTarget(target);
   const gamut = outputGamut(settings);
   const evaluations = new Map<

@@ -4,15 +4,14 @@ import {
   createDimensionFoundationState,
   isDimensionScaleNameTaken,
 } from "../scales/foundationState";
-import {
-  replaceScaleTypeAtom,
-  scaleTypesAtom,
-} from "../logic/scaleTypeLibrary";
+import { scaleTypesAtom } from "../logic/scaleTypeLibrary";
+import { replaceScaleTypeWithConsumersAtom } from "../logic/scaleTypeReferences";
 import { BASE_BINDING_KEY } from "../scales/generate";
 import { setBindingPoint } from "../scales/binding";
 import { BINDABLE_PARAMETER_RANGES } from "../modes/parameters";
 import { RADIUS_DEFAULTS } from "./defaults";
 import { RADIUS_SCHEMA_VERSION } from "./model";
+import { dimensionPublicationUpdates } from "../scales/foundationPublicationState";
 
 const foundation = createDimensionFoundationState({
   key: "foundations/radius",
@@ -20,6 +19,8 @@ const foundation = createDimensionFoundationState({
   defaults: RADIUS_DEFAULTS,
   tokenPrefix: "radius",
   customIdPrefix: "radius-scale-custom",
+  related: (get, previous, next, taxonomy) =>
+    dimensionPublicationUpdates("radius", get, previous, next, taxonomy),
 });
 export const radiusDocumentAtom = foundation.documentAtom;
 export const generatedRadiusAtom = foundation.generatedAtom;
@@ -64,7 +65,7 @@ export const updateRadiusFormulaPartAtom = atom(
       throw new Error("This formula variable is no longer available.");
     }
     set(
-      replaceScaleTypeAtom,
+      replaceScaleTypeWithConsumersAtom,
       base
         ? { ...formula, base: { ...formula.base, default: value } }
         : {

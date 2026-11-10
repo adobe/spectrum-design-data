@@ -26,12 +26,21 @@ import { ColorOutputError } from "../src/features/color-system/outputContrast";
 import { tokenStableKey, tokenUuid } from "../src/features/tokens/model";
 import { componentTokensAtom } from "../src/features/components/state";
 import { spacingDocumentAtom } from "../src/features/spacing/state";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
+import { generateDocumentTokens } from "../src/features/changelog/changes";
 
 const source = createDefaultSnapshot();
 const before = structuredClone(source);
 const prepared = componentTokenCatalogWithColorWitness(source);
 const witness = prepared.componentColorWitness;
 assert.ok(witness);
+assert.ok(witness.tokens.length > 0);
+assert.ok(
+  witness.tokens.every((token) =>
+    prepared.tokens.some((target) => target.id === token.id),
+  ),
+  "Every witnessed color retains its final canonical row in the catalog.",
+);
 assert.ok(
   witness.scaleColors?.length,
   "Worker preparation must capture actual complete scale inputs, not just the final color partition.",
@@ -112,7 +121,7 @@ const invalidations: ((value: typeof source) => void)[] = [
     value.colorSystem.settings.backgroundBlend += 0.01;
   },
   (value) => {
-    value.colorSystem.settings.colorOutput.outputFormat = "rgb";
+    value.colorSystem.settings.colorOutput.outputFormat = "hex";
   },
   (value) => {
     value.taxonomy!.terms[0].value = "Changed";
@@ -248,9 +257,14 @@ const dependentRow = dependent
       ),
   )!;
 assert.ok("$ref" in dependentRow);
-dependentRow.$ref = tokenUuid(
+const sharedSourceId = tokenUuid(
   tokenStableKey(sharedScale.id, dependent.colorSystem.contrasts[0].id),
 );
+dependentRow.$ref = prepared.tokens.find(
+  (token) =>
+    token.browserId ===
+    tokenIdentity(dependent.browserTokenEdits!, sharedSourceId)?.conceptId,
+)!.id;
 const independentProofs = createComponentReferenceWitnesses(dependent);
 assert.equal(independentProofs.componentContrastWitness, null);
 assert.ok(
@@ -258,8 +272,22 @@ assert.ok(
   "Color reuse does not require components to be independent of contrast values.",
 );
 const blocked = structuredClone(source);
-blocked.colorSystem.backgroundLightness = 0.5;
-blocked.colorSystem.contrasts[0].value = 21;
+const blockedScale = blocked.colorSystem.scales[0];
+const blockedContrast = (
+  blockedScale.customContrasts?.steps ?? blocked.colorSystem.contrasts
+).find((contrast) => contrast.value >= 3)!;
+const blockedId = tokenUuid(
+  tokenStableKey(blockedScale.id, blockedContrast.id),
+);
+const originalColor = generateDocumentTokens(
+  blocked.colorSystem,
+  blocked.rules!,
+).find((token) => token.uuid === blockedId)!;
+blocked.tokenOverrides[blockedId] = {
+  value: "#ffffff",
+  baseline: { name: originalColor.name, value: originalColor.value },
+  editedAt: "2026-01-01T00:00:00.000Z",
+};
 const failures = componentTokenCatalogWithColorWitness(blocked);
 assert.ok(
   failures.tokens.some(

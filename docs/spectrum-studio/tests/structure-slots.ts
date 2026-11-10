@@ -168,6 +168,7 @@ assert.deepEqual(
   buildTshirtArtifacts(edited, "shipped").semantics,
   before.semantics,
 );
+assert.ok(edited.rules);
 const resolved = resolveElements(
   owner(),
   store.get(primitiveReferencesAtom),

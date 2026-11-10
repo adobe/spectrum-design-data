@@ -10,6 +10,7 @@ import {
   saveEditAtom,
   cancelEditAtom,
   resetAllAuthoringAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { upgradeCanonicalTokenIdentities } from "../src/features/edit-session/canonicalIdentityUpgrade";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
@@ -17,11 +18,11 @@ import {
   canonicalAliasRows,
   completeAliasSource,
 } from "../src/features/tokens/aliasTargets";
-import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import { componentTokenCatalog } from "../src/features/components/references";
-import { canonicalJson } from "../src/features/design-data/canonicalJson";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
 import { resetBrowserTokenAtom } from "../src/features/tokens/browserState";
+import { previewOverridesAtom } from "../src/features/modes/previewState";
 import {
   AUTHORING_RECORD_VERSION,
   AUTHORING_STORAGE_KEY,
@@ -30,8 +31,7 @@ import {
 
 const conceptId = "56d6a66d-931e-4f8b-bf07-c1a73e7924e8";
 const seeded = createDefaultSnapshot();
-const prototype = structuredClone(seeded);
-prototype.browserTokenEdits = {};
+const prototype = createLegacyIdentitySnapshot();
 const legacyRows = canonicalAliasRows(
   completeAliasSource(prototype),
   buildTshirtArtifacts(prototype),
@@ -39,29 +39,7 @@ const legacyRows = canonicalAliasRows(
 const old = legacyRows.find(
   (row) => row.name === "accessory-gap-extra-large" && row.context === "[]",
 )!;
-const legacyTargets = componentTokenCatalog(prototype);
-const seededTargets = componentTokenCatalog(seeded);
-for (const component of prototype.components!.components)
-  for (const assignment of component.assignments) {
-    if (!assignment.$ref) continue;
-    const target = seededTargets.find(
-      (target) => target.id === assignment.$ref,
-    )!;
-    const identity = tokenIdentity(
-      seeded.browserTokenEdits!,
-      target.browserId!,
-    )!;
-    const legacy = legacyTargets.find(
-      (candidate) =>
-        candidate.browserId === identity.sourceId &&
-        canonicalJson(candidate.context) === canonicalJson(target.context),
-    );
-    assert(
-      legacy,
-      `The prototype component target ${target.name} must be recoverable.`,
-    );
-    assignment.$ref = legacy.id;
-  }
+assert.ok(prototype.browserTokenEdits);
 prototype.browserTokenEdits[old.token.id] = {
   values: {},
   description: "Preserve this authored description.",
@@ -152,6 +130,26 @@ for (const [id, edit] of Object.entries(upgraded.browserTokenEdits!))
     edit.authoring?.identity,
   );
 
+const legacySave = createStore();
+legacySave.set(restoreAuthoringSnapshotAtom, structuredClone(prototype));
+legacySave.set(enterEditModeAtom);
+legacySave.set(previewOverridesAtom, { "color.backgroundLightness": 0.4 });
+legacySave.set(saveEditAtom);
+const adopted = legacySave.get(authoringSnapshotAtom);
+assert.deepEqual(adopted, legacySave.get(editSessionSnapshotAtom));
+const adoptedTargets = new Set(
+  componentTokenCatalog(adopted).map((token) => token.id),
+);
+for (const component of adopted.components!.components)
+  for (const assignment of component.assignments)
+    if (assignment.$ref) assert.ok(adoptedTargets.has(assignment.$ref));
+assert.equal(adopted.aliases!.tokens[0].$ref, conceptId);
+assert.deepEqual(adopted.structures, prototype.structures);
+assert.deepEqual(adopted.colorSystem, prototype.colorSystem);
+assert.deepEqual(legacySave.get(previewOverridesAtom), {
+  "color.backgroundLightness": 0.4,
+});
+
 class MemoryStorage {
   data = new Map<string, string>();
   getItem(key: string) {
@@ -221,6 +219,7 @@ try {
   store.set(saveEditAtom);
   console.log("Canonical edit saved.");
   const committed = structuredClone(store.get(editSessionSnapshotAtom));
+  assert.ok(committed);
   dispose();
   const reload = createStore();
   dispose = initializeAuthoringPersistence(reload, { validateScheduled: null });

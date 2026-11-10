@@ -12,6 +12,7 @@ import {
 } from "../src/features/impact/segments";
 import type { ComponentsDocument } from "../src/features/components/model";
 import type { ComponentToken } from "../src/features/components/references";
+import { ColorOutputError } from "../src/features/color-system/outputContrast";
 
 interface TestAssignment {
   id: string;
@@ -177,24 +178,52 @@ assert.deepEqual(
   [4, 8],
 );
 
-// A reference that stops resolving is affected; one that never resolved is not.
-const missing = summarizeComponentImpact(
-  shippedDoc,
-  shippedDoc,
-  shippedTokens,
-  tokensOf({ a: "8px", b: "12px" }),
+assert.throws(
+  () =>
+    summarizeComponentImpact(
+      shippedDoc,
+      shippedDoc,
+      shippedTokens,
+      tokensOf({ a: "8px", b: "12px" }),
+    ),
+  /assignment 7 refers to unavailable token c/,
 );
-assert.deepEqual(
-  missing.components.map((row) => row.affected.count),
-  [0, 1],
+assert.throws(
+  () =>
+    summarizeComponentImpact(
+      shippedDoc,
+      shippedDoc,
+      tokensOf({ a: "8px" }),
+      tokensOf({ a: "8px" }),
+    ),
+  /assignment 4 refers to unavailable token b/,
+  "Missing references on both sides must not become zero impact.",
 );
-const neverResolved = summarizeComponentImpact(
-  shippedDoc,
-  shippedDoc,
-  tokensOf({ a: "8px" }),
-  tokensOf({ a: "8px" }),
-);
-assert.equal(neverResolved.affected.count, 0);
+const blocked = new ColorOutputError({
+  requestedContrast: 7,
+  achievableContrast: 4.5,
+  gamut: "srgb",
+  background: "#ffffff",
+  source: "Impact fixture",
+});
+const blockedTokens = new Map(shippedTokens);
+blockedTokens.set("a", {
+  id: "a",
+  name: "blocked-color",
+  property: "color",
+  displayValue: "",
+  context: {},
+  ownerId: "fixture",
+  kind: "primitive",
+  outputError: blocked,
+});
+for (const before of [shippedTokens, blockedTokens])
+  assert.throws(
+    () =>
+      summarizeComponentImpact(shippedDoc, shippedDoc, before, blockedTokens),
+    (failure) => failure === blocked,
+    "Blocked output must preserve its diagnostic, even when both sides are blocked.",
+  );
 
 // No component data: zero total, not a percentage.
 const empty = summarizeComponentImpact(
@@ -275,6 +304,21 @@ const unavailable = componentImpactForSnapshots(
   broken as unknown as typeof shipped,
 );
 assert.equal(unavailable.status, "unavailable");
+const missingSnapshot = structuredClone(shipped);
+const missingAssignment = missingSnapshot
+  .components!.components.flatMap((component) => component.assignments)
+  .find((assignment) => assignment.$ref !== undefined)!;
+assert.ok(missingAssignment.$ref);
+missingAssignment.$ref = "missing-impact-target";
+for (const before of [shipped, missingSnapshot]) {
+  const missingImpact = componentImpactForSnapshots(before, missingSnapshot);
+  assert.equal(missingImpact.status, "unavailable");
+  if (missingImpact.status === "unavailable")
+    assert.match(
+      missingImpact.error,
+      /unavailable token missing-impact-target/,
+    );
+}
 console.log(
   "component impact: weighting, denominator, edits, unavailable data and comparison wiring passed",
 );

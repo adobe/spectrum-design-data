@@ -19,14 +19,14 @@ import { surfaceLinear } from "../src/features/color-system/surfaceGeneration";
 
 const document = hydrateColorSystem(COLOR_SYSTEM_DEFAULTS);
 
-if (
-  document.settings.backgroundBlend !== 0.36 ||
-  document.settings.colorSourceCurveOffset !== -1
-) {
-  throw new Error(
-    "Color generation defaults must use 0.36 background blend and -1 source curve offset",
-  );
-}
+assert.equal(
+  document.settings.backgroundBlend,
+  COLOR_SYSTEM_DEFAULTS.backgroundBlend,
+);
+assert.equal(
+  document.settings.colorSourceCurveOffset,
+  COLOR_SYSTEM_DEFAULTS.colorSourceCurveOffset,
+);
 const scaleData = document.scales.map((scale) => buildScaleData(scale));
 const backgroundScale = document.scales.find(
   (scale) => scale.id === document.backgroundScaleId,
@@ -92,11 +92,11 @@ for (const data of scaleData) {
 
 const raised = document.surfaces.find((surface) => surface.name === "raised")!;
 const floatingSurface = document.surfaces.find(
-  (surface) => surface.name === "Floating surface",
+  (surface) => surface.name === "floating surface",
 )!;
 assert(
   floatingSurface,
-  "Hydrated input defaults include the renamed Floating surface.",
+  "Hydrated input defaults include the registered floating surface.",
 );
 const info = document.surfaces.find((surface) => surface.name === "info")!;
 const ratioAgainstReference = (surface: typeof raised) => {

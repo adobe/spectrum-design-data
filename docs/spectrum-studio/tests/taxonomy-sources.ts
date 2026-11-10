@@ -15,6 +15,7 @@ import {
   authoringSnapshotAtom,
   saveEditAtom,
   cancelEditAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { taxonomyDocumentAtom } from "../src/features/taxonomy/state";
 import { editFoundationNameAtom } from "../src/features/taxonomy/sourceState";
@@ -31,6 +32,9 @@ import {
   analysisSavedInputAtom,
   analysisWorkingInputAtom,
 } from "../src/features/design-data/state";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { scaleContrasts } from "../src/features/color-system/contrastSteps";
 
 const store = createStore();
 const baseline = store.get(authoringSnapshotAtom);
@@ -38,8 +42,13 @@ assert.equal(store.get(analysisSavedInputAtom).errors.length, 0);
 assert.equal(store.get(analysisWorkingInputAtom).errors.length, 0);
 store.set(enterEditModeAtom);
 const tokens = store.get(browserTokensAtom);
+const legacyStore = createStore();
+legacyStore.set(restoreAuthoringSnapshotAtom, createLegacyIdentitySnapshot());
+legacyStore.set(enterEditModeAtom);
+const legacyTokens = legacyStore.get(browserTokensAtom);
 for (const scope of ["colors", "typography", "spacing", "size"]) {
-  const source = tokens.find((token) => token.type === scope)!;
+  const source = legacyTokens.find((token) => token.type === scope)!;
+  assert.ok(source);
   assert(source.taxonomySource?.governed);
   assert.equal(
     source.projection!.flat.property,
@@ -53,12 +62,12 @@ for (const scope of ["colors", "typography", "spacing", "size"]) {
   );
   if (scope === "spacing")
     assert.equal(source.projection!.flat.tokenCategory, "spacing");
-  const before = store.get(taxonomyDocumentAtom);
+  const before = legacyStore.get(taxonomyDocumentAtom);
   assert.throws(
     () =>
-      store.set(editBrowserTokensAtom, {
+      legacyStore.set(editBrowserTokensAtom, {
         ids: [source.id],
-        modeKey: store.get(browserModeContextAtom).key,
+        modeKey: legacyStore.get(browserModeContextAtom).key,
         patch: {
           classification: {
             "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a":
@@ -68,8 +77,41 @@ for (const scope of ["colors", "typography", "spacing", "size"]) {
       }),
     /governed/,
   );
-  assert.deepEqual(store.get(taxonomyDocumentAtom), before);
+  assert.deepEqual(legacyStore.get(taxonomyDocumentAtom), before);
 }
+const canonicalToken = tokens.find((token) => token.type === "spacing")!;
+const registry = store.get(taxonomyDocumentAtom);
+const property = registry.categories.find(
+  (category) => category.key === "property",
+)!;
+const length = registry.terms.find(
+  (term) => term.categoryId === property.id && term.value === "length",
+)!;
+assert.ok(length);
+const definitionClassification = {
+  ...canonicalToken.projection!.classification,
+  [property.id]: length.id,
+};
+store.set(editBrowserTokensAtom, {
+  ids: [canonicalToken.id],
+  modeKey: store.get(browserModeContextAtom).key,
+  patch: { classification: definitionClassification },
+});
+assert.deepEqual(
+  store.get(browserTokenEditsAtom)[canonicalToken.id].authoring?.classification,
+  definitionClassification,
+  "Canonical token definitions store explicit overrides separately from source governance.",
+);
+assert.deepEqual(store.get(taxonomyDocumentAtom), registry);
+assert.deepEqual(store.get(authoringSnapshotAtom).spacing, baseline.spacing);
+const overridden = store
+  .get(browserTokensAtom)
+  .find((token) => token.id === canonicalToken.id)!;
+assert.equal(overridden.value, canonicalToken.value);
+assert.deepEqual(overridden.classificationOverride, definitionClassification);
+store.set(cancelEditAtom);
+assert.deepEqual(store.get(authoringSnapshotAtom), baseline);
+store.set(enterEditModeAtom);
 assert(
   taxonomyIssues({ ...store.get(taxonomyDocumentAtom), sourceAssignments: {} })
     .length,
@@ -82,7 +124,15 @@ const swatch = baseline.colorSystem.contrasts[0];
 const affected = tokens.filter(
   (token) => token.taxonomySource?.stepId === swatch.id,
 );
-assert.equal(affected.length, baseline.colorSystem.scales.length);
+assert.equal(
+  affected.length,
+  baseline.colorSystem.scales.filter((scale) =>
+    scaleContrasts(baseline.colorSystem, scale).some(
+      (step) => step.id === swatch.id,
+    ),
+  ).length,
+  "Only scales using this shared swatch participate; custom steps remain independent.",
+);
 assert(affected.every((token) => token.projection!.flat.scaleIndex === 100));
 store.set(updateContrastTokenAtom, { id: swatch.id, value: 1.75 });
 const changed = store
@@ -125,7 +175,8 @@ assert.equal(scaleStepName(-1, 2), 75);
 
 const canonical = canonicalDesignSystemDataset(designSystemDefaults);
 const invalid = structuredClone(canonical);
-invalid.system.taxonomy.classifications[affected[0].id] = {
+assert.ok(affected[0].sourceId);
+invalid.system.taxonomy.classifications[affected[0].sourceId] = {
   "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a":
     "273990a0-e71e-4249-9628-7e8fa689747b",
 };
@@ -133,12 +184,12 @@ assert.throws(
   () => composeDesignSystemDefaults(invalid, []),
   /cannot override/,
 );
-const registry = store.get(taxonomyDocumentAtom);
+const changedRegistry = store.get(taxonomyDocumentAtom);
 assert.throws(
   () =>
     store.set(editReferencedTaxonomyAtom, {
-      ...registry,
-      terms: registry.terms.map((term) =>
+      ...changedRegistry,
+      terms: changedRegistry.terms.map((term) =>
         term.categoryId === "fe55c281-7565-40c8-b9d1-3b5f1cfff917" &&
         term.value === 100
           ? { ...term, value: 101 }
@@ -147,7 +198,7 @@ assert.throws(
     }),
   /requires a registered/,
 );
-assert.deepEqual(store.get(taxonomyDocumentAtom), registry);
+assert.deepEqual(store.get(taxonomyDocumentAtom), changedRegistry);
 store.set(cancelEditAtom);
 assert.deepEqual(store.get(authoringSnapshotAtom), baseline);
 store.set(enterEditModeAtom);
@@ -170,7 +221,7 @@ assert.equal(store.get(analysisWorkingInputAtom).errors.length, 0);
 store.set(cancelEditAtom);
 assert.equal(
   store.get(authoringSnapshotAtom).size!.scales[0].name,
-  "Shared dimensions",
+  "shared dimensions",
 );
 const snapshot = store.get(authoringSnapshotAtom);
 assertFoundationGovernance(

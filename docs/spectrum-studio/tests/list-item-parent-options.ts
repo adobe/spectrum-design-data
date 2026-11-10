@@ -275,6 +275,7 @@ const primitive = references.find(
     item.step === 100,
 )!;
 assert.ok(primitive.nativeId);
+assert.ok(typeof primitive.value === "number");
 const defaultModeKey = canonicalTokenModeKey(
   Object.fromEntries(
     snapshot.modeSets.map((axis) => [axis.id, axis.defaultModeId]),

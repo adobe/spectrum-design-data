@@ -882,11 +882,11 @@ function Lightness({
           colors, not capped targets.
         </p>
       )}
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Strip and charts share a keyboard-scrollable region. */}
       <div
         className="colorAnalysisOutputScroll"
         role="region"
         aria-label="Output profile charts"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Strip and charts share a keyboard-scrollable region.
         tabIndex={0}
       >
         <div

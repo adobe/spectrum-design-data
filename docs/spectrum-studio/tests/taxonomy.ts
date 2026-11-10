@@ -5,6 +5,7 @@ import {
   assertTaxonomy,
   projectClassification,
   registerTerm,
+  taxonomyColorSourceId,
   taxonomyIssues,
 } from "../src/features/taxonomy/model";
 import {
@@ -32,17 +33,18 @@ import {
 } from "../src/features/design-data/dimensionArtifacts";
 import { authoringSnapshotAtom } from "../src/features/edit-session/state";
 import { colorSystemDocumentAtom } from "../src/features/color-system/state";
-import { spacingDocumentAtom } from "../src/features/spacing/state";
+import { addSpacingScaleAtom } from "../src/features/spacing/state";
 import { typographyDocumentAtom } from "../src/features/typography/state";
 import { contributeTerms } from "../src/features/taxonomy/contributions";
 import { editReferencedTaxonomyAtom } from "../src/features/taxonomy/editing";
 import {
   browserModeContextAtom,
-  browserTokenSourcesAtom,
   browserTokensAtom,
   editBrowserTokensAtom,
 } from "../src/features/tokens/browserState";
 import { kebabCaseNameFormatter } from "../src/features/taxonomy/formatting";
+import { editFoundationNameAtom } from "../src/features/taxonomy/sourceState";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 
 assert.equal(kebabCaseNameFormatter.formatValue(-100), "minus-100");
 assert.equal(kebabCaseNameFormatter.formatValue(1.25), "1-25");
@@ -329,11 +331,28 @@ assert.equal(
   2,
 );
 let delimiterTaxonomy = createTaxonomyDefaults();
+const delimiterCategoryId = crypto.randomUUID();
+delimiterTaxonomy.categories.push({
+  id: delimiterCategoryId,
+  key: "delimiterSuffix",
+  name: "Delimiter suffix",
+  description: "",
+  valueType: "string",
+  cardinality: "one",
+  scopes: ["colors"],
+  required: false,
+  includeInProjections: true,
+});
+delimiterTaxonomy.order.splice(
+  delimiterTaxonomy.order.indexOf("b8fbee94-999d-4776-bf18-1b807b3f60b0") + 1,
+  0,
+  delimiterCategoryId,
+);
 for (const [id, category, value] of [
   [ids.ab, "b8fbee94-999d-4776-bf18-1b807b3f60b0", "a-b"],
-  [ids.c, "c67a7e16-b99f-4b9f-8e53-18bcd6fe2c2c", "c"],
+  [ids.c, delimiterCategoryId, "c"],
   [ids.a, "b8fbee94-999d-4776-bf18-1b807b3f60b0", "a"],
-  [ids.bc, "c67a7e16-b99f-4b9f-8e53-18bcd6fe2c2c", "b-c"],
+  [ids.bc, delimiterCategoryId, "b-c"],
 ])
   delimiterTaxonomy = registerTerm(delimiterTaxonomy, category, value, id);
 delimiterTaxonomy.classifications = {
@@ -341,16 +360,21 @@ delimiterTaxonomy.classifications = {
     "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a":
       "73d1c87a-7ca9-4f40-9404-8ae65dc26833",
     "b8fbee94-999d-4776-bf18-1b807b3f60b0": ids.ab,
-    "c67a7e16-b99f-4b9f-8e53-18bcd6fe2c2c": ids.c,
+    [delimiterCategoryId]: ids.c,
   },
   second: {
     "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a":
       "73d1c87a-7ca9-4f40-9404-8ae65dc26833",
     "b8fbee94-999d-4776-bf18-1b807b3f60b0": ids.a,
-    "c67a7e16-b99f-4b9f-8e53-18bcd6fe2c2c": ids.bc,
+    [delimiterCategoryId]: ids.bc,
   },
 };
 assertTaxonomy(delimiterTaxonomy);
+for (const classification of Object.values(delimiterTaxonomy.classifications))
+  assert.equal(
+    projectClassification(delimiterTaxonomy, classification, "colors").name,
+    "a-b-c-color",
+  );
 assert.throws(
   () =>
     buildTaxonomyExport(delimiterTaxonomy, [
@@ -472,25 +496,37 @@ for (const field of ["color", "spacing", "typography"] as const) {
   const baseline = store.get(authoringSnapshotAtom);
   store.set(enterEditModeAtom);
   if (field === "color")
-    store.set(colorSystemDocumentAtom, {
-      ...baseline.colorSystem,
-      scales: baseline.colorSystem.scales.map((scale, index) =>
-        index ? scale : { ...scale, name: "Unique test hue" },
-      ),
+    store.set(editFoundationNameAtom, {
+      id: taxonomyColorSourceId(baseline.colorSystem.scales[0].id),
+      value: "Unique test hue",
     });
   if (field === "spacing")
-    store.set(spacingDocumentAtom, {
-      ...baseline.spacing!,
-      scales: baseline.spacing!.scales.map((scale, index) =>
-        index ? scale : { ...scale, name: "Unique test dimensions" },
-      ),
+    store.set(editFoundationNameAtom, {
+      id: `spacing:${baseline.spacing!.scales[0].id}`,
+      value: "Unique test dimensions",
     });
   if (field === "typography")
     store.set(typographyDocumentAtom, {
       ...baseline.typography,
       smallSizes: baseline.typography.smallSizes + 1,
     });
-  assert.notDeepEqual(store.get(taxonomyDocumentAtom), baseline.taxonomy);
+  if (field === "typography") {
+    assert.equal(
+      store.get(typographyDocumentAtom).smallSizes,
+      baseline.typography.smallSizes + 1,
+    );
+    assert.deepEqual(
+      store.get(taxonomyDocumentAtom),
+      baseline.taxonomy,
+      "Extending this range reuses already registered step vocabulary.",
+    );
+  } else {
+    assert.notDeepEqual(
+      store.get(taxonomyDocumentAtom),
+      baseline.taxonomy,
+      `${field} contributes its changed foundation vocabulary.`,
+    );
+  }
   store.set(cancelEditAtom);
   assert.deepEqual(
     store.get(authoringSnapshotAtom),
@@ -500,17 +536,15 @@ for (const field of ["color", "spacing", "typography"] as const) {
 }
 const renameStore = createStore();
 renameStore.set(enterEditModeAtom);
-const colorSource = renameStore
-  .get(browserTokenSourcesAtom)
-  .find(
-    (token) =>
-      token.taxonomyEvidence?.colorFamily === "red" &&
-      token.taxonomyEvidence?.contrastLabel,
-  )!;
 const reviewed = renameStore.get(taxonomyDocumentAtom);
 const before = renameStore
   .get(browserTokensAtom)
-  .find((token) => token.id === colorSource.id)!;
+  .find(
+    (token) =>
+      token.projection?.flat.colorFamily === "red" &&
+      typeof token.projection.flat.scaleIndex === "number",
+  )!;
+assert.ok(before, "The fixture selects a published Red scale token.");
 const redId =
   before.projection!.classification["b8fbee94-999d-4776-bf18-1b807b3f60b0"];
 renameStore.set(editReferencedTaxonomyAtom, {
@@ -521,7 +555,7 @@ renameStore.set(editReferencedTaxonomyAtom, {
 });
 const after = renameStore
   .get(browserTokensAtom)
-  .find((token) => token.id === colorSource.id)!;
+  .find((token) => token.id === before.id)!;
 assert.equal(after.id, before.id);
 assert.equal(after.value, before.value);
 assert(after.name.startsWith("crimson-"));
@@ -564,6 +598,7 @@ const paletteBefore = structuredClone(
   paletteStore.get(colorSystemDocumentAtom),
 );
 const taxonomyBefore = structuredClone(paletteStore.get(taxonomyDocumentAtom));
+const editsBefore = paletteStore.get(browserTokenEditsAtom);
 assert.throws(
   () =>
     paletteStore.set(editBrowserTokensAtom, {
@@ -578,33 +613,30 @@ assert.throws(
         value: "not-a-color",
       },
     }),
-  /governed/,
+  /valid color value/,
 );
 assert.deepEqual(paletteStore.get(taxonomyDocumentAtom), taxonomyBefore);
 assert.deepEqual(paletteStore.get(colorSystemDocumentAtom), paletteBefore);
+assert.strictEqual(paletteStore.get(browserTokenEditsAtom), editsBefore);
 const contributionStore = createStore();
+const numericVocabulary = registerTerm(
+  delimiterTaxonomy,
+  "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+  100,
+  crypto.randomUUID(),
+);
 assert.throws(
   () =>
     registerTerm(
-      contributionStore.get(taxonomyDocumentAtom),
-      "c67a7e16-b99f-4b9f-8e53-18bcd6fe2c2c",
+      numericVocabulary,
+      delimiterCategoryId,
       "100",
       crypto.randomUUID(),
     ),
   /already owned/,
 );
-const dimensionsBefore = contributionStore.get(spacingDocumentAtom);
-contributionStore.set(spacingDocumentAtom, {
-  ...dimensionsBefore,
-  scales: [
-    ...dimensionsBefore.scales,
-    {
-      ...dimensionsBefore.scales[0],
-      id: "new-numeric-source",
-      name: "New numeric source",
-    },
-  ],
-});
+contributionStore.set(enterEditModeAtom);
+contributionStore.set(addSpacingScaleAtom);
 assert(
   !("sourceAssignments" in contributionStore.get(taxonomyDocumentAtom)),
   "Native source names and typed indices do not create per-source overrides.",

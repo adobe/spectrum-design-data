@@ -2,7 +2,7 @@
 import { atom } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { activeModesAtom } from "../modes/selection";
 import { previewOverridesAtom } from "../modes/previewState";
 import { scaleTypesAtom } from "../logic/scaleTypeLibrary";

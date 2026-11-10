@@ -199,11 +199,6 @@
       "description": "Vertical spacing between lines of text"
     },
     {
-      "id": "unitless-line-height",
-      "label": "Unitless Line Height",
-      "description": "Unitless line-height multiplier distinct from an absolute pixel line height"
-    },
-    {
       "id": "letter-spacing",
       "label": "Letter Spacing",
       "description": "Horizontal spacing between characters"

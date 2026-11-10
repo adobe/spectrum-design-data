@@ -19,6 +19,7 @@ import {
 } from "../src/features/changelog/changes";
 import {
   legacyChangeGroupsAtom as changeGroupsAtom,
+  changeGroupsAtom as canonicalChangeGroupsAtom,
   resetAllChangeDataAtom,
   revertChangeItemAtom,
   revertChangeTopicAtom,
@@ -27,7 +28,6 @@ import {
   authoredComparisonAtom,
   tokenComparisonResultAtom,
 } from "../src/features/changelog/comparisonState";
-import { ColorOutputError } from "../src/features/color-system/outputContrast";
 import {
   foundationImpactSummaryAtom,
   tokenImpactSummaryAtom,
@@ -39,6 +39,16 @@ import {
   editBrowserTokensAtom,
 } from "../src/features/tokens/browserState";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import {
+  browserTokenImpactRecordsAtom,
+  savedBrowserConceptIdsAtom,
+} from "../src/features/tokens/browserSavedState";
+import { taxonomyColorSourceId } from "../src/features/taxonomy/model";
+import { editFoundationNameAtom } from "../src/features/taxonomy/sourceState";
+import { componentsDocumentAtom } from "../src/features/components/documentState";
+import { COLOR_PARAMETERS } from "../src/features/color-system/resolution";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
+import { elevationDocumentAtom } from "../src/features/elevation/state";
 import { editModeAtom } from "../src/state/view/editMode";
 
 type Store = ReturnType<typeof createStore>;
@@ -75,22 +85,58 @@ broadStore.set(colorSystemDocumentAtom, {
 });
 assert.equal(
   broadStore.get(tokenComparisonResultAtom).status,
-  "unavailable",
-  "a background that cannot support declared contrast targets has no assessable output changes",
+  "ready",
+  "Unreachable targets still have assessable closest-achievable output.",
 );
+assert.ok(impact(broadStore).affected.count > 0);
+
+const broken = broadStore
+  .get(browserTokensAtom)
+  .find((token) => token.paletteColorId)!;
+assert.ok(broken);
+const broadEdits = broadStore.get(browserTokenEditsAtom);
+const brokenEdits = {
+  ...broadEdits,
+  [broken.id]: {
+    ...broadEdits[broken.id],
+    authoring: {
+      ...broadEdits[broken.id].authoring!,
+      assignments: {
+        "[]": { kind: "reference" as const, targetId: crypto.randomUUID() },
+      },
+    },
+  },
+};
+assert.throws(
+  () => broadStore.set(browserTokenEditsAtom, brokenEdits),
+  /referenced token is unavailable/,
+  "Existing component dependencies reject broken output before committing.",
+);
+assert.equal(broadStore.get(browserTokenEditsAtom), broadEdits);
+broadStore.set(componentsDocumentAtom, {
+  ...broadStore.get(componentsDocumentAtom),
+  components: [],
+});
+broadStore.set(browserTokenEditsAtom, brokenEdits);
+const unavailable = broadStore.get(tokenComparisonResultAtom);
+assert.ok(unavailable.status === "unavailable");
+assert.match(unavailable.error, /referenced token is unavailable/);
 assert.ok(
   broadStore.get(authoredComparisonAtom).groups.length > 0,
   "known source edits remain assessable when output is unavailable",
 );
-assert.throws(() => impact(broadStore), ColorOutputError);
+assert.throws(() => impact(broadStore), {
+  name: unavailable.failure.name,
+  message: unavailable.error,
+});
 
 const renamedStore = createStore();
-const renamedDocument = renamedStore.get(colorSystemDocumentAtom);
-renamedStore.set(colorSystemDocumentAtom, {
-  ...renamedDocument,
-  scales: renamedDocument.scales.map((scale) =>
-    scale.name === "Red" ? { ...scale, name: "Scarlet" } : scale,
-  ),
+const red = original.scales.find((scale) => scale.name === "red")!;
+assert.ok(red);
+renamedStore.set(editModeAtom, true);
+renamedStore.set(editFoundationNameAtom, {
+  id: taxonomyColorSourceId(red.id),
+  value: "scarlet",
 });
 assert.ok(
   impact(renamedStore).affected.count > 0,
@@ -103,7 +149,7 @@ assert.equal(
 );
 assert.equal(impact(renamedStore).manualOverrides.count, 0);
 
-const red = original.scales.find((scale) => scale.name === "Red")!;
+store.set(editModeAtom, true);
 const target = store
   .get(colorTokenSetAtom)
   .tokens.find((token) => token.source.scaleId === red.id)!;
@@ -116,15 +162,38 @@ assert.equal(
   1,
   "one overridden concept remains one Log item",
 );
-assert.equal(tokenGroup.count, 4, "one concept has four changed mode values");
+const declaredColorValues = store
+  .get(modeSetsAtom)
+  .filter((axis) =>
+    COLOR_PARAMETERS.some((parameter) =>
+      axis.authoringCapabilities?.includes(parameter),
+    ),
+  )
+  .reduce((count, axis) => count * axis.modes.length, 1);
+assert.equal(
+  tokenGroup.count,
+  declaredColorValues,
+  "One overridden concept has one changed value per declared color context.",
+);
+const targetIdentity = tokenIdentity(
+  store.get(browserTokenEditsAtom),
+  target.uuid,
+)!;
+assert.ok(targetIdentity);
+const targetImpact = store
+  .get(browserTokenImpactRecordsAtom)
+  .find((record) => record.tokenId === targetIdentity.conceptId)!;
+assert.ok(targetImpact);
+assert.equal(targetImpact.modeValues.length, declaredColorValues);
+assert.ok(targetImpact.modeValues.every((value) => value.changed));
 assert.equal(tokenGroup.items[0].fields[0].generated, false);
 assert.equal(impact(store).affected.count, 1);
 assert.equal(impact(store).manualOverrides.count, 1);
-const trackedTokens = store.get(browserTokensAtom).length;
+const trackedTokens = store.get(savedBrowserConceptIdsAtom).size;
 assert.equal(
   impact(store).affected.total,
   trackedTokens,
-  "color, typography, and spacing primitives share the denominator",
+  "Published primitive and semantic concepts share the saved denominator.",
 );
 assert.ok(
   Math.abs(impact(store).affected.fraction! - 1 / trackedTokens) < 1e-10,
@@ -177,7 +246,13 @@ assert.ok(
   !store.get(changeGroupsAtom).some((group) => group.id === "foundations"),
 );
 
+const modesBeforeFoundationReset = structuredClone(store.get(modeSetsAtom));
 store.set(revertChangeTopicAtom, "foundations");
+assert.deepEqual(
+  store.get(modeSetsAtom),
+  modesBeforeFoundationReset,
+  "Foundation reset does not invent legacy mode-opacity patches.",
+);
 assert.ok(
   !store.get(changeGroupsAtom).some((group) => group.id === "foundations"),
 );
@@ -222,7 +297,7 @@ assert.equal(
   store
     .get(colorTokenSetAtom)
     .tokens.find((token) => token.uuid === editedToken.uuid)!.value,
-  "#f70000",
+  "rgb(247, 0, 0)",
 );
 const overriddenItem = store
   .get(changeGroupsAtom)
@@ -271,7 +346,12 @@ assert.ok(
 store.set(resetAllChangeDataAtom);
 assert.deepEqual(store.get(changeGroupsAtom), []);
 
-const nextScale = { ...red, id: "scale-new", name: "New scale" };
+const nextScale = {
+  ...red,
+  id: "scale-new",
+  name: "new-scale",
+  nameRef: undefined,
+};
 store.set(colorSystemDocumentAtom, {
   ...original,
   scales: [...original.scales, nextScale],
@@ -312,6 +392,13 @@ const removable = original.scales.find(
     !original.surfaces.some((surface) => surface.sourceScaleId === scale.id),
 )!;
 assert(removable);
+const removedConceptIds = new Set(
+  store
+    .get(browserTokensAtom)
+    .filter((token) => token.groupId === removable.id)
+    .map((token) => token.id),
+);
+assert.ok(removedConceptIds.size > 0);
 assert.equal(store.set(removeColorScaleAtom, removable.id).ok, true);
 assert.equal(
   store
@@ -323,8 +410,32 @@ assert.equal(
 assert.equal(
   impact(store).affected.count,
   0,
-  "removed tokens do not inflate the percentage",
+  "The legacy Impact helper assesses surviving published tokens.",
 );
+assert.equal(
+  impact(store).affected.total,
+  trackedTokens - removedConceptIds.size,
+);
+const removedComparison = store.get(tokenComparisonResultAtom);
+assert.ok(removedComparison.status === "ready");
+const removedRecords = removedComparison.comparison.records.filter((record) =>
+  removedConceptIds.has(record.tokenId),
+);
+assert.equal(removedRecords.length, removedConceptIds.size);
+assert.ok(
+  removedRecords.every((record) =>
+    record.modeValues.every((value) => value.changed),
+  ),
+);
+const canonicalImpact = summarizeTokenImpact(
+  removedComparison.comparison.records,
+);
+assert.equal(
+  canonicalImpact.affected.count,
+  removedConceptIds.size,
+  "Current Changes retains removed publications in its comparison inventory.",
+);
+assert.equal(canonicalImpact.affected.total, trackedTokens);
 assert.ok(edits(store, "color") > 0, "removing a scale is a foundation edit");
 const removedToken = store
   .get(changeGroupsAtom)
@@ -340,7 +451,11 @@ assert.deepEqual(store.get(changeGroupsAtom), []);
 
 const modeStore = createStore();
 const defaultSets = modeStore.get(modeSetsAtom);
-modeStore.set(modeSelectionAtom, { colorScheme: "mode-dark" });
+const scheme = defaultSets.find((set) => set.key === "colorScheme")!;
+const dark = scheme.modes.find((mode) => mode.key === "dark")!;
+const light = scheme.modes.find((mode) => mode.id === scheme.defaultModeId)!;
+modeStore.set(editModeAtom, true);
+modeStore.set(modeSelectionAtom, { colorScheme: dark.id });
 assert.equal(
   impact(modeStore).affected.count,
   0,
@@ -367,27 +482,26 @@ modeStore.set(
       : set,
   ),
 );
-assert.equal(modeStore.get(tokenComparisonResultAtom).status, "unavailable");
-assert.throws(
-  () => impact(modeStore),
-  ColorOutputError,
-  "An impossible declared mode cannot acquire successful impact counts.",
-);
+assert.equal(modeStore.get(tokenComparisonResultAtom).status, "ready");
+const modeImpact = structuredClone(impact(modeStore));
+assert.ok(modeImpact.affected.count > 0);
 modeStore.set(setPreviewParameterAtom, {
   parameterId: "color.backgroundLightness",
   value: 0.42,
 });
 assert.equal(
   modeStore.get(tokenComparisonResultAtom).status,
-  "unavailable",
-  "A preview cannot repair an authored source.",
+  "ready",
+  "Preview controls do not replace authored output.",
 );
-modeStore.set(modeSelectionAtom, { colorScheme: "mode-light" });
+assert.deepEqual(impact(modeStore), modeImpact);
+modeStore.set(modeSelectionAtom, { colorScheme: light.id });
 assert.equal(
   modeStore.get(tokenComparisonResultAtom).status,
-  "unavailable",
-  "Selecting Light cannot conceal an impossible Dark mode.",
+  "ready",
+  "Selecting Light keeps changes in Dark assessable.",
 );
+assert.deepEqual(impact(modeStore), modeImpact);
 modeStore.set(revertChangeTopicAtom, "modes");
 assert.equal(
   modeStore.get(colorSystemDocumentAtom).backgroundLightness,
@@ -400,12 +514,36 @@ assert.equal(
     .find((set) => set.key === "colorScheme")!
     .modes.find((mode) => mode.key === "dark")!.foundations.color
     ?.backgroundLightness,
-  0,
+  dark.foundations.color?.backgroundLightness,
   "reverting Modes restores the Dark source even while Light is selected",
 );
 assert.equal(impact(modeStore).affected.count, 0);
+const elevationStore = createStore();
+elevationStore.set(editModeAtom, true);
+const elevation = elevationStore.get(elevationDocumentAtom);
+const elevationModes = structuredClone(elevationStore.get(modeSetsAtom));
+elevationStore.set(elevationDocumentAtom, {
+  ...elevation,
+  depth: elevation.depth === 1 ? 2 : 1,
+});
+const elevationChange = elevationStore
+  .get(changeGroupsAtom)
+  .flatMap((group) => group.items)
+  .find((item) => item.sourceKind === "elevation")!;
+assert.ok(elevationChange);
+elevationStore.set(revertChangeItemAtom, elevationChange);
+assert.deepEqual(elevationStore.get(elevationDocumentAtom), elevation);
+assert.deepEqual(
+  elevationStore.get(modeSetsAtom),
+  elevationModes,
+  "Elevation item reset preserves absent legacy opacity patches.",
+);
+assert.deepEqual(elevationStore.get(changeGroupsAtom), []);
 const browserStore = createStore();
 browserStore.set(editModeAtom, true);
+const originalBrowserEdits = structuredClone(
+  browserStore.get(browserTokenEditsAtom),
+);
 const browserToken = browserStore
   .get(browserTokensAtom)
   .find((token) => token.type === "spacing")!;
@@ -421,11 +559,19 @@ const browserChange = browserStore
   .items.find((item) => item.id === browserToken.id)!;
 assert.ok(browserChange.fields.some((field) => field.key === "Description"));
 assert.ok(browserChange.fields.some((field) => field.key === "Status"));
+const canonicalBrowserChange = browserStore
+  .get(canonicalChangeGroupsAtom)
+  .find((group) => group.id === "tokens")!
+  .items.find((item) => item.id === browserToken.id)!;
+assert.ok(canonicalBrowserChange);
 assert.ok(
-  browserChange.fields.some((field) => field.key.startsWith("Value (")),
+  canonicalBrowserChange.fields.some(
+    (field) =>
+      field.tokenValue?.tokenId === browserToken.id && field.after === "17px",
+  ),
 );
 browserStore.set(revertChangeItemAtom, browserChange);
-assert.deepEqual(browserStore.get(browserTokenEditsAtom), {});
+assert.deepEqual(browserStore.get(browserTokenEditsAtom), originalBrowserEdits);
 assert.deepEqual(browserStore.get(changeGroupsAtom), []);
 console.log(
   "changelog: baseline, generated and manual diffs, item/topic/global reverts passed",

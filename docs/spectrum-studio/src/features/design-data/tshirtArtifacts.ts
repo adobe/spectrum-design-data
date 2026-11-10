@@ -285,6 +285,17 @@ export function buildTshirtArtifacts(
   bundle.tokens = [...tokens.values()];
   for (const row of bundle.semantics)
     row.token = tokens.get(row.token.uuid) ?? row.token;
+  const names = new Map(
+    bundle.semantics
+      .filter((row) => row.optionId && row.canonicalName)
+      .map((row) => [row.token.uuid, row.canonicalName]),
+  );
+  assertTshirtGraph(
+    bundle.tokens,
+    (token) => names.get(token.uuid),
+    bundle.vocabulary.sizes?.map((term) => term.value),
+    snapshot.modeSets,
+  );
   return bundle;
 }
 
@@ -1111,6 +1122,7 @@ function buildTshirtBatch(
     bundle.tokens,
     undefined,
     bundle.vocabulary.sizes?.map((term) => term.value),
+    snapshot.modeSets,
   );
   const declared = new Set(
     bundle.fields.flatMap((field) =>

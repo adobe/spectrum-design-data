@@ -15,7 +15,7 @@ import indexField from "../../data/design-data-tshirt-profile/fields/scaleIndex.
 import anatomyField from "../../../../../packages/design-data/fields/anatomy.json" with { type: "json" };
 import densityField from "../../../../../packages/design-data/fields/density.json" with { type: "json" };
 import sizes from "../../data/design-data-tshirt-profile/registry/sizes.json" with { type: "json" };
-import properties from "../../data/design-data-tshirt-profile/registry/property-terms.json" with { type: "json" };
+import properties from "../../../../../packages/design-data/registry/property-terms.json" with { type: "json" };
 import positions from "../../data/design-data-tshirt-profile/registry/positions.json" with { type: "json" };
 import provenance from "../../data/design-data-tshirt-profile/provenance.json" with { type: "json" };
 import { kebabCaseNameFormatter } from "../taxonomy/formatting";
@@ -64,6 +64,8 @@ export const TSHIRT_PROFILE = {
     "Schema-valid row UUID subset, not complete written-spec, SDK, cascade or dataset conformance.",
     "Token objects use the current canonical concept-identity schema; derivations remain separate authoring lineage.",
     "Canonical integer scaleIndex values and existing string indices are both schema-valid.",
+    "Token schema and property vocabulary use the current repository; vendored reference files retain their historical pin.",
+    "Unitless line-height and Bar length/thickness are app-owned property extensions, not upstream-accepted vocabulary.",
     "Formatting explicitly includes scaleIndex; the upstream legacy formatter currently excludes it.",
     "Foundation scale names and physical positions are declared extensions, not upstream-accepted vocabulary.",
     "Finite px dimensions use local exact-value checks; no upstream dimension value schema exists at this pin.",
@@ -203,6 +205,9 @@ export function assertTshirtToken(
   )
     throw new Error("T-shirt output needs a UUID and structured name.");
   if (
+    !["unitless-line-height", "length", "thickness"].includes(
+      String(value.name.property),
+    ) &&
     !properties.values.some((property) => property.id === value.name.property)
   )
     throw new Error(`Unmapped property "${value.name.property}".`);
@@ -267,21 +272,42 @@ export function assertTshirtToken(
   }
 }
 
+interface TshirtGraphModeSet {
+  key: string;
+  defaultModeId: string;
+  modes: readonly { id: string; key: string }[];
+}
+
 export function assertTshirtGraph(
   tokens: readonly TshirtTokenRecord[],
   canonicalName: (token: TshirtTokenRecord) => string | undefined = () =>
     undefined,
   declaredSizes: readonly string[] = [],
+  modeSets: readonly TshirtGraphModeSet[] = [],
 ) {
   const byId = new Map<string, TshirtTokenRecord>(),
     names = new Set<string>(),
     formatted = new Set<string>();
   for (const token of tokens) {
-    if (canonicalName(token)) {
+    if (token.conceptId || canonicalName(token)) {
       if (!validateToken(token))
         throw new Error(
           `Invalid variant token: ${ajv.errorsText(validateToken.errors)}`,
         );
+      if (
+        token.name.property === "shadow"
+          ? token.$valueType !== SHADOW_VALUE_TYPE
+          : token.$valueType !== undefined
+      )
+        throw new Error(
+          "The generated token declares an unsupported value type.",
+        );
+      if (
+        token.name.property === "shadow" &&
+        "value" in token &&
+        !validateShadow(token.value)
+      )
+        throw new Error("Complete shadows need a valid pinned shadow array.");
       if (
         "value" in token &&
         token.name.property !== "shadow" &&
@@ -295,13 +321,28 @@ export function assertTshirtGraph(
     } else assertTshirtToken(token, declaredSizes);
     const name = canonicalJson(token.name);
     const displayName = canonicalName(token) ?? formatTshirtName(token.name);
-    if (byId.has(token.uuid) || names.has(name) || formatted.has(displayName))
+    const context = Object.fromEntries(
+      modeSets.flatMap((axis) => {
+        const mode = axis.modes.find((mode) =>
+          token.name[axis.key] === undefined
+            ? mode.id === axis.defaultModeId
+            : mode.key === token.name[axis.key],
+        );
+        if (!mode)
+          throw new Error(
+            `Invalid ${axis.key} context for emitted token ${token.uuid}.`,
+          );
+        return token.name[axis.key] === undefined ? [] : [[axis.key, mode.key]];
+      }),
+    );
+    const displayKey = canonicalJson([displayName, context]);
+    if (byId.has(token.uuid) || names.has(name) || formatted.has(displayKey))
       throw new Error(
         "Duplicate emitted token UUID, structured name or formatted name.",
       );
     byId.set(token.uuid, token);
     names.add(name);
-    formatted.add(displayName);
+    formatted.add(displayKey);
   }
   for (const token of tokens) {
     const visited = new Set<string>();
@@ -334,23 +375,33 @@ export function assertTshirtGraph(
                   "min-height",
                   "max-width",
                   "max-height",
+                  "length",
+                  "thickness",
                 ].includes(String(token.name.property))
               ? "size"
               : token.name.property;
       if (
         !target.name.structure &&
         !target.name.element &&
-        target.name.property !== family
+        (target.name.property === "radius"
+          ? "corner-radius"
+          : target.name.property) !== family
       )
         throw new Error(
-          "An alias target belongs to an incompatible primitive family.",
+          `Alias ${token.uuid} (${token.name.property}) targets an incompatible primitive family: ${target.uuid} (${target.name.property}, expected ${family}).`,
         );
-      for (const [key, value] of Object.entries(target.name)) {
+      for (const axis of modeSets) {
+        if (target.name[axis.key] === undefined) continue;
+        const fallback = axis.modes.find(
+          (mode) => mode.id === axis.defaultModeId,
+        )?.key;
         if (
-          !TSHIRT_NAMING_FIELDS.some((field) => field.name === key) &&
-          token.name[key] !== value
+          (target.name[axis.key] ?? fallback) !==
+          (token.name[axis.key] ?? fallback)
         )
-          throw new Error(`Alias target has an incompatible ${key} context.`);
+          throw new Error(
+            `Alias target has an incompatible ${axis.key} context: ${token.uuid} (${token.name[axis.key] ?? fallback}) targets ${target.uuid} (${target.name[axis.key]}).`,
+          );
       }
       current = target;
     }

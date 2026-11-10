@@ -39,7 +39,8 @@ import {
 } from "../taxonomy/variantVocabulary";
 import { generatorTermId } from "../logic/generator";
 import { kebabCaseNameFormatter } from "../taxonomy/formatting";
-import { canonicalTokenModeKey } from "../tokens/browserModel";
+import { canonicalTokenModeKey, tokenModeSetIds } from "../tokens/browserModel";
+import { modeSelections } from "../modes/combinations";
 import { scaleIdentityContext } from "../modes/scaleKeys";
 import { semanticIdentityKey } from "../structures/semanticIdentity";
 import type { TshirtAuthoringSource } from "./tshirtArtifacts";
@@ -170,6 +171,7 @@ function contextsFor(
   binding: ElementBinding,
   anchor: PrimitiveReference,
   aliases: LeafResources["aliases"],
+  modeSets: TshirtAuthoringSource["modeSets"],
 ): LeafContext[] {
   const related =
     "$ref" in binding
@@ -192,20 +194,10 @@ function contextsFor(
     throw new Error(
       "The leaf binding's mode values are unavailable. Repair its primitive source.",
     );
-  const contexts = new Map<string, LeafContext>();
-  for (const row of related) {
-    const selection = Object.fromEntries(
-      JSON.parse(row.context) as [string, string][],
-    );
-    contexts.set(row.context, {
-      selection,
-      context: {},
-      related,
-    });
-  }
-  if (!contexts.size)
-    contexts.set("[]", { context: {}, selection: {}, related: [] });
-  return [...contexts.values()];
+  const axes = new Set(related.flatMap((row) => tokenModeSetIds(row.context)));
+  return modeSelections(modeSets.filter((axis) => axes.has(axis.id))).map(
+    (selection) => ({ selection, context: {}, related }),
+  );
 }
 
 function referencesForContext(
@@ -442,7 +434,12 @@ function appendBindings(
     const application = applications.find(
       (item) => item.binding.id === binding.id,
     );
-    for (const context of contextsFor(binding, anchor, resources.aliases)) {
+    for (const context of contextsFor(
+      binding,
+      anchor,
+      resources.aliases,
+      source.modeSets,
+    )) {
       const contextual = referencesForContext(anchor, context, references);
       const contextualAnchor =
         "$ref" in binding
@@ -530,14 +527,13 @@ function contextualScopes(
 export function appendVariantLeafRows(
   source: TshirtAuthoringSource,
   bundle: TshirtArtifactBundle,
+  resources?: LeafResources,
 ) {
   if (!source.taxonomy || !source.structures) return;
-  const resources = resourcesFor(source);
-  if (!resources) return;
   for (const { context, source: structure } of contextualScopes(
     source.structures.structures,
   )) {
-    if (!structureGenerationHasName(context, resources.taxonomy)) continue;
+    if (!structureGenerationHasName(context, source.taxonomy)) continue;
     if (!structure.editor) continue;
     const editor = structureEditor(structure);
     for (const property of editor.properties) {
@@ -572,7 +568,9 @@ export function appendVariantLeafRows(
                 )
             );
           });
-          if (changed.length)
+          if (changed.length) {
+            resources ??= resourcesFor(source);
+            if (!resources) return;
             appendBindings(
               source,
               bundle,
@@ -584,6 +582,7 @@ export function appendVariantLeafRows(
               property,
               option.id,
             );
+          }
         }
       }
     }
@@ -595,14 +594,15 @@ function appendDefaultLeafRows(
   bundle: TshirtArtifactBundle,
 ) {
   if (!source.structures || !source.taxonomy) return;
-  const resources = resourcesFor(source);
-  if (!resources) return;
+  let resources: LeafResources | undefined;
   for (const { context, source: structure } of contextualScopes(
     source.structures.structures,
   )) {
-    if (!structureGenerationHasName(context, resources.taxonomy)) continue;
+    if (!structureGenerationHasName(context, source.taxonomy)) continue;
     for (const element of structure.elements ?? [])
-      if (element.kind !== "structureReference" && element.bindings.length)
+      if (element.kind !== "structureReference" && element.bindings.length) {
+        resources ??= resourcesFor(source);
+        if (!resources) return;
         appendBindings(
           source,
           bundle,
@@ -612,7 +612,9 @@ function appendDefaultLeafRows(
           element,
           element.bindings,
         );
+      }
   }
+  return resources;
 }
 
 function structureGenerationHasName(
@@ -836,7 +838,7 @@ export function appendStructureLeafRows(
   source: TshirtAuthoringSource,
   bundle: TshirtArtifactBundle,
 ) {
-  appendDefaultLeafRows(source, bundle);
-  appendVariantLeafRows(source, bundle);
+  const resources = appendDefaultLeafRows(source, bundle);
+  appendVariantLeafRows(source, bundle, resources);
   appendLayoutLiteralRows(source, bundle);
 }

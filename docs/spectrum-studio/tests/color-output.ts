@@ -27,7 +27,12 @@ import {
   xyzD65ToLinear,
   outputColorCss,
   linearToCss,
+  requiresOutputGamutMapping,
 } from "../src/features/color-system/colorMath";
+import {
+  scaleInterpolation,
+  type ColorScale,
+} from "../src/features/color-system/model";
 import { createColorDefaults } from "../src/data/defaults";
 import {
   buildRamp,
@@ -57,6 +62,71 @@ function assertOutputPrecision(css: string, settings: ColorOutputSettings) {
     assert.match(css, /^rgba?\(\d+, \d+, \d+(?:, (?:0(?:\.\d{1,2})?|1))?\)$/);
 }
 
+function assertRamp(scale: ColorScale, settings: ColorOutputSettings) {
+  const gamut = outputGamut(settings);
+  const preserve = requiresOutputGamutMapping(settings);
+  const ramp = buildRamp(scale, settings);
+  assert.deepEqual(ramp[0].linear, [0, 0, 0]);
+  assert.deepEqual(ramp.at(-1)!.linear, [1, 1, 1]);
+  if (scaleInterpolation(scale) === "oklch") {
+    for (const sample of ramp) {
+      const { hue, chroma } = scaleHueChromaAt(scale.stops, sample.lightness);
+      assert.deepEqual(
+        sample.linear,
+        gamutClamp(
+          sample.lightness,
+          (chroma / 100) * MAX_CHROMA,
+          hue,
+          gamut,
+          preserve,
+        ),
+        "OKLCh ramps retain native interpolation and explicit output mapping.",
+      );
+    }
+    return;
+  }
+  const space = gamut === "display-p3" ? "p3" : gamut;
+  const points = [
+    { lightness: 0, color: new Color(space, [0, 0, 0]) },
+    ...[...scale.stops]
+      .sort((left, right) => left.lightness - right.lightness)
+      .map((stop) => ({
+        lightness: stop.lightness,
+        color: new Color(`${space}-linear`, [
+          ...gamutClamp(
+            stop.lightness,
+            (stop.chroma / 100) * MAX_CHROMA,
+            stop.hue,
+            gamut,
+            preserve,
+          ),
+        ]).to(space),
+      })),
+    { lightness: 1, color: new Color(space, [1, 1, 1]) },
+  ];
+  for (const sample of ramp.filter(
+    (sample) => sample.lightness > 0 && sample.lightness < 1,
+  )) {
+    const upperIndex = points.findIndex(
+      (point) => point.lightness >= sample.lightness,
+    );
+    const lower = points[upperIndex - 1];
+    const upper = points[upperIndex];
+    const fraction =
+      (sample.lightness - lower.lightness) /
+      (upper.lightness - lower.lightness);
+    const expected = lower.color
+      .mix(upper.color, fraction, { space })
+      .to(`${space}-linear`).coords;
+    sample.linear.forEach((channel, index) =>
+      assert(
+        Math.abs(channel - Number(expected[index])) < 1e-9,
+        "RGB ramps blend gamma-encoded channels between mapped key colors.",
+      ),
+    );
+  }
+}
+
 const defaults = createColorDefaults();
 for (const authoringGamut of COLOR_GAMUTS)
   for (const outputFormat of COLOR_FORMATS) {
@@ -67,19 +137,8 @@ for (const authoringGamut of COLOR_GAMUTS)
     };
     if (!isColorOutputSettings(settings)) continue;
     for (const scale of defaults.scales)
-      for (const sample of buildRamp(scale, settings)) {
-        const { hue, chroma } = scaleHueChromaAt(scale.stops, sample.lightness);
-        assert.deepEqual(
-          sample.linear,
-          gamutClamp(
-            sample.lightness,
-            (chroma / 100) * MAX_CHROMA,
-            hue,
-            authoringGamut,
-          ),
-          "Formatting must not replace the existing native-gamut ramp algorithm.",
-        );
-      }
+      for (const interpolation of ["oklch", "rgb"] as const)
+        assertRamp({ ...scale, interpolation }, settings);
     for (const color of defaults.palette) {
       assert.deepEqual(
         paletteColorLinear(color, settings),
@@ -100,20 +159,8 @@ for (const authoringGamut of ["display-p3", "rec2020"] as const) {
     mapOutputsToSrgb: true,
   };
   for (const scale of defaults.scales)
-    for (const sample of buildRamp(scale, settings)) {
-      const { hue, chroma } = scaleHueChromaAt(scale.stops, sample.lightness);
-      assert.deepEqual(
-        sample.linear,
-        gamutClamp(
-          sample.lightness,
-          (chroma / 100) * MAX_CHROMA,
-          hue,
-          "srgb",
-          true,
-        ),
-        "Explicit wide-to-sRGB output mapping uses the pinned appearance-preserving algorithm.",
-      );
-    }
+    for (const interpolation of ["oklch", "rgb"] as const)
+      assertRamp({ ...scale, interpolation }, settings);
 }
 for (const gamut of COLOR_GAMUTS) {
   assert.deepEqual(gamutClamp(0, 0.5, 140, gamut), [0, 0, 0]);

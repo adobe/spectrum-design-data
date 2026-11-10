@@ -27,9 +27,6 @@ export type ComponentImpactResult =
   | { status: "ready"; summary: ComponentImpactSummary }
   | { status: "unavailable"; error: string };
 
-const MISSING = "\u0000missing";
-const UNAVAILABLE = "\u0000unavailable";
-
 /** The value an assignment gives its component: its literal, or the value of the token it references. */
 function effectiveValue(
   row: ComponentAssignment,
@@ -37,8 +34,12 @@ function effectiveValue(
 ): string {
   if ("$ref" in row && row.$ref !== undefined) {
     const token = tokens.get(row.$ref);
-    if (!token) return MISSING;
-    return token.outputError ? UNAVAILABLE : canonicalJson(token.value);
+    if (!token)
+      throw new Error(
+        `Component assignment ${row.id} refers to unavailable token ${row.$ref}.`,
+      );
+    if (token.outputError) throw token.outputError;
+    return canonicalJson(token.value);
   }
   return canonicalJson("value" in row ? row.value : null);
 }

@@ -56,7 +56,7 @@ const expected = [
   ["tokens", "Tokens", "Channel"],
   ["foundations", "Foundations", "Shapes"],
   ["components", "Components", "Briefcase"],
-  ["system-health", "System health", "SpeedFast"],
+  ["system-health", "System health (FPO)", "SpeedFast"],
 ];
 assert.equal(links.length, expected.length);
 for (const [index, [slug, label, illustration]] of expected.entries()) {
@@ -65,10 +65,25 @@ for (const [index, [slug, label, illustration]] of expected.entries()) {
     textAttribute(link.openingElement.attributes, "href"),
     `#${slug}`,
   );
-  assert.match(
-    link.getText(source),
-    new RegExp(`<h3>${label}\\s*</h3>`),
-    "Keep the existing visible link label.",
+  const headings: ts.JsxElement[] = [];
+  function collectHeadings(node: ts.Node) {
+    if (
+      ts.isJsxElement(node) &&
+      node.openingElement.tagName.getText(source) === "h3"
+    )
+      headings.push(node);
+    ts.forEachChild(node, collectHeadings);
+  }
+  collectHeadings(link);
+  assert.equal(headings.length, 1);
+  assert.equal(
+    headings[0].children
+      .filter(ts.isJsxText)
+      .map((child) => child.text)
+      .join("")
+      .trim(),
+    label,
+    "Keep the existing visible link label, including placeholder status.",
   );
   const images = link.children.filter(ts.isJsxSelfClosingElement);
   assert.equal(images.length, 1);

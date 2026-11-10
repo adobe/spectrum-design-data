@@ -42,7 +42,6 @@ assert.equal(
   "ready",
   catalog.status === "unavailable" ? catalog.error : "",
 );
-if (catalog.status !== "ready") throw new Error(catalog.error);
 const row = catalog.rows.find(
   (row) => row.token.type === "spacing" && !row.token.semantic,
 )!;
@@ -56,6 +55,7 @@ const value = Number(row.token.value) + 1;
 draft.assignments[row.context] = { kind: "literal", value };
 store.set(saveTokenDialogAtom, { draft, expected: initial });
 const working = store.get(authoringSnapshotAtom);
+assert.ok(working.browserTokenEdits);
 assert.equal(
   store.get(browserTokenEditsAtom)[row.token.id].authoring?.assignments[
     row.context
@@ -75,7 +75,6 @@ assert.equal(
   "ready",
   updated.status === "unavailable" ? updated.error : "",
 );
-if (updated.status !== "ready") throw new Error(updated.error);
 assert.equal(
   resolveDialogTokens(
     updated.rows,
@@ -120,7 +119,6 @@ store.set(saveTokenDialogAtom, {
   expected: store.get(authoringSnapshotAtom),
 });
 const shadowCatalog = store.get(tokenDialogCatalogAtom);
-assert.equal(shadowCatalog.status, "ready");
 if (shadowCatalog.status !== "ready") throw new Error(shadowCatalog.error);
 const shadow = shadowCatalog.rows.find(
   (row) => row.token.type === "elevation" && !row.token.semantic,
@@ -182,7 +180,6 @@ const tableForCatalog = () => {
     "ready",
     current.status === "unavailable" ? current.error : "",
   );
-  if (current.status !== "ready") throw new Error(current.error);
   const table = allModeTokenTableRows(current.rows, current.snapshot.modeSets);
   const catalogTokens = new Map(
     current.rows.map((row) => [

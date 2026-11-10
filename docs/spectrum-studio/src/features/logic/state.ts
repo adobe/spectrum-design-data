@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom, type Setter } from "jotai";
+import { atom, type Getter, type Setter } from "jotai";
 import { spacingDocumentAtom } from "../spacing/state";
 import { sizeDocumentAtom } from "../size/state";
 import { radiusDocumentAtom } from "../radius/state";
@@ -19,7 +19,7 @@ import { colorSystemDocumentAtom } from "../color-system/state";
 import { assertCustomContrastNaming } from "../color-system/contrastSteps";
 import { reconcileColorSourceNames } from "../taxonomy/naming";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { conditionSources, conditionalIssues } from "./conditional";
 import {
   prepareGeneratorEdit,
@@ -60,6 +60,32 @@ export function writeReferences(
   set(spacingDocumentAtom, documents.spacing);
   if (documents.size) set(sizeDocumentAtom, documents.size);
   if (documents.radius) set(radiusDocumentAtom, documents.radius);
+}
+
+function writeRuleSources(
+  get: Getter,
+  set: Setter,
+  rules: Rule[],
+  documents: RuleReferenceDocuments,
+) {
+  withValidatedAuthoringUpdates(
+    get,
+    new Map<string, unknown>([
+      ["rules/library", rules],
+      ["foundations/typography", documents.typography],
+      ["foundations/spacing", documents.spacing],
+      ...(documents.size
+        ? [["foundations/size", documents.size] as const]
+        : []),
+      ...(documents.radius
+        ? [["foundations/radius", documents.radius] as const]
+        : []),
+    ]),
+    () => {
+      set(rulesAtom, rules);
+      writeReferences(set, documents);
+    },
+  );
 }
 
 /** Authored rules are never locked; only shipped built-ins are. */
@@ -151,15 +177,12 @@ export const removeRuleAtom = atom(
         `"${rules[index].name}" is used by Structure generation. Remove or change its applications before deleting the rule.`,
       );
     }
-    set(
-      rulesAtom,
+    writeRuleSources(
+      get,
+      set,
       rules.filter((rule) => rule.id !== id),
+      reassignConsumers(documents, consumers, WHOLE_NUMBERS_RULE_ID),
     );
-    if (consumers.length > 0)
-      writeReferences(
-        set,
-        reassignConsumers(documents, consumers, WHOLE_NUMBERS_RULE_ID),
-      );
     return { rule: rules[index], index, consumers };
   },
 );
@@ -169,7 +192,6 @@ export const restoreRuleAtom = atom(null, (get, set, removed: RemovedRule) => {
   if (rules.some((rule) => rule.id === removed.rule.id)) return;
   const next = [...rules];
   next.splice(Math.min(removed.index, next.length), 0, removed.rule);
-  set(rulesAtom, next);
   // Only slots still on the fallback go back, so edits made since the delete win.
   const documents = get(referenceDocumentsAtom);
   const live = ruleConsumers(documents);
@@ -180,11 +202,12 @@ export const restoreRuleAtom = atom(null, (get, set, removed: RemovedRule) => {
         candidate.ruleId === WHOLE_NUMBERS_RULE_ID,
     ),
   );
-  if (restorable.length > 0)
-    writeReferences(
-      set,
-      reassignConsumers(documents, restorable, removed.rule.id),
-    );
+  writeRuleSources(
+    get,
+    set,
+    next,
+    reassignConsumers(documents, restorable, removed.rule.id),
+  );
 });
 
 export const setRuleReferenceAtom = atom(

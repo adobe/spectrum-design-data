@@ -52,6 +52,7 @@ import {
   composeDesignSystemDefaults,
 } from "../src/features/design-data/validation";
 import { designSystemDefaults } from "../src/data/defaults";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
 
 execFileSync(
   process.execPath,
@@ -67,6 +68,7 @@ execFileSync(
 );
 
 const baseline = createDefaultSnapshot();
+const legacyIdentity = createLegacyIdentitySnapshot();
 const scaleSet = baseline.modeSets.find((set) => set.key === "scale")!;
 assert.deepEqual(responsibleParameterIds(baseline.modeSets, scaleSet.id), [
   "size.componentSize",
@@ -112,6 +114,8 @@ delete legacySettings["size.componentSize"];
 delete legacySettings["typography.textSize"];
 const legacy: Record<string, unknown> = {
   ...baseline,
+  components: legacyIdentity.components,
+  browserTokenEdits: legacyIdentity.browserTokenEdits,
   typography: legacyType,
   modeSets: legacyModes,
   structures: synchronizeVariantIdentities(baseline.structures!, legacyModes),
@@ -137,7 +141,7 @@ assert.deepEqual(upgraded.typography, {
   schemaVersion: 9,
   textSize: 1,
 });
-assert.deepEqual(upgraded.browserTokenEdits, baseline.browserTokenEdits);
+assert.deepEqual(upgraded.browserTokenEdits, legacy.browserTokenEdits);
 assert.throws(
   () =>
     assertStoredSnapshot(

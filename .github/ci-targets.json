@@ -13,6 +13,7 @@
     "component-options-editor:build",
     "component-options-editor:validate",
     "spectrum-studio:typecheck",
+    "spectrum-studio:lint",
     "spectrum-studio:build",
     "spectrum-studio:test",
     "root:test",

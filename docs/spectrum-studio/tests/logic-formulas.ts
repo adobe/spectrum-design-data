@@ -237,7 +237,7 @@ assert.notEqual(
   );
   assert.deepEqual(
     ignored.map((item) => [item.consumer.label, item.parts]),
-    [["Spacing › Global", ["Base", "Ratio"]]],
+    [["Spacing › global", ["Base", "Ratio"]]],
   );
   assert.deepEqual(
     ignoredOverrides(geometric, TYPOGRAPHY_DEFAULTS, spacing, SIZE_DEFAULTS),

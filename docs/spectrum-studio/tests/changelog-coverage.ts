@@ -146,13 +146,11 @@ assert.equal(
   restoredParent.modeSets.find((set) => set.id === colorSet.id)!.name,
   shipped.modeSets.find((set) => set.id === colorSet.id)!.name,
 );
-assert.equal(
-  restoredParent.modeSets
-    .find((set) => set.id === colorSet.id)!
-    .modes.find((mode) => mode.id === dark.id)!.foundations.color
-    .backgroundLightness,
-  0.2,
-);
+const restoredDark = restoredParent.modeSets
+  .find((set) => set.id === colorSet.id)!
+  .modes.find((mode) => mode.id === dark.id);
+assert.ok(restoredDark?.foundations.color);
+assert.equal(restoredDark.foundations.color.backgroundLightness, 0.2);
 
 console.log(
   "changelog coverage: registered sources, union inventories and scoped reset addresses passed",

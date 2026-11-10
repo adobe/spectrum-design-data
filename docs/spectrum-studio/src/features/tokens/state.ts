@@ -39,10 +39,8 @@ import {
   type TokenOverrideMap,
 } from "./overrides";
 import { browserTokenEditsAtom } from "./browserEdits";
-import {
-  canonicalTokenModeKey,
-  resolveBrowserColorToken,
-} from "./browserModel";
+import { canonicalTokenModeKey } from "./browserModel";
+import { resolveBrowserColorTokens } from "./colorResolution";
 import { rulesAtom } from "../logic/library";
 import { opacityDocumentAtom } from "../opacity/state";
 import { assertColorScaleOutput } from "../color-system/colorScaleResolution";
@@ -148,13 +146,13 @@ export const colorTokenSetAtom = atom((get): TokenSet => {
     schemaVersion: TOKEN_SET_SCHEMA_VERSION,
     id: "light",
     name: "light",
-    tokens: get(generatedColorTokensAtom).map((generated) =>
-      resolveBrowserColorToken(
+    tokens: resolveBrowserColorTokens(
+      get(generatedColorTokensAtom).map((generated) =>
         resolveToken(generated, overrides[generated.uuid]),
-        edits,
-        modeKey,
-        get(resolvedColorSystemDocumentAtom),
       ),
+      edits,
+      modeKey,
+      get(resolvedColorSystemDocumentAtom),
     ),
   };
 });
@@ -162,7 +160,17 @@ export const colorTokenSetAtom = atom((get): TokenSet => {
 const hasTokenEditsAtom = atom(
   (get) =>
     Object.keys(get(tokenOverridesAtom)).length > 0 ||
-    Object.keys(get(browserTokenEditsAtom)).length > 0,
+    Object.values(get(browserTokenEditsAtom)).some(
+      (edit) =>
+        edit.name !== undefined ||
+        edit.description !== undefined ||
+        edit.status !== undefined ||
+        Object.keys(edit.values).length > 0 ||
+        Object.keys(edit.authoring?.assignments ?? {}).length > 0 ||
+        edit.authoring?.classification !== undefined ||
+        edit.authoring?.manual !== undefined ||
+        edit.authoring?.lifecycle !== undefined,
+    ),
 );
 export const overriddenTokenCountAtom = atom((get) =>
   get(hasTokenEditsAtom)

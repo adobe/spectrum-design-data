@@ -5,20 +5,17 @@ import {
   typographyTokenName,
   type TypographyNamingContext,
 } from "../typography/typographyTokens";
-import { isPaletteToken, tokenDisplayName, type ResolvedToken } from "./model";
+import type { ResolvedToken } from "./model";
 import type { GeneratedTypographyToken } from "../typography/model";
 import type { GeneratedSpacingValue, SpacingScale } from "../spacing/model";
-import { temporaryTokenGroupForPrimitiveColorTokens } from "./view/temporaryTokenTermOrdering";
+import { browserColorSources } from "./colorBrowserSources";
 import type { BrowserTokenSource } from "./browserModel";
 import {
-  taxonomyColorSourceId,
   taxonomyDimensionSourceId,
-  taxonomyPaletteSourceId,
   withTaxonomyProjection,
 } from "../taxonomy/model";
 import type { ColorSystemDocument } from "../color-system/model";
 import type { TaxonomyDocument } from "../taxonomy/model";
-import { governedColorContext } from "../taxonomy/colorGovernance";
 import { governedFoundationContext } from "../taxonomy/foundationGovernance";
 import type { DimensionScope } from "../taxonomy/model";
 import { dimensionIssues } from "../scales/issues";
@@ -69,47 +66,7 @@ function sourceBatch(
   radiusScales: { scale: SpacingScale; values: GeneratedSpacingValue[] }[],
   options: { includeUnpublished?: boolean },
 ): BrowserTokenSource[] {
-  const colorSources: BrowserTokenSource[] =
-    temporaryTokenGroupForPrimitiveColorTokens(colors).flatMap((group) =>
-      group.tokens.map((token) => ({
-        id: token.uuid,
-        tier: "primitive",
-        type: "colors",
-        groupId: group.id,
-        groupLabel: group.label,
-        name: tokenDisplayName(token.name),
-        value: token.value,
-        generatedName: tokenDisplayName(token.generated.name),
-        generatedValue: token.generated.value,
-        unit: "",
-        legacyOverridden: token.valueOverridden,
-        legacyStale: token.stale,
-        taxonomyEvidence: {
-          property: "color",
-          colorFamily: token.generated.name.colorName,
-          ...(token.generated.name.contrastValue
-            ? { contrastLabel: token.generated.name.contrastValue }
-            : {}),
-        },
-        taxonomySource: colorNaming
-          ? governedColorContext(
-              colorNaming.document,
-              colorNaming.registry,
-              token.source.scaleId,
-              token.source.contrastId,
-              colorNaming.rules,
-            )
-          : isPaletteToken(token)
-            ? { id: taxonomyPaletteSourceId(token.source.contrastId) }
-            : {
-                id: taxonomyColorSourceId(token.source.scaleId),
-                stepId: token.source.contrastId,
-              },
-        ...(isPaletteToken(token) && {
-          paletteColorId: token.source.contrastId,
-        }),
-      })),
-    );
+  const colorSources = browserColorSources(colors, colorNaming);
   const typography: BrowserTokenSource[] = typographyTokenGroups(
     typographyTokens,
     typographyNaming,

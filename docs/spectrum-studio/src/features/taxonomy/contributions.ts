@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom, type Getter, type WritableAtom } from "jotai";
+import { atom, type Getter, type Setter, type WritableAtom } from "jotai";
 import { taxonomyDocumentAtom } from "./state";
 import {
   registerTerm,
@@ -14,6 +14,10 @@ export interface TermContribution {
   sourceId?: string;
   field: string;
   value: TaxonomyValue;
+}
+export interface RelatedAuthoringUpdates {
+  updates: ReadonlyMap<string, unknown>;
+  write: (set: Setter) => void;
 }
 export function contributeTerms(
   document: TaxonomyDocument,
@@ -54,6 +58,12 @@ export function withTaxonomyContributions<T>(
       next: T,
       get: Getter,
     ) => { document: T; taxonomy: TaxonomyDocument };
+    related?: (
+      get: Getter,
+      previous: T,
+      next: T,
+      taxonomy: TaxonomyDocument,
+    ) => RelatedAuthoringUpdates | undefined;
   },
 ) {
   return atom(
@@ -89,15 +99,18 @@ export function withTaxonomyContributions<T>(
           evidence(previous),
           evidence(next),
         );
+        const related = naming?.related?.(get, previous, next, taxonomy);
         return withValidatedAuthoringUpdates(
           get,
           new Map<string, unknown>([
             [sourceKey, next],
             ["registry/taxonomy", taxonomy],
+            ...(related?.updates ?? []),
           ]),
           () => {
             if (taxonomy !== get(taxonomyDocumentAtom))
               set(taxonomyDocumentAtom, taxonomy);
+            related?.write(set);
             set(stored, next);
           },
         );

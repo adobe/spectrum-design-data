@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
+import Color from "colorjs.io";
 import {
   appColorSchemeAtom,
   authoringCapabilityOwnersAtom,
@@ -11,6 +12,7 @@ import {
   enterEditModeAtom,
   cancelEditAtom,
   saveEditAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { editModeAtom } from "../src/state/view/editMode";
 import {
@@ -35,10 +37,13 @@ import { colorTokenJsonAtom } from "../src/features/tokens/state";
 import { changeGroupsAtom } from "../src/features/changelog/state";
 import {
   createModeSet,
-  MODE_SETS_SCHEMA_VERSION,
+  isModeSetList,
   type ModeSet,
 } from "../src/features/modes/model";
-import { AUTHORING_CAPABILITY_OPTIONS } from "../src/features/modes/parameters";
+import {
+  AUTHORING_CAPABILITY_OPTIONS,
+  capabilityFoundations,
+} from "../src/features/modes/parameters";
 import { adaptiveClaimsAtom } from "../src/features/modes/adaptive";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import {
@@ -54,6 +59,14 @@ import {
   captureDimensionSource,
 } from "../src/features/design-data/dimensionArtifacts";
 import type { CascadeTokenExport } from "../src/features/tokens/cascadeExport";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
+import {
+  tokenEdit,
+  tokenIdentity,
+} from "../src/features/tokens/canonicalIdentity";
+import { serializeOutputColor } from "../src/features/color-system/outputSerialization";
+import { scaleTypesAtom } from "../src/features/logic/scaleTypeLibrary";
+import { createScaleType } from "../src/features/scales/scaleType";
 
 const locations = createStore();
 const originalSets = locations.get(modeSetsAtom);
@@ -246,9 +259,15 @@ store.set(resetModeAtom, { modeSetKey: "colorScheme", modeId: "mode-dark" });
 assert.equal(store.get(previewColorSchemeAtom), "dark");
 store.set(appColorSchemeAtom, "light");
 assert.equal(store.get(previewColorSchemeAtom), "dark");
-assert.equal(MODE_SETS_SCHEMA_VERSION, 11);
+assert.ok(isModeSetList(store.get(modeSetsAtom)));
 
 const color = store.get(modeSetsAtom).find((set) => set.key === "colorScheme")!;
+const declaredColorFoundations = [
+  ...new Set([
+    ...capabilityFoundations(color.authoringCapabilities ?? []),
+    ...(store.get(foundationModeAttachmentsAtom)[color.id] ?? []),
+  ]),
+].sort();
 assert.throws(
   () =>
     store.set(attachFoundationModeSetAtom, {
@@ -262,12 +281,10 @@ store.set(attachFoundationModeSetAtom, {
   modeSetId: color.id,
   foundation: "spacing",
 });
-assert.deepEqual(store.get(modeSetFoundationsAtom)[color.id].sort(), [
-  "color",
-  "elevation",
-  "opacity",
-  "spacing",
-]);
+assert.deepEqual(
+  store.get(modeSetFoundationsAtom)[color.id].sort(),
+  [...new Set([...declaredColorFoundations, "spacing"])].sort(),
+);
 assert.deepEqual(
   store.get(modeSetsAtom).find((set) => set.id === color.id),
   color,
@@ -277,11 +294,10 @@ store.set(detachFoundationModeSetAtom, {
   modeSetId: color.id,
   foundation: "spacing",
 });
-assert.deepEqual(store.get(modeSetFoundationsAtom)[color.id].sort(), [
-  "color",
-  "elevation",
-  "opacity",
-]);
+assert.deepEqual(
+  store.get(modeSetFoundationsAtom)[color.id].sort(),
+  declaredColorFoundations,
+);
 assert.throws(
   () =>
     store.set(detachFoundationModeSetAtom, {
@@ -338,6 +354,8 @@ assert.throws(
 );
 
 const removal = createStore();
+const legacySnapshot = createLegacyIdentitySnapshot();
+removal.set(restoreAuthoringSnapshotAtom, structuredClone(legacySnapshot));
 const shipped = removal.get(authoringSnapshotAtom);
 const shared = removal
   .get(modeSetsAtom)
@@ -345,44 +363,45 @@ const shared = removal
 removal.set(enterEditModeAtom);
 removal.set(
   modeSetsAtom,
-  removal.get(modeSetsAtom).map((set) =>
-    set.id === shared.id
-      ? {
-          ...set,
-          authoringCapabilities: [
-            "color.backgroundLightness",
-            "color.backgroundScaleId",
-            "typography.textZoom",
-          ],
-          modes: set.modes.map((mode) =>
-            mode.id === set.defaultModeId
-              ? mode
-              : {
-                  ...mode,
-                  foundations: {
-                    color: {
-                      ...mode.foundations.color,
-                      backgroundScaleId: shipped.colorSystem.scales[1].id,
-                      scaleStops: {
-                        [shipped.colorSystem.scales[0].id]: {
-                          [shipped.colorSystem.scales[0].stops[0].id]: {
-                            lightness: 0.3,
+  removal.get(modeSetsAtom).map(
+    (set): ModeSet =>
+      set.id === shared.id
+        ? {
+            ...set,
+            authoringCapabilities: [
+              "color.backgroundLightness",
+              "color.backgroundScaleId",
+              "typography.textZoom",
+            ],
+            modes: set.modes.map((mode) =>
+              mode.id === set.defaultModeId
+                ? mode
+                : {
+                    ...mode,
+                    foundations: {
+                      color: {
+                        ...mode.foundations.color,
+                        backgroundScaleId: shipped.colorSystem.scales[1].id,
+                        scaleStops: {
+                          [shipped.colorSystem.scales[0].id]: {
+                            [shipped.colorSystem.scales[0].stops[0].id]: {
+                              lightness: 0.3,
+                            },
                           },
                         },
                       },
+                      typography: { textZoom: 2 },
                     },
-                    typography: { textZoom: 2 },
                   },
-                },
-          ),
-        }
-      : set.key === "textScaling"
-        ? {
-            ...set,
-            authoringCapabilities: [],
-            modes: set.modes.map((mode) => ({ ...mode, foundations: {} })),
+            ),
           }
-        : set,
+        : set.key === "textScaling"
+          ? {
+              ...set,
+              authoringCapabilities: [],
+              modes: set.modes.map((mode) => ({ ...mode, foundations: {} })),
+            }
+          : set,
   ),
 );
 removal.set(adaptiveClaimsAtom, {
@@ -425,6 +444,7 @@ const typeEdit = {
   values: { [modeKey]: { value: 20, baseline: 16 } },
 };
 removal.set(browserTokenEditsAtom, {
+  ...removal.get(browserTokenEditsAtom),
   [baseRow.uuid]: {
     description: "Keep color notes",
     values: {
@@ -444,6 +464,14 @@ const globalOverride = {
 removal.set(tokenOverridesAtom, { [baseRow.uuid]: globalOverride });
 removal.set(saveEditAtom);
 const configured = removal.get(authoringSnapshotAtom);
+const configuredColorEdit = tokenEdit(
+  configured.browserTokenEdits!,
+  baseRow.uuid,
+)!;
+const configuredTypeEdit = tokenEdit(
+  configured.browserTokenEdits!,
+  "typography-font-size-100",
+)!;
 const attachments = removal.get(foundationModeAttachmentsAtom);
 removal.set(resetModeAtom, {
   modeSetKey: shared.key,
@@ -480,7 +508,6 @@ assert.deepEqual(
   otherSets,
 );
 assert.deepEqual(removal.get(modeSetFoundationsAtom)[shared.id], [
-  "opacity",
   "typography",
 ]);
 assert.equal(
@@ -497,13 +524,23 @@ assert.deepEqual(
   removal.get(authoringSnapshotAtom).taxonomy,
   configured.taxonomy,
 );
-assert.deepEqual(removal.get(browserTokenEditsAtom)[baseRow.uuid], {
-  description: "Keep color notes",
-  values: {},
-});
+const detachedColorEdit = tokenEdit(
+  removal.get(browserTokenEditsAtom),
+  baseRow.uuid,
+)!;
+assert.equal(detachedColorEdit.description, "Keep color notes");
+assert.deepEqual(detachedColorEdit.values, {});
+assert.equal(
+  tokenIdentity(removal.get(browserTokenEditsAtom), baseRow.uuid)?.conceptId,
+  configuredColorEdit.authoring?.identity?.conceptId,
+);
 assert.deepEqual(
-  removal.get(browserTokenEditsAtom)["typography-font-size-100"],
-  typeEdit,
+  new Set(Object.values(detachedColorEdit.authoring?.identity?.rows ?? {})),
+  new Set(Object.values(configuredColorEdit.authoring?.identity?.rows ?? {})),
+);
+assert.deepEqual(
+  tokenEdit(removal.get(browserTokenEditsAtom), "typography-font-size-100"),
+  configuredTypeEdit,
 );
 assert.deepEqual(removal.get(tokenOverridesAtom), {
   [baseRow.uuid]: globalOverride,
@@ -523,9 +560,10 @@ assert(
 removal.set(cancelEditAtom);
 assert.deepEqual(
   removal.get(authoringSnapshotAtom),
-  configured,
+  { ...configured, adaptiveClaims: {} },
   "Cancel restores data removed by one-click deletion.",
 );
+assert.deepEqual(removal.get(previewOverridesAtom), {});
 assert.deepEqual(removal.get(foundationModeAttachmentsAtom), attachments);
 removal.set(enterEditModeAtom);
 removal.set(detachFoundationModeSetAtom, {
@@ -560,7 +598,15 @@ const defaultRows = baselineOutput.tokens.filter(
 assert.deepEqual(
   flat.tokens,
   defaultRows.map((row) =>
-    row.uuid === baseRow.uuid ? { ...row, value: "#abcdef" } : row,
+    row.uuid === baseRow.uuid
+      ? {
+          ...row,
+          value: serializeOutputColor(
+            new Color(globalOverride.value),
+            configured.colorSystem.settings.colorOutput,
+          ),
+        }
+      : row,
   ),
   "Flat rows retain default values and UUIDs, not the selected dark override.",
 );
@@ -579,6 +625,7 @@ assert.deepEqual(
 );
 
 const equalModes = createStore();
+equalModes.set(restoreAuthoringSnapshotAtom, structuredClone(legacySnapshot));
 equalModes.set(
   modeSetsAtom,
   equalModes.get(modeSetsAtom).map((set) => ({
@@ -632,6 +679,25 @@ assert.deepEqual(
 
 for (const foundation of ["spacing", "size"] as const) {
   const dimensions = createStore();
+  const fixture = structuredClone(legacySnapshot);
+  const template = createScaleType("geometric");
+  const formula = {
+    ...template,
+    name: `${foundation} binding fixture`,
+    base: { ...template.base, adaptable: true, overridable: true },
+    parameters: template.parameters.map((parameter) => ({
+      ...parameter,
+      adaptable: true,
+      overridable: true,
+    })),
+  };
+  fixture.scaleTypes!.push(formula);
+  fixture[foundation]!.scales = fixture[foundation]!.scales.map((scale) => ({
+    ...scale,
+    scaleTypeId: formula.id,
+    parameters: { ratio: 1.25, offset: 0 },
+  }));
+  dimensions.set(restoreAuthoringSnapshotAtom, fixture);
   dimensions.set(enterEditModeAtom);
   const baseline = await buildDimensionArtifacts(
     captureDimensionSource(dimensions.get(authoringSnapshotAtom)),
@@ -643,6 +709,16 @@ for (const foundation of ["spacing", "size"] as const) {
     foundation === "spacing"
       ? dimensions.get(spacingDocumentAtom)
       : dimensions.get(sizeDocumentAtom);
+  const parameters = new Map(
+    document.scales.map((scale) => {
+      const formula = dimensions
+        .get(scaleTypesAtom)
+        .find((item) => item.id === scale.scaleTypeId)!;
+      const parameter = formula.parameters.find((item) => item.adaptable);
+      assert.ok(parameter, "The fixture needs an adaptable formula parameter.");
+      return [scale.id, parameter];
+    }),
+  );
   const bound = {
     ...document,
     scales: document.scales.map((scale) => ({
@@ -657,13 +733,13 @@ for (const foundation of ["spacing", "size"] as const) {
             { at: 8, value: 16 },
           ],
         },
-        [foundation === "spacing" ? "ratio" : "step"]: {
+        [parameters.get(scale.id)!.id]: {
           modeParameterId: "color.contrastMultiplier",
           method: "linear" as const,
           points: [
-            { at: 0, value: 1 },
-            { at: 1, value: 1.25 },
-            { at: 2, value: 1.5 },
+            { at: 0, value: parameters.get(scale.id)!.default * 0.8 },
+            { at: 1, value: parameters.get(scale.id)!.default },
+            { at: 2, value: parameters.get(scale.id)!.default * 1.2 },
           ],
         },
       },
@@ -688,8 +764,7 @@ for (const foundation of ["spacing", "size"] as const) {
   assert(
     detached.scales.every(
       (scale) =>
-        !scale.bindings?.base &&
-        scale.bindings?.[foundation === "spacing" ? "ratio" : "step"],
+        !scale.bindings?.base && scale.bindings?.[parameters.get(scale.id)!.id],
     ),
     "Only this foundation's bindings to the removed set are released.",
   );

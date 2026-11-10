@@ -46,10 +46,17 @@ import {
 import {
   deleteScaleTypeAtom,
   normalizeLockedBindingsAtom,
+  replaceScaleTypeWithConsumersAtom,
 } from "../src/features/logic/scaleTypeReferences";
 import { createBinding } from "../src/features/scales/binding";
 import { BINDABLE_PARAMETER_RANGES } from "../src/features/modes/parameters";
-import { spacingDocumentAtom } from "../src/features/spacing/state";
+import {
+  addSpacingScaleAtom,
+  spacingDocumentAtom,
+} from "../src/features/spacing/state";
+import { sizeDocumentAtom } from "../src/features/size/state";
+import { radiusDocumentAtom } from "../src/features/radius/state";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 
 function logicItems(store: ReturnType<typeof createStore>) {
   return (
@@ -58,23 +65,26 @@ function logicItems(store: ReturnType<typeof createStore>) {
   );
 }
 
-// Defaults ship the starting formulas; none are locked.
+// Shipped capabilities and lock policies survive initialization.
 assert.deepEqual(
   createStore()
     .get(scaleTypesAtom)
     .map((scaleType) => scaleType.id),
   SCALE_TYPE_DEFAULTS.map((scaleType) => scaleType.id),
 );
-assert.ok(SCALE_TYPE_DEFAULTS.every((scaleType) => !scaleType.locked));
+const locked = SCALE_TYPE_DEFAULTS.find((scaleType) => scaleType.locked);
+const editable = SCALE_TYPE_DEFAULTS.find((scaleType) => !scaleType.locked);
+assert.ok(locked);
+assert.ok(editable);
+const spacingFormula = SCALE_TYPE_DEFAULTS.find(
+  (scaleType) => scaleType.id === SPACING_SCALE_TYPE_ID,
+)!;
 assert.ok(
-  SCALE_TYPE_DEFAULTS.every(
-    (scaleType) =>
-      scaleType.base.overridable &&
-      scaleType.parameters.every(
-        (parameter) => parameter.overridable && parameter.adaptable,
-      ),
-  ),
-  "shipped formulas allow every override and stay adaptive",
+  spacingFormula.base.overridable &&
+    spacingFormula.parameters.every(
+      (parameter) => parameter.overridable && parameter.adaptable,
+    ),
+  "The shipped Spacing formula supports its declared overrides and adaptation.",
 );
 assert.ok(isScaleTypeList(SCALE_TYPE_DEFAULTS));
 assert.ok(!isScaleTypeList([{ id: "x", name: "X" }]));
@@ -83,7 +93,7 @@ assert.ok(
   !isInterpolationList([{ ...createInterpolation(), method: "spline" }]),
 );
 
-// Add, replace, remove, restore. Shipped formulas are ordinary library items.
+// Authored and unlocked formulas can change; locked built-ins remain read-only.
 {
   const store = createStore();
   const custom = { ...createScaleType(), name: "Custom grid", locked: true };
@@ -92,7 +102,9 @@ assert.ok(
     .get(scaleTypesAtom)
     .find((scaleType) => scaleType.id === custom.id)!;
   assert.equal(added.locked, undefined, "authored formulas are never locked");
+  const beforeDuplicate = store.get(scaleTypesAtom);
   assert.throws(() => store.set(addScaleTypeAtom, custom), /already exists/);
+  assert.strictEqual(store.get(scaleTypesAtom), beforeDuplicate);
   assert.equal(
     store.get(scaleTypesAtom).filter((scaleType) => scaleType.id === custom.id)
       .length,
@@ -107,14 +119,20 @@ assert.ok(
     "Renamed",
   );
   store.set(replaceScaleTypeAtom, {
-    ...SCALE_TYPE_DEFAULTS[0],
+    ...editable,
     name: "Edited shipped",
   });
   assert.equal(
-    store.get(scaleTypesAtom)[0].name,
+    store.get(scaleTypesAtom).find((item) => item.id === editable.id)!.name,
     "Edited shipped",
     "shipped formulas can be edited",
   );
+  store.set(replaceScaleTypeAtom, { ...locked, name: "Cannot change" });
+  assert.deepEqual(
+    store.get(scaleTypesAtom).find((item) => item.id === locked.id),
+    locked,
+  );
+  assert.equal(store.set(removeScaleTypeAtom, locked.id), null);
 
   const removed = store.set(removeScaleTypeAtom, custom.id)!;
   assert.equal(removed.item.name, "Renamed");
@@ -153,15 +171,21 @@ assert.ok(
 // A locked, adaptive part keeps the formula's value at its binding's neutral point.
 {
   const store = createStore();
+  store.set(enterEditModeAtom);
+  const originalSpacing = store.get(spacingDocumentAtom);
+  const originalSize = store.get(sizeDocumentAtom);
+  const originalRadius = store.get(radiusDocumentAtom);
+  const originalEdits = store.get(browserTokenEditsAtom);
   const range = BINDABLE_PARAMETER_RANGES["typography.textZoom"];
   const formula = SCALE_TYPE_DEFAULTS.find(
     (scaleType) => scaleType.id === SPACING_SCALE_TYPE_ID,
   )!;
+  const scaleId = store.set(addSpacingScaleAtom);
   const document = store.get(spacingDocumentAtom);
   store.set(spacingDocumentAtom, {
     ...document,
-    scales: document.scales.map((scale, index) =>
-      index === 0
+    scales: document.scales.map((scale) =>
+      scale.id === scaleId
         ? {
             ...scale,
             bindings: {
@@ -175,34 +199,58 @@ assert.ok(
   const neutralOf = () =>
     store
       .get(spacingDocumentAtom)
-      .scales[0].bindings!.ratio.points.find(
-        (point) => point.at === range.neutral,
-      )!.value;
+      .scales.find((scale) => scale.id === scaleId)!
+      .bindings!.ratio.points.find((point) => point.at === range.neutral)!
+      .value;
   assert.equal(neutralOf(), 1.5, "an overridable part keeps its own value");
-  store.set(
-    scaleTypesAtom,
-    store.get(scaleTypesAtom).map((scaleType) =>
-      scaleType.id === formula.id
-        ? {
-            ...scaleType,
-            parameters: scaleType.parameters.map((parameter) =>
-              parameter.id === "ratio"
-                ? { ...parameter, overridable: false }
-                : parameter,
-            ),
-          }
-        : scaleType,
+  store.set(replaceScaleTypeWithConsumersAtom, {
+    ...formula,
+    parameters: formula.parameters.map((parameter) =>
+      parameter.id === "ratio"
+        ? { ...parameter, overridable: false }
+        : parameter,
     ),
-  );
-  store.set(normalizeLockedBindingsAtom);
+  });
   assert.equal(
     neutralOf(),
     formula.parameters.find((parameter) => parameter.id === "ratio")!.default,
     "a locked part follows the formula",
   );
+  assert.ok(
+    logicItems(store).some(
+      (item) => item.sourceKind === "scale-type" && item.kind === "modified",
+    ),
+    "The formula change remains visible in Changes.",
+  );
+  assert.deepEqual(store.get(sizeDocumentAtom), originalSize);
+  assert.deepEqual(store.get(radiusDocumentAtom), originalRadius);
+  assert.strictEqual(store.get(browserTokenEditsAtom), originalEdits);
+  for (const scale of originalSpacing.scales)
+    assert.deepEqual(
+      store
+        .get(spacingDocumentAtom)
+        .scales.find((item) => item.id === scale.id),
+      scale,
+      "Unrelated scales retain their authored inputs.",
+    );
+  const aligned = store.get(spacingDocumentAtom);
+  const library = store.get(scaleTypesAtom);
+  store.set(normalizeLockedBindingsAtom);
+  assert.strictEqual(store.get(spacingDocumentAtom), aligned);
+  assert.throws(() =>
+    store.set(replaceScaleTypeWithConsumersAtom, {
+      ...formula,
+      base: { ...formula.base, default: Number.NaN },
+    }),
+  );
+  assert.strictEqual(store.get(scaleTypesAtom), library);
+  assert.strictEqual(store.get(spacingDocumentAtom), aligned);
+  store.set(cancelEditAtom);
+  assert.deepEqual(store.get(scaleTypesAtom), SCALE_TYPE_DEFAULTS);
+  assert.deepEqual(store.get(spacingDocumentAtom), originalSpacing);
 }
 
-// Nothing in the library is locked, so normalizing never rewrites edited formulas or interpolations.
+// Normalizing restores only locked built-ins, preserving authored and editable items.
 {
   const store = createStore();
   store.set(
@@ -218,15 +266,30 @@ assert.ok(
   );
   assert.deepEqual(
     store.set(normalizeLogicLibraryAtom),
-    [],
-    "edited items are not reset",
+    [
+      ...SCALE_TYPE_DEFAULTS.filter((item) => item.locked).map(
+        (item) => `Reset built-in scale type ${item.name}`,
+      ),
+      ...INTERPOLATION_DEFAULTS.filter((item) => item.locked).map(
+        (item) => `Reset built-in interpolation ${item.name}`,
+      ),
+    ],
+    "Only locked built-ins are reset.",
   );
-  assert.equal(store.get(scaleTypesAtom)[0].name, "Changed");
+  assert.equal(
+    store.get(scaleTypesAtom).find((item) => item.id === editable.id)!.name,
+    "Changed",
+  );
+  assert.deepEqual(
+    store.get(scaleTypesAtom).find((item) => item.id === locked.id),
+    locked,
+  );
 }
 
 // Change log, impact, and revert.
 {
   const store = createStore();
+  store.set(enterEditModeAtom);
   assert.equal(logicItems(store).length, 0, "defaults are the baseline");
   const custom = { ...createScaleType(), name: "Custom grid" };
   store.set(addScaleTypeAtom, custom);
@@ -351,6 +414,7 @@ assert.ok(
 
   // Editing a shipped interpolation is tracked and reverts to the shipped definition.
   const editStore = createStore();
+  editStore.set(enterEditModeAtom);
   const body = editStore
     .get(interpolationsAtom)
     .find((interpolation) => interpolation.id === "interpolation-cosine")!;

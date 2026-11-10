@@ -30,9 +30,9 @@ import { sequentialDefaults } from "./fixtures/sequentialDefaults";
 const base = createColorDefaults();
 assert.deepEqual(
   base.dataVisScales.map((scale) => [scale.name, scale.kind]),
-  sequentialDefaults.map((scale) => [scale.name, "sequential"]),
+  sequentialDefaults.map((scale) => [scale.name.toLowerCase(), "sequential"]),
 );
-assert.equal(base.scales[0].name, "Gray");
+assert.equal(base.scales[0].name, "gray");
 assert.equal(base.scales[0].customContrasts!.steps.length, 13);
 assert.equal(
   base.scales[0].customContrasts!.baseContrastId,
@@ -164,8 +164,6 @@ const resolved = resolveColorDocument(document, [changed], undefined, {
 });
 const sequence = resolved.dataVisScales[0];
 assert.equal(sequence.kind, "sequential");
-if (sequence.kind === "categorical")
-  throw new Error("Expected a continuous scale.");
 assert.equal(sequence.points[0].contrast?.value, 2.4);
 assert.equal(sequence.points[1].source.kind, "key-color");
 if (sequence.points[1].source.kind !== "key-color")
@@ -215,7 +213,18 @@ Reflect.deleteProperty(legacyColor, "dataVisScales");
 const migrated = migrateColorSystemDocument(legacyColor, 2)!;
 assert.deepEqual(
   migrated,
-  { ...base, dataVisScales: [] },
+  {
+    ...base,
+    settings: {
+      ...base.settings,
+      colorOutput: {
+        authoringGamut: "srgb",
+        outputFormat: "hex",
+        mapOutputsToSrgb: false,
+      },
+    },
+    dataVisScales: [],
+  },
   "Older saved designs do not receive new shipped scales.",
 );
 const olderWorking = { ...createDefaultSnapshot(), colorSystem: legacyColor };

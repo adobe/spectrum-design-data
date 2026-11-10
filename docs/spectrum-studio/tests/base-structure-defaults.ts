@@ -56,8 +56,10 @@ import { SIZE_TERM_IDS } from "../src/features/taxonomy/variantVocabulary";
 import { primitiveReferencesAtom } from "../src/features/tokens/primitiveReferenceState";
 import { updateSizeScaleAtom } from "../src/features/size/state";
 
-const snapshot = createDefaultSnapshot();
-assertStoredSnapshot(snapshot);
+const defaults = createDefaultSnapshot();
+assertStoredSnapshot(defaults);
+assert.ok(defaults.rules && defaults.size);
+const snapshot = { ...defaults, rules: defaults.rules, size: defaults.size };
 const catalog = snapshot.structures!.structures;
 assert.equal(catalog.length, 10);
 const [base, text] = catalog;
@@ -69,6 +71,9 @@ assert.equal(editor.properties.length, 3);
 assert.ok(position.kind === "variant");
 assert.ok(horizontal.kind === "variant");
 assert.ok(vertical.kind === "variant");
+const positionOptions: typeof position.options = position.options;
+const horizontalOptions: typeof horizontal.options = horizontal.options;
+const verticalOptions: typeof vertical.options = vertical.options;
 assert.deepEqual(
   editor.properties.map((property) => property.name),
   ["Icon position", "Horizontal padding", "Vertical padding"],
@@ -118,7 +123,12 @@ for (const slot of ["minWidth", "maxWidth", "maxHeight", "elevation"] as const)
 const fresh = createStore();
 const references = fresh.get(primitiveReferencesAtom);
 const bundle = buildTshirtArtifacts(snapshot, "shipped");
-assertTshirtGraph(bundle.tokens, undefined, ["2x-small", "2x-large"]);
+assertTshirtGraph(
+  bundle.tokens,
+  undefined,
+  ["2x-small", "2x-large"],
+  bundle.modeSets,
+);
 assert.equal(bundle.semantics.length, 122);
 const baseRows = bundle.semantics.filter(
   (row) => row.structureId === base.conceptId && !row.token.name.element,
@@ -350,9 +360,9 @@ for (const [index, size] of sizes.entries()) {
     }
     assert.equal(leaf.styles.height, leaf.styles.width);
   }
-  for (const iconOption of position.options)
-    for (const horizontalOption of horizontal.options)
-      for (const verticalOption of vertical.options) {
+  for (const iconOption of positionOptions)
+    for (const horizontalOption of horizontalOptions)
+      for (const verticalOption of verticalOptions) {
         const options = {
           [position.id]: iconOption.id,
           [horizontal.id]: horizontalOption.id,
@@ -400,13 +410,13 @@ for (const [index, size] of sizes.entries()) {
           ],
         );
         assert.equal(composition.resolved.styles.gap, [4, 4, 6, 6, 6][index]);
-        const hp =
+        const hp: number | undefined =
           horizontalOption.name === "None"
             ? undefined
             : horizontalOption.name === "Uniform"
               ? [3, 4, 7, 10, 13][index]
               : [9, 11, 12, 14, 15][index];
-        const vp =
+        const vp: number | undefined =
           verticalOption.name === "None" ? undefined : [3, 4, 7, 10, 13][index];
         assert.equal(composition.resolved.styles.paddingLeft, hp);
         assert.equal(composition.resolved.styles.paddingRight, hp);

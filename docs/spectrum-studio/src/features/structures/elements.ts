@@ -192,7 +192,7 @@ export function isStructureElement(value: unknown): value is StructureElement {
 }
 export function createElement(
   kind: ElementKind,
-  id = crypto.randomUUID(),
+  id: string = crypto.randomUUID(),
 ): StructureElement {
   return {
     id,

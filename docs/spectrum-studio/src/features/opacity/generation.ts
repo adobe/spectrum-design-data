@@ -16,6 +16,7 @@ import {
   tokenModePairs,
 } from "../tokens/colorResolution";
 import type { BrowserTokenEdits } from "../tokens/browserEditTypes";
+import { tokenEdit } from "../tokens/canonicalIdentity";
 import { isAlpha, isOpacityDocument, type OpacityDocument } from "./model";
 import { compensatedOpacity } from "./polarity";
 import { swatchIndex } from "../scales/swatchIndices";
@@ -55,7 +56,7 @@ export function opacityAxes(source: OpacitySource): ModeSet[] {
   );
   for (const level of source.opacity?.levels ?? [])
     for (const key of Object.keys(
-      source.browserTokenEdits?.[level.id]?.values ?? {},
+      tokenEdit(source.browserTokenEdits ?? {}, level.id)?.values ?? {},
     ))
       for (const [id] of tokenModePairs(key)) ids.add(id);
   return source.modeSets.filter((set) => ids.has(set.id) && set.modes.length);
@@ -145,7 +146,8 @@ export function resolveOpacity(
             result.weight,
           ) * 100,
         ) / 100;
-      const values = source.browserTokenEdits?.[level.id]?.values ?? {};
+      const values =
+        tokenEdit(source.browserTokenEdits ?? {}, level.id)?.values ?? {};
       const matches = Object.entries(values)
         .filter(([key]) =>
           tokenModePairs(key).every(([set, mode]) => selection[set] === mode),

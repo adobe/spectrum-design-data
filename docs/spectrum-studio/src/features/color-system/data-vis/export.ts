@@ -9,9 +9,9 @@ import {
   tokenUuid,
 } from "../../tokens/model";
 import type { BrowserTokenEdits } from "../../tokens/browserEditTypes";
+import { tokenIdentity } from "../../tokens/canonicalIdentity";
 import { isFoundationPublished } from "../../foundations/types";
 import { dataVisConsumers, dataVisSourceIssues } from "./references";
-import { dataVisMemberId } from "./identity";
 import type { DataVisSourcePacket } from "./adapter";
 import { primitiveColorIdentities } from "./primitiveColors";
 import type { OpacityDocument } from "../../opacity/model";
@@ -93,19 +93,82 @@ export function buildDataVisSourcePacket(source: {
       ),
     ),
   ]);
-  color.scales = color.scales.filter((scale) => required.has(scale.id));
   const paletteIds = new Set(
-    color.scales.flatMap((scale) =>
-      scale.stops.flatMap((stop) =>
-        stop.paletteColorId ? [stop.paletteColorId] : [],
+    color.scales
+      .filter((scale) => required.has(scale.id))
+      .flatMap((scale) =>
+        scale.stops.flatMap((stop) =>
+          stop.paletteColorId ? [stop.paletteColorId] : [],
+        ),
       ),
-    ),
   );
-  for (const consumer of references)
-    if (consumer.source.kind === "primitive-token") {
-      const origin = primitives.get(consumer.source.tokenId)?.origin;
-      if (origin?.kind === "palette") paletteIds.add(origin.paletteColorId);
+  const pending = [
+    ...[...primitives.values()]
+      .filter(
+        ({ origin }) =>
+          origin.kind === "categorical" ||
+          (origin.kind === "ui-swatch" && required.has(origin.scaleId)),
+      )
+      .map((primitive) => primitive.id),
+    ...references.flatMap((consumer) =>
+      consumer.source.kind === "primitive-token"
+        ? [consumer.source.tokenId]
+        : [],
+    ),
+    ...[...paletteIds].map((id) =>
+      tokenUuid(tokenStableKey(PALETTE_SCALE_ID, id)),
+    ),
+    ...(opacityStopsEnabled(color.settings)
+      ? (source.opacity?.levels.map((level) => level.id) ?? [])
+      : []),
+  ];
+  const tokenIds = new Set<string>();
+  const retainedEdits = new Set<string>();
+  for (const id of pending) {
+    const identity = tokenIdentity(source.browserTokenEdits, id);
+    const sourceId = identity?.sourceId ?? id;
+    if (tokenIds.has(sourceId)) continue;
+    tokenIds.add(sourceId);
+    const editId = identity?.conceptId ?? id;
+    retainedEdits.add(editId);
+    const origin = primitives.get(sourceId)?.origin;
+    if (origin?.kind === "palette") paletteIds.add(origin.paletteColorId);
+    if (origin?.kind === "ui-swatch" && !required.has(origin.scaleId)) {
+      required.add(origin.scaleId);
+      pending.push(
+        ...[...primitives.values()]
+          .filter(
+            (primitive) =>
+              primitive.origin.kind === "ui-swatch" &&
+              primitive.origin.scaleId === origin.scaleId,
+          )
+          .map((primitive) => primitive.id),
+      );
+      const scale = color.scales.find((scale) => scale.id === origin.scaleId);
+      if (!scale) throw new Error("A referenced UI scale is unavailable.");
+      pending.push(
+        ...scale.stops.flatMap((stop) =>
+          stop.paletteColorId
+            ? [tokenUuid(tokenStableKey(PALETTE_SCALE_ID, stop.paletteColorId))]
+            : [],
+        ),
+      );
     }
+    const authoring = source.browserTokenEdits[editId]?.authoring;
+    const isStatic =
+      origin?.kind === "categorical" &&
+      color.dataVisScales.some(
+        (scale) => scale.id === origin.scaleId && !!scale.staticColors,
+      );
+    if (!authoring || authoring.lifecycle?.frozen || isStatic) continue;
+    pending.push(
+      ...Object.values(authoring.assignments).flatMap((assignment) =>
+        assignment.kind === "reference" ? [assignment.targetId] : [],
+      ),
+      ...(authoring.manual?.targetId ? [authoring.manual.targetId] : []),
+    );
+  }
+  color.scales = color.scales.filter((scale) => required.has(scale.id));
   for (const axis of modeSets)
     for (const mode of axis.modes)
       if (mode.foundations.color) {
@@ -126,24 +189,6 @@ export function buildDataVisSourcePacket(source: {
     throw new Error(
       `Data vis export needs complete sources. ${issues.join(" ")}`,
     );
-  const tokenIds = new Set([
-    ...color.scales.flatMap((scale) =>
-      (scale.customContrasts?.steps ?? resolved.contrasts).map((contrast) =>
-        tokenUuid(tokenStableKey(scale.id, contrast.id)),
-      ),
-    ),
-    ...color.palette.map((color) =>
-      tokenUuid(tokenStableKey(PALETTE_SCALE_ID, color.id)),
-    ),
-    ...color.dataVisScales.flatMap((scale) =>
-      scale.kind === "categorical"
-        ? scale.members.map((member) => dataVisMemberId(scale.id, member.id))
-        : [],
-    ),
-    ...(opacityStopsEnabled(color.settings)
-      ? (source.opacity?.levels.map((level) => level.id) ?? [])
-      : []),
-  ]);
   const namingIds = new Set(
     color.scales.flatMap((scale) =>
       scale.customContrasts ? [scale.customContrasts.namingRuleId] : [],
@@ -162,7 +207,7 @@ export function buildDataVisSourcePacket(source: {
     ),
     browserTokenEdits: Object.fromEntries(
       Object.entries(source.browserTokenEdits).filter(([id]) =>
-        tokenIds.has(id),
+        retainedEdits.has(id),
       ),
     ),
   });

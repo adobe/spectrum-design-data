@@ -33,7 +33,8 @@ import {
   browserTokensAtom,
   browserTokenSourcesAtom,
 } from "../src/features/tokens/browserState";
-import { modeSetsAtom } from "../src/features/modes/state";
+import { modeSetsAtom, writeModeSources } from "../src/features/modes/state";
+import { createModeSet } from "../src/features/modes/model";
 import { buildElevationCss } from "../src/features/elevation/output";
 import {
   elevationComparisonOwner,
@@ -41,6 +42,7 @@ import {
 } from "../src/features/elevation/comparisons";
 import {
   canBulkEditValue,
+  canonicalBrowserSources,
   parseBrowserTokenValue,
 } from "../src/features/tokens/browserModel";
 import {
@@ -53,6 +55,7 @@ import { previewOverridesAtom } from "../src/features/modes/previewState";
 import { detachFoundationModeSetAtom } from "../src/features/modes/foundationAttachments";
 import { modeSelectionAtom } from "../src/features/modes/selection";
 import { LEGACY_TYPOGRAPHY_METRICS } from "./fixtures/legacyTypography";
+import { orderedVocabularyFixture } from "./fixtures/orderedVocabulary";
 import { registeredSourceName } from "../src/features/taxonomy/naming";
 import type { ElevationDocument } from "../src/features/elevation/model";
 import { DEFAULT_SHADOW_OPACITY_ID } from "../src/features/opacity/defaults";
@@ -62,6 +65,7 @@ import {
   resetOpacityOverrideAtom,
 } from "../src/features/opacity/state";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { tokenEdit } from "../src/features/tokens/canonicalIdentity";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { comparePrimitiveTokens } from "../src/features/changelog/tokenComparison";
 import { generatedResetOptions } from "../src/features/changelog/resetPlans";
@@ -210,13 +214,20 @@ assert.equal(
     .length,
   3,
 );
-assert.equal(
-  store
-    .get(browserTokenImpactRecordsAtom)
-    .filter((record) => record.category === "elevation")
-    .flatMap((record) => record.modeValues).length,
-  6,
-);
+const colorScheme = sets.find((set) => set.key === "colorScheme")!;
+const elevationRecords = store
+  .get(browserTokenImpactRecordsAtom)
+  .filter((record) => record.category === "elevation");
+assert.equal(elevationRecords.length, levels.length);
+for (const record of elevationRecords)
+  assert.deepEqual(
+    record.modeValues.map(({ valueId }) =>
+      JSON.parse(valueId.slice(record.tokenId.length + 1)),
+    ),
+    colorScheme.modes.map((mode) => [[colorScheme.id, mode.id]]),
+    "Each shadow retains exactly the Light, Dark and Wireframe contexts.",
+  );
+const baselineModeValueCount = levels.length * colorScheme.modes.length;
 assert.equal(store.get(changeGroupsAtom).length, 0);
 const token = store
   .get(browserTokensAtom)
@@ -274,20 +285,26 @@ assert.deepEqual(
   comparison.map((line) => line.points[0].value),
   [20, 20],
 );
-const extra = structuredClone(sets[1]);
+const extra = createModeSet();
 extra.id = "unrelated-axis";
 extra.key = "unrelated";
 extra.authoringCapabilities = [];
-store.set(modeSetsAtom, [...store.get(modeSetsAtom), extra]);
+extra.modes[0].key = "default";
+extra.modes.push({
+  ...structuredClone(extra.modes[0]),
+  id: "mode-unrelated-second",
+  key: "alternate",
+});
+writeModeSources(store.get, store.set, [...store.get(modeSetsAtom), extra]);
 assert.equal(
   store
     .get(browserTokenImpactRecordsAtom)
     .filter((record) => record.category === "elevation")
     .flatMap((record) => record.modeValues).length,
-  6,
+  baselineModeValueCount,
   "An unrelated axis cannot multiply shadow mode values.",
 );
-store.set(modeSetsAtom, structuredClone(sets));
+writeModeSources(store.get, store.set, structuredClone(sets));
 assert.throws(() => store.set(addShadowLayerAtom));
 store.set(editModeAtom, true);
 const added = store.set(addShadowLayerAtom);
@@ -314,6 +331,7 @@ while (store.get(elevationDocumentAtom).layers.length < 8)
   store.set(addShadowLayerAtom);
 assert.throws(() => store.set(addShadowLayerAtom));
 const older = createDefaultSnapshot();
+older.taxonomy = orderedVocabularyFixture(older.taxonomy!);
 delete older.elevation;
 const missingGroups = new Set(["element", "attribute"]);
 const removedCategories = new Set(
@@ -421,7 +439,7 @@ modeStore.set(updateShadowLayerAtom, {
   id: layer.id,
   patch: { base: Number.MAX_VALUE },
 });
-modeStore.set(modeSelectionAtom, { [sets[0].id]: dark.id });
+modeStore.set(modeSelectionAtom, { [colorScheme.key]: dark.id });
 assert.throws(
   () =>
     modeStore.set(updateElevationModeParameterAtom, {
@@ -458,13 +476,13 @@ modeStore.set(updateOpacityLevelAtom, {
   value: 0.6,
 });
 const savedOpacity = structuredClone(
-  modeStore.get(browserTokenEditsAtom)[DEFAULT_SHADOW_OPACITY_ID],
+  tokenEdit(modeStore.get(browserTokenEditsAtom), DEFAULT_SHADOW_OPACITY_ID),
 );
 const previewBaseline = structuredClone(modeStore.get(elevationDocumentAtom));
 modeStore.set(previewOverridesAtom, { "elevation.depth": 50 });
 assert.deepEqual(modeStore.get(elevationDocumentAtom), previewBaseline);
 assert.deepEqual(
-  modeStore.get(browserTokenEditsAtom)[DEFAULT_SHADOW_OPACITY_ID],
+  tokenEdit(modeStore.get(browserTokenEditsAtom), DEFAULT_SHADOW_OPACITY_ID),
   savedOpacity,
 );
 const offsetLines = elevationComparisonSeries(
@@ -538,29 +556,38 @@ assert.equal(
 const modifiedModes = structuredClone(tokenRevertStore.get(modeSetsAtom));
 modifiedModes[0].modes[1].foundations.color!.backgroundLightness = 0.25;
 tokenRevertStore.set(modeSetsAtom, modifiedModes);
-tokenRevertStore.set(modeSelectionAtom, { [sets[0].id]: dark.id });
+tokenRevertStore.set(modeSelectionAtom, { [colorScheme.key]: dark.id });
 tokenRevertStore.set(updateOpacityLevelAtom, {
   id: DEFAULT_SHADOW_OPACITY_ID,
   value: 0.6,
 });
 const snapshot = tokenRevertStore.get(authoringSnapshotAtom);
 const shipped = createDefaultSnapshot();
+const elevationIds = new Set(
+  tokenRevertStore
+    .get(browserTokensAtom)
+    .filter((token) => token.type === "elevation")
+    .map((token) => token.id),
+);
 const generatedChange = comparePrimitiveTokens(
   shipped,
   snapshot,
   compareAuthoring(shipped, snapshot),
-).items.find((item) => item.id.startsWith("elevation-"))!;
+).items.find((item) => elevationIds.has(item.id))!;
 assert(generatedChange);
 const generatedField = generatedChange.fields.find(
   (field) => field.tokenValue,
 )!;
 assert(generatedField);
+const canonicalSource = canonicalBrowserSources(
+  tokenRevertStore.get(browserTokenSourcesAtom),
+  snapshot.browserTokenEdits ?? {},
+).find((token) => token.id === generatedField.tokenValue!.tokenId);
+assert.ok(canonicalSource);
 const resetChoices = generatedResetOptions(
   generatedChange,
   generatedField,
-  tokenRevertStore
-    .get(browserTokenSourcesAtom)
-    .find((token) => token.id === generatedField.tokenValue!.tokenId),
+  canonicalSource,
   snapshot,
 );
 assert.match(resetChoices[0].disabledReason!, /Elevation foundation/);

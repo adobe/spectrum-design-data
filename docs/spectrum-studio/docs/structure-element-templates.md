@@ -84,6 +84,10 @@ to either invalidate its source key.
 | Bar           | Size length and thickness                                                       | Registry horizontal/vertical orientation                           |
 | Slot          | Independent Size width and height, with minimum and maximum constraints on each | Named blank placeholder, initially `Slot`                          |
 
+Bar tokens retain the Registry's length and thickness properties when orientation
+changes. Both reference Size primitives. These properties are local output
+extensions, not upstream-accepted vocabulary.
+
 Slots reserve space without implementing a control. Set their nonempty Slot name
 in the element panel; Layers and the preview use that name. Like other leaves,
 Slots support visibility booleans and option differences without producing tokens.

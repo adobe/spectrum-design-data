@@ -1,8 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../model";
 import { isFoundationPublished } from "../../foundations/types";
-import { resolveToken } from "../../tokens/model";
-import { resolveBrowserColorToken } from "../../tokens/colorResolution";
+import { resolveBrowserTokens } from "../../tokens/browserResolution";
+import type { BrowserTokenSource } from "../../tokens/browserModel";
 import type { BrowserTokenEdits } from "../../tokens/browserEditTypes";
 import { dataVisMemberId } from "./identity";
 import { concreteColor } from "./colors";
@@ -37,51 +37,89 @@ export function categoricalMemberValue(
   };
 }
 
+export function categoricalMemberSources(
+  scale: CategoricalDataVisScale,
+  swatches: readonly UiSwatch[],
+  output?: ColorOutputSettings,
+): BrowserTokenSource[] {
+  return scale.members.map((member, index) => {
+    let value = "",
+      generatedValue = "",
+      overridden = false,
+      validationError: string | undefined;
+    try {
+      ({ value, generatedValue, overridden } = categoricalMemberValue(
+        scale,
+        member.id,
+        swatches,
+        output,
+      ));
+    } catch (error) {
+      validationError = error instanceof Error ? error.message : String(error);
+    }
+    const name = `${scale.name} ${index + 1}`;
+    return {
+      id: dataVisMemberId(scale.id, member.id),
+      type: "colors",
+      tier: "primitive",
+      groupId: scale.id,
+      groupLabel: scale.name,
+      name,
+      generatedName: name,
+      value,
+      generatedValue,
+      unit: "",
+      legacyOverridden: overridden,
+      dataVis: {
+        scaleId: scale.id,
+        memberId: member.id,
+        ordinal: index + 1,
+        source: member.source,
+        hidden: !isFoundationPublished(scale),
+        static: !!scale.staticColors,
+      },
+      ...(validationError && { validationError }),
+    };
+  });
+}
+
 export function resolvedCategoricalColors(
   document: ColorSystemDocument,
   swatches: readonly UiSwatch[],
   edits: BrowserTokenEdits,
   modeKey: string,
-  { includeUnpublished = false }: { includeUnpublished?: boolean } = {},
+  {
+    includeUnpublished = false,
+    referenceSources = [],
+  }: {
+    includeUnpublished?: boolean;
+    referenceSources?: BrowserTokenSource[];
+  } = {},
 ) {
-  return document.dataVisScales.flatMap((scale) =>
+  const sources = document.dataVisScales.flatMap((scale) =>
     scale.kind === "categorical" &&
     (includeUnpublished || isFoundationPublished(scale))
-      ? scale.members.map((member, index) => {
-          const output = categoricalMemberValue(
-              scale,
-              member.id,
-              swatches,
-              document.settings.colorOutput,
-            ),
-            id = dataVisMemberId(scale.id, member.id);
-          const generated = {
-            uuid: id,
-            name: { colorName: scale.name, contrastValue: String(index + 1) },
-            value: output.generatedValue,
-            source: {
-              tokenType: "color" as const,
-              scaleId: scale.id,
-              contrastId: member.id,
-            },
-          };
-          const token = resolveToken(generated, undefined);
-          const final = scale.staticColors
-            ? {
-                ...token,
-                value: output.value,
-                valueOverridden: output.overridden,
-              }
-            : resolveBrowserColorToken(token, edits, modeKey, document);
-          concreteColor(final.value);
-          return {
-            id,
-            name: `${scale.name} ${index + 1}`,
-            value: final.value,
-            generatedValue: output.generatedValue,
-            valueOverridden: final.valueOverridden,
-          };
-        })
+      ? categoricalMemberSources(scale, swatches, document.settings.colorOutput)
       : [],
   );
+  return resolveBrowserTokens([...referenceSources, ...sources], edits, modeKey)
+    .filter((token) => !!token.dataVis)
+    .map((token) => {
+      if (token.validationError) throw new Error(token.validationError);
+      if (
+        typeof token.value !== "string" ||
+        typeof token.generatedValue !== "string"
+      )
+        throw new Error("A categorical member requires a concrete color.");
+      const color = concreteColor(token.value);
+      return {
+        id: token.sourceId ?? token.id,
+        name: token.name,
+        value: token.lifecycle?.frozen
+          ? token.value
+          : serializeOutputColor(color, document.settings.colorOutput),
+        generatedValue: token.generatedValue,
+        valueOverridden: token.valueOverridden,
+      };
+    });
 }

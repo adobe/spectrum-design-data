@@ -18,7 +18,7 @@ import { resolveToken } from "../../tokens/model";
 import { browserTokenEditsAtom } from "../../tokens/browserEdits";
 import {
   canonicalTokenModeKey,
-  resolveBrowserColorToken,
+  resolveBrowserColorTokens,
 } from "../../tokens/colorResolution";
 import {
   dataVisContinuousOutputsAtom,
@@ -34,6 +34,7 @@ import {
   publishedPrimitiveColors,
 } from "./primitiveColors";
 import { resolvedCategoricalColors } from "./categoricalValues";
+import { browserColorSources } from "../../tokens/colorBrowserSources";
 import {
   isDataVisScale,
   frozenColorValue,
@@ -141,6 +142,7 @@ export const setDataVisStaticAtom = atom(
         primitives = get(dataVisPrimitiveColorsAtom);
       let categorical: readonly {
         id: string;
+        sourceId?: string;
         value: string | number;
         validationError?: string;
       }[] = get(resolvedCategoricalTokensAtom);
@@ -162,28 +164,28 @@ export const setDataVisStaticAtom = atom(
         const modeKey = canonicalTokenModeKey(
           Object.fromEntries(sets.map((axis) => [axis.id, axis.defaultModeId])),
         );
-        const tokens = [
-          ...generatePaletteTokens(
-            resolved.palette,
-            resolved.settings.colorOutput,
-          ),
-          ...resolved.scales.flatMap((source) =>
-            generateColorTokensForScale(
-              source,
-              resolved.contrasts,
-              resolvedBackgroundLinear(resolved),
-              resolved.settings,
+        const tokens = resolveBrowserColorTokens(
+          [
+            ...generatePaletteTokens(
+              resolved.palette,
               resolved.settings.colorOutput,
-              get(rulesAtom),
             ),
-          ),
-        ].map((token) =>
-          resolveBrowserColorToken(
+            ...resolved.scales.flatMap((source) =>
+              generateColorTokensForScale(
+                source,
+                resolved.contrasts,
+                resolvedBackgroundLinear(resolved),
+                resolved.settings,
+                resolved.settings.colorOutput,
+                get(rulesAtom),
+              ),
+            ),
+          ].map((token) =>
             resolveToken(token, get(tokenOverridesAtom)[token.uuid]),
-            edits,
-            modeKey,
-            resolved,
           ),
+          edits,
+          modeKey,
+          resolved,
         );
         swatches = finalUiSwatches(resolved, tokens);
         const members = resolvedCategoricalColors(
@@ -191,7 +193,10 @@ export const setDataVisStaticAtom = atom(
           swatches,
           edits,
           modeKey,
-          { includeUnpublished: true },
+          {
+            includeUnpublished: true,
+            referenceSources: browserColorSources(tokens),
+          },
         );
         primitives = publishedPrimitiveColors(resolved, tokens, members);
         categorical = members;
@@ -203,7 +208,9 @@ export const setDataVisStaticAtom = atom(
         effective.kind === "categorical"
           ? effective.members.map((member) => {
               const token = categorical.find(
-                (token) => token.id === dataVisMemberId(scale.id, member.id),
+                (token) =>
+                  (token.sourceId ?? token.id) ===
+                  dataVisMemberId(scale.id, member.id),
               );
               if (
                 !token ||

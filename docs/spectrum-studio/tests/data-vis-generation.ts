@@ -12,12 +12,14 @@ import {
 } from "../src/features/color-system/data-vis/continuous";
 import {
   finalUiSwatches,
+  dataVisBackground,
   resolveDataVisPoints,
   type ResolvedDataVisPoint,
 } from "../src/features/color-system/data-vis/resolution";
 import {
   deltaE2000,
   MeasurementCache,
+  renderedContrast,
 } from "../src/features/color-system/data-vis/measurements";
 import {
   renderedColor,
@@ -30,7 +32,7 @@ import {
 } from "../src/features/color-system/data-vis/cvd";
 import { toGamma, toLinear } from "../src/features/color-system/colorMath";
 import type { ContinuousDataVisScale } from "../src/features/color-system/data-vis/model";
-import { ColorOutputError } from "../src/features/color-system/outputContrast";
+import { DEFAULT_COLOR_OUTPUT } from "../src/features/color-system/outputSettings";
 
 const base = createColorDefaults();
 const scale: ContinuousDataVisScale = {
@@ -104,14 +106,38 @@ const unreachable = {
   backgroundLightness: 0.6,
   settings: { ...raw.settings, side: "light" as const },
 };
-const extreme = {
+const extreme: ContinuousDataVisScale = {
   ...scale,
-  points: scale.points.map((point) => ({ ...point, contrast: { value: 21 } })),
+  points: scale.points.map((point) => {
+    const source = point.source;
+    assert(source.kind === "ui-scale" || source.kind === "key-color");
+    return { ...point, source, contrast: { value: 21 } };
+  }),
 };
-assert.throws(
-  () => resolveDataVisPoints(unreachable, extreme, swatches),
-  ColorOutputError,
+const extremeBefore = structuredClone(extreme);
+const closest = resolveDataVisPoints(unreachable, extreme, swatches);
+const extremeBackground = dataVisBackground(unreachable);
+const achievable = renderedContrast(
+  concreteColor("#fff"),
+  concreteColor(extremeBackground),
 );
+assert(achievable < 21);
+for (const point of closest) {
+  assert.equal(point.targetContrast, 21);
+  assert.equal(point.targetReached, false);
+  assert.equal(point.manuallyOverridden, false);
+  const measured = renderedContrast(
+    renderedColor(point.value, extremeBackground),
+    concreteColor(extremeBackground),
+  );
+  assert(Math.abs(point.actualContrast - measured) < 1e-10);
+  assert(point.actualContrast <= achievable + 1e-10);
+  assert(
+    achievable - point.actualContrast <= 0.035,
+    "Unattainable targets retain the closest achievable output, not a false success.",
+  );
+}
+assert.deepEqual(extreme, extremeBefore);
 const manual = {
   ...swatches[0],
   value: "rgb(10 20 30 / 0.6)",
@@ -184,7 +210,15 @@ const alpha = compileContinuousScale({ id: "alpha", kind: "sequential" }, [
   point("a", 0, "rgb(255 0 0 / 0)"),
   point("b", 1, "rgb(0 0 255 / 1)"),
 ]);
-assert.ok(Math.abs(concreteColor(alpha.evaluate(0.5)).alpha - 0.5) < 1e-6);
+assert.equal(Number(concreteColor(alpha.evaluate(0.5)).alpha), 128 / 255);
+const alphaRgb = compileContinuousScale(
+  { id: "alpha-rgb", kind: "sequential" },
+  alpha.points,
+  { ...DEFAULT_COLOR_OUTPUT, outputFormat: "rgb" },
+);
+assert.equal(Number(concreteColor(alphaRgb.evaluate(0.5)).alpha), 0.5);
+assert.equal(alphaRgb.evaluate(0), alpha.points[0].value);
+assert.equal(alphaRgb.evaluate(1), alpha.points[1].value);
 const collapsed = compileContinuousScale(
   { id: "collapsed", kind: "sequential" },
   [point("a", 0, "#555555"), point("b", 1, "#555555")],

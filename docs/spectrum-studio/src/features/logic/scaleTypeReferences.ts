@@ -24,12 +24,16 @@ import type { TypographyDocument } from "../typography/model";
 import { typographyDocumentAtom } from "../typography/state";
 import {
   removeScaleTypeAtom,
+  scaleTypeLibraryWithReplacement,
   scaleTypesAtom,
   type RemovedLibraryItem,
 } from "./scaleTypeLibrary";
 import { elevationDocumentAtom } from "../elevation/state";
 import type { ElevationDocument } from "../elevation/model";
-import { assertAuthoringUpdates } from "../../state/authoringGuards";
+import {
+  assertAuthoringUpdates,
+  withValidatedAuthoringUpdates,
+} from "../../state/authoringGuards";
 
 export interface ScaleTypeConsumer {
   id: string;
@@ -325,6 +329,56 @@ function alignLockedBindings(
   return changed ? next : bindings;
 }
 
+function withAlignedBindings(scale: DimensionScale, formula?: ScaleType) {
+  const bindings =
+    formula && alignLockedBindings(scale.bindings, formula, true);
+  return bindings && bindings !== scale.bindings
+    ? { ...scale, bindings }
+    : scale;
+}
+
+export const replaceScaleTypeWithConsumersAtom = atom(
+  null,
+  (get, set, item: ScaleType) => {
+    const library = scaleTypeLibraryWithReplacement(get, item);
+    const transform = (scale: DimensionScale) =>
+      withAlignedBindings(
+        scale,
+        library.find((formula) => formula.id === scale.scaleTypeId),
+      );
+    const spacing = get(spacingDocumentAtom);
+    const size = get(sizeDocumentAtom);
+    const radius = get(radiusDocumentAtom);
+    const nextSpacing = {
+      ...spacing,
+      scales: spacing.scales.map(transform),
+    };
+    const nextSize = { ...size, scales: size.scales.map(transform) };
+    const nextRadius = { ...radius, scales: radius.scales.map(transform) };
+    const updates = new Map<string, unknown>([
+      ["logic/scale-types", library],
+      ["foundations/spacing", nextSpacing],
+      ["foundations/size", nextSize],
+      ["foundations/radius", nextRadius],
+    ]);
+    withValidatedAuthoringUpdates(get, updates, () => {
+      set(scaleTypesAtom, library);
+      if (
+        nextSpacing.scales.some(
+          (scale, index) => scale !== spacing.scales[index],
+        )
+      )
+        set(spacingDocumentAtom, nextSpacing);
+      if (nextSize.scales.some((scale, index) => scale !== size.scales[index]))
+        set(sizeDocumentAtom, nextSize);
+      if (
+        nextRadius.scales.some((scale, index) => scale !== radius.scales[index])
+      )
+        set(radiusDocumentAtom, nextRadius);
+    });
+  },
+);
+
 /** Re-aligns adaptive bindings of locked parts after a formula changes. Safe to run after every change. */
 export const normalizeLockedBindingsAtom = atom(null, (get, set) => {
   const library = get(scaleTypesAtom);
@@ -332,10 +386,6 @@ export const normalizeLockedBindingsAtom = atom(null, (get, set) => {
     library.find((scaleType) => scaleType.id === id);
   mapScales(get, set, (scale) => {
     const formula = formulaFor(scale.scaleTypeId);
-    const bindings =
-      formula && alignLockedBindings(scale.bindings, formula, true);
-    return bindings && bindings !== scale.bindings
-      ? { ...scale, bindings }
-      : scale;
+    return withAlignedBindings(scale, formula);
   });
 });

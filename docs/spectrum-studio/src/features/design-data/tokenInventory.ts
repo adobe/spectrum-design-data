@@ -13,6 +13,7 @@ import {
   foundationValueType,
   type FoundationValueType,
 } from "./foundationValues";
+import { canonicalJson } from "./canonicalJson";
 
 export const isInventoryToken = (record: AnalysisRecord) =>
   record.category === "tokens" || record.category === "compatibility-aliases";
@@ -141,18 +142,24 @@ export function buildTokenInventory(
   const issues: string[] = [];
   const entries = (["app", "reference"] as const).flatMap((side) => {
     const input = side === "app" ? app : reference;
-    const seen = new Set<string>();
+    const seen = new Map<string, number>();
     return input.records
       .filter(isInventoryToken)
-      .map((record, index): TokenInventoryEntry => {
-        if (seen.has(record.id))
+      .sort(
+        (left, right) =>
+          left.id.localeCompare(right.id, "en") ||
+          canonicalJson(left).localeCompare(canonicalJson(right), "en"),
+      )
+      .map((record): TokenInventoryEntry => {
+        const occurrence = seen.get(record.id) ?? 0;
+        if (occurrence > 0)
           issues.push(`${side}: duplicate token record ID ${record.id}.`);
-        seen.add(record.id);
+        seen.set(record.id, occurrence + 1);
         const link = links.get(key(side, record.id));
         const type = foundationValueType(record);
-        const counterparts = [...(link?.counterparts ?? [])];
+        const counterparts = [...(link?.counterparts ?? [])].sort();
         return {
-          id: `${key(side, record.id)}:${index}`,
+          id: `${key(side, record.id)}:${occurrence}`,
           side,
           record,
           label: inventoryTokenLabel(record),
@@ -167,7 +174,7 @@ export function buildTokenInventory(
                   : side === "app"
                     ? "app-only"
                     : "reference-only",
-          requiredRowIds: [...(link?.rows ?? [])],
+          requiredRowIds: [...(link?.rows ?? [])].sort(),
           counterparts,
           reason: isDeprecatedInventoryToken(record)
             ? `${record.lifecycle?.deprecatedIn ? `Deprecated in ${record.lifecycle.deprecatedIn}` : "Pending deprecation"}; excluded from migration scoring.`
@@ -217,7 +224,7 @@ export function tokenInventoryMarkdown(inventory: TokenInventory): string {
     ...inventory.entries.flatMap((entry) =>
       entry.values.map(
         (value) =>
-          `| ${entry.side} | ${cell(entry.label)} | ${cell(entry.record.id)} | ${entry.presence} | ${cell(JSON.stringify(value.context))} | ${cell(JSON.stringify(value.value))} | ${cell([entry.reason, value.issue].filter(Boolean).join(" "))} |`,
+          `| ${entry.side} | ${cell(entry.label)} | ${cell(entry.record.id)} | ${entry.presence} | ${cell(canonicalJson(value.context))} | ${cell(canonicalJson(value.value))} | ${cell([entry.reason, value.issue].filter(Boolean).join(" "))} |`,
       ),
     ),
     ...inventory.exclusions.map(

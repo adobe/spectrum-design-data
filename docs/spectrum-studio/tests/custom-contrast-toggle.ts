@@ -50,6 +50,7 @@ import {
 } from "../src/features/edit-session/storage";
 import { persistenceIssuesAtom } from "../src/state/persist";
 import { flushPersistedState } from "../src/state/persist";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const original = createDefaultSnapshot();
 const guarded = createStore();
@@ -147,6 +148,7 @@ assert.deepEqual(
 );
 const disabled = structuredClone(captureSnapshot(store.get));
 assertStoredSnapshot(disabled);
+assert(disabled.spacing);
 assert.deepEqual(
   scaleContrasts(disabled.colorSystem, scale()),
   disabled.colorSystem.contrasts,
@@ -161,7 +163,6 @@ assert.equal(
 );
 const css = buildColorLibrary(
   disabled.colorSystem,
-  [],
   [],
   [],
   undefined,
@@ -353,6 +354,16 @@ try {
   });
   try {
     assert.deepEqual(reloaded.get(persistenceIssuesAtom), []);
+    const restored = captureSnapshot(reloaded.get);
+    for (const edit of Object.values(disabled.browserTokenEdits!)) {
+      const identity = edit.authoring?.identity;
+      if (!identity) continue;
+      assert.deepEqual(
+        tokenIdentity(restored.browserTokenEdits!, identity.sourceId),
+        identity,
+        "Reload must preserve existing and inactive publication identities.",
+      );
+    }
     assert.deepEqual(
       reloaded
         .get(colorSystemDocumentAtom)

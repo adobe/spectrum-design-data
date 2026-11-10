@@ -14,6 +14,7 @@ import {
   resolveBrowserTokens,
 } from "../../tokens/browserModel";
 import { browserSourcesFromOutputs } from "../../tokens/browserSources";
+import { browserColorSources } from "../../tokens/colorBrowserSources";
 import { rulesAtom } from "../../logic/library";
 import { publishedPrimitiveColors } from "./primitiveColors";
 import {
@@ -91,15 +92,18 @@ export const generatedCategoricalSourcesAtom = atom((get) =>
 );
 export const resolvedCategoricalTokensAtom = atom((get) =>
   resolveBrowserTokens(
-    categoricalBrowserSources(
-      get(dataVisInputDocumentAtom),
-      get(dataVisUiSwatchesAtom),
-      get(taxonomyDocumentAtom),
-      { includeUnpublished: true },
-    ),
+    [
+      ...browserColorSources(get(colorTokenSetAtom).tokens),
+      ...categoricalBrowserSources(
+        get(dataVisInputDocumentAtom),
+        get(dataVisUiSwatchesAtom),
+        get(taxonomyDocumentAtom),
+        { includeUnpublished: true },
+      ),
+    ],
     get(browserTokenEditsAtom),
     dataVisModeKey(get),
-  ),
+  ).filter((token) => !!token.dataVis),
 );
 export const dataVisPrimitiveColorsAtom = atom((get) => {
   const document = get(colorSystemDocumentAtom),
@@ -118,7 +122,7 @@ export const dataVisPrimitiveColorsAtom = atom((get) => {
     ),
     taxonomy,
   );
-  const names = new Map(rows.map((row) => [row.id, row.name]));
+  const names = new Map(rows.map((row) => [row.sourceId ?? row.id, row.name]));
   return publishedPrimitiveColors(
     document,
     colors,
@@ -360,6 +364,7 @@ export const applyCategoricalDataVisAtom = atom(
       swatches,
       get(browserTokenEditsAtom),
       dataVisModeKey(get),
+      browserColorSources(get(colorTokenSetAtom).tokens),
     );
     const finish = (report: PaletteReport) => {
       if (input.signal?.aborted)

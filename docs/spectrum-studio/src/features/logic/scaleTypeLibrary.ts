@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom, type WritableAtom } from "jotai";
+import { atom, type Getter, type WritableAtom } from "jotai";
 import { designSystemDefaults } from "../../data/defaults";
 import { persistedAtom } from "../../state/persist";
 import {
@@ -133,7 +133,7 @@ export const addScaleTypeAtom = atom(null, (get, set, item: ScaleType) => {
     throw new Error("Enter a valid formula.");
   set(scaleTypeActions.add, item);
 });
-export const replaceScaleTypeAtom = atom(null, (get, set, item: ScaleType) => {
+export function scaleTypeLibraryWithReplacement(get: Getter, item: ScaleType) {
   if (!get(scaleTypesAtom).some((candidate) => candidate.id === item.id))
     throw new Error("This formula is no longer available.");
   const issues = scaleTypeIssues(item);
@@ -156,7 +156,14 @@ export const replaceScaleTypeAtom = atom(null, (get, set, item: ScaleType) => {
       get(interpolationsAtom),
     );
   }
-  set(scaleTypeActions.replace, item);
+  const { locked, ...authored } = item;
+  void locked;
+  return get(scaleTypesAtom).map((candidate) =>
+    candidate.id === item.id && !candidate.locked ? authored : candidate,
+  );
+}
+export const replaceScaleTypeAtom = atom(null, (get, set, item: ScaleType) => {
+  set(scaleTypesAtom, scaleTypeLibraryWithReplacement(get, item));
 });
 export const removeScaleTypeAtom = scaleTypeActions.remove;
 export const restoreScaleTypeAtom = scaleTypeActions.restore;

@@ -79,10 +79,10 @@ export function DimensionElements({
             >
               {termLabel(scale.name)}
             </h3>
-            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Physical sample lengths may require keyboard scrolling. */}
             <div
               className="spacingScaleList"
               role="list"
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Physical sample lengths may require keyboard scrolling.
               tabIndex={0}
               aria-label={`${termLabel(scale.name)} ${noun} values`}
             >

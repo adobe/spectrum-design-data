@@ -211,11 +211,11 @@ export function ComponentAssignmentEditor({
                 </PickerItem>
               ))}
             </Picker>
-            {/* eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit property action. */}
             <Picker
               label="Property"
               selectedKey={propertyId}
               onSelectionChange={(key) => setPropertyId(String(key))}
+              // eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit property action.
               autoFocus
             >
               {properties.map((term) => (
