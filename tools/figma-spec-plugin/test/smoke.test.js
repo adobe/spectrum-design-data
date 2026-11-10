@@ -777,3 +777,27 @@ test("a wrapped label arrives as one text node per line and draws as one text la
   t.true(drawn[1].y > drawn[0].y);
   t.is(drawn[1].x, drawn[0].x);
 });
+
+test("plan passes --text-metrics to the CLI, and different widths change the hash", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "figma-plan-tm-"));
+  const registryPath = join(dir, "figma-files.json");
+  writeFileSync(
+    registryPath,
+    JSON.stringify({ plan: "p", project: "1", files: {} }),
+  );
+  const table = JSON.parse(
+    readFileSync(join(root, "sdk/core/src/text-metrics/source-sans-3.json")),
+  );
+  for (const w of ["400", "700"])
+    table[w].adv = table[w].adv.map((a) => Math.round(a * 0.9));
+  const tableFile = join(dir, "narrow.json");
+  writeFileSync(tableFile, JSON.stringify(table));
+  const hashOf = (textMetrics, name) =>
+    plan({
+      components: ["switch"],
+      out: join(dir, name),
+      registryPath,
+      textMetrics,
+    }).items[0].hash;
+  t.not(hashOf(tableFile, "a"), hashOf(undefined, "b"));
+});
