@@ -1,0 +1,210 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+:root {
+  font-family:
+    "adobe-clean-spectrum-vf", "Adobe Clean", "Source Sans 3", system-ui,
+    sans-serif;
+  color: #222;
+  background: #fff;
+}
+body {
+  margin: 0;
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: baseline;
+  padding: 20px 32px;
+  border-bottom: 1px solid #e1e1e1;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+h1 {
+  font-size: 22px;
+  margin: 0;
+}
+nav button {
+  white-space: nowrap;
+  font: inherit;
+  border: 0;
+  background: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+nav button[aria-current="true"] {
+  background: #222;
+  color: #fff;
+}
+main {
+  padding: 24px 32px 64px;
+  max-width: 1200px;
+}
+#changelog {
+  margin-bottom: 40px;
+}
+#changelog h2,
+.page-title {
+  font-size: 32px;
+  margin: 0 0 16px;
+}
+.rev {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  margin: 0 0 8px;
+  padding: 8px 12px;
+}
+.rev summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.rev ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+.rev li {
+  padding: 3px 0;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.chip {
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 1px 8px;
+  background: #eee;
+  white-space: nowrap;
+}
+.chip.visual {
+  background: #d9e8ff;
+}
+.chip.API {
+  background: #ffe3c4;
+}
+.chip.documentation {
+  background: #e4f5dc;
+}
+.chip.indirect {
+  background: #f3dcf5;
+}
+.block {
+  display: flex;
+  gap: 32px;
+  padding: 24px 0;
+  border-top: 1px solid #eee;
+  align-items: flex-start;
+}
+.visual {
+  flex: none;
+  width: 480px;
+  height: 360px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.visual.dark {
+  background: #1a1a1a;
+}
+.tokens {
+  flex: 1;
+  min-width: 0;
+}
+.tokens h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: #fde7a8;
+}
+.row-cond {
+  font-size: 12px;
+  color: #666;
+  margin: 12px 0 4px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+td {
+  padding: 3px 8px 3px 0;
+  vertical-align: top;
+}
+td.n {
+  width: 24px;
+}
+td.t {
+  white-space: nowrap;
+  font-family: ui-monospace, monospace;
+}
+td.v {
+  color: #666;
+}
+.marker {
+  display: inline-block;
+  line-height: 18px;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #4b75ff;
+  color: #fff;
+  font-size: 11px;
+}
+.marker.undrawn {
+  box-sizing: border-box;
+  line-height: 15px;
+  background: none;
+  border: 1.5px solid #4b75ff;
+  color: #4b75ff;
+}
+.back {
+  color: #4b75ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.visual.none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border: 1px dashed #ccc;
+  box-sizing: border-box;
+}
+.meta {
+  color: #666;
+  font-size: 12px;
+}
+table.index th {
+  text-align: left;
+  border-bottom: 1px solid #e1e1e1;
+  padding: 6px 12px 6px 0;
+}
+table.index td {
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.links {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 14px;
+}
+.links a {
+  white-space: nowrap;
+  color: #4b75ff;
+  text-decoration: none;
+}
+.links small {
+  color: #666;
+}

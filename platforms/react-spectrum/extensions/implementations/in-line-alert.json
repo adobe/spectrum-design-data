@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "in-line-alert",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "InlineAlert",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

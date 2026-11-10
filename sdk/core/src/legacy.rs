@@ -203,6 +203,17 @@ pub fn convert_graph_by_file(
 
 type LegacyFiles = Vec<(std::path::PathBuf, Map<String, Value>)>;
 
+/// Drop the in-memory `overriddenBy` / `overriddenFrom` markers a platform override
+/// adds; legacy output never carries them.
+fn strip_override_provenance(raw: &Value) -> Value {
+    let mut v = raw.clone();
+    if let Some(m) = v.as_object_mut() {
+        m.remove("overriddenBy");
+        m.remove("overriddenFrom");
+    }
+    v
+}
+
 fn convert_graph_files(
     graph: &crate::graph::TokenGraph,
 ) -> Result<(LegacyFiles, LegacySummary), CoreError> {
@@ -219,7 +230,7 @@ fn convert_graph_files(
         by_file
             .entry(t.file.clone())
             .or_default()
-            .push((t.index, t.raw.clone()));
+            .push((t.index, strip_override_provenance(&t.raw)));
     }
     for r in &graph.relationships {
         by_file

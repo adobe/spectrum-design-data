@@ -101,12 +101,22 @@ pub fn export_tokens(graph: &TokenGraph) -> Result<Vec<ExportToken>, FigmaError>
             }
         }
     }
+    // An override replaces its foundation record but carries `file = manifest.json`;
+    // group it with its siblings so their other modes are not replaced with it
+    // (p6ga.8.29).
+    let mut home_files: HashMap<&str, &PathBuf> = HashMap::new();
+    for record in &records {
+        if !is_override(record) {
+            home_files.entry(&record.key).or_insert(&record.file);
+        }
+    }
     let mut groups: BTreeMap<(&PathBuf, &str), Vec<&Record<'_>>> = BTreeMap::new();
     for record in &records {
-        groups
-            .entry((&record.file, &record.key))
-            .or_default()
-            .push(record);
+        let file = match home_files.get(record.key.as_str()) {
+            Some(home) if is_override(record) => *home,
+            _ => &record.file,
+        };
+        groups.entry((file, &record.key)).or_default().push(record);
     }
     let mut tokens: Vec<ExportToken> = Vec::new();
     let mut positions = HashMap::new();
@@ -227,6 +237,10 @@ pub fn export_tokens(graph: &TokenGraph) -> Result<Vec<ExportToken>, FigmaError>
         }
     }
     Ok(tokens)
+}
+
+fn is_override(record: &Record<'_>) -> bool {
+    record.field("overriddenBy").is_some()
 }
 
 fn consistent<'a>(

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "date-field",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.3.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    }
+  ]
+}

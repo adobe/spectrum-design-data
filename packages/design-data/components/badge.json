@@ -81,9 +81,10 @@
     },
     "variant": {
       "type": "string",
+      "default": "neutral",
       "values": [
         { "value": "neutral" },
-        { "value": "info" },
+        { "value": "informative" },
         { "value": "positive" },
         { "value": "negative" },
         { "value": "indigo" },
@@ -111,6 +112,7 @@
     },
     "style": {
       "type": "string",
+      "default": "bold",
       "values": [
         { "value": "bold" },
         { "value": "subtle" },
@@ -128,7 +130,6 @@
         { "value": "left" }
       ]
     },
-    "isDisabled": { "type": "boolean", "default": false },
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
@@ -140,6 +141,21 @@
         { "value": "xl" }
       ]
     }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded background that holds the icon and label.",
+      "required": true,
+      "contains": ["icon", "label"]
+    },
+    { "name": "icon", "description": "Optional leading icon." },
+    { "name": "label", "description": "Badge text." }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No part changes. Badge is not focusable, so no focus-indicator; icon and label are optional (icon-only badge)."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

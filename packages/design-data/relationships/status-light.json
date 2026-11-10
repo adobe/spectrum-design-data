@@ -5,7 +5,8 @@
       "property": "component-height-75"
     },
     "context": "Height",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "uuid": "03352eb9-9af2-59fe-9eb9-9b50a00bee3f"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "component-height-75"
     },
     "context": "Height",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "uuid": "4e90bd9c-58a0-5e7d-876c-481f555fb0db"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "component-height-100"
     },
     "context": "Height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "uuid": "a6cc9f53-d5ee-5977-beee-21315ce0fd27"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "component-height-100"
     },
     "context": "Height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "uuid": "18cae166-39b3-5a39-8fff-7a1c96825571"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "component-height-200"
     },
     "context": "Height",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "uuid": "62bbd499-9f4e-5895-af4d-a5cf625fe5bf"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "component-height-200"
     },
     "context": "Height",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "uuid": "6fbfd6b1-eff0-59c1-b13d-55153af57bd9"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "component-height-300"
     },
     "context": "Height",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "uuid": "f2bc1292-0854-5b9f-88f1-d2f1fc1afbf7"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "component-height-300"
     },
     "context": "Height",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "uuid": "ecbaa2c0-ca34-5cb6-943e-a6989b624730"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "04485265-2983-4377-9ec5-f2456863a1df"
+    "$ref": "04485265-2983-4377-9ec5-f2456863a1df",
+    "uuid": "4de101d7-6a1d-5385-a436-b072a8df2006"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63"
+    "$ref": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63",
+    "uuid": "cdb5bb11-5867-5a51-98d8-634d1fb1fa80"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "ada7bd8c-04c9-4d77-a6e8-072ff86984ae"
+    "$ref": "ada7bd8c-04c9-4d77-a6e8-072ff86984ae",
+    "uuid": "b483ca80-d3cf-5bec-92d9-6f8e56652e1a"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79"
+    "$ref": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79",
+    "uuid": "24bbd4dc-0a12-538e-b63b-915acb3f006a"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "45832ec2-5f33-4861-a857-1ca2352213db"
+    "$ref": "45832ec2-5f33-4861-a857-1ca2352213db",
+    "uuid": "7bb107c5-1ebb-57d0-9c4e-0ca0c4cb9790"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad"
+    "$ref": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad",
+    "uuid": "b382d33d-7809-5e2c-ab8a-3946ef0a0d15"
   },
   {
     "scope": {
@@ -117,7 +131,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "5e27b361-988c-42ac-8c66-f7d1ba00632d"
+    "$ref": "5e27b361-988c-42ac-8c66-f7d1ba00632d",
+    "uuid": "233e2ac3-3d39-5d98-bb51-8e097f783702"
   },
   {
     "scope": {
@@ -125,7 +140,8 @@
       "property": "size"
     },
     "context": "Dot size",
-    "$ref": "38b8d9c8-d340-4123-88bc-f739cfde91e9"
+    "$ref": "38b8d9c8-d340-4123-88bc-f739cfde91e9",
+    "uuid": "d4217b9c-28b3-5063-aaa8-bb0d0ea8bda3"
   },
   {
     "scope": {
@@ -133,7 +149,8 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "7c779c0d-df55-527c-a0b4-79f0ff5b6a81"
   },
   {
     "scope": {
@@ -141,7 +158,8 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "253a68cf-a245-5d48-8e3b-52b5bc9a1441"
   },
   {
     "scope": {
@@ -149,7 +167,8 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "8df0bbdb-4155-5894-85d0-55d3ddb46145"
   },
   {
     "scope": {
@@ -157,7 +176,8 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "1cffb44b-8816-50b2-9dab-2f3b4b5a7170"
   },
   {
     "scope": {
@@ -165,7 +185,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "c6a9dbb9-a96e-5e23-b296-970d721ba6d9"
   },
   {
     "scope": {
@@ -173,7 +194,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "44971c04-831e-5a5f-b250-950887c02638"
   },
   {
     "scope": {
@@ -181,7 +203,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "2d63a43f-b3ae-5d38-8af8-a09d3ad4b1cb"
   },
   {
     "scope": {
@@ -189,39 +212,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot) ",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot) ",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot) ",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot) ",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "aafd6589-c76b-5fff-81e9-51131ab3754c"
   },
   {
     "scope": {
@@ -229,15 +221,8 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "94fd88db-6341-5f6a-b3d1-857eb73ab1cf"
   },
   {
     "scope": {
@@ -245,15 +230,8 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "cf21cbff-0a76-576e-a596-2fa9ae45cd2f"
   },
   {
     "scope": {
@@ -261,15 +239,8 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "c0cc7415-f9e4-5aac-9088-ed5249c21376"
   },
   {
     "scope": {
@@ -277,15 +248,8 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "a19f9437-8353-58f0-abab-ee55a6c075f0"
   },
   {
     "scope": {
@@ -293,15 +257,8 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "3d72a391-854d-59ab-b18e-5598de848629"
   },
   {
     "scope": {
@@ -309,15 +266,8 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "61816daa-a16b-5b4a-9608-ecac3701d4e1"
   },
   {
     "scope": {
@@ -325,15 +275,8 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "7d65228c-af85-5d7d-a0c8-a9550cd3a074"
   },
   {
     "scope": {
@@ -341,15 +284,8 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "2880abd9-3623-5572-888a-80c54c6e6f93"
   },
   {
     "scope": {
@@ -357,7 +293,8 @@
       "property": "font-family"
     },
     "context": "Label",
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "f72b9538-7849-5afb-a125-f604364c55a9"
   },
   {
     "scope": {
@@ -365,7 +302,8 @@
       "property": "font-weight"
     },
     "context": "Label",
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "be512e8a-d186-5c98-a044-c62c35dabcfc"
   },
   {
     "scope": {
@@ -373,7 +311,8 @@
       "property": "font-style"
     },
     "context": "Label",
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "8c534c39-6d67-5722-bada-d2f5e780aef7"
   },
   {
     "scope": {
@@ -381,7 +320,8 @@
       "property": "font-size-75"
     },
     "context": "Label",
-    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
+    "uuid": "4a5875e8-07d1-5125-a1e5-c4f4b9471742"
   },
   {
     "scope": {
@@ -389,7 +329,8 @@
       "property": "font-size-75"
     },
     "context": "Label",
-    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
+    "uuid": "09f6c836-317e-561b-a6f3-bf347a266221"
   },
   {
     "scope": {
@@ -397,7 +338,8 @@
       "property": "font-size-100"
     },
     "context": "Label",
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
+    "uuid": "4153c286-8d61-5ee4-b96e-96ca5466d655"
   },
   {
     "scope": {
@@ -405,7 +347,8 @@
       "property": "font-size-100"
     },
     "context": "Label",
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
+    "uuid": "18625de4-164b-59b3-9b41-076518ddb29d"
   },
   {
     "scope": {
@@ -413,7 +356,8 @@
       "property": "font-size-200"
     },
     "context": "Label",
-    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
+    "uuid": "25dbf66c-6860-5eca-83e5-bdbd49706f33"
   },
   {
     "scope": {
@@ -421,7 +365,8 @@
       "property": "font-size-200"
     },
     "context": "Label",
-    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
+    "uuid": "a8bfd31e-fc59-549e-aebc-f63df1c8ce51"
   },
   {
     "scope": {
@@ -429,7 +374,8 @@
       "property": "font-size-300"
     },
     "context": "Label",
-    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
+    "uuid": "78dbf526-0b5f-55b3-b221-5a24cf2a6559"
   },
   {
     "scope": {
@@ -437,7 +383,8 @@
       "property": "font-size-300"
     },
     "context": "Label",
-    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
+    "uuid": "e9037fab-226a-5e0c-8d70-5e7702868aa7"
   },
   {
     "scope": {
@@ -445,7 +392,8 @@
       "property": "line-height-100"
     },
     "context": "Label",
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "6288e3c0-de76-531f-b5ca-6e653ff82473"
   },
   {
     "scope": {
@@ -453,7 +401,8 @@
       "property": "line-height-100"
     },
     "context": "Label",
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "fa00d6d7-0fcb-57bd-bd94-32d6fa9220e6"
   },
   {
     "scope": {
@@ -461,7 +410,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f"
+    "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f",
+    "uuid": "6b903420-e326-583e-b35b-72565f70c8ed"
   },
   {
     "scope": {
@@ -469,7 +419,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5"
+    "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5",
+    "uuid": "2b02b4c5-a228-5c50-bc3d-695612bd8977"
   },
   {
     "scope": {
@@ -477,7 +428,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae"
+    "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae",
+    "uuid": "40eae94e-e0c8-5adf-9691-20cba21b5da0"
   },
   {
     "scope": {
@@ -485,7 +437,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42"
+    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42",
+    "uuid": "558e9c9c-118b-5e05-ba22-29b5ac9cdfdc"
   },
   {
     "scope": {
@@ -493,7 +446,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224"
+    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224",
+    "uuid": "a85d9e87-09f8-59c1-a96f-89c6d6b58294"
   },
   {
     "scope": {
@@ -501,7 +455,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c"
+    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c",
+    "uuid": "29fc002d-4f9c-5007-9f97-8f0dccfc66a3"
   },
   {
     "scope": {
@@ -509,7 +464,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2"
+    "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2",
+    "uuid": "65dd6a0c-effa-5740-b2b9-10cbd59589a0"
   },
   {
     "scope": {
@@ -517,7 +473,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "25e8289f-6c82-4485-8920-a187f790cd47"
+    "$ref": "25e8289f-6c82-4485-8920-a187f790cd47",
+    "uuid": "fd7dcdea-6624-5bc6-af91-2d95132352ce"
   },
   {
     "scope": {
@@ -525,7 +482,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3"
+    "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3",
+    "uuid": "4e4ad61a-ddb1-5dfb-b4df-bea160f9dc2c"
   },
   {
     "scope": {
@@ -533,7 +491,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8"
+    "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8",
+    "uuid": "a21cd946-5f62-5769-9318-7909a2787cc6"
   },
   {
     "scope": {
@@ -541,7 +500,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d"
+    "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d",
+    "uuid": "03dd2d6b-9a2f-5ea4-ad4d-00c7b862346a"
   },
   {
     "scope": {
@@ -549,7 +509,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2"
+    "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2",
+    "uuid": "1cbad135-8300-5bc8-8711-75ffc099de9c"
   },
   {
     "scope": {
@@ -557,7 +518,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f"
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
+    "uuid": "e201e33d-3f67-58a7-a087-a678dbea9abe"
   },
   {
     "scope": {
@@ -565,7 +527,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6"
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
+    "uuid": "77e8c91a-6ebc-5755-a7a9-5a1bd5fc355e"
   },
   {
     "scope": {
@@ -573,7 +536,8 @@
       "property": "color"
     },
     "context": "Semantic (Dot) ",
-    "$ref": "9211e320-de05-4097-8350-fef2293be6a0"
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
+    "uuid": "976ce579-c783-532f-ad94-af0c3f4839cb"
   },
   {
     "scope": {
@@ -581,7 +545,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "8f6f9f6e-1762-4ac3-a9b9-6cacd135dfac"
+    "$ref": "8f6f9f6e-1762-4ac3-a9b9-6cacd135dfac",
+    "uuid": "502d56b6-781d-5127-b23c-1639b7fb7cb0"
   },
   {
     "scope": {
@@ -589,7 +554,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "37c1311b-29ed-44ab-b656-a7538726ad77"
+    "$ref": "37c1311b-29ed-44ab-b656-a7538726ad77",
+    "uuid": "974c3dcf-f271-5bfb-9367-9283a492c003"
   },
   {
     "scope": {
@@ -597,7 +563,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "d8adaaf1-b6a3-400a-853b-6ba5a5c873e7"
+    "$ref": "d8adaaf1-b6a3-400a-853b-6ba5a5c873e7",
+    "uuid": "c79981a7-f020-5cc2-91a9-fff035e82705"
   },
   {
     "scope": {
@@ -605,7 +572,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "18735078-a942-442b-bc04-1b72bac77c98"
+    "$ref": "18735078-a942-442b-bc04-1b72bac77c98",
+    "uuid": "04dfe3d6-89e1-5967-98e0-0524a4d6dcc4"
   },
   {
     "scope": {
@@ -613,7 +581,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "a46d8e05-4f56-4b46-a279-0164abfa42e8"
+    "$ref": "a46d8e05-4f56-4b46-a279-0164abfa42e8",
+    "uuid": "a36aef8b-ea5d-581b-9f8a-c8b423b12202"
   },
   {
     "scope": {
@@ -621,7 +590,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "a2cc3b6e-014f-4522-8d05-9e9d06464504"
+    "$ref": "a2cc3b6e-014f-4522-8d05-9e9d06464504",
+    "uuid": "4c4cd6aa-f5e5-51c6-bce9-4ac775e7dda0"
   },
   {
     "scope": {
@@ -629,7 +599,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "c3c126c9-2133-416a-ac0e-4ae00546941b"
+    "$ref": "c3c126c9-2133-416a-ac0e-4ae00546941b",
+    "uuid": "19531c05-b157-5333-82f4-5d152b9df69a"
   },
   {
     "scope": {
@@ -637,7 +608,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "091a2073-baa0-4cc6-b943-9dddc285ad62"
+    "$ref": "091a2073-baa0-4cc6-b943-9dddc285ad62",
+    "uuid": "f928c5ca-0d24-5605-9033-66383458f37b"
   },
   {
     "scope": {
@@ -645,7 +617,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "ad004c2f-8cab-45d5-8e22-921d3f0332ea"
+    "$ref": "ad004c2f-8cab-45d5-8e22-921d3f0332ea",
+    "uuid": "6910bcef-e6c6-5a7f-8b1f-3037cdb4f3fa"
   },
   {
     "scope": {
@@ -653,7 +626,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "36b69bb1-d443-4ec6-807b-ea449a886825"
+    "$ref": "36b69bb1-d443-4ec6-807b-ea449a886825",
+    "uuid": "8b7271a7-85ba-5a5c-9b7d-3065b737a93a"
   },
   {
     "scope": {
@@ -661,7 +635,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "38e60263-cb08-4090-a653-5acbd1664ae0"
+    "$ref": "38e60263-cb08-4090-a653-5acbd1664ae0",
+    "uuid": "99609c45-7c02-5ddd-94eb-b3bd001356bb"
   },
   {
     "scope": {
@@ -669,7 +644,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "656af4f3-a545-4445-9d2b-2c4a17ab46db"
+    "$ref": "656af4f3-a545-4445-9d2b-2c4a17ab46db",
+    "uuid": "fd40a9cb-8255-5695-a489-40a93150e32a"
   },
   {
     "scope": {
@@ -677,7 +653,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "681fc141-b235-4cde-9c3a-f0033943d772"
+    "$ref": "681fc141-b235-4cde-9c3a-f0033943d772",
+    "uuid": "aa76ff0e-4030-5a47-852f-760bd54a6ffc"
   },
   {
     "scope": {
@@ -685,7 +662,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "0ee2957b-c401-4106-8ff3-9de9fa544a03"
+    "$ref": "0ee2957b-c401-4106-8ff3-9de9fa544a03",
+    "uuid": "455d6773-0af6-5ce5-a063-20432411eaa4"
   },
   {
     "scope": {
@@ -693,7 +671,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "ef836f5b-c6b9-4e6b-a671-e979dc53c407"
+    "$ref": "ef836f5b-c6b9-4e6b-a671-e979dc53c407",
+    "uuid": "eb9e0aee-512e-5348-a090-e5269e26653d"
   },
   {
     "scope": {
@@ -701,7 +680,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "8bc581a9-558c-424d-a72b-f24b48207b82"
+    "$ref": "8bc581a9-558c-424d-a72b-f24b48207b82",
+    "uuid": "1830bc38-8241-5d52-9fc6-8a8444169a43"
   },
   {
     "scope": {
@@ -709,7 +689,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "178e4bc6-6986-4e77-aab0-78dbe66f8e6f"
+    "$ref": "178e4bc6-6986-4e77-aab0-78dbe66f8e6f",
+    "uuid": "fe15f33c-145f-5028-8701-afea525673ea"
   },
   {
     "scope": {
@@ -717,7 +698,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "9bf3d052-42d1-454b-8ae6-ee0b40d9a9c8"
+    "$ref": "9bf3d052-42d1-454b-8ae6-ee0b40d9a9c8",
+    "uuid": "8dbfe6f3-9ba1-5f1b-a9dd-5bf8b064a665"
   },
   {
     "scope": {
@@ -725,7 +707,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "cb59d4d5-c17e-428d-a22a-e9a3fc02ac9c"
+    "$ref": "cb59d4d5-c17e-428d-a22a-e9a3fc02ac9c",
+    "uuid": "5e685b79-e949-5482-bfe5-761773c1862e"
   },
   {
     "scope": {
@@ -733,7 +716,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "584ccbd4-3243-4041-b665-e2342d2b26e8"
+    "$ref": "584ccbd4-3243-4041-b665-e2342d2b26e8",
+    "uuid": "13bb93bd-caba-5e29-bcda-602048e6b451"
   },
   {
     "scope": {
@@ -741,7 +725,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "056968e0-d29e-4b1c-a9b1-50853f6d159b"
+    "$ref": "056968e0-d29e-4b1c-a9b1-50853f6d159b",
+    "uuid": "013e0658-ec71-5a3b-884d-8a12bf55f837"
   },
   {
     "scope": {
@@ -749,7 +734,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "2b0a6584-db41-43b9-ba39-39171548c01a"
+    "$ref": "2b0a6584-db41-43b9-ba39-39171548c01a",
+    "uuid": "f29622cc-91a8-5d98-af9c-b935ffb9b20e"
   },
   {
     "scope": {
@@ -757,7 +743,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "736e4768-7944-40ec-a412-4cd36299e03d"
+    "$ref": "736e4768-7944-40ec-a412-4cd36299e03d",
+    "uuid": "a5ee9b33-f871-578f-9431-006c0509f0d7"
   },
   {
     "scope": {
@@ -765,7 +752,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "15de4533-1a59-4a9f-899f-004a429471c7"
+    "$ref": "15de4533-1a59-4a9f-899f-004a429471c7",
+    "uuid": "331c3bfb-63df-56c1-9ace-34181d884b83"
   },
   {
     "scope": {
@@ -773,7 +761,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "73e40884-6d55-4a56-a376-bd788e615754"
+    "$ref": "73e40884-6d55-4a56-a376-bd788e615754",
+    "uuid": "c46cec49-bf7d-58a1-b0be-046e7932eb78"
   },
   {
     "scope": {
@@ -781,7 +770,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "4a2ebbb5-b8b7-43a0-9d64-4974bb382a8b"
+    "$ref": "4a2ebbb5-b8b7-43a0-9d64-4974bb382a8b",
+    "uuid": "ff4a5ab3-6b9d-5ada-978d-d4834aee4caf"
   },
   {
     "scope": {
@@ -789,7 +779,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "c14eedf9-0f34-4a38-9b89-7c9b5f3e0af6"
+    "$ref": "c14eedf9-0f34-4a38-9b89-7c9b5f3e0af6",
+    "uuid": "0873a5b1-47a3-5d99-ac40-a5df79a678d4"
   },
   {
     "scope": {
@@ -797,7 +788,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "4be32a08-c731-4c59-b376-ba0ef134e14e"
+    "$ref": "4be32a08-c731-4c59-b376-ba0ef134e14e",
+    "uuid": "7a71c56e-b9d6-5031-9e0c-494723b90dd4"
   },
   {
     "scope": {
@@ -805,7 +797,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "496cef67-3a25-4d99-8545-e8aa9a7f0adc"
+    "$ref": "496cef67-3a25-4d99-8545-e8aa9a7f0adc",
+    "uuid": "6df167eb-5b32-520f-9b6e-9cce9e623d7e"
   },
   {
     "scope": {
@@ -813,7 +806,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "fcbf8451-ad82-4247-a867-a5d0034667b5"
+    "$ref": "fcbf8451-ad82-4247-a867-a5d0034667b5",
+    "uuid": "adf990a6-f4c5-538b-85f3-d24ac2256f7c"
   },
   {
     "scope": {
@@ -821,7 +815,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "2c31e5bc-cf23-42d6-85e8-9947e305d1ff"
+    "$ref": "2c31e5bc-cf23-42d6-85e8-9947e305d1ff",
+    "uuid": "2a420d84-3381-5c9d-87f8-a34c3751b356"
   },
   {
     "scope": {
@@ -829,7 +824,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "04c6819d-5049-4e18-bb83-95239fa3d8c2"
+    "$ref": "04c6819d-5049-4e18-bb83-95239fa3d8c2",
+    "uuid": "45294512-4559-5029-8475-94abb2395bd2"
   },
   {
     "scope": {
@@ -837,7 +833,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "bc700351-a33c-4164-9ba7-3f86733ebe54"
+    "$ref": "bc700351-a33c-4164-9ba7-3f86733ebe54",
+    "uuid": "26842637-040f-5722-a57e-bd1b0ec14e18"
   },
   {
     "scope": {
@@ -845,7 +842,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "86aa8b9c-b124-45ba-a359-a58295d28509"
+    "$ref": "86aa8b9c-b124-45ba-a359-a58295d28509",
+    "uuid": "e399e34b-0319-5794-b647-817496697f66"
   },
   {
     "scope": {
@@ -853,7 +851,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "24026c61-470e-41b9-a247-58605b54706d"
+    "$ref": "24026c61-470e-41b9-a247-58605b54706d",
+    "uuid": "5d3f9b75-c632-56f2-aee4-d7ca13dcd727"
   },
   {
     "scope": {
@@ -861,7 +860,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "9022dc27-f9d9-4697-b808-ebe36d216f8b"
+    "$ref": "9022dc27-f9d9-4697-b808-ebe36d216f8b",
+    "uuid": "279cf530-7048-59d9-82a7-9e4feae7a513"
   },
   {
     "scope": {
@@ -869,7 +869,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "12fd4bac-b0ef-4285-a0e4-5947526a91a9"
+    "$ref": "12fd4bac-b0ef-4285-a0e4-5947526a91a9",
+    "uuid": "4c08878f-7c3f-59b7-b5d6-342847b55e97"
   },
   {
     "scope": {
@@ -877,7 +878,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "a25ac05c-c108-4caf-a77e-79b4fd36ee91"
+    "$ref": "a25ac05c-c108-4caf-a77e-79b4fd36ee91",
+    "uuid": "fe5b2736-23ef-5c43-a97a-9a8c06a0514d"
   },
   {
     "scope": {
@@ -885,7 +887,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "349dc3c5-fd57-403c-bc42-2a60b8325bd3"
+    "$ref": "349dc3c5-fd57-403c-bc42-2a60b8325bd3",
+    "uuid": "71835e7c-c736-5811-ae66-c6676c62ff93"
   },
   {
     "scope": {
@@ -893,7 +896,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "35f96ec6-0eae-4c55-aa54-134f03feda7d"
+    "$ref": "35f96ec6-0eae-4c55-aa54-134f03feda7d",
+    "uuid": "aee484b5-f352-5d32-966b-bed5ff2a88c0"
   },
   {
     "scope": {
@@ -901,7 +905,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "f7d55707-b9db-4711-b93f-dcc03932516c"
+    "$ref": "f7d55707-b9db-4711-b93f-dcc03932516c",
+    "uuid": "779f5f5a-3c18-5ae3-8345-11faaa0d8a5d"
   },
   {
     "scope": {
@@ -909,7 +914,8 @@
       "property": "color"
     },
     "context": "Non-semantic (Dot)  ",
-    "$ref": "7e749788-d92d-4ad5-b4d2-446e77c5a041"
+    "$ref": "7e749788-d92d-4ad5-b4d2-446e77c5a041",
+    "uuid": "e56d1644-1a91-53bf-aac9-b58f681168b1"
   },
   {
     "scope": {
@@ -917,7 +923,8 @@
       "property": "color"
     },
     "context": "Label",
-    "$ref": "e6a41088-a188-483c-b197-63ed3c70463d"
+    "$ref": "e6a41088-a188-483c-b197-63ed3c70463d",
+    "uuid": "59cfd8d4-0e26-54f5-a4fa-74da8b3327e4"
   },
   {
     "scope": {
@@ -925,7 +932,8 @@
       "property": "color"
     },
     "context": "Label",
-    "$ref": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6"
+    "$ref": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6",
+    "uuid": "1ee71385-8737-5dd7-aa1c-8e16b6012f3e"
   },
   {
     "scope": {
@@ -933,7 +941,8 @@
       "property": "color"
     },
     "context": "Label",
-    "$ref": "3ab25385-aece-42c4-af86-01ea97ed2455"
+    "$ref": "3ab25385-aece-42c4-af86-01ea97ed2455",
+    "uuid": "dbce12f7-825f-50b6-9e01-934e3cd2b491"
   },
   {
     "scope": {
@@ -941,7 +950,8 @@
       "property": "content-color"
     },
     "context": "Label",
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "4f416ded-8335-59dd-bb30-029784a1b352"
   },
   {
     "scope": {

@@ -15,9 +15,12 @@ use std::sync::OnceLock;
 use chrono::Utc;
 
 mod authoring;
+mod changelog;
 mod data;
 mod format;
 mod lifecycle;
+mod render_batch;
+mod spec_sheet;
 
 use std::collections::{HashMap, HashSet};
 
@@ -41,7 +44,9 @@ use design_data_core::primer;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
+use design_data_core::text_metrics::TextMetrics;
 use design_data_core::validate;
+use design_data_core::visual;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_dtcg as dtcg;
 use design_data_figma as figma;
@@ -141,6 +146,13 @@ enum Commands {
         /// Directory containing Component/Token Relationship (CTR) JSON files (enables SPEC-055 target resolution)
         #[arg(long, value_name = "DIR")]
         relationships_path: Option<PathBuf>,
+        /// Directory containing component visual recipe JSON files (enables SPEC-060..063)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
+        /// Directory containing icon sets (enables SPEC-085/086 on recipes; default: probed
+        /// `packages/design-data/icons`)
+        #[arg(long, value_name = "DIR")]
+        icons_path: Option<PathBuf>,
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
@@ -188,6 +200,171 @@ enum Commands {
         /// Output format
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
+    },
+    /// Write a static, server-free component explorer built from visual recipes (draft)
+    Site {
+        /// Output directory (publishable as-is, e.g. to GitHub Pages)
+        #[arg(long, value_name = "DIR")]
+        out: PathBuf,
+        /// Restrict to these components (comma-separated); default is all
+        #[arg(long, value_delimiter = ',', value_name = "NAMES")]
+        components: Vec<String>,
+        /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Text-measurement table written to the site and used by its renderer (default: committed Source Sans 3)
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
+        /// The slim engine's web build (`sdk/wasm-visual` `pkg/web`), copied to `engine/` (see `moon run sdk-wasm-visual:build-web`)
+        #[arg(long, value_name = "DIR", conflicts_with = "data_only")]
+        engine: Option<PathBuf>,
+        /// Write the data without the renderer; the page then shows that it has no engine
+        #[arg(long)]
+        data_only: bool,
+    },
+    /// Suggest candidate anatomy parts from relationships, for human review (draft)
+    AnatomySuggest {
+        /// Components to suggest for; default is every component with relationships and no reviewed anatomy
+        #[arg(value_name = "COMPONENT")]
+        components: Vec<String>,
+        /// Output format
+        #[arg(long, default_value = "markdown", value_parser = ["markdown", "json"])]
+        format: String,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+    },
+    /// Render a component from its visual recipe to SVG (draft)
+    Render {
+        /// Component name (e.g. action-button)
+        #[arg(value_name = "COMPONENT", required_unless_present = "batch")]
+        component: Option<String>,
+        /// Render every state of this JSON file (an array, or {"states": [...]}) with its own
+        /// component, size, states, options, colorScheme, scale, label, platform and id;
+        /// writes <id>.svg and <id>.scene.json per state plus index.json into --out
+        #[arg(long, value_name = "FILE", requires = "out", conflicts_with_all = ["output", "format"])]
+        batch: Option<PathBuf>,
+        /// Directory for --batch outputs
+        #[arg(long, value_name = "DIR", requires = "batch")]
+        out: Option<PathBuf>,
+        /// Size key from the recipe's sizeScale (xs, s, m, l, xl)
+        #[arg(long, default_value = "m")]
+        size: String,
+        /// Interaction state to apply (repeatable): hover, down, keyboard-focus
+        #[arg(long = "state", value_name = "STATE")]
+        states: Vec<String>,
+        /// Component option as name=value (repeatable); values parse as JSON when possible
+        #[arg(long = "option", value_name = "NAME=VALUE")]
+        options: Vec<String>,
+        /// Color scheme mode
+        #[arg(long, default_value = "light")]
+        color_scheme: String,
+        /// Scale mode
+        #[arg(long, default_value = "desktop")]
+        scale: String,
+        /// Label text for text parts
+        #[arg(long, default_value = "Label")]
+        label: String,
+        /// Demo width in px; replaces the recipe's root width (its minWidth still applies)
+        #[arg(long, value_name = "PX")]
+        width: Option<f64>,
+        /// Content icon: SET:NAME (e.g. workflow:edit) replaces it, `none` hides an optional one
+        #[arg(long, value_name = "SET:NAME|none")]
+        icon: Option<visual::IconOverride>,
+        /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Output format: `svg` or `scene` (resolved scene graph as JSON)
+        #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
+        format: String,
+        /// Write output here instead of stdout
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
+        /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
+    },
+    /// Compare scenes from `render --batch` with measured platform values (draft)
+    RenderCompare {
+        /// Directory of <id>.scene.json files (a `render --batch --out` directory)
+        #[arg(long, value_name = "DIR")]
+        scenes: PathBuf,
+        /// Measured-values JSON (format design-data-measured/1)
+        #[arg(long, value_name = "FILE")]
+        measured: PathBuf,
+        /// Override a tolerance as NAME=VALUE (repeatable): size, fontSize, fontWeight, color
+        #[arg(long = "tolerance", value_name = "NAME=VALUE")]
+        tolerances: Vec<String>,
+        /// Output format
+        #[arg(long, default_value = "json", value_parser = ["json", "markdown"])]
+        format: String,
+        /// Write output here instead of stdout
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
+        /// Exit 1 when any value differs or a state has no scene
+        #[arg(long)]
+        fail_on_diff: bool,
+    },
+    /// Generate the spec-sheet model (draft) for a component: pages of blocks with scenes and token rows
+    SpecSheet {
+        /// Component name (e.g. action-button); components without a visual recipe get a table-only sheet
+        #[arg(value_name = "COMPONENT", required_unless_present = "all")]
+        component: Option<String>,
+        /// Generate a sheet for every component with relationships, plus index.json, into the --output directory
+        #[arg(long, conflicts_with_all = ["component", "changelog"])]
+        all: bool,
+        /// Size key the block visuals render at
+        #[arg(long, default_value = "m")]
+        size: String,
+        /// Changelog JSON whose entries mark blocks as changed
+        #[arg(long, value_name = "FILE")]
+        changelog: Option<PathBuf>,
+        /// With --all: directory of <component>.json changelogs (version and latest release in the index)
+        #[arg(long, value_name = "DIR", requires = "all")]
+        changelog_dir: Option<PathBuf>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Write output here instead of stdout (a directory with --all)
+        #[arg(long, short, value_name = "FILE")]
+        output: Option<PathBuf>,
+        /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
+        #[arg(long, value_name = "FILE")]
+        text_metrics: Option<PathBuf>,
+        /// Also write each block's visual as an SVG string (render.svg) next to its scene.
+        /// Larger sheets and different hashes: leave it off for the Figma spec plugin
+        /// (45,000-character payloads, per-component hashes)
+        #[arg(long)]
+        svg: bool,
+    },
+    /// Append a release to each component's changelog (changelog/<component>.json) by diffing
+    /// two git revisions of the dataset
+    Changelog {
+        /// Revision the release starts after (tag, branch or commit)
+        #[arg(long, value_name = "REF")]
+        from: String,
+        /// Revision the release ends at
+        #[arg(long, value_name = "REF")]
+        to: String,
+        /// Only write this component's changelog
+        #[arg(long, value_name = "ID")]
+        component: Option<String>,
+        /// Dataset root (the directory holding tokens/, components/, ...); changelog/ is written inside it
+        #[arg(long, value_name = "PATH")]
+        dataset: Option<PathBuf>,
+        /// Release label recorded in the changelog (default: --to, without its package prefix)
+        #[arg(long, value_name = "LABEL")]
+        release: Option<String>,
+        /// Cut the range into one release per stable tag matching GLOB (backfill); commits after
+        /// the last tag are recorded under --release
+        #[arg(long, value_name = "GLOB")]
+        tags: Option<String>,
     },
     /// Resolve a token value for a given mode set context
     Resolve {
@@ -709,6 +886,22 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Compare the public variable names in a Figma file with the names generated from
+    /// design-data, and list hidden variables that need a public alias (offline)
+    PublicNames {
+        /// Path to a `variables/local` response or a `figma read --format json` snapshot
+        #[arg(long)]
+        snapshot: PathBuf,
+        /// Write the full report as CSV (one row per public variable and per hidden-only variable)
+        #[arg(long)]
+        csv: Option<PathBuf>,
+        /// Write a Markdown summary with examples per match class
+        #[arg(long)]
+        markdown: Option<PathBuf>,
+        /// Output format for stdout (pretty summary or the full JSON report)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Value-level diff between the manifest-resolved dataset and a Figma file (read-only)
     Diff {
         /// Figma file key to read from (required unless `--snapshot` is given)
@@ -944,6 +1137,236 @@ fn winners_to_dtcg_doc(
         .export(graph, winners, ctx)
 }
 
+/// Load the token graph (with relationships) and locate the `visuals/` directory.
+/// With `load_visuals`, the foundation recipes in that directory go into
+/// `graph.visuals` before the platform cascade, so a platform recipe replaces them.
+fn load_visual_env(
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+    load_visuals: bool,
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
+    load_visual_env_for(path, visuals_path, load_visuals, None)
+}
+
+/// Like [`load_visual_env`], with `platform` overriding the global `--platform`.
+fn load_visual_env_for(
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+    load_visuals: bool,
+    platform: Option<String>,
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: path,
+        platform_id: platform,
+        ..Default::default()
+    })?;
+    let mut graph = TokenGraph::from_json_dir_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err("failed to load tokens")?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    if let Some(dir) = resolved.icons.as_deref() {
+        let icons = TokenGraph::load_spec_icons(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load icons from {}", dir.display()))?;
+        graph = graph.with_icons(icons);
+    }
+    let visuals_dir = visuals_path.unwrap_or_else(|| {
+        let sibling = |p: &Path| p.parent().map(|d| d.join("visuals"));
+        [
+            Some(resolved.tokens_root.join("visuals")),
+            sibling(&resolved.tokens_root),
+            resolved.components.as_deref().and_then(sibling),
+        ]
+        .into_iter()
+        .flatten()
+        .find(|d| d.is_dir())
+        .unwrap_or_else(|| PathBuf::from("visuals"))
+    });
+    if load_visuals && visuals_dir.is_dir() {
+        graph.visuals = TokenGraph::load_spec_visuals(&visuals_dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load recipes from {}", visuals_dir.display()))?;
+    }
+    // Foundation→Platform cascade, after the relationships and recipes load so
+    // extension relationships and recipes layer onto them. A no-op when no platform
+    // is selected.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
+    Ok((graph, visuals_dir, platform))
+}
+
+/// Print candidate anatomy parts for review. Never writes component files.
+fn run_anatomy_suggest(
+    components: Vec<String>,
+    format: String,
+    path: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, _, _) = load_visual_env(path, None, false)?;
+    let suggestions = if components.is_empty() {
+        design_data_core::anatomy_suggest::suggest_all(&graph)
+    } else {
+        let mut out = Vec::new();
+        for c in &components {
+            out.push(
+                design_data_core::anatomy_suggest::suggest_component(&graph, c)
+                    .ok_or_else(|| miette::miette!("unknown component '{c}'"))?,
+            );
+        }
+        out
+    };
+    if format == "json" {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&suggestions).into_diagnostic()?
+        );
+    } else {
+        print!(
+            "{}",
+            design_data_core::anatomy_suggest::to_markdown(&suggestions)
+        );
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Write a static, server-free component explorer (see `design-data-site`).
+fn run_site(
+    out: PathBuf,
+    components: Vec<String>,
+    path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+    text_metrics: Option<PathBuf>,
+    engine: Option<PathBuf>,
+    data_only: bool,
+) -> miette::Result<ExitCode> {
+    if engine.is_none() && !data_only {
+        miette::bail!(
+            "the site needs the slim engine: build it with `moon run sdk-wasm-visual:build-web` and pass \
+             `--engine sdk/wasm-visual/pkg/web` (or `--data-only` to write the data without a renderer)"
+        );
+    }
+    // Validate the file, then ship its text as is so the site measures what the CLI does.
+    let table = match &text_metrics {
+        Some(p) => {
+            load_text_metrics(Some(p))?;
+            Some(std::fs::read_to_string(p).into_diagnostic()?)
+        }
+        None => None,
+    };
+    let (graph, _, platform) = load_visual_env(path, visuals_path, true)?;
+    let count = design_data_site::write_site(
+        &graph,
+        &components,
+        &out,
+        platform.as_ref(),
+        table.as_deref(),
+        engine.as_deref(),
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
+    eprintln!("Wrote site for {count} component(s) to {}", out.display());
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Read and validate a `--text-metrics` file; `None` keeps the committed default table.
+fn load_text_metrics(path: Option<&Path>) -> miette::Result<Option<TextMetrics>> {
+    let Some(p) = path else { return Ok(None) };
+    let text = std::fs::read_to_string(p)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read --text-metrics {}", p.display()))?;
+    TextMetrics::parse(&text)
+        .map(Some)
+        .map_err(|e| miette::miette!("--text-metrics {}: {e}", p.display()))
+}
+
+#[allow(clippy::too_many_arguments)]
+fn run_render(
+    component: Option<String>,
+    batch: Option<PathBuf>,
+    out: Option<PathBuf>,
+    size: String,
+    states: Vec<String>,
+    options: Vec<String>,
+    color_scheme: String,
+    scale: String,
+    label: String,
+    width: Option<f64>,
+    icon: Option<visual::IconOverride>,
+    visuals_path: Option<PathBuf>,
+    path: Option<PathBuf>,
+    format: String,
+    output: Option<PathBuf>,
+    text_metrics: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    if let (Some(file), Some(dir)) = (&batch, &out) {
+        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
+    }
+    let component = component.expect("clap requires COMPONENT without --batch");
+    let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
+    let recipe = &graph
+        .visual_recipe(&component)
+        .ok_or_else(|| {
+            miette::miette!(
+                "no visual recipe for '{component}' in {} or the platform's extensions/visuals",
+                visuals_dir.display()
+            )
+        })?
+        .raw;
+    let component = graph.canonical_component(&component).to_string();
+
+    let mut opts = HashMap::new();
+    for o in options {
+        let (k, v) = o
+            .split_once('=')
+            .ok_or_else(|| miette::miette!("--option expects NAME=VALUE, got '{o}'"))?;
+        let val = serde_json::from_str(v).unwrap_or_else(|_| serde_json::Value::String(v.into()));
+        opts.insert(k.to_string(), val);
+    }
+    let req = visual::RenderRequest {
+        component,
+        size,
+        states,
+        options: opts,
+        mode: HashMap::from([
+            ("colorScheme".to_string(), color_scheme),
+            ("scale".to_string(), scale),
+        ]),
+        label,
+        icon,
+        text_metrics,
+        width,
+    };
+    let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
+    for d in &scene.diagnostics {
+        match &platform {
+            Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
+            None => eprintln!("warning: {d}"),
+        }
+    }
+    let svg = if format == "scene" {
+        serde_json::to_string_pretty(&scene).into_diagnostic()?
+    } else {
+        visual::scene_to_svg(&scene)
+    };
+    match output {
+        Some(p) => std::fs::write(&p, svg)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to write {}", p.display()))?,
+        None => println!("{svg}"),
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_resolve(
     property: &str,
     explicit_path: Option<&Path>,
@@ -1043,6 +1466,8 @@ struct ValidateOpts {
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
     relationships_path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
+    icons_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
     components_report_only: bool,
     strict: bool,
@@ -1059,9 +1484,15 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         mode_sets: opts.mode_sets_path,
         components: opts.components_path,
         relationships: opts.relationships_path,
+        icons: opts.icons_path,
         ..Default::default()
     })?;
     let path = &resolved.tokens_root;
+    // A selected platform (`--platform`, DESIGN_DATA_PLATFORM, default_platform) lets SPEC-076
+    // check that recipe bindings still resolve once its manifest is applied.
+    let platform_manifest = manifest::load_configured_manifest(&resolved)
+        .into_diagnostic()
+        .wrap_err("failed to load platform manifest")?;
 
     let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
@@ -1073,7 +1504,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
     let comps_dir = resolved.components;
     let relationships_dir = resolved.relationships;
 
-    let mut report = validate::validate_all_with_full_options(
+    let mut report = validate::validate_all_with_platform(
         path,
         &registry,
         &exceptions,
@@ -1082,6 +1513,9 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         opts.names_dir.as_deref(),
         None,
         relationships_dir.as_deref(),
+        opts.visuals_path.as_deref(),
+        resolved.icons.as_deref(),
+        platform_manifest,
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
@@ -2959,6 +3393,47 @@ fn run_figma_audit(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Public variable names versus the names generated from design-data. Offline.
+fn run_figma_public_names(
+    snapshot: &Path,
+    csv: Option<&Path>,
+    markdown: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let text = std::fs::read_to_string(snapshot)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read snapshot {}", snapshot.display()))?;
+    let value: serde_json::Value = serde_json::from_str(&text).into_diagnostic()?;
+    let meta: figma::types::VariablesMeta =
+        serde_json::from_value(value.get("meta").cloned().unwrap_or(value))
+            .into_diagnostic()
+            .wrap_err("snapshot is neither a variables/local response nor a VariablesMeta")?;
+    let graph = load_resolved_graph(None)?;
+    let report = figma::public_names::report(&meta, &figma::public_names::source_index(&graph));
+    if let Some(p) = csv {
+        std::fs::write(p, report.to_csv()).into_diagnostic()?;
+    }
+    if let Some(p) = markdown {
+        std::fs::write(p, report.to_markdown()).into_diagnostic()?;
+    }
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&report).into_diagnostic()?
+        ),
+        OutputFormat::Pretty => {
+            for (collection, classes) in &report.summary {
+                println!("{collection}: {classes:?}");
+            }
+            println!(
+                "hidden-only variables needing a public alias: {}",
+                report.hidden_only.len()
+            );
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 /// Value-level diff between the manifest-resolved dataset and a Figma file —
 /// read-only counterpart to `figma import`. Either `--snapshot` (offline, no
 /// token needed) or `--file-key`/`--token` (a live API call) must be given.
@@ -2967,6 +3442,38 @@ type FigmaDiffInputs = (
     Option<HashMap<String, String>>,
     TokenGraph,
 );
+
+/// The manifest-resolved `TokenGraph` (tokens, relationships, platform cascade) that
+/// `figma export`, `import`, `diff` and `public-names` read.
+fn load_resolved_graph(manifest: Option<&Path>) -> miette::Result<TokenGraph> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    Ok(graph)
+}
 
 /// Load a Figma `VariablesMeta` (offline snapshot or live fetch), the
 /// name-mapping artifact (if given), and the manifest-resolved `TokenGraph` —
@@ -3007,31 +3514,7 @@ fn load_figma_diff_inputs(
     let mapping_map = mapping.map(load_overrides).transpose()?;
 
     // 2. Load the manifest-resolved TokenGraph, same as `figma export`/`import`.
-    let resolved = resolve_data_source(CliPathOverrides {
-        platform_manifest: manifest.map(Path::to_path_buf),
-        ..Default::default()
-    })?;
-    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
-        &resolved.tokens_root,
-        resolved.mode_sets.as_deref(),
-        resolved.components.as_deref(),
-    )
-    .into_diagnostic()
-    .wrap_err_with(|| {
-        format!(
-            "failed to load tokens from {}",
-            resolved.tokens_root.display()
-        )
-    })?;
-    if let Some(dir) = resolved.relationships.as_deref() {
-        let rels = TokenGraph::load_spec_relationships(dir)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
-        graph = graph.with_relationships(rels);
-    }
-    manifest::apply_configured(&mut graph, &resolved)
-        .into_diagnostic()
-        .wrap_err("failed to apply platform manifest cascade")?;
+    let graph = load_resolved_graph(manifest)?;
 
     Ok((meta, mapping_map, graph))
 }
@@ -3733,6 +4216,8 @@ fn main() -> ExitCode {
             mode_sets_path,
             components_path,
             relationships_path,
+            visuals_path,
+            icons_path,
             names_dir,
             components_report_only,
             strict,
@@ -3745,6 +4230,8 @@ fn main() -> ExitCode {
                 mode_sets_path,
                 components_path,
                 relationships_path,
+                visuals_path,
+                icons_path,
                 names_dir,
                 components_report_only,
                 strict,
@@ -3775,6 +4262,114 @@ fn main() -> ExitCode {
             manifest,
             format,
         } => run_validate_manifest(path.as_deref(), manifest, format),
+        Commands::Site {
+            out,
+            components,
+            visuals_path,
+            path,
+            text_metrics,
+            engine,
+            data_only,
+        } => run_site(
+            out,
+            components,
+            path,
+            visuals_path,
+            text_metrics,
+            engine,
+            data_only,
+        ),
+        Commands::AnatomySuggest {
+            components,
+            format,
+            path,
+        } => run_anatomy_suggest(components, format, path),
+        Commands::RenderCompare {
+            scenes,
+            measured,
+            tolerances,
+            format,
+            output,
+            fail_on_diff,
+        } => render_batch::run_compare(
+            &scenes,
+            &measured,
+            tolerances,
+            &format,
+            output,
+            fail_on_diff,
+        ),
+        Commands::Render {
+            component,
+            batch,
+            out,
+            size,
+            states,
+            options,
+            color_scheme,
+            scale,
+            label,
+            width,
+            icon,
+            visuals_path,
+            path,
+            format,
+            output,
+            text_metrics,
+        } => run_render(
+            component,
+            batch,
+            out,
+            size,
+            states,
+            options,
+            color_scheme,
+            scale,
+            label,
+            width,
+            icon,
+            visuals_path,
+            path,
+            format,
+            output,
+            text_metrics,
+        ),
+        Commands::SpecSheet {
+            component,
+            all,
+            size,
+            changelog,
+            changelog_dir,
+            path,
+            output,
+            text_metrics,
+            svg,
+        } => spec_sheet::run(
+            component,
+            all,
+            size,
+            changelog,
+            changelog_dir,
+            path,
+            output,
+            text_metrics,
+            svg,
+        ),
+        Commands::Changelog {
+            from,
+            to,
+            component,
+            dataset,
+            release,
+            tags,
+        } => changelog::run(changelog::Args {
+            from,
+            to,
+            component,
+            dataset,
+            release,
+            tags,
+        }),
         Commands::Resolve {
             property,
             path,
@@ -3917,6 +4512,12 @@ fn main() -> ExitCode {
                 no_folder_prefix,
                 format,
             } => run_figma_audit(&snapshot, token_dir.as_deref(), no_folder_prefix, format),
+            FigmaSub::PublicNames {
+                snapshot,
+                csv,
+                markdown,
+                format,
+            } => run_figma_public_names(&snapshot, csv.as_deref(), markdown.as_deref(), format),
             FigmaSub::Diff {
                 file_key,
                 token,

@@ -1139,6 +1139,18 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "box",
+      "label": "Box",
+      "description": "Rounded square that holds a mark (e.g., a checkbox)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Short horizontal bar icon element, e.g. the indeterminate mark of a checkbox",
+      "usedIn": ["component-schemas"]
+    },
+    {
       "id": "stepper",
       "label": "Stepper",
       "description": "Increment/decrement control in number-field",
@@ -1169,16 +1181,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
       "id": "focus-indicator",
       "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
+      "description": "Visual indicator showing keyboard focus state on a component. Named for its intent, not its shape: it may be a ring or a side indicator. Its tokens are focus-indicator color, gap and thickness.",
       "usedIn": ["tokens"],
       "standaloneScope": true
     },
@@ -2497,6 +2502,7 @@ const STATES_JSON: &str = r##"{
       "id": "hover",
       "label": "Hover",
       "description": "Mouse hover state",
+      "precedence": 50,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2544,6 +2550,7 @@ const STATES_JSON: &str = r##"{
       "label": "Active",
       "aliases": ["pressed"],
       "description": "Active or pressed state",
+      "precedence": 70,
       "usedIn": ["component-options", "component-schemas"],
       "relatedTerms": ["down"]
     },
@@ -2551,6 +2558,7 @@ const STATES_JSON: &str = r##"{
       "id": "focus",
       "label": "Focus",
       "description": "Focused state (generic)",
+      "precedence": 60,
       "usedIn": ["component-options", "component-schemas"]
     },
     {
@@ -2558,6 +2566,7 @@ const STATES_JSON: &str = r##"{
       "label": "Keyboard Focus",
       "aliases": ["keyboard focus", "key-focus"],
       "description": "Focused via keyboard navigation",
+      "precedence": 60,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2616,6 +2625,7 @@ const STATES_JSON: &str = r##"{
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
+      "precedence": 70,
       "usedIn": ["tokens", "component-schemas"],
       "relatedTerms": ["active"]
     },

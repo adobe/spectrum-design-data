@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "action-group",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/0","name":"guideline: Use an Action menu to show additional actions.\n\n","fields":[{"path":"content","before":"An action group in a disabled state shows that the action buttons within the group exist, but are not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action group may become available later.","after":"Use an Action menu to show additional actions.\n\nWhen there are more actions than the action group has horizontal space for, overflowMode collapse will use an Action menu to contain additional actions. This is used in the components like action bar or panels to show an array of actions to select from when horizontal space is limited."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/1","name":"guideline: When to use Action group vs. Segmented control.\n","fields":[{"path":"content","before":"When selection is enabled, an action group's selection behavior can be set to allow for an empty selection, or not.","after":"When to use Action group vs. Segmented control.\n\nWhen multiple items can be selected at a time use an action group when taking actions or making choices from a list of options. Action group is the preferred competent to use when those actions are simple (1-2 words or icon only). If you are switching views or navigating to different content, a segmented control is the preferred component."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/2","name":"guideline: Fully justified action groups.\n\nUse the fully ju","fields":[{"path":"content","before":"When selection is enabled, an action group can allow for single or multiple selection of action buttons.","after":"Fully justified action groups.\n\nUse the fully justified variant when using the vertical compact action group (both the quiet and not quiet options). This will ensure the buttons have the same width."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/3","name":"guideline: By default, selection is not enabled in an actio","fields":[],"before":{"type":"guideline","content":"By default, selection is not enabled in an action group. This is used for action groups that offer direct actions, rather than toggling."}},
+            {"id":"ec3376fa-4","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/4","name":"guideline: Selection can be enabled for an action group to ","fields":[],"before":{"type":"guideline","content":"Selection can be enabled for an action group to allow for toggling. This can be used to disclose parts of an interface (for example, showing or hiding panels) or to switch between views (for example, grid or list views)."}},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/5","name":"guideline: Like action buttons, action groups are not empha","fields":[],"before":{"type":"guideline","content":"Like action buttons, action groups are not emphasized by default. This is optimal for when the action group is not the core part of an interface, such as in application panels, where all components are monochrome in order to direct focus to the content."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/6","name":"guideline: The emphasized action group has a blue backgroun","fields":[],"before":{"type":"guideline","content":"The emphasized action group has a blue background for its selected state in order to provide a visual prominence that meets the accessible color contrast ratio. This is optimal for when the selection should call attention, such as within a tool bar."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/7","name":"guideline: By default, an action group uses not-quiet actio","fields":[],"before":{"type":"guideline","content":"By default, an action group uses not-quiet action buttons. This style works best in a dense array of controls where the background helps to separate action buttons from the surrounding container, or to give visibility to isolated buttons."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/8","name":"guideline: Alternatively, quiet action groups can have no v","fields":[],"before":{"type":"guideline","content":"Alternatively, quiet action groups can have no visible background until they’re interacted with. This style works best when a clear layout (vertical stack, table, grid) makes it easy to parse the buttons. Too many quiet components in a small space can be hard to read."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/9","name":"guideline: An action group can become justified. By default","fields":[],"before":{"type":"guideline","content":"An action group can become justified. By default, it is not justified since the action button size depends on the label and/or icon inside each button. When an action group is justified, it takes up the entire available container width, divided equally for each action button that is inside the group."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/10","name":"guideline: Action groups come in two densities: regular and","fields":[],"before":{"type":"guideline","content":"Action groups come in two densities: regular and compact. The compact density retains the same font and icon sizes, but has tighter spacing. The action buttons also become connected for non-quiet action groups."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/11","name":"guideline: Action groups come in four different sizes: smal","fields":[],"before":{"type":"guideline","content":"Action groups come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/12","name":"guideline: An action group can be either horizontal or vert","fields":[],"before":{"type":"guideline","content":"An action group can be either horizontal or vertical in its orientation. By default, an action group is horizontal. The vertical option should be reserved for when horizontal space is limited."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/13","name":"guideline: When there are more actions than the action grou","fields":[],"before":{"type":"guideline","content":"When there are more actions than the action group has horizontal space for, overflowMode collapse will use an Action menu to contain additional actions. This is used in the components like action bar or panels to show an array of actions to select from when horizontal space is limited."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/14","name":"guideline: When multiple items can be selected at a time us","fields":[],"before":{"type":"guideline","content":"When multiple items can be selected at a time use an action group when taking actions or making choices from a list of options. Action group is the preferred competent to use when those actions are simple (1-2 words or icon only). If you are switching views or navigating to different content, a segmented control is the preferred component."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/documentBlocks/15","name":"guideline: Use the fully justified variant when using the v","fields":[],"before":{"type":"guideline","content":"Use the fully justified variant when using the vertical compact action group (both the quiet and not quiet options). This will ensure the buttons have the same width."}}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 [package]
 name = "design-data-cli"
-version = "0.13.0"
+version = "0.27.1"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
@@ -15,16 +15,20 @@ clap = { version = "4.5", features = ["derive", "env"] }
 design-data-core = { path = "../core", features = ["fetch"] }
 design-data-dtcg = { path = "../plugins/dtcg" }
 design-data-figma = { path = "../plugins/figma" }
+design-data-site = { path = "../plugins/site" }
 design-data-tui = { path = "../tui" }
 serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 miette = { version = "7.4", features = ["fancy"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 sha2 = "0.10"
+tar = "0.4"
+tempfile = "3.14"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"
+jsonschema = { version = "0.29", default-features = false }
 predicates = "3.1"
 serde_norway = "0.9.42"
 tempfile = "3.14"

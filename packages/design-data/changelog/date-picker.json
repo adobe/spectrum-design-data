@@ -1,0 +1,191 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "date-picker",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.2.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-08-24",
+      "commit": "efa7a6bab4219eab3fa6cc1cbb991f09461bcc80",
+      "commits": [
+        {
+          "commit": "9c697cfcee3820ddc7bc3688ea000552de708641",
+          "date": "2026-08-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1336,"title":"fix(design-data): resolve SPEC-027 dangling tokenBindings for vpk.1","url":"https://github.com/adobe/spectrum-design-data/pull/1336"},
+          "entries": [
+            {"id":"9c697cfc-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"range-border-dash-length","context":"Range fill stroke padding"},{"token":"range-border-dash-gap","context":"Range fill stroke padding"},{"token":"range-border-dash-thickness","context":"Range fill stroke padding"},{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"strikethrough-day-orientation","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}],"after":[{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "2.7.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0c0d6d38-6734-4312-9be5-dd48dd571841","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom edge to label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom edge to label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"bed358a2-0559-4501-a147-b375887f25af","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom edge to label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"24def269-4582-46f6-a00c-8b5a28410917","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom edge to label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"c8590269-dcaa-44f6-9c2d-d33274c3fe5e","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"scope":{"property":"gap","options":null},"record":"gap#Keyboard focus indicator ","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"4725710f-67b2-4000-b4e8-e67a68cd75f5","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"9953fcd9-ac62-49bd-beb2-926dc9fbb8c8","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to alert icon)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"c3a280b0-bc84-4a7c-8048-c689f8deef86","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to alert icon)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"a3d3f9e9-a784-445a-a052-22f84b832512","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":65,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/0","name":"guideline: Displaying the popover calendar.\n\nThe calendar p","fields":[{"path":"content","before":"Date pickers allow selection of a single date or a date range. They include a calendar within a popover, with optional manual entry. Date range variants support selecting a start and end date in one field.","after":"Displaying the popover calendar.\n\nThe calendar popover is displayed or hidden when the user selects the in-field button (the calendar icon)."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/1","name":"guideline: Range selection.\n\nIf a user selects a day preced","fields":[{"path":"content","before":"Calendar popover displays a grid of days spanning one, two, or three months, enabling users to select a single date or a range.","after":"Range selection.\n\nIf a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example: First selection: Jan 3. This is the start of the range. Second selection: Jan 1. This is the new start of the range. The range is now Jan 1–3 in the calendar popover and date field. A third selection resets the range. For example: Third selection: Jan 4. This is the start of a new range. Current state: Jan 4 (no end of range). The calendar popover displays Jan 4 as the start of the range but with no defined end. The date field remains populated by the user's last complete input (Jan 1-3) until they indicate the end of their new range."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/2","name":"guideline: Individual segments for date field.\n\nDate picker","fields":[{"path":"content","before":"Date field allows users to enter and edit date values. Users can edit each part of a date value, such as the day, month, and year, by interacting with individual segments. A date field includes a label, segments for each value of the date, and an in-field button to allow the user to open the calendar popover.","after":"Individual segments for date field.\n\nDate pickers display placeholder values in individual segments by default. This is to makes it easier for users to focus and edit specific values like the day, month, or year without re-entering the entire date. This approach reduces input errors, improves accessibility, and supports faster, more precise interactions. It also adapts well to different regional formats, enhancing clarity across locales."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/3","name":"guideline: Single date or date range.\n\nDate pickers can be ","fields":[{"path":"content","before":"The range of days the user has selected (a start date and an end date).","after":"Single date or date range.\n\nDate pickers can be used to select a single date or a date range (a start date and an end date)."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/4","name":"guideline: Date range selection.\n\nWhen a date picker is for","fields":[{"path":"content","before":"The selected date allows a user to see which date they have selected within the calendar popover.","after":"Date range selection.\n\nWhen a date picker is formatted to allow a range, it displays a placeholder by default. When the user first interacts with the date field, the first value of the placeholder is in focus. This is to allow the user to edit the individual segments. When the user opens the popover without interacting, it displays the current day along with the month and year based on their locale. However, the date field will continue to show the placeholder until the user either completes the range in the field or within the calendar popover. If the user inputs a date range within the date field that spans more than the maximum of three months that the calendar popover allows, the calendar popover will only show the first three consecutive months within that range."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/5","name":"guideline: Granularity.\n\nThe date field can also capture ti","fields":[{"path":"content","before":"A single date picker only displays a single date within the date field as well as a single month within the calendar popover.","after":"Granularity.\n\nThe date field can also capture time values with precision down to the second, and may include time zone information. The calendar popover can also include time-specific fields, allowing users to specify start and end times."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/6","name":"guideline: Required or optional.\n\nDate pickers can be marke","fields":[{"path":"content","before":"A double date picker displays a date range within the date field as well as two consecutive months within the calendar popover.","after":"Required or optional.\n\nDate pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a \"(required)\" label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — \"(optional)\" — or have no indication at all. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/7","name":"guideline: Read-only states vs. disabled states.\n\nA read-on","fields":[{"path":"content","before":"A triple date picker displays a date range within the date field as well as three consecutive months within the calendar popover.","after":"Read-only states vs. disabled states.\n\nA read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value. A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/8","name":"guideline: Error.\n\nA date picker can be marked as having an","fields":[{"path":"content","before":"The calendar popover is displayed or hidden when the user selects the in-field button (the calendar icon).","after":"Error.\n\nA date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/9","name":"guideline: If a user selects a day preceding the first sele","fields":[],"before":{"type":"guideline","content":"If a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example:"}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/10","name":"guideline: A third selection resets the range. For example:","fields":[],"before":{"type":"guideline","content":"A third selection resets the range. For example:"}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/11","name":"guideline: Date pickers display placeholder values in indiv","fields":[],"before":{"type":"guideline","content":"Date pickers display placeholder values in individual segments by default. This is to makes it easier for users to focus and edit specific values like the day, month, or year without re-entering the entire date."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/12","name":"guideline: This approach reduces input errors, improves acc","fields":[],"before":{"type":"guideline","content":"This approach reduces input errors, improves accessibility, and supports faster, more precise interactions. It also adapts well to different regional formats, enhancing clarity across locales."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/13","name":"guideline: Date pickers can be used to select a single date","fields":[],"before":{"type":"guideline","content":"Date pickers can be used to select a single date or a date range (a start date and an end date)."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/14","name":"guideline: When a date picker is formatted to allow a range","fields":[],"before":{"type":"guideline","content":"When a date picker is formatted to allow a range, it displays a placeholder by default. When the user first interacts with the date field, the first value of the placeholder is in focus. This is to allow the user to edit the individual segments. When the user opens the popover without interacting, it displays the current day along with the month and year based on their locale. However, the date field will continue to show the placeholder until the user either completes the range in the field or within the calendar popover."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/15","name":"guideline: If the user inputs a date range within the date ","fields":[],"before":{"type":"guideline","content":"If the user inputs a date range within the date field that spans more than the maximum of three months that the calendar popover allows, the calendar popover will only show the first three consecutive months within that range."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/16","name":"guideline: The date field can also capture time values with","fields":[],"before":{"type":"guideline","content":"The date field can also capture time values with precision down to the second, and may include time zone information. The calendar popover can also include time-specific fields, allowing users to specify start and end times."}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/17","name":"guideline: Date pickers can be marked as optional or requir","fields":[],"before":{"type":"guideline","content":"Date pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."}},
+            {"id":"ec3376fa-18","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/18","name":"guideline: The asterisk used in this component is an icon t","fields":[],"before":{"type":"guideline","content":"The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."}},
+            {"id":"ec3376fa-19","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/19","name":"guideline: A read-only state of date picker means that the ","fields":[],"before":{"type":"guideline","content":"A read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value."}},
+            {"id":"ec3376fa-20","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/20","name":"guideline: A disabled date picker means that the user canno","fields":[],"before":{"type":"guideline","content":"A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."}},
+            {"id":"ec3376fa-21","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/21","name":"guideline: A date picker can be marked as having an error t","fields":[],"before":{"type":"guideline","content":"A date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Day values"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.0.7",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "6c59c1ffc26ee80e11b1354c8e97d1479023af30",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]},
+            {"id":"a60aeea2-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.0.8",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.9",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["relationship removed"]}
+        }
+      ]
+    }
+  ]
+}

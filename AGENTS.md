@@ -93,12 +93,12 @@ cp -rf source dest          # NOT: cp -r source dest
 
 ## Jira Initiative Tracking
 
-Beads sync to Jira (`DNA` project) with `import-beads.js` from the standalone `beads-jira-import` repo (local checkout, no remote; extracted from `adobe-mcp-servers` `src/corp-jira/scripts/`), run manually each week. Run `--dry-run` first and back up its `scripts/beads-jira-map.json` state file before a live sync. Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label.
+Beads sync to Jira (`DNA` project) weekly. Use the `beads-jira-sync` skill (`.ai/skills/beads-jira-sync/SKILL.md`) for the sync, initiative labels, the initiative list, and key lookups.
 
-* New epic: `bd create -t epic -l initiative:DNA-XXXX ...`. Existing epic: `bd label add <epic-id> initiative:DNA-XXXX`.
-* One initiative per epic. Leave the label off if no initiative fits.
-* Initiatives: `DNA-1522` adaptive support per platform, `DNA-1520` multi-platform governance, `DNA-1516` metrics, `DNA-1740` per-platform usage baselines, `DNA-1741` connect Web/iOS/Android to design data, `DNA-1747` AI-authored Spectrum 2 code, `DNA-1748` documentation, `DNA-1796` design data authoring.
-* Look up a Jira key or bead id: `node <beads-jira-import>/dist/scripts/import-beads.js --lookup <id>`.
+* Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label, one per epic. Create new beads with `--parent <epic>` so work rolls up to an initiative; environment and personal-tooling tasks are exempt. The sync reports closed work with no initiative.
+* **Sprints**: the sync assigns sprints itself. Closed beads go to the sprint containing their close date, `in_progress` beads go to the active sprint, and open beads stay in the backlog. Jira rejects adds to closed sprints, so work closed in an already-closed sprint is skipped.
+* Sprints run two weeks on the `Data System Scrum Board` and are opened and closed by hand in Jira. Before a weekly sync, check that the active sprint covers today's date. If it is stale, close it and any sprints that have passed (oldest first), then start the current one, or the sync will file work into the wrong sprint.
+* Completing a sprint sets its completion date to the day it was closed, so close stale sprints promptly.
 * Ad hoc Jira work uses the `corp-jira` MCP server tools.
 
 ## Code Intelligence (MCP)

@@ -10,13 +10,17 @@
 
 //! Design Data core library — validation, resolution, and tooling.
 
+pub mod anatomy_suggest;
 pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
 pub mod cascade;
+pub mod changelog;
 pub mod compat;
 pub mod component;
+pub mod constraints;
 pub mod data_source;
+pub mod derived;
 pub mod diff;
 pub mod discovery;
 pub mod export;
@@ -27,11 +31,15 @@ pub mod migrate;
 pub mod naming;
 pub mod primer;
 pub mod query;
+pub mod record_diff;
 pub mod registry;
 pub mod report;
 pub mod schema;
 pub mod suggest;
+pub mod text_metrics;
 pub mod validate;
+pub mod visual;
+pub mod visual_compare;
 pub mod write;
 
 use std::path::PathBuf;
@@ -576,6 +584,35 @@ mod validation_conformance {
             graph = graph.with_relationships(rel_records);
         }
 
+        if let Some(visuals) = dataset.get("visuals").and_then(|v| v.as_array()) {
+            let visual_records: Vec<crate::graph::VisualRecord> = visuals
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::VisualRecord {
+                        component: raw.get("component")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                        layer: crate::graph::Layer::Foundation,
+                    })
+                })
+                .collect();
+            graph = graph.with_visuals(visual_records);
+        }
+
+        if let Some(icons) = dataset.get("icons").and_then(|v| v.as_array()) {
+            let icon_records: Vec<crate::graph::IconSetRecord> = icons
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::IconSetRecord {
+                        set: raw.get("set")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_icons(icon_records);
+        }
+
         if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
             let ms_records: Vec<ModeSetRecord> = mode_sets
                 .iter()
@@ -1019,6 +1056,7 @@ mod manifest_extensions_conformance {
             fields: None,
             guidelines: None,
             relationships: None,
+            icons: None,
             exceptions: None,
             platform_manifest: Some(dir.join("manifest.json")),
             provenance: Provenance::InRepo,

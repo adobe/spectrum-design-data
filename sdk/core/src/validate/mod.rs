@@ -99,6 +99,8 @@ pub fn validate_all_with_options_and_names(
         names_dir,
         None,
         None,
+        None,
+        None,
     )
 }
 
@@ -109,6 +111,11 @@ pub fn validate_all_with_options_and_names(
 /// `relationships_path` — optional directory of spec-format Component/Token
 /// Relationship (CTR) JSON files; when provided, SPEC-051..057 also check
 /// relationships.
+/// `visuals_path` — optional directory of component visual recipe JSON files;
+/// when provided, SPEC-060..063 check each recipe against component and
+/// relationship data.
+/// `icons_path` — optional `icons/` catalog; when provided with recipes, SPEC-085 and
+/// SPEC-086 check the icons that recipe parts reference.
 #[allow(clippy::too_many_arguments)]
 pub fn validate_all_with_full_options(
     data_path: &Path,
@@ -119,6 +126,40 @@ pub fn validate_all_with_full_options(
     names_dir: Option<&Path>,
     guidelines_path: Option<&Path>,
     relationships_path: Option<&Path>,
+    visuals_path: Option<&Path>,
+    icons_path: Option<&Path>,
+) -> Result<ValidationReport, CoreError> {
+    validate_all_with_platform(
+        data_path,
+        schema_registry,
+        naming_exceptions,
+        mode_sets_path,
+        components_path,
+        names_dir,
+        guidelines_path,
+        relationships_path,
+        visuals_path,
+        icons_path,
+        None,
+    )
+}
+
+/// [`validate_all_with_full_options`] with a platform manifest document. It replaces the
+/// `manifest.json` sibling of `data_path`, and SPEC-076 checks that every recipe binding
+/// resolves under it.
+#[allow(clippy::too_many_arguments)]
+pub fn validate_all_with_platform(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+    names_dir: Option<&Path>,
+    guidelines_path: Option<&Path>,
+    relationships_path: Option<&Path>,
+    visuals_path: Option<&Path>,
+    icons_path: Option<&Path>,
+    platform_manifest: Option<serde_json::Value>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let mut graph = TokenGraph::from_json_dir_with_names_and_catalogs(
@@ -138,8 +179,20 @@ pub fn validate_all_with_full_options(
             graph.reindex_relationship_tokens();
         }
     }
+    if let Some(dir) = visuals_path {
+        if dir.is_dir() {
+            graph.visuals = TokenGraph::load_spec_visuals(dir)?;
+        }
+    }
+    if let Some(dir) = icons_path {
+        if dir.is_dir() {
+            graph.icons = TokenGraph::load_spec_icons(dir)?;
+        }
+    }
     // Load manifest.json from the data directory when present.
-    let manifest: Option<serde_json::Value> = if data_path.is_dir() {
+    let manifest: Option<serde_json::Value> = if platform_manifest.is_some() {
+        platform_manifest
+    } else if data_path.is_dir() {
         let mp = data_path.join("manifest.json");
         if mp.is_file() {
             std::fs::read_to_string(&mp)
@@ -207,6 +260,8 @@ pub fn validate_dataset(
         names_dir,
         Some(&guidelines_dir),
         Some(&relationships_dir),
+        Some(&root.join("visuals")),
+        Some(&root.join("icons")),
     )?;
     report.merge(rest);
     Ok(report)
@@ -270,7 +325,7 @@ pub fn validate_catalog_dir(
 }
 
 /// Run Layer 1 schema-shape validation over the standard catalog directories
-/// (`fields`, `components`, `mode-sets`, `registry`) inside `dataset_root`,
+/// (`fields`, `components`, `mode-sets`, `registry`, `guidelines`, `icons`) inside `dataset_root`,
 /// using schema files from `spec_schemas_dir`.
 ///
 /// Each sub-directory is validated only when its schema file is present in
@@ -286,6 +341,7 @@ pub fn validate_catalog_schemas(
         ("mode-sets", "mode-set.schema.json"),
         ("registry", "registry-value.json"),
         ("guidelines", "guideline.schema.json"),
+        ("icons", "icon-set.schema.json"),
     ] {
         let schema_path = spec_schemas_dir.join(schema_file);
         if schema_path.is_file() {

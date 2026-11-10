@@ -1,0 +1,171 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "drop-zone",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.2.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-08-24",
+      "commit": "efa7a6bab4219eab3fa6cc1cbb991f09461bcc80",
+      "commits": [
+        {
+          "commit": "0b2d328b9dbfe7adf3cb762853faa15a4ba92dd0",
+          "date": "2026-08-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1333,"title":"fix(design-data): remove SPEC-027 dangling tokenBindings superseded by CTR","url":"https://github.com/adobe/spectrum-design-data/pull/1333"},
+          "entries": [
+            {"id":"0b2d328b-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"component-top","context":"Text area (filled, hover)"},{"token":"text-300","context":"Text area (filled, hover)"},{"token":"default-font-size","context":"Title area and body area"},{"token":"accent-content-color","context":"Illustration color"}]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "2.7.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border width and corner radius"],"scope":{"property":"border-dash-length","options":null},"record":"border-dash-length#Border width and corner radius","name":"border-dash-length","fields":[{"path":"$ref","before":"a596af57-256f-4445-b91f-36e47bfb2d95","after":"24cd8175-3dc5-46ae-b1af-01632787fcd8"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border width and corner radius"],"scope":{"property":"border-dash-gap","options":null},"record":"border-dash-gap#Border width and corner radius","name":"border-dash-gap","fields":[{"path":"$ref","before":"47c15433-53d3-425b-8b87-ea234701f781","after":"5582026a-22e6-4e0e-9a21-2a7a43b026a6"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"scope":{"property":"component-edge-to-text-300","options":null},"record":"component-edge-to-text-300#Text area (filled, hover)","name":"component-edge-to-text-300","fields":[{"path":"$ref","before":"11088de1-8e3b-4021-968d-a8c59c7b00bd","after":"b32fb20b-31a7-43da-ba38-b9a177d0cffa"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"scope":{"property":"component-edge-to-text-300","options":null},"record":"component-edge-to-text-300#Text area (filled, hover)","name":"component-edge-to-text-300","fields":[{"path":"$ref","before":"616de468-71fc-4315-87ea-47cdc508a599","after":"b32fb20b-31a7-43da-ba38-b9a177d0cffa"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"scope":{"property":"component-bottom-to-text-300","options":null},"record":"component-bottom-to-text-300#Text area (filled, hover)","name":"component-bottom-to-text-300","fields":[{"path":"$ref","before":"4459554a-d872-4a6a-a620-4a1937605d29","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"scope":{"property":"component-bottom-to-text-300","options":null},"record":"component-bottom-to-text-300#Text area (filled, hover)","name":"component-bottom-to-text-300","fields":[{"path":"$ref","before":"a6aac364-d617-4e21-a1db-5523daaa3c6c","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":25,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.2.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-09-09",
+      "commit": "d22d38d279c007e8f4536ddc8431a2e04bd24804",
+      "commits": [
+        {
+          "commit": "e3571706e0aba86418b7d97c3986684c8159775c",
+          "date": "2026-09-09",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1438,"title":"fix(design-data): correct desktop base-padding-horizontal L/XL/2xL values","url":"https://github.com/adobe/spectrum-design-data/pull/1438"},
+          "entries": [
+            {"id":"e3571706-0","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"record":"b32fb20b-31a7-43da-ba38-b9a177d0cffa","name":"padding-horizontal[legacyKey=base-padding-horizontal-extra-large,scale=desktop,size=xl,structure=base]","fields":[{"path":"value","before":"16px","after":"18px"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/0","name":"guideline: Dragging file type over drop zone area.\n\nWhen a ","fields":[{"path":"content","before":"Drop zones accept dragged and dropped objects. They support upload and file management workflows, and are commonly used to move or add content within an interface.","after":"Dragging file type over drop zone area.\n\nWhen a user drags a file over the drop zone (onDragOver), the border and background styling update to reflect an active state. This visual cue helps users understand that the drop zone is ready to accept the file, reducing uncertainty."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/1","name":"guideline: Dropping file type within drop zone area.\n\nWhen ","fields":[{"path":"content","before":"A button is an optional element to prompt the user to take action.","after":"Dropping file type within drop zone area.\n\nWhen a user drops a file into the designated drop zone (onDrop), the zone should respond with clear visual feedback—this is typically achieved through displaying a button over the drop zone area informing the user that they may replace their content type. This feedback indicates that the user successfully dropped their file type into the zone and is permitted to replace it."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/2","name":"guideline: Leaving drop zone area.\n\nWhen a user drags a fil","fields":[{"path":"content","before":"Drop zones come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option.","after":"Leaving drop zone area.\n\nWhen a user drags a file outside the designated drop zone (onDragLeave), any visual indicators—such as borders or background styling should revert to their default state."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/3","name":"guideline: Clearly communicate accepted file types.\n\nIndica","fields":[{"path":"content","before":"Indicate to users the accepted file types to let users know what they can upload before interacting. This can be done through helper text or placeholder content.","after":"Clearly communicate accepted file types.\n\nIndicate to users the accepted file types to let users know what they can upload before interacting. This can be done through helper text or placeholder content."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/4","name":"guideline: Provide immediate visual feedback.\n\nWhen a file ","fields":[{"path":"content","before":"When a file is dragged over or dropped into the zone, provide the user with visual feedback such as highlighting the border or changing the background, to confirm the interaction is recognized.","after":"Provide immediate visual feedback.\n\nWhen a file is dragged over or dropped into the zone, provide the user with visual feedback such as highlighting the border or changing the background, to confirm the interaction is recognized."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/5","name":"guideline: Allow the user to replace file types.\n\nVisual st","fields":[{"path":"content","before":"Visual styling that indicates a user can replace file types within a dropzone should clearly communicate interactivity and the potential for change without disrupting the overall layout. This is typically achieved through subtle but intuitive cues such as displaying a button over the drop zone area informing the user that they may replace their content type.","after":"Allow the user to replace file types.\n\nVisual styling that indicates a user can replace file types within a dropzone should clearly communicate interactivity and the potential for change without disrupting the overall layout. This is typically achieved through subtle but intuitive cues such as displaying a button over the drop zone area informing the user that they may replace their content type."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/6","name":"guideline: Writing the title.\n\nUse the content pattern of \"","fields":[],"after":{"type":"guideline","content":"Writing the title.\n\nUse the content pattern of \"Drag and drop your {item}\" for the drop zone's title. The \"drag and drop\" phrasing communicates why the UI is appearing in the way that it is, and guides a user for what they need to do in the interaction. Don't use punctuation at the end of the title."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"drop-zone/documentBlocks/7","name":"guideline: Writing the description.\n\nThe drop zone's body a","fields":[],"after":{"type":"guideline","content":"Writing the description.\n\nThe drop zone's body area elaborates on the title and offers more information about how to complete the interaction. In-line links can offer other ways to accomplish the task, such as launching the user's file browser or taking them to another resource. Write the description using full sentences, and include periods at the end of each sentence."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border, background, and text area color (filled, hover)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border, background, and text area color (filled, hover)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "6c59c1ffc26ee80e11b1354c8e97d1479023af30",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text area (filled, hover)"],"scope":{"property":"component-edge-to-text-300","options":null},"record":"component-edge-to-text-300#Text area (filled, hover)","name":"component-edge-to-text-300","fields":[{"path":"$ref","before":"b32fb20b-31a7-43da-ba38-b9a177d0cffa","after":"698fa3d4-32dc-4cd2-bb79-d320effd8674"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["relationship removed"]}
+        }
+      ]
+    }
+  ]
+}

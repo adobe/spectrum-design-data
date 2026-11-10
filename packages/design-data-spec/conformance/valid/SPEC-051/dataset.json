@@ -5,16 +5,23 @@
         "component": "button",
         "part": "label",
         "property": "background-color",
-        "options": { "style": "fill", "state": ["hover"] }
+        "options": {
+          "style": "fill",
+          "state": ["hover"]
+        }
       },
       "value": "#ff0000",
       "uuid": "33333333-3333-3333-3333-333333333333",
       "legacyKey": "button-label-background-color-fill-hover"
     },
     {
-      "scope": { "component": "button", "property": "border-color" },
+      "scope": {
+        "component": "button",
+        "property": "border-color"
+      },
       "context": "informative border color",
-      "$ref": "33333333-3333-3333-3333-333333333333"
+      "$ref": "33333333-3333-3333-3333-333333333333",
+      "uuid": "4e242f61-d33d-53e0-b6ae-c21ed87ab4d0"
     }
   ],
   "components": [
@@ -22,20 +29,44 @@
       "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
       "name": "button",
       "displayName": "Button",
-      "meta": { "category": "actions" },
+      "meta": {
+        "category": "actions"
+      },
       "anatomy": [
-        { "name": "icon", "description": "Leading icon." },
-        { "name": "label", "description": "Button text.", "required": true }
+        {
+          "name": "icon",
+          "description": "Leading icon."
+        },
+        {
+          "name": "label",
+          "description": "Button text.",
+          "required": true
+        }
       ],
       "options": {
         "style": {
           "type": "enum",
-          "values": [{ "value": "fill" }, { "value": "outline" }]
+          "values": [
+            {
+              "value": "fill"
+            },
+            {
+              "value": "outline"
+            }
+          ]
         }
       },
       "states": [
-        { "name": "hover", "trigger": "interaction", "precedence": 50 },
-        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+        {
+          "name": "hover",
+          "trigger": "interaction",
+          "precedence": 50
+        },
+        {
+          "name": "disabled",
+          "trigger": "prop",
+          "precedence": 100
+        }
       ]
     }
   ]

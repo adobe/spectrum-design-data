@@ -1,8 +1,12 @@
 {
   "relationships": [
     {
-      "scope": { "component": "ghost", "property": "background-color" },
-      "value": "#ff0000"
+      "scope": {
+        "component": "ghost",
+        "property": "background-color"
+      },
+      "value": "#ff0000",
+      "uuid": "e2226979-bba1-5f25-9c6d-5228ce10b098"
     }
   ],
   "components": [
@@ -10,7 +14,9 @@
       "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
       "name": "button",
       "displayName": "Button",
-      "meta": { "category": "actions" }
+      "meta": {
+        "category": "actions"
+      }
     }
   ]
 }

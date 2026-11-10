@@ -1,0 +1,32 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture-replace",
+  "foundationVersion": "3.7.0",
+  "extensions": {
+    "components": [],
+    "visuals": [
+      {
+        "file": "extensions/visuals/button.json",
+        "recipe": {
+          "component": "button",
+          "root": "container",
+          "sizeScale": {
+            "m": 100
+          },
+          "parts": {
+            "container": {
+              "kind": "box",
+              "props": {
+                "height": {
+                  "token": {
+                    "property": "component-height-100"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-080",
+      "severity": "info",
+      "message_pattern": ".*button.*fixture-replace.*replaces the foundation recipe.*"
+    }
+  ]
+}

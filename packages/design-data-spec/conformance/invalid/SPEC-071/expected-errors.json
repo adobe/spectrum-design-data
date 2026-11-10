@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-071",
+      "severity": "info",
+      "message_pattern": "^1 of 2 relationship contexts of 'switch' have no binding in this recipe.*"
+    }
+  ]
+}

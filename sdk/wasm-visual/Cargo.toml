@@ -1,0 +1,24 @@
+[package]
+name = "design-data-wasm-visual"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Slim solve-only WebAssembly engine for component visual recipes: one precompiled variant in, SVG or scene JSON out."
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+design-data-core = { path = "../core", default-features = false, features = ["wasm"] }
+wasm-bindgen = "0.2"
+serde_json = "1.0"
+
+# wasm-pack's bundled wasm-opt rejects bulk-memory; scripts/build.mjs sizes with the release
+# profile overrides below instead. A pinned binaryen 132 `wasm-opt -Oz --converge` with
+# --enable-bulk-memory --enable-sign-ext --enable-nontrapping-float-to-int
+# --enable-reference-types --enable-multivalue --enable-mutable-globals validates (2026-11-09),
+# but saves 10% raw and only 1% gzip/brotli, so it is not worth a pinned extra tool.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

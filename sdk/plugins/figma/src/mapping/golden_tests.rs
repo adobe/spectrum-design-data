@@ -180,6 +180,41 @@ fn unprefixed_specs_name_variables_by_bare_token_name() {
 }
 
 #[test]
+fn modeless_layer_never_sends_hidden_from_publishing() {
+    let graph = fixture_graph();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
+    let tokens = export_tokens(&graph).unwrap();
+    let mut meta = metadata_with_modeless_collection();
+    meta.variables.insert(
+        "v-hidden-modeless".to_string(),
+        serde_json::from_value(serde_json::json!({
+            "id": "v-hidden-modeless",
+            "name": "accent-color-100",
+            "key": "k",
+            "variableCollectionId": "c-spectrum",
+            "resolvedType": "COLOR",
+            "valuesByMode": {},
+            "hiddenFromPublishing": true,
+        }))
+        .unwrap(),
+    );
+    for variable in meta.variables.values_mut() {
+        variable.hidden_from_publishing = true;
+    }
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap();
+    assert!(body
+        .variables
+        .iter()
+        .any(|v| v.action == "UPDATE" && v.id.as_deref() == Some("v-hidden-modeless")));
+    assert!(body.variables.iter().any(|v| v.action == "UPDATE"));
+    assert!(body.variable_collections.is_empty());
+    let sent = serde_json::to_string(&body).unwrap();
+    assert!(!sent.contains("hiddenFromPublishing"), "{sent}");
+}
+
+#[test]
 fn bare_names_do_not_match_same_named_variables_in_other_collections() {
     let graph = fixture_graph();
     let specs = without_folder_prefix(collection_specs(&graph.mode_sets).unwrap());
@@ -286,4 +321,42 @@ fn ctr_only_tokens_group_by_scale_mode() {
     assert!(token.value.schema.ends_with(routing::SCALE_SET));
     let modes: Vec<_> = token.modes.keys().map(String::as_str).collect();
     assert_eq!(modes, ["desktop", "mobile"]);
+}
+
+/// p6ga.8.29: an override keeps its token's colour-scheme siblings in one variable,
+/// whether or not its value differs from the light value.
+#[test]
+fn overridden_color_token_keeps_all_its_modes() {
+    let color = |scheme: &str, value: &str, uuid: &str| {
+        (
+            uuid.to_string(),
+            PathBuf::from("color-aliases.tokens.json"),
+            serde_json::json!({
+                "name": {"legacyKey": "seafoam-800", "colorScheme": scheme},
+                "$schema": "https://example.test/color.json",
+                "value": value,
+                "uuid": uuid,
+            }),
+        )
+    };
+    for override_value in ["rgb(9, 144, 120)", "rgb(1, 2, 3)"] {
+        let mut graph = TokenGraph::from_pairs(vec![
+            color("light", "rgb(9, 144, 120)", "u-light"),
+            color("dark", "rgb(8, 134, 112)", "u-dark"),
+            color("wireframe", "rgb(93, 127, 201)", "u-wire"),
+        ]);
+        graph
+            .apply_platform_manifest(&serde_json::json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "platform": "fixture",
+                "exclude": ["colorScheme=wireframe"],
+                "overrides": [{"target": "u-dark", "value": override_value}],
+            }))
+            .unwrap();
+        let tokens = export_tokens(&graph).unwrap();
+        let token = tokens.iter().find(|t| t.name == "seafoam-800").unwrap();
+        let modes: Vec<_> = token.modes.keys().map(String::as_str).collect();
+        assert_eq!(modes, ["dark", "light"], "override value {override_value}");
+    }
 }

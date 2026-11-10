@@ -32,6 +32,7 @@ const REGISTERED_OPTIONAL_DIRS: &[&str] = &[
     "registry",
     "guidelines",
     "relationships",
+    "icons",
 ];
 
 /// Resolve the dataset root from a path that may be the dataset root itself or

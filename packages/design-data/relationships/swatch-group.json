@@ -5,7 +5,8 @@
       "property": "spacing"
     },
     "context": "Spacing (spacious)",
-    "$ref": "b83df7f2-8811-4bad-b012-213e430e2aaf"
+    "$ref": "b83df7f2-8811-4bad-b012-213e430e2aaf",
+    "uuid": "2fbf78a0-5964-5fad-90f5-3a24427ccd67"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "color"
     },
     "context": "Border",
-    "$ref": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
+    "$ref": "08b8d06a-5475-47bf-ad2e-9f52ee07345a",
+    "uuid": "4d891c99-e560-51d9-8369-5fc10426777a"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "opacity"
     },
     "context": "Border",
-    "$ref": "19968846-dad0-42eb-b6a8-af65f3a910ff"
+    "$ref": "19968846-dad0-42eb-b6a8-af65f3a910ff",
+    "uuid": "6863826b-49c3-5e65-8207-2f7d11aea3c6"
   },
   {
     "scope": {

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "alert-banner",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to text)","name":"space-between","fields":[{"path":"$ref","before":"4366909e-3bfb-481c-abdc-4ae71f965bc3","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to text)","name":"space-between","fields":[{"path":"$ref","before":"205f0c77-6588-4cc7-927f-3ba767200bac","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to icon)","name":"space-between","fields":[{"path":"$ref","before":"fbe047c4-0346-4b81-bdf6-6565cede7a28","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to icon)","name":"space-between","fields":[{"path":"$ref","before":"402c755b-322c-4ea0-856c-ca209bdaa8ec","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to text)","name":"space-between","fields":[{"path":"$ref","before":"1d289972-d5ba-41e8-8935-e8c83afb15cf","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to text)","name":"space-between","fields":[{"path":"$ref","before":"8db02117-b543-4b3e-b0ff-203e9a821708","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to text)","name":"space-between","fields":[{"path":"$ref","before":"e19fdd96-44a4-407b-b2b1-01001684fc84","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom edge to text)","name":"space-between","fields":[{"path":"$ref","before":"5f2b2bc1-ebb0-46dd-a563-58df6307996d","after":"64fa4ab7-be93-4420-8cdc-a6ef91499852"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":23,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "54ee322dc2fa9c6556549597a74610c290638664",
+          "date": "2026-10-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1544,"title":"fix(design-data): pin structure-prefixed legacy keys and add regression test","url":"https://github.com/adobe/spectrum-design-data/pull/1544"},
+          "entries": [
+            {"id":"54ee322d-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon)","Spacing (top/bottom edge to text)"],"record":"64fa4ab7-be93-4420-8cdc-a6ef91499852","name":"padding-vertical[legacyKey=banner-padding-vertical,structure=banner]","fields":[{"path":"name.legacyKey","after":"banner-padding-vertical"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":5,"fields":["relationship removed"]}
+        }
+      ]
+    }
+  ]
+}

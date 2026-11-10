@@ -5,7 +5,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width",
-    "$ref": "83be73fe-50bc-4be8-969c-0361a816225b"
+    "$ref": "83be73fe-50bc-4be8-969c-0361a816225b",
+    "uuid": "67a0f682-2957-565b-92a5-25a1ea4eebdd"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7"
+    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7",
+    "uuid": "d74311cc-bf29-5d0a-8fd2-84eb0c02e013"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "spacing"
     },
     "context": "Spacing (top/bottom/start/end edge to text)",
-    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "09e273fe-f026-53ad-a3cc-5c423e9e6d0e"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "3a79a3c2-dd18-5e4a-85b0-d609dc3de0e8"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "9265e426-26f2-513b-90d9-2ce5902cebe7"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
-    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "f1b9634e-c8ed-50dc-9cbd-f44163803cd0"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "size"
     },
     "context": "Title",
-    "$ref": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf"
+    "$ref": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf",
+    "uuid": "72619749-2865-5a23-a573-011b5f7c8e3e"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "font-family"
     },
     "context": "Title",
-    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8",
+    "uuid": "7d01cc8a-36be-5a70-9f1a-830c46741213"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "font-weight"
     },
     "context": "Title",
-    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4",
+    "uuid": "a6a4b518-8613-5ce0-85ad-7600e7fac05e"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "font-style"
     },
     "context": "Title",
-    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d"
+    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d",
+    "uuid": "5118e765-03fd-5291-a2b6-b87cde03e5d4"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "line-height"
     },
     "context": "Title",
-    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f"
+    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f",
+    "uuid": "ed8cb975-43d5-5fa9-88bc-b6a5b386e370"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "size"
     },
     "context": "Body",
-    "$ref": "e458fa68-ab9c-4441-a7d5-a02f42df1cae"
+    "$ref": "e458fa68-ab9c-4441-a7d5-a02f42df1cae",
+    "uuid": "eeb1ebd5-b72d-5abf-ad65-055d6de78bc7"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "font-family"
     },
     "context": "Body",
-    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b",
+    "uuid": "add9c942-be2a-544a-8888-d9e7054689f5"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "font-weight"
     },
     "context": "Body",
-    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31",
+    "uuid": "b6d37a4d-8c86-5553-8955-d289e93b845b"
   },
   {
     "scope": {
@@ -117,7 +131,8 @@
       "property": "font-style"
     },
     "context": "Body",
-    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd"
+    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd",
+    "uuid": "208d9864-6def-557a-8c86-466ecde0ce26"
   },
   {
     "scope": {
@@ -125,7 +140,8 @@
       "property": "line-height-200"
     },
     "context": "Body",
-    "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
+    "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97",
+    "uuid": "56b2e231-b3c1-5707-bbe6-eeeb22abe82a"
   },
   {
     "scope": {
@@ -133,7 +149,8 @@
       "property": "color"
     },
     "context": "Color",
-    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
+    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b",
+    "uuid": "d5f382a1-fc44-5c22-8509-05b676839138"
   },
   {
     "scope": {
@@ -141,7 +158,8 @@
       "property": "color"
     },
     "context": "Color",
-    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014",
+    "uuid": "6e350535-1596-5d0d-bf80-4a8c29d2615f"
   },
   {
     "scope": {

@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "title": "Component visual recipe",
+  "description": "Layer 1 structural schema for a renderer-neutral component visual recipe (spec/component-visuals.md). Semantic rules (component exists, parts are declared anatomy, relationship selectors resolve) are Layer 2.",
+  "type": "object",
+  "required": ["component", "root", "parts"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "$id": {
+      "type": "string"
+    },
+    "specVersion": {
+      "type": "string",
+      "const": "1.0.0-draft"
+    },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Name of the component declaration this recipe draws."
+    },
+    "root": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Key of the root part in `parts`."
+    },
+    "notVisual": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
+    },
+    "sizeScale": {
+      "type": "object",
+      "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors. Selectors may also use {size} and {<option>} for any declared option.",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "derived": {
+      "type": "array",
+      "description": "Relationship contexts the recipe does not bind because their value follows from the solved layout (spec/component-visuals.md, Derived contexts). SPEC-087 checks each against its token.",
+      "items": {
+        "type": "object",
+        "required": ["context", "property", "part", "from"],
+        "properties": {
+          "context": {
+            "type": "string",
+            "description": "The relationship `context` this entry derives."
+          },
+          "property": {
+            "type": "string",
+            "description": "The relationship `scope.property`, as in a `relationship` selector; may use {sizeIndex}, {size}."
+          },
+          "part": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "The part the spacing leads to. Spec sheets put the marker there."
+          },
+          "edge": {
+            "enum": ["top", "bottom"],
+            "default": "top",
+            "description": "The container edge the spacing starts from."
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^\\(height - [a-z][a-z0-9-]*\\.(lineHeight|height)\\) / 2$",
+            "description": "The only formula: `(height - <part>.lineHeight) / 2` or `(height - <part>.height) / 2`. `height` is the container's solved height."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "parts": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/part"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "iconRef": {
+      "type": "object",
+      "description": "The icon an icon part draws, from the icons/ catalog (icon-set.schema.json). SPEC-085 checks it exists.",
+      "required": ["set", "name"],
+      "properties": {
+        "set": { "enum": ["ui", "workflow"] },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+        },
+        "content": {
+          "type": "boolean",
+          "description": "The icon is content, like a label: this is the recipe's default and a render request may replace it. Default false."
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "A render request may remove this content icon (icon none). Requires content. Default false."
+        }
+      },
+      "if": {
+        "properties": { "optional": { "const": true } },
+        "required": ["optional"]
+      },
+      "then": {
+        "properties": { "content": { "const": true } },
+        "required": ["content"]
+      },
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "required": ["kind"],
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "icon" } } },
+          "then": { "required": ["icon"] },
+          "else": { "not": { "required": ["icon"] } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "component" } } },
+          "then": {
+            "required": ["component", "sizeMap"],
+            "not": {
+              "anyOf": [{ "required": ["props"] }, { "required": ["children"] }]
+            }
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                { "required": ["component"] },
+                { "required": ["sizeMap"] },
+                { "required": ["with"] }
+              ]
+            }
+          }
+        }
+      ],
+      "properties": {
+        "kind": {
+          "enum": ["box", "text", "icon", "ring", "progress", "component"]
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For a component part: the component whose recipe is embedded (spec/component-visuals.md, Nested recipes). SPEC-089 checks it."
+        },
+        "sizeMap": {
+          "type": "object",
+          "description": "For a component part: maps each size of the host's sizeScale to a size of the nested recipe's sizeScale.",
+          "additionalProperties": { "type": "string" }
+        },
+        "with": {
+          "type": "object",
+          "description": "For a component part: options of the nested component, each a literal or {\"option\": name} (read from the host's request). Not `options`: that key means a condition elsewhere in a recipe.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "object",
+                "required": ["option"],
+                "properties": {
+                  "option": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "visibleWhen": {
+          "$ref": "#/$defs/condition"
+        },
+        "around": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For a ring: the part it outlines. Defaults to the root."
+        },
+        "icon": {
+          "$ref": "#/$defs/iconRef"
+        },
+        "pressTarget": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For the root: the part the press scale applies to, together with the parts nested inside it. Defaults to the whole scene."
+        },
+        "placement": {
+          "type": "object",
+          "required": ["anchor"],
+          "properties": {
+            "anchor": {
+              "enum": [
+                "top-start",
+                "top-end",
+                "bottom-start",
+                "bottom-end",
+                "center"
+              ]
+            },
+            "inset": {
+              "$ref": "#/$defs/valueSource"
+            }
+          },
+          "additionalProperties": false
+        },
+        "props": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "direction",
+              "align",
+              "justify",
+              "gap",
+              "paddingInlineStart",
+              "paddingInlineEnd",
+              "paddingBlockStart",
+              "paddingBlockEnd",
+              "height",
+              "minHeight",
+              "minWidth",
+              "width",
+              "grow",
+              "cornerRadius",
+              "cornerRadiusStartStart",
+              "cornerRadiusStartEnd",
+              "cornerRadiusEndStart",
+              "cornerRadiusEndEnd",
+              "fill",
+              "stroke",
+              "strokeWidth",
+              "opacity",
+              "color",
+              "trackColor",
+              "fontFamily",
+              "fontSize",
+              "fontWeight",
+              "lineHeight",
+              "overflow",
+              "gapToParent",
+              "rotation",
+              "pressDifference",
+              "pressWidthRatio",
+              "pressMinPerspective",
+              "pressMaxPerspective"
+            ]
+          },
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/conditionalValueSource"
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/conditionalValueSource"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": ["string", "boolean", "number"]
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": ["string", "boolean", "number"]
+                }
+              }
+            ]
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "valueSource": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["value"],
+          "properties": {
+            "value": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["token"],
+          "properties": {
+            "token": {
+              "$ref": "#/$defs/tokenSelector"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["relationship"],
+          "properties": {
+            "relationship": {
+              "$ref": "#/$defs/relationshipSelector"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "conditionalValueSource": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "$ref": "#/$defs/condition"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "relativeTo": {
+          "enum": ["height"]
+        },
+        "value": {},
+        "token": {
+          "$ref": "#/$defs/tokenSelector"
+        },
+        "relationship": {
+          "$ref": "#/$defs/relationshipSelector"
+        }
+      },
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": ["value"]
+        },
+        {
+          "required": ["token"]
+        },
+        {
+          "required": ["relationship"]
+        }
+      ],
+      "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."
+    },
+    "tokenSelector": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
+      }
+    },
+    "relationshipSelector": {
+      "type": "object",
+      "required": ["property"],
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

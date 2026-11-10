@@ -5,7 +5,8 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444"
+    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
+    "uuid": "71ffdb80-5555-501f-821e-2efb410ed43c"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3"
+    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
+    "uuid": "fd872767-bdd5-5132-b522-cf5787d61620"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5"
+    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
+    "uuid": "d31ec6a9-6706-52e2-832a-e8a9cec70827"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385"
+    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
+    "uuid": "e5a2b468-d872-5164-b453-c5619dd2187f"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "border-width"
     },
     "context": "Border",
-    "$ref": "8ec9adae-0093-42f4-bd1b-6f3b2279996b"
+    "$ref": "8ec9adae-0093-42f4-bd1b-6f3b2279996b",
+    "uuid": "e376788b-70df-53fe-8b09-f1ff19673c93"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "border-width"
     },
     "context": "Border",
-    "$ref": "945e0167-6893-49dd-ab21-886f93f70b92"
+    "$ref": "945e0167-6893-49dd-ab21-886f93f70b92",
+    "uuid": "5dc8cd69-35c1-5b54-9191-bcd1bf67c4f2"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "border-width"
     },
     "context": "Border",
-    "$ref": "fbf27473-7c97-4d94-968d-c3e68e0cd242"
+    "$ref": "fbf27473-7c97-4d94-968d-c3e68e0cd242",
+    "uuid": "69750493-2f85-5a56-970b-50dc1f2fe809"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "color"
     },
     "context": "Border",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "33e8370b-77c0-5a13-971c-c66be037914a"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "color"
     },
     "context": "Border",
-    "$ref": "0c93f310-d7c6-474b-8f07-0e8e76e2756e"
+    "$ref": "0c93f310-d7c6-474b-8f07-0e8e76e2756e",
+    "uuid": "c95a720d-a6f3-5427-9ab6-3683427fd8bd"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "opacity"
     },
     "context": "Border",
-    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
+    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
+    "uuid": "3c2d7d35-243f-5556-9a2d-2b2bc05ef6a3"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "color"
     },
     "context": "Border",
-    "$ref": "e4733356-090e-4bb7-b32d-ab9df30fb785"
+    "$ref": "e4733356-090e-4bb7-b32d-ab9df30fb785",
+    "uuid": "3d6976d2-987c-5ee1-b028-2a7eb3bc29e1"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "opacity"
     },
     "context": "Border",
-    "$ref": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a"
+    "$ref": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a",
+    "uuid": "f9edf98b-f2ef-5547-8977-2529b7c3e000"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "content-color"
     },
     "context": "Border (disabled)",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "50fc6fdf-dd00-5f34-8a43-8a520cc06352"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "color"
     },
     "context": "Border (disabled)",
-    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
+    "uuid": "fc9a651b-7f49-5f3c-81aa-da578b69385e"
   },
   {
     "scope": {

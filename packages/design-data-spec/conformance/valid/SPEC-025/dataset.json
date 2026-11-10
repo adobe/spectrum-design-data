@@ -20,7 +20,7 @@
     },
     {
       "name": {
-        "anatomy": "focus-ring",
+        "anatomy": "focus-indicator",
         "property": "gap"
       },
       "value": "2px"

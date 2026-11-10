@@ -1,0 +1,94 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+$schema: "https://moonrepo.dev/schemas/project.json"
+layer: library
+language: rust
+# The slim solve-only visual engine (proposal 015, step 2). Not in .github/ci-targets.json: it
+# runs only when a task input changes, so PRs that do not touch the renderer hit the Moon cache.
+# It is listed in excludedFromCI (the CI guard requires every runInCI task to be listed).
+# The site loads it (step 3); the build-web and browser-parity tasks are also excluded from CI.
+fileGroups:
+  renderer:
+    - "/sdk/core/src/visual*.rs"
+    - "/sdk/core/src/text_metrics.rs"
+    - "/sdk/core/src/text-metrics/*"
+    - "/sdk/core/Cargo.toml"
+    - "/sdk/Cargo.lock"
+    - "src/**/*.rs"
+    - "Cargo.toml"
+    - "scripts/build.mjs"
+tasks:
+  # wasm-pack build of the slim engine for Node (pkg/node). Never committed.
+  build:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build.mjs'
+    inputs:
+      - "@globs(renderer)"
+    outputs:
+      - "pkg/node"
+    toolchain: "system"
+
+  # wasm-pack build of the same engine for the browser (pkg/web), which `design-data site
+  # --engine` copies into the site. Never committed.
+  build-web:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build.mjs web'
+    inputs:
+      - "@globs(renderer)"
+    outputs:
+      - "pkg/web"
+    toolchain: "system"
+
+  # Byte equality with `design-data render` over the request matrix, plus the size and
+  # latency budgets. Builds the debug CLI here (not a separate cached task: a cache hit would
+  # not restore its binary).
+  test:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && cargo build -q -p design-data-cli --manifest-path ../Cargo.toml && node --test test/'
+    inputs:
+      - "@globs(renderer)"
+      - "test/**/*.mjs"
+      - "shared/*.mjs"
+      - "/sdk/cli/src/render_batch.rs"
+      - "/sdk/plugins/site/src/**/*"
+      - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/icons/*.json"
+      - "/platforms/ios/**/*"
+      - "/.design-data.toml"
+    deps:
+      - build
+    toolchain: "system"
+
+  # The site's engine, in headless Chrome over a built site, equals `design-data render`
+  # byte for byte (the same matrix as `test`). Needs Chrome; not in the always-run set.
+  browser-parity:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && cargo build -q -p design-data-cli --manifest-path ../Cargo.toml && node --test browser/'
+    inputs:
+      - "@globs(renderer)"
+      - "browser/**/*.mjs"
+      - "shared/*.mjs"
+      - "/sdk/cli/src/**/*.rs"
+      - "/sdk/plugins/site/**/*"
+      - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/icons/*.json"
+      - "/platforms/ios/**/*"
+      - "/.design-data.toml"
+    deps:
+      - build-web
+    toolchain: "system"

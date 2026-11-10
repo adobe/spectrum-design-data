@@ -20,6 +20,9 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`sdk/core`](../sdk/core/) | `design-data-core` | active | no | no | Core library: token resolution, validation, registry, and diffing. |
 | [`sdk/plugins/dtcg`](../sdk/plugins/dtcg/) | `design-data-dtcg` | active | no | no | DTCG import and export plugin. |
 | [`sdk/plugins/figma`](../sdk/plugins/figma/) | `design-data-figma` | active | no | no | Figma variables import, export, and diff plugin. |
+| [`sdk/plugins/site`](../sdk/plugins/site/) | `design-data-site` | active | no | no | Static component explorer site generator. |
+| [`sdk/plugins/site/assets`](../sdk/plugins/site/assets/) | — | active | no | no | Browser assets (HTML and visual runtime) embedded by the site generator. |
+| [`sdk/plugins/site/controls`](../sdk/plugins/site/controls/) | `site-controls-bundle` | active | no | no | Build script and pinned lockfile for the Spectrum Web Components bundle in assets/. |
 | [`sdk/tui`](../sdk/tui/) | `@adobe/design-data-tui` | active | no | no | Interactive terminal UI for authoring and inspecting design data. |
 | [`sdk/wasm`](../sdk/wasm/) | `@adobe/design-data-wasm` | active | published | yes | WebAssembly bindings for design-data-core. |
 | [`platforms`](../platforms/) | — | incubating | no | no | Incubating platform manifests for implementation teams. |
@@ -30,7 +33,6 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`tools/design-data-skill`](../tools/design-data-skill/) | `@adobe/design-data-skill` | active | published | yes | Claude Code skill for querying Spectrum design data through the CLI. |
 | [`tools/diff-generator`](../tools/diff-generator/) | `@adobe/token-diff-generator` | active | published | yes | Token diff CLI and library with CLI, JSON, and Markdown output. |
 | [`tools/optimized-diff`](../tools/optimized-diff/) | `@adobe/optimized-diff` | active | published | yes | High-performance deep object diff library. |
-| [`tools/s2-docs-mcp`](../tools/s2-docs-mcp/) | `@adobe/s2-docs-mcp` | active | published | yes | MCP server for Spectrum 2 documentation. |
 | [`tools/spectrum-diff-core`](../tools/spectrum-diff-core/) | `@adobe/spectrum-diff-core` | active | published | yes | Shared core library for the diff generators. |
 | [`docs/release-timeline`](../docs/release-timeline/) | `spectrum-tokens-release-timeline` | active | no | no | Interactive timeline of Spectrum token releases. |
 | [`docs/s2-docs`](../docs/s2-docs/) | — | active | no | no | Spectrum 2 documentation content mirrored from Spectrum Hub. |
@@ -50,6 +52,7 @@ Repository housekeeping, release, taxonomy, and authoring tools. Not intended fo
 | [`tools/component-options-editor`](../tools/component-options-editor/) | `component-options-editor` | active | no | no | Figma plugin for authoring component option schemas. |
 | [`tools/design-data-mcp-eval`](../tools/design-data-mcp-eval/) | `@adobe/design-data-mcp-eval` | active | no | no | Offline grounding contracts and opt-in agent evaluations for the Hub MCP. |
 | [`tools/markdown-generator`](../tools/markdown-generator/) | `markdown-generator` | active | no | no | Generates markdown from tokens and schemas for docs and chatbot indexing. |
+| [`tools/platform-capture`](../tools/platform-capture/) | `@adobe/platform-capture` | active | no | no | Captures platform reference renderings (iOS simulator, Storybook) for comparison with renderer output. Images stay out of the repo. |
 | [`tools/release-analyzer`](../tools/release-analyzer/) | `release-analyzer` | active | no | no | Analyzes release history for the release-timeline visualization. |
 | [`tools/s2-docs-to-document-blocks`](../tools/s2-docs-to-document-blocks/) | `@adobe/s2-docs-to-document-blocks` | active | no | no | Transforms s2-docs Markdown into documentBlocks for design-data. |
 | [`tools/s2-implementation-metadata`](../tools/s2-implementation-metadata/) | — | active | no | no | Verification scripts for S2 implementation metadata. |
@@ -78,4 +81,5 @@ Kept for compatibility or retained until their consumers are checked. Do not mov
 | --- | --- | --- | --- | --- | --- |
 | [`packages/design-system-registry`](../packages/design-system-registry/) | `@adobe/design-system-registry` | deprecated | published | no | Compatibility shim for registry data that moved to @adobe/spectrum-design-data. |
 | [`tools/ios-override-importer`](../tools/ios-override-importer/) | `ios-override-importer` | one-time | no | no | One-time importer for the Spectrum iOS override log. Retains its CI target. |
+| [`tools/s2-docs-mcp`](../tools/s2-docs-mcp/) | `@adobe/s2-docs-mcp` | deprecated | published | no | MCP server for Spectrum 2 documentation. Superseded by `@adobe/design-data-mcp`. |
 | [`tools/spectrum-design-data-mcp`](../tools/spectrum-design-data-mcp/) | `@adobe/spectrum-design-data-mcp` | deprecated | published | no | Deprecated MCP server kept for compatibility; use @adobe/design-data-mcp. |

@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-084",
+      "severity": "error",
+      "message_pattern": ".*has no uuid.*button.*background-color.*"
+    }
+  ]
+}

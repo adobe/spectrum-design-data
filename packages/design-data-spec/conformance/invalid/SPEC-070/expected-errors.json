@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-070",
+      "severity": "warning",
+      "message_pattern": "^Focus ring part is named 'focus-ring' here but 'focus-indicator' in other recipes.*"
+    },
+    {
+      "rule_id": "SPEC-070",
+      "severity": "warning",
+      "message_pattern": "^Focus ring part is named 'focus-indicator' here but 'focus-ring' in other recipes.*"
+    }
+  ]
+}

@@ -1,5 +1,176 @@
 # @adobe/design-data-tui
 
+## 0.21.0
+
+### Minor Changes
+
+- [#1592](https://github.com/adobe/spectrum-design-data/pull/1592) [`0e42d28`](https://github.com/adobe/spectrum-design-data/commit/0e42d28bc2e6411bb950e3c4209d0c462e7ac43e) Thanks [@GarthDB](https://github.com/GarthDB)! - `validate --platform` now reports a platform manifest that cannot apply (SPEC-082).
+
+  **Spec:** new rule SPEC-082 `platform-manifest-applies` (error). A platform manifest MUST apply
+  to the foundation dataset; a validator that cannot apply it MUST report an error, not skip the
+  platform rules silently. It stays silent when an `include`/`exclude` entry does not parse
+  (SPEC-039 reports that).
+
+  **CLI:** SPEC-076, SPEC-079 and the platform recipe checks returned nothing when the manifest
+  failed to apply, so `validate --platform <id>` exited 0. It now reports SPEC-082 and **exits 1
+  when the manifest cannot apply**. `validate --platform ios` without `--mode-sets-path` (the iOS
+  manifest extends `contrast`) now fails instead of passing. Manifests that apply are unchanged.
+
+  **WASM:** the rule is in the core set; WASM validate passes no manifest, so nothing changes.
+
+- [#1586](https://github.com/adobe/spectrum-design-data/pull/1586) [`706b12e`](https://github.com/adobe/spectrum-design-data/commit/706b12e542d49218571e4b9f2b478481a926c852) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipe selectors can use `{<option>}` placeholders, such as `{style}`, for any option.
+
+  **Spec:**
+  - `component-visuals.md`: `{<option>}` expands to each value the option declares. A candidate
+    found for one value applies only when the request's option equals it.
+  - A brace pair whose content is not a plain identifier stays literal text. `{size}` and
+    `{sizeIndex}` are unchanged.
+  - SPEC-061 also reports a `{name}` placeholder in a `token` or `relationship` selector that is
+    not `size`, `sizeIndex` or a declared option that lists its values.
+  - SPEC-062, 066, 067, 069 and 071 expand option placeholders before resolving.
+  - The `invalid/SPEC-061` conformance fixture covers the new check.
+
+  **WASM:** `compile_recipe` and `render` expand option placeholders. A recipe that uses none
+  compiles to exactly the same output as before.
+
+  **CLI:** `design-data render`, `site` and `validate` use the same expansion. The native binary
+  is versioned by `@adobe/design-data-tui`.
+
+- [#1596](https://github.com/adobe/spectrum-design-data/pull/1596) [`6d42e98`](https://github.com/adobe/spectrum-design-data/commit/6d42e98631aa1dd640fd244689ebb029f0f44f07) Thanks [@GarthDB](https://github.com/GarthDB)! - New rule SPEC-083 warns when a visual recipe binds a prop the renderer does not read.
+
+  **Spec:**
+  - `rules.yaml` and `component-visuals.md`: SPEC-083 (warning) flags a part prop the renderer
+    ignores for that part, such as `opacity`, `direction` or `fill` on a text part. A conformance
+    fixture covers it.
+
+  **WASM and CLI:** `validate` runs SPEC-083 on foundation and platform recipes. The list of read
+  props is the renderer's own table (`READ_PROPS` in `visual.rs`). The solver checks every prop it
+  reads against that table in debug builds, through the same function the rule uses, so the two
+  cannot drift. Rendering is unchanged. The five foundation recipes bind root `direction`, `align`
+  and `justify`, which the solver never reads. They are in the recipe lint baseline and tracked as
+  their own issues.
+
+  Bump levels: all three are minor because validation gains a rule and no output changes.
+
+- [#1589](https://github.com/adobe/spectrum-design-data/pull/1589) [`5770c02`](https://github.com/adobe/spectrum-design-data/commit/5770c0285f7c7d6a005752c7e37b8d89129a4e9a) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `paddingBlockStart` and `paddingBlockEnd`, and the renderer now draws them.
+
+  **Spec:**
+  - `component-visuals.md`: a root `box` with no `height` is 32 high, unless the recipe binds block
+    padding. Then its height is the tallest flowed child plus the block padding, and the children
+    sit between the paddings. An explicit `height` always wins.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime apply block padding the same way. A recipe
+  that binds no block padding renders exactly as before; no foundation recipe binds it today.
+  The native binary is versioned by `@adobe/design-data-tui`.
+
+  Bump levels: all three are minor because the renderer gains a capability (a new normative rule
+  for the spec) and no output changes for existing recipes.
+
+- [#1595](https://github.com/adobe/spectrum-design-data/pull/1595) [`76edc46`](https://github.com/adobe/spectrum-design-data/commit/76edc466c835b4afa6f0368f959e2b08a39c24bc) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `lineHeight` and `fontFamily` on text parts, and the renderer honors them.
+
+  **Spec:**
+  - `component-visuals.md`: a `text` part is as high as its line box. A `lineHeight` ending in
+    `px` is that height, a unitless one multiplies `fontSize`, and with none it stays 1.3 times
+    `fontSize`. A bound `fontFamily` leads the SVG font stack.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime apply both the same way. A recipe that
+  binds neither renders exactly as before; foundation snapshots and goldens are unchanged. A scene
+  node gains `font_family` only when the recipe binds it. `button-ios` now binds both, so its
+  Medium height is 39.04 against Figma's 39. The native binary is versioned by
+  `@adobe/design-data-tui`.
+
+  Bump levels: all three are minor because the renderer gains a capability and no output changes
+  for existing foundation recipes.
+
+- [#1598](https://github.com/adobe/spectrum-design-data/pull/1598) [`63c60e0`](https://github.com/adobe/spectrum-design-data/commit/63c60e09e16045552cb4b62c6b4d6e6d0b193dfb) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `opacity` on the root part, and the renderer honors it.
+
+  **Spec:** `component-visuals.md` says renderers read `opacity` only on the root part and
+  dim the whole component as one group, the way iOS dims a disabled control.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime wrap the drawing in one
+  `<g opacity>` when the root binds `opacity`. A scene gains `opacity` only when it is bound,
+  so existing scene JSON and SVG are unchanged. SPEC-083 no longer flags `opacity` on a root
+  part. The native binary is versioned by `@adobe/design-data-tui`.
+
+### Patch Changes
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Check that visual recipes still resolve under a platform manifest.
+
+  **Spec:**
+  - New warning SPEC-076: every token or relationship binding a recipe resolves on the foundation
+    must also resolve once the platform manifest's cascade is applied.
+  - New conformance fixture `invalid/SPEC-076`.
+
+  **CLI:**
+  - `design-data validate --platform <id> --visuals-path <dir>` runs SPEC-076 and names each binding
+    the platform drops. It reuses the render scene diagnostics.
+
+  **Platforms:**
+  - The iOS manifest no longer carries an `include` whitelist. It shipped only a few properties,
+    which dropped the height, padding, font-size and icon-size tokens recipes bind.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Load platform-owned visual recipes and add `componentAliases`.
+
+  **Spec:**
+  - `manifest.schema.json` accepts `componentAliases` (string to string).
+  - New error SPEC-081: an alias key must be a foundation component, its target must be declared in
+    the platform's `extensions/components/`, aliases must not chain or cycle, and a key must not
+    also be replaced there. New conformance fixture `invalid/SPEC-081`.
+
+  **SDK core:**
+  - A platform's `extensions/visuals/<component>.json` loads into `graph.visuals` with
+    `layer: Platform` and replaces the foundation recipe of the same name. A bad fragment or a
+    file name that differs from `component` is an error naming the file.
+  - `TokenGraph::canonical_component` returns the alias target under the active platform.
+
+- [#1590](https://github.com/adobe/spectrum-design-data/pull/1590) [`f3d8058`](https://github.com/adobe/spectrum-design-data/commit/f3d8058832f9932aebf6732aaf176da58e0cde77) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix corner rounding when a recipe's radius is larger than half the box.
+
+  **Spec:** `component-visuals.md` gains a normative rule: a uniform `cornerRadius` larger than half
+  the shorter side of its box is clamped to that value, so the corner stays circular.
+
+  The renderer clamps a uniform corner radius to `min(radius, width/2, height/2)`, like CSS
+  `border-radius`. Before, an SVG `rx` larger than half the height drew an ellipse.
+
+  **Rendered output changes for existing recipes.** Foundation Button icon-only and pending
+  variants at the mobile scale (a box narrower than tall) go from elliptical to round corners
+  (for example 38x40 with a 20 radius now draws 19). The focus ring and the outline stroke
+  follow. 72 of the 96 Button option sets in `recipe-snapshots.json` change; the other
+  components are unchanged. Desktop output is unchanged.
+
+  Bump levels: patch for wasm and tui, because this fixes wrong output and adds no API. The spec
+  is minor because a new normative rule applies to every renderer. The native binary is versioned
+  by `@adobe/design-data-tui`.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Render component visuals through a platform manifest.
+  - `design-data render` and `design-data site` accept the global `--platform <id>` (or
+    `DESIGN_DATA_PLATFORM` / `default_platform`) and apply the Foundation to Platform cascade
+    before building scenes: tokens are filtered and overridden, and extension components,
+    relationships and tokens are layered in.
+  - A recipe binding that does not resolve under a platform is reported as
+    `warning: platform '<id>': ...`. The site lists these in a panel instead of drawing nothing.
+  - The site writes the platform into `data.json` and names it in the nav heading
+    ("Foundation" when none is selected).
+  - WASM: `Dataset.applyPlatform(manifest)` applies a manifest with its `extensions` merged
+    inline, so `renderScene` and `renderSvg` render a platform build.
+  - With no platform selected, output is unchanged.
+
+- [#1598](https://github.com/adobe/spectrum-design-data/pull/1598) [`63c60e0`](https://github.com/adobe/spectrum-design-data/commit/63c60e09e16045552cb4b62c6b4d6e6d0b193dfb) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-063 lets a component with no `size` option declare a one-entry `sizeScale`, the single
+  size renderers draw (for example the fixed-size iOS switch). Zero or several entries on such a
+  component are an error. `component-visuals.md` and `rules.yaml` say so. The native binary
+  is versioned by `@adobe/design-data-tui`.
+
+## 0.20.2
+
+### Patch Changes
+
+- [#1573](https://github.com/adobe/spectrum-design-data/pull/1573) [`6c59c1f`](https://github.com/adobe/spectrum-design-data/commit/6c59c1ffc26ee80e11b1354c8e97d1479023af30) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `design-data figma export --platform` dropping the other color-scheme modes of an
+  overridden token.
+  - An override record carries `manifest.json` as its file, so the exporter grouped it apart from
+    its light and dark siblings and let it replace the whole variable.
+  - Overrides now group with their foundation siblings; the three iOS seafoam tokens keep their
+    dark value.
+  - Exports without `--platform` are unchanged.
+
 ## 0.20.1
 
 ### Patch Changes

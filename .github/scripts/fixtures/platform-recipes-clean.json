@@ -1,0 +1,7 @@
+{
+  "errors": [{ "rule_id": "SPEC-081", "file": "m", "message": "bad alias" }],
+  "warnings": [
+    { "rule_id": "SPEC-080", "file": "x", "message": "replaces" },
+    { "rule_id": "SPEC-066", "file": "y", "message": "z" }
+  ]
+}

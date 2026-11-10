@@ -127,6 +127,30 @@ pub struct RelationshipRecord {
     pub raw: Value,
 }
 
+/// One component visual recipe (`visuals/<component>.json`), loaded for
+/// cross-file Layer 2 checks against component and relationship data.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct VisualRecord {
+    /// The recipe's `component` field.
+    pub component: String,
+    /// The recipe's source file (a platform fragment path for `Layer::Platform`).
+    pub file: PathBuf,
+    pub raw: Value,
+    /// `Foundation` for catalog recipes, `Platform` for `extensions/visuals` recipes.
+    #[serde(default)]
+    pub layer: Layer,
+}
+
+/// One icon set (`icons/<set>.json`, `icon-set.schema.json`): path geometry keyed by
+/// icon id. UI icons hold one drawing per size under `sizes`, keyed by scale index.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct IconSetRecord {
+    /// The file's `set` field (`ui`, `workflow`).
+    pub set: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
@@ -172,6 +196,10 @@ pub struct TokenGraph {
     /// Component/Token Relationship (CTR) entries from the spec `relationships/`
     /// catalog, flattened from each file's top-level array.
     pub relationships: Vec<RelationshipRecord>,
+    /// Component visual recipes from the `visuals/` catalog.
+    pub visuals: Vec<VisualRecord>,
+    /// Icon sets from the `icons/` catalog.
+    pub icons: Vec<IconSetRecord>,
     /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
     /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
     /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
@@ -196,6 +224,9 @@ pub struct TokenGraph {
     relationship_tokens_by_key: HashMap<String, Vec<TokenRecord>>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
+    /// `componentAliases` of the applied platform manifest (foundation name → platform
+    /// component). Read only through [`Self::canonical_component`].
+    component_aliases: HashMap<String, String>,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
@@ -618,9 +649,12 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
+            icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
+            component_aliases: HashMap::new(),
             uuid_index,
             legacy_name_index,
             concept_id_index,
@@ -661,9 +695,12 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
+            icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
+            component_aliases: HashMap::new(),
             uuid_index,
             legacy_name_index: HashMap::new(),
             concept_id_index,
@@ -797,7 +834,9 @@ impl TokenGraph {
     ///    a graph key (legacy slug or cascade `"file:index"` key). Each override
     ///    MUST preserve the target token's value JSON type
     ///    (`spec/cascade.md` type safety / SPEC-006); a type change is a
-    ///    [`CoreError::ParseError`].
+    ///    [`CoreError::ParseError`]. The replaced record keeps every original field
+    ///    and gains `overriddenBy` (`{platform}` or `{manifest}`) and `overriddenFrom`
+    ///    (the first, foundation `value` or `$ref`).
     /// 3. `extensions.tokens` — net-new platform tokens inserted at
     ///    [`Layer::Platform`].
     /// 4. `modeSetRestrictions` — returned so the caller can seed a
@@ -851,8 +890,21 @@ impl TokenGraph {
                 };
                 let matches = self.resolve_override_targets(target)?;
                 for (shadowed_key, name_obj, orig_value, uuid) in matches {
-                    let mut synthetic = serde_json::Map::new();
-                    synthetic.insert("name".to_string(), name_obj);
+                    // Start from the foundation record so $schema, $valueType, lifecycle,
+                    // description and the rest survive the override (p6ga.8.9).
+                    let mut synthetic = match self.tokens.get(&shadowed_key).map(|r| &r.raw) {
+                        Some(Value::Object(m)) => m.clone(),
+                        _ => {
+                            let mut m = serde_json::Map::new();
+                            m.insert("name".to_string(), name_obj);
+                            m
+                        }
+                    };
+                    let previous = if let Some(v) = synthetic.get("value") {
+                        serde_json::json!({ "value": v })
+                    } else {
+                        serde_json::json!({ "$ref": synthetic.get("$ref") })
+                    };
                     if let Some(new_value) = entry.get("value") {
                         if let Some(orig) = &orig_value {
                             if json_kind(orig) != json_kind(new_value) {
@@ -864,8 +916,10 @@ impl TokenGraph {
                                 )));
                             }
                         }
+                        synthetic.remove("$ref");
                         synthetic.insert("value".to_string(), new_value.clone());
                     } else if let Some(ref_val) = entry.get("$ref") {
+                        synthetic.remove("value");
                         synthetic.insert("$ref".to_string(), ref_val.clone());
                     } else {
                         continue;
@@ -873,6 +927,14 @@ impl TokenGraph {
                     if let Some(u) = &uuid {
                         synthetic.insert("uuid".to_string(), Value::String(u.clone()));
                     }
+                    // Last override wins for the value; the first one's `overriddenFrom`
+                    // is kept so it always holds the foundation value.
+                    synthetic.entry("overriddenFrom").or_insert(previous);
+                    let by = match manifest.get("platform").and_then(|v| v.as_str()) {
+                        Some(p) => serde_json::json!({ "platform": p }),
+                        None => serde_json::json!({ "manifest": "manifest.json" }),
+                    };
+                    synthetic.insert("overriddenBy".to_string(), by);
                     let raw = Value::Object(synthetic);
                     let alias_target = raw.as_object().and_then(extract_alias_target);
                     // Reuse the shadowed record's own key so the override *replaces*
@@ -994,6 +1056,42 @@ impl TokenGraph {
             for entry in entries {
                 merge_implementation_fragment(&mut self.components, entry, platform_id)?;
             }
+        }
+
+        // 5c. extensions.visuals — platform-owned recipes replace the foundation
+        // recipe of the same component entirely (replace-only, proposal 014 D2).
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("visuals"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let (Some(file), Some(recipe)) = (
+                    entry.get("file").and_then(|v| v.as_str()),
+                    entry.get("recipe"),
+                ) else {
+                    continue;
+                };
+                let Some(component) = recipe.get("component").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = VisualRecord {
+                    component: component.to_string(),
+                    file: PathBuf::from(file),
+                    raw: recipe.clone(),
+                    layer: Layer::Platform,
+                };
+                upsert_by_key(&mut self.visuals, |v| v.component == component, record);
+            }
+        }
+
+        // 5d. componentAliases — consulted only by `canonical_component`; SPEC-081
+        // validates the entries.
+        if let Some(obj) = manifest.get("componentAliases").and_then(|v| v.as_object()) {
+            self.component_aliases = obj
+                .iter()
+                .filter_map(|(k, v)| Some((k.clone(), v.as_str()?.to_string())))
+                .collect();
         }
 
         // 6. extensions.platformExtensions — platform terminology keyed by
@@ -1816,6 +1914,108 @@ impl TokenGraph {
         Ok(out)
     }
 
+    /// Load component visual recipes from a `visuals/` catalog directory.
+    ///
+    /// Each file is a JSON object with a string `component` field; other
+    /// shapes are skipped (Layer 1 reports their structure).
+    pub fn load_spec_visuals(dir: &Path) -> Result<Vec<VisualRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display()))
+            })?;
+            if let Some(component) = value.get("component").and_then(|v| v.as_str()) {
+                out.push(VisualRecord {
+                    component: component.to_string(),
+                    file: path,
+                    raw: value,
+                    layer: Layer::Foundation,
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// The component a user-facing name resolves to under the active platform: the
+    /// `componentAliases` target, else `name`. For render, site, WASM render and recipe
+    /// lookup only. Query, validate, diff and export keep real names.
+    pub fn canonical_component<'a>(&'a self, name: &'a str) -> &'a str {
+        self.component_aliases
+            .get(name)
+            .map_or(name, String::as_str)
+    }
+
+    /// True when `name` is the target of an active `componentAliases` entry.
+    pub fn is_alias_target(&self, name: &str) -> bool {
+        self.component_aliases.values().any(|t| t == name)
+    }
+
+    /// The recipe for a user-facing component name under the active platform: the recipe
+    /// of its `canonical_component`, so a platform recipe replaces the foundation one.
+    pub fn visual_recipe(&self, name: &str) -> Option<&VisualRecord> {
+        let canonical = self.canonical_component(name);
+        self.visuals.iter().find(|v| v.component == canonical)
+    }
+
+    /// Attach visual recipe records loaded from a visuals catalog directory.
+    pub fn with_visuals(mut self, visuals: Vec<VisualRecord>) -> Self {
+        self.visuals = visuals;
+        self
+    }
+
+    /// Load icon sets from an `icons/` catalog directory. Files without a string
+    /// `set` field are skipped (Layer 1 reports their structure).
+    pub fn load_spec_icons(dir: &Path) -> Result<Vec<IconSetRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            out.extend(Self::icon_set_from_str(&text, path)?);
+        }
+        Ok(out)
+    }
+
+    /// Parse one icon set document; `None` when it has no string `set` field.
+    pub fn icon_set_from_str(
+        text: &str,
+        file: PathBuf,
+    ) -> Result<Option<IconSetRecord>, CoreError> {
+        let raw: Value = serde_json::from_str(text)
+            .map_err(|e| CoreError::ParseError(format!("{}: invalid JSON: {e}", file.display())))?;
+        Ok(raw
+            .get("set")
+            .and_then(Value::as_str)
+            .map(String::from)
+            .map(|set| IconSetRecord { set, file, raw }))
+    }
+
+    /// Attach icon sets loaded from an icons catalog directory.
+    pub fn with_icons(mut self, icons: Vec<IconSetRecord>) -> Self {
+        self.icons = icons;
+        self
+    }
+
+    /// The geometry (`viewBox` and `paths`) of icon `name` in `set`. For an icon with
+    /// per-size drawings, the drawing whose scale index is nearest `scale` (the larger
+    /// on a tie); an icon with a single drawing ignores `scale`.
+    pub fn icon(&self, set: &str, name: &str, scale: u32) -> Option<&Value> {
+        let icon = self
+            .icons
+            .iter()
+            .find(|s| s.set == set)?
+            .raw
+            .get("icons")?
+            .get(name)?;
+        let Some(sizes) = icon.get("sizes").and_then(Value::as_object) else {
+            return Some(icon);
+        };
+        sizes
+            .iter()
+            .filter_map(|(k, v)| k.parse::<u32>().ok().map(|k| (k, v)))
+            .min_by_key(|(k, _)| (k.abs_diff(scale), std::cmp::Reverse(*k)))
+            .map(|(_, v)| v)
+    }
+
     /// Attach relationship records loaded from a relationships catalog directory.
     pub fn with_relationships(mut self, relationships: Vec<RelationshipRecord>) -> Self {
         self.relationships = relationships;
@@ -2334,6 +2534,15 @@ impl TokenGraph {
             r.uuid.as_deref() == Some(target)
                 || r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(target)
         })
+    }
+
+    /// Relationships that are members of the mode-set group `set_uuid`
+    /// (their `setUuid` equals it), in file order.
+    pub fn relationship_set_members(&self, set_uuid: &str) -> Vec<&RelationshipRecord> {
+        self.relationships
+            .iter()
+            .filter(|r| r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(set_uuid))
+            .collect()
     }
 
     /// Whether `target` resolves to a relationship's own `uuid`, or to a
@@ -4664,5 +4873,64 @@ mod tests {
             "cycle must terminate, got {:?}",
             result_a.uuid
         );
+    }
+
+    #[test]
+    fn icon_picks_the_nearest_scale_and_ignores_scale_for_single_drawings() {
+        let set = |set: &str, icons: Value| {
+            TokenGraph::icon_set_from_str(
+                &json!({ "set": set, "icons": icons }).to_string(),
+                PathBuf::from(format!("icons/{set}.json")),
+            )
+            .unwrap()
+            .unwrap()
+        };
+        let g = TokenGraph::default().with_icons(vec![
+            set(
+                "ui",
+                json!({ "chevron": { "sizes": {
+                    "50": { "viewBox": "0 0 8 8", "paths": [{ "d": "a" }] },
+                    "100": { "viewBox": "0 0 10 10", "paths": [{ "d": "b" }] },
+                    "200": { "viewBox": "0 0 12 12", "paths": [{ "d": "c" }] }
+                } } }),
+            ),
+            set(
+                "workflow",
+                json!({ "add": { "viewBox": "0 0 20 20", "paths": [{ "d": "w" }] } }),
+            ),
+        ]);
+        let d = |set, name, scale| {
+            g.icon(set, name, scale)
+                .map(|v| v["paths"][0]["d"].as_str().unwrap().to_string())
+        };
+        assert_eq!(d("ui", "chevron", 100).as_deref(), Some("b"));
+        assert_eq!(
+            d("ui", "chevron", 75).as_deref(),
+            Some("b"),
+            "tie takes the larger"
+        );
+        assert_eq!(d("ui", "chevron", 60).as_deref(), Some("a"));
+        assert_eq!(d("ui", "chevron", 0).as_deref(), Some("a"));
+        assert_eq!(d("ui", "chevron", 1000).as_deref(), Some("c"));
+        assert_eq!(d("workflow", "add", 100).as_deref(), Some("w"));
+        assert_eq!(d("workflow", "add", 5).as_deref(), Some("w"));
+        assert!(g.icon("ui", "missing", 100).is_none());
+        assert!(g.icon("other", "chevron", 100).is_none());
+    }
+
+    #[test]
+    fn the_icons_catalog_loads_both_sets() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/icons");
+        let g = TokenGraph::default().with_icons(TokenGraph::load_spec_icons(&dir).unwrap());
+        let mut sets: Vec<_> = g.icons.iter().map(|s| s.set.as_str()).collect();
+        sets.sort();
+        assert_eq!(sets, ["ui", "workflow"]);
+        let chevron = g.icon("ui", "chevron", 100).unwrap();
+        assert_eq!(chevron["source"], "S2_ChevronSize100.svg");
+        assert_eq!(
+            g.icon("ui", "chevron", 1000).unwrap()["source"],
+            "S2_ChevronSize400.svg"
+        );
+        assert!(g.icon("workflow", "add", 100).is_some());
     }
 }

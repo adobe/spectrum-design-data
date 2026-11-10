@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-065",
+      "severity": "warning",
+      "message_pattern": ".*excluded by an error constraint.*"
+    }
+  ]
+}

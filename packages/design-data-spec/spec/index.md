@@ -25,10 +25,12 @@ The specification defines:
 11. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
 12. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
 13. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+    * **Artifact moves** — promoting and demoting one artifact between a platform and the foundation ([Artifact moves](artifact-moves.md)).
 14. **Dataset layout** — normative directory structure of a dataset (`tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, `guidelines/`), discovery algorithm, and optional root descriptor ([Dataset layout](dataset-layout.md)).
 15. **Guideline documents** — standalone JSON files representing non-component design guidance pages (color, typography, motion, spacing, principles, etc.); each wraps page metadata and a `documentBlocks` body ([Guideline format](guideline-format.md)).
 16. **Authoring workflow** — normative contract for authoring design data via tooling: authoritative source location, lifecycle operations (create / edit / deprecate / rename / alias-rewire / mode-set management), taxonomy-aware decomposition requirement, and output-generation obligations ([Authoring workflow](authoring-workflow.md)).
 17. **Relationship format** — Component/Token Relationship (CTR): the anonymous-token entity unifying `tokenBindings` and token name-object scope fields, explicit relationship context, options validation, and interim legacy-compatibility fields ([Relationship format](relationship-format.md)).
+18. **Component visuals** — renderer-neutral visual recipes (part tree, layout, token-bound paint) that drive SVG, PNG, and Figma output ([Component visuals](component-visuals.md); draft RFC).
 
 This specification intentionally defines the Design Data-owned contract and links to external standards for platform-native implementation semantics instead of restating those contracts as normative local rules. The repository owns taxonomy, validation, lifecycle, and schema rules; the authoritative source for native format behavior remains the external standard it describes.
 
@@ -70,6 +72,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Taxonomy](taxonomy.md)                             | Concept categories, vocabulary, formatting, anatomy vs objects.                                                                                       |
 | [Registry](registry.md)                             | Named value collections for vocabulary validation; three-registry boundary (anatomy, token objects, categories) and packaging.                        |
 | [Component format](component-format.md)             | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ state-model.md), lifecycle.                                           |
+| [Option constraints](option-constraints.md)         | If-then rules restricting valid option combinations on a component.                                                                                   |
 | [Anatomy format](anatomy-format.md)                 | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025.                                              |
 | [State model](state-model.md)                       | State declarations: trigger semantics, precedence algorithm, canonical vocabulary, SPEC-022/SPEC-026.                                                 |
 | [Cascade](cascade.md)                               | Layers, specificity, resolution algorithm.                                                                                                            |
@@ -83,10 +86,12 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Document blocks](document-blocks.md)               | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.                                                   |
 | [Agent-readable surface](agent-surface.md)          | Transport contracts (CLI, MCP, Agent Skill) and operation catalog for AI agents consuming spec-conformant design data.                                |
 | [Evolution](evolution.md)                           | Deprecation lifecycle, migration windows, change classification.                                                                                      |
+| [Artifact moves](artifact-moves.md)                 | Promote and demote one artifact between a platform manifest and the foundation: criteria, steps, notice period, provenance.                           |
 | [Dataset layout](dataset-layout.md)                 | Normative dataset directory structure, discovery algorithm, optional root descriptor, and SPEC-044 structural pre-check.                              |
 | [Guideline format](guideline-format.md)             | Standalone guideline document shape: metadata fields, `category` enum, `related` cross-references, and required `documentBlocks` body (SPEC-045/046). |
 | [Authoring workflow](authoring-workflow.md)         | Normative authoring contract: authoritative source location, lifecycle operations, taxonomy-aware decomposition, and output-generation obligations.   |
 | [Relationship format](relationship-format.md)       | Component/Token Relationship (CTR): shape, explicit relationship context, options validation, and interim legacy-compatibility fields (SPEC-051–057). |
+| [Component visuals](component-visuals.md)           | Draft RFC: visual recipe shape, value sources and conditions, scene graph, and renderer decisions.                                                    |
 
 ## JSON Schema `$id` and versioning
 

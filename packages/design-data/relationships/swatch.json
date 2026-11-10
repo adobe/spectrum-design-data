@@ -5,7 +5,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "9fa676c9-ccfb-47db-9ae4-348884b9b120"
+    "$ref": "9fa676c9-ccfb-47db-9ae4-348884b9b120",
+    "uuid": "3449ecf5-49e4-556a-b2a0-9cff071a46d2"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "0d926e1a-080a-41ba-8bb9-ef6d0847cb77"
+    "$ref": "0d926e1a-080a-41ba-8bb9-ef6d0847cb77",
+    "uuid": "ebd04ea9-95db-5ac7-84ab-7fe618ce20a9"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "33789b22-7d2c-4620-8f45-973e734ef5b6"
+    "$ref": "33789b22-7d2c-4620-8f45-973e734ef5b6",
+    "uuid": "bd134807-e7d9-5767-816c-1845fc9f19cc"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "c8d8e379-1e3f-4f5e-bce3-df3fc05ff16e"
+    "$ref": "c8d8e379-1e3f-4f5e-bce3-df3fc05ff16e",
+    "uuid": "1f8d1ca5-b272-5a96-96bb-5a930418c0e8"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "2e29b29f-b8b7-430a-8720-31422c6ad243"
+    "$ref": "2e29b29f-b8b7-430a-8720-31422c6ad243",
+    "uuid": "143631c9-e88e-595d-b3c8-1598738e7f11"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "77be7e79-a589-4f32-9e42-ea45ed7763aa"
+    "$ref": "77be7e79-a589-4f32-9e42-ea45ed7763aa",
+    "uuid": "373d881b-22c1-5c75-962d-583958bda689"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "91e7d7f2-a34d-4d03-831c-75574d1b7bee"
+    "$ref": "91e7d7f2-a34d-4d03-831c-75574d1b7bee",
+    "uuid": "09465fb0-b8c9-5f1e-84ee-0abaf9c22826"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "162c1233-3420-44a2-a270-97d0a7c23df1"
+    "$ref": "162c1233-3420-44a2-a270-97d0a7c23df1",
+    "uuid": "2cd94925-cca2-5622-8762-e0c489122d5d"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "width-multiplier"
     },
     "context": "Width (rectangle)",
-    "$ref": "b3157e9d-82a0-429e-b987-8c240a669af7"
+    "$ref": "b3157e9d-82a0-429e-b987-8c240a669af7",
+    "uuid": "73db7c11-62ec-57b0-bc58-8116c11e715f"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20"
+    "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
+    "uuid": "65ab7eac-b97e-5f87-a6c5-1e70aee2b30e"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "border-width"
     },
     "context": "Border",
-    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68"
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
+    "uuid": "69290d79-40c6-531f-af7e-e7ee20e6c1c3"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "border-width"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "db0b902f-a67a-5d69-b06e-f6ef5f991e3c"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "workflow-icon-size-50"
     },
     "context": "Disabled icon asset",
-    "$ref": "1423caf1-75ca-4ca8-aa6a-22dcf3655b0e"
+    "$ref": "1423caf1-75ca-4ca8-aa6a-22dcf3655b0e",
+    "uuid": "b845116a-9e69-5fe6-97e8-cd3cbba05541"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "workflow-icon-size-50"
     },
     "context": "Disabled icon asset",
-    "$ref": "4c4cb541-7d42-4bb4-9c86-7197c4600896"
+    "$ref": "4c4cb541-7d42-4bb4-9c86-7197c4600896",
+    "uuid": "6725b47b-3422-5afe-97d7-737f6c368a25"
   },
   {
     "scope": {
@@ -117,7 +131,8 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Disabled icon asset",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "uuid": "39e65701-6f1d-5311-bf21-a7fbc47d1c95"
   },
   {
     "scope": {
@@ -125,7 +140,8 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Disabled icon asset",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "uuid": "fba5a581-11af-513b-8d30-bfc15597fe11"
   },
   {
     "scope": {
@@ -133,7 +149,8 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Disabled icon asset",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "uuid": "67af0a7a-cfee-5083-bfa4-5a044a7cff9a"
   },
   {
     "scope": {
@@ -141,7 +158,8 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Disabled icon asset",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "uuid": "38dd6fde-7b0e-5d53-b5e8-b4c6823c6fc6"
   },
   {
     "scope": {
@@ -149,7 +167,8 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Disabled icon asset",
-    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2",
+    "uuid": "1f71182c-e889-535a-8fc1-d2040986c767"
   },
   {
     "scope": {
@@ -157,7 +176,8 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Disabled icon asset",
-    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "uuid": "0810631e-3eef-5ef9-8ffd-4f2edd0ee230"
   },
   {
     "scope": {
@@ -165,7 +185,8 @@
       "property": "thickness"
     },
     "context": "Slash thickness (empty)",
-    "$ref": "944c49d7-e189-4daa-aca1-b0b590d78875"
+    "$ref": "944c49d7-e189-4daa-aca1-b0b590d78875",
+    "uuid": "6ace2502-4905-5588-b2e3-7e733c6735b8"
   },
   {
     "scope": {
@@ -173,7 +194,8 @@
       "property": "thickness"
     },
     "context": "Slash thickness (empty)",
-    "$ref": "f626d145-7840-4958-86be-d2306b5b2233"
+    "$ref": "f626d145-7840-4958-86be-d2306b5b2233",
+    "uuid": "e3e6874d-5788-5e18-8c58-3285f258d300"
   },
   {
     "scope": {
@@ -181,7 +203,8 @@
       "property": "thickness"
     },
     "context": "Slash thickness (empty)",
-    "$ref": "4e735599-f420-4b51-aa75-607046431c76"
+    "$ref": "4e735599-f420-4b51-aa75-607046431c76",
+    "uuid": "40053f33-e7f6-5694-bf5b-a7242521a3cf"
   },
   {
     "scope": {
@@ -189,7 +212,8 @@
       "property": "thickness"
     },
     "context": "Slash thickness (empty)",
-    "$ref": "6b1b2709-de8c-450d-9299-49200208599e"
+    "$ref": "6b1b2709-de8c-450d-9299-49200208599e",
+    "uuid": "37ee7268-2aec-5abf-8b23-1ddfe11f93c2"
   },
   {
     "scope": {
@@ -197,7 +221,8 @@
       "property": "thickness"
     },
     "context": "Focus ring",
-    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
+    "uuid": "773e7fbc-a2e3-55b7-8bef-5f11e7b6a45e"
   },
   {
     "scope": {
@@ -205,7 +230,8 @@
       "property": "gap"
     },
     "context": "Focus ring",
-    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
+    "uuid": "1d2f5156-c56e-5d0f-83aa-e38ff4017e47"
   },
   {
     "scope": {
@@ -213,7 +239,8 @@
       "property": "spacing"
     },
     "context": "Spacing (Tooltip to Swatch)",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "2ddd955b-56e3-58ec-b70d-b975834cb2e8"
   },
   {
     "scope": {
@@ -221,7 +248,8 @@
       "property": "color"
     },
     "context": "Border",
-    "$ref": "7da5157d-7f25-405b-8de0-f3669565fb48"
+    "$ref": "7da5157d-7f25-405b-8de0-f3669565fb48",
+    "uuid": "831f7c0a-eb4b-50dc-a233-12afa9849b50"
   },
   {
     "scope": {
@@ -229,7 +257,8 @@
       "property": "opacity"
     },
     "context": "Border",
-    "$ref": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
+    "$ref": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5",
+    "uuid": "ccc3a33c-0b5d-5149-b8a1-94f534fab1bb"
   },
   {
     "scope": {
@@ -237,7 +266,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "457fbeb8-56cd-4f3c-9950-f5e01f83f07c"
+    "$ref": "457fbeb8-56cd-4f3c-9950-f5e01f83f07c",
+    "uuid": "25fd892f-7c36-5043-b525-082e2e048d7f"
   },
   {
     "scope": {
@@ -245,7 +275,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "5ce8c477-ae6e-427a-ac5c-79d15c8056ab"
+    "$ref": "5ce8c477-ae6e-427a-ac5c-79d15c8056ab",
+    "uuid": "3333f8f0-f497-50d0-a699-f43d7b3f5add"
   },
   {
     "scope": {
@@ -253,7 +284,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "e804baf9-ae2c-4574-96d9-10cd5253fe47"
+    "$ref": "e804baf9-ae2c-4574-96d9-10cd5253fe47",
+    "uuid": "d1b64de1-95d0-5e74-b2d5-d2e6f2f266f6"
   },
   {
     "scope": {
@@ -261,7 +293,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
+    "uuid": "3d4a4bb0-8521-59b8-ad34-34a9c8d60cd3"
   },
   {
     "scope": {
@@ -269,7 +302,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
+    "uuid": "ac426ab2-a8bb-5c1d-bf80-df4519479bd9"
   },
   {
     "scope": {
@@ -277,7 +311,8 @@
       "property": "color"
     },
     "context": "Border and inner border (selected)",
-    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
+    "uuid": "5885fb35-3ce3-5fb2-a345-eab49454498a"
   },
   {
     "scope": {
@@ -285,7 +320,8 @@
       "property": "color"
     },
     "context": "Disabled icon",
-    "$ref": "c49cd7ae-7657-458b-871a-6b4f28bca535"
+    "$ref": "c49cd7ae-7657-458b-871a-6b4f28bca535",
+    "uuid": "f5976899-467d-5a48-a991-1b51df8368e0"
   },
   {
     "scope": {
@@ -293,7 +329,8 @@
       "property": "opacity"
     },
     "context": "Disabled icon",
-    "$ref": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
+    "$ref": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18",
+    "uuid": "88eecd90-9220-5de7-a160-e70be86bfd21"
   },
   {
     "scope": {
@@ -301,7 +338,8 @@
       "property": "color"
     },
     "context": "Disabled icon",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "d3d98538-ffd8-51a1-b514-472f8753880a"
   },
   {
     "scope": {
@@ -309,7 +347,8 @@
       "property": "color"
     },
     "context": "Slash",
-    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f"
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
+    "uuid": "a4714b00-3b9c-58d9-bf9b-39cc90bfbe34"
   },
   {
     "scope": {
@@ -317,7 +356,8 @@
       "property": "color"
     },
     "context": "Slash",
-    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6"
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
+    "uuid": "2bfb91be-1dda-5e00-ba80-4c6e85b81de2"
   },
   {
     "scope": {
@@ -325,7 +365,8 @@
       "property": "color"
     },
     "context": "Slash",
-    "$ref": "9211e320-de05-4097-8350-fef2293be6a0"
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
+    "uuid": "acaedd36-1c0b-5e54-9a4e-a7bea0faa64f"
   },
   {
     "scope": {
@@ -333,7 +374,8 @@
       "property": "content-color"
     },
     "context": "Dash UI icon",
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "bf68f340-e597-5477-852c-740458abe3da"
   },
   {
     "scope": {
@@ -341,7 +383,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
+    "uuid": "3b49252c-5d2b-50f4-84d0-518a4839a788"
   },
   {
     "scope": {
@@ -349,7 +392,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
+    "uuid": "dddecb5b-bf17-5ae0-b44f-3c73b7307e97"
   },
   {
     "scope": {
@@ -357,7 +401,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
+    "uuid": "0246e342-b657-5145-b134-359cd1d99292"
   },
   {
     "scope": {
@@ -365,7 +410,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
+    "uuid": "c5df1b8d-d6f1-5d87-aa38-bbf0df7428cb"
   },
   {
     "scope": {
@@ -373,7 +419,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
+    "uuid": "1a0947f3-f087-531b-941d-7f9ebfaf5a53"
   },
   {
     "scope": {
@@ -381,7 +428,8 @@
       "property": "color"
     },
     "context": "Add “button” background",
-    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
+    "uuid": "55add7a1-0f1d-520b-9130-b55fcd1bc4aa"
   },
   {
     "scope": {
@@ -389,7 +437,8 @@
       "property": "color"
     },
     "context": "Focus ring",
-    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
+    "uuid": "1ff128ea-c810-5581-95f9-307ab64ae7b3"
   },
   {
     "scope": {
@@ -397,7 +446,8 @@
       "property": "spacing"
     },
     "context": "Spacing (compact)",
-    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104"
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
   },
   {
     "scope": {
@@ -405,7 +455,8 @@
       "property": "spacing"
     },
     "context": "Spacing (spacious)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "7bfc05fe-bb4e-5dac-80da-5883aeb4c50e"
   },
   {
     "scope": {

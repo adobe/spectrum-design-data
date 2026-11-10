@@ -15,6 +15,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use assert_cmd::Command;
+use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 use serde_json::json;
 
@@ -289,4 +290,167 @@ fn resolve_applies_manifest_override_by_uuid() {
         .assert()
         .success()
         .stdout(contains("#ffffff"));
+}
+
+/// A project whose only recipe binds `component-height-100`, plus the given manifest.
+fn setup_recipe_project(manifest: serde_json::Value) -> tempfile::TempDir {
+    let project = setup_project(manifest);
+    for dir in ["components", "visuals"] {
+        fs::create_dir_all(project.path().join(dir)).expect("create dir");
+    }
+    fs::write(
+        project.path().join("tokens/tokens.json"),
+        json!({
+            "h": {"name": {"property": "component-height-100"}, "value": "32px", "uuid": "u-h"}
+        })
+        .to_string(),
+    )
+    .expect("write tokens");
+    fs::write(
+        project.path().join("components/button.json"),
+        json!({
+            "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+            "name": "button",
+            "displayName": "Button",
+            "meta": {"category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/"},
+            "anatomy": [{"name": "container", "description": "Background.", "required": true}],
+            "options": {"size": {"type": "string", "default": "m", "values": [{"value": "m"}]}}
+        })
+        .to_string(),
+    )
+    .expect("write component");
+    fs::write(
+        project.path().join("visuals/button.json"),
+        json!({
+            "component": "button", "root": "container", "sizeScale": {"m": 100},
+            "parts": {"container": {"kind": "box", "props": {
+                "height": {"token": {"property": "component-height-100"}}}}}
+        })
+        .to_string(),
+    )
+    .expect("write recipe");
+    project
+}
+
+fn validate_recipes(project: &tempfile::TempDir) -> assert_cmd::assert::Assert {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args([
+            "validate",
+            "tokens",
+            "--components-path",
+            "components",
+            "--visuals-path",
+            "visuals",
+            "--format",
+            "json",
+        ])
+        .assert()
+}
+
+#[test]
+fn validate_warns_when_the_platform_drops_a_bound_token() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-drop",
+        "exclude": ["property=component-height-100"]
+    }));
+    // The temp tokens carry no `$schema`, so the run fails on unrelated Layer 1 errors; only
+    // the SPEC-076 diagnostics matter here.
+    validate_recipes(&project)
+        .stdout(contains("SPEC-076"))
+        .stdout(contains("fixture-drop"));
+}
+
+#[test]
+fn validate_stays_quiet_when_the_platform_keeps_every_binding() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-keep"
+    }));
+    // The temp tokens carry no `$schema`, so the run fails on unrelated Layer 1 errors; only
+    // the SPEC-076 diagnostics matter here.
+    validate_recipes(&project)
+        .stdout(contains("SPEC-076").not())
+        .stdout(contains("SPEC-082").not());
+}
+
+/// p6ga.8.52: a manifest that cannot apply (here it extends a mode set that does not exist) is
+/// a SPEC-082 error, not a silent pass with the platform rules skipped.
+#[test]
+fn validate_reports_a_platform_manifest_that_cannot_apply() {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-broken"
+    }));
+    let dir = project.path().join("extensions/platform-extensions");
+    fs::create_dir_all(&dir).expect("extensions dir");
+    fs::write(
+        dir.join("broken.json"),
+        json!({
+            "platform": "fixture-broken",
+            "extends": "no-such-mode-set",
+            "extensions": [{ "termId": "x", "platformTerm": "y" }]
+        })
+        .to_string(),
+    )
+    .expect("write platform extension");
+    validate_recipes(&project)
+        .stdout(contains("SPEC-082"))
+        .stdout(contains("fixture-broken"))
+        .stdout(contains("no-such-mode-set"));
+}
+
+/// Foundation recipes load first, then the manifest's `extensions/visuals/button.json`
+/// replaces the `button` recipe. Returns the `validate` report as JSON.
+fn validate_with_platform_recipe(property: &str) -> serde_json::Value {
+    let project = setup_recipe_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "platform": "fixture-replace"
+    }));
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).expect("create visuals dir");
+    fs::write(
+        dir.join("button.json"),
+        json!({
+            "component": "button", "root": "container", "sizeScale": {"m": 100},
+            "parts": {"container": {"kind": "box", "props": {
+                "height": {"token": {"property": property}}}}}
+        })
+        .to_string(),
+    )
+    .expect("write platform recipe");
+    // The temp tokens carry no `$schema`, so the run exits 1 on unrelated Layer 1 errors; the
+    // report is still printed.
+    let out = validate_recipes(&project).get_output().stdout.clone();
+    serde_json::from_slice(&out).expect("validate prints a JSON report")
+}
+
+fn count_rule(report: &serde_json::Value, key: &str, rule: &str) -> usize {
+    report[key]
+        .as_array()
+        .expect("diagnostic list")
+        .iter()
+        .filter(|d| d["rule_id"] == rule)
+        .count()
+}
+
+#[test]
+fn validate_reports_a_platform_recipe_that_replaces_the_foundation_recipe() {
+    let report = validate_with_platform_recipe("component-height-100");
+    assert_eq!(count_rule(&report, "warnings", "SPEC-080"), 1, "{report}");
+    assert_eq!(count_rule(&report, "warnings", "SPEC-079"), 0, "{report}");
+    assert_eq!(count_rule(&report, "errors", "SPEC-060"), 0, "{report}");
+}
+
+#[test]
+fn validate_warns_when_a_platform_recipe_does_not_resolve() {
+    let report = validate_with_platform_recipe("component-missing-100");
+    assert!(count_rule(&report, "warnings", "SPEC-079") > 0, "{report}");
+    assert_eq!(count_rule(&report, "errors", "SPEC-079"), 0, "{report}");
 }

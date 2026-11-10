@@ -20,6 +20,7 @@ import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname, resolve, sep } from "path";
 
+import { searchComponents } from "@adobe/design-data/component";
 import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 
 import { checkDatasetFreshness } from "../dataset-freshness.js";
@@ -283,6 +284,60 @@ export function createDesignDataTools() {
       },
       async handler({ id }) {
         return loadDataFile("components", id);
+      },
+    },
+
+    // ── component search ────────────────────────────────────────────────────
+    {
+      name: "design-data-component-search",
+      annotations: {
+        title: "Design Data: Search Components",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Search Spectrum components by name, description, or documentation text " +
+        '(e.g. "date", "form input", "navigation"). Returns id, displayName, ' +
+        "category, and a snippet per match. Use the id with design-data-component " +
+        "for the full declaration.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          query: {
+            type: "string",
+            description: "Words to look for, e.g. 'select from a list'",
+          },
+          category: {
+            type: "string",
+            description: "Optional component category filter, e.g. actions",
+          },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            description: "Maximum number of results (default: 10)",
+            default: 10,
+          },
+        },
+        required: ["query"],
+        additionalProperties: false,
+      },
+      async handler({ query, category, limit = 10 }) {
+        const pkgRoot = resolveSpectrumDataPackage();
+        if (!pkgRoot) {
+          throw new Error(
+            "@adobe/spectrum-design-data is not installed — cannot search components. " +
+              "Install it with: pnpm add @adobe/spectrum-design-data",
+          );
+        }
+        const results = searchComponents(
+          resolve(pkgRoot, "components"),
+          query,
+          {
+            category,
+            limit,
+          },
+        );
+        return { results, total: results.length };
       },
     },
 

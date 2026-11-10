@@ -18,7 +18,12 @@
     "s2-docs-to-document-blocks:test",
     "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
-    "token-mapping-analyzer:test"
+    "design-data:test",
+    "token-mapping-analyzer:test",
+    "root:test-platform-recipes-guard",
+    "root:test-component-content-changes",
+    "figma-spec-plugin:check",
+    "platform-capture:test"
   ],
   "rust": [
     "sdk:fmt-check",
@@ -41,9 +46,16 @@
     "design-data-agent-mcp:test",
     "design-data-skill:test",
     "s2-docs-mcp:test",
-    "token-naming-audit:ci"
+    "token-naming-audit:ci",
+    "root:validate-platform-recipes",
+    "root:test-platform-recipes-e2e",
+    "figma-spec-plugin:test"
   ],
   "excludedFromCI": [
+    "sdk-wasm-visual:build",
+    "sdk-wasm-visual:test",
+    "sdk-wasm-visual:build-web",
+    "sdk-wasm-visual:browser-parity",
     "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
     "component-diff-generator:diff",
@@ -56,6 +68,7 @@
     "s2-docs-mcp:bundle",
     "s2-visualizer:build",
     "s2-visualizer:typescript",
+    "design-data:version",
     "design-data-agent-mcp:version",
     "design-data-skill:version",
     "s2-docs-mcp:version",

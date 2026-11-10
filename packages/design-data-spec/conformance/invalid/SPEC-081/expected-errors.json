@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-081",
+      "severity": "error",
+      "message_pattern": ".*button.*fixture-alias.*button-missing.*"
+    }
+  ]
+}

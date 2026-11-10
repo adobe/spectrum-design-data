@@ -1,0 +1,123 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "link",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Standalone variant, Default style"],"scope":{"property":"text-underline-gap","options":null},"record":"text-underline-gap#Standalone variant, Default style","name":"text-underline-gap","fields":[{"path":"$ref","before":"d9d51235-f3fe-4e2a-bdca-b6a104d9a9e5","after":"62e8853d-9c4f-4e9d-be75-0020344d13ee"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":23,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/0","name":"guideline: Use links in body copy.\n\nLinks are for usage in ","fields":[{"path":"content","before":"Links provide navigation to a different location. They can appear within a paragraph or as standalone text.","after":"Use links in body copy.\n\nLinks are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/1","name":"guideline: Support screen readers.\n\nBe mindful of link plac","fields":[{"path":"content","before":"Use the static color option when a link needs to be placed on top of a color background or visual. Static color links are available in black or white, regardless of color theme. They can also be placed on top of a custom background that isn’t part of a Spectrum color theme.","after":"Support screen readers.\n\nBe mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page. People using screen readers may tab between links without getting the text in between, so very generic link wording like \"learn more\" or \"click here\" doesn't communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/2","name":"guideline: When to use quiet links.\n\nQuiet links are less a","fields":[{"path":"content","before":"Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the link color meet the minimum color contrast ratio.","after":"When to use quiet links.\n\nQuiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/3","name":"guideline: Standalone links are not full sentences, and do ","fields":[{"path":"content","before":"All links can have a quiet style, without an underline. This style should only be used when the placement and context of the link is explicit enough that a visible underline isn’t necessary.","after":"Standalone links are not full sentences, and do not have punctuation at the end. Treat these like calls-to-action by writing them as short verb phrases. Since standalone links are at the end of a sentence or paragraph, they're often perceived by users as optional or supplementary to surrounding content."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/4","name":"guideline: Links within sentences.\n\nLinks within — or as — ","fields":[{"path":"content","before":"The variant property defines the visual style of a link and includes two options: primary and secondary.","after":"Links within sentences.\n\nLinks within — or as — sentences are written just like they're part of a paragraph. Make sure you include enough context in the link text to communicate the value and expectation of the landing experience. This approach can draw a user's focus to the linked text, such as for need-to-know updates or high-signal information. If the link leads to more content, it can be helpful to write it as a descriptive noun (e.g., \"survey feedback\"). If the link launches a task or action, start it with a verb (e.g., \"Share your feedback\"). Keep in mind that it's easier to localize links that are entire sentences, rather than sentence fragments. This is because, depending on which part of a sentence is included as a link, the word and link order may be re-arranged when translated."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/5","name":"guideline: Avoid generic language.\n\nAvoid overly generic li","fields":[{"path":"content","before":"The primary variant is the default style and displays the link in Spectrum blue. It is intended to draw attention to the link and is suitable when the blue color complements the surrounding content without being overwhelming.","after":"Avoid generic language.\n\nAvoid overly generic link language like \"learn more,\" \"click here,\" \"more information,\" or \"continue reading.\" It's more accessible and inclusive to write link text as unique descriptions of the navigational target or function. Links need to be descriptive enough that they make sense without any other context. Generic links don't make sense out of context, and don't communicate where they go or what happens if a user interacts with them. Unique link language is essential for screen reader and magnification users who may not have the supplementary language around a link, or may not follow the content order of an experience. Try to avoid using a series of generic, standalone links that say \"learn more\" at the end of multiple sentences or paragraphs as a truncation strategy."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/6","name":"guideline: Write specific and descriptive link text.\n\nLinks","fields":[{"path":"content","before":"The secondary variant uses the same gray color as the surrounding paragraph text. Its subdued appearance is ideal for scenarios where multiple links are present in a block of text and the primary variant would be too visually dominant.","after":"Write specific and descriptive link text.\n\nLinks act as wayfinding tools that offer contextual clues about how to navigate an experience. Write link text so that, even if someone were not able to view any surrounding context, they could still understand a link's purpose and what they should expect by interacting with it. Try to front load the link with the most important word(s)."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/7","name":"guideline: Be conscious about repetition.\n\nDon't use the sa","fields":[{"path":"content","before":"Links are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button.","after":"Be conscious about repetition.\n\nDon't use the same link text to link to different information in the same view. If link text needs to be duplicated within a single page or view, find ways to make each link unique, such as using accessibility labels or other text alternatives. It's OK to incorporate multiple links into the same sentence as long as the links are contextual and relevant. Do not overload sentences and pages with links purely for SEO purposes."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/8","name":"guideline: Create intuitive landing experiences.\n\nDon't pla","fields":[{"path":"content","before":"Be mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page.","after":"Create intuitive landing experiences.\n\nDon't place a generic \"Learn more\" link in design specs without thinking through what happens when a user interacts with that link. The landing experience needs to work in partnership with how the link text is written. Identify exactly where that link will go or what it will do, then ensure the link text reflects that. Use anchor links whenever possible to ensure that users can quickly find the most helpful next steps after interacting with a link. Collaborate with help content writers or customer service representatives to determine the most natural and intuitive content to supplement your experience."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/9","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"People using screen readers may tab between links without getting the text in between, so very generic link wording like “learn more” or “click here” doesn’t communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the link component. Enter Executes the link and moves the focus to the link target."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/10","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Quiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for interactive components like links."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"link/documentBlocks/11","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[],"after":{"type":"guideline","content":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Links should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey that text is a link. Links are paired with an additional visual indicator, such as an underline, so the link purpose is communicated without relying on color alone. Text contrast 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of link states has a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text (black)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (black)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-1000"}]},
+            {"id":"15f371e5-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text (white)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (white)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -103,6 +103,11 @@
       "minLength": 1,
       "description": "Path (relative to the manifest) to the platform's extensions directory, holding platform-local tokens/components/fields/relationships/guidelines/platform-extensions as one file per artifact (see spec/manifest.md#extensions-directory). Default: \"extensions\"."
     },
+    "componentAliases": {
+      "type": "object",
+      "description": "Maps a foundation component name to a component the platform declares in extensions/components/. Applies to render, site, WASM render and recipe lookup only (see spec/manifest.md#componentaliases; SPEC-081).",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
     "namingExceptions": {
       "type": "object",
       "description": "Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.",

@@ -1,0 +1,44 @@
+{
+  "plan": "organization::1177024566520626109",
+  "project": "657068416",
+  "poc": {
+    "fileKey": "rNdFQYqXO2Nd3zMWnQD5U4"
+  },
+  "files": {
+    "accordion": {
+      "fileKey": "4ODFvP7T7X7TMevsYBQXPP",
+      "hash": "dd51b12e81a4d0bb",
+      "generatedAt": "2026-11-05"
+    },
+    "action-button": {
+      "fileKey": "9H1WQmy95QtBbJsEvk2GD2",
+      "hash": "d9d2f6c31d99c2cf",
+      "generatedAt": "2026-11-05"
+    },
+    "badge": {
+      "fileKey": "CmShSAYnbD6JY8kP006PmQ",
+      "hash": "792151e2330a2ce7",
+      "generatedAt": "2026-11-05"
+    },
+    "button": {
+      "fileKey": "4O1TvzaFre6RZ9GOwkCTf5",
+      "hash": "0ca02924ff9fcb73",
+      "generatedAt": "2026-11-05"
+    },
+    "checkbox": {
+      "fileKey": "mGCsOtiSAlyxMIm8jnDi6n",
+      "hash": "aefd6cd153bf17c7",
+      "generatedAt": "2026-11-05"
+    },
+    "radio-button": {
+      "fileKey": "meA4TF7VCGd51tIFMWNkUr",
+      "hash": "7ee3d3655b269894",
+      "generatedAt": "2026-11-05"
+    },
+    "switch": {
+      "fileKey": "v0sEpWnNVT1RCnATMqZZHt",
+      "hash": "34139ea5068f1f7d",
+      "generatedAt": "2026-11-05"
+    }
+  }
+}

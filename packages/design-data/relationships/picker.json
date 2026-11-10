@@ -5,7 +5,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41"
+    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "uuid": "381556a6-a6c5-5aee-a094-dd12cb9afa69"
   },
   {
     "scope": {
@@ -13,7 +14,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "976298d3-326f-43da-aa71-bbd2dc1fad3d"
+    "$ref": "976298d3-326f-43da-aa71-bbd2dc1fad3d",
+    "uuid": "3d94edbf-5f7e-527c-86e8-25adcb3a2d8b"
   },
   {
     "scope": {
@@ -21,7 +23,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920"
+    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "uuid": "3e8c3563-287b-5f40-a1f4-6e8d9b67b884"
   },
   {
     "scope": {
@@ -29,7 +32,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da"
+    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "uuid": "ecf27265-8e17-576e-b143-6010470e035c"
   },
   {
     "scope": {
@@ -37,7 +41,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e"
+    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "uuid": "18975c7d-3c9f-5727-a30b-7ed222497a84"
   },
   {
     "scope": {
@@ -45,7 +50,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2"
+    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "uuid": "59cc1854-bc48-5fe1-bd2c-8a87c0fa9420"
   },
   {
     "scope": {
@@ -53,7 +59,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46"
+    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "uuid": "a2750f00-34eb-5ad6-b8a6-fcb6b0d37d9f"
   },
   {
     "scope": {
@@ -61,7 +68,8 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b"
+    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "uuid": "68369487-e10b-51d6-bd02-408dfcf34233"
   },
   {
     "scope": {
@@ -69,7 +77,8 @@
       "property": "minimum-width-multiplier"
     },
     "context": "Width (minimum)",
-    "$ref": "67b68a30-ae00-4da2-9730-99196a2eaf96"
+    "$ref": "67b68a30-ae00-4da2-9730-99196a2eaf96",
+    "uuid": "60e3ea81-e79d-58b4-86a2-03e7be71e983"
   },
   {
     "scope": {
@@ -77,7 +86,8 @@
       "property": "component-height-75"
     },
     "context": "Height",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "uuid": "0df835b7-7f8a-5c87-9712-d097e56b9162"
   },
   {
     "scope": {
@@ -85,7 +95,8 @@
       "property": "component-height-75"
     },
     "context": "Height",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "uuid": "5885a649-2bbe-5d4a-80c9-1b326a6e7a0b"
   },
   {
     "scope": {
@@ -93,7 +104,8 @@
       "property": "component-height-100"
     },
     "context": "Height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "uuid": "ce63bf9b-7512-5ade-8f4b-179080e9a3d0"
   },
   {
     "scope": {
@@ -101,7 +113,8 @@
       "property": "component-height-100"
     },
     "context": "Height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "uuid": "fd80d736-bb4e-56c3-8a76-9a3fec6cac47"
   },
   {
     "scope": {
@@ -109,7 +122,8 @@
       "property": "component-height-200"
     },
     "context": "Height",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "uuid": "2dfcf367-f074-5845-9230-9356781a11dc"
   },
   {
     "scope": {
@@ -117,7 +131,8 @@
       "property": "component-height-200"
     },
     "context": "Height",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "uuid": "9bee7580-76df-5c86-88c8-f018ff7d44ab"
   },
   {
     "scope": {
@@ -125,7 +140,8 @@
       "property": "component-height-300"
     },
     "context": "Height",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "uuid": "6ff72cc2-dea4-5898-adf1-c1498b6ef572"
   },
   {
     "scope": {
@@ -133,7 +149,8 @@
       "property": "component-height-300"
     },
     "context": "Height",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "uuid": "863bf27b-8b64-5e8f-86b5-9a38e2ab8336"
   },
   {
     "scope": {
@@ -141,7 +158,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
+    "uuid": "be049a1f-fe66-5228-8401-f23ea59bacd0"
   },
   {
     "scope": {
@@ -149,7 +167,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
+    "uuid": "94a0defa-038e-5ee2-bf9a-e69455b49567"
   },
   {
     "scope": {
@@ -157,7 +176,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90"
+    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90",
+    "uuid": "f724083a-f4f0-5b2b-b8aa-38fc66ab34fb"
   },
   {
     "scope": {
@@ -165,7 +185,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9"
+    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9",
+    "uuid": "7bad7c22-3bb2-5bcc-9313-16ed96e02cc1"
   },
   {
     "scope": {
@@ -173,7 +194,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "32d38291-0224-5ce1-90b0-650987e31463"
   },
   {
     "scope": {
@@ -181,7 +203,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "86e4b393-d4f8-5758-b7ed-695bc75f32cd"
   },
   {
     "scope": {
@@ -189,7 +212,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "d84b4ee4-eabf-56ab-bacf-1c507d4c9d21"
   },
   {
     "scope": {
@@ -197,7 +221,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "248cb1d0-5fda-5c60-ab76-600bc3550e02"
   },
   {
     "scope": {
@@ -205,7 +230,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "ff62b01f-da0d-5c4e-9125-184c0386510e"
   },
   {
     "scope": {
@@ -213,7 +239,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "a6eff75c-720a-5229-93e2-cfc092ebf83d"
   },
   {
     "scope": {
@@ -221,7 +248,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "7af17096-5941-5096-bf03-eab4771c3317"
   },
   {
     "scope": {
@@ -229,7 +257,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "91d3a5b7-6f1b-5e2e-a859-32bcb9db7678"
   },
   {
     "scope": {
@@ -237,7 +266,8 @@
       "property": "space-between"
     },
     "context": "Spacing (start/end edge to value)",
-    "$ref": "3f7cee20-c187-4066-be4b-f5a1335736f5"
+    "$ref": "3f7cee20-c187-4066-be4b-f5a1335736f5",
+    "uuid": "7e5bb100-28ef-527b-a476-924c0bbf6d5f"
   },
   {
     "scope": {
@@ -245,7 +275,8 @@
       "property": "thickness"
     },
     "context": "Focus indicator",
-    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
+    "uuid": "ed679122-d561-5ac7-9089-b752672796b3"
   },
   {
     "scope": {
@@ -253,7 +284,8 @@
       "property": "gap"
     },
     "context": "Focus indicator",
-    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
+    "uuid": "9d118f8e-e9f5-5522-8690-12c16463c9b4"
   },
   {
     "scope": {
@@ -261,7 +293,8 @@
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
-    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824",
+    "uuid": "30e500e9-fc3e-50e3-acb6-726cfa1dd0ab"
   },
   {
     "scope": {
@@ -269,7 +302,8 @@
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
-    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177",
+    "uuid": "6742782b-1098-5e1a-9e75-4dc38cffbd42"
   },
   {
     "scope": {
@@ -277,7 +311,8 @@
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
-    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d",
+    "uuid": "024da029-1bc9-5245-b60b-d72d81234fa9"
   },
   {
     "scope": {
@@ -285,7 +320,8 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "uuid": "804327a8-0e7e-5cdb-a29d-4ba663396f40"
   },
   {
     "scope": {
@@ -293,7 +329,8 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "uuid": "8be2461f-f6e0-509f-858c-22a0faf3a3f0"
   },
   {
     "scope": {
@@ -301,7 +338,8 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "uuid": "c2cc488c-380a-5c44-8523-b35fa41cc0b9"
   },
   {
     "scope": {
@@ -309,7 +347,8 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "uuid": "b4d1a7da-d959-54e3-95fd-4dfd21b11c1d"
   },
   {
     "scope": {
@@ -317,7 +356,8 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
-    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2",
+    "uuid": "27f81352-d624-55e9-a739-f0487c570e5d"
   },
   {
     "scope": {
@@ -325,7 +365,8 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
-    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "uuid": "c240045f-9730-556f-9799-dcf46dceab60"
   },
   {
     "scope": {
@@ -333,7 +374,8 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
-    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a"
+    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a",
+    "uuid": "07432566-08d4-50b9-bc52-e75ec755b94d"
   },
   {
     "scope": {
@@ -341,7 +383,8 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
-    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
+    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c",
+    "uuid": "6874ae68-0bdf-5bc9-8fda-e5bdb51564f6"
   },
   {
     "scope": {
@@ -349,7 +392,8 @@
       "property": "end-edge-to-disclosure-icon-quiet"
     },
     "context": "Spacing (start/end edge to prefix)",
-    "$ref": "03da68d8-cd87-4e29-9aaf-ab467594ec2b"
+    "$ref": "03da68d8-cd87-4e29-9aaf-ab467594ec2b",
+    "uuid": "0e889eb4-3572-568c-937c-79905933d5c0"
   },
   {
     "scope": {
@@ -357,7 +401,8 @@
       "property": "space-between"
     },
     "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "a2ccc4d8-270c-57eb-a2f3-89b018b2ee35"
   },
   {
     "scope": {
@@ -365,7 +410,8 @@
       "property": "space-between"
     },
     "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "6c550c9d-d93d-5053-9a57-e0195cf194df"
   },
   {
     "scope": {
@@ -373,7 +419,8 @@
       "property": "space-between"
     },
     "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "8dcb56cf-b22f-545e-99ed-075ffd00bb35"
   },
   {
     "scope": {
@@ -381,39 +428,8 @@
       "property": "space-between"
     },
     "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (prefix to value/placeholder)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "28ba686c-8e8c-567f-b4b2-f65972f23226"
   },
   {
     "scope": {
@@ -421,7 +437,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "43ef1792-b182-419d-966c-a8a2d77dbe03"
+    "$ref": "43ef1792-b182-419d-966c-a8a2d77dbe03",
+    "uuid": "8014a052-76d9-5494-8f7d-8bcb8634b526"
   },
   {
     "scope": {
@@ -429,7 +446,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "74dbb8c0-2e65-413d-8b52-7215993b5696"
+    "$ref": "74dbb8c0-2e65-413d-8b52-7215993b5696",
+    "uuid": "b14bf764-c303-59f2-b7d3-dd77b618b0cc"
   },
   {
     "scope": {
@@ -437,7 +455,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "fdd4f0b4-3284-4734-b158-ecd5da36d586"
+    "$ref": "fdd4f0b4-3284-4734-b158-ecd5da36d586",
+    "uuid": "debf2e6b-f9b3-5d89-b810-7a9058866157"
   },
   {
     "scope": {
@@ -445,7 +464,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "c4d6bea8-61b0-45a4-81e0-1e5dd7429463"
+    "$ref": "c4d6bea8-61b0-45a4-81e0-1e5dd7429463",
+    "uuid": "246bfb1f-83a8-5438-9c1b-01f0ddbaf726"
   },
   {
     "scope": {
@@ -453,7 +473,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "2df0f6e0-5821-4f70-9aa9-1cc61f860b53"
+    "$ref": "2df0f6e0-5821-4f70-9aa9-1cc61f860b53",
+    "uuid": "63d31bf3-4c8d-5b5a-aac0-3723aeb1f5f4"
   },
   {
     "scope": {
@@ -461,7 +482,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "08bbd8dd-bb02-43b9-8e25-7709aee5ff52"
+    "$ref": "08bbd8dd-bb02-43b9-8e25-7709aee5ff52",
+    "uuid": "9d58a49c-a1ac-56fa-a868-068d4353f395"
   },
   {
     "scope": {
@@ -469,7 +491,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "087dcfa2-5bfd-47a4-a67c-dca50e086e7a"
+    "$ref": "087dcfa2-5bfd-47a4-a67c-dca50e086e7a",
+    "uuid": "dba20c9f-15e5-5d85-8607-11f3b214d10a"
   },
   {
     "scope": {
@@ -477,7 +500,8 @@
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
-    "$ref": "e6fdcac2-9916-45e2-a479-e87d17ece1f9"
+    "$ref": "e6fdcac2-9916-45e2-a479-e87d17ece1f9",
+    "uuid": "4afee09d-7a3a-5bc9-a8ac-a7e27d34ec90"
   },
   {
     "scope": {
@@ -485,7 +509,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "f04ef896-62f2-5f68-921e-a43cd032b2db"
   },
   {
     "scope": {
@@ -493,7 +518,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "ec86912c-1480-5463-9173-0e8e32cbf000"
   },
   {
     "scope": {
@@ -501,7 +527,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "b6b3affe-e35b-5b87-8e32-185e9213ce00"
   },
   {
     "scope": {
@@ -509,39 +536,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom to disclosure icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "7350ca23-3a87-5184-8612-3d868c06f40c"
   },
   {
     "scope": {
@@ -549,7 +545,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "0da1a6ad-5464-5cd0-980f-dbdad557149b"
   },
   {
     "scope": {
@@ -557,7 +554,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "93278b0c-eb63-5056-b5f5-ec1d81ee6551"
   },
   {
     "scope": {
@@ -565,7 +563,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "8cf7d790-cfd9-58e9-a9b5-a5d4d4a0a34d"
   },
   {
     "scope": {
@@ -573,7 +572,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "656166de-272e-5a45-9275-a89cdbe7f5f4"
   },
   {
     "scope": {
@@ -581,7 +581,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "bd22dd40-dbfb-5cb5-afe2-eb4a308bfce7"
   },
   {
     "scope": {
@@ -589,7 +590,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "35f86203-d05a-5d6e-a768-5bd980bfa389"
   },
   {
     "scope": {
@@ -597,7 +599,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "3340a242-aa63-5bea-b395-60cc1d0cdbfc"
   },
   {
     "scope": {
@@ -605,7 +608,8 @@
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "47080908-04eb-5093-aa9c-f424f4002674"
   },
   {
     "scope": {
@@ -613,7 +617,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "3181ac02-92b6-53a2-a42f-fd4dad6cee85"
   },
   {
     "scope": {
@@ -621,7 +626,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "31c564fa-ec99-571a-bc79-32f68cc84ea3"
   },
   {
     "scope": {
@@ -629,7 +635,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "7c56ac0e-6ba3-5150-a4a7-415be2448079"
   },
   {
     "scope": {
@@ -637,7 +644,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "62f19ac3-b707-5115-9245-9d39306ecbc6"
   },
   {
     "scope": {
@@ -645,7 +653,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "91ad9b54-d90d-5aeb-aac7-6f5cc6bc23f2"
   },
   {
     "scope": {
@@ -653,7 +662,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "d1033a10-790c-5398-8343-c34c236920f0"
   },
   {
     "scope": {
@@ -661,7 +671,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "9e590d81-b811-5f79-a6da-ac05d6b7bd1f"
   },
   {
     "scope": {
@@ -669,7 +680,8 @@
       "property": "space-between"
     },
     "context": "Leading icon (leading icon to end edge)",
-    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "445ddce3-7682-5e15-910f-b1e1a625c882"
   },
   {
     "scope": {
@@ -677,15 +689,8 @@
       "property": "component-top-to-workflow-icon-75"
     },
     "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-top-to-workflow-icon-75"
-    },
-    "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "91569d9f-2987-5c13-9d44-27cdffedf0e5"
   },
   {
     "scope": {
@@ -693,15 +698,8 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "215cab16-b963-5a1b-9944-0a04701d5da9"
   },
   {
     "scope": {
@@ -709,15 +707,8 @@
       "property": "component-top-to-workflow-icon-200"
     },
     "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-top-to-workflow-icon-200"
-    },
-    "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "60caa503-0f69-5c15-8e95-265e4c6f97e7"
   },
   {
     "scope": {
@@ -725,15 +716,8 @@
       "property": "component-top-to-workflow-icon-300"
     },
     "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-top-to-workflow-icon-300"
-    },
-    "context": "Spacing (top/bottom edge to icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "7de88104-9844-5cee-8c47-858d8c83c2fb"
   },
   {
     "scope": {
@@ -741,7 +725,8 @@
       "property": "space-between"
     },
     "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "a1d05a04-81a0-5c6c-a87d-debf19787a5a"
   },
   {
     "scope": {
@@ -749,7 +734,8 @@
       "property": "space-between"
     },
     "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "c7a0b7dd-7c4d-5b35-9c34-ee60346ccd11"
   },
   {
     "scope": {
@@ -757,7 +743,8 @@
       "property": "space-between"
     },
     "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "eab55e46-654a-5359-ab17-d20e89e944bc"
   },
   {
     "scope": {
@@ -765,39 +752,8 @@
       "property": "space-between"
     },
     "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (alert icon to disclosure icon)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "c01b6cd1-0bc1-569f-be4b-edfc6338dd33"
   },
   {
     "scope": {
@@ -805,7 +761,8 @@
       "property": "to-component"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "4738ec46-a43c-48f9-aeca-87863275dc4d"
+    "$ref": "4738ec46-a43c-48f9-aeca-87863275dc4d",
+    "uuid": "eecf3e19-fc4d-50bf-a4fc-864fa47ad99d"
   },
   {
     "scope": {
@@ -813,7 +770,8 @@
       "property": "to-component-quiet-small"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "1218beeb-1d74-4e1a-b495-38d5f07afb55"
+    "$ref": "1218beeb-1d74-4e1a-b495-38d5f07afb55",
+    "uuid": "b0b992f4-d0fc-5b31-bf48-3ce266e60cf1"
   },
   {
     "scope": {
@@ -821,7 +779,8 @@
       "property": "to-component-quiet-small"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "2d3e67ce-de6d-4e41-bcf8-06b09c0bcce7"
+    "$ref": "2d3e67ce-de6d-4e41-bcf8-06b09c0bcce7",
+    "uuid": "06bd2520-83f7-5722-8e94-7e8efb000bea"
   },
   {
     "scope": {
@@ -829,7 +788,8 @@
       "property": "to-component-quiet-medium"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "dc00948e-3c0f-4c6b-8e3e-a7fbf396e059"
+    "$ref": "dc00948e-3c0f-4c6b-8e3e-a7fbf396e059",
+    "uuid": "87a912b4-e39b-59a9-a0f5-03f8c85f719b"
   },
   {
     "scope": {
@@ -837,7 +797,8 @@
       "property": "to-component-quiet-medium"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "074489d2-66b0-4198-94fe-9818279bbf0f"
+    "$ref": "074489d2-66b0-4198-94fe-9818279bbf0f",
+    "uuid": "d5116e95-8fb4-5273-866a-2ebdee891bfd"
   },
   {
     "scope": {
@@ -845,7 +806,8 @@
       "property": "to-component-quiet-large"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "be80f1b1-4c08-479f-a39e-28b6a64714f2"
+    "$ref": "be80f1b1-4c08-479f-a39e-28b6a64714f2",
+    "uuid": "cb9928c1-6171-5459-a333-627044d5fefb"
   },
   {
     "scope": {
@@ -853,7 +815,8 @@
       "property": "to-component-quiet-large"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "c29cfb87-34e7-4397-bfd8-23378ecbb011"
+    "$ref": "c29cfb87-34e7-4397-bfd8-23378ecbb011",
+    "uuid": "719c9a60-0f59-5cd8-9b96-9e3f6a7407bb"
   },
   {
     "scope": {
@@ -861,7 +824,8 @@
       "property": "to-component-quiet-extra-large"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "d6c750dc-3117-4c1a-96bf-b94d530e912d"
+    "$ref": "d6c750dc-3117-4c1a-96bf-b94d530e912d",
+    "uuid": "37c33035-505a-5bcb-8d94-033af380b721"
   },
   {
     "scope": {
@@ -869,7 +833,8 @@
       "property": "to-component-quiet-extra-large"
     },
     "context": "Spacing (field label to picker)",
-    "$ref": "e1298748-d7cc-4bff-93bc-745b777fcf9e"
+    "$ref": "e1298748-d7cc-4bff-93bc-745b777fcf9e",
+    "uuid": "eb4e920f-d581-5a35-9be0-34998e82e08f"
   },
   {
     "scope": {
@@ -877,15 +842,8 @@
       "property": "component-to-menu-small"
     },
     "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-to-menu-small"
-    },
-    "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
+    "uuid": "cd3f3e5a-5f97-5107-af7d-f2e1ef57bec3"
   },
   {
     "scope": {
@@ -893,15 +851,8 @@
       "property": "component-to-menu-medium"
     },
     "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-to-menu-medium"
-    },
-    "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
+    "uuid": "30d80c24-428b-59e4-8a60-38cd0fd3437c"
   },
   {
     "scope": {
@@ -909,15 +860,8 @@
       "property": "component-to-menu-large"
     },
     "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-to-menu-large"
-    },
-    "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
+    "uuid": "4080312a-eda7-5c48-84bf-4053cb776369"
   },
   {
     "scope": {
@@ -925,15 +869,8 @@
       "property": "component-to-menu-extra-large"
     },
     "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "component-to-menu-extra-large"
-    },
-    "context": "Spacing (component to menu)",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
+    "uuid": "1bcbc4e3-09aa-5161-8671-14cd60f3906e"
   },
   {
     "scope": {
@@ -941,7 +878,8 @@
       "property": "to-component"
     },
     "context": "Spacing (text area to help text)",
-    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
+    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
+    "uuid": "4326b825-215e-5e46-9030-828626de8182"
   },
   {
     "scope": {
@@ -949,7 +887,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "c282d889-f8ff-5d96-838c-4e15d8bbb4b5"
   },
   {
     "scope": {
@@ -957,7 +896,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "f43688f8-b334-564c-a064-307e74fe0b5b"
   },
   {
     "scope": {
@@ -965,7 +905,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "9ed59819-4f50-51ae-8e78-aaed85727c93"
   },
   {
     "scope": {
@@ -973,39 +914,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "space-between"
-    },
-    "context": "Spacing (top/bottom edge to progress circle icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "572a6da4-ad07-58fa-a775-ec8ac0420807"
   },
   {
     "scope": {
@@ -1013,7 +923,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
+    "uuid": "5d3ef452-01b6-5d96-98dc-6e6ea75e96a4"
   },
   {
     "scope": {
@@ -1021,7 +932,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
+    "uuid": "98181f3f-11b2-5599-b620-9c0085a1e569"
   },
   {
     "scope": {
@@ -1029,7 +941,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
+    "uuid": "86d340d6-2269-52bf-959d-0dbaff6f4582"
   },
   {
     "scope": {
@@ -1037,7 +950,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
+    "uuid": "e9e36d13-0932-56cf-b2af-4b95573932e9"
   },
   {
     "scope": {
@@ -1045,7 +959,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
+    "uuid": "2de88a85-bc00-513c-8d22-55d7cb874b78"
   },
   {
     "scope": {
@@ -1053,7 +968,8 @@
       "property": "color"
     },
     "context": "Background",
-    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
+    "uuid": "24504266-ddc3-5e27-9d6e-c1da24374fcb"
   },
   {
     "scope": {
@@ -1061,7 +977,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb"
+    "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
+    "uuid": "9be433e1-2682-58ef-9e1e-e6372e638acb"
   },
   {
     "scope": {
@@ -1069,7 +986,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd"
+    "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
+    "uuid": "187d21ec-b950-599a-8d7d-d0e55a2deed9"
   },
   {
     "scope": {
@@ -1077,7 +995,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "0c35da5c-cf37-4349-82e4-8739ea94aa65"
+    "$ref": "0c35da5c-cf37-4349-82e4-8739ea94aa65",
+    "uuid": "772e4665-3827-5a57-99f7-c4b4be5c1fe6"
   },
   {
     "scope": {
@@ -1085,7 +1004,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "63abd660-13c4-47b8-be9e-61e270b95212"
+    "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
+    "uuid": "504279a4-6147-5f07-86e6-bbe24050c073"
   },
   {
     "scope": {
@@ -1093,7 +1013,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e"
+    "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
+    "uuid": "0c3af433-6a4f-5416-a45a-a37718cb01d1"
   },
   {
     "scope": {
@@ -1101,7 +1022,8 @@
       "property": "color"
     },
     "context": "Border (error)",
-    "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f"
+    "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
+    "uuid": "1f7ad1dd-62ee-5fe7-a0d1-3b73c0d1716e"
   },
   {
     "scope": {
@@ -1109,7 +1031,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "fa8f8ef9-646b-5025-ad09-753a5c1b8903"
   },
   {
     "scope": {
@@ -1117,7 +1040,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "3dec7c17-cb3b-5986-bed6-8ad458d699ee"
   },
   {
     "scope": {
@@ -1125,7 +1049,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
+    "uuid": "326d924a-0420-5b89-83b4-93e100c35342"
   },
   {
     "scope": {
@@ -1133,7 +1058,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb"
+    "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb",
+    "uuid": "d49bc640-899d-5753-937e-8ed2a55f885f"
   },
   {
     "scope": {
@@ -1141,7 +1067,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b"
+    "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b",
+    "uuid": "87a46be5-b789-51f8-8933-7d4c6f2715c7"
   },
   {
     "scope": {
@@ -1149,7 +1076,8 @@
       "property": "content-color"
     },
     "context": "Value",
-    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
+    "uuid": "1656c94a-c9e6-5971-96f7-607b326f7ac7"
   },
   {
     "scope": {
@@ -1157,7 +1085,8 @@
       "property": "content-color"
     },
     "context": "Label",
-    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "31d66c6a-f3a0-54df-952c-625a1349be5f"
   },
   {
     "scope": {
@@ -1165,7 +1094,8 @@
       "property": "color"
     },
     "context": "Alert icon",
-    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f"
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
+    "uuid": "371f2268-2e70-5550-828d-baae62943cca"
   },
   {
     "scope": {
@@ -1173,7 +1103,8 @@
       "property": "color"
     },
     "context": "Alert icon",
-    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6"
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
+    "uuid": "58892309-8817-5044-a7bc-8749b3d9d9e8"
   },
   {
     "scope": {
@@ -1181,7 +1112,8 @@
       "property": "color"
     },
     "context": "Alert icon",
-    "$ref": "9211e320-de05-4097-8350-fef2293be6a0"
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
+    "uuid": "0b404feb-41ad-5ab3-88ea-f4a822663f80"
   },
   {
     "scope": {
@@ -1189,7 +1121,8 @@
       "property": "color"
     },
     "context": "Disabled",
-    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
+    "uuid": "157d3361-30b9-59d8-bcd2-04c8d98bc2a6"
   },
   {
     "scope": {
@@ -1197,7 +1130,8 @@
       "property": "content-color"
     },
     "context": "Disabled",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "482ac5ba-f2aa-5eff-8e78-161362e026e9"
   },
   {
     "scope": {
@@ -1205,7 +1139,8 @@
       "property": "color"
     },
     "context": "Focus ring",
-    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
+    "uuid": "bcac3330-bfbb-55a6-8280-be1953f80a37"
   },
   {
     "scope": {
@@ -1213,7 +1148,8 @@
       "property": "color"
     },
     "context": "Prefix",
-    "$ref": "97111e8e-5823-47f2-af64-c3244b8d3492"
+    "$ref": "97111e8e-5823-47f2-af64-c3244b8d3492",
+    "uuid": "f61d1e21-e874-57f5-859b-2f5235a29bb4"
   },
   {
     "scope": {
@@ -1221,7 +1157,8 @@
       "property": "color"
     },
     "context": "Prefix",
-    "$ref": "3cc563c6-386e-4b08-850d-68d4a292e559"
+    "$ref": "3cc563c6-386e-4b08-850d-68d4a292e559",
+    "uuid": "2b5cdd83-a147-5552-bd8c-fdc03f110f0a"
   },
   {
     "scope": {
@@ -1229,7 +1166,8 @@
       "property": "color"
     },
     "context": "Prefix",
-    "$ref": "b5201efc-0a69-4a87-8b9b-e869bcf03457"
+    "$ref": "b5201efc-0a69-4a87-8b9b-e869bcf03457",
+    "uuid": "90acf7f5-0651-57fa-bf36-c14610a34946"
   },
   {
     "scope": {
@@ -1237,7 +1175,8 @@
       "property": "font-family"
     },
     "context": "Value",
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "aaef22b2-8ffe-5f20-bf4d-14ee15abed79"
   },
   {
     "scope": {
@@ -1245,7 +1184,8 @@
       "property": "font-weight"
     },
     "context": "Value",
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "e79fe7b1-afc6-548a-bf24-1322fe44e34a"
   },
   {
     "scope": {
@@ -1253,7 +1193,8 @@
       "property": "font-style"
     },
     "context": "Value",
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "db927f75-dce2-55ff-bfaa-44a676763910"
   },
   {
     "scope": {
@@ -1261,7 +1202,8 @@
       "property": "typography"
     },
     "context": "Value",
-    "$ref": "cde5212c-520d-4657-8184-f07739ffed07"
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07",
+    "uuid": "7b936e7c-768e-577f-8f98-c65bc4c167fc"
   },
   {
     "scope": {
@@ -1269,7 +1211,8 @@
       "property": "typography"
     },
     "context": "Value",
-    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f"
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "7861937d-e88c-5ada-809c-b30d8649a884"
   },
   {
     "scope": {
@@ -1277,7 +1220,8 @@
       "property": "typography"
     },
     "context": "Value",
-    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523"
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "uuid": "20ef0946-b6c6-5c19-96e7-bf2e7efbeffe"
   },
   {
     "scope": {
@@ -1285,7 +1229,8 @@
       "property": "typography"
     },
     "context": "Value",
-    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1"
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "uuid": "e066970d-c6c8-5a27-9275-504213707d2b"
   },
   {
     "scope": {
@@ -1293,7 +1238,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3"
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "d5875e10-1e16-550b-9859-17c47e3969fd"
   },
   {
     "scope": {
@@ -1301,7 +1247,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b"
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "acb6cf0d-8864-51ac-a76f-63ff6047a235"
   },
   {
     "scope": {
@@ -1309,7 +1256,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd"
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "3fe763c4-059d-5d7a-8f30-c3e0c00e5d7e"
   },
   {
     "scope": {
@@ -1317,7 +1265,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "898fde6d-f477-46a6-8323-698dee558580"
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "d7e1daac-cc2f-5c48-9dd2-f7e4713dce11"
   },
   {
     "scope": {
@@ -1325,7 +1274,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9"
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "96a2858c-c42c-56a9-b75d-c2471a1917af"
   },
   {
     "scope": {
@@ -1333,7 +1283,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3"
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "b9fec902-8411-58d4-96ba-597407f073d8"
   },
   {
     "scope": {
@@ -1341,7 +1292,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "52e64384-f918-4415-8d02-da3af639890f"
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "f68fa391-78cc-5e73-93e5-3e5485205745"
   },
   {
     "scope": {
@@ -1349,7 +1301,8 @@
       "property": "line-height"
     },
     "context": "Value",
-    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80"
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "724c8e4e-4d90-5d58-8501-cfc078a076ab"
   },
   {
     "scope": {
@@ -1357,7 +1310,8 @@
       "property": "line-height-100"
     },
     "context": "Value",
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "d911b16f-a5dc-5c35-b2a2-fa16903584c8"
   },
   {
     "scope": {
@@ -1365,7 +1319,8 @@
       "property": "font-weight"
     },
     "context": "Prefix",
-    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
+    "uuid": "e06985a2-8583-5988-b6bc-977df0a3615f"
   },
   {
     "scope": {
@@ -1373,7 +1328,8 @@
       "property": "typography"
     },
     "context": "Prefix",
-    "$ref": "afa00f39-1fe1-4026-8693-189e6d051eb3"
+    "$ref": "afa00f39-1fe1-4026-8693-189e6d051eb3",
+    "uuid": "671892b2-7e07-5998-97e7-ea11c50aee3c"
   },
   {
     "scope": {
@@ -1381,7 +1337,8 @@
       "property": "typography"
     },
     "context": "Prefix",
-    "$ref": "633b828a-8623-4905-9dda-5a7b989768d7"
+    "$ref": "633b828a-8623-4905-9dda-5a7b989768d7",
+    "uuid": "b15e1848-d010-5306-ae3c-7fa8d3d7aa5d"
   },
   {
     "scope": {
@@ -1389,7 +1346,8 @@
       "property": "typography"
     },
     "context": "Prefix",
-    "$ref": "aa7cd308-279c-4c0f-ab5e-5053341c963b"
+    "$ref": "aa7cd308-279c-4c0f-ab5e-5053341c963b",
+    "uuid": "58cafa9c-3d19-55c6-80e7-f21dc937a612"
   },
   {
     "scope": {
@@ -1397,7 +1355,8 @@
       "property": "typography"
     },
     "context": "Prefix",
-    "$ref": "657ca53c-178e-4526-9c37-e023499f3659"
+    "$ref": "657ca53c-178e-4526-9c37-e023499f3659",
+    "uuid": "4bfed8a6-491f-52a4-a892-cfefd8c4f938"
   },
   {
     "scope": {

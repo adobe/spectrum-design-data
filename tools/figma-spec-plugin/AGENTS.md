@@ -1,0 +1,14 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# figma-spec-plugin
+
+A Figma plugin that renders a component spec sheet (`design-data spec-sheet <component>`, see `component-spec-sheet.schema.json`) and an optional changelog onto a canvas, idempotently by root frame name.
+
+* `code.js` and `ui.html` run unbundled in the Figma plugin sandbox; there is no build step.
+* The plugin adds no layout or overlay logic: visuals are the block scenes scaled by `render.view`, measurements come from `scene.measurements`.
+* `moon run figma-spec-plugin:check` only catches syntax errors. The test runs `code.js` against a fake `figma` global and the checked-in action-button sheet. The run path in Figma desktop is unverified (bead 11k.7.6, part of hzje.28).
+* Test: `moon run figma-spec-plugin:test`.
+* `payloads.mjs` turns a sheet (and changelog) into `use_figma` payloads for agents: `node payloads.mjs <sheet.json> [--changelog f] -o <dir>` writes numbered JS files (each under 45,000 characters, the core repeated in every one because `use_figma` keeps no state) and a manifest. Run them in order, one `use_figma` call each; the last renames the render and removes the previous one. Keep the `// shell:begin` / `// shell:end` markers in `code.js`: everything between them is left out of payloads.
+* Icon parts draw `icon.drawing` (the catalog paths on the scene node) with `figma.createNodeFromSvg`, filled with the part colour; a part without a drawing draws the placeholder plus. Drawings are inlined in the payloads, which still split under 45,000 characters.
+* `code.js` must not call `figma.notify` unguarded, `setPluginData` or anything UI-only in the core: `use_figma` rejects them. The tests run the payloads and the plugin against the same fake `figma` and compare the trees.
+* `plan.mjs` compares sheets with `figma-files.json` (component to Figma `fileKey`, last generated hash and date) and writes `plan.json` plus payloads for each file to create or update; `plan.mjs record` stores a run. The hash covers the sheet, the changelog and the renderer core, so any of them going stale shows up. Pass `--text-metrics <file>` to `plan` to bake label widths from a kit-measured table (see `tools/platform-capture/README.md`, never commit it); widths change the sheets, so every file then shows `update`. The agent steps are in `.ai/skills/figma-spec-sheets/SKILL.md`.

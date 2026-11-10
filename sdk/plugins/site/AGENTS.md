@@ -1,0 +1,20 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# sdk/plugins/site
+
+Static, server-free component explorer generator (`design-data site`).
+
+* **Audience:** consumer. **Lifecycle:** active. **npm:** not published.
+* The page draws with the slim WASM engine (`sdk/wasm-visual`, `design_data_core::visual::solve`): `design-data site --engine <pkg/web>` copies it to `engine/` and writes each size/mode variant to `variants/<component>/<size>-<scheme>-<scale>.json`; `data.json` keeps only the summary. Without `--engine` the command fails unless `--data-only`. Layout features go in Rust, not in `assets/`. `sdk/wasm-visual/browser/` checks the site's engine against `design-data render` in Chrome.
+* There is no JavaScript renderer. `assets/draw-helpers.js` only turns scene nodes into SVG paths and icons; all layout and text measurement is Rust. Golden SVGs for every recipe are checked by `sdk/core/tests/visual_goldens.rs` (fixtures in `sdk/core/tests/fixtures/visual-golden`).
+* Text measurement reads `sdk/core/src/text-metrics/source-sans-3.json` (Source Sans 3, SIL OFL; licence beside it). Rust (`text_metrics.rs`) reads it, and the site ships it as `text-metrics.json` (or the `--text-metrics` file it was built with) and `backend.js` sends it as `request.textMetrics`. Changing the table changes every visual golden and `recipe-snapshots.json`: regenerate with `VISUAL_PARITY_UPDATE=1 cargo test -p design-data-core --test visual_goldens` and `UPDATE_RECIPE_SNAPSHOTS=1 cargo test -p design-data-core --test recipe_snapshots`. Never commit a table derived from Adobe Clean.
+* `assets/constraints.js` mirrors `sdk/core/src/constraints.rs`; `sdk/core/tests/constraint_cases.rs` and `sdk/wasm/test/constraints-parity.test.js` run the same `sdk/core/tests/fixtures/option-constraint-cases.json`.
+* Repository-wide rules are in [the root AGENTS.md](../../../AGENTS.md). The [repository index](../../../docs/repo-index.md) lists every project.
+
+## Commands
+
+```bash
+moon run sdk:build
+moon run sdk:test
+moon run sdk:lint
+```

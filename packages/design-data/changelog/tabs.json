@@ -1,0 +1,134 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tabs",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"1d601d0a-d6d0-4711-9fb9-71898c2bcc9a","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (icon to label)","name":"space-between","fields":[{"path":"$ref","before":"09d55113-8d94-429f-b0c8-ffabe8ccba27","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"top-to-workflow-icon-compact-medium","options":null},"record":"top-to-workflow-icon-compact-medium#Spacing (top/bottom to edge, workflow icon only)","name":"top-to-workflow-icon-compact-medium","fields":[{"path":"$ref","before":"7788c25c-0ce2-4170-8c5f-2fb1d98d953a","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"top-to-workflow-icon-compact-medium","options":null},"record":"top-to-workflow-icon-compact-medium#Spacing (top/bottom to edge, workflow icon only)","name":"top-to-workflow-icon-compact-medium","fields":[{"path":"$ref","before":"4fb0520b-8c74-4fb7-b279-a3586a06a57e","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"top-to-workflow-icon-medium","options":null},"record":"top-to-workflow-icon-medium#Spacing (top/bottom to edge, workflow icon only)","name":"top-to-workflow-icon-medium","fields":[{"path":"$ref","before":"aec60dda-9e5a-40c8-8e45-5e1662eab6e3","after":"71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"top-to-workflow-icon-medium","options":null},"record":"top-to-workflow-icon-medium#Spacing (top/bottom to edge, workflow icon only)","name":"top-to-workflow-icon-medium","fields":[{"path":"$ref","before":"820baccf-af24-42a3-9729-99408bc9322f","after":"71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"top-to-text-compact-medium","options":null},"record":"top-to-text-compact-medium#Spacing (top edge to label)","name":"top-to-text-compact-medium","fields":[{"path":"$ref","before":"2481e3a1-302b-46b8-98c2-e9461dd47d0c","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"top-to-text-compact-medium","options":null},"record":"top-to-text-compact-medium#Spacing (top edge to label)","name":"top-to-text-compact-medium","fields":[{"path":"$ref","before":"128757b0-d690-4886-95d5-e9df36182a0f","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"top-to-text-medium","options":null},"record":"top-to-text-medium#Spacing (top edge to label)","name":"top-to-text-medium","fields":[{"path":"$ref","before":"e75e4e96-6d1b-4a86-9059-5c1f6f6ab269","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"top-to-text-medium","options":null},"record":"top-to-text-medium#Spacing (top edge to label)","name":"top-to-text-medium","fields":[{"path":"$ref","before":"a8c455e9-60e5-4838-bc9c-eaf7b39a4bf7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)"],"scope":{"property":"bottom-to-text-compact-medium","options":null},"record":"bottom-to-text-compact-medium#Spacing (bottom edge to label)","name":"bottom-to-text-compact-medium","fields":[{"path":"$ref","before":"b44bbd5a-ef03-4e83-a9f5-88c896969d4d","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)"],"scope":{"property":"bottom-to-text-compact-medium","options":null},"record":"bottom-to-text-compact-medium#Spacing (bottom edge to label)","name":"bottom-to-text-compact-medium","fields":[{"path":"$ref","before":"e69dee42-92da-4ca9-9eb8-97a7860adaba","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)"],"scope":{"property":"bottom-to-text-medium","options":null},"record":"bottom-to-text-medium#Spacing (bottom edge to label)","name":"bottom-to-text-medium","fields":[{"path":"$ref","before":"f507e1bd-f08e-42b1-aee6-ea38f9f8a387","after":"71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"}]},
+            {"id":"5e22a7a1-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)"],"scope":{"property":"bottom-to-text-medium","options":null},"record":"bottom-to-text-medium#Spacing (bottom edge to label)","name":"bottom-to-text-medium","fields":[{"path":"$ref","before":"691db84a-5336-4e45-bf73-ee617057e718","after":"71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"}]},
+            {"id":"5e22a7a1-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (between tab items, horizontal)"],"scope":{"property":"to-tab-item-horizontal-medium","options":null},"record":"to-tab-item-horizontal-medium#Spacing (between tab items, horizontal)","name":"to-tab-item-horizontal-medium","fields":[{"path":"$ref","before":"31bea7d1-c8c2-4901-9f18-7a5c936d243f","after":"7a5f3049-0c20-4ff8-84ea-d161e58546fb"}]},
+            {"id":"5e22a7a1-15","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (between tab items, horizontal)"],"scope":{"property":"to-tab-item-horizontal-medium","options":null},"record":"to-tab-item-horizontal-medium#Spacing (between tab items, horizontal)","name":"to-tab-item-horizontal-medium","fields":[{"path":"$ref","before":"885a7cc3-8873-4cb7-99e7-b17f42fb48f1","after":"7a5f3049-0c20-4ff8-84ea-d161e58546fb"}]},
+            {"id":"5e22a7a1-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":35,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/0","name":"guideline: Animation.\n\nWhen a user selects a tab item, the ","fields":[{"path":"content","before":"Tabs organize related content into multiple sections. They allow navigation between views while keeping the content grouped under a single context. Use when content can be divided logically into categories within the same view.","after":"Animation.\n\nWhen a user selects a tab item, the selection indicator slides along the base to the newly selected tab. The text and icon colors of both tabs fade during the transition. The tab view changes immediately upon selection."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/1","name":"guideline: Tab overflow.\n\nWhen there are too many tabs to f","fields":[{"path":"content","before":"Tabs can be horizontal or vertical. By default, tabs are horizontal and should be used when horizontal space is limited.","after":"Tab overflow.\n\nWhen there are too many tabs to fit horizontally across the viewport, display the tabs component as a quiet picker. When appropriate, you can also use alternative overflow methods such as horizontal scrolling."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/2","name":"guideline: Too many tabs.\n\nWhen there are too many tabs to ","fields":[{"path":"content","before":"Use vertical tabs when horizontal space is more generous or when the list of sections is too long for a horizontal layout. Vertical tabs can also serve as anchor links, providing shortcuts to sections on a single page. In this case, tab items link to on-page anchors rather than opening a new tab view.","after":"Too many tabs.\n\nWhen there are too many tabs to fit horizontally across the viewport, you can either allow horizontal scrolling or place all tab items in a quiet picker. Do not truncate multiple tab items just to make them fit horizontally."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/3","name":"guideline: Nested tabs.\n\nAvoid using multiple levels of tab","fields":[{"path":"content","before":"When a user selects a tab item, the selection indicator slides along the base to the newly selected tab. The text and icon colors of both tabs fade during the transition. The tab view changes immediately upon selection.","after":"Nested tabs.\n\nAvoid using multiple levels of tabs. Instead, consider other organizational patterns such as side navigation, accordions or collapsible panels. Nesting tabs is acceptable only when there is a clear separation between the two tab experiences or when different orientations are used. Do not compromise hierarchy by using the same tab variations or orientations."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/4","name":"guideline: Use icons consistently.\n\nDon't mix the use of ic","fields":[{"path":"content","before":"When there are too many tabs to fit horizontally across the viewport, display the tabs component as a quiet picker. When appropriate, you can also use alternative overflow methods such as horizontal scrolling.","after":"Use icons consistently.\n\nDon't mix the use of icons in tabs. Navigation controls require a clear spacial relationship to one another, and mixing the use of icons can dramatically impact the visual balance and presence for each tab item. Keep in mind that if one tab item has an icon, then they all should have an icon."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/5","name":"guideline: Use tooltips for icon only tabs.\n\nIt can often b","fields":[{"path":"content","before":"When there are too many tabs to fit horizontally across the viewport, you can either allow horizontal scrolling or place all tab items in a quiet picker. Do not truncate multiple tab items just to make them fit horizontally.","after":"Use tooltips for icon only tabs.\n\nIt can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/6","name":"guideline: RTL horizontal tabs.\n\nFor RTL (right-to-left) la","fields":[{"path":"content","before":"Use tabs to organize sections of equal importance. Groups of content under each tab item should not be of different natures. Don't use tabs to replace a flow; use pagination components instead.","after":"RTL horizontal tabs.\n\nFor RTL (right-to-left) languages, the layout of the horizontal tabs is mirrored. The tabs are right-aligned and their order is reverse."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/7","name":"guideline: RTL vertical tabs.\n\nFor RTL (right-to-left) lang","fields":[{"path":"content","before":"Avoid using multiple levels of tabs. Instead, consider other organizational patterns such as side navigation, accordions or collapsible panels. Nesting tabs is acceptable only when there is a clear separation between the two tab experiences or when different orientations are used.","after":"RTL vertical tabs.\n\nFor RTL (right-to-left) languages, the layout of the vertical tabs is mirrored. The divider and selection indicator should be placed on the right, as they are meant to visually anchor the text labels."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/8","name":"guideline: Keyboard interactions.\n\nThere are two possible b","fields":[{"path":"content","before":"Do not compromise hierarchy by using the same tab variations or orientations.","after":"Keyboard interactions.\n\nThere are two possible behaviors for manipulating tabs with the keyboard: manual or automatic activation. Typically, manual activation of tabs is only necessary when content cannot be displayed instantly (i.e., not all the panel content is present in the DOM.) For additional guidance, see Deciding When to Make Selection Automatically Follow Focus. Option 1: Manual activation Key Interaction Tab Moves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence. Left Arrow Moves focus to the previous tab item. If focus is on the first tab item, moves focus to the last tab item. Right Arrow Moves focus to the next tab item. If focus is on the last tab item, moves focus to the first tab item. Space or Enter Activates the tab item in focus. Home (optional) Moves focus to the first tab item. End (optional) Moves focus to the last tab item. Delete (optional) When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to the tab item following one that was closed. Option 2: Automatic activation Key Interaction Tab Moves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence. Left Arrow Moves focus to the previous tab item and automatically activates it. If focus is on the first tab item, moves focus to the last tab item. Right Arrow Moves focus to the next tab item and automatically activates it. If focus is on the last tab item, moves focus to the first tab item. Home (optional) Moves focus to the first tab item and automatically activates it. End (optional) Moves focus to the last tab item and automatically activates it. Delete (optional) When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to and activates the tab item following one that was closed."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/9","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Don’t mix the use of icons in tabs. Navigation controls require a clear spacial relationship to one another, and mixing the use of icons can dramatically impact the visual balance and presence for each tab item. Keep in mind that if one tab item has an icon, then they all should have an icon.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for interactive elements including tabs."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/documentBlocks/10","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"It can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons used in tabs, must provide a text alternative that communicates the tab's purpose. All tabs, especially icon-only tabs, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Tabs should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized. Orientation 1.3.4 AA Tabs are available in both vertical and horizontal orientations. Use of color 1.4.1 A Color is not used as a means to convey information or distinguish elements. Contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Resize text 1.4.4 AA Tabs should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tabs/documentBlocks/11","name":"do-dont: Don't use tabs for varying levels of importance","fields":[],"after":{"type":"do-dont","content":"Don't use tabs for varying levels of importance","dont":"Use tabs to organize sections of equal importance. Groups of content under each tab item should not be of different natures. Don't use tabs to replace a flow; use pagination components instead."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":8,"fields":["relationship removed"]}
+        }
+      ]
+    }
+  ]
+}

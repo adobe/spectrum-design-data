@@ -21,6 +21,12 @@
       "default": false,
       "description": "Whether this part is always rendered regardless of component configuration."
     },
+    "presentIn": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "description": "Declared component states in which this part is present (for example focus for a focus indicator); drawn when any is active. Absent means the part can appear in any state. Not for state-dependent styling. Each entry should match a `states[].name` declared on the component (SPEC-074)."
+    },
     "contains": {
       "type": "array",
       "items": {
@@ -41,5 +47,10 @@
       "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
     }
   },
+  "if": {
+    "required": ["required"],
+    "properties": { "required": { "const": true } }
+  },
+  "then": { "not": { "required": ["presentIn"] } },
   "additionalProperties": false
 }

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "close-button",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring ","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":40,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/0","name":"guideline: Keyboard focus.\n\nA close button can be navigated","fields":[{"path":"content","before":"A close button in a disabled state shows that an action exists, but is not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action may become available later.","after":"Keyboard focus.\n\nA close button can be navigated using a keyboard. The keyboard focus state takes the close button's visual hover state and adds a ring to the button in focus."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/1","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Use this option when a close button needs to be placed on top of a color background or visual. Static color close buttons are available in black or white, regardless of color theme.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the close button. Space or Enter Executes the button (closes or dismisses the parent component). Focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/2","name":"guideline: Cursor guidelines.\n\nCursor Description Pointer U","fields":[{"path":"content","before":"Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the close button color meet the minimum color contrast ratio.","after":"Cursor guidelines.\n\nCursor Description Pointer Use the pointer cursor for all interactive components in every state."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/3","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"The icon inside of the close button comes in two options: regular and large. These scale up and down for each close button size. This is a cross UI icon, not a workflow icon or the letter “x.”","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—including the close icon—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Close buttons should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role of buttons should be utilized. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/4","name":"guideline: Close buttons come in four different sizes: smal","fields":[],"before":{"type":"guideline","content":"Close buttons come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."}},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/documentBlocks/5","name":"guideline: A close button can be navigated using a keyboard","fields":[],"before":{"type":"guideline","content":"A close button can be navigated using a keyboard. The keyboard focus state takes the close button’s visual hover state and adds a ring to the button in focus."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"close-button/documentBlocks/6","name":"do-dont: Don't use close buttons for delete actions","fields":[],"after":{"type":"do-dont","content":"Don't use close buttons for delete actions","dont":"A close button is only for dismissing or closing its parent component, not for taking a destructive action (like deleting a file). Use an action button instead."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Cross icon (static black)"],"record":"3e89f180-b0f0-4de0-904b-c80f0210a361","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"b32a1253-f86f-46db-be89-85b4ab34bcf9"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Cross icon (static black)"],"record":"3e89f180-b0f0-4de0-904b-c80f0210a361","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-900 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background (static black)"],"record":"7565eb32-d745-4fc3-8779-a717f8ba910a","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"f543f337-6215-4130-9a0d-61aef76e95c6"}]},
+            {"id":"15f371e5-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (static black)"],"record":"7565eb32-d745-4fc3-8779-a717f8ba910a","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-150 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Cross icon (static black)"],"record":"c0a331f9-53e3-4c72-b5e3-139d730a1752","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"0e7dfba0-a81a-427f-9fa5-b0e381e8b295"}]},
+            {"id":"15f371e5-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Cross icon (static black)"],"record":"c0a331f9-53e3-4c72-b5e3-139d730a1752","name":"color[colorFamily=transparent-black,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-950 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background (static white)"],"record":"a1b64a62-7c78-415e-a9be-c86acbf361ca","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"f9f61b7c-3db8-458d-a601-8e876c7c07e9"}]},
+            {"id":"15f371e5-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (static white)"],"record":"a1b64a62-7c78-415e-a9be-c86acbf361ca","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-200 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Cross icon (static white)"],"record":"b85836bf-af47-412a-900a-4ec5ad0733b2","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"cd537630-a18b-4f62-95ff-2b77a56130d3"}]},
+            {"id":"15f371e5-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Cross icon (static white)"],"record":"b85836bf-af47-412a-900a-4ec5ad0733b2","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-900 (approximate match; alpha moves to the nearest opacity step)"}]},
+            {"id":"15f371e5-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Cross icon (static white)"],"record":"c5c823c6-1911-4e0e-ba2f-5105f467e108","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"d6186e0c-3507-4699-8b83-e8e3f3aa56f0"}]},
+            {"id":"15f371e5-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Cross icon (static white)"],"record":"c5c823c6-1911-4e0e-ba2f-5105f467e108","name":"color[colorFamily=transparent-white,scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-950 (approximate match; alpha moves to the nearest opacity step)"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

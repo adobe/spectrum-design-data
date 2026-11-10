@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "takeover-dialog",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "FullscreenDialog",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

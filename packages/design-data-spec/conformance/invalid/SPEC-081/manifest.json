@@ -1,0 +1,7 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture-alias",
+  "foundationVersion": "3.7.0",
+  "componentAliases": { "button": "button-missing" },
+  "extensions": { "components": [] }
+}

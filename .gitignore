@@ -180,3 +180,17 @@ tools/demo/videos/out/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+.beads.gate.lock
+
+# Local OpenCode setup
+.opencode/
+opencode.jsonc
+
+# iOS Catalog screenshots are internal (Adobe-confidential app) and regenerable;
+# keep them outside the repo (see tools/platform-capture/README.md).
+tools/platform-capture/adapters/ios-simulator/shots/
+tools/platform-capture/adapters/ios-simulator/contact-sheets/
+tools/figma-spec-plugin/.out/
+
+# Text-metrics tables generated from the Adobe Fonts kit are derived from a licensed font (never commit).
+tools/platform-capture/.cache/

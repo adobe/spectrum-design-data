@@ -71,6 +71,9 @@ static EMBEDDED_CACHE_BYTES: &[u8] = include_bytes!("embedded_cache.redb");
 include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
 
 #[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_icons.rs"));
+
+#[cfg(feature = "embedded")]
 fn load_embedded_graph() -> Result<TokenGraph, String> {
     let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
     let mut relationships = Vec::new();
@@ -86,7 +89,14 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
             });
         }
     }
-    Ok(graph.with_relationships(relationships))
+    let mut icons = Vec::new();
+    for (filename, text) in EMBEDDED_ICONS {
+        icons.extend(
+            TokenGraph::icon_set_from_str(text, std::path::PathBuf::from("icons").join(filename))
+                .map_err(|e| e.to_string())?,
+        );
+    }
+    Ok(graph.with_relationships(relationships).with_icons(icons))
 }
 
 // ---------------------------------------------------------------------------
@@ -124,6 +134,8 @@ enum DatasetSource {
 pub struct Dataset {
     graph: TokenGraph,
     source: DatasetSource,
+    /// Compiled visual recipes, reused across `renderScene` / `renderSvg` calls.
+    scenes: design_data_core::visual::SceneCache,
 }
 
 #[wasm_bindgen]
@@ -145,6 +157,7 @@ impl Dataset {
             Ok(Dataset {
                 graph,
                 source: DatasetSource::Embedded,
+                scenes: Default::default(),
             })
         }
         #[cfg(not(feature = "embedded"))]
@@ -188,7 +201,51 @@ impl Dataset {
         Ok(Dataset {
             graph,
             source: DatasetSource::InMemory,
+            scenes: Default::default(),
         })
+    }
+
+    // -----------------------------------------------------------------------
+    // Visual rendering
+    // -----------------------------------------------------------------------
+
+    /// Apply a Layer 2 platform manifest (Foundation→Platform cascade) to this dataset,
+    /// so later `renderScene` / `renderSvg` calls render through that platform.
+    ///
+    /// `manifest` is the parsed `manifest.json` with its `extensions/` directory already
+    /// merged into an inline `extensions` object (tokens, components, relationships,
+    /// modeSets; the shape `design-data` builds natively). The embedded dataset carries
+    /// no manifests, so the caller supplies it. Returns the mode-set restrictions
+    /// (`{ modeSet: [allowedModes] }`). Throws on a malformed manifest.
+    #[wasm_bindgen(js_name = "applyPlatform")]
+    pub fn apply_platform(&mut self, manifest: JsValue) -> Result<JsValue, JsValue> {
+        let manifest: serde_json::Value =
+            serde_wasm_bindgen::from_value(manifest).map_err(js_err)?;
+        let outcome = self
+            .graph
+            .apply_platform_manifest(&manifest)
+            .map_err(to_js_error)?;
+        self.scenes = Default::default();
+        serde_wasm_bindgen::to_value(&outcome.mode_set_restrictions).map_err(js_err)
+    }
+
+    /// Resolve a component visual recipe into a scene graph, returned as a JSON string.
+    ///
+    /// `recipe` is a parsed `visuals/<component>.json` document. `request` is
+    /// `{ component, size, states, options, mode, label, width?, icon?, textMetrics? }`; `width` (px) is the
+    /// demo width of the root, `textMetrics` replaces
+    /// the default text-measurement table (same format as `core/src/text-metrics/source-sans-3.json`).
+    #[wasm_bindgen(js_name = "renderScene")]
+    pub fn render_scene(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
+        let scene = self.scene(recipe, request)?;
+        serde_json::to_string(&scene).map_err(js_err)
+    }
+
+    /// Resolve a component visual recipe and serialize it as SVG.
+    #[wasm_bindgen(js_name = "renderSvg")]
+    pub fn render_svg(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
+        let scene = self.scene(recipe, request)?;
+        Ok(design_data_core::visual::scene_to_svg(&scene))
     }
 
     // -----------------------------------------------------------------------
@@ -562,5 +619,23 @@ impl Dataset {
     #[wasm_bindgen(js_name = "tokenCount")]
     pub fn token_count(&self) -> usize {
         self.graph.tokens.len()
+    }
+}
+
+impl Dataset {
+    fn scene(
+        &self,
+        recipe: JsValue,
+        request: JsValue,
+    ) -> Result<design_data_core::visual::Scene, JsValue> {
+        let recipe: serde_json::Value = serde_wasm_bindgen::from_value(recipe).map_err(js_err)?;
+        let mut request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
+        design_data_core::visual::build_scene_cached(&self.graph, &recipe, &request, &self.scenes)
+            .map_err(js_err)
     }
 }
