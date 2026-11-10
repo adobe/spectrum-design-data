@@ -4151,6 +4151,30 @@ mod tests {
     }
 
     #[test]
+    fn a_min_width_relative_to_height_needs_a_root_height() {
+        let recipe = |height: Option<u32>| {
+            let mut r = width_recipe(serde_json::json!({}), Value::Null, Value::Null);
+            let p = &mut r["parts"]["r"]["props"];
+            p["minWidth"] = serde_json::json!({ "value": 5, "relativeTo": "height" });
+            match height {
+                Some(h) => p["height"] = lit(h.into()),
+                None => {
+                    p.as_object_mut().unwrap().remove("height");
+                }
+            }
+            r
+        };
+        // With a height: 5 x 30 = 150, wider than the 98 content.
+        let s = solve_width(&recipe(Some(30)), None);
+        assert_eq!((s.nodes[0].w, s.diagnostics.len()), (150.0, 0));
+        // Without one: ignored, the root hugs, and the scene says why.
+        let s = solve_width(&recipe(None), None);
+        assert_eq!(s.nodes[0].w, 98.0);
+        assert_eq!(s.diagnostics.len(), 1, "{:?}", s.diagnostics);
+        assert!(s.diagnostics[0].contains("minWidth is relative to the height"));
+    }
+
+    #[test]
     fn growing_parts_split_the_space_left_after_fixed_parts_gaps_and_padding() {
         let at = |s: &Scene, id: &str| {
             let n = part(s, id).unwrap();
