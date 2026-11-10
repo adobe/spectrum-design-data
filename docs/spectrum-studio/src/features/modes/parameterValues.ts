@@ -3,7 +3,7 @@ import { atom } from "jotai";
 import { activeModesAtom } from "./selection";
 import { foundationDocumentsAtom } from "./foundationDocuments";
 import { previewOverridesAtom } from "./previewState";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 import { resolveModeParameterValues } from "./parameterResolution";
 export {
   resolveModeParameterValues,

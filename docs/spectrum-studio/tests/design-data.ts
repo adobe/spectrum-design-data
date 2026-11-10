@@ -14,7 +14,9 @@ import {
   enterEditModeAtom,
   saveEditAtom,
   cancelEditAtom,
+  captureSnapshot,
 } from "../src/features/edit-session/state";
+import { projectSnapshot } from "../src/features/design-data/authoringProjection";
 import { rulesAtom } from "../src/features/logic/library";
 import {
   analysisAuthoringAtom,
@@ -45,6 +47,7 @@ import {
   resetBrowserTokenAtom,
 } from "../src/features/tokens/browserState";
 import { spacingDocumentAtom } from "../src/features/spacing/state";
+import { SPACING_SCHEMA_VERSION } from "../src/features/spacing/model";
 import { sizeDocumentAtom } from "../src/features/size/state";
 import { colorSystemDocumentAtom } from "../src/features/color-system/state";
 import { modeSetsAtom } from "../src/features/modes/state";
@@ -865,11 +868,19 @@ for (const domain of ["typography", "spacing", "size"] as const) {
     .get(browserTokensAtom)
     .find((token) => token.type === domain)!;
   const mode = editsStore.get(browserModeContextAtom);
-  const before = editsStore
+  const beforeRows = editsStore
     .get(analysisWorkingInputAtom)
-    .records.find((row) => row.id.startsWith(`tokens:${original.id}:`))!;
+    .records.filter(
+      (row) => row.category === "tokens" && row.conceptId === original.id,
+    );
+  assert.ok(beforeRows.length);
+  const before = beforeRows[0];
+  const beforeRejected = captureSnapshot(editsStore.get);
   const name = `analysis-${domain}-override`;
   const override = 777;
+  const overrideValue = original.unit
+    ? `${override}${original.unit}`
+    : override;
   assert.throws(
     () =>
       editsStore.set(editBrowserTokensAtom, {
@@ -877,7 +888,7 @@ for (const domain of ["typography", "spacing", "size"] as const) {
         modeKey: mode.key,
         patch: { name },
       }),
-    /registered category/,
+    /registered classification terms/,
   );
   assert.throws(
     () =>
@@ -890,8 +901,9 @@ for (const domain of ["typography", "spacing", "size"] as const) {
           },
         },
       }),
-    /governed/,
+    /Unresolved property term term-property-/i,
   );
+  assert.deepEqual(captureSnapshot(editsStore.get), beforeRejected);
   editsStore.set(editFoundationNameAtom, {
     id: original.taxonomySource!.id,
     value: name,
@@ -906,13 +918,18 @@ for (const domain of ["typography", "spacing", "size"] as const) {
   const renamed = editsStore
     .get(browserTokensAtom)
     .find((row) => row.id === original.id)!;
-  const rows = working.records.filter((row) =>
-    row.id.startsWith(`tokens:${original.id}:`),
+  const rows = working.records.filter(
+    (row) => row.category === "tokens" && row.conceptId === original.id,
   );
   assert.equal(
     rows.length,
-    12,
+    beforeRows.length,
     `${domain}: mode-row denominator is unchanged by a token edit`,
+  );
+  assert.deepEqual(
+    rows.map((row) => row.id).sort(),
+    beforeRows.map((row) => row.id).sort(),
+    `${domain}: edits retain the exact publication row identities`,
   );
   assert(
     rows.every((row) => row.name === renamed.name),
@@ -930,7 +947,7 @@ for (const domain of ["typography", "spacing", "size"] as const) {
       "Omitted Global source labels do not add canonical segments.",
     );
   assert.equal(
-    rows.filter((row) => row.value === override).length,
+    rows.filter((row) => row.value === overrideValue).length,
     1,
     `${domain}: value overrides apply only to the exact mode combination`,
   );
@@ -948,7 +965,7 @@ for (const domain of ["typography", "spacing", "size"] as const) {
     `${domain}: manual value origin is explicit and remains mode scoped`,
   );
   assert.equal(
-    rows.find((row) => row.value === override)?.overrides?.generatedValue,
+    rows.find((row) => row.value === overrideValue)?.overrides?.generatedValue,
     original.generatedValue,
   );
   assert.equal(
@@ -968,13 +985,13 @@ for (const domain of ["typography", "spacing", "size"] as const) {
     canonicalJson(editsStore.get(analysisSavedInputAtom).records),
     canonicalJson(editsStore.get(analysisWorkingInputAtom).records),
   );
+  editsStore.set(enterEditModeAtom);
   editsStore.set(resetBrowserTokenAtom, original.id);
   assert.equal(
     editsStore
       .get(analysisWorkingInputAtom)
       .records.some(
-        (row) =>
-          row.id.startsWith(`tokens:${original.id}:`) && row.value === override,
+        (row) => row.conceptId === original.id && row.value === overrideValue,
       ),
     false,
   );
@@ -983,19 +1000,22 @@ for (const domain of ["typography", "spacing", "size"] as const) {
     editsStore
       .get(analysisWorkingInputAtom)
       .records.some(
-        (row) => row.name === renamed.name && row.value === override,
+        (row) => row.name === renamed.name && row.value === overrideValue,
       ),
     true,
     `${domain}: Cancel restores the saved override`,
   );
   assert.equal(canonicalJson(defaultsAnalysisInput()), canonicalJson(defaults));
 }
-for (const documentAtom of [spacingDocumentAtom, sizeDocumentAtom]) {
+for (const domain of ["spacing", "size"] as const) {
   const parityStore = createStore();
   parityStore.set(componentsDocumentAtom, { schemaVersion: 2, components: [] });
   parityStore.set(enterEditModeAtom);
-  const domain = documentAtom === spacingDocumentAtom ? "spacing" : "size";
-  const document = structuredClone(parityStore.get(documentAtom));
+  const document = structuredClone(
+    domain === "spacing"
+      ? parityStore.get(spacingDocumentAtom)
+      : parityStore.get(sizeDocumentAtom),
+  );
   document.pendingRules = [
     {
       id: "pending-analysis-rounding",
@@ -1018,7 +1038,9 @@ for (const documentAtom of [spacingDocumentAtom, sizeDocumentAtom]) {
       ],
     },
   };
-  parityStore.set(documentAtom, document);
+  if (document.schemaVersion === SPACING_SCHEMA_VERSION)
+    parityStore.set(spacingDocumentAtom, document);
+  else parityStore.set(sizeDocumentAtom, document);
   parityStore.set(
     modeSetsAtom,
     parityStore.get(modeSetsAtom).map((set) => ({
@@ -1035,19 +1057,60 @@ for (const documentAtom of [spacingDocumentAtom, sizeDocumentAtom]) {
   });
   const projected = parityStore.get(analysisWorkingInputAtom);
   assert.deepEqual(projected.errors, []);
+  const selection = new Map(
+    JSON.parse(parityStore.get(browserModeContextAtom).key) as [
+      string,
+      string,
+    ][],
+  );
+  const activeContext = Object.fromEntries(
+    parityStore
+      .get(modeSetsAtom)
+      .map((axis) => [
+        axis.key,
+        axis.modes.find((mode) => mode.id === selection.get(axis.id))!.key,
+      ]),
+  );
   for (const token of parityStore
     .get(browserTokensAtom)
     .filter((row) => row.type === domain)) {
     const row = projected.records.find(
       (row) =>
-        row.id.startsWith(`tokens:${token.id}:`) &&
-        row.context?.colorScheme === "light" &&
-        row.context?.contrast === "regular" &&
-        row.context?.textScaling === "default",
+        row.category === "tokens" &&
+        row.conceptId === token.id &&
+        Object.entries(row.context ?? {}).every(
+          ([axis, mode]) => activeContext[axis] === mode,
+        ),
     );
+    assert.ok(
+      row,
+      `${domain}: Analysis includes ${token.sourceId ?? token.id}`,
+    );
+    let resolved = row;
+    const visited = new Set<string>();
+    while (resolved.reference) {
+      assert.equal(
+        visited.has(resolved.id),
+        false,
+        "Token references are acyclic",
+      );
+      visited.add(resolved.id);
+      const target = projected.records.find(
+        (candidate) =>
+          candidate.category === "tokens" &&
+          candidate.identity === resolved.reference,
+      );
+      assert.ok(
+        target,
+        `Analysis includes reference target ${resolved.reference}`,
+      );
+      resolved = target;
+    }
     assert.equal(
-      row?.value,
-      token.value,
+      resolved.value,
+      typeof token.value === "number" && token.unit
+        ? `${token.value}${token.unit}`
+        : token.value,
       `${domain}: pending rules and unowned base bindings agree with Tokens`,
     );
   }
@@ -1146,6 +1209,7 @@ assert.equal(
   canonicalJson(store.get(analysisSavedInputAtom).records),
   canonicalJson(store.get(analysisWorkingInputAtom).records),
 );
+store.set(enterEditModeAtom);
 store.set(
   rulesAtom,
   store
@@ -1158,8 +1222,8 @@ store.set(cancelEditAtom);
 assert.equal(store.get(analysisAuthoringAtom).unsaved, false);
 assert.equal(store.get(rulesAtom)[0].name, "Working fixture");
 assert.equal(canonicalJson(defaultsAnalysisInput()), shippedBefore);
-store.set(rulesAtom, []);
-assert(store.get(analysisWorkingInputAtom).errors.length > 0);
+const invalidRules = { ...captureSnapshot(store.get), rules: [] };
+assert(projectSnapshot(invalidRules, "working").errors.length > 0);
 assert.equal(canonicalJson(defaultsAnalysisInput()), shippedBefore);
 assert.equal(
   compareDesignData(app, reference, [

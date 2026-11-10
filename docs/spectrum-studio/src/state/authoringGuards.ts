@@ -38,8 +38,11 @@ export function assertAuthoringUpdates(
     )
   )
     return;
+  const proposal = current
+    ? new Map([...current.updates, ...updates])
+    : updates;
   if (contexts) for (const context of contexts) context.valid = false;
-  for (const guard of guards.values()) guard(get, updates);
+  for (const guard of guards.values()) guard(get, proposal);
 }
 
 /** The callback only commits the supplied immutable proposal, synchronously. */
@@ -48,10 +51,11 @@ export function withValidatedAuthoringUpdates(
   updates: ReadonlyMap<string, unknown>,
   write: () => undefined,
 ) {
-  const approved = new Map(updates);
+  const owner = get(batchOwnerAtom);
+  const current = batches.get(owner)?.at(-1);
+  const approved = new Map([...(current?.updates ?? []), ...updates]);
   const revision = guardRevision;
   assertAuthoringUpdates(get, approved);
-  const owner = get(batchOwnerAtom);
   const contexts = batches.get(owner) ?? [];
   contexts.push({ updates: approved, revision, valid: true });
   batches.set(owner, contexts);

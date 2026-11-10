@@ -608,11 +608,28 @@ assert(
     .filter((mode) => mode.app)
     .every((mode) => mode.classification === "aligned"),
 );
-assert.equal(
-  baseline.counts.complete,
-  0,
-  "Lowercase classification agreement does not conceal missing modes or value differences.",
+const completeBaseline = baseline.concepts.filter(
+  (concept) => concept.complete,
 );
+assert(completeBaseline.length > 0, "Exact shipped matches remain complete.");
+assert.equal(baseline.counts.complete, completeBaseline.length);
+for (const concept of completeBaseline) {
+  assert(concept.identityCertain);
+  assert(concept.rows.length > 0);
+  for (const mode of concept.rows) {
+    assert(mode.app, `${concept.label} must represent every required mode.`);
+    assert.equal(mode.counterpart, "represented");
+    assert(
+      ["aligned", "accepted exception"].includes(mode.classification),
+      `${concept.label} must have aligned classification in every mode.`,
+    );
+    assert.equal(
+      exactPaletteColor(mode.app.value, mode.reference.value).value,
+      "equal",
+      `${concept.label} must have exact values in every required mode.`,
+    );
+  }
+}
 console.log(
   `Shipped baseline: ${baseline.counts.represented}/${baseline.counts.concepts} represented; ${baseline.counts.equalRows}/${baseline.counts.rows} exact mode values; ${baseline.counts.complete} complete. Gray-100: ${gray100.rows.map((mode) => `${mode.context.colorScheme}=${mode.value}`).join(", ")}.`,
 );

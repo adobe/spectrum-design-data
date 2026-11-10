@@ -48,10 +48,12 @@ import {
 import {
   canonicalTokenModeKey,
   MISSING_VALUE_MESSAGE,
+  tokenModePairs,
 } from "../tokens/browserModel";
 import { dialogRowsForMode } from "../tokens/dialogModel";
 import { projectShadowValue } from "../design-data/shadowValue";
 import type { TokenTier } from "../tokens/tier";
+import { tokenUuid } from "../tokens/model";
 
 interface ComponentTokenMetadata {
   tier?: TokenTier;
@@ -113,55 +115,108 @@ function buildComponentColorTokens(
   source: ComponentTokenSource,
   witness: ComponentColorWitness | null,
   prepared?: PreparedScaleColors[],
-): ComponentToken[] {
+  reuseAliases = false,
+) {
   const colors = withPreparedScaleColors(
     witness?.scaleColors,
     prepared,
     (reuse) => buildCascadeTokenInventory(componentColorInput(source), reuse),
   );
-  return [
+  const reusableAliases =
+    reuseAliases &&
+    colors.blockedColors.length === 0 &&
+    Object.values(colors.taxonomy?.projections ?? {}).every(
+      (projection) => projection.issues.length === 0,
+    );
+  const references = new Map(
+    colors.colorReferences.map((row) => [row.rowId, row]),
+  );
+  const colorMetadata = (token: {
+    uuid: string;
+    name: Record<string, string | number>;
+  }) => {
+    const reference = references.get(token.uuid);
+    const identity =
+      reusableAliases && reference
+        ? tokenIdentity(source.browserTokenEdits ?? {}, reference.id)
+        : undefined;
+    return {
+      id:
+        identity && reference
+          ? (identity.rows[reference.context] ??
+            tokenUuid(
+              `canonical-token-row:v1:${identity.conceptId}:${reference.context}`,
+            ))
+          : token.uuid,
+      browserId: identity?.conceptId ?? reference?.id,
+      context:
+        reusableAliases && reference
+          ? Object.fromEntries(
+              tokenModePairs(reference.context).flatMap(([axisId, modeId]) => {
+                const axis = source.modeSets.find((axis) => axis.id === axisId);
+                const mode = axis?.modes.find((mode) => mode.id === modeId);
+                return axis && mode && mode.id !== axis.defaultModeId
+                  ? [[axis.key, mode.key]]
+                  : [];
+              }),
+            )
+          : Object.fromEntries(
+              Object.entries(token.name).filter(([key]) =>
+                source.modeSets.some((axis) => axis.key === key),
+              ),
+            ),
+    };
+  };
+  const colorName = (token: {
+    uuid: string;
+    name: Record<string, string | number>;
+  }) => {
+    const projection = colors.taxonomy?.projections[token.uuid];
+    const reference = references.get(token.uuid);
+    if (reusableAliases && projection && reference && source.taxonomy) {
+      const identity = tokenIdentity(
+        source.browserTokenEdits ?? {},
+        reference.id,
+      );
+      return projectClassification(
+        source.taxonomy,
+        source.taxonomy.classifications[identity?.conceptId ?? reference.id] ??
+          projection.classification,
+        "colors",
+        "primitive",
+      ).name;
+    }
+    return projection?.name ?? Object.values(token.name).join("-");
+  };
+  const tokens: ComponentToken[] = [
     ...colors.tokens.map(
       (token): ComponentToken => ({
-        id: token.uuid,
-        browserId: colors.colorReferences.find(
-          (row) => row.rowId === token.uuid,
-        )?.id,
-        name:
-          colors.taxonomy?.projections[token.uuid]?.name ??
-          Object.values(token.name).join("-"),
+        ...colorMetadata(token),
+        ...(reusableAliases &&
+          references.has(token.uuid) && { outputError: undefined }),
+        name: colorName(token),
         property: String(token.name.property),
         value: token.value,
         displayValue: String(token.value),
         ownerId: token.conceptId,
         kind: "primitive",
         tier: "primitive",
-        context: Object.fromEntries(
-          Object.entries(token.name).filter(([key]) =>
-            source.modeSets.some((axis) => axis.key === key),
-          ),
-        ),
       }),
     ),
     ...colors.blockedColors.map(
       (token): ComponentToken => ({
-        id: token.uuid,
-        name:
-          colors.taxonomy?.projections[token.uuid]?.name ??
-          Object.values(token.name).join("-"),
+        ...colorMetadata(token),
+        name: colorName(token),
         property: "color",
         outputError: token.error,
         displayValue: "Color output unavailable",
         ownerId: token.conceptId,
         kind: "primitive",
         tier: "primitive",
-        context: Object.fromEntries(
-          Object.entries(token.name).filter(([key]) =>
-            source.modeSets.some((axis) => axis.key === key),
-          ),
-        ),
       }),
     ),
   ];
+  return { tokens, reusableAliases };
 }
 
 function buildComponentTokenCatalog(
@@ -172,6 +227,20 @@ function buildComponentTokenCatalog(
   if (!source.taxonomy || !source.elevation || !source.scaleTypes)
     throw new Error("Component references need complete foundation data.");
   const { taxonomy } = source;
+  const canReuseColors =
+    Object.values(source.browserTokenEdits ?? {}).some(
+      (edit) => edit.authoring,
+    ) &&
+    Object.values(source.browserTokenEdits ?? {}).every(
+      (edit) =>
+        !edit.name &&
+        !edit.authoring?.manual &&
+        !edit.authoring?.classification &&
+        !edit.authoring?.lifecycle &&
+        !Object.keys(edit.authoring?.assignments ?? {}).length &&
+        !Object.keys(edit.authoring?.baselines ?? {}).length,
+    ) &&
+    !Object.values(source.tokenOverrides).some((edit) => edit.name);
   const result = new Map<string, ComponentToken>();
   const add = (token: ComponentToken) => {
     const previous = result.get(token.id);
@@ -234,13 +303,16 @@ function buildComponentTokenCatalog(
       tier: "primitive",
     });
   }
-  const colors =
-    witnessedComponentColors(colorWitness, source) ??
-    buildComponentColorTokens(
-      source,
-      colorWitness,
-      prepareScaleColors ? scaleColors : undefined,
-    );
+  const witnessedColors = witnessedComponentColors(colorWitness, source);
+  const { tokens: colors, reusableAliases: reuseColors } = witnessedColors
+    ? { tokens: witnessedColors, reusableAliases: canReuseColors }
+    : buildComponentColorTokens(
+        source,
+        colorWitness,
+        prepareScaleColors ? scaleColors : undefined,
+        canReuseColors,
+      );
+  const colorTargets = new Map(colors.map((token) => [token.id, token]));
   for (const token of colors) add(token);
   const shadows = buildShadowArtifacts({
     sourceKind: "working",
@@ -303,10 +375,12 @@ function buildComponentTokenCatalog(
       completeAliasSource(source),
       variants,
       "preserve-for-review",
+      { excludeColors: reuseColors },
     );
     const rowsByMode = new Map<string, Map<string, (typeof rows)[number]>>();
     for (const [id, componentToken] of [...result]) {
       if (!componentToken.browserId) continue;
+      if (reuseColors && colorTargets.has(id)) continue;
       const selection = Object.fromEntries(
         source.modeSets.flatMap((axis) => {
           const mode =
@@ -333,7 +407,8 @@ function buildComponentTokenCatalog(
       );
       if (!row) continue;
       const token = row.token;
-      if (token.validationError) throw new Error(token.validationError);
+      if (token.validationError && !componentToken.outputError)
+        throw new Error(token.validationError);
       const value =
         token.type === "elevation"
           ? (
@@ -344,17 +419,40 @@ function buildComponentTokenCatalog(
             : token.value;
       result.delete(id);
       const rowId = identity ? row.rowId : id;
-      result.set(rowId, {
-        ...componentToken,
-        id: rowId,
-        browserId: token.id,
-        tier: token.tier,
-        outputError: undefined,
-        value,
-        name: token.name,
-        displayValue:
-          typeof value === "object" ? canonicalJson(value) : String(value),
-      });
+      const rowSelection = new Map(tokenModePairs(row.context));
+      const context = Object.fromEntries(
+        source.modeSets.flatMap((axis) => {
+          const mode = axis.modes.find(
+            (mode) => mode.id === rowSelection.get(axis.id),
+          );
+          return mode && mode.id !== axis.defaultModeId
+            ? [[axis.key, mode.key]]
+            : [];
+        }),
+      );
+      const target: ComponentToken = componentToken.outputError
+        ? {
+            ...componentToken,
+            id: rowId,
+            browserId: token.id,
+            tier: token.tier,
+            name: token.name,
+            context,
+          }
+        : {
+            ...componentToken,
+            id: rowId,
+            browserId: token.id,
+            tier: token.tier,
+            outputError: undefined,
+            value,
+            name: token.name,
+            context,
+            displayValue:
+              typeof value === "object" ? canonicalJson(value) : String(value),
+          };
+      result.set(rowId, target);
+      if (colorTargets.has(id)) colorTargets.set(id, target);
     }
     for (const row of rows.filter((row) => row.token.manual)) {
       const token = row.token;
@@ -399,7 +497,7 @@ function buildComponentTokenCatalog(
   }
   return {
     tokens: [...result.values()],
-    colors: colors.map((token) => result.get(token.id)!),
+    colors: [...colorTargets.values()],
     scaleColors,
   };
 }

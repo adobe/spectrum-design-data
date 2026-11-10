@@ -2,6 +2,7 @@
 import type { AliasAuthoringSource } from "../../tokens/aliasTargets";
 import { buildCascadeTokenExport } from "../../tokens/cascadeExport";
 import { tokenStableKey, tokenUuid } from "../../tokens/model";
+import { tokenEdit } from "../../tokens/canonicalIdentity";
 import { dataAttribute, sanitizeTokenName } from "../cssLibrary";
 import { contrastStepIndex, scaleContrasts } from "../contrastSteps";
 import { isFoundationPublished } from "../../foundations/types";
@@ -84,14 +85,19 @@ export function buildDataVisCategoricalCss(
     const uiId = tokenUuid(
       tokenStableKey(ui.id, entry.member.source.contrastId),
     );
-    const edited = [uiId, entry.id].some(
-      (id) =>
+    const edited = [uiId, entry.id].some((id) => {
+      const edit = tokenEdit(source.browserTokenEdits, id);
+      return (
         source.tokenOverrides[id]?.value !== undefined ||
         source.tokenOverrides[id]?.name !== undefined ||
-        Object.keys(source.browserTokenEdits[id]?.values ?? {}).length > 0 ||
-        source.browserTokenEdits[id]?.name !== undefined ||
-        source.taxonomy.classifications[id] !== undefined,
-    );
+        Object.keys(edit?.values ?? {}).length > 0 ||
+        edit?.name !== undefined ||
+        Object.keys(edit?.authoring?.assignments ?? {}).length > 0 ||
+        edit?.authoring?.classification !== undefined ||
+        edit?.authoring?.lifecycle?.frozen !== undefined ||
+        source.taxonomy.classifications[id] !== undefined
+      );
+    });
     if (!edited && !entry.scale.staticColors) {
       const step = scaleContrasts(colorDocument, ui).findIndex(
         (step) => step.id === entry.member.source.contrastId,

@@ -10,6 +10,7 @@ import {
 } from "../src/features/design-data/colorOpacityAssessment";
 import {
   compareDesignData,
+  canonicalJson,
   reportMarkdown,
   reportWithFreshness,
   type AnalysisInput,
@@ -23,6 +24,8 @@ import {
 import { reviewedTypographyMappings } from "../src/features/design-data/mappings";
 import {
   isInventoryToken,
+  buildTokenInventory,
+  tokenInventoryMarkdown,
   unavailableTokenReference,
 } from "../src/features/design-data/tokenInventory";
 import {
@@ -77,6 +80,66 @@ const membership = (
     .inventory!.entries.filter((entry) => entry.side === side)
     .map((entry) => entry.record.id)
     .sort();
+
+const serializedInput = input(
+  [
+    record("shadow", {
+      context: { textScaling: "largest", colorScheme: "dark" },
+      value: [
+        { y: "4px", x: "0px", color: "rgba(0, 0, 0, 0.2)" },
+        { y: "8px", x: "1px", color: "rgba(0, 0, 0, 0.1)" },
+      ],
+    }),
+    record("alpha"),
+    record("shadow", { value: 2 }),
+  ],
+  "working",
+);
+const inventoryFor = (records: AnalysisRecord[]) =>
+  buildTokenInventory({ ...serializedInput, records }, input([]), [], (row) => [
+    {
+      context: Object.fromEntries(
+        Object.entries(row.context ?? {}).map(([axis, mode]) => {
+          assert.ok(
+            typeof mode === "string",
+            "The fixture uses singular modes.",
+          );
+          return [axis, mode];
+        }),
+      ),
+      value: row.value,
+      issue: null,
+    },
+  ]);
+const serializedInventory = inventoryFor(serializedInput.records);
+assert.deepEqual(
+  inventoryFor([...serializedInput.records].reverse()),
+  serializedInventory,
+  "Inventory ordering and duplicate occurrence IDs do not depend on input order.",
+);
+assert.equal(
+  new Set(serializedInventory.entries.map((entry) => entry.id)).size,
+  serializedInventory.entries.length,
+);
+assert.deepEqual(serializedInventory.issues, [
+  "app: duplicate token record ID shadow.",
+]);
+assert.equal(
+  inventoryFor([record("a-new-row"), ...serializedInput.records]).entries.find(
+    (entry) => entry.record.id === "alpha",
+  )!.id,
+  serializedInventory.entries.find((entry) => entry.record.id === "alpha")!.id,
+  "Adding another record does not renumber an existing inventory identity.",
+);
+assert.equal(
+  tokenInventoryMarkdown(serializedInventory),
+  tokenInventoryMarkdown(JSON.parse(canonicalJson(serializedInventory))),
+  "Nested shadow values and contexts render identically after JSON key ordering.",
+);
+assert.deepEqual(serializedInput.records[0].value, [
+  { y: "4px", x: "0px", color: "rgba(0, 0, 0, 0.2)" },
+  { y: "8px", x: "1px", color: "rgba(0, 0, 0, 0.1)" },
+]);
 
 const unknown = record("unknown", {
   schema: "https://example.test/future.json",
@@ -172,8 +235,12 @@ assert.equal(
   4,
   "Released and pending deprecations retain complete source membership.",
 );
+const deprecatedModeFilters: Record<string, string>[] = [
+  {},
+  { retiredAxis: "retired" },
+];
 for (const query of ["", "same-display-name"])
-  for (const modes of [{}, { retiredAxis: "retired" }])
+  for (const modes of deprecatedModeFilters)
     assert.deepEqual(
       inventoryComparisonRows(
         deprecatedOnly.inventory!.entries,

@@ -16,11 +16,11 @@ import { useState } from "react";
 import { useIsReadOnly } from "../../components/editable";
 import {
   addScaleTypeAtom,
-  replaceScaleTypeAtom,
   scaleTypesAtom,
 } from "../../features/logic/scaleTypeLibrary";
 import {
   ignoredOverrides,
+  replaceScaleTypeWithConsumersAtom,
   scaleTypeConsumersAtom,
 } from "../../features/logic/scaleTypeReferences";
 import { spacingDocumentAtom } from "../../features/spacing/state";
@@ -107,7 +107,7 @@ export function ScaleTypeEditorLayout({
   const isReadOnlyMode = useIsReadOnly();
   const setEditing = useSetAtom(editingScaleTypeIdAtom);
   const addScaleType = useSetAtom(addScaleTypeAtom);
-  const replaceScaleType = useSetAtom(replaceScaleTypeAtom);
+  const replaceScaleType = useSetAtom(replaceScaleTypeWithConsumersAtom);
   const close = () => setEditing(null);
 
   if (!draft) {

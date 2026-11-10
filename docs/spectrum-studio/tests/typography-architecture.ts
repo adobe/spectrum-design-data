@@ -56,18 +56,22 @@ import {
 import { taxonomyDocumentAtom } from "../src/features/taxonomy/state";
 import { lineHeightName } from "../src/features/typography/lineHeightNames";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import { buildTypographyCss } from "../src/features/typography/typographyCss";
 import { typographyTokenValues } from "../src/features/typography/typographyTokens";
 import { browserSourcesFromOutputs } from "../src/features/tokens/browserSources";
 import {
   applyBrowserTokenEdits,
+  canonicalBrowserSources,
   canBulkEditValue,
   parseBrowserTokenValue,
   resolveBrowserTokens,
   tokenValueText,
 } from "../src/features/tokens/browserModel";
 import {
+  createDefaultSnapshot,
   enterEditModeAtom,
+  editSessionSnapshotAtom,
   saveEditAtom,
 } from "../src/features/edit-session/state";
 import { browserTokenSourcesAtom } from "../src/features/tokens/browserState";
@@ -81,10 +85,6 @@ import {
   revertChangeItemAtom,
 } from "../src/features/changelog/state";
 import { interpolationConsumersAtom } from "../src/features/logic/interpolationReferences";
-import {
-  sizeDocumentAtom,
-  updateSizeScaleAtom,
-} from "../src/features/size/state";
 
 const near = (actual: number, expected: number) =>
   assert.ok(Math.abs(actual - expected) < 1e-10, `${actual} != ${expected}`);
@@ -393,7 +393,7 @@ assert.equal(
     store.get(taxonomyDocumentAtom),
     id,
   ),
-  "Caption",
+  "caption",
 );
 const beforeDuplicate = store.get(taxonomyDocumentAtom);
 assert.throws(() => store.set(renameLineHeightAtom, { id, name: "body" }));
@@ -403,7 +403,24 @@ assert.deepEqual(
   ["Elements text sample"],
 );
 assert.throws(() => store.set(removeLineHeightAtom, { id: "body" }));
+const bodyIdentity = tokenIdentity(
+  store.get(browserTokenEditsAtom),
+  "typography-body-lineHeight-100",
+);
+assert.ok(bodyIdentity);
+const bodyContext = Object.keys(bodyIdentity.rows)[0];
+const bodyEdits = store.get(browserTokenEditsAtom);
 store.set(browserTokenEditsAtom, {
+  ...bodyEdits,
+  [bodyIdentity.conceptId]: {
+    ...bodyEdits[bodyIdentity.conceptId],
+    authoring: {
+      ...bodyEdits[bodyIdentity.conceptId].authoring!,
+      assignments: {
+        [bodyContext]: { kind: "literal", value: 30 },
+      },
+    },
+  },
   "typography-body-lineHeight-100": {
     values: { "[]": { value: 30, baseline: 20 } },
   },
@@ -417,6 +434,11 @@ assert.equal(
   store.get(browserTokenEditsAtom)["typography-body-lineHeight-100"],
   undefined,
 );
+assert.deepEqual(
+  store.get(browserTokenEditsAtom)[bodyIdentity.conceptId].authoring,
+  { identity: bodyIdentity, assignments: {} },
+  "Removing a line height clears canonical overrides but retains publication IDs.",
+);
 store.set(updateTypographyAtom, { previewLineHeightId: "heading" });
 store.set(restoreLineHeightAtom, removed);
 assert.equal(
@@ -425,6 +447,14 @@ assert.equal(
   "undo does not overwrite a subsequent selection",
 );
 assert.ok(store.get(browserTokenEditsAtom)["typography-body-lineHeight-100"]);
+assert.deepEqual(
+  store.get(browserTokenEditsAtom)[bodyIdentity.conceptId].authoring,
+  {
+    ...bodyEdits[bodyIdentity.conceptId].authoring,
+    assignments: { [bodyContext]: { kind: "literal", value: 30 } },
+  },
+  "Undo restores the canonical assignment with the same publication IDs.",
+);
 assert.equal(
   store.get(typographyDocumentAtom).lineHeights[removed.index].id,
   "body",
@@ -575,16 +605,16 @@ assert.throws(
 
 const lifecycle = createStore();
 lifecycle.set(enterEditModeAtom);
-// Exclude the existing Spacing/Size flat-name collision from this publication fixture.
-lifecycle.set(updateSizeScaleAtom, {
-  id: lifecycle.get(sizeDocumentAtom).scales[0].id,
-  patch: { hideFromPublishing: true },
-});
-const initialConcepts = new Set(
-  [...lifecycle.get(savedBrowserConceptIdsAtom)].filter((concept) =>
-    concept.startsWith("typography-"),
-  ),
-);
+function savedTypographyConcepts() {
+  const saved =
+    lifecycle.get(editSessionSnapshotAtom) ?? createDefaultSnapshot();
+  return [...lifecycle.get(savedBrowserConceptIdsAtom)].filter((concept) =>
+    (
+      tokenIdentity(saved.browserTokenEdits ?? {}, concept)?.sourceId ?? concept
+    ).startsWith("typography-"),
+  );
+}
+const initialConcepts = new Set(savedTypographyConcepts());
 assert.equal(initialConcepts.size, 136);
 const newId = lifecycle.set(addLineHeightAtom);
 lifecycle.set(renameLineHeightAtom, { id: newId, name: "Reading" });
@@ -594,7 +624,7 @@ assert.ok(
     .some(
       (consumer) =>
         consumer.id === `typography/${newId}` &&
-        consumer.label === "Typography › Reading line height",
+        consumer.label === "Typography › reading line height",
     ),
 );
 const workingConcepts = lifecycle
@@ -602,11 +632,7 @@ const workingConcepts = lifecycle
   .filter((token) => token.type === "typography");
 assert.equal(workingConcepts.length, 170);
 assert.deepEqual(
-  new Set(
-    [...lifecycle.get(savedBrowserConceptIdsAtom)].filter((concept) =>
-      concept.startsWith("typography-"),
-    ),
-  ),
+  new Set(savedTypographyConcepts()),
   initialConcepts,
   "unsaved additions do not change the saved denominator",
 );
@@ -620,36 +646,41 @@ assert.throws(
 );
 assert.strictEqual(lifecycle.get(taxonomyDocumentAtom), registryBeforeRevert);
 lifecycle.set(saveEditAtom);
-assert.equal(
-  [...lifecycle.get(savedBrowserConceptIdsAtom)].filter((concept) =>
-    concept.startsWith("typography-"),
-  ).length,
-  170,
-);
+assert.equal(savedTypographyConcepts().length, 170);
 const manual = { "[]": { value: 16, baseline: 14 } };
+const fontIdentity = tokenIdentity(
+  lifecycle.get(browserTokenEditsAtom),
+  "typography-font-size-100",
+);
+assert.ok(fontIdentity);
 lifecycle.set(browserTokenEditsAtom, {
-  "typography-font-size-100": { values: manual },
+  ...lifecycle.get(browserTokenEditsAtom),
+  [fontIdentity.conceptId]: {
+    ...lifecycle.get(browserTokenEditsAtom)[fontIdentity.conceptId],
+    values: manual,
+  },
 });
 const beforeHide = lifecycle
   .get(browserTokenSourcesAtom)
   .filter((token) => token.type === "typography")
-  .map((token) => token.id);
+  .map(
+    (token) =>
+      tokenIdentity(lifecycle.get(browserTokenEditsAtom), token.id)
+        ?.conceptId ?? token.id,
+  );
 lifecycle.set(updateTypographyAtom, { hideFromPublishing: true });
 assert.deepEqual(
-  lifecycle
-    .get(browserTokenSourcesAtom)
+  canonicalBrowserSources(
+    lifecycle.get(browserTokenSourcesAtom),
+    lifecycle.get(browserTokenEditsAtom),
+  )
     .filter((token) => token.type === "typography")
     .map((token) => token.id),
   beforeHide,
 );
-assert.equal(
-  [...lifecycle.get(savedBrowserConceptIdsAtom)].filter((concept) =>
-    concept.startsWith("typography-"),
-  ).length,
-  170,
-);
+assert.equal(savedTypographyConcepts().length, 170);
 assert.deepEqual(
-  lifecycle.get(browserTokenEditsAtom)["typography-font-size-100"].values,
+  lifecycle.get(browserTokenEditsAtom)[fontIdentity.conceptId].values,
   manual,
   "hiding does not delete manual edits",
 );
@@ -658,8 +689,7 @@ const hiddenPacket = buildTaxonomyExport(
   lifecycle.get(publishedBrowserTokensAtom),
 );
 assert.equal(
-  hiddenPacket.tokens.filter((token) => token.id.startsWith("typography-"))
-    .length,
+  hiddenPacket.tokens.filter((token) => beforeHide.includes(token.id)).length,
   0,
   "taxonomy download excludes every hidden Typography primitive",
 );
@@ -667,8 +697,22 @@ assert.ok(
   hiddenPacket.tokens.length > 0,
   "hiding Typography does not hide other foundations",
 );
+const readingIdentity = tokenIdentity(
+  lifecycle.get(browserTokenEditsAtom),
+  `typography-${newId}-lineHeight-100`,
+);
+assert.ok(readingIdentity);
+const readingContext = Object.keys(readingIdentity.rows)[0];
 lifecycle.set(browserTokenEditsAtom, {
   ...lifecycle.get(browserTokenEditsAtom),
+  [readingIdentity.conceptId]: {
+    ...lifecycle.get(browserTokenEditsAtom)[readingIdentity.conceptId],
+    authoring: {
+      ...lifecycle.get(browserTokenEditsAtom)[readingIdentity.conceptId]
+        .authoring!,
+      assignments: { [readingContext]: { kind: "literal", value: 16 } },
+    },
+  },
   [`typography-${newId}-lineHeight-100`]: { values: manual },
   unrelated: { values: manual },
 });
@@ -691,15 +735,25 @@ assert.deepEqual(
     ),
   nonTypographyTerms,
 );
-assert.ok(lifecycle.get(browserTokenEditsAtom)["typography-font-size-100"]);
+assert.deepEqual(
+  lifecycle.get(browserTokenEditsAtom)[fontIdentity.conceptId].values,
+  manual,
+);
 assert.ok(lifecycle.get(browserTokenEditsAtom).unrelated);
 assert.equal(
   lifecycle.get(browserTokenEditsAtom)[`typography-${newId}-lineHeight-100`],
   undefined,
 );
 assert.deepEqual(
-  lifecycle
-    .get(browserTokenSourcesAtom)
+  lifecycle.get(browserTokenEditsAtom)[readingIdentity.conceptId].authoring,
+  { identity: readingIdentity, assignments: {} },
+  "Restoring source defaults retains inactive canonical IDs without orphan overrides.",
+);
+assert.deepEqual(
+  canonicalBrowserSources(
+    lifecycle.get(browserTokenSourcesAtom),
+    lifecycle.get(browserTokenEditsAtom),
+  )
     .filter((token) => token.type === "typography")
     .map((token) => token.id),
   [...initialConcepts],
@@ -708,7 +762,7 @@ assert.ok(
   buildTaxonomyExport(
     lifecycle.get(taxonomyDocumentAtom),
     lifecycle.get(publishedBrowserTokensAtom),
-  ).tokens.some((token) => token.id.startsWith("typography-")),
+  ).tokens.some((token) => initialConcepts.has(token.id)),
   "unhiding restores publishing output",
 );
 console.log("Typography architecture checks passed.");

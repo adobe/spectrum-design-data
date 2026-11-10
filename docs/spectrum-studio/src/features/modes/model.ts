@@ -393,6 +393,8 @@ function stripRemovedScaleOverrides(data: unknown): unknown {
               scaleStops?: unknown;
               dataVisSources?: unknown;
             };
+            void _scaleStops;
+            void _dataVisSources;
             return {
               ...mode,
               foundations: {

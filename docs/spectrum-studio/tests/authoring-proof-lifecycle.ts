@@ -84,6 +84,8 @@ const { initializeAuthoringPersistence } =
   await import("../src/features/edit-session/persistence");
 const { prepareAuthoringRecord } =
   await import("../src/features/edit-session/recordPreparation");
+const { encodeStructureSource } =
+  await import("../src/features/edit-session/structureSourceCodec");
 const { AUTHORING_STORAGE_KEY } =
   await import("../src/features/edit-session/storage");
 const {
@@ -135,6 +137,14 @@ function resolve(worker: ManualWorker) {
     type: "ready",
     value: { record, ...createComponentReferenceWitnesses(record.working) },
   });
+}
+function expectedStoredRecord(store: ReturnType<typeof createStore>) {
+  const record = prepareAuthoringRecord(captureAuthoringRecord(store.get));
+  return {
+    ...record,
+    working: encodeStructureSource(record.working),
+    saved: encodeStructureSource(record.saved),
+  };
 }
 function changeContrast(store: ReturnType<typeof createStore>) {
   const first = store.get(contrastTokensAtom)[0];
@@ -242,7 +252,7 @@ try {
     assert.equal(storage.writes, 1);
     assert.deepEqual(
       JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      prepareAuthoringRecord(captureAuthoringRecord(store.get)),
+      expectedStoredRecord(store),
     );
   });
   for (const invalidate of [
@@ -281,7 +291,7 @@ try {
       );
       assert.deepEqual(
         JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
-        prepareAuthoringRecord(captureAuthoringRecord(store.get)),
+        expectedStoredRecord(store),
       );
     });
   for (const action of [
@@ -308,10 +318,7 @@ try {
       await advance();
       assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), durable);
       assert.equal(storage.writes, writes);
-      assert.deepEqual(
-        JSON.parse(durable),
-        prepareAuthoringRecord(captureAuthoringRecord(store.get)),
-      );
+      assert.deepEqual(JSON.parse(durable), expectedStoredRecord(store));
     });
   await scenario(async (store, bootstrap) => {
     bootstrap.reply({
@@ -348,7 +355,7 @@ try {
     await advance();
     assert.deepEqual(
       JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      prepareAuthoringRecord(captureAuthoringRecord(store.get)),
+      expectedStoredRecord(store),
     );
   });
   await scenario(async (store, bootstrap) => {
@@ -374,7 +381,7 @@ try {
     );
     assert.deepEqual(
       JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      prepareAuthoringRecord(captureAuthoringRecord(store.get)),
+      expectedStoredRecord(store),
     );
   });
   await scenario(async (store, bootstrap) => {

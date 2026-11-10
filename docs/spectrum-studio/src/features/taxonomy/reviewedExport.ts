@@ -31,6 +31,16 @@ import {
 } from "./standardization";
 
 export type ClassificationExportKind = "standard-compliant" | "compatibility";
+type ClassificationSourceRecord = Pick<
+  CanonicalAliasRow,
+  | "id"
+  | "rowId"
+  | "context"
+  | "name"
+  | "token"
+  | "canonicalName"
+  | "compatibleModes"
+>;
 const scope =
   "Native taxonomy definitions, stored classifications, published token rows and compatibility alias uses across declared owner-scoped modes";
 export interface ClassificationReviewExport {
@@ -46,7 +56,7 @@ export interface ClassificationReviewExport {
     profileId: typeof TAXONOMY_PROFILE;
     datasetKind: "working";
     taxonomy: TaxonomyDocument;
-    records: CanonicalAliasRow[];
+    records: ClassificationSourceRecord[];
     aliases: AliasDocument;
     usages: StandardizationUsage[];
   };
@@ -189,7 +199,27 @@ export async function buildClassificationReviewExport(
     profileId: TAXONOMY_PROFILE,
     datasetKind: "working",
     taxonomy: structuredClone(document),
-    records: structuredClone([...rows]),
+    records: structuredClone(
+      rows.map(
+        ({
+          id,
+          rowId,
+          context,
+          name,
+          token,
+          canonicalName,
+          compatibleModes,
+        }): ClassificationSourceRecord => ({
+          id,
+          rowId,
+          context,
+          name,
+          token,
+          ...(canonicalName !== undefined && { canonicalName }),
+          ...(compatibleModes !== undefined && { compatibleModes }),
+        }),
+      ),
+    ),
     aliases: structuredClone(aliases),
     usages: structuredClone(
       classificationReviewUsages(document, rows, aliases),

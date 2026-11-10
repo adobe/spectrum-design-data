@@ -1,6 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import dataset from "../src/data/design-system.defaults.json" with { type: "json" };
+import { designSystemDefaults } from "../src/data/defaults";
+import { canonicalDesignSystemDataset } from "../src/features/design-data/validation";
 import {
   assertTaxonomy,
   projectClassification,
@@ -17,10 +19,19 @@ import {
   type ClassifiedNameReference,
 } from "../src/features/taxonomy/foundationNames";
 import { LEGACY_TYPOGRAPHY_METRICS } from "./fixtures/legacyTypography";
+import { orderedVocabularyFixture } from "./fixtures/orderedVocabulary";
 
 assertTaxonomy(dataset.system.taxonomy);
-const upgraded = upgradeOrderedVocabulary(dataset.system.taxonomy);
+const input = orderedVocabularyFixture(dataset.system.taxonomy);
+input.terms.push({
+  id: "ead04990-42c3-4483-ba37-c77410f31c57",
+  categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+  value: "Base horizontal spacing",
+  description: "Formerly shipped source used by the migration fixture.",
+});
+const upgraded = upgradeOrderedVocabulary(input);
 const taxonomy = { ...upgraded, order: defaultOrderedGroups(upgraded) };
+const current = canonicalDesignSystemDataset(designSystemDefaults);
 function name(
   reference: ClassifiedNameReference,
   scope: "spacing" | "size" | "radius" | "typography" | "elevation",
@@ -36,16 +47,8 @@ function name(
   assert.deepEqual(projection.issues, []);
   return projection.name;
 }
-const expected = [
-  "spacing-100",
-  "spacing-base-horizontal-100",
-  "spacing-base-gap-100",
-  "size-100",
-  "radius-100",
-];
-let offset = 0;
 for (const scope of ["spacing", "size", "radius"] as const) {
-  for (const scale of dataset.system.foundations[scope].scales) {
+  for (const scale of current.system.foundations[scope].scales) {
     const before = structuredClone(scale);
     const reference = upgradeDimensionName(
       scope,
@@ -53,25 +56,64 @@ for (const scope of ["spacing", "size", "radius"] as const) {
       scale.name,
       taxonomy,
     );
-    assert.equal(name(reference, scope), expected[offset++]);
+    assert.deepEqual(
+      reference,
+      scale.name,
+      "Current explicit source classifications are not reinterpreted as legacy names.",
+    );
     assert.equal(reference.termId, scale.name.termId);
     assert.deepEqual(scale, before);
     assert.deepEqual(
       upgradeDimensionName(scope, scale.id, reference, taxonomy),
       reference,
     );
-    const custom = upgradeDimensionName(
-      scope,
-      "custom-scale",
-      { categoryId: scale.name.categoryId, termId: scale.name.termId },
-      taxonomy,
-    );
-    assert(
-      name(custom, scope).includes("global") ||
-        name(custom, scope).includes("base"),
-      "Custom sources retain their native name instead of guessing a classification.",
-    );
   }
+}
+for (const [scope, sourceId, termId, expected] of [
+  [
+    "spacing",
+    "spacing-scale-1",
+    "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+    "spacing-100",
+  ],
+  [
+    "spacing",
+    "spacing-scale-af9cf747-5c46-41a8-b37c-1fe306f506c4",
+    "ead04990-42c3-4483-ba37-c77410f31c57",
+    "spacing-base-horizontal-100",
+  ],
+  [
+    "spacing",
+    "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc",
+    "240bd9ba-271a-405d-9514-a627942d6b42",
+    "spacing-base-gap-100",
+  ],
+  ["size", "size-scale-1", "55198c75-7de7-4284-ba9a-0eaa2e47aeb7", "size-100"],
+  [
+    "radius",
+    "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572",
+    "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+    "radius-100",
+  ],
+] as const) {
+  const legacy = { categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4", termId };
+  const reference = upgradeDimensionName(scope, sourceId, legacy, taxonomy);
+  assert.equal(name(reference, scope), expected);
+  assert.equal(reference.termId, termId);
+  assert.deepEqual(
+    upgradeDimensionName(scope, sourceId, reference, taxonomy),
+    reference,
+  );
+  assert.deepEqual(legacy, {
+    categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+    termId,
+  });
+  const custom = upgradeDimensionName(scope, "custom-scale", legacy, taxonomy);
+  assert.ok(
+    name(custom, scope).includes("global") ||
+      name(custom, scope).includes("base"),
+    "Custom sources retain their native name instead of guessing a classification.",
+  );
 }
 for (const [metricId, reference] of Object.entries(
   dataset.system.foundations.typography.metricNames,

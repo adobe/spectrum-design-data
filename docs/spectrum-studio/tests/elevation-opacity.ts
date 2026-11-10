@@ -117,7 +117,11 @@ assert.ok(
 
 source.opacity!.polarityCompensation = 1;
 delete source.browserTokenEdits![DEFAULT_SHADOW_OPACITY_ID];
-for (const preview of [{}, { "color.backgroundLightness": 30 }]) {
+const previews: Parameters<typeof resolveOpacity>[2][] = [
+  {},
+  { "color.backgroundLightness": 30 },
+];
+for (const preview of previews) {
   const effective = resolveOpacity(source, dark.modes, preview);
   const generated = generateElevation(
     resolveElevationDocument(

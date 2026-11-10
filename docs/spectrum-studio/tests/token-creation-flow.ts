@@ -172,6 +172,7 @@ assert.ok(
 // Changes lists tier restrictions as their own resettable field.
 {
   const edited = structuredClone(before);
+  assert.ok(edited.taxonomy);
   const category = edited.taxonomy.categories[0];
   category.allowedTokenTiers = ["primitive"];
   const field = compareAuthoring(before, edited)
@@ -184,7 +185,6 @@ assert.ok(
 
 // The new color draft gets the color mode axes and accepts a value in the dialog.
 const catalog = store.get(tokenDialogCatalogAtom);
-assert.equal(catalog.status, "ready");
 if (catalog.status !== "ready") throw new Error(catalog.error);
 const rows = catalog.rows.filter((row) => row.token.id === id);
 assert.ok(rows.length > 1, "Color drafts vary by mode.");

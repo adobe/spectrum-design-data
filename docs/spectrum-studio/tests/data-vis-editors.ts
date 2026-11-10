@@ -65,6 +65,10 @@ import { modeSetsAtom } from "../src/features/modes/state";
 import { previewOverridesAtom } from "../src/features/modes/previewState";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import {
+  tokenEdit,
+  tokenIdentity,
+} from "../src/features/tokens/canonicalIdentity";
+import {
   browserTokensAtom,
   browserModeContextAtom,
   editBrowserTokensAtom,
@@ -118,14 +122,21 @@ function compiled(store: Store, id = DATA_VIS_IDS.sequential) {
         (output.status === "ready" ? output.scale.id : output.id) === id,
     );
   assert.ok(output);
-  assert.equal(output.status, "ready");
   if (output.status !== "ready") throw new Error(output.error);
   return output.scale;
 }
 function member(store: Store, id: string) {
-  const token = store.get(browserTokensAtom).find((token) => token.id === id);
+  const token = store
+    .get(browserTokensAtom)
+    .find((token) => token.id === publishedId(store, id));
   assert.ok(token);
   return token;
+}
+function publishedId(store: Store, sourceId: string) {
+  return (
+    tokenIdentity(store.get(browserTokenEditsAtom), sourceId)?.conceptId ??
+    sourceId
+  );
 }
 function select(store: Store, axisKey: string, modeKey: string) {
   const axis = store.get(modeSetsAtom).find((axis) => axis.key === axisKey);
@@ -270,7 +281,10 @@ let record;
 try {
   record = readAuthoringRecord<EditSessionSnapshot>(
     assertStoredSnapshot,
-    upgradeColorOutputSnapshot,
+    (value, version) => {
+      assert.equal(version, 8);
+      return upgradeColorOutputSnapshot(value, version);
+    },
   );
 } finally {
   if (windowDescriptor)
@@ -329,7 +343,7 @@ assert.ok(
 );
 const modeKey = store.get(browserModeContextAtom).key;
 store.set(editBrowserTokensAtom, {
-  ids: [ui.id],
+  ids: [publishedId(store, ui.id)],
   modeKey,
   patch: { value: manualCss },
 });
@@ -579,7 +593,7 @@ const captured = definition(stops).staticColors!.find(
 assert.equal(captured.tokenId, palette.id);
 const capturedValue = captured.value;
 stops.set(editBrowserTokensAtom, {
-  ids: [palette.id],
+  ids: [publishedId(stops, palette.id)],
   modeKey: stops.get(browserModeContextAtom).key,
   patch: { value: "#abcdef" },
 });
@@ -733,7 +747,7 @@ assertStoredSnapshot(captureSnapshot(categories.get));
 const saved = structuredClone(categories.get(editSessionSnapshotAtom));
 const impact = categories
   .get(browserTokenImpactRecordsAtom)
-  .filter((record) => record.tokenId === memberId);
+  .filter((record) => record.tokenId === publishedId(categories, memberId));
 assert.equal(impact.length, 1);
 assert.equal(impact[0].modeValues.length, 1);
 categories.set(enterEditModeAtom);
@@ -742,6 +756,23 @@ categories.set(editDataVisStaticColorAtom, {
   colorId: "blue-member",
   value: "#aabbcc",
 });
+categories.set(editBrowserTokensAtom, {
+  ids: [publishedId(categories, memberId)],
+  modeKey: categories.get(browserModeContextAtom).key,
+  patch: { value: "#234567" },
+});
+assert.equal(member(categories, memberId).value, "#234567");
+categories.set(resetBrowserTokenAtom, publishedId(categories, memberId));
+assert.equal(
+  member(categories, memberId).value,
+  "#aabbcc",
+  "Resetting a token override preserves the later authored Static base color.",
+);
+assert.deepEqual(
+  tokenEdit(categories.get(browserTokenEditsAtom), memberId)!.values,
+  dormantEdits[memberId].values,
+  "Resetting a saved Static publication retains its dormant Adaptive edits.",
+);
 categories.set(cancelEditAtom);
 assert.deepEqual(categories.get(editSessionSnapshotAtom), saved);
 categories.set(enterEditModeAtom);
@@ -756,8 +787,19 @@ assert.equal(
   "Adaptive member overrides resume after turning off Static.",
 );
 assert.equal(
-  categories.get(browserTokenEditsAtom)[memberId].description,
+  tokenEdit(categories.get(browserTokenEditsAtom), memberId)!.description,
   "Shared chart color",
+);
+categories.set(setDataVisStaticAtom, {
+  scaleId: DATA_VIS_IDS.categorical,
+  from: "current",
+});
+assert.equal(
+  definition(categories, DATA_VIS_IDS.categorical).staticColors?.find(
+    (color) => color.id === "blue-member",
+  )?.value,
+  "#123456",
+  "Capturing current Static colors after Save joins canonical rows by source.",
 );
 
 const changes = fresh();
@@ -774,7 +816,7 @@ changes.set(setDataVisStaticAtom, {
   from: "current",
 });
 changes.set(editBrowserTokensAtom, {
-  ids: [memberId, ui.id],
+  ids: [memberId, publishedId(changes, ui.id)],
   modeKey: changes.get(browserModeContextAtom).key,
   patch: { value: "#506070", description: "Chart note" },
 });
@@ -794,20 +836,20 @@ assert.equal(
   false,
   "Dormant Adaptive values remain in authoring data, not in the active assignment inventory.",
 );
+const sharedRecord = analysis.records.find(
+  (record) => record.conceptId === publishedId(changes, memberId),
+);
+assert.ok(sharedRecord);
 const sharedObservation = analysis.outputMetadata!.observations.find(
-  (observation) => observation.recordId === `tokens:${memberId}`,
+  (observation) => observation.recordId === sharedRecord.id,
 );
 assert.deepEqual(sharedObservation?.assignmentIds, [sharedAssignments[0].id]);
-assert.equal(
-  analysis.records.find((record) => record.id === `tokens:${memberId}`)
-    ?.overrides?.generatedValue,
-  "#102030",
-);
+assert.equal(sharedRecord.overrides?.generatedValue, "#102030");
 const beforeInvalidBulk = captureSnapshot(changes.get);
 assert.throws(
   () =>
     changes.set(editBrowserTokensAtom, {
-      ids: [memberId, palette.id],
+      ids: [memberId, publishedId(changes, palette.id)],
       modeKey: changes.get(browserModeContextAtom).key,
       patch: { value: "#abcdef" },
     }),
@@ -817,18 +859,19 @@ assert.deepEqual(captureSnapshot(changes.get), beforeInvalidBulk);
 const changedItems = changes
   .get(changeGroupsAtom)
   .find((group) => group.id === "tokens")!.items;
-const sharedItem = changedItems.find((item) =>
-  item.fields.some((field) => field.key === "Value (all modes)"),
+const sharedItem = changedItems.find(
+  (item) => item.conceptId === publishedId(changes, memberId),
 );
 assert.ok(sharedItem);
 assert.equal(
-  sharedItem.fields.filter((field) => field.key === "Value (all modes)").length,
+  sharedItem.fields.filter(
+    (field) => field.key === "Value" && field.context?.key === "[]",
+  ).length,
   1,
 );
 assert.equal(
   sharedItem.fields.some(
-    (field) =>
-      field.key.startsWith("Value (") && field.key !== "Value (all modes)",
+    (field) => field.key === "Value" && field.context?.key !== "[]",
   ),
   false,
 );
@@ -900,15 +943,22 @@ assert.equal(
   0,
 );
 aliases.set(saveEditAtom);
+const savedAliases = {
+  ...originalAliases,
+  tokens: originalAliases.tokens.map((alias) => ({
+    ...alias,
+    $ref: publishedId(aliases, alias.$ref),
+  })),
+};
 assert.deepEqual(
   aliases.get(aliasesAtom),
-  originalAliases,
-  "Saving Static colors preserves mode-scoped aliases.",
+  savedAliases,
+  "Saving Static colors preserves alias metadata and contexts while remapping its target to the published concept.",
 );
 aliases.set(enterEditModeAtom);
 aliases.set(setDataVisStaticAtom, { scaleId: DATA_VIS_IDS.categorical });
 assertStoredSnapshot(captureSnapshot(aliases.get));
-assert.deepEqual(aliases.get(aliasesAtom), originalAliases);
+assert.deepEqual(aliases.get(aliasesAtom), savedAliases);
 
 const guard = fresh(),
   guardUndo = guard.set(setDataVisStaticAtom, {

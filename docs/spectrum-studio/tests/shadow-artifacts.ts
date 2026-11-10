@@ -196,10 +196,19 @@ assert.equal(shadow([]), false);
 assert.equal(shadow(bundle.tokens[0].value), true);
 assert.equal(
   color(bundle.tokens[0].value[0].color),
-  false,
-  "Standalone color validation is narrower than shadow string fields.",
+  true,
+  "Current RGB shadow output also satisfies standalone color validation.",
 );
 assert.equal(color("rgba(0, 0, 0, 0.125)"), true);
+const wideColor = "color(display-p3 0.7 0.1 0.2 / 0.125)";
+assert.equal(color(wideColor), false);
+assert.equal(
+  shadow(
+    bundle.tokens[0].value.map((layer) => ({ ...layer, color: wideColor })),
+  ),
+  true,
+  "Shadow strings accept explicit CSS colors beyond the standalone RGB schema.",
+);
 
 const fractional = source();
 fractional.modeSets = [];
@@ -210,7 +219,16 @@ fractional.elevation.layers[0].opacity = 12.5;
 const fraction = buildShadowArtifacts(fractional);
 assert.equal(fraction.tokens[0].value[0].y, "1.875px");
 assert.equal(fraction.tokens[0].value[0].blur, "3.75px");
-assert.equal(Number(new Color(fraction.tokens[0].value[0].color).alpha), 0.125);
+assert.equal(fractional.elevation.layers[0].opacity, 12.5);
+assert.equal(
+  generateElevation(fractional.elevation)[0].shadows[0].opacity,
+  0.125,
+);
+assert.equal(
+  Number(new Color(fraction.tokens[0].value[0].color).alpha),
+  0.13,
+  "RGB output rounds alpha to two decimals without changing authored opacity.",
+);
 assert.notEqual(
   Number(new Color(fraction.tokens[0].value[0].color).alpha),
   32 / 255,
@@ -553,10 +571,31 @@ for (const set of detached) {
   );
   for (const mode of set.modes) delete mode.foundations.elevation;
 }
+const detachedRows = buildShadowArtifacts({ ...baseline, modeSets: detached });
+const scheme = detached.find((set) =>
+  set.authoringCapabilities?.includes("color.backgroundLightness"),
+)!;
+assert(scheme);
+assert.deepEqual(
+  detachedRows.modeSets.map((set) => set.key),
+  [scheme.key],
+  "Referenced opacity retains only its Color scheme dependency after Elevation ownership is detached.",
+);
+const expectedSchemes = scheme.modes.map((mode) => mode.key).sort();
+assert.deepEqual(expectedSchemes, ["dark", "light", "wireframe"]);
+for (const step of new Set(bundle.tokens.map((row) => row.name.scaleIndex))) {
+  assert.deepEqual(
+    detachedRows.tokens
+      .filter((row) => row.name.scaleIndex === step)
+      .map((row) => row.name[scheme.key])
+      .sort(),
+    expectedSchemes,
+    "Every shadow retains exactly the referenced Light, Dark and Wireframe rows.",
+  );
+}
 assert.equal(
-  buildShadowArtifacts({ ...baseline, modeSets: detached }).tokens.length,
-  6,
-  "Referenced opacity keeps its Color scheme dependency after Elevation ownership is detached.",
+  detachedRows.tokens.length,
+  native.length * expectedSchemes.length,
 );
 const sparse = axis("opacity", "shadowOpacity", ["elevation.layerOpacities"]);
 sparse.modes[1].foundations.elevation = { layerOpacities: {} };

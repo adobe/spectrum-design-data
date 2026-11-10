@@ -35,7 +35,7 @@ import {
   type PickerModel,
 } from "./colorUtils";
 import type { ColorPickerContentsProps } from "./types";
-import { useDefaultPickerGamut } from "./ColorPickerDefaults";
+import { useDefaultPickerGamut } from "./pickerGamut";
 import { pickerColorsEqual } from "./colorUtils";
 import "./color-picker.css";
 

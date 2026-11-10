@@ -194,11 +194,11 @@ function ComparisonGraph({
           );
         })}
       </ul>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Scrollable plots need keyboard focus. */}
       <div
         className={graphScrollStyles}
         role="region"
         aria-label={`${label} plot`}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Scrollable plots need keyboard focus.
         tabIndex={0}
       >
         <svg
@@ -452,11 +452,11 @@ function NumericGraph({
           );
         })}
       </ul>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- The chart may scroll at narrow widths. */}
       <div
         className={graphScrollStyles}
         role="region"
         aria-label={`${label} plot`}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- The chart may scroll at narrow widths.
         tabIndex={0}
       >
         <svg

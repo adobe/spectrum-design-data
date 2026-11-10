@@ -14,7 +14,7 @@ import { generateScaleColorTokens } from "../../tokens/colorGeneration";
 import { generatePaletteTokens } from "../../tokens/paletteGeneration";
 import {
   canonicalTokenModeKey,
-  resolveBrowserColorToken,
+  resolveBrowserColorTokens,
 } from "../../tokens/colorResolution";
 import { resolveToken, type TokenOverrideMap } from "../../tokens/model";
 import type { BrowserTokenEdits } from "../../tokens/browserEditTypes";
@@ -23,6 +23,7 @@ import { upgradeDataVisPacket } from "./packetValidation";
 import { dataVisSourceIssues } from "./references";
 import { finalUiSwatches, resolveDataVisPoints } from "./resolution";
 import { resolvedCategoricalColors } from "./categoricalValues";
+import { browserColorSources } from "../../tokens/colorBrowserSources";
 import { publishedPrimitiveColors } from "./primitiveColors";
 import { dataVisMemberId } from "./identity";
 
@@ -132,25 +133,23 @@ export function createDataVisRuntime(
       packet.modeSets.map((axis, index) => [axis.id, modes[index].id]),
     ),
   );
-  const tokens = [
-    ...generatePaletteTokens(document.palette, document.settings.colorOutput),
-    ...document.scales.flatMap((scale) =>
-      generateScaleColorTokens(
-        scale,
-        document.contrasts,
-        resolvedBackgroundLinear(document),
-        document.settings,
-        document.settings.colorOutput,
-        packet.namingRules,
+  const tokens = resolveBrowserColorTokens(
+    [
+      ...generatePaletteTokens(document.palette, document.settings.colorOutput),
+      ...document.scales.flatMap((scale) =>
+        generateScaleColorTokens(
+          scale,
+          document.contrasts,
+          resolvedBackgroundLinear(document),
+          document.settings,
+          document.settings.colorOutput,
+          packet.namingRules,
+        ),
       ),
-    ),
-  ].map((token) =>
-    resolveBrowserColorToken(
-      resolveToken(token, packet.tokenOverrides[token.uuid]),
-      packet.browserTokenEdits,
-      modeKey,
-      document,
-    ),
+    ].map((token) => resolveToken(token, packet.tokenOverrides[token.uuid])),
+    packet.browserTokenEdits,
+    modeKey,
+    document,
   );
   const swatches = finalUiSwatches(document, tokens),
     continuous = new Map<string, ContinuousScale>(),
@@ -160,6 +159,7 @@ export function createDataVisRuntime(
     swatches,
     packet.browserTokenEdits,
     modeKey,
+    { referenceSources: browserColorSources(tokens) },
   );
   const primitives = publishedPrimitiveColors(document, tokens, members);
   for (const definition of raw.dataVisScales) {

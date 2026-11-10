@@ -47,6 +47,7 @@ import {
 import { componentTokenCatalog } from "../src/features/components/references";
 import { buildDataVisSourcePacket } from "../src/features/color-system/data-vis/export";
 import { createDataVisRuntime } from "../src/features/color-system/data-vis/adapter";
+import type { DataVisPoint } from "../src/features/color-system/data-vis/model";
 import { componentsDocumentAtom } from "../src/features/components/documentState";
 
 const original = createDefaultSnapshot();
@@ -305,24 +306,29 @@ const referenceScale = referenceDocument.scales.find(
 const recipe = referenceDocument.dataVisScales.find(
   (item) => item.kind !== "categorical",
 )!;
-assert(recipe.kind !== "categorical");
+assert(recipe);
 references.set(colorSystemDocumentAtom, {
   ...referenceDocument,
   dataVisScales: [
     {
       ...recipe,
-      points: recipe.points.map((point) => ({
-        id: point.id,
-        position: point.position,
-        source: {
-          kind: "ui-swatch",
-          scaleId: referenceScale.id,
-          contrastId: referenceDocument.contrasts[0].id,
-        },
-      })),
+      points: recipe.points.map(
+        (point): DataVisPoint => ({
+          id: point.id,
+          position: point.position,
+          source: {
+            kind: "ui-swatch",
+            scaleId: referenceScale.id,
+            contrastId: referenceDocument.contrasts[0].id,
+          },
+        }),
+      ),
     },
   ],
 });
+const beforeRejectedScaleType = structuredClone(
+  references.get(authoringSourceSnapshotAtom),
+);
 assert.throws(
   () =>
     references.set(updateColorSystemSettingsAtom, {
@@ -331,9 +337,10 @@ assert.throws(
     }),
   /Choose replacement colors first/,
 );
-assert.equal(
-  references.get(colorSystemDocumentAtom).settings.colorScaleType,
-  "dynamic-blend",
+assert.deepEqual(
+  references.get(authoringSourceSnapshotAtom),
+  beforeRejectedScaleType,
+  "A rejected scale-type change preserves the full authored state.",
 );
 const linkedStore = createStore();
 linkedStore.set(editModeAtom, true);
@@ -352,15 +359,17 @@ linkedStore.set(colorSystemDocumentAtom, {
   dataVisScales: [
     {
       ...recipe,
-      points: recipe.points.map((point) => ({
-        id: point.id,
-        position: point.position,
-        source: {
-          kind: "ui-swatch",
-          scaleId: referenceScale.id,
-          contrastId: linkedLevel.id,
-        },
-      })),
+      points: recipe.points.map(
+        (point): DataVisPoint => ({
+          id: point.id,
+          position: point.position,
+          source: {
+            kind: "ui-swatch",
+            scaleId: referenceScale.id,
+            contrastId: linkedLevel.id,
+          },
+        }),
+      ),
     },
   ],
 });

@@ -57,11 +57,40 @@ import {
 } from "../src/features/changelog/state";
 import { resolveColorDocument } from "../src/features/color-system/resolution";
 import { resolveColorDocument as resolveFromState } from "../src/features/color-system/state";
+import { OPACITY_DEFAULTS } from "../src/features/opacity/defaults";
+import { isOpacityColorStop } from "../src/features/color-system/colorScaleType";
 
-assert.equal(
-  resolveColorDocument,
-  resolveFromState,
-  "state and report callers share one color resolver",
+const resolverBase = createStore().get(colorSystemDocumentAtom);
+const resolverOptions = { modeSets: [...MODE_SET_DEFAULTS] };
+for (const mode of MODE_SET_DEFAULTS.flatMap((axis) => axis.modes))
+  assert.deepEqual(
+    resolveFromState(resolverBase, [mode], undefined, resolverOptions),
+    resolveColorDocument(resolverBase, [mode], undefined, resolverOptions),
+    "Without opacity synchronization, state and report resolution agree.",
+  );
+const opacityBase = {
+  ...resolverBase,
+  settings: {
+    ...resolverBase.settings,
+    colorScaleType: "transparent" as const,
+    syncDefaultStopsWithOpacity: true,
+  },
+};
+const opacityResolved = resolveFromState(opacityBase, [], undefined, {
+  ...resolverOptions,
+  opacity: OPACITY_DEFAULTS,
+});
+assert.equal(opacityResolved.colorOutputIssues, undefined);
+assert.equal(opacityResolved.contrasts.length, OPACITY_DEFAULTS.levels.length);
+assert.ok(opacityResolved.contrasts.every(isOpacityColorStop));
+assert.ok(
+  resolveColorDocument(
+    opacityBase,
+    [],
+    undefined,
+    resolverOptions,
+  ).contrasts.every((stop) => !isOpacityColorStop(stop)),
+  "The state wrapper adds opacity stops without changing the base resolver's contract.",
 );
 
 const v1Payload = [
@@ -377,7 +406,7 @@ assert.equal(
   "preview remains temporary after applying to an existing mode",
 );
 
-// Accessible text scaling: a default mode set owns text zoom and exposes it as an adaptive control.
+// Text scaling owns text zoom; adaptive exposure requires an explicit claim.
 const textScaling = MODE_SET_DEFAULTS.find(
   (set) => set.id === TEXT_SCALING_MODE_SET_ID,
 )!;
@@ -396,26 +425,23 @@ assert.deepEqual(
     ["largest", 4],
   ],
 );
-assert.deepEqual(ADAPTIVE_CLAIM_DEFAULTS, {
-  "typography.textZoom": TEXT_SCALING_MODE_SET_ID,
-});
+assert.deepEqual(ADAPTIVE_CLAIM_DEFAULTS, {});
 const savedV5 = (structuredClone(MODE_SET_DEFAULTS) as ModeSet[]).filter(
   (set) => set.id !== TEXT_SCALING_MODE_SET_ID,
 );
 const upgradedV6 = migrateModeSets(savedV5, 5)!;
 assert.deepEqual(
-  upgradedV6.map((set) => set.key),
-  ["colorScheme", "contrast", "textScaling"],
+  new Set(upgradedV6.map((set) => set.key)),
+  new Set(MODE_SET_DEFAULTS.map((set) => set.key)),
 );
 assert.equal(
   migrateModeSets(upgradedV6, 5)!.length,
-  3,
+  MODE_SET_DEFAULTS.length,
   "never adds a second text scaling set",
 );
 assert.deepEqual(
   migrateAdaptiveClaims({ "color.contrastMultiplier": "mode-set-contrast" }, 1),
   {
-    "typography.textZoom": TEXT_SCALING_MODE_SET_ID,
     "color.contrastMultiplier": "mode-set-contrast",
   },
 );
@@ -516,7 +542,7 @@ const typographyItem = typeStore
   .items.find((item) => item.sourceKind === "typography")!;
 assert.deepEqual(
   typographyItem.fields.map((field) => field.key),
-  ["Component Size"],
+  ["Component size"],
 );
 typeStore.set(enterEditModeAtom);
 typeStore.set(revertChangeItemAtom, typographyItem);

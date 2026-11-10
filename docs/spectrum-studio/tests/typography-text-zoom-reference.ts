@@ -18,6 +18,7 @@ import { modeSelectionAtom } from "../src/features/modes/selection";
 import { modeSetsAtom } from "../src/features/modes/state";
 import { typeScaleWithRatios } from "./typography-fixtures";
 import { RULE_DEFAULTS } from "../src/features/logic/defaults";
+import { TYPOGRAPHY_SCALE_TYPE_ID } from "../src/features/scales/scaleType";
 
 interface ReferenceCase {
   userTextZoom: number;
@@ -38,7 +39,24 @@ const values = (tokens: ReturnType<typeof generateTypography>) =>
   Object.fromEntries(tokens.map((token) => [token.name, token.fontSize]));
 function referenceStore() {
   const store = createStore();
-  store.set(scaleTypesAtom, formulas);
+  const baseline = store.get(scaleTypesAtom);
+  const replacement = formulas.find(
+    (formula) => formula.id === TYPOGRAPHY_SCALE_TYPE_ID,
+  );
+  assert.ok(replacement);
+  store.set(
+    scaleTypesAtom,
+    baseline.map((formula) =>
+      formula.id === replacement.id ? replacement : formula,
+    ),
+  );
+  assert.deepEqual(
+    store
+      .get(scaleTypesAtom)
+      .filter((formula) => formula.id !== replacement.id),
+    baseline.filter((formula) => formula.id !== replacement.id),
+    "The Typography fixture preserves every unrelated foundation formula.",
+  );
   return store;
 }
 for (const { userTextZoom, tokens } of reference) {

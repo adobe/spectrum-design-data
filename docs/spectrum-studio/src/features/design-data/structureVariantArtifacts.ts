@@ -455,6 +455,7 @@ export function appendStructureVariantArtifacts(
     bundle.tokens,
     (token) => names.get(token.uuid),
     bundle.vocabulary.sizes?.map((term) => term.value),
+    source.modeSets,
   );
   return bundle;
 }

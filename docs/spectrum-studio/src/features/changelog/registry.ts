@@ -14,6 +14,7 @@ import type {
 import { pathId, readPath, sameValue, type SourcePath } from "./contract";
 import { createValuePreview } from "../tokens/valuePreview";
 import { swatchIndexAt } from "./swatchIndexReset";
+import { structureChanges } from "../structures/changes";
 
 export type OverviewId = "system" | "foundations" | "design" | "components";
 export interface DomainDefinition {
@@ -353,7 +354,9 @@ export function compareAuthoring(
               left.map((item) => item.id),
               right.map((item) => item.id),
             )
-          : !sameValue(left, right);
+          : fieldPath.at(-1) === "hideFromPublishing"
+            ? (left === true) !== (right === true)
+            : !sameValue(left, right);
       const pathStrings = fieldPath.filter(
         (part): part is string => typeof part === "string",
       );
@@ -438,6 +441,22 @@ export function compareAuthoring(
       });
     }
     walk(before, after, path, []);
+    const newStructure =
+      before === undefined &&
+      definition.topic === "structures" &&
+      sourceKind === "structure" &&
+      record(after)
+        ? working.structures?.structures.find(
+            (structure) => structure.conceptId === after.conceptId,
+          )
+        : undefined;
+    const readableStructure =
+      newStructure && working.structures && working.taxonomy
+        ? structureChanges(
+            { ...working.structures, structures: [newStructure] },
+            working.taxonomy,
+          )[0]
+        : undefined;
     if (fields.length)
       items.push({
         id: pathId(path),
@@ -450,7 +469,7 @@ export function compareAuthoring(
             : after === undefined
               ? "removed"
               : "modified",
-        fields,
+        fields: readableStructure?.fields ?? fields,
         addresses: fields.flatMap((field) =>
           field.address ? [field.address] : [],
         ),

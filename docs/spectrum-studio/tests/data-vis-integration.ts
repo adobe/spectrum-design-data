@@ -55,6 +55,7 @@ import {
   enterEditModeAtom,
   editSessionSnapshotAtom,
   resetAllAuthoringAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { aliasesAtom } from "../src/features/tokens/aliasState";
 import { tokenUuid } from "../src/features/tokens/model";
@@ -63,10 +64,15 @@ import { modeFoundationParameters } from "../src/features/impact/sources/modeFou
 import { savedBrowserConceptIdsAtom } from "../src/features/tokens/browserSavedState";
 import { primitiveReferencesAtom } from "../src/features/tokens/primitiveReferenceState";
 import { adaptiveClaimsAtom } from "../src/features/modes/adaptive";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
+import { synchronizeOpacityRows } from "../src/features/opacity/generation";
+import { synchronizeVariantIdentities } from "../src/features/structures/semanticIdentity";
+import { upgradeCanonicalTokenIdentities } from "../src/features/edit-session/canonicalIdentityUpgrade";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const store = createStore(),
   base = createColorDefaults();
-store.set(colorSystemDocumentAtom, { ...base, dataVisScales: [] });
+base.settings.colorOutput.outputFormat = "hex";
 const light = { ...createMode(), name: "Light", key: "light" },
   dark = { ...createMode(), name: "Dark", key: "dark" };
 const normal = { ...createMode(), name: "Normal", key: "normal" },
@@ -92,7 +98,17 @@ const contrast: ModeSet = {
   authoringCapabilities: ["color.contrastMultiplier"],
   modes: [normal, high],
 };
-store.set(modeSetsAtom, [geometry, contrast]);
+const fixture = createLegacyIdentitySnapshot();
+fixture.colorSystem = { ...base, dataVisScales: [] };
+fixture.modeSets = [geometry, contrast];
+fixture.opacity = synchronizeOpacityRows(fixture);
+fixture.structures = synchronizeVariantIdentities(
+  fixture.structures!,
+  fixture.modeSets,
+);
+const currentFixture = upgradeCanonicalTokenIdentities(fixture);
+assertStoredSnapshot(currentFixture);
+store.set(restoreAuthoringSnapshotAtom, currentFixture);
 store.set(adaptiveClaimsAtom, {});
 assert.throws(
   () => store.set(addContinuousDataVisAtom, "sequential"),
@@ -105,8 +121,6 @@ const sequence = store
   .get(colorSystemDocumentAtom)
   .dataVisScales.find((scale) => scale.id === sequenceId)!;
 assert.equal(sequence.kind, "sequential");
-if (sequence.kind === "categorical")
-  throw new Error("Expected a continuous fixture.");
 assert.deepEqual(
   store.get(browserTokenSourcesAtom).map((token) => token.id),
   beforeIds,
@@ -161,11 +175,11 @@ assert.equal(
   "Reset cannot mutate a prior snapshot through an aliased contrast object.",
 );
 store.set(editDataVisStructureAtom, { scaleId: sequenceId, kind: "add-point" });
-assert.equal(
-  store.get(colorSystemDocumentAtom).dataVisScales[0].kind !== "categorical" &&
-    store.get(colorSystemDocumentAtom).dataVisScales[0].points.length,
-  3,
-);
+const extendedSequence = store
+  .get(colorSystemDocumentAtom)
+  .dataVisScales.find((scale) => scale.id === sequenceId);
+assert.ok(extendedSequence && extendedSequence.kind !== "categorical");
+assert.equal(extendedSequence.points.length, 3);
 const swatches = store.get(dataVisUiSwatchesAtom);
 assert.ok(swatches.length);
 assert.ok(
@@ -232,8 +246,13 @@ const modeKey = canonicalTokenModeKey({
   contrast: normal.id,
 });
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [sourceToken.id]: {
-    values: { [modeKey]: { value: "#111111", baseline: selected.value } },
+    ...store.get(browserTokenEditsAtom)[sourceToken.id],
+    values: {
+      ...store.get(browserTokenEditsAtom)[sourceToken.id]?.values,
+      [modeKey]: { value: "#111111", baseline: selected.value },
+    },
   },
 });
 assert.equal(
@@ -356,7 +375,16 @@ assert.throws(
 );
 store.set(previewOverridesAtom, {});
 store.set(saveEditAtom);
-assert.ok(store.get(savedBrowserConceptIdsAtom).has(id));
+const savedIdentity = tokenIdentity(store.get(browserTokenEditsAtom), id);
+assert.ok(savedIdentity);
+assert.ok(store.get(savedBrowserConceptIdsAtom).has(savedIdentity.conceptId));
+assert.ok(
+  store
+    .get(browserTokensAtom)
+    .some(
+      (token) => token.id === savedIdentity.conceptId && token.sourceId === id,
+    ),
+);
 const saved = structuredClone(store.get(editSessionSnapshotAtom));
 store.set(enterEditModeAtom);
 store.set(removeDataVisScaleAtom, sequenceId);

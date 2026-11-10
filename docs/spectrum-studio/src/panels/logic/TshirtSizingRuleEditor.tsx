@@ -183,6 +183,8 @@ export function TshirtSizingRuleEditor({
               (mapping) => mapping.termId === generatorDefault(rule),
             );
             const { ratio: _ratio, roundingRuleId: _rounding, ...rest } = rule;
+            void _ratio;
+            void _rounding;
             onChange({
               ...rest,
               movement: key,
@@ -266,6 +268,7 @@ export function TshirtSizingRuleEditor({
             isDisabled={isReadOnly}
             onSelectionChange={(key) => {
               const { roundingRuleId: _rounding, ...rest } = rule;
+              void _rounding;
               onChange(
                 key === "none" || key === null
                   ? rest

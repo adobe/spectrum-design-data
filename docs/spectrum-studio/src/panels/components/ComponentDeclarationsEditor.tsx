@@ -407,9 +407,9 @@ export function ComponentDeclarationsEditor({
                   submit();
                 }}
               >
-                {/* eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit action. */}
                 <TextField
                   label={`${noun[0].toUpperCase()}${noun.slice(1)} name`}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add or Edit action.
                   autoFocus
                   isRequired
                   value={draft.name}

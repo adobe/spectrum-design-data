@@ -265,9 +265,12 @@ assert.equal(
   "The validated mixed-type batch has one observable write.",
 );
 const working = store.get(authoringSnapshotAtom);
+assert.ok(working.browserTokenEdits);
+const workingEdits = working.browserTokenEdits;
 assertStoredSnapshot(JSON.parse(JSON.stringify(working)));
 for (const item of targets) {
-  const edit = working.browserTokenEdits[item.tokenId].authoring!;
+  const edit: NonNullable<(typeof workingEdits)[string]["authoring"]> =
+    workingEdits[item.tokenId].authoring!;
   assert.deepEqual(edit.assignments[item.modeKey], item.assignment);
   assert.notEqual(edit.baselines?.[item.modeKey], undefined);
 }

@@ -85,10 +85,9 @@ cycle.components[1].declaration.anatomy![0].contains = [
 ];
 assert.throws(() => assertComponentDocument(cycle, taxonomy), /cycle/);
 const invalid = structuredClone(document);
-invalid.components[0].assignments[0] = {
-  ...invalid.components[0].assignments[0],
-  $ref: uuid(),
-};
+const missingAssignment = invalid.components[0].assignments[0];
+assert.ok(typeof missingAssignment.$ref === "string");
+missingAssignment.$ref = uuid();
 assert.throws(
   () => assertComponentReferences(invalid, taxonomy, tokens),
   /no longer/,
@@ -154,6 +153,7 @@ const contextReference = structuredClone(document);
 const contextual = tokens.find(
   (token) =>
     Object.keys(token.context).length &&
+    token.value !== undefined &&
     !propertyValueIssue("color", token.value),
 )!;
 const colorProperty = taxonomy.terms.find(

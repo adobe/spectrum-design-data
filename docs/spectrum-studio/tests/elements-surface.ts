@@ -10,9 +10,10 @@ import {
   resolvedBackgroundAtom,
 } from "../src/features/color-system/state";
 import { luminance } from "../src/features/color-system/colorMath";
-import { modeSetsAtom } from "../src/features/modes/state";
+import { modeSetsAtom, writeModeSources } from "../src/features/modes/state";
 import { modeSelectionAtom } from "../src/features/modes/selection";
 import { previewOverridesAtom } from "../src/features/modes/previewState";
+import type { ColorOutputSettings } from "../src/features/color-system/outputSettings";
 
 assert.equal(
   elementsSurfaceStyle({ css: "#ffffff", linear: [1, 1, 1], gamut: "srgb" })
@@ -39,12 +40,20 @@ assert.equal(darkStyle["--elements-preview-divider"], "rgb(255 255 255 / 20%)");
 store.set(modeSelectionAtom, {});
 assert.deepEqual(store.get(elementsSurfaceStyleAtom), lightStyle);
 
-for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
+for (const colorOutput of [
+  { authoringGamut: "srgb", outputFormat: "hex", mapOutputsToSrgb: false },
+  {
+    authoringGamut: "display-p3",
+    outputFormat: "rgb",
+    mapOutputsToSrgb: false,
+  },
+  { authoringGamut: "srgb", outputFormat: "oklch", mapOutputsToSrgb: false },
+] satisfies ColorOutputSettings[]) {
   store.set(colorSystemDocumentAtom, {
     ...structuredClone(base),
     backgroundLightness: 0.6,
-    backgroundScaleId: base.scales.find((scale) => scale.name === "Red")!.id,
-    settings: { ...base.settings, outputGamut },
+    backgroundScaleId: base.scales.find((scale) => scale.id === "scale-6")!.id,
+    settings: { ...base.settings, colorOutput },
   });
   const authored = structuredClone(store.get(colorSystemDocumentAtom));
   store.set(previewOverridesAtom, { "color.backgroundLightness": 0.15 });
@@ -53,7 +62,7 @@ for (const outputGamut of ["srgb", "display-p3", "oklch"] as const) {
   assert.equal(
     style.backgroundColor,
     background.css,
-    `${outputGamut} retains the generator's CSS format.`,
+    `${colorOutput.authoringGamut}/${colorOutput.outputFormat} retains the generator's CSS format.`,
   );
   const contrast =
     style.color === "#000000"
@@ -75,8 +84,9 @@ store.set(colorSystemDocumentAtom, {
   backgroundLightness: 0.35,
 });
 store.set(modeSelectionAtom, { colorScheme: "mode-dark" });
-store.set(
-  modeSetsAtom,
+writeModeSources(
+  store.get,
+  store.set,
   modes.filter((set) => set.key !== "colorScheme"),
 );
 const fallback = store.get(elementsSurfaceStyleAtom);
@@ -87,20 +97,26 @@ assert.deepEqual(
   fallback,
   "A stale color choice cannot replace the authored default.",
 );
-store.set(modeSetsAtom, []);
+writeModeSources(store.get, store.set, []);
 assert.deepEqual(
   store.get(elementsSurfaceStyleAtom),
   fallback,
   "No mode sets still uses the authored background.",
 );
 
-store.set(
-  modeSetsAtom,
+writeModeSources(
+  store.get,
+  store.set,
   modes.map((set) => ({
     ...set,
     authoringCapabilities: set.authoringCapabilities?.filter(
       (capability) => !capability.startsWith("color."),
     ),
+    modes: set.modes.map((mode) => {
+      const { color, ...foundations } = mode.foundations;
+      void color;
+      return { ...mode, foundations };
+    }),
   })),
 );
 store.set(modeSelectionAtom, { colorScheme: "mode-dark" });

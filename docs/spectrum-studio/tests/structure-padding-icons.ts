@@ -109,15 +109,62 @@ const panel = readFileSync(
   new URL("../src/panels/structures/StructureEditorPanel.tsx", import.meta.url),
   "utf8",
 );
-assert.match(panel, /label="Padding" prefix=\{<IconPaddingAll \/>\}/);
-for (const side of ["Top", "Right", "Bottom", "Left"]) {
-  assert.match(
-    panel,
-    new RegExp(`label: "${side} padding", prefix: <IconPadding${side} />`),
-    `${side} padding uses its matching icon.`,
-  );
+const controls = readFileSync(
+  new URL(
+    "../src/panels/structures/StructureAppearanceControls.tsx",
+    import.meta.url,
+  ),
+  "utf8",
+);
+const controlsSource = ts.createSourceFile(
+  "StructureAppearanceControls.tsx",
+  controls,
+  ts.ScriptTarget.Latest,
+  true,
+  ts.ScriptKind.TSX,
+);
+const paddingCalls: ts.CallExpression[] = [];
+function visit(node: ts.Node) {
+  if (
+    ts.isCallExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === "divided" &&
+    node.arguments[0] &&
+    ts.isStringLiteral(node.arguments[0]) &&
+    node.arguments[0].text === "Padding"
+  )
+    paddingCalls.push(node);
+  ts.forEachChild(node, visit);
 }
-assert.doesNotMatch(panel, /RectangleHoriz/);
+visit(controlsSource);
+assert.equal(paddingCalls.length, 1, "Use one shared padding field group.");
+const [, slots, sharedIcon, sideIcons] = paddingCalls[0].arguments;
+assert.ok(ts.isArrayLiteralExpression(slots));
+assert.deepEqual(
+  slots.elements.map((slot) => {
+    assert.ok(ts.isStringLiteral(slot));
+    return slot.text;
+  }),
+  ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"],
+);
+assert.ok(ts.isJsxSelfClosingElement(sharedIcon));
+assert.equal(sharedIcon.tagName.getText(controlsSource), "IconPaddingAll");
+assert.ok(ts.isArrayLiteralExpression(sideIcons));
+assert.deepEqual(
+  sideIcons.elements.map((icon) => {
+    assert.ok(ts.isJsxSelfClosingElement(icon));
+    return icon.tagName.getText(controlsSource);
+  }),
+  [
+    "IconPaddingTop",
+    "IconPaddingRight",
+    "IconPaddingBottom",
+    "IconPaddingLeft",
+  ],
+  "Each padding side uses the matching directional artwork.",
+);
+assert.match(panel, /<StructureAppearanceControls\b/);
+assert.doesNotMatch(controls, /RectangleHoriz/);
 console.log(
   "Padding icons: supplied artwork, native Spectrum wrapper/color and all five field mappings passed.",
 );

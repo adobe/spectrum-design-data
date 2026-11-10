@@ -37,9 +37,11 @@ const {
   cancelEditAtom,
   authoringSnapshotAtom,
   editSessionSnapshotAtom,
-  assertStoredSnapshot,
+  assertStoredSnapshot: validateStoredSnapshot,
   resetAllAuthoringAtom,
 } = await import("../src/features/edit-session/state");
+const assertStoredSnapshot: typeof import("../src/features/edit-session/state").assertStoredSnapshot =
+  validateStoredSnapshot;
 const { taxonomyDocumentAtom } = await import("../src/features/taxonomy/state");
 const { editReferencedTaxonomyAtom, taxonomyEvidenceSourcesAtom } =
   await import("../src/features/taxonomy/editing");
@@ -99,7 +101,7 @@ assert(
 );
 const text = first
   .get(taxonomyDocumentAtom)
-  .terms.find((term) => term.value === "Text")!;
+  .terms.find((term) => term.value === "text")!;
 const definition = classificationStandard.concepts.find(
   (entry) => entry.id === "element:text",
 )!.definition;

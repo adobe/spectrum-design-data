@@ -4,7 +4,7 @@ import {
   isPlatformList,
   resolvePlatforms,
 } from "../src/features/platforms/model";
-import { createStore } from "jotai";
+import { atom, createStore } from "jotai";
 import {
   MODE_SET_DEFAULTS,
   migrateModeSets,
@@ -15,7 +15,14 @@ import {
   normalizeModeState,
   normalizeModeStateAtom,
 } from "../src/features/modes/integrity";
-import { modeSetsAtom } from "../src/features/modes/state";
+import { modeSetsAtom, writeModeSources } from "../src/features/modes/state";
+import {
+  createDefaultSnapshot,
+  restoreAuthoringSnapshotAtom,
+  authoringSnapshotAtom,
+  assertStoredSnapshot,
+} from "../src/features/edit-session/state";
+import { inlineFixtureReferences } from "./fixtures/componentReferences";
 import {
   modeSelectionAtom,
   resolveActiveMode,
@@ -239,12 +246,31 @@ assert.deepEqual(
 
 // The atom writes back corrected state and leaves valid state untouched.
 const store = createStore();
-store.set(modeSetsAtom, migrated);
-store.set(modeSelectionAtom, storedSelection);
+const fixture = inlineFixtureReferences(
+  createDefaultSnapshot(),
+  (target) => target.property !== "color",
+);
+if (!fixture.platforms.some((platform) => platform.id === "react"))
+  fixture.platforms.push(...platformFixture);
+store.set(restoreAuthoringSnapshotAtom, fixture);
+const restoreLegacyModesAtom = atom(null, (get, set) =>
+  writeModeSources(get, set, normalized.modeSets),
+);
+store.set(restoreLegacyModesAtom);
+store.set(modeSelectionAtom, { ...storedSelection, missing: "missing-mode" });
 store.set(adaptiveClaimsAtom, storedClaims);
+const beforeInvalidWrite = structuredClone(store.get(authoringSnapshotAtom));
+assert.throws(
+  () => store.set(modeSetsAtom, migrated),
+  { message: /^opacity-100: persisted mode-row identity is unavailable\./ },
+  "Unnormalized historical data cannot be written as current authoring data.",
+);
+assert.deepEqual(store.get(authoringSnapshotAtom), beforeInvalidWrite);
 assert.ok(store.set(normalizeModeStateAtom).length > 0);
+assert.deepEqual(store.get(modeSelectionAtom), normalized.selection);
 assert.equal(store.get(resolvedColorSystemDocumentAtom).backgroundLightness, 0);
 assert.deepEqual(store.set(normalizeModeStateAtom), []);
 assert.equal(modeSetDefaultMode(store.get(modeSetsAtom)[0])?.id, "mode-light");
+assertStoredSnapshot(store.get(authoringSnapshotAtom));
 
 console.log("Mode integrity checks passed.");

@@ -13,7 +13,7 @@ export function createGraySnapshot(custom = true) {
   const store = createStore();
   store.set(restoreAuthoringSnapshotAtom, createDefaultSnapshot());
   const color = structuredClone(store.get(colorSystemDocumentAtom));
-  const shippedGray = color.scales.find((scale) => scale.name === "Gray");
+  const shippedGray = color.scales.find((scale) => scale.id === "scale-gray");
   const shared = color.scales.find((scale) => !scale.customContrasts);
   if (!shippedGray || !shared)
     throw new Error(

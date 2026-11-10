@@ -1,14 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import { applyStopPatch } from "../src/features/color-system/paletteReferences";
+import { createStore } from "jotai";
+import { enterEditModeAtom } from "../src/features/edit-session/state";
+import {
+  colorSystemDocumentAtom,
+  updateColorStopAtom,
+} from "../src/features/color-system/state";
 import {
   contrastStepIndex,
   sortContrastSteps,
 } from "../src/features/color-system/contrastSteps";
-import type {
-  ColorScale,
-  PaletteColor,
-} from "../src/features/color-system/model";
+import type { ColorScale } from "../src/features/color-system/model";
 import { STANDARD_SCALE_NAMING_RULE } from "../src/features/logic/scaleNaming";
 import { isGradientDragIntentional } from "../src/components/color-picker/gradientStopPositions";
 
@@ -19,38 +21,60 @@ for (const movement of [6, -6, 20, -20])
 for (const pointerType of ["touch", "pen"])
   assert.equal(isGradientDragIntentional(pointerType, 100, 101), true);
 
-const palette: PaletteColor[] = [
-  { id: "brand", name: "Brand", lightness: 0.6, hue: 140, chroma: 30 },
-];
-const stop = {
-  id: "stop",
-  paletteColorId: "brand",
-  lightness: 0.1,
-  hue: 20,
-  chroma: 10,
-};
-const channels = { lightness: 0.54321, hue: 142.234, chroma: 21.987 };
-assert.deepEqual(applyStopPatch(stop, channels, palette), {
-  id: stop.id,
+const store = createStore();
+store.set(enterEditModeAtom);
+const document = store.get(colorSystemDocumentAtom);
+const palette = structuredClone(document.palette);
+const color = palette[0];
+const scaleId = document.scales[0].id;
+const stopId = document.scales[0].stops[0].id;
+const currentStop = () =>
+  store
+    .get(colorSystemDocumentAtom)
+    .scales.find((scale) => scale.id === scaleId)!
+    .stops.find((stop) => stop.id === stopId)!;
+const link = () =>
+  store.set(updateColorStopAtom, {
+    scaleId,
+    stopId,
+    paletteColorId: color.id,
+  });
+link();
+const stop = currentStop();
+const linkedDocument = structuredClone(store.get(colorSystemDocumentAtom));
+const { paletteColorId, ...unlinkedStop } = stop;
+assert.equal(paletteColorId, color.id);
+const channels = { lightness: 0.54321, hue: 142.25, chroma: 0.21987 };
+store.set(updateColorStopAtom, { scaleId, stopId, ...channels });
+assert.deepEqual(currentStop(), {
+  ...unlinkedStop,
   ...channels,
 });
 assert.equal(
   stop.paletteColorId,
-  "brand",
+  color.id,
   "Detaching must not mutate the source.",
 );
 assert.deepEqual(
-  applyStopPatch(stop, { lightness: 0.5 }, palette),
-  { id: stop.id, lightness: 0.5, hue: 140, chroma: 30 },
+  linkedDocument.scales
+    .find((scale) => scale.id === scaleId)!
+    .stops.find((source) => source.id === stopId),
+  stop,
+);
+link();
+store.set(updateColorStopAtom, { scaleId, stopId, lightness: 0.5 });
+assert.deepEqual(
+  currentStop(),
+  { ...unlinkedStop, lightness: 0.5, hue: color.hue, chroma: color.chroma },
   "Partial literal edits start from the displayed palette value.",
 );
-assert.deepEqual(palette[0], {
-  id: "brand",
-  name: "Brand",
-  lightness: 0.6,
-  hue: 140,
-  chroma: 30,
-});
+assert.deepEqual(store.get(colorSystemDocumentAtom).palette, palette);
+assert.deepEqual(
+  store
+    .get(colorSystemDocumentAtom)
+    .scales.filter((scale) => scale.id !== scaleId),
+  document.scales.filter((scale) => scale.id !== scaleId),
+);
 
 const scale: ColorScale = {
   id: "editor-scale",

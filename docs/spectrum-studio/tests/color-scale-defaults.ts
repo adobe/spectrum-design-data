@@ -12,18 +12,17 @@ import {
   resolvedColorSystemDocumentAtom,
   updatePaletteColorAtom,
 } from "../src/features/color-system/state";
-import { modeSetsAtom } from "../src/features/modes/state";
 import { browserTokenImpactRecordsAtom } from "../src/features/tokens/browserSavedState";
 import { generatedColorTokensAtom } from "../src/features/tokens/state";
 
 const base = createColorDefaults();
 const expectedPaletteLinks = [
-  ["scale-14", "Orange", "stop-15", 0, 3, "illustrator-color"],
-  ["scale-29", "Celery", "stop-30", 0, 2, "dimension-color"],
-  ["scale-44", "Cyan", "stop-46", 1, 3, "photoshop-color"],
-  ["scale-53", "Indigo", "stop-54", 0, 3, "after-effects-color"],
-  ["scale-60", "Fuchsia", "stop-61", 0, 3, "xd-color"],
-  ["scale-3", "Magenta", "stop-4", 0, 2, "indesign-color"],
+  ["scale-14", "orange", "stop-15", 0, 3, "illustrator-color"],
+  ["scale-29", "celery", "stop-30", 0, 3, "dimension-color"],
+  ["scale-44", "cyan", "stop-46", 1, 3, "photoshop-color"],
+  ["scale-53", "indigo", "stop-54", 0, 3, "after-effects-color"],
+  ["scale-60", "fuchsia", "stop-61", 0, 3, "xd-color"],
+  ["scale-3", "magenta", "stop-4", 0, 2, "indesign-color"],
 ] as const;
 for (const [
   scaleId,
@@ -48,7 +47,14 @@ for (const [
     [stop.lightness, stop.hue, stop.chroma],
     [palette.lightness, palette.hue, palette.chroma],
   );
-  if (name !== "Cyan")
+  if (scaleId === "scale-29") {
+    assert.equal(scale.stops[2].id, "stop-32");
+    assert.equal(scale.stops[2].paletteColorId, undefined);
+    assert.ok(
+      stop.lightness < scale.stops[2].lightness,
+      "Celery retains its independent lighter stop above the palette link.",
+    );
+  } else if (scaleId !== "scale-44")
     assert.equal(
       stop.lightness,
       Math.max(...scale.stops.map((item) => item.lightness)),
@@ -87,11 +93,7 @@ assert.ok(
 
 for (const palette of base.palette) {
   const linkedStore = createStore();
-  const consumers = paletteConsumers(
-    base,
-    linkedStore.get(modeSetsAtom),
-    palette.id,
-  );
+  const consumers = paletteConsumers(base, palette.id);
   assert.equal(
     consumers.length,
     1,

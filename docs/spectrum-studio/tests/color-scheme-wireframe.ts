@@ -191,7 +191,7 @@ const relative = applyScaleAdjustment(snapshot.colorSystem, {
 const continuous = snapshot.colorSystem.dataVisScales.find(
   (scale) => scale.kind !== "categorical",
 )!;
-assert.ok(continuous && continuous.kind !== "categorical");
+assert.ok(continuous);
 const points: DataVisPoint[] = [
   {
     id: "owned",

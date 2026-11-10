@@ -19,7 +19,11 @@ import {
   resolveScaleColorAtLightness,
 } from "../src/features/color-system/scaleGeneration";
 import { resolveColorDocument } from "../src/features/color-system/resolution";
-import { multiplyContrast } from "../src/features/color-system/polarity";
+import {
+  effectiveContrast,
+  multiplyContrast,
+  polarityContext,
+} from "../src/features/color-system/polarity";
 import { generateColorTokensForScale } from "../src/features/tokens/generation";
 import { resolvedBackgroundLinear } from "../src/features/color-system/surfaceGeneration";
 import { modeSetDefaultMode, type Mode } from "../src/features/modes/model";
@@ -33,6 +37,8 @@ import {
 } from "../src/features/design-data/projection";
 import { outputInventory } from "../src/features/design-data/materialization";
 import { generatedColorTokensAtom } from "../src/features/tokens/state";
+import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import {
   browserTokenImpactRecordsAtom,
   savedBrowserConceptIdsAtom,
@@ -51,16 +57,16 @@ const gray = color.scales[0];
 const custom = gray.customContrasts!;
 const rules = designSystemDefaults.system.rules;
 assert.equal(gray.id, "scale-gray");
-assert.equal(gray.name, "Gray");
+assert.equal(gray.name, "gray");
 assert.equal(
   color.scales[1].name,
-  "Silver",
+  "silver",
   "Gray is added, not renamed from Silver.",
 );
 assert.equal(
   color.backgroundScaleId,
-  color.scales[1].id,
-  "Adding the first scale does not change the background source.",
+  gray.id,
+  "The authored Gray scale supplies the current background.",
 );
 assert.equal(gray.stops.length, 1);
 assert.equal(gray.stops[0].chroma, 0);
@@ -119,8 +125,9 @@ for (const dark of [false, true])
       modeSets: sets,
     });
     const resolvedGray = document.scales[0];
-    const expected = (dark ? grayDarkRatios : grayLightRatios).map((ratio) =>
-      multiplyContrast(ratio, high ? 2 : 1),
+    const context = polarityContext(document);
+    const expected = custom.steps.map((step) =>
+      multiplyContrast(effectiveContrast(step, context), high ? 2 : 1),
     );
     assert.deepEqual(
       resolvedGray.customContrasts!.steps.map((step) => step.value),
@@ -153,11 +160,18 @@ assert.deepEqual(
 );
 
 const shipped = defaultsAnalysisInput();
-const withoutGray = structuredClone(designSystemDefaults);
+const comparisonWithGray = structuredClone(designSystemDefaults);
+comparisonWithGray.system.foundations.color.backgroundScaleId =
+  color.scales[1].id;
+const comparison = projectAuthoringDataset(comparisonWithGray, shipped.source);
+const withoutGray = structuredClone(comparisonWithGray);
 withoutGray.system.foundations.color.scales =
   withoutGray.system.foundations.color.scales.slice(1);
+withoutGray.system.foundations.color.backgroundScaleId =
+  withoutGray.system.foundations.color.scales[0].id;
 const before = projectAuthoringDataset(withoutGray, shipped.source);
 assert.deepEqual(shipped.errors, []);
+assert.deepEqual(comparison.errors, []);
 assert.deepEqual(before.errors, []);
 const previousTokens = new Map(
   before.records
@@ -165,7 +179,7 @@ const previousTokens = new Map(
     .map((record) => [record.id, record]),
 );
 const currentTokens = new Map(
-  shipped.records
+  comparison.records
     .filter((record) => record.category === "tokens")
     .map((record) => [record.id, record]),
 );
@@ -180,12 +194,12 @@ const added = [...currentTokens.values()].filter(
 );
 assert.equal(
   new Set(added.map((token) => token.conceptId)).size,
-  26,
-  "Thirteen swatches and thirteen exported ratio concepts are added.",
+  grayIndices.length,
+  "Thirteen swatches are published; contrast ratios remain authored inputs.",
 );
 assert.equal(
   added.length,
-  26 * scheme.modes.length * contrast.modes.length,
+  grayIndices.length * scheme.modes.length * contrast.modes.length,
   "Only existing color-owned mode combinations are emitted.",
 );
 assert.ok(added.every((token) => token.classification === "generated"));
@@ -202,12 +216,17 @@ assert.equal(
     .filter((token) => token.source.scaleId === gray.id).length,
   13,
 );
+const grayConceptIds = lightIds!.map((id) => {
+  const identity = tokenIdentity(store.get(browserTokenEditsAtom), id);
+  assert.ok(identity);
+  return identity.conceptId;
+});
 assert.ok(
-  lightIds!.every((id) => store.get(savedBrowserConceptIdsAtom).has(id)),
+  grayConceptIds.every((id) => store.get(savedBrowserConceptIdsAtom).has(id)),
 );
 const impact = store
   .get(browserTokenImpactRecordsAtom)
-  .filter((record) => lightIds!.includes(record.tokenId));
+  .filter((record) => grayConceptIds.includes(record.tokenId));
 assert.equal(impact.length, 13);
 assert.ok(
   impact.every(
@@ -232,8 +251,17 @@ const css = buildColorLibrary(
 );
 assert.ok(css.includes(".color-scale-gray.color-contrast-25"));
 assert.ok(css.includes(".color-scale-gray.color-contrast-1000"));
-for (const [index, value] of grayDarkRatios.entries())
-  assert.ok(css.includes(`--contrast-gray-${grayIndices[index]}: ${value};`));
+const darkDocument = store
+  .get(colorSchemeDocumentsAtom)
+  .find((mode) => mode.key === "dark")!.document;
+const darkGray = darkDocument.scales.find((scale) => scale.id === gray.id)!;
+for (const [index, step] of darkGray.customContrasts!.steps.entries())
+  assert.ok(
+    css.includes(
+      `--contrast-gray-${grayIndices[index]}: ${Number(step.value.toFixed(6))};`,
+    ),
+    "CSS uses the resolved Dark ratios, including its non-black background.",
+  );
 console.log(
-  "Gray defaults: first-position neutral key, exact Light/Dark ratios, naming, modes, unchanged existing output and generated baselines passed.",
+  "Gray defaults: authored ratios, resolved modes and CSS, canonical identities, isolated addition and generated baselines passed.",
 );

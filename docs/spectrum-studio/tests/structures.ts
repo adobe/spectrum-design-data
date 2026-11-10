@@ -59,6 +59,7 @@ import {
 } from "../src/features/structures/resolution";
 import { editModeAtom } from "../src/state/view/editMode";
 import { structureChanges } from "../src/features/structures/changes";
+import { pathId } from "../src/features/changelog/contract";
 import {
   changeGroupsAtom,
   revertChangeItemAtom,
@@ -810,8 +811,37 @@ assert.deepEqual(
     "Generate sizes",
   ],
 );
+assert.equal(
+  group.items[0].fields.find((field) => field.key === "Width")?.after,
+  `Token ${width.id}`,
+  "New Structure changes describe the binding instead of showing the properties array.",
+);
+assert.deepEqual(
+  group.items[0].address?.path,
+  ["structures", "structures", { key: "conceptId", id: countedId }],
+  "Readable fields retain the complete source address for an atomic item reset.",
+);
 assert.deepEqual(counted.get(tokenImpactSummaryAtom), tokenBaseline);
-assert.deepEqual(counted.get(foundationImpactSummaryAtom), foundationBaseline);
+const foundationImpact = counted.get(foundationImpactSummaryAtom);
+const expectedEdited = {
+  count: foundationBaseline.edited.count + 1,
+  total: foundationBaseline.edited.total + 1,
+};
+assert.deepEqual(foundationImpact.edited, {
+  ...expectedEdited,
+  fraction: expectedEdited.count / expectedEdited.total,
+});
+assert.deepEqual(
+  foundationImpact.categories.map(({ category, affected }) => [
+    category,
+    affected.count,
+  ]),
+  foundationBaseline.categories.map(({ category, affected }) => [
+    category,
+    affected.count + (category === "registry" ? 1 : 0),
+  ]),
+  "Only the new registered Structure name changes authored impact; its bindings do not edit foundations.",
+);
 const analysis = counted.get(analysisWorkingInputAtom);
 assert.deepEqual(analysis.errors, []);
 assert.ok(
@@ -921,7 +951,11 @@ assert.deepEqual(
 const customChange = guardedRevert
   .get(changeGroupsAtom)
   .find((item) => item.id === "foundations")!
-  .items.find((item) => item.id === customSizeId)!;
+  .items.find(
+    (item) =>
+      item.id === pathId(["size", "scales", { key: "id", id: customSizeId }]),
+  );
+assert.ok(customChange, "The new Size scale has an addressed Changes item.");
 assert.throws(
   () => guardedRevert.set(revertChangeItemAtom, customChange),
   /Structure 1.*Width/,

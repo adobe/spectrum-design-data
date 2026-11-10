@@ -4,6 +4,9 @@ import type { BrowserTokenEdits } from "./browserEditTypes";
 import type { ColorSystemDocument } from "../color-system/model";
 import { normalizeManualColorOutput } from "./colorOutput";
 import { tokenEdit } from "./canonicalIdentity";
+import { resolveBrowserTokens } from "./browserResolution";
+import { browserColorSources } from "./colorBrowserSources";
+import { ColorOutputError } from "../color-system/outputContrast";
 
 export function canonicalTokenModeKey(selection: Record<string, string>) {
   return JSON.stringify(
@@ -58,4 +61,56 @@ export function resolveBrowserColorToken(
       ),
   };
   return document ? normalizeManualColorOutput(resolved, document) : resolved;
+}
+
+export function resolveBrowserColorTokens(
+  tokens: ResolvedToken[],
+  edits: BrowserTokenEdits,
+  modeKey: string,
+  document: ColorSystemDocument,
+  onBlocked?: (token: ResolvedToken, error: ColorOutputError) => void,
+): ResolvedToken[] {
+  const evaluate = (token: ResolvedToken, resolve: () => ResolvedToken) => {
+    try {
+      return [resolve()];
+    } catch (error) {
+      if (!onBlocked || !(error instanceof ColorOutputError)) throw error;
+      onBlocked(token, error);
+      return [];
+    }
+  };
+  const legacy = tokens.flatMap((token) =>
+    evaluate(token, () =>
+      resolveBrowserColorToken(token, edits, modeKey, document),
+    ),
+  );
+  if (
+    !Object.values(edits).some(
+      (edit) =>
+        Object.keys(edit.authoring?.assignments ?? {}).length ||
+        edit.authoring?.lifecycle?.frozen,
+    )
+  )
+    return legacy;
+  const resolved = new Map(
+    resolveBrowserTokens(browserColorSources(legacy), edits, modeKey).map(
+      (row) => [row.sourceId ?? row.id, row],
+    ),
+  );
+  return legacy.flatMap((token) =>
+    evaluate(token, () => {
+      const row = resolved.get(token.uuid);
+      if (!row) throw new Error(`Color token ${token.uuid} is unavailable.`);
+      if (row.validationError) throw new Error(row.validationError);
+      return normalizeManualColorOutput(
+        {
+          ...token,
+          value: String(row.value),
+          valueOverridden: row.valueOverridden,
+          stale: row.stale,
+        },
+        document,
+      );
+    }),
+  );
 }

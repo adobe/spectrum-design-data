@@ -40,6 +40,7 @@ import { browserSourcesForSnapshot } from "../src/features/tokens/browserSavedSt
 import { tokenUuid } from "../src/features/tokens/model";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { comparePrimitiveTokens } from "../src/features/changelog/tokenComparison";
+import { revertChangeItemAtom } from "../src/features/changelog/state";
 
 const defaults = createDefaultSnapshot();
 const initial: ResetSnapshot = {
@@ -499,6 +500,29 @@ assert.equal(
   "A later edit",
 );
 
+const legacyResetStore = createStore();
+legacyResetStore.set(restoreAuthoringSnapshotAtom, structuredClone(initial));
+legacyResetStore.set(editModeAtom, false);
+const legacyBefore = legacyResetStore.get(authoringSnapshotAtom);
+assert.throws(
+  () => legacyResetStore.set(revertChangeItemAtom, documentCard),
+  /Enter edit mode/,
+);
+assert.deepEqual(legacyResetStore.get(authoringSnapshotAtom), legacyBefore);
+legacyResetStore.set(editModeAtom, true);
+const legacySaved = legacyResetStore.get(editSessionSnapshotAtom);
+legacyResetStore.set(revertChangeItemAtom, documentCard);
+assert.deepEqual(
+  legacyResetStore.get(authoringSnapshotAtom).spacing,
+  restored.spacing,
+  "Legacy item resets use registered source addresses, not display-card IDs.",
+);
+assert.equal(
+  legacyResetStore.get(authoringSnapshotAtom).typography.textZoom,
+  initial.typography.textZoom,
+);
+assert.deepEqual(legacyResetStore.get(editSessionSnapshotAtom), legacySaved);
+
 const store = createStore();
 store.set(restoreAuthoringSnapshotAtom, structuredClone(initial));
 store.set(editModeAtom, false);
@@ -589,6 +613,7 @@ const rejectedPin = generatedResetOptions(
   increasedContrast,
 )[0].plan!;
 const retainedContrast = structuredClone(increasedContrast);
+assertStoredSnapshot(increasedContrast);
 assert.throws(
   () =>
     prepareChangeReset({ ...increasedContrast, attachments: {} }, rejectedPin, [

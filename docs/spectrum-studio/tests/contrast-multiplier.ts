@@ -14,13 +14,13 @@ import {
 import { resolveColorDocument } from "../src/features/color-system/state";
 import {
   MODE_SET_DEFAULTS,
-  MODE_SETS_SCHEMA_VERSION,
   migrateModeSets,
   modeSetDefaultMode,
   type ModeSet,
 } from "../src/features/modes/model";
 import { parameterOwners } from "../src/features/modes/parameters";
 import { buildCascadeTokenExport } from "../src/features/tokens/cascadeExport";
+import { scaleContrasts } from "../src/features/color-system/contrastSteps";
 
 const near = (actual: number, expected: number, message: string) =>
   assert.ok(
@@ -105,18 +105,18 @@ assert.equal(
 );
 
 // Migration adds the Contrast and text scaling sets once and keeps user sets.
-assert.equal(MODE_SETS_SCHEMA_VERSION, 8);
 const withoutContrast = defaults.filter(
   (modeSet) => modeSet.key !== "contrast" && modeSet.key !== "textScaling",
 );
 const migrated = migrateModeSets(withoutContrast, 2)!;
 assert.deepEqual(
-  migrated.map((modeSet) => modeSet.key),
-  ["colorScheme", "contrast", "textScaling"],
+  new Set(migrated.map((modeSet) => modeSet.key)),
+  new Set(defaults.map((modeSet) => modeSet.key)),
+  "Migration adds missing owners and retains the authored Scale mode set.",
 );
 assert.equal(
   migrateModeSets(migrated, 2)!.length,
-  3,
+  defaults.length,
   "never adds a second Contrast set",
 );
 
@@ -159,28 +159,42 @@ const exported = buildCascadeTokenExport({
   overrides: {},
 });
 assert.deepEqual(exported.modeSets, [
-  { name: "colorScheme", modes: ["light", "dark"], default: "light" },
+  {
+    name: "colorScheme",
+    modes: ["light", "dark", "wireframe"],
+    default: "light",
+  },
   { name: "contrast", modes: ["regular", "high"], default: "regular" },
 ]);
 const colorRows = exported.tokens.filter(
   (row) => row.name.property === "color",
 );
+const colorSchemeSet = defaults.find((axis) => axis.key === "colorScheme")!;
 assert.equal(
   colorRows.length,
-  document.scales.length * document.contrasts.length * 4 +
+  document.scales.reduce(
+    (count, scale) => count + scaleContrasts(document, scale).length,
+    0,
+  ) *
+    colorSchemeSet.modes.length *
+    contrastSet.modes.length +
     document.palette.length,
-  "palette colors export one row each",
+  "Each scale uses its own contrast steps in every owned context; palette colors stay invariant.",
 );
 const concept = colorRows[0].conceptId;
 const rows = colorRows.filter((row) => row.conceptId === concept);
 assert.deepEqual(
   rows.map(({ name }) => [name.colorScheme, name.contrast]),
-  [
-    [undefined, undefined],
-    [undefined, "high"],
-    ["dark", undefined],
-    ["dark", "high"],
-  ],
+  colorSchemeSet.modes.flatMap((schemeMode) =>
+    contrastSet.modes.map((contrastMode) => [
+      schemeMode.id === colorSchemeSet.defaultModeId
+        ? undefined
+        : schemeMode.key,
+      contrastMode.id === contrastSet.defaultModeId
+        ? undefined
+        : contrastMode.key,
+    ]),
+  ),
 );
 assert.equal(
   new Set(exported.tokens.map((row) => row.uuid)).size,

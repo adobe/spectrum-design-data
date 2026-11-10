@@ -4,7 +4,6 @@ import { createStore } from "jotai";
 import {
   assertStoredSnapshot,
   authoringSnapshotAtom,
-  createDefaultSnapshot,
   editSessionSnapshotAtom,
 } from "../src/features/edit-session/state";
 import { initializeAuthoringPersistence } from "../src/features/edit-session/persistence";
@@ -17,8 +16,9 @@ import {
 } from "../src/features/edit-session/storage";
 import { modeSetsAtom } from "../src/features/modes/state";
 import { persistenceIssuesAtom } from "../src/state/persist";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
 
-const saved = createDefaultSnapshot();
+const saved = createLegacyIdentitySnapshot();
 assertStoredSnapshot(saved);
 saved.modeSets = saved.modeSets.filter((set) => set.key !== "scale");
 function removeNewContexts(value: unknown) {

@@ -20,6 +20,7 @@ import {
   encodeStructureSource,
   decodeStructureSource,
 } from "../src/features/edit-session/structureSourceCodec";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
 
 const shipped = createDefaultSnapshot();
 function reviewField(
@@ -44,7 +45,7 @@ function reviewField(
   assertStoredSnapshot(reset);
   assert.deepEqual(
     readPath(reset, field.address.path),
-    readPath(baseline, field.address.path),
+    readPath(shipped, field.address.path),
     `${name} resets to its shipped value.`,
   );
   assert.equal(reset.platforms[0].name, "Keep this unrelated edit");
@@ -82,6 +83,7 @@ for (const parameter of ["componentSize", "textSize"] as const)
       field.address?.path[0] === "modeSets" &&
       field.address.path.at(-1) === parameter,
   );
+const availabilityBaseline = createLegacyIdentitySnapshot();
 for (const parameter of ["size.componentSize", "typography.textSize"] as const)
   reviewField(
     `${parameter} availability`,
@@ -105,6 +107,7 @@ for (const parameter of ["size.componentSize", "typography.textSize"] as const)
     (field) =>
       field.address?.path.includes(parameter) === true &&
       field.address.path.at(-1) === "modal",
+    availabilityBaseline,
   );
 
 if (process.argv.includes("--sizing-only")) {
@@ -140,14 +143,18 @@ for (const method of ["relative", "absolute"] as const) {
 reviewField(
   "Color scale type",
   (snapshot) => {
-    snapshot.colorSystem.settings.colorScaleType = "opaque";
+    snapshot.colorSystem.settings.colorScaleType =
+      shipped.colorSystem.settings.colorScaleType === "opaque"
+        ? "transparent"
+        : "opaque";
   },
   endsWith("colorScaleType"),
 );
 reviewField(
   "Opacity-linked default stops",
   (snapshot) => {
-    snapshot.colorSystem.settings.syncDefaultStopsWithOpacity = true;
+    snapshot.colorSystem.settings.syncDefaultStopsWithOpacity =
+      !shipped.colorSystem.settings.syncDefaultStopsWithOpacity;
   },
   endsWith("syncDefaultStopsWithOpacity"),
 );
@@ -280,7 +287,8 @@ const scaleChange = compareAuthoring(shipped, disabled)
   .groups.flatMap((group) => group.items)
   .find((item) =>
     item.address?.path.some(
-      (part) => typeof part === "object" && part.id === scale.id,
+      (part) =>
+        typeof part === "object" && "id" in part && part.id === scale.id,
     ),
   );
 assert.ok(scaleChange);
@@ -308,18 +316,20 @@ const family = manual.taxonomy!.categories.find(
 const familyTerm = manual.taxonomy!.terms.find(
   (term) => term.categoryId === family.id,
 )!;
+const draftId = crypto.randomUUID();
 const draft = createNewTokenEdit(
   manual.taxonomy!,
   { tier: "primitive", type: "colors", terms: { [family.id]: familyTerm.id } },
   manual.browserTokenEdits ?? {},
   [],
+  draftId,
 );
 manual.browserTokenEdits = { ...manual.browserTokenEdits, ...draft };
 reviewField(
   "Manual token tier",
   (snapshot) => {
-    snapshot.browserTokenEdits[Object.keys(draft)[0]].authoring!.manual!.tier =
-      "component";
+    assert.ok(snapshot.browserTokenEdits);
+    snapshot.browserTokenEdits[draftId].authoring!.manual!.tier = "component";
   },
   endsWith("tier"),
   manual,

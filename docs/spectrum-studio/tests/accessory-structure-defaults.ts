@@ -64,8 +64,14 @@ import {
 } from "../src/features/taxonomy/generatedReviewExport";
 import { EMPTY_ALIASES } from "../src/features/tokens/aliases";
 
-const snapshot = createDefaultSnapshot();
-assertStoredSnapshot(snapshot);
+const defaults = createDefaultSnapshot();
+assertStoredSnapshot(defaults);
+assert.ok(defaults.rules && defaults.spacing);
+const snapshot = {
+  ...defaults,
+  rules: defaults.rules,
+  spacing: defaults.spacing,
+};
 const catalog = snapshot.structures!.structures;
 assertStructureGraph(catalog);
 assert.equal(catalog.length, 10);
@@ -106,7 +112,12 @@ const records = canonicalAliasRows(
   "strict",
 );
 assert.ok(records.some((record) => record.token.type === "opacity"));
-assertTshirtGraph(bundle.tokens, undefined, ["2x-small", "2x-large"]);
+assertTshirtGraph(
+  bundle.tokens,
+  undefined,
+  ["2x-small", "2x-large"],
+  bundle.modeSets,
+);
 assert.equal(bundle.semantics.length, 122);
 const unchanged = bundle.semantics.filter(
   (row) => row.structureId === catalog[1].conceptId,
@@ -223,7 +234,7 @@ for (const [index, size] of ["xs", "s", "m", "l", "xl"].entries()) {
     [item, [8, 10, 10, 12, 14], [3, 3, 5, 7, 9]],
     [workflow, [14, 14, 16, 18, 20], [2, 2, 3, 5, 7]],
   ] as const) {
-    const leaf = resolveElements(
+    const leaf: ReturnType<typeof resolveElements>[number] = resolveElements(
       structure,
       references,
       snapshot.rules,

@@ -1,74 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { isTokenTier } from "./tier";
 import type { BrowserTokenSource } from "./browserModel";
-import type {
-  TokenAssignment,
-  TokenAuthoring,
-  TokenShadowLayer,
-} from "./browserEditTypes";
+import type { TokenAssignment, TokenAuthoring } from "./browserEditTypes";
 import { assertShadowValue } from "../design-data/shadowValue";
 import { isTokenIdentity } from "./canonicalIdentity";
-
-export const modePairs = (key: string): [string, string][] => {
-  const parsed: unknown = JSON.parse(key);
-  if (
-    !Array.isArray(parsed) ||
-    !parsed.every(
-      (pair: unknown) =>
-        Array.isArray(pair) &&
-        pair.length === 2 &&
-        pair.every((part) => typeof part === "string"),
-    )
-  )
-    throw new Error("Invalid token mode context.");
-  const pairs: [string, string][] = parsed;
-  if (new Set(pairs.map(([id]) => id)).size !== pairs.length)
-    throw new Error("A mode context repeats a mode set.");
-  return pairs;
-};
-
-export function assignmentForMode<T>(
-  assignments: Readonly<Record<string, T>>,
-  key: string,
-): T | undefined {
-  const selected = new Map(modePairs(key));
-  const matches = Object.entries(assignments)
-    .filter(([context]) =>
-      modePairs(context).every(([axis, mode]) => selected.get(axis) === mode),
-    )
-    .sort(([a], [b]) => modePairs(b).length - modePairs(a).length);
-  if (
-    matches.length > 1 &&
-    modePairs(matches[0][0]).length === modePairs(matches[1][0]).length
-  )
-    throw new Error(
-      "Overlapping token assignments have the same mode specificity.",
-    );
-  return matches[0]?.[1];
-}
-
-export function compatibleTokenTypes(
-  token: Pick<BrowserTokenSource, "type" | "unit" | "groupId">,
-  target: Pick<BrowserTokenSource, "type" | "unit" | "groupId">,
-) {
-  if (token.unit !== target.unit) return false;
-  if (token.type === "typography" || target.type === "typography")
-    return token.type === target.type && token.groupId === target.groupId;
-  const dimensions = ["spacing", "size", "radius"];
-  return (
-    token.type === target.type ||
-    (dimensions.includes(token.type) && dimensions.includes(target.type))
-  );
-}
-
-export function shadowText(layers: readonly TokenShadowLayer[]): string {
-  return layers
-    .map(
-      (layer) =>
-        `${layer.x} ${layer.y} ${layer.blur} ${layer.spread} ${layer.color}`,
-    )
-    .join(", ");
-}
+import { modePairs } from "./browserResolution";
+export {
+  assignmentForMode,
+  compatibleTokenTypes,
+  modePairs,
+  shadowText,
+} from "./browserResolution";
 
 export function literalAssignment(
   source: BrowserTokenSource,

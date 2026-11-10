@@ -5,7 +5,6 @@ import {
   applyRoundingRule,
   roundingFactorFor,
 } from "../src/features/logic/evaluate";
-import { RULE_DEFAULTS } from "../src/features/logic/defaults";
 import {
   comparisonSelection,
   comparisonSeries,
@@ -17,27 +16,29 @@ import { SPACING_DEFAULTS } from "../src/features/spacing/defaults";
 import { generateSpacingScale } from "../src/features/spacing/generate";
 import { generatedSpacingAtom } from "../src/features/spacing/state";
 import { browserTokensAtom } from "../src/features/tokens/browserState";
-import { enterEditModeAtom } from "../src/features/edit-session/state";
 import {
-  replaceScaleTypeAtom,
-  scaleTypesAtom,
-} from "../src/features/logic/scaleTypeLibrary";
+  authoringSnapshotAtom,
+  enterEditModeAtom,
+  restoreAuthoringSnapshotAtom,
+} from "../src/features/edit-session/state";
+import { scaleTypesAtom } from "../src/features/logic/scaleTypeLibrary";
+import { replaceScaleTypeWithConsumersAtom } from "../src/features/logic/scaleTypeReferences";
 import {
   spacingDocumentAtom,
   updateSpacingScaleAtom,
 } from "../src/features/spacing/state";
-import { dimensionExampleInput } from "./fixtures/dimension-foundations";
+import {
+  dimensionExampleInput,
+  dimensionExampleSources,
+} from "./fixtures/dimension-foundations";
 
-const horizontal = SPACING_DEFAULTS.scales.find(
-  (scale) => scale.name === "Base horizontal spacing",
-)!;
-const gap = SPACING_DEFAULTS.scales.find((scale) => scale.name === "Base gap")!;
-assert(horizontal && gap);
+const fixture = dimensionExampleSources();
+const { horizontal, gap } = fixture;
 for (const [scale, expected] of [
   [horizontal, [8, 8, 10, 12, 12]],
   [gap, [5, 5, 6, 7, 8]],
 ] as const) {
-  const values = generateSpacingScale(scale);
+  const values = generateSpacingScale(scale, fixture.rules);
   assert.deepEqual(
     values.map((value) => value.value),
     expected,
@@ -54,9 +55,10 @@ for (const [scale, expected] of [
     "using Type scale alone does not make spacing adaptive",
   );
 }
-const rule = RULE_DEFAULTS.find(
+const rule = fixture.rules.find(
   (rule) => rule.id === horizontal.roundingRuleId,
 )!;
+assert(rule.type === "rounding");
 for (const [value, factor, rounded] of [
   [4.99, 1, 5],
   [5, 2, 6],
@@ -67,22 +69,32 @@ for (const [value, factor, rounded] of [
   assert.equal(applyRoundingRule(rule, value), rounded);
 }
 const store = createStore();
+const publishedBefore = store
+  .get(browserTokensAtom)
+  .filter((token) => token.type === "spacing").length;
+const authoringBaseline = store.get(authoringSnapshotAtom);
+store.set(restoreAuthoringSnapshotAtom, {
+  ...authoringBaseline,
+  taxonomy: fixture.taxonomy,
+  spacing: fixture.document,
+  rules: fixture.rules,
+});
 assert.equal(
   store.get(generatedSpacingAtom).length,
-  3,
+  SPACING_DEFAULTS.scales.length + 2,
   "all scales are generated for authoring",
 );
 assert.equal(
   store.get(browserTokensAtom).filter((token) => token.type === "spacing")
     .length,
-  18,
+  publishedBefore,
   "hidden examples do not become published dimension tokens",
 );
 store.set(enterEditModeAtom);
 const typeScale = store
   .get(scaleTypesAtom)
   .find((formula) => formula.id === horizontal.scaleTypeId)!;
-store.set(replaceScaleTypeAtom, {
+store.set(replaceScaleTypeWithConsumersAtom, {
   ...typeScale,
   parameters: typeScale.parameters.map((part) =>
     part.id === "ratio" ? { ...part, default: 1.2 } : part,

@@ -211,7 +211,10 @@ assert.ok(checked >= 58, "Cover all migrated static category assignments.");
 const unchanged = [
   ["src/components/AdaptiveControlsMenu.tsx", /<UserSettings \/>/],
   ["src/components/TopBar.tsx", /<Saturation \/>/],
-  ["src/views/tokens/TokenBrowserView.tsx", /<AppsAll \/>.*<Text>All<\/Text>/],
+  [
+    "src/components/tokens/TokenTypeFilters.tsx",
+    /<ToggleButton\s+id="all">\s*<AppsAll\s*\/>\s*<Text>\s*All\s*<\/Text>\s*<\/ToggleButton>/,
+  ],
   ["src/views/tokens/TokenBrowserView.tsx", /<ViewGrid \/>/],
   ["src/views/tokens/TokenBrowserView.tsx", /<ViewList \/>/],
   ["src/components/fields/DividableComboBox.tsx", /<ViewGrid \/>/],
@@ -224,6 +227,44 @@ for (const [path, pattern] of unchanged)
     readFileSync(new URL(`../${path}`, import.meta.url), "utf8"),
     pattern,
   );
+const tokenBrowser = ts.createSourceFile(
+  "TokenBrowserView.tsx",
+  readFileSync(
+    new URL("../src/views/tokens/TokenBrowserView.tsx", import.meta.url),
+    "utf8",
+  ),
+  ts.ScriptTarget.Latest,
+  true,
+  ts.ScriptKind.TSX,
+);
+const filters: ts.JsxSelfClosingElement[] = [];
+function findFilters(node: ts.Node) {
+  if (
+    ts.isJsxSelfClosingElement(node) &&
+    node.tagName.getText(tokenBrowser) === "TokenTypeFilters"
+  )
+    filters.push(node);
+  ts.forEachChild(node, findFilters);
+}
+findFilters(tokenBrowser);
+assert.equal(filters.length, 1, "The browser uses the shared token filters.");
+const filterProps = new Map(
+  filters[0].attributes.properties
+    .filter(ts.isJsxAttribute)
+    .map((attribute) => {
+      assert.ok(
+        attribute.initializer &&
+          ts.isJsxExpression(attribute.initializer) &&
+          attribute.initializer.expression,
+      );
+      return [
+        attribute.name.getText(tokenBrowser),
+        attribute.initializer.expression.getText(tokenBrowser),
+      ];
+    }),
+);
+assert.equal(filterProps.get("value"), "props.type");
+assert.equal(filterProps.get("onChange"), "props.onTypeChange");
 console.log(
   `Category icons: ${registeredCategoryKeys.length} associations, ${checked} static consumers, aliases, validation, diagnostics, Circle fallback and exclusions passed.`,
 );

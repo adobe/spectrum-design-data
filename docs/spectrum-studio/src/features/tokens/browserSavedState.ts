@@ -60,7 +60,7 @@ import {
   resolveBrowserTokens,
   type BrowserTokenEdits,
 } from "./browserModel";
-import { resolveBrowserColorToken } from "./colorResolution";
+import { resolveBrowserColorTokens } from "./colorResolution";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
 import { categoricalBrowserSources } from "../color-system/data-vis/output";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
@@ -140,13 +140,13 @@ function savedSources(
     ),
   );
   const colors = includeColors
-    ? generateDocumentTokens(document, rules).map((token) =>
-        resolveBrowserColorToken(
+    ? resolveBrowserColorTokens(
+        generateDocumentTokens(document, rules).map((token) =>
           resolveToken(token, overrides[token.uuid]),
-          edits,
-          modeKey,
-          document,
         ),
+        edits,
+        modeKey,
+        document,
       )
     : [];
   return canonicalBrowserSources(

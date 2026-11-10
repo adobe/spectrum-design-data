@@ -24,7 +24,7 @@ function reusePreparedScaleColors(
 }
 const input: Input = [
   structuredClone(
-    source.colorSystem.scales.find((scale) => scale.name === "Red")!,
+    source.colorSystem.scales.find((scale) => scale.id === "scale-6")!,
   ),
   structuredClone(source.colorSystem.contrasts),
   [1, 1, 1],
@@ -107,7 +107,8 @@ const changes: ((value: Input) => void)[] = [
     value[3].colorSourceCurveOffset += 0.01;
   },
   (value) => {
-    if (typeof value[4] === "object") value[4].outputFormat = "rgb";
+    if (typeof value[4] === "object")
+      value[4].outputFormat = value[4].outputFormat === "rgb" ? "oklch" : "rgb";
   },
   (value) => {
     value[5][0].name = "Different rule metadata";
@@ -116,7 +117,7 @@ const changes: ((value: Input) => void)[] = [
 for (const change of changes) {
   const proposal = structuredClone(input);
   change(proposal);
-  const before = computations;
+  const before: number = computations;
   assert.deepEqual(resolve(proposal), generate(proposal));
   assert.equal(
     computations,

@@ -24,6 +24,7 @@ import {
 } from "../src/features/design-data/analysisWork";
 import { assessGaps, gapRegister } from "../src/features/design-data/gaps";
 import { VALUE_CONTEXT_POLICY } from "../src/features/design-data/colorOpacityAssessment";
+import { editModeAtom } from "../src/state/view/editMode";
 
 const defaults = defaultsAnalysisInput();
 const reference: AnalysisInput = {
@@ -106,7 +107,7 @@ try {
     });
     assert(
       invalidResponse.app.limitations.some((message) =>
-        message.includes("Invalid color/opacity resolution response."),
+        message.includes("Invalid token resolution response."),
       ),
     );
     assert.deepEqual(invalidResponse.app.records, shipped.app.records);
@@ -167,6 +168,7 @@ try {
 
 const store = createStore();
 store.set(editSessionSnapshotAtom, createDefaultSnapshot());
+store.set(editModeAtom, true);
 store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.7 });
 const snapshots = {
   working: store.get(authoringSourceSnapshotAtom),

@@ -10,7 +10,12 @@ import {
 } from "../src/features/changelog/state";
 import {
   cancelEditAtom,
+  assertStoredSnapshot,
+  authoringSnapshotAtom,
+  createDefaultSnapshot,
   enterEditModeAtom,
+  restoreAuthoringSnapshotAtom,
+  saveEditAtom,
 } from "../src/features/edit-session/state";
 import {
   foundationImpactSummaryAtom,
@@ -31,6 +36,7 @@ import {
 } from "../src/features/logic/scaleTypeLibrary";
 import {
   deleteScaleTypeAtom,
+  fallbackScaleTypeId,
   normalizeScaleTypeReferencesAtom,
   removeScaleTypeWithFallbackAtom,
   scaleTypeConsumersAtom,
@@ -60,6 +66,18 @@ import {
   spacingDocumentAtom,
   updateSpacingScaleAtom,
 } from "../src/features/spacing/state";
+import { EMPTY_STRUCTURES } from "../src/features/structures/model";
+import { inlineFixtureReferences } from "./fixtures/componentReferences";
+import {
+  reconcileTokenIdentityRows,
+  tokenIdentity,
+} from "../src/features/tokens/canonicalIdentity";
+import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
+import {
+  captureDimensionSource,
+  dimensionPublicationContexts,
+} from "../src/features/design-data/dimensionArtifacts";
+import { canonicalTokenModeKey } from "../src/features/tokens/browserModel";
 
 const EXPECTED: number[] = JSON.parse(
   readFileSync(
@@ -72,6 +90,19 @@ const SCALE_TYPES_WITHOUT_CUSTOM = <T extends { id: string }>(
   id: string,
 ) => items.filter((item) => item.id !== id);
 const global = SPACING_DEFAULTS.scales[0];
+
+function isolatedSpacingStore() {
+  const store = createStore();
+  const snapshot = inlineFixtureReferences(
+    createDefaultSnapshot(),
+    (target) =>
+      target.kind === "semantic" ||
+      SPACING_DEFAULTS.scales.some((scale) => scale.id === target.ownerId),
+  );
+  snapshot.structures = structuredClone(EMPTY_STRUCTURES);
+  store.set(restoreAuthoringSnapshotAtom, snapshot);
+  return store;
+}
 
 // Defaults come from the dataset JSON.
 assert.deepEqual(
@@ -88,7 +119,7 @@ assert.deepEqual(
     parameters: global.parameters,
   },
   {
-    name: "Global",
+    name: "global",
     scaleTypeId: SPACING_SCALE_TYPE_ID,
     base: undefined,
     below: 4,
@@ -177,7 +208,7 @@ assert.ok(
 
 // Add, rename, delete with undo, and unique names.
 {
-  const store = createStore();
+  const store = isolatedSpacingStore();
   const id = store.set(addSpacingScaleAtom);
   assert.equal(
     store.get(spacingDocumentAtom).scales.length,
@@ -231,7 +262,7 @@ assert.ok(
   store.set(restoreSpacingScaleAtom, { scale: removed, index: 1 });
   assert.equal(
     store.get(spacingDocumentAtom).scales[1].name,
-    "Layout",
+    removed.name,
     "undo restores the scale",
   );
 }
@@ -249,6 +280,7 @@ assert.ok(
 // Change log, impact, and revert.
 {
   const store = createStore();
+  store.set(enterEditModeAtom);
   assert.equal(store.get(changeGroupsAtom).length, 0);
   store.set(updateSpacingScaleAtom, { id: global.id, patch: { base: 9 } });
   const foundations = store
@@ -284,8 +316,8 @@ assert.ok(
       .get(foundationImpactSummaryAtom)
       .categories.find((category) => category.category === "spacing")!.affected
       .count,
-    9,
-    "a new scale counts all nine authored fields",
+    10,
+    "a new scale counts all ten tracked fields, including start step and publishing",
   );
   store.set(resetAllChangeDataAtom);
   assert.equal(
@@ -307,9 +339,9 @@ assert.ok(
   );
 }
 
-// Formulas: changing formula resets overrides; a formula in use cannot be deleted; missing ones fall back.
+// Formula consumers, deletion guards and explicit fallback.
 {
-  const store = createStore();
+  const store = isolatedSpacingStore();
   store.set(updateSpacingScaleAtom, {
     id: global.id,
     patch: { scaleTypeId: SIZE_SCALE_TYPE_ID },
@@ -341,18 +373,21 @@ assert.ok(
       .map((consumer) => [consumer.scaleTypeId, consumer.label]),
     [
       [TYPOGRAPHY_SCALE_TYPE_ID, "Typography › Font sizes"],
-      [custom.id, "Spacing › Global"],
-      [TYPOGRAPHY_SCALE_TYPE_ID, "Spacing › Base horizontal spacing"],
-      [TYPOGRAPHY_SCALE_TYPE_ID, "Spacing › Base gap"],
-      [SIZE_SCALE_TYPE_ID, "Size › Global"],
-      [
-        designSystemDefaults.system.foundations.radius.scales[0].scaleTypeId,
-        "Radius › Global",
-      ],
-      [
-        designSystemDefaults.system.foundations.elevation.layers[0].scaleTypeId,
-        "Elevation › Shadow 1",
-      ],
+      ...SPACING_DEFAULTS.scales.map((scale) => [
+        scale.id === global.id ? custom.id : scale.scaleTypeId,
+        `Spacing › ${scale.name}`,
+      ]),
+      ...designSystemDefaults.system.foundations.size.scales.map((scale) => [
+        scale.scaleTypeId,
+        `Size › ${scale.name}`,
+      ]),
+      ...designSystemDefaults.system.foundations.radius.scales.map((scale) => [
+        scale.scaleTypeId,
+        `Radius › ${scale.name}`,
+      ]),
+      ...designSystemDefaults.system.foundations.elevation.layers.map(
+        (layer) => [layer.scaleTypeId, `Elevation › ${layer.label}`],
+      ),
     ],
   );
   assert.equal(
@@ -378,15 +413,25 @@ assert.ok(
     id: global.id,
     patch: { scaleTypeId: custom.id },
   });
-  store.set(
-    scaleTypesAtom,
-    SCALE_TYPES_WITHOUT_CUSTOM(store.get(scaleTypesAtom), custom.id),
+  const beforeInvalidLibrary = store.get(scaleTypesAtom);
+  const beforeInvalidSource = store.get(spacingDocumentAtom);
+  const missingCustom = SCALE_TYPES_WITHOUT_CUSTOM(
+    beforeInvalidLibrary,
+    custom.id,
   );
+  assert.throws(
+    () => store.set(scaleTypesAtom, missingCustom),
+    /Unresolved formula/,
+    "A public library write cannot leave a foundation with a missing formula.",
+  );
+  assert.strictEqual(store.get(scaleTypesAtom), beforeInvalidLibrary);
+  assert.strictEqual(store.get(spacingDocumentAtom), beforeInvalidSource);
   assert.equal(
-    store.set(normalizeScaleTypeReferencesAtom),
-    true,
-    "missing formulas are corrected",
+    fallbackScaleTypeId("spacing", missingCustom),
+    SPACING_SCALE_TYPE_ID,
+    "A missing formula's replacement is the foundation's shipped formula.",
   );
+  store.set(removeScaleTypeWithFallbackAtom, custom.id);
   assert.equal(
     store.get(spacingDocumentAtom).scales[0].scaleTypeId,
     SPACING_SCALE_TYPE_ID,
@@ -463,9 +508,16 @@ assert.ok(
   );
 
   const store = createStore();
+  store.set(enterEditModeAtom);
   const defaults = store
     .get(generatedSpacingAtom)[0]
     .values.map((value) => value.value);
+  const beforeBinding = structuredClone(store.get(authoringSnapshotAtom));
+  const originalIdentity = tokenIdentity(
+    beforeBinding.browserTokenEdits!,
+    `spacing-${global.id}-100`,
+  );
+  assert.ok(originalIdentity);
   store.set(updateSpacingScaleAtom, {
     id: global.id,
     patch: {
@@ -491,6 +543,45 @@ assert.ok(
       },
     },
   });
+  const boundSource = store.get(authoringSnapshotAtom);
+  const boundIdentity = tokenIdentity(
+    boundSource.browserTokenEdits!,
+    `spacing-${global.id}-100`,
+  );
+  assert.ok(boundIdentity);
+  assert.equal(boundIdentity.conceptId, originalIdentity.conceptId);
+  for (const uuid of Object.values(originalIdentity.rows))
+    assert.ok(
+      Object.values(boundIdentity.rows).includes(uuid),
+      "Adding a dependency retains every prior published row UUID.",
+    );
+  assert.ok(
+    Object.keys(boundIdentity.rows).length >
+      Object.keys(originalIdentity.rows).length,
+    "New adaptive contexts receive their own identities before graph validation.",
+  );
+  for (const [id, edit] of Object.entries(beforeBinding.browserTokenEdits!))
+    if (!edit.authoring?.identity?.sourceId.startsWith("spacing-"))
+      assert.deepEqual(boundSource.browserTokenEdits![id], edit);
+  assertStoredSnapshot(boundSource);
+  const boundTokens = buildTshirtArtifacts(boundSource).tokens;
+  assert.equal(
+    new Set(boundTokens.map((token) => token.uuid)).size,
+    boundTokens.length,
+    "The complete semantic graph emits one publication record per UUID.",
+  );
+  store.set(saveEditAtom);
+  const savedBindingSnapshot = structuredClone(
+    store.get(authoringSnapshotAtom),
+  );
+  assert.deepEqual(
+    tokenIdentity(
+      savedBindingSnapshot.browserTokenEdits!,
+      `spacing-${global.id}-100`,
+    ),
+    boundIdentity,
+    "Save retains the exact coordinated adaptive publication identities.",
+  );
   assert.deepEqual(
     store.get(generatedSpacingAtom)[0].values.map((value) => value.value),
     defaults,
@@ -525,6 +616,17 @@ assert.ok(
   );
 
   store.set(updateSpacingScaleAtom, { id: global.id, patch: { bindings: {} } });
+  const unboundIdentity = tokenIdentity(
+    store.get(authoringSnapshotAtom).browserTokenEdits!,
+    `spacing-${global.id}-100`,
+  );
+  assert.ok(unboundIdentity);
+  assert.equal(unboundIdentity.conceptId, boundIdentity.conceptId);
+  assert.deepEqual(
+    new Set(Object.values(unboundIdentity.rows)),
+    new Set(Object.values(boundIdentity.rows)),
+    "Removing a binding retains inactive publication allocations.",
+  );
   assert.equal(
     store.get(spacingDocumentAtom).scales[0].bindings,
     undefined,
@@ -534,15 +636,123 @@ assert.ok(
     id: global.id,
     patch: { bindings: { ratio: binding } },
   });
-  store.set(updateSpacingScaleAtom, {
+  const beforeRejectedFormula = structuredClone(
+    store.get(authoringSnapshotAtom),
+  );
+  assert.throws(
+    () =>
+      store.set(updateSpacingScaleAtom, {
+        id: global.id,
+        patch: { scaleTypeId: SIZE_SCALE_TYPE_ID },
+      }),
+    /Text - Gap: Choose a finite, non-negative length/,
+  );
+  assert.deepEqual(
+    store.get(authoringSnapshotAtom),
+    beforeRejectedFormula,
+    "A rejected formula change preserves the source, Registry and publication allocations.",
+  );
+  store.set(cancelEditAtom);
+  assert.deepEqual(store.get(authoringSnapshotAtom), savedBindingSnapshot);
+  const formulaStore = isolatedSpacingStore();
+  formulaStore.set(updateSpacingScaleAtom, {
+    id: global.id,
+    patch: { bindings: { ratio: binding } },
+  });
+  formulaStore.set(updateSpacingScaleAtom, {
     id: global.id,
     patch: { scaleTypeId: SIZE_SCALE_TYPE_ID },
   });
   assert.equal(
-    store.get(spacingDocumentAtom).scales[0].bindings,
+    formulaStore.get(spacingDocumentAtom).scales[0].bindings,
     undefined,
     "a new formula drops bindings of the old one",
   );
+}
+
+// An explicit default-mode edit must not consume the unscoped fallback identity.
+{
+  const store = createStore();
+  const source = createDefaultSnapshot();
+  const coordinate = `spacing-${global.id}-100`;
+  const identity = tokenIdentity(source.browserTokenEdits!, coordinate);
+  assert.ok(identity);
+  const modeKey = canonicalTokenModeKey(
+    Object.fromEntries(
+      source.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
+    ),
+  );
+  source.browserTokenEdits![identity.conceptId].values[modeKey] = {
+    value: 777,
+    baseline: 8,
+  };
+  source.browserTokenEdits = reconcileTokenIdentityRows(
+    source.browserTokenEdits!,
+    source.modeSets,
+    source.modeSets,
+    new Map(
+      [...dimensionPublicationContexts(captureDimensionSource(source))].filter(
+        ([id]) => id === coordinate,
+      ),
+    ),
+  );
+  assertStoredSnapshot(source);
+  store.set(restoreAuthoringSnapshotAtom, source);
+  store.set(enterEditModeAtom);
+  const before = structuredClone(store.get(authoringSnapshotAtom));
+  store.set(updateSpacingScaleAtom, {
+    id: global.id,
+    patch: {
+      bindings: {
+        base: {
+          modeParameterId: "typography.textZoom",
+          method: "exponential",
+          points: [
+            { at: -4, value: 4 },
+            { at: 0, value: 8 },
+            { at: 8, value: 16 },
+          ],
+        },
+      },
+    },
+  });
+  const bound = store.get(authoringSnapshotAtom);
+  assertStoredSnapshot(bound);
+  const allocated = tokenIdentity(bound.browserTokenEdits!, coordinate);
+  const prior = tokenIdentity(before.browserTokenEdits!, coordinate);
+  assert.ok(allocated && prior);
+  assert.equal(allocated.conceptId, prior.conceptId);
+  for (const [key, uuid] of Object.entries(prior.rows))
+    assert.equal(allocated.rows[key], uuid);
+  assert.deepEqual(
+    bound.browserTokenEdits![identity.conceptId].values,
+    before.browserTokenEdits![identity.conceptId].values,
+  );
+  for (const [id, edit] of Object.entries(before.browserTokenEdits!))
+    if (!edit.authoring?.identity?.sourceId.startsWith("spacing-"))
+      assert.deepEqual(bound.browserTokenEdits![id], edit);
+  const tokens = buildTshirtArtifacts(bound).tokens;
+  assert.equal(new Set(tokens.map((token) => token.uuid)).size, tokens.length);
+  for (const [key, value] of [
+    ["[]", "8px"],
+    [modeKey, "777px"],
+  ]) {
+    const published: (typeof tokens)[number] | undefined = tokens.find(
+      (token) => token.uuid === allocated.rows[key],
+    );
+    assert.ok(published && "value" in published);
+    assert.equal(published.value, value);
+  }
+  store.set(saveEditAtom);
+  const saved = structuredClone(store.get(authoringSnapshotAtom));
+  store.set(updateSpacingScaleAtom, { id: global.id, patch: { bindings: {} } });
+  const cleared = tokenIdentity(
+    store.get(authoringSnapshotAtom).browserTokenEdits!,
+    coordinate,
+  );
+  assert.deepEqual(cleared, allocated);
+  store.set(cancelEditAtom);
+  assert.deepEqual(store.get(authoringSnapshotAtom), saved);
 }
 
 console.log(

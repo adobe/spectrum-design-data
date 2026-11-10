@@ -65,6 +65,7 @@ import {
 
 const snapshot = createDefaultSnapshot();
 assertStoredSnapshot(snapshot);
+const originalSnapshot = structuredClone(snapshot);
 const [shippedBase, text] = snapshot.structures!.structures;
 assert.equal(snapshot.structures!.schemaVersion, STRUCTURES_SCHEMA_VERSION);
 assert.equal(snapshot.structures!.structures.length, 10);
@@ -80,7 +81,7 @@ assert.deepEqual(textReference, {
   structureId: text.conceptId,
 });
 const base = shippedBase;
-const referenceBase = { ...base, elements: [textReference] };
+const referenceBase = structuredClone({ ...base, elements: [textReference] });
 delete referenceBase.editor;
 for (const application of referenceBase.generation!.applications) {
   if (application.previewTargets?.kind === "custom")
@@ -122,30 +123,76 @@ assert.deepEqual(
   [["text-size-100"], ["text-size-75"]],
 );
 const bundle = buildTshirtArtifacts(snapshot, "shipped");
-assertTshirtGraph(bundle.tokens, undefined, ["2x-small", "2x-large"]);
-assert.equal(bundle.semantics.length, 97);
+assertTshirtGraph(
+  bundle.tokens,
+  undefined,
+  ["2x-small", "2x-large"],
+  bundle.modeSets,
+);
 const textRows = bundle.semantics.filter(
   (row) => row.structureId === text.conceptId,
 );
-assert.equal(textRows.length, 5);
-assert.deepEqual(
-  textRows.map((row) => formatTshirtName(row.token.name)),
-  [
-    "text-gap-extra-small",
-    "text-gap-small",
-    "text-gap-medium",
-    "text-gap-large",
-    "text-gap-extra-large",
-  ],
+const scaleAxis = snapshot.modeSets.find((axis) => axis.key === "scale");
+const textAxis = snapshot.modeSets.find((axis) => axis.key === "textScaling");
+assert.ok(scaleAxis && textAxis);
+const mobileScale = scaleAxis.modes.find((mode) => mode.key === "mobile");
+assert.ok(mobileScale);
+const defaultTextRows = textRows.filter((row) => row.kind === "baseline");
+const mobileTextRows = textRows.filter(
+  (row) => row.context.scale === mobileScale.key,
 );
-assert.equal(textRows.find((row) => row.size === "m")!.target.value, 1);
+assert.equal(defaultTextRows.length, 5);
+assert.equal(mobileTextRows.length, 5);
+assert.equal(textRows.length, defaultTextRows.length + mobileTextRows.length);
+const textNames = [
+  "text-gap-extra-small",
+  "text-gap-small",
+  "text-gap-medium",
+  "text-gap-large",
+  "text-gap-extra-large",
+];
+assert.deepEqual(
+  defaultTextRows.map((row) => formatTshirtName(row.token.name)),
+  textNames,
+);
+assert.deepEqual(
+  defaultTextRows.map((row) => row.target.value),
+  [1, 1, 1, 2, 4],
+);
+assert.ok(
+  defaultTextRows.every((row) => Object.keys(row.context).length === 0),
+);
+assert.deepEqual(
+  mobileTextRows.map((row) => formatTshirtName(row.token.name)),
+  textNames.map((name) => `${name}-mobile`),
+);
+assert.deepEqual(
+  mobileTextRows.map((row) => row.target.value),
+  [1.25, 1.25, 1.25, 2.5, 5],
+);
+for (const row of mobileTextRows) {
+  assert.equal(row.kind, "binding");
+  assert.deepEqual(row.context, { scale: mobileScale.key });
+  assert.equal(row.selection[scaleAxis.id], mobileScale.id);
+  assert.equal(row.targetKind, "literal");
+  assert.equal(
+    "value" in row.token && row.token.value,
+    `${row.target.value}px`,
+  );
+  const baseline = defaultTextRows.find(
+    (candidate) => candidate.size === row.size,
+  );
+  assert.ok(baseline);
+  assert.equal(row.conceptId, baseline.conceptId);
+  assert.notEqual(row.token.uuid, baseline.token.uuid);
+}
 assert.ok(
   textRows.every(
     (row) =>
-      row.classification[ELEMENT_CATEGORY_ID] === ELEMENT_TYPES.text.termId &&
-      "$ref" in row.token,
+      row.classification[ELEMENT_CATEGORY_ID] === ELEMENT_TYPES.text.termId,
   ),
 );
+assert.ok(defaultTextRows.every((row) => "$ref" in row.token));
 const legacy = structuredClone(snapshot);
 legacy.structures!.schemaVersion = 3;
 legacy.structures!.structures = [structuredClone(base)];
@@ -183,19 +230,52 @@ legacy.taxonomy!.terms = legacy.taxonomy!.terms.filter(
 const upgraded = upgradeStructureCompositionSnapshot(legacy, 10);
 assertStoredSnapshot(upgraded);
 const upgradedBundle = buildTshirtArtifacts(upgraded, "shipped");
-assert.equal(upgradedBundle.semantics.length, 25);
+assert.ok(upgradedBundle.semantics.length > 0);
 assert.deepEqual(
   bundle.semantics.filter(
     (row) => row.structureId === base.conceptId && !row.token.name.element,
   ),
   upgradedBundle.semantics,
 );
-assert.equal(
-  bundle.semantics.filter(
-    (row) => row.structureId === base.conceptId && !!row.token.name.element,
-  ).length,
-  10,
-  "Default leaf outputs are additive to legacy rule-anchor semantics.",
+const baseLeafRows = bundle.semantics.filter(
+  (row) => row.structureId === base.conceptId && !!row.token.name.element,
+);
+const expectedLeafContexts: {
+  element: string;
+  context: Record<string, string>;
+}[] = [
+  ...scaleAxis.modes.map((scale) => ({
+    element: "ui-icon",
+    context: { scale: scale.key },
+  })),
+  ...textAxis.modes.flatMap((textMode) =>
+    scaleAxis.modes.map((scale) => ({
+      element: "workflow-icon",
+      context: { textScaling: textMode.key, scale: scale.key },
+    })),
+  ),
+];
+const leafContextKey = (
+  element: string | number,
+  size: string,
+  context: Record<string, string>,
+) => JSON.stringify([element, size, Object.entries(context).sort()]);
+assert.deepEqual(
+  baseLeafRows
+    .map((row) => leafContextKey(row.token.name.element, row.size, row.context))
+    .sort(),
+  expectedLeafContexts
+    .flatMap(({ element, context }) =>
+      structureGeneration(base).sizeTermIds.map((termId) => {
+        const size = Object.entries(SIZE_TERM_IDS).find(
+          ([, id]) => id === termId,
+        )?.[0];
+        assert.ok(size);
+        return leafContextKey(element, size, context);
+      }),
+    )
+    .sort(),
+  "Leaf output is additive in every declared size and applicable mode context.",
 );
 assert.equal(
   upgraded.structures!.structures.length,
@@ -346,6 +426,7 @@ assert.throws(
   /unique identities/,
 );
 const originalRule = snapshot.rules!.find((rule) => rule.type === "generator")!;
+assert.ok(originalRule.type === "generator");
 const parentRule = {
   ...originalRule,
   id: "rule-parent-only",
@@ -357,11 +438,15 @@ const differentRules = structuredClone(snapshot);
 differentRules.rules!.push(parentRule);
 differentRules.structures!.structures[0].generation!.applications[0].ruleId =
   parentRule.id;
-const differentBase = {
+const differentBase = structuredClone({
   ...differentRules.structures!.structures[0],
   elements: [textReference],
-};
+});
 delete differentBase.editor;
+for (const application of differentBase.generation!.applications) {
+  if (application.previewTargets?.kind === "custom")
+    application.previewTargets.bindingIds = [];
+}
 const differentBundle = buildTshirtArtifacts(differentRules);
 const sourceSized = resolveComposition(
   differentBase,
@@ -585,10 +670,9 @@ const sourceChange = reverting
   .find((group) => group.id === "structures")!
   .items.find((item) => item.id.includes(sourceId))!;
 const beforeRevert = structuredClone(reverting.get(authoringSnapshotAtom));
-assert.throws(
-  () => reverting.set(revertChangeItemAtom, sourceChange),
-  /used by Base/,
-);
+assert.throws(() => reverting.set(revertChangeItemAtom, sourceChange), {
+  message: `Referenced Structure ${sourceId} is unavailable. Remove its instances before deleting the source.`,
+});
 assert.deepEqual(
   reverting.get(authoringSnapshotAtom),
   beforeRevert,
@@ -599,6 +683,11 @@ assert.deepEqual(
   reverting.get(structuresDocumentAtom),
   snapshot.structures,
   "Topic revert restores the complete graph atomically.",
+);
+assert.deepEqual(
+  snapshot,
+  originalSnapshot,
+  "Reference and migration fixtures never mutate the original source snapshot.",
 );
 console.log(
   "Reusable Structures: exact Text defaults, Base preservation, source ownership, direction, graph guards, migration, naming and lifecycle passed.",

@@ -1,21 +1,14 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, type Getter, type Setter } from "jotai";
-import { persistedAtom } from "../../state/persist";
+import { modeSetsAtom } from "./documentState";
+export { modeSetsAtom } from "./documentState";
 import { capabilityOwners, parameterOwners } from "./parameters";
 import {
   releaseModeSetClaimsAtom,
   restoreModeSetClaimsAtom,
   type AdaptiveClaims,
 } from "./adaptive";
-import {
-  cloneModeSet,
-  ensureModeSetKeys,
-  isModeSetList,
-  migrateModeSets,
-  MODE_SET_DEFAULTS,
-  MODE_SETS_SCHEMA_VERSION,
-  type ModeSet,
-} from "./model";
+import { cloneModeSet, ensureModeSetKeys, type ModeSet } from "./model";
 import { foundationModeAttachmentsAtom } from "../../state/view/foundationModeAttachments";
 import type { FoundationId } from "./parameters";
 import { clearPreviewParametersAtom } from "./previewState";
@@ -45,11 +38,28 @@ import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import type { BrowserTokenEdits } from "../tokens/browserModel";
 import { structuresDocumentAtom } from "../structures/documentState";
 import { synchronizeVariantIdentities } from "../structures/semanticIdentity";
+import {
+  authoringSourceSnapshotAtom,
+  type EditSessionSnapshot,
+} from "../edit-session/state";
+import {
+  canonicalAliasRows,
+  completeAliasSource,
+} from "../tokens/aliasTargets";
+import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
+import { reconcileTokenIdentityRows } from "../tokens/canonicalIdentity";
+import { spacingDocumentAtom } from "../spacing/state";
+import { sizeDocumentAtom } from "../size/state";
+import { radiusDocumentAtom } from "../radius/state";
 
 interface RemovedModeTokenValues {
   values: RemovedTokenModeValues;
   dataVisMemberTokenIds: string[];
 }
+
+export type ModeDimensionSources = Partial<
+  Pick<EditSessionSnapshot, "spacing" | "size" | "radius">
+>;
 
 function dataVisMemberTokenIds(document: ColorSystemDocument) {
   return new Set(
@@ -66,20 +76,13 @@ function assertDataVisModeOwnership(sets: ModeSet[]) {
   if (issues.length) throw new Error(issues.join(" "));
 }
 
-export const modeSetsAtom = persistedAtom<ModeSet[]>({
-  key: "modes/mode-sets",
-  schemaVersion: MODE_SETS_SCHEMA_VERSION,
-  initialize: () => MODE_SET_DEFAULTS.map(cloneModeSet),
-  validate: isModeSetList,
-  migrate: migrateModeSets,
-});
-
 export function writeModeSources(
   get: Getter,
   set: Setter,
   modeSets: ModeSet[],
   edits: BrowserTokenEdits = get(browserTokenEditsAtom),
   parameterSettings?: FoundationParameterSettings,
+  dimensions: ModeDimensionSources = {},
 ) {
   if (
     unavailableModalCapability(
@@ -100,22 +103,58 @@ export function writeModeSources(
     get(structuresDocumentAtom),
     modeSets,
   );
+  const contexts = new Map<string, Set<string>>();
+  if (
+    modeSets !== get(modeSetsAtom) &&
+    Object.values(edits).some((edit) => edit.authoring?.identity)
+  ) {
+    const source = {
+      ...get(authoringSourceSnapshotAtom),
+      modeSets,
+      opacity,
+      structures,
+      browserTokenEdits: edits,
+      ...dimensions,
+    };
+    for (const row of canonicalAliasRows(
+      completeAliasSource(source),
+      buildTshirtArtifacts(source),
+      "preserve-for-review",
+    )) {
+      const id = row.token.sourceId ?? row.token.id;
+      const required = contexts.get(id) ?? new Set<string>();
+      required.add(row.context);
+      contexts.set(id, required);
+    }
+  }
+  const reconciledEdits = reconcileTokenIdentityRows(
+    edits,
+    get(modeSetsAtom),
+    modeSets,
+    contexts,
+  );
   withValidatedAuthoringUpdates(
     get,
     new Map<string, unknown>([
       ["modes/mode-sets", modeSets],
-      ["tokens/browser/edits", edits],
+      ["tokens/browser/edits", reconciledEdits],
       ["foundations/opacity", opacity],
       ["design/structures", structures],
+      ...Object.entries(dimensions).map(
+        ([domain, document]) => [`foundations/${domain}`, document] as const,
+      ),
       ...(parameterSettings
         ? [["foundations/parameter-settings", parameterSettings] as const]
         : []),
     ]),
     () => {
       set(modeSetsAtom, modeSets);
-      set(browserTokenEditsAtom, edits);
+      set(browserTokenEditsAtom, reconciledEdits);
       set(opacityDocumentAtom, opacity);
       set(structuresDocumentAtom, structures);
+      if (dimensions.spacing) set(spacingDocumentAtom, dimensions.spacing);
+      if (dimensions.size) set(sizeDocumentAtom, dimensions.size);
+      if (dimensions.radius) set(radiusDocumentAtom, dimensions.radius);
       if (parameterSettings)
         set(foundationParameterSettingsAtom, parameterSettings);
     },
@@ -192,13 +231,13 @@ export const removeModeSetAtom = atom(null, (get, set, id: string) => {
       memberIds.has(tokenId),
     ),
   };
-  set(clearPreviewParametersAtom, owned.flatMap(previewIdsForCapability));
   writeModeSources(
     get,
     set,
     get(modeSetsAtom).filter((item) => item.id !== id),
     edits.edits,
   );
+  set(clearPreviewParametersAtom, owned.flatMap(previewIdsForCapability));
   set(releaseModeSetClaimsAtom, id);
   set(clearRememberedModeSettingsAtom, id);
   const attachments = { ...get(foundationModeAttachmentsAtom) };

@@ -485,6 +485,7 @@ const field = compareAuthoring(shipped, snapshot)
       field.after === "550",
   )!;
 assert.ok(field.address);
+const fieldAddress = field.address;
 assert.equal(field.afterPreview, undefined);
 assert.equal(
   compareAuthoring(shipped, snapshot).slots.filter(
@@ -532,7 +533,7 @@ assert.throws(
   () =>
     prepareChangeReset(
       { ...reset, attachments: {} },
-      sourceResetPlan("Stale", [field.address]),
+      sourceResetPlan("Stale", [fieldAddress]),
     ),
   /updated/,
 );

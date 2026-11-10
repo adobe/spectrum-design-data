@@ -22,6 +22,7 @@ import {
 import {
   browserOpacitySources,
   opacityRows,
+  OPACITY_PROPERTY_TERM,
 } from "../src/features/opacity/output";
 import { activeModesAtom } from "../src/features/modes/selection";
 import { opacityContexts } from "../src/features/opacity/generation";
@@ -35,15 +36,21 @@ import {
   modeCombinations,
   selectionForModes,
 } from "../src/features/modes/combinations";
-import type { ComponentsDocument } from "../src/features/components/model";
+import { createComponent } from "../src/features/components/model";
 import { sourceValuePreview } from "../src/features/tokens/valuePreview";
 import { registerOpacityVocabulary } from "../src/features/taxonomy/opacityGovernance";
 import {
   browserModeContextAtom,
+  browserTokensAtom,
   editBrowserTokensAtom,
 } from "../src/features/tokens/browserState";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import { editModeAtom } from "../src/state/view/editMode";
+import {
+  tokenEdit,
+  tokenIdentity,
+  tokenIdentityRow,
+} from "../src/features/tokens/canonicalIdentity";
 
 const shipped = createDefaultSnapshot();
 assert.ok(shipped.opacity);
@@ -56,20 +63,39 @@ const row = opacityRows(shipped, shipped.taxonomy).find(
   (row) => row.conceptId === target.id,
 )!;
 assert.ok(row.uuid);
+const identity = tokenIdentity(shipped.browserTokenEdits!, target.id)!;
+assert.ok(identity);
+const publishedRowId = tokenIdentityRow(
+  identity,
+  shipped.modeSets,
+  row.context,
+)!;
+assert.ok(publishedRowId);
+assert.ok(
+  componentTokenCatalog(shipped).some((token) => token.id === publishedRowId),
+  "The fixture references a published component target.",
+);
+const component = createComponent({
+  ...shipped.components!.components[0].declaration,
+  $id: crypto.randomUUID(),
+  name: "opacity-impact-fixture",
+  displayName: "Opacity fixture",
+});
+const property = {
+  categoryId: shipped.taxonomy.categories.find(
+    (category) => category.key === "property",
+  )!.id,
+  termId: OPACITY_PROPERTY_TERM,
+};
+component.assignments = [
+  { id: crypto.randomUUID(), property, $ref: publishedRowId },
+  { id: crypto.randomUUID(), property, $ref: publishedRowId },
+  { id: crypto.randomUUID(), property, value: 1 },
+];
 shipped.components = {
   schemaVersion: 2,
-  components: [
-    {
-      id: "opacity-impact-fixture",
-      declaration: { displayName: "Opacity fixture" },
-      assignments: [
-        { id: "one", $ref: row.uuid },
-        { id: "two", $ref: row.uuid },
-        { id: "unrelated", value: 1 },
-      ],
-    },
-  ],
-} as unknown as ComponentsDocument;
+  components: [component],
+};
 const working = structuredClone(shipped);
 working.opacity!.levels[7].value = 0.25;
 const authored = compareAuthoring(shipped, working);
@@ -120,16 +146,20 @@ if (components.status === "ready")
     [2, 3],
   );
 assert.equal(
-  componentTokenCatalog(working).find((token) => token.id === row.uuid)?.value,
+  componentTokenCatalog(working).find((token) => token.id === publishedRowId)
+    ?.value,
   0.25,
 );
 const aliases = canonicalAliasRows(completeAliasSource(working)).filter(
   (row) => row.token.type === "opacity",
 );
 assert.equal(aliases.length, 51);
-assert.equal(aliases.find((item) => item.rowId === row.uuid)?.id, target.id);
 assert.equal(
-  aliases.find((item) => item.rowId === row.uuid)?.token.value,
+  aliases.find((item) => item.rowId === publishedRowId)?.id,
+  identity.conceptId,
+);
+assert.equal(
+  aliases.find((item) => item.rowId === publishedRowId)?.token.value,
   0.25,
 );
 
@@ -161,15 +191,22 @@ const fullKey = canonicalTokenModeKey(
   selectionForModes(working.modeSets, modes),
 );
 const source = browserSourcesForSnapshot(working, modes).find(
-  (token) => token.id === target.id,
+  (token) => token.sourceId === target.id,
 )!;
-const edits = applyBrowserTokenEdits([source], {}, [target.id], fullKey, {
-  value: 0.35,
-});
+assert.ok(source);
+const edits = applyBrowserTokenEdits(
+  [source],
+  working.browserTokenEdits!,
+  [source.id],
+  fullKey,
+  {
+    value: 0.35,
+  },
+);
 working.browserTokenEdits = edits;
 const saved = browserSourcesForSnapshot(working, modes);
 const effective = resolveBrowserTokens(saved, edits, fullKey).find(
-  (token) => token.id === target.id,
+  (token) => token.id === source.id,
 )!;
 assert.equal(effective.value, 0.35);
 assert.ok(effective.valueOverridden);
@@ -188,13 +225,21 @@ const scopedSource = browserOpacitySources(
   editing.get(activeModesAtom),
 ).find((token) => token.id === target.id)!;
 editing.set(editBrowserTokensAtom, {
-  ids: [target.id],
+  ids: [source.id],
   modeKey: editing.get(browserModeContextAtom).key,
   patch: { value: 0.3 },
 });
-assert.deepEqual(editing.get(browserTokenEditsAtom)[target.id]?.values, {
-  [scopedSource.modeKey!]: { baseline: 0.2, value: 0.3 },
-});
+assert.deepEqual(
+  tokenEdit(editing.get(browserTokenEditsAtom), target.id)?.authoring
+    ?.assignments,
+  {
+    [scopedSource.modeKey!]: { kind: "literal", value: 0.3 },
+  },
+);
+assert.equal(
+  editing.get(browserTokensAtom).find((token) => token.id === source.id)?.value,
+  0.3,
+);
 assert.equal(
   editing.get(opacityDocumentAtom),
   document,

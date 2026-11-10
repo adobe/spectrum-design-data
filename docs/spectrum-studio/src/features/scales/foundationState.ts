@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom } from "jotai";
+import { atom, type Getter } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { rulesAtom } from "../logic/library";
 import { scaleTypesAtom } from "../logic/scaleTypeLibrary";
@@ -15,8 +15,12 @@ import { clampScaleRange, scaleStepName } from "./generate";
 import {
   taxonomyContributionsEnabledAtom,
   withTaxonomyContributions,
+  type RelatedAuthoringUpdates,
 } from "../taxonomy/contributions";
-import { taxonomyDimensionSourceId } from "../taxonomy/model";
+import {
+  taxonomyDimensionSourceId,
+  type TaxonomyDocument,
+} from "../taxonomy/model";
 import {
   reconcileDimensionSourceNames,
   resolveDimensionSourceNames,
@@ -58,6 +62,12 @@ export interface DimensionFoundationOptions<Version extends number> {
     data: unknown,
     fromVersion: number,
   ) => DimensionDocument<Version> | null;
+  related?: (
+    get: Getter,
+    previous: DimensionDocument<Version>,
+    next: DimensionDocument<Version>,
+    taxonomy: TaxonomyDocument,
+  ) => RelatedAuthoringUpdates | undefined;
 }
 
 /** Names must be unique by token slug, since the slug is part of every token name. */
@@ -123,6 +133,7 @@ export function createDimensionFoundationState<Version extends number>(
         resolveDimensionSourceNames(document, taxonomy, scope),
       reconcile: (taxonomy, previous, next) =>
         reconcileDimensionSourceNames(taxonomy, previous, next, scope),
+      related: options.related,
     },
   );
   const documentAtom = atom(

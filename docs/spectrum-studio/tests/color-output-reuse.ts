@@ -130,7 +130,7 @@ for (const gamut of ["srgb", "display-p3", "rec2020"] as const) {
       assert.deepEqual(renderedOutputLinear(css, "#abcdef", gamut), composited);
     }
     const mutable = parsedOutputLinear(css, gamut);
-    mutable[0] = 999;
+    assert.ok(Reflect.set(mutable, 0, 999));
     assert.deepEqual(
       parsedOutputLinear(css, gamut),
       expected,

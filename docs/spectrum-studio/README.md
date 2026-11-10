@@ -38,14 +38,31 @@ Run the `pnpm` commands below from this folder, or from the repository root with
 | `pnpm build` | Production build |
 | `pnpm preview` | Preview the production build |
 | `pnpm lint` | TypeScript and ESLint checks |
-| `pnpm test:ci` | The curated checks that run in CI |
+| `pnpm check:test-types` | Type-check every non-browser TypeScript test in bounded batches |
+| `pnpm test:ci` | Run the complete non-browser check inventory sequentially |
 | `pnpm storybook` | Storybook on port 6006 |
 | `pnpm storybook:build` | Build the static Storybook site |
 | `pnpm test:e2e:storybook` | Color picker interaction checks in Storybook |
 
 Individual checks are `pnpm test:*` scripts (see `package.json`). Run the narrowest one that covers your change. Checks that fail today are listed in [docs/known-debt.md](docs/known-debt.md).
 
-Moon tasks (`pnpm moon run spectrum-studio:<task>` from the repository root): `typecheck`, `test` and `build` run in CI. `dev`, `lint` (ESLint included), `e2e` and `e2e-storybook` are local only.
+Moon tasks (`pnpm moon run spectrum-studio:<task>` from the repository root): `typecheck`, `lint`, `test` and `build` run in CI. `dev`, `e2e` and `e2e-storybook` are local only.
+
+### Complete check reports
+
+`pnpm test:ci` includes top-level non-browser tests, performance checks, SDK integrations, TypeScript, ESLint, read-only validation scripts, the analysis CLI, and production, adapter and Storybook builds. It discovers new top-level test files automatically. Browser tests and scripts that rewrite source data are excluded.
+
+Commands run one at a time. A failure does not stop unrelated checks. If a prerequisite fails, its dependent check is reported as blocked. Each command has a four-minute limit; timed-out work is stopped before the next command starts. The final exit code is nonzero if any check fails, times out or is blocked. SDK integrations require the SDK environment described by their individual checks; missing prerequisites are failures, not skips.
+
+The runner writes `results.json` and one log per command under `reports/checks/`. Build outputs go there too, so checking the adapter does not replace the tracked `public/data-vis/data-vis.js`. Use a separate output directory to keep reports from different runs:
+
+```bash
+pnpm test:ci --list
+pnpm test:ci --only favicon,mode-control-presentation --log-dir /tmp/studio-checks
+pnpm test:ci --only 'test-types-*' --log-dir /tmp/studio-test-types
+```
+
+`--list` prints commands without running them. `--only` accepts comma-separated check IDs and a trailing `*` for prefix matches. Selecting a check includes its prerequisites; for example, `data-vis-export` first builds a fresh adapter. Interrupting a run stops its active command and marks the remaining selected checks as blocked.
 
 ## Project layout
 

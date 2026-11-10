@@ -44,7 +44,9 @@ store.set(resetModeAtom, {
 });
 assert.deepEqual(store.get(browserTokensAtom), initial);
 
-const text = initial.find((token) => token.id === "typography-font-size-100");
+const text = initial.find(
+  (token) => token.sourceId === "typography-font-size-100",
+);
 assert.ok(text);
 store.set(setPreviewParameterAtom, {
   parameterId: "typography.textZoom",

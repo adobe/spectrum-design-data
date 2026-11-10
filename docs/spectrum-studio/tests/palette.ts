@@ -8,6 +8,7 @@ import {
 } from "../src/features/changelog/changes";
 import {
   changeGroupsAtom,
+  legacyChangeGroupsAtom,
   revertChangeItemAtom,
 } from "../src/features/changelog/state";
 import { buildColorLibrary } from "../src/features/color-system/cssLibrary";
@@ -34,7 +35,10 @@ import {
   updateColorStopAtom,
   updatePaletteColorAtom,
 } from "../src/features/color-system/state";
-import { enterEditModeAtom } from "../src/features/edit-session/state";
+import {
+  authoringSourceSnapshotAtom,
+  enterEditModeAtom,
+} from "../src/features/edit-session/state";
 import { modeSetsAtom } from "../src/features/modes/state";
 import {
   browserModeContextAtom,
@@ -52,11 +56,13 @@ import {
 import {
   PALETTE_SCALE_ID,
   isPaletteToken,
+  resolveToken,
   tokenDisplayName,
 } from "../src/features/tokens/model";
 import { taxonomyDocumentAtom } from "../src/features/taxonomy/state";
 import { registerTerm } from "../src/features/taxonomy/model";
 import { editFoundationNameAtom } from "../src/features/taxonomy/sourceState";
+import { MAX_AUTHORED_CHROMA } from "../src/features/color-system/paletteValue";
 
 const store = createStore();
 const base = store.get(colorSystemDocumentAtom);
@@ -71,18 +77,41 @@ assert.ok(
   base.palette.every((color) => paletteColorCss(color, "srgb").startsWith("#")),
   "shipped palette values resolve to colors",
 );
-// Everything below starts from an empty palette.
-store.set(colorSystemDocumentAtom, { ...base, palette: [] });
+const referenced = createStore();
+referenced.set(enterEditModeAtom);
+const referencedBefore = structuredClone(
+  referenced.get(authoringSourceSnapshotAtom),
+);
+assert.throws(
+  () => referenced.set(colorSystemDocumentAtom, { ...base, palette: [] }),
+  /replacement/,
+  "Palette removal must reject loss of a shipped data-vis source.",
+);
+assert.deepEqual(referenced.get(authoringSourceSnapshotAtom), referencedBefore);
+
+// Palette lifecycle cases exclude unrelated data-vis recipes that require shipped colors.
+store.set(colorSystemDocumentAtom, {
+  ...base,
+  palette: [],
+  dataVisScales: [],
+});
 
 // Schema 1 documents migrate with an empty palette and stay valid.
 const withoutPalette: Partial<ColorSystemDocument> = { ...base };
 delete withoutPalette.palette;
-const migrated = migrateColorSystemDocument(
-  { ...withoutPalette, schemaVersion: 1 },
-  1,
-);
+const { colorOutput, ...legacySettings } = base.settings;
+void colorOutput;
+const legacyPalette = {
+  ...withoutPalette,
+  schemaVersion: 1,
+  settings: { ...legacySettings, outputGamut: "srgb" },
+};
+const legacyBefore = structuredClone(legacyPalette);
+const migrated = migrateColorSystemDocument(legacyPalette, 1);
 assert.ok(migrated && isColorSystemDocument(migrated));
 assert.deepEqual(migrated.palette, []);
+assert.deepEqual(migrated.dataVisScales, []);
+assert.deepEqual(legacyPalette, legacyBefore);
 assert.equal(migrateColorSystemDocument(withoutPalette, 7), null);
 
 // Adding creates a unique name and a value no other palette color has.
@@ -167,7 +196,7 @@ assert.deepEqual(
 const clamped = store.get(colorSystemDocumentAtom).palette[1];
 assert.deepEqual(
   [clamped.lightness, clamped.hue, clamped.chroma],
-  [1, 350, 100],
+  [1, 350, MAX_AUTHORED_CHROMA],
 );
 
 // Parsing maps into the output gamut and tolerates invalid input.
@@ -238,11 +267,7 @@ modeStore.set(updateColorStopAtom, {
   paletteColorId: modeColorId,
 });
 assert.equal(
-  paletteConsumers(
-    modeStore.get(colorSystemDocumentAtom),
-    modeStore.get(modeSetsAtom),
-    modeColorId,
-  ).length,
+  paletteConsumers(modeStore.get(colorSystemDocumentAtom), modeColorId).length,
   1,
 );
 
@@ -304,7 +329,10 @@ assert.equal(tokens.length, 2);
 assert.equal(tokens[0].source.scaleId, PALETTE_SCALE_ID);
 assert.equal(tokens[0].name.colorName, "brand-color");
 assert.equal(tokenDisplayName(tokens[0].name), "brand-color");
-assert.equal(tokens[0].value, paletteColorCss(document.palette[0], "srgb"));
+assert.equal(
+  tokens[0].value,
+  paletteColorCss(document.palette[0], document.settings.colorOutput),
+);
 assert.equal(
   new Set(store.get(generatedColorTokensAtom).map((token) => token.uuid)).size,
   store.get(generatedColorTokensAtom).length,
@@ -368,11 +396,15 @@ assert.deepEqual(Object.keys(paletteRows[0].name).sort(), [
 
 // CSS library: static custom properties on :root only.
 const css = buildColorLibrary(store.get(colorSystemDocumentAtom));
-assert.match(css, /:root \{[^}]*--color-palette-brand-primary: #336699;/);
+assert.match(
+  css,
+  /:root \{[^}]*--color-palette-brand-primary: rgb\(51, 102, 153\);/,
+);
 assert.equal(css.split("--color-palette-brand-primary").length - 1, 1);
 
 // Changelog: palette colors are new foundation items and revert removes them, detaching their links.
 const changeStore = createStore();
+changeStore.set(enterEditModeAtom);
 const changeColorId = changeStore.set(addPaletteColorAtom);
 const changeBase = changeStore.get(colorSystemDocumentAtom);
 changeStore.set(updateColorStopAtom, {
@@ -389,11 +421,22 @@ const paletteItem = foundationItems.find(
 )!;
 assert.equal(paletteItem.kind, "new");
 assert.ok(foundationItems.some((item) => item.sourceKind === "scale"));
+const paletteToken = changeStore
+  .get(browserTokensAtom)
+  .find((token) => token.paletteColorId === changeColorId)!;
+assert.ok(paletteToken);
 const tokenItem = groups
   .find((group) => group.id === "tokens")!
-  .items.find((item) => item.source?.scaleId === PALETTE_SCALE_ID)!;
+  .items.find((item) => item.id === paletteToken.id)!;
+assert.ok(tokenItem, "Changes identifies the canonical palette publication.");
 assert.equal(tokenItem.kind, "new");
-changeStore.set(revertChangeItemAtom, tokenItem);
+const legacyTokenItem = changeStore
+  .get(legacyChangeGroupsAtom)
+  .find((group) => group.id === "tokens")!
+  .items.find((item) => item.source?.scaleId === PALETTE_SCALE_ID)!;
+assert.ok(legacyTokenItem);
+assert.equal(legacyTokenItem.kind, "new");
+changeStore.set(revertChangeItemAtom, legacyTokenItem);
 const reverted = changeStore.get(colorSystemDocumentAtom);
 assert.equal(
   reverted.palette.length,
@@ -405,7 +448,9 @@ assert.equal(reverted.scales[0].stops[0].paletteColorId, undefined);
 assert.deepEqual(
   buildChangeGroups(
     defaultColorDocument,
-    generateDocumentTokens(defaultColorDocument),
+    generateDocumentTokens(defaultColorDocument).map((token) =>
+      resolveToken(token, undefined),
+    ),
   ).flatMap((group) => group.items),
   [],
 );
@@ -415,6 +460,7 @@ const browserStore = createStore();
 browserStore.set(colorSystemDocumentAtom, {
   ...browserStore.get(colorSystemDocumentAtom),
   palette: [],
+  dataVisScales: [],
 });
 const browserColorId = browserStore.set(addPaletteColorAtom);
 browserStore.set(addPaletteColorAtom);
@@ -448,7 +494,13 @@ const editedToken = browserStore
   .get(browserTokensAtom)
   .find((token) => token.id === paletteTokens[0].id)!;
 assert.equal(editedToken.description, "Primary brand color");
-assert.equal(editedToken.value, "#123456");
+assert.equal(
+  editedToken.value,
+  paletteColorCss(
+    editedPalette,
+    browserStore.get(colorSystemDocumentAtom).settings.colorOutput,
+  ),
+);
 assert.equal(editedToken.valueOverridden, false);
 assert.throws(
   () =>
@@ -492,7 +544,7 @@ assert.equal(
   browserStore
     .get(browserTokensAtom)
     .find((token) => token.id === paletteTokens[0].id)!.name,
-  "primary-brand",
+  "primary-brand-color",
 );
 assert.equal(
   browserStore

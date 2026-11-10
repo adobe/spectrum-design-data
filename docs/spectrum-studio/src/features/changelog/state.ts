@@ -73,6 +73,7 @@ import {
 import { taxonomyDocumentAtom } from "../taxonomy/state";
 import { taxonomyChangeFields } from "../taxonomy/changes";
 import { designSystemDefaults } from "../../data/defaults";
+import { applyChangeResetPlanAtom, itemResetPlan } from "./resetPlans";
 import {
   authoringSnapshotAtom,
   editSessionSnapshotAtom,
@@ -111,6 +112,7 @@ import { tshirtTokenChanges } from "../design-data/tshirtChanges";
 import { removeDataVisScaleAtom } from "../color-system/data-vis/state";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { tokenUuid } from "../tokens/model";
+import { tokenIdentity } from "../tokens/canonicalIdentity";
 import { removeColorTokenRecords } from "../color-system/colorTokenCleanup";
 import {
   editStaticMemberOverrides,
@@ -535,10 +537,22 @@ export const revertBlockedColorValueAtom = atom(
       set(tokenOverridesAtom, overrides);
     }
     const edits = get(browserTokenEditsAtom);
-    if (edits[tokenId])
+    const editId = tokenIdentity(edits, tokenId)?.conceptId ?? tokenId;
+    const edit = edits[editId];
+    if (edit)
       set(browserTokenEditsAtom, {
         ...edits,
-        [tokenId]: { ...edits[tokenId], values: {} },
+        [editId]: {
+          ...edit,
+          values: {},
+          ...(edit.authoring && {
+            authoring: {
+              ...edit.authoring,
+              assignments: {},
+              baselines: {},
+            },
+          }),
+        },
       });
   },
 );
@@ -752,6 +766,15 @@ function restoreModeColorSource(
 }
 
 export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
+  if (
+    item.topic !== "tokens" &&
+    (item.address ||
+      item.addresses?.length ||
+      item.fields.some((field) => field.address))
+  ) {
+    set(applyChangeResetPlanAtom, itemResetPlan(item));
+    return;
+  }
   if (item.sourceKind === "opacity") {
     if (!get(editModeAtom))
       throw new Error("Enter edit mode to revert opacity.");
@@ -1014,7 +1037,7 @@ export const revertChangeItemAtom = atom(null, (get, set, item: ChangeItem) => {
             ...mode,
             foundations: {
               ...mode.foundations,
-              ...(mode.foundations.elevation && {
+              ...(mode.foundations.elevation?.layerOpacities && {
                 elevation: {
                   ...mode.foundations.elevation,
                   layerOpacities: Object.fromEntries(
@@ -1295,7 +1318,7 @@ export const revertChangeTopicAtom = atom(
             ...mode,
             foundations: {
               ...mode.foundations,
-              ...(mode.foundations.elevation && {
+              ...(mode.foundations.elevation?.layerOpacities && {
                 elevation: {
                   ...mode.foundations.elevation,
                   layerOpacities: Object.fromEntries(

@@ -47,6 +47,7 @@ import { ruleFields } from "../src/features/changelog/changes";
 import {
   readAuthoringRecord,
   AUTHORING_STORAGE_KEY,
+  AUTHORING_RECORD_VERSION,
 } from "../src/features/edit-session/storage";
 import { isSnapshot } from "../src/features/edit-session/state";
 import { supportedStructureSize } from "../src/features/structures/composition";
@@ -213,12 +214,11 @@ assert.ok(
     .filter((row) => row.target.family === "spacing")
     .some((row) => row.target.id !== fixture.anchor.id),
 );
-assert.equal(
-  withRadius.properties.find(
-    (binding) => "$ref" in binding && binding.$ref === radius.id,
-  )?.$ref,
-  radius.id,
+const radiusBinding = withRadius.properties.find(
+  (binding) => "$ref" in binding && binding.$ref === radius.id,
 );
+assert.ok(radiusBinding && "$ref" in radiusBinding);
+assert.equal(radiusBinding.$ref, radius.id);
 const radiusRule = {
   ...migrated,
   id: "rule-radius-only",
@@ -731,7 +731,8 @@ const record = readAuthoringRecord(
   },
   (value) => value,
 )!;
-assert.equal(record.version, 22);
+assert.equal(record.version, AUTHORING_RECORD_VERSION);
+assert.ok(record.working.rules && record.saved.rules);
 assert.notEqual(
   record.working.rules[0].description,
   record.saved.rules[0].description,

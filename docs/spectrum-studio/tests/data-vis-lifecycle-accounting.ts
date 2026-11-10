@@ -28,6 +28,7 @@ import {
   removeModeSetAtom,
   replaceModeSetAtom,
   restoreModeSetAtom,
+  addModeSetAtom,
 } from "../src/features/modes/state";
 import { modeSelectionAtom } from "../src/features/modes/selection";
 import { previewOverridesAtom } from "../src/features/modes/previewState";
@@ -53,6 +54,7 @@ import { revertChangeTopicAtom } from "../src/features/changelog/state";
 import { taxonomyDocumentAtom } from "../src/features/taxonomy/state";
 import { rulesAtom } from "../src/features/logic/library";
 import { setParameterValue } from "../src/features/modes/parameters";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const store = createStore(),
   snapshot = createDataVisSnapshot();
@@ -243,6 +245,7 @@ const darkKey = canonicalTokenModeKey(
   ),
 );
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [retainedId]: {
     description: "Retain metadata during mode changes",
     values: {
@@ -264,6 +267,7 @@ assertStoredSnapshot(captureSnapshot(store.get));
 store.set(restoreAuthoringSnapshotAtom, snapshot);
 store.set(editModeAtom, true);
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [retainedId]: {
     description: "Original metadata",
     values: { [darkKey]: { value: "#445566", baseline: "#333333" } },
@@ -300,6 +304,7 @@ assert.equal(
 assertStoredSnapshot(captureSnapshot(store.get));
 const repeatedRemoval = store.set(removeModeSetAtom, scheme.id);
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [retainedId]: {
     values: { [darkKey]: { value: "#abcdef", baseline: "#333333" } },
   },
@@ -323,6 +328,7 @@ assert.deepEqual(
 store.set(restoreAuthoringSnapshotAtom, snapshot);
 store.set(editModeAtom, true);
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [removedId]: {
     values: { [darkKey]: { value: "#445566", baseline: "#333333" } },
   },
@@ -352,6 +358,7 @@ assert.deepEqual(
 store.set(restoreAuthoringSnapshotAtom, snapshot);
 store.set(editModeAtom, true);
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [removedId]: {
     values: { [defaultKey]: { value: "#222222", baseline: "#333333" } },
   },
@@ -436,14 +443,22 @@ const unrelated: ModeSet = {
   defaultModeId: unrelatedModes[0].id,
   authoringCapabilities: [],
 };
-store.set(modeSetsAtom, [...store.get(modeSetsAtom), unrelated]);
 const categoryRecords = () =>
   store
     .get(browserTokenImpactRecordsAtom)
     .filter((record) => [removedId, retainedId].includes(record.tokenId));
+const expectedColorContexts = scheme.modes.length * contrast.modes.length;
+const baselineCategoryCounts = categoryRecords().map(
+  (record) => record.modeValues.length,
+);
+assert.deepEqual(baselineCategoryCounts, [
+  expectedColorContexts,
+  expectedColorContexts,
+]);
+store.set(addModeSetAtom, unrelated);
 assert.deepEqual(
   categoryRecords().map((record) => record.modeValues.length),
-  [4, 4],
+  baselineCategoryCounts,
   "Unrelated axes do not multiply categorical mode-value denominators.",
 );
 const nativeRows = () =>
@@ -464,7 +479,7 @@ assert.equal(
       tokenUuid(`concept:${removedId}`),
     ].includes(row.conceptId),
   ).length,
-  8,
+  expectedColorContexts * 2,
 );
 const fullKey = canonicalTokenModeKey(
   Object.fromEntries(
@@ -482,8 +497,16 @@ const uiId = tokenUuid(
     categorical.members[0].source.contrastId,
   ),
 );
+const uiConcept = tokenIdentity(
+  store.get(browserTokenEditsAtom),
+  uiId,
+)!.conceptId;
 store.set(browserTokenEditsAtom, {
-  [uiId]: { values: { [fullKey]: { value: "#111111", baseline: "#333333" } } },
+  ...store.get(browserTokenEditsAtom),
+  [uiConcept]: {
+    ...store.get(browserTokenEditsAtom)[uiConcept],
+    values: { [fullKey]: { value: "#111111", baseline: "#333333" } },
+  },
 });
 const expectedScoped = store
   .get(modeSetsAtom)
@@ -496,7 +519,7 @@ assert.equal(
 assert.equal(
   categoryRecords().find((record) => record.tokenId === removedId)!.modeValues
     .length,
-  4,
+  expectedColorContexts,
 );
 assert.equal(
   categoryRecords().find((record) => record.tokenId === retainedId)!
@@ -509,7 +532,11 @@ assert.ok(
   ),
 );
 store.set(saveEditAtom);
-assert.ok(store.get(savedBrowserConceptIdsAtom).has(retainedId));
+const savedRetainedId = tokenIdentity(
+  store.get(browserTokenEditsAtom),
+  retainedId,
+)!.conceptId;
+assert.ok(store.get(savedBrowserConceptIdsAtom).has(savedRetainedId));
 assert.equal(
   store
     .get(editSessionSnapshotAtom)!
@@ -541,6 +568,7 @@ const key = canonicalTokenModeKey(
   ),
 );
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [retainedId]: {
     description: "Retain non-value metadata",
     values: { [key]: { value: "#112233", baseline: "#333333" } },

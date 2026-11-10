@@ -22,6 +22,7 @@ import {
   typographyDocumentAtom,
 } from "../src/features/typography/state";
 import { typographyTokenGroups } from "../src/features/typography/typographyTokens";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 
 const store = createStore();
 const catalog = store.get(primitiveReferencesAtom);
@@ -42,11 +43,16 @@ for (const reference of catalog) {
 }
 assert.ok(catalog.some((item) => item.family === "spacing" && item.hidden));
 const published = store.get(browserTokenSourcesAtom);
+const publishedId = (id: string) =>
+  tokenIdentity(store.get(browserTokenEditsAtom), id)?.conceptId ?? id;
 for (const reference of catalog.filter((item) => item.hidden))
-  assert.ok(!published.some((source) => source.id === reference.nativeId));
+  assert.ok(
+    !published.some((source) => publishedId(source.id) === reference.nativeId),
+  );
 for (const reference of catalog.filter((item) => !item.hidden)) {
   assert.equal(
-    published.find((source) => source.id === reference.nativeId)!.value,
+    published.find((source) => publishedId(source.id) === reference.nativeId)!
+      .value,
     reference.value,
   );
 }
@@ -99,7 +105,7 @@ assert.equal(
   after.name,
   "The Global metadata label is not part of the default Size classification.",
 );
-assert.equal(renamed.sourceName, "Renamed scale");
+assert.equal(renamed.sourceName, "renamed scale");
 assert.equal(renamed.id, before.id);
 const nameReference = sizes.scales[0].nameRef!;
 const assignedTerms = Object.values(
@@ -115,28 +121,25 @@ assert.ok(
   "Size has an explicit registered canonical-name segment.",
 );
 const currentTaxonomy = store.get(taxonomyDocumentAtom);
-store.set(taxonomyDocumentAtom, {
-  ...currentTaxonomy,
-  terms: currentTaxonomy.terms.map((term) =>
-    term.id === assignedName.id ? { ...term, value: "Resized element" } : term,
-  ),
-});
-const classifiedRename = store
-  .get(primitiveReferencesAtom)
-  .find((item) => item.id === before.id)!;
-assert.notEqual(
-  classifiedRename.name,
-  renamed.name,
-  "Renaming an assigned term updates the canonical token name.",
+assert.throws(
+  () =>
+    store.set(taxonomyDocumentAtom, {
+      ...currentTaxonomy,
+      terms: currentTaxonomy.terms.map((term) =>
+        term.id === assignedName.id
+          ? { ...term, value: "Resized element" }
+          : term,
+      ),
+    }),
+  /Choose a registered property term for size/,
+  "A required property cannot be renamed out from under its Structure consumers.",
 );
-assert.equal(
-  classifiedRename.id,
-  renamed.id,
-  "Canonical name changes do not remint authoring references.",
-);
+assert.deepEqual(store.get(taxonomyDocumentAtom), currentTaxonomy);
 const modeKey = store.get(browserModeContextAtom).key;
 store.set(browserTokenEditsAtom, {
+  ...store.get(browserTokenEditsAtom),
   [renamed.nativeId]: {
+    ...store.get(browserTokenEditsAtom)[renamed.nativeId],
     values: { [modeKey]: { value: 123, baseline: renamed.value } },
   },
 });
@@ -157,7 +160,13 @@ assert.notEqual(
 const darkShadow = store
   .get(primitiveReferencesAtom)
   .find((item) => item.id === shadow.id)!;
-assert.notEqual(darkShadow.value, shadow.value);
+assert.deepEqual(
+  darkShadow.shadows,
+  store
+    .get(generatedElevationAtom)
+    .find((level) => level.index === shadow.index)!.shadows,
+  "References use the selected mode's actual generated shadow, even when its values are unchanged.",
+);
 assert.equal(darkShadow.shadows!.length, shadow.shadows!.length);
 console.log(
   "Hidden-inclusive, stable primitive reference identities and live mode/override resolution passed.",

@@ -15,8 +15,6 @@ import { modeSetsAtom } from "../modes/state";
 import { parameterOwners } from "../modes/parameters";
 import { modeSelectionAtom, resolveActiveMode } from "../modes/selection";
 import { previewOverridesAtom } from "../modes/previewState";
-import { tokenOverridesAtom } from "../tokens/overrides";
-import { browserTokenEditsAtom } from "../tokens/browserEdits";
 import { tokenStableKey, tokenUuid } from "../tokens/model";
 import {
   assertCustomContrastPatchRestore,
@@ -24,9 +22,11 @@ import {
 } from "./customContrastPatches";
 import type { TokenOverrideMap } from "../tokens/overrides";
 import type { BrowserTokenEdits } from "../tokens/browserModel";
-import { aliasesAtom } from "../tokens/aliasState";
 import type { AliasDocument } from "../tokens/aliases";
-import { captureSnapshot } from "../edit-session/state";
+import {
+  removeColorTokenRecords,
+  restoreColorTokenRecords,
+} from "./colorTokenCleanup";
 import {
   contrastForEffectiveEdit,
   editsOppositeValue,
@@ -321,46 +321,14 @@ export const editCustomContrastsAtom = atom(
           return values ? [{ modeId: mode.id, values }] : [];
         }),
       ),
-      overrides: Object.fromEntries(
-        Object.entries(get(tokenOverridesAtom)).filter(([id]) =>
-          removed.has(id),
-        ),
-      ),
-      browserEdits: Object.fromEntries(
-        Object.entries(get(browserTokenEditsAtom)).filter(([id]) =>
-          removed.has(id),
-        ),
-      ),
+      overrides: {},
+      browserEdits: {},
       aliases: [],
     };
     set(colorSystemDocumentAtom, next);
     set(modeSetsAtom, pruneCustomContrastPatches(sets, next.scales));
-    if (removed.size) {
-      set(
-        tokenOverridesAtom,
-        Object.fromEntries(
-          Object.entries(get(tokenOverridesAtom)).filter(
-            ([id]) => !removed.has(id),
-          ),
-        ),
-      );
-      set(
-        browserTokenEditsAtom,
-        Object.fromEntries(
-          Object.entries(get(browserTokenEditsAtom)).filter(
-            ([id]) => !removed.has(id),
-          ),
-        ),
-      );
-      const previous = get(aliasesAtom);
-      const pruned = captureSnapshot(get).aliases;
-      if (pruned) {
-        undo.aliases = previous.tokens.filter(
-          (alias) => !pruned.tokens.some((current) => current.id === alias.id),
-        );
-        set(aliasesAtom, pruned);
-      }
-    }
+    if (removed.size)
+      Object.assign(undo, removeColorTokenRecords(get, set, removed));
     return undo;
   },
 );
@@ -431,20 +399,6 @@ export const restoreCustomContrastsAtom = atom(
         }),
       })),
     );
-    set(tokenOverridesAtom, { ...undo.overrides, ...get(tokenOverridesAtom) });
-    set(browserTokenEditsAtom, {
-      ...undo.browserEdits,
-      ...get(browserTokenEditsAtom),
-    });
-    if (undo.aliases.length)
-      set(aliasesAtom, (current) => ({
-        ...current,
-        tokens: [
-          ...current.tokens,
-          ...undo.aliases.filter(
-            (alias) => !current.tokens.some((item) => item.id === alias.id),
-          ),
-        ],
-      }));
+    restoreColorTokenRecords(get, set, undo);
   },
 );

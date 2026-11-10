@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, type Getter } from "jotai";
 import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
+import { tokenIdentity } from "../tokens/canonicalIdentity";
 import { clearPersistenceIssuesAtom, persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom } from "../color-system/state";
@@ -58,7 +59,7 @@ import {
   tokenOverridesAtom,
   type TokenOverrideMap,
 } from "../tokens/overrides";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { isModeSetList, type ModeSet } from "../modes/model";
 import {
   adaptiveClaimsAtom,
@@ -169,7 +170,10 @@ import {
   assertComponentReferences,
   componentTokenCatalog,
 } from "../components/references";
-import { registerAuthoringGuard } from "../../state/authoringGuards";
+import {
+  registerAuthoringGuard,
+  withValidatedAuthoringUpdates,
+} from "../../state/authoringGuards";
 import { selectAtom } from "jotai/utils";
 import { prepareAuthoringSnapshot } from "./snapshotPreparation";
 import {
@@ -797,25 +801,59 @@ export const saveEditAtom = atom(null, (get, set) => {
       buildTshirtArtifacts(previous, "saved"),
     ),
     canonicalAliasSourceTargets(completeAliasSource(snapshot), generated),
-    reindexedCustomContrastTokenIds(
-      previous.colorSystem,
-      snapshot.colorSystem,
-      previous.rules!,
-      snapshot.rules!,
+    new Set(
+      [
+        ...reindexedCustomContrastTokenIds(
+          previous.colorSystem,
+          snapshot.colorSystem,
+          previous.rules!,
+          snapshot.rules!,
+        ),
+      ].map(
+        (id) =>
+          tokenIdentity(snapshot.browserTokenEdits ?? {}, id)?.conceptId ?? id,
+      ),
     ),
   );
   snapshot.aliases = aliasPlan.document;
-  writeAuthoringRecord({
-    version: AUTHORING_RECORD_VERSION,
-    working: snapshot,
-    saved: snapshot,
-    isEditing: get(editModeAtom),
-    attachments,
-    savedAttachments: attachments,
-  });
-  set(editSessionSnapshotAtom, snapshot);
-  set(browserTokenEditsAtom, snapshot.browserTokenEdits ?? {});
-  set(aliasesAtom, snapshot.aliases);
+  const edits = snapshot.browserTokenEdits ?? {};
+  const componentsChanged =
+    JSON.stringify(get(componentsDocumentAtom)) !==
+    JSON.stringify(snapshot.components);
+  const taxonomyChanged =
+    snapshot.taxonomy &&
+    JSON.stringify(get(taxonomyDocumentAtom)) !==
+      JSON.stringify(snapshot.taxonomy);
+  withValidatedAuthoringUpdates(
+    get,
+    new Map<string, unknown>([
+      ["tokens/browser/edits", edits],
+      ["tokens/aliases", snapshot.aliases],
+      ...(componentsChanged
+        ? [["components", snapshot.components] as const]
+        : []),
+      ...(taxonomyChanged
+        ? [["registry/taxonomy", snapshot.taxonomy] as const]
+        : []),
+    ]),
+    () => {
+      writeAuthoringRecord({
+        version: AUTHORING_RECORD_VERSION,
+        working: snapshot,
+        saved: snapshot,
+        isEditing: get(editModeAtom),
+        attachments,
+        savedAttachments: attachments,
+      });
+      if (componentsChanged) set(componentsDocumentAtom, snapshot.components!);
+      set(browserTokenEditsAtom, edits);
+      set(aliasesAtom, snapshot.aliases!);
+      if (taxonomyChanged) set(restoreTaxonomySnapshotAtom, snapshot.taxonomy!);
+      set(editSessionSnapshotAtom, snapshot);
+    },
+  );
+  if (componentsChanged)
+    set(componentDraftRevisionAtom, (revision) => revision + 1);
   set(foundationModeAttachmentsAtom, attachments);
   set(savedFoundationModeAttachmentsAtom, attachments);
   set(clearPersistenceIssuesAtom, "authoring");

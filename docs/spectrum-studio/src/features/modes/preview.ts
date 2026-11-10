@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { foundationDocumentsAtom } from "./foundationDocuments";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 import {
   modeSelectionAtom,
   resolveActiveMode,

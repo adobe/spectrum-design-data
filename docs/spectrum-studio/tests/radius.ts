@@ -23,13 +23,17 @@ import {
 } from "../src/features/tokens/browserSavedState";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import { modeSetsAtom } from "../src/features/modes/state";
+import type { ModeSet } from "../src/features/modes/model";
+import { resolveModeParameterValues } from "../src/features/modes/parameterResolution";
 import {
   captureSnapshot,
+  authoringSnapshotAtom,
   createDefaultSnapshot,
   assertStoredSnapshot,
   cancelEditAtom,
   enterEditModeAtom,
   saveEditAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import {
   AUTHORING_RECORD_VERSION,
@@ -63,7 +67,12 @@ import {
   DIMENSION_PROFILE,
   validateDimensionBundle,
 } from "../src/features/design-data/dimensionArtifacts";
-import { tokenValueText } from "../src/features/tokens/browserModel";
+import {
+  projectBrowserTokens,
+  resolveBrowserTokens,
+  tokenValueText,
+} from "../src/features/tokens/browserModel";
+import { browserSourcesFromOutputs } from "../src/features/tokens/browserSources";
 import { buildSpacingPrimitiveTable } from "../src/features/tokens/view/tokenPrimitiveAdapters";
 import {
   defaultsAnalysisInput,
@@ -71,13 +80,24 @@ import {
 } from "../src/features/design-data/projection";
 import { designSystemDefaults } from "../src/data/defaults";
 import { EMPTY_STRUCTURES } from "../src/features/structures/model";
-import { structuresDocumentAtom } from "../src/features/structures/documentState";
+import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
+import { inlineFixtureReferences } from "./fixtures/componentReferences";
+import {
+  decodeStructureSource,
+  encodeStructureSource,
+} from "../src/features/edit-session/structureSourceCodec";
 
-const snapshot = createDefaultSnapshot();
+const snapshot = inlineFixtureReferences(
+  createDefaultSnapshot(),
+  (target) =>
+    target.kind === "semantic" ||
+    (target.kind === "primitive" &&
+      RADIUS_DEFAULTS.scales.some((scale) => scale.id === target.ownerId)),
+);
 snapshot.structures = structuredClone(EMPTY_STRUCTURES);
 function radiusStore() {
   const store = createStore();
-  store.set(structuresDocumentAtom, structuredClone(EMPTY_STRUCTURES));
+  store.set(restoreAuthoringSnapshotAtom, structuredClone(snapshot));
   return store;
 }
 const scale = RADIUS_DEFAULTS.scales[0];
@@ -160,7 +180,16 @@ assert.deepEqual(
   ["typography.textZoom"],
 );
 
-const legacy = structuredClone(snapshot);
+const legacySeed = createLegacyIdentitySnapshot();
+const removedOwners = new Set([
+  ...legacySeed.radius!.scales.map((source) => source.id),
+  ...legacySeed.spacing!.scales.slice(1).map((source) => source.id),
+]);
+const legacy = inlineFixtureReferences(
+  legacySeed,
+  (target) => target.kind === "semantic" || removedOwners.has(target.ownerId),
+);
+legacy.structures = structuredClone(EMPTY_STRUCTURES);
 delete legacy.radius;
 legacy.scaleTypes = legacy.scaleTypes!.filter(
   (formula) => formula.id !== RADIUS_SCALE_TYPE_ID,
@@ -231,11 +260,12 @@ try {
     attachments: {},
     savedAttachments: {},
   };
+  const upgradeRecord = (value: unknown, version: number) => {
+    assert.equal(version, record.version, "This fixture upgrades a v1 record.");
+    return upgradeTshirtSnapshot(value, record.version);
+  };
   memory.set(AUTHORING_STORAGE_KEY, JSON.stringify(record));
-  const migrated = readAuthoringRecord(
-    assertStoredSnapshot,
-    upgradeTshirtSnapshot,
-  )!;
+  const migrated = readAuthoringRecord(assertStoredSnapshot, upgradeRecord)!;
   assert.equal(migrated.version, AUTHORING_RECORD_VERSION);
   assert.equal(migrated.working.spacing!.scales[0].base, 9);
   assert.equal(migrated.saved.spacing!.scales[0].base, 8);
@@ -250,11 +280,26 @@ try {
   failWrites = false;
   writeAuthoringRecord(migrated);
   assert.deepEqual(
-    readAuthoringRecord(assertStoredSnapshot, upgradeTshirtSnapshot),
-    migrated,
+    readAuthoringRecord(assertStoredSnapshot, upgradeRecord),
+    {
+      ...migrated,
+      working: decodeStructureSource(encodeStructureSource(migrated.working)),
+      saved: decodeStructureSource(encodeStructureSource(migrated.saved)),
+    },
+    "Portable storage normalizes the legacy empty Structures independently.",
   );
 
   const store = radiusStore();
+  const radiusConcepts = new Set(
+    store
+      .get(browserTokensAtom)
+      .filter((token) => token.type === "radius")
+      .map((token) => token.id),
+  );
+  const sizingAxis = store
+    .get(modeSetsAtom)
+    .find((set) => set.authoringCapabilities?.includes("size.componentSize"))!;
+  assert.ok(sizingAxis);
   assert.equal(store.get(generatedRadiusAtom).length, 1);
   assert.equal(
     store.get(browserTokensAtom).filter((token) => token.type === "radius")
@@ -272,13 +317,17 @@ try {
       .get(browserTokenImpactRecordsAtom)
       .filter((token) => token.category === "radius")
       .flatMap((token) => token.modeValues).length,
-    11,
+    11 * sizingAxis.modes.length,
+    "Radius rows retain every owned component-size context.",
   );
-  assert.equal(
-    [...store.get(savedBrowserConceptIdsAtom)].filter((id) =>
-      id.startsWith("radius-"),
-    ).length,
-    11,
+  assert.deepEqual(
+    new Set(
+      [...store.get(savedBrowserConceptIdsAtom)].filter((id) =>
+        radiusConcepts.has(id),
+      ),
+    ),
+    radiusConcepts,
+    "Saved radius concepts use their published identities, not source prefixes.",
   );
   assert.equal(
     dimensionFoundationParameters(
@@ -293,8 +342,14 @@ try {
   const primitive = combinations[0].tokens.find(
     (token) => token.type === "radius",
   )!;
+  const baselineModeCount = scoped
+    .get(browserTokenImpactRecordsAtom)
+    .find((token) => token.tokenId === primitive.id)!.modeValues.length;
+  const scopedEdits = scoped.get(browserTokenEditsAtom);
   scoped.set(browserTokenEditsAtom, {
+    ...scopedEdits,
     [primitive.id]: {
+      ...scopedEdits[primitive.id],
       values: Object.fromEntries(
         combinations
           .slice(0, 2)
@@ -309,23 +364,25 @@ try {
     scoped
       .get(browserTokenImpactRecordsAtom)
       .find((token) => token.tokenId === primitive.id)!.modeValues.length,
-    3,
-    "two equal-valued explicit assignments keep full contexts alongside the static baseline",
+    baselineModeCount + 2,
+    "Two equal-valued explicit assignments retain their full contexts alongside the owned baseline.",
   );
-  scoped.set(browserTokenEditsAtom, {});
+  scoped.set(browserTokenEditsAtom, scopedEdits);
   const sets = scoped.get(modeSetsAtom);
   const textAxis = sets.find((set) => set.key === "textScaling")!;
   scoped.set(
     modeSetsAtom,
-    sets.map((set) => ({
-      ...set,
-      authoringCapabilities:
-        set.id === textAxis.id
-          ? ["typography.textZoom"]
-          : set.authoringCapabilities.filter(
-              (capability) => capability !== "typography.textZoom",
-            ),
-    })),
+    sets.map(
+      (set): ModeSet => ({
+        ...set,
+        authoringCapabilities:
+          set.id === textAxis.id
+            ? ["typography.textZoom"]
+            : (set.authoringCapabilities ?? []).filter(
+                (capability) => capability !== "typography.textZoom",
+              ),
+      }),
+    ),
   );
   scoped.set(radiusDocumentAtom, {
     ...RADIUS_DEFAULTS,
@@ -349,7 +406,7 @@ try {
     .filter((token) => token.category === "radius");
   assert.equal(
     boundCounts.flatMap((token) => token.modeValues).length,
-    11 * textAxis.modes.length,
+    11 * textAxis.modes.length * sizingAxis.modes.length,
     "bindings count only owner-axis identities, even when outputs are equal",
   );
   assert(
@@ -359,23 +416,44 @@ try {
     "equal-value bindings add scoped identities without inventing changes",
   );
   const broken = radiusStore();
-  broken.set(radiusDocumentAtom, {
-    ...RADIUS_DEFAULTS,
-    scales: [{ ...scale, base: 0 }],
-  });
-  const invalidToken = broken
-    .get(browserTokensAtom)
-    .find((token) => token.type === "radius")!;
+  const beforeInvalid = broken.get(authoringSnapshotAtom);
+  const invalidScale = { ...scale, base: 0 };
+  assert.throws(
+    () =>
+      broken.set(radiusDocumentAtom, {
+        ...RADIUS_DEFAULTS,
+        scales: [invalidScale],
+      }),
+    /Invalid generated radius/,
+  );
+  assert.deepEqual(broken.get(authoringSnapshotAtom), beforeInvalid);
+  const invalidOutput = [
+    { scale: invalidScale, values: generateRadiusScale(invalidScale) },
+  ];
+  const invalidSources = browserSourcesFromOutputs(
+    [],
+    [],
+    [],
+    [],
+    undefined,
+    {
+      document: snapshot.colorSystem,
+      registry: snapshot.taxonomy!,
+      rules: snapshot.rules,
+    },
+    invalidOutput,
+  );
+  const invalidToken = projectBrowserTokens(
+    resolveBrowserTokens(invalidSources, {}, "[]"),
+    snapshot.taxonomy!,
+  )[0];
   assert.match(tokenValueText(invalidToken), /Unavailable radius/);
   assert(
     invalidToken.projection!.issues.some((issue) =>
       issue.includes("non-negative"),
     ),
   );
-  const table = buildSpacingPrimitiveTable(
-    broken.get(generatedRadiusAtom),
-    "radius",
-  );
+  const table = buildSpacingPrimitiveTable(invalidOutput, "radius");
   assert.match(table.groups[0].rows[0].cells.value.text, /Unavailable radius/);
   const sharedFormula = radiusStore();
   sharedFormula.set(radiusDocumentAtom, {
@@ -385,9 +463,17 @@ try {
   sharedFormula.set(addRadiusScaleAtom);
   sharedFormula.set(sizeDocumentAtom, {
     ...sharedFormula.get(sizeDocumentAtom),
-    scales: sharedFormula
-      .get(sizeDocumentAtom)
-      .scales.map((scale) => ({ ...scale, scaleTypeId: RADIUS_SCALE_TYPE_ID })),
+    scales: sharedFormula.get(sizeDocumentAtom).scales.map((scale) => {
+      const inherited = {
+        ...scale,
+        scaleTypeId: RADIUS_SCALE_TYPE_ID,
+        parameters: {},
+        startStep: 0,
+      };
+      delete inherited.base;
+      delete inherited.bindings;
+      return inherited;
+    }),
   });
   const beforeSharedEdit = captureSnapshot(sharedFormula.get);
   sharedFormula.set(enterEditModeAtom);
@@ -511,8 +597,8 @@ try {
     id: `radius:${scale.id}`,
     value: "Shared layout",
   });
-  assert.equal(store.get(spacingDocumentAtom).scales[0].name, "Shared layout");
-  assert.equal(store.get(sizeDocumentAtom).scales[0].name, "Shared layout");
+  assert.equal(store.get(spacingDocumentAtom).scales[0].name, "shared layout");
+  assert.equal(store.get(sizeDocumentAtom).scales[0].name, "shared layout");
   assert.equal(
     store.get(radiusDocumentAtom).scales[0].nameRef!.termId,
     scale.nameRef!.termId,
@@ -587,11 +673,56 @@ assert(
 );
 const bundle = await buildDimensionArtifacts(captureDimensionSource(snapshot));
 assert.equal(bundle.profileId, DIMENSION_PROFILE);
+const radiusAxis = snapshot.modeSets.find((set) =>
+  set.authoringCapabilities?.includes("size.componentSize"),
+)!;
+const radiusLineage = bundle.lineage.filter((row) => row.domain === "radius");
 assert.equal(
-  bundle.tokens.filter((token) => token.name.property === "radius").length,
-  11,
-  "static radius emits baseline values, not Cartesian samples",
+  radiusLineage.length,
+  values.length * radiusAxis.modes.length,
+  "Radius emits exactly its owned Scale contexts, not unrelated Cartesian samples.",
 );
+for (const mode of radiusAxis.modes) {
+  const selected = snapshot.modeSets.map((set) =>
+    set.id === radiusAxis.id
+      ? mode
+      : set.modes.find((mode) => mode.id === set.defaultModeId)!,
+  );
+  const expected = generateRadiusScale(
+    scale,
+    snapshot.rules,
+    snapshot.scaleTypes,
+    resolveModeParameterValues(
+      {
+        color: snapshot.colorSystem,
+        typography: snapshot.typography,
+        componentSizing: snapshot.componentSizing,
+      },
+      selected,
+      undefined,
+      { modeSets: snapshot.modeSets },
+    ),
+  );
+  const rows = radiusLineage.filter(
+    (row) => row.selection[radiusAxis.id] === mode.id,
+  );
+  assert.deepEqual(
+    [...rows]
+      .sort((left, right) => left.step - right.step)
+      .map((row) => [row.step, row.generatedValue]),
+    expected.map((row) => [row.step, row.value]),
+    "Every owned context retains the shared generator's steps and values.",
+  );
+  assert.ok(
+    rows.every((row) =>
+      snapshot.modeSets.every(
+        (set) =>
+          set.id === radiusAxis.id ||
+          row.selection[set.id] === set.defaultModeId,
+      ),
+    ),
+  );
+}
 assert.deepEqual(await validateDimensionBundle(bundle), bundle);
 const invalid = structuredClone(snapshot);
 invalid.radius!.scales[0].base = 0;

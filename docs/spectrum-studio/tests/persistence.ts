@@ -112,7 +112,7 @@ const {
 } = await import("../src/features/edit-session/storage");
 const {
   authoringSnapshotAtom,
-  assertStoredSnapshot,
+  assertStoredSnapshot: validateStoredSnapshot,
   enterEditModeAtom,
   saveEditAtom,
   cancelEditAtom,
@@ -120,6 +120,8 @@ const {
   resetAllAuthoringAtom,
   createDefaultSnapshot,
 } = await import("../src/features/edit-session/state");
+const assertStoredSnapshot: typeof import("../src/features/edit-session/state").assertStoredSnapshot =
+  validateStoredSnapshot;
 const { colorSystemDocumentAtom, updateColorSystemSettingsAtom } =
   await import("../src/features/color-system/state");
 const { modeSelectionAtom } = await import("../src/features/modes/selection");

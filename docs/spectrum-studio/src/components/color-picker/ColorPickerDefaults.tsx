@@ -1,9 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { createContext, useContext, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { ColorGamut } from "../../features/color-system/outputSettings";
-import type { PickerGamut } from "./colorUtils";
-
-const GamutContext = createContext<ColorGamut>("srgb");
+import { PickerGamutContext } from "./pickerGamut";
 
 export function ColorPickerDefaultsProvider({
   gamut,
@@ -13,15 +11,8 @@ export function ColorPickerDefaultsProvider({
   children: ReactNode;
 }) {
   return (
-    <GamutContext.Provider value={gamut}>{children}</GamutContext.Provider>
+    <PickerGamutContext.Provider value={gamut}>
+      {children}
+    </PickerGamutContext.Provider>
   );
-}
-
-export function useDefaultPickerGamut(): PickerGamut {
-  const gamut = useContext(GamutContext);
-  return gamut === "display-p3"
-    ? "Display-P3"
-    : gamut === "rec2020"
-      ? "Rec2020"
-      : "sRGB";
 }

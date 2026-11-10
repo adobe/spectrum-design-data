@@ -52,6 +52,7 @@ import {
 } from "../src/features/edit-session/storage";
 
 const snapshot = createDefaultSnapshot();
+assert.ok(snapshot.browserTokenEdits);
 const taxonomy = snapshot.taxonomy!;
 const category = (key: string) => {
   const found = taxonomy.categories.find((item) => item.key === key);
@@ -171,6 +172,8 @@ assert.ok(
   ),
 );
 const incompatible = structuredClone(snapshot);
+assert.ok(incompatible.browserTokenEdits);
+const incompatibleEdits = incompatible.browserTokenEdits;
 for (const key of ["element", "property"])
   incompatible.taxonomy!.categories.find(
     (item) => item.key === key,
@@ -178,11 +181,7 @@ for (const key of ["element", "property"])
 assertStoredSnapshot(incompatible);
 const incompatibleSources = browserSourcesForSnapshot(incompatible, modes);
 const incompatibleTokens = projectBrowserTokens(
-  resolveBrowserTokens(
-    incompatibleSources,
-    incompatible.browserTokenEdits,
-    "[]",
-  ),
+  resolveBrowserTokens(incompatibleSources, incompatibleEdits, "[]"),
   incompatible.taxonomy!,
 );
 assert.equal(incompatibleTokens.length, sources.length);
@@ -242,7 +241,7 @@ assert.doesNotThrow(() =>
   commitDialogDraft(
     diagnosticDraft,
     incompatibleRows,
-    incompatible.browserTokenEdits,
+    incompatibleEdits,
     incompatible.taxonomy!,
   ),
 );
@@ -262,7 +261,7 @@ assert.throws(
     commitDialogDraft(
       diagnosticDraft,
       incompatibleRows,
-      incompatible.browserTokenEdits,
+      incompatibleEdits,
       incompatible.taxonomy!,
     ),
   /does not apply/,
@@ -317,6 +316,7 @@ const legacy = {
     }),
   },
   browserTokenEdits: {
+    ...snapshot.browserTokenEdits,
     unknown: {
       values: {},
       authoring: {
@@ -340,6 +340,7 @@ const legacy = {
 };
 const upgraded = upgradeTokenTierData(legacy);
 assertStoredSnapshot(upgraded);
+assert.ok(upgraded.browserTokenEdits);
 assert.deepEqual(upgraded.taxonomy!.categories[0].allowedTokenTiers, [
   "primitive",
 ]);
@@ -377,19 +378,23 @@ assert.ok(
 // Authoring comparison counts tier metadata, not generated values.
 const before = structuredClone(snapshot);
 const after = structuredClone(snapshot);
-before.browserTokenEdits = createNewTokenEdit(
+const manualEdits = createNewTokenEdit(
   taxonomy,
   { tier: "semantic", type: "colors", terms: assignment("interactiveContext") },
   {},
   [],
 );
-const manualId = Object.keys(before.browserTokenEdits)[0];
+const manualId = Object.keys(manualEdits)[0];
+before.browserTokenEdits = {
+  ...before.browserTokenEdits,
+  ...manualEdits,
+};
 before.browserTokenEdits[manualId].authoring!.assignments["[]"] = {
   kind: "literal",
   value: "#123456",
 };
 after.browserTokenEdits = structuredClone(before.browserTokenEdits);
-const id = Object.keys(after.browserTokenEdits)[0];
+const id = manualId;
 after.browserTokenEdits[id].authoring!.manual!.tier = "component";
 const fields = compareAuthoring(before, after)
   .groups.flatMap((group) => group.items)
@@ -434,6 +439,7 @@ const beforeTierReset = resolveBrowserTokens(
   "[]",
   { includeManual: true },
 );
+assert.ok(reset.browserTokenEdits);
 assert.equal(
   beforeTierReset.find((token) => token.id === id)?.tier,
   "component",
@@ -495,10 +501,15 @@ for (const item of rows)
     `${item.name}: ${item.token.projection?.issues.join(" ")}`,
   );
 const packet = buildCanonicalTaxonomyExport(taxonomy, rows, snapshot.aliases!);
-assert.ok(packet.tokens.every((token) => isTokenTier(token.tier)));
-assert.equal(
-  packet.tokens.find((token) => token.conceptId === row.id)?.tier,
-  "component",
+assert.ok(rows.every((row) => isTokenTier(row.token.tier)));
+assert.ok(
+  packet.tokens.every((token) => !Object.hasOwn(token, "tier")),
+  "Authoring tiers are not extra fields in the canonical token wire format.",
+);
+assert.equal(rows.find((item) => item.id === row.id)?.token.tier, "component");
+assert.deepEqual(
+  packet.tokens.find((token) => token.conceptId === row.id)?.name,
+  row.canonicalName,
 );
 
 // Persisted envelopes upgrade saved and working data independently.
@@ -523,6 +534,7 @@ writeAuthoringRecord({
   savedAttachments: {},
 });
 const record = readAuthoringRecord(assertStoredSnapshot);
+assert.ok(record?.working.browserTokenEdits && record.saved.browserTokenEdits);
 assert.equal(
   record?.working.browserTokenEdits[id].authoring?.manual?.tier,
   "component",
@@ -543,6 +555,9 @@ storage.set(
   }),
 );
 const migrated = readAuthoringRecord(assertStoredSnapshot, (input) => input);
+assert.ok(
+  migrated?.working.browserTokenEdits && migrated.saved.browserTokenEdits,
+);
 assert.equal(migrated?.version, AUTHORING_RECORD_VERSION);
 assert.equal(
   migrated?.working.browserTokenEdits.semantic.authoring?.manual?.tier,

@@ -2,12 +2,14 @@
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import { designSystemDefaults } from "../src/data/defaults";
+import { editModeAtom } from "../src/state/view/editMode";
 import {
   authoringSnapshotAtom,
   assertStoredSnapshot,
   cancelEditAtom,
   createDefaultSnapshot,
   enterEditModeAtom,
+  restoreAuthoringSnapshotAtom,
   saveEditAtom,
 } from "../src/features/edit-session/state";
 import { upgradeStructureCompositionSnapshot } from "../src/features/edit-session/structureCompositionUpgrade";
@@ -45,6 +47,7 @@ import { primitiveReferenceId } from "../src/features/tokens/primitiveIdentity";
 import { tokenUuid } from "../src/features/tokens/model";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
 import { rulesAtom } from "../src/features/logic/library";
+import { resolveTshirtRule } from "../src/features/logic/tshirt";
 import { SIZE_TERM_IDS } from "../src/features/taxonomy/variantVocabulary";
 import {
   updateTypographyAtom,
@@ -65,21 +68,24 @@ import {
 } from "../src/features/changelog/state";
 import { fittedMenuWidth } from "../src/components/fields/menuSizing";
 import { tokenImpactSummaryAtom } from "../src/features/impact/state";
-import {
-  defaultsAnalysisInput,
-  projectAuthoringDataset,
-} from "../src/features/design-data/projection";
+import { TOKEN_IMPACT_SOURCES } from "../src/features/impact/sources";
+import { isTokenAffected } from "../src/features/impact/summaries";
+import { projectSnapshot } from "../src/features/design-data/authoringProjection";
 import { outputInventory } from "../src/features/design-data/materialization";
+import { inlineFixtureReferences } from "./fixtures/componentReferences";
 
 const store = createStore();
-store.set(structuresDocumentAtom, {
-  ...store.get(structuresDocumentAtom),
-  structures: store
-    .get(structuresDocumentAtom)
-    .structures.map((source, index) =>
-      index === 0 ? { ...source, elements: [] } : source,
-    ),
-});
+store.set(enterEditModeAtom);
+const initial = store.get(structuresDocumentAtom).structures[0];
+for (const element of initial.elements ?? [])
+  store.set(removeElementAtom, {
+    structureId: initial.conceptId,
+    elementId: element.id,
+    confirmed: true,
+  });
+store.set(saveEditAtom);
+store.set(editModeAtom, false);
+assertStoredSnapshot(store.get(authoringSnapshotAtom));
 assert.equal(fittedMenuWidth(100, 360, 800), 360);
 assert.equal(fittedMenuWidth(100, 360, 320), 296);
 assert.equal(fittedMenuWidth(100, 360, 800, 240), 240);
@@ -96,7 +102,9 @@ const structure = () =>
     .get(structuresDocumentAtom)
     .structures.find((structure) => structure.conceptId === id)!;
 const native = buildTshirtArtifacts(snapshot());
-const baselineProjection = defaultsAnalysisInput();
+const baselineProjection = projectSnapshot(snapshot(), "saved");
+const baselineTemplateReferences = store.get(taxonomyTemplateReferencesAtom);
+assert.deepEqual(baselineProjection.errors, []);
 assert.throws(
   () =>
     store.set(insertElementAtom, { structureId: id, kind: "text", index: 0 }),
@@ -224,18 +232,43 @@ const iconStyles = resolve().find(
 )!.styles;
 assert.equal(iconStyles.width, icon.value);
 assert.equal(iconStyles.height, icon.value);
-const barBindings = structuredClone(
-  structure().elements!.find((element) => element.id === bar)!.bindings,
+const boundBar = structure().elements!.find((element) => element.id === bar);
+assert.ok(isStructureElement(boundBar));
+const barBindings = structuredClone(boundBar.bindings);
+const boundNative = buildTshirtArtifacts(snapshot());
+const boundLeaves = structure().elements!;
+assert.ok(boundLeaves.every(isStructureElement));
+const leafBindingIds = new Set(
+  boundLeaves.flatMap((element) =>
+    element.bindings.map((binding) => binding.id),
+  ),
+);
+const leafSemantics = boundNative.semantics.filter((row) =>
+  row.bindingIds.some((bindingId) => leafBindingIds.has(bindingId)),
+);
+assert.deepEqual(
+  new Set(leafSemantics.flatMap((row) => row.bindingIds)),
+  leafBindingIds,
+  "Every bound leaf property contributes contextual semantic output.",
+);
+assert.ok(leafSemantics.every((row) => row.structureId === id));
+assert.deepEqual(
+  boundNative.semantics.filter(
+    (row) => !row.bindingIds.some((bindingId) => leafBindingIds.has(bindingId)),
+  ),
+  native.semantics,
+  "Adding leaf bindings preserves all existing semantic rows.",
 );
 store.set(updateElementAtom, {
   structureId: id,
   elementId: bar,
   orientation: STRUCTURE_TERM_IDS.vertical,
 });
-assert.deepEqual(
-  structure().elements!.find((element) => element.id === bar)!.bindings,
-  barBindings,
+const reorientedBar = structure().elements!.find(
+  (element) => element.id === bar,
 );
+assert.ok(isStructureElement(reorientedBar));
+assert.deepEqual(reorientedBar.bindings, barBindings);
 store.set(updateElementAtom, {
   structureId: id,
   elementId: workflow,
@@ -243,25 +276,48 @@ store.set(updateElementAtom, {
 });
 assert.deepEqual(
   buildTshirtArtifacts(snapshot()),
-  native,
-  "Bindings, glyphs, orientation and All preview mappings cannot add aliases, lineage or token rows.",
+  boundNative,
+  "Glyphs and orientation do not change generated tokens or lineage.",
 );
 const beforePreview = structuredClone(structure());
 for (const size of ["xs", "s", "m", "l", "xl"] as const)
   assert.ok(resolve(size).every((element) => !element.issues.length));
-assert.notEqual(
+assert.equal(
   resolve("s").find((element) => element.element.id === text)!.styles.fontSize,
   font.value,
+  "Base's current rule excludes font-size changes and retains the anchor.",
+);
+assert.ok(
+  !appliedElementBindings(structure(), store.get(rulesAtom), references).some(
+    (item) => item.binding.id === elementBindingId(text, "fontSize"),
+  ),
 );
 assert.deepEqual(
   structure(),
   beforePreview,
   "Preview scaling does not write back the resolved variant.",
 );
-assert.equal(
-  store.get(taxonomyTemplateReferencesAtom).length,
-  7,
-  "Five authored leaves plus the two source-owned default Text leaves.",
+const templateReferences = store.get(taxonomyTemplateReferencesAtom);
+assert.deepEqual(
+  templateReferences.filter((reference) =>
+    baselineTemplateReferences.some((baseline) => baseline.id === reference.id),
+  ),
+  baselineTemplateReferences,
+  "Existing source-owned template references remain unchanged.",
+);
+assert.deepEqual(
+  new Set(
+    templateReferences
+      .filter(
+        (reference) =>
+          !baselineTemplateReferences.some(
+            (baseline) => baseline.id === reference.id,
+          ),
+      )
+      .map((reference) => reference.id),
+  ),
+  new Set([workflow, text, ui, visual, bar]),
+  "Each newly authored leaf contributes exactly one Registry reference.",
 );
 assert.throws(
   () =>
@@ -317,8 +373,11 @@ assert.throws(
 );
 bind(text, "fontSize", font.id);
 const modeKey = store.get(browserModeContextAtom).key;
+const originalEdits = store.get(browserTokenEditsAtom);
 store.set(browserTokenEditsAtom, {
+  ...originalEdits,
   [unitless.nativeId]: {
+    ...originalEdits[unitless.nativeId],
     values: { [modeKey]: { value: 1.23456789, baseline: unitless.value } },
   },
 });
@@ -326,7 +385,7 @@ assert.equal(
   resolve().find((element) => element.element.id === text)!.styles.lineHeight,
   1.23456789,
 );
-store.set(browserTokenEditsAtom, {});
+store.set(browserTokenEditsAtom, originalEdits);
 assert.equal(
   isStructureElement({
     ...createElement("text"),
@@ -352,6 +411,9 @@ assert.equal(
   }),
   false,
 );
+const preservedText = createElement("text", text);
+assert.equal(preservedText.id, text);
+assert.ok(isStructureElement(preservedText));
 assert.equal(
   isStructuresDocument({
     schemaVersion: 3,
@@ -365,37 +427,104 @@ assert.equal(
   false,
 );
 const corrupt = structuredClone(snapshot());
-corrupt
-  .structures!.structures[0].elements!.find((element) => element.id === text)!
-  .bindings.find((binding) => binding.slot === "fontSize")!.$ref = unitless.id;
+const corruptText = corrupt.structures!.structures[0].elements!.find(
+  (element) => element.id === text,
+);
+assert.ok(isStructureElement(corruptText));
+const corruptFont = corruptText.bindings.find(
+  (binding) => binding.slot === "fontSize",
+);
+assert.ok(corruptFont && typeof corruptFont.$ref === "string");
+corruptFont.$ref = unitless.id;
 assert.throws(() => assertStoredSnapshot(corrupt), /metric is incompatible/);
 store.set(saveEditAtom);
+const savedNative = buildTshirtArtifacts(snapshot());
+const semanticValues = (bundle: typeof savedNative) =>
+  bundle.semantics
+    .map((row) => ({
+      bindings: row.bindingIds,
+      context: row.context,
+      value: row.target.value,
+    }))
+    .sort((left, right) =>
+      JSON.stringify(left).localeCompare(JSON.stringify(right)),
+    );
+assert.deepEqual(
+  semanticValues(savedNative),
+  semanticValues(boundNative),
+  "Save allocates publication identities without changing semantic values.",
+);
+const templateProjection = projectSnapshot(snapshot(), "saved");
+assert.deepEqual(templateProjection.errors, []);
+const tokenFacts = (records: typeof templateProjection.records) =>
+  records
+    .filter((record) => record.category === "tokens")
+    .map(({ id, conceptId, context, value, reference, unit }) => ({
+      id,
+      conceptId,
+      context,
+      value,
+      reference,
+      unit,
+    }));
+const baselineTokens = tokenFacts(baselineProjection.records);
+const templateTokens = tokenFacts(templateProjection.records);
+assert.deepEqual(
+  templateTokens.filter((record) =>
+    baselineTokens.some((baseline) => baseline.id === record.id),
+  ),
+  baselineTokens,
+  "Leaf output preserves every pre-existing token concept and mode-value row.",
+);
+const addedRows = savedNative.semantics.filter((row) =>
+  row.bindingIds.some((bindingId) => leafBindingIds.has(bindingId)),
+);
+const shippedConcepts = new Set(
+  buildTshirtArtifacts(createDefaultSnapshot()).semantics.map(
+    (row) => row.conceptId,
+  ),
+);
+const newConcepts = new Set(
+  addedRows
+    .filter((row) => !shippedConcepts.has(row.conceptId))
+    .map((row) => row.conceptId),
+);
+assert.ok(newConcepts.size > 0);
+const affectedRecords = TOKEN_IMPACT_SOURCES.flatMap((source) =>
+  store.get(source.recordsAtom),
+).filter(isTokenAffected);
+for (const conceptId of newConcepts)
+  assert.ok(
+    affectedRecords.some((record) => record.tokenId === conceptId),
+    "Every newly published leaf concept contributes to shipped-baseline Impact.",
+  );
 assert.equal(
   store.get(tokenImpactSummaryAtom).affected.count,
-  0,
-  "Saved template edits add zero token impact.",
-);
-assert.deepEqual(buildTshirtArtifacts(snapshot()), native);
-const templateProjection = projectAuthoringDataset(
-  {
-    ...designSystemDefaults,
-    system: {
-      ...designSystemDefaults.system,
-      structures: store.get(structuresDocumentAtom),
-    },
-  },
-  baselineProjection.source,
-);
-assert.deepEqual(templateProjection.errors, []);
-assert.deepEqual(
-  templateProjection.records.filter((record) => record.category === "tokens"),
-  baselineProjection.records.filter((record) => record.category === "tokens"),
-  "Template edits preserve every generated concept and mode-value row.",
+  affectedRecords.length,
+  "The Impact summary retains the complete saved generated-token accounting.",
 );
 assert.deepEqual(
-  outputInventory(templateProjection),
-  outputInventory(baselineProjection),
-  "Template edits preserve the full canonical inventory, including evaluation samples, recipes and assignment denominators.",
+  new Set(
+    templateTokens
+      .filter(
+        (record) =>
+          !baselineTokens.some((baseline) => baseline.id === record.id),
+      )
+      .map((record) => record.conceptId),
+  ),
+  new Set(addedRows.map((row) => row.conceptId)),
+  "Analysis reports exactly the newly generated leaf concepts.",
+);
+assert.equal(
+  outputInventory(templateProjection).counts.generatedOutputs -
+    outputInventory(baselineProjection).counts.generatedOutputs,
+  templateTokens.length - baselineTokens.length,
+  "The output inventory accounts for every added generated row.",
+);
+assert.equal(
+  outputInventory(templateProjection).counts.evaluationSamples,
+  outputInventory(baselineProjection).counts.evaluationSamples,
+  "Leaf bindings do not add foundation evaluation samples.",
 );
 store.set(enterEditModeAtom);
 const layoutIds = base.properties
@@ -409,7 +538,6 @@ const custom = {
     bindingIds: [elementBindingId(text, "fontSize")],
   },
 };
-store.set(applyStructureRuleAtom, { structureId: id, application: custom });
 const unrelated = {
   id: crypto.randomUUID(),
   ruleId: custom.ruleId,
@@ -420,7 +548,7 @@ store.set(editElementsAtom, {
   elements: structure().elements!,
   generation: {
     ...structure().generation!,
-    applications: [...structure().generation!.applications, unrelated],
+    applications: [custom, unrelated],
   },
 });
 assert.throws(
@@ -458,7 +586,7 @@ assert.deepEqual(
   "Undo restores exact position, properties and Custom preview targets.",
 );
 store.set(cancelEditAtom);
-assert.deepEqual(buildTshirtArtifacts(snapshot()), native);
+assert.deepEqual(buildTshirtArtifacts(snapshot()), savedNative);
 store.set(enterEditModeAtom);
 store.set(revertChangeTopicAtom, "structures");
 assert.deepEqual(
@@ -467,7 +595,22 @@ assert.deepEqual(
 );
 const older = createDefaultSnapshot();
 older.structures!.schemaVersion = 2;
-for (const structure of older.structures!.structures) delete structure.elements;
+for (const structure of older.structures!.structures) {
+  delete structure.elements;
+  delete structure.editor;
+  if (structure.generation) {
+    structure.generation.sizeTermIds = Object.values(SIZE_TERM_IDS);
+    structure.generation.applications =
+      structure.generation.applications.filter((application) => {
+        delete application.previewTargets;
+        return (
+          application.targets.kind === "all" ||
+          application.targets.bindingIds.length > 0
+        );
+      });
+  }
+}
+assert.ok(isStructuresDocument(older.structures));
 const upgraded = upgradeStructureCompositionSnapshot(older, 9);
 assert.equal(upgraded.structures!.schemaVersion, STRUCTURES_SCHEMA_VERSION);
 assert.deepEqual(upgraded.structures!.structures[0].elements, []);
@@ -476,19 +619,30 @@ assert.deepEqual(
   older.structures!.structures[0].generation,
 );
 assert.deepEqual(upgraded.colorSystem, older.colorSystem);
-assert.deepEqual(templateTargets(base.generation!.applications[0]), {
-  kind: "all",
-});
+assert.deepEqual(
+  templateTargets({ ...custom, previewTargets: { kind: "all" } }),
+  { kind: "all" },
+);
 assert.deepEqual(templateTargets({ ...custom, previewTargets: undefined }), {
   kind: "custom",
   bindingIds: [],
 });
 
 const only = createStore();
+only.set(
+  restoreAuthoringSnapshotAtom,
+  inlineFixtureReferences(
+    only.get(authoringSnapshotAtom),
+    (target) => target.kind === "semantic",
+  ),
+);
 only.set(enterEditModeAtom);
 const plain = createStructure("Preview only");
 delete plain.generation;
-only.set(structuresDocumentAtom, { schemaVersion: 3, structures: [plain] });
+only.set(structuresDocumentAtom, {
+  ...only.get(structuresDocumentAtom),
+  structures: [plain],
+});
 const child = only.set(insertElementAtom, {
   structureId: plain.conceptId,
   kind: "text",
@@ -520,11 +674,22 @@ only.set(updateElementAtom, {
   slot: "fontSize",
   referenceId: font.id,
 });
+const previewRule = {
+  ...resolveTshirtRule(
+    only.get(rulesAtom),
+    base.generation!.applications[0].ruleId,
+  ),
+  id: crypto.randomUUID(),
+  name: "Element preview test",
+  locked: false,
+  applicability: { kind: "all" as const },
+};
+only.set(rulesAtom, [...only.get(rulesAtom), previewRule]);
 only.set(applyStructureRuleAtom, {
   structureId: plain.conceptId,
   application: {
     id: crypto.randomUUID(),
-    ruleId: base.generation!.applications[0].ruleId,
+    ruleId: previewRule.id,
     targets: { kind: "custom", bindingIds: [] },
     previewTargets: { kind: "all" },
   },
@@ -552,17 +717,17 @@ assert.throws(
   /overlap/,
 );
 assert.equal(previewOnly.generation!.sizeTermIds[0], SIZE_TERM_IDS.m);
+const previewElement = previewOnly.elements![0];
+assert.ok(isStructureElement(previewElement));
 assert.throws(
   () =>
     only.set(editElementsAtom, {
       structureId: plain.conceptId,
-      elements: [
-        { ...previewOnly.elements![0], termId: ELEMENT_TYPES.bar.termId },
-      ],
+      elements: [{ ...previewElement, termId: ELEMENT_TYPES.bar.termId }],
     }),
   /invalid/i,
   "Invalid element graphs are rejected rather than partially saved.",
 );
 console.log(
-  "Structure elements: ordered editing, typed units/live references, preview-only sizes, dependency guards, exact Undo/lifecycle and unchanged complete layout-token output passed.",
+  "Structure elements: bound-leaf publication, metadata-only previews, dependency guards, Analysis/Impact, migration and exact Undo/lifecycle passed.",
 );

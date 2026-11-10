@@ -3,11 +3,12 @@ import { atom, type Getter, type Setter } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom } from "../color-system/state";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { activeModesAtom } from "../modes/selection";
 import { previewOverridesAtom } from "../modes/previewState";
 import { browserTokenEditsAtom } from "../tokens/browserEdits";
 import type { BrowserTokenEdit } from "../tokens/browserEditTypes";
+import { tokenEdit, tokenIdentity } from "../tokens/canonicalIdentity";
 import { OPACITY_DEFAULTS } from "./defaults";
 import {
   isAlpha,
@@ -164,10 +165,11 @@ export const updateOpacityLevelAtom = atom(
       });
     } else {
       const edits = get(browserTokenEditsAtom),
-        previous = edits[input.id] ?? { values: {} };
+        id = tokenIdentity(edits, input.id)?.conceptId ?? input.id,
+        previous = tokenEdit(edits, input.id) ?? { values: {} };
       set(browserTokenEditsAtom, {
         ...edits,
-        [input.id]: {
+        [id]: {
           ...previous,
           values: {
             ...previous.values,
@@ -195,13 +197,14 @@ export const updateOpacityIndexAtom = atom(
 export const resetOpacityOverrideAtom = atom(null, (get, set, id: string) => {
   assertEditing(get(editModeAtom), get(previewOverridesAtom));
   const edits = { ...get(browserTokenEditsAtom) },
-    previous = edits[id];
+    editId = tokenIdentity(edits, id)?.conceptId ?? id,
+    previous = tokenEdit(edits, id);
   if (!previous) return;
   const values = { ...previous.values };
   const level = get(opacityResultAtom).levels.find((item) => item.id === id);
   if (!level?.overrideKey) return;
   delete values[level.overrideKey];
-  edits[id] = { ...previous, values };
+  edits[editId] = { ...previous, values };
   set(browserTokenEditsAtom, edits);
 });
 export const addOpacityLevelAtom = atom(null, (get, set) => {
@@ -243,10 +246,10 @@ export const removeOpacityLevelAtom = atom(null, (get, set, id: string) => {
   const removed = {
     level: document.levels[index],
     index,
-    edit: get(browserTokenEditsAtom)[id],
+    edit: tokenEdit(get(browserTokenEditsAtom), id),
   };
   const edits = { ...get(browserTokenEditsAtom) };
-  delete edits[id];
+  delete edits[tokenIdentity(edits, id)?.conceptId ?? id];
   writeOpacityLevels(get, set, {
     ...document,
     levels: document.levels.filter((level) => level.id !== id),
@@ -275,7 +278,8 @@ export const restoreOpacityLevelAtom = atom(
     if (removed.edit)
       set(browserTokenEditsAtom, {
         ...get(browserTokenEditsAtom),
-        [removed.level.id]: removed.edit,
+        [removed.edit.authoring?.identity?.conceptId ?? removed.level.id]:
+          removed.edit,
       });
   },
 );

@@ -23,7 +23,7 @@ import {
   previewOverridesAtom,
   setPreviewParameterAtom,
 } from "../modes/previewState";
-import { modeSetsAtom } from "../modes/state";
+import { modeSetsAtom } from "../modes/documentState";
 import { editModeAtom } from "../../state/view/editMode";
 import { rulesAtom } from "../logic/library";
 import { interpolationsAtom, scaleTypesAtom } from "../logic/scaleTypeLibrary";
@@ -45,6 +45,8 @@ import { typographyTokenValues } from "./typographyTokens";
 import { structuresDocumentAtom } from "../structures/documentState";
 import { assertStructureReferences } from "../structures/model";
 import { typographyReferenceCoordinates } from "../tokens/primitiveIdentity";
+import { resetTokenEdit } from "../tokens/canonicalIdentity";
+import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 export { resolveTypographyDocument } from "./resolution";
 
 const storedTypographyDocumentAtom = persistedAtom<TypographyDocument>({
@@ -288,16 +290,29 @@ export const removeLineHeightAtom = atom(
     );
     const edits = { ...get(browserTokenEditsAtom) },
       removedEdits: BrowserTokenEdits = {};
-    for (const id of Object.keys(edits))
+    for (const [id, edit] of Object.entries(edits)) {
+      const sourceId = edit.authoring?.identity?.sourceId ?? id;
       if (
-        id.startsWith(`typography-${input.id}-lineHeight-`) ||
-        id.startsWith(`typography-${input.id}-unitlessLineHeight-`)
+        sourceId.startsWith(`typography-${input.id}-lineHeight-`) ||
+        sourceId.startsWith(`typography-${input.id}-unitlessLineHeight-`)
       ) {
-        removedEdits[id] = edits[id];
-        delete edits[id];
+        removedEdits[id] = edit;
+        const retained = resetTokenEdit(edit);
+        if (retained) edits[id] = retained;
+        else delete edits[id];
       }
-    set(typographyDocumentAtom, next);
-    set(browserTokenEditsAtom, edits);
+    }
+    withValidatedAuthoringUpdates(
+      get,
+      new Map<string, unknown>([
+        ["foundations/typography", next],
+        ["tokens/browser/edits", edits],
+      ]),
+      () => {
+        set(typographyDocumentAtom, next);
+        set(browserTokenEditsAtom, edits);
+      },
+    );
     return {
       card: document.lineHeights[index],
       index,
@@ -358,11 +373,42 @@ export const restoreLineHeightAtom = atom(
       get(scaleTypesAtom),
       get(interpolationsAtom),
     );
-    set(typographyDocumentAtom, next);
-    set(browserTokenEditsAtom, {
-      ...removed.edits,
-      ...get(browserTokenEditsAtom),
-    });
+    const edits = { ...get(browserTokenEditsAtom) };
+    for (const [id, edit] of Object.entries(removed.edits)) {
+      const current = edits[id];
+      if (!current) {
+        edits[id] = edit;
+        continue;
+      }
+      edits[id] = {
+        ...edit,
+        ...current,
+        values: { ...edit.values, ...current.values },
+        ...(edit.authoring || current.authoring
+          ? {
+              authoring: {
+                ...edit.authoring,
+                ...current.authoring,
+                assignments: {
+                  ...edit.authoring?.assignments,
+                  ...current.authoring?.assignments,
+                },
+              },
+            }
+          : {}),
+      };
+    }
+    withValidatedAuthoringUpdates(
+      get,
+      new Map<string, unknown>([
+        ["foundations/typography", next],
+        ["tokens/browser/edits", edits],
+      ]),
+      () => {
+        set(typographyDocumentAtom, next);
+        set(browserTokenEditsAtom, edits);
+      },
+    );
   },
 );
 
@@ -417,14 +463,27 @@ export const restoreTypographyDefaultsAtom = atom(null, (get, set) => {
       ),
     ).map((token) => token.id),
   );
-  const edits = Object.fromEntries(
-    Object.entries(get(browserTokenEditsAtom)).filter(
-      ([id]) => !id.startsWith("typography-") || valid.has(id),
-    ),
+  const edits = { ...get(browserTokenEditsAtom) };
+  for (const [id, edit] of Object.entries(edits)) {
+    const sourceId = edit.authoring?.identity?.sourceId ?? id;
+    if (!sourceId.startsWith("typography-") || valid.has(sourceId)) continue;
+    const retained = resetTokenEdit(edit);
+    if (retained) edits[id] = retained;
+    else delete edits[id];
+  }
+  withValidatedAuthoringUpdates(
+    get,
+    new Map<string, unknown>([
+      ["registry/taxonomy", nextRegistry],
+      ["foundations/typography", document],
+      ["tokens/browser/edits", edits],
+    ]),
+    () => {
+      set(taxonomyDocumentAtom, nextRegistry);
+      set(typographyDocumentAtom, document);
+      set(browserTokenEditsAtom, edits);
+    },
   );
-  set(taxonomyDocumentAtom, nextRegistry);
-  set(typographyDocumentAtom, document);
-  set(browserTokenEditsAtom, edits);
 });
 
 export const resolvedTypographyDocumentAtom = atom((get) =>

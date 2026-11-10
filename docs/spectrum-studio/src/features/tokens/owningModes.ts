@@ -1,10 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { EditSessionSnapshot } from "../edit-session/state";
-import { parameterOwners } from "../modes/parameters";
+import { capabilityOwners } from "../modes/ownership";
 import { elevationOwnerIds } from "../elevation/output";
 import { opacityAxes } from "../opacity/generation";
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
+import { COLOR_PARAMETERS } from "../color-system/resolution";
 import { categoricalMemberAxes } from "../color-system/data-vis/axes";
+import { tokenEdit } from "./canonicalIdentity";
 import {
   canonicalTokenModeKey,
   tokenModeSetIds,
@@ -19,8 +21,11 @@ export function tokenOwningModeKey(
   other?: EditSessionSnapshot,
   allowMissing = false,
 ): string {
-  const owners = parameterOwners(snapshot.modeSets);
+  const owners: Readonly<Partial<Record<string, string>>> = capabilityOwners(
+    snapshot.modeSets,
+  );
   const axes = new Set<string>();
+  let staticCategorical = false;
   const addOwner = (id: string) => {
     if (owners[id]) axes.add(owners[id]);
   };
@@ -38,6 +43,7 @@ export function tokenOwningModeKey(
       if (!allowMissing)
         throw new Error("A categorical Changes value has no authored member.");
     } else {
+      staticCategorical = !!scale.staticColors;
       for (const axis of categoricalMemberAxes(
         scale.id,
         member,
@@ -59,12 +65,7 @@ export function tokenOwningModeKey(
   } else if (token.type === "colors" && !token.paletteColorId) {
     if (opacityStopsEnabled(snapshot.colorSystem.settings))
       for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
-    for (const id of [
-      "color.backgroundScaleId",
-      "color.backgroundLightness",
-      "color.contrastMultiplier",
-    ])
-      addOwner(id);
+    COLOR_PARAMETERS.forEach(addOwner);
   } else if (token.type === "typography") {
     addOwner("typography.textZoom");
     addOwner("typography.textSize");
@@ -80,10 +81,12 @@ export function tokenOwningModeKey(
     for (const binding of Object.values(scale?.bindings ?? {}))
       addOwner(binding.modeParameterId);
   }
-  for (const key of Object.keys(
-    snapshot.browserTokenEdits?.[token.id]?.values ?? {},
-  ))
-    for (const axis of tokenModeSetIds(key)) axes.add(axis);
+  if (
+    !staticCategorical &&
+    tokenEdit(snapshot.browserTokenEdits ?? {}, token.sourceId ?? token.id)
+      ?.values?.[fullKey] !== undefined
+  )
+    for (const axis of tokenModeSetIds(fullKey)) axes.add(axis);
   if (other)
     for (const axis of tokenModeSetIds(
       tokenOwningModeKey(token, other, fullKey, undefined, true),

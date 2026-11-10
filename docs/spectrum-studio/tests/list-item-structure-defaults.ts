@@ -6,7 +6,10 @@ import {
   enterEditModeAtom,
 } from "../src/features/edit-session/state";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
-import { formatTshirtName } from "../src/features/design-data/tshirtProfile";
+import {
+  assertTshirtGraph,
+  formatTshirtName,
+} from "../src/features/design-data/tshirtProfile";
 import {
   structureGeneration,
   structureSelection,
@@ -119,11 +122,11 @@ assert.deepEqual(
 );
 assert.equal(density.defaultOptionId, density.options[0].id);
 const verticalPath = `/${listItem.elements![0].id}`;
-assert.equal(
+const spaciousPadding =
   listItem.editor?.layouts?.[verticalPath].overrides?.[density.options[1].id]
-    ?.slots?.paddingTop?.$ref,
-  "7b3ba018-fae6-8c33-adde-4c99bb2d484c",
-);
+    ?.slots?.paddingTop;
+assert.ok(spaciousPadding && "$ref" in spaciousPadding);
+assert.equal(spaciousPadding.$ref, "7b3ba018-fae6-8c33-adde-4c99bb2d484c");
 assert.equal(verticalPadding.editor, undefined);
 assert.deepEqual(
   structureEditor(listItem).properties.map((property) => property.name),
@@ -176,32 +179,73 @@ for (const icon of [contentStart.elements?.[1], contentEnd.elements?.[3]]) {
 }
 
 const bundle = buildTshirtArtifacts(snapshot, "shipped");
-assert.equal(bundle.semantics.length, 122);
+assertTshirtGraph(
+  bundle.tokens,
+  undefined,
+  ["2x-small", "2x-large"],
+  bundle.modeSets,
+);
 const listRows = bundle.semantics.filter((row) =>
   [listItem, verticalPadding, contentLayout].some(
     (structure) => structure.conceptId === row.structureId,
   ),
 );
-assert.equal(listRows.length, 12);
-assert.deepEqual(
-  new Map(
-    listRows.map((row) => [formatTshirtName(row.token.name), row.target.value]),
-  ),
-  new Map([
-    ["list-indent-medium", 16],
-    ["list-indent-large", 24],
-    ["list-item-gap-small", 2],
-    ["list-item-gap-medium", 8],
-    ["list-item-padding-horizontal-small", 6],
-    ["list-item-padding-horizontal-medium", 6],
-    ["list-item-padding-vertical-small-regular", 4],
-    ["list-item-padding-vertical-medium-regular", 4],
-    ["list-item-padding-vertical-small-spacious", 8],
-    ["list-item-padding-vertical-medium-spacious", 8],
-    ["list-ui-icon-size-medium", 10],
-    ["list-ui-icon-size-large", 10],
-  ]),
+const expected = [
+  ["list-indent-medium", 16, 20],
+  ["list-indent-large", 24, 30],
+  ["list-item-gap-small", 2, 2.5],
+  ["list-item-gap-medium", 8, 10],
+  ["list-item-padding-horizontal-small", 6, 7.5],
+  ["list-item-padding-horizontal-medium", 6, 7.5],
+  ["list-item-padding-vertical-small-regular", 4, 5],
+  ["list-item-padding-vertical-medium-regular", 4, 5],
+  ["list-item-padding-vertical-small-spacious", 8, 10],
+  ["list-item-padding-vertical-medium-spacious", 8, 10],
+  ["list-ui-icon-size-medium", 10, 13],
+  ["list-ui-icon-size-large", 10, 13],
+] as const;
+const scaleAxis = snapshot.modeSets.find((axis) => axis.key === "scale");
+assert.ok(scaleAxis);
+const defaultScale = scaleAxis.modes.find(
+  (mode) => mode.id === scaleAxis.defaultModeId,
 );
+assert.ok(defaultScale);
+assert.deepEqual(
+  scaleAxis.modes.map((mode) => mode.key),
+  ["desktop", "mobile"],
+);
+assert.equal(defaultScale.key, "desktop");
+assert.equal(listRows.length, expected.length * scaleAxis.modes.length);
+for (const [scale, column] of [
+  ["desktop", 1],
+  ["mobile", 2],
+] as const) {
+  const rows: typeof listRows = listRows.filter(
+    (row) => (row.context.scale ?? defaultScale.key) === scale,
+  );
+  assert.equal(rows.length, expected.length);
+  for (const row of rows) {
+    assert.ok(Object.keys(row.context).every((key) => key === "scale"));
+    assert.equal(
+      row.selection[scaleAxis.id] ?? defaultScale.id,
+      scaleAxis.modes.find((mode) => mode.key === scale)!.id,
+    );
+  }
+  assert.deepEqual(
+    new Map(
+      rows.map((row) => [
+        formatTshirtName(
+          Object.fromEntries(
+            Object.entries(row.token.name).filter(([key]) => key !== "scale"),
+          ),
+        ),
+        row.target.value,
+      ]),
+    ),
+    new Map(expected.map((entry) => [entry[0], entry[column]])),
+    `${scale} keeps the exact List-item names, values and context coverage.`,
+  );
+}
 
 const references = createStore().get(primitiveReferencesAtom);
 const indentation = ([0, 1, 2] as const).map(
@@ -210,10 +254,10 @@ const indentation = ([0, 1, 2] as const).map(
       .marginInlineStart,
 );
 assert.deepEqual(indentation, [0, 16, 32]);
-assert.equal(
-  bundle.semantics.length,
-  122,
-  "Preview indentation does not add semantic tokens.",
+assert.deepEqual(
+  buildTshirtArtifacts(snapshot, "shipped").semantics,
+  bundle.semantics,
+  "Preview indentation does not add, remove, remint or change semantic tokens.",
 );
 
 const layoutStore = createStore();

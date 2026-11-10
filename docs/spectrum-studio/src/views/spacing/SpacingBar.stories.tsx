@@ -23,9 +23,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 async function barWidth(canvasElement: HTMLElement, index = 0) {
-  return canvasElement
-    .querySelectorAll<HTMLElement>("[data-testid='spacing-bar']")
-    [index].getBoundingClientRect().width;
+  const bars = canvasElement.querySelectorAll<HTMLElement>(
+    "[data-testid='spacing-bar']",
+  );
+  return bars[index].getBoundingClientRect().width;
 }
 
 export const Default: Story = {

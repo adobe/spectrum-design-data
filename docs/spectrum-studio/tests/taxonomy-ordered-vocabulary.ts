@@ -11,8 +11,10 @@ import {
   assertTaxonomy,
   projectClassification,
 } from "../src/features/taxonomy/model";
+import { orderedVocabularyFixture } from "./fixtures/orderedVocabulary";
 
-const initial = structuredClone(dataset.system.taxonomy);
+assertTaxonomy(dataset.system.taxonomy);
+const initial = orderedVocabularyFixture(dataset.system.taxonomy);
 assertTaxonomy(initial);
 const vocabulary = upgradeOrderedVocabulary(initial);
 assertTaxonomy(vocabulary);
@@ -28,10 +30,35 @@ assert.deepEqual(
 );
 const defaults = { ...vocabulary, order: defaultOrderedGroups(vocabulary) };
 assert.deepEqual(
-  defaults.order.map(
-    (id) => defaults.categories.find((category) => category.id === id)!.key,
-  ),
+  defaults.order
+    .slice(0, DEFAULT_GROUP_KEYS.length)
+    .map(
+      (id) => defaults.categories.find((category) => category.id === id)!.key,
+    ),
   DEFAULT_GROUP_KEYS,
+);
+const legacyGroups = new Set<string>(DEFAULT_GROUP_KEYS);
+assert.deepEqual(
+  defaults.order.slice(DEFAULT_GROUP_KEYS.length),
+  initial.order.filter(
+    (id) =>
+      !legacyGroups.has(
+        initial.categories.find((category) => category.id === id)!.key,
+      ),
+  ),
+  "Other groups retain their relative order after the explicit legacy groups.",
+);
+const missingGroup = structuredClone(vocabulary);
+const contrastGroup = missingGroup.categories.find(
+  (category) => category.key === "contrastLabel",
+)!;
+missingGroup.categories = missingGroup.categories.filter(
+  (category) => category.id !== contrastGroup.id,
+);
+missingGroup.order = missingGroup.order.filter((id) => id !== contrastGroup.id);
+assert.throws(
+  () => defaultOrderedGroups(missingGroup),
+  /Missing default taxonomy group contrastLabel/,
 );
 const projection = (values: Record<string, string | number>) =>
   projectClassification(
@@ -155,7 +182,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   initial,
-  dataset.system.taxonomy,
+  orderedVocabularyFixture(dataset.system.taxonomy),
   "The upgrade never mutates its input.",
 );
 const authored = structuredClone(initial);

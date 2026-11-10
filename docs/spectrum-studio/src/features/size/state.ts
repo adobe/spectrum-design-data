@@ -11,6 +11,7 @@ import {
 import { SPACING_SCALE_TYPE_ID } from "../scales/scaleType";
 import { SIZE_DEFAULTS } from "./defaults";
 import { SIZE_SCHEMA_VERSION } from "./model";
+import { dimensionPublicationUpdates } from "../scales/foundationPublicationState";
 
 const foundation = createDimensionFoundationState({
   key: "foundations/size",
@@ -18,6 +19,8 @@ const foundation = createDimensionFoundationState({
   defaults: SIZE_DEFAULTS,
   tokenPrefix: "size",
   customIdPrefix: "size-scale-custom",
+  related: (get, previous, next, taxonomy) =>
+    dimensionPublicationUpdates("size", get, previous, next, taxonomy),
   migrate: (data, fromVersion) =>
     fromVersion === 1
       ? migrateDimensionScalesToFormulas(

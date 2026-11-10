@@ -25,6 +25,11 @@ import { buildCanonicalTaxonomyExport } from "../src/features/taxonomy/export";
 import { EMPTY_ALIASES } from "../src/features/tokens/aliases";
 import { createTshirtFixture } from "./fixtures/tshirt";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
+import { tokenValueText } from "../src/features/tokens/browserModel";
+import {
+  sizeFromTerm,
+  VARIANT_CATEGORY_IDS,
+} from "../src/features/taxonomy/variantVocabulary";
 
 const snapshot = createDefaultSnapshot();
 const taxonomy = snapshot.taxonomy!;
@@ -89,13 +94,7 @@ assert(css.includes("--red-color-100: var(--color-system-tint);"));
 assert(css.includes("--floating-surface-color: var(--surface-color);"));
 assert(css.includes(".color-scale-red.color-contrast-100"));
 const reordered = { ...taxonomy, order: [...taxonomy.order].reverse() };
-const reorderedCss = buildColorLibrary(
-  snapshot.colorSystem,
-  [],
-  [],
-  [],
-  reordered,
-);
+const reorderedCss = buildColorLibrary(snapshot.colorSystem, [], [], reordered);
 assert(reorderedCss.includes("--100-color-red:"));
 assert(reorderedCss.includes("--color-illustrator-orange:"));
 const missing = {
@@ -153,8 +152,10 @@ editedDataset.system.browserTokenEdits = {
   },
 };
 assert.deepEqual(
-  composeDesignSystemDefaults(canonicalDesignSystemDataset(editedDataset))
-    .system.browserTokenEdits,
+  composeDesignSystemDefaults(
+    canonicalDesignSystemDataset(editedDataset),
+    editedDataset.system.scaleTypes,
+  ).system.browserTokenEdits,
   editedDataset.system.browserTokenEdits,
 );
 const invalidEdit = structuredClone(editedDataset);
@@ -164,7 +165,11 @@ Reflect.set(
   true,
 );
 assert.throws(
-  () => composeDesignSystemDefaults(canonicalDesignSystemDataset(invalidEdit)),
+  () =>
+    composeDesignSystemDefaults(
+      canonicalDesignSystemDataset(invalidEdit),
+      invalidEdit.system.scaleTypes,
+    ),
   /additional properties/,
 );
 for (const hidden of [false, true]) {
@@ -178,23 +183,35 @@ for (const hidden of [false, true]) {
     EMPTY_ALIASES,
   );
   for (const row of targets.filter((target) => target.token.semantic)) {
-    const emitted = packet.tokens.find((token) => token.id === row.rowId)!;
-    assert.equal(
+    const emitted = packet.tokens.find((token) => token.uuid === row.rowId)!;
+    assert.ok(emitted, "Every semantic row keeps its publication UUID.");
+    const sizeTermId =
+      row.token.semantic!.classification[VARIANT_CATEGORY_IDS.size];
+    assert.ok(typeof sizeTermId === "string");
+    assert.deepEqual(
       emitted.name,
-      projectClassification(
-        source.taxonomy!,
-        row.token.semantic!.classification,
-        "structures",
-      ).name,
+      {
+        ...projectClassification(
+          source.taxonomy!,
+          row.token.semantic!.classification,
+          "structures",
+        ).flat,
+        size: sizeFromTerm(sizeTermId),
+      },
+      "Canonical output preserves shipped size keys while using Registry fields.",
     );
-    if (hidden) assert("value" in emitted);
-    else {
+    if (hidden) {
+      assert("value" in emitted);
+      assert.equal(emitted.value, tokenValueText(row.token));
+    } else {
       assert("$ref" in emitted);
-      const target = packet.tokens.find((token) => token.id === emitted.$ref)!;
+      const target = packet.tokens.find(
+        (token) => token.uuid === emitted.$ref,
+      )!;
       assert(target && "value" in target);
       assert.equal(
         target.value,
-        row.token.value,
+        tokenValueText(row.token),
         "Semantic references target the exact emitted canonical primitive.",
       );
     }

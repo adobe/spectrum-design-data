@@ -310,11 +310,13 @@ text.bindings = [
   },
 ];
 leafRoot.elements = [text];
+const originalFontBinding = text.bindings[0];
+assert.ok(typeof originalFontBinding.$ref === "string");
 leafRoot.editor!.overrides[optionId] = {
   elements: {
     [text.id]: {
       ...text,
-      bindings: [{ ...text.bindings[0], $ref: typeReferences[1].id }],
+      bindings: [{ ...originalFontBinding, $ref: typeReferences[1].id }],
     },
   },
 };

@@ -46,6 +46,15 @@ export function tokenEdit(edits: BrowserTokenEdits, sourceId: string) {
   return edits[tokenIdentity(edits, sourceId)?.conceptId ?? sourceId];
 }
 
+export function tokenEditModeKeys(edits: BrowserTokenEdits, sourceId: string) {
+  const edit = tokenEdit(edits, sourceId);
+  return [
+    ...Object.keys(edit?.values ?? {}),
+    ...Object.keys(edit?.authoring?.assignments ?? {}),
+    ...Object.keys(edit?.authoring?.lifecycle?.frozen ?? {}),
+  ];
+}
+
 export function resetTokenEdit(
   edit: BrowserTokenEdit | undefined,
   values: BrowserTokenEdit["values"] = {},
@@ -82,6 +91,77 @@ export function tokenIdentityRow(
     ([key]) => (JSON.parse(key) as [string, string][]).length === specificity,
   );
   return matches.length === 1 ? matches[0][1] : undefined;
+}
+
+export function reconcileTokenIdentityRows(
+  edits: BrowserTokenEdits,
+  previousModeSets: readonly ModeSet[],
+  modeSets: readonly ModeSet[],
+  requiredContexts: ReadonlyMap<string, ReadonlySet<string>>,
+  allocateRow: (sourceId: string, context: string) => string = () =>
+    crypto.randomUUID(),
+): BrowserTokenEdits {
+  const previous = new Map(previousModeSets.map((axis) => [axis.id, axis]));
+  const active = new Map(modeSets.map((axis) => [axis.id, axis]));
+  let next = edits;
+  for (const [id, edit] of Object.entries(edits)) {
+    const identity = edit.authoring?.identity;
+    if (!identity) continue;
+    const required =
+      requiredContexts.get(identity.sourceId) ??
+      requiredContexts.get(identity.conceptId);
+    if (!required) continue;
+    const rows = { ...identity.rows };
+    const reserved = new Set(
+      [...required].flatMap((key) => (rows[key] ? [rows[key]] : [])),
+    );
+    let changed = false;
+    for (const context of required) {
+      if (rows[context]) continue;
+      const selected = new Map(JSON.parse(context) as [string, string][]);
+      const candidates = Object.entries(rows)
+        .flatMap(([key, uuid]) => {
+          if (reserved.has(uuid)) return [];
+          const conditions = new Map(JSON.parse(key) as [string, string][]);
+          const compatible =
+            [...conditions].every(([axis, mode]) => {
+              if (selected.has(axis)) return selected.get(axis) === mode;
+              return (
+                mode === (active.get(axis) ?? previous.get(axis))?.defaultModeId
+              );
+            }) &&
+            [...selected].every(
+              ([axis, mode]) =>
+                conditions.has(axis) ||
+                mode === active.get(axis)?.defaultModeId,
+            );
+          return compatible
+            ? [{ key, uuid, specificity: conditions.size }]
+            : [];
+        })
+        .sort((left, right) => right.specificity - left.specificity);
+      if (
+        candidates.length > 1 &&
+        candidates[0].specificity === candidates[1].specificity
+      )
+        throw new Error(
+          `Token ${identity.conceptId} has ambiguous default publications for ${context}.`,
+        );
+      const candidate = candidates[0];
+      if (candidate) delete rows[candidate.key];
+      rows[context] =
+        candidate?.uuid ?? allocateRow(identity.sourceId, context);
+      reserved.add(rows[context]);
+      changed = true;
+    }
+    if (!changed) continue;
+    if (next === edits) next = { ...edits };
+    next[id] = {
+      ...edit,
+      authoring: { ...edit.authoring!, identity: { ...identity, rows } },
+    };
+  }
+  return next;
 }
 
 export function isTokenIdentity(value: unknown): value is TokenIdentity {

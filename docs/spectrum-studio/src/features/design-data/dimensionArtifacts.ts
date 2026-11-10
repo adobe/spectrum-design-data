@@ -709,6 +709,28 @@ export function materializeDimensionTokens(source: DimensionArtifactSource) {
   return emit(source);
 }
 
+export function dimensionPublicationContexts(source: DimensionArtifactSource) {
+  const { tokens, lineage } = materializeDimensionTokens(source);
+  const contexts = new Map<string, Set<string>>();
+  for (const [index, token] of tokens.entries()) {
+    const row = lineage[index];
+    const id = `${row.domain}-${row.scaleId}-${row.step}`;
+    const context = canonicalTokenModeKey(
+      Object.fromEntries(
+        source.modeSets.flatMap((axis) =>
+          Object.hasOwn(token.name, axis.key)
+            ? [[axis.id, row.selection[axis.id]]]
+            : [],
+        ),
+      ),
+    );
+    const required = contexts.get(id) ?? new Set<string>();
+    required.add(context);
+    contexts.set(id, required);
+  }
+  return contexts;
+}
+
 export async function buildDimensionArtifacts(
   source: DimensionArtifactSource,
 ): Promise<DimensionArtifactBundle> {

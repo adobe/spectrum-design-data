@@ -21,7 +21,8 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         codeSplitting: false,
-        banner: `/*!\nData vis adapter includes Color.js.\n${license}\n*/`,
+        minify: true,
+        postBanner: `/*!\nData vis adapter includes Color.js.\n${license}\n*/`,
       },
     },
   },

@@ -87,16 +87,16 @@ assert.deepEqual(
 );
 assert.equal(portable.structures.length, 10);
 assert.ok(portable.structures.every((structure) => !("editor" in structure)));
-assert.equal(
-  portable.structures.find(
-    (structure) => structure.conceptId === list.conceptId,
-  )!.name.termId,
-  "c0abaa73-3a65-4d2d-854e-410c098f86b0",
-  "Reuse the existing List-item term, not its token-generation name.",
-);
 const portableList = portable.structures.find(
   (structure) => structure.conceptId === list.conceptId,
 )!;
+assert.ok(typeof portableList.name !== "string");
+const portableListName = portableList.name;
+assert.equal(
+  portableListName.termId,
+  "c0abaa73-3a65-4d2d-854e-410c098f86b0",
+  "Reuse the existing List-item term, not its token-generation name.",
+);
 const portableDensity = portableList.options.find(
   (option) => option.id === density.id,
 )!;
@@ -314,6 +314,7 @@ assert.equal(
   "unavailable",
 );
 const invalidName = structuredClone(portable);
+assert.ok(typeof invalidName.structures[0].name !== "string");
 invalidName.structures[0].name.termId = crypto.randomUUID();
 assert.equal(
   fromPortableStructures(invalidName, taxonomy).status,
@@ -524,7 +525,7 @@ try {
 }
 
 const renamed = structuredClone(taxonomy);
-renamed.terms.find((term) => term.id === portableList.name.termId)!.value =
+renamed.terms.find((term) => term.id === portableListName.termId)!.value =
   "renamed-list-item";
 const renamedSource = ready(fromPortableStructures(portable, renamed));
 assert.equal(

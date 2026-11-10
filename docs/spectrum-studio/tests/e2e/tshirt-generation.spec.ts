@@ -153,7 +153,7 @@ async function downloadBundle(page: Page): Promise<TshirtArtifactBundle> {
     ),
   ).toBe(true);
   const bundle = packet.bundle;
-  assertTshirtGraph(bundle.tokens);
+  assertTshirtGraph(bundle.tokens, undefined, [], bundle.modeSets);
   return bundle;
 }
 
@@ -642,7 +642,7 @@ test("Hidden nearest variants preserve exact literals and stable alias transitio
     )
     .toBe(true);
   const published = (await cached(page))!;
-  assertTshirtGraph(published.tokens);
+  assertTshirtGraph(published.tokens, undefined, [], published.modeSets);
   expect(
     published.semantics.find((item) => item.token.uuid === small.token.uuid)!
       .conceptId,

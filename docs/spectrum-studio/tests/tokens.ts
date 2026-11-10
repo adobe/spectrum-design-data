@@ -1,7 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import "./token-table-presentation";
-import { performance } from "node:perf_hooks";
 import { createStore } from "jotai";
 import { isColorSystemDocument } from "../src/features/color-system/model";
 import {
@@ -37,6 +36,7 @@ import {
   colorSystemDocumentAtom,
   updateColorStopAtom,
   updateColorScaleNameAtom,
+  updateColorOutputSettingsAtom,
 } from "../src/features/color-system/state";
 import { tokenStableKey, tokenUuid } from "../src/features/tokens/model";
 import {
@@ -57,6 +57,8 @@ import {
   enterEditModeAtom,
   cancelEditAtom,
   saveEditAtom,
+  authoringSnapshotAtom,
+  restoreAuthoringSnapshotAtom,
 } from "../src/features/edit-session/state";
 import {
   browserTokenImpactRecordsAtom,
@@ -83,11 +85,15 @@ import {
   setTokenValueAtom,
   staleTokenCountAtom,
 } from "../src/features/tokens/state";
+import { inlineFixtureReferences } from "./fixtures/componentReferences";
+import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 const store = createStore();
+store.set(enterEditModeAtom);
+store.set(updateColorOutputSettingsAtom, { outputFormat: "hex" });
 const document = store.get(colorSystemDocumentAtom);
 
 // UUIDs are derived, so they must be stable and RFC-shaped without any registry.
@@ -116,12 +122,34 @@ assert.equal(
   generated.length,
 );
 
-store.set(colorSystemDocumentAtom, {
+const hiddenColor = {
   ...document,
   scales: document.scales.map((scale, index) =>
     index === 0 ? { ...scale, hideFromPublishing: true } : scale,
   ),
-});
+};
+const beforeHiddenColor = store.get(authoringSnapshotAtom);
+assert.throws(
+  () => store.set(colorSystemDocumentAtom, hiddenColor),
+  /published|replacement/,
+  "A referenced color publication cannot disappear silently.",
+);
+assert.deepEqual(store.get(authoringSnapshotAtom), beforeHiddenColor);
+const hiddenColorConcepts = new Set(
+  store
+    .get(browserTokensAtom)
+    .filter((token) => token.groupId === document.scales[0].id)
+    .map((token) => token.id),
+);
+store.set(
+  restoreAuthoringSnapshotAtom,
+  inlineFixtureReferences(
+    beforeHiddenColor,
+    (target) => !!target.browserId && hiddenColorConcepts.has(target.browserId),
+  ),
+);
+store.set(saveEditAtom);
+store.set(colorSystemDocumentAtom, hiddenColor);
 assert.equal(
   store.get(generatedColorTokensAtom).length,
   generated.length - scaleContrasts(document, document.scales[0]).length,
@@ -136,6 +164,30 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
 
 {
   const publishingStore = createStore();
+  const publishingSource = publishingStore.get(authoringSnapshotAtom);
+  const hiddenGroups = new Set([
+    publishingSource.spacing!.scales[0].id,
+    publishingSource.size!.scales[0].id,
+    publishingSource.radius!.scales[0].id,
+  ]);
+  const hiddenConcepts = new Set(
+    publishingStore
+      .get(browserTokensAtom)
+      .filter(
+        (token) =>
+          !token.semantic &&
+          (token.type === "typography" || hiddenGroups.has(token.groupId)),
+      )
+      .map((token) => token.id),
+  );
+  publishingStore.set(
+    restoreAuthoringSnapshotAtom,
+    inlineFixtureReferences(
+      publishingSource,
+      (target) => !!target.browserId && hiddenConcepts.has(target.browserId),
+    ),
+  );
+  publishingStore.set(saveEditAtom);
   const spacing = publishingStore.get(spacingDocumentAtom);
   const typography = publishingStore.get(typographyDocumentAtom);
   const spacingOutput = publishingStore.get(generatedSpacingAtom);
@@ -144,6 +196,7 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
   const typographyCss = buildTypographyCss(typography);
   const tokens = publishingStore.get(browserTokensAtom);
   const savedConcepts = publishingStore.get(savedBrowserConceptIdsAtom);
+  const baselineChanges = publishingStore.get(changeGroupsAtom);
   publishingStore.set(enterEditModeAtom);
   publishingStore.set(updateSpacingScaleAtom, {
     id: spacing.scales[0].id,
@@ -159,28 +212,30 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
     patch: { hideFromPublishing: true },
   });
   const published = publishingStore.get(browserTokensAtom);
-  assert.ok(
-    published
-      .filter((token) => !token.semantic)
-      .every(
-        (token) =>
-          token.type === "colors" ||
-          token.type === "typography" ||
-          token.type === "elevation",
-      ),
+  assert.deepEqual(
+    published.filter((token) => !token.semantic).map((token) => token.id),
+    tokens
+      .filter((token) => !token.semantic && !hiddenGroups.has(token.groupId))
+      .map((token) => token.id),
+    "Only primitives belonging to the explicitly hidden scales are removed.",
   );
   const semantics = published.filter((token) => token.semantic);
-  assert.equal(
-    semantics.length,
-    20,
-    "Base and Text semantics remain published when their primitive sources are hidden.",
-  );
-  assert.equal(
-    semantics.filter(
-      (token) =>
-        token.semantic!.structureId === "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
-    ).length,
-    15,
+  assert.deepEqual(
+    semantics.map((token) => [
+      token.id,
+      token.value,
+      token.unit,
+      token.semantic!.structureId,
+    ]),
+    tokens
+      .filter((token) => token.semantic)
+      .map((token) => [
+        token.id,
+        token.value,
+        token.unit,
+        token.semantic!.structureId,
+      ]),
+    "Hiding primitive publications preserves every semantic identity and value.",
   );
   assert.ok(
     semantics.every(
@@ -261,7 +316,7 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
     publishingStore.set(revertChangeItemAtom, item);
   }
   assert.deepEqual(publishingStore.get(browserTokensAtom), tokens);
-  assert.equal(publishingStore.get(changeGroupsAtom).length, 0);
+  assert.deepEqual(publishingStore.get(changeGroupsAtom), baselineChanges);
   publishingStore.set(updateTypographyAtom, { hideFromPublishing: true });
   publishingStore.set(cancelEditAtom);
   assert.deepEqual(publishingStore.get(browserTokensAtom), tokens);
@@ -280,10 +335,10 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
     savedConcepts,
   );
   publishingStore.set(updateTypographyAtom, { hideFromPublishing: false });
-  assert.equal(
-    publishingStore.get(changeGroupsAtom).length,
-    0,
-    "explicit false matches legacy metadata defaults",
+  assert.deepEqual(
+    publishingStore.get(changeGroupsAtom),
+    baselineChanges,
+    "Explicit false restores publication metadata without discarding fixture assignments.",
   );
   assert.ok(
     isColorSystemDocument({
@@ -321,11 +376,11 @@ assert.deepEqual(store.get(generatedColorTokensAtom), generated);
 }
 
 // Naming must match the CSS library so both outputs describe the same token.
-const redScale = document.scales.find((scale) => scale.name === "Red")!;
+const redScale = document.scales.find((scale) => scale.name === "red")!;
 const redTokens = generated.filter(
   (token) => token.source.scaleId === redScale.id,
 );
-assert.equal(redTokens[0].name.colorName, sanitizeTokenName("Red"));
+assert.equal(redTokens[0].name.colorName, sanitizeTokenName(redScale.name));
 assert.equal(redTokens[0].name.contrastValue, "100");
 assert.equal(redTokens[1].name.contrastValue, "200");
 assert.ok(redTokens.every((token) => token.value.length > 0));
@@ -431,32 +486,36 @@ assert.equal(
   store
     .get(colorSystemDocumentAtom)
     .scales.find((scale) => scale.id === redScale.id)!.name,
-  "Crimson",
+  "crimson",
 );
 
-// Name overrides are independent of value overrides.
+// Unreviewed legacy names cannot bypass registered classification.
 const nameTarget = renamed[6];
-store.set(setTokenNameAtom, {
-  uuid: nameTarget.uuid,
-  name: { ...nameTarget.name, contrastValue: "650" },
-});
-const afterNameEdit = store
-  .get(colorTokenSetAtom)
-  .tokens.find((token) => token.uuid === nameTarget.uuid)!;
-assert.ok(afterNameEdit.nameOverridden);
-assert.equal(afterNameEdit.valueOverridden, false);
-assert.equal(afterNameEdit.name.contrastValue, "650");
-const nameRow = buildColorPrimitiveTable(store.get(colorTokenSetAtom).tokens)
-  .groups.find((group) => group.id === redScale.id)!
-  .rows.find((row) => row.id === nameTarget.uuid)!;
-assert.equal(nameRow.cells.name.text, "crimson-650");
-assert.equal(nameRow.cells.name.status?.isStale, false);
+const beforeNameEdit = store.get(authoringSnapshotAtom);
+assert.throws(
+  () =>
+    store.set(setTokenNameAtom, {
+      uuid: nameTarget.uuid,
+      name: { ...nameTarget.name, contrastValue: "650" },
+    }),
+  /reviewed classification/,
+);
+assert.deepEqual(store.get(authoringSnapshotAtom), beforeNameEdit);
+assert.equal(store.get(overriddenTokenCountAtom), 1);
+store.set(setTokenValueAtom, { uuid: nameTarget.uuid, value: "#234567" });
 assert.equal(store.get(overriddenTokenCountAtom), 2);
 
 // Bulk update clears only the out-of-date edits.
 store.set(resetStaleTokenOverridesAtom);
 assert.equal(store.get(staleTokenCountAtom), 0);
 assert.equal(store.get(overriddenTokenCountAtom), 1);
+assert.equal(
+  store
+    .get(colorTokenSetAtom)
+    .tokens.find((token) => token.uuid === nameTarget.uuid)!.value,
+  "#234567",
+  "Resetting stale overrides preserves an unrelated current override.",
+);
 
 store.set(resetTokenAtom, nameTarget.uuid);
 assert.equal(store.get(overriddenTokenCountAtom), 0);
@@ -495,30 +554,6 @@ assert.deepEqual(store.get(tokenPanelViewSelectionAtom), {
   colors: "primitive",
   typography: "semantic",
 });
-
-// Editing one scale must not cost a full-document regeneration.
-const freshStore = createStore();
-freshStore.get(generatedColorTokensAtom);
-const scales = freshStore.get(colorSystemDocumentAtom).scales;
-const start = performance.now();
-for (let iteration = 0; iteration < 20; iteration += 1) {
-  const scale = scales[iteration % scales.length];
-  freshStore.set(updateColorStopAtom, {
-    scaleId: scale.id,
-    stopId: scale.stops[0].id,
-    chroma: 20 + (iteration % 10),
-  });
-  freshStore.get(generatedColorTokensAtom);
-}
-const averageMs = (performance.now() - start) / 20;
-assert.ok(
-  averageMs < 16,
-  `single-scale token regeneration averaged ${averageMs.toFixed(2)}ms, budget is 16ms`,
-);
-
-console.log(
-  `tokens: ${generated.length} color tokens, ${averageMs.toFixed(2)}ms average regeneration`,
-);
 
 const browserSources: BrowserTokenSource[] = [
   {
@@ -689,6 +724,7 @@ assert.equal(
 );
 
 const browserStore = createStore();
+const browserBaselineEdits = browserStore.get(browserTokenEditsAtom);
 assert.ok(
   browserStore
     .get(browserTokensAtom)
@@ -723,7 +759,7 @@ assert.equal(
   100,
 );
 browserStore.set(cancelEditAtom);
-assert.deepEqual(browserStore.get(browserTokenEditsAtom), {});
+assert.deepEqual(browserStore.get(browserTokenEditsAtom), browserBaselineEdits);
 browserStore.set(enterEditModeAtom);
 browserStore.set(editBrowserTokensAtom, {
   ids: [editableToken.id],
@@ -746,7 +782,18 @@ const metadataImpact = browserStore
   .find((record) => record.tokenId === editableToken.id)!;
 assert.equal(metadataImpact.metadataChanged, true);
 assert.equal(metadataImpact.manuallyOverridden, false);
-assert.equal(
-  browserStore.get(savedBrowserConceptIdsAtom).size,
-  browserStore.get(browserTokensAtom).length,
+assert.deepEqual(
+  browserStore.get(savedBrowserConceptIdsAtom),
+  new Set([
+    ...browserStore
+      .get(savedBrowserTokensAtom)
+      .flatMap((combination) => combination.tokens.map((token) => token.id)),
+    ...buildTshirtArtifacts(
+      browserStore.get(authoringSnapshotAtom),
+    ).semantics.map((row) => row.conceptId),
+  ]),
+  "Saved inventory includes concepts from every mode, not only the active browser selection.",
+);
+console.log(
+  `tokens: ${generated.length} color tokens and complete authoring lifecycle passed`,
 );

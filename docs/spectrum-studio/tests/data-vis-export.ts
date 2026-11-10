@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import Color from "colorjs.io";
 import { createStore } from "jotai";
@@ -13,7 +14,10 @@ import {
 import { buildDataVisSourcePacket } from "../src/features/color-system/data-vis/export";
 import { buildDataVisCategoricalCss } from "../src/features/color-system/data-vis/css";
 import { createDataVisRuntime } from "../src/features/color-system/data-vis/adapter";
-import { completeAliasSource } from "../src/features/tokens/aliasTargets";
+import {
+  canonicalAliasRows,
+  completeAliasSource,
+} from "../src/features/tokens/aliasTargets";
 import {
   dataVisContinuousOutputsAtom,
   dataVisPrimitiveColorsAtom,
@@ -32,13 +36,16 @@ import { previewOverridesAtom } from "../src/features/modes/previewState";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import { canonicalTokenModeKey } from "../src/features/tokens/browserModel";
 import { tokenStableKey, tokenUuid } from "../src/features/tokens/model";
+import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
+import { upgradeCanonicalTokenIdentities } from "../src/features/edit-session/canonicalIdentityUpgrade";
 import { buildColorLibrary } from "../src/features/color-system/cssLibrary";
 import { serializeOutputColor } from "../src/features/color-system/outputSerialization";
 import { ColorOutputError } from "../src/features/color-system/outputContrast";
 
-const snapshot = createDataVisSnapshot(),
+const snapshot = upgradeCanonicalTokenIdentities(createDataVisSnapshot()),
   before = structuredClone(snapshot);
 assertStoredSnapshot(snapshot);
+assert.ok(snapshot.browserTokenEdits);
 const packet = buildDataVisSourcePacket(snapshot);
 assert.deepEqual(
   snapshot,
@@ -191,15 +198,13 @@ for (const [invalid, expected] of [
 ] as const)
   assert.throws(() => createDataVisRuntime(invalid), expected);
 const invalidDefault = structuredClone(packet),
-  sourceAxis = invalidDefault.modeSets.find(
-    (axis) => axis.key === "colorScheme",
-  )!;
+  sourceAxis = invalidDefault.modeSets.find((axis) => axis.key === "contrast")!;
 sourceAxis.defaultModeId = sourceAxis.modes.find(
-  (mode) => mode.key === "dark",
+  (mode) => mode.key === "high",
 )!.id;
 assert.throws(
   () => createDataVisRuntime(invalidDefault),
-  /clear.*data vis overrides.*default/,
+  /clear.*data vis contrast overrides.*default/,
 );
 
 store.set(restoreAuthoringSnapshotAtom, snapshot);
@@ -208,23 +213,35 @@ const categorical = snapshot.colorSystem.dataVisScales.find(
 )!;
 if (categorical.kind !== "categorical")
   throw new Error("Expected a categorical fixture.");
-const sourceId = tokenUuid(
-  tokenStableKey(
-    categorical.members[0].source.scaleId,
-    categorical.members[0].source.contrastId,
+const sourceId = tokenIdentity(
+  snapshot.browserTokenEdits,
+  tokenUuid(
+    tokenStableKey(
+      categorical.members[0].source.scaleId,
+      categorical.members[0].source.contrastId,
+    ),
   ),
-);
-const memberId = dataVisMemberId(categorical.id, categorical.members[1].id);
+)!.conceptId;
+const memberId = tokenIdentity(
+  snapshot.browserTokenEdits,
+  dataVisMemberId(categorical.id, categorical.members[1].id),
+)!.conceptId;
 const key = canonicalTokenModeKey(
   Object.fromEntries(
     snapshot.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
   ),
 );
+const baseEdits = store.get(browserTokenEditsAtom);
 const invalidEdits = {
+  ...baseEdits,
   [sourceId]: {
+    ...baseEdits[sourceId],
     values: { [key]: { value: "rgb(30 100 190 / 0.7)", baseline: "#000000" } },
   },
-  [memberId]: { values: { [key]: { value: "#335522", baseline: "#000000" } } },
+  [memberId]: {
+    ...baseEdits[memberId],
+    values: { [key]: { value: "#335522", baseline: "#000000" } },
+  },
 };
 store.set(browserTokenEditsAtom, invalidEdits);
 assert.throws(
@@ -241,6 +258,7 @@ const formattedManualColor = serializeOutputColor(
 store.set(browserTokenEditsAtom, {
   ...invalidEdits,
   [sourceId]: {
+    ...invalidEdits[sourceId],
     values: { [key]: { value: manualColor, baseline: "#000000" } },
   },
 });
@@ -269,15 +287,61 @@ assert.ok(
   !editedCss.includes("var(--blue-color-"),
   "A manual source cannot reference the generated UI variable.",
 );
+const assigned = structuredClone(edited);
+assert.ok(assigned.browserTokenEdits);
+assigned.browserTokenEdits[sourceId].values = {};
+assigned.browserTokenEdits[sourceId].authoring!.assignments[key] = {
+  kind: "literal",
+  value: formattedManualColor,
+};
+const assignedCss = buildDataVisCategoricalCss(completeAliasSource(assigned));
+assert.ok(assignedCss.includes(formattedManualColor));
+assert.ok(
+  !assignedCss.includes("var(--blue-color-"),
+  "An authored literal cannot reference the generated UI variable.",
+);
+const frozen = structuredClone(assigned);
+assert.ok(frozen.browserTokenEdits);
+const frozenEdit = frozen.browserTokenEdits[sourceId];
+assert.ok(frozenEdit.authoring);
+frozenEdit.status = "deprecated";
+frozenEdit.authoring.assignments = {};
+frozenEdit.authoring.lifecycle = {
+  deprecatedComment: "",
+  replacementIds: [],
+  frozen: Object.fromEntries(
+    canonicalAliasRows(completeAliasSource(edited))
+      .filter((row) => row.token.id === sourceId)
+      .map((row) => [
+        row.context,
+        { kind: "literal" as const, value: row.token.value },
+      ]),
+  ),
+};
+assert.ok(frozenEdit.authoring.lifecycle.frozen);
+assert.equal(
+  frozenEdit.authoring.lifecycle.frozen[key]?.value,
+  manualColor,
+  "Frozen source values retain the effective default-context manual color.",
+);
+assertStoredSnapshot(frozen);
+const frozenCss = buildDataVisCategoricalCss(completeAliasSource(frozen));
+assert.ok(frozenCss.includes(manualColor));
+assert.ok(
+  !frozenCss.includes("var(--blue-color-"),
+  "A frozen literal cannot reference the generated UI variable.",
+);
 assert.equal(
   buildColorLibrary(snapshot.colorSystem),
   buildColorLibrary({ ...snapshot.colorSystem, dataVisScales: [] }),
   "Data vis recipes cannot alter the existing CSS-only UI library.",
 );
 
-const artifact = new URL("../public/data-vis/data-vis.js", import.meta.url);
+const artifact = process.env.DATA_VIS_BUNDLE_PATH
+  ? pathToFileURL(resolve(process.env.DATA_VIS_BUNDLE_PATH))
+  : new URL("../public/data-vis/data-vis.js", import.meta.url);
 const compiled: typeof import("../src/features/color-system/data-vis/adapter") =
-  await import(pathToFileURL(artifact.pathname).href);
+  await import(artifact.href);
 const text = await readFile(artifact, "utf8");
 assert.ok(
   Buffer.byteLength(text, "utf8") < 150_000,
@@ -437,12 +501,19 @@ for (const origin of ["palette", "ui-swatch", "categorical"]) {
   const color = store
     .get(dataVisPrimitiveColorsAtom)
     .find((color) => color.origin.kind === origin)!;
-  store.set(editDataVisPointAtom, {
+  const modeEdit = {
     scaleId: DATA_VIS_IDS.sequential,
     pointId: "named",
-    source: { kind: "primitive-token", tokenId: color.id },
-    scope: "mode",
-  });
+    source: { kind: "primitive-token" as const, tokenId: color.id },
+    scope: "mode" as const,
+  };
+  const beforeRejectedEdit = captureSnapshot(store.get);
+  assert.throws(
+    () => store.set(editDataVisPointAtom, modeEdit),
+    /sources are shared across modes/,
+  );
+  assert.deepEqual(captureSnapshot(store.get), beforeRejectedEdit);
+  store.set(editDataVisPointAtom, { ...modeEdit, scope: "base" });
   const nativeModePacket = buildDataVisSourcePacket(captureSnapshot(store.get));
   const actual = compiled.createDataVisRuntime(nativeModePacket, {
     modes: { colorScheme: "dark" },
@@ -460,15 +531,37 @@ for (const origin of ["palette", "ui-swatch", "categorical"]) {
       actual.continuous(DATA_VIS_IDS.sequential)(position),
       output.scale.evaluate(position),
     );
-  const { colorOutput, ...legacySettings } = nativeModePacket.color.settings;
+  const legacyModePacket = structuredClone(nativeModePacket);
+  const legacyScale = legacyModePacket.color.dataVisScales.find(
+    (scale) => scale.id === DATA_VIS_IDS.sequential,
+  )!;
+  const originalScale = snapshot.colorSystem.dataVisScales.find(
+    (scale) => scale.id === DATA_VIS_IDS.sequential,
+  )!;
+  assert.equal(legacyScale.kind, "sequential");
+  assert.equal(originalScale.kind, "sequential");
+  legacyScale.points.find((point) => point.id === "named")!.source =
+    structuredClone(
+      originalScale.points.find((point) => point.id === "named")!.source,
+    );
+  const legacyDark = legacyModePacket.modeSets
+    .find((axis) => axis.key === "colorScheme")!
+    .modes.find((mode) => mode.key === "dark")!;
+  legacyDark.foundations.color = {
+    ...legacyDark.foundations.color,
+    dataVisSources: {
+      [DATA_VIS_IDS.sequential]: { named: { tokenId: color.id } },
+    },
+  };
+  const { colorOutput, ...legacySettings } = legacyModePacket.color.settings;
   void colorOutput;
   assert.throws(
     () =>
       compiled.createDataVisRuntime({
-        ...nativeModePacket,
+        ...legacyModePacket,
         schemaVersion: 1,
         color: {
-          ...nativeModePacket.color,
+          ...legacyModePacket.color,
           schemaVersion: 3,
           settings: { ...legacySettings, outputGamut: "srgb" },
         },
@@ -477,5 +570,5 @@ for (const origin of ["palette", "ui-swatch", "categorical"]) {
   );
 }
 console.log(
-  "Data vis export: native mode/fluid parity, final overrides, source closure, exact categorical CSS, malformed input, unchanged UI CSS and compiled pure ESM passed.",
+  "Data vis export: shared native sources, rejected mode edits, legacy patches, fluid parity, final overrides, source closure, exact categorical CSS, malformed input, unchanged UI CSS and compiled pure ESM passed.",
 );

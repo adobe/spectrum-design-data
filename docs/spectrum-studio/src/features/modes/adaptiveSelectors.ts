@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { FOUNDATION_PARAMETERS, parameterOwners } from "./parameters";
-import { modeSetsAtom } from "./state";
+import { modeSetsAtom } from "./documentState";
 import { foundationParameterSettingsAtom } from "./foundationSettingsState";
 import type { FoundationSettingId } from "./foundationSettings";
 

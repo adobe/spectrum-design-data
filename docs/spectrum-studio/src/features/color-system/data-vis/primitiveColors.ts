@@ -70,6 +70,7 @@ export function publishedPrimitiveColors(
   categorical: readonly Pick<
     BrowserToken,
     | "id"
+    | "sourceId"
     | "name"
     | "value"
     | "generatedValue"
@@ -103,12 +104,12 @@ export function publishedPrimitiveColors(
     ...categorical.map(
       (token) =>
         [
-          token.id,
+          token.sourceId ?? token.id,
           {
             value: token.value,
             generatedValue: token.generatedValue,
             manuallyOverridden: token.valueOverridden,
-            name: names.get(token.id) ?? token.name,
+            name: names.get(token.sourceId ?? token.id) ?? token.name,
             error: token.validationError,
           },
         ] as const,

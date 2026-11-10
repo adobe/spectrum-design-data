@@ -53,10 +53,28 @@ delete old.settings.colorScaleType;
 delete old.settings.syncDefaultStopsWithOpacity;
 assert(isColorSystemDocument(old));
 assert.deepEqual(generateDocumentTokens(old), generateDocumentTokens(original));
+const legacyExplicit = structuredClone(old);
+legacyExplicit.settings.colorScaleType = "dynamic-blend";
+legacyExplicit.settings.syncDefaultStopsWithOpacity = false;
+assert.deepEqual(
+  colorFoundationParameters(old),
+  colorFoundationParameters(legacyExplicit),
+  "Omitted legacy settings have the same accounting as their explicit effective values.",
+);
+assert.deepEqual(
+  colorFoundationParameters(old)
+    .filter((field) => field.id.startsWith("settings/") && field.edited)
+    .map((field) => field.id),
+  ["settings/colorScaleType"],
+  "Legacy dynamic blend differs from shipped opaque behavior, even when base output is equal.",
+);
+const noSync = structuredClone(original);
+delete noSync.settings.syncDefaultStopsWithOpacity;
 assert(
-  !colorFoundationParameters(old).some(
+  !colorFoundationParameters(noSync).some(
     (field) => field.id.startsWith("settings/") && field.edited,
   ),
+  "Omitting a false sync setting must not create a phantom edit.",
 );
 for (const value of ["invalid", 0, null]) {
   const invalid = {
