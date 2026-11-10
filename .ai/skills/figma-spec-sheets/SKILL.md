@@ -18,7 +18,7 @@ Files live in the test folder `https://www.figma.com/files/1177024566520626109/f
 ## Steps
 
 1. Build the CLI if needed (`moon run sdk:build`), then plan:
-   `node tools/figma-spec-plugin/plan.mjs plan <component>... -o <dir>` (or `--all`). `<dir>/plan.json` lists, per component, `action` (`create`, `update` or `current`), `fileKey`, `fileName` and the ordered payload files. Skip `current`.
+   `node tools/figma-spec-plugin/plan.mjs plan <component>... -o <dir>` (or `--all`). Optional: `--text-metrics <file>` with the Adobe Fonts kit table from `node tools/platform-capture/adapters/text-metrics/cli.mjs` makes widths S2-accurate (default is the Source Sans 3 table, about 6.6% wide). Never commit or upload the table. Changed widths change the hashes, so files show `update`. `<dir>/plan.json` lists, per component, `action` (`create`, `update` or `current`), `fileKey`, `fileName` and the ordered payload files. Skip `current`.
 2. **create**: `figma-files.json` is the authoritative list of existing files; no tool can list a Figma folder with the current token. If the registry has no entry, create the file; afterwards, a person checks the test folder for duplicates. Call `create_new_file` with `fileName`, `planKey` (from the plan), `editorType: "design"` and `projectId`. Use the returned `file_key`.
 3. Call `create_session` with the `fileKey`, then pass its `sessionId` on every call.
 4. Send each payload file's contents as `code` in one `use_figma` call, **in order**, one file at a time (the Figma MCP is rate limited; back off on errors). Each call returns step results; the last returns `finish` with `blocksRendered`.

@@ -13,7 +13,7 @@
 // of spec files). `record` stores the result of a run. An agent follows the output with the
 // Figma MCP; see .ai/skills/figma-spec-sheets/SKILL.md.
 //
-//   node plan.mjs plan [--all | <component>...] [-o <dir>] [--registry <file>]
+//   node plan.mjs plan [--all | <component>...] [-o <dir>] [--registry <file>] [--text-metrics <file>]
 //   node plan.mjs record <component> --hash <sha> [--file-key <key>] [--registry <file>]
 
 import { createHash } from "node:crypto";
@@ -57,8 +57,11 @@ export function plan({
   out,
   registryPath = defaultRegistry,
   sheetsDir,
+  textMetrics,
 }) {
   const registry = readJson(registryPath);
+  if (sheetsDir && textMetrics)
+    throw new Error("textMetrics only applies when plan generates the sheets");
   const sheets = sheetsDir ?? join(out, "sheets");
   mkdirSync(sheets, { recursive: true });
   if (!sheetsDir)
@@ -69,6 +72,7 @@ export function plan({
         "--all",
         "--changelog-dir",
         join(root, "packages/design-data/changelog"),
+        ...(textMetrics ? ["--text-metrics", textMetrics] : []),
         "-o",
         sheets,
       ],
@@ -174,6 +178,7 @@ function main(argv) {
     const a = rest[i];
     if (a === "-o") opts.out = rest[++i];
     else if (a === "--registry") opts.registry = rest[++i];
+    else if (a === "--text-metrics") opts.textMetrics = resolve(rest[++i]);
     else if (a === "--all") opts.all = true;
     else if (a === "--hash") opts.hash = rest[++i];
     else if (a === "--file-key") opts.fileKey = rest[++i];
@@ -186,6 +191,7 @@ function main(argv) {
       all: opts.all,
       out,
       registryPath: opts.registry,
+      textMetrics: opts.textMetrics,
     });
     console.error(
       `plan: ${JSON.stringify(r.summary)}; written to ${join(out, "plan.json")}`,
@@ -200,7 +206,7 @@ function main(argv) {
     console.error(`recorded ${opts.positional[0]}: ${JSON.stringify(r)}`);
   } else {
     throw new Error(
-      "usage: plan.mjs plan [--all | <component>...] [-o dir] | record <component> --hash <sha> [--file-key k]",
+      "usage: plan.mjs plan [--all | <component>...] [-o dir] [--text-metrics file] | record <component> --hash <sha> [--file-key k]",
     );
   }
 }

@@ -16,6 +16,8 @@ import {
   copyFileSync,
   cpSync,
   mkdirSync,
+  readdirSync,
+  readFileSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -80,12 +82,49 @@ copyFileSync(join(here, "landing.html"), join(dist, "index.html"));
 const data = join(here, "data");
 const changelogs = join(root, "packages/design-data/changelog");
 rmSync(data, { recursive: true, force: true });
+
+// Spec-sheet scenes bake label widths in, so a kit-measured Adobe Clean table (hck9.10) makes
+// them S2-accurate. Best effort: any failure falls back to the committed Source Sans 3 default.
+// The table is derived from a licensed font: it stays in the git-ignored cache and is never
+// copied to dist/. The site builds above keep the default table, which the explorer ships.
+// Shells out because docs/hub-prototype does not depend on tools/platform-capture.
+function kitTextMetrics() {
+  const table = join(
+    root,
+    "tools/platform-capture/.cache/text-metrics/adobe-clean-spectrum-vf.json",
+  );
+  try {
+    execFileSync("node", ["adapters/text-metrics/cli.mjs", "--out", table], {
+      cwd: join(root, "tools/platform-capture"),
+      stdio: ["ignore", "ignore", "pipe"],
+      timeout: 300000,
+    });
+    const { generated, test700At14px } = JSON.parse(
+      readFileSync(table, "utf8"),
+    ).meta;
+    console.log(
+      `spec sheets: kit text metrics (generated ${generated}, Test/700/14px = ${test700At14px} px)`,
+    );
+    return ["--text-metrics", table];
+  } catch (e) {
+    const lines = String(e.stderr || e.message)
+      .trim()
+      .split("\n");
+    const why = lines.find((l) => /Error/.test(l)) ?? lines[0];
+    console.warn(
+      `warning: kit text metrics unavailable (${why}); spec sheets use the Source Sans 3 default (about 6.6% wider than S2)`,
+    );
+    return [];
+  }
+}
+
 run(
   cli,
   [
     "spec-sheet",
     "--all",
     "--svg",
+    ...kitTextMetrics(),
     "--changelog-dir",
     changelogs,
     "-o",
@@ -100,3 +139,20 @@ copyFileSync(
   join(root, "tools/figma-spec-plugin/figma-files.json"),
   join(dist, "specs/data/figma-files.json"),
 );
+
+// The kit table must never reach the output: sheets carry baked widths only.
+const stray = [];
+(function scan(dir) {
+  for (const f of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, f.name);
+    if (f.isDirectory()) scan(p);
+    else if (
+      /text-metrics/.test(f.name) ||
+      (f.name.endsWith(".json") &&
+        readFileSync(p, "utf8").includes("Derived from a licensed font"))
+    )
+      stray.push(p);
+  }
+})(join(dist, "specs"));
+if (stray.length)
+  throw new Error(`text-metrics table in the spec output: ${stray.join(", ")}`);
