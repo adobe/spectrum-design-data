@@ -1078,6 +1078,48 @@ impl<'a> CompileCx<'a> {
         }
     }
 
+    /// The precedence of each interaction state in `states`, highest first. A state the
+    /// component declares uses its declared `precedence`, else the registry default; it is an
+    /// interaction state when declared `trigger: interaction` or, undeclared, when the
+    /// registry gives it a precedence. Prop states carry none.
+    fn interaction_precedence(&self, states: &[String]) -> Vec<u32> {
+        let declared = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.req.component)
+            .and_then(|c| c.raw.get("states"))
+            .and_then(Value::as_array);
+        let registry = crate::registry::RegistryData::embedded();
+        let mut out: Vec<u32> = states
+            .iter()
+            .filter_map(|id| {
+                let decl = declared.and_then(|d| {
+                    d.iter().find(|s| {
+                        s.get("name")
+                            .and_then(Value::as_str)
+                            .is_some_and(|n| state_ids(n).contains(id))
+                    })
+                });
+                let default = registry.state_precedence(id);
+                match decl {
+                    Some(d) if d.get("trigger").and_then(Value::as_str) != Some("interaction") => d
+                        .get("precedence")
+                        .and_then(Value::as_u64)
+                        .map(|p| p as u32),
+                    Some(d) => Some(
+                        d.get("precedence")
+                            .and_then(Value::as_u64)
+                            .map_or(default.unwrap_or(0), |p| p as u32),
+                    ),
+                    None => default,
+                }
+            })
+            .collect();
+        out.sort_unstable_by(|a, b| b.cmp(a));
+        out
+    }
+
     /// The ranked candidates of one binding's selector and the message for no match.
     fn source_candidates(
         &self,
@@ -1112,12 +1154,16 @@ impl<'a> CompileCx<'a> {
                 } else {
                     extra
                 };
+                let precedence = self.interaction_precedence(&states);
                 let mut c = serde_json::json!({
                     "value": self.terminal(t),
                     "token": token_label(t),
                     "chain": self.alias_chain(t),
                     "states": states,
                 });
+                if !precedence.is_empty() {
+                    c["precedence"] = serde_json::json!(precedence);
+                }
                 if let Some(o) = options {
                     c["options"] = o;
                 }
@@ -1448,7 +1494,7 @@ impl Ctx<'_> {
 
     /// Interaction states plus option-derived ones, with `default` when idle.
     fn active_states(&self) -> Vec<String> {
-        let mut active = self.req.states.clone();
+        let mut active: Vec<String> = self.req.states.iter().flat_map(|s| state_ids(s)).collect();
         for (opt, state) in OPTION_STATES {
             if self.option(opt) == Value::Bool(true) {
                 active.push((*state).into());
@@ -1526,18 +1572,40 @@ impl Ctx<'_> {
             .filter(|(s, _)| *s == best)
             .map(|(_, c)| c)
             .collect();
-        let chosen = fit
-            .iter()
-            .find(|c| {
-                let st = c.get("states").and_then(Value::as_array);
-                st.is_some_and(|st| {
-                    !st.is_empty()
-                        && st
-                            .iter()
-                            .all(|x| x.as_str().is_some_and(|x| active.iter().any(|a| a == x)))
-                })
-            })
-            .or_else(|| fit.first());
+        // Per property (state-model.md, Precedence and resolution algorithm): among the
+        // candidates whose states are all active, most matched states first, then the highest
+        // interaction precedences, then source order. `disabled` drops interaction states.
+        let disabled = active.iter().any(|a| a == "disabled");
+        let precedence = |c: &Value| -> Vec<u64> {
+            c.get("precedence")
+                .and_then(Value::as_array)
+                .map(|a| a.iter().filter_map(Value::as_u64).collect())
+                .unwrap_or_default()
+        };
+        let mut best: Option<(&Value, usize, Vec<u64>)> = None;
+        for c in &fit {
+            let Some(st) = c
+                .get("states")
+                .and_then(Value::as_array)
+                .filter(|st| !st.is_empty())
+            else {
+                continue;
+            };
+            let all_active = st
+                .iter()
+                .all(|x| x.as_str().is_some_and(|x| active.iter().any(|a| a == x)));
+            let prec = precedence(c);
+            if !all_active || (disabled && !prec.is_empty()) {
+                continue;
+            }
+            if best
+                .as_ref()
+                .is_none_or(|(_, n, p)| (st.len(), &prec) > (*n, p))
+            {
+                best = Some((c, st.len(), prec));
+            }
+        }
+        let chosen = best.map(|(c, _, _)| c).or_else(|| fit.first().copied());
         let Some(chosen) = chosen else {
             if let Some(miss) = entry
                 .get("miss")
@@ -1635,7 +1703,8 @@ pub(crate) fn name_states(name: Option<&Value>) -> Vec<String> {
 }
 
 /// One state name as state ids: `selected-key-focus` splits into `selected` and
-/// `keyboard-focus`, and `focus` and `key-focus` are the same state as `keyboard-focus`.
+/// `keyboard-focus`, and `focus`, `key-focus` and `focus-visible` are the same state as
+/// `keyboard-focus`; `active` and `pressed` are `down`.
 /// Shared with the validation rules that compare state names across data.
 pub(crate) fn state_ids(raw: &str) -> Vec<String> {
     let mut out = Vec::new();
@@ -1644,10 +1713,10 @@ pub(crate) fn state_ids(raw: &str) -> Vec<String> {
         out.push("selected".to_string());
     }
     let r = rest.unwrap_or(raw);
-    out.push(if r == "key-focus" || r == "focus" {
-        "keyboard-focus".into()
-    } else {
-        r.to_string()
+    out.push(match r {
+        "key-focus" | "focus" | "focus-visible" => "keyboard-focus".into(),
+        "active" | "pressed" => "down".into(),
+        _ => r.to_string(),
     });
     out
 }
@@ -3850,6 +3919,78 @@ mod tests {
             label: "Action".into(),
             ..Default::default()
         }
+    }
+
+    /// The token a binding with these `(token, states, precedence)` candidates resolves to
+    /// under `active` states, in the order given (the order `rank_by` would leave them in).
+    fn winner(cands: &[(&str, &[&str], &[u32])], active: &[&str]) -> String {
+        let list: Vec<Value> = cands
+            .iter()
+            .map(|(t, st, pr)| {
+                serde_json::json!({ "value": "v", "token": t, "states": st, "precedence": pr })
+            })
+            .collect();
+        let r = req(active);
+        let defaults = HashMap::new();
+        let mut cx = Ctx {
+            req: &r,
+            option_defaults: &defaults,
+            diags: Vec::new(),
+        };
+        cx.resolve_candidates(&serde_json::json!({ "candidates": list }))
+            .map(|r| r.token)
+            .unwrap_or_default()
+    }
+
+    #[test]
+    fn combined_states_resolve_by_precedence_not_candidate_order() {
+        let fill: &[(&str, &[&str], &[u32])] = &[
+            ("x:10 hover", &["hover"], &[50]),
+            ("x:9 focus", &["keyboard-focus"], &[60]),
+            ("x:8 down", &["down"], &[70]),
+            ("x:1 default", &[], &[]),
+        ];
+        assert_eq!(winner(fill, &["down", "keyboard-focus"]), "x:8 down");
+        assert_eq!(winner(fill, &["hover", "keyboard-focus"]), "x:9 focus");
+        assert_eq!(winner(fill, &["down", "hover"]), "x:8 down");
+        assert_eq!(
+            winner(fill, &["hover", "keyboard-focus", "down"]),
+            "x:8 down"
+        );
+        // A state that binds nothing for this property leaves it to the others (a label).
+        let label: &[(&str, &[&str], &[u32])] = &[
+            ("l:2 hover", &["hover"], &[50]),
+            ("l:1 down", &["down"], &[70]),
+        ];
+        assert_eq!(winner(label, &["keyboard-focus", "hover"]), "l:2 hover");
+        // Aliases normalize: `focus` is keyboard-focus, `pressed` is down.
+        assert_eq!(winner(fill, &["focus", "pressed"]), "x:8 down");
+    }
+
+    #[test]
+    fn more_matched_states_beat_higher_precedence() {
+        let fill: &[(&str, &[&str], &[u32])] = &[
+            ("down", &["down"], &[70]),
+            ("selected", &["selected"], &[]),
+            ("selected+hover", &["selected", "hover"], &[50]),
+            ("selected+down", &["selected", "down"], &[70]),
+        ];
+        assert_eq!(winner(fill, &["selected", "down"]), "selected+down");
+        assert_eq!(winner(fill, &["selected", "hover"]), "selected+hover");
+        assert_eq!(winner(fill, &["selected", "keyboard-focus"]), "selected");
+        assert_eq!(winner(fill, &["down"]), "down");
+    }
+
+    #[test]
+    fn disabled_suppresses_interaction_states_and_ties_keep_source_order() {
+        let fill: &[(&str, &[&str], &[u32])] = &[
+            ("hover", &["hover"], &[50]),
+            ("disabled", &["disabled"], &[]),
+        ];
+        assert_eq!(winner(fill, &["disabled", "hover"]), "disabled");
+        let tie: &[(&str, &[&str], &[u32])] =
+            &[("a", &["hover"], &[50]), ("b", &["keyboard-focus"], &[50])];
+        assert_eq!(winner(tie, &["hover", "keyboard-focus"]), "a");
     }
 
     fn stack(props: Value) -> Value {
