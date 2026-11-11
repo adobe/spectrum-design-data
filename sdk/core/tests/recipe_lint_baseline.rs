@@ -8,7 +8,8 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Ratchet for the visual recipe lints (SPEC-066..070, SPEC-083, SPEC-085, SPEC-086 and SPEC-087).
+//! Ratchet for the visual recipe lints (SPEC-066..070, SPEC-083, SPEC-085, SPEC-086 and SPEC-087)
+//! and the relationship context lints (SPEC-090..092, counted per relationship file).
 //!
 //! The lints are warnings, so `validate` stays green while the existing recipes
 //! are migrated. This test keeps the debt from growing: each (rule, recipe)
@@ -27,7 +28,7 @@ use design_data_core::validate::validate_all_with_full_options;
 
 const RULES: &[&str] = &[
     "SPEC-066", "SPEC-067", "SPEC-068", "SPEC-069", "SPEC-070", "SPEC-083", "SPEC-085", "SPEC-086",
-    "SPEC-087",
+    "SPEC-087", "SPEC-090", "SPEC-091", "SPEC-092",
 ];
 
 type Counts = BTreeMap<String, BTreeMap<String, usize>>;
