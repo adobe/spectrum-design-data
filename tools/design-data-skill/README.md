@@ -47,7 +47,7 @@ copilot --allow-tool='design-data'
 ```
 
 Use `--deny-tool='design-data'` to block it. Skill frontmatter (`allowed-tools`)
-does not pre-approve MCP tools in Copilot CLI.
+does not pre-approve MCP tools in Copilot CLI 1.0.109 (tested non-interactively).
 
 ### Cursor (skill only)
 
