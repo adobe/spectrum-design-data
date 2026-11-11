@@ -2231,7 +2231,7 @@
     "setUuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
       "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
     },
@@ -2252,7 +2252,7 @@
     "setUuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
       "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
     },

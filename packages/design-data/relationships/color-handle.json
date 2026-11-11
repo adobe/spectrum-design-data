@@ -289,7 +289,7 @@
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-300 (base); component-specific to Color handle, not a control-size concept.",
       "replacedBy": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f"
     },
@@ -310,7 +310,7 @@
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-300 (base); component-specific to Color handle, not a control-size concept.",
       "replacedBy": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f"
     },
@@ -332,7 +332,7 @@
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-500 (key-focus); component-specific to Color handle, not a control-size concept.",
       "replacedBy": "9e6c70a8-d921-42b2-9084-7408424124ef"
     },
@@ -354,7 +354,7 @@
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-500 (key-focus); component-specific to Color handle, not a control-size concept.",
       "replacedBy": "9e6c70a8-d921-42b2-9084-7408424124ef"
     },

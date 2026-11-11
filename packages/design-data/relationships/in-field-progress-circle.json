@@ -255,7 +255,7 @@
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5"
     },
@@ -277,7 +277,7 @@
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5"
     },
@@ -299,7 +299,7 @@
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0"
     },
@@ -321,7 +321,7 @@
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0"
     },
@@ -343,7 +343,7 @@
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"
     },
@@ -365,7 +365,7 @@
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"
     },
@@ -387,7 +387,7 @@
     "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389"
     },
@@ -409,7 +409,7 @@
     "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
       "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389"
     },

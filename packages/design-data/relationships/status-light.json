@@ -970,7 +970,7 @@
     "setUuid": "f9e72a05-af00-42b8-a8d8-072e48f1eb76",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "b0281fdc-b044-45e6-af04-e56913432575"
     },
@@ -993,7 +993,7 @@
     "setUuid": "f9e72a05-af00-42b8-a8d8-072e48f1eb76",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "b0281fdc-b044-45e6-af04-e56913432575"
     },
@@ -1016,7 +1016,7 @@
     "setUuid": "b9201338-95e8-46d3-a786-7f2a2cca767a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "7f5f9ac3-2029-4cd2-8a4b-e16c58122487"
     },
@@ -1039,7 +1039,7 @@
     "setUuid": "b9201338-95e8-46d3-a786-7f2a2cca767a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "7f5f9ac3-2029-4cd2-8a4b-e16c58122487"
     },
@@ -1062,7 +1062,7 @@
     "setUuid": "08ed6bf4-5759-4bfb-98fe-1562032b59fe",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "dba2b2d5-43b9-4e2a-9b45-fbc02d16a84d"
     },
@@ -1085,7 +1085,7 @@
     "setUuid": "08ed6bf4-5759-4bfb-98fe-1562032b59fe",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "dba2b2d5-43b9-4e2a-9b45-fbc02d16a84d"
     },
@@ -1108,7 +1108,7 @@
     "setUuid": "17b26aa3-b67b-45cc-8653-6cf8adc63b45",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "0d252df3-59fc-422e-8f47-d4c894660eb9"
     },
@@ -1131,7 +1131,7 @@
     "setUuid": "17b26aa3-b67b-45cc-8653-6cf8adc63b45",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot\u2019s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
       "replacedBy": "0d252df3-59fc-422e-8f47-d4c894660eb9"
     },

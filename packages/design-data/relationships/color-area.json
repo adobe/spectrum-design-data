@@ -177,7 +177,7 @@
     "setUuid": "4915f362-d8f1-4c87-b45f-f4c99266ba1f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
       "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
     },
@@ -198,7 +198,7 @@
     "setUuid": "4915f362-d8f1-4c87-b45f-f4c99266ba1f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
       "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
     },
@@ -219,7 +219,7 @@
     "setUuid": "3ecf36e7-fbcd-4f8b-8c8b-ef51c0424cd2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
       "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
     },
@@ -240,7 +240,7 @@
     "setUuid": "3ecf36e7-fbcd-4f8b-8c8b-ef51c0424cd2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
       "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
     },
@@ -261,7 +261,7 @@
     "setUuid": "28afd99b-0227-41e5-91b6-87da309d7ed7",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
       "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
     },
@@ -282,7 +282,7 @@
     "setUuid": "28afd99b-0227-41e5-91b6-87da309d7ed7",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
       "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
     },
@@ -303,7 +303,7 @@
     "setUuid": "26e77fb6-d62e-492b-b2b6-3fba9fb62fb5",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
       "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
     },
@@ -324,7 +324,7 @@
     "setUuid": "26e77fb6-d62e-492b-b2b6-3fba9fb62fb5",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
       "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
     },

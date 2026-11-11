@@ -9,7 +9,7 @@
     "uuid": "21bb1275-44e7-49be-926a-66966e969a6f",
     "legacyKey": "time-field-minimum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Fixed input pattern (mm/dd/yyyy or hh:mm) is component-specific by nature; platform-specific token, not foundational."
     },
     "rationale": "Deprecated via refine-from-sheets from row 379 of the mapping sheet."

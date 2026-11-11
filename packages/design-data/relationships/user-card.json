@@ -12,7 +12,7 @@
     "uuid": "9a9f173d-6262-490f-976f-bd9abb9ec355",
     "legacyKey": "user-card-minimum-height-extra-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
     },
@@ -31,7 +31,7 @@
     "uuid": "7cf979ef-c47b-41f3-8230-49d67ad47740",
     "legacyKey": "user-card-minimum-height-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
     },
@@ -50,7 +50,7 @@
     "uuid": "53c81b30-6d98-4eaa-857f-15707d54a548",
     "legacyKey": "user-card-minimum-height-medium",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e"
     },
@@ -69,7 +69,7 @@
     "uuid": "f646530e-480c-4dbb-85fe-771eb5685966",
     "legacyKey": "user-card-minimum-height-small",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e"
     },
@@ -90,7 +90,7 @@
     "uuid": "a603a785-8cd8-4caf-a2b4-cfe3371cc10e",
     "legacyKey": "user-card-minimum-height-title-below-extra-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
     },
@@ -111,7 +111,7 @@
     "uuid": "4cc4f673-912b-4e53-a75e-c8bd4603ab19",
     "legacyKey": "user-card-minimum-height-title-below-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
     },
@@ -132,7 +132,7 @@
     "uuid": "5f4edfbc-eb2e-4dd5-add1-bf45530b0e61",
     "legacyKey": "user-card-minimum-height-title-below-medium",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e"
     },
@@ -153,7 +153,7 @@
     "uuid": "3373c4d2-d81b-4649-bc24-5251879778c1",
     "legacyKey": "user-card-minimum-height-title-below-small",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
       "replacedBy": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e"
     },

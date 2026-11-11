@@ -10,7 +10,7 @@
     "uuid": "1f0b1cd3-1f15-4a60-a01f-a04f4fb913dd",
     "legacyKey": "single-calendar-popover-minimum-height",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Fixed regardless of panel count; component-specific formula, not foundational."
     },
     "rationale": "Deprecated via refine-from-sheets from row 262 of the mapping sheet."
@@ -26,7 +26,7 @@
     "uuid": "7f880ee3-c074-4370-a132-c22dbe0d5880",
     "legacyKey": "single-calendar-popover-minimum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Scales linearly by panel count; component-specific formula, not foundational."
     },
     "rationale": "Deprecated via refine-from-sheets from row 263 of the mapping sheet."

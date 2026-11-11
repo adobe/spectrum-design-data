@@ -384,7 +384,7 @@
     "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1",
     "legacyKey": "alert-dialog-maximum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
       "replacedBy": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"
     },
@@ -400,7 +400,7 @@
     "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd",
     "legacyKey": "alert-dialog-minimum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
       "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
     },

@@ -304,7 +304,7 @@
     "setUuid": "1748229e-c8e2-40fb-8932-a8d094cf5689",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Value is bound by the container it sits inside; not an independent measurement, so no token needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 271 of the mapping sheet."
@@ -325,7 +325,7 @@
     "setUuid": "1748229e-c8e2-40fb-8932-a8d094cf5689",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Value is bound by the container it sits inside; not an independent measurement, so no token needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 271 of the mapping sheet."

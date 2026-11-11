@@ -2903,7 +2903,7 @@
     "setUuid": "34dfc670-7333-40fc-96e0-93a466273634",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "f5d4825e-d704-4eb8-bde7-45c6db956a39"
     },
@@ -2929,7 +2929,7 @@
     "setUuid": "34dfc670-7333-40fc-96e0-93a466273634",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "f5d4825e-d704-4eb8-bde7-45c6db956a39"
     },
@@ -2953,7 +2953,7 @@
     "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7",
     "legacyKey": "table-row-height-extra-large-compact",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 335 of the mapping sheet."
@@ -3025,7 +3025,7 @@
     "setUuid": "6d69b2dc-16d1-4153-9f57-227f2a0f2c8c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 336 of the mapping sheet."
@@ -3051,7 +3051,7 @@
     "setUuid": "6d69b2dc-16d1-4153-9f57-227f2a0f2c8c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 336 of the mapping sheet."
@@ -3076,7 +3076,7 @@
     "setUuid": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
     },
@@ -3102,7 +3102,7 @@
     "setUuid": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
     },
@@ -3126,7 +3126,7 @@
     "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde",
     "legacyKey": "table-row-height-large-compact",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 338 of the mapping sheet."
@@ -3198,7 +3198,7 @@
     "setUuid": "81954a8f-3bd6-43fa-9fba-9cf209435025",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 339 of the mapping sheet."
@@ -3224,7 +3224,7 @@
     "setUuid": "81954a8f-3bd6-43fa-9fba-9cf209435025",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 339 of the mapping sheet."
@@ -3246,7 +3246,7 @@
     "setUuid": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
     },
@@ -3269,7 +3269,7 @@
     "setUuid": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
     },
@@ -3290,7 +3290,7 @@
     "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
     "legacyKey": "table-row-height-medium-compact",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 341 of the mapping sheet."
@@ -3359,7 +3359,7 @@
     "setUuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 342 of the mapping sheet."
@@ -3382,7 +3382,7 @@
     "setUuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 342 of the mapping sheet."
@@ -3407,7 +3407,7 @@
     "setUuid": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
     },
@@ -3433,7 +3433,7 @@
     "setUuid": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
       "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
     },
@@ -3457,7 +3457,7 @@
     "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a",
     "legacyKey": "table-row-height-small-compact",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 344 of the mapping sheet."
@@ -3529,7 +3529,7 @@
     "setUuid": "60852607-b336-4dd8-ae03-db21292a2378",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 345 of the mapping sheet."
@@ -3555,7 +3555,7 @@
     "setUuid": "60852607-b336-4dd8-ae03-db21292a2378",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 345 of the mapping sheet."
@@ -4231,7 +4231,7 @@
     "setUuid": "7ec12e53-f33b-40ff-a051-cb62f71a376e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
     },
@@ -4256,7 +4256,7 @@
     "setUuid": "7ec12e53-f33b-40ff-a051-cb62f71a376e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
     },
@@ -4281,7 +4281,7 @@
     "setUuid": "db3b99d0-492f-4360-8d36-d497e1e00462",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
     },
@@ -4306,7 +4306,7 @@
     "setUuid": "db3b99d0-492f-4360-8d36-d497e1e00462",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
     },
@@ -4329,7 +4329,7 @@
     "setUuid": "9b7fb04a-96c6-4eb2-87ff-e0703b02617b",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
     },
@@ -4352,7 +4352,7 @@
     "setUuid": "9b7fb04a-96c6-4eb2-87ff-e0703b02617b",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
     },
@@ -4377,7 +4377,7 @@
     "setUuid": "58fd11fd-232a-474b-b53e-3b54a5d96266",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "45291200-eb38-4732-8387-a9be8ee41565"
     },
@@ -4402,7 +4402,7 @@
     "setUuid": "58fd11fd-232a-474b-b53e-3b54a5d96266",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
       "replacedBy": "45291200-eb38-4732-8387-a9be8ee41565"
     },

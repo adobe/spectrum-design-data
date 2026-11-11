@@ -16,7 +16,7 @@
     "setUuid": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "4c09da43-93d3-46ed-8302-dc685d099097"
     },
@@ -39,7 +39,7 @@
     "setUuid": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "4c09da43-93d3-46ed-8302-dc685d099097"
     },
@@ -62,7 +62,7 @@
     "setUuid": "4b7418ca-2384-4470-bfca-d8f742681740",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "0fb38ac8-dbfb-442a-b142-3435102fe879"
     },
@@ -85,7 +85,7 @@
     "setUuid": "4b7418ca-2384-4470-bfca-d8f742681740",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "0fb38ac8-dbfb-442a-b142-3435102fe879"
     },
@@ -108,7 +108,7 @@
     "setUuid": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d"
     },
@@ -131,7 +131,7 @@
     "setUuid": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d"
     },
@@ -154,7 +154,7 @@
     "setUuid": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "188453d2-7e27-414d-b5a2-680653844526"
     },
@@ -177,7 +177,7 @@
     "setUuid": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared field-width-* scale.",
       "replacedBy": "188453d2-7e27-414d-b5a2-680653844526"
     },

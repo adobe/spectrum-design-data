@@ -336,7 +336,7 @@
     "uuid": "1c869018-8c56-4c10-acea-7fc6e838aa09",
     "legacyKey": "avatar-group-size-100",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "cae804bb-ebef-480b-a98f-15452dff5650"
     },
@@ -355,7 +355,7 @@
     "uuid": "590ef940-55ea-4690-a403-e4b47a185a64",
     "legacyKey": "avatar-group-size-200",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55"
     },
@@ -374,7 +374,7 @@
     "uuid": "5e60d980-21db-4bbd-b321-a20808571411",
     "legacyKey": "avatar-group-size-300",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
     },
@@ -393,7 +393,7 @@
     "uuid": "80e446ee-0091-4c6e-9158-e15fbc6207a4",
     "legacyKey": "avatar-group-size-400",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a"
     },
@@ -412,7 +412,7 @@
     "uuid": "d55ab204-ee6c-47e3-a21b-25543c8fc36b",
     "legacyKey": "avatar-group-size-50",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
     },
@@ -431,7 +431,7 @@
     "uuid": "4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1",
     "legacyKey": "avatar-group-size-500",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
@@ -450,7 +450,7 @@
     "uuid": "420c8327-fa41-4919-9e01-4d58178d739b",
     "legacyKey": "avatar-group-size-75",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306"
     },

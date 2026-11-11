@@ -333,7 +333,7 @@
     "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784",
     "legacyKey": "progress-bar-maximum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 229 of the mapping sheet."
@@ -348,7 +348,7 @@
     "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7",
     "legacyKey": "progress-bar-minimum-width",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
       "replacedBy": "3f50af14-ea93-4819-a04f-49b17139b0a0"
     },
@@ -370,7 +370,7 @@
     "setUuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
     },
@@ -392,7 +392,7 @@
     "setUuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
     },
@@ -414,7 +414,7 @@
     "setUuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
     },
@@ -436,7 +436,7 @@
     "setUuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
     },
@@ -458,7 +458,7 @@
     "setUuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
     },
@@ -480,7 +480,7 @@
     "setUuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
     },
@@ -502,7 +502,7 @@
     "setUuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
@@ -524,7 +524,7 @@
     "setUuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },

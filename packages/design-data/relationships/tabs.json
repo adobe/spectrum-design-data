@@ -728,7 +728,7 @@
     "uuid": "49130d66-edfb-48bd-8648-96c47f40a884",
     "legacyKey": "tab-item-compact-height-extra-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 325 of the mapping sheet."
@@ -751,7 +751,7 @@
     "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702",
     "legacyKey": "tab-item-compact-height-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 326 of the mapping sheet."
@@ -771,7 +771,7 @@
     "uuid": "e8c7c826-548d-4037-b064-3cf699675d35",
     "legacyKey": "tab-item-compact-height-medium",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 327 of the mapping sheet."
@@ -794,7 +794,7 @@
     "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96",
     "legacyKey": "tab-item-compact-height-small",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Density affects padding, not height; height token no longer needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 328 of the mapping sheet."
@@ -983,7 +983,7 @@
     "uuid": "42ed814c-5044-4c70-b82f-b49f8226241e",
     "legacyKey": "tab-item-height-extra-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
     },
@@ -1005,7 +1005,7 @@
     "uuid": "8abd0b0e-fd6d-4064-9d0e-1ab998fcb0ce",
     "legacyKey": "tab-item-height-large",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
     },
@@ -1025,7 +1025,7 @@
     "uuid": "5d2288f4-f383-47fa-baca-0168cb46750a",
     "legacyKey": "tab-item-height-medium",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
     },
@@ -1047,7 +1047,7 @@
     "uuid": "7b31cf38-5bac-4f79-a4f1-172a4ea66e10",
     "legacyKey": "tab-item-height-small",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
     },

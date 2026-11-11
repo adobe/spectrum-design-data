@@ -830,7 +830,7 @@
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
       "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
     },
@@ -852,7 +852,7 @@
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
       "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
     },
@@ -869,7 +869,7 @@
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
     "legacyKey": "side-navigation-indicator-thickness",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
@@ -1058,7 +1058,7 @@
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
       "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
     },
@@ -1079,7 +1079,7 @@
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
       "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
     },
@@ -1464,7 +1464,7 @@
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
       "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
     },
@@ -1485,7 +1485,7 @@
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
       "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
     },

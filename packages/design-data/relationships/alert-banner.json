@@ -310,7 +310,7 @@
     "setUuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Use the shared banner-minimum-height token.",
       "replacedBy": "e271c350-f967-4425-8f24-12be5f43f7c7"
     },
@@ -331,7 +331,7 @@
     "setUuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Use the shared banner-minimum-height token.",
       "replacedBy": "e271c350-f967-4425-8f24-12be5f43f7c7"
     },
@@ -538,7 +538,7 @@
     "setUuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared banner-width-* scale.",
       "replacedBy": "1236fe9c-ea39-415c-94b6-e35333bbfe39"
     },
@@ -559,7 +559,7 @@
     "setUuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared banner-width-* scale.",
       "replacedBy": "1236fe9c-ea39-415c-94b6-e35333bbfe39"
     },

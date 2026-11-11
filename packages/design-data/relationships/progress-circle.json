@@ -186,7 +186,7 @@
     "setUuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
@@ -208,7 +208,7 @@
     "setUuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
@@ -230,7 +230,7 @@
     "setUuid": "f275f342-c396-4781-944e-07cb302f5241",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
     },
@@ -252,7 +252,7 @@
     "setUuid": "f275f342-c396-4781-944e-07cb302f5241",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
     },
@@ -274,7 +274,7 @@
     "setUuid": "ab2492f4-18ef-471b-94f7-9998be139116",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
     },
@@ -296,7 +296,7 @@
     "setUuid": "ab2492f4-18ef-471b-94f7-9998be139116",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
       "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
     },

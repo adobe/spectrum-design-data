@@ -465,7 +465,7 @@
     "setUuid": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "cae804bb-ebef-480b-a98f-15452dff5650"
     },
@@ -487,7 +487,7 @@
     "setUuid": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "cae804bb-ebef-480b-a98f-15452dff5650"
     },
@@ -509,7 +509,7 @@
     "setUuid": "14e022bd-1525-42ca-a3d1-333f92da11e6",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1000 to -800",
       "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
@@ -531,7 +531,7 @@
     "setUuid": "14e022bd-1525-42ca-a3d1-333f92da11e6",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1000 to -800",
       "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
@@ -553,7 +553,7 @@
     "setUuid": "a8ae28c2-1047-45e7-9d21-36d92a6eb58d",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 35 of the mapping sheet."
@@ -574,7 +574,7 @@
     "setUuid": "a8ae28c2-1047-45e7-9d21-36d92a6eb58d",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 35 of the mapping sheet."
@@ -595,7 +595,7 @@
     "setUuid": "b73ade5d-ac65-40f9-a403-8974891e3212",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1200 to -900",
       "replacedBy": "786f4575-8665-4ac2-903b-f6492b9dcf95"
     },
@@ -617,7 +617,7 @@
     "setUuid": "b73ade5d-ac65-40f9-a403-8974891e3212",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1200 to -900",
       "replacedBy": "786f4575-8665-4ac2-903b-f6492b9dcf95"
     },
@@ -639,7 +639,7 @@
     "setUuid": "0784e2ac-d40b-4021-9435-08b80a7fe61c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 37 of the mapping sheet."
@@ -660,7 +660,7 @@
     "setUuid": "0784e2ac-d40b-4021-9435-08b80a7fe61c",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 37 of the mapping sheet."
@@ -681,7 +681,7 @@
     "setUuid": "dde08dc2-14a2-4eed-b02d-8ae0dffcb80f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1400 to -1000",
       "replacedBy": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453"
     },
@@ -703,7 +703,7 @@
     "setUuid": "dde08dc2-14a2-4eed-b02d-8ae0dffcb80f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -1400 to -1000",
       "replacedBy": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453"
     },
@@ -725,7 +725,7 @@
     "setUuid": "268105fd-2308-4e1e-8f3a-822f32559250",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 39 of the mapping sheet."
@@ -746,7 +746,7 @@
     "setUuid": "268105fd-2308-4e1e-8f3a-822f32559250",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 39 of the mapping sheet."
@@ -767,7 +767,7 @@
     "setUuid": "ad82e875-4243-4665-93b9-91aef258b164",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55"
     },
@@ -789,7 +789,7 @@
     "setUuid": "ad82e875-4243-4665-93b9-91aef258b164",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55"
     },
@@ -811,7 +811,7 @@
     "setUuid": "3c458169-051a-473d-9b68-af84803a74e6",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
     },
@@ -833,7 +833,7 @@
     "setUuid": "3c458169-051a-473d-9b68-af84803a74e6",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
     },
@@ -855,7 +855,7 @@
     "setUuid": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a"
     },
@@ -877,7 +877,7 @@
     "setUuid": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a"
     },
@@ -899,7 +899,7 @@
     "setUuid": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
     },
@@ -921,7 +921,7 @@
     "setUuid": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
     },
@@ -943,7 +943,7 @@
     "setUuid": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
@@ -965,7 +965,7 @@
     "setUuid": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
@@ -987,7 +987,7 @@
     "setUuid": "5329cf23-d3ec-4513-8aaa-06f36eafd06e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 45 of the mapping sheet."
@@ -1008,7 +1008,7 @@
     "setUuid": "5329cf23-d3ec-4513-8aaa-06f36eafd06e",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 45 of the mapping sheet."
@@ -1029,7 +1029,7 @@
     "setUuid": "47ef5b99-9965-40ab-98e2-1f188023a5f9",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -700 to -600",
       "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
@@ -1051,7 +1051,7 @@
     "setUuid": "47ef5b99-9965-40ab-98e2-1f188023a5f9",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -700 to -600",
       "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
@@ -1073,7 +1073,7 @@
     "setUuid": "88990423-8f5c-486b-9c7d-969db3d82cbb",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306"
     },
@@ -1095,7 +1095,7 @@
     "setUuid": "88990423-8f5c-486b-9c7d-969db3d82cbb",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
       "replacedBy": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306"
     },
@@ -1117,7 +1117,7 @@
     "setUuid": "b5158bd5-8349-4330-84f1-7b900119366f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 48 of the mapping sheet."
@@ -1138,7 +1138,7 @@
     "setUuid": "b5158bd5-8349-4330-84f1-7b900119366f",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
     },
     "rationale": "Deprecated via refine-from-sheets from row 48 of the mapping sheet."
@@ -1159,7 +1159,7 @@
     "setUuid": "7bdd8cdd-fb68-48de-b5bd-ce1e05cf3403",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -900 to -700",
       "replacedBy": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e"
     },
@@ -1181,7 +1181,7 @@
     "setUuid": "7bdd8cdd-fb68-48de-b5bd-ce1e05cf3403",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "remapped from -900 to -700",
       "replacedBy": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e"
     },

@@ -1690,7 +1690,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
     },
@@ -1707,7 +1707,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
     },
@@ -1724,7 +1724,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
     },
@@ -1741,7 +1741,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
     },
@@ -1758,7 +1758,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
     },
@@ -1775,7 +1775,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
     },
@@ -1792,7 +1792,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
     },
@@ -1809,7 +1809,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
     },
@@ -1826,7 +1826,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "053e6718-fedb-4944-8e17-ea49f263dd25"
     },
@@ -1843,7 +1843,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "053e6718-fedb-4944-8e17-ea49f263dd25"
     },
@@ -1860,7 +1860,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
     },
@@ -1877,7 +1877,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
     },
@@ -1894,7 +1894,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
     },
@@ -1911,7 +1911,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared base-height-* scale.",
       "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
     },
@@ -6382,7 +6382,7 @@
     "uuid": "d33433fd-6430-4769-a0b8-6d8c32a64803",
     "conceptId": "8ebdf862-2ff5-4fa5-a2e6-1d6d9b21ab24",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
       "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
@@ -7611,7 +7611,7 @@
     "description": "Thickness of the tab selection indicator (underline)",
     "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 448 of the mapping sheet."
@@ -7630,7 +7630,7 @@
     "description": "Thickness of the strikethrough line on an unavailable calendar day",
     "conceptId": "b432568c-7621-4ca4-ba23-385c332a9a37",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
+      "deprecatedIn": "15.8.0",
       "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 447 of the mapping sheet."
