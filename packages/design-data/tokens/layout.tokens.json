@@ -7307,7 +7307,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
-      "deprecatedComment": "Use workflow-icon-medium instead"
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
     },
     "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
   },
@@ -7323,7 +7323,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
-      "deprecatedComment": "Use workflow-icon-medium instead"
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
     },
     "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
   },
@@ -7339,7 +7339,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
-      "deprecatedComment": "Use workflow-icon-large instead"
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
     },
     "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
   },
@@ -7355,7 +7355,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "94f62adc-c5fb-48f8-ba05-7c639b936643",
-      "deprecatedComment": "Use workflow-icon-large instead"
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
     },
     "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
   },
@@ -7371,7 +7371,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
-      "deprecatedComment": "Use workflow-icon-extra-large instead"
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
     },
     "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
   },
@@ -7387,7 +7387,7 @@
     "lifecycle": {
       "deprecatedIn": "14.5.0",
       "replacedBy": "65f791f8-a88f-4765-a57e-3e023a436642",
-      "deprecatedComment": "Use workflow-icon-extra-large instead"
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
     },
     "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
   },

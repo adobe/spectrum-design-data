@@ -3789,7 +3789,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "dccab61e-8eed-4fa6-99c3-b997c987dd62",
     "deprecated": true,
-    "deprecated_comment": "Use workflow-icon-medium instead",
+    "deprecated_comment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged).",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3808,7 +3808,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "6650d78d-2317-41c2-bb9b-e2789cffb5c0",
     "deprecated": true,
-    "deprecated_comment": "Use workflow-icon-large instead",
+    "deprecated_comment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged).",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3827,7 +3827,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881",
     "deprecated": true,
-    "deprecated_comment": "Use workflow-icon-extra-large instead",
+    "deprecated_comment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged).",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
