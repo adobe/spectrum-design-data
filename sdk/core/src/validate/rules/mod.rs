@@ -100,7 +100,7 @@ mod spec088;
 mod spec089;
 mod spec090;
 mod spec091;
-mod spec092;
+pub mod spec092;
 mod visual_util;
 
 use std::collections::HashSet;

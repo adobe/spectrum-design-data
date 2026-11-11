@@ -37,6 +37,11 @@ design-data component button
 
 # Validate a design-data directory
 design-data validate ./my-tokens
+
+# Propose contexts for live relationship records that have none (SPEC-092), into a
+# review file. Never writes the dataset; prints how well each tier matches the
+# existing human contexts.
+design-data suggest-context --out /tmp/context-review.json [--exclude-typography] [COMPONENT...]
 ```
 
 ## Configuration
