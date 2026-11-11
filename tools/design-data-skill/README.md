@@ -38,6 +38,17 @@ copilot plugin marketplace add adobe/spectrum-design-data
 copilot plugin install spectrum-design-data@spectrum-design-data
 ```
 
+Copilot should not prompt for this plugin's tools: all eight are read-only and
+declare it. If a client or setting still asks for approval, you can pre-approve
+the server by name (`design-data`, from the plugin's `.mcp.json`):
+
+```
+copilot --allow-tool='design-data'
+```
+
+Use `--deny-tool='design-data'` to block it. Skill frontmatter (`allowed-tools`)
+does not pre-approve MCP tools in Copilot CLI.
+
 ### Cursor (skill only)
 
 Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste:
@@ -96,6 +107,13 @@ Custom datasets, validation, diffing, and authoring: use
 plugin version. Tests check the pin, manifest, tool names, and packed contents. The pin comes from the
 workspace version, so between merging the Version Packages PR and the npm publish the
 pinned release may not exist yet; installs from `main` fail in that window.
+
+To test on Copilot, install the plugin (`copilot plugin marketplace add <path>`, then
+`copilot plugin install spectrum-design-data@spectrum-design-data`).
+`copilot --plugin-dir <dir>` does not load the bundled MCP server. Keep
+`readOnlyHint: true` on every tool in `design-data-mcp`: it is why Copilot runs them
+without approval, and removing it makes non-interactive runs fail with "no interactive
+user response was available".
 
 ## Usage
 
