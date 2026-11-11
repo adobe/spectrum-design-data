@@ -13,6 +13,14 @@ validation section of `AGENTS.md`. This skill is the procedure; those hold the
 policy. Ask the user minimum versus architecture slice before building a
 roadmap-sized feature (AGENTS.md, Roadmap alignment).
 
+## Development browser compatibility
+
+Follow `AGENTS.md`, Working rule 7: reset incompatible local browser state to
+current shipped defaults without asking to preserve local edits. Use the existing
+storage-version, restore and Reset all paths. Do not add preservation migrations
+or backups unless the user requests them. Ordinary compatible editing still
+requires Save/Cancel, Changes and scoped-reset behavior.
+
 ## Two comparison paths: touch both
 
 The repo has two parallel comparison paths. A new domain needs both.
@@ -34,8 +42,8 @@ example. V = enforced by a script or type; M = manual convention.
 | 1 | Schema and defaults | `src/data/design-system.schema.json`, `design-system.defaults.json`, `src/data/defaults.ts`, `src/features/<domain>/{model,defaults}.ts` | Schema shape hash (`scripts/check-changelog-coverage.ts`) | `pnpm check:changelog-coverage`, `pnpm test:defaults` |
 | 2 | State atoms | `src/features/<domain>/state.ts` (dimension foundations use `createDimensionFoundationState`) | M | the domain's `test:*` |
 | 3 | Snapshot key | `src/features/edit-session/state.ts`: `EditSessionSnapshot` field, `isSnapshot`, `captureSourceSnapshot`, `createDefaultSnapshot`, `restoreAuthoringSnapshotAtom` | V for the key (see 7). The other four sites are M | `pnpm typecheck` |
-| 4 | Stored-data validation | `assertStoredSnapshot` in `edit-session/state.ts`. Keep the key optional for old saves | M. **Do not add throw-on-load checks for reference differences** (AGENTS.md, Working rule 2). Return diagnostics instead | `pnpm test:persistence` |
-| 5 | Migration | `src/features/edit-session/<domain>Upgrade.ts`; bump `AUTHORING_RECORD_VERSION` in `edit-session/storage.ts` and widen its version unions; wire the upgrade in `persistence.ts` | M | the domain test, `test:persistence` |
+| 4 | Stored-data validation | `assertStoredSnapshot` in `edit-session/state.ts`. Review additive-field compatibility; incompatible development records follow Working rule 7 | M. **Do not add throw-on-load checks for reference differences** (AGENTS.md, Working rule 2). Return diagnostics instead | `pnpm test:persistence` |
+| 5 | Storage compatibility | Review `AUTHORING_RECORD_VERSION` in `edit-session/storage.ts` and the restore/reset path in `persistence.ts`. Reset incompatible development state by default; add an upgrade only when preservation is explicitly requested | M. A reset must restore current working/saved defaults and leave compatible records and unrelated storage unchanged | the domain test, `test:persistence` |
 | 6 | Mode attachments | `src/features/modes/foundationAttachments.ts` | M | `pnpm test:modes` |
 | 7 | Changelog domain | `CHANGE_DOMAINS` entry in `changelog/registry.ts` (`topic`, `category`, `label`, `sourceKind`, optional `collection`, `identity`); `FOUNDATION_LABELS`; add the `sourceKind` to `FoundationKind` and `ChangeItem["sourceKind"]` in `changelog/changes.ts` | V: `satisfies Record<keyof EditSessionSnapshot, ...>`, `assertDomainCoverage`, `check:changelog-coverage` | `pnpm check:changelog-coverage`, `pnpm test:changelog` |
 | 8 | Field extraction | The generic walker (`compareObject`) in `registry.ts`; `FIELD_EXCLUSIONS` for non-authored fields (needs a reason); legacy field lists (`SPACING_SCALE_FIELDS`, `elevationFields`) | M. A new field missing from a hand-kept list is **not** counted | `tests/changelog.ts`, `tests/changelog-parity.ts` |
@@ -116,7 +124,7 @@ sources are currently untested (`tests/impact.ts` uses synthetic records).
 - Selected modes and temporary previews never change inventories.
 - Missing or invalid output is **unavailable**, not zero. Never silently reduce a
   percentage denominator.
-- Source resets must preserve unrelated edits. Generated resets need an
+- Ordinary scoped source resets must preserve unrelated edits. Generated resets need an
   explicit supported override. Never reset by display name; use the `id` or
   `conceptId`. Never guess a source or bypass a formula lock.
 - Clearing token overrides must retain publication identity metadata, including
@@ -132,8 +140,9 @@ sources are currently untested (`tests/impact.ts` uses synthetic records).
   Prune mode values on reset when layers are removed.
 - Collections also compare document-level fields outside the collection.
 - A schema-hash failure means review adapters, resets, and fixtures first.
-- A new snapshot key needs a migration and a version bump, or old saves fail
-  to load.
+- A new snapshot key needs a storage-version and restore review. Reset
+  incompatible development records by default rather than adding a migration
+  solely to preserve local browser edits.
 - Elevation tokens are generated-only; direct overrides are rejected.
 
 ## Done means
