@@ -31,7 +31,6 @@
     "select-box": 2,
     "side-navigation": 8,
     "table": 22,
-    "tabs": 1,
     "title": 1,
     "toast": 3
   },
@@ -45,15 +44,11 @@
     "floating-action-button": 3,
     "form-item": 4,
     "in-field-button": 5,
-    "list-view": 2,
     "meter": 2,
     "picker": 1,
     "popover": 3,
-    "segmented-control": 1,
     "stack-item": 6,
     "standard-panel": 6,
-    "table": 24,
-    "tabs": 21,
-    "tree-view": 2
+    "table": 24
   }
 }

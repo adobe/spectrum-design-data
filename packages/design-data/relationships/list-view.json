@@ -700,6 +700,8 @@
         "position": ["bottom"]
       }
     },
+    "context": "Item rounding",
+    "contextRole": ["rounding"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a83a882e-430c-46fc-a8be-5ade0dd8a4c6",
     "uuid": "57821e37-d39e-49d5-b978-4ece3747e531",
@@ -714,6 +716,8 @@
         "position": ["top"]
       }
     },
+    "context": "Item rounding",
+    "contextRole": ["rounding"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a83a882e-430c-46fc-a8be-5ade0dd8a4c6",
     "uuid": "6e4611f7-f202-4003-94b4-587d48d07e32",
