@@ -460,6 +460,25 @@
             },
             "scaleIndex": {
               "type": "number"
+            },
+            "indexModes": {
+              "type": "object",
+              "properties": {
+                "modeSetId": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "modeSetId",
+                "values"
+              ]
             }
           },
           "additionalProperties": false,
@@ -633,6 +652,25 @@
                 },
                 "scaleIndex": {
                   "type": "number"
+                },
+                "indexModes": {
+                  "type": "object",
+                  "properties": {
+                    "modeSetId": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "modeSetId",
+                    "values"
+                  ]
                 }
               },
               "additionalProperties": false,

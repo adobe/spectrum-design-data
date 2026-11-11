@@ -33,6 +33,7 @@ import {
   stylePreviewArtifactsAtom,
   styleContextsStateAtom,
   styleSampleTextAtom,
+  styleSampleIconsAtom,
 } from "../../features/styles/state";
 import { styleName } from "../../features/styles/generation";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
@@ -45,7 +46,7 @@ import { colorSystemDocumentAtom } from "../../features/color-system/state";
 import { browserModeContextAtom } from "../../features/tokens/browserState";
 import { popoverDialogStyles } from "../../components/popoverLayout";
 import { canonicalTokenModeKey } from "../../features/tokens/browserModel";
-import { isSpectrumIconName } from "../../features/icons/spectrumIconNames.generated";
+import { styleSampleIcon } from "../../features/styles/iconPreview";
 import "../../views/styles/Styles.css";
 
 export function StylesPanel() {
@@ -61,6 +62,7 @@ export function StylesPanel() {
     colors = useAtomValue(colorSystemDocumentAtom);
   const mode = useAtomValue(browserModeContextAtom);
   const sampleText = useAtomValue(styleSampleTextAtom);
+  const sampleIcons = useAtomValue(styleSampleIconsAtom);
   const [adding, setAdding] = useState<StyleKind | null>(null),
     [name, setName] = useState("");
   return (
@@ -185,7 +187,11 @@ export function StylesPanel() {
                     const family = rows.find(
                       (row) => row.property === "color",
                     )?.familyId;
-                    const icon = document.examples[recipe.id]?.icon;
+                    const icon = styleSampleIcon(
+                      recipe,
+                      sampleIcons[recipe.id] ??
+                        document.examples[recipe.id]?.icon,
+                    );
                     return (
                       <ListViewItem
                         key={recipe.id}
@@ -209,9 +215,7 @@ export function StylesPanel() {
                                 gamut={
                                   colors.settings.colorOutput.authoringGamut
                                 }
-                                icon={
-                                  isSpectrumIconName(icon) ? icon : undefined
-                                }
+                                icon={icon}
                               />
                             </span>
                           }

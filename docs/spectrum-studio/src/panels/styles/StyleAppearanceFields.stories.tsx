@@ -50,6 +50,30 @@ const meta = {
         value: 1.5,
       },
     ],
+    taxonomy: {
+      schemaVersion: 1,
+      categories: [
+        {
+          id: "00000000-0000-4000-8000-000000000001",
+          key: "scaleIndex",
+          name: "Scale index",
+          description: "",
+          valueType: "number",
+          cardinality: "one",
+          scopes: ["styles"],
+          required: false,
+          includeInProjections: true,
+        },
+      ],
+      terms: [800, 900, 1000].map((value, index) => ({
+        id: `00000000-0000-4000-8000-00000000000${index + 2}`,
+        categoryId: "00000000-0000-4000-8000-000000000001",
+        value,
+        description: "",
+      })),
+      order: ["00000000-0000-4000-8000-000000000001"],
+      classifications: {},
+    },
     families: [{ id: "blue", name: "Blue" }],
     display: "tokens",
     isReadOnly: false,
@@ -87,10 +111,10 @@ export const ColorOptions: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const index = canvas.getByRole("textbox", { name: "Scale index" });
+    const index = canvas.getByRole("combobox", { name: "Scale index" });
     await userEvent.clear(index);
     await userEvent.type(index, "1000");
-    await userEvent.tab();
+    await userEvent.keyboard("{Enter}");
     await expect(canvas.getByTestId("style-source")).toHaveTextContent(
       '"scaleIndex":1000',
     );

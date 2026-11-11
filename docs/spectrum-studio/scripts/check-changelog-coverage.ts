@@ -106,6 +106,30 @@ export function assertChangeSchemaCoverage(value: {
   delete fieldsEffect.properties.fields.properties.textStyle;
   fieldsEffect.properties.unset.items.enum = ["name", "orientation"];
   delete definitions.TextStyleReference;
+  // icon-styles.ts covers optional mode indices, atomic color resets and independent saved/working values.
+  for (const color of [
+    definitions.StyleColor,
+    Reflect.get(propertiesOf("Partial<StyleAppearance>"), "color"),
+  ]) {
+    assert("anyOf" in color && Array.isArray(color.anyOf));
+    const families = color.anyOf.find(
+      (entry) => entry.properties?.kind?.const === "families",
+    );
+    assert(families);
+    assert.deepEqual(
+      schemaShape(families.properties.indexModes),
+      schemaShape({
+        type: "object",
+        properties: {
+          modeSetId: { type: "string" },
+          values: { type: "object", additionalProperties: { type: "number" } },
+        },
+        additionalProperties: false,
+        required: ["modeSetId", "values"],
+      }),
+    );
+    delete families.properties.indexModes;
+  }
   const appearance = structuredClone(definitions.StyleAppearance);
   assert("required" in appearance);
   Reflect.deleteProperty(appearance, "required");

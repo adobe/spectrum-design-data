@@ -103,6 +103,7 @@ export interface DesignPropertiesProps<T extends PropertiesEditor> {
   addOptionRequest?: number;
   label?: string;
   namingScope?: VariantNamingScope;
+  previewControls?: ReactNode;
 }
 
 export function DesignProperties<T extends PropertiesEditor>(
@@ -194,6 +195,7 @@ export function DesignProperties<T extends PropertiesEditor>(
         </AccordionItemHeader>
         <AccordionItemPanel>
           <div className="structureEditorFields">
+            {props.previewControls}
             {props.showIndentationLevel && (
               <Picker
                 size="S"

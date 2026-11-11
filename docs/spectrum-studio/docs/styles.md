@@ -3,8 +3,8 @@
 # Styles
 
 Design > Styles authors reusable appearance recipes in four groups: Text,
-Icon, Background and Border. Fresh designs include six Text Styles; the other
-groups start empty. A recipe generates
+Icon, Background and Border. Fresh designs include six Text Styles and two
+Icon Styles; Background and Border start empty. A recipe generates
 separate semantic property tokens; it does not generate a composite value.
 Structures still own font size and icon size.
 
@@ -44,11 +44,45 @@ category with `regular weight`, `medium weight` and `bold weight` terms, avoidin
 the existing Density and Size terms. These are local naming choices to review
 against design-data, not evidence of exact alignment.
 
+## Default Icon Styles
+
+Workflow icon generates colors for all existing color families: index 800 in
+Light and Wireframe, and 900 in Dark. The editor can change the selected
+families, shared index and mode-specific indices. Its sample starts as Home
+and uses the shared Spectrum icon picker.
+
+**Color families** defines which colors generate tokens, not authored variants.
+It uses small removable tags and an inline Add menu, following the existing
+supported-value field pattern. The **Color** picker in **Properties** selects
+the single Design preview; it does not change generated output. Removing the
+previewed family selects the first remaining supported family for preview.
+Permutations still shows all generated combinations.
+
+UI icon has three variants: Default references gray-800, Subdued gray-500 and
+Subtle gray-200. These references retain the same indices across modes; the
+referenced foundation colors still adapt. Its sample starts as Chevron down.
+The picker is restricted to the shared UI glyph set, including chevrons,
+gripper, checkmark, close, plus (`Add`) and dash.
+
+Both recipes reference one shared **Icon interaction colors** rule. The shipped
+rule uses the existing hover/focus convention: one available color step higher
+in Light and Wireframe, and one lower in Dark. This is a starting convention,
+not a claim of reviewed design-data parity. The existing background rule is
+unchanged. All default recipes, rules and publication IDs apply only to fresh
+designs and confirmed Reset all; saved designs are not reseeded.
+
 ## Authored data and output
 
 `features/styles/model.ts` owns recipes, property bindings, option differences
 and references to shared Logic rules. Colors reference one token, an explicit
-literal, or several color families at one shared **Scale index**. Text can
+literal, or several color families at one shared **Scale index**. Its searchable
+combo box allows only registered Scale index values, not custom numbers.
+The adjacent **Modes** button uses the Structure breakout layout and enables
+one mode set. While enabled, the shared field is disabled and each mode has a
+side-labelled combo box; modes without an explicit index use the shared index.
+Turning Modes off removes the overrides and restores the original shared index.
+This changes which primitive is
+referenced, not the foundation's adaptive color generation. Text can
 reference a whole unitless line-height scale. Consumers select its index
 using their text-size context.
 
@@ -102,6 +136,10 @@ For Text Styles, **Sample text** appears above **Show as**. It updates the libra
 Design and Permutations previews together. The sample is shared across Text Styles
 for the current session, starts as `Ag`, and is not saved or exported.
 
+For Icon Styles, **Sample icon** occupies the same position. Sample selections
+are temporary per Style, stay available outside Edit mode, and update the
+library, Design and Permutations together without changing saved data or tokens.
+
 Background previews add a neutral inset outline below 3:1 contrast against their
 actual surface. The outline is not exported. Border previews have transparent
 fill and use the resolved border color and width.
@@ -125,6 +163,8 @@ Structure appearance propagation, portable option removal and atomic resets.
 Run `pnpm test:design-panels` for shared-panel and inline-editing checks.
 Run `pnpm test:style-previews` for shared list layout, variant captions and
 preview-only sample text.
+Run `pnpm test:icon-styles` for Icon defaults, mode/state generation, shared
+previews, identity preservation and authoring lifecycle checks.
 Run `pnpm exec tsx tests/variant-registry-names.ts` for Registry registration,
 reuse, identity and naming checks shared by Structures and Styles.
 The normal Studio check inventory also discovers these tests.

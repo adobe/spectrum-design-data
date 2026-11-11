@@ -3,9 +3,37 @@ import type { CSSProperties } from "react";
 import { measureOutputContrast } from "../color-system/outputContrast";
 import type { RgbGamut } from "../color-system/colorMath";
 import type { ValuePreviewDescriptor } from "../tokens/valuePreview";
-import type { StyleRecipe } from "./model";
+import type { StyleColor, StyleRecipe } from "./model";
 import type { StyleRow } from "./generation";
 import { canvasLabel } from "../structures/canvasGrid";
+
+export function stylePreviewFamily(color: StyleColor, selected?: string) {
+  if (color.kind !== "families") return undefined;
+  return selected && color.familyIds.includes(selected)
+    ? selected
+    : color.familyIds[0];
+}
+
+export function stylePreviewColors(
+  rows: StyleRow[],
+  color: StyleColor,
+  selection: {
+    optionIds: readonly string[];
+    familyId?: string;
+    outputId?: string;
+    permutations?: boolean;
+  },
+) {
+  const familyId = stylePreviewFamily(color, selection.familyId);
+  return rows.filter(
+    (row) =>
+      row.property === "color" &&
+      (selection.permutations ||
+        (row.outputId === selection.outputId &&
+          row.optionIds.every((id) => selection.optionIds.includes(id)) &&
+          (!row.familyId || row.familyId === familyId))),
+  );
+}
 
 export function styleVariantLabel(
   recipe: StyleRecipe,

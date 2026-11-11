@@ -6,13 +6,14 @@ import type { StyleRow } from "../../features/styles/generation";
 import type { RgbGamut } from "../../features/color-system/colorMath";
 import { useIconSample } from "../../features/icons/useIconSample";
 import type { SpectrumIconName } from "../../features/icons/spectrumIconCatalog.generated";
+import { styleSampleIcon } from "../../features/styles/iconPreview";
 
 export function StyleSample({
   recipe,
   rows,
   surface,
   gamut,
-  icon = "Star",
+  icon,
   label,
   large = false,
   sampleText,
@@ -26,7 +27,10 @@ export function StyleSample({
   large?: boolean;
   sampleText?: string;
 }) {
-  const sample = useIconSample(icon, recipe.kind === "icon");
+  const sample = useIconSample(
+    styleSampleIcon(recipe, icon),
+    recipe.kind === "icon",
+  );
   let preview: ReturnType<typeof stylePreview>;
   try {
     preview = stylePreview(recipe, rows, surface, gamut);
