@@ -421,6 +421,9 @@
       "part": "item",
       "property": "maximum-width"
     },
+    "context": "Width (maximum)",
+    "contextRole": ["width"],
+    "contextQualifier": "maximum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "265px",
     "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de",

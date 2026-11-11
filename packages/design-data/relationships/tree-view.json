@@ -738,6 +738,9 @@
         "object": "background"
       }
     },
+    "context": "Background (not selected)",
+    "contextRole": ["background"],
+    "contextQualifier": "not selected",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
     "uuid": "39d26185-da40-47b5-b4b3-e47689129256",
@@ -1383,6 +1386,9 @@
         "emphasis": "emphasized"
       }
     },
+    "context": "Background (selected, emphasized)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected, emphasized",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d31772fd-95f3-413d-ab20-826033d71938",
