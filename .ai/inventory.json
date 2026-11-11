@@ -251,7 +251,7 @@
       "lifecycle": "active",
       "published": true,
       "llms": true,
-      "summary": "Claude Code skill for querying Spectrum design data through the CLI."
+      "summary": "Read-only Spectrum lookup plugin: a skill plus the bundled design-data MCP server."
     },
     {
       "path": "tools/diff-generator",
