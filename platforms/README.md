@@ -201,8 +201,13 @@ Not settled yet; see the spec for the full list.
 | `react-spectrum` | React Spectrum          | Incubating                  |
 | `web-components` | Spectrum Web Components | Incubating                  |
 | `ios`            | Monorepo maintainers    | Incubating proof of concept |
+| `rune`           | GarthDB / spectrum-rune | Team-owned (reference)      |
 
 The React Spectrum and Web Components teams have not been asked to take
 ownership yet. These manifests exercise the cascade against their different
 outputs (JS token exports and `--spectrum-*` CSS custom properties) before
 either team is asked to adopt it.
+
+`rune` is the first platform whose manifest lives in its own repo
+([`GarthDB/spectrum-rune`](https://github.com/GarthDB/spectrum-rune)); it has no
+directory here and is registered as a remote `[platforms.rune]` entry.
