@@ -1305,7 +1305,7 @@ fn run_suggest_context(
         .iter()
         .filter_map(|r| r.raw.get("scope")?.get("component")?.as_str())
         .collect();
-    for c in components.iter().filter(|c| !known.contains(c.as_str())) {
+    if let Some(c) = components.iter().find(|c| !known.contains(c.as_str())) {
         return Err(miette::miette!(
             "no relationship records for component '{c}'"
         ));
