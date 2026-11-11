@@ -237,6 +237,21 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
     },
+    /// Propose contexts for live relationship records that have none (SPEC-092), into a review file
+    SuggestContext {
+        /// Components to suggest for; default is every component with a flagged record
+        #[arg(value_name = "COMPONENT")]
+        components: Vec<String>,
+        /// Review file to write (JSON). Refused inside the dataset; the dataset is never written
+        #[arg(long, value_name = "FILE")]
+        out: PathBuf,
+        /// Leave out the typography components (heading, detail, body, title, code)
+        #[arg(long)]
+        exclude_typography: bool,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+    },
     /// Render a component from its visual recipe to SVG (draft)
     Render {
         /// Component name (e.g. action-button)
@@ -1235,6 +1250,85 @@ fn run_anatomy_suggest(
             "{}",
             design_data_core::anatomy_suggest::to_markdown(&suggestions)
         );
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Write the context review file and print its counts and the agreement table.
+fn run_suggest_context(
+    components: Vec<String>,
+    out: PathBuf,
+    exclude_typography: bool,
+    path: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let (graph, _, _) = load_visual_env(path.clone(), None, false)?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: path,
+        ..Default::default()
+    })?;
+    if let (Some(rels), Ok(target)) = (resolved.relationships.as_deref(), std::path::absolute(&out))
+    {
+        if let Ok(rels) = rels.canonicalize() {
+            let dataset = rels.parent().unwrap_or(&rels);
+            if target.starts_with(dataset) {
+                return Err(miette::miette!(
+                    "refusing to write the review file inside the dataset ({}); choose another path",
+                    dataset.display()
+                ));
+            }
+        }
+    }
+    let review = design_data_core::context_suggest::review(&graph, &components, exclude_typography);
+    std::fs::write(
+        &out,
+        serde_json::to_string_pretty(&review).into_diagnostic()? + "\n",
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to write {}", out.display()))?;
+    let s = &review.summary;
+    println!(
+        "{} flagged, {} proposed, {} without a proposal -> {}",
+        s.flagged_records,
+        s.proposed,
+        s.unproposed,
+        out.display()
+    );
+    for (tier, n) in &s.by_tier {
+        println!("  {tier}: {n}");
+    }
+    let q = &review.quality;
+    println!(
+        "\nAgreement with {} human contexts (own context hidden):",
+        q.records
+    );
+    println!("  tier       applicable  exact  main word");
+    for (name, a) in [
+        ("binding", &q.binding),
+        ("sibling", &q.sibling),
+        ("template", &q.template),
+        ("total", &q.total),
+    ] {
+        println!(
+            "  {name:<9} {:>10}  {:>4.0}%  {:>8.0}%",
+            a.applicable,
+            a.exact_rate() * 100.0,
+            a.main_word_rate() * 100.0
+        );
+    }
+    println!(
+        "\ntemplate tier by basis (needs {:.0}% main word):",
+        design_data_core::context_suggest::TEMPLATE_USABLE * 100.0
+    );
+    for (basis, a) in &q.template_by_basis {
+        println!(
+            "  {basis:<14} {:>5}  {:>4.0}%  {:>8.0}%",
+            a.applicable,
+            a.exact_rate() * 100.0,
+            a.main_word_rate() * 100.0
+        );
+    }
+    if !q.template_usable {
+        println!("template tier overall is below target; proposals from a basis below target are marked \"needs review\"");
     }
     Ok(ExitCode::SUCCESS)
 }
@@ -4284,6 +4378,12 @@ fn main() -> ExitCode {
             format,
             path,
         } => run_anatomy_suggest(components, format, path),
+        Commands::SuggestContext {
+            components,
+            out,
+            exclude_typography,
+            path,
+        } => run_suggest_context(components, out, exclude_typography, path),
         Commands::RenderCompare {
             scenes,
             measured,

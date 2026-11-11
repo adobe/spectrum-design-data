@@ -22,6 +22,7 @@ use std::collections::{HashMap, HashSet};
 
 use serde_json::Value;
 
+use crate::graph::RelationshipRecord;
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
@@ -44,48 +45,57 @@ impl ValidationRule for Rule {
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let rels = &ctx.graph.relationships;
-        let by_uuid: HashMap<&str, &Value> = rels
-            .iter()
-            .filter_map(|r| Some((r.uuid.as_deref()?, &r.raw)))
-            .collect();
-        let mut reached: HashSet<&str> = HashSet::new();
-        for rel in rels.iter().filter(|r| has_context(&r.raw)) {
-            let mut next = rel.raw.get("$ref").and_then(Value::as_str);
-            while let Some(uuid) = next {
-                if !by_uuid.contains_key(uuid) || !reached.insert(uuid) {
-                    break;
+        flagged(rels)
+            .into_iter()
+            .map(|i| {
+                let rel = &rels[i];
+                Diagnostic {
+                    file: rel.file.clone(),
+                    token: None,
+                    rule_id: Some(self.id().to_string()),
+                    severity: Severity::Warning,
+                    message: format!(
+                        "Relationship {} has no context and no contexted record references it; add a context so a recipe can bind it",
+                        rel.raw.get("scope").map(Value::to_string).unwrap_or_default()
+                    ),
+                    instance_path: Some(format!("/{}", rel.index)),
+                    schema_path: None,
                 }
-                next = by_uuid[uuid].get("$ref").and_then(Value::as_str);
+            })
+            .collect()
+    }
+}
+
+/// Positions in `rels` of the live records with no context that no contexted record reaches.
+pub fn flagged(rels: &[RelationshipRecord]) -> Vec<usize> {
+    let by_uuid: HashMap<&str, &Value> = rels
+        .iter()
+        .filter_map(|r| Some((r.uuid.as_deref()?, &r.raw)))
+        .collect();
+    let mut reached: HashSet<&str> = HashSet::new();
+    for rel in rels.iter().filter(|r| has_context(&r.raw)) {
+        let mut next = rel.raw.get("$ref").and_then(Value::as_str);
+        while let Some(uuid) = next {
+            if !by_uuid.contains_key(uuid) || !reached.insert(uuid) {
+                break;
             }
+            next = by_uuid[uuid].get("$ref").and_then(Value::as_str);
         }
-        let mut out = Vec::new();
-        for rel in rels {
+    }
+    rels.iter()
+        .enumerate()
+        .filter(|(_, rel)| {
             let raw = &rel.raw;
             let deprecated = raw
                 .get("lifecycle")
                 .and_then(|l| l.get("deprecatedIn"))
                 .is_some_and(|d| !d.is_null());
-            if deprecated
+            !(deprecated
                 || has_context(raw)
-                || rel.uuid.as_deref().is_some_and(|u| reached.contains(u))
-            {
-                continue;
-            }
-            out.push(Diagnostic {
-                file: rel.file.clone(),
-                token: None,
-                rule_id: Some(self.id().to_string()),
-                severity: Severity::Warning,
-                message: format!(
-                    "Relationship {} has no context and no contexted record references it; add a context so a recipe can bind it",
-                    raw.get("scope").map(Value::to_string).unwrap_or_default()
-                ),
-                instance_path: Some(format!("/{}", rel.index)),
-                schema_path: None,
-            });
-        }
-        out
-    }
+                || rel.uuid.as_deref().is_some_and(|u| reached.contains(u)))
+        })
+        .map(|(i, _)| i)
+        .collect()
 }
 
 #[cfg(test)]
