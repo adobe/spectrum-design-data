@@ -1266,17 +1266,49 @@ fn run_suggest_context(
         tokens_root: path,
         ..Default::default()
     })?;
-    if let (Some(rels), Ok(target)) = (resolved.relationships.as_deref(), std::path::absolute(&out))
-    {
-        if let Ok(rels) = rels.canonicalize() {
-            let dataset = rels.parent().unwrap_or(&rels);
-            if target.starts_with(dataset) {
-                return Err(miette::miette!(
-                    "refusing to write the review file inside the dataset ({}); choose another path",
-                    dataset.display()
-                ));
-            }
+    // Resolve symlinks and `..` in the real output location, and fail closed when the
+    // dataset location can't be resolved, so the file can never land in the dataset.
+    let target = match out.canonicalize() {
+        Ok(t) => t,
+        Err(_) => {
+            let parent = out
+                .parent()
+                .filter(|p| !p.as_os_str().is_empty())
+                .unwrap_or_else(|| std::path::Path::new("."))
+                .canonicalize()
+                .into_diagnostic()
+                .wrap_err("the directory for --out must exist")?;
+            parent.join(
+                out.file_name()
+                    .ok_or_else(|| miette::miette!("--out must name a file"))?,
+            )
         }
+    };
+    let mut dataset_dirs = vec![resolved.tokens_root.clone()];
+    if let Some(rels) = resolved.relationships.as_deref() {
+        dataset_dirs.push(rels.parent().unwrap_or(rels).to_path_buf());
+    }
+    for dir in dataset_dirs {
+        let dir = dir
+            .canonicalize()
+            .into_diagnostic()
+            .wrap_err_with(|| format!("cannot resolve dataset path {}", dir.display()))?;
+        if target.starts_with(&dir) {
+            return Err(miette::miette!(
+                "refusing to write the review file inside the dataset ({}); choose another path",
+                dir.display()
+            ));
+        }
+    }
+    let known: std::collections::BTreeSet<&str> = graph
+        .relationships
+        .iter()
+        .filter_map(|r| r.raw.get("scope")?.get("component")?.as_str())
+        .collect();
+    for c in components.iter().filter(|c| !known.contains(c.as_str())) {
+        return Err(miette::miette!(
+            "no relationship records for component '{c}'"
+        ));
     }
     let review = design_data_core::context_suggest::review(&graph, &components, exclude_typography);
     std::fs::write(
@@ -1298,7 +1330,7 @@ fn run_suggest_context(
     }
     let q = &review.quality;
     println!(
-        "\nAgreement with {} human contexts (own context hidden):",
+        "\nAgreement with {} human contexts, whole dataset (own context hidden):",
         q.records
     );
     println!("  tier       applicable  exact  main word");
