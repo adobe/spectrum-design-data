@@ -185,7 +185,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon (error and warning variants)",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "ad57f6f4-f87e-5fc6-9302-6c0dda544500"
   },
   {
@@ -194,7 +194,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon (error and warning variants)",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "8429edc7-72c8-56d6-aa83-53e43304fe66"
   },
   {

@@ -235,17 +235,15 @@
       "icon": { "set": "workflow", "name": "add", "content": true },
       "props": {
         "width": {
-          "token": {
-            "property": "size",
-            "anatomy": "workflow-icon",
-            "size": "{size}"
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
           }
         },
         "height": {
-          "token": {
-            "property": "size",
-            "anatomy": "workflow-icon",
-            "size": "{size}"
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
           }
         },
         "color": [
@@ -381,17 +379,15 @@
       },
       "props": {
         "width": {
-          "token": {
-            "property": "size",
-            "anatomy": "workflow-icon",
-            "size": "{size}"
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
           }
         },
         "height": {
-          "token": {
-            "property": "size",
-            "anatomy": "workflow-icon",
-            "size": "{size}"
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
           }
         },
         "trackColor": {
