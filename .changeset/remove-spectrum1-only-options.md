@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Remove two options that exist only in Spectrum 1, not in any current design or code source.
