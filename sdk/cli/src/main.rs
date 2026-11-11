@@ -21,6 +21,7 @@ mod doctor;
 mod format;
 mod lifecycle;
 mod render_batch;
+mod resolve_values;
 mod spec_sheet;
 
 use std::collections::{HashMap, HashSet};
@@ -5360,6 +5361,7 @@ fn main() -> ExitCode {
             release,
             tags,
         }),
+        Commands::ResolveValues => resolve_values::run(),
         Commands::Resolve {
             property,
             path,
