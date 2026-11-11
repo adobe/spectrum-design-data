@@ -151,6 +151,23 @@
           "metadata": {"count":18,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Note: desktop 8px, mobile 10px; This applies to icon, avatar, and thumbnail."],"scope":{"property":"space-between","options":null},"record":"e8f3e949-ca0a-5139-a6a2-202d76483d1c","name":"space-between","fields":[{"path":"context","before":"Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.","after":"Note: desktop 8px, mobile 10px; This applies to icon, avatar, and thumbnail."}]}
+          ]
+        }
+      ]
     }
   ]
 }

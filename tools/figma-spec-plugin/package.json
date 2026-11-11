@@ -1,6 +1,6 @@
 {
   "name": "figma-spec-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Figma plugin: renders a component spec sheet (design-data spec-sheet JSON) and its changelog onto the canvas, idempotently.",
   "private": true,
   "engines": {

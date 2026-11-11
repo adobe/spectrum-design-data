@@ -117,6 +117,24 @@
           "metadata": {"count":7,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border (selected)"],"scope":{"property":"border-width","options":null},"record":"81ee3be1-82c5-59fa-b47d-5ef570751637","name":"border-width","fields":[{"path":"context","before":"Border (Selected)","after":"Border (selected)"}]},
+            {"id":"7515f705-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border (selected)"],"scope":{"property":"thickness","options":null},"record":"c0dcf46a-f713-5fda-89df-5e82cda2dbe0","name":"thickness","fields":[{"path":"context","before":"Border (Selected)","after":"Border (selected)"}]}
+          ]
+        }
+      ]
     }
   ]
 }
