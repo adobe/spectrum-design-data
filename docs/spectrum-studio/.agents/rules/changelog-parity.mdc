@@ -20,9 +20,13 @@ Before implementing a feature that adds, removes, or changes design data:
   presentation/evaluation samples as canonical token concepts.
 - Declare stable field/context identities, truthful generated/manual classification,
   typed previews, source dependencies, availability, and reset capabilities.
-- Source resets must preserve unrelated edits and use validated lifecycle owners.
+- Ordinary scoped source resets must preserve unrelated edits and use validated lifecycle owners.
   Generated resets require explicit supported override or upstream selection.
   Never guess a source, bypass a formula lock, or add an unsupported semantic override.
+- Incompatible browser state after development changes follows `AGENTS.md`,
+  Working rule 7: reset Studio-owned state to current shipped defaults without
+  asking to preserve local edits. This does not replace Changes parity or
+  ordinary scoped-reset guarantees.
 - Missing or invalid output is unavailable, not zero; keep known source comparisons
   visible. Do not silently reduce a percentage denominator.
 - Add tests for field mutations, additions/removals, exact counts and percentages,

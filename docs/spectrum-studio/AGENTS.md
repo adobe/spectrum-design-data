@@ -82,7 +82,7 @@ Do this once per goal, not at the start of every session. If the contributor's r
 - The app must start, load, render, and stay fully editable however its data differs from design-data. In `pnpm dev`, nothing may refuse to load or disable editing because of divergence.
 - Report a difference as an issue the user can see (what, where, severity, suggested fix). Do not report it with a thrown error, a disabled control, or a blank view.
 - Do not add `throw` or `assert*` calls that run at module load, or on stored or authored data, because of differences from the reference. Reference-derived checks belong in tests and scripts, which may fail. Unreadable data (for example corrupt JSON) may fall back to defaults only if the app says what was set aside.
-- Existing module-load asserts on shipped data (`src/data/defaults.ts`, `src/features/taxonomy/standardContract.ts`) check the app's own integrity, not the reference. They predate this rule; do not copy that pattern for reference differences. Browser storage is temporary during development: do not build backup or recovery for it. `src/features/edit-session/storage.ts` still blocks saving after a failed restore until Reset all; do not change it without the user's approval.
+- Existing module-load asserts on shipped data (`src/data/defaults.ts`, `src/features/taxonomy/standardContract.ts`) check the app's own integrity, not the reference. They predate this rule; do not copy that pattern for reference differences. Browser storage is temporary during development; follow Working rule 7 for incompatible development changes. Unrelated restore failures still use the existing error handling and save guard.
 - Classify new or changed data against design-data: **New** (app only; an upstream candidate, never a blocker), **Missing** (reference has it, app does not; a delta to close), **Inconsistent** (both have it and it differs; fix it or record it as an intentional policy), or **Aligned**. Link or add the gap entry as described in Cross-component validation below.
 - Lint and build gates for design-data alignment belong in the parent design-data repository later. Do not add them here.
 
@@ -124,6 +124,14 @@ After finishing a feature, check whether it introduced a new pattern, component,
 - Commit only after explicit approval. Plan approval, implementation approval, silence, or an unavailable user is not commit approval. If the user declines or cannot respond, leave changes uncommitted and record that outcome in the final plan task and handoff.
 - A prompt-tool call is not proof that the user saw a prompt. If the host returns without collecting a choice, report that approval could not be collected and leave changes uncommitted. Do not claim the user declined, ignored, or failed to answer a prompt without evidence.
 - Approval covers only the completed task's changes. Inspect the diff and staging area, exclude unrelated user work, and follow the repository's commit conventions. It does not authorize pushing, opening a pull request, amending commits, or changing branches.
+
+### 7. Browser data during development
+
+- Treat Studio's local browser data as disposable development state. When an enhancement changes the schema, data model or defaults enough that existing browser state becomes incompatible, causes errors or prevents the updated defaults from working correctly, default to resetting it to the current shipped defaults.
+- Reset Studio-owned local browser settings and working/saved snapshots together. This reset may silently discard local edits: do not ask whether to preserve, migrate, merge or retroactively update them. Use the existing storage-version, restore and Reset all paths rather than creating a parallel reset mechanism.
+- Do not build migrations, backups, recovery flows or compatibility scaffolding solely to preserve local browser edits during development. Add preservation only when the user explicitly requests it or approves a demonstrated need.
+- Do not reset for ordinary compatible edits or reloads. Normal Save/Cancel, Changes, scoped resets and identity guarantees still apply. Reference-data differences and unrelated restore or authoring errors are not reset triggers.
+- Limit the reset to Studio-owned browser state. Never erase unrelated storage, repository data, exported files or other projects. This policy does not authorize browser testing.
 
 ## Roadmap alignment (IMPORTANT)
 
