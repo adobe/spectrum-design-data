@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-wasm": patch
 ---
 
 Normalize relationship context strings: trim stray whitespace and merge case
