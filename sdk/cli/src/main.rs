@@ -1268,6 +1268,15 @@ fn run_suggest_context(
     })?;
     // Resolve symlinks and `..` in the real output location, and fail closed when the
     // dataset location can't be resolved, so the file can never land in the dataset.
+    if out
+        .symlink_metadata()
+        .is_ok_and(|m| m.file_type().is_symlink())
+    {
+        return Err(miette::miette!(
+            "--out must not be a symlink ({}); the write would follow it",
+            out.display()
+        ));
+    }
     let target = match out.canonicalize() {
         Ok(t) => t,
         Err(_) => {
