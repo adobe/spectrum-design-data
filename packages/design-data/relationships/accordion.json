@@ -191,38 +191,11 @@
   {
     "scope": {
       "component": "accordion",
-      "property": "top-to-text-compact-small"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "09503d78-b4fc-5bc8-a0e6-c010419a56bd"
-  },
-  {
-    "scope": {
-      "component": "accordion",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "ee88f37b-99e7-54da-9ca2-0a4e68a3d687"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-spacious-small"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "b67b64c9-a098-5744-8fab-4ae9fa1a2d5a"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-compact-medium"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "b65e1df7-9fd5-582d-ba87-0d03915760c6"
   },
   {
     "scope": {
@@ -236,47 +209,11 @@
   {
     "scope": {
       "component": "accordion",
-      "property": "top-to-text-spacious-medium"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "5e9a0383-7e31-536e-9ad3-519c60fcda27"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-compact-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "6a4b5ae9-6ba7-5e7d-b3ea-b2c68398b23d"
-  },
-  {
-    "scope": {
-      "component": "accordion",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "561702fa-3c47-55e8-b203-5742bc84ce84"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-spacious-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
-    "uuid": "099e1eec-721a-5eb6-92e2-afab0e8c4862"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-compact-extra-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "75e5b1ac-d73d-50ca-a439-887767375da0"
   },
   {
     "scope": {
@@ -290,47 +227,11 @@
   {
     "scope": {
       "component": "accordion",
-      "property": "top-to-text-spacious-extra-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "3185ad9c-8e5a-4bef-a4db-5ee159ef1b0e",
-    "uuid": "d983176c-4b84-572e-9024-9a15b31b80fc"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-compact-small"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "dde24022-9ead-5f71-bb77-f129ca05e972"
-  },
-  {
-    "scope": {
-      "component": "accordion",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "68c49072-f313-5450-859e-0d2fa82c1a07"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-spacious-small"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "7d9ce3b0-d95c-55ed-83b6-1420cfa44a25"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-compact-medium"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "21739d1b-5719-52da-8f54-7f3a31cb3891"
   },
   {
     "scope": {
@@ -344,24 +245,6 @@
   {
     "scope": {
       "component": "accordion",
-      "property": "bottom-to-text-spacious-medium"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "8d407430-b500-58ba-9681-3a5a05ed91db"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-compact-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "cb20ac22-edb9-5831-9aea-e7d0aaacc174"
-  },
-  {
-    "scope": {
-      "component": "accordion",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
@@ -371,38 +254,11 @@
   {
     "scope": {
       "component": "accordion",
-      "property": "bottom-to-text-spacious-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
-    "uuid": "661915ef-25bd-51ff-9606-431123f3d8e3"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-compact-extra-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "a095676b-73dc-56a3-827b-9c008468f675"
-  },
-  {
-    "scope": {
-      "component": "accordion",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
     "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
     "uuid": "4a8ac717-fb28-5355-b262-c8ba40c1e1c2"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-spacious-extra-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "3185ad9c-8e5a-4bef-a4db-5ee159ef1b0e",
-    "uuid": "0988c8e4-e8b2-5e7b-b76d-e0b3abed227c"
   },
   {
     "scope": {
@@ -862,78 +718,6 @@
     "context": "Value",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "d203de0c-4659-592f-bf4f-a368edc1f182"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-regular-small"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "4f6e49d2-9ab8-4548-aae4-eed45a4003b9",
-    "uuid": "33b31591-409e-5500-8082-5442e5a1fa2d"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-regular-small"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "d64620dc-dd4a-447a-8491-d9e144ec8828",
-    "uuid": "8bc64569-c929-52e5-9609-acdd298ac307"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-regular-medium"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "48db5aeb-6752-4267-89c7-48ed84692ec8",
-    "uuid": "6a268816-3543-597e-a7c0-374618445f0f"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-regular-medium"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "2d6fa243-5f7e-41a8-840b-27a6432f54bc",
-    "uuid": "5d93f55c-799d-5d98-9f24-781e4b84ce00"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-regular-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "2021d787-ddaa-470a-a25d-8a57f67b7359",
-    "uuid": "b6730af7-40a2-5ead-9b64-8286b1056faa"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-regular-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "f484838e-1f0c-4125-9298-beb4ddc0fd53",
-    "uuid": "45cd4331-14f4-5833-a92d-b19a8e7613ee"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "top-to-text-regular-extra-large"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "9289aae4-ddaa-4a43-8f00-973dea8350f2",
-    "uuid": "907c244d-a271-56e8-bde2-3c8d60a7764c"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "property": "bottom-to-text-regular-extra-large"
-    },
-    "context": "Spacing (bottom edge to text)",
-    "$ref": "8c199212-a745-414c-8f6b-22d2445ade3c",
-    "uuid": "52149ba6-da39-5404-97e9-5a1dc7455494"
   },
   {
     "scope": {
