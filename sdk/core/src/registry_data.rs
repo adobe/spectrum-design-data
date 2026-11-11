@@ -3554,7 +3554,7 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
       "id": "pagination",
       "label": "Pagination",
       "description": "Pagination and breadcrumb items",
-      "aliases": ["breadcrumb item", "breadcrumb items"]
+      "aliases": ["breadcrumb items"]
     },
     {
       "id": "navigation",
@@ -3563,9 +3563,74 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
       "aliases": [
         "side navigation indicator",
         "tab items",
-        "section title and chevron",
-        "navigation item"
+        "section title and chevron"
       ]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper",
+      "description": "Drag handle used to move or resize a panel or item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "section-header",
+      "label": "Section header",
+      "description": "Heading row that introduces a group of items in a list or menu",
+      "relatedTerms": ["label", "layout"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Indicator or highlight showing that something is chosen",
+      "relatedTerms": ["control", "state"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Thumbnail or sample of content shown inside a component",
+      "relatedTerms": ["illustration"]
+    },
+    {
+      "id": "tab-item",
+      "label": "Tab item",
+      "description": "One tab in a tab strip",
+      "category": "item",
+      "relatedTerms": ["navigation", "control"]
+    },
+    {
+      "id": "breadcrumb-item",
+      "label": "Breadcrumb item",
+      "description": "One crumb in a breadcrumb trail",
+      "category": "item",
+      "relatedTerms": ["pagination"]
+    },
+    {
+      "id": "navigation-item",
+      "label": "Navigation item",
+      "description": "One entry in a navigation list",
+      "category": "item",
+      "relatedTerms": ["navigation"]
+    },
+    {
+      "id": "menu-item",
+      "label": "Menu item",
+      "description": "One entry in a menu",
+      "category": "item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "list-view-item",
+      "label": "List view item",
+      "description": "One row in a list view",
+      "category": "item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "tree-view-item",
+      "label": "Tree view item",
+      "description": "One node in a tree view",
+      "category": "item",
+      "relatedTerms": ["control"]
     }
   ]
 }

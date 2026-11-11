@@ -40,6 +40,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-082` | SPEC-082 | A platform manifest fails to apply (error).                              |
 | `invalid/SPEC-083` | SPEC-083 | A recipe part binds a prop the renderer does not read (warning).         |
 | `invalid/SPEC-090` | SPEC-090 | Structured context fields disagree with the `context` string (warning).  |
+| `valid/SPEC-090`   | SPEC-090 | Alias strings and compound main words agree with their canonical roles.  |
 | `invalid/SPEC-091` | SPEC-091 | Context main word is not in the registry (warning).                      |
 | `invalid/SPEC-092` | SPEC-092 | Live record has no context and no contexted record reaches it (warning). |
 
