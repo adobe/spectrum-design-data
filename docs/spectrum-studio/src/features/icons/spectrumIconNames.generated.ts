@@ -112,6 +112,7 @@ export const spectrumIconNames = [
   "CropRotate",
   "CursorClick",
   "Cut",
+  "Dash",
   "Data",
   "DataAdd",
   "DataRefresh",
