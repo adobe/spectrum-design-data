@@ -137,7 +137,8 @@ export function IconSamplePicker({
         onSelectionChange={(key) => {
           if (
             typeof key === "string" &&
-            Object.hasOwn(spectrumIconLoaders, key)
+            Object.hasOwn(spectrumIconLoaders, key) &&
+            (!allowedIcons || allowedIcons.some((name) => name === key))
           ) {
             onChange(key as SpectrumIconName);
           }

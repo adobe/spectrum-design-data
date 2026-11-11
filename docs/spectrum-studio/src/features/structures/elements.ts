@@ -103,6 +103,8 @@ export const UI_GLYPHS = [
   "Checkmark",
   "Close",
   "DragHandle",
+  "Add",
+  "Dash",
 ] as const;
 export const elementSlots = (kind: ElementKind): readonly ElementSlot[] =>
   ELEMENT_TYPES[kind].slots;
