@@ -31,7 +31,7 @@
       "component": "tag-group",
       "property": "to-component"
     },
-    "context": "Spacing (Text area to Help text)",
+    "context": "Spacing (text area to help text)",
     "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
     "uuid": "a5e1ed44-3aa9-5723-8934-47d01107e606"
   }

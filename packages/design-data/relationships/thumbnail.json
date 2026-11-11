@@ -247,7 +247,7 @@
       "component": "thumbnail",
       "property": "color"
     },
-    "context": "Border ",
+    "context": "Border",
     "$ref": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9",
     "uuid": "5a4e7f82-747b-5dab-99df-1547463645a1"
   },
@@ -256,7 +256,7 @@
       "component": "thumbnail",
       "property": "opacity"
     },
-    "context": "Border ",
+    "context": "Border",
     "$ref": "58bd04e9-5b85-44d8-8474-96e157701070",
     "uuid": "081a049c-4dac-5fb0-81a7-9a88b5ef2e5d"
   },
@@ -265,7 +265,7 @@
       "component": "thumbnail",
       "property": "square-light"
     },
-    "context": "Checkerboard Colors ",
+    "context": "Checkerboard colors",
     "$ref": "c7e50676-3f61-49c3-a35f-2532fdb02360",
     "uuid": "b2beb086-9d50-5a9a-934b-63b0fe312fc1"
   },
@@ -274,7 +274,7 @@
       "component": "thumbnail",
       "property": "square-dark"
     },
-    "context": "Checkerboard Colors ",
+    "context": "Checkerboard colors",
     "$ref": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761",
     "uuid": "0ffa3d6b-70bf-5b63-9500-e5de1c617891"
   },
@@ -283,7 +283,7 @@
       "component": "thumbnail",
       "property": "square-dark"
     },
-    "context": "Checkerboard Colors ",
+    "context": "Checkerboard colors",
     "$ref": "f783b8cb-d31f-46c2-b550-990639752510",
     "uuid": "cb88cce2-9155-5dd7-84f9-8c4dd7a7163d"
   },
@@ -292,7 +292,7 @@
       "component": "thumbnail",
       "property": "square-dark"
     },
-    "context": "Checkerboard Colors ",
+    "context": "Checkerboard colors",
     "$ref": "35fcf7b1-7140-4522-8410-48547aaf6fd6",
     "uuid": "09475aee-0de6-5d1f-8e58-98e694bd6cf8"
   },
