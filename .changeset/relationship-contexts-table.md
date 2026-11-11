@@ -9,7 +9,10 @@ records that had none, and rename three existing ones.
 - 15 row heights reuse `Row height (minimum, <density> density)`; a record with
   no `density` option is regular. 6 section-header heights reuse
   `Section header row height`.
-- 3 selected-row backgrounds get `Background (selected row, highlight
-  selection)` and its hover variant. The three existing records drop the `S1 `
-  prefix and take the same strings, because highlight selection is live in S2.
+- The 3 existing `S1 Selected row background (highlight selection)` records
+  (accent tint, 0.1 and 0.15 opacity) drop the `S1 ` prefix and become
+  `Background (selected row, highlight selection)` and its hover variant.
+- The 3 non-emphasized selected-row backgrounds (neutral color) are a different
+  relationship and get `Background (selected row, non-emphasized)` and its hover
+  variant.
 - Lowers the `table` SPEC-091 and SPEC-092 baselines.
