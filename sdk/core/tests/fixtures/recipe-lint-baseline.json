@@ -30,7 +30,7 @@
     "rating": 1,
     "select-box": 2,
     "side-navigation": 8,
-    "table": 22,
+    "table": 19,
     "title": 1,
     "toast": 3
   },
@@ -48,7 +48,6 @@
     "picker": 1,
     "popover": 3,
     "stack-item": 6,
-    "standard-panel": 6,
-    "table": 24
+    "standard-panel": 6
   }
 }
