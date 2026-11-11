@@ -369,3 +369,79 @@ test("design-data-component-search finds a component by name and by text", async
     "query",
   ]);
 });
+
+// ── query / resolve / primer behavior ────────────────────────────────────────
+
+const byName = () =>
+  Object.fromEntries(createDesignDataTools().map((tool) => [tool.name, tool]));
+
+test("design-data-query component=button returns tokens bound to the component", async (t) => {
+  const results = await byName()["design-data-query"].handler({
+    filter: "component=button",
+  });
+  t.true(results.length > 0);
+  const narrowed = await byName()["design-data-query"].handler({
+    filter: "component=button,state=hover",
+  });
+  t.true(narrowed.length > 0);
+  t.true(narrowed.length < results.length);
+});
+
+test("design-data-query description lists only filterable fields", (t) => {
+  const { description } = byName()["design-data-query"];
+  t.regex(description, /component=button/);
+  t.notRegex(description, /property=color-\*/);
+});
+
+test("design-data-resolve with a component narrows candidateCount", async (t) => {
+  const resolve = byName()["design-data-resolve"];
+  const wide = await resolve.handler({ property: "color" });
+  const narrow = await resolve.handler({
+    property: "color",
+    component: "button",
+  });
+  t.true(narrow.candidateCount > 0);
+  t.true(narrow.candidateCount < wide.candidateCount);
+  t.true(
+    Object.keys(resolve.inputSchema.properties).includes("component") &&
+      Object.keys(resolve.inputSchema.properties).includes("variant") &&
+      Object.keys(resolve.inputSchema.properties).includes("state"),
+  );
+});
+
+test("design-data-resolve rejects when narrowing matches nothing", async (t) => {
+  await t.throwsAsync(
+    () =>
+      byName()["design-data-resolve"].handler({
+        property: "background-color",
+        component: "no-such-component",
+      }),
+    { message: /with narrowing/ },
+  );
+});
+
+test("design-data-resolve does not pick a deprecated token when an active one matches", async (t) => {
+  const resolve = byName()["design-data-resolve"];
+  // `size` has 112 deprecated and 28 active tokens.
+  const result = await resolve.handler({ property: "size" });
+  t.false(result.deprecated);
+  const strict = await resolve.handler({
+    property: "size",
+    excludeDeprecated: true,
+  });
+  t.false(strict.deprecated);
+  t.true(strict.candidateCount < result.candidateCount);
+  // Every background-color token is deprecated: the pick is flagged, not hidden.
+  const onlyDeprecated = await resolve.handler({
+    property: "background-color",
+    colorScheme: "dark",
+  });
+  t.true(onlyDeprecated.deprecated);
+});
+
+test("design-data-primer reports mode-set modes", async (t) => {
+  const { modeSets } = await byName()["design-data-primer"].handler({});
+  t.true(modeSets.colorScheme.includes("dark"));
+  t.true(modeSets.scale.includes("mobile"));
+  t.true(modeSets.contrast.includes("high"));
+});

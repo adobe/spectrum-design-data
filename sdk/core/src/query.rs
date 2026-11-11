@@ -36,14 +36,14 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
 /// Return the list of filter keys that are meaningfully supported in the
 /// embedded dataset.
 ///
-/// `component` remains accepted by the parser for compatibility, but it is not
-/// included here because the dataset does not reliably populate that name-object
-/// field for end-user queries. The public contract should steer callers to
-/// `describe_component`/`tokenBindings` instead of advertising `component` as a
-/// dependable indexed filter key.
+/// `component` is included: few tokens carry `name.component`, so it is also
+/// matched through Component/Token Relationship (CTR) entries — a token belongs
+/// to a component when a CTR scoped to that component `$ref`s its `uuid` or
+/// `conceptId` (see [`ComponentBindings`]).
 pub fn indexed_fields() -> &'static [&'static str] {
     &[
         "property",
+        "component",
         "variant",
         "state",
         "colorScheme",
@@ -204,22 +204,25 @@ fn validate_key(key: &str) -> Result<(), CoreError> {
 /// Returns references to matching `TokenRecord`s, sorted by name for
 /// deterministic output.
 pub fn filter<'a>(graph: &'a TokenGraph, expr: &TokenFilter) -> Vec<&'a TokenRecord> {
+    let bindings = ComponentBindings::build(graph);
     let mut results: Vec<&TokenRecord> = graph
         .tokens
         .values()
-        .filter(|t| matches_expr(&t.raw, &expr.expr))
+        .filter(|t| matches_expr(&t.raw, &expr.expr, &bindings))
         .collect();
     results.sort_by(|a, b| a.name.cmp(&b.name));
     results
 }
 
 /// Evaluate a filter expression against a token's raw JSON.
-fn matches_expr(raw: &serde_json::Value, expr: &FilterExpr) -> bool {
+fn matches_expr(raw: &serde_json::Value, expr: &FilterExpr, bindings: &ComponentBindings) -> bool {
     match expr {
         FilterExpr::All => true,
-        FilterExpr::Or(alternatives) => alternatives
-            .iter()
-            .any(|and_group| and_group.iter().all(|cond| matches_condition(raw, cond))),
+        FilterExpr::Or(alternatives) => alternatives.iter().any(|and_group| {
+            and_group
+                .iter()
+                .all(|cond| matches_condition(raw, cond, bindings))
+        }),
     }
 }
 
@@ -229,13 +232,63 @@ fn matches_expr(raw: &serde_json::Value, expr: &FilterExpr) -> bool {
 /// ordered array), so `Eq` matches if *any* value matches, and `NotEq` matches
 /// if *no* value matches — this is also correct for the single-value case, and
 /// for a missing field (empty list): `Eq` → false, `NotEq` → true.
-fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
-    let values = resolve_key(raw, &cond.key);
+fn matches_condition(
+    raw: &serde_json::Value,
+    cond: &Condition,
+    bindings: &ComponentBindings,
+) -> bool {
+    let values = if cond.key == "component" {
+        bindings.components(raw)
+    } else {
+        resolve_key(raw, &cond.key)
+    };
     let any_match = values.iter().any(|v| glob_match(&cond.value, v));
 
     match cond.op {
         Operator::Eq => any_match,
         Operator::NotEq => !any_match,
+    }
+}
+
+/// Token → component membership derived from Component/Token Relationship
+/// entries: each CTR scoped to a component and carrying a `$ref` binds that
+/// component to the referenced token `uuid` or `conceptId`.
+#[derive(Debug, Default)]
+pub struct ComponentBindings(HashMap<String, Vec<String>>);
+
+impl ComponentBindings {
+    pub fn build(graph: &TokenGraph) -> Self {
+        let mut map: HashMap<String, Vec<String>> = HashMap::new();
+        for rel in &graph.relationships {
+            let component = rel.raw.pointer("/scope/component").and_then(|v| v.as_str());
+            let target = rel.raw.get("$ref").and_then(|v| v.as_str());
+            if let (Some(component), Some(target)) = (component, target) {
+                let entry = map.entry(target.to_string()).or_default();
+                if !entry.iter().any(|c| c == component) {
+                    entry.push(component.to_string());
+                }
+            }
+        }
+        Self(map)
+    }
+
+    /// Components a token belongs to: its own `name.component` plus CTR bindings.
+    pub fn components(&self, raw: &serde_json::Value) -> Vec<String> {
+        let mut out = resolve_key(raw, "component");
+        for key in ["uuid", "conceptId"] {
+            if let Some(extra) = raw
+                .get(key)
+                .and_then(|v| v.as_str())
+                .and_then(|id| self.0.get(id))
+            {
+                out.extend(extra.iter().cloned());
+            }
+        }
+        out
+    }
+
+    pub fn matches(&self, raw: &serde_json::Value, pattern: &str) -> bool {
+        self.components(raw).iter().any(|c| glob_match(pattern, c))
     }
 }
 
@@ -427,7 +480,11 @@ pub fn filter_with_index<'a>(
     index: &TokenIndex,
     expr: &TokenFilter,
 ) -> Vec<&'a TokenRecord> {
-    if let Some((key, value)) = expr.single_equality() {
+    // `component` also matches through CTR bindings, which the index does not hold.
+    let single = expr
+        .single_equality()
+        .filter(|(key, _)| *key != "component");
+    if let Some((key, value)) = single {
         if let Some(graph_keys) = index.lookup(key, value) {
             let mut results: Vec<&TokenRecord> = graph_keys
                 .iter()
@@ -550,11 +607,11 @@ mod tests {
             "uuid",
             "$schema",
         ];
-        assert_eq!(fields.len(), expected.len());
+        assert_eq!(fields.len(), expected.len() + 1);
         for key in &expected {
             assert!(fields.contains(key), "indexed_fields missing key: {key}");
         }
-        assert!(!fields.contains(&"component"));
+        assert!(fields.contains(&"component"));
     }
 
     // ── Parser tests ────────────────────────────────────────────────────
@@ -690,6 +747,54 @@ mod tests {
         let results = filter(&g, &f);
         assert_eq!(results.len(), 1);
         assert_eq!(results[0].raw["name"]["component"], "button");
+    }
+
+    #[test]
+    fn filter_component_matches_ctr_bindings() {
+        use crate::graph::RelationshipRecord;
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "bound".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg"}, "value": "1", "uuid": "u-1"}),
+            ),
+            (
+                "bound-by-concept".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg"}, "value": "2", "uuid": "u-2", "conceptId": "c-2"}),
+            ),
+            (
+                "unbound".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg"}, "value": "3", "uuid": "u-3"}),
+            ),
+        ])
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/button.json"),
+                index: 0,
+                uuid: None,
+                raw: json!({"scope": {"component": "button"}, "$ref": "u-1"}),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/button.json"),
+                index: 1,
+                uuid: None,
+                raw: json!({"scope": {"component": "button"}, "$ref": "c-2"}),
+            },
+        ]);
+        let names = |expr: &str| -> Vec<String> {
+            filter(&g, &parse(expr).unwrap())
+                .iter()
+                .map(|t| t.name.clone())
+                .collect()
+        };
+        assert_eq!(names("component=button"), vec!["bound", "bound-by-concept"]);
+        assert_eq!(names("component=checkbox"), Vec::<String>::new());
+        assert_eq!(names("component!=button"), vec!["unbound"]);
+        let index = TokenIndex::build(&g);
+        let via_index = filter_with_index(&g, &index, &parse("component=button").unwrap());
+        assert_eq!(via_index.len(), 2);
     }
 
     #[test]
