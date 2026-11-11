@@ -32,7 +32,7 @@
       "property": "component-height-100"
     },
     "context": "Column header row height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "da960b8c-e7d2-5e6d-a30e-8e84d8cc894a"
   },
   {
@@ -41,7 +41,7 @@
       "property": "component-height-100"
     },
     "context": "Column header row height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "c53e5a2e-e02e-50f9-8506-47505619c359"
   },
   {
@@ -68,7 +68,7 @@
       "property": "height"
     },
     "context": "Row height (minimum, regular density)",
-    "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "8aa6cad0-ff93-5e04-81cb-11910c5c8994"
   },
   {
@@ -203,7 +203,7 @@
       "property": "row-height"
     },
     "context": "Section header row height",
-    "$ref": "4c9e9bd8-9320-4648-bf2c-bb2db74a63fb",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "faf962de-f0d8-517b-bc71-b5eec13fe9c4"
   },
   {
@@ -266,7 +266,7 @@
       "property": "thickness"
     },
     "context": "Focus indicator (row)",
-    "$ref": "d33433fd-6430-4769-a0b8-6d8c32a64803",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
     "uuid": "06a319ba-b071-5903-9b98-0f4234563b91"
   },
   {
@@ -2970,7 +2970,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "d52d3141-27a5-40eb-800f-1a09acd42534",
+    "$ref": "f5d4825e-d704-4eb8-bde7-45c6db956a39",
     "uuid": "face2717-9c2c-4e18-9632-4e4a595b1fc7",
     "legacyKey": "table-row-height-extra-large-regular",
     "setUuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
@@ -3143,7 +3143,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
+    "$ref": "2451ab96-310a-4965-8fbe-fa4a645cd410",
     "uuid": "3b22a4c7-525c-4482-9e58-19cbe46d318b",
     "legacyKey": "table-row-height-large-regular",
     "setUuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
@@ -3307,7 +3307,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "1dc88a25-18bc-491a-ab02-2c1ec36f4c1e",
     "legacyKey": "table-row-height-medium-regular",
     "setUuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
@@ -3474,7 +3474,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "fd53964b-cf4a-4cdf-b088-418364b1c518",
     "legacyKey": "table-row-height-small-regular",
     "setUuid": "f8519e64-027c-4724-b5f3-772ee266ba78",

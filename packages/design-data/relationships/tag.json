@@ -95,7 +95,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "665a5cfc-abe6-5455-bcef-62fd408eda7c"
   },
   {
@@ -104,7 +104,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "91df6ac4-abe7-5d58-927b-b487e729d128"
   },
   {
@@ -113,7 +113,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "a256fbd8-453f-5079-ade2-d3dd46dc150b"
   },
   {
@@ -122,7 +122,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "75ead5bc-b09d-5baf-b0fc-34e8cbb54d47"
   },
   {
@@ -131,7 +131,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "93d0b1e9-2521-55af-ad48-c90f98e4578a"
   },
   {
@@ -140,7 +140,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "8e395e7c-991c-506e-a17f-5af23ff24799"
   },
   {

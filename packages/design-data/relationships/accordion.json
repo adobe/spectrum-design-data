@@ -68,7 +68,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "789235f0-843f-5290-b8b7-32b639d456ae"
   },
   {
@@ -113,7 +113,7 @@
       "property": "component-height-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "2727e530-ee0b-52d9-adee-a795dc93ac81"
   },
   {
@@ -122,7 +122,7 @@
       "property": "component-height-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "ffa9a4be-9f4b-5695-97fb-7b637d31b2fb"
   },
   {
@@ -131,7 +131,7 @@
       "property": "component-height-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "6bcf486b-ed86-5fd7-86d0-5239465b89da"
   },
   {
@@ -140,7 +140,7 @@
       "property": "component-height-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "862d2015-0b37-5423-abea-f81c7d8e6311"
   },
   {
@@ -149,7 +149,7 @@
       "property": "component-height-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "b7831607-05b0-58e3-bec3-b4ec29a3059b"
   },
   {
@@ -158,7 +158,7 @@
       "property": "component-height-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "68c1db0d-1598-5159-ae4f-22b22c5c89e3"
   },
   {
@@ -167,7 +167,7 @@
       "property": "component-height-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "2e0afbd3-d616-58c9-90d3-0db4265031b1"
   },
   {
@@ -176,7 +176,7 @@
       "property": "component-height-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "5d8a466f-4e25-59a4-90d5-bcf42eedbd81"
   },
   {

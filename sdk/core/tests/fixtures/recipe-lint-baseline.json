@@ -36,18 +36,17 @@
   },
   "SPEC-092": {
     "avatar": 2,
-    "bar-panel": 5,
-    "card": 4,
+    "bar-panel": 2,
+    "card": 2,
     "color-handle": 3,
     "color-loupe": 1,
     "contextual-help": 4,
     "floating-action-button": 3,
     "form-item": 4,
-    "in-field-button": 5,
-    "meter": 2,
+    "in-field-button": 1,
     "picker": 1,
     "popover": 3,
     "stack-item": 6,
-    "standard-panel": 6
+    "standard-panel": 3
   }
 }

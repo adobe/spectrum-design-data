@@ -5,7 +5,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "5fec3613-6f4d-59e5-8d76-20e465ddf651"
   },
   {
@@ -14,7 +14,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "5c444b07-59e2-59cf-a40c-079f3665f4d7"
   },
   {
@@ -23,7 +23,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "d087f995-da55-4c96-89c4-69a9a83e2f05",
+    "$ref": "ef6d6538-212a-45ff-9fbc-f9276af09c27",
     "uuid": "8b17bb3d-3506-5143-85d4-d5e901255569"
   },
   {
@@ -41,7 +41,7 @@
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
-    "$ref": "998bb752-7826-4437-ac18-14e08644e226",
+    "$ref": "d2eb3062-0839-435a-aad6-309ece18ca25",
     "uuid": "3e7cb4f8-76b5-5229-adea-e1f06ef49baf"
   },
   {
@@ -104,7 +104,7 @@
       "property": "height"
     },
     "context": "Side navigation indicator",
-    "$ref": "07262bb6-4b57-4848-b45d-bbf808bdf257",
+    "$ref": "89766302-b727-438e-bf4b-7549b98569cf",
     "uuid": "260b9873-03c0-5b12-9d32-614b6aa16263"
   },
   {
@@ -122,7 +122,7 @@
       "property": "thickness"
     },
     "context": "Side navigation indicator",
-    "$ref": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
     "uuid": "29333605-b805-5ce4-b8aa-4f1bb01f3645"
   },
   {

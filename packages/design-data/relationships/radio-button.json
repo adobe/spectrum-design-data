@@ -113,7 +113,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "57814320-d91e-5cdd-96d6-3995d1946c3f"
   },
   {
@@ -122,7 +122,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "ebc1aed8-56d3-5605-bfd1-f51f098d34c2"
   },
   {
@@ -131,7 +131,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "1833bbde-5468-5a4a-b653-4674500a9bf3"
   },
   {
@@ -140,7 +140,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "3368cb84-cafb-53c4-8cdf-6abf8ae91c3d"
   },
   {
@@ -149,7 +149,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "66cbdb87-eb0f-5c1f-b7ef-192e3f7cfb0e"
   },
   {
@@ -158,7 +158,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "6e44e109-cf7f-5083-85be-9c9dbefb34b8"
   },
   {
@@ -167,7 +167,7 @@
       "property": "component-height-300"
     },
     "context": "Minimum height",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "a6242a5e-fa9c-5d4b-bd7d-22c293621da0"
   },
   {
@@ -176,7 +176,7 @@
       "property": "component-height-300"
     },
     "context": "Minimum height",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "18c0eee9-ae17-52a9-8398-d7271145bf1f"
   },
   {

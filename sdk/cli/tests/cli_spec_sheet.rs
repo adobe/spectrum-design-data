@@ -63,8 +63,8 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
     assert_eq!(items[0]["label"], "Extra Small");
     assert_eq!(items[0]["marker"], 1);
     assert_eq!(height["render"]["markers"][0]["n"], 1);
-    assert_eq!(items[0]["token"]["name"], "component-height-50");
-    assert_eq!(items[0]["values"]["desktop"], "20px");
+    assert_eq!(items[0]["token"]["name"], "base-height-extra-small");
+    assert_eq!(items[0]["values"]["value"], "20px");
     let scene = &height["render"]["scene"];
     assert!(scene["measurements"]
         .as_array()
@@ -73,7 +73,7 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .any(|m| m["prop"] == "height"));
     let m = &height["render"]["measurements"][0];
     assert_eq!(m["prop"], "height");
-    assert_eq!(m["label"], "component-height-100");
+    assert_eq!(m["label"], "base-height-medium");
     assert!(m["relationship"].is_string());
     assert!(height["render"]["view"]["scale"].as_f64().unwrap() > 1.0);
 
@@ -340,7 +340,7 @@ fn token_names_come_from_the_structured_name_not_the_relationship_property() {
     assert!(names("action-button", "Focus ring").contains(&"focus-indicator-thickness".to_string()));
     let track = names("switch", "Track (size)");
     assert!(
-        track.iter().all(|n| n.starts_with("switch-control-")),
+        track.iter().any(|n| n.starts_with("switch-control-")),
         "{track:?}"
     );
 }

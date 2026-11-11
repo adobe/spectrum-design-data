@@ -5,7 +5,7 @@
       "property": "width"
     },
     "context": "Size",
-    "$ref": "8fcf30ee-73e1-4f54-8975-5467dedade29",
+    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "uuid": "ba920b3d-eb8e-572b-8316-d781acdecbfb"
   },
   {
@@ -23,7 +23,7 @@
       "property": "minimum-width"
     },
     "context": "Size",
-    "$ref": "19ff1ba5-a351-4427-bf2e-4e212dde3d3c",
+    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "48e8e946-d978-5fc1-84bd-e183bed32a97"
   },
   {
@@ -41,7 +41,7 @@
       "property": "height"
     },
     "context": "Size",
-    "$ref": "993f90f6-22a6-49ec-a8e6-7a8b904d42a7",
+    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "uuid": "6d8bd6c7-a136-5387-bf0d-dba532f5dd9f"
   },
   {
@@ -59,7 +59,7 @@
       "property": "minimum-height"
     },
     "context": "Size",
-    "$ref": "73c558f3-2a1c-4c1d-9b17-cfb49f510070",
+    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "37b2f3ad-88bc-52db-bd32-5ebdf1719e89"
   },
   {

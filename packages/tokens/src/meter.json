@@ -2,7 +2,7 @@
   "meter-default-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "meter",
-    "value": "{meter-width}",
+    "value": "{bar-width-large}",
     "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5",
     "deprecated": true,
     "deprecated_comment": "Token renamed, use `meter-width`",

@@ -5,7 +5,7 @@
       "property": "height"
     },
     "context": "Size",
-    "$ref": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51",
+    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "a372ba95-bf02-5ba6-ab23-51230cf10bf7"
   },
   {
@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Size",
-    "$ref": "889e2495-b882-4aa3-8a5b-1a71d44edde4",
+    "$ref": "03042116-4c2d-4a29-b17f-47da76f5e103",
     "uuid": "bcf49c03-5000-5f19-8574-c69bfbd1cbe5"
   },
   {

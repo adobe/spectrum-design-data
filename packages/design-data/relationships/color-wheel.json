@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Width",
-    "$ref": "d4cdb77e-54b8-4bcf-97b1-992287af2690",
+    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "uuid": "97227439-7689-5052-82e1-c4bb8c6a543a"
   },
   {
@@ -50,7 +50,7 @@
       "property": "width"
     },
     "context": "Track width",
-    "$ref": "424db2a9-5795-400b-a98a-58081d311bff",
+    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
     "uuid": "6ed026b6-240d-5c82-a845-8b6f644a66b3"
   },
   {

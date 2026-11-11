@@ -68,7 +68,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "8b599c58-23fa-5ac3-b579-096c8b3eb9c7"
   },
   {
@@ -122,7 +122,7 @@
       "property": "component-height-75"
     },
     "context": "Height (slider control)",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "2557acbe-7850-5f43-a744-07f7169992f5"
   },
   {
@@ -131,7 +131,7 @@
       "property": "component-height-75"
     },
     "context": "Height (slider control)",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "2d83dc53-a61e-500e-8618-4a0718c06926"
   },
   {
@@ -140,7 +140,7 @@
       "property": "component-height-100"
     },
     "context": "Height (slider control)",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "fcb1c528-fa70-552d-9c03-db4e92a87e03"
   },
   {
@@ -149,7 +149,7 @@
       "property": "component-height-100"
     },
     "context": "Height (slider control)",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "3f8549ce-d841-5642-98ee-989f2e085350"
   },
   {
@@ -158,7 +158,7 @@
       "property": "component-height-200"
     },
     "context": "Height (slider control)",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "ef31feb3-de44-51c7-a2d4-32acd3ce4367"
   },
   {
@@ -167,7 +167,7 @@
       "property": "component-height-200"
     },
     "context": "Height (slider control)",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "df82c29f-35de-5194-a543-944425c60905"
   },
   {
@@ -176,7 +176,7 @@
       "property": "component-height-300"
     },
     "context": "Height (slider control)",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "0e2d200c-1dd0-55f8-8627-4392ead32c85"
   },
   {
@@ -185,7 +185,7 @@
       "property": "component-height-300"
     },
     "context": "Height (slider control)",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "1a6e6268-5547-5949-8220-f7738ab34708"
   },
   {
@@ -338,7 +338,7 @@
       "property": "width"
     },
     "context": "Handle (size)",
-    "$ref": "94045357-9bb7-4d16-b035-342465834a92",
+    "$ref": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e",
     "uuid": "b50d1ad3-7469-56c8-b3ff-b1223d7f20a0"
   },
   {

@@ -5,7 +5,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
-    "$ref": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36",
+    "$ref": "a53172f2-1e81-4691-9129-5b680f0b9863",
     "uuid": "4de34f6d-65ed-561c-bca6-79c3914c9b37"
   },
   {
@@ -14,7 +14,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
-    "$ref": "3cf3e962-92f3-4334-8b92-9a1da9396c25",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
     "uuid": "0a91b590-fac6-5fdf-b19d-01bcdb211dfa"
   },
   {
@@ -23,7 +23,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
-    "$ref": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
     "uuid": "6cbddd6d-0f35-5b57-a3d8-63229f54f38a"
   },
   {
