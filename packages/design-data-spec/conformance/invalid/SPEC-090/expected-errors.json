@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-090",
       "severity": "warning",
-      "message_pattern": ".*does not equal 'Background'.*"
+      "message_pattern": ".*does not agree with 'Background'.*"
     }
   ]
 }

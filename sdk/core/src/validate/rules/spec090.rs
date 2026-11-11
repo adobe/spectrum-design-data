@@ -65,7 +65,7 @@ impl ValidationRule for Rule {
                 match (s("context"), ctx.registry.derive_context(&roles, detail)) {
                     (Some(c), Some(d)) if !ctx.registry.context_agrees(c, &roles, detail) => {
                         Some(format!(
-                            "context '{c}' does not equal '{d}' derived from the structured fields"
+                            "context '{c}' does not agree with '{d}' derived from the structured fields"
                         ))
                     }
                     _ => None,
