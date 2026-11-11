@@ -1,39 +1,44 @@
-# design-data Claude Code Skill
+# spectrum-design-data Plugin
 
-A Claude Code plugin that gives agents access to Spectrum design tokens,
-component schemas, and design-system data via the `@adobe/design-data` CLI.
+A read-only Spectrum lookup plugin for AI assistants. It bundles the `design-data`
+skill and the [`@adobe/design-data-mcp`](https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-mcp)
+server, so installing it gives the assistant working tools with no extra setup.
 
-Also published on npm as `@adobe/design-data-skill` for versioned skill installs.
+It finds official tokens, inspects component options, resolves token values across
+modes, and reads Spectrum design guidelines. It complements React Spectrum and
+Spectrum Web Components implementation guidance; it does not generate components
+or integrate with a framework.
+
+Also published on npm as `@adobe/design-data-skill` for versioned installs.
 
 ## Structure
 
 ```
 tools/design-data-skill/
-  .claude-plugin/plugin.json    Plugin manifest (name, description, version)
+  .claude-plugin/plugin.json    Plugin manifest
+  .mcp.json                     MCP server, pinned to an exact @adobe/design-data-mcp version
+  skills/design-data/SKILL.md   Skill instructions
   package.json                  npm package (@adobe/design-data-skill)
-  skills/design-data/SKILL.md   Skill definition (frontmatter + workflow docs)
   README.md                     This file
 ```
-
-This is a pure-skills plugin with no build step or Node.js runtime dependencies.
-It wraps the external `@adobe/design-data` CLI that `npx` installs on first use.
 
 ## Installation
 
 ### Claude Code
 
-Add the marketplace, then install the Spectrum skill:
-
 ```
 /plugin marketplace add adobe/spectrum-design-data
-/plugin install design-data@spectrum-design-data
+/plugin install spectrum-design-data@spectrum-design-data
 ```
 
-For custom or repo-local datasets (validate, diff, write), install
-`design-data-agent@spectrum-design-data` instead — see
-[`tools/design-data-agent-mcp/`](../design-data-agent-mcp/).
+### GitHub Copilot CLI
 
-### Cursor
+```
+copilot plugin marketplace add adobe/spectrum-design-data
+copilot plugin install spectrum-design-data@spectrum-design-data
+```
+
+### Cursor (skill only)
 
 Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste:
 
@@ -41,9 +46,56 @@ Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → past
 https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
 ```
 
-For always-available MCP tool access, see [`@adobe/design-data-mcp`](../design-data-mcp/).
+This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
+
+```json
+{
+  "mcpServers": {
+    "design-data": {
+      "command": "npx",
+      "args": ["-y", "@adobe/design-data-mcp@1.9.9"]
+    }
+  }
+}
+```
+
+## What the plugin includes
+
+* **Skill + MCP server.** The plugin registers the MCP server itself (`.mcp.json`);
+  no manual MCP configuration is needed. Because it is an MCP server, the client
+  may load all eight tool definitions each session. This differs from a
+  skill-only install, which costs only the skill description until used.
+* **Runtime:** Node.js `>=20.12.0`.
+* **Network:** the first run downloads `@adobe/design-data-mcp` with `npx`
+  (pinned to the exact version above). Lookups then use the Spectrum snapshot
+  embedded in that package. The primer also makes a best-effort registry check for
+  a newer data version and stays silent if offline; set
+  `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable it.
+* **Tools:** `design-data-primer`, `design-data-query`, `design-data-suggest`,
+  `design-data-component`, `design-data-component-search`, `design-data-resolve`,
+  `design-data-guideline-list`, `design-data-guideline`. Inputs are documented in
+  [SKILL.md](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/skills/design-data/SKILL.md).
+
+## Data and freshness
+
+The data is the public `@adobe/spectrum-design-data` snapshot baked into the pinned
+MCP release (`provenance.designDataVersion` in the primer shows which). It is
+updated by releasing a new MCP version and bumping the pin, not automatically.
+Guidelines are imported from public Spectrum site content and may lag it. The
+plugin is read-only.
+
+## Not included
+
+Custom datasets, validation, diffing, and authoring: use
+[`design-data-agent`](https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp)
+(`design-data-agent@spectrum-design-data`).
+
+## Maintenance
+
+`moon run :version` (after `changeset version`) syncs the pinned MCP version and the
+plugin version. Tests check the pin, manifest, tool names, and packed contents.
 
 ## Usage
 
-See [`skills/design-data/SKILL.md`](skills/design-data/SKILL.md) for the
-full command reference and workflow.
+See [SKILL.md](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/skills/design-data/SKILL.md)
+for the tool reference and workflow.

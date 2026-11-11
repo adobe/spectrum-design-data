@@ -15,7 +15,7 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 - [tools/design-data](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data/llms.txt): Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions.
 - [tools/design-data-agent-mcp](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/llms.txt): MCP server and Claude Code skill for design-data authoring sessions.
 - [tools/design-data-mcp](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/llms.txt): Embedded, offline MCP server for tokens, component schemas, and guidelines.
-- [tools/design-data-skill](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/llms.txt): Claude Code skill for querying Spectrum design data through the CLI.
+- [tools/design-data-skill](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/llms.txt): Read-only Spectrum lookup plugin: a skill plus the bundled design-data MCP server.
 - [tools/diff-generator](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/llms.txt): Token diff CLI and library with CLI, JSON, and Markdown output.
 - [tools/optimized-diff](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/llms.txt): High-performance deep object diff library.
 - [tools/spectrum-diff-core](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/llms.txt): Shared core library for the diff generators.

@@ -3,132 +3,118 @@ name: design-data
 description: >
   Look up Spectrum design tokens, component schemas, and design-system decisions
   when building with or extending Adobe Spectrum. Use when the user asks about
-  token values, component options, naming conventions, or wants to
-  validate/explore design-token data. Also triggers when a .design-data.toml
-  config is involved or the user mentions the design-data CLI.
+  token values, component options, naming conventions, or Spectrum design
+  guidelines. Read-only lookup against an embedded Spectrum
+  snapshot; it does not generate component code.
 metadata:
   author: adobe
   version: "1.3.2"
   designDataVersion: "3.11.0"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
-  "Spectrum component options", validate tokens, design-data primer, query tokens,
-  suggest token, resolve token value, component schema, design system config,
-  @adobe/design-data, design-data CLI.
-allowed-tools: mcp__design-data__design-data-primer, mcp__design-data__design-data-query, mcp__design-data__design-data-suggest, mcp__design-data__design-data-component, mcp__design-data__design-data-resolve
+  "Spectrum component options", design-data primer, query tokens, suggest token,
+  resolve token value, component schema, Spectrum guideline, @adobe/design-data-mcp.
+allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline
 ---
 
 # Spectrum Design Data
 
-Access Spectrum design tokens, component schemas, and design-system structure
-via the `@adobe/design-data-mcp` MCP server (in-process wasm — no CLI binary required).
+Read-only lookup of Spectrum design tokens, component schemas, and design
+guidelines through the `@adobe/design-data-mcp` MCP server. The server runs
+in-process against a Spectrum snapshot embedded in the package.
 
-## Bootstrap
+This skill complements React Spectrum and Spectrum Web Components guidance. It
+answers from data; it does not generate components or integrate with a framework.
 
-Add `@adobe/design-data-mcp` to your project's `.cursor/mcp.json` (or equivalent
-MCP config) to activate the tools:
+## Setup
+
+Installing the `spectrum-design-data` **plugin** (Claude Code or GitHub Copilot) registers
+the MCP server for you: no manual MCP configuration. Requires Node.js `>=20.12.0`.
+The first run downloads the pinned package with `npx`; after that, lookups use the
+embedded snapshot.
+
+If you installed only this skill folder (for example as a Cursor rule), the tools
+are not available until you add the server yourself, pinned to the version this
+skill was written for:
 
 ```json
 {
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp"]
+      "args": ["-y", "@adobe/design-data-mcp@1.9.9"]
     }
   }
 }
 ```
 
-The server uses an embedded Spectrum snapshot — no environment variables or
-dataset path configuration required for read operations.
+## Tool names
+
+Tools are listed below by their server names. Clients prefix them: Claude Code
+exposes the plugin's tools as `mcp__plugin_spectrum-design-data_design-data__<tool>`, and a
+manually configured server as `mcp__design-data__<tool>`. Use whichever the client
+lists.
 
 ## Tools
 
 ### `design-data-primer`
 
-Get a structural overview of the embedded Spectrum dataset: token count,
-available mode-sets (color-scheme, scale, contrast), component list, taxonomy
-fields, and data provenance. **Call this at the start of a design-token session.**
-
-No required inputs.
+Overview of the embedded dataset: token count, mode-sets, component list, taxonomy
+fields, guidelines, and provenance (`provenance.designDataVersion` is the snapshot
+version). **Call this first in a session.** No required inputs.
 
 ### `design-data-query`
 
-Filter Spectrum tokens by a query expression. Returns an array of matching token objects.
-
-Required input: `filter` (string)
-
-Expression syntax examples:
-
-* `"component=button"` — all button tokens
-* `"component=button,state=hover"` — button hover tokens
-* `"property=color-*"` — all color property tokens
-* `"colorScheme=dark"` — dark-scheme tokens
-
-Returns an empty array when no tokens match.
+Filter tokens by expression. Required: `filter` (string), e.g. `component=button`,
+`component=button,state=hover`, `property=color-*`, `colorScheme=dark`. Returns an
+array of matching tokens (empty when none match).
 
 ### `design-data-suggest`
 
-Suggest Spectrum tokens matching a natural-language intent using keyword-overlap
-scoring. Returns matches ranked by confidence.
-
-Required input: `intent` (string) — e.g. `"primary CTA button background color"`
-Optional input: `limit` (number, default 5)
+Rank tokens against a natural-language intent. Required: `intent` (string), e.g.
+`"primary CTA button background color"`. Optional: `limit` (number, default 5).
 
 ### `design-data-component`
 
-Get the full component declaration for a Spectrum component by ID. Returns the
-component's displayName, description, and all available options (variants, sizes,
-states, boolean props, etc.).
+Full component declaration (displayName, description, options such as variants,
+sizes, states, booleans). Required: `id` (kebab-case, e.g. `action-button`).
 
-Required input: `id` (string) — kebab-case component ID, e.g. `button`, `action-button`
+### `design-data-component-search`
 
-Call `design-data-primer` first to see available component IDs.
+Find components by name, description, or docs text. Required: `query` (string).
+Optional: `category` (string), `limit` (integer, default 10). Returns id,
+displayName, category, and a snippet; pass the id to `design-data-component`.
 
 ### `design-data-resolve`
 
-Resolve the concrete value of a Spectrum token property for a given mode-set context.
-Returns the winning token with its resolved value.
+Resolve a token property to its value for a mode context. Required: `property`
+(string, e.g. `background-color-default`). Optional: `colorScheme` (`light`/`dark`),
+`scale` (`desktop`/`mobile`), `contrast` (`regular`/`high`). Errors when no token
+matches; use `design-data-query` to find the exact property name first.
 
-Required input: `property` (string) — token property name, e.g. `background-color-default`
-Optional inputs: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
-`contrast` (`"regular"` or `"high"`)
+### `design-data-guideline-list` and `design-data-guideline`
+
+`design-data-guideline-list` lists guideline pages (optional `category`:
+`designing`, `fundamentals`, `developing`, `support`). `design-data-guideline`
+returns one page by `id`, the `slug` from the list (e.g. `colors`).
 
 ## Workflow
 
-1. **Start with `design-data-primer`** to understand what data is available.
-2. **Use `design-data-query`** when you know the component/property/state.
-3. **Use `design-data-suggest`** when the user describes an intent in natural language.
-4. **Use `design-data-component`** to check all available options for a specific component.
-5. **Use `design-data-resolve`** to get the concrete value for a token in a given context.
+1. `design-data-primer` to see what data exists.
+2. `design-data-query` when you know component, property, or state.
+3. `design-data-suggest` when the user describes an intent.
+4. `design-data-component-search`, then `design-data-component`, for component options.
+5. `design-data-resolve` for a concrete value in a given mode.
+6. `design-data-guideline-list`, then `design-data-guideline`, for design guidance.
 
-## When working in Cursor
+## Limits
 
-Install this skill as a **Remote Rule (GitHub)** — same pattern as the s2-docs skill:
-
-Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste:
-
-```
-https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
-```
-
-For always-available tool access (higher context cost), add the MCP server to
-`.cursor/mcp.json` as shown in the Bootstrap section above.
-
-For custom datasets with validate/diff/write, use the `design-data-agent` skill or
-`@adobe/design-data-agent-mcp` instead — see
-[`tools/design-data-agent-mcp/skills/design-data/SKILL.md`](../../design-data-agent-mcp/skills/design-data/SKILL.md).
-
-## Using a custom dataset
-
-To point at a specific Spectrum version or a custom design-data fork, add
-a `.design-data.toml` to your project root:
-
-```toml
-[source]
-type = "github"
-repo = "adobe/spectrum-design-data"
-tag = "@adobe/spectrum-tokens@14.11.0"
-```
-
-Without a config file, the embedded Spectrum snapshot is used automatically.
+* Read-only; nothing is written or validated.
+* Answers reflect the embedded snapshot, not the live Spectrum site. Report
+  `provenance.designDataVersion` when the version matters. The primer makes a
+  best-effort registry check and adds `provenance.datasetStatus` when a newer data
+  package exists (set `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable it).
+* Guidelines are an imported copy of public Spectrum site content and may lag it.
+* Custom datasets, validation, diffing, and authoring are out of scope; use the
+  `design-data-agent` skill from the
+  [spectrum-design-data repository](https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp).
