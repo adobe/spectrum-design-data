@@ -3631,6 +3631,13 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
       "description": "One node in a tree view",
       "category": "item",
       "relatedTerms": ["control"]
+    },
+    {
+      "id": "segmented-control-item",
+      "label": "Segmented control item",
+      "description": "One segment in a segmented control",
+      "category": "item",
+      "relatedTerms": ["control"]
     }
   ]
 }
