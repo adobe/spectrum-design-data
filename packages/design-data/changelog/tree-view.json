@@ -235,6 +235,22 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.2",
+      "version": "1.0.12",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "4103c218389182b15cbfbea483c3279463d65d2d",
+      "commits": [
+        {
+          "commit": "0c00c782a89e4491136cdb72ae440d2d518058ae",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1729,"title":"feat(design-data): add relationship contexts to tabs, list-view, segmented-control and tree-view","url":"https://github.com/adobe/spectrum-design-data/pull/1729"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
     }
   ]
 }
