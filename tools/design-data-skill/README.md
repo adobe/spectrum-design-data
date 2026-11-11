@@ -77,6 +77,9 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   may load all eight tool definitions each session. This differs from a
   skill-only install, which costs only the skill description until used.
 * **Runtime:** Node.js `>=20.12.0`.
+* **npm install size:** `@adobe/design-data-skill` depends on `@adobe/design-data-mcp`
+  (and its embedded dataset), so `npm i @adobe/design-data-skill` installs both. A
+  plugin install from the marketplace does not use npm for the skill.
 * **Network:** the first run downloads `@adobe/design-data-mcp` with `npx`
   (pinned to the exact version above). Lookups then use the Spectrum snapshot
   embedded in that package. The primer also makes a best-effort registry check for

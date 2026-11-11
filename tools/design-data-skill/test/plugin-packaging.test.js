@@ -36,6 +36,14 @@ test(".mcp.json runs the MCP server pinned to the workspace version", (t) => {
   t.deepEqual(server.args, ["-y", `@adobe/design-data-mcp@${mcpVersion}`]);
 });
 
+test("the skill package depends on the MCP so MCP releases republish it", (t) => {
+  // devDependencies do not make changesets bump the skill; only dependencies do.
+  t.is(
+    json("package.json").dependencies?.["@adobe/design-data-mcp"],
+    "workspace:*",
+  );
+});
+
 test("documented MCP pins match .mcp.json", (t) => {
   for (const doc of [read("README.md"), skill]) {
     const pins = doc.match(/@adobe\/design-data-mcp@[^\s"`]+/g) ?? [];

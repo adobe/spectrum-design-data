@@ -36,6 +36,9 @@
   "scripts": {
     "test": "ava"
   },
+  "dependencies": {
+    "@adobe/design-data-mcp": "workspace:*"
+  },
   "devDependencies": {
     "ava": "^6.0.1"
   },

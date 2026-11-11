@@ -17,4 +17,6 @@ Adobe Design AI Marketplace.
 * Align the README, marketplace description, and AI docs page on Node.js
   >=20.12.0, the first-run download, snapshot freshness, and the context cost of
   a bundled MCP server.
+* Depend on `@adobe/design-data-mcp` (`workspace:*`) so every MCP release also
+  bumps and republishes the skill with the new pin.
 * Add packaging tests for the pin, manifest, tool names, and packed contents.
