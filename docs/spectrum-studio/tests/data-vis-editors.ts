@@ -1,6 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import Color from "colorjs.io";
+import {
+  serializePickerColor,
+  pickerColorsEqual,
+} from "../src/components/color-picker/colorUtils";
 import { createStore } from "jotai";
 import { createDataVisSnapshot, DATA_VIS_IDS } from "./fixtures/dataVis";
 import {
@@ -568,6 +572,49 @@ assertStoredSnapshot(captureSnapshot(modeLinks.get));
 
 const stops = fresh(),
   recipeBefore = structuredClone(definition(stops));
+const fidelity = fresh();
+fidelity.set(setDataVisStaticAtom, {
+  scaleId: DATA_VIS_IDS.sequential,
+  from: "current",
+});
+const wideSource = new Color("rec2020", [0.85, 0.1, 0.1], 0.35);
+const editPayload = serializePickerColor(wideSource, "sRGB");
+const unrelatedScales = fidelity
+  .get(colorSystemDocumentAtom)
+  .dataVisScales.filter((scale) => scale.id !== DATA_VIS_IDS.sequential);
+fidelity.set(editDataVisStaticColorAtom, {
+  scaleId: DATA_VIS_IDS.sequential,
+  colorId: "start",
+  value: editPayload,
+});
+const sourceValue = definition(fidelity).staticColors!.find(
+  (color) => color.id === "start",
+)!.value;
+assert.ok(pickerColorsEqual(new Color(sourceValue), wideSource));
+assert.equal(Number(new Color(sourceValue).alpha), 0.35);
+assert.deepEqual(
+  fidelity
+    .get(colorSystemDocumentAtom)
+    .dataVisScales.filter((scale) => scale.id !== DATA_VIS_IDS.sequential),
+  unrelatedScales,
+);
+fidelity.set(saveEditAtom);
+const savedFidelity = captureSnapshot(fidelity.get);
+assertStoredSnapshot(savedFidelity);
+const reloadedFidelity = fresh(savedFidelity);
+assert.equal(
+  definition(reloadedFidelity).staticColors!.find(
+    (color) => color.id === "start",
+  )!.value,
+  editPayload,
+  "Saving and reloading retains the full picker edit payload, not the mapped output string.",
+);
+assert.equal(
+  compiled(reloadedFidelity).points.find((point) => point.id === "start")!
+    .value,
+  serializeOutputColor(wideSource, initial.colorSystem.settings.colorOutput),
+  "Final output still follows the saved output policy.",
+);
 stops.set(setDataVisStaticAtom, {
   scaleId: DATA_VIS_IDS.sequential,
   from: "current",

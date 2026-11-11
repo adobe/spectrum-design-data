@@ -20,6 +20,7 @@ import {
   channelFormatOptions,
   createColorWithChannelValue,
   fieldValueToColorChannel,
+  formatPickerHex,
   getChannelGamutRange,
   getColorCoords,
   getColorSpaceConfig,
@@ -28,6 +29,7 @@ import {
   mapColorToGamut,
   parsePickerColor,
   parsePickerHex,
+  pickerChannelName as channelName,
   serializePickerColor,
   type ChannelName,
   type PickerColorSpace,
@@ -38,17 +40,6 @@ import type { ColorPickerContentsProps } from "./types";
 import { useDefaultPickerGamut } from "./pickerGamut";
 import { pickerColorsEqual } from "./colorUtils";
 import "./color-picker.css";
-
-const CHANNEL_NAMES: Record<string, string> = {
-  r: "Red",
-  g: "Green",
-  b: "Blue",
-  h: "Hue",
-  s: "Saturation",
-  l: "Lightness",
-  a: "Red/green",
-  c: "Chroma",
-};
 
 const toolbarStyles = style({
   display: "flex",
@@ -81,11 +72,6 @@ const channelFieldStyles = style({
   flexShrink: 0,
 });
 
-function channelName(channel: string, spaceId: string) {
-  if (spaceId === "oklab" && channel === "b") return "Blue/yellow";
-  return CHANNEL_NAMES[channel] ?? channel.toUpperCase();
-}
-
 function channelStep(channel: ChannelName, spaceId: string) {
   if (spaceId === "srgb" && isRgbChannel(channel)) return 1;
   if (isPercentageChannel(channel, spaceId)) return 0.01;
@@ -104,8 +90,61 @@ function alignRangeToStep(minimum: number, maximum: number, step: number) {
     : ([minimum, maximum] as const);
 }
 
-export function ColorPickerContents({
-  color,
+export function ColorPickerContents(
+  props: ColorPickerContentsProps & { colorScheme?: "light" | "dark" },
+) {
+  const parsedColor = useMemo(
+    () => parsePickerColor(props.color),
+    [props.color],
+  );
+  return parsedColor ? (
+    <ValidColorPickerContents {...props} parsedColor={parsedColor} />
+  ) : (
+    <InvalidColorPickerContents {...props} key={props.color} />
+  );
+}
+
+function InvalidColorPickerContents(props: ColorPickerContentsProps) {
+  const defaultGamut = useDefaultPickerGamut();
+  const [draft, setDraft] = useState(props.color);
+  const acceptReplacement = () => {
+    const nextColor = parsePickerColor(draft);
+    if (nextColor) {
+      const mapped = mapColorToGamut(nextColor, props.gamut ?? defaultGamut);
+      props.onChange(serializePickerColor(mapped, props.colorSpace), mapped);
+    }
+  };
+  return (
+    <div
+      className={["colorPickerContents", props.styles, props.className]
+        .filter(Boolean)
+        .join(" ")}
+      style={props.style}
+    >
+      <TextField
+        label="Color"
+        value={draft}
+        onChange={setDraft}
+        onBlur={acceptReplacement}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            acceptReplacement();
+          } else event.continuePropagation();
+        }}
+        validationBehavior="aria"
+        isInvalid={!parsePickerColor(draft)}
+        errorMessage="Enter a valid CSS color, such as #336699."
+        autoComplete="off"
+        spellCheck="false"
+        styles={style({ width: "full" })}
+      />
+    </div>
+  );
+}
+
+function ValidColorPickerContents({
+  parsedColor,
   onChange,
   colorSpace: explicitColorSpace,
   gamut: explicitGamut,
@@ -114,7 +153,7 @@ export function ColorPickerContents({
   className,
   styles,
   style: wrapperStyle,
-}: ColorPickerContentsProps & { colorScheme?: "light" | "dark" }) {
+}: ColorPickerContentsProps & { parsedColor: Color }) {
   const systemColorScheme = useAtomValue(appColorSchemeAtom);
   const defaultGamut = useDefaultPickerGamut();
   const initialGamut = explicitGamut ?? defaultGamut;
@@ -128,9 +167,7 @@ export function ColorPickerContents({
     availableWidth > 0
       ? Math.min(200, Math.max(1, Math.floor(availableWidth - 82)))
       : 200;
-  const [currentColor, setCurrentColor] = useState(() =>
-    parsePickerColor(color),
-  );
+  const [currentColor, setCurrentColor] = useState(parsedColor);
   const [colorSpace, setColorSpace] =
     useState<PickerColorSpace>(initialColorSpace);
   const [gamut, setGamut] = useState<PickerGamut>(initialGamut);
@@ -160,19 +197,18 @@ export function ColorPickerContents({
   }, []);
 
   useEffect(() => {
-    const incomingColor = parsePickerColor(color);
     setCurrentColor((existingColor) =>
-      pickerColorsEqual(existingColor, incomingColor)
+      pickerColorsEqual(existingColor, parsedColor)
         ? existingColor
-        : incomingColor,
+        : parsedColor,
     );
-  }, [color]);
+  }, [parsedColor]);
 
   const config = useMemo(
     () => getColorSpaceConfig(colorSpace, model),
     [colorSpace, model],
   );
-  const hexColor = serializePickerColor(currentColor, "sRGB");
+  const hexColor = formatPickerHex(currentColor);
   const activeHexDraft =
     hexDraft?.color === hexColor && hexDraft.gamut === gamut ? hexDraft : null;
   const commit = (nextColor: Color) => {
@@ -375,6 +411,7 @@ export function ColorPickerContents({
               <div className="colorPickerChannelControls">
                 <ColorSlider
                   colorCoordinates={coordinates}
+                  alpha={currentColor.alpha}
                   config={config}
                   channel={field.channel}
                   gamut={gamut}
@@ -400,6 +437,7 @@ export function ColorPickerContents({
               </label>
               <ColorArea
                 colorCoordinates={coordinates}
+                alpha={currentColor.alpha}
                 config={config}
                 channels={config.defaultChannels}
                 gamut={gamut}
@@ -414,6 +452,7 @@ export function ColorPickerContents({
               </label>
               <ColorSlider
                 colorCoordinates={coordinates}
+                alpha={currentColor.alpha}
                 config={config}
                 channel={config.thirdChannel}
                 gamut={gamut}
@@ -432,12 +471,10 @@ export function ColorPickerContents({
           label="Hex"
           value={activeHexDraft?.value ?? hexColor}
           onChange={(value) => {
-            const nextColor = parsePickerHex(value);
+            const nextColor = parsePickerHex(value, currentColor.alpha);
             setHexDraft({
               value,
-              color: nextColor
-                ? serializePickerColor(nextColor, "sRGB")
-                : hexColor,
+              color: nextColor ? formatPickerHex(nextColor) : hexColor,
               gamut,
               isInvalid: false,
             });

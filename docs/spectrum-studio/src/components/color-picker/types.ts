@@ -7,6 +7,7 @@ import type { PickerColorSpace, PickerGamut, PickerModel } from "./colorUtils";
 
 export interface ColorPickerContentsProps {
   color: string;
+  /** The string is a full-precision edit payload, not a display or export format. */
   onChange: (color: string, parsedColor: Color) => void;
   colorSpace?: PickerColorSpace;
   gamut?: PickerGamut;

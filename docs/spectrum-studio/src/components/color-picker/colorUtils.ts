@@ -200,13 +200,16 @@ export function getColorCoords(color: Color, config: ColorSpaceConfig) {
 export function createColorFromCoords(
   config: ColorSpaceConfig,
   coords: number[],
+  alpha = 1,
 ) {
   if (config.id === "p3-hsl") {
-    return new Color(
+    const color = new Color(
       p3HslToColor({ h: coords[0], s: coords[1], l: coords[2] }),
     );
+    color.alpha = alpha;
+    return color;
   }
-  return new Color(config.id, [coords[0], coords[1], coords[2]]);
+  return new Color(config.id, [coords[0], coords[1], coords[2]], alpha);
 }
 
 export function createColorWithChannelValue(
@@ -217,7 +220,7 @@ export function createColorWithChannelValue(
 ) {
   const coords = getColorCoords(color, config).slice();
   coords[channelIndex(config, channel)] = value;
-  return createColorFromCoords(config, coords);
+  return createColorFromCoords(config, coords, color.alpha);
 }
 
 export function canvasToColor(
@@ -235,7 +238,7 @@ export function canvasToColor(
     coords[channelIndex(config, channel)] =
       minimum + values[index] * (maximum - minimum);
   });
-  const candidate = createColorFromCoords(config, coords);
+  const candidate = createColorFromCoords(config, coords, baseColor.alpha);
   return candidate;
 }
 
@@ -353,38 +356,75 @@ export function getCanvasPixelColor(
     .map((value) => Math.round(Math.min(1, Math.max(0, value)) * 255));
 }
 
-export function parsePickerColor(value: string) {
+export function parsePickerColor(value: string): Color | null {
+  let color: Color;
   try {
-    return new Color(value);
+    color = new Color(value);
   } catch {
-    return new Color("srgb", [0, 0, 0]);
+    return null;
   }
+  const channels = Object.keys(color.space.coords);
+  const coords = color.coords.map((value) =>
+    value === null ? Number.NaN : Number(value),
+  );
+  const hueIndex = channels.indexOf("h");
+  const chromaIndex = channels.findIndex(
+    (channel) => channel === "c" || channel === "s",
+  );
+  if (hueIndex >= 0 && chromaIndex >= 0 && coords[chromaIndex] === 0)
+    coords[hueIndex] = Number.isFinite(coords[hueIndex]) ? coords[hueIndex] : 0;
+  if (
+    color.alpha === null ||
+    !Number.isFinite(Number(color.alpha)) ||
+    coords.some((value) => !Number.isFinite(value))
+  )
+    return null;
+  color.coords = [coords[0], coords[1], coords[2]];
+  color.alpha = Number(color.alpha);
+  return color;
 }
 
-export function parsePickerHex(value: string): Color | null {
+export function parsePickerHex(value: string, alpha = 1): Color | null {
   const match = value.trim().match(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i);
-  return match ? new Color(`#${match[1]}`) : null;
+  if (!match) return null;
+  const color = new Color(`#${match[1]}`);
+  color.alpha = alpha;
+  return color;
 }
+
+// Color.js 0.5's CSS parser rejects exponent notation, including near-neutral chroma.
+const pickerNumberFormat = new Intl.NumberFormat("en-US", {
+  useGrouping: false,
+  maximumSignificantDigits: 21,
+});
 
 function formatChannel(value: number) {
-  return Number(Number(value).toFixed(5)).toString();
+  return pickerNumberFormat.format(value);
 }
 
 export function serializePickerColor(
   color: Color,
   colorSpace: PickerColorSpace = "sRGB",
 ) {
+  const alpha = color.alpha === 1 ? "" : ` / ${formatChannel(color.alpha)}`;
   if (colorSpace === "Display P3") {
     const [red, green, blue] = color.to("p3").coords;
-    return `color(display-p3 ${formatChannel(red)} ${formatChannel(green)} ${formatChannel(blue)})`;
+    return `color(display-p3 ${formatChannel(red)} ${formatChannel(green)} ${formatChannel(blue)}${alpha})`;
   }
 
   if (colorSpace === "OKlch") {
     const [lightness, chroma, hue] = color.to("oklch").coords;
     const numericHue = Number(hue);
-    return `oklch(${formatChannel(lightness)} ${formatChannel(chroma)} ${formatChannel(Number.isFinite(numericHue) ? numericHue : 0)})`;
+    return `oklch(${formatChannel(lightness)} ${formatChannel(chroma)} ${formatChannel(Number.isFinite(numericHue) ? numericHue : 0)}${alpha})`;
   }
 
+  const hex = formatPickerHex(color);
+  if (color.alpha === 1 && pickerColorsEqual(color, new Color(hex))) return hex;
+  const [red, green, blue] = color.to("srgb").coords;
+  return `color(srgb ${formatChannel(red)} ${formatChannel(green)} ${formatChannel(blue)}${alpha})`;
+}
+
+export function formatPickerHex(color: Color) {
   const [red, green, blue] = color.to("srgb").coords;
   const channels = [red, green, blue].map((channel) =>
     Math.round(Math.min(1, Math.max(0, channel)) * 255)
@@ -413,7 +453,63 @@ export function getColorWithThirdChannel(
     color,
     config,
   );
-  return createColorFromCoords(config, coords);
+  return createColorFromCoords(config, coords, color.alpha);
+}
+
+export function pickerChannelName(channel: ChannelName, spaceId: string) {
+  if (spaceId === "oklab" && channel === "b") return "Blue/yellow";
+  const names: Record<ChannelName, string> = {
+    r: "Red",
+    g: "Green",
+    b: "Blue",
+    h: "Hue",
+    s: "Saturation",
+    l: "Lightness",
+    a: "Red/green",
+    c: "Chroma",
+  };
+  return names[channel];
+}
+
+export function pickerChannelValueText(
+  channel: ChannelName,
+  value: number,
+  spaceId: string,
+) {
+  return new Intl.NumberFormat(
+    undefined,
+    channelFormatOptions(channel, spaceId),
+  ).format(colorChannelToFieldValue(channel, value, spaceId));
+}
+
+export function pickerSliderPosition(
+  value: number,
+  range: readonly [number, number],
+  size: number,
+  orientation: "horizontal" | "vertical",
+) {
+  const normalized =
+    range[0] === range[1]
+      ? 0
+      : Math.min(1, Math.max(0, (value - range[0]) / (range[1] - range[0])));
+  return (orientation === "vertical" ? 1 - normalized : normalized) * size;
+}
+
+export function movePickerAreaPosition(
+  position: { x: number; y: number },
+  size: number,
+  axis: 0 | 1,
+  delta: number,
+  isHue: boolean,
+) {
+  const coordinate = axis === 0 ? position.x + delta : position.y - delta;
+  const bounded =
+    isHue && (coordinate < 0 || coordinate > size)
+      ? ((coordinate % size) + size) % size
+      : Math.min(size, Math.max(0, coordinate));
+  return axis === 0
+    ? { x: bounded, y: position.y }
+    : { x: position.x, y: bounded };
 }
 
 export function getP3HslValues(color: Color): P3HslCoords {

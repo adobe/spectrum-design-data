@@ -14,24 +14,50 @@
 .colorPickerHandle {
   position: absolute;
   z-index: 3;
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   cursor: grab;
   outline: none;
+  touch-action: none;
+}
+
+.colorPickerHandleControl {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.colorPickerHandleSecondaryAxis {
+  pointer-events: none;
 }
 
 .colorPickerHandleDot {
+  position: absolute;
+  left: 4px;
+  top: 4px;
   width: 16px;
   height: 16px;
   border: 2px solid white;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
   box-sizing: border-box;
+  pointer-events: none;
 }
 
-.colorPickerHandle:focus-visible .colorPickerHandleDot {
+.colorPickerHandle:has(.colorPickerHandleControl:focus-visible)
+  .colorPickerHandleDot {
   outline: 2px solid #007aff;
   outline-offset: 2px;
+}
+
+.colorPickerHandle:has(.colorPickerHandleSecondaryAxis:focus-visible)
+  .colorPickerHandleDot {
+  outline-style: dashed;
 }
 
 .colorPickerHandle:active .colorPickerHandleDot {
@@ -41,8 +67,8 @@
 
 .colorPickerLoupe {
   position: absolute;
-  left: 8px;
-  bottom: 20px;
+  left: 12px;
+  bottom: 24px;
   z-index: 0;
   width: 38px;
   height: 48px;
@@ -84,6 +110,7 @@
   height: 100%;
   cursor: crosshair;
   opacity: 0;
+  touch-action: none;
 }
 .colorPickerContents {
   box-sizing: border-box;

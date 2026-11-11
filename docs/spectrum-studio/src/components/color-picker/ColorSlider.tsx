@@ -8,6 +8,9 @@ import {
   getCanvasPixelColor,
   getChannelRange,
   getColorCoords,
+  pickerChannelName,
+  pickerChannelValueText,
+  pickerSliderPosition,
   type ColorSpaceConfig,
   type ChannelName,
   type PickerGamut,
@@ -16,6 +19,7 @@ import "./color-picker.css";
 
 interface ColorSliderProps {
   colorCoordinates: number[];
+  alpha?: number;
   config: ColorSpaceConfig;
   channel: ChannelName;
   gamut: PickerGamut;
@@ -29,6 +33,7 @@ interface ColorSliderProps {
 
 export const ColorSlider = memo(function ColorSlider({
   colorCoordinates,
+  alpha = 1,
   config,
   channel,
   orientation = "vertical",
@@ -39,8 +44,8 @@ export const ColorSlider = memo(function ColorSlider({
   onChange,
 }: ColorSliderProps) {
   const parsedColor = useMemo(
-    () => createColorFromCoords(config, colorCoordinates),
-    [colorCoordinates, config],
+    () => createColorFromCoords(config, colorCoordinates, alpha),
+    [colorCoordinates, config, alpha],
   );
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dragPosition, setDragPosition] = useState<number | null>(null);
@@ -55,13 +60,13 @@ export const ColorSlider = memo(function ColorSlider({
   const gradientBaseKey = colorCoordinates
     .map((value, index) => (index === channelIndex ? "0" : value.toString()))
     .join(",");
-  const normalizedPosition = Math.min(
-    1,
-    Math.max(0, (currentValue - range[0]) / (range[1] - range[0])),
+  const committedPosition = pickerSliderPosition(
+    currentValue,
+    range,
+    size,
+    orientation,
   );
-  const committedPosition =
-    (orientation === "vertical" ? 1 - normalizedPosition : normalizedPosition) *
-    size;
+  const isFixed = range[0] === range[1];
   const position = dragPosition ?? committedPosition;
   const colorHex = (dragColor ?? parsedColor).toString({ format: "hex" });
 
@@ -132,7 +137,11 @@ export const ColorSlider = memo(function ColorSlider({
   };
 
   const beginPointer = (event: React.PointerEvent<HTMLElement>) => {
-    if (activePointerId.current !== null) return;
+    if (isFixed || activePointerId.current !== null) return;
+    event.currentTarget
+      .closest(".colorPickerSlider")
+      ?.querySelector<HTMLInputElement>('input[type="range"]')
+      ?.focus({ preventScroll: true });
     activePointerId.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
     setIsDragging(true);
@@ -159,19 +168,19 @@ export const ColorSlider = memo(function ColorSlider({
     updateFromPointer(event);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    const direction =
-      orientation === "vertical"
-        ? event.key === "ArrowUp"
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (isFixed) {
+      event.preventDefault();
+      return;
+    }
+    const valueDirection =
+      event.key === "ArrowUp" || event.key === "ArrowRight"
+        ? 1
+        : event.key === "ArrowDown" || event.key === "ArrowLeft"
           ? -1
-          : event.key === "ArrowDown"
-            ? 1
-            : 0
-        : event.key === "ArrowRight"
-          ? 1
-          : event.key === "ArrowLeft"
-            ? -1
-            : 0;
+          : 0;
+    const direction =
+      orientation === "vertical" ? -valueDirection : valueDirection;
     if (!direction) return;
     event.preventDefault();
     const step = event.shiftKey ? 10 : 1;
@@ -212,14 +221,36 @@ export const ColorSlider = memo(function ColorSlider({
         <ColorHandle
           color={colorHex}
           position={handlePosition}
-          valueNow={currentValue}
+          valueNow={
+            getColorCoords(dragColor ?? parsedColor, config)[channelIndex]
+          }
           valueMin={range[0]}
           valueMax={range[1]}
           orientation={orientation}
-          ariaLabel={ariaLabel}
-          valueText={valueText}
+          ariaLabel={ariaLabel ?? pickerChannelName(channel, config.id)}
+          valueText={
+            dragColor
+              ? pickerChannelValueText(
+                  channel,
+                  getColorCoords(dragColor, config)[channelIndex],
+                  config.id,
+                )
+              : (valueText ??
+                pickerChannelValueText(channel, currentValue, config.id))
+          }
           isDragging={isDragging || focused}
           onKeyDown={handleKeyDown}
+          onValueChange={(value) => {
+            if (!isFixed)
+              onChange(
+                createColorWithChannelValue(
+                  parsedColor,
+                  config,
+                  channel,
+                  value,
+                ),
+              );
+          }}
           onPointerDown={beginPointer}
           onPointerMove={movePointer}
           onPointerUp={endPointer}

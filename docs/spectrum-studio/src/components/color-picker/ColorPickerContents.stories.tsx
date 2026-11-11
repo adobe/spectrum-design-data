@@ -28,20 +28,38 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function ControlledPicker(
-  args: React.ComponentProps<typeof ColorPickerContents>,
-) {
+function ControlledPicker({
+  canRestoreSource = false,
+  ...args
+}: React.ComponentProps<typeof ColorPickerContents> & {
+  canRestoreSource?: boolean;
+}) {
   const [color, setColor] = useState(args.color);
+  const [changes, setChanges] = useState(0);
+  const [alpha, setAlpha] = useState<number | null>(null);
   return (
-    <div style={{ padding: 8 }}>
+    <div
+      style={{ padding: 8 }}
+      data-testid="picker-state"
+      data-color={color}
+      data-alpha={alpha}
+      data-changes={changes}
+    >
       <ColorPickerContents
         {...args}
         color={color}
         onChange={(nextColor, parsedColor) => {
           setColor(nextColor);
+          setChanges((count) => count + 1);
+          setAlpha(parsedColor.alpha);
           args.onChange(nextColor, parsedColor);
         }}
       />
+      {canRestoreSource && (
+        <Button onPress={() => setColor(args.color)}>
+          Restore incoming color
+        </Button>
+      )}
     </div>
   );
 }
@@ -69,7 +87,9 @@ export const CompactToolbar: Story = {
     await userEvent.click(canvas.getByRole("radio", { name: "Polar model" }));
     await expect(cartesian).not.toBeChecked();
     await userEvent.click(canvas.getByRole("radio", { name: "Channels" }));
-    await expect(canvas.getByRole("slider", { name: "Hue" })).toBeVisible();
+    const hue = canvas.getByRole("slider", { name: "Hue" });
+    await expect(hue).toBeEnabled();
+    await expect(hue.closest(".colorPickerHandle")).toBeVisible();
     await userEvent.click(canvas.getByRole("radio", { name: "Color area" }));
     await expect(canvas.getByText("S × L", { exact: true })).toBeVisible();
     await expect(args.onChange).not.toHaveBeenCalled();
@@ -109,9 +129,29 @@ export const PolarModel: Story = {
 };
 
 export const InvalidInputFallback: Story = {
+  name: "Malformed input",
   args: {
     color: "not-a-color",
   },
+  render: (args) => <ControlledPicker {...args} canRestoreSource />,
+};
+
+export const TransparentEdits: Story = {
+  args: { color: "rgb(51 102 153 / 0.35)" },
+  render: (args) => <ControlledPicker {...args} />,
+};
+
+export const WideGamutEdits: Story = {
+  args: {
+    color: "color(rec2020 0.85 0.1 0.1 / 0.35)",
+    colorSpace: "sRGB",
+    gamut: "Rec2020",
+  },
+  render: (args) => <ControlledPicker {...args} />,
+};
+
+export const OutOfGamutInput: Story = {
+  args: { color: "oklch(0.7 0.4 40)", colorSpace: "OKlch", model: "polar" },
   render: (args) => <ControlledPicker {...args} />,
 };
 
