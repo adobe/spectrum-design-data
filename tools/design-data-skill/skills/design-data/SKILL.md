@@ -65,11 +65,13 @@ version). **Call this first in a session.** No required inputs.
 
 ### `design-data-query`
 
+<!-- Recheck the filterable-field list and the component= note whenever the MCP pin is bumped. -->
+
 Filter tokens by expression. Required: `filter` (string), e.g. `property=background-color`,
-`property=*color*`, `state=hover`, `state=hover,colorScheme=dark`. Filterable fields in the
-pinned release are `property`, `variant`, `state`, `colorScheme`, `scale`, `contrast`;
-`component=…` returns nothing, so use `design-data-component-search` for components. Returns
-an array of matching tokens (empty when none match).
+`property=*color*`, `state=hover`, `state=hover,colorScheme=dark`. As of design-data-mcp
+1.9.9 the filterable fields are `property`, `variant`, `state`, `colorScheme`, `scale`, and
+`contrast`; `component=…` returns nothing, so use `design-data-component-search` for
+components. Returns an array of matching tokens (empty when none match).
 
 ### `design-data-suggest`
 
@@ -90,9 +92,13 @@ displayName, category, and a snippet; pass the id to `design-data-component`.
 ### `design-data-resolve`
 
 Resolve a token property to its value for a mode context. Required: `property`
-(string, e.g. `background-color`). Optional: `colorScheme` (`light`/`dark`),
+(string, e.g. `corner-radius`). Optional: `colorScheme` (`light`/`dark`),
 `scale` (`desktop`/`mobile`), `contrast` (`regular`/`high`). Errors when no token
-matches; use `design-data-query` to find the exact property name first.
+matches. Most property names are shared by many tokens and there is no component
+or variant input, so expect `ambiguous: true` with `candidateCount` and
+`alternatives`; the `token` returned is only the top pick. Use `design-data-query`
+to find the exact token and report the alternatives to the user instead of
+presenting one value as definitive.
 
 ### `design-data-guideline-list` and `design-data-guideline`
 

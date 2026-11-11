@@ -32,8 +32,8 @@ of guessing.
   the actual schema: variants, sizes, states, and boolean props.
 - **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
   Resolve takes a property name and optional color scheme, scale, and contrast.
-  When the property name is shared across many tokens, find the exact one with the query
-  tool first.
+  Property names are usually shared by many tokens, so the result is typically marked
+  `ambiguous` with a top pick plus the alternatives; narrow with the query tool.
 - **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
 - **Get oriented:** a primer with token counts, the component list, the registry
