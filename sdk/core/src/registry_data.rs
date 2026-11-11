@@ -3273,6 +3273,303 @@ const CATEGORIES_JSON: &str = r##"{
   ]
 }
 "##;
+const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "relationship-context",
+  "description": "Main words of a relationship `context` string (the text before an optional parenthesis). A compound main word joins several terms (for example `Background and border`); a term's `aliases` are other head words that map onto it. Matched case-insensitively. Used by SPEC-091 and by the `contextRole` field.",
+  "values": [
+    {
+      "id": "spacing",
+      "label": "Spacing",
+      "description": "Distance between parts or from an edge to a part",
+      "aliases": [
+        "padding",
+        "paddings",
+        "margins",
+        "minimum spacing",
+        "icon spacing",
+        "radio group spacing",
+        "checkbox group spacing",
+        "container padding",
+        "individual value spacing",
+        "spacing between values",
+        "margin to color area",
+        "s1 spacing"
+      ]
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Fill behind a part",
+      "aliases": [
+        "color",
+        "non-semantic",
+        "semantic",
+        "add “button” background"
+      ]
+    },
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Outline or stroke around a part",
+      "aliases": [
+        "border color",
+        "border width",
+        "inner border",
+        "border and inner border",
+        "visual border",
+        "selection border",
+        "outline",
+        "stroke width"
+      ]
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "Text content of a part",
+      "aliases": [
+        "text",
+        "body",
+        "title",
+        "description",
+        "descriptions",
+        "heading color",
+        "description color",
+        "help text color",
+        "error message",
+        "help text",
+        "title area",
+        "body area",
+        "step text",
+        "text area",
+        "text adjustment",
+        "section header title",
+        "side navigation title"
+      ]
+    },
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Icon glyph or asset",
+      "aliases": [
+        "leading icon",
+        "alert icon",
+        "cross icon",
+        "positive icon",
+        "hold icon",
+        "clear icon",
+        "header icons",
+        "icon asset",
+        "disabled icon",
+        "disabled icon asset",
+        "checkmark icon",
+        "checkmark ui icon asset",
+        "asterisk ui icon asset",
+        "dash ui icon",
+        "sort ui icon asset",
+        "chevron/disclosure icon",
+        "chevron",
+        "validation icon"
+      ]
+    },
+    {
+      "id": "width",
+      "label": "Width",
+      "description": "Width, including minimum and maximum width",
+      "aliases": [
+        "minimum width",
+        "maximum width",
+        "component width",
+        "component minimum width",
+        "content width",
+        "popover minimum width",
+        "track width",
+        "prefix min-width",
+        "width small"
+      ]
+    },
+    {
+      "id": "height",
+      "label": "Height",
+      "description": "Height, including minimum height",
+      "aliases": [
+        "minimum height",
+        "component height",
+        "row height",
+        "minimum title area height",
+        "column header row height",
+        "section header row height",
+        "height small"
+      ]
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "description": "Overall or part size",
+      "aliases": [
+        "component size",
+        "button size",
+        "icon size",
+        "visual size",
+        "square size",
+        "dot size",
+        "cross icon size",
+        "alert icon size",
+        "font size",
+        "length",
+        "component height and width",
+        "height & width"
+      ]
+    },
+    {
+      "id": "rounding",
+      "label": "Rounding",
+      "description": "Corner radius",
+      "aliases": [
+        "corner radius",
+        "corner rounding",
+        "border radius",
+        "item rounding",
+        "focused value rounding"
+      ]
+    },
+    {
+      "id": "thickness",
+      "label": "Thickness",
+      "description": "Stroke or track thickness",
+      "aliases": ["s1 thickness", "slash thickness", "steplist track thickness"]
+    },
+    {
+      "id": "value",
+      "label": "Value",
+      "description": "A displayed or selected value",
+      "aliases": ["counter", "day values", "current day"]
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control and its handle",
+      "aliases": [
+        "handle",
+        "segmented control items",
+        "selection checkbox",
+        "selection indicator",
+        "indicator",
+        "thumbnail",
+        "thumb"
+      ]
+    },
+    {
+      "id": "track",
+      "label": "Track",
+      "description": "Track, fill and progress visuals",
+      "aliases": [
+        "fill",
+        "range fill color",
+        "meter",
+        "progress",
+        "progress track",
+        "steplist track"
+      ]
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focus ring or indicator",
+      "aliases": [
+        "focus ring",
+        "focus indicator",
+        "keyboard focus indicator",
+        "ring",
+        "static white – focus indicator",
+        "static black – focus indicator"
+      ]
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop shadow",
+      "aliases": ["drop shadow", "dragged shadow", "shadows", "s1 shadows"]
+    },
+    {
+      "id": "state",
+      "label": "State",
+      "description": "A named interaction state",
+      "aliases": [
+        "disabled",
+        "hover",
+        "down",
+        "down state",
+        "expanded",
+        "default",
+        "loading"
+      ]
+    },
+    {
+      "id": "layout",
+      "label": "Layout",
+      "description": "Container and row structure",
+      "aliases": [
+        "components",
+        "row",
+        "column header",
+        "summary row",
+        "s1 row",
+        "horizontal",
+        "content",
+        "media",
+        "header",
+        "tip",
+        "well",
+        "overlay"
+      ]
+    },
+    {
+      "id": "prefix",
+      "label": "Prefix",
+      "description": "Prefix part"
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Step visual and step text",
+      "aliases": ["step visual", "step visual text"]
+    },
+    {
+      "id": "illustration",
+      "label": "Illustration",
+      "description": "Illustrative color or pattern",
+      "aliases": [
+        "illustration color",
+        "checkerboard colors",
+        "opacity checkerboard"
+      ]
+    },
+    {
+      "id": "slash",
+      "label": "Slash",
+      "description": "Slash glyph"
+    },
+    {
+      "id": "pagination",
+      "label": "Pagination",
+      "description": "Pagination and breadcrumb items",
+      "aliases": ["breadcrumb item", "breadcrumb items"]
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "Navigation items and indicators",
+      "aliases": [
+        "side navigation indicator",
+        "tab items",
+        "section title and chevron",
+        "navigation item"
+      ]
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
@@ -3332,6 +3629,7 @@ pub(crate) fn build_registry_map(
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("icon-terms".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
+    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
     map
 }
 

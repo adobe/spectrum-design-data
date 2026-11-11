@@ -1,0 +1,25 @@
+{
+  "tokens": [],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Spacing",
+      "contextRole": ["background"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000002"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "actions"
+      }
+    }
+  ]
+}

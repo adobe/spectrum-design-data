@@ -1191,3 +1191,54 @@ rules:
     message: "Component part '{part}' of '{component}': {reason}"
     spec_ref: spec/component-visuals.md#nested-recipes
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-090
+    name: relationship-context-fields-agree
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      `contextRole`, `contextPart` and `contextQualifier` are generated from, and checked
+      against, the `context` string, which stays the identity key a recipe binds on. The derived
+      label is the role labels joined (`A`, `A and b`, `A, b, and c`) plus an optional
+      parenthesised detail. A record with `context` and no structured fields is not checked.
+    assert: >
+      When a relationship carries `contextRole`, `contextPart` or `contextQualifier`: every
+      `contextRole` id MUST be in registry/relationship-contexts.json, a part or qualifier MUST
+      come with a role, a record MUST NOT carry both a part and a qualifier, and when `context`
+      is also present it MUST equal the label derived from the fields.
+    message: "Relationship {scope}: {problem}"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-091
+    name: relationship-context-main-word-registered
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      The main word is the text before the first parenthesis. A compound is split at `and` and
+      commas. Matching ignores case and stray whitespace. Existing data is held at a baseline
+      (sdk/core/tests/fixtures/recipe-lint-baseline.json) until the vocabulary is cleaned up.
+    assert: >
+      The main word of a relationship `context` SHOULD be a label or alias in
+      registry/relationship-contexts.json.
+    message: "Relationship context '{context}': main word '{word}' is not in the relationship-contexts registry"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-092
+    name: relationship-live-record-has-context
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      A recipe binds on `(property, context)`, so a context-less record is only reachable through
+      an alias chain from a contexted record. Deprecated records are exempt. Existing data is
+      held at a baseline until the contexts are applied.
+    assert: >
+      A live relationship with no `context` SHOULD be referenced, directly or through other
+      relationships' `$ref` uuids, by a relationship that has a `context`.
+    message: "Relationship {scope} has no context and no contexted record references it; add a context so a recipe can bind it"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
