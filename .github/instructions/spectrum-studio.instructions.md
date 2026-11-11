@@ -10,6 +10,7 @@ description: "Spectrum Studio package rules (working rules, test scoping, design
 
 Read `docs/spectrum-studio/AGENTS.md` before changing anything under `docs/spectrum-studio/`. It holds the working rules, the domain map, and the skills and rules in `docs/spectrum-studio/.agents/`.
 
+* **North star:** read `docs/spectrum-studio/docs/master-migration-plan.md` before planned or unplanned Studio work. Apply its agent core and work-alignment protocol in the existing plan/reasoning, then load only relevant epic details and skills. Exact package-wide reproduction with preserved identities/references precedes repository cutover; approximate agreement is refinement evidence, not completion. The roadmap owns delivery status and the gap register owns alignment evidence. This direction never authorizes additional scope or writes.
 * **Systems-first check:** before planning or implementing changes to authored data, relationships, naming, formulas, rules, generators, or outputs, read and apply [parametric-systems-design](../../.ai/skills/parametric-systems-design/SKILL.md), even when the request describes only UI. State the data owner, shared derivation path, and affected consumers in the existing plan or reasoning. Pure styling changes only need to confirm system behavior is unchanged.
 * The package keeps `tsx` check scripts and Playwright instead of AVA, and keeps its debt in `docs/known-debt.md` instead of beads. The root rules otherwise apply.
 * Differences from design-data are diagnostics, never failures. Do not add load-time throws or alignment gates.

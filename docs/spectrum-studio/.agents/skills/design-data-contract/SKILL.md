@@ -1,13 +1,20 @@
 ---
 name: design-data-contract
-description: How spectrum-studio relates to the external design-data (spectrum-design-data) reference repo. Use when a change adds or alters taxonomy, tokens, modes, schema, token names, export or output shapes, mappings, or anything that might differ from design-data; when editing the gap register (src/data/design-data-gaps.json); when touching the Analysis page; or when asked about alignment, parity, upstream proposals, or "audit". Covers the four data buckets, the register, commands, pinned evidence, and what must never block the app.
+description: How spectrum-studio relates to the canonical design-data and specification packages in this monorepo. Use when a change adds or alters taxonomy, tokens, modes, schema, token names, export or output shapes, mappings, or anything that might differ from design-data; when editing the gap register (src/data/design-data-gaps.json); when touching the Analysis page; or when asked about alignment, parity, upstream proposals, or "audit". Covers the north star, four data buckets, register, commands, pinned evidence, and what must never block the app.
 ---
 
 # Design-data contract
 
-This app will eventually reach full parity with design-data and move into a
-`packages/` subfolder of that repo. Until then it introduces new data and
-possible schema enhancements. **Differences are information, never failures**
+Studio lives at `docs/spectrum-studio` in this monorepo. Its reference data and
+specification are `packages/design-data` and `packages/design-data-spec`.
+The [master migration plan](../../../docs/master-migration-plan.md) defines the
+destination: complete package authoring after exact reproduction from shipped
+defaults and identity/reference preservation. Representability, near-match
+refinement, exact parity and upstream acceptance remain separate claims.
+This direction does not authorize schemas, migrations or publication.
+
+Studio can introduce new data and possible schema enhancements during authoring.
+**Differences are information, never failures**
 (AGENTS.md, Working rule 2): the app must start, load, render, and stay editable
 whatever the divergence, and a difference is shown with a path to fix it.
 
@@ -77,10 +84,11 @@ beyond what the task requires.
 
 Run the reference commands only when the user asks. See `verify-change`.
 
-The reference path comes from `DESIGN_DATA_PATH` in `.env.local` (default
-`../spectrum-design-data`). If it is absent, the app still starts; Analysis
-shows an unavailable state, coverage is not shown as 0%, and gap freshness is
-`unavailable`.
+The monorepo is the default reference. Server-only `DESIGN_DATA_PATH` in the
+ignored `.env.local` configuration can select another checkout; a shell
+override takes precedence. Follow `docs/design-data-coverage-metrics.md` for
+configuration. If the reference is missing or unreadable, the app still starts;
+Analysis shows an unavailable state, not 0% coverage or fresh gap evidence.
 
 ## Pinned evidence: do not edit
 
@@ -102,6 +110,10 @@ shows an unavailable state, coverage is not shown as 0%, and gap freshness is
 
 Index: `docs/README.md`. Do not load `docs/archive/`.
 
+- `docs/master-migration-plan.md`: package-wide destination, exact reproduction,
+  evidence gates and work routing. Existing tolerance policies support refinement,
+  not final migration completion. Active-token percentages alone cannot establish
+  preservation of deprecated records, aliases, metadata or non-token content.
 - `docs/design-data-target-contract.md`: the joint future contract and where
   the two sides differ. Treat it as a proposal; do not implement a target
   authoring model, schema, or migration from it. Primary roadmap fit: EPIC-7.1,
