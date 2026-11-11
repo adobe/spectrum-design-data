@@ -1206,7 +1206,9 @@ rules:
       When a relationship carries `contextRole`, `contextPart` or `contextQualifier`: every
       `contextRole` id MUST be in registry/relationship-contexts.json, a part or qualifier MUST
       come with a role, a record MUST NOT carry both a part and a qualifier, and when `context`
-      is also present it MUST equal the label derived from the fields.
+      is also present it MUST equal the label derived from the fields, or its main word MUST
+      resolve through the registry aliases to the same term ids as `contextRole` (and its
+      parenthesised detail MUST equal the part or qualifier).
     message: "Relationship {scope}: {problem}"
     spec_ref: spec/relationship-format.md#context
     introduced_in: "1.0.0-draft"

@@ -344,6 +344,22 @@ impl RegistryData {
         Some(out)
     }
 
+    /// Whether a relationship `context` string agrees with its structured fields: it equals
+    /// the derived label, or its main word (a registry alias, spelled in sentence case) resolves
+    /// to the same term ids as `roles` and its parenthesised detail equals `detail`.
+    pub fn context_agrees(&self, context: &str, roles: &[&str], detail: Option<&str>) -> bool {
+        let context = context.trim();
+        if self.derive_context(roles, detail).as_deref() == Some(context) {
+            return true;
+        }
+        let (head, got_detail) = split_context(context);
+        let mut chars = head.chars();
+        let sentence_case = chars
+            .next()
+            .is_some_and(|_| chars.as_str() == chars.as_str().to_lowercase());
+        sentence_case && got_detail == detail && self.context_roles(head).as_deref() == Ok(roles)
+    }
+
     /// The registry's default interaction precedence for a state id or alias.
     pub fn state_precedence(&self, id: &str) -> Option<u32> {
         self.state_precedence.get(id).copied()
@@ -390,6 +406,23 @@ impl RegistryData {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn related_terms_name_registry_terms() {
+        let v: Value = serde_json::from_str(RELATIONSHIP_CONTEXTS_JSON).unwrap();
+        let values = v["values"].as_array().unwrap();
+        let ids: HashSet<&str> = values.iter().filter_map(|e| e["id"].as_str()).collect();
+        for e in values {
+            for t in e["relatedTerms"].as_array().into_iter().flatten() {
+                let t = t.as_str().unwrap();
+                assert!(
+                    ids.contains(t),
+                    "{}: relatedTerms '{t}' is not a term",
+                    e["id"]
+                );
+            }
+        }
+    }
 
     #[test]
     fn context_helpers_split_derive_and_map_roles() {

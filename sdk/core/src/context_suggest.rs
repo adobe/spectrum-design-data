@@ -94,8 +94,8 @@ pub struct Proposal {
     pub context_part: Option<String>,
     #[serde(rename = "contextQualifier", skip_serializing_if = "Option::is_none")]
     pub context_qualifier: Option<String>,
-    /// The structured fields reproduce the string through the SPEC-090 derivation. When
-    /// false (an alias such as `Text`, or an unregistered head) the fields are a
+    /// The structured fields agree with the string under SPEC-090. When
+    /// false (a case variant, or an unregistered head) the fields are a
     /// suggestion only and SPEC-090 would flag them next to the string.
     #[serde(rename = "fieldsDeriveString")]
     pub fields_derive_string: bool,
@@ -273,14 +273,14 @@ impl<'a> Index<'a> {
             Ok(r) => (r.iter().map(|s| s.to_string()).collect::<Vec<_>>(), None),
             Err(w) => (Vec::new(), Some(w.clone())),
         };
-        let derives = roles.as_ref().is_ok_and(|r| {
-            self.reg.derive_context(r, detail.as_deref()).as_deref() == Some(context)
-        });
+        let derives = roles
+            .as_ref()
+            .is_ok_and(|r| self.reg.context_agrees(context, r, detail.as_deref()));
         if gap.is_some() {
             evidence.push(format!("main word '{head}' is not in the registry"));
         } else if !derives {
             evidence.push(
-                "string uses a registry alias or case variant, so the fields would not derive it (SPEC-090)"
+                "string uses a case variant, so the fields would not agree with it (SPEC-090)"
                     .into(),
             );
         }
@@ -818,7 +818,7 @@ mod tests {
         assert_eq!(ps[1].context, "Spacing (edge to fill)");
         assert_eq!(ps[2].context, "Drop shadow");
         assert_eq!(ps[2].context_role, ["shadow"]);
-        assert!(!ps[2].fields_derive_string);
+        assert!(ps[2].fields_derive_string);
         assert_eq!(ps[3].context, "Text");
         assert_eq!(ps[3].context_role, ["label"]);
         assert_eq!(ps[4].context, "Width (minimum)");
@@ -829,12 +829,12 @@ mod tests {
     fn an_unregistered_head_is_a_registry_gap_not_new_vocabulary() {
         let g = graph(vec![rec(
             "a",
-            json!({"component": "panel", "property": "color", "part": "gripper"}),
+            json!({"component": "panel", "property": "color", "part": "zorp"}),
             json!({}),
         )]);
         let p = one(&g, 0);
-        assert_eq!(p.context, "Gripper");
-        assert_eq!(p.registry_gap.as_deref(), Some("gripper"));
+        assert_eq!(p.context, "Zorp");
+        assert_eq!(p.registry_gap.as_deref(), Some("zorp"));
         assert!(p.context_role.is_empty());
     }
 

@@ -13,7 +13,8 @@
 //! `contextRole`, `contextPart` and `contextQualifier` are generated from, and checked
 //! against, the `context` string. The string stays the identity key a recipe binds on, so
 //! when both exist the string must equal the label derived from the fields
-//! (`RegistryData::derive_context`). Also flags a part or qualifier with no role, both
+//! (`RegistryData::derive_context`) or open with a registry alias of the same term(s)
+//! (`RegistryData::context_agrees`). Also flags a part or qualifier with no role, both
 //! of them together, and a role id that is not in the registry.
 //!
 //! Warning: starts as a warning so existing data passes.
@@ -60,13 +61,13 @@ impl ValidationRule for Rule {
                     "contextRole '{bad}' is not in the relationship-contexts registry"
                 ))
             } else {
-                match (
-                    s("context"),
-                    ctx.registry.derive_context(&roles, part.or(qualifier)),
-                ) {
-                    (Some(c), Some(d)) if c.trim() != d => Some(format!(
-                        "context '{c}' does not equal '{d}' derived from the structured fields"
-                    )),
+                let detail = part.or(qualifier);
+                match (s("context"), ctx.registry.derive_context(&roles, detail)) {
+                    (Some(c), Some(d)) if !ctx.registry.context_agrees(c, &roles, detail) => {
+                        Some(format!(
+                            "context '{c}' does not agree with '{d}' derived from the structured fields"
+                        ))
+                    }
                     _ => None,
                 }
             };
@@ -144,6 +145,48 @@ mod tests {
             0
         );
         assert_eq!(run(json!({"contextRole": ["spacing"]})), 0);
+    }
+
+    #[test]
+    fn a_string_opening_with_an_alias_of_the_role_passes() {
+        for (context, role) in [
+            ("Padding", "spacing"),
+            ("Text", "label"),
+            ("Drop shadow", "shadow"),
+            ("Tab items", "navigation"),
+            ("Tab item", "tab-item"),
+        ] {
+            assert_eq!(run(json!({"context": context, "contextRole": [role]})), 0);
+        }
+        assert_eq!(
+            run(
+                json!({"context": "Text (hover)", "contextRole": ["label"], "contextQualifier": "hover"})
+            ),
+            0
+        );
+        assert_eq!(
+            run(json!({"context": "Text and icon", "contextRole": ["label", "icon"]})),
+            0
+        );
+    }
+
+    #[test]
+    fn an_alias_of_a_different_term_still_warns() {
+        assert_eq!(run(json!({"context": "Text", "contextRole": ["icon"]})), 1);
+        assert_eq!(
+            run(json!({"context": "Tab items", "contextRole": ["tab-item"]})),
+            1
+        );
+        assert_eq!(
+            run(json!({"context": "Tab item", "contextRole": ["navigation"]})),
+            1
+        );
+        assert_eq!(
+            run(
+                json!({"context": "Text (hover)", "contextRole": ["label"], "contextQualifier": "focus"})
+            ),
+            1
+        );
     }
 
     #[test]
