@@ -5,7 +5,7 @@
       "property": "vertical-height"
     },
     "context": "Component height and width (vertical)",
-    "$ref": "fe57d82a-5365-441a-9bd5-8f2c71c2ba83",
+    "$ref": "c039a7cf-4fff-4550-a985-b87b8ac7f64f",
     "uuid": "ce1f8fa1-7bf5-5f2c-88cc-7b2fc64d5037"
   },
   {
@@ -14,7 +14,7 @@
       "property": "vertical-height"
     },
     "context": "Component height and width (vertical)",
-    "$ref": "2a6a9aef-2c75-43e4-856d-c797900c713f",
+    "$ref": "c039a7cf-4fff-4550-a985-b87b8ac7f64f",
     "uuid": "9b5fe9fc-2baa-52d5-b0af-4fa6629397af"
   },
   {
@@ -41,7 +41,7 @@
       "property": "horizontal-width"
     },
     "context": "Component width (horizontal)",
-    "$ref": "04fcbf2f-ffe1-4f26-99d1-59a3deb053ed",
+    "$ref": "d24e6f8e-4af2-4c4a-8a4a-f2cd06d8edb5",
     "uuid": "002a7f09-2dd4-5f58-804a-49b549872181"
   },
   {
@@ -50,7 +50,7 @@
       "property": "horizontal-width"
     },
     "context": "Component width (horizontal)",
-    "$ref": "d406a096-aea6-4e39-818a-52d82b3c5031",
+    "$ref": "d24e6f8e-4af2-4c4a-8a4a-f2cd06d8edb5",
     "uuid": "06959bf8-c6aa-5a11-a713-2ffc73b0cb67"
   },
   {
@@ -59,7 +59,7 @@
       "property": "horizontal-minimum-width"
     },
     "context": "Component minimum width (horizontal)",
-    "$ref": "b2104b40-4b34-4d98-a564-1688900de75d",
+    "$ref": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d",
     "uuid": "fb12f38e-7349-5979-b83f-652b19b6c196"
   },
   {
@@ -68,7 +68,7 @@
       "property": "horizontal-minimum-width"
     },
     "context": "Component minimum width (horizontal)",
-    "$ref": "0a6c3623-dd05-40df-a3d8-b724e8a88178",
+    "$ref": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d",
     "uuid": "b8ea637f-e397-56f5-8ba7-274061f816d4"
   },
   {
@@ -77,7 +77,7 @@
       "property": "horizontal-minimum-height"
     },
     "context": "Component minimum height (horizontal)",
-    "$ref": "3d6fc9f4-1f22-4e1d-a602-e00079dd2057",
+    "$ref": "50a7fb55-51f5-43e1-b931-16834a1f641e",
     "uuid": "4aabe76d-9ca2-5d6f-8830-f8ad7b3a9c40"
   },
   {
@@ -86,7 +86,7 @@
       "property": "horizontal-minimum-height"
     },
     "context": "Component minimum height (horizontal)",
-    "$ref": "c731f83e-152b-44ad-818f-460dc1d29228",
+    "$ref": "50a7fb55-51f5-43e1-b931-16834a1f641e",
     "uuid": "d6d6939a-f5be-516f-babc-71c1f0a8b678"
   },
   {

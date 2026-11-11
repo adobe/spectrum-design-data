@@ -5,7 +5,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "9fa676c9-ccfb-47db-9ae4-348884b9b120",
+    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "3449ecf5-49e4-556a-b2a0-9cff071a46d2"
   },
   {
@@ -14,7 +14,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "0d926e1a-080a-41ba-8bb9-ef6d0847cb77",
+    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "ebd04ea9-95db-5ac7-84ab-7fe618ce20a9"
   },
   {
@@ -23,7 +23,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "33789b22-7d2c-4620-8f45-973e734ef5b6",
+    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "bd134807-e7d9-5767-816c-1845fc9f19cc"
   },
   {
@@ -32,7 +32,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "c8d8e379-1e3f-4f5e-bce3-df3fc05ff16e",
+    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "1f8d1ca5-b272-5a96-96bb-5a930418c0e8"
   },
   {
@@ -41,7 +41,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "2e29b29f-b8b7-430a-8720-31422c6ad243",
+    "$ref": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
     "uuid": "143631c9-e88e-595d-b3c8-1598738e7f11"
   },
   {
@@ -50,7 +50,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "77be7e79-a589-4f32-9e42-ea45ed7763aa",
+    "$ref": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
     "uuid": "373d881b-22c1-5c75-962d-583958bda689"
   },
   {
@@ -59,7 +59,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "91e7d7f2-a34d-4d03-831c-75574d1b7bee",
+    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "uuid": "09465fb0-b8c9-5f1e-84ee-0abaf9c22826"
   },
   {
@@ -68,7 +68,7 @@
       "property": "size"
     },
     "context": "Size (square)",
-    "$ref": "162c1233-3420-44a2-a270-97d0a7c23df1",
+    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "uuid": "2cd94925-cca2-5622-8762-e0c489122d5d"
   },
   {

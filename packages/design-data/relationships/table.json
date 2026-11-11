@@ -77,7 +77,7 @@
       "property": "height"
     },
     "context": "Row height (minimum, regular density)",
-    "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "b0e0bdff-6771-5417-b723-6de7654b51b6"
   },
   {
@@ -212,7 +212,7 @@
       "property": "row-height"
     },
     "context": "Section header row height",
-    "$ref": "07beb872-72a0-400e-b434-dd076c9be0a7",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "c06ac877-6227-5d19-9392-40a80b079efe"
   },
   {
@@ -2993,7 +2993,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
+    "$ref": "f5d4825e-d704-4eb8-bde7-45c6db956a39",
     "uuid": "b7753c9a-8854-4927-89dd-80d47bff5fa5",
     "legacyKey": "table-row-height-extra-large-regular",
     "setUuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
@@ -3166,7 +3166,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
+    "$ref": "2451ab96-310a-4965-8fbe-fa4a645cd410",
     "uuid": "b92bc058-27ea-4e86-a1a2-e5dbae3c2ee8",
     "legacyKey": "table-row-height-large-regular",
     "setUuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
@@ -3330,7 +3330,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "72e6564c-2acf-4f77-80d9-b21d2d55a580",
     "legacyKey": "table-row-height-medium-regular",
     "setUuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
@@ -3497,7 +3497,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "cdbb999d-c2a9-4325-9689-bede2ad3559a",
     "legacyKey": "table-row-height-small-regular",
     "setUuid": "f8519e64-027c-4724-b5f3-772ee266ba78",

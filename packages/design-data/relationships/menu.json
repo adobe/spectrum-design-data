@@ -968,7 +968,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "87234a25-8f6d-457c-9d3f-363930fec12c",
+    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "uuid": "8aa11db7-a9ad-58c4-844a-cf14e973c504"
   },
   {
@@ -977,7 +977,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "1798b58e-fce4-411d-ba8d-75006fa4f53e",
+    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "uuid": "e80f594f-bf4c-548f-9bb3-650106d927ca"
   },
   {
@@ -986,7 +986,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "d6aaa2c4-d213-44de-9bae-742d26df8765",
+    "$ref": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
     "uuid": "ee314fb2-6922-5d0b-87ea-42a2b35f7339"
   },
   {
@@ -995,7 +995,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "5eab16f9-5537-4a14-958d-d96200c5723f",
+    "$ref": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
     "uuid": "85bd4d39-d845-5c65-94f2-081c8ac190c0"
   },
   {
@@ -1022,7 +1022,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202",
+    "$ref": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
     "uuid": "a2ba2217-dea7-56e6-a064-2a4943e7802b"
   },
   {
@@ -1031,7 +1031,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "97f11dd2-0173-464c-9eef-c260c9e8cf22",
+    "$ref": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
     "uuid": "08196022-5c59-5906-977f-ef9ae3a093e4"
   },
   {

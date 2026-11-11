@@ -14,7 +14,7 @@
       "property": "size"
     },
     "context": "Control (size)",
-    "$ref": "af31c1a5-ffce-4a54-8862-3e711ca53d25",
+    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
     "uuid": "8390829e-64ae-5f79-b943-6f6755a2ea0d"
   },
   {
@@ -32,7 +32,7 @@
       "property": "size"
     },
     "context": "Control (size)",
-    "$ref": "00fee3f7-a743-45d6-a2b6-028d5d96964a",
+    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
     "uuid": "488b3d86-1068-53b2-afa6-373bd8c0a97b"
   },
   {
@@ -50,7 +50,7 @@
       "property": "size"
     },
     "context": "Control (size)",
-    "$ref": "b4367578-989e-438d-9a3e-7cb077f2f7c9",
+    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
     "uuid": "6832bd57-e354-560f-bc15-d7004f125d64"
   },
   {
@@ -68,7 +68,7 @@
       "property": "size"
     },
     "context": "Control (size)",
-    "$ref": "13093f8b-e38e-449f-a982-7f960bb84dfa",
+    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
     "uuid": "ff693ff4-5508-5f96-8479-496a239459d4"
   },
   {

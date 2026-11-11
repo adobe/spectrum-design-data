@@ -32,7 +32,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2",
+    "$ref": "ef6d6538-212a-45ff-9fbc-f9276af09c27",
     "uuid": "b3a03b6c-4da1-56e0-bb6c-c0c93a6bd1b5"
   },
   {
@@ -50,7 +50,7 @@
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
-    "$ref": "ad835d79-64d9-4183-ace0-912c87fc2241",
+    "$ref": "d2eb3062-0839-435a-aad6-309ece18ca25",
     "uuid": "bdee5e33-8822-5d16-bddb-e252d64fb7f1"
   },
   {
@@ -113,7 +113,7 @@
       "property": "height"
     },
     "context": "Side navigation indicator",
-    "$ref": "dfae987d-8f6c-4b2c-a01b-3a010581488d",
+    "$ref": "89766302-b727-438e-bf4b-7549b98569cf",
     "uuid": "ca478c10-7c12-58f0-8cf2-f62e524d178a"
   },
   {

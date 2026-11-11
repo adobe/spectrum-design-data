@@ -936,7 +936,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{table-row-height-extra-large}",
+        "value": "{list-item-height-extra-large}",
         "uuid": "b7753c9a-8854-4927-89dd-80d47bff5fa5"
       }
     },
@@ -1003,7 +1003,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{table-row-height-large}",
+        "value": "{list-item-height-large}",
         "uuid": "b92bc058-27ea-4e86-a1a2-e5dbae3c2ee8"
       }
     },
@@ -1070,7 +1070,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{table-row-height-medium}",
+        "value": "{list-item-height-medium}",
         "uuid": "72e6564c-2acf-4f77-80d9-b21d2d55a580"
       }
     },
@@ -1137,7 +1137,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{table-row-height-small}",
+        "value": "{list-item-height-small}",
         "uuid": "cdbb999d-c2a9-4325-9689-bede2ad3559a"
       }
     },

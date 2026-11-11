@@ -80,7 +80,7 @@
   "illustrated-message-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "illustrated-message",
-    "value": "{illustrated-message-vertical-maximum-width}",
+    "value": "{container-maximum-width-large}",
     "uuid": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
     "deprecated": true
   },

@@ -5,7 +5,7 @@
       "property": "minimum-width"
     },
     "context": "Width (default)",
-    "$ref": "47ae1059-6b16-4823-866d-11be0c0e0e8a",
+    "$ref": "cf6d396e-e889-4269-9c0f-d97fe977939f",
     "uuid": "5ba88741-0552-5c3a-a729-1f772241514b"
   },
   {
@@ -14,7 +14,7 @@
       "property": "minimum-width"
     },
     "context": "Width (default)",
-    "$ref": "ae8169fe-1672-4e95-87a5-344ec4d7f163",
+    "$ref": "cf6d396e-e889-4269-9c0f-d97fe977939f",
     "uuid": "4796115f-caad-5758-ac47-98eb9d6036c0"
   },
   {
@@ -23,7 +23,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "c416a2c8-cf8f-5c73-93e8-92f7436df862"
   },
   {
@@ -32,7 +32,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "594666cd-b2a6-5910-8e48-636dd59ad70a"
   },
   {
@@ -41,7 +41,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "95623e92-d9ce-569e-9493-cc2097b1421f"
   },
   {
@@ -50,7 +50,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "36a0a921-14f8-52b3-b260-57828eb2f1ba"
   },
   {
@@ -59,7 +59,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "82179069-00a0-5f12-99a7-a69e03d4fd99"
   },
   {

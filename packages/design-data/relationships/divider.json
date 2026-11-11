@@ -32,7 +32,7 @@
       "property": "horizontal-minimum-width"
     },
     "context": "Horizontal",
-    "$ref": "a0093378-0b2c-474b-9fe5-76940fd1398b",
+    "$ref": "f639e3fe-0a2d-45be-8392-ee1e587f4840",
     "uuid": "5f735347-8c40-59d7-a403-d3af41bfe9ce"
   },
   {
@@ -41,7 +41,7 @@
       "property": "vertical-minimum-height"
     },
     "context": "Horizontal",
-    "$ref": "299db7d6-66f6-4fcb-890d-223406c85ae4",
+    "$ref": "f639e3fe-0a2d-45be-8392-ee1e587f4840",
     "uuid": "2aa871a4-49ac-500c-9842-61b1c1bf937e"
   },
   {

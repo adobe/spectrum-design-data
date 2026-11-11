@@ -5,7 +5,7 @@
       "property": "vertical-maximum-width"
     },
     "context": "Maximum width (Vertical variant)",
-    "$ref": "95c055b0-f688-4405-8426-1b2302e32ebd",
+    "$ref": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa",
     "uuid": "7625ce65-6d91-5f36-a57c-906f8699eff9"
   },
   {
@@ -14,7 +14,7 @@
       "property": "horizontal-maximum-width"
     },
     "context": "Maximum width (Horizontal variant)",
-    "$ref": "4413ee4d-86b1-4d88-b2ee-64c0939698b9",
+    "$ref": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057",
     "uuid": "71eac12b-9ce5-59df-8499-b9431b91be85"
   },
   {
@@ -466,7 +466,7 @@
       "property": "maximum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "95c055b0-f688-4405-8426-1b2302e32ebd",
+    "$ref": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa",
     "uuid": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
     "legacyKey": "illustrated-message-maximum-width",
     "lifecycle": {

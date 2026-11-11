@@ -255,12 +255,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{field-default-width-small}",
+        "value": "{field-width-small}",
         "uuid": "096ddcb7-5afd-416f-9a11-4275556c4b52"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{field-default-width-small}",
+        "value": "{field-width-small}",
         "uuid": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2"
       }
     },

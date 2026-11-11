@@ -593,7 +593,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
     "uuid": "096ddcb7-5afd-416f-9a11-4275556c4b52",
     "legacyKey": "field-width",
     "setUuid": "ad37a519-be52-492e-a816-03ed7608fe65",
@@ -613,7 +613,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
     "uuid": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2",
     "legacyKey": "field-width",
     "setUuid": "ad37a519-be52-492e-a816-03ed7608fe65",
