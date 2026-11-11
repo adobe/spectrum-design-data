@@ -103,9 +103,6 @@
       "description": "Static color must not be set for the default version of this component.",
       "values": [{ "value": "white" }, { "value": "black" }]
     },
-    "selectedTextColor": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
-    },
     "hasHoldIcon": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
