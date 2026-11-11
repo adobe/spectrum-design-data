@@ -63,6 +63,14 @@ export default defineConfig(({ command, isPreview }) => {
     build: {
       sourcemap: true,
       outDir: "./dist",
+      rolldownOptions: {
+        output: {
+          strictExecutionOrder: true,
+          codeSplitting: {
+            groups: [{ name: "vendor", test: /node_modules/ }],
+          },
+        },
+      },
     },
   };
 });

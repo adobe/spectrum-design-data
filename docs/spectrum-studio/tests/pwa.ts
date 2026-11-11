@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 // Run after `pnpm build`: checks the installable-app output in dist/.
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 
 const dist = new URL("../dist/", import.meta.url);
 const manifestUrl = new URL("manifest.webmanifest", dist);
@@ -42,6 +42,18 @@ assert.doesNotMatch(
   /url:"[^"]+\.map"/,
   "service worker skips source maps",
 );
+const precachedPaths = new Set(
+  [...swSource.matchAll(/url:"([^"]+)"/g)].map((match) => match[1]),
+);
+for (const asset of readdirSync(new URL("assets/", dist), {
+  withFileTypes: true,
+})) {
+  if (asset.isFile() && /\.(js|css)$/.test(asset.name))
+    assert(
+      precachedPaths.has(`assets/${asset.name}`),
+      `${asset.name} is included in offline precaching`,
+    );
+}
 
 const html = readFileSync(new URL("index.html", dist), "utf8");
 assert.match(html, /<title>Spectrum Studio<\/title>/);
