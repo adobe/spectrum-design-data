@@ -1,6 +1,6 @@
 ---
-"@adobe/spectrum-design-data": major
-"@adobe/spectrum-tokens": major
+"@adobe/spectrum-design-data": minor
+"@adobe/spectrum-tokens": minor
 ---
 
 Refine size tokens and remove the medium suffix from shared banner tokens.
