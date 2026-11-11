@@ -1,5 +1,19 @@
 # @adobe/design-data-wasm
 
+## 0.19.1
+
+### Patch Changes
+
+- [#1729](https://github.com/adobe/spectrum-design-data/pull/1729) [`0c00c78`](https://github.com/adobe/spectrum-design-data/commit/0c00c782a89e4491136cdb72ae440d2d518058ae) Thanks [@GarthDB](https://github.com/GarthDB)! - Add relationship contexts and structured context fields to 26 records in
+  `tabs`, `list-view`, `segmented-control` and `tree-view` that had none.
+  - Each new context reuses an existing string where the record is the same
+    relationship at another size or option; `tabs` text uses `Label`.
+  - Two existing `tabs` contexts are renamed: `Regular density` becomes `Height`
+    (regular is the default, so it carries no density) and `Height`, which sits on
+    the compact-density record, becomes `Height (compact density)`. No recipe
+    binds either string.
+  - Lowers the SPEC-091 and SPEC-092 baselines for these components.
+
 ## 0.19.0
 
 ### Minor Changes
