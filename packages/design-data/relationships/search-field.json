@@ -131,7 +131,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "2ab02d81-897c-5e33-9973-045f7d63901b"
   },
   {
@@ -140,7 +140,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "c2077cf5-ec33-5a0d-8a53-f712e7881de2"
   },
   {
@@ -149,7 +149,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "59e13514-740d-5531-82e2-254bc3aec145"
   },
   {
@@ -158,7 +158,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "6e75e81a-a3e7-5c4a-ace3-fffe2e73f261"
   },
   {
@@ -167,7 +167,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
-    "$ref": "6392e605-932e-456d-be53-149b624a04e2",
+    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
     "uuid": "2d3b8cef-f65e-5f84-9c7e-b7280e382734"
   },
   {
@@ -176,7 +176,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
-    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
     "uuid": "da15eddd-b35a-5139-aceb-1f47e6072a8b"
   },
   {
@@ -185,7 +185,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
-    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a",
+    "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
     "uuid": "be5ca0e9-7cb0-5a8f-a573-ab25e420240d"
   },
   {
@@ -194,7 +194,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
-    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c",
+    "$ref": "65f791f8-a88f-4765-a57e-3e023a436642",
     "uuid": "d758eb50-d8f8-5c22-b57e-1f12532012f3"
   },
   {

@@ -7305,7 +7305,9 @@
     "uuid": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
     },
     "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
   },
@@ -7319,7 +7321,9 @@
     "uuid": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
     },
     "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
   },
@@ -7333,7 +7337,9 @@
     "uuid": "6392e605-932e-456d-be53-149b624a04e2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
     },
     "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
   },
@@ -7347,7 +7353,9 @@
     "uuid": "9948e083-8c75-48f7-8e58-32c75ec76116",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "94f62adc-c5fb-48f8-ba05-7c639b936643",
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
     },
     "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
   },
@@ -7361,7 +7369,9 @@
     "uuid": "25908278-79d3-47f4-9b53-adbdd1c13e2a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
     },
     "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
   },
@@ -7375,7 +7385,9 @@
     "uuid": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "65f791f8-a88f-4765-a57e-3e023a436642",
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
     },
     "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
   },
@@ -7389,7 +7401,9 @@
     "uuid": "1423caf1-75ca-4ca8-aa6a-22dcf3655b0e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "986ccd9d-7310-43c6-b5a2-ad5a9a7e7275",
+      "deprecatedComment": "Use workflow-icon-extra-small instead"
     },
     "conceptId": "10abd2ac-fdb8-4dee-86a6-1588acc7b366"
   },
@@ -7403,7 +7417,9 @@
     "uuid": "4c4cb541-7d42-4bb4-9c86-7197c4600896",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "9b324b14-b1cf-4932-b5a7-fd5b9410b71b",
+      "deprecatedComment": "Use workflow-icon-extra-small instead"
     },
     "conceptId": "10abd2ac-fdb8-4dee-86a6-1588acc7b366"
   },
@@ -7417,7 +7433,9 @@
     "uuid": "85cdef34-0682-45eb-ac06-98c76883cdf7",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389",
+      "deprecatedComment": "Use workflow-icon-small instead"
     },
     "conceptId": "e1029ff5-5b9c-4717-8cdb-4ced6b554c01"
   },
@@ -7431,7 +7449,9 @@
     "uuid": "b720c214-babe-426d-9629-9ec60d5e8622",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
-      "deprecatedIn": "14.5.0"
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "a659c66d-1e77-4818-95ea-501e65162841",
+      "deprecatedComment": "Use workflow-icon-small instead"
     },
     "conceptId": "e1029ff5-5b9c-4717-8cdb-4ced6b554c01"
   },

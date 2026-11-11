@@ -176,7 +176,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Alert icon",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "f1ada739-584d-5256-8c01-1ad6ec0d72af"
   },
   {
@@ -185,7 +185,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Alert icon",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "65732199-f191-50e3-bdfd-848d9d6eae09"
   },
   {
@@ -194,7 +194,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Alert icon",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "eb9ae891-ca15-5cba-a75e-71376507b892"
   },
   {
@@ -203,7 +203,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Alert icon",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "2cc4a004-4dcd-5e5d-9f33-457f4265b83a"
   },
   {
@@ -212,7 +212,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Alert icon",
-    "$ref": "6392e605-932e-456d-be53-149b624a04e2",
+    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
     "uuid": "db159cb4-6461-593e-bc0d-9905e5e73741"
   },
   {
@@ -221,7 +221,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Alert icon",
-    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
     "uuid": "c3f720ed-f8b8-5dfe-bfc7-943c829d4b3c"
   },
   {
