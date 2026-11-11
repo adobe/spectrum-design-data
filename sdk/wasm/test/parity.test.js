@@ -185,12 +185,13 @@ test("getAdvisoryFields returns a non-empty string array", (t) => {
   t.true(fields.every((f) => typeof f === "string"));
 });
 
-test("getIndexedFields returns all 8 indexed filter keys", (t) => {
+test("getIndexedFields returns all 9 indexed filter keys", (t) => {
   const fields = wasm.getIndexedFields();
   t.true(Array.isArray(fields));
   t.true(fields.every((f) => typeof f === "string"));
   const expected = [
     "property",
+    "component",
     "variant",
     "state",
     "colorScheme",
