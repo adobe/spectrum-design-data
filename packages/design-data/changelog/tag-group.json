@@ -61,6 +61,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (text area to help text)"],"scope":{"property":"to-component","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"to-component","fields":[{"path":"context","before":"Spacing (Text area to Help text)","after":"Spacing (text area to help text)"}]}
+          ]
+        }
+      ]
     }
   ]
 }

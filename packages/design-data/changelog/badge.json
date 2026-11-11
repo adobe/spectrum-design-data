@@ -319,6 +319,55 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "e0df9f51102037f1d0799bf8083de923e00795cd",
+          "date": "2026-11-10",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1719,"title":"feat(design-data): set replacedBy on workflow-icon-size tokens and repoint relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1719"},
+          "entries": [
+            {"id":"e0df9f51-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"e0df9f51-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"6392e605-932e-456d-be53-149b624a04e2","name":"workflow-icon-size-200[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"dc8b54c5-d70c-46ff-838f-9e64e1877cc0"}]},
+            {"id":"e0df9f51-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"6392e605-932e-456d-be53-149b624a04e2","name":"workflow-icon-size-200[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9948e083-8c75-48f7-8e58-32c75ec76116","name":"workflow-icon-size-200[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"94f62adc-c5fb-48f8-ba05-7c639b936643"}]},
+            {"id":"e0df9f51-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9948e083-8c75-48f7-8e58-32c75ec76116","name":"workflow-icon-size-200[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"25908278-79d3-47f4-9b53-adbdd1c13e2a","name":"workflow-icon-size-300[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"}]},
+            {"id":"e0df9f51-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"25908278-79d3-47f4-9b53-adbdd1c13e2a","name":"workflow-icon-size-300[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c","name":"workflow-icon-size-300[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"65f791f8-a88f-4765-a57e-3e023a436642"}]},
+            {"id":"e0df9f51-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c","name":"workflow-icon-size-300[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-12","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"85cdef34-0682-45eb-ac06-98c76883cdf7","name":"workflow-icon-size-75[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"f7d9ca4c-6d3f-4053-962a-152a19531389"}]},
+            {"id":"e0df9f51-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"85cdef34-0682-45eb-ac06-98c76883cdf7","name":"workflow-icon-size-75[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-small instead"}]},
+            {"id":"e0df9f51-14","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"b720c214-babe-426d-9629-9ec60d5e8622","name":"workflow-icon-size-75[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"a659c66d-1e77-4818-95ea-501e65162841"}]},
+            {"id":"e0df9f51-15","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"b720c214-babe-426d-9629-9ec60d5e8622","name":"workflow-icon-size-75[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-small instead"}]},
+            {"id":"e0df9f51-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-75","options":null},"record":"dadd4be6-4368-58a1-811d-ec84b60beb1a","name":"workflow-icon-size-75","fields":[{"path":"$ref","before":"85cdef34-0682-45eb-ac06-98c76883cdf7","after":"f7d9ca4c-6d3f-4053-962a-152a19531389"}]},
+            {"id":"e0df9f51-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-75","options":null},"record":"b46cf298-7d12-552c-9afe-44e3753ed8d4","name":"workflow-icon-size-75","fields":[{"path":"$ref","before":"b720c214-babe-426d-9629-9ec60d5e8622","after":"a659c66d-1e77-4818-95ea-501e65162841"}]},
+            {"id":"e0df9f51-18","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"8303277c-4574-50a1-b7a7-b5d5a45da8b9","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"ad8f63eb-571e-5097-a71d-cd41f2d1a5e2","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"e0df9f51-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-200","options":null},"record":"7fdd5e2e-c56d-51a4-8753-31ebe8036221","name":"workflow-icon-size-200","fields":[{"path":"$ref","before":"6392e605-932e-456d-be53-149b624a04e2","after":"dc8b54c5-d70c-46ff-838f-9e64e1877cc0"}]},
+            {"id":"e0df9f51-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-200","options":null},"record":"872c64f2-e3a9-517d-963e-e164af217622","name":"workflow-icon-size-200","fields":[{"path":"$ref","before":"9948e083-8c75-48f7-8e58-32c75ec76116","after":"94f62adc-c5fb-48f8-ba05-7c639b936643"}]},
+            {"id":"e0df9f51-22","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-300","options":null},"record":"7f4b25a7-3757-5166-b29a-59510ac0041b","name":"workflow-icon-size-300","fields":[{"path":"$ref","before":"25908278-79d3-47f4-9b53-adbdd1c13e2a","after":"e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"}]},
+            {"id":"e0df9f51-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-300","options":null},"record":"412be4a8-eb3a-5351-8931-5d7de5788934","name":"workflow-icon-size-300","fields":[{"path":"$ref","before":"df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c","after":"65f791f8-a88f-4765-a57e-3e023a436642"}]}
+          ]
+        },
+        {
+          "commit": "6136cd760b966dc72b64d8284fcb0172a17aa3f9",
+          "date": "2026-11-10",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1721,"title":"fix(design-data): remove Spectrum 1-only badge fixed and action-button selectedTextColor options","url":"https://github.com/adobe/spectrum-design-data/pull/1721"},
+          "entries": [
+            {"id":"6136cd76-0","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"badge/options/fixed","name":"fixed","fields":[],"before":{"type":"string","default":"none","values":[{"value":"none"},{"value":"top"},{"value":"right"},{"value":"bottom"},{"value":"left"}]}},
+            {"id":"6136cd76-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"badge/visual/parts/container","name":"container","fields":[{"path":"props.cornerRadiusEndEnd","before":[{"when":{"options":{"fixed":"bottom"}},"value":0},{"when":{"options":{"fixed":"right"}},"value":0}]},{"path":"props.cornerRadiusEndStart","before":[{"when":{"options":{"fixed":"bottom"}},"value":0},{"when":{"options":{"fixed":"left"}},"value":0}]},{"path":"props.cornerRadiusStartEnd","before":[{"when":{"options":{"fixed":"top"}},"value":0},{"when":{"options":{"fixed":"right"}},"value":0}]},{"path":"props.cornerRadiusStartStart","before":[{"when":{"options":{"fixed":"top"}},"value":0},{"when":{"options":{"fixed":"left"}},"value":0}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

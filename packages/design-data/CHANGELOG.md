@@ -1,5 +1,75 @@
 # @adobe/spectrum-design-data
 
+## 3.11.0
+
+### Minor Changes
+
+- [#1718](https://github.com/adobe/spectrum-design-data/pull/1718) [`fdf63d7`](https://github.com/adobe/spectrum-design-data/commit/fdf63d7badc50670759c0b28236b0f821ec190dd) Thanks [@GarthDB](https://github.com/GarthDB)! - Retire 24 accordion `top-to-text-*` and `bottom-to-text-*` relationship records
+  (compact, regular and spacious, by size).
+
+  Header vertical padding now depends on size only (`Title (vertical)`,
+  `base-padding-vertical-medium` to `2x-large`). Density adds outer padding through the
+  `Header (vertical)` records: `list-item-padding-vertical-regular` and `-spacious`.
+  Compact has none. This matches the current S2 Web Figma accordion item.
+
+  The deprecated legacy tokens stay.
+
+- [#1724](https://github.com/adobe/spectrum-design-data/pull/1724) [`4387ec1`](https://github.com/adobe/spectrum-design-data/commit/4387ec187851d5ffd554b437f53beb8ae72b513d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add eleven relationship-context terms: `gripper`, `section-header`, `selection`,
+  `preview` and the item types `tab-item`, `breadcrumb-item`, `navigation-item`,
+  `menu-item`, `list-view-item`, `tree-view-item` and `segmented-control-item`
+  (category `item`). Each links to its nearest term with `relatedTerms`.
+  `breadcrumb item` and `navigation item` move from `pagination` and `navigation`
+  to their own terms. Plural strings such as `Tab items` stay aliases of the
+  container term.
+
+  SPEC-090 now accepts a `context` string whose main word is a registry alias of
+  the same term(s) as `contextRole` (`Text` with `[label]`, `Drop shadow` with
+  `[shadow]`). A case variant or an alias of a different term still warns. No
+  relationship data changes.
+
+- [#1720](https://github.com/adobe/spectrum-design-data/pull/1720) [`d4b0bc3`](https://github.com/adobe/spectrum-design-data/commit/d4b0bc38e51641a48cfac06328a73a9d18934b47) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a relationship-context vocabulary and optional structured context fields.
+  - New registry `registry/relationship-contexts.json`: 23 main words with aliases
+    for today's head words.
+  - `relationship.schema.json` gains optional `contextRole` (registry term ids),
+    `contextPart` and `contextQualifier`. The `context` string stays the identity
+    key that recipes bind on.
+  - `relationship-format.md` states that a recipe binds on `context`, the string
+    grammar, and when a live record may omit it.
+  - New warning rules: SPEC-090 (fields agree with the string), SPEC-091 (main
+    word is registered) and SPEC-092 (live record with no context that no
+    contexted record reaches). SPEC-091 and SPEC-092 are held at a baseline in
+    `recipe-lint-baseline.json`.
+
+- [#1721](https://github.com/adobe/spectrum-design-data/pull/1721) [`6136cd7`](https://github.com/adobe/spectrum-design-data/commit/6136cd760b966dc72b64d8284fcb0172a17aa3f9) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove two options that exist only in Spectrum 1, not in any current design or code source.
+  - `badge`: removed the `fixed` option (none/top/right/bottom/left) and the eight recipe
+    branches that squared corners per edge. Badges always render with full corner rounding.
+  - `action-button`: removed the `selectedTextColor` option, which the recipe never used.
+
+- [#1719](https://github.com/adobe/spectrum-design-data/pull/1719) [`e0df9f5`](https://github.com/adobe/spectrum-design-data/commit/e0df9f51102037f1d0799bf8083de923e00795cd) Thanks [@GarthDB](https://github.com/GarthDB)! - Set `lifecycle.replacedBy` on the deprecated `workflow-icon-size-*` tokens.
+
+  Replacements go by t-shirt position:
+  - 50 → `workflow-icon-extra-small`
+  - 75 → `workflow-icon-small`
+  - 100 → `workflow-icon-medium`
+  - 200 → `workflow-icon-large`
+  - 300 → `workflow-icon-extra-large`
+
+  Relationships that bound the old tokens now point at the replacements.
+  Desktop medium, large and extra-large sizes shrink on purpose
+  (20/22/26 → 18/20/22px) to align icons with line height.
+  This is a visible change for consumers of the new tokens,
+  and the deprecation comments say so.
+  Mobile values and sizes 50 and 75 are unchanged.
+  The legacy `layout.json` gains `renamed` and `deprecated_comment`.
+
+### Patch Changes
+
+- [#1722](https://github.com/adobe/spectrum-design-data/pull/1722) [`7515f70`](https://github.com/adobe/spectrum-design-data/commit/7515f705b68e050efce9a88ae6fa811540a99c29) Thanks [@GarthDB](https://github.com/GarthDB)! - Normalize relationship context strings: trim stray whitespace and merge case
+  variants of the same string (52 strings, 210 relationship records, 1 component
+  tokenBinding). One string had an embedded paragraph break collapsed to a single
+  space. Nothing is renamed beyond case and whitespace; recipes and render
+  snapshots are unchanged.
+
 ## 3.10.0
 
 ### Minor Changes

@@ -1,5 +1,66 @@
 # @adobe/design-data-wasm
 
+## 0.19.0
+
+### Minor Changes
+
+- [#1727](https://github.com/adobe/spectrum-design-data/pull/1727) [`43850b0`](https://github.com/adobe/spectrum-design-data/commit/43850b0c1cdd7eef736289cd6f3febc73afe4cb8) Thanks [@GarthDB](https://github.com/GarthDB)! - Make component filtering and token resolution usable.
+  - `query` (`component=button`) now matches tokens that a component's relationships
+    reference, not only the few tokens with `name.component`. `component` is listed
+    as an indexed field.
+  - `resolve` (wasm, CLI and TUI property resolution) picks the winner among active
+    tokens first, so an active token now beats a more specific deprecated one. A
+    deprecated token still wins when no active token matches.
+  - `design-data-resolve` accepts `component`, `variant`, `state`, `colorRole` and
+    `excludeDeprecated` to narrow before the ambiguous fallback.
+  - `design-data-primer` reports the real `modeSets` (colorScheme, scale, contrast
+    modes); they were always empty.
+  - `design-data-query` and `design-data-resolve` descriptions list only filterable
+    fields and drop the `property=color-*` example, which matches nothing.
+
+- [#1720](https://github.com/adobe/spectrum-design-data/pull/1720) [`d4b0bc3`](https://github.com/adobe/spectrum-design-data/commit/d4b0bc38e51641a48cfac06328a73a9d18934b47) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a relationship-context vocabulary and optional structured context fields.
+  - New registry `registry/relationship-contexts.json`: 23 main words with aliases
+    for today's head words.
+  - `relationship.schema.json` gains optional `contextRole` (registry term ids),
+    `contextPart` and `contextQualifier`. The `context` string stays the identity
+    key that recipes bind on.
+  - `relationship-format.md` states that a recipe binds on `context`, the string
+    grammar, and when a live record may omit it.
+  - New warning rules: SPEC-090 (fields agree with the string), SPEC-091 (main
+    word is registered) and SPEC-092 (live record with no context that no
+    contexted record reaches). SPEC-091 and SPEC-092 are held at a baseline in
+    `recipe-lint-baseline.json`.
+
+### Patch Changes
+
+- [#1721](https://github.com/adobe/spectrum-design-data/pull/1721) [`6136cd7`](https://github.com/adobe/spectrum-design-data/commit/6136cd760b966dc72b64d8284fcb0172a17aa3f9) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove two options that exist only in Spectrum 1, not in any current design or code source.
+  - `badge`: removed the `fixed` option (none/top/right/bottom/left) and the eight recipe
+    branches that squared corners per edge. Badges always render with full corner rounding.
+  - `action-button`: removed the `selectedTextColor` option, which the recipe never used.
+
+- [#1722](https://github.com/adobe/spectrum-design-data/pull/1722) [`7515f70`](https://github.com/adobe/spectrum-design-data/commit/7515f705b68e050efce9a88ae6fa811540a99c29) Thanks [@GarthDB](https://github.com/GarthDB)! - Normalize relationship context strings: trim stray whitespace and merge case
+  variants of the same string (52 strings, 210 relationship records, 1 component
+  tokenBinding). One string had an embedded paragraph break collapsed to a single
+  space. Nothing is renamed beyond case and whitespace; recipes and render
+  snapshots are unchanged.
+
+- [#1719](https://github.com/adobe/spectrum-design-data/pull/1719) [`e0df9f5`](https://github.com/adobe/spectrum-design-data/commit/e0df9f51102037f1d0799bf8083de923e00795cd) Thanks [@GarthDB](https://github.com/GarthDB)! - Set `lifecycle.replacedBy` on the deprecated `workflow-icon-size-*` tokens.
+
+  Replacements go by t-shirt position:
+  - 50 → `workflow-icon-extra-small`
+  - 75 → `workflow-icon-small`
+  - 100 → `workflow-icon-medium`
+  - 200 → `workflow-icon-large`
+  - 300 → `workflow-icon-extra-large`
+
+  Relationships that bound the old tokens now point at the replacements.
+  Desktop medium, large and extra-large sizes shrink on purpose
+  (20/22/26 → 18/20/22px) to align icons with line height.
+  This is a visible change for consumers of the new tokens,
+  and the deprecation comments say so.
+  Mobile values and sizes 50 and 75 are unchanged.
+  The legacy `layout.json` gains `renamed` and `deprecated_comment`.
+
 ## 0.18.1
 
 ### Patch Changes
