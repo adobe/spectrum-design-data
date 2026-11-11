@@ -75,6 +75,13 @@ pub struct TokenFilter {
 }
 
 impl TokenFilter {
+    fn uses_key(&self, key: &str) -> bool {
+        match &self.expr {
+            FilterExpr::All => false,
+            FilterExpr::Or(alts) => alts.iter().flatten().any(|c| c.key == key),
+        }
+    }
+
     /// If this filter is exactly one `key=value` equality condition (no `,`,
     /// `|`, `!=`, or `*`), return `(key, value)`. Used to choose the index-backed
     /// fast path in [`filter_with_index`].
@@ -204,7 +211,11 @@ fn validate_key(key: &str) -> Result<(), CoreError> {
 /// Returns references to matching `TokenRecord`s, sorted by name for
 /// deterministic output.
 pub fn filter<'a>(graph: &'a TokenGraph, expr: &TokenFilter) -> Vec<&'a TokenRecord> {
-    let bindings = ComponentBindings::build(graph);
+    let bindings = if expr.uses_key("component") {
+        ComponentBindings::build(graph)
+    } else {
+        ComponentBindings::default()
+    };
     let mut results: Vec<&TokenRecord> = graph
         .tokens
         .values()

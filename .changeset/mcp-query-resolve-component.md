@@ -8,7 +8,8 @@ Make component filtering and token resolution usable.
 - `query` (`component=button`) now matches tokens that a component's relationships
   reference, not only the few tokens with `name.component`. `component` is listed
   as an indexed field.
-- `resolve` ranks active tokens above deprecated ones when picking the winner. A
+- `resolve` (wasm, CLI and TUI property resolution) picks the winner among active
+  tokens first, so an active token now beats a more specific deprecated one. A
   deprecated token still wins when no active token matches.
 - `design-data-resolve` accepts `component`, `variant`, `state`, `colorRole` and
   `excludeDeprecated` to narrow before the ambiguous fallback.

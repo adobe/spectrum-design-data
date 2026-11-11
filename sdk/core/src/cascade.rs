@@ -256,7 +256,11 @@ pub fn resolve_property_narrowed(
     ctx: &ResolutionContext,
     narrowing: &PropertyNarrowing,
 ) -> Vec<ResolvedCandidate> {
-    let bindings = ComponentBindings::build(graph);
+    let bindings = if narrowing.component.is_some() {
+        ComponentBindings::build(graph)
+    } else {
+        ComponentBindings::default()
+    };
     let candidates: Vec<TokenRecord> = graph
         .tokens
         .values()
