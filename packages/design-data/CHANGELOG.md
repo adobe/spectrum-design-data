@@ -1,5 +1,14 @@
 # @adobe/spectrum-design-data
 
+## 3.11.1
+
+### Patch Changes
+
+- [#1728](https://github.com/adobe/spectrum-design-data/pull/1728) [`0cea3f1`](https://github.com/adobe/spectrum-design-data/commit/0cea3f1ecd14c744491458beb3720fa5bb55a7f8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the relationship context "Text" (role `label`) to 200 typography records in
+  heading, detail, body, title and code that had none, and "Margins" (role
+  `spacing`) to 5 margin records. Existing context strings are unchanged. Adding
+  a context is a documentation-class change.
+
 ## 3.11.0
 
 ### Minor Changes
