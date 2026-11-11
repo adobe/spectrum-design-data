@@ -104,7 +104,23 @@
         },
         "context": {
           "type": "string",
-          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+          "description": "Label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+        },
+        "contextRole": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "minItems": 1,
+          "description": "Registry term ids (registry/relationship-contexts.json) for the main word of `context`, in order. Several ids make a compound main word, for example [\"background\", \"border\"] for `Background and border`. When `context` is also present it MUST equal the label derived from these fields (SPEC-090)."
+        },
+        "contextPart": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised part of `context`, such as an anatomy part (`Dot`) or a pair of parts (`icon to label`). Mutually exclusive with contextQualifier. Requires contextRole."
+        },
+        "contextQualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised qualifier of `context`, such as `semantic`, `default` or `minimum`. Mutually exclusive with contextPart. Requires contextRole."
         },
         "$valueType": {
           "type": "string",
@@ -174,7 +190,23 @@
         },
         "context": {
           "type": "string",
-          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+          "description": "Label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+        },
+        "contextRole": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "minItems": 1,
+          "description": "Registry term ids (registry/relationship-contexts.json) for the main word of `context`, in order. Several ids make a compound main word, for example [\"background\", \"border\"] for `Background and border`. When `context` is also present it MUST equal the label derived from these fields (SPEC-090)."
+        },
+        "contextPart": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised part of `context`, such as an anatomy part (`Dot`) or a pair of parts (`icon to label`). Mutually exclusive with contextQualifier. Requires contextRole."
+        },
+        "contextQualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised qualifier of `context`, such as `semantic`, `default` or `minimum`. Mutually exclusive with contextPart. Requires contextRole."
         },
         "$valueType": {
           "type": "string",

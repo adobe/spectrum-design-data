@@ -508,7 +508,7 @@
       "component": "cards",
       "property": "size"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "b9268c45-50c7-4209-9f73-99293e15b7fd",
     "uuid": "0504c19b-4e91-5721-b11a-ed4d6015d994"
   },
@@ -517,7 +517,7 @@
       "component": "cards",
       "property": "size"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "d169a0a3-9bda-41b4-9e58-897652c95627",
     "uuid": "358e39af-9457-546a-a726-b5991e64e3a0"
   },
@@ -526,7 +526,7 @@
       "component": "cards",
       "property": "size"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "f8e58ca1-5087-4c4a-95dc-2f145f63fbc5",
     "uuid": "8d663087-0cd2-5367-9ad0-6a3c55d50728"
   },
@@ -535,7 +535,7 @@
       "component": "cards",
       "property": "size"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "89dca1bf-84e5-436e-9e86-35f37f739812",
     "uuid": "0abfb794-c3f4-53da-b4d9-ccfcca6080eb"
   },
@@ -544,7 +544,7 @@
       "component": "cards",
       "property": "color"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "622c6e86-dea6-416d-9f13-bb6ef112d3cb",
     "uuid": "003dbb4f-be07-5274-af1e-ddea6f515bb2"
   },
@@ -553,7 +553,7 @@
       "component": "cards",
       "property": "color"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "81c0608b-c977-490e-b8d7-830d0676fdad",
     "uuid": "2201c18e-f14f-5e13-8680-554c3b2f7c1c"
   },
@@ -562,7 +562,7 @@
       "component": "cards",
       "property": "color"
     },
-    "context": "Selection checkbox ",
+    "context": "Selection checkbox",
     "$ref": "5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d",
     "uuid": "0263bce2-7073-5d55-aa1a-e16be5db6935"
   },

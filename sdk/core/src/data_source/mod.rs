@@ -106,7 +106,8 @@ pub enum SourceConfig {
     ///
     /// The `root` is resolved relative to the directory containing
     /// `.design-data.toml`. To apply a platform manifest cascade over this
-    /// source, set the top-level `manifest` key (see [`DesignDataConfig`]).
+    /// source, use a `[platforms.<id>]` entry (or the legacy top-level `manifest`
+    /// key; see [`DesignDataConfig`]).
     Path {
         /// Path to the local design-data repo root (absolute, or relative to
         /// the directory containing `.design-data.toml`).
@@ -127,8 +128,8 @@ pub enum SourceConfig {
     ///
     /// Pin to **exactly one** of `tag`, `branch`, or `sha`. A `branch` pin is
     /// mutable and is refetched on every run; `tag`/`sha` are immutable and
-    /// served from cache. Apply a platform manifest via the top-level `manifest`
-    /// key (see [`DesignDataConfig`]).
+    /// served from cache. Apply a platform manifest via a `[platforms.<id>]`
+    /// entry (or the legacy top-level `manifest` key; see [`DesignDataConfig`]).
     Github {
         /// `owner/repo` slug, e.g. `adobe/spectrum-design-data`.
         repo: String,

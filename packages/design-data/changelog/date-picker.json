@@ -186,6 +186,36 @@
           "metadata": {"count":3,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.0.10",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "e0df9f51102037f1d0799bf8083de923e00795cd",
+          "date": "2026-11-10",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1719,"title":"feat(design-data): set replacedBy on workflow-icon-size tokens and repoint relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1719"},
+          "entries": [
+            {"id":"e0df9f51-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"e0df9f51-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"982ea936-c307-55b0-81dc-903a2e52e102","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"c99da327-63f8-597d-a9a0-9b7580e1724b","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]}
+          ]
+        },
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}],"after":[{"token":"strikethrough-day-thickness","context":"Strikethrough day"},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

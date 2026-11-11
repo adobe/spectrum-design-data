@@ -119,17 +119,6 @@
         { "value": "outline" }
       ]
     },
-    "fixed": {
-      "type": "string",
-      "default": "none",
-      "values": [
-        { "value": "none" },
-        { "value": "top" },
-        { "value": "right" },
-        { "value": "bottom" },
-        { "value": "left" }
-      ]
-    },
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",

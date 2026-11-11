@@ -175,7 +175,7 @@
       "component": "close-button",
       "property": "thickness"
     },
-    "context": "Focus ring ",
+    "context": "Focus ring",
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "e4f55d88-8753-5563-b8b6-973fc32d2494"
   },
@@ -184,7 +184,7 @@
       "component": "close-button",
       "property": "gap"
     },
-    "context": "Focus ring ",
+    "context": "Focus ring",
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "bfdda508-8d71-532b-9729-4195e3f4f766"
   },
@@ -247,7 +247,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Background ",
+    "context": "Background",
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "1bfc1c8f-f469-597c-8442-e537707b9ec0"
   },
@@ -256,7 +256,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Background ",
+    "context": "Background",
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "07602829-b7f9-5965-aa60-bd5982f80720"
   },
@@ -265,7 +265,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Background ",
+    "context": "Background",
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "4aa6650c-5232-505f-89f4-8a5aaf47aa38"
   },
@@ -319,7 +319,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Cross icon (static black) ",
+    "context": "Cross icon (static black)",
     "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361",
     "uuid": "3e127d7a-7c30-5fca-8cb5-6193195ba9e6"
   },
@@ -328,7 +328,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Cross icon (static black) ",
+    "context": "Cross icon (static black)",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "badba104-1791-571f-8f59-ab7f86809d49"
   },
@@ -337,7 +337,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Cross icon (static black) ",
+    "context": "Cross icon (static black)",
     "$ref": "579e401c-de49-41af-a8c7-a0a070c31979",
     "uuid": "ea9a8a5e-298a-5dbe-b4bb-e0a870585c5b"
   },
@@ -346,7 +346,7 @@
       "component": "close-button",
       "property": "color"
     },
-    "context": "Focus ring (static black) ",
+    "context": "Focus ring (static black)",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",
     "uuid": "2963d529-0938-5092-9eb6-e9a0cbc3f1b4"
   },

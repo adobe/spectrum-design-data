@@ -30,7 +30,7 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`tools/design-data`](../tools/design-data/) | `@adobe/design-data` | active | published | yes | Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions. |
 | [`tools/design-data-agent-mcp`](../tools/design-data-agent-mcp/) | `@adobe/design-data-agent-mcp` | active | published | yes | MCP server and Claude Code skill for design-data authoring sessions. |
 | [`tools/design-data-mcp`](../tools/design-data-mcp/) | `@adobe/design-data-mcp` | active | published | yes | Embedded, offline MCP server for tokens, component schemas, and guidelines. |
-| [`tools/design-data-skill`](../tools/design-data-skill/) | `@adobe/design-data-skill` | active | published | yes | Claude Code skill for querying Spectrum design data through the CLI. |
+| [`tools/design-data-skill`](../tools/design-data-skill/) | `@adobe/design-data-skill` | active | published | yes | Read-only Spectrum lookup plugin: a skill plus the bundled design-data MCP server. |
 | [`tools/diff-generator`](../tools/diff-generator/) | `@adobe/token-diff-generator` | active | published | yes | Token diff CLI and library with CLI, JSON, and Markdown output. |
 | [`tools/optimized-diff`](../tools/optimized-diff/) | `@adobe/optimized-diff` | active | published | yes | High-performance deep object diff library. |
 | [`tools/spectrum-diff-core`](../tools/spectrum-diff-core/) | `@adobe/spectrum-diff-core` | active | published | yes | Shared core library for the diff generators. |

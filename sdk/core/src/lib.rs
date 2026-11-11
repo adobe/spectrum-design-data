@@ -19,6 +19,7 @@ pub mod changelog;
 pub mod compat;
 pub mod component;
 pub mod constraints;
+pub mod context_suggest;
 pub mod data_source;
 pub mod derived;
 pub mod diff;

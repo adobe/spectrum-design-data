@@ -337,7 +337,7 @@
       "component": "avatar",
       "property": "gradient-stop-1"
     },
-    "context": "0% ",
+    "context": "0%",
     "$ref": "8d9e0c2d-d692-47a0-86cd-6349649ec6e2",
     "uuid": "1f7c3dd4-2cdb-54b4-83ef-093ce9b51c40"
   },
@@ -346,7 +346,7 @@
       "component": "avatar",
       "property": "gradient-stop-2"
     },
-    "context": "66% ",
+    "context": "66%",
     "$ref": "a7791b29-4e4d-4b9f-ab34-0240ac4d6769",
     "uuid": "c51af84d-c187-5e03-b031-1fd0d338044f"
   },
@@ -355,7 +355,7 @@
       "component": "avatar",
       "property": "gradient-stop-3"
     },
-    "context": "100% ",
+    "context": "100%",
     "$ref": "620ee6f3-eb3d-40ad-854b-9edceb897c7f",
     "uuid": "93f366e5-82e1-542f-b9ad-3359c1bc2d7e"
   },

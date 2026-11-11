@@ -4,7 +4,7 @@
       "component": "segmented-control",
       "property": "height"
     },
-    "context": "Height ",
+    "context": "Height",
     "$ref": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5",
     "uuid": "b7680476-4f76-5cce-a84f-a9a4a9b3e4b9"
   },
@@ -22,8 +22,8 @@
       "component": "segmented-control",
       "property": "workflow-icon-size-100"
     },
-    "context": "Icon ",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "context": "Icon",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "ad767250-1fa4-551b-9db1-4ed3715b0341"
   },
   {
@@ -31,8 +31,8 @@
       "component": "segmented-control",
       "property": "workflow-icon-size-100"
     },
-    "context": "Icon ",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "context": "Icon",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "99d82790-3d18-51ef-8204-6411d27e5021"
   },
   {
@@ -427,6 +427,9 @@
       "part": "item",
       "property": "maximum-width"
     },
+    "context": "Width (maximum)",
+    "contextRole": ["width"],
+    "contextQualifier": "maximum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "265px",
     "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de",

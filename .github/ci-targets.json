@@ -71,6 +71,7 @@
     "design-data:version",
     "design-data-agent-mcp:version",
     "design-data-skill:version",
+    "design-data-skill:sync-pin",
     "s2-docs-mcp:version",
     "sdk:codegen",
     "sdk:version",

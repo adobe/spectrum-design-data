@@ -140,7 +140,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "4d8d2526-9caf-5144-94ca-b7e067563e71"
   },
   {
@@ -149,7 +149,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "7ab8bd5c-008b-5059-9ac4-2dce06e0f8d1"
   },
   {
@@ -373,7 +373,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
     "uuid": "aa2fe383-c85e-5b0b-a094-a0fc8e934ae3"
   },
@@ -382,7 +382,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
     "uuid": "c7445f9d-f283-54c7-8f42-5cfb7921223d"
   },
@@ -391,7 +391,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
     "uuid": "8f84343f-beeb-5e50-b078-2fdfe92f5650"
   },
@@ -400,7 +400,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
     "uuid": "a9e86fcb-d75a-5a36-b6ab-9ded0cfdfb89"
   },
@@ -409,7 +409,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
     "uuid": "0efb87aa-e498-5276-9d13-789beecb4729"
   },
@@ -418,7 +418,7 @@
       "component": "side-navigation",
       "property": "color"
     },
-    "context": "Side navigation indicator ",
+    "context": "Side navigation indicator",
     "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
     "uuid": "175ccaa3-78a6-5d94-99b2-59c37dfe12c5"
   },
@@ -544,7 +544,7 @@
       "component": "side-navigation",
       "property": "font-family"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "18bcc023-8cae-5ea6-9b09-4f261e310f5a"
   },
@@ -553,7 +553,7 @@
       "component": "side-navigation",
       "property": "font-weight"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "004573ce-e0e5-56de-b55f-82c054507519"
   },
@@ -562,7 +562,7 @@
       "component": "side-navigation",
       "property": "font-style"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "9f6e7018-f6d2-5531-b9cf-6f4c6cb138cb"
   },
@@ -571,7 +571,7 @@
       "component": "side-navigation",
       "property": "font-size-100"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "abda4061-325f-584d-9181-7264e0463f56"
   },
@@ -580,7 +580,7 @@
       "component": "side-navigation",
       "property": "font-size-100"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "df04a88d-d3f6-5271-bfec-b3a8a08361bd"
   },
@@ -589,7 +589,7 @@
       "component": "side-navigation",
       "property": "line-height-100"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "91364c4d-3e78-56cc-a220-36cdda84e43f"
   },
@@ -598,7 +598,7 @@
       "component": "side-navigation",
       "property": "line-height-100"
     },
-    "context": "Text  ",
+    "context": "Text",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "bc11d99a-38f0-5011-8a5f-7f2c2afa1d27"
   },

@@ -87,6 +87,13 @@ const categoriesPath = join(
 );
 generated += `const CATEGORIES_JSON: &str = r##"${readFileSync(categoriesPath, "utf-8")}"##;\n`;
 
+// Embed relationship-contexts.json for SPEC-090/SPEC-091. Not a name-object field either.
+const relationshipContextsPath = join(
+  repoRoot,
+  "packages/design-data/registry/relationship-contexts.json",
+);
+generated += `const RELATIONSHIP_CONTEXTS_JSON: &str = r##"${readFileSync(relationshipContextsPath, "utf-8")}"##;\n`;
+
 // Generate FIELD_ADVISORY_FIELDS — the list of semantic fields that SPEC-009 checks
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
@@ -113,6 +120,7 @@ for (const decl of registryFields) {
   }
 }
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
+generated += `    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));\n`;
 generated += `    map\n}\n`;
 
 // Generate build_token_name_map() — id → tokenName per field, for legacy key expansion.

@@ -3,5 +3,22 @@
   "specVersion": "1.0.0-draft",
   "component": "code",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "3.11.1",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "c7cbd3aef2c7eb6ef27e7c0f921b2708ab0ea792",
+      "commits": [
+        {
+          "commit": "0cea3f1ecd14c744491458beb3720fa5bb55a7f8",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1728,"title":"docs(design-data): add Text and Margins contexts to typography relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1728"},
+          "entries": [],
+          "metadata": {"count":31,"fields":["context","contextRole"]}
+        }
+      ]
+    }
+  ]
 }

@@ -44,6 +44,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Checkerboard colors"],"scope":{"property":"square-light","options":null},"record":"b2beb086-9d50-5a9a-934b-63b0fe312fc1","name":"square-light","fields":[{"path":"context","before":"Checkerboard Colors ","after":"Checkerboard colors"}]},
+            {"id":"7515f705-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Checkerboard colors"],"scope":{"property":"square-dark","options":null},"record":"0ffa3d6b-70bf-5b63-9500-e5de1c617891","name":"square-dark","fields":[{"path":"context","before":"Checkerboard Colors ","after":"Checkerboard colors"}]},
+            {"id":"7515f705-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Checkerboard colors"],"scope":{"property":"square-dark","options":null},"record":"cb88cce2-9155-5dd7-84f9-8c4dd7a7163d","name":"square-dark","fields":[{"path":"context","before":"Checkerboard Colors ","after":"Checkerboard colors"}]},
+            {"id":"7515f705-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Checkerboard colors"],"scope":{"property":"square-dark","options":null},"record":"09475aee-0de6-5d1f-8e58-98e694bd6cf8","name":"square-dark","fields":[{"path":"context","before":"Checkerboard Colors ","after":"Checkerboard colors"}]}
+          ]
+        }
+      ]
     }
   ]
 }

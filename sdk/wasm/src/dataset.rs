@@ -307,10 +307,8 @@ impl Dataset {
     /// Valid parser keys: `property`, `component`, `variant`, `state`,
     /// `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`.
     ///
-    /// `component` remains accepted for compatibility, but it is not a
-    /// meaningfully indexed field in the embedded dataset and usually returns no
-    /// matches. Prefer `describe_component` and `tokenBindings` metadata for
-    /// component-aware discovery.
+    /// `component` matches a token's `name.component` and also the components
+    /// whose relationships (CTRs) reference the token by `uuid` or `conceptId`.
     ///
     /// ```js
     /// const results = ds.query("property=color,colorScheme=dark");

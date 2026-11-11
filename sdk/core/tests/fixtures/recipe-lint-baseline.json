@@ -1,14 +1,10 @@
 {
-  "SPEC-066": {
-    "action-button": 1
-  },
   "SPEC-068": {
     "accordion": 1,
     "checkbox": 16
   },
   "SPEC-069": {
-    "accordion": 8,
-    "badge": 2
+    "accordion": 8
   },
   "SPEC-086": {
     "action-button": 1
@@ -20,5 +16,38 @@
     "checkbox": 3,
     "radio-button": 3,
     "switch": 3
+  },
+  "SPEC-091": {
+    "avatar": 3,
+    "color-area": 4,
+    "date-picker": 7,
+    "drop-zone": 9,
+    "field-label": 4,
+    "link": 10,
+    "list-view": 1,
+    "opacity-checkerboard": 4,
+    "radio-button": 2,
+    "rating": 1,
+    "select-box": 2,
+    "side-navigation": 8,
+    "table": 19,
+    "title": 1,
+    "toast": 3
+  },
+  "SPEC-092": {
+    "avatar": 2,
+    "bar-panel": 5,
+    "card": 4,
+    "color-handle": 3,
+    "color-loupe": 1,
+    "contextual-help": 4,
+    "floating-action-button": 3,
+    "form-item": 4,
+    "in-field-button": 5,
+    "meter": 2,
+    "picker": 1,
+    "popover": 3,
+    "stack-item": 6,
+    "standard-panel": 6
   }
 }

@@ -2,7 +2,7 @@
 
 # [**@adobe/design-data-skill**](https://github.com/adobe/design-data-skill)
 
-Claude Code skill for querying Spectrum design data through the CLI.
+Read-only Spectrum lookup plugin (skill + pinned MCP server config). Update `.mcp.json` only through `moon run design-data-skill:sync-pin`; tests keep the pin, manifest, and tool names consistent.
 
 * **Audience:** consumer. **Lifecycle:** active. **npm:** published.
 * Repository-wide rules are in [the root AGENTS.md](../../AGENTS.md). The [repository index](../../docs/repo-index.md) lists every project.

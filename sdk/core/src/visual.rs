@@ -4815,7 +4815,7 @@ mod tests {
     }
 
     #[test]
-    fn badge_fixed_edge_squares_corners_and_maps_weight() {
+    fn badge_maps_weight_and_hides_label_when_icon_only() {
         let (g, _) = load();
         let recipe: Value = serde_json::from_str(
             &std::fs::read_to_string(root().join("visuals/badge.json")).unwrap(),
@@ -4827,13 +4827,6 @@ mod tests {
         assert!(plain.diagnostics.is_empty(), "{:?}", plain.diagnostics);
         assert!(plain.nodes[0].radii.is_none());
         assert!(scene_to_svg(&plain).contains("font-weight=\"500\""));
-
-        r.options.insert("fixed".into(), "left".into());
-        let fixed = build_scene(&g, &recipe, &r).unwrap();
-        let [tl, tr, br, bl] = fixed.nodes[0].radii.expect("per-corner radii");
-        assert_eq!((tl, bl), (0.0, 0.0));
-        assert!(tr > 0.0 && tr == br);
-        assert!(scene_to_svg(&fixed).contains("<path data-part=\"container\""));
 
         r.label = String::new();
         let icon_only = build_scene(&g, &recipe, &r).unwrap();

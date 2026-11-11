@@ -2,7 +2,7 @@
 
 # [**@adobe/design-data**](https://github.com/adobe/design-data)
 
-Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions.
+Node.js helpers for the WASM package: dataset loading, validation, guideline and component lookups.
 
 * **Audience:** consumer. **Lifecycle:** active. **npm:** published.
 * Repository-wide rules are in [the root AGENTS.md](../../AGENTS.md). The [repository index](../../docs/repo-index.md) lists every project.

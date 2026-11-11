@@ -33,7 +33,7 @@ Add the Spectrum Design Data marketplace, then install the spec-generic skill:
 /plugin install design-data-agent@spectrum-design-data
 ```
 
-For Spectrum tokens with zero setup (embedded snapshot), install `design-data@spectrum-design-data` instead — see [`tools/design-data-skill/`](../design-data-skill/).
+For Spectrum tokens with zero setup (embedded snapshot), install `spectrum-design-data@spectrum-design-data` instead — see [`tools/design-data-skill/`](../design-data-skill/).
 
 ### Cursor (skill)
 

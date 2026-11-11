@@ -112,6 +112,59 @@ pub struct RegistryData {
     anatomy_standalone_scope: HashSet<String>,
     /// Default interaction precedence per state id and alias (`states.json`).
     state_precedence: HashMap<String, u32>,
+    /// Relationship-context term id → display label (`relationship-contexts.json`).
+    context_labels: HashMap<String, String>,
+    /// Lower-cased label or alias → relationship-context term id.
+    context_words: HashMap<String, String>,
+}
+
+/// Split a relationship `context` into its main word and the text inside a trailing
+/// parenthesis (`"Spacing (icon to label)"` → `("Spacing", Some("icon to label"))`). Text
+/// after the closing parenthesis (`"Alert icon (error) color"`) still leaves the main word
+/// before the first `(`, with no detail.
+pub fn split_context(context: &str) -> (&str, Option<&str>) {
+    let c = context.trim();
+    let Some(open) = c.find('(') else {
+        return (c, None);
+    };
+    let detail = c.strip_suffix(')').map(|d| d[open + 1..].trim());
+    (c[..open].trim(), detail)
+}
+
+fn normalize_context_word(w: &str) -> String {
+    w.split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
+}
+
+/// Parse a relationship-context registry into (id → label, lower-cased word → id).
+fn parse_relationship_contexts(
+    json_str: &str,
+) -> (HashMap<String, String>, HashMap<String, String>) {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    let (mut labels, mut words) = (HashMap::new(), HashMap::new());
+    for e in v
+        .get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        let (Some(id), Some(label)) = (
+            e.get("id").and_then(Value::as_str),
+            e.get("label").and_then(Value::as_str),
+        ) else {
+            continue;
+        };
+        labels.insert(id.to_string(), label.to_string());
+        let aliases = e.get("aliases").and_then(Value::as_array);
+        for w in
+            std::iter::once(label).chain(aliases.into_iter().flatten().filter_map(Value::as_str))
+        {
+            words.insert(normalize_context_word(w), id.to_string());
+        }
+    }
+    (labels, words)
 }
 
 /// Parse a registry JSON file's `precedence` values, keyed by id and alias.
@@ -220,12 +273,91 @@ impl RegistryData {
     /// `build_registry_map` run only on the first call per process.
     pub fn embedded() -> &'static Self {
         static INSTANCE: OnceLock<RegistryData> = OnceLock::new();
-        INSTANCE.get_or_init(|| Self {
-            registries: build_registry_map(),
-            token_names: build_token_name_map(),
-            anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
-            state_precedence: parse_state_precedence(STATES_JSON),
+        INSTANCE.get_or_init(|| {
+            let (context_labels, context_words) =
+                parse_relationship_contexts(RELATIONSHIP_CONTEXTS_JSON);
+            Self {
+                context_labels,
+                context_words,
+                registries: build_registry_map(),
+                token_names: build_token_name_map(),
+                anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
+                state_precedence: parse_state_precedence(STATES_JSON),
+            }
         })
+    }
+
+    /// Display label of a relationship-context term id.
+    pub fn context_label(&self, id: &str) -> Option<&str> {
+        self.context_labels.get(id).map(String::as_str)
+    }
+
+    /// Term ids for the main word of a relationship `context`, in order, or the first
+    /// word that is not in the registry. A compound (`Background and border`,
+    /// `Label, icon, and hold icon`) is tried whole first, then split at `and` and commas.
+    pub fn context_roles(&self, head: &str) -> Result<Vec<&str>, String> {
+        let norm = normalize_context_word(head);
+        if let Some(id) = self.context_words.get(&norm) {
+            return Ok(vec![id.as_str()]);
+        }
+        let mut roles = Vec::new();
+        for part in norm.replace(", and ", ",").replace(" and ", ",").split(',') {
+            let part = part.trim();
+            match self.context_words.get(part) {
+                Some(id) => roles.push(id.as_str()),
+                None => {
+                    return Err(if part.is_empty() {
+                        head.to_string()
+                    } else {
+                        part.to_string()
+                    })
+                }
+            }
+        }
+        Ok(roles)
+    }
+
+    /// The `context` string derived from structured fields: the role labels joined
+    /// (`A`, `A and b`, `A, b, and c`) plus an optional parenthesised detail.
+    pub fn derive_context(&self, roles: &[&str], detail: Option<&str>) -> Option<String> {
+        let mut labels = Vec::new();
+        for (i, r) in roles.iter().enumerate() {
+            let l = self.context_label(r)?;
+            labels.push(if i == 0 {
+                l.to_string()
+            } else {
+                let mut cs = l.chars();
+                cs.next()
+                    .map(|c| c.to_lowercase().chain(cs).collect())
+                    .unwrap_or_default()
+            });
+        }
+        let mut out = match labels.len() {
+            0 => return None,
+            1 => labels.remove(0),
+            2 => labels.join(" and "),
+            n => format!("{}, and {}", labels[..n - 1].join(", "), labels[n - 1]),
+        };
+        if let Some(d) = detail {
+            out = format!("{out} ({d})");
+        }
+        Some(out)
+    }
+
+    /// Whether a relationship `context` string agrees with its structured fields: it equals
+    /// the derived label, or its main word (a registry alias, spelled in sentence case) resolves
+    /// to the same term ids as `roles` and its parenthesised detail equals `detail`.
+    pub fn context_agrees(&self, context: &str, roles: &[&str], detail: Option<&str>) -> bool {
+        let context = context.trim();
+        if self.derive_context(roles, detail).as_deref() == Some(context) {
+            return true;
+        }
+        let (head, got_detail) = split_context(context);
+        let mut chars = head.chars();
+        let sentence_case = chars
+            .next()
+            .is_some_and(|_| chars.as_str() == chars.as_str().to_lowercase());
+        sentence_case && got_detail == detail && self.context_roles(head).as_deref() == Ok(roles)
     }
 
     /// The registry's default interaction precedence for a state id or alias.
@@ -274,6 +406,48 @@ impl RegistryData {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn related_terms_name_registry_terms() {
+        let v: Value = serde_json::from_str(RELATIONSHIP_CONTEXTS_JSON).unwrap();
+        let values = v["values"].as_array().unwrap();
+        let ids: HashSet<&str> = values.iter().filter_map(|e| e["id"].as_str()).collect();
+        for e in values {
+            for t in e["relatedTerms"].as_array().into_iter().flatten() {
+                let t = t.as_str().unwrap();
+                assert!(
+                    ids.contains(t),
+                    "{}: relatedTerms '{t}' is not a term",
+                    e["id"]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn context_helpers_split_derive_and_map_roles() {
+        let r = RegistryData::embedded();
+        assert_eq!(
+            split_context(" Spacing (icon to label) "),
+            ("Spacing", Some("icon to label"))
+        );
+        assert_eq!(
+            split_context("Alert icon (error) color"),
+            ("Alert icon", None)
+        );
+        assert_eq!(split_context("Label"), ("Label", None));
+        assert_eq!(
+            r.context_roles("Background and border"),
+            Ok(vec!["background", "border"])
+        );
+        assert_eq!(r.context_roles("Padding"), Ok(vec!["spacing"]));
+        assert_eq!(r.context_roles("Wibble"), Err("wibble".to_string()));
+        assert_eq!(
+            r.derive_context(&["label", "icon", "border"], None)
+                .as_deref(),
+            Some("Label, icon, and border")
+        );
+    }
 
     #[test]
     fn embedded_registries_load() {

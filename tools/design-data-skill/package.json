@@ -1,11 +1,12 @@
 {
   "name": "@adobe/design-data-skill",
-  "version": "1.3.2",
-  "description": "Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI",
+  "version": "2.0.1",
+  "description": "Read-only Spectrum design-data lookup plugin: a skill plus the bundled @adobe/design-data-mcp server",
   "type": "module",
   "files": [
     "skills/",
     ".claude-plugin/",
+    ".mcp.json",
     "llms.txt",
     "README.md",
     "LICENSE"
@@ -34,6 +35,9 @@
   ],
   "scripts": {
     "test": "ava"
+  },
+  "dependencies": {
+    "@adobe/design-data-mcp": "workspace:*"
   },
   "devDependencies": {
     "ava": "^6.0.1"

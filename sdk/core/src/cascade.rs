@@ -20,7 +20,7 @@
 use std::collections::HashMap;
 
 use crate::graph::{ModeSetRecord, TokenGraph, TokenRecord};
-use crate::query::matches_name_field;
+use crate::query::{matches_name_field, ComponentBindings};
 
 // ── Resolution context ────────────────────────────────────────────────────────
 
@@ -217,9 +217,13 @@ pub struct PropertyNarrowing {
 }
 
 impl PropertyNarrowing {
-    fn matches(&self, record: &TokenRecord) -> bool {
+    fn matches(&self, record: &TokenRecord, bindings: &ComponentBindings) -> bool {
+        if let Some(component) = self.component.as_deref() {
+            if !bindings.matches(&record.raw, component) {
+                return false;
+            }
+        }
         let fields = [
-            ("component", self.component.as_deref()),
             ("variant", self.variant.as_deref()),
             ("state", self.state.as_deref()),
             ("colorRole", self.color_role.as_deref()),
@@ -252,6 +256,11 @@ pub fn resolve_property_narrowed(
     ctx: &ResolutionContext,
     narrowing: &PropertyNarrowing,
 ) -> Vec<ResolvedCandidate> {
+    let bindings = if narrowing.component.is_some() {
+        ComponentBindings::build(graph)
+    } else {
+        ComponentBindings::default()
+    };
     let candidates: Vec<TokenRecord> = graph
         .tokens
         .values()
@@ -263,7 +272,7 @@ pub fn resolve_property_narrowed(
                 .and_then(|v| v.as_str())
                 == Some(property)
         })
-        .filter(|t| narrowing.matches(t))
+        .filter(|t| narrowing.matches(t, &bindings))
         .filter(|t| {
             !narrowing.exclude_deprecated
                 || t.raw
@@ -303,7 +312,29 @@ pub fn resolve_property_narrowed(
             .then_with(|| a.index.cmp(&b.index))
     });
 
-    let winner = resolve(&filtered_graph, ctx);
+    let is_deprecated = |t: &TokenRecord| {
+        t.raw
+            .get("lifecycle")
+            .and_then(|v| v.get("deprecatedIn"))
+            .is_some()
+    };
+    // A deprecated token only wins when no active token matches the context.
+    let winner = resolve(&filtered_graph, ctx)
+        .filter(|w| !is_deprecated(w))
+        .or_else(|| {
+            let active: Vec<TokenRecord> = filtered_graph
+                .tokens
+                .values()
+                .filter(|t| !is_deprecated(t))
+                .cloned()
+                .collect();
+            let active_graph =
+                TokenGraph::from_records(active).with_mode_sets(graph.mode_sets.clone());
+            resolve(&active_graph, ctx)
+                .map(|w| w.name.clone())
+                .and_then(|name| filtered_graph.tokens.get(&name))
+                .or_else(|| resolve(&filtered_graph, ctx))
+        });
 
     with_spec
         .into_iter()
@@ -874,6 +905,64 @@ mod tests {
         let results = resolve_property_narrowed(&g, "background-color", &ctx, &narrowing);
         assert_eq!(results.len(), 1);
         assert_eq!(results[0].record.name, "subdued");
+    }
+
+    #[test]
+    fn resolve_property_narrowed_matches_component_via_ctr_binding() {
+        use crate::graph::RelationshipRecord;
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "btn".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color"}, "value": "#aaa", "uuid": "u-btn"}),
+            ),
+            (
+                "other".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "background-color"}, "value": "#bbb", "uuid": "u-other"}),
+            ),
+        ])
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/button.json"),
+            index: 0,
+            uuid: None,
+            raw: json!({"scope": {"component": "button"}, "$ref": "u-btn"}),
+        }]);
+        let results = resolve_property_narrowed(
+            &g,
+            "background-color",
+            &ResolutionContext::new(),
+            &PropertyNarrowing {
+                component: Some("button".into()),
+                ..Default::default()
+            },
+        );
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].record.name, "btn");
+    }
+
+    #[test]
+    fn resolve_property_narrowed_prefers_active_winner_over_deprecated() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "old".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "variant": "negative"}, "value": "#aaa", "lifecycle": {"deprecatedIn": "1.0.0"}}),
+            ),
+            (
+                "new".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "bg"}, "value": "#bbb"}),
+            ),
+        ]);
+        let results = resolve_property_narrowed(
+            &g,
+            "bg",
+            &ResolutionContext::new(),
+            &PropertyNarrowing::default(),
+        );
+        let winner = results.iter().find(|c| c.is_winner).unwrap();
+        assert_eq!(winner.record.name, "new");
     }
 
     #[test]

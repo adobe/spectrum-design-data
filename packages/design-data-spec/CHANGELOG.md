@@ -1,5 +1,35 @@
 # @adobe/design-data-spec
 
+## 4.17.0
+
+### Minor Changes
+
+- [#1724](https://github.com/adobe/spectrum-design-data/pull/1724) [`4387ec1`](https://github.com/adobe/spectrum-design-data/commit/4387ec187851d5ffd554b437f53beb8ae72b513d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add eleven relationship-context terms: `gripper`, `section-header`, `selection`,
+  `preview` and the item types `tab-item`, `breadcrumb-item`, `navigation-item`,
+  `menu-item`, `list-view-item`, `tree-view-item` and `segmented-control-item`
+  (category `item`). Each links to its nearest term with `relatedTerms`.
+  `breadcrumb item` and `navigation item` move from `pagination` and `navigation`
+  to their own terms. Plural strings such as `Tab items` stay aliases of the
+  container term.
+
+  SPEC-090 now accepts a `context` string whose main word is a registry alias of
+  the same term(s) as `contextRole` (`Text` with `[label]`, `Drop shadow` with
+  `[shadow]`). A case variant or an alias of a different term still warns. No
+  relationship data changes.
+
+- [#1720](https://github.com/adobe/spectrum-design-data/pull/1720) [`d4b0bc3`](https://github.com/adobe/spectrum-design-data/commit/d4b0bc38e51641a48cfac06328a73a9d18934b47) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a relationship-context vocabulary and optional structured context fields.
+  - New registry `registry/relationship-contexts.json`: 23 main words with aliases
+    for today's head words.
+  - `relationship.schema.json` gains optional `contextRole` (registry term ids),
+    `contextPart` and `contextQualifier`. The `context` string stays the identity
+    key that recipes bind on.
+  - `relationship-format.md` states that a recipe binds on `context`, the string
+    grammar, and when a live record may omit it.
+  - New warning rules: SPEC-090 (fields agree with the string), SPEC-091 (main
+    word is registered) and SPEC-092 (live record with no context that no
+    contexted record reaches). SPEC-091 and SPEC-092 are held at a baseline in
+    `recipe-lint-baseline.json`.
+
 ## 4.16.0
 
 ### Minor Changes

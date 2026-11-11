@@ -314,12 +314,11 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
     let safe_repo = repo.replace('/', "-");
     let key = format!("github/{safe_repo}@{}", git_ref.cache_segment());
     let root = base.join(&key);
-    let sentinel = root.join(".complete");
 
     // ponytail: immutable refs (tag/sha) served from cache; branch tips move, so
     // always refetch (~2MB). Upgrade path: ETag/If-None-Match conditional GET if
     // the per-run refetch cost ever matters.
-    if sentinel.exists() && !git_ref.is_mutable() {
+    if cache_is_current(&root) && !git_ref.is_mutable() {
         return Ok(root);
     }
 
@@ -440,7 +439,7 @@ fn extract_github_tarball(
         std::fs::remove_dir_all(dest).map_err(FetchError::Io)?;
     }
     std::fs::rename(&tmp, dest).map_err(FetchError::Io)?;
-    std::fs::write(dest.join(".complete"), "").map_err(FetchError::Io)?;
+    std::fs::write(dest.join(".complete"), EXTRACT_LAYOUT).map_err(FetchError::Io)?;
 
     Ok(())
 }
@@ -594,6 +593,16 @@ fn extract_tarball_inner_with_limits(
     Ok(())
 }
 
+/// Version of the extraction filter, stored in `.complete`. Bump it whenever
+/// [`should_extract`] changes so immutable (tag/sha) caches built by older
+/// binaries are refetched instead of served incomplete.
+const EXTRACT_LAYOUT: &str = "2";
+
+/// True when `root` was extracted by the current [`EXTRACT_LAYOUT`].
+fn cache_is_current(root: &Path) -> bool {
+    std::fs::read_to_string(root.join(".complete")).is_ok_and(|v| v.trim() == EXTRACT_LAYOUT)
+}
+
 /// Returns true for paths we want to extract from the GitHub tarball.
 fn should_extract(rel: &Path) -> bool {
     let mut components = rel.components();
@@ -611,7 +620,9 @@ fn should_extract(rel: &Path) -> bool {
         // schemas and metadata still live here — so the whole parent is kept by design.
         (Some("packages"), Some("tokens")) => true,
         (Some("packages"), Some("design-data")) => {
-            // tokens/ — cascade-format token data; components/, fields/, mode-sets/ — Spectrum catalog.
+            // tokens/ — cascade-format token data; components/, fields/, mode-sets/ — Spectrum catalog;
+            // relationships/, visuals/, icons/ — render inputs; registry/ — platform-implementations
+            // advisory; guidelines/ — `catalog export`.
             let third = components
                 .next()
                 .map(|c| c.as_os_str().to_string_lossy().into_owned());
@@ -622,6 +633,11 @@ fn should_extract(rel: &Path) -> bool {
                     | Some("fields")
                     | Some("mode-sets")
                     | Some("naming-exceptions.json")
+                    | Some("relationships")
+                    | Some("visuals")
+                    | Some("icons")
+                    | Some("registry")
+                    | Some("guidelines")
             )
         }
         (Some("packages"), Some("design-data-spec")) => {
@@ -723,6 +739,32 @@ mod tests {
         assert!(should_extract(Path::new(
             "packages/design-data/fields/variant.json"
         )));
+    }
+
+    #[test]
+    fn should_extract_render_inputs() {
+        for p in [
+            "packages/design-data/relationships/button.json",
+            "packages/design-data/visuals/radio-button.json",
+            "packages/design-data/icons/ui.json",
+            "packages/design-data/registry/platform-implementations.json",
+            "packages/design-data/guidelines/manifest.json",
+        ] {
+            assert!(should_extract(Path::new(p)), "{p}");
+        }
+        assert!(!should_extract(Path::new(
+            "packages/design-data/scripts/build.js"
+        )));
+    }
+
+    #[test]
+    fn stale_cache_layout_is_refetched() {
+        let tmp = tempfile::TempDir::new().unwrap();
+        assert!(!cache_is_current(tmp.path()));
+        std::fs::write(tmp.path().join(".complete"), "").unwrap();
+        assert!(!cache_is_current(tmp.path()));
+        std::fs::write(tmp.path().join(".complete"), EXTRACT_LAYOUT).unwrap();
+        assert!(cache_is_current(tmp.path()));
     }
 
     #[test]
@@ -1038,6 +1080,7 @@ mod tests {
             "components missing"
         );
         assert!(root.join(".complete").is_file(), "sentinel missing");
+        assert!(cache_is_current(&root), "layout marker missing");
 
         // Second call — cache hit, sentinel still present.
         let root2 = ensure_cached(&source, None).expect("cache hit failed");

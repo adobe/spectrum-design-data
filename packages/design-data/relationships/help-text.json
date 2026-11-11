@@ -4,7 +4,7 @@
       "component": "help-text",
       "property": "component-height-75"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
     "uuid": "3e97b352-8628-557a-a634-f000bf3b6f8e"
   },
@@ -13,7 +13,7 @@
       "component": "help-text",
       "property": "component-height-75"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
     "uuid": "08dbca01-d5cb-54b3-9ff1-e7580506d160"
   },
@@ -22,7 +22,7 @@
       "component": "help-text",
       "property": "component-height-100"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "uuid": "08e30a0d-f78f-5d97-b56d-b0bc4e2ee04c"
   },
@@ -31,7 +31,7 @@
       "component": "help-text",
       "property": "component-height-100"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
     "uuid": "f3d63605-f2d2-55f5-9f4e-e0ed2947653c"
   },
@@ -40,7 +40,7 @@
       "component": "help-text",
       "property": "component-height-200"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
     "uuid": "6f5d4192-a8ec-54eb-864c-da47f83134af"
   },
@@ -49,7 +49,7 @@
       "component": "help-text",
       "property": "component-height-200"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
     "uuid": "7d9153ab-9270-5463-bbf6-2b4b9039687b"
   },
@@ -58,7 +58,7 @@
       "component": "help-text",
       "property": "component-height-300"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
     "uuid": "53595461-c3a1-54c6-b81b-5ac26863fcd0"
   },
@@ -67,7 +67,7 @@
       "component": "help-text",
       "property": "component-height-300"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
     "uuid": "29b8b8b6-48bd-51bd-8708-c37c4073a31d"
   },
@@ -77,7 +77,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon size",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "642f551b-1870-53d9-a919-875786525cce"
   },
   {
@@ -86,7 +86,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon size",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "990dcbd9-d208-5c23-8d83-41c7d9806379"
   },
   {
@@ -95,7 +95,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon size",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "d44a078c-e4a9-576d-8ae1-8abffb975fdf"
   },
   {
@@ -104,7 +104,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon size",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "7981ae23-a0af-5683-ba04-4ca4ff189bb4"
   },
   {
@@ -113,7 +113,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon size",
-    "$ref": "6392e605-932e-456d-be53-149b624a04e2",
+    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
     "uuid": "9bfb3695-bfde-55d9-8696-95b82d5fe617"
   },
   {
@@ -122,7 +122,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon size",
-    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
     "uuid": "2b91b85e-e830-56ec-b12b-3465a5e99ee5"
   },
   {
@@ -131,7 +131,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon size",
-    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a",
+    "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
     "uuid": "3a895e1d-0308-58b2-9398-7bdc4c887e8c"
   },
   {
@@ -140,7 +140,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon size",
-    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c",
+    "$ref": "65f791f8-a88f-4765-a57e-3e023a436642",
     "uuid": "f14b8a3a-b235-5bc0-8ebf-60a4c5e265e3"
   },
   {

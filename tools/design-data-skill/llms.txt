@@ -1,11 +1,17 @@
 # @adobe/design-data-skill
 
-> Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI
+> Read-only Spectrum design-data lookup plugin: a skill plus the bundled @adobe/design-data-mcp server
 
-A Claude Code plugin that gives agents access to Spectrum design tokens,
-component schemas, and design-system data via the `@adobe/design-data` CLI.
+A read-only Spectrum lookup plugin for AI assistants. It bundles the `design-data`
+skill and the [`@adobe/design-data-mcp`](https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-mcp)
+server, so installing it gives the assistant working tools with no extra setup.
 
-Also published on npm as `@adobe/design-data-skill` for versioned skill installs.
+It finds official tokens, inspects component options, resolves token values across
+modes, and reads Spectrum design guidelines. It complements React Spectrum and
+Spectrum Web Components implementation guidance; it does not generate components
+or integrate with a framework.
+
+Also published on npm as `@adobe/design-data-skill` for versioned installs.
 
 ## Install
 
@@ -16,6 +22,10 @@ Also published on npm as `@adobe/design-data-skill` for versioned skill installs
 - [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md): usage and API overview
 - [Structure](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#structure)
 - [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#installation)
+- [What the plugin includes](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#what-the-plugin-includes)
+- [Data and freshness](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#data-and-freshness)
+- [Not included](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#not-included)
+- [Maintenance](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#maintenance)
 - [Usage](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#usage)
 - [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
 

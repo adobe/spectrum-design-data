@@ -158,7 +158,9 @@ export function createDesignDataTools() {
 
         // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
         // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
-        const { provenance } = ds.primer();
+        const { provenance, modeSets } = ds.primer();
+        const modesOf = (name) =>
+          modeSets.find((m) => m.name === name)?.modes ?? [];
         // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
         // failure, never blocks the primer response.
         const datasetStatus = await checkDatasetFreshness(
@@ -172,9 +174,9 @@ export function createDesignDataTools() {
           source: "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
-            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
-            scale: wasm.getFieldValues("scale") ?? [],
-            contrast: wasm.getFieldValues("contrast") ?? [],
+            colorScheme: modesOf("colorScheme"),
+            scale: modesOf("scale"),
+            contrast: modesOf("contrast"),
           },
           taxonomyFields: {
             indexed: wasm.getIndexedFields(),
@@ -200,8 +202,13 @@ export function createDesignDataTools() {
       },
       description:
         "Filter Spectrum tokens by a query expression. " +
-        "Expression syntax: `component=button`, `component=button,state=hover`, " +
-        "`property=color-*`, `colorScheme=dark`. " +
+        "Filterable fields: property, component, variant, state, colorScheme, scale, contrast, uuid. " +
+        "`key=value` pairs join with `,` (AND) or `|` (OR); `!=` negates and `*` is a wildcard. " +
+        "`component` matches tokens bound to that component by its relationships. " +
+        "Examples: `component=button`, `component=button,state=hover`, " +
+        "`property=*color*`, `colorScheme=dark`. " +
+        "Property names are exact or wildcard (e.g. `*color*`); variant values are " +
+        "listed in the dataset, so `variant=accent` matches nothing. " +
         "Returns an array of matching token objects.",
       inputSchema: {
         type: "object",
@@ -352,7 +359,11 @@ export function createDesignDataTools() {
       description:
         "Resolve the concrete value of a Spectrum token property for a given " +
         "mode-set context (color-scheme, scale, contrast). " +
-        "Returns the winning token with its resolved value.",
+        "Optionally narrow by component, variant, state, or colorRole; a property " +
+        "name is shared by many tokens, so narrowing is usually needed. " +
+        "Returns the winning token (active tokens rank above deprecated ones) with its " +
+        "resolved value. `ambiguous: true` means several tokens still match: " +
+        "see `candidateCount` and `alternatives`, and narrow further.",
       inputSchema: {
         type: "object",
         properties: {
@@ -373,20 +384,59 @@ export function createDesignDataTools() {
             type: "string",
             description: 'Contrast mode, e.g. "regular" or "high"',
           },
+          component: {
+            type: "string",
+            description: 'Narrow to tokens bound to a component, e.g. "button"',
+          },
+          variant: {
+            type: "string",
+            description: 'Narrow by variant, e.g. "negative" or "subdued"',
+          },
+          state: {
+            type: "string",
+            description: 'Narrow by state, e.g. "hover" or "down"',
+          },
+          colorRole: {
+            type: "string",
+            description: 'Narrow by color role, e.g. "accent"',
+          },
+          excludeDeprecated: {
+            type: "boolean",
+            description: "Ignore deprecated tokens entirely (default: false)",
+          },
         },
         required: ["property"],
         additionalProperties: false,
       },
-      async handler({ property, colorScheme, scale, contrast }) {
+      async handler({
+        property,
+        colorScheme,
+        scale,
+        contrast,
+        component,
+        variant,
+        state,
+        colorRole,
+        excludeDeprecated,
+      }) {
         const ds = await getDataset();
         const context = {};
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
         if (contrast) context.contrast = contrast;
-        const result = ds.resolve(property, context);
+        const narrowing = {};
+        if (component) narrowing.component = component;
+        if (variant) narrowing.variant = variant;
+        if (state) narrowing.state = state;
+        if (colorRole) narrowing.colorRole = colorRole;
+        if (excludeDeprecated) narrowing.excludeDeprecated = true;
+        const result = ds.resolve(property, context, narrowing);
         if (!result) {
           throw new Error(
-            `No token found for property "${property}" in context ${JSON.stringify(context)}`,
+            `No token found for property "${property}" in context ${JSON.stringify(context)}` +
+              (Object.keys(narrowing).length
+                ? ` with narrowing ${JSON.stringify(narrowing)}`
+                : ""),
           );
         }
         return result;

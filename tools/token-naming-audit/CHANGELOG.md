@@ -1,5 +1,28 @@
 # @adobe/token-naming-audit
 
+## 0.1.82
+
+### Patch Changes
+
+- Updated dependencies [[`0c00c78`](https://github.com/adobe/spectrum-design-data/commit/0c00c782a89e4491136cdb72ae440d2d518058ae)]:
+  - @adobe/spectrum-design-data@3.11.2
+  - @adobe/design-data-wasm@0.19.1
+
+## 0.1.81
+
+### Patch Changes
+
+- Updated dependencies [[`0cea3f1`](https://github.com/adobe/spectrum-design-data/commit/0cea3f1ecd14c744491458beb3720fa5bb55a7f8)]:
+  - @adobe/spectrum-design-data@3.11.1
+
+## 0.1.80
+
+### Patch Changes
+
+- Updated dependencies [[`fdf63d7`](https://github.com/adobe/spectrum-design-data/commit/fdf63d7badc50670759c0b28236b0f821ec190dd), [`4387ec1`](https://github.com/adobe/spectrum-design-data/commit/4387ec187851d5ffd554b437f53beb8ae72b513d), [`43850b0`](https://github.com/adobe/spectrum-design-data/commit/43850b0c1cdd7eef736289cd6f3febc73afe4cb8), [`d4b0bc3`](https://github.com/adobe/spectrum-design-data/commit/d4b0bc38e51641a48cfac06328a73a9d18934b47), [`6136cd7`](https://github.com/adobe/spectrum-design-data/commit/6136cd760b966dc72b64d8284fcb0172a17aa3f9), [`7515f70`](https://github.com/adobe/spectrum-design-data/commit/7515f705b68e050efce9a88ae6fa811540a99c29), [`e0df9f5`](https://github.com/adobe/spectrum-design-data/commit/e0df9f51102037f1d0799bf8083de923e00795cd)]:
+  - @adobe/spectrum-design-data@3.11.0
+  - @adobe/design-data-wasm@0.19.0
+
 ## 0.1.79
 
 ### Patch Changes

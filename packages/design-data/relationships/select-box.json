@@ -139,7 +139,7 @@
       "component": "select-box",
       "property": "border-width"
     },
-    "context": "Border (Selected)",
+    "context": "Border (selected)",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "81ee3be1-82c5-59fa-b47d-5ef570751637"
   },
@@ -175,7 +175,7 @@
       "component": "select-box",
       "property": "thickness"
     },
-    "context": "Border (Selected)",
+    "context": "Border (selected)",
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "c0dcf46a-f713-5fda-89df-5e82cda2dbe0"
   },

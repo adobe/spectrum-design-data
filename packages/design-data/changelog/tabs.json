@@ -129,6 +129,59 @@
           "metadata": {"count":8,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "e0df9f51102037f1d0799bf8083de923e00795cd",
+          "date": "2026-11-10",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1719,"title":"feat(design-data): set replacedBy on workflow-icon-size tokens and repoint relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1719"},
+          "entries": [
+            {"id":"e0df9f51-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"e0df9f51-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"161b5af1-18f0-538a-8ca7-88a35e5ddaab","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"547472d1-6925-5f6c-8932-09c82db7ad40","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.2",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "4103c218389182b15cbfbea483c3279463d65d2d",
+      "commits": [
+        {
+          "commit": "0c00c782a89e4491136cdb72ae440d2d518058ae",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1729,"title":"feat(design-data): add relationship contexts to tabs, list-view, segmented-control and tree-view","url":"https://github.com/adobe/spectrum-design-data/pull/1729"},
+          "entries": [
+            {"id":"0c00c782-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height (compact density)"],"scope":{"property":"height","options":null},"record":"306493af-50b6-526f-abf3-84b1fa48e1fe","name":"height","fields":[{"path":"context","before":"Height","after":"Height (compact density)"}]},
+            {"id":"0c00c782-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"ac91d639-d076-548d-bdc5-e07be16b3f32","name":"height","fields":[{"path":"context","before":"Regular density","after":"Height"}]},
+            {"id":"0c00c782-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-family","options":null},"record":"8ec18c2c-a129-5f94-ba25-5d30b4602f23","name":"font-family","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-style","options":null},"record":"ff297d47-c4da-5f87-8156-5371dc48ca2b","name":"font-style","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-weight","options":null},"record":"a9021520-8385-5060-9086-7939cc925ee9","name":"font-weight","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-75","options":null},"record":"897e484a-a475-5831-ab8a-09a0d34300bd","name":"font-size-75","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-75","options":null},"record":"913588be-ee76-594c-a230-81419aef9a69","name":"font-size-75","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-100","options":null},"record":"250aa466-c62d-5b79-9969-c9036dd00d01","name":"font-size-100","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-100","options":null},"record":"a4799c54-c072-5e37-9cf2-7799edecfa6e","name":"font-size-100","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-200","options":null},"record":"8576112b-3a71-5177-82f2-8bc076bd4a82","name":"font-size-200","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-200","options":null},"record":"597c6859-4a14-5370-b37a-df3977743aa3","name":"font-size-200","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-300","options":null},"record":"46f10443-7164-5ecd-91dd-15ad6c3de374","name":"font-size-300","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-12","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size-300","options":null},"record":"61cb7d3f-5375-5e31-b086-f8f775870683","name":"font-size-300","fields":[{"path":"context","after":"Label"}]},
+            {"id":"0c00c782-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"line-height-100","options":null},"record":"62076385-7804-5057-a4bf-273ed55c6fbe","name":"line-height-100","fields":[{"path":"context","after":"Label"}]}
+          ],
+          "metadata": {"count":23,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
     }
   ]
 }

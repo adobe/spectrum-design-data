@@ -139,7 +139,7 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
+    "context": "Note: desktop 8px, mobile 10px; This applies to icon, avatar, and thumbnail.",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "e8f3e949-ca0a-5139-a6a2-202d76483d1c"
   },
@@ -220,7 +220,7 @@
       "component": "table",
       "property": "component-top-to-text-100"
     },
-    "context": "Spacing (section header row top/bottom to text) ",
+    "context": "Spacing (section header row top/bottom to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "22051ce7-9813-57ab-a656-31c424dfaa8c"
   },
@@ -229,7 +229,7 @@
       "component": "table",
       "property": "component-bottom-to-text-100"
     },
-    "context": "Spacing (section header row top/bottom to text) ",
+    "context": "Spacing (section header row top/bottom to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "040d0d01-1040-50da-9127-e78157ab0aac"
   },
@@ -670,7 +670,9 @@
       "component": "table",
       "property": "color"
     },
-    "context": "S1 Selected row background (highlight selection)",
+    "context": "Background (selected row, highlight selection)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, highlight selection",
     "$ref": "b7537f50-bd49-44b6-a171-19943d443d24",
     "uuid": "f4dd8ece-3499-51e6-9c43-bb1ffe668a67"
   },
@@ -679,7 +681,9 @@
       "component": "table",
       "property": "opacity"
     },
-    "context": "S1 Selected row background (highlight selection)",
+    "context": "Background (selected row, highlight selection)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, highlight selection",
     "$ref": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549",
     "uuid": "2a854d3e-9d57-5535-a83d-fe4bb4b95702"
   },
@@ -688,7 +692,9 @@
       "component": "table",
       "property": "opacity"
     },
-    "context": "S1 Selected row background (highlight selection, hover)",
+    "context": "Background (selected row, highlight selection, hover)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, highlight selection, hover",
     "$ref": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9",
     "uuid": "460db317-aecb-5367-bb64-096f8e82970b"
   },
@@ -760,6 +766,9 @@
         "object": "background"
       }
     },
+    "context": "Background (selected row, non-emphasized)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, non-emphasized",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
     "uuid": "8578067a-6ce0-4059-84ad-4688c71df156",
@@ -806,6 +815,9 @@
         "emphasis": "non-emphasized"
       }
     },
+    "context": "Background (selected row, non-emphasized)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, non-emphasized",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384",
@@ -822,6 +834,9 @@
         "emphasis": "non-emphasized"
       }
     },
+    "context": "Background (selected row, non-emphasized, hover)",
+    "contextRole": ["background"],
+    "contextQualifier": "selected row, non-emphasized, hover",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0",
@@ -2878,6 +2893,9 @@
         "size": "xl"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "d52d3141-27a5-40eb-800f-1a09acd42534",
@@ -2901,6 +2919,9 @@
         "size": "xl"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
@@ -2924,6 +2945,9 @@
         "density": "compact"
       }
     },
+    "context": "Row height (minimum, compact density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7",
@@ -2991,6 +3015,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
     "uuid": "1504ecc5-0bd8-4bf2-ad3c-e073c824cd1a",
@@ -3014,6 +3041,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "80px",
     "uuid": "6efd745f-2a9a-4eea-a0a3-ebe0d3fbc149",
@@ -3036,6 +3066,9 @@
         "size": "l"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
@@ -3059,6 +3092,9 @@
         "size": "l"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "60px",
     "uuid": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
@@ -3082,6 +3118,9 @@
         "density": "compact"
       }
     },
+    "context": "Row height (minimum, compact density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde",
@@ -3149,6 +3188,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "0cd072e1-1757-49b1-a985-09ab65feb672",
@@ -3172,6 +3214,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "e377fd73-62ca-481c-93f6-c62eb35ca720",
@@ -3352,6 +3397,9 @@
         "size": "s"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
@@ -3375,6 +3423,9 @@
         "size": "s"
       }
     },
+    "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
@@ -3398,6 +3449,9 @@
         "density": "compact"
       }
     },
+    "context": "Row height (minimum, compact density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a",
@@ -3465,6 +3519,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "cb6f8879-6d73-40ca-9ea4-7eb05b26385a",
@@ -3488,6 +3545,9 @@
         "density": "spacious"
       }
     },
+    "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "50px",
     "uuid": "ab252e1f-a13a-4630-a6ff-0cfa6e6f0c03",
@@ -4162,6 +4222,8 @@
         "scale": "desktop"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "34b1c98f-7159-4ae0-b299-bf2fc53035c0",
@@ -4185,6 +4247,8 @@
         "scale": "mobile"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "60px",
     "uuid": "06164331-9a76-4adf-b859-82074df19fbd",
@@ -4208,6 +4272,8 @@
         "scale": "desktop"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "553f5ffd-a163-4b33-b96a-5acc08cfb820",
@@ -4231,6 +4297,8 @@
         "scale": "mobile"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "50px",
     "uuid": "cc41c4f1-bfc5-4aa5-87af-97f191cc7af3",
@@ -4300,6 +4368,8 @@
         "scale": "desktop"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "89bd3638-bbbb-432d-84eb-e217f9bb0cbf",
@@ -4323,6 +4393,8 @@
         "scale": "mobile"
       }
     },
+    "context": "Section header row height",
+    "contextRole": ["height"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "30px",
     "uuid": "2cd8dc05-2f95-45b5-b8a4-0273baf3ba0e",

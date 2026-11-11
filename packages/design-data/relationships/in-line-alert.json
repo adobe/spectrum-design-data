@@ -4,7 +4,7 @@
       "component": "in-line-alert",
       "property": "border-width"
     },
-    "context": "Border ",
+    "context": "Border",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "65984941-a042-5378-af01-06d3a0e2dcf9"
   },
@@ -23,7 +23,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "51817c98-12e6-5d69-a56f-eb44787ac74d"
   },
   {
@@ -32,7 +32,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "e5677968-e4df-5212-a8cb-219d64e75e66"
   },
   {
@@ -58,7 +58,7 @@
       "component": "in-line-alert",
       "property": "spacing"
     },
-    "context": "Spacing (Title to Description) ",
+    "context": "Spacing (title to description)",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "4e8b98d6-e677-5913-ac9d-5fe290d0aae0"
   },
@@ -67,7 +67,7 @@
       "component": "in-line-alert",
       "property": "spacing"
     },
-    "context": "Spacing (Description to Link, Description to Button, Link to Button) ",
+    "context": "Spacing (Description to Link, Description to Button, Link to Button)",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "b7a4b984-6fd1-506b-8b8e-75314bb76d06"
   },
