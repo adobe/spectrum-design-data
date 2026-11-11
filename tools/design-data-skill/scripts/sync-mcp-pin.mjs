@@ -28,7 +28,7 @@ for (const file of [".mcp.json", "skills/design-data/SKILL.md", "README.md"]) {
   writeFileSync(
     file,
     text.replace(
-      /@adobe\/design-data-mcp@\d+\.\d+\.\d+/g,
+      /@adobe\/design-data-mcp@\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*)?/g,
       `@adobe/design-data-mcp@${mcpVersion}`,
     ),
   );
