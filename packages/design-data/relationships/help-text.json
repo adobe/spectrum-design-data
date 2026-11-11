@@ -4,7 +4,7 @@
       "component": "help-text",
       "property": "component-height-75"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
     "uuid": "3e97b352-8628-557a-a634-f000bf3b6f8e"
   },
@@ -13,7 +13,7 @@
       "component": "help-text",
       "property": "component-height-75"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
     "uuid": "08dbca01-d5cb-54b3-9ff1-e7580506d160"
   },
@@ -22,7 +22,7 @@
       "component": "help-text",
       "property": "component-height-100"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "uuid": "08e30a0d-f78f-5d97-b56d-b0bc4e2ee04c"
   },
@@ -31,7 +31,7 @@
       "component": "help-text",
       "property": "component-height-100"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
     "uuid": "f3d63605-f2d2-55f5-9f4e-e0ed2947653c"
   },
@@ -40,7 +40,7 @@
       "component": "help-text",
       "property": "component-height-200"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
     "uuid": "6f5d4192-a8ec-54eb-864c-da47f83134af"
   },
@@ -49,7 +49,7 @@
       "component": "help-text",
       "property": "component-height-200"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
     "uuid": "7d9153ab-9270-5463-bbf6-2b4b9039687b"
   },
@@ -58,7 +58,7 @@
       "component": "help-text",
       "property": "component-height-300"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
     "uuid": "53595461-c3a1-54c6-b81b-5ac26863fcd0"
   },
@@ -67,7 +67,7 @@
       "component": "help-text",
       "property": "component-height-300"
     },
-    "context": "Minimum Height",
+    "context": "Minimum height",
     "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
     "uuid": "29b8b8b6-48bd-51bd-8708-c37c4073a31d"
   },

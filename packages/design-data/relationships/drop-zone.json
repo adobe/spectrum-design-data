@@ -67,7 +67,7 @@
       "component": "drop-zone",
       "property": "spacing"
     },
-    "context": "Spacing (illustration to title area) ",
+    "context": "Spacing (illustration to title area)",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "3f2c240a-366d-524c-b6fe-7db1c1d95464"
   },
@@ -76,7 +76,7 @@
       "component": "drop-zone",
       "property": "spacing"
     },
-    "context": "Spacing (title area to body area) ",
+    "context": "Spacing (title area to body area)",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "65da5123-686d-576e-acad-7704b1bed1db"
   },
@@ -85,7 +85,7 @@
       "component": "drop-zone",
       "property": "spacing"
     },
-    "context": "Spacing (body area to action) ",
+    "context": "Spacing (body area to action)",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "4a002074-7e87-54d0-9b00-2fa550280df5"
   },

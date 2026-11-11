@@ -202,7 +202,7 @@
       "component": "tree-view",
       "property": "thickness"
     },
-    "context": "Focus ",
+    "context": "Focus",
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "947ec90a-0995-5a29-b29d-e1eac774fe73"
   },
@@ -688,7 +688,7 @@
       "component": "tree-view",
       "property": "square-light"
     },
-    "context": "Checkerboard colors ",
+    "context": "Checkerboard colors",
     "$ref": "c7e50676-3f61-49c3-a35f-2532fdb02360",
     "uuid": "9259445d-1505-56c0-b5d1-9be139338ace"
   },
@@ -697,7 +697,7 @@
       "component": "tree-view",
       "property": "square-dark"
     },
-    "context": "Checkerboard colors ",
+    "context": "Checkerboard colors",
     "$ref": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761",
     "uuid": "0aaf581e-e45f-53f9-8542-d6527850f046"
   },
@@ -706,7 +706,7 @@
       "component": "tree-view",
       "property": "square-dark"
     },
-    "context": "Checkerboard colors ",
+    "context": "Checkerboard colors",
     "$ref": "f783b8cb-d31f-46c2-b550-990639752510",
     "uuid": "bcc6ae97-4b48-5ce7-824b-a2b52ec62939"
   },
@@ -715,7 +715,7 @@
       "component": "tree-view",
       "property": "square-dark"
     },
-    "context": "Checkerboard colors ",
+    "context": "Checkerboard colors",
     "$ref": "35fcf7b1-7140-4522-8410-48547aaf6fd6",
     "uuid": "908605e2-038f-5792-adf4-a2061bec3d2e"
   },

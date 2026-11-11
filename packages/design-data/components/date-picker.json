@@ -189,7 +189,7 @@
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "strikethrough-day-thickness", "context": "Strikethrough day " },
+    { "token": "strikethrough-day-thickness", "context": "Strikethrough day" },
     {
       "token": "date-picker-text-to-in-field-button",
       "context": "Spacing (value to in-field button)"

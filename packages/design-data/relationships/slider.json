@@ -121,7 +121,7 @@
       "component": "slider",
       "property": "component-height-75"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
     "uuid": "2557acbe-7850-5f43-a744-07f7169992f5"
   },
@@ -130,7 +130,7 @@
       "component": "slider",
       "property": "component-height-75"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
     "uuid": "2d83dc53-a61e-500e-8618-4a0718c06926"
   },
@@ -139,7 +139,7 @@
       "component": "slider",
       "property": "component-height-100"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "uuid": "fcb1c528-fa70-552d-9c03-db4e92a87e03"
   },
@@ -148,7 +148,7 @@
       "component": "slider",
       "property": "component-height-100"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
     "uuid": "3f8549ce-d841-5642-98ee-989f2e085350"
   },
@@ -157,7 +157,7 @@
       "component": "slider",
       "property": "component-height-200"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
     "uuid": "ef31feb3-de44-51c7-a2d4-32acd3ce4367"
   },
@@ -166,7 +166,7 @@
       "component": "slider",
       "property": "component-height-200"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
     "uuid": "df82c29f-35de-5194-a543-944425c60905"
   },
@@ -175,7 +175,7 @@
       "component": "slider",
       "property": "component-height-300"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
     "uuid": "0e2d200c-1dd0-55f8-8627-4392ead32c85"
   },
@@ -184,7 +184,7 @@
       "component": "slider",
       "property": "component-height-300"
     },
-    "context": "Height (slider control) ",
+    "context": "Height (slider control)",
     "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
     "uuid": "1a6e6268-5547-5949-8220-f7738ab34708"
   },

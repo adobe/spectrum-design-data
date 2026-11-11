@@ -58,7 +58,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Spacing (start/end edge to days) ",
+    "context": "Spacing (start/end edge to days)",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "fe7eb91c-6478-5991-8793-9bea10d99b53"
   },
@@ -67,7 +67,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Spacing (top/bottom edge to days) ",
+    "context": "Spacing (top/bottom edge to days)",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "239257c3-8357-5396-8d8b-93bdaefffafa"
   },
@@ -76,7 +76,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Spacing (month + year to chevron) ",
+    "context": "Spacing (month + year to chevron)",
     "$ref": "26639049-ec07-430d-983f-4d036758564a",
     "uuid": "0db9dbf7-c8ac-5a08-8826-a827ad5e74ae"
   },
@@ -85,7 +85,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Spacing (between week labels) ",
+    "context": "Spacing (between week labels)",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "b07a14f1-300f-52f1-bc63-9e314ad89438"
   },
@@ -94,7 +94,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Spacing (between week labels and days) ",
+    "context": "Spacing (between week labels and days)",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "46c5e274-9fa8-5539-8731-7b71a4947092"
   },
@@ -103,7 +103,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "3451c170-3e78-449b-86f2-8b7dbea24c1c",
     "uuid": "a918fdb0-b7dd-5e6a-9a0f-c1ba0d368408"
   },
@@ -112,7 +112,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "82b09b04-6a70-4a95-9eb5-a321a66a6465",
     "uuid": "e56d6a65-fb5c-5dbf-bebd-c92d23a0835b"
   },
@@ -121,7 +121,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "895407bb-8fda-4857-92a9-bf0cc06f2c3f",
     "uuid": "fb8b6de1-58e4-5908-a5f6-1cb346543576"
   },
@@ -130,7 +130,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "uuid": "3059fe30-b04a-5540-b1a0-4aa7b5d07dd9"
   },
@@ -139,7 +139,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "da15fc4a-a3ce-4cbe-a2d1-bf5a2e77e5c4",
     "uuid": "c55ebefb-1a9f-5903-8189-ff8940cff42c"
   },
@@ -148,7 +148,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "147ed079-b4f0-4cd7-89cd-7ec93750d688",
     "uuid": "865c11f9-d4c3-55e3-ba11-5a57dcd89b4c"
   },
@@ -157,7 +157,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "a50fef9e-d01f-490c-9baa-8c9672f1ac96",
     "uuid": "d8e5c281-0df8-539c-b11d-b0ba36ee3b29"
   },
@@ -166,7 +166,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
     "uuid": "8519bfd1-5be6-5109-b64b-7e4c90c7b998"
   },
@@ -175,7 +175,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "0a4f63d4-8a2a-51cd-a390-c6563a975a5c"
   },
@@ -184,7 +184,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "17e43524-c788-51ff-8dbe-739a34a6e6fa"
   },
@@ -193,7 +193,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "89c4315f-6119-5a64-ae31-25d0971bd185"
   },
@@ -202,7 +202,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "f2aa04f6-d77a-5ba3-831c-7fa29d586d15"
   },
@@ -211,7 +211,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "da82c574-8bb1-5a72-91c6-3b0ae10f7406"
   },
@@ -220,7 +220,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc",
     "uuid": "2a626852-355b-5af1-91e4-5c1d8636e7cb"
   },
@@ -229,7 +229,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb",
     "uuid": "e34e3fad-a963-5b07-a11e-c35c5c6f6a35"
   },
@@ -238,7 +238,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5",
     "uuid": "7caab498-7c8f-5af2-b429-e1cc2f71a60f"
   },
@@ -247,7 +247,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "d2481a50-13a0-4f19-8faa-a1a215fee21d",
     "uuid": "a0375bd1-7fc2-5879-a0ad-b3f6bdba74d6"
   },
@@ -256,7 +256,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "648da867-549e-47c3-9312-e9cfda288705",
     "uuid": "27e25d5d-d0ec-5cb6-9317-2cf16e7373f6"
   },
@@ -265,7 +265,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Day values ",
+    "context": "Day values",
     "$ref": "b1104fe3-4965-411e-95d3-87f59cdbc756",
     "uuid": "62ac67dd-447a-5816-b75c-c0d5d6a79779"
   },
@@ -283,7 +283,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Range fill color ",
+    "context": "Range fill color",
     "$ref": "7d52711e-43fa-4a95-a7b1-3a7367570596",
     "uuid": "50f59a64-ccca-5887-8f3d-966ef3502b0a"
   },
@@ -292,7 +292,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Range fill color ",
+    "context": "Range fill color",
     "$ref": "7da4709c-caf3-401a-a2ce-07186a7e8e8c",
     "uuid": "e42cf56d-c064-5738-8fa3-a93fac088cc4"
   },
@@ -301,7 +301,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Range fill color ",
+    "context": "Range fill color",
     "$ref": "93563495-60af-4a84-b811-9672fc46a1cc",
     "uuid": "092a11ef-b0e4-56fd-9c45-c4ed88d48363"
   },
@@ -310,7 +310,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Background and border ",
+    "context": "Background and border",
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "e90312a0-c68e-5c9e-a9fa-05f9353f327c"
   },
@@ -319,7 +319,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Background and border ",
+    "context": "Background and border",
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "174f38ae-740d-5054-a296-46033618fcf6"
   },
@@ -328,7 +328,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "Background and border ",
+    "context": "Background and border",
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "6b5283b4-bbd4-5cd9-8915-d4da3089d388"
   },
@@ -337,7 +337,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb",
     "uuid": "c667cfef-fb8e-584d-8923-bd2dccfc7bdc"
   },
@@ -346,7 +346,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b",
     "uuid": "4b829786-ed0b-5da5-8b65-cc877bc0232d"
   },
@@ -355,7 +355,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "0449c585-9b3c-5cc8-9868-d7ac9565fa9f"
   },
@@ -364,7 +364,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "bd6f2af5-2b63-5ce1-b021-bc41acc64c17"
   },
@@ -373,7 +373,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "c54a97f1-ff73-5166-aa01-8946b42aa17b"
   },
@@ -382,7 +382,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "1d5f3aee-9ad5-5f59-8359-791d65caa258"
   },
@@ -391,7 +391,7 @@
       "component": "date-picker",
       "property": "color"
     },
-    "context": "In field button colors ",
+    "context": "In field button colors",
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "81d666f7-f37d-57f2-a71a-ec4f0483d3df"
   },
@@ -490,7 +490,7 @@
       "component": "date-picker",
       "property": "corner-radius"
     },
-    "context": "Corner rounding ",
+    "context": "Corner rounding",
     "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
     "uuid": "f5ec2f42-7618-5386-9503-763a44f82b9c"
   },
@@ -499,7 +499,7 @@
       "component": "date-picker",
       "property": "component-edge-to-text-100"
     },
-    "context": "Spacing (start edge to value) ",
+    "context": "Spacing (start edge to value)",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "c8242791-5043-598b-b634-2407184fd54a"
   },
@@ -508,7 +508,7 @@
       "component": "date-picker",
       "property": "component-edge-to-text-100"
     },
-    "context": "Spacing (start edge to value) ",
+    "context": "Spacing (start edge to value)",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "b7d51bab-8460-5fe5-ab47-6e791d34568e"
   },
@@ -535,7 +535,7 @@
       "component": "date-picker",
       "property": "border-width"
     },
-    "context": "Border ",
+    "context": "Border",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "813fcbb8-506b-511f-9ba6-5b62cf4e8ddb"
   },
@@ -544,7 +544,7 @@
       "component": "date-picker",
       "property": "thickness"
     },
-    "context": "Keyboard focus indicator ",
+    "context": "Keyboard focus indicator",
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "5912d8be-e33c-516b-b36e-7b5322410d71"
   },
@@ -553,7 +553,7 @@
       "component": "date-picker",
       "property": "gap"
     },
-    "context": "Keyboard focus indicator ",
+    "context": "Keyboard focus indicator",
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "e38fc86f-3101-535a-88bc-0eebd0954c67"
   },
@@ -562,7 +562,7 @@
       "component": "date-picker",
       "property": "spacing"
     },
-    "context": "Individual value spacing ",
+    "context": "Individual value spacing",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "40cdca6c-75f6-5692-8b29-fa912c77b2a5"
   },
@@ -580,7 +580,7 @@
       "component": "date-picker",
       "property": "corner-radius"
     },
-    "context": "Focused value rounding ",
+    "context": "Focused value rounding",
     "$ref": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9",
     "uuid": "043cd392-9f6c-5cc1-a75c-ea140ee55f9c"
   },
@@ -598,7 +598,7 @@
       "component": "date-picker",
       "property": "workflow-icon-size-100"
     },
-    "context": "Alert icon size ",
+    "context": "Alert icon size",
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "982ea936-c307-55b0-81dc-903a2e52e102"
   },
@@ -607,7 +607,7 @@
       "component": "date-picker",
       "property": "workflow-icon-size-100"
     },
-    "context": "Alert icon size ",
+    "context": "Alert icon size",
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "c99da327-63f8-597d-a9a0-9b7580e1724b"
   },
@@ -706,7 +706,7 @@
       "component": "date-picker",
       "property": "content-color"
     },
-    "context": "Help text color ",
+    "context": "Help text color",
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "90419a2c-5a29-5054-97b6-499fc6ed2c36"
   },

@@ -139,7 +139,7 @@
       "component": "table",
       "property": "space-between"
     },
-    "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
+    "context": "Note: desktop 8px, mobile 10px; This applies to icon, avatar, and thumbnail.",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "e8f3e949-ca0a-5139-a6a2-202d76483d1c"
   },
@@ -220,7 +220,7 @@
       "component": "table",
       "property": "component-top-to-text-100"
     },
-    "context": "Spacing (section header row top/bottom to text) ",
+    "context": "Spacing (section header row top/bottom to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "22051ce7-9813-57ab-a656-31c424dfaa8c"
   },
@@ -229,7 +229,7 @@
       "component": "table",
       "property": "component-bottom-to-text-100"
     },
-    "context": "Spacing (section header row top/bottom to text) ",
+    "context": "Spacing (section header row top/bottom to text)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "040d0d01-1040-50da-9127-e78157ab0aac"
   },

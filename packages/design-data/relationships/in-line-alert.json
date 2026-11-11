@@ -4,7 +4,7 @@
       "component": "in-line-alert",
       "property": "border-width"
     },
-    "context": "Border ",
+    "context": "Border",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "65984941-a042-5378-af01-06d3a0e2dcf9"
   },
@@ -58,7 +58,7 @@
       "component": "in-line-alert",
       "property": "spacing"
     },
-    "context": "Spacing (Title to Description) ",
+    "context": "Spacing (title to description)",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "4e8b98d6-e677-5913-ac9d-5fe290d0aae0"
   },
@@ -67,7 +67,7 @@
       "component": "in-line-alert",
       "property": "spacing"
     },
-    "context": "Spacing (Description to Link, Description to Button, Link to Button) ",
+    "context": "Spacing (Description to Link, Description to Button, Link to Button)",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "b7a4b984-6fd1-506b-8b8e-75314bb76d06"
   },

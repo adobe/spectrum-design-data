@@ -4,7 +4,7 @@
       "component": "tabs",
       "property": "height"
     },
-    "context": "Height ",
+    "context": "Height",
     "$ref": "e8c7c826-548d-4037-b064-3cf699675d35",
     "uuid": "306493af-50b6-526f-abf3-84b1fa48e1fe"
   },
@@ -13,7 +13,7 @@
       "component": "tabs",
       "property": "height"
     },
-    "context": "Regular density ",
+    "context": "Regular density",
     "$ref": "5d2288f4-f383-47fa-baca-0168cb46750a",
     "uuid": "ac91d639-d076-548d-bdc5-e07be16b3f32"
   },
@@ -31,7 +31,7 @@
       "component": "tabs",
       "property": "workflow-icon-size-100"
     },
-    "context": "Icon ",
+    "context": "Icon",
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "161b5af1-18f0-538a-8ca7-88a35e5ddaab"
   },
@@ -40,7 +40,7 @@
       "component": "tabs",
       "property": "workflow-icon-size-100"
     },
-    "context": "Icon ",
+    "context": "Icon",
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "547472d1-6925-5f6c-8932-09c82db7ad40"
   },
@@ -148,7 +148,7 @@
       "component": "tabs",
       "property": "spacing"
     },
-    "context": "Spacing (selected) ",
+    "context": "Spacing (selected)",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "5eedefa8-cec9-577b-8933-41b116a014c4"
   },
@@ -157,7 +157,7 @@
       "component": "tabs",
       "property": "spacing"
     },
-    "context": "Spacing (selected) ",
+    "context": "Spacing (selected)",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "3466354b-9829-53db-9e65-23d9803e8e7f"
   },
@@ -166,7 +166,7 @@
       "component": "tabs",
       "property": "spacing"
     },
-    "context": "Spacing (selected with keyboard focus) ",
+    "context": "Spacing (selected with keyboard focus)",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "f1d8a41c-a3d6-5986-b1eb-7b1f72fcad01"
   },
