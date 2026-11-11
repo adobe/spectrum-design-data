@@ -414,7 +414,9 @@ impl<'a> Index<'a> {
             basis = "text-property";
             ev.push(format!("property '{p}' styles text; no part to name it"));
         } else if let Some(part) = rec.part.as_deref() {
-            head = capitalize(part);
+            head = self
+                .typed_item(&rec.component, part)
+                .unwrap_or_else(|| capitalize(part));
             let dim = ["size", "width", "height", "thickness"]
                 .iter()
                 .find(|d| p.ends_with(*d) && !p.starts_with("border") && !text);
@@ -475,6 +477,23 @@ impl<'a> Index<'a> {
         );
         out.basis = Some(basis);
         Some(out)
+    }
+
+    /// Registry label of the typed item term for part `item` of a component
+    /// (`list-view` -> `List view item`). Other parts and components without one: `None`.
+    fn typed_item(&self, component: &str, part: &str) -> Option<String> {
+        if part != "item" {
+            return None;
+        }
+        let alias = match component {
+            "side-navigation" => "navigation",
+            "tabs" => "tab",
+            "breadcrumbs" => "breadcrumb",
+            c => c,
+        };
+        self.reg
+            .context_label(&format!("{alias}-item"))
+            .map(String::from)
     }
 
     fn tiers(&self, i: usize) -> [Option<Proposal>; 3] {
@@ -781,6 +800,44 @@ mod tests {
         assert_eq!(p.context_qualifier.as_deref(), Some("size"));
         rs[1]["context"] = json!("Track");
         assert_eq!(one(&graph(rs), 2).tier, Tier::Template);
+    }
+
+    #[test]
+    fn template_maps_part_item_to_the_typed_item_term() {
+        let g = graph(vec![
+            rec(
+                "a",
+                json!({"component": "list-view", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "b",
+                json!({"component": "segmented-control", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "c",
+                json!({"component": "tabs", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "d",
+                json!({"component": "table", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+        ]);
+        assert_eq!(one(&g, 0).context, "List view item");
+        assert_eq!(one(&g, 1).context, "Segmented control item");
+        assert_eq!(one(&g, 2).context, "Tab item");
+        let bare = one(&g, 3);
+        assert_eq!(bare.context, "Item");
+        assert!(bare.registry_gap.is_some());
+        let plural = RegistryData::embedded().context_roles("Tab items").unwrap();
+        assert_eq!(plural, ["navigation"]);
+        assert_eq!(
+            RegistryData::embedded().context_roles("Tab item").unwrap(),
+            ["tab-item"]
+        );
     }
 
     #[test]
