@@ -46,7 +46,7 @@ bash tools/demo/auto/auto-demo.sh A --record --docker
 ```
 
 **Demos A, B, C** — beat markers are injected by anchoring to sentinel text patterns
-in the cast's output events (the TUI view headers: `Resolve:`, `Describe:`, `Fuzzy`).
+in the cast's output events (the TUI view headers: `Resolve:`, `Describe:`, `Filters`).
 These land on asciinema's own clock regardless of `--idle-time-limit` compression.
 
 **Demo D** — uses **Claude Code hooks** for reliable beat detection and marker timing:
@@ -125,38 +125,53 @@ passing explicit `markers` timestamps in the slide's `playerProps`.
 
 Deterministic. \~2–2.5 min. Launch the TUI as above, then:
 
-> **Re-record needed:** the committed `A-find.cast` is a placeholder with markers
-> for A1–A3 only. Add the A4 fuzzy-find beat (and its marker) when you record the
-> real cast, or the deck's `pauseOnMarkers` won't stop for it.
+| Beat | Keystrokes                                                                                                                                                                                                                           | Marker after |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| A1   | `:` `query background-color/*` `Enter` — scroll `j`/`k`, then `Esc`                                                                                                                                                                  | yes          |
+| A2   | `:` `resolve property=accent-background-color,colorScheme=dark` `Enter`, then `Esc`                                                                                                                                                  | yes          |
+| A3   | `:` `describe button` `Enter` — scroll with `j`/`k` / `PgDn`, press `y` to yank a row, then `Esc`                                                                                                                                    | yes          |
+| A4   | `:` `find` `Enter` → Filters screen (title: `Step 1 of 2 — Filters`); type `background-color` in the property field; Tab×5 to the Preview button; `Enter` → Preview screen; `Esc` back to Filters; `Esc` again to cancel find wizard | yes          |
 
-| Beat | Keystrokes                                                                                                                                            | Marker after |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| A1   | `:` `query background-color/*` `Enter` — scroll `j`/`k`, then `Esc`                                                                                   | yes          |
-| A2   | `:` `resolve property=accent-background-color-default,colorScheme=dark` `Enter`, then `Esc`                                                           | yes          |
-| A3   | `:` `describe button` `Enter` — scroll with `j`/`k` / `PgDn`, then `Esc`                                                                              | yes          |
-| A4   | `/` `accentbg` — live fuzzy filter (table re-ranks on every keystroke), `j`/`k` to move, `Enter` to keep results (or `Esc` to restore the prior view) | yes          |
+`:find` is the **structured find wizard** (two screens: Filters → Preview). The Filters
+screen shows five input fields (property, component, variant, state, free-text intent)
+with **cross-field count badges** updating live as you type — showing how many tokens
+match the filter combination for each option. `:query` is complementary: unguided
+glob/predicate filtering without count feedback. Use `:find` when you want to explore
+what values exist for a field; use `:query` for precise expression-based filtering.
 
-`/` and `:` are complementary, so show both: `/` is **live fuzzy-find** (fzf-style
-subsequence match — `accentbg` finds `accent-background-…`, re-ranked per
-keystroke, header reads `Fuzzy: /accentbg`), while `:query` is structured
-predicate filtering. `Enter` commits the fuzzy results; `Esc` restores the view
-that was on screen before you opened the palette.
+**Optional A5 beat — help overlay + g/G + `?`** (add to your take if time permits):
+From any result view, press `?` to open the context-sensitive help overlay; press `?`
+or `Esc` to close. Press `g` to jump to the top of a list, `G` to jump to the bottom.
+No automated sentinel — drop a manual `Ctrl+\` marker when the overlay is open.
 
 ## Demo B — Name a new token (`public/casts/B-name.cast`)
 
 \~2.5 min. Fresh TUI launch (clean draft).
 
-| Beat | Keystrokes                                                                                                                                                                                                                    | Marker after |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| B1   | `:` `new accent background` `Enter` → reuse banner fires → **Tab** (alias path → Confirm diff) → `Esc`                                                                                                                        | yes          |
-| B2   | `:` `new custom brand overlay` `Enter` → `Enter` (Classification: `←`/`→` layer, Tab to property, `+` name field) → `Enter` (Values: `a`/`l`, `e` to edit a row) → `Enter` (Confirm: type rationale, watch live diff) → `Esc` | yes          |
+Wizard screen titles now read **`Step N of 4 — <Name>`** (e.g. `Step 1 of 4 — Intent`).
+`Esc` **back-navigates** one screen at a time (Screens 2/3/4 → previous screen;
+Screen 1 → cancel). To cancel from the Confirm screen, press `Esc` four times.
 
-The Confirm diff now serializes **every mode-combo row** as a `sets` block
-(fixed; previously only the first row was written) — so the multi-mode story is
-honest on camera. The diff also emits a structured `name` object (property +
-name fields), matching what the MCP authoring session writes, so the TUI and
-agent paths produce identical token shapes. Only add `--allow-write` for a
-deliberate "write to disk" take.
+| Beat | Keystrokes                                                                                                                                                                                                                      | Marker after |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| B1   | `:` `new accent background` `Enter` → reuse banner fires → **Tab** (alias path → Confirm diff) → `Esc`×4 to cancel (showcases back-navigation)                                                                                  | yes          |
+| B2   | `:` `new custom brand overlay` `Enter` → `Enter` (Classification: `←`/`→` layer, Tab to property, `+` name field) → `Enter` (Values: `a`/`l`, `e` to edit a row) → `Enter` (Confirm: type rationale, watch live diff) → `Esc`×4 | yes          |
+
+The Confirm diff serializes **every mode-combo row** as a `sets` block and emits a
+structured `name` object — the TUI and agent paths produce identical token shapes.
+Only add `--allow-write` for a "write to disk" take.
+
+**Optional B3 beat — `:validate` with grouped findings** (manual-only; add if the
+dataset has validation errors, or use `tools/demo/broken-token-example.tokens.json`):
+Re-launch the TUI on the broken-token file:
+
+```bash
+design-data tools/demo/broken-token-example.tokens.json --theme spectrum
+```
+
+Then: `:validate` `Enter` → findings grouped by rule (`×N ▶`); `Enter` to expand a
+group (shows individual tokens); `y` to yank the selected token name to clipboard.
+No automated sentinel — drop a manual `Ctrl+\` marker when the grouped view is open.
 
 ## Demo C — Deterministic agent companion (`public/casts/C-suggest.cast`, optional)
 
