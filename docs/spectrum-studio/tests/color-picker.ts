@@ -1,6 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import Color from "colorjs.io";
+import { concreteColor } from "../src/features/color-system/data-vis/colors";
+import { serializeOutputColor } from "../src/features/color-system/outputSerialization";
 import {
   canvasToColor,
   colorToCanvas,
@@ -8,6 +10,7 @@ import {
   channelFormatOptions,
   createColorWithChannelValue,
   fieldValueToColorChannel,
+  formatPickerHex,
   getColorSpaceConfig,
   getChannelRange,
   getChannelGamutRange,
@@ -18,12 +21,68 @@ import {
   parsePickerHex,
   serializePickerColor,
   pickerColorsEqual,
+  createColorFromCoords,
+  pickerChannelName,
+  pickerChannelValueText,
+  pickerSliderPosition,
+  movePickerAreaPosition,
 } from "../src/components/color-picker/colorUtils";
 import {
   colorToP3Hsl,
   p3HslToRgb,
   p3RgbToHsl,
 } from "../src/components/color-picker/p3HslUtils";
+
+for (const space of ["sRGB", "Display P3", "OKlch"] as const) {
+  for (const model of ["cartesian", "polar"] as const) {
+    const config = getColorSpaceConfig(space, model);
+    for (const alpha of [0, 0.35, 1]) {
+      const source = new Color("p3", [0.23, 0.46, 0.79], alpha);
+      const coords = getColorCoords(source, config);
+      const changed = createColorWithChannelValue(
+        source,
+        config,
+        config.channels[0],
+        coords[0],
+      );
+      assert.equal(changed.alpha, alpha, `${space}/${model} retains alpha`);
+      assert.equal(createColorFromCoords(config, coords, alpha).alpha, alpha);
+      assert.ok(pickerColorsEqual(source, changed));
+      const position = colorToCanvas(
+        source,
+        200,
+        config,
+        config.defaultChannels,
+      );
+      const areaColor = canvasToColor(
+        position.x,
+        position.y,
+        200,
+        source,
+        config,
+        config.defaultChannels,
+      );
+      assert.equal(areaColor.alpha, alpha, "Area construction retains alpha");
+      assert.equal(parsePickerHex("#123456", alpha)?.alpha, alpha);
+      const payload = concreteColor(serializePickerColor(source, space));
+      assert.ok(
+        pickerColorsEqual(source, payload),
+        `${space} payload is lossless`,
+      );
+    }
+  }
+}
+for (const value of [
+  "not-a-color",
+  "rgb(12, 340, Q)",
+  "var(--color)",
+  "currentcolor",
+  "rgb(10 none 20)",
+  "oklch(none 0.1 40)",
+  "rgb(10 20 30 / none)",
+]) {
+  assert.equal(parsePickerColor(value), null, `${value} is explicitly invalid`);
+}
 
 const srgbCartesian = getColorSpaceConfig("sRGB", "cartesian");
 const oklchPolar = getColorSpaceConfig("OKlch", "polar");
@@ -36,7 +95,30 @@ assert.deepEqual(getChannelRange("c", "oklch"), [0, 0.5]);
 assert.deepEqual(getChannelRange("a", "oklab"), [-0.5, 0.5]);
 const p3Red = new Color("p3", [1, 0, 0]),
   recRed = new Color("rec2020", [1, 0, 0]);
-assert.equal(serializePickerColor(p3Red), serializePickerColor(recRed));
+assert.equal(formatPickerHex(p3Red), formatPickerHex(recRed));
+assert.notEqual(serializePickerColor(p3Red), serializePickerColor(recRed));
+for (const source of [p3Red, recRed]) {
+  for (const space of ["sRGB", "Display P3", "OKlch"] as const) {
+    assert.ok(
+      pickerColorsEqual(source, new Color(serializePickerColor(source, space))),
+    );
+  }
+  for (const alpha of [0, 0.00000001, 0.123456789012345, 1]) {
+    const source = new Color("rec2020", [0.85, 0.1, 0.1], alpha);
+    const payload = concreteColor(serializePickerColor(source));
+    assert.equal(payload.alpha, alpha);
+    assert.ok(pickerColorsEqual(source, payload));
+    const settings = {
+      authoringGamut: "rec2020",
+      outputFormat: "rgb",
+      mapOutputsToSrgb: true,
+    } as const;
+    assert.equal(
+      serializeOutputColor(payload, settings),
+      serializeOutputColor(source, settings),
+    );
+  }
+}
 assert.equal(
   pickerColorsEqual(p3Red, recRed),
   false,
@@ -114,30 +196,26 @@ assert.throws(
   /Channel "a" is not available/,
 );
 
-const parsed = parsePickerColor("not-a-color");
-assert.equal(serializePickerColor(parsed), "#000000");
+function validColor(value: string) {
+  const parsed = parsePickerColor(value);
+  assert.ok(parsed, `${value} should parse`);
+  return parsed;
+}
 assert.equal(
-  serializePickerColor(parsePickerColor("hsl(225.39 0% 100%)")),
+  serializePickerColor(validColor("hsl(225.39 0% 100%)")),
   "#ffffff",
 );
+assert.equal(formatPickerHex(validColor("color(display-p3 1 0 0)")), "#ff0000");
+for (const input of ["#ff0000", "#ffffff"]) {
+  for (const space of ["Display P3", "OKlch"] as const) {
+    const source = validColor(input);
+    assert.ok(
+      pickerColorsEqual(source, new Color(serializePickerColor(source, space))),
+    );
+  }
+}
 assert.equal(
-  serializePickerColor(parsePickerColor("color(display-p3 1 0 0)")),
-  "#ff0000",
-);
-assert.equal(
-  serializePickerColor(parsePickerColor("#ff0000"), "Display P3"),
-  "color(display-p3 0.91749 0.20029 0.13856)",
-);
-assert.equal(
-  serializePickerColor(parsePickerColor("#ff0000"), "OKlch"),
-  "oklch(0.62796 0.25768 29.23388)",
-);
-assert.equal(
-  serializePickerColor(parsePickerColor("#ffffff"), "OKlch"),
-  "oklch(1 0 0)",
-);
-assert.equal(
-  serializePickerColor(parsePickerColor("oklch(70% 0.16 40deg)"), "OKlch"),
+  serializePickerColor(validColor("oklch(70% 0.16 40deg)"), "OKlch"),
   "oklch(0.7 0.16 40)",
 );
 for (const [input, expected] of [
@@ -218,13 +296,50 @@ for (const config of [
   );
 }
 assert.deepEqual(
-  getColorCoords(parsePickerColor("oklch(70% 0.16 40deg)"), oklchPolar),
+  getColorCoords(validColor("oklch(70% 0.16 40deg)"), oklchPolar),
   [0.7, 0.16, 40],
 );
 const changed = createColorWithChannelValue(color, srgbCartesian, "r", 0.9);
 assert.ok(changed.to("srgb").coords[0] > 0.89);
 
 const outOfGamut = new Color("oklch", [0.7, 0.4, 40]);
+assert.ok(pickerColorsEqual(validColor("oklch(0.7 0.4 40)"), outOfGamut));
+for (const input of ["oklch(0.5 0 none)", "hsl(none 0% 50%)", "#fff", "#000"]) {
+  assert.ok(validColor(input));
+}
+assert.equal(pickerChannelName("b", "oklab"), "Blue/yellow");
+assert.equal(pickerChannelName("b", "srgb"), "Blue");
+assert.equal(pickerChannelValueText("r", 0.2, "srgb"), "51");
+assert.equal(pickerChannelValueText("l", 0.35, "oklch"), "35%");
+for (const gamut of ["sRGB", "Display-P3", "Rec2020"] as const) {
+  const source = new Color("oklch", [0.7, 0.4, 40], 0.35);
+  const mapped = mapColorToGamut(source, gamut);
+  assert.equal(mapped.alpha, source.alpha);
+  assert.equal(source.alpha, 0.35);
+  assert.equal(source.coords[1], 0.4);
+}
+for (const size of [1, 200]) {
+  assert.equal(pickerSliderPosition(0.4, [0.4, 0.4], size, "horizontal"), 0);
+  assert.equal(pickerSliderPosition(0.4, [0.4, 0.4], size, "vertical"), size);
+  assert.deepEqual(
+    movePickerAreaPosition({ x: size, y: 0 }, size, 0, 10, false),
+    { x: size, y: 0 },
+  );
+  assert.deepEqual(movePickerAreaPosition({ x: 0, y: 0 }, size, 1, 10, false), {
+    x: 0,
+    y: 0,
+  });
+}
+assert.deepEqual(movePickerAreaPosition({ x: 100, y: 0 }, 200, 1, 1, true), {
+  x: 100,
+  y: 199,
+});
+assert.deepEqual(movePickerAreaPosition({ x: 200, y: 100 }, 200, 0, 10, true), {
+  x: 10,
+  y: 100,
+});
+assert.equal(pickerSliderPosition(0.5, [0, 1], 200, "horizontal"), 100);
+assert.equal(pickerSliderPosition(1, [0, 1], 200, "vertical"), 0);
 const rawCanvasCandidate = canvasToColor(200, 0, 200, outOfGamut, oklchPolar, [
   "c",
   "h",

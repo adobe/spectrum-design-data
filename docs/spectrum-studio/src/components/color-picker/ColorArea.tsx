@@ -8,8 +8,13 @@ import {
   colorToCanvas,
   createColorFromCoords,
   getThirdChannelValue,
+  getChannelRange,
+  getColorCoords,
   isOutOfGamut,
   mapColorToGamut,
+  movePickerAreaPosition,
+  pickerChannelName,
+  pickerChannelValueText,
   type ChannelName,
   type ColorSpaceConfig,
   type PickerGamut,
@@ -104,6 +109,7 @@ function constrainPosition(
 
 export const ColorArea = memo(function ColorArea({
   colorCoordinates,
+  alpha = 1,
   config,
   channels,
   gamut,
@@ -112,6 +118,7 @@ export const ColorArea = memo(function ColorArea({
   onChange,
 }: {
   colorCoordinates: number[];
+  alpha?: number;
   config: ColorSpaceConfig;
   channels: [ChannelName, ChannelName];
   gamut: PickerGamut;
@@ -120,8 +127,8 @@ export const ColorArea = memo(function ColorArea({
   onChange: (color: Color) => void;
 }) {
   const parsedColor = useMemo(
-    () => createColorFromCoords(config, colorCoordinates),
-    [colorCoordinates, config],
+    () => createColorFromCoords(config, colorCoordinates, alpha),
+    [colorCoordinates, config, alpha],
   );
   const canvasThirdChannelValue = useMemo(
     () => getThirdChannelValue(parsedColor, config),
@@ -141,6 +148,18 @@ export const ColorArea = memo(function ColorArea({
   );
   const position = dragPosition ?? committedPosition;
   const handleColor = (dragColor ?? parsedColor).toString({ format: "hex" });
+  const coords = getColorCoords(dragColor ?? parsedColor, config);
+  const axes = channels.map((channel) => ({
+    valueNow: coords[config.channels.indexOf(channel)],
+    valueMin: getChannelRange(channel, config.id)[0],
+    valueMax: getChannelRange(channel, config.id)[1],
+    ariaLabel: pickerChannelName(channel, config.id),
+    valueText: pickerChannelValueText(
+      channel,
+      coords[config.channels.indexOf(channel)],
+      config.id,
+    ),
+  }));
 
   useEffect(() => {
     if (!isDragging) setDragPosition(null);
@@ -184,6 +203,11 @@ export const ColorArea = memo(function ColorArea({
 
   const beginPointer = (event: React.PointerEvent<HTMLElement>) => {
     if (activePointerId.current !== null) return;
+    const area = event.currentTarget.closest(".colorPickerArea");
+    if (!area?.contains(document.activeElement))
+      area
+        ?.querySelector<HTMLInputElement>('input[type="range"]')
+        ?.focus({ preventScroll: true });
     activePointerId.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
     setIsDragging(true);
@@ -210,22 +234,9 @@ export const ColorArea = memo(function ColorArea({
     updateFromPointer(event);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    const delta =
-      event.key === "ArrowRight"
-        ? { x: 1, y: 0 }
-        : event.key === "ArrowLeft"
-          ? { x: -1, y: 0 }
-          : event.key === "ArrowDown"
-            ? { x: 0, y: 1 }
-            : event.key === "ArrowUp"
-              ? { x: 0, y: -1 }
-              : null;
-    if (!delta) return;
-    event.preventDefault();
-    const step = event.shiftKey ? 10 : 1;
+  const commitPosition = (target: { x: number; y: number }) => {
     const next = constrainPosition(
-      { x: position.x + delta.x * step, y: position.y + delta.y * step },
+      target,
       size,
       parsedColor,
       config,
@@ -239,9 +250,46 @@ export const ColorArea = memo(function ColorArea({
       ),
     );
   };
+  const changeAxisValue = (axis: 0 | 1, value: number) => {
+    const [minimum, maximum] = getChannelRange(channels[axis], config.id);
+    const normalized = (value - minimum) / (maximum - minimum);
+    commitPosition(
+      axis === 0
+        ? { x: normalized * size, y: position.y }
+        : { x: position.x, y: (1 - normalized) * size },
+    );
+  };
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+    axis: 0 | 1,
+  ) => {
+    const direction =
+      event.key === "ArrowRight" || event.key === "ArrowUp"
+        ? 1
+        : event.key === "ArrowLeft" || event.key === "ArrowDown"
+          ? -1
+          : 0;
+    if (!direction) return;
+    event.preventDefault();
+    const step = event.shiftKey ? 10 : 1;
+    commitPosition(
+      movePickerAreaPosition(
+        position,
+        size,
+        axis,
+        direction * step,
+        channels[axis] === "h",
+      ),
+    );
+  };
 
   return (
-    <div className="colorPickerArea" style={{ width: size, height: size }}>
+    <div
+      className="colorPickerArea"
+      role="group"
+      aria-label="Color area"
+      style={{ width: size, height: size }}
+    >
       <ColorCanvas
         thirdChannelValue={canvasThirdChannelValue}
         config={config}
@@ -253,9 +301,17 @@ export const ColorArea = memo(function ColorArea({
       <ColorHandle
         color={handleColor}
         position={position}
-        valueNow={position.x}
+        {...axes[0]}
+        orientation="horizontal"
+        secondaryAxis={{
+          ...axes[1],
+          orientation: "vertical",
+          onKeyDown: (event) => handleKeyDown(event, 1),
+          onValueChange: (value) => changeAxisValue(1, value),
+        }}
         isDragging={isDragging}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(event) => handleKeyDown(event, 0)}
+        onValueChange={(value) => changeAxisValue(0, value)}
         onPointerDown={(event) => {
           event.stopPropagation();
           beginPointer(event);
