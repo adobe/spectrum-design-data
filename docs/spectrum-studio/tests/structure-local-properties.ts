@@ -36,6 +36,7 @@ import { updateElementAtom } from "../src/features/structures/elementState";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { reconcileStructureNames } from "../src/features/structures/registeredNames";
+import { registerVariantProperty } from "../src/features/option-groups/naming";
 
 const fixture = createDefaultSnapshot();
 const structure = createStructure("Local properties");
@@ -61,12 +62,13 @@ const update = (editor: ReturnType<typeof structureEditor>) =>
     structureId: structure.conceptId,
     editor,
   });
-const variant = createLocalVariantProperty("Icon position");
+const variant = createLocalVariantProperty("Placement");
+variant.options[1].name = "End";
 assert.throws(() => createLocalVariantProperty(" "), /name/);
 assert.deepEqual(variant.classification, {});
 assert.deepEqual(
   variant.options.map((option) => option.name),
-  ["Default", "Option 2"],
+  ["Default", "End"],
 );
 assert.equal(variant.defaultOptionId, variant.options[0].id);
 assert.equal(
@@ -81,24 +83,29 @@ assert.throws(() => update(editor), /edit mode/);
 store.set(enterEditModeAtom);
 update(editor);
 const taxonomy = store.get(authoringSnapshotAtom).taxonomy!;
-const named = renameVariantProperty(
-  structureEditor(current()),
-  variant.id,
-  "Placement",
-  taxonomy,
+assert.throws(
+  () =>
+    renameVariantProperty(
+      structureEditor(current()),
+      variant.id,
+      "Placement",
+      taxonomy,
+    ),
+  /already belongs/,
 );
-assert.equal(named.taxonomy, taxonomy);
-update(named.editor);
 const option = variant.options[1];
-const renamed = renameVariantOption(
-  structureEditor(current()),
-  variant.id,
-  option.id,
-  "End",
-  taxonomy,
+assert.throws(
+  () =>
+    renameVariantOption(
+      structureEditor(current()),
+      variant.id,
+      option.id,
+      "End",
+      taxonomy,
+    ),
+  /already belongs/,
 );
-assert.equal(renamed.taxonomy, taxonomy);
-update(renamed.editor);
+assert.deepEqual(store.get(authoringSnapshotAtom).taxonomy, taxonomy);
 const extra = { id: crypto.randomUUID(), name: "Both", classification: {} };
 update(
   duplicateVariantOption(
@@ -202,6 +209,80 @@ assert.deepEqual(
   reloaded.get(authoringSnapshotAtom),
   store.get(authoringSnapshotAtom),
 );
+const registeredStore = createStore();
+const registeredFixture = structuredClone(fixture);
+registeredFixture.structures!.structures.at(-1)!.generation = {
+  ...structuredClone(registeredFixture.structures!.structures[0].generation!),
+  applications: [],
+};
+registeredStore.set(restoreAuthoringSnapshotAtom, registeredFixture);
+registeredStore.set(editSessionSnapshotAtom, registeredFixture);
+registeredStore.set(enterEditModeAtom);
+const registryDraft = createLocalVariantProperty("Registered placement");
+registryDraft.options[0].name = "registered-placement-base";
+registryDraft.options[1].name = "registered-placement-offset";
+const registration = registerVariantProperty(
+  registryDraft,
+  fixture.taxonomy!,
+  true,
+);
+const registeredEditor = {
+  ...emptyStructureEditor(),
+  properties: [registration.property],
+  overrides: {
+    [registryDraft.options[1].id]: {
+      slots: { width: { $ref: reference.id } },
+    },
+  },
+};
+registeredStore.set(updateStructureEditorAtom, {
+  structureId: structure.conceptId,
+  editor: registeredEditor,
+  taxonomy: registration.taxonomy,
+});
+const registeredWorking = structuredClone(
+  registeredStore.get(authoringSnapshotAtom),
+);
+assertStoredSnapshot(registeredWorking);
+const registeredStructure = registeredWorking.structures!.structures.find(
+  (item) => item.conceptId === structure.conceptId,
+)!;
+assert.deepEqual(
+  resolveStructureOptions(registeredStructure, {
+    options: { [registryDraft.id]: registryDraft.options[1].id },
+    booleans: {},
+    activePropertyId: registryDraft.id,
+    indentationLevel: 0,
+  }).previewOnlySlots,
+  [],
+  "Registered options are eligible for semantic output, not preview-only.",
+);
+assert.deepEqual(registeredWorking.typography, fixture.typography);
+assert(
+  buildTshirtArtifacts(registeredWorking).semantics.some((row) =>
+    Object.values(row.token.name).includes("registered-placement-offset"),
+  ),
+  "Registry-backed Structure differences reach the existing semantic generator.",
+);
+registeredStore.set(cancelEditAtom);
+assert.deepEqual(registeredStore.get(authoringSnapshotAtom), registeredFixture);
+registeredStore.set(enterEditModeAtom);
+registeredStore.set(updateStructureEditorAtom, {
+  structureId: structure.conceptId,
+  editor: registeredEditor,
+  taxonomy: registration.taxonomy,
+});
+registeredStore.set(saveEditAtom);
+const registryReload = createStore();
+registryReload.set(
+  restoreAuthoringSnapshotAtom,
+  JSON.parse(JSON.stringify(registeredStore.get(authoringSnapshotAtom))),
+);
+assert.deepEqual(
+  registryReload.get(authoringSnapshotAtom),
+  registeredStore.get(authoringSnapshotAtom),
+  "Structure category/term references survive Save and reload together.",
+);
 console.log(
-  "Local properties: creation, inline names/options, defaults, validation, preview differences, unchanged Registry/token output and Save/Cancel/reload passed.",
+  "Legacy compatibility and registered Structure options: naming, semantic eligibility, atomic Save/Cancel/reload passed.",
 );

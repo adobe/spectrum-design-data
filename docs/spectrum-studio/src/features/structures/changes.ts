@@ -45,6 +45,10 @@ export function structureFields(structure: Structure): Map<string, string> {
             [`element/${element.id}/type`, element.termId],
             [`element/${element.id}/name`, canonicalJson(element.name ?? null)],
             [
+              `element/${element.id}/textStyle`,
+              canonicalJson(element.textStyle ?? null),
+            ],
+            [
               `element/${element.id}/glyph`,
               canonicalJson(element.glyph ?? null),
             ],
@@ -225,6 +229,19 @@ export function structureChanges(
             after: afterLeaf?.[metadata],
           });
         }
+      if (
+        canonicalJson(beforeLeaf?.textStyle ?? null) !==
+        canonicalJson(afterLeaf?.textStyle ?? null)
+      )
+        fields.push({
+          key: `${label} - Text Style`,
+          before: beforeLeaf?.textStyle
+            ? canonicalJson(beforeLeaf.textStyle)
+            : undefined,
+          after: afterLeaf?.textStyle
+            ? canonicalJson(afterLeaf.textStyle)
+            : undefined,
+        });
       for (const slot of new Set(
         [...(beforeLeaf?.bindings ?? []), ...(afterLeaf?.bindings ?? [])].map(
           (binding) => binding.slot,

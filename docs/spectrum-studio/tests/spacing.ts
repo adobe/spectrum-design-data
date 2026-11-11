@@ -316,8 +316,8 @@ assert.ok(
       .get(foundationImpactSummaryAtom)
       .categories.find((category) => category.category === "spacing")!.affected
       .count,
-    10,
-    "a new scale counts all ten tracked fields, including start step and publishing",
+    11,
+    "a new scale counts all eleven tracked fields, including component-size scaling",
   );
   store.set(resetAllChangeDataAtom);
   assert.equal(

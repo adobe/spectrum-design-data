@@ -30,6 +30,7 @@ import { isTshirtRule, type Rule } from "../../features/logic/model";
 import type { PrimitiveReference } from "../../features/tokens/primitiveReferences";
 import type { TshirtArtifactBundle } from "../../features/design-data/tshirtArtifacts";
 import { StructureRuleDialog } from "./StructureRuleDialog";
+import "./StructureCard.css";
 
 const cardStyles = style({
   display: "flex",
@@ -145,6 +146,7 @@ export function StructureCard({
         data-structure-id={structure.conceptId}
       >
         <PreviewListItem
+          inset
           preview={preview}
           label={structure.name}
           actions={

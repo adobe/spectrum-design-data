@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { concreteColor } from "../color-system/data-vis/colors";
+import { FONT_FAMILY_PATTERN } from "../typography/fontTokens";
 import { fromTypographyUnit } from "../typography/units";
 import { tokenIdentity } from "./canonicalIdentity";
 import type { BrowserToken, BrowserTokenSource } from "./browserModel";
@@ -77,6 +78,7 @@ export function canonicalBrowserSources(
   edits: BrowserTokenEdits,
 ): BrowserTokenSource[] {
   return sources.map((source) => {
+    if (source.fontId) return source;
     const identity = tokenIdentity(edits, source.sourceId ?? source.id);
     return identity
       ? {
@@ -252,6 +254,13 @@ export function parseBrowserTokenValue(
     );
   if (token.type === "elevation")
     throw new Error("Edit complete shadows in the Elevation foundation.");
+  if (token.type === "typography" && token.groupId === "font-family") {
+    if (!FONT_FAMILY_PATTERN.test(input))
+      throw new Error(
+        "Enter a font family using the font-family schema's supported names and optional quotes.",
+      );
+    return input;
+  }
   if (token.type === "opacity") {
     const text = input.trim();
     const value =

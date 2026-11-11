@@ -27,6 +27,13 @@ export interface DomainDefinition {
 }
 
 export const CHANGE_DOMAINS = {
+  styles: {
+    topic: "structures",
+    category: "styles",
+    label: "Styles",
+    sourceKind: "style",
+    collection: "recipes",
+  },
   componentSizing: {
     topic: "foundations",
     category: "size",
@@ -199,6 +206,8 @@ export const FIELD_EXCLUSIONS: Readonly<Record<string, string>> = {
     "Stored random output identities; authored bindings and options own their Changes fields.",
   identity:
     "Persisted token publication IDs and canonical vocabulary, not editable token settings.",
+  publications:
+    "Durable generated Style token identities; recipe inputs own Changes slots.",
 };
 export interface AuthoredSlot {
   id: string;
@@ -266,6 +275,12 @@ export function compareAuthoring(
       names: string[],
       collectionOrder = false,
     ) {
+      if (
+        definition.category === "typography" &&
+        names[0] === "fonts" &&
+        ["uuid", "conceptId", "nameReference"].includes(names[2] ?? "")
+      )
+        return;
       const indexField =
         fieldPath.at(-1) === "scaleIndex" &&
         (swatchIndexAt(shipped, fieldPath) !== undefined ||
@@ -284,11 +299,17 @@ export function compareAuthoring(
           (definition.category === "color" &&
             names.at(-1) === "steps" &&
             (fieldPath.includes("customContrasts") ||
-              fieldPath.includes("disabledCustomContrasts")))) &&
+              fieldPath.includes("disabledCustomContrasts"))) ||
+          (definition.category === "typography" && names.at(-1) === "fonts") ||
+          (definition.category === "structures" &&
+            names.length === 1 &&
+            names[0] === "elements")) &&
         !collectionOrder &&
         ruleMembers(left) &&
         ruleMembers(right) &&
-        ["children", "branches", "steps"].includes(names.at(-1) ?? "")
+        ["children", "branches", "steps", "fonts", "elements"].includes(
+          names.at(-1) ?? "",
+        )
       ) {
         const originals = new Map(left.map((item) => [item.id, item]));
         const latest = new Map(right.map((item) => [item.id, item]));
@@ -309,13 +330,39 @@ export function compareAuthoring(
           names.at(-2) ?? "",
         ) &&
         (left === undefined || right === undefined);
+      const newFont =
+        definition.category === "typography" &&
+        names[0] === "fonts" &&
+        names.length === 2 &&
+        (left === undefined || right === undefined);
+      const newElement =
+        definition.category === "structures" &&
+        names[0] === "elements" &&
+        names.length === 2 &&
+        (left === undefined || right === undefined);
       const adjustmentMethodChanged =
         names.at(-1) === "scaleAdjustment" &&
         (!record(left) || !record(right) || left.method !== right.method);
+      const styleAppearanceField =
+        definition.category === "styles" &&
+        ["appearance", "differences"].includes(names[0]) &&
+        [
+          "color",
+          "fontFamily",
+          "fontWeight",
+          "lineHeight",
+          "borderWidth",
+        ].includes(names.at(-1) ?? "");
+      const textStyleReference =
+        definition.category === "structures" && names.at(-1) === "textStyle";
       if (
         (record(left) || record(right)) &&
+        !newFont &&
+        !newElement &&
         !newStructureBinding &&
-        !adjustmentMethodChanged
+        !adjustmentMethodChanged &&
+        !styleAppearanceField &&
+        !textStyleReference
       ) {
         const keys = new Set([
           ...Object.keys(record(left) ? left : {}),

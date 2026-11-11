@@ -61,6 +61,7 @@ export interface RoundingRule
   depth: RoundingDepth;
 }
 
+/** Ratio is retained for reading and upgrading historical documents, not authoring. */
 export type TshirtMovement = "available-token" | "scale-index" | "ratio";
 /** Where a "ratio" movement gets its multiplier: a typed number or a linked formula part. */
 export type TshirtRatioSource =
@@ -112,6 +113,10 @@ export interface ConditionalBranch {
 }
 export interface ConditionalRule extends RuleBase {
   type: "conditional";
+  outputs?: {
+    id: string;
+    classification: import("../taxonomy/model").Classification;
+  }[];
   when: RuleConditionGroup;
   branches: ConditionalBranch[];
   otherwise: TokenOffsetOutcome;
@@ -307,6 +312,29 @@ export function isRule(value: unknown): value is Rule {
 
 function isConditionalBody(rule: Partial<ConditionalRule>): boolean {
   if (!Array.isArray(rule.branches) || !isOffset(rule.otherwise)) return false;
+  if (rule.outputs !== undefined) {
+    if (!Array.isArray(rule.outputs)) return false;
+    const outputIds = new Set<string>();
+    for (const output of rule.outputs) {
+      if (
+        !output ||
+        typeof output.id !== "string" ||
+        !output.id.trim() ||
+        outputIds.has(output.id) ||
+        !output.classification ||
+        typeof output.classification !== "object" ||
+        Array.isArray(output.classification) ||
+        !Object.values(output.classification).every(
+          (value) =>
+            typeof value === "string" ||
+            (Array.isArray(value) &&
+              value.every((id) => typeof id === "string")),
+        )
+      )
+        return false;
+      outputIds.add(output.id);
+    }
+  }
   const ids = new Set<string>();
   const claim = (id: unknown) => {
     if (typeof id !== "string" || !id.trim() || ids.has(id)) return false;

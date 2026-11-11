@@ -1,5 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import Ajv from "ajv";
+import { EMPTY_STYLES, isStylesDocument } from "../styles/model";
+import { reconcileFontNames } from "../typography/fontVocabulary";
+import { withStylesVocabulary } from "../styles/vocabulary";
 import schema from "../../data/design-system.schema.json" with { type: "json" };
 import { isParameterBinding } from "../scales/interpolation";
 import {
@@ -124,7 +127,11 @@ export function composeDesignSystemDefaults(
     );
   }
   const dataset = structuredClone(input);
-  const taxonomy = dataset.system.taxonomy;
+  const namedFonts = reconcileFontNames(
+    withStylesVocabulary(dataset.system.taxonomy),
+    dataset.system.foundations.typography.fonts,
+  );
+  const taxonomy = namedFonts.taxonomy;
   const decoded = fromPortableStructures(dataset.system.structures, taxonomy);
   if (decoded.status !== "ready")
     throw new DatasetValidationError(
@@ -137,6 +144,7 @@ export function composeDesignSystemDefaults(
       system: {
         ...dataset.system,
         taxonomy,
+        styles: dataset.system.styles ?? structuredClone(EMPTY_STYLES),
         structures: decoded.value,
         foundations: {
           ...(dataset.system.foundations.opacity && {
@@ -163,7 +171,10 @@ export function composeDesignSystemDefaults(
             },
             taxonomy,
           ),
-          typography: dataset.system.foundations.typography,
+          typography: {
+            ...dataset.system.foundations.typography,
+            fonts: namedFonts.fonts,
+          },
           spacing: {
             ...dataset.system.foundations.spacing,
             scales: dataset.system.foundations.spacing.scales.map((source) =>
@@ -198,6 +209,10 @@ export function composeDesignSystemDefaults(
   const issues: string[] = taxonomyIssues(result.system.taxonomy).map(
     (issue) => `/system/taxonomy: ${issue}`,
   );
+  if (result.system.styles && !isStylesDocument(result.system.styles))
+    issues.push(
+      "/system/styles: invalid Style recipes or publication identities",
+    );
   if (
     result.system.componentSizing !== undefined &&
     !isComponentSizingDocument(result.system.componentSizing)

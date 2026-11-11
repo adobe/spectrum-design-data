@@ -38,6 +38,8 @@ import {
   sameValue,
   type AuthoredAddress,
 } from "./contract";
+import { structureTextStyleIssues } from "../styles/textAppearance";
+import { EMPTY_STYLES } from "../styles/model";
 
 export interface ResetSnapshot extends EditSessionSnapshot {
   attachments: FoundationModeAttachments;
@@ -252,7 +254,10 @@ export function generatedOverrideReason(
   source: BrowserTokenSource | undefined,
   snapshot: EditSessionSnapshot,
 ): string | undefined {
-  if (item.sourceKind === "semantic-token" || source?.semantic)
+  if (
+    (item.sourceKind === "semantic-token" && !source?.style) ||
+    source?.semantic
+  )
     return "Semantic outputs have no independent overrides. Restore a changed Structure, rule or foundation source.";
   if (item.kind === "removed")
     return "This token is no longer available to edit independently.";
@@ -406,6 +411,23 @@ export function prepareChangeReset(
         ...address,
         expected: readPath(candidate, address.path),
       });
+    for (const address of plan.addresses) {
+      const identity = address.path[2];
+      if (
+        address.path[0] !== "typography" ||
+        address.path[1] !== "fonts" ||
+        address.path[3] !== "name" ||
+        !identity ||
+        typeof identity !== "object" ||
+        !("id" in identity)
+      )
+        continue;
+      const referencePath = [...address.path.slice(0, 3), "nameReference"];
+      candidate = restorePath(candidate, shipped, {
+        path: referencePath,
+        expected: readPath(candidate, referencePath),
+      });
+    }
     candidate = restoreSwatchIndexAssignments(
       candidate,
       shipped,
@@ -521,6 +543,11 @@ export function prepareChangeReset(
     );
   }
   assertAttachments(candidate);
+  const styleIssues = structureTextStyleIssues(
+    candidate.structures?.structures ?? [],
+    candidate.styles ?? EMPTY_STYLES,
+  );
+  if (styleIssues.length) throw new Error(styleIssues.join(" "));
   assertStoredSnapshot(candidate);
   if (
     plan.kind === "override" &&

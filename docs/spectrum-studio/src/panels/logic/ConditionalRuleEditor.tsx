@@ -32,6 +32,7 @@ import type {
 } from "../../features/logic/model";
 import type { ColorSystemDocument } from "../../features/color-system/model";
 import type { ModeSet } from "../../features/modes/model";
+import { InteractionRuleOutputs } from "./InteractionRuleOutputs";
 
 const stack = style({
   display: "flex",
@@ -155,6 +156,11 @@ export function ConditionalRuleEditor({
         sources={sources}
         onChange={onChange}
         onEditingChange={onEditingChange}
+      />
+      <InteractionRuleOutputs
+        rule={rule}
+        sources={sources}
+        onChange={onChange}
       />
       {errors.length > 0 && (
         <InlineAlert variant="negative">

@@ -55,27 +55,27 @@ for (const optionId of [undefined, property.options[0].id]) {
     /name/,
   );
 }
-assert.equal(
+assert.deepEqual(
   variantNameTermRequest(
     editor,
     property.id,
     property.options[1].id,
     "Local name",
     taxonomy,
-  ),
-  null,
-  "Local option labels do not request Registry terms.",
+  )?.entries,
+  ["Category: Start", "Option: Default", "Option: Local name"],
+  "Saving a local name requests Registry references instead of retaining a preview-only label.",
 );
 const local = createLocalVariantProperty("Local");
-assert.equal(
+assert.deepEqual(
   variantNameTermRequest(
     { ...editor, properties: [local] },
     local.id,
     undefined,
     "Renamed",
     taxonomy,
-  ),
-  null,
+  )?.entries,
+  ["Category: Renamed", "Option: Default", "Option: Option 2"],
 );
 assert.throws(
   () => variantNameTermRequest(editor, property.id, "missing", "End", taxonomy),
@@ -105,10 +105,7 @@ assert.deepEqual(
 const source = ts.createSourceFile(
   "StructureProperties.tsx",
   readFileSync(
-    new URL(
-      "../src/panels/structures/StructureProperties.tsx",
-      import.meta.url,
-    ),
+    new URL("../src/panels/design/DesignProperties.tsx", import.meta.url),
     "utf8",
   ),
   ts.ScriptTarget.Latest,
@@ -140,6 +137,7 @@ for (const optionId of [undefined, property.options[0].id]) {
   const errors: string[] = [];
   const commits: ReturnType<typeof renameVariantProperty>[] = [];
   const action: (createTerm?: boolean) => void = runInNewContext(code, {
+    namingScope: "structures",
     editor,
     propertyId: property.id,
     optionId,
@@ -200,17 +198,14 @@ for (const name of [
 }
 assert.match(
   component.getText(source),
-  /<Dialog[\s\S]*aria-label="Create Registry term"/,
+  /<Dialog[\s\S]*aria-label=\{\s*termRequest\?\.entries[\s\S]*"Create Registry term"/,
 );
 assert.doesNotMatch(
   component.getText(source),
   /Choose an existing Registry term/,
 );
 assert.match(component.getText(source), /<Popover size="S">/);
-assert.match(
-  component.getText(source),
-  /<Heading level=\{3\} styles=\{termHeadingStyles\}>/,
-);
+assert.match(source.text, /<Heading level=\{3\} styles=\{termHeadingStyles\}>/);
 assert.match(
   source.getFullText(),
   /const termHeadingStyles = style\(\{ font: "heading-xs", margin: 0 \}\)/,
@@ -220,17 +215,14 @@ assert.match(
   /const termBodyStyles = style\(\{ font: "body-sm" \}\)/,
 );
 assert.match(
-  component.getText(source),
+  source.text,
   /<Text UNSAFE_className=\{String\(termBodyStyles\)\}>/,
 );
 assert.match(
-  component.getText(source),
+  source.text,
   /<ButtonGroup align="end" styles=\{termActionsStyles\}>/,
 );
-assert.match(
-  component.getText(source),
-  /Cancel\s*<\/Button>[\s\S]*>\s*Create\s*<\/Button>/,
-);
+assert.match(source.text, /Cancel\s*<\/Button>[\s\S]*>\s*Create\s*<\/Button>/);
 console.log(
   "Compact name editors and explicit Registry-term confirmation passed.",
 );

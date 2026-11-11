@@ -6,7 +6,9 @@ import { rulesAtom } from "../../features/logic/library";
 import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
 import { structuresDocumentAtom } from "../../features/structures/documentState";
 import type { Structure } from "../../features/structures/model";
+import { EMPTY_STRUCTURE_PREVIEW } from "../../features/structures/variants";
 import { StructureOptionSample } from "./StructureOptionSample";
+import "./StructureThumbnail.css";
 
 export function StructureThumbnail({ structure }: { structure: Structure }) {
   const preview = useAtomValue(structureThumbnailPreviewAtom);
@@ -53,6 +55,8 @@ export function StructureThumbnail({ structure }: { structure: Structure }) {
               generation.status === "ready" ? generation.bundle : undefined
             }
             mode={preview.selection}
+            preview={EMPTY_STRUCTURE_PREVIEW}
+            previewSelections={{}}
           />
         )}
       </div>

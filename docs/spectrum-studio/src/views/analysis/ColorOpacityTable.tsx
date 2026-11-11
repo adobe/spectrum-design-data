@@ -260,6 +260,7 @@ export function ColorOpacityTable({
         modes,
         valueResult,
         type,
+        assessment.enhancements,
       ),
     [assessment, query, verdict, modes, valueResult, type],
   );

@@ -56,7 +56,29 @@ for (const token of baseline.tokens) {
   );
 }
 const spacingRows = baseline.lineage.filter((row) => row.domain === "spacing");
-assert(spacingRows.every((row) => row.kind === "baseline"));
+assert(
+  spacingRows
+    .filter(
+      (row) =>
+        !snapshot.spacing!.scales.find((scale) => scale.id === row.scaleId)!
+          .componentSizeScaling,
+    )
+    .every((row) => row.kind === "baseline"),
+);
+const componentSpacing = snapshot.spacing!.scales.filter(
+  (scale) => scale.componentSizeScaling,
+);
+for (const scale of componentSpacing) {
+  assert(
+    spacingRows.some(
+      (row) =>
+        row.scaleId === scale.id &&
+        row.kind === "binding" &&
+        row.selection["mode-set-platform-scale"],
+    ),
+    "Component-sized Spacing publishes its owning mode dependency.",
+  );
+}
 for (const domain of ["size", "radius"] as const) {
   const rows = baseline.lineage.filter((row) => row.domain === domain);
   assert(

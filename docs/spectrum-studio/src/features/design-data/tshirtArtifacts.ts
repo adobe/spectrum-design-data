@@ -101,6 +101,7 @@ export type {
 } from "./tshirtTypes";
 
 export interface TshirtAuthoringSource extends DimensionAuthoringSource {
+  styles?: import("../styles/model").StylesDocument;
   structures?: StructuresDocument;
   elevation?: ElevationDocument;
   opacity?: OpacityDocument;
@@ -855,6 +856,7 @@ function buildTshirtBatch(
           )!;
           if (
             anchor.family !== "spacing" ||
+            anchor.componentSizeApplied ||
             !componentAxis ||
             context.context[componentAxis.key] !== undefined ||
             context.kind === "override"

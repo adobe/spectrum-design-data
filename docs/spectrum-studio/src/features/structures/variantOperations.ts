@@ -10,13 +10,11 @@ import {
 import { structureSelection, type Structure } from "./model";
 import type { StructureInsertionContext } from "./children";
 import { STRUCTURE_TERM_IDS } from "./vocabulary";
-import {
-  registerTerm,
-  taxonomyValueKey,
-  type Classification,
-  type TaxonomyDocument,
-} from "../taxonomy/model";
-import { termLabel } from "../taxonomy/termPresentation";
+export {
+  renameVariantOption,
+  renameVariantProperty,
+  variantNameTermRequest,
+} from "../option-groups/naming";
 
 export function reorderLayers(
   order: readonly string[],
@@ -336,167 +334,6 @@ export function removeBooleanProperty(
         ]),
       ),
     }),
-  };
-}
-
-export function renameVariantOption(
-  editor: StructureEditorData,
-  propertyId: string,
-  optionId: string,
-  name: string,
-  taxonomy: TaxonomyDocument,
-  createTerm = false,
-) {
-  const property = editor.properties.find((item) => item.id === propertyId);
-  if (!property || property.kind !== "variant")
-    throw new Error("The variant property is unavailable.");
-  const option = property.options.find((item) => item.id === optionId);
-  if (!option) throw new Error("The selected variant option is unavailable.");
-  const renamed = renameAssignment(
-    option.classification,
-    name,
-    taxonomy,
-    createTerm,
-  );
-  return {
-    taxonomy: renamed.taxonomy,
-    editor: {
-      ...editor,
-      properties: editor.properties.map((item) =>
-        item.id === property.id
-          ? {
-              ...property,
-              options: property.options.map((entry) =>
-                entry.id === optionId
-                  ? { ...entry, ...renamed.assignment }
-                  : entry,
-              ),
-            }
-          : item,
-      ),
-    },
-  };
-}
-
-export function renameVariantProperty(
-  editor: StructureEditorData,
-  propertyId: string,
-  name: string,
-  taxonomy: TaxonomyDocument,
-  createTerm = false,
-) {
-  const property = editor.properties.find((item) => item.id === propertyId);
-  if (!property || property.kind !== "variant")
-    throw new Error("The variant property is unavailable.");
-  if (property.categoryId) {
-    const category = taxonomy.categories.find(
-      (category) => category.id === property.categoryId,
-    );
-    if (!category || !name.trim())
-      throw new Error(
-        "Choose an available Registry category and give it a name.",
-      );
-    return {
-      taxonomy: {
-        ...taxonomy,
-        categories: taxonomy.categories.map((entry) =>
-          entry.id === category.id ? { ...entry, name: name.trim() } : entry,
-        ),
-      },
-      editor: {
-        ...editor,
-        properties: editor.properties.map((entry) =>
-          entry.id === propertyId ? { ...property, name: name.trim() } : entry,
-        ),
-      },
-    };
-  }
-  const renamed = renameAssignment(
-    property.classification,
-    name,
-    taxonomy,
-    createTerm,
-  );
-  return {
-    taxonomy: renamed.taxonomy,
-    editor: {
-      ...editor,
-      properties: editor.properties.map((item) =>
-        item.id === propertyId ? { ...property, ...renamed.assignment } : item,
-      ),
-    },
-  };
-}
-
-export function variantNameTermRequest(
-  editor: StructureEditorData,
-  propertyId: string,
-  optionId: string | undefined,
-  name: string,
-  taxonomy: TaxonomyDocument,
-) {
-  const property = editor.properties.find((item) => item.id === propertyId);
-  if (!property || property.kind !== "variant")
-    throw new Error("The variant property is unavailable.");
-  const selected = optionId
-    ? property.options.find((option) => option.id === optionId)
-    : property;
-  if (!selected) throw new Error("The variant option is unavailable.");
-  if (!optionId && property.categoryId) return null;
-  const target = assignmentRenameTerm(selected.classification, name, taxonomy);
-  return target && !target.existing
-    ? { categoryId: target.categoryId, name: name.trim() }
-    : null;
-}
-
-function assignmentRenameTerm(
-  classification: Classification,
-  name: string,
-  taxonomy: TaxonomyDocument,
-) {
-  const assignments = Object.entries(classification);
-  if (!name.trim()) throw new Error("Give the option a name.");
-  if (!assignments.length) return null;
-  if (assignments.length !== 1 || typeof assignments[0][1] !== "string")
-    throw new Error("Edit this option's ordered terms in the Registry.");
-  const [categoryId] = assignments[0];
-  const existing = taxonomy.terms.find(
-    (term) =>
-      term.categoryId === categoryId &&
-      taxonomyValueKey(term.value) === taxonomyValueKey(name.trim()),
-  );
-  return { categoryId, existing };
-}
-
-function renameAssignment(
-  classification: Classification,
-  name: string,
-  taxonomy: TaxonomyDocument,
-  createTerm: boolean,
-) {
-  const target = assignmentRenameTerm(classification, name, taxonomy);
-  if (!target)
-    return { taxonomy, assignment: { name: name.trim(), classification } };
-  const { categoryId, existing } = target;
-  if (!existing && !createTerm)
-    throw new Error("Choose an existing Registry term or create this term.");
-  const nextTaxonomy = existing
-    ? taxonomy
-    : registerTerm(taxonomy, categoryId, name.trim(), crypto.randomUUID());
-  const term =
-    existing ??
-    nextTaxonomy.terms.find(
-      (item) =>
-        item.categoryId === categoryId &&
-        taxonomyValueKey(item.value) === taxonomyValueKey(name.trim()),
-    );
-  if (!term) throw new Error("The option's Registry term is unavailable.");
-  return {
-    taxonomy: nextTaxonomy,
-    assignment: {
-      name: termLabel(term.value),
-      classification: { [categoryId]: term.id },
-    },
   };
 }
 

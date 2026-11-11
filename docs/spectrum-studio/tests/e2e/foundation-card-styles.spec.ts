@@ -139,9 +139,7 @@ for (const dark of [false, true]) {
     }
     await page.getByRole("tab", { name: "Typography", exact: true }).click();
     const panel = page.locator('[data-component="FoundationsTypographyPanel"]');
-    await panel
-      .getByRole("button", { name: "Line heights", exact: true })
-      .click();
+    await panel.getByRole("tab", { name: "Line heights", exact: true }).click();
     const card = panel.getByRole("region", {
       name: "body line height",
       exact: true,

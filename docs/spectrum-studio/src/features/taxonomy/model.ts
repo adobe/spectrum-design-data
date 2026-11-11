@@ -16,6 +16,7 @@ export type TaxonomyScope =
   | "elevation"
   | "opacity"
   | "structures"
+  | "styles"
   | DimensionScope;
 export type TaxonomyValue = string | number;
 export interface TaxonomyCategory {
@@ -39,6 +40,8 @@ export interface TaxonomyTerm {
   categoryId: string;
   value: TaxonomyValue;
   description: string;
+  /** Omit this term without removing its classification. The category still controls inclusion. */
+  includeInProjections?: boolean;
 }
 export interface Classification {
   [categoryId: string]: string | string[];
@@ -103,6 +106,7 @@ const scopes: TaxonomyScope[] = [
   "elevation",
   "opacity",
   "structures",
+  "styles",
   ...DIMENSION_SCOPES,
 ];
 const object = (value: unknown): value is Record<string, unknown> =>
@@ -215,12 +219,20 @@ export function taxonomyIssues(value: unknown): string[] {
   for (const term of value.terms) {
     if (
       !object(term) ||
-      !knownFields(term, ["id", "categoryId", "value", "description"]) ||
+      !knownFields(term, [
+        "id",
+        "categoryId",
+        "value",
+        "description",
+        "includeInProjections",
+      ]) ||
       typeof term.id !== "string" ||
       !taxonomyIdPattern.test(term.id) ||
       typeof term.categoryId !== "string" ||
       !taxonomyIdPattern.test(term.categoryId) ||
       typeof term.description !== "string" ||
+      (term.includeInProjections !== undefined &&
+        typeof term.includeInProjections !== "boolean") ||
       !["string", "number"].includes(typeof term.value) ||
       (typeof term.value === "number" && !Number.isFinite(term.value)) ||
       !String(term.value).trim()
@@ -442,7 +454,18 @@ export function projectClassification(
       continue;
     }
     flat[category.key] = category.cardinality === "one" ? values[0] : values;
-    if (category.includeInProjections)
+    if (
+      category.includeInProjections &&
+      termIds.every(
+        (termId) =>
+          (context
+            ? context.terms.get(id)?.get(termId)
+            : document.terms.find(
+                (term) => term.id === termId && term.categoryId === id,
+              )
+          )?.includeInProjections !== false,
+      )
+    )
       segments.push({
         categoryId: id,
         categoryName: category.name,

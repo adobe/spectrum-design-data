@@ -6,7 +6,9 @@ import {
 import type {
   ColorOpacityAssessment,
   ColorOpacityConcept,
+  ColorOpacityEnhancement,
 } from "../../features/design-data/colorOpacityAssessment";
+import { canonicalJson } from "../../features/design-data/canonicalJson";
 import type {
   ModeSelection,
   ModeResultSummary,
@@ -40,9 +42,15 @@ export function inventoryComparisonRows(
   modes: ModeSelection,
   valueResult: string,
   type: TokenPanelId | "all",
+  enhancements: readonly ColorOpacityEnhancement[],
 ): InventoryComparisonRow[] {
   if (verdict !== "all" || valueResult !== "all") return [];
   const search = query.trim().toLowerCase();
+  const confirmedExtras = new Set(
+    enhancements.flatMap((row) =>
+      row.app && !row.issue ? [canonicalJson([row.app.id, row.context])] : [],
+    ),
+  );
   const groups = new Map<string, InventoryComparisonRow>();
   for (const entry of entries) {
     if (
@@ -69,6 +77,13 @@ export function inventoryComparisonRows(
     };
     for (const [index, sample] of entry.values.entries()) {
       if (!matchesModeSelection(sample.context, modes)) continue;
+      if (
+        entry.side === "app" &&
+        entry.presence === "app-only" &&
+        !sample.issue &&
+        confirmedExtras.has(canonicalJson([entry.record.id, sample.context]))
+      )
+        continue;
       group.children.push({
         id: `${entry.id}:${index}`,
         label:

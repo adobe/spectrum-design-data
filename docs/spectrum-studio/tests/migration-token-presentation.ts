@@ -4,6 +4,7 @@ import { migrationTokensFixture } from "./fixtures/migration-tokens";
 import {
   comparisonModeSets,
   comparisonSelectionIndex,
+  inventoryComparisonRows,
   modeResultSegments,
   tokenComparisonRows,
 } from "../src/views/analysis/tokenComparisonPresentation";
@@ -16,6 +17,8 @@ import {
 import { comparisonValuePreview } from "../src/views/analysis/tokenComparisonPreview";
 import { differenceText } from "../src/features/design-data/foundationValues";
 import { summarizeModeResults } from "../src/features/design-data/modeResults";
+import type { ColorOpacityEnhancement } from "../src/features/design-data/colorOpacityAssessment";
+import type { TokenInventoryEntry } from "../src/features/design-data/tokenInventory";
 
 const assessment = migrationTokensFixture();
 const before = JSON.stringify(assessment);
@@ -172,11 +175,139 @@ assert.equal(
   "unavailable",
 );
 assert.equal(differenceText({ verdict: "unassessable" }), "Unavailable");
+const extraContext = { colorScheme: "dark", contrast: "high" };
+const requiredApp = assessment.concepts.find(
+  (concept) => concept.type === "color",
+)!.rows[0].app!;
+function inventoryEntry(
+  id: string,
+  overrides: Partial<TokenInventoryEntry> = {},
+): TokenInventoryEntry {
+  return {
+    id,
+    side: "app",
+    record: { ...requiredApp, id, conceptId: id, context: extraContext },
+    label: requiredApp.name,
+    type: "color",
+    presence: "app-only",
+    requiredRowIds: [],
+    counterparts: [],
+    values: [{ context: extraContext, value: "#123", issue: null }],
+    ...overrides,
+  };
+}
+const confirmedExtra = inventoryEntry("confirmed-extra");
+const enhancement: ColorOpacityEnhancement = {
+  id: "confirmed-extra-context",
+  conceptId: "gray-100",
+  label: requiredApp.name,
+  type: "color",
+  context: extraContext,
+  app: confirmedExtra.record,
+  value: "#123",
+  issue: null,
+  reason: "Additional app token variant; not required by this reference token.",
+};
+const extraRows = (
+  entries: TokenInventoryEntry[],
+  enhancements = [enhancement],
+  modes = {},
+) =>
+  inventoryComparisonRows(
+    entries,
+    "",
+    "all",
+    modes,
+    "all",
+    "all",
+    enhancements,
+  );
+const presentationBefore = JSON.stringify({ confirmedExtra, enhancement });
+assert.deepEqual(
+  extraRows([confirmedExtra]),
+  [],
+  "Confirmed enhancement samples belong only in Enhancements.",
+);
+assert.equal(
+  extraRows([confirmedExtra], []).length,
+  1,
+  "An App-only record without confirmed enhancement evidence stays visible.",
+);
+assert.equal(
+  extraRows([inventoryEntry("same-name-other-source")]).length,
+  1,
+  "Equal display names do not identify enhancements.",
+);
+for (const presence of [
+  "reference-only",
+  "unconfirmed",
+  "ambiguous",
+  "matched",
+] as const)
+  assert.equal(
+    extraRows([
+      {
+        ...confirmedExtra,
+        presence,
+        side: presence === "reference-only" ? "reference" : "app",
+      },
+    ]).length,
+    1,
+    `${presence} inventory must not be hidden as a confirmed extra.`,
+  );
+for (const unresolvedEnhancement of [
+  { ...enhancement, app: undefined },
+  { ...enhancement, issue: "Resolution is unavailable." },
+])
+  assert.equal(
+    extraRows([confirmedExtra], [unresolvedEnhancement]).length,
+    1,
+    "Unresolved enhancement evidence cannot suppress inventory.",
+  );
+const unresolvedSample = {
+  context: { colorScheme: "light", contrast: "high" },
+  value: undefined,
+  issue: "Resolution is unavailable.",
+};
+const mixed = {
+  ...confirmedExtra,
+  values: [...confirmedExtra.values, unresolvedSample],
+};
+const mixedRows = extraRows([mixed]);
+assert.equal(mixedRows.length, 1);
+assert.deepEqual(
+  mixedRows[0].children.map((row) => row.sample),
+  [unresolvedSample],
+  "Mixed groups retain every sample not confirmed as an enhancement.",
+);
+assert.equal(
+  extraRows([mixed], [enhancement], { colorScheme: "dark" }).length,
+  0,
+);
+assert.equal(
+  extraRows([mixed], [enhancement], { colorScheme: "light" }).length,
+  1,
+);
+assert.equal(
+  extraRows([
+    {
+      ...confirmedExtra,
+      values: [{ ...confirmedExtra.values[0], issue: "Invalid source." }],
+    },
+  ]).length,
+  1,
+  "An inventory resolution error must remain visible.",
+);
+assert.equal(
+  JSON.stringify({ confirmedExtra, enhancement }),
+  presentationBefore,
+  "De-duplication preserves source inventory and enhancement evidence.",
+);
 assert.equal(
   JSON.stringify(assessment),
   before,
   "Presentation and selection never mutate the assessment.",
 );
 console.log(
-  "Migration token tree/flat filters, scoped selection, chart proportions and typed previews pass.",
+  "Migration token filters, scoped selection, previews and confirmed enhancement separation pass.",
 );

@@ -1,0 +1,68 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+.stylesLibrary {
+  min-width: 0;
+  overflow: auto;
+  padding: 16px;
+}
+.stylesFields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.stylesWork {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.stylesCanvas {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  min-width: 0;
+  min-height: 200px;
+  padding: 32px;
+  border-radius: 16px;
+  overflow: auto;
+}
+.stylesCanvas figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 16px;
+  max-width: 100%;
+  min-width: 0;
+}
+.stylesCanvas figcaption {
+  font-size: 12px;
+  max-width: 200px;
+  overflow-wrap: anywhere;
+}
+.styleThumbnail {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.stylesRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.stylesEmpty {
+  display: grid;
+  flex: 1;
+  place-items: center;
+}

@@ -224,6 +224,31 @@ export function TaxonomyEditor({
       message: `${usage()} token and source references may change names or hierarchy. IDs, values and modes will not change.`,
     });
   }
+  function termProjectionControl(term: TaxonomyTerm) {
+    return (
+      <Checkbox
+        isDisabled={!editable || !category.includeInProjections}
+        isSelected={
+          category.includeInProjections && term.includeInProjections !== false
+        }
+        aria-label={`Include ${termLabel(term.value)} in names and hierarchy`}
+        onChange={(includeInProjections) =>
+          setPending({
+            document: {
+              ...document,
+              terms: document.terms.map((entry) => {
+                if (entry.id !== term.id) return entry;
+                return { ...entry, includeInProjections };
+              }),
+            },
+            message: `${usage(term.id)} token and source references may change names or hierarchy. IDs, classifications, values and modes will not change.`,
+          })
+        }
+      >
+        Include in names and hierarchy
+      </Checkbox>
+    );
+  }
   function termDocument(
     term: TaxonomyTerm,
     field: "value" | "description",
@@ -725,6 +750,7 @@ export function TaxonomyEditor({
                                 ? termLabel(term.value)
                                 : String(term[field]) || "No description"}
                             </span>
+                            {field === "value" && termProjectionControl(term)}
                           </div>
                           <ActionButton
                             slot="edit"
@@ -742,6 +768,7 @@ export function TaxonomyEditor({
                               ? termLabel(term.value)
                               : String(term[field]) || "No description"}
                           </span>
+                          {field === "value" && termProjectionControl(term)}
                         </div>
                       </Cell>
                     ),

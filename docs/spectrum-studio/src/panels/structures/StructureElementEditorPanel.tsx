@@ -2,7 +2,7 @@
 import { Content, Heading, InlineAlert, PickerItem } from "@react-spectrum/s2";
 import { useEffect, useState } from "react";
 import { Panel } from "../../components/Panel";
-import { EditableTextField } from "../../components/editable";
+import { EditablePicker, EditableTextField } from "../../components/editable";
 import { Picker } from "../../components/fields/Picker";
 import { IconSamplePicker } from "../../components/fields/IconSamplePicker";
 import type { SpectrumIconName } from "../../features/icons/spectrumIconCatalog.generated";
@@ -14,6 +14,7 @@ import {
   elementSlots,
   type ElementSlot,
   type StructureElement,
+  type TextStyleReference,
 } from "../../features/structures/elements";
 import type { StructureNumberLiteral } from "../../features/structures/model";
 import { STRUCTURE_TERM_IDS } from "../../features/structures/vocabulary";
@@ -23,6 +24,9 @@ import {
   type AppearanceField,
 } from "./StructureAppearanceControls";
 import "./StructureEditorPanel.css";
+import type { StylesDocument } from "../../features/styles/model";
+import type { TaxonomyDocument } from "../../features/taxonomy/model";
+import { styleName } from "../../features/styles/generation";
 
 export interface StructureElementEditorPanelProps {
   element: StructureElement;
@@ -36,8 +40,11 @@ export interface StructureElementEditorPanelProps {
     glyph?: string;
     orientation?: string;
     name?: string;
+    textStyle?: TextStyleReference | null;
   }) => void;
   embedded?: boolean;
+  styles?: StylesDocument;
+  taxonomy?: TaxonomyDocument;
 }
 export function StructureElementEditorPanel({
   element,
@@ -46,6 +53,8 @@ export function StructureElementEditorPanel({
   report,
   onChange,
   embedded = false,
+  styles,
+  taxonomy,
 }: StructureElementEditorPanelProps) {
   const [error, setError] = useState("");
   const [slotName, setSlotName] = useState(element.name ?? "");
@@ -63,6 +72,7 @@ export function StructureElementEditorPanel({
   };
   const fields: Partial<Record<ElementSlot, AppearanceField>> = {};
   for (const slot of elementSlots(element.kind)) {
+    if (slot === "lineHeight" && element.textStyle) continue;
     const binding = element.bindings.find((item) => item.slot === slot);
     const reference =
       binding && "$ref" in binding
@@ -87,10 +97,95 @@ export function StructureElementEditorPanel({
       },
     };
   }
+  const selectedStyle = styles?.recipes.find(
+    (recipe) => recipe.id === element.textStyle?.recipeId,
+  );
   const header =
-    element.kind === "slot" ||
-    element.kind === "workflowIcon" ||
-    element.kind === "uiIcon" ? (
+    element.kind === "text" && styles && taxonomy ? (
+      <>
+        <EditablePicker
+          size="S"
+          label="Text Style"
+          selectedKey={element.textStyle?.recipeId ?? "none"}
+          displayValue={
+            selectedStyle
+              ? styleName(selectedStyle, taxonomy)
+              : element.textStyle
+                ? "Unavailable Text Style"
+                : "None"
+          }
+          isReadOnly={isReadOnly}
+          onSelectionChange={(key) =>
+            commit(() =>
+              onChange({
+                textStyle:
+                  key === "none"
+                    ? null
+                    : { recipeId: String(key), options: {} },
+              }),
+            )
+          }
+        >
+          <PickerItem id="none">None</PickerItem>
+          {styles.recipes
+            .filter((recipe) => recipe.kind === "text")
+            .map((recipe) => (
+              <PickerItem key={recipe.id} id={recipe.id}>
+                {styleName(recipe, taxonomy)}
+              </PickerItem>
+            ))}
+          {element.textStyle && !selectedStyle && (
+            <PickerItem id={element.textStyle.recipeId}>
+              Unavailable Text Style
+            </PickerItem>
+          )}
+        </EditablePicker>
+        {selectedStyle?.options.map(
+          (property) =>
+            property.kind === "variant" && (
+              <EditablePicker
+                key={property.id}
+                size="S"
+                label={property.name}
+                isReadOnly={isReadOnly}
+                selectedKey={
+                  element.textStyle?.options[property.id] ??
+                  property.defaultOptionId
+                }
+                displayValue={
+                  property.options.find(
+                    (option) =>
+                      option.id ===
+                      (element.textStyle?.options[property.id] ??
+                        property.defaultOptionId),
+                  )?.name ?? "Unavailable option"
+                }
+                onSelectionChange={(key) =>
+                  commit(() =>
+                    onChange({
+                      textStyle: {
+                        recipeId: selectedStyle.id,
+                        options: {
+                          ...element.textStyle?.options,
+                          [property.id]: String(key),
+                        },
+                      },
+                    }),
+                  )
+                }
+              >
+                {property.options.map((option) => (
+                  <PickerItem key={option.id} id={option.id}>
+                    {option.name}
+                  </PickerItem>
+                ))}
+              </EditablePicker>
+            ),
+        )}
+      </>
+    ) : element.kind === "slot" ||
+      element.kind === "workflowIcon" ||
+      element.kind === "uiIcon" ? (
       <>
         {element.kind === "slot" && (
           <EditableTextField

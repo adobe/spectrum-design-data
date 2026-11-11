@@ -163,7 +163,7 @@ test("Parity diagnostics stay out of authoring in both modes and token presentat
     await navigate(page, "Tokens");
     await page
       .getByRole("searchbox", { name: "Search tokens", exact: true })
-      .fill("red-color");
+      .fill("red");
     for (const view of ["List view", "Grid view"]) {
       await page.getByRole("radio", { name: view, exact: true }).click();
       await expect(

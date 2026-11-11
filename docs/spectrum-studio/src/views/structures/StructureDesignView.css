@@ -42,33 +42,11 @@
   transform-origin: 0 0;
 }
 
-.structureMetadataPanel {
-  position: absolute;
-  inset-block-start: 16px;
-  inset-inline-start: 16px;
-  z-index: 2;
-  width: 280px;
-  min-width: 280px;
-  max-width: calc(100% - 32px);
-  max-height: calc(100% - 32px);
-  box-sizing: border-box;
-  resize: horizontal;
-}
-
-.structureDesignCanvas .structureMetadataPanel,
 .structureDesignCanvas .structureEditorPanel {
   padding: 0;
 }
 
-.structurePanelSections {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  min-width: 0;
-}
-
-.structureCompactRow,
-.structurePropertyRow {
+.structureCompactRow {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -91,38 +69,6 @@
 .structureBoundProperty {
   background: var(--spectrum-blue-800);
   color: white;
-}
-
-.structurePropertyRows {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.structurePropertyRow > :first-child {
-  flex: 1;
-  min-width: 0;
-}
-
-.structurePropertyRow > .structureVariantPicker {
-  flex: 1 1 0;
-}
-
-.structurePropertyRow > .structurePropertyNameButton {
-  justify-content: start;
-  text-align: start;
-}
-
-.structureNameEditor {
-  display: flex;
-  align-items: end;
-  gap: 4px;
-  min-width: 0;
-  width: 100%;
-}
-
-.structureNameEditor > button {
-  flex-shrink: 0;
 }
 
 .structureVariantFrames {
@@ -195,61 +141,26 @@
   justify-content: center;
 }
 
-.structureListCard {
-  grid-column: 1 / -1;
-  grid-row: 1 / span 2;
-  padding: 8px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Rows carry their own selection outline; S2's row dividers would add a second boundary. */
-.structuresList [role="row"] {
-  border-block-end-width: 0;
-}
-
-.structureThumbnail {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 80px;
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.structureThumbnailNatural {
-  width: max-content;
-  height: max-content;
-  transform-origin: center;
-}
-
-.structureVariantFrames .structurePreview,
-.structureThumbnail .structurePreview {
+.structureVariantFrames .structurePreview {
   background: color-mix(in srgb, var(--spectrum-fuchsia-400) 10%, transparent);
 }
 
-.structureVariantFrames .structureModule,
-.structureThumbnail .structureModule {
+.structureVariantFrames .structureModule {
   background: color-mix(in srgb, var(--spectrum-fuchsia-400) 12%, transparent);
 }
 
-.structureThumbnail .structureElementContent,
 .structureVariantFrames .structureElementContent {
   color: var(--spectrum-fuchsia-800);
 }
 
-.structureThumbnail .structureElement-bar,
 .structureVariantFrames .structureElement-bar {
   background: var(--spectrum-fuchsia-600);
 }
 
-.structureThumbnail .structureElement-visual,
 .structureVariantFrames .structureElement-visual {
   background: var(--spectrum-fuchsia-300);
 }
 
-.structureThumbnail .structureElement-visual img,
 .structureVariantFrames .structureElement-visual img {
   mix-blend-mode: luminosity;
 }

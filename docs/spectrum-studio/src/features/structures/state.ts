@@ -13,6 +13,7 @@ import {
   assertStructureTaxonomy,
   createStructure,
   structureGeneration,
+  structureSlot,
   structureSlotDefinition,
   type Structure,
   type StructureRuleApplication,
@@ -45,6 +46,8 @@ import {
   leafElements,
   ownedStructureIds,
 } from "./children";
+import { requestLayoutScaleAtom } from "./layoutScaleState";
+import { textStyleSourceAtom } from "../styles/state";
 
 export { selectedStructureIdAtom, structuresDocumentAtom };
 export const resolvedStructuresAtom = atom((get) =>
@@ -82,6 +85,8 @@ export const validateStructuresAtom = atom(
         structure,
         get(primitiveReferencesAtom),
         get(rulesAtom),
+        "m",
+        get(textStyleSourceAtom),
       ).flatMap((element) => element.issues);
       if (issues.length) throw new Error(issues.join(" "));
     }
@@ -227,6 +232,12 @@ export const assignStructureAtom = atom(
       );
       if (issue) throw new Error(issue);
     }
+    if (
+      set(requestLayoutScaleAtom, {
+        edit: { structureId: input.id, changes: input.changes },
+      })
+    )
+      return;
     const next = {
       ...document,
       structures: document.structures.map((item) =>
@@ -349,6 +360,23 @@ export const applyStructureRuleAtom = atom(
       input.application.targets.kind === "all"
         ? eligibleStructureBindings(current).length > 0
         : input.application.targets.bindingIds.length > 0;
+    if (
+      set(requestLayoutScaleAtom, {
+        edit: {
+          structureId: input.structureId,
+          changes: Object.fromEntries(
+            current.properties.map((binding) => [
+              structureSlot(binding)!,
+              "$ref" in binding
+                ? { $ref: binding.$ref }
+                : { value: binding.value },
+            ]),
+          ),
+        },
+        application: input.application,
+      })
+    )
+      return;
     const named = hasLayout
       ? governStructureName(
           current,
@@ -391,6 +419,8 @@ export const applyStructureRuleAtom = atom(
       structure,
       get(primitiveReferencesAtom),
       get(rulesAtom),
+      "m",
+      get(textStyleSourceAtom),
     ).flatMap((element) => element.issues);
     if (previewIssues.length) throw new Error(previewIssues.join(" "));
     updateTaxonomy(previousTaxonomy, named.taxonomy);

@@ -77,26 +77,26 @@ assert.equal(
       .governed!,
     "colors",
   ).name,
-  "floating-surface-color",
+  "floating-surface",
 );
 assert.equal(
   canonical.taxonomy!.surfaces[floating.id].name,
-  "floating-surface-color",
+  "floating-surface",
 );
 const css = buildColorLibrary(snapshot.colorSystem, [], [], taxonomy);
-assert(css.includes("--illustrator-orange-color:"));
+assert(css.includes("--illustrator-orange:"));
 assert(
   css.includes(
-    "--color-palette-illustrator-orange: var(--illustrator-orange-color);",
+    "--color-palette-illustrator-orange: var(--illustrator-orange);",
   ),
 );
-assert(css.includes("--red-color-100: var(--color-system-tint);"));
-assert(css.includes("--floating-surface-color: var(--surface-color);"));
+assert(css.includes("--red-100: var(--color-system-tint);"));
+assert(css.includes("--floating-surface: var(--surface-color);"));
 assert(css.includes(".color-scale-red.color-contrast-100"));
 const reordered = { ...taxonomy, order: [...taxonomy.order].reverse() };
 const reorderedCss = buildColorLibrary(snapshot.colorSystem, [], [], reordered);
-assert(reorderedCss.includes("--100-color-red:"));
-assert(reorderedCss.includes("--color-illustrator-orange:"));
+assert(reorderedCss.includes("--100-red:"));
+assert(reorderedCss.includes("--illustrator-orange:"));
 const missing = {
   ...taxonomy,
   terms: taxonomy.terms.filter(

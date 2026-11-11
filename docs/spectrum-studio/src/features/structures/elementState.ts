@@ -24,6 +24,7 @@ import {
   isStructureElement,
   type ElementKind,
   type ElementSlot,
+  type TextStyleReference,
 } from "./elements";
 import {
   resolveElements,
@@ -54,6 +55,8 @@ import {
   planLayerInsertion,
   editorAfterLayerInsertion,
 } from "./variantOperations";
+import { textStyleSourceAtom } from "../styles/state";
+import { textStyleReferenceIssues } from "../styles/textAppearance";
 
 export const selectedElementIdAtom = atom<string | null>(null);
 interface ElementEdit {
@@ -109,6 +112,8 @@ export const editElementsAtom = atom(null, (get, set, input: ElementEdit) => {
     next,
     get(primitiveReferencesAtom),
     get(rulesAtom),
+    "m",
+    get(textStyleSourceAtom),
   );
   if (resolved.some((element) => element.issues.length))
     throw new Error(resolved.flatMap((element) => element.issues).join(" "));
@@ -180,6 +185,7 @@ export const updateElementAtom = atom(
       glyph?: string;
       orientation?: string;
       name?: string;
+      textStyle?: TextStyleReference | null;
       optionId?: string;
       configuration?: { rootId: string; path: string };
     },
@@ -228,7 +234,29 @@ export const updateElementAtom = atom(
       }),
       ...(input.name !== undefined && { name: input.name.trim() }),
     };
+    if (input.textStyle !== undefined) {
+      if (element.kind !== "text")
+        throw new Error("Only Text elements can reference a Text Style.");
+      if (input.textStyle) {
+        const issues = textStyleReferenceIssues(
+          input.textStyle,
+          get(textStyleSourceAtom).document,
+        );
+        if (issues.length) throw new Error(issues.join(" "));
+        next = {
+          ...next,
+          textStyle: input.textStyle,
+          bindings: next.bindings.filter(
+            (binding) => binding.slot !== "lineHeight",
+          ),
+        };
+      } else delete next.textStyle;
+    }
     if (input.slot) {
+      if (input.slot === "lineHeight" && next.textStyle)
+        throw new Error(
+          "The selected Text Style owns this element's line height.",
+        );
       const previous = element.bindings.find(
         (binding) => binding.slot === input.slot,
       );
@@ -250,9 +278,7 @@ export const updateElementAtom = atom(
         next = {
           ...next,
           bindings: [
-            ...element.bindings.filter(
-              (binding) => binding.slot !== input.slot,
-            ),
+            ...next.bindings.filter((binding) => binding.slot !== input.slot),
             {
               id: elementBindingId(element.id, input.slot),
               slot: input.slot,
@@ -274,9 +300,7 @@ export const updateElementAtom = atom(
         next = {
           ...next,
           bindings: [
-            ...element.bindings.filter(
-              (binding) => binding.slot !== input.slot,
-            ),
+            ...next.bindings.filter((binding) => binding.slot !== input.slot),
             ...(reference &&
             (reference.family === "size" || reference.family === "typography")
               ? [
@@ -304,6 +328,8 @@ export const updateElementAtom = atom(
         },
         get(primitiveReferencesAtom),
         get(rulesAtom),
+        "m",
+        get(textStyleSourceAtom),
       ).find((item) => item.element.id === next.id);
       if (resolved?.issues.length) throw new Error(resolved.issues.join(" "));
       const editor = structureEditor(root!);

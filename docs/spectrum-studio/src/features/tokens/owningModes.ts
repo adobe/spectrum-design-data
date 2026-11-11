@@ -66,7 +66,7 @@ export function tokenOwningModeKey(
     if (opacityStopsEnabled(snapshot.colorSystem.settings))
       for (const axis of opacityAxes(snapshot)) axes.add(axis.id);
     COLOR_PARAMETERS.forEach(addOwner);
-  } else if (token.type === "typography") {
+  } else if (token.type === "typography" && token.groupId !== "font-family") {
     addOwner("typography.textZoom");
     addOwner("typography.textSize");
   } else if (
@@ -74,10 +74,11 @@ export function tokenOwningModeKey(
     token.type === "size" ||
     token.type === "radius"
   ) {
-    if (token.type !== "spacing") addOwner("size.componentSize");
     const scale = snapshot[token.type]?.scales.find(
       (candidate) => candidate.id === token.groupId,
     );
+    if (token.type !== "spacing" || scale?.componentSizeScaling)
+      addOwner("size.componentSize");
     for (const binding of Object.values(scale?.bindings ?? {}))
       addOwner(binding.modeParameterId);
   }

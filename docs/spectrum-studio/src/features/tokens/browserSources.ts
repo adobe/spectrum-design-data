@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { fontTokenSources } from "../typography/fontTokens";
 import { isFoundationPublished } from "../foundations/types";
 import {
   typographyTokenGroups,
@@ -153,5 +154,8 @@ function sourceBatch(
         ),
       ),
   );
-  return [...colorSources, ...typography, ...dimensionSources];
+  const fonts = typographyNaming?.fonts
+    ? fontTokenSources(typographyNaming.fonts, typographyNaming.registry)
+    : [];
+  return [...colorSources, ...fonts, ...typography, ...dimensionSources];
 }

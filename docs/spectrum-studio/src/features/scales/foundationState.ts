@@ -45,6 +45,7 @@ export type DimensionScalePatch = Partial<
     | "bindings"
     | "roundingRuleId"
     | "hideFromPublishing"
+    | "componentSizeScaling"
   >
 >;
 

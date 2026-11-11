@@ -30,6 +30,8 @@ import {
 } from "../../features/structures/generation";
 import {
   structureBinding,
+  structureSlot,
+  STRUCTURES_SCHEMA_VERSION,
   structureBindingId,
   structureSlotDefinition,
   type Structure,
@@ -51,6 +53,7 @@ import { structureGeneration } from "../../features/structures/model";
 import { structureSizes } from "../../features/structures/generation";
 import { leafElements } from "../../features/structures/children";
 import { ruleAppliesToReference } from "../../features/logic/applicability";
+import { layoutScaleQuestions } from "../../features/structures/layoutScales";
 
 const fieldsStyles = style({
   display: "flex",
@@ -128,6 +131,33 @@ export function StructureRuleDialog({
   const [draft, setDraft] = useState<StructureRuleApplication>(createDraft);
   const [applyError, setApplyError] = useState("");
   const selectedRule = compatible.find((rule) => rule.id === draft.ruleId);
+  const pendingQuestions = useMemo(
+    () =>
+      layoutScaleQuestions(
+        {
+          structures: {
+            schemaVersion: STRUCTURES_SCHEMA_VERSION,
+            structures: [structure],
+          },
+          rules: [...rules],
+        },
+        {
+          structureId: structure.conceptId,
+          changes: Object.fromEntries(
+            structure.properties.flatMap((binding) => {
+              const slot = structureSlot(binding);
+              return slot &&
+                "value" in binding &&
+                binding.value.kind === "number"
+                ? [[slot, { value: binding.value }]]
+                : [];
+            }),
+          ),
+        },
+        draft,
+      ),
+    [structure, rules, draft],
+  );
   const result = useMemo(() => {
     if (!isOpen) return { bundle: null, error: "" };
     if (!draft.ruleId)
@@ -137,13 +167,35 @@ export function StructureRuleDialog({
       };
     try {
       const generation = structureGeneration(structure);
+      const pendingIds = pendingQuestions.flatMap((question) =>
+        question.slots.map((slot) =>
+          structureBindingId(structure.conceptId, slot),
+        ),
+      );
+      const previewDraft: StructureRuleApplication = pendingIds.length
+        ? {
+            ...draft,
+            targets: {
+              kind: "custom",
+              bindingIds: eligibleStructureBindings(structure)
+                .filter(
+                  (binding) =>
+                    !pendingIds.includes(binding.id) &&
+                    (draft.targets.kind === "all" ||
+                      draft.targets.bindingIds.includes(binding.id)),
+                )
+                .map((binding) => binding.id),
+            },
+            previewTargets: templateTargets(draft),
+          }
+        : draft;
       const candidate = {
         ...structure,
         generation: {
           ...generation,
           applications: [
             ...generation.applications.filter((item) => item.id !== draft.id),
-            draft,
+            previewDraft,
           ],
         },
       };
@@ -153,14 +205,14 @@ export function StructureRuleDialog({
         ),
       );
       if (issues.length) throw new Error([...new Set(issues)].join(" "));
-      return { bundle: preview(draft), error: "" };
+      return { bundle: preview(previewDraft), error: "" };
     } catch (failure) {
       return {
         bundle: null,
         error: failure instanceof Error ? failure.message : String(failure),
       };
     }
-  }, [draft, preview, isOpen, structure, references, rules]);
+  }, [draft, preview, isOpen, structure, references, rules, pendingQuestions]);
   const rows =
     result.bundle?.semantics.filter((row) =>
       row.applicationIds.includes(draft.id),
@@ -397,6 +449,13 @@ export function StructureRuleDialog({
                     Tokens browser uses the Registry's current naming order.
                   </p>
                 )}
+                {pendingQuestions.length > 0 && (
+                  <p className={noteStyles}>
+                    After Apply, choose a formula or keep the hardcoded layout
+                    values static. Their generated values will appear after that
+                    choice.
+                  </p>
+                )}
                 {rows.length > 0 && (
                   <TableView
                     aria-label="Generated token preview"
@@ -449,7 +508,10 @@ export function StructureRuleDialog({
               </Button>
               <Button
                 variant="accent"
-                isDisabled={!result.bundle || (!rows.length && !hasPreview)}
+                isDisabled={
+                  !result.bundle ||
+                  (!rows.length && !hasPreview && !pendingQuestions.length)
+                }
                 onPress={() => {
                   try {
                     onApply(draft);

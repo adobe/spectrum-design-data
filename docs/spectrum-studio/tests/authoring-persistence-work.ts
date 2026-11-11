@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { mock } from "node:test";
 import { createStore } from "jotai";
@@ -117,7 +118,9 @@ try {
   await advance();
   assert.equal(count(), 1);
   assert.equal(read().version, AUTHORING_RECORD_VERSION);
-  const persisted = JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!);
+  const persisted = JSON.parse(
+    decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
+  );
   assert.equal(persisted.working.structures.schemaVersion, 1);
   assert.equal(persisted.saved.structures.schemaVersion, 1);
   assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.5);

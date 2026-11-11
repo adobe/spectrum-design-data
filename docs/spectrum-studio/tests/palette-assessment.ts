@@ -587,8 +587,9 @@ assert(actual.concepts.some((concept) => concept.family === "blue"));
 console.log(
   "Palette fixture assessment and canonical-reference regression checks passed.",
 );
-const { defaultsAnalysisInput } =
+const { defaultsAnalysisInput, projectAuthoringDataset } =
   await import("../src/features/design-data/projection");
+const { designSystemDefaults } = await import("../src/data/defaults");
 const shipped = defaultsAnalysisInput();
 const shippedSnapshot = canonicalJson(shipped);
 const baseline = compareDesignData(shipped, canonical).palette!;
@@ -613,6 +614,60 @@ const completeBaseline = baseline.concepts.filter(
 );
 assert(completeBaseline.length > 0, "Exact shipped matches remain complete.");
 assert.equal(baseline.counts.complete, completeBaseline.length);
+const taxonomy = designSystemDefaults.system.taxonomy;
+const property = taxonomy.categories.find(
+  (category) => category.key === "property",
+)!;
+const color = taxonomy.terms.find(
+  (term) => term.categoryId === property.id && term.value === "color",
+)!;
+assert.ok(color);
+const included = projectAuthoringDataset(
+  {
+    ...designSystemDefaults,
+    system: {
+      ...designSystemDefaults.system,
+      taxonomy: {
+        ...taxonomy,
+        terms: taxonomy.terms.map((term) =>
+          term.id === color.id ? { ...term, includeInProjections: true } : term,
+        ),
+      },
+    },
+  },
+  shipped.source,
+);
+const includedPalette = compareDesignData(included, canonical).palette!;
+assert.deepEqual(
+  includedPalette.counts,
+  baseline.counts,
+  "Naming changes must not improve value scores or change reference requirements.",
+);
+assert.equal(includedPalette.concepts.length, baseline.concepts.length);
+for (const concept of includedPalette.concepts) {
+  const previous = baseline.concepts.find((entry) => entry.id === concept.id)!;
+  assert.equal(concept.alignment, previous.alignment);
+  for (const [index, row] of concept.rows.entries()) {
+    const original = previous.rows[index];
+    assert.deepEqual(row.context, original.context);
+    assert.equal(row.valueAlignment, original.valueAlignment);
+    assert.equal(row.app?.value, original.app?.value);
+    assert.equal(row.app?.identity, original.app?.identity);
+    assert.equal(row.app?.conceptId, original.app?.conceptId);
+    if (!row.app) continue;
+    assert.equal(row.app.structuredName?.property, "color");
+    assert.ok(
+      row.app.taxonomy?.segments.some((segment) =>
+        segment.termIds.includes(color.id),
+      ),
+    );
+    if (concept.family === "blue")
+      assert.equal(
+        row.app.name,
+        `blue-color-${row.app.structuredName.scaleIndex}`,
+      );
+  }
+}
 for (const concept of completeBaseline) {
   assert(concept.identityCertain);
   assert(concept.rows.length > 0);

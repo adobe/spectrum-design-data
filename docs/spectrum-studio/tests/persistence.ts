@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import { STRUCTURES_SCHEMA_VERSION } from "../src/features/structures/model";
@@ -161,7 +162,9 @@ assert.equal(
 );
 flushPersistedState();
 assert.equal(localStorage.writes, initialWrites + 1);
-const record = JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!);
+const record = JSON.parse(
+  decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+);
 assert.equal(record.working.colorSystem.settings.backgroundBlend, 0.5);
 assert.deepEqual(record.saved, encodeStructureSource(createDefaultSnapshot()));
 dispose();
@@ -617,7 +620,7 @@ for (const version of [1, 2, 3] as const) {
   const upgrade = createStore();
   dispose = initializeAuthoringPersistence(upgrade);
   const upgradedRecord = JSON.parse(
-    localStorage.getItem(AUTHORING_STORAGE_KEY)!,
+    decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
   );
   assert.equal(upgradedRecord.version, AUTHORING_RECORD_VERSION);
   assert.equal(upgrade.get(authoringSnapshotAtom).spacing!.scales[0].base, 11);
@@ -815,8 +818,10 @@ assert.deepEqual(
 );
 assert.deepEqual(preservedStore.get(editSessionSnapshotAtom), preservedCatalog);
 assert.deepEqual(
-  JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
-  JSON.parse(preservedBytes),
+  JSON.parse(
+    decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+  ),
+  JSON.parse(decodeAuthoringStorage(preservedBytes)),
   "Restoring valid custom vocabulary preserves every stored field.",
 );
 preservedStore.set(resetAllAuthoringAtom);

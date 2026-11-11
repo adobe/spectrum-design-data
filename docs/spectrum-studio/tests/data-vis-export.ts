@@ -277,14 +277,14 @@ const copied = runtime.categorical(categorical.id);
 copied[0] = "#ffffff";
 assert.equal(runtime.categorical(categorical.id)[0], formattedManualColor);
 const css = buildDataVisCategoricalCss(completeAliasSource(snapshot));
-assert.match(css, /--data-categories-color-1:/);
-assert.match(css, /var\(--blue-color-/);
+assert.match(css, /--data-categories-1:/);
+assert.match(css, /var\(--blue-/);
 assert.match(css, /\[data-color-scheme="dark"\]/);
 const editedCss = buildDataVisCategoricalCss(completeAliasSource(edited));
 assert.ok(editedCss.includes(formattedManualColor));
 assert.match(editedCss, /#335522/);
 assert.ok(
-  !editedCss.includes("var(--blue-color-"),
+  !editedCss.includes("var(--blue-"),
   "A manual source cannot reference the generated UI variable.",
 );
 const assigned = structuredClone(edited);
@@ -297,7 +297,7 @@ assigned.browserTokenEdits[sourceId].authoring!.assignments[key] = {
 const assignedCss = buildDataVisCategoricalCss(completeAliasSource(assigned));
 assert.ok(assignedCss.includes(formattedManualColor));
 assert.ok(
-  !assignedCss.includes("var(--blue-color-"),
+  !assignedCss.includes("var(--blue-"),
   "An authored literal cannot reference the generated UI variable.",
 );
 const frozen = structuredClone(assigned);
@@ -328,7 +328,7 @@ assertStoredSnapshot(frozen);
 const frozenCss = buildDataVisCategoricalCss(completeAliasSource(frozen));
 assert.ok(frozenCss.includes(manualColor));
 assert.ok(
-  !frozenCss.includes("var(--blue-color-"),
+  !frozenCss.includes("var(--blue-"),
   "A frozen literal cannot reference the generated UI variable.",
 );
 assert.equal(

@@ -28,6 +28,7 @@ component when two overlap.
 | Toggle a Boolean group's And/Or operator | `logic/LogicButton` (`value`, `onChange`, `isDisabled`, `isReadOnly`): compact blue And / fuchsia Or; click, Space, or Enter toggles, read-only renders a badge | a Picker or custom badge-button |
 | Select supported token value types for a rule | `logic/RuleApplicabilityField` (`rule`, `onChange`, `isReadOnly`): wrapping icon-bearing tags, exclusive All, visible empty-selection error; labels/icons and capabilities come from `features/logic/applicability.ts` | local family checkboxes, parsing token names, or treating every Typography metric as Font size |
 | Show a token or value preview | `value-preview/ValuePreview` (`preview` descriptor, `label`, `large`, `icon`; `fillSurface` for full-area opacity with foreground children; `opacitySurface` for dialog-local authored modes, otherwise uses the authored global surface) | hand-drawn swatches. `TextValuePreview` and `IconValuePreview` are internal |
+| Show a list row with a preview, name and actions | `PreviewListItem` (`preview`, `label`, optional `actions`, `inset`) | panel-specific copies of row layout or spacing |
 | Compare two versions of a value by eye (from → to, app vs design data) | Two touching halves with no gap or border; follow `.agents/rules/side-by-side-comparison.mdc` (reference: `AdjacentComparison` in `views/analysis/ColorOpacityTable.tsx`) | two separate `ValuePreview`s with a gap, or text values alone |
 | Theme-aware transparency preview | `PreviewSurfaceProvider` inside the S2 Provider; `transparencyBackground` / `transparencyRampBackground`; `checkerboardSurfaceStyle` for explicit local surfaces (see `color-management`) | hardcoded checkerboard colors or per-cell background observers |
 | Show a token name | `tokens/TokenNameTag` | `Tag` or plain `Text` |
@@ -47,6 +48,13 @@ component when two overlap.
 | Proportion bar | `StackedBar` | |
 | Preview toolbar, edit-mode actions | `PreviewToolbar` (`placement` overlay or header; `showAdaptiveControls` defaults to true), `EditModeActions` | |
 | Online, offline, or update-available status (installed app) | `AppStatusButton` (in `TopBar`); state comes from `useAppStatus()` in `features/app-status/` | reading `navigator.onLine` or registering the service worker in components |
+
+`PreviewListItem` owns the shared grid spans and preview/name/action layout.
+Styles and Structures pass `inset` for 8 px padding and use the `previewList`
+class on their S2 `ListView` to share divider styling. Keep row padding and
+divider styling in `PreviewListItem.tsx` and `PreviewListItem.css`, not in
+individual panels. `inset` defaults to false so unpadded consumers such as
+`ScaleEditor` retain their existing spacing.
 
 `ModeSetPicker` owns the shared per-set presentation: two modes use a segmented
 control, and larger sets use a picker. Option icons appear only when every mode

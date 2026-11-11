@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useAtomValue } from "jotai";
 import {
   valuePreviewPresentation,
@@ -14,6 +14,7 @@ import type { ElementsSurfaceStyle } from "../../features/color-system/previewSu
 import "./ValuePreview.css";
 
 export interface ValuePreviewProps extends PreviewTextOptions {
+  appearance?: CSSProperties;
   preview: ValuePreviewDescriptor;
   label?: string;
   large?: boolean;
@@ -22,6 +23,7 @@ export interface ValuePreviewProps extends PreviewTextOptions {
   children?: ReactNode;
   opacitySurface?: ElementsSurfaceStyle;
   compact?: boolean;
+  sampleText?: string;
 }
 
 function OpacityShape({
@@ -67,13 +69,19 @@ export function ValuePreview({
   children,
   opacitySurface,
   compact = false,
+  appearance,
+  sampleText,
   ...textOptions
 }: ValuePreviewProps) {
   const presentation = valuePreviewPresentation(preview, textOptions);
+  const styles =
+    presentation.status !== "ready"
+      ? undefined
+      : { ...presentation.styles, ...appearance };
   let error =
     presentation.status === "unavailable" ? presentation.message : undefined;
   if (presentation.status === "ready" && typeof CSS !== "undefined") {
-    for (const [property, value] of Object.entries(presentation.styles)) {
+    for (const [property, value] of Object.entries(styles ?? {})) {
       if (
         typeof value === "string" &&
         !CSS.supports(
@@ -86,8 +94,6 @@ export function ValuePreview({
     }
   }
   const kind = preview.kind;
-  const styles =
-    presentation.status !== "ready" ? undefined : presentation.styles;
   const isText = [
     "text-color",
     "font-size",
@@ -98,7 +104,7 @@ export function ValuePreview({
   const isIcon = kind === "icon-color" || kind === "icon-size";
   return (
     <span
-      className={`valuePreview${large ? " valuePreviewLarge" : ""}${compact ? " valuePreviewCompact" : ""}${fillSurface ? " valuePreviewFillSurface" : ""}`}
+      className={`valuePreview${large ? " valuePreviewLarge" : ""}${compact ? " valuePreviewCompact" : ""}${fillSurface ? " valuePreviewFillSurface" : ""}${sampleText !== undefined ? " valuePreviewSampleText" : ""}`}
       data-value-preview={kind}
       data-preview-unavailable={error ? true : undefined}
       role={label ? (children ? "group" : "img") : undefined}
@@ -115,7 +121,11 @@ export function ValuePreview({
           Unavailable
         </span>
       ) : isText ? (
-        <TextValuePreview {...textOptions} style={styles} />
+        <TextValuePreview
+          {...textOptions}
+          sampleText={sampleText}
+          style={styles}
+        />
       ) : isIcon ? (
         <IconValuePreview icon={icon} style={styles} />
       ) : preview.kind === "opacity" ? (

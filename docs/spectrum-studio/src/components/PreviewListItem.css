@@ -1,0 +1,5 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+
+.previewList [role="row"] {
+  border-block-end-width: 0;
+}

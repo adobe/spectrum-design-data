@@ -1,5 +1,17 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { upgradeTypographyFontsSnapshot } from "../typography/fontsUpgrade";
+import { pendingLayoutScaleAtom } from "../structures/layoutScaleState";
 import { atom, type Getter } from "jotai";
+import {
+  EMPTY_STYLES,
+  isStylesDocument,
+  type StylesDocument,
+} from "../styles/model";
+import {
+  stylesDocumentAtom,
+  selectedStyleIdAtom,
+  stylePreviewAtom,
+} from "../styles/state";
 import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
 import { tokenIdentity } from "../tokens/canonicalIdentity";
 import { clearPersistenceIssuesAtom, persistedAtom } from "../../state/persist";
@@ -16,6 +28,7 @@ import { componentSizingDocumentAtom } from "../foundations/componentSizingState
 import {
   COMPONENT_SIZING_DEFAULTS,
   isComponentSizingDocument,
+  upgradeTypographySizingDocument,
   type ComponentSizingDocument,
 } from "../foundations/componentSizing";
 import {
@@ -196,6 +209,7 @@ import {
 } from "../modes/foundationSettingsState";
 
 export interface EditSessionSnapshot {
+  styles?: StylesDocument;
   componentSizing?: ComponentSizingDocument;
   components?: ComponentsDocument;
   aliases?: AliasDocument;
@@ -243,6 +257,7 @@ export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
     (snapshot.elevation === undefined ||
       isElevationDocument(snapshot.elevation)) &&
     (snapshot.opacity === undefined || isOpacityDocument(snapshot.opacity)) &&
+    (snapshot.styles === undefined || isStylesDocument(snapshot.styles)) &&
     (snapshot.structures === undefined ||
       isStructuresDocument(snapshot.structures)) &&
     (snapshot.rules === undefined || isRuleList(snapshot.rules)) &&
@@ -271,6 +286,10 @@ export const editSessionSnapshotAtom =
     // v1 predates the color palette; v1 and v2 predate interpolations (then curves) and typography schema 6;
     // v1 to v3 predate user-defined formulas, so their typography, spacing, size and formula library are upgraded together.
     migrate: (data, fromVersion) => {
+      if (fromVersion >= 4 && fromVersion < AUTHORING_RECORD_VERSION) {
+        const upgraded = upgradeTypographyFontsSnapshot(data);
+        return isSnapshot(upgraded) ? upgraded : null;
+      }
       if (
         fromVersion < 1 ||
         fromVersion > 3 ||
@@ -317,7 +336,7 @@ export const editSessionSnapshotAtom =
       return {
         ...rest,
         colorSystem,
-        typography: migratedTypography,
+        typography: upgradeTypographySizingDocument(migratedTypography),
         spacing,
         size,
         ...(scaleTypes !== undefined && { scaleTypes }),
@@ -330,6 +349,7 @@ export const editSessionSnapshotAtom =
 
 function captureSourceSnapshot(get: Getter): EditSessionSnapshot {
   const snapshot: EditSessionSnapshot = {
+    styles: get(stylesDocumentAtom),
     componentSizing: get(componentSizingDocumentAtom),
     components: get(componentsDocumentAtom),
     aliases: get(aliasesAtom),
@@ -376,6 +396,7 @@ export const authoringSnapshotAtom = atom((get) =>
 
 export function createDefaultSnapshot(): EditSessionSnapshot {
   return {
+    styles: structuredClone(designSystemDefaults.system.styles ?? EMPTY_STYLES),
     componentSizing: structuredClone(
       designSystemDefaults.system.componentSizing ?? COMPONENT_SIZING_DEFAULTS,
     ),
@@ -660,6 +681,7 @@ export const restoreAuthoringSnapshotAtom = atom(
   null,
   (_get, set, snapshot: EditSessionSnapshot) => {
     assertStoredSnapshot(snapshot);
+    set(pendingLayoutScaleAtom, null);
     set(clearStructurePreviewsAtom);
     set(clearRememberedModeSettingsAtom);
     set(taxonomyContributionsEnabledAtom, false);
@@ -681,6 +703,9 @@ export const restoreAuthoringSnapshotAtom = atom(
       if (snapshot.elevation) set(elevationDocumentAtom, snapshot.elevation);
       if (snapshot.opacity) set(opacityDocumentAtom, snapshot.opacity);
       set(structuresDocumentAtom, snapshot.structures!);
+      set(stylesDocumentAtom, snapshot.styles ?? structuredClone(EMPTY_STYLES));
+      set(selectedStyleIdAtom, null);
+      set(stylePreviewAtom, { options: {}, display: "tokens" });
       if (
         JSON.stringify(_get(componentsDocumentAtom)) !==
         JSON.stringify(snapshot.components)
@@ -902,6 +927,7 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "foundations/elevation": "elevation",
   "foundations/opacity": "opacity",
   "design/structures": "structures",
+  "design/styles": "styles",
   "registry/taxonomy": "taxonomy",
   "modes/mode-sets": "modeSets",
   "foundations/parameter-settings": "foundationParameterSettings",

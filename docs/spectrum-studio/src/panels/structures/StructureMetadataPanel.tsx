@@ -1,18 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useNotify } from "../../components/notifications/notificationContext";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemPanel,
-  AccordionItemTitle,
-  Text,
-  TextArea,
-} from "@react-spectrum/s2";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
-import { useEffect, useState } from "react";
-import { Panel } from "../../components/Panel";
-import { FieldLabel } from "../../components/fields/FieldLabel";
-import { EditableTextField } from "../../components/editable";
+import { DesignMetadataPanel } from "../design/DesignMetadataPanel";
 import type { Structure } from "../../features/structures/model";
 import { renameStructureAtom } from "../../features/structures/state";
 import { updateStructureEditorAtom } from "../../features/structures/variantState";
@@ -53,8 +42,6 @@ export function StructureMetadataPanel({
   const select = useSetAtom(selectedElementIdAtom);
   const store = useStore();
   const editElements = useSetAtom(editElementsAtom);
-  const [name, setName] = useState(structure.name);
-  useEffect(() => setName(structure.name), [structure.name]);
   const editor = structureEditor(structure);
   const active = activeVariant(
     structure,
@@ -72,142 +59,94 @@ export function StructureMetadataPanel({
     update({ structureId: structure.conceptId, editor: next });
   };
   return (
-    <Panel
+    <DesignMetadataPanel
       label="Structure metadata and layers"
-      className="structureMetadataPanel"
-    >
-      <Accordion
-        size="S"
-        density="spacious"
-        allowsMultipleExpanded
-        defaultExpandedKeys={["metadata", "generation", "layers"]}
-      >
-        <AccordionItem id="metadata">
-          <AccordionItemTitle>Metadata</AccordionItemTitle>
-          <AccordionItemPanel>
-            <div className="structureEditorFields">
-              <EditableTextField
-                size="S"
-                label="Name"
-                isRequired
-                value={name}
-                onChange={setName}
-                isReadOnly={isReadOnly}
-                onBlur={() => {
-                  if (isReadOnly || name === structure.name) return;
-                  try {
-                    rename({ id: structure.conceptId, name });
-                  } catch (error) {
-                    report(error);
-                    setName(structure.name);
-                  }
-                }}
-              />
-              <TextArea
-                size="S"
-                label="Description"
-                value={structure.description ?? ""}
-                isReadOnly={isReadOnly}
-                onChange={(description) => {
-                  try {
-                    update({ structureId: structure.conceptId, description });
-                  } catch (error) {
-                    report(error);
-                  }
-                }}
-              />
-              <FieldLabel size="S" id="structure-used-in-label">
-                Used in
-              </FieldLabel>
-              <Text aria-labelledby="structure-used-in-label">TBD</Text>
-            </div>
-          </AccordionItemPanel>
-        </AccordionItem>
-        <AccordionItem id="generation">
-          <AccordionItemTitle>Generated variants</AccordionItemTitle>
-          <AccordionItemPanel>
-            <StructureGenerationControls
-              structure={structure}
-              isReadOnly={isReadOnly}
-              report={report}
-            />
-          </AccordionItemPanel>
-        </AccordionItem>
-        <AccordionItem id="layers">
-          <AccordionItemTitle>Layers</AccordionItemTitle>
-          <AccordionItemPanel>
-            <StructureLayers
-              structure={structure}
-              catalog={catalog}
-              order={order}
-              visibility={{ ...editor.visibility, ...overrides.visibility }}
-              selectedId={selected}
-              isReadOnly={isReadOnly}
-              onSelect={select}
-              onChange={save}
-              report={report}
-              onOrder={(ids) => {
-                if (!active.option || active.isDefault) {
-                  try {
-                    editElements({
-                      structureId: structure.conceptId,
-                      elements: ids.map((id) => {
-                        const child = structure.elements?.find(
-                          (item) => item.id === id,
-                        );
-                        if (!child)
-                          throw new Error(
-                            "The reordered layer is unavailable.",
-                          );
-                        return child;
-                      }),
-                    });
-                  } catch (error) {
-                    report(error);
-                  }
-                } else
-                  save(
-                    updateOptionOverrides(editor, active.option.id, {
-                      ...overrides,
-                      order: ids,
-                    }),
-                  );
-              }}
-              onVisibility={(id, visible) => {
-                try {
-                  if (active.option && !active.isDefault)
-                    save(
-                      updateOptionOverrides(editor, active.option.id, {
-                        ...overrides,
-                        visibility: { ...overrides.visibility, [id]: visible },
-                      }),
+      name={structure.name}
+      onRename={(name) => rename({ id: structure.conceptId, name })}
+      description={{
+        value: structure.description ?? "",
+        onChange: (description) =>
+          update({ structureId: structure.conceptId, description }),
+      }}
+      usedIn="TBD"
+      isReadOnly={isReadOnly}
+      report={report}
+      generation={
+        <StructureGenerationControls
+          structure={structure}
+          isReadOnly={isReadOnly}
+          report={report}
+        />
+      }
+      layers={
+        <StructureLayers
+          structure={structure}
+          catalog={catalog}
+          order={order}
+          visibility={{ ...editor.visibility, ...overrides.visibility }}
+          selectedId={selected}
+          isReadOnly={isReadOnly}
+          onSelect={select}
+          onChange={save}
+          report={report}
+          onOrder={(ids) => {
+            if (!active.option || active.isDefault) {
+              try {
+                editElements({
+                  structureId: structure.conceptId,
+                  elements: ids.map((id) => {
+                    const child = structure.elements?.find(
+                      (item) => item.id === id,
                     );
-                  else
-                    save({
-                      ...editor,
-                      visibility: { ...editor.visibility, [id]: visible },
-                    });
-                } catch (error) {
-                  report(error);
-                }
-              }}
-              onDelete={(id, confirmed) =>
-                notify.remove({
-                  kind: "structureElement",
-                  run: (store) =>
-                    store.set(removeElementAtom, {
-                      structureId: structure.conceptId,
-                      elementId: id,
-                      confirmed: true,
-                    }),
-                  undo: (removed) => store.set(restoreElementAtom, removed),
-                  confirmed,
-                })
+                    if (!child)
+                      throw new Error("The reordered layer is unavailable.");
+                    return child;
+                  }),
+                });
+              } catch (error) {
+                report(error);
               }
-            />
-          </AccordionItemPanel>
-        </AccordionItem>
-      </Accordion>
-    </Panel>
+            } else
+              save(
+                updateOptionOverrides(editor, active.option.id, {
+                  ...overrides,
+                  order: ids,
+                }),
+              );
+          }}
+          onVisibility={(id, visible) => {
+            try {
+              if (active.option && !active.isDefault)
+                save(
+                  updateOptionOverrides(editor, active.option.id, {
+                    ...overrides,
+                    visibility: { ...overrides.visibility, [id]: visible },
+                  }),
+                );
+              else
+                save({
+                  ...editor,
+                  visibility: { ...editor.visibility, [id]: visible },
+                });
+            } catch (error) {
+              report(error);
+            }
+          }}
+          onDelete={(id, confirmed) =>
+            notify.remove({
+              kind: "structureElement",
+              run: (store) =>
+                store.set(removeElementAtom, {
+                  structureId: structure.conceptId,
+                  elementId: id,
+                  confirmed: true,
+                }),
+              undo: (removed) => store.set(restoreElementAtom, removed),
+              confirmed,
+            })
+          }
+        />
+      }
+    />
   );
 }

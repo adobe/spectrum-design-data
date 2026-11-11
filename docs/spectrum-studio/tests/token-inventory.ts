@@ -203,6 +203,7 @@ const all = inventoryComparisonRows(
   {},
   "all",
   "all",
+  assessment.enhancements,
 );
 assert.equal(all.flatMap((row) => row.children).length, 4);
 assert(
@@ -249,6 +250,7 @@ for (const query of ["", "same-display-name"])
         modes,
         "all",
         "all",
+        deprecatedOnly.enhancements,
       ),
       [],
       "Searching or filtering modes cannot reveal deprecated records.",
@@ -266,6 +268,7 @@ assert.equal(
     {},
     "all",
     "all",
+    assessment.enhancements,
   ).length,
   4,
 );
@@ -277,6 +280,7 @@ assert.equal(
     {},
     "all",
     "all",
+    assessment.enhancements,
   ).length,
   0,
 );

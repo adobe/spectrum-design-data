@@ -2,6 +2,7 @@
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import type { ReactNode } from "react";
+import "./PreviewListItem.css";
 
 const row = style({
   display: "flex",
@@ -9,7 +10,12 @@ const row = style({
   gap: 8,
   width: "full",
   minWidth: 0,
+  gridColumnStart: 1,
+  gridColumnEnd: -1,
+  gridRowStart: 1,
+  gridRowEnd: "span 2",
 });
+const insetStyles = style({ padding: 8, boxSizing: "border-box" });
 const labelStyles = style({
   flexGrow: 1,
   minWidth: 0,
@@ -22,16 +28,24 @@ export function PreviewListItem({
   label,
   actions,
   labelClassName,
+  inset = false,
 }: {
   preview: ReactNode;
   label: ReactNode;
   actions?: ReactNode;
   labelClassName?: string;
+  inset?: boolean;
 }) {
   return (
-    <span className={row}>
+    <span
+      className={`${row}${inset ? ` ${insetStyles}` : ""}`}
+      data-component="PreviewListItem"
+    >
       {preview}
-      <Text UNSAFE_className={labelClassName ?? String(labelStyles)}>
+      <Text
+        slot="label"
+        UNSAFE_className={labelClassName ?? String(labelStyles)}
+      >
         {label}
       </Text>
       {actions}

@@ -110,6 +110,20 @@ metric identities; unitless values remain CSS multipliers with full precision.
 Current modes and token-browser value overrides flow through the shared
 reference catalog, including unpublished foundations.
 
+Text elements can also reference a saved Text Style and its declared variants.
+The Style owns color, font weight and its whole line-height family; the element
+still owns its nominal font-size anchor and Structure sizing rule. The shared
+resolver selects Style line height using the resolved token's nominal step,
+not its mathematical position or an equal pixel value. A literal font size
+without a known scale step reports unavailable Style line height rather than
+guessing a match.
+
+Selecting a Style removes the element's independent line-height binding in the
+same edit and hides that field. Unstyled elements retain their existing controls.
+Changes resets restore references as complete values; portable option snapshots
+preserve explicit Style removal. See [Styles](styles.md) for default assignments,
+rollout and naming boundaries.
+
 The shared child renderer supplies Design, inert intrinsic/Hug measurement and
 Permutations. Add markers and selection outlines do not contribute layout
 dimensions. An empty editable Structure has a 160 by 96 px authoring floor only

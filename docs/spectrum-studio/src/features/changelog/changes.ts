@@ -79,7 +79,8 @@ export type FoundationKind =
   | "scale-type"
   | "interpolation"
   | "taxonomy"
-  | "structure";
+  | "structure"
+  | "style";
 
 export interface ChangeField {
   id?: string;
@@ -422,6 +423,7 @@ export const DATA_VIS_FIELDS = [
 export const PALETTE_FIELDS = ["name", "lightness", "hue", "chroma"];
 // Rounding steps are fixed in code until Rules author them, so they are not tracked as edits.
 export const SPACING_SCALE_FIELDS = [
+  "componentSizeScaling",
   "name",
   "scaleTypeId",
   "base",

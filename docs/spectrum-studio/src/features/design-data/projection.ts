@@ -48,6 +48,7 @@ import { resolveElevationDocument } from "../elevation/resolution";
 import { browserElevationSources } from "../elevation/output";
 import { buildTshirtArtifacts } from "./tshirtArtifacts";
 import { projectClassification } from "../taxonomy/model";
+import { buildStylesForSource } from "../styles/artifacts";
 import { structureName } from "../structures/generation";
 import { aliasReferencePacket } from "../tokens/aliases";
 import {
@@ -58,6 +59,7 @@ import { dataVisMemberId } from "../color-system/data-vis/identity";
 import { componentRelationships } from "../components/projection";
 import { opacityRows, opacityOutputIssues } from "../opacity/output";
 import { canonicalTokenRecord } from "../taxonomy/export";
+import { fontFamilyOutputIssue } from "../typography/fontTokens";
 import {
   tokenOutputMetadata,
   tokenOutputDiagnostics,
@@ -548,6 +550,7 @@ export function projectAuthoringDataset(
           resolveBrowserTokens(
             browserSourcesFromOutputs([], generated, [], [], {
               names: typography.metricNames,
+              fonts: typography.fonts,
               registry: system.taxonomy,
             }),
             browserEdits,
@@ -555,6 +558,32 @@ export function projectAuthoringDataset(
           ),
           system.taxonomy,
         )) {
+          if (row.fontId) {
+            if (
+              records.some(
+                (record) =>
+                  record.category === "tokens" && record.conceptId === row.id,
+              )
+            )
+              continue;
+            add(
+              "tokens",
+              row.rowId!,
+              row.name,
+              row.value,
+              "/system/foundations/typography/fonts",
+              {
+                classification: "generated",
+                identity: row.rowId,
+                conceptId: row.id,
+                context: {},
+                taxonomy: row.projection,
+                ...overrideEvidence(row),
+              },
+            );
+            observe(row.rowId!, "typography", {}, "evaluation");
+            continue;
+          }
           add(
             "tokens",
             `${row.id}:${suffix}`,
@@ -654,6 +683,14 @@ export function projectAuthoringDataset(
       }
     }
     {
+      errors.push(
+        ...buildStylesForSource({
+          ...system,
+          ...system.foundations,
+          colorSystem: system.foundations.color,
+          browserTokenEdits: browserEdits,
+        }).issues.map((issue) => issue.message),
+      );
       const rows = canonicalAliasRows(
         completeAliasSource({
           ...system,
@@ -676,7 +713,9 @@ export function projectAuthoringDataset(
               !row.canonicalName || Object.hasOwn(row.canonicalName, axis),
           ),
         );
-        const value = canonicalTokenRecord(row, rows);
+        const value = fontFamilyOutputIssue(row.token)
+          ? { value: row.token.value }
+          : canonicalTokenRecord(row, rows);
         add(
           "tokens",
           row.rowId,
@@ -697,13 +736,17 @@ export function projectAuthoringDataset(
         );
         const recipe = row.token.manual
           ? `manual-token:${row.token.id}`
-          : row.token.semantic
-            ? `structure:${row.token.semantic.structureId}`
-            : row.token.type === "colors"
-              ? "color-cascade"
-              : ["elevation", "typography", "opacity"].includes(row.token.type)
-                ? row.token.type
-                : `${row.token.type}:${row.token.groupId}`;
+          : row.token.style
+            ? `style:${row.token.style.recipeId}`
+            : row.token.semantic
+              ? `structure:${row.token.semantic.structureId}`
+              : row.token.type === "colors"
+                ? "color-cascade"
+                : ["elevation", "typography", "opacity"].includes(
+                      row.token.type,
+                    )
+                  ? row.token.type
+                  : `${row.token.type}:${row.token.groupId}`;
         const selected = new Map(JSON.parse(row.context) as [string, string][]);
         const assignments = Object.keys(
           browserEdits[row.token.id]?.authoring?.assignments ?? {},

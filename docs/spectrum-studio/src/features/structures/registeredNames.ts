@@ -4,7 +4,7 @@ import {
   taxonomyValueKey,
   type TaxonomyDocument,
 } from "../taxonomy/model";
-import { termLabel } from "../taxonomy/termPresentation";
+import { registeredPropertyNames } from "../option-groups/naming";
 import type { Structure, StructuresDocument } from "./model";
 
 const label = (value: string | number) => {
@@ -36,31 +36,7 @@ export function resolveStructureNames(
         ...structure,
         ...(registered && { name: label(registered.value) }),
         ...(structure.editor && {
-          editor: {
-            ...structure.editor,
-            properties: structure.editor.properties.map((property) => {
-              if (property.kind !== "variant" || !property.categoryId)
-                return property;
-              const category = taxonomy.categories.find(
-                (category) => category.id === property.categoryId,
-              );
-              return {
-                ...property,
-                ...(category && { name: category.name }),
-                options: property.options.map((option) => {
-                  const termId = option.classification[property.categoryId!];
-                  const term = taxonomy.terms.find(
-                    (term) =>
-                      term.id === termId &&
-                      term.categoryId === property.categoryId,
-                  );
-                  return term
-                    ? { ...option, name: termLabel(term.value) }
-                    : option;
-                }),
-              };
-            }),
-          },
+          editor: registeredPropertyNames(structure.editor, taxonomy),
         }),
       };
     }),

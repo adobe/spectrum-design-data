@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useNotify } from "../../components/notifications/notificationContext";
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { ActionButton, PickerItem, Text } from "@react-spectrum/s2";
+import { ActionButton, Checkbox, PickerItem, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Edit from "@react-spectrum/s2/icons/Edit";
@@ -333,6 +333,17 @@ function ScaleEditorContent({
       variables={
         <>
           <BaseValueField scale={scale} scaleType={scaleType} />
+          {foundation.noun === "spacing" && (
+            <Checkbox
+              isSelected={scale.componentSizeScaling ?? false}
+              isDisabled={isReadOnly}
+              onChange={(componentSizeScaling) =>
+                patch({ componentSizeScaling })
+              }
+            >
+              Follow component size
+            </Checkbox>
+          )}
           <ScaleTypeSettingsFields
             scaleType={scaleType}
             parameters={scale.parameters}

@@ -289,7 +289,11 @@ function validateSource(source: DimensionArtifactSource) {
         (binding) => owners[binding.modeParameterId],
       ),
     );
-    if (plan.domain === "size" || plan.domain === "radius") {
+    if (
+      plan.domain === "size" ||
+      plan.domain === "radius" ||
+      scale.componentSizeScaling
+    ) {
       const owner = owners["size.componentSize"];
       if (owner) dependencyIds.add(owner);
     }
@@ -484,7 +488,11 @@ export function captureDimensionSource(
           .map((binding) => owners[binding.modeParameterId])
           .filter(Boolean),
       );
-      if (domain === "size" || domain === "radius") {
+      if (
+        domain === "size" ||
+        domain === "radius" ||
+        scale.componentSizeScaling
+      ) {
         const owner = owners["size.componentSize"];
         if (owner) dependencyIds.add(owner);
       }

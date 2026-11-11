@@ -113,6 +113,14 @@
   flex-shrink: 0;
   text-align: center;
 }
+.valuePreviewSampleText .valuePreviewText {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  flex-shrink: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 [data-value-preview="line-height"] .valuePreviewText {
   background: var(--spectrum-fuchsia-300);
 }

@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import {
@@ -121,7 +122,7 @@ try {
   });
   const serialized = data.get(AUTHORING_STORAGE_KEY);
   assert(serialized);
-  const record = JSON.parse(serialized);
+  const record = JSON.parse(decodeAuthoringStorage(serialized));
   assert.equal(record.version, AUTHORING_RECORD_VERSION);
   assert.deepEqual(
     record.working.colorSystem.settings.colorOutput,

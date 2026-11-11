@@ -15,6 +15,9 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
+            "styles": {
+              "$ref": "#/definitions/StylesDocument"
+            },
             "componentSizing": {
               "$ref": "#/definitions/ComponentSizingDocument"
             },
@@ -164,6 +167,641 @@
         "system"
       ]
     },
+    "StylesDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "recipes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleRecipe"
+          }
+        },
+        "publications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StylePublication"
+          }
+        },
+        "examples": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "icon": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "icon"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "examples",
+        "publications",
+        "recipes",
+        "schemaVersion"
+      ]
+    },
+    "StyleRecipe": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/StyleKind"
+        },
+        "name": {
+          "$ref": "#/definitions/TaxonomyNameReference"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "appearance": {
+          "$ref": "#/definitions/StyleAppearance"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionProperty"
+          }
+        },
+        "differences": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Partial%3CStyleAppearance%3E"
+          }
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleRuleApplication"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "appearance",
+        "applications",
+        "classification",
+        "differences",
+        "id",
+        "kind",
+        "name",
+        "options"
+      ]
+    },
+    "StyleKind": {
+      "enum": [
+        "background",
+        "border",
+        "icon",
+        "text"
+      ],
+      "type": "string"
+    },
+    "TaxonomyNameReference": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "termId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "classification": {
+          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "termId"
+      ]
+    },
+    "Classification": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "StyleAppearance": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/definitions/StyleColor"
+        },
+        "fontFamily": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "fontWeight": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "lineHeight": {
+          "type": "object",
+          "properties": {
+            "metricId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "metricId"
+          ]
+        },
+        "borderWidth": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "color"
+      ]
+    },
+    "StyleColor": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "single"
+            },
+            "binding": {
+              "$ref": "#/definitions/StyleBinding"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "binding",
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "families"
+            },
+            "familyIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scaleIndex": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "familyIds",
+            "kind",
+            "scaleIndex"
+          ]
+        }
+      ]
+    },
+    "StyleBinding": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "$ref"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        }
+      ]
+    },
+    "OptionProperty": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BooleanProperty"
+        },
+        {
+          "$ref": "#/definitions/VariantProperty"
+        }
+      ]
+    },
+    "BooleanProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "defaultValue": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "defaultValue",
+        "id",
+        "kind",
+        "name"
+      ]
+    },
+    "VariantProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "variant"
+        },
+        "name": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "defaultOptionId": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VariantOption"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "defaultOptionId",
+        "id",
+        "kind",
+        "name",
+        "options"
+      ]
+    },
+    "VariantOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "id",
+        "name"
+      ]
+    },
+    "Partial<StyleAppearance>": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "single"
+                },
+                "binding": {
+                  "$ref": "#/definitions/StyleBinding"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "binding",
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "families"
+                },
+                "familyIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "scaleIndex": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "familyIds",
+                "kind",
+                "scaleIndex"
+              ]
+            }
+          ]
+        },
+        "fontFamily": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "fontWeight": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "lineHeight": {
+          "type": "object",
+          "properties": {
+            "metricId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "metricId"
+          ]
+        },
+        "borderWidth": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "StyleRuleApplication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "outputIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "outputIds",
+        "ruleId"
+      ]
+    },
+    "StylePublication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "recipeId": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "key",
+        "recipeId",
+        "rows"
+      ]
+    },
     "ComponentSizingDocument": {
       "type": "object",
       "properties": {
@@ -184,31 +822,31 @@
     "FoundationParameterSettings": {
       "type": "object",
       "properties": {
-        "size.componentSize": {
-          "$ref": "#/definitions/FoundationParameterSetting"
-        },
-        "typography.textSize": {
-          "$ref": "#/definitions/FoundationParameterSetting"
-        },
         "color.backgroundLightness": {
           "$ref": "#/definitions/FoundationParameterSetting"
         },
-        "color.backgroundScaleId": {
-          "$ref": "#/definitions/FoundationParameterSetting"
-        },
-        "color.contrastMultiplier": {
-          "$ref": "#/definitions/FoundationParameterSetting"
-        },
         "color.scaleAdjustment": {
-          "$ref": "#/definitions/FoundationParameterSetting"
-        },
-        "typography.textZoom": {
           "$ref": "#/definitions/FoundationParameterSetting"
         },
         "elevation.depth": {
           "$ref": "#/definitions/FoundationParameterSetting"
         },
         "elevation.color": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.contrastMultiplier": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "typography.textZoom": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "size.componentSize": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "typography.textSize": {
+          "$ref": "#/definitions/FoundationParameterSetting"
+        },
+        "color.backgroundScaleId": {
           "$ref": "#/definitions/FoundationParameterSetting"
         }
       },
@@ -1094,44 +1732,6 @@
         }
       ]
     },
-    "TaxonomyNameReference": {
-      "type": "object",
-      "properties": {
-        "categoryId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "termId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "classification": {
-          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "categoryId",
-        "termId"
-      ]
-    },
-    "Classification": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "string"
-          }
-        ]
-      }
-    },
     "AssignmentScope": {
       "type": "object",
       "additionalProperties": {
@@ -1659,6 +2259,7 @@
       ]
     },
     "TshirtMovement": {
+      "description": "Ratio is retained for reading and upgrading historical documents, not authoring.",
       "enum": [
         "available-token",
         "ratio",
@@ -1689,6 +2290,25 @@
         "type": {
           "type": "string",
           "const": "conditional"
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "classification": {
+                "$ref": "#/definitions/Classification"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "classification",
+              "id"
+            ]
+          }
         },
         "when": {
           "$ref": "#/definitions/RuleConditionGroup"
@@ -2468,6 +3088,7 @@
         "size",
         "spacing",
         "structures",
+        "styles",
         "typography"
       ],
       "type": "string"
@@ -2488,6 +3109,10 @@
         },
         "description": {
           "type": "string"
+        },
+        "includeInProjections": {
+          "description": "Omit this term without removing its classification. The category still controls inclusion.",
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -2783,10 +3408,10 @@
     "PortableElement": {
       "type": "object",
       "properties": {
-        "name": {
+        "id": {
           "type": "string"
         },
-        "id": {
+        "name": {
           "type": "string"
         },
         "kind": {
@@ -2803,6 +3428,9 @@
         },
         "orientation": {
           "type": "string"
+        },
+        "textStyle": {
+          "$ref": "#/definitions/TextStyleReference"
         }
       },
       "additionalProperties": false,
@@ -2899,6 +3527,25 @@
         "width"
       ],
       "type": "string"
+    },
+    "TextStyleReference": {
+      "type": "object",
+      "properties": {
+        "recipeId": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "options",
+        "recipeId"
+      ]
     },
     "StructureGeneration": {
       "type": "object",
@@ -3025,31 +3672,6 @@
         {
           "$ref": "#/definitions/PortableVariant"
         }
-      ]
-    },
-    "BooleanProperty": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "defaultValue": {
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "defaultValue",
-        "id",
-        "kind",
-        "name"
       ]
     },
     "PortableVariant": {
@@ -3382,6 +4004,9 @@
                 },
                 "orientation": {
                   "type": "string"
+                },
+                "textStyle": {
+                  "$ref": "#/definitions/TextStyleReference"
                 }
               },
               "required": [
@@ -3393,7 +4018,8 @@
               "items": {
                 "enum": [
                   "name",
-                  "orientation"
+                  "orientation",
+                  "textStyle"
                 ],
                 "type": "string"
               }
@@ -3812,14 +4438,14 @@
           "const": "base",
           "type": "string"
         },
-        "base": {
-          "type": "boolean"
-        },
         "id": {
           "type": "string"
         },
         "contrast": {
           "type": "number"
+        },
+        "base": {
+          "type": "boolean"
         },
         "reference": {
           "enum": [
@@ -3876,14 +4502,15 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "points": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DataVisPoint"
-          }
-        },
         "id": {
           "type": "string"
+        },
+        "staticColors": {
+          "description": "The adaptive recipe and its mode edits remain dormant while these colors are active.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FrozenColor"
+          }
         },
         "kind": {
           "enum": [
@@ -3892,11 +4519,10 @@
           ],
           "type": "string"
         },
-        "staticColors": {
-          "description": "The adaptive recipe and its mode edits remain dormant while these colors are active.",
+        "points": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FrozenColor"
+            "$ref": "#/definitions/DataVisPoint"
           }
         },
         "hideFromPublishing": {
@@ -3911,6 +4537,31 @@
         "kind",
         "name",
         "points"
+      ]
+    },
+    "FrozenColor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "position": {
+          "type": "number"
+        },
+        "tokenId": {
+          "type": "string"
+        },
+        "overrideValue": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "value"
       ]
     },
     "DataVisPoint": {
@@ -4059,31 +4710,6 @@
         "tokenId"
       ]
     },
-    "FrozenColor": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "position": {
-          "type": "number"
-        },
-        "tokenId": {
-          "type": "string"
-        },
-        "overrideValue": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "value"
-      ]
-    },
     "CanonicalNamedSource<CategoricalDataVisScale>": {
       "additionalProperties": false,
       "type": "object",
@@ -4091,16 +4717,16 @@
         "id": {
           "type": "string"
         },
-        "kind": {
-          "type": "string",
-          "const": "categorical"
-        },
         "staticColors": {
           "description": "The adaptive recipe and its mode edits remain dormant while these colors are active.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/FrozenColor"
           }
+        },
+        "kind": {
+          "type": "string",
+          "const": "categorical"
         },
         "members": {
           "type": "array",
@@ -4273,7 +4899,7 @@
       "properties": {
         "schemaVersion": {
           "type": "number",
-          "const": 9
+          "const": 11
         },
         "metricNames": {
           "$ref": "#/definitions/TypographyMetricNames"
@@ -4312,6 +4938,12 @@
         "lineHeightRoundingRuleId": {
           "type": "string"
         },
+        "fonts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TypographyFont"
+          }
+        },
         "lineHeights": {
           "type": "array",
           "items": {
@@ -4331,6 +4963,7 @@
       "additionalProperties": false,
       "required": [
         "componentSize",
+        "fonts",
         "iconography",
         "largeSizes",
         "lineHeightRoundingRuleId",
@@ -4384,6 +5017,37 @@
         "xs"
       ],
       "type": "string"
+    },
+    "TypographyFont": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        },
+        "conceptId": {
+          "type": "string"
+        },
+        "nameReference": {
+          "$ref": "#/definitions/TaxonomyNameReference"
+        },
+        "name": {
+          "type": "string"
+        },
+        "fontFamily": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conceptId",
+        "fontFamily",
+        "id",
+        "name",
+        "uuid"
+      ]
     },
     "TypographyLineHeight": {
       "type": "object",
@@ -4515,6 +5179,9 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "base": {
           "description": "Overrides the formula's base; ignored when the formula does not allow it.",
           "type": "number"
@@ -4525,9 +5192,6 @@
           "additionalProperties": {
             "type": "number"
           }
-        },
-        "id": {
-          "type": "string"
         },
         "below": {
           "type": "number"
@@ -4547,6 +5211,10 @@
           "additionalProperties": {
             "$ref": "#/definitions/ParameterBinding"
           }
+        },
+        "componentSizeScaling": {
+          "description": "Apply component size before rounding, rather than at a Structure consumer.",
+          "type": "boolean"
         },
         "startStep": {
           "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
@@ -4764,6 +5432,9 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
+            "styles": {
+              "$ref": "#/definitions/StylesDocument"
+            },
             "componentSizing": {
               "$ref": "#/definitions/ComponentSizingDocument"
             },

@@ -162,6 +162,8 @@ export function sourceValuePreview(
   if (source.valuePreview && value === source.value) return source.valuePreview;
   if (source.type === "elevation") return createValuePreview("shadow", value);
   if (source.type === "opacity") return createValuePreview("opacity", value);
+  if (source.type === "typography" && source.groupId === "font-family")
+    return createValuePreview("font-family", value);
   const classification =
     source.projection?.classification ??
     source.taxonomySource?.governed ??

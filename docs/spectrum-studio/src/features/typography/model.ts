@@ -26,11 +26,20 @@ export type TypographyMetricId =
   | "workflow-icon-size"
   | `${string}-lineHeight`
   | `${string}-unitlessLineHeight`;
-export const TYPOGRAPHY_SCHEMA_VERSION = 9;
+export const TYPOGRAPHY_SCHEMA_VERSION = 11;
 export const TEXT_ZOOM_MIN = -4;
 export const TEXT_ZOOM_MAX = 8;
 export const clampTextZoom = (value: number) =>
   Math.min(TEXT_ZOOM_MAX, Math.max(TEXT_ZOOM_MIN, Math.round(value)));
+
+export interface TypographyFont {
+  id: string;
+  uuid: string;
+  conceptId: string;
+  nameReference?: TaxonomyNameReference;
+  name: string;
+  fontFamily: string;
+}
 
 export interface TypographyLineHeight {
   id: string;
@@ -66,6 +75,7 @@ export interface TypographyDocument extends FoundationPublishingMetadata {
   maxTextSize: number;
   textRoundingRuleId: string;
   lineHeightRoundingRuleId: string;
+  fonts: TypographyFont[];
   lineHeights: TypographyLineHeight[];
   previewLineHeightId: string;
   iconography: TypographyIconography;
@@ -89,6 +99,33 @@ export interface GeneratedTypographyToken {
 
 const positive = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value > 0;
+export function isTypographyFont(value: unknown): value is TypographyFont {
+  if (!value || typeof value !== "object") return false;
+  const font = value as Partial<TypographyFont>;
+  return (
+    typeof font.id === "string" &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      font.id,
+    ) &&
+    typeof font.uuid === "string" &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      font.uuid,
+    ) &&
+    typeof font.conceptId === "string" &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      font.conceptId,
+    ) &&
+    (font.nameReference === undefined ||
+      (font.nameReference !== null &&
+        typeof font.nameReference === "object" &&
+        typeof font.nameReference.categoryId === "string" &&
+        typeof font.nameReference.termId === "string")) &&
+    typeof font.name === "string" &&
+    font.name.trim().length > 0 &&
+    typeof font.fontFamily === "string"
+  );
+}
+
 export function isTypographyLineHeight(
   value: unknown,
 ): value is TypographyLineHeight {
@@ -147,6 +184,16 @@ export function isTypographyDocument(
     document.minTextSize > document.maxTextSize ||
     typeof document.textRoundingRuleId !== "string" ||
     typeof document.lineHeightRoundingRuleId !== "string" ||
+    !Array.isArray(document.fonts) ||
+    !document.fonts.every(isTypographyFont) ||
+    new Set(document.fonts.map((font) => font.id)).size !==
+      document.fonts.length ||
+    new Set(document.fonts.map((font) => font.uuid)).size !==
+      document.fonts.length ||
+    new Set(document.fonts.map((font) => font.conceptId)).size !==
+      document.fonts.length ||
+    new Set(document.fonts.map((font) => font.name.trim().toLowerCase()))
+      .size !== document.fonts.length ||
     !Array.isArray(document.lineHeights) ||
     !document.lineHeights.every(isTypographyLineHeight) ||
     new Set(document.lineHeights.map((card) => card.id)).size !==

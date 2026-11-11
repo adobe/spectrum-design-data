@@ -279,12 +279,18 @@ export function toPortableStructures(
                   orientation: element.orientation,
                 }),
                 ...(element.name !== undefined && { name: element.name }),
+                ...(element.textStyle !== undefined && {
+                  textStyle: element.textStyle,
+                }),
               },
               unset: [
                 ...(element.orientation === undefined
                   ? ["orientation" as const]
                   : []),
                 ...(element.name === undefined ? ["name" as const] : []),
+                ...(element.textStyle === undefined
+                  ? ["textStyle" as const]
+                  : []),
               ],
             },
             when,

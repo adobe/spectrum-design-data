@@ -108,6 +108,9 @@ export const browserTokenSourcesAtom = atom((get): BrowserTokenSource[] => {
       get(generatedSizeAtom),
       {
         names: get(typographyDocumentAtom).metricNames,
+        fonts: get(typographyDocumentAtom).hideFromPublishing
+          ? []
+          : get(typographyDocumentAtom).fonts,
         outputUnit: get(typographyDocumentAtom).outputUnit,
         registry: get(taxonomyDocumentAtom),
       },

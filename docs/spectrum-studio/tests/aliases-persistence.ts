@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 
@@ -99,7 +100,9 @@ confirmed.set(saveEditAtom);
 assert(
   !confirmed.get(aliasesAtom).tokens.some((token) => token.id === alias.id),
 );
-const corrupt = JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!);
+const corrupt = JSON.parse(
+  decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+);
 corrupt.saved.aliases.tokens[0].$ref = crypto.randomUUID();
 const corruptedBytes = JSON.stringify(corrupt);
 dispose();

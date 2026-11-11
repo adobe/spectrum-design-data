@@ -20,6 +20,7 @@ import {
 import type { TaxonomyEvidenceSource } from "./editing";
 import type { DerivedState } from "../derived-work/LatestRequest";
 import type { ComponentColorWitness } from "../components/colorWitness";
+import { classificationIssues } from "../option-groups/model";
 
 export interface ReferencedTaxonomySource {
   previous: TaxonomyDocument;
@@ -60,6 +61,34 @@ export function validateReferencedTaxonomy(
   return withTaxonomyProjection(previous, () =>
     withTaxonomyProjection(document, () => {
       updateTaxonomy(previous, document);
+      for (const style of snapshot.styles?.recipes ?? []) {
+        registeredSourceName(document, style.name, "styles");
+        const issues = [
+          classificationIssues(style.classification, document, "styles"),
+          ...style.options.flatMap((property) =>
+            property.kind === "variant"
+              ? [
+                  classificationIssues(
+                    property.classification,
+                    document,
+                    "styles",
+                  ),
+                  ...property.options.map((option) =>
+                    classificationIssues(
+                      option.classification,
+                      document,
+                      "styles",
+                    ),
+                  ),
+                ]
+              : [],
+          ),
+        ].flat();
+        if (issues.length)
+          throw new Error(
+            `This Registry term is used by a Style. ${issues.join(" ")}`,
+          );
+      }
       assertStructureTaxonomy(structures, document);
       const output = buildTshirtArtifacts({ ...snapshot, taxonomy: document });
       if (

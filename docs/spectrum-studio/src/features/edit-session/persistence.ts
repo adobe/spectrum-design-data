@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, getDefaultStore, type Getter } from "jotai";
+import { prepareStylePublicationsAtom } from "../styles/state";
 import { editModeAtom } from "../../state/view/editMode";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import {
@@ -118,7 +119,12 @@ export function initializeAuthoringPersistence(
           version === 24 ||
           version === 25 ||
           version === 26 ||
-          version === 27
+          version === 27 ||
+          version === 28 ||
+          version === 29 ||
+          version === 30 ||
+          version === 31 ||
+          version === 32
         )
           return value;
         if (version === 18) {
@@ -394,7 +400,17 @@ export function initializeAuthoringPersistence(
       priority,
     );
   };
+  let preparingStyles = false;
   const schedule = () => {
+    if (preparingStyles) return;
+    preparingStyles = true;
+    try {
+      store.set(prepareStylePublicationsAtom);
+    } catch (failure) {
+      report(failure);
+    } finally {
+      preparingStyles = false;
+    }
     pending = true;
     clearTimeout(timer);
     if (scheduled) request(true);

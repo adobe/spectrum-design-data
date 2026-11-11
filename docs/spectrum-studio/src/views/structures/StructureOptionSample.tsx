@@ -21,6 +21,8 @@ import {
 import { measureCompositionLayouts } from "./compositionMeasurement";
 import { useAtomValue } from "jotai";
 import { structurePreviewsAtom } from "../../features/structures/documentState";
+import { textStyleSourceAtom } from "../../features/styles/state";
+import { canonicalTokenModeKey } from "../../features/tokens/browserModel";
 
 interface StructureOptionSampleProps extends Pick<
   StructurePreviewProps,
@@ -39,6 +41,7 @@ interface StructureOptionSampleProps extends Pick<
   bundle?: TshirtArtifactBundle;
   mode: Record<string, string>;
   preview?: StructurePreviewState;
+  previewSelections?: Readonly<Record<string, StructurePreviewState>>;
 }
 
 export function StructureOptionSample({
@@ -49,9 +52,12 @@ export function StructureOptionSample({
   bundle,
   mode,
   preview,
+  previewSelections,
   ...interaction
 }: StructureOptionSampleProps) {
   const previews = useAtomValue(structurePreviewsAtom);
+  const source = useAtomValue(textStyleSourceAtom);
+  const textStyles = { ...source, modeKey: canonicalTokenModeKey(mode) };
   const frame = useRef<HTMLDivElement>(null);
   const natural = useRef<HTMLDivElement>(null);
   const [layout, setLayout] = useState<PreviewLayoutContext>(UNMEASURED_LAYOUT);
@@ -62,7 +68,13 @@ export function StructureOptionSample({
     () => resolveStructureOptions(structure, preview),
     [structure, preview],
   );
-  const leaves = resolveElements(effective.structure, references, rules);
+  const leaves = resolveElements(
+    effective.structure,
+    references,
+    rules,
+    "m",
+    textStyles,
+  );
   const result = resolveCompositionResult(
     structure,
     catalog,
@@ -75,7 +87,11 @@ export function StructureOptionSample({
     modules,
     preview?.options,
     preview?.indentationLevel,
-    { ...previews, ...(preview && { [structure.conceptId]: preview }) },
+    {
+      ...(previewSelections ?? previews),
+      ...(preview && { [structure.conceptId]: preview }),
+    },
+    textStyles,
   );
   const composition = result.status === "ready" ? result.value : undefined;
   const resolved =

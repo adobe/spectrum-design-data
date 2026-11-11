@@ -50,8 +50,8 @@ export const structureThumbnailPreviewAtom = atom((get) => {
     const rows = canonicalAliasRows(
       completeAliasSource(source),
       undefined,
-      "strict",
-      { excludeColors: true, includeUnpublished: true },
+      "preserve-for-review",
+      { excludeColors: true, includeUnpublished: true, excludeStyles: true },
     );
     return {
       status: "ready" as const,

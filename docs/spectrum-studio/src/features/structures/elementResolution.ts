@@ -18,6 +18,10 @@ import {
 } from "./elements";
 import { STRUCTURE_TERM_IDS } from "./vocabulary";
 import { leafElements } from "./children";
+import {
+  resolveTextStyleAppearance,
+  type TextStyleSource,
+} from "../styles/textAppearance";
 
 export function templateTargets(application: StructureRuleApplication) {
   return (
@@ -108,6 +112,7 @@ export function resolveElements(
   references: readonly PrimitiveReference[],
   rules: readonly Rule[],
   size: string = "m",
+  textStyles?: TextStyleSource,
 ): ResolvedElement[] {
   let applied: ReturnType<typeof appliedElementBindings> = [];
   let applicationError = "";
@@ -136,6 +141,7 @@ export function resolveElements(
       styles.height = element.kind === "slot" ? 24 : styles.width;
     }
     for (const binding of element.bindings) {
+      if (element.textStyle && binding.slot === "lineHeight") continue;
       try {
         if (!("$ref" in binding)) {
           const value = binding.value.value;
@@ -218,6 +224,23 @@ export function resolveElements(
         issues.push(
           `${ELEMENT_TYPES[element.kind].label} ${ELEMENT_SLOT_LABELS[binding.slot]}: ${failure instanceof Error ? failure.message : String(failure)}`,
         );
+      }
+    }
+    if (element.textStyle) {
+      delete styles.lineHeight;
+      if (!textStyles) {
+        issues.push("Text Style appearance is unavailable.");
+      } else {
+        const font = targets.find(
+          (target) => target.binding.slot === "fontSize",
+        );
+        const resolved = resolveTextStyleAppearance(
+          element.textStyle,
+          textStyles,
+          font?.reference.step,
+        );
+        Object.assign(styles, resolved.appearance);
+        issues.push(...resolved.issues);
       }
     }
     for (const [minimum, maximum] of [

@@ -33,6 +33,7 @@ export interface DesignSystemDataset {
   schemaVersion: 1;
   dataset: { id: string; name: string; description: string; revision: number };
   system: {
+    styles?: import("../styles/model").StylesDocument;
     componentSizing?: ComponentSizingDocument;
     components?: ComponentsDocument;
     aliases?: AliasDocument;

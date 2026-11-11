@@ -96,6 +96,7 @@ function resourcesFor(
     {
       excludeColors: true,
       includeUnpublished: true,
+      excludeStyles: true,
     },
   );
   const modeValues = resolveModeParameterValues(
@@ -137,6 +138,7 @@ function resourcesFor(
         naming: {
           registry: complete.taxonomy,
           names: complete.typography.metricNames,
+          fonts: complete.typography.fonts,
           outputUnit: complete.typography.outputUnit,
         },
       },

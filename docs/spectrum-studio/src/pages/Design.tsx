@@ -5,13 +5,33 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../components/CategoryIcon";
 import { useAtom } from "jotai";
 import { SubPanel } from "../components/SubPanel";
-import { designSectionAtom, designViewAtom } from "../state/view/design";
+import {
+  designSectionAtom,
+  designViewAtom,
+  type DesignView,
+} from "../state/view/design";
 import { StructuresPanel } from "../panels/structures/StructuresPanel";
-import { StructureDesignView } from "../views/structures/StructureDesignView";
-import { StructurePermutations } from "../views/structures/StructurePermutations";
 import { SampleApp } from "../views/SampleApp";
 import { ViewSwitcher } from "../views/ViewSwitcher";
 import "./Design.css";
+import { StructureValueScaleFlow } from "../panels/structures/StructureValueScaleFlow";
+import { lazy, Suspense } from "react";
+import { LoadingIndicator } from "../components/LoadingIndicator";
+
+const StylesPanel = lazy(async () => ({
+  default: (await import("../panels/styles/StylesPanel")).StylesPanel,
+}));
+const StyleDesignView = lazy(async () => ({
+  default: (await import("../views/styles/StyleDesignView")).StyleDesignView,
+}));
+const StructureDesignView = lazy(async () => ({
+  default: (await import("../views/structures/StructureDesignView"))
+    .StructureDesignView,
+}));
+const StructurePermutations = lazy(async () => ({
+  default: (await import("../views/structures/StructurePermutations"))
+    .StructurePermutations,
+}));
 
 const comingSoonStyles = style({
   display: "flex",
@@ -32,84 +52,122 @@ export default function Design() {
     </div>
   );
   return (
-    <div className="pageWithSubPanel" data-component="DesignLayout">
-      <SubPanel>
-        <Tabs
-          aria-label="Design sections"
-          selectedKey={section}
-          styles={tabsStyles}
-          onSelectionChange={(key) => {
-            if (
-              key === "concepts" ||
-              key === "elements" ||
-              key === "structures"
-            )
-              setSection(key);
-            else notify.error("This Design section is unavailable.");
+    <>
+      <StructureValueScaleFlow />
+      <div className="pageWithSubPanel" data-component="DesignLayout">
+        <SubPanel>
+          <Tabs
+            aria-label="Design sections"
+            selectedKey={section}
+            styles={tabsStyles}
+            onSelectionChange={(key) => {
+              if (
+                key === "concepts" ||
+                key === "elements" ||
+                key === "structures"
+              )
+                setSection(key);
+              else notify.error("This Design section is unavailable.");
+            }}
+          >
+            <TabList UNSAFE_className="designTabList">
+              <Tab id="concepts">
+                <CategoryIcon category="styles" />
+                <Text>Styles</Text>
+              </Tab>
+              <Tab id="structures">
+                <CategoryIcon category="structures" />
+                <Text>Structures</Text>
+              </Tab>
+            </TabList>
+            <TabPanel id="concepts" UNSAFE_className="designSectionPanel">
+              <Suspense
+                fallback={<LoadingIndicator aria-label="Loading styles" />}
+              >
+                <StylesPanel />
+              </Suspense>
+            </TabPanel>
+            <TabPanel id="elements" UNSAFE_className="designSectionPanel">
+              {placeholder("Elements editing")}
+            </TabPanel>
+            <TabPanel id="structures" UNSAFE_className="designSectionPanel">
+              <StructuresPanel />
+            </TabPanel>
+          </Tabs>
+        </SubPanel>
+        <ViewSwitcher<DesignView>
+          aria-label="Design views"
+          dataComponent="Design"
+          configuration={{
+            selectedKey:
+              section === "concepts" && view === "preview" ? "design" : view,
+            onSelectionChange: setView,
+            surface: "pasteboard",
+            options: [
+              {
+                id: "design",
+                label: "Design",
+                icon: <CategoryIcon category="design" />,
+                content:
+                  section === "structures" ? (
+                    <Suspense
+                      fallback={
+                        <LoadingIndicator aria-label="Loading structure editor" />
+                      }
+                    >
+                      <StructureDesignView />
+                    </Suspense>
+                  ) : section === "concepts" ? (
+                    <Suspense
+                      fallback={
+                        <LoadingIndicator aria-label="Loading style editor" />
+                      }
+                    >
+                      <StyleDesignView />
+                    </Suspense>
+                  ) : (
+                    placeholder("Elements design")
+                  ),
+              },
+              {
+                id: "permutations",
+                label: "Permutations",
+                icon: <CategoryIcon category="view.permutations" />,
+                content:
+                  section === "structures" ? (
+                    <Suspense
+                      fallback={
+                        <LoadingIndicator aria-label="Loading structure permutations" />
+                      }
+                    >
+                      <StructurePermutations />
+                    </Suspense>
+                  ) : section === "concepts" ? (
+                    <Suspense
+                      fallback={
+                        <LoadingIndicator aria-label="Loading style permutations" />
+                      }
+                    >
+                      <StyleDesignView permutations />
+                    </Suspense>
+                  ) : (
+                    placeholder("Permutations")
+                  ),
+              },
+              ...(section === "concepts"
+                ? []
+                : [
+                    {
+                      id: "preview" as const,
+                      label: "Preview",
+                      icon: <CategoryIcon category="view.preview" />,
+                      content: <SampleApp />,
+                    },
+                  ]),
+            ],
           }}
-        >
-          <TabList UNSAFE_className="designTabList">
-            <Tab id="concepts">
-              <CategoryIcon category="styles" />
-              <Text>Styles</Text>
-            </Tab>
-            <Tab id="structures">
-              <CategoryIcon category="structures" />
-              <Text>Structures</Text>
-            </Tab>
-          </TabList>
-          <TabPanel id="concepts" UNSAFE_className="designSectionPanel">
-            {placeholder("Concepts editing")}
-          </TabPanel>
-          <TabPanel id="elements" UNSAFE_className="designSectionPanel">
-            {placeholder("Elements editing")}
-          </TabPanel>
-          <TabPanel id="structures" UNSAFE_className="designSectionPanel">
-            <StructuresPanel />
-          </TabPanel>
-        </Tabs>
-      </SubPanel>
-      <ViewSwitcher
-        aria-label="Design views"
-        dataComponent="Design"
-        configuration={{
-          selectedKey: view,
-          onSelectionChange: setView,
-          surface: "pasteboard",
-          options: [
-            {
-              id: "design",
-              label: "Design",
-              icon: <CategoryIcon category="design" />,
-              content:
-                section === "structures" ? (
-                  <StructureDesignView />
-                ) : (
-                  placeholder(
-                    `${section === "concepts" ? "Concepts" : "Elements"} design`,
-                  )
-                ),
-            },
-            {
-              id: "permutations",
-              label: "Permutations",
-              icon: <CategoryIcon category="view.permutations" />,
-              content:
-                section === "structures" ? (
-                  <StructurePermutations />
-                ) : (
-                  placeholder("Permutations")
-                ),
-            },
-            {
-              id: "preview",
-              label: "Preview",
-              icon: <CategoryIcon category="view.preview" />,
-              content: <SampleApp />,
-            },
-          ],
-        }}
-      />
-    </div>
+        />
+      </div>
+    </>
   );
 }

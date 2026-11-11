@@ -345,6 +345,33 @@ function buildComponentTokenCatalog(
     });
   }
   const variants = buildTshirtArtifacts(source);
+  const styles = source.styles?.recipes.length
+    ? canonicalAliasRows(
+        completeAliasSource(source),
+        variants,
+        "preserve-for-review",
+      )
+    : [];
+  for (const row of styles.filter((row) => row.token.style)) {
+    const token = row.token,
+      style = token.style!;
+    if (token.validationError) throw new Error(token.validationError);
+    add({
+      id: row.rowId,
+      browserId: row.id,
+      name: row.name,
+      property: String(row.canonicalName?.property),
+      value:
+        token.unit === "px" && typeof token.value === "number"
+          ? `${token.value}px`
+          : token.value,
+      displayValue: `${token.value}${token.unit}`,
+      context: style.context,
+      ownerId: style.recipeId,
+      kind: "semantic",
+      tier: "semantic",
+    });
+  }
   for (const row of variants.semantics) {
     const token = row.token;
     const value =

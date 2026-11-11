@@ -45,6 +45,7 @@ import {
   type BrowserTokenEdits,
 } from "./browserModel";
 import { browserSourcesFromOutputs } from "./browserSources";
+import { dialogRowsForMode } from "./dialogModel";
 import { tokenUuid } from "./model";
 import { primitiveReferenceId } from "./primitiveIdentity";
 import type { TokenOverrideMap } from "./model";
@@ -67,8 +68,10 @@ import {
   tokenIdentity,
 } from "./canonicalIdentity";
 import { canonicalTokenByUuid } from "./canonicalCatalogue";
+import { buildStylesForSource, styleBrowserToken } from "../styles/artifacts";
 
 export interface AliasAuthoringSource {
+  styles?: import("../styles/model").StylesDocument;
   componentSizing?: ComponentSizingDocument;
   opacity?: OpacityDocument;
   colorSystem: ColorSystemDocument;
@@ -130,6 +133,7 @@ export function completeAliasSource(
     );
   }
   return {
+    styles: value.styles,
     componentSizing: value.componentSizing,
     opacity: value.opacity,
     colorSystem,
@@ -153,7 +157,11 @@ export function canonicalAliasRows(
   source: AliasAuthoringSource,
   semantics?: TshirtArtifactBundle,
   projectionPolicy: "strict" | "preserve-for-review" = "strict",
-  { excludeColors = false, includeUnpublished = false } = {},
+  {
+    excludeColors = false,
+    includeUnpublished = false,
+    excludeStyles = false,
+  } = {},
 ): CanonicalAliasRow[] {
   const axes = source.modeSets.filter((axis) => axis.modes.length);
   if (modeCombinationCount(axes) > 4096)
@@ -283,6 +291,10 @@ export function canonicalAliasRows(
         size,
         {
           names: typography.metricNames,
+          fonts:
+            includeUnpublished || isFoundationPublished(typography)
+              ? typography.fonts
+              : [],
           registry: source.taxonomy,
           outputUnit: typography.outputUnit,
         },
@@ -348,7 +360,10 @@ export function canonicalAliasRows(
         else if (definition?.type === "colors") COLOR_PARAMETERS.forEach(own);
         else if (definition?.type === "opacity")
           opacityAxes(source).forEach((axis) => result.add(axis.id));
-        else if (definition?.type === "typography") {
+        else if (
+          definition?.type === "typography" &&
+          definition.groupId !== "font-family"
+        ) {
           own("typography.textZoom");
           own("typography.textSize");
         } else if (definition?.type === "elevation")
@@ -379,7 +394,10 @@ export function canonicalAliasRows(
             opacityAxes(source).forEach((axis) => result.add(axis.id));
           COLOR_PARAMETERS.forEach(own);
         }
-      } else if (target.type === "typography") {
+      } else if (
+        target.type === "typography" &&
+        target.groupId !== "font-family"
+      ) {
         own("typography.textZoom");
         own("typography.textSize");
       } else if (target.type === "elevation")
@@ -393,10 +411,11 @@ export function canonicalAliasRows(
         target.type === "spacing" ||
         target.type === "radius"
       ) {
-        if (target.type !== "spacing") own("size.componentSize");
         const scale = source[target.type].scales.find(
           (scale) => scale.id === target.groupId,
         );
+        if (target.type !== "spacing" || scale?.componentSizeScaling)
+          own("size.componentSize");
         Object.values(scale?.bindings ?? {}).forEach((binding) =>
           own(binding.modeParameterId),
         );
@@ -459,7 +478,7 @@ export function canonicalAliasRows(
         }
       } else if (token.type === "opacity") {
         for (const axis of opacityAxes(source)) owned.add(axis.id);
-      } else if (token.type === "typography") {
+      } else if (token.type === "typography" && !token.fontId) {
         own("typography.textZoom");
         own("typography.textSize");
         const value = typeValues.find((item) =>
@@ -490,10 +509,11 @@ export function canonicalAliasRows(
         token.type === "size" ||
         token.type === "radius"
       ) {
-        if (token.type !== "spacing") own("size.componentSize");
         const scale = source[token.type].scales.find(
           (item) => item.id === token.groupId,
         )!;
+        if (token.type !== "spacing" || scale.componentSizeScaling)
+          own("size.componentSize");
         const output = (
           token.type === "spacing"
             ? spacing
@@ -556,10 +576,12 @@ export function canonicalAliasRows(
         source.browserTokenEdits,
         token.sourceId ?? token.id,
       );
-      if (identity) id = identity.conceptId;
+      if (identity && !token.fontId) id = identity.conceptId;
       const key = JSON.stringify([id, context]);
       const rowId =
-        identity?.rows[context] ??
+        (token.fontId && context === "[]"
+          ? token.rowId
+          : identity?.rows[context]) ??
         (token.type === "opacity"
           ? token.rowId!
           : tokenUuid(`canonical-token-row:v1:${id}:${context}`));
@@ -573,12 +595,15 @@ export function canonicalAliasRows(
         token,
         ...(blocked && { outputError: blocked.error }),
         canonicalName: {
-          ...(canonicalPrimitiveProperties[token.type] && {
-            property: canonicalPrimitiveProperties[token.type]!,
-          }),
-          ...(identity?.name ??
-            token.semantic?.token.name ??
-            token.projection?.flat),
+          ...(!token.fontId &&
+            canonicalPrimitiveProperties[token.type] && {
+              property: canonicalPrimitiveProperties[token.type]!,
+            }),
+          ...(token.fontId
+            ? token.projection?.flat
+            : (identity?.name ??
+              token.semantic?.token.name ??
+              token.projection?.flat)),
           ...Object.fromEntries(
             (JSON.parse(context) as [string, string][]).flatMap(
               ([axisId, modeId]) => {
@@ -595,7 +620,7 @@ export function canonicalAliasRows(
               },
             ),
           ),
-          ...canonical?.name,
+          ...(!token.fontId && canonical?.name),
         },
         compatibleModes,
       };
@@ -608,6 +633,51 @@ export function canonicalAliasRows(
           `Token ${token.name} has an unclaimed mode dependency.`,
         );
       rows.set(key, row);
+    }
+  }
+  if (!excludeStyles && source.styles?.recipes.length) {
+    const output = buildStylesForSource(source);
+    const foundationRows = excludeColors
+      ? canonicalAliasRows(source, semantics, projectionPolicy, {
+          includeUnpublished,
+          excludeStyles: true,
+        })
+      : [...rows.values()];
+    for (const modeKey of new Set(output.rows.map((row) => row.modeKey))) {
+      const styleRows = output.rows.filter((row) => row.modeKey === modeKey);
+      const tokens = projectBrowserTokens(
+        resolveBrowserTokens(
+          [
+            ...dialogRowsForMode(foundationRows, modeKey).map(
+              (row) => row.token,
+            ),
+            ...styleRows.map((row) => styleBrowserToken(row, source)),
+          ],
+          source.browserTokenEdits,
+          modeKey,
+        ),
+        source.taxonomy,
+      );
+      for (const row of styleRows) {
+        const token = tokens.find((token) => token.id === row.conceptId)!;
+        rows.set(JSON.stringify([row.conceptId, row.modeKey]), {
+          id: row.conceptId,
+          rowId: row.token.uuid,
+          context: row.modeKey,
+          name: token.name,
+          token,
+          canonicalName: {
+            ...row.token.name,
+            ...Object.fromEntries(
+              Object.entries(token.projection?.flat ?? {}).filter(
+                (entry): entry is [string, string | number] =>
+                  typeof entry[1] === "string" || typeof entry[1] === "number",
+              ),
+            ),
+          },
+          compatibleModes,
+        });
+      }
     }
   }
   return [...rows.values()];

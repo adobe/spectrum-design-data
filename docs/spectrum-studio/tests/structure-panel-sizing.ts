@@ -188,6 +188,78 @@ for (const customValue of [undefined, { displayValue: "" }]) {
     "Unavailable token",
   );
 }
+const library = readFileSync(
+  new URL("../src/panels/structures/StructureCard.tsx", import.meta.url),
+  "utf8",
+);
+const thumbnail = readFileSync(
+  new URL("../src/views/structures/StructureThumbnail.tsx", import.meta.url),
+  "utf8",
+);
+assert.match(
+  library,
+  /import "\.\/StructureCard\.css";/,
+  "Library row styles load with the sidebar, even without a selected Structure.",
+);
+assert.match(
+  thumbnail,
+  /import "\.\/StructureThumbnail\.css";/,
+  "Thumbnail sizing loads with each thumbnail, not the selected editor.",
+);
+assert.match(
+  thumbnail,
+  /preview=\{EMPTY_STRUCTURE_PREVIEW\}/,
+  "Thumbnails explicitly select the authored default variation.",
+);
+assert.match(
+  thumbnail,
+  /previewSelections=\{\{\}\}/,
+  "Thumbnails exclude temporary root and owned-layout selections.",
+);
+const optionSample = readFileSync(
+  new URL("../src/views/structures/StructureOptionSample.tsx", import.meta.url),
+  "utf8",
+);
+assert.match(
+  optionSample,
+  /previewSelections \?\? previews/,
+  "An isolated sample's selections take precedence over editor selections.",
+);
+const libraryStyles = readFileSync(
+  new URL("../src/panels/structures/StructureCard.css", import.meta.url),
+  "utf8",
+);
+const thumbnailStyles = readFileSync(
+  new URL("../src/views/structures/StructureThumbnail.css", import.meta.url),
+  "utf8",
+);
+const card = /\.structureListCard\s*\{([^}]+)\}/.exec(libraryStyles)?.[1];
+assert(card, "Library cards retain their own row layout.");
+assert.match(card, /grid-column:\s*1\s*\/\s*-1;/);
+assert.match(card, /grid-row:\s*1\s*\/\s*span 2;/);
+const viewport = /\.structureThumbnail\s*\{([^}]+)\}/.exec(
+  thumbnailStyles,
+)?.[1];
+assert(viewport, "Each thumbnail has a bounded viewport.");
+assert.match(viewport, /width:\s*80px;/);
+assert.match(viewport, /height:\s*40px;/);
+assert.match(viewport, /overflow:\s*hidden;/);
+assert.match(viewport, /grid-template-columns:\s*minmax\(0,\s*1fr\);/);
+assert.match(
+  viewport,
+  /grid-template-rows:\s*minmax\(0,\s*1fr\);/,
+  "Oversized natural samples stay centered in the viewport, not expanded tracks.",
+);
+const canvasStyles = readFileSync(
+  new URL("../src/views/structures/StructureDesignView.css", import.meta.url),
+  "utf8",
+);
+assert.doesNotMatch(
+  canvasStyles,
+  /\.structureListCard\b|\.structuresList\b|\.structureThumbnail(?:Natural)?\b/,
+  "Sidebar geometry and appearance do not depend on the canvas stylesheet.",
+);
+
 console.log(
-  "Structure panel sizing, placeholders and nested field forwarding passed.",
+  "Structure panel sizing, placeholders, field forwarding and selection-independent library styles passed.",
 );

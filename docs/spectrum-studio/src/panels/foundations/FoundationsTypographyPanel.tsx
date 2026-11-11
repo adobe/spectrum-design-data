@@ -2,7 +2,6 @@
 import { useNotify } from "../../components/notifications/notificationContext";
 import {
   AccordionItem,
-  AccordionItemHeader,
   AccordionItemPanel,
   AccordionItemTitle,
   ActionButton,
@@ -17,14 +16,25 @@ import {
   LabeledValue,
   PickerItem,
   Text,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
 } from "@react-spectrum/s2";
 import { Picker } from "../../components/fields/Picker";
 import Add from "@react-spectrum/s2/icons/Add";
+import Delete from "@react-spectrum/s2/icons/Delete";
+import { foundationCardStyles } from "../../components/foundationCardStyles";
+import { useRequestedFieldFocus } from "../../components/fields/useRequestedFieldFocus";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtomValue, useSetAtom, useStore } from "jotai";
+import { useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
 import { useState } from "react";
 import {
   addLineHeightAtom,
+  addFontAtom,
+  updateFontAtom,
+  removeFontAtom,
+  restoreFontAtom,
   generatedTypographyAtom,
   lineHeightConsumers,
   removeLineHeightAtom,
@@ -44,10 +54,14 @@ import {
   TYPOGRAPHY_SCALE_TYPE_ID,
   type ScaleType,
 } from "../../features/scales/scaleType";
-import type { TypographyDocument } from "../../features/typography/model";
+import type {
+  TypographyDocument,
+  TypographyFont,
+} from "../../features/typography/model";
 import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN } from "../../features/typography/model";
 import {
   EditableNumberField,
+  EditableTextField,
   EditablePicker,
   useIsReadOnly,
 } from "../../components/editable";
@@ -68,6 +82,7 @@ import { FoundationModeSettings } from "./FoundationModeSettings";
 import { FoundationParameterSettings } from "./FoundationParameterSettings";
 import { TypeScaleFields } from "../typography/TypeScaleFields";
 import { LineHeightCard } from "../typography/LineHeightCard";
+import { typographyPanelTabAtom } from "../../state/view/typographyView";
 
 const stack = style({
   display: "flex",
@@ -77,6 +92,113 @@ const stack = style({
   padding: 8,
 });
 const panel = style({ padding: 0 });
+const controls = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 16,
+  width: "auto",
+  padding: 16,
+});
+const tabPanelStyles = style({ marginTop: 16 });
+const tabActions = style({ display: "flex", gap: 8 });
+const tabStack = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+  minWidth: 0,
+});
+const fontCardStyles = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+  padding: 12,
+  minWidth: 0,
+});
+const fontNameRow = style({ display: "flex", alignItems: "end", gap: 8 });
+const fontField = style({ width: "full", minWidth: 0 });
+
+function FontCard({
+  font,
+  isReadOnly,
+  focusName,
+  onNameFocused,
+  onRename,
+  onFamilyChange,
+  onDelete,
+}: {
+  font: TypographyFont;
+  isReadOnly: boolean;
+  focusName: boolean;
+  onNameFocused: () => void;
+  onRename: (name: string) => string | undefined;
+  onFamilyChange: (fontFamily: string) => void;
+  onDelete: () => void;
+}) {
+  const nameRef = useRequestedFieldFocus(
+    focusName && !isReadOnly,
+    onNameFocused,
+  );
+  const [draft, setDraft] = useState({
+    source: font.name,
+    readOnly: isReadOnly,
+    value: font.name,
+    error: undefined as string | undefined,
+  });
+  if (draft.source !== font.name || draft.readOnly !== isReadOnly)
+    setDraft({
+      source: font.name,
+      readOnly: isReadOnly,
+      value: font.name,
+      error: undefined,
+    });
+  return (
+    <section
+      className={`${foundationCardStyles} ${fontCardStyles}`}
+      aria-label={`${font.name} font`}
+    >
+      <div className={fontNameRow}>
+        <EditableTextField
+          label="Name"
+          value={draft.value}
+          onChange={(value) => setDraft({ ...draft, value, error: undefined })}
+          onBlur={() => {
+            if (draft.value !== font.name)
+              setDraft({
+                ...draft,
+                value:
+                  draft.value.trim() === font.name ? font.name : draft.value,
+                error: onRename(draft.value),
+              });
+          }}
+          ref={nameRef}
+          isReadOnly={isReadOnly}
+          isRequired
+          isInvalid={!!draft.error}
+          errorMessage={draft.error}
+          validationBehavior="aria"
+          styles={fontField}
+        />
+        {!isReadOnly && (
+          <ActionButton
+            isQuiet
+            aria-label={`Delete ${font.name} font`}
+            onPress={onDelete}
+          >
+            <Delete />
+          </ActionButton>
+        )}
+      </div>
+      <EditableTextField
+        label="Font family"
+        value={font.fontFamily}
+        isReadOnly={isReadOnly}
+        onChange={onFamilyChange}
+        styles={fontField}
+      />
+    </section>
+  );
+}
+
 const note = style({ font: "body-sm", color: "neutral-subdued", margin: 0 });
 const textAdjustmentParameter = FOUNDATION_PARAMETERS.find(
   (parameter) => parameter.id === "typography.textZoom",
@@ -98,10 +220,12 @@ export function FoundationsTypographyPanel() {
   const updateTextZoom = useSetAtom(updateTextZoomAtom);
   const store = useStore();
   const rename = useSetAtom(renameLineHeightAtom);
+  const updateFont = useSetAtom(updateFontAtom);
+  const [focusFontId, setFocusFontId] = useState<string | null>(null);
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [replacementId, setReplacementId] = useState<string | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState(new Set(["font-sizes"]));
+  const [selectedTab, setSelectedTab] = useAtom(typographyPanelTabAtom);
   const report = (failure: unknown) =>
     notify.error(failure instanceof Error ? failure.message : String(failure));
   const attempt = (action: () => void) => {
@@ -218,10 +342,82 @@ export function FoundationsTypographyPanel() {
     </AccordionItem>
   );
   const sections = (
-    <>
-      <AccordionItem id="font-sizes">
-        <AccordionItemTitle>Font sizes</AccordionItemTitle>
-        <AccordionItemPanel UNSAFE_className={String(panel)}>
+    <div className={controls}>
+      <Tabs
+        density="compact"
+        aria-label="Typography controls"
+        selectedKey={selectedTab}
+        onSelectionChange={(key) => {
+          if (
+            key === "fonts" ||
+            key === "font-sizes" ||
+            key === "line-heights" ||
+            key === "iconography"
+          )
+            setSelectedTab(key);
+        }}
+      >
+        <TabList>
+          <Tab id="fonts">Fonts</Tab>
+          <Tab id="font-sizes">Font sizes</Tab>
+          <Tab id="line-heights">Line heights</Tab>
+          <Tab id="iconography">Iconography</Tab>
+        </TabList>
+        <TabPanel styles={tabPanelStyles} id="fonts">
+          <div className={tabStack}>
+            {!isReadOnly && (
+              <div className={tabActions}>
+                <ActionButton
+                  aria-label="Add font"
+                  onPress={() =>
+                    attempt(() => {
+                      const id = notify.added("font", () =>
+                        store.set(addFontAtom),
+                      );
+                      if (id) setFocusFontId(id);
+                    })
+                  }
+                >
+                  <Add />
+                  <Text>Add font</Text>
+                </ActionButton>
+              </div>
+            )}
+            {document.fonts.map((font) => (
+              <FontCard
+                key={font.id}
+                font={font}
+                isReadOnly={isReadOnly}
+                focusName={focusFontId === font.id}
+                onNameFocused={() => setFocusFontId(null)}
+                onRename={(name) => {
+                  try {
+                    updateFont({ id: font.id, name });
+                    return undefined;
+                  } catch (failure) {
+                    return failure instanceof Error
+                      ? failure.message
+                      : String(failure);
+                  }
+                }}
+                onFamilyChange={(fontFamily) =>
+                  attempt(() => updateFont({ id: font.id, fontFamily }))
+                }
+                onDelete={() =>
+                  attempt(() =>
+                    notify.remove({
+                      kind: "font",
+                      noun: `Font ${font.name}`,
+                      run: (store) => store.set(removeFontAtom, font.id),
+                      undo: (removed) => store.set(restoreFontAtom, removed),
+                    }),
+                  )
+                }
+              />
+            ))}
+          </div>
+        </TabPanel>
+        <TabPanel styles={tabPanelStyles} id="font-sizes">
           <TypeScaleFields
             formula={formula}
             unit={unit}
@@ -244,32 +440,28 @@ export function FoundationsTypographyPanel() {
               onChange={(largeSizes) => patch({ largeSizes })}
             />
           </TypeScaleFields>
-        </AccordionItemPanel>
-      </AccordionItem>
-      <AccordionItem id="line-heights">
-        <AccordionItemHeader>
-          <AccordionItemTitle>Line heights</AccordionItemTitle>
-          {!isReadOnly && (
-            <ActionButton
-              size="M"
-              isQuiet
-              aria-label="Add line height"
-              onPress={() =>
-                attempt(() => {
-                  const id = notify.added("lineHeight", () =>
-                    store.set(addLineHeightAtom),
-                  );
-                  if (id) setFocusId(id);
-                  setExpanded((keys) => new Set([...keys, "line-heights"]));
-                })
-              }
-            >
-              <Add />
-            </ActionButton>
-          )}
-        </AccordionItemHeader>
-        <AccordionItemPanel UNSAFE_className={String(panel)}>
-          <div className={stack}>
+        </TabPanel>
+        <TabPanel styles={tabPanelStyles} id="line-heights">
+          <div className={tabStack}>
+            {!isReadOnly && (
+              <div className={tabActions}>
+                <ActionButton
+                  size="M"
+                  aria-label="Add line height"
+                  onPress={() =>
+                    attempt(() => {
+                      const id = notify.added("lineHeight", () =>
+                        store.set(addLineHeightAtom),
+                      );
+                      if (id) setFocusId(id);
+                    })
+                  }
+                >
+                  <Add />
+                  <Text>Add line height</Text>
+                </ActionButton>
+              </div>
+            )}
             {document.lineHeights.map((card) => (
               <LineHeightCard
                 key={card.id}
@@ -308,12 +500,9 @@ export function FoundationsTypographyPanel() {
               />
             ))}
           </div>
-        </AccordionItemPanel>
-      </AccordionItem>
-      <AccordionItem id="iconography">
-        <AccordionItemTitle>Iconography</AccordionItemTitle>
-        <AccordionItemPanel UNSAFE_className={String(panel)}>
-          <div className={stack}>
+        </TabPanel>
+        <TabPanel styles={tabPanelStyles} id="iconography">
+          <div className={tabStack}>
             <EditablePicker
               label="Alignment"
               selectedKey={document.iconography.alignment}
@@ -393,9 +582,9 @@ export function FoundationsTypographyPanel() {
               </>
             )}
           </div>
-        </AccordionItemPanel>
-      </AccordionItem>
-    </>
+        </TabPanel>
+      </Tabs>
+    </div>
   );
   return (
     <div
@@ -404,10 +593,7 @@ export function FoundationsTypographyPanel() {
     >
       <FoundationModeSettings
         foundation="typography"
-        expandedKeys={expanded}
-        onExpandedChange={setExpanded}
         before={systemSettings}
-        after={sections}
         unclaimedControl={
           !modeOwners["typography.textZoom"] && (
             <EditableNumberField
@@ -426,6 +612,7 @@ export function FoundationsTypographyPanel() {
           )
         }
       />
+      {sections}
       <DialogContainer onDismiss={() => setRemovingId(null)}>
         {!isReadOnly && removingId && (
           <Dialog size="S">

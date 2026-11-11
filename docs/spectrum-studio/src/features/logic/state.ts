@@ -45,6 +45,8 @@ const referenceDocumentsAtom = atom(
     radius: get(radiusDocumentAtom),
     structures: get(structuresDocumentAtom),
     color: get(colorSystemDocumentAtom),
+    styles: get(authoringSourceSnapshotAtom).styles,
+    snapshot: get(authoringSourceSnapshotAtom),
   }),
 );
 
@@ -94,10 +96,17 @@ function authored(rule: Rule): Rule {
   void locked;
   return rest;
 }
+function assertCurrentGenerator(rule: Rule) {
+  if (isTshirtRule(rule) && rule.movement === "ratio")
+    throw new Error(
+      "Ratio generation has been retired. Use a Foundation scale linked to a formula.",
+    );
+}
 
 export const addRuleAtom = atom(null, (get, set, rule: Rule) => {
   if (!isRule(rule) || !rule.name.trim())
     throw new Error("Enter valid rule settings and a name.");
+  assertCurrentGenerator(rule);
   if (rule.type === "conditional") {
     const issues = conditionalIssues(
       rule,
@@ -112,7 +121,22 @@ export const addRuleAtom = atom(null, (get, set, rule: Rule) => {
 export const replaceRuleAtom = atom(null, (get, set, rule: Rule) => {
   if (!isRule(rule) || !rule.name.trim())
     throw new Error("Enter valid rule settings and a name.");
+  assertCurrentGenerator(rule);
   if (rule.type === "conditional") {
+    if (
+      get(authoringSourceSnapshotAtom).styles?.recipes.some((style) =>
+        style.applications.some(
+          (application) =>
+            application.ruleId === rule.id &&
+            application.outputIds.some(
+              (id) => !rule.outputs?.some((output) => output.id === id),
+            ),
+        ),
+      )
+    )
+      throw new Error(
+        "A Style uses this interaction output. Remove its selection before deleting the output.",
+      );
     const issues = conditionalIssues(
       rule,
       conditionSources(get(taxonomyDocumentAtom), get(modeSetsAtom)),
@@ -171,10 +195,14 @@ export const removeRuleAtom = atom(
       );
     }
     if (
-      consumers.some((consumer) => consumer.slot.foundation === "structures")
+      consumers.some(
+        (consumer) =>
+          consumer.slot.foundation === "structures" ||
+          consumer.slot.foundation === "styles",
+      )
     ) {
       throw new Error(
-        `"${rules[index].name}" is used by Structure generation. Remove or change its applications before deleting the rule.`,
+        `"${rules[index].name}" is used by Design generation. Remove or change its applications before deleting the rule.`,
       );
     }
     writeRuleSources(
@@ -217,8 +245,11 @@ export const setRuleReferenceAtom = atom(
     set,
     { consumer, ruleId }: { consumer: RuleConsumer; ruleId: string },
   ) => {
-    if (consumer.slot.foundation === "structures")
-      throw new Error("Edit this rule application on its Structure.");
+    if (
+      consumer.slot.foundation === "structures" ||
+      consumer.slot.foundation === "styles"
+    )
+      throw new Error("Edit this rule application on its Structure or Style.");
     if (consumer.slot.foundation === "color")
       throw new Error("Choose a naming rule in the color Scale Editor.");
     if (!get(rulesAtom).some((rule) => rule.id === ruleId)) return;
@@ -251,6 +282,7 @@ export const saveGeneratorDraftAtom = atom(
     const { rule, edit } = command;
     if (!isTshirtRule(rule) || !isRule(rule) || !rule.name.trim())
       throw new Error("Enter valid Generator settings and a name.");
+    assertCurrentGenerator(rule);
     const previous = get(rulesAtom).find((item) => item.id === rule.id);
     if (previous?.locked || (previous && !isTshirtRule(previous)))
       throw new Error("This rule cannot be changed into a Generator.");

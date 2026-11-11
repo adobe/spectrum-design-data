@@ -26,6 +26,14 @@ function parameters(document: TypographyDocument): Map<string, unknown> {
     values.set(key, document[key]);
   values.set("hideFromPublishing", document.hideFromPublishing ?? false);
   values.set(
+    "fontOrder",
+    document.fonts.map((font) => font.id),
+  );
+  for (const font of document.fonts) {
+    values.set(`fonts/${font.id}/name`, font.name);
+    values.set(`fonts/${font.id}/fontFamily`, font.fontFamily);
+  }
+  values.set(
     "lineHeightOrder",
     document.lineHeights.map((card) => card.id),
   );

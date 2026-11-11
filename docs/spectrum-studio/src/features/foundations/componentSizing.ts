@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { upgradeTypographyFontsDocument } from "../typography/fontsUpgrade";
 export interface ComponentSizingDocument {
   schemaVersion: 1;
   componentSize: number;
@@ -17,13 +18,15 @@ export const SIZING_PARAMETER_IDS = [
 export function upgradeTypographySizingDocument(value: unknown): unknown {
   if (!value || typeof value !== "object" || !("schemaVersion" in value))
     return value;
-  return value.schemaVersion === 8
-    ? {
-        ...value,
-        schemaVersion: 9,
-        ...(!("textSize" in value) && { textSize: 1 }),
-      }
-    : value;
+  return upgradeTypographyFontsDocument(
+    value.schemaVersion === 8
+      ? {
+          ...value,
+          schemaVersion: 9,
+          ...(!("textSize" in value) && { textSize: 1 }),
+        }
+      : value,
+  );
 }
 
 export function upgradeSizingSettings(value: unknown): unknown {

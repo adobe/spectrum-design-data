@@ -3,6 +3,7 @@ import type {
   GeneratedTypographyToken,
   TypographyDocument,
   TypographyMetricId,
+  TypographyFont,
 } from "./model";
 import type { TypographyUnit } from "./units";
 import {
@@ -81,6 +82,7 @@ export function typographyTokenGroups(
 }
 
 export interface TypographyNamingContext {
+  fonts?: readonly TypographyFont[];
   names?: TypographyDocument["metricNames"];
   registry: TaxonomyDocument;
   outputUnit?: TypographyUnit;

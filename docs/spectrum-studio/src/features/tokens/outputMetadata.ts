@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { CanonicalAliasRow } from "./aliasTargets";
 import { aliasTargetsForContext } from "./aliases";
+import { fontFamilyOutputIssue } from "../typography/fontTokens";
 
 export function tokenOutputMetadata(
   row: CanonicalAliasRow,
@@ -38,6 +39,10 @@ export function tokenOutputMetadata(
 
 export function tokenOutputDiagnostics(rows: readonly CanonicalAliasRow[]) {
   return [
+    ...rows.flatMap((row) => {
+      const message = fontFamilyOutputIssue(row.token);
+      return message ? [{ tokenId: row.token.id, message }] : [];
+    }),
     ...new Map(
       rows
         .filter(

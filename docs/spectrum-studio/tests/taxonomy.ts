@@ -84,13 +84,13 @@ const classification = {
 assertTaxonomy(document);
 assert.equal(
   projectClassification(document, classification, "colors").name,
-  "red-color-100",
+  "red-100",
 );
 assert.deepEqual(
   projectClassification(document, classification, "colors").segments.map(
     (segment) => segment.values,
   ),
-  [["red"], ["color"], [100]],
+  [["red"], [100]],
 );
 assert.equal(
   projectClassification(document, classification, "colors").flat.property,
@@ -99,7 +99,7 @@ assert.equal(
 const reordered = { ...document, order: [...document.order].reverse() };
 assert.equal(
   projectClassification(reordered, classification, "colors").name,
-  "100-color-red",
+  "100-red",
 );
 const titled = {
   ...document,
@@ -109,7 +109,7 @@ const titled = {
 };
 assert.equal(
   projectClassification(titled, classification, "colors").name,
-  "red-color-100",
+  "red-100",
 );
 assert.deepEqual(
   projectClassification(titled, classification, "colors").segments[0].values,
@@ -247,7 +247,7 @@ const mapped = {
 const projected = projectBrowserTokens(tokens, mapped);
 assert.equal(projected[0].id, source.id);
 assert.equal(projected[0].value, source.value);
-assert.equal(projected[0].name, "red-color-100");
+assert.equal(projected[0].name, "red-100");
 assert.deepEqual(
   groupBrowserCards(projected).map((group) => group.label),
   ["Red"],
@@ -278,7 +278,7 @@ const wordProjection = projectClassification(
   { ...classification, "b8fbee94-999d-4776-bf18-1b807b3f60b0": ids.words },
   "colors",
 );
-assert.equal(wordProjection.name, "my-orange-color-100");
+assert.equal(wordProjection.name, "my-orange-100");
 assert.deepEqual(wordProjection.segments[0].termIds, [ids.words]);
 assert.deepEqual(wordProjection.segments[0].values, ["my orange"]);
 const formattedCollision = projectBrowserTokens(
@@ -311,7 +311,7 @@ assert.equal(
   2,
   "Formatting collisions preserve every leaf in the unresolved area.",
 );
-assert.equal(tree[0].children[0].children[0].children[0].id, source.id);
+assert.equal(tree[0].children[0].children[0].id, source.id);
 const packet = buildTaxonomyExport(mapped, [{ modeKey: "[]", tokens }]);
 assert.equal(packet.tokens[0].name, projected[0].name);
 assert.deepEqual(packet.tokens[0].path, projected[0].projection!.segments);
@@ -373,7 +373,7 @@ assertTaxonomy(delimiterTaxonomy);
 for (const classification of Object.values(delimiterTaxonomy.classifications))
   assert.equal(
     projectClassification(delimiterTaxonomy, classification, "colors").name,
-    "a-b-c-color",
+    "a-b-c",
   );
 assert.throws(
   () =>
@@ -454,9 +454,9 @@ const prefix = projectBrowserTokens(
   },
 );
 assert.equal(
-  taxonomyTokenTree(prefix)[0].children[0].children.length,
+  taxonomyTokenTree(prefix)[0].children.length,
   2,
-  "A prefix leaf and a longer path both remain under their shared category and Property branches",
+  "A prefix leaf and a longer path both remain under their shared color-family branch",
 );
 const store = createStore();
 const initial = store.get(taxonomyDocumentAtom);

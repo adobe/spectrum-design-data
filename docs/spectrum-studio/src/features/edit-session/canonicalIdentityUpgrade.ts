@@ -83,7 +83,10 @@ export function upgradeCanonicalTokenIdentities<
     return id;
   };
   const bundle = buildTshirtArtifacts(snapshot);
-  const rows = canonicalAliasRows(source, bundle, "preserve-for-review");
+  // Styles already own durable concept and mode-row publications.
+  const rows = canonicalAliasRows(source, bundle, "preserve-for-review").filter(
+    (row) => !row.token.style && !row.token.fontId,
+  );
   const contexts = new Map<string, Set<string>>();
   for (const row of rows) {
     const coordinate = row.token.sourceId ?? row.token.id;

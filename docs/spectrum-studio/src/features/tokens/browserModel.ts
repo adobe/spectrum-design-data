@@ -66,6 +66,7 @@ export interface BrowserTokenSource {
   tier?: TokenTier;
   originalSource?: BrowserTokenSource;
   rowId?: string;
+  fontId?: string;
   modeKey?: string;
   /** The foundation resolver has already applied scoped value edits. */
   resolvedValue?: { overridden: boolean; stale: boolean };
@@ -101,12 +102,13 @@ export interface BrowserTokenSource {
   /** Transient display context for a resolved compatibility alias. */
   valuePreview?: ValuePreviewDescriptor;
   semantic?: TshirtSemanticRow;
+  style?: import("../styles/generation").StyleRow;
   alias?: AliasToken & { targetName: string };
   referenceId?: string;
   referenceName?: string;
   literalShadows?: TokenShadowLayer[];
   classificationOverride?: Classification;
-  classificationScope?: "structures";
+  classificationScope?: "structures" | "styles";
   manual?: boolean;
   lifecycle?: NonNullable<BrowserTokenEdit["authoring"]>["lifecycle"];
 }
@@ -267,15 +269,32 @@ function projectTokenBatch(
           issues: [],
         },
       };
+    if (token.fontId && token.projection)
+      return {
+        ...token,
+        projection: {
+          ...token.projection,
+          issues: [
+            ...token.projection.issues,
+            ...(token.classificationOverride
+              ? [
+                  "Font classification comes from Fonts. Edit its Name there and remove the token classification override.",
+                ]
+              : []),
+          ],
+        },
+      };
     if (token.classificationOverride) {
       const projection = projectClassification(
         document,
         token.classificationOverride,
-        token.semantic || token.classificationScope === "structures"
-          ? "structures"
-          : token.type === "motion"
-            ? "size"
-            : token.type,
+        token.style || token.classificationScope === "styles"
+          ? "styles"
+          : token.semantic || token.classificationScope === "structures"
+            ? "structures"
+            : token.type === "motion"
+              ? "size"
+              : token.type,
         token.tier,
       );
       return {
@@ -286,7 +305,7 @@ function projectTokenBatch(
         projection,
       };
     }
-    if (token.semantic && token.projection)
+    if ((token.semantic || token.style) && token.projection)
       return {
         ...token,
         projection: {

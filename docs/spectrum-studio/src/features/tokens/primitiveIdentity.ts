@@ -32,8 +32,10 @@ export function primitiveReferenceId(
 export function typographyReferenceCoordinates(document: TypographyDocument) {
   const coordinates = new Map<
     string,
-    { metricId: string; unit: "px" | "multiplier" }
+    { metricId: string; unit?: "px" | "multiplier" }
   >();
+  for (const font of document.fonts)
+    coordinates.set(font.conceptId, { metricId: "font-family" });
   for (const group of typographyTokenGroups(document)) {
     for (
       let index = -Math.abs(Math.round(document.smallSizes));

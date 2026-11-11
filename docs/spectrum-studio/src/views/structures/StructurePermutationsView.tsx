@@ -30,6 +30,8 @@ import {
   resolveStructureOptions,
   type StructurePreviewState,
 } from "../../features/structures/variants";
+import { textStyleSourceAtom } from "../../features/styles/state";
+import { canonicalTokenModeKey } from "../../features/tokens/browserModel";
 
 export interface StructurePermutationsViewProps {
   structure: Structure | null;
@@ -61,6 +63,11 @@ function SizePreview({
   preview: StructurePreviewState;
 }) {
   const previews = useAtomValue(structurePreviewsAtom);
+  const source = useAtomValue(textStyleSourceAtom);
+  const textStyles = useMemo(
+    () => ({ ...source, modeKey: canonicalTokenModeKey(selection) }),
+    [source, selection],
+  );
   const effective = useMemo(
     () => resolveStructureOptions(authoredStructure, preview),
     [authoredStructure, preview],
@@ -118,8 +125,8 @@ function SizePreview({
     [generated.preview, layout, preview.indentationLevel],
   );
   const elements = useMemo(
-    () => resolveElements(structure, references, rules, size),
-    [structure, references, rules, size],
+    () => resolveElements(structure, references, rules, size, textStyles),
+    [structure, references, rules, size, textStyles],
   );
   const compositionResult = useMemo(
     () =>
@@ -136,6 +143,7 @@ function SizePreview({
         preview.options,
         preview.indentationLevel,
         { ...previews, [authoredStructure.conceptId]: preview },
+        textStyles,
       ),
     [
       authoredStructure,
@@ -149,6 +157,7 @@ function SizePreview({
       moduleLayouts,
       previews,
       preview,
+      textStyles,
     ],
   );
   const composition =

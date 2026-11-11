@@ -463,7 +463,7 @@ test("Shipped Fire follows a Palette color edit without changing its token choic
   await expect(
     dialog.getByRole("combobox", { name: /^Color token\b/ }),
   ).toHaveAccessibleDescription(
-    "Selected token: illustrator-orange-color. Value: #336699.",
+    "Selected token: illustrator-orange. Value: #336699.",
   );
   await expect(stop.locator("span")).toHaveCSS(
     "background-color",
@@ -501,7 +501,7 @@ test("Shipped sequential sources require replacement before deleting a UI scale"
   await expect(
     dialog.getByRole("combobox", { name: /^Color token\b/ }),
   ).toHaveAccessibleDescription(
-    "Selected token: magenta-color-1200. Value: #870532.",
+    "Selected token: magenta-1200. Value: #870532.",
   );
 });
 
@@ -651,11 +651,7 @@ test("Continuous points preserve arbitrary ratios, opposite targets, exact links
     )
     .toBe(0.26123456);
   await choose(page, dialog, "Color source", "Color token");
-  for (const source of [
-    "illustrator-orange-color",
-    "data-categories-color-1",
-    "blue-color-900",
-  ])
+  for (const source of ["illustrator-orange", "data-categories-1", "blue-900"])
     await primitive(page, dialog, source);
   await expect(
     dialog.getByRole("textbox", { name: "Contrast", exact: true }),
@@ -868,18 +864,18 @@ test("Final source and member-token overrides reach Elements, Analyze, panel pre
     name: "Search tokens",
     exact: true,
   });
-  await search.fill("blue-color-900");
+  await search.fill("blue-900");
   await page
-    .getByRole("button", { name: "Open blue-color-900", exact: true })
+    .getByRole("button", { name: "Open blue-900", exact: true })
     .click();
   let dialog = page.getByRole("dialog");
   await dialog
     .getByRole("textbox", { name: "Value", exact: true })
     .fill("#123456");
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
-  await search.fill("data-categories-color-1");
+  await search.fill("data-categories-1");
   await page
-    .getByRole("button", { name: "Open data-categories-color-1", exact: true })
+    .getByRole("button", { name: "Open data-categories-1", exact: true })
     .click();
   dialog = page.getByRole("dialog");
   await expect(
@@ -933,7 +929,7 @@ test("Final source and member-token overrides reach Elements, Analyze, panel pre
   ).toHaveCSS("background-color", "rgb(101, 67, 33)");
   await page.getByRole("radio", { name: "Code", exact: true }).click();
   await expect(page.locator('[data-component="DataVisCode"]')).toContainText(
-    "--data-categories-color-1: #654321;",
+    "--data-categories-1: #654321;",
   );
 });
 
@@ -1094,7 +1090,7 @@ test("Downloads use the actual compiled adapter and preserve mode/fluid parity; 
     .click();
   const css = await cssDownload;
   expect(await readFile((await css.path())!, "utf8")).toContain(
-    "--data-categories-color-1:",
+    "--data-categories-1:",
   );
   const jsDownload = page.waitForEvent("download");
   await code
@@ -1589,9 +1585,9 @@ test("Static categorical Tokens edits are shared, survive reload and preserve do
     name: "Search tokens",
     exact: true,
   });
-  await search.fill("data-categories-color-1");
+  await search.fill("data-categories-1");
   await page
-    .getByRole("button", { name: "Open data-categories-color-1", exact: true })
+    .getByRole("button", { name: "Open data-categories-1", exact: true })
     .click();
   dialog = page.getByRole("dialog");
   await expect(
@@ -1618,9 +1614,9 @@ test("Static categorical Tokens edits are shared, survive reload and preserve do
     .getByRole("navigation", { name: "Navigation", exact: true })
     .getByRole("link", { name: "Tokens", exact: true })
     .click();
-  await search.fill("data-categories-color-1");
+  await search.fill("data-categories-1");
   await page
-    .getByRole("button", { name: "Open data-categories-color-1", exact: true })
+    .getByRole("button", { name: "Open data-categories-1", exact: true })
     .click();
   dialog = page.getByRole("dialog");
   await expect(
