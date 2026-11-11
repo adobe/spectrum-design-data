@@ -649,7 +649,7 @@ enum Commands {
 
 #[derive(Subcommand)]
 enum CatalogSub {
-    /// Write merged `components/`, `guidelines/` and `guidelines/manifest.json` under DIR
+    /// Write merged `components/`, `guidelines/`, `guidelines/manifest.json` and `icons/` under DIR
     Export {
         /// Output directory (created if missing)
         #[arg(long, value_name = "DIR")]
@@ -3993,7 +3993,8 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
 
 /// `design-data catalog export --out DIR`: write the component and guideline
 /// catalogs after the selected platform manifest (if any) is applied, in the
-/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` layout.
+/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
+/// `icons/*.json` layout.
 fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides::default())?;
     let catalogs = manifest::load_merged_catalogs(&resolved)
@@ -4004,9 +4005,16 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let guidelines_out = out.join("guidelines");
     std::fs::create_dir_all(&components_out).into_diagnostic()?;
     std::fs::create_dir_all(&guidelines_out).into_diagnostic()?;
+    let icons_out = out.join("icons");
+    if resolved.icons.is_some() {
+        std::fs::create_dir_all(&icons_out).into_diagnostic()?;
+    }
     // Drop `.json` files from a previous export so reusing DIR can't leave
-    // components or guidelines behind that this cascade no longer contains.
-    for dir in [&components_out, &guidelines_out] {
+    // components, guidelines or icon sets behind that this cascade no longer contains.
+    for dir in [&components_out, &guidelines_out, &icons_out] {
+        if !dir.is_dir() {
+            continue;
+        }
         for entry in std::fs::read_dir(dir).into_diagnostic()? {
             let path = entry.into_diagnostic()?.path();
             if path.extension().is_some_and(|ext| ext == "json") {
@@ -4027,6 +4035,25 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
 
     for (name, doc) in &catalogs.components {
         write_json(components_out.join(format!("{name}.json")), doc)?;
+    }
+
+    // Icon sets are copied as-is: no platform extension contributes icons yet.
+    let mut icon_sets = 0;
+    if let Some(dir) = resolved.icons.as_deref() {
+        for entry in std::fs::read_dir(dir).into_diagnostic()? {
+            let path = entry.into_diagnostic()?.path();
+            let is_set = path.extension().is_some_and(|ext| ext == "json")
+                && !path
+                    .file_name()
+                    .is_some_and(|n| n.to_string_lossy().ends_with(".schema.json"));
+            if is_set {
+                let name = path.file_name().expect("file has a name");
+                std::fs::copy(&path, icons_out.join(name))
+                    .into_diagnostic()
+                    .wrap_err_with(|| format!("failed to copy {}", path.display()))?;
+                icon_sets += 1;
+            }
+        }
     }
 
     // Start from the foundation guidelines manifest, then add or replace
@@ -4068,9 +4095,10 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     )?;
 
     println!(
-        "Exported {} component(s) and {} guideline(s) to {}",
+        "Exported {} component(s), {} guideline(s) and {} icon set(s) to {}",
         catalogs.components.len(),
         catalogs.guidelines.len(),
+        icon_sets,
         out.display()
     );
     Ok(ExitCode::SUCCESS)

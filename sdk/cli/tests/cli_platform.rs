@@ -582,6 +582,23 @@ fn catalog_export_without_platform_omits_ios_extension() {
 }
 
 #[test]
+fn catalog_export_writes_icon_sets() {
+    let out = tempfile::tempdir().expect("out dir");
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .success();
+    let ui = fs::read_to_string(out.path().join("icons/ui.json")).unwrap();
+    assert_eq!(
+        ui,
+        fs::read_to_string(repo_root().join("packages/design-data/icons/ui.json")).unwrap()
+    );
+    assert!(out.path().join("icons/workflow.json").is_file());
+    assert!(!out.path().join("icons/icon-set.schema.json").exists());
+}
+
+#[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");
     let out_arg = out.path().to_str().unwrap();
@@ -600,6 +617,19 @@ fn catalog_export_into_reused_dir_removes_stale_files() {
     assert!(!out.path().join("components/tab-bar-ios.json").exists());
     assert!(!out.path().join("guidelines/tab-bar-ios.json").exists());
     assert!(out.path().join("components/accordion.json").is_file());
+}
+
+#[test]
+fn catalog_export_removes_stale_icon_sets() {
+    let out = tempfile::tempdir().expect("out dir");
+    fs::create_dir_all(out.path().join("icons")).unwrap();
+    fs::write(out.path().join("icons/old.json"), "{}").unwrap();
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .success();
+    assert!(!out.path().join("icons/old.json").exists());
 }
 
 /// p6ga.8.1: `render` applies the platform cascade. A fixture platform that drops a token

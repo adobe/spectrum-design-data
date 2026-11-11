@@ -127,9 +127,10 @@ To write the merged catalogs to disk, use `catalog export`:
 design-data catalog export --out ./catalog --platform react-spectrum
 ```
 
-It writes `components/`, `guidelines/`, and `guidelines/manifest.json` under
-`--out`, creates the directory if needed, and removes stale `.json` files from
-`components/` and `guidelines/` first. Without a platform it exports the
+It writes `components/`, `guidelines/`, `guidelines/manifest.json`, and the
+foundation icon sets under `icons/` (copied as-is) under `--out`, creates the
+directory if needed, and removes stale `.json` files from `components/`,
+`guidelines/`, and `icons/` first. Without a platform it exports the
 foundation catalogs. Relationships aren't part of the export.
 
 ## Use a platform from the MCP server
