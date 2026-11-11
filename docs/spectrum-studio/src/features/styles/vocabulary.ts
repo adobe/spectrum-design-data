@@ -24,7 +24,7 @@ export function withStylesVocabulary(
     );
   const missingSemanticIndex = document.categories.some(
     (category) =>
-      category.key === "scaleIndex" &&
+      ["scaleIndex", "colorFamily"].includes(category.key) &&
       category.allowedTokenTiers &&
       !category.allowedTokenTiers.includes("semantic"),
   );
@@ -39,7 +39,7 @@ export function withStylesVocabulary(
   for (const category of next.categories) {
     if (!category.scopes.includes("styles")) category.scopes.push("styles");
     if (
-      category.key === "scaleIndex" &&
+      ["scaleIndex", "colorFamily"].includes(category.key) &&
       category.allowedTokenTiers &&
       !category.allowedTokenTiers.includes("semantic")
     )

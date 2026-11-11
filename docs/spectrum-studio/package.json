@@ -41,6 +41,7 @@
     "test:structures": "tsx tests/structures.ts",
     "test:text-styles": "tsx tests/text-styles.ts",
     "test:style-previews": "tsx tests/style-previews.ts",
+    "test:icon-styles": "tsx tests/icon-styles.ts",
     "test:styles": "tsx tests/styles.ts && tsx tests/styles-integration.ts && tsx tests/styles-lifecycle.ts && pnpm test:text-styles",
     "test:design-panels": "tsx tests/design-panels.ts && tsx tests/structure-property-actions.ts && tsx tests/structure-property-names.ts",
     "test:tshirt-graph": "tsx tests/tshirt-graph.ts",

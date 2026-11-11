@@ -26,6 +26,7 @@ import type { ColorOutputSettings } from "../color-system/outputSettings";
 import {
   STYLE_PROPERTIES,
   type StyleAppearance,
+  type StyleColor,
   type StyleProperty,
   type StyleRecipe,
   type StylesDocument,
@@ -87,6 +88,16 @@ const propertyValues: Record<StyleProperty, string[]> = {
   lineHeight: ["unitless line height", "line-height", "line height"],
   borderWidth: ["thickness", "border-width", "width"],
 };
+export function styleColorIndex(
+  color: Extract<StyleColor, { kind: "families" }>,
+  selection: Record<string, string>,
+) {
+  const modes = color.indexModes;
+  const modeId = modes && selection[modes.modeSetId];
+  return modes && modeId && Object.hasOwn(modes.values, modeId)
+    ? modes.values[modeId]
+    : color.scaleIndex;
+}
 function literalValue(
   property: StyleProperty,
   value: string | number,
@@ -172,11 +183,16 @@ export function styleVariants(recipe: StyleRecipe) {
   );
 }
 function typeClassification(recipe: StyleRecipe, taxonomy: TaxonomyDocument) {
+  const declaredElement =
+    recipe.classification[ORDERED_CATEGORY_IDS.element] ??
+    recipe.name.classification?.[ORDERED_CATEGORY_IDS.element];
   const element =
     recipe.kind === "text"
       ? PREVIEW_TERM_IDS.text
       : recipe.kind === "icon"
-        ? PREVIEW_TERM_IDS.workflowIcon
+        ? typeof declaredElement === "string"
+          ? declaredElement
+          : PREVIEW_TERM_IDS.workflowIcon
         : undefined;
   const attribute =
     recipe.kind === "background"
@@ -275,6 +291,32 @@ export function buildStyleArtifacts(
           }
           for (const property of STYLE_PROPERTIES[recipe.kind]) {
             const appearance = variant.appearance;
+            const colorIndex =
+              appearance.color.kind === "families"
+                ? styleColorIndex(appearance.color, context.selection)
+                : undefined;
+            if (
+              property === "color" &&
+              appearance.color.kind === "families" &&
+              appearance.color.indexModes
+            ) {
+              const { modeSetId, values } = appearance.color.indexModes;
+              const axis = modeSets.find((axis) => axis.id === modeSetId);
+              const selectedMode = context.selection[modeSetId];
+              if (
+                !axis ||
+                !axis.modes.some((mode) => mode.id === selectedMode) ||
+                Object.keys(values).some(
+                  (id) => !axis.modes.some((mode) => mode.id === id),
+                )
+              ) {
+                report(
+                  recipe.id,
+                  "Choose an available mode set and modes for the color scale index.",
+                );
+                continue;
+              }
+            }
             const binding =
               property === "color" && appearance.color.kind === "single"
                 ? appearance.color.binding
@@ -304,7 +346,7 @@ export function buildStyleArtifacts(
                           reference.property === "color" &&
                           reference.familyId === familyId &&
                           appearance.color.kind === "families" &&
-                          reference.index === appearance.color.scaleIndex,
+                          reference.index === colorIndex,
                       )
                     : binding && "$ref" in binding
                       ? context.references.filter(

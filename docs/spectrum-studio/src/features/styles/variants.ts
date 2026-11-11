@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { StyleRecipe, StyleColor } from "./model";
 import type { StyleReference } from "./generation";
+import { styleColorIndex } from "./generation";
 import type { OptionProperty, VariantOption } from "../option-groups/model";
 
 export interface StylePropertiesEditor {
@@ -18,6 +19,7 @@ export function switchStyleColor(
   color: StyleColor,
   kind: StyleColor["kind"],
   references: StyleReference[],
+  selection: Record<string, string> = {},
 ): StyleColor {
   if (color.kind === kind) return color;
   if (kind === "families") {
@@ -42,7 +44,7 @@ export function switchStyleColor(
           (reference) =>
             reference.property === "color" &&
             reference.familyId === color.familyIds[0] &&
-            reference.index === color.scaleIndex,
+            reference.index === styleColorIndex(color, selection),
         )
       : undefined;
   return { kind, binding: selected ? { $ref: selected.id } : { value: "" } };

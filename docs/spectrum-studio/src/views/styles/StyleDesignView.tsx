@@ -32,6 +32,7 @@ import {
   selectedStyleIdAtom,
   stylePreviewAtom,
   styleSampleTextAtom,
+  styleSampleIconsAtom,
   stylePreviewArtifactsAtom,
   styleContextsStateAtom,
   saveStyleAtom,
@@ -44,7 +45,11 @@ import {
   type StyleRow,
 } from "../../features/styles/generation";
 import type { StyleAppearance, StyleRecipe } from "../../features/styles/model";
-import { styleVariantLabel } from "../../features/styles/preview";
+import {
+  styleVariantLabel,
+  stylePreviewFamily,
+  stylePreviewColors,
+} from "../../features/styles/preview";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { authoringSourceSnapshotAtom } from "../../features/edit-session/state";
 import { browserModeContextAtom } from "../../features/tokens/browserState";
@@ -52,7 +57,10 @@ import { tokenModePairs } from "../../features/tokens/browserModel";
 import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { editModeAtom } from "../../state/view/editMode";
 import type { VariantProperty } from "../../features/option-groups/model";
-import { isSpectrumIconName } from "../../features/icons/spectrumIconNames.generated";
+import {
+  styleIconChoices,
+  styleSampleIcon,
+} from "../../features/styles/iconPreview";
 import { ruleAppliesTo } from "../../features/logic/applicability";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
@@ -97,6 +105,7 @@ function StyleDesignContent({
     selection = Object.fromEntries(tokenModePairs(mode.key));
   const [preview, setPreview] = useAtom(stylePreviewAtom);
   const [sampleText, setSampleText] = useAtom(styleSampleTextAtom);
+  const [sampleIcons, setSampleIcons] = useAtom(styleSampleIconsAtom);
   const surface = useAtomValue(elementsSurfaceStyleAtom),
     editing = useAtomValue(editModeAtom);
   const store = useStore(),
@@ -137,6 +146,10 @@ function StyleDesignContent({
       JSON.stringify(variant.optionIds) === JSON.stringify(selectedOptions),
   );
   const appearance = variant?.appearance ?? recipe.appearance;
+  const previewFamilyId = stylePreviewFamily(
+    appearance.color,
+    preview.familyId,
+  );
   const changeAppearance = (difference: Partial<StyleAppearance>) =>
     save(
       differenceId
@@ -161,16 +174,12 @@ function StyleDesignContent({
   const rows = artifacts.rows.filter(
     (row) => row.recipeId === recipe.id && row.modeKey === mode.key,
   );
-  const colors = rows.filter(
-    (row) =>
-      row.property === "color" &&
-      (permutations ||
-        (row.outputId === previewOutputId &&
-          row.optionIds.every((id) => selectedOptions.includes(id)) &&
-          (!preview.familyId ||
-            !row.familyId ||
-            row.familyId === preview.familyId))),
-  );
+  const colors = stylePreviewColors(rows, appearance.color, {
+    optionIds: selectedOptions,
+    outputId: previewOutputId,
+    familyId: previewFamilyId,
+    permutations,
+  });
   const sampleRows = (color: StyleRow) => {
     const applicable = rows.filter(
       (row) =>
@@ -199,8 +208,10 @@ function StyleDesignContent({
     ) ?? [];
   const rules =
     source.rules?.filter((rule) => rule.type === "conditional") ?? [];
-  const icon = source.styles?.examples[recipe.id]?.icon;
-  const sampleIcon = isSpectrumIconName(icon) ? icon : "Star";
+  const sampleIcon = styleSampleIcon(
+    recipe,
+    sampleIcons[recipe.id] ?? source.styles?.examples[recipe.id]?.icon,
+  );
   const outputLabel = (classification: StyleRow["classification"]) =>
     Object.values(classification)
       .flatMap((value) => (Array.isArray(value) ? value : [value]))
@@ -351,6 +362,27 @@ function StyleDesignContent({
         <DesignEditorPanel label="Style properties and appearance">
           <DesignProperties
             namingScope="styles"
+            previewControls={
+              appearance.color.kind === "families" && (
+                <Picker
+                  size="S"
+                  label="Color"
+                  selectedKey={previewFamilyId ?? null}
+                  onSelectionChange={(id) => {
+                    if (typeof id === "string")
+                      setPreview({ ...preview, familyId: id });
+                  }}
+                >
+                  {appearance.color.familyIds.map((id) => (
+                    <PickerItem key={id} id={id}>
+                      {source.colorSystem.scales.find(
+                        (scale) => scale.id === id,
+                      )?.name ?? "Unavailable family"}
+                    </PickerItem>
+                  ))}
+                </Picker>
+              )
+            }
             editor={stylePropertiesEditor(recipe)}
             operations={stylePropertyOperations}
             supportedKinds={["variant"]}
@@ -412,6 +444,16 @@ function StyleDesignContent({
             }}
           />
           <div className="structureAppearanceLoose">
+            {recipe.kind === "icon" && (
+              <IconSamplePicker
+                selectedIcon={sampleIcon}
+                allowedIcons={styleIconChoices(recipe)}
+                size="S"
+                onChange={(icon) =>
+                  setSampleIcons({ ...sampleIcons, [recipe.id]: icon })
+                }
+              />
+            )}
             {recipe.kind === "text" && (
               <SideLabelRow label="Sample text" size="S" labelWidth="auto">
                 {(labelId) => (
@@ -521,6 +563,7 @@ function StyleDesignContent({
                       </ActionButton>
                     )}
                   <StyleAppearanceFields
+                    taxonomy={taxonomy}
                     kind={recipe.kind}
                     value={appearance}
                     references={references}
@@ -530,25 +573,10 @@ function StyleDesignContent({
                     }))}
                     display={preview.display}
                     isReadOnly={!editing}
+                    modeSets={source.modeSets}
+                    modeSelection={selection}
                     onChange={changeAppearance}
                   />
-                  {recipe.kind === "icon" && (
-                    <IconSamplePicker
-                      selectedIcon={sampleIcon}
-                      isDisabled={!editing}
-                      onChange={(icon) =>
-                        report(() =>
-                          store.set(stylesDocumentAtom, {
-                            ...source.styles!,
-                            examples: {
-                              ...source.styles!.examples,
-                              [recipe.id]: { icon },
-                            },
-                          }),
-                        )
-                      }
-                    />
-                  )}
                 </div>
               </AccordionItemPanel>
             </AccordionItem>

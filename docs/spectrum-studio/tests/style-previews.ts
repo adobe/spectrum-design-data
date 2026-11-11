@@ -8,11 +8,15 @@ import { createStore } from "jotai";
 import ts from "typescript";
 import {
   stylePreview,
+  stylePreviewFamily,
+  stylePreviewColors,
   styleVariantLabel,
 } from "../src/features/styles/preview";
+import { styleSampleIcon } from "../src/features/styles/iconPreview";
 import {
   selectedStyleIdAtom,
   styleSampleTextAtom,
+  stylePreviewAtom,
   stylesDocumentAtom,
 } from "../src/features/styles/state";
 import { authoringSourceSnapshotAtom } from "../src/features/edit-session/state";
@@ -22,6 +26,11 @@ import {
 } from "../src/features/tokens/valuePreview";
 import type { StyleRow } from "../src/features/styles/generation";
 import type { ValuePreviewProps } from "../src/components/value-preview/ValuePreview";
+import type { StyleAppearanceFields } from "../src/panels/styles/StyleAppearanceFields";
+import type { StyleAppearance } from "../src/features/styles/model";
+import type { TokenComboBoxProps } from "../src/components/fields/TokenComboBox";
+import { modeSetGroupIconId } from "../src/features/modes/controlPresentation";
+import { styleColorIndex } from "../src/features/styles/generation";
 
 function source(path: string) {
   return ts.createSourceFile(
@@ -202,6 +211,7 @@ const Sample = component<{
   large?: boolean;
 }>("components/styles/StyleSample.tsx", "StyleSample", {
   stylePreview,
+  styleSampleIcon,
   ValuePreview,
   useIconSample: () => ({ status: "idle" }),
 });
@@ -276,6 +286,400 @@ assert.match(
   /\.valuePreviewSampleText \.valuePreviewText\s*\{[^}]*width: auto;[^}]*height: auto;/,
   "Custom text is not constrained to the fixed Ag glyph box.",
 );
+const workflow = document.recipes.find(
+  (recipe) =>
+    recipe.kind === "icon" && recipe.appearance.color.kind === "families",
+)!;
+assert(workflow && workflow.appearance.color.kind === "families");
+const supported = workflow.appearance.color;
+const familyRows = supported.familyIds.flatMap((familyId, index) => [
+  { ...color, recipeId: workflow.id, familyId, value: `rgb(${index}, 0, 0)` },
+  {
+    ...color,
+    recipeId: workflow.id,
+    familyId,
+    outputId: "hover",
+    value: `rgb(${index}, 1, 0)`,
+  },
+]);
+const colorSelection = { optionIds: [] };
+const initialColors = stylePreviewColors(familyRows, supported, colorSelection);
+assert.equal(
+  initialColors.length,
+  1,
+  "Design starts with exactly one supported color.",
+);
+const variantRows: StyleRow[] = [
+  { ...familyRows[0], optionIds: ["regular"] },
+  { ...familyRows[0], optionIds: ["bold"] },
+  { ...familyRows[0], property: "lineHeight" },
+];
+assert.deepEqual(
+  stylePreviewColors(variantRows, supported, { optionIds: ["bold"] }),
+  [variantRows[1]],
+  "Design preserves authored variant selection and excludes non-color rows.",
+);
+const singleColor = { kind: "single", binding: { value: "#123456" } } as const;
+assert.equal(stylePreviewFamily(singleColor), undefined);
+assert.deepEqual(stylePreviewColors([color], singleColor, colorSelection), [
+  color,
+]);
+assert.equal(initialColors[0].familyId, supported.familyIds[0]);
+const alternate = supported.familyIds[1];
+assert(alternate);
+assert.equal(
+  stylePreviewColors(familyRows, supported, {
+    ...colorSelection,
+    familyId: alternate,
+  })[0].familyId,
+  alternate,
+);
+assert.equal(
+  stylePreviewColors(familyRows, supported, {
+    ...colorSelection,
+    familyId: alternate,
+    outputId: "hover",
+  })[0].outputId,
+  "hover",
+);
+assert.equal(
+  stylePreviewColors(familyRows, supported, {
+    ...colorSelection,
+    permutations: true,
+  }).length,
+  familyRows.length,
+  "Permutations retains the generated combinations.",
+);
+assert.equal(
+  stylePreviewFamily(supported, "removed-family"),
+  supported.familyIds[0],
+);
+assert.equal(
+  stylePreviewFamily({ ...supported, familyIds: [] }, alternate),
+  undefined,
+);
+assert.equal(
+  stylePreviewColors(
+    familyRows.filter((row) => row.familyId !== alternate),
+    supported,
+    { ...colorSelection, familyId: alternate },
+  ).length,
+  0,
+  "A supported but unavailable color does not silently show another family.",
+);
+const beforeColorPreview = structuredClone(
+  store.get(authoringSourceSnapshotAtom),
+);
+store.set(stylePreviewAtom, {
+  options: {},
+  familyId: alternate,
+  display: "tokens",
+});
+assert.deepEqual(
+  store.get(authoringSourceSnapshotAtom),
+  beforeColorPreview,
+  "Color preview selection changes neither support, publications nor authored variants.",
+);
+
+let removeFamily: ((keys: Set<string>) => void) | undefined;
+let addFamily: ((id: string) => void) | undefined;
+let enableIndexModes: ((id: string) => void) | undefined;
+let modeMenuSelection: string | undefined;
+let modeButton: {
+  isSelected: boolean;
+  isDisabled: boolean;
+  onChange?: (selected: boolean) => void;
+};
+const indexFields = new Map<string, TokenComboBoxProps>();
+const Box = ({ children }: { children?: React.ReactNode }) =>
+  React.createElement("div", {}, children);
+const Fields = component<React.ComponentProps<typeof StyleAppearanceFields>>(
+  "panels/styles/StyleAppearanceFields.tsx",
+  "StyleAppearanceFields",
+  {
+    colorFamiliesFieldStyles: "supported-color-field",
+    Picker: ({
+      label,
+      children,
+    }: {
+      label: string;
+      children?: React.ReactNode;
+    }) => React.createElement("div", { "data-picker": label }, children),
+    PickerItem: Box,
+    TokenComboBox: (props: TokenComboBoxProps) => {
+      indexFields.set(props.ariaLabel ?? props.label ?? "", props);
+      return React.createElement("input", {
+        "aria-label": props.ariaLabel ?? props.label,
+        "data-label-position": props.label ? "top" : "side",
+        disabled: props.isDisabled,
+        value:
+          props.options.find((option) => option.id === props.selectedKey)
+            ?.name ?? "",
+        readOnly: true,
+      });
+    },
+    CategoryIcon: ({ category }: { category: string }) =>
+      React.createElement("span", { "data-category-icon": category }),
+    modeSetGroupIconId,
+    MODE_ICONS: {},
+    ToggleButton: (
+      props: typeof modeButton & { children: React.ReactNode },
+    ) => {
+      modeButton = props;
+      return React.createElement(
+        "button",
+        {
+          "aria-pressed": props.isSelected,
+          disabled: props.isDisabled,
+        },
+        props.children,
+      );
+    },
+    MenuSection: Box,
+    Header: Box,
+    Heading: Box,
+    Text: Box,
+    SideLabelRow: ({
+      label,
+      children,
+    }: {
+      label: string;
+      children: (id: string) => React.ReactNode;
+    }) =>
+      React.createElement(
+        "section",
+        { "data-label": label },
+        children("family-label"),
+      ),
+    TagGroup: ({
+      size,
+      children,
+      onRemove,
+    }: {
+      size: string;
+      children: React.ReactNode;
+      onRemove?: typeof removeFamily;
+    }) => {
+      removeFamily = onRemove;
+      return React.createElement("div", { "data-tag-size": size }, children);
+    },
+    Tag: Box,
+    MenuTrigger: Box,
+    ActionButton: Box,
+    Add: () => React.createElement("span", {}, "+"),
+    Menu: ({
+      children,
+      onAction,
+      "aria-label": label,
+      selectionMode,
+    }: {
+      children: React.ReactNode;
+      onAction: typeof addFamily;
+      "aria-label": string;
+      selectionMode?: string;
+    }) => {
+      if (label === "Available color families") addFamily = onAction;
+      else if (label === "Select mode set") {
+        enableIndexModes = onAction;
+        modeMenuSelection = selectionMode;
+      }
+      return React.createElement(
+        "div",
+        { "data-menu": "add-family" },
+        children,
+      );
+    },
+    MenuItem: Box,
+  },
+);
+const changes: Partial<StyleAppearance>[] = [];
+const fieldProps: React.ComponentProps<typeof StyleAppearanceFields> = {
+  kind: "icon",
+  value: { color: { ...supported, familyIds: [supported.familyIds[0]] } },
+  references: [],
+  taxonomy: original.taxonomy!,
+  modeSets: original.modeSets,
+  families: supported.familyIds
+    .slice(0, 2)
+    .map((id, index) => ({ id, name: index ? "Blue" : "Gray" })),
+  display: "tokens",
+  isReadOnly: false,
+  onChange: (value) => changes.push(value),
+};
+const supportedField = renderToStaticMarkup(
+  React.createElement(Fields, fieldProps),
+);
+assert.match(supportedField, /data-label="Color families"/);
+assert.match(supportedField, /class="supported-color-field"/);
+assert.match(supportedField, /data-tag-size="S"/);
+assert.doesNotMatch(supportedField, /data-picker="Color families"/);
+assert(addFamily && removeFamily);
+addFamily(alternate);
+assert.deepEqual(structuredClone(changes[0].color), {
+  ...supported,
+  familyIds: supported.familyIds.slice(0, 2),
+});
+removeFamily(new Set([supported.familyIds[0]]));
+assert.deepEqual(structuredClone(changes[1].color), {
+  ...supported,
+  familyIds: [],
+});
+addFamily(supported.familyIds[0]);
+assert.equal(
+  changes.length,
+  2,
+  "Adding an existing family cannot duplicate support.",
+);
+addFamily("unavailable-family");
+assert.equal(changes.length, 2);
+addFamily = undefined;
+const readOnlyField = renderToStaticMarkup(
+  React.createElement(Fields, { ...fieldProps, isReadOnly: true }),
+);
+assert.equal(removeFamily, undefined);
+assert.equal(addFamily, undefined);
+assert.doesNotMatch(readOnlyField, /data-menu="add-family"/);
+assert(
+  modeButton!.isDisabled,
+  "Read-only mode cannot change the enabled mode set.",
+);
+assert([...indexFields.values()].every((field) => field.isDisabled));
+
+indexFields.clear();
+const modeFieldsMarkup = renderToStaticMarkup(
+  React.createElement(Fields, fieldProps),
+);
+assert.match(modeFieldsMarkup, /class="dividableComboBoxPrimary"/);
+assert.match(modeFieldsMarkup, /data-category-icon="modes"/);
+assert.match(
+  modeFieldsMarkup,
+  /aria-label="Scale index" data-label-position="top"/,
+);
+assert.doesNotMatch(modeFieldsMarkup, /data-picker="Index mode set"/);
+assert.equal(modeButton!.isSelected, true);
+assert.equal(indexFields.get("Scale index")!.isDisabled, true);
+const indexAxis = original.modeSets.find(
+  (axis) => axis.id === supported.indexModes!.modeSetId,
+)!;
+assert(indexAxis);
+const registeredIndices = original.taxonomy!.terms.filter((term) =>
+  original.taxonomy!.categories.some(
+    (category) =>
+      category.key === "scaleIndex" && category.id === term.categoryId,
+  ),
+);
+for (const mode of indexAxis.modes) {
+  const field = indexFields.get(mode.name)!;
+  assert(field, `There is a field labelled only ${mode.name}.`);
+  assert.equal(field.label, undefined);
+  assert.equal(field.isDisabled, false);
+  assert.equal(field.isRequired, true);
+  assert.equal(field.customValue, undefined);
+  assert.equal(field.options.length, registeredIndices.length);
+  assert(
+    field.options.every((option) =>
+      registeredIndices.some((term) => term.id === option.id),
+    ),
+  );
+  const value = registeredIndices.find(
+    (term) => term.id === field.selectedKey,
+  )?.value;
+  assert.equal(
+    value,
+    styleColorIndex(supported, { [indexAxis.id]: mode.id }),
+    "The editor uses the same mode fallback as token generation.",
+  );
+}
+const darkIndex = indexFields.get("Dark")!;
+const index1000 = registeredIndices.find((term) => term.value === 1000)!;
+assert(index1000);
+const beforeInvalid = changes.length;
+assert.throws(
+  () => darkIndex.onChange("not-a-registered-index"),
+  /Choose a registered scale index/,
+);
+assert.throws(
+  () => darkIndex.onChange(null),
+  /Choose a registered scale index/,
+);
+assert.equal(changes.length, beforeInvalid);
+darkIndex.onChange(index1000.id);
+const edited = changes.at(-1)!.color!;
+assert(edited.kind === "families");
+assert.equal(edited.scaleIndex, supported.scaleIndex);
+assert.deepEqual(
+  structuredClone(edited.familyIds),
+  fieldProps.value.color.kind === "families"
+    ? fieldProps.value.color.familyIds
+    : [],
+);
+assert.equal(edited.indexModes!.values["mode-dark"], 1000);
+assert.equal(edited.indexModes!.modeSetId, indexAxis.id);
+assert.equal(
+  supported.indexModes!.values["mode-dark"],
+  900,
+  "The original source is not mutated.",
+);
+modeButton!.onChange!(false);
+const shared = changes.at(-1)!.color!;
+assert(shared.kind === "families");
+assert.equal(shared.indexModes, undefined);
+assert.equal(shared.scaleIndex, supported.scaleIndex);
+
+indexFields.clear();
+const sharedMarkup = renderToStaticMarkup(
+  React.createElement(Fields, {
+    ...fieldProps,
+    value: { color: shared },
+  }),
+);
+assert.equal(modeButton!.isSelected, false);
+assert.equal(indexFields.get("Scale index")!.isDisabled, false);
+assert.equal(indexFields.size, 1, "Disabling Modes hides the mode fields.");
+assert.match(sharedMarkup, /Select mode set/);
+assert.equal(modeMenuSelection, "single");
+assert(enableIndexModes);
+const otherAxis = original.modeSets.find(
+  (axis) => axis.id !== indexAxis.id && axis.modes.length,
+)!;
+enableIndexModes(otherAxis.id);
+const enabled = changes.at(-1)!.color!;
+assert(enabled.kind === "families");
+assert.equal(enabled.indexModes!.modeSetId, otherAxis.id);
+assert.equal(Object.keys(enabled.indexModes!.values).length, 0);
+assert.equal(enabled.scaleIndex, shared.scaleIndex);
+assert.deepEqual(
+  store.get(authoringSourceSnapshotAtom),
+  beforeColorPreview,
+  "Control callbacks do not mutate authored snapshots in place.",
+);
+
+const unregistered = { ...shared, scaleIndex: 123456 };
+renderToStaticMarkup(
+  React.createElement(Fields, {
+    ...fieldProps,
+    value: { color: unregistered },
+  }),
+);
+assert.match(
+  indexFields.get("Scale index")!.error!,
+  /123456 is not registered/,
+);
+assert(
+  !indexFields
+    .get("Scale index")!
+    .options.some((option) => option.name === "123456"),
+);
+assert.match(view, /<StyleAppearanceFields\s+taxonomy=\{taxonomy\}/);
+assert.match(view, /const colors = stylePreviewColors\(/);
+assert.match(
+  view,
+  /previewControls=\{[\s\S]*?label="Color"[\s\S]*?setPreview\(\{ \.\.\.preview, familyId: id \}\)/,
+);
+assert.match(
+  source("panels/design/DesignProperties.tsx").text,
+  /\{props\.previewControls\}/,
+);
 console.log(
-  "Shared list layout/names, variant-only captions, custom sample rendering and preview-only state passed.",
+  "Shared previews, supported colors, Registry-only scale indices and single-set mode breakout passed.",
 );

@@ -1,7 +1,22 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { PickerItem, Tag, TagGroup } from "@react-spectrum/s2";
+import {
+  ActionButton,
+  Header,
+  Heading,
+  Menu,
+  MenuItem,
+  MenuSection,
+  MenuTrigger,
+  PickerItem,
+  Tag,
+  TagGroup,
+  Text,
+  ToggleButton,
+} from "@react-spectrum/s2";
+import Add from "@react-spectrum/s2/icons/Add";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { Picker } from "../../components/fields/Picker";
-import { NumberField } from "../../components/fields/NumberField";
+import { CategoryIcon } from "../../components/CategoryIcon";
 import { SideLabelRow } from "../../components/fields/SideLabelRow";
 import { TokenComboBox } from "../../components/fields/TokenComboBox";
 import type { TokenDisplayMode } from "../../components/fields/TokenComboBox";
@@ -13,23 +28,52 @@ import type {
 } from "../../features/styles/model";
 import type { StyleReference } from "../../features/styles/generation";
 import { switchStyleColor } from "../../features/styles/variants";
+import type { ModeSet } from "../../features/modes/model";
+import type {
+  TaxonomyDocument,
+  TaxonomyTerm,
+} from "../../features/taxonomy/model";
+import { modeSetGroupIconId } from "../../features/modes/controlPresentation";
+import { MODE_ICONS } from "../../features/modes/icons";
+import "../../components/fields/DividableComboBox.css";
+
+const colorFamiliesFieldStyles = style({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: 4,
+  padding: 8,
+  minWidth: 0,
+  width: "full",
+  boxSizing: "border-box",
+  borderWidth: 1,
+  borderStyle: "solid",
+  borderColor: "gray-300",
+  borderRadius: "default",
+});
 
 export function StyleAppearanceFields({
   kind,
   value,
   references,
+  taxonomy,
   families,
   display,
   isReadOnly,
   onChange,
+  modeSets = [],
+  modeSelection = {},
 }: {
   kind: StyleKind;
   value: StyleAppearance;
   references: StyleReference[];
+  taxonomy: TaxonomyDocument;
   families: { id: string; name: string }[];
   display: TokenDisplayMode;
   isReadOnly: boolean;
   onChange: (difference: Partial<StyleAppearance>) => void;
+  modeSets?: ModeSet[];
+  modeSelection?: Record<string, string>;
 }) {
   const field = (
     property: Exclude<StyleProperty, "lineHeight">,
@@ -41,6 +85,7 @@ export function StyleAppearanceFields({
         <TokenComboBox
           size="S"
           ariaLabel={label}
+          placeholder="Choose a scale index"
           displayMode={display}
           isDisabled={isReadOnly}
           options={references
@@ -85,6 +130,62 @@ export function StyleAppearanceFields({
     </SideLabelRow>
   );
   const color = value.color;
+  const indexCategory = taxonomy.categories.find(
+    (category) => category.key === "scaleIndex",
+  );
+  const indices = taxonomy.terms
+    .filter(
+      (term): term is TaxonomyTerm & { value: number } =>
+        term.categoryId === indexCategory?.id &&
+        typeof term.value === "number" &&
+        Number.isSafeInteger(term.value),
+    )
+    .sort((a, b) => a.value - b.value);
+  const indexOptions = indices.map((term) => ({
+    id: term.id,
+    kind: "preset" as const,
+    name: String(term.value),
+    displayValue: String(term.value),
+  }));
+  const indexField = (index: number, label: string, modeId?: string) => (
+    <TokenComboBox
+      size="S"
+      label={modeId ? undefined : label}
+      ariaLabel={label}
+      options={indexOptions}
+      selectedKey={
+        indices.find((term) => term.value === index)?.id ??
+        `unregistered-scale-index:${index}`
+      }
+      isRequired
+      isDisabled={
+        isReadOnly ||
+        (!modeId && color.kind === "families" && !!color.indexModes)
+      }
+      error={
+        !indices.some((term) => term.value === index)
+          ? `Scale index ${index} is not registered. Choose a registered scale index.`
+          : undefined
+      }
+      onChange={(id) => {
+        const term = indices.find((term) => term.id === id);
+        if (!term) throw new Error("Choose a registered scale index.");
+        if (color.kind !== "families")
+          throw new Error("Scale indices require color families.");
+        if (modeId && color.indexModes)
+          onChange({
+            color: {
+              ...color,
+              indexModes: {
+                ...color.indexModes,
+                values: { ...color.indexModes.values, [modeId]: term.value },
+              },
+            },
+          });
+        else onChange({ color: { ...color, scaleIndex: term.value } });
+      }}
+    />
+  );
   return (
     <div className="stylesFields">
       <Picker
@@ -94,7 +195,9 @@ export function StyleAppearanceFields({
         isDisabled={isReadOnly}
         onSelectionChange={(key) => {
           if (key === "single" || key === "families")
-            onChange({ color: switchStyleColor(color, key, references) });
+            onChange({
+              color: switchStyleColor(color, key, references, modeSelection),
+            });
         }}
       >
         <PickerItem id="single">Single value</PickerItem>
@@ -104,60 +207,177 @@ export function StyleAppearanceFields({
         field("color", "Color", color.binding)
       ) : (
         <>
-          <Picker
-            size="S"
-            label="Color families"
-            selectedKey={null}
-            isDisabled={isReadOnly}
-            onSelectionChange={(id) => {
-              if (typeof id === "string" && !color.familyIds.includes(id))
-                onChange({
-                  color: { ...color, familyIds: [...color.familyIds, id] },
-                });
-            }}
-          >
-            {families
-              .filter((family) => !color.familyIds.includes(family.id))
-              .map((family) => (
-                <PickerItem key={family.id} id={family.id}>
-                  {family.name}
-                </PickerItem>
-              ))}
-          </Picker>
-          <TagGroup
-            aria-label="Selected color families"
-            onRemove={
-              isReadOnly
-                ? undefined
-                : (keys) =>
-                    onChange({
-                      color: {
-                        ...color,
-                        familyIds: color.familyIds.filter(
-                          (id) => !keys.has(id),
-                        ),
-                      },
-                    })
-            }
-          >
-            {color.familyIds.map((id) => (
-              <Tag key={id} id={id}>
-                {families.find((family) => family.id === id)?.name ??
-                  "Unavailable family"}
-              </Tag>
-            ))}
-          </TagGroup>
-          <NumberField
-            size="S"
-            label="Scale index"
-            value={color.scaleIndex}
-            step={1}
-            isReadOnly={isReadOnly}
-            onChange={(scaleIndex) => {
-              if (Number.isSafeInteger(scaleIndex))
-                onChange({ color: { ...color, scaleIndex } });
-            }}
-          />
+          <SideLabelRow label="Color families" size="S" labelWidth="auto">
+            {(labelId) => (
+              <div
+                className={colorFamiliesFieldStyles}
+                role="group"
+                aria-labelledby={labelId}
+              >
+                <TagGroup
+                  size="S"
+                  aria-label="Supported color families"
+                  onRemove={
+                    isReadOnly
+                      ? undefined
+                      : (keys) =>
+                          onChange({
+                            color: {
+                              ...color,
+                              familyIds: color.familyIds.filter(
+                                (id) => !keys.has(id),
+                              ),
+                            },
+                          })
+                  }
+                >
+                  {color.familyIds.map((id) => (
+                    <Tag key={id} id={id}>
+                      {families.find((family) => family.id === id)?.name ??
+                        "Unavailable family"}
+                    </Tag>
+                  ))}
+                </TagGroup>
+                {!isReadOnly &&
+                  families.some(
+                    (family) => !color.familyIds.includes(family.id),
+                  ) && (
+                    <MenuTrigger>
+                      <ActionButton
+                        isQuiet
+                        size="S"
+                        aria-label="Add color family"
+                      >
+                        <Add />
+                      </ActionButton>
+                      <Menu
+                        aria-label="Available color families"
+                        onAction={(id) => {
+                          if (
+                            typeof id === "string" &&
+                            families.some((family) => family.id === id) &&
+                            !color.familyIds.includes(id)
+                          )
+                            onChange({
+                              color: {
+                                ...color,
+                                familyIds: [...color.familyIds, id],
+                              },
+                            });
+                        }}
+                      >
+                        {families
+                          .filter(
+                            (family) => !color.familyIds.includes(family.id),
+                          )
+                          .map((family) => (
+                            <MenuItem key={family.id} id={family.id}>
+                              {family.name}
+                            </MenuItem>
+                          ))}
+                      </Menu>
+                    </MenuTrigger>
+                  )}
+              </div>
+            )}
+          </SideLabelRow>
+          <div className="dividableComboBox">
+            <div className="dividableComboBoxPrimary">
+              {indexField(color.scaleIndex, "Scale index")}
+              {color.indexModes ? (
+                <ToggleButton
+                  size="S"
+                  aria-label="Use mode-specific scale indices"
+                  isSelected
+                  isDisabled={isReadOnly}
+                  onChange={() => {
+                    const base = { ...color };
+                    delete base.indexModes;
+                    onChange({ color: base });
+                  }}
+                >
+                  <CategoryIcon category="modes" />
+                </ToggleButton>
+              ) : (
+                <MenuTrigger>
+                  <ToggleButton
+                    size="S"
+                    aria-label="Use mode-specific scale indices"
+                    isSelected={false}
+                    isDisabled={
+                      isReadOnly || !modeSets.some((axis) => axis.modes.length)
+                    }
+                  >
+                    <CategoryIcon category="modes" />
+                  </ToggleButton>
+                  <Menu
+                    aria-label="Select mode set"
+                    selectionMode="single"
+                    onAction={(id) =>
+                      onChange({
+                        color: {
+                          ...color,
+                          indexModes: { modeSetId: String(id), values: {} },
+                        },
+                      })
+                    }
+                  >
+                    <MenuSection>
+                      <Header>
+                        <Heading>Select mode set</Heading>
+                        <Text>For authoring conditional values</Text>
+                      </Header>
+                      {modeSets
+                        .filter((axis) => axis.modes.length)
+                        .map((axis) => {
+                          const iconId = modeSetGroupIconId(axis);
+                          return (
+                            <MenuItem
+                              key={axis.id}
+                              id={axis.id}
+                              textValue={axis.name}
+                            >
+                              {iconId === "none" ? (
+                                <CategoryIcon category="modes" />
+                              ) : (
+                                MODE_ICONS[iconId]
+                              )}
+                              <Text>{axis.name}</Text>
+                            </MenuItem>
+                          );
+                        })}
+                    </MenuSection>
+                  </Menu>
+                </MenuTrigger>
+              )}
+            </div>
+            {color.indexModes && (
+              <div
+                className="dividableComboBox"
+                role="group"
+                aria-label="Mode-specific scale indices"
+              >
+                {modeSets
+                  .find((axis) => axis.id === color.indexModes?.modeSetId)
+                  ?.modes.map((mode) => (
+                    <SideLabelRow
+                      key={mode.id}
+                      label={mode.name}
+                      size="S"
+                      labelWidth="auto"
+                    >
+                      {() =>
+                        indexField(
+                          color.indexModes?.values[mode.id] ?? color.scaleIndex,
+                          mode.name,
+                          mode.id,
+                        )
+                      }
+                    </SideLabelRow>
+                  ))}
+              </div>
+            )}
+          </div>
         </>
       )}
       {kind === "text" && (

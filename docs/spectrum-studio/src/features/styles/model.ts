@@ -16,7 +16,15 @@ export type StyleBinding =
   | { value: string | number; $ref?: never };
 export type StyleColor =
   | { kind: "single"; binding: StyleBinding }
-  | { kind: "families"; familyIds: string[]; scaleIndex: number };
+  | {
+      kind: "families";
+      familyIds: string[];
+      scaleIndex: number;
+      indexModes?: {
+        modeSetId: string;
+        values: { [modeId: string]: number };
+      };
+    };
 export interface StyleAppearance {
   color: StyleColor;
   fontFamily?: StyleBinding;
@@ -112,7 +120,14 @@ export function isStyleAppearance(value: unknown, partial = false): boolean {
         !Array.isArray(color.familyIds) ||
         !color.familyIds.every((id) => typeof id === "string") ||
         new Set(color.familyIds).size !== color.familyIds.length ||
-        !Number.isSafeInteger(color.scaleIndex)
+        !Number.isSafeInteger(color.scaleIndex) ||
+        (color.indexModes !== undefined &&
+          (!record(color.indexModes) ||
+            typeof color.indexModes.modeSetId !== "string" ||
+            !record(color.indexModes.values) ||
+            !Object.values(color.indexModes.values).every((index) =>
+              Number.isSafeInteger(index),
+            )))
       )
         return false;
     } else return false;

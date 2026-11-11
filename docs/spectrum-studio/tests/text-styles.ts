@@ -73,7 +73,10 @@ const definitions = [
   ["Heading", 700, "gray-900", "heading"],
   ["Description", 400, "gray-700", "component"],
 ] as const;
-assert.equal(styles.recipes.length, definitions.length);
+assert.equal(
+  styles.recipes.filter((recipe) => recipe.kind === "text").length,
+  definitions.length,
+);
 const contexts = styleContexts(defaults);
 const output = buildStyleArtifacts(
   styles,

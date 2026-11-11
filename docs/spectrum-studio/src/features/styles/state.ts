@@ -21,6 +21,7 @@ import type { StylePropertiesEditor } from "./variants";
 import { designSystemDefaults } from "../../data/defaults";
 import { browserModeContextAtom } from "../tokens/browserState";
 import { structureTextStyleIssues } from "./textAppearance";
+import type { SpectrumIconName } from "../icons/spectrumIconNames.generated";
 
 export const stylesDocumentAtom = persistedAtom<StylesDocument>({
   key: "design/styles",
@@ -31,6 +32,7 @@ export const stylesDocumentAtom = persistedAtom<StylesDocument>({
 });
 const selectedStyleAtom = atom<string | null>(null);
 export const styleSampleTextAtom = atom("Ag");
+export const styleSampleIconsAtom = atom<Record<string, SpectrumIconName>>({});
 export const selectedStyleIdAtom = atom(
   (get) => get(selectedStyleAtom),
   (get, set, id: string | null) => {
