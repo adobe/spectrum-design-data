@@ -24,16 +24,16 @@ of guessing.
 
 **Look things up**
 
-- **Find a token:** "what's the token for the default row background?" (the query tool filters by property, state, variant, and mode, not by component)
+- **Find a token:** "what's the token for the default row background?" (the query tool filters by property, component, state, variant, and mode)
 - **Suggest a token from a description:** "I need a background for a selected, hovered
   row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
   before you invent.
 - **Inspect a component's options:** "what sizes and variants does Button support?" You get
   the actual schema: variants, sizes, states, and boolean props.
 - **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
-  Resolve takes a property name and optional color scheme, scale, and contrast.
-  Property names are usually shared by many tokens, so the result is typically marked
-  `ambiguous` with a top pick plus the alternatives; narrow with the query tool.
+  Resolve takes a property name, optional color scheme, scale, and contrast, and can
+  narrow by component, variant, or state. If several tokens still match, the result is
+  marked `ambiguous` with a top pick plus the alternatives.
 - **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
 - **Get oriented:** a primer with token counts, the component list, the registry
