@@ -37,6 +37,7 @@ async function working(page: Page): Promise<EditSessionSnapshot> {
 test("Scale Picker alone overrides its columns while the group keeps its existing layout", async ({
   page,
 }) => {
+  await page.getByRole("tab", { name: "Font sizes", exact: true }).click();
   const fields = page.locator('[data-component="TypeScaleFields"]');
   const picker = fields.getByRole("button", { name: / Scale$/ }).locator("..");
   const group = picker.locator("..");
@@ -107,9 +108,6 @@ for (const width of [1280, 480]) {
     const typeScale = panel.locator(
       '[data-component="TypeScaleFields"] [data-component="NestedPanelAccordion"]',
     );
-    await panel
-      .getByRole("button", { name: "Line heights", exact: true })
-      .click();
     const body = panel.getByRole("region", {
       name: "body line height",
       exact: true,
@@ -128,38 +126,28 @@ for (const width of [1280, 480]) {
         radius: style.borderRadius,
       };
     };
-    const expected = await typeScale.evaluate(rootStyle);
-    expect(expected.padding).toEqual(["8px", "8px", "8px", "8px"]);
-    expect(expected.background).not.toBe("rgba(0, 0, 0, 0)");
-    expect(expected.radius).not.toBe("0px");
-    expect(await lineHeight.evaluate(rootStyle)).toEqual(expected);
-    const typeToggle = typeScale.getByRole("button", {
-      name: "Adaptive settings",
-      exact: true,
-    });
-    const lineToggle = lineHeight.getByRole("button", {
-      name: "Adaptive settings",
-      exact: true,
-    });
-    await expect(typeToggle).toHaveAttribute("aria-expanded", "false");
-    await expect(lineToggle).toHaveAttribute("aria-expanded", "false");
-    await typeToggle.press("Enter");
-    await lineToggle.press("Space");
-    await expect(typeToggle).toHaveAttribute("aria-expanded", "true");
-    await expect(lineToggle).toHaveAttribute("aria-expanded", "true");
-    await expect(
-      typeScale.getByRole("textbox", {
-        name: "Ratio at smallest setting",
+    let expected: Awaited<ReturnType<typeof rootStyle>> | undefined;
+    for (const [tab, accordion, field, key] of [
+      ["Font sizes", typeScale, "Ratio at smallest setting", "Enter"],
+      ["Line heights", lineHeight, "From line height", "Space"],
+    ] as const) {
+      await panel.getByRole("tab", { name: tab, exact: true }).click();
+      const actual = await accordion.evaluate(rootStyle);
+      expected ??= actual;
+      expect(actual).toEqual(expected);
+      expect(actual.padding).toEqual(["8px", "8px", "8px", "8px"]);
+      expect(actual.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(actual.radius).not.toBe("0px");
+      const toggle = accordion.getByRole("button", {
+        name: "Adaptive settings",
         exact: true,
-      }),
-    ).toBeVisible();
-    await expect(
-      lineHeight.getByRole("textbox", {
-        name: "From line height",
-        exact: true,
-      }),
-    ).toBeVisible();
-    for (const accordion of [typeScale, lineHeight]) {
+      });
+      await expect(toggle).toHaveAttribute("aria-expanded", "false");
+      await toggle.press(key);
+      await expect(toggle).toHaveAttribute("aria-expanded", "true");
+      await expect(
+        accordion.getByRole("textbox", { name: field, exact: true }),
+      ).toBeVisible();
       expect(
         await accordion.evaluate(
           (node) => node.scrollWidth <= node.clientWidth,
@@ -182,37 +170,34 @@ for (const width of [1280, 480]) {
       path: info.outputPath(`nested-line-height-${width}.png`),
       animations: "disabled",
     });
+    const lineToggle = lineHeight.getByRole("button", {
+      name: "Adaptive settings",
+      exact: true,
+    });
     await lineToggle.press("Enter");
     await expect(lineToggle).toHaveAttribute("aria-expanded", "false");
-    await expect(typeToggle).toHaveAttribute("aria-expanded", "true");
     expect(await working(page)).toEqual(original);
   });
 }
 
-test("five sections and shared Type scale edits stay consistent with Logic", async ({
+test("settings accordions and typography tabs keep shared Type scale edits consistent with Logic", async ({
   page,
 }) => {
   const panel = page.locator('[data-component="FoundationsTypographyPanel"]');
   await expect(
     panel.getByRole("button", {
-      name: /^(System settings|Mode sets|Font sizes|Line heights|Iconography)$/,
+      name: /^(System settings|Mode sets)$/,
     }),
-  ).toHaveText([
-    "System settings",
-    "Mode sets",
-    "Font sizes",
-    "Line heights",
-    "Iconography",
-  ]);
+  ).toHaveText(["System settings", "Mode sets"]);
   await expect(
-    panel.getByRole("button", { name: "Font sizes", exact: true }),
-  ).toHaveAttribute("aria-expanded", "true");
-  for (const name of [
-    "System settings",
-    "Mode sets",
-    "Line heights",
-    "Iconography",
-  ]) {
+    panel
+      .getByRole("tablist", { name: "Typography controls" })
+      .getByRole("tab"),
+  ).toHaveText(["Fonts", "Font sizes", "Line heights", "Iconography"]);
+  await expect(
+    panel.getByRole("tab", { name: "Fonts", exact: true }),
+  ).toHaveAttribute("aria-selected", "true");
+  for (const name of ["System settings", "Mode sets"]) {
     await expect(
       panel.getByRole("button", { name, exact: true }),
     ).toHaveAttribute("aria-expanded", "false");
@@ -222,6 +207,7 @@ test("five sections and shared Type scale edits stay consistent with Logic", asy
     0,
   );
   await expect(panel.getByText("Offset", { exact: true })).toHaveCount(0);
+  await panel.getByRole("tab", { name: "Font sizes", exact: true }).click();
   await panel.getByRole("button", { name: / Scale$/ }).click();
   await page.getByRole("option", { name: "Major third", exact: true }).click();
   const ratio = panel.getByRole("textbox", { name: "Ratio", exact: true });
@@ -279,9 +265,7 @@ test("line-height cards preserve local ranges and require an explicit replacemen
 }) => {
   const panel = page.locator('[data-component="FoundationsTypographyPanel"]');
   const original = await working(page);
-  await panel
-    .getByRole("button", { name: "Line heights", exact: true })
-    .click();
+  await panel.getByRole("tab", { name: "Line heights", exact: true }).click();
   await panel
     .getByRole("button", { name: "Add line height", exact: true })
     .click();
@@ -384,9 +368,7 @@ test("line-height cards preserve local ranges and require an explicit replacemen
     .getByRole("link", { name: "Foundations", exact: true })
     .click();
   await page.getByRole("tab", { name: "Typography", exact: true }).click();
-  await panel
-    .getByRole("button", { name: "Line heights", exact: true })
-    .click();
+  await panel.getByRole("tab", { name: "Line heights", exact: true }).click();
   await expect(
     card.getByRole("textbox", { name: "Name", exact: true }),
   ).toHaveValue("Reading");
@@ -460,7 +442,7 @@ test("units, icon alignment and publishing visibility preserve authoring preview
       outputUnit: unit,
     });
   }
-  await panel.getByRole("button", { name: "Iconography", exact: true }).click();
+  await panel.getByRole("tab", { name: "Iconography", exact: true }).click();
   await panel.getByRole("button", { name: / Alignment$/ }).click();
   await page.getByRole("option", { name: "Text sizes", exact: true }).click();
   const iconBase = panel

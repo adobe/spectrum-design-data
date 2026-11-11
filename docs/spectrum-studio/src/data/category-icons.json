@@ -60,6 +60,7 @@
     "update.breaking-change": "AlertTriangle"
   },
   "aliases": {
+    "source.style": "styles",
     "colors": "color",
     "corner radius": "radius",
     "theme": "themes",

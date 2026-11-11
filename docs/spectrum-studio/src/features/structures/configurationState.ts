@@ -20,6 +20,7 @@ import {
 } from "./resolution";
 import type { StructureTarget } from "./portableModel";
 import type { StructureSlot } from "./model";
+import { requestLayoutScaleAtom } from "./layoutScaleState";
 
 /** Root and owned-occurrence edits share ownership, validation and write routing. */
 export const editStructureOptionBindingsAtom = atom(
@@ -89,6 +90,16 @@ export const editStructureOptionBindingsAtom = atom(
         ),
       },
     };
+    if (
+      set(requestLayoutScaleAtom, {
+        edit: {
+          structureId: source.conceptId,
+          changes: input.changes,
+          option: { ownerId: owner.conceptId, path, valueId: input.valueId },
+        },
+      })
+    )
+      return;
     set(updateStructureEditorAtom, {
       structureId: owner.conceptId,
       editor: path

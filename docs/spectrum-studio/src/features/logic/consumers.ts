@@ -20,6 +20,9 @@ import { structureGeneration } from "../structures/model";
 import type { EditSessionSnapshot } from "../edit-session/state";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { canonicalJson } from "../design-data/canonicalJson";
+import type { StylesDocument } from "../styles/model";
+import { buildStylesForSource } from "../styles/artifacts";
+import { styleName } from "../styles/generation";
 import type { ColorSystemDocument } from "../color-system/model";
 import { storedCustomContrasts } from "../color-system/customContrastConfig";
 import { contrastStepIndex } from "../color-system/contrastSteps";
@@ -38,7 +41,8 @@ export type RuleConsumerSlot =
   | { foundation: "size"; scaleId: string }
   | { foundation: "radius"; scaleId: string }
   | { foundation: "color"; scaleId: string }
-  | { foundation: "structures"; structureId: string; applicationId: string };
+  | { foundation: "structures"; structureId: string; applicationId: string }
+  | { foundation: "styles"; styleId: string; applicationId: string };
 
 export interface RuleConsumer {
   id: string;
@@ -58,6 +62,7 @@ export interface RuleReferenceDocuments {
   /** Library used for line heights; shipped interpolations when omitted. */
   interpolations?: readonly Interpolation[];
   structures?: StructuresDocument;
+  styles?: StylesDocument;
   snapshot?: EditSessionSnapshot;
   draftSnapshot?: EditSessionSnapshot;
   color?: ColorSystemDocument;
@@ -70,9 +75,25 @@ export function ruleConsumers({
   size,
   radius,
   structures,
+  styles,
+  snapshot,
   color,
 }: RuleReferenceDocuments): RuleConsumer[] {
   return [
+    ...(styles?.recipes ?? []).flatMap((style) =>
+      style.applications.map(
+        (application): RuleConsumer => ({
+          id: `styles/${style.id}/${application.id}`,
+          ruleId: application.ruleId,
+          label: `Styles › ${snapshot?.taxonomy ? styleName(style, snapshot.taxonomy) : style.id}`,
+          slot: {
+            foundation: "styles",
+            styleId: style.id,
+            applicationId: application.id,
+          },
+        }),
+      ),
+    ),
     ...(color?.scales ?? []).flatMap((scale): RuleConsumer[] => {
       const custom = storedCustomContrasts(scale);
       return custom
@@ -155,7 +176,7 @@ export function reassignConsumers(
   for (const consumer of consumers) {
     const next = typeof ruleId === "function" ? ruleId(consumer) : ruleId;
     const { slot } = consumer;
-    if (slot.foundation === "structures")
+    if (slot.foundation === "structures" || slot.foundation === "styles")
       throw new Error(
         "Edit the generation application on its Structure; it cannot use a rounding fallback.",
       );
@@ -268,11 +289,43 @@ export function draftRuleImpact(
     : [...rules, draft];
   const consumers = consumersOf(draft.id, documents);
   if (draft.type === "conditional") {
-    if (consumers.length)
+    if (!consumers.length) return [];
+    if (!documents.snapshot)
       throw new Error(
-        "Conditional rules do not yet support generated-token or Structure consumers.",
+        "Style rule impact needs the complete authoring snapshot.",
       );
-    return [];
+    const before = buildStylesForSource(documents.snapshot);
+    const after = buildStylesForSource({
+      ...(documents.draftSnapshot ?? documents.snapshot),
+      rules: withDraft,
+    });
+    return consumers.map((consumer) => {
+      if (consumer.slot.foundation !== "styles")
+        throw new Error("An interaction rule needs a Style consumer.");
+      const styleId = consumer.slot.styleId;
+      const left = new Map(
+        before.rows
+          .filter((row) => row.recipeId === styleId)
+          .map((row) => [row.token.uuid, row]),
+      );
+      const right = new Map(
+        after.rows
+          .filter((row) => row.recipeId === styleId)
+          .map((row) => [row.token.uuid, row]),
+      );
+      const ids = [...new Set([...left.keys(), ...right.keys()])];
+      return {
+        consumer,
+        changed: ids.filter(
+          (id) => canonicalJson(left.get(id)) !== canonicalJson(right.get(id)),
+        ).length,
+        total: ids.length,
+        issues: [],
+        errors: [...before.issues, ...after.issues]
+          .filter((issue) => issue.recipeId === styleId)
+          .map((issue) => issue.message),
+      };
+    });
   }
   if (draft.type === "scale-naming")
     return consumers.map((consumer) => {
@@ -366,7 +419,7 @@ export function draftRuleImpact(
   }
   return consumers.map((consumer) => {
     const { slot } = consumer;
-    if (slot.foundation === "structures")
+    if (slot.foundation === "structures" || slot.foundation === "styles")
       throw new Error("A rounding rule cannot generate Structure variants.");
     if (slot.foundation === "color")
       throw new Error("A rounding rule cannot name color steps.");

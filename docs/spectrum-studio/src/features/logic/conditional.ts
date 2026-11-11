@@ -73,6 +73,30 @@ export function conditionalIssues(
   sources: readonly ConditionSource[],
 ): string[] {
   const issues: string[] = [];
+  const outputIds = new Set<string>();
+  for (const output of rule.outputs ?? []) {
+    if (!output.id || outputIds.has(output.id))
+      issues.push("Interaction outputs need distinct identities.");
+    outputIds.add(output.id);
+    if (!Object.keys(output.classification).length)
+      issues.push("Choose Registry terms for each interaction output.");
+    for (const [categoryId, assigned] of Object.entries(
+      output.classification,
+    )) {
+      const source = sources.find(
+        (source) => source.kind === "taxonomy" && source.id === categoryId,
+      );
+      const values = Array.isArray(assigned) ? assigned : [assigned];
+      if (
+        !source ||
+        !values.length ||
+        values.some((id) => !source.values.some((value) => value.id === id))
+      )
+        issues.push(
+          "An interaction output references unavailable Registry terms.",
+        );
+    }
+  }
   const pending: RuleConditionNode[] = [
     rule.when,
     ...rule.branches.map((branch) => branch.when),
@@ -202,6 +226,7 @@ export function offsetAvailableToken(
   anchorId: string,
   tokens: readonly OffsetToken[],
   offset: number,
+  policy: "nearest" | "strict" = "nearest",
 ) {
   const anchor = tokens.find((token) => token.id === anchorId);
   if (!anchor) throw new Error("Choose an available default color.");
@@ -225,6 +250,10 @@ export function offsetAvailableToken(
       "The requested offset exceeds the supported integer range.",
     );
   const position = Math.max(0, Math.min(available.length - 1, requested));
+  if (policy === "strict" && position !== requested)
+    throw new Error(
+      `Requested offset ${offset} is outside the available color steps.`,
+    );
   const token = available[position];
   return {
     token,

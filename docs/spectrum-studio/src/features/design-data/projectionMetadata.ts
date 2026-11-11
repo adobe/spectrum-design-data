@@ -59,6 +59,36 @@ export function authoringOutputMetadata(
       ),
     ),
   );
+  system.styles?.recipes.forEach((style, index) => {
+    metadata.recipes.push(
+      recipe(
+        `style:${style.id}`,
+        `/system/styles/recipes/${index}`,
+        "buildStyleArtifacts",
+        [
+          style.name.termId,
+          ...style.applications.map((application) => application.ruleId),
+          ...[style.appearance, ...Object.values(style.differences)].flatMap(
+            (appearance) => [
+              ...(appearance.color?.kind === "families"
+                ? appearance.color.familyIds
+                : appearance.color?.binding.$ref
+                  ? [appearance.color.binding.$ref]
+                  : []),
+              ...(appearance.lineHeight
+                ? [appearance.lineHeight.metricId]
+                : []),
+              ...[
+                appearance.fontFamily,
+                appearance.fontWeight,
+                appearance.borderWidth,
+              ].flatMap((binding) => (binding?.$ref ? [binding.$ref] : [])),
+            ],
+          ),
+        ],
+      ),
+    );
+  });
   system.foundations.color.dataVisScales.forEach((scale, index) => {
     const sources = scale.staticColors
       ? []

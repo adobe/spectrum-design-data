@@ -3,6 +3,11 @@ import { atom } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { upgradeTypographySizingDocument } from "../foundations/componentSizing";
 import { TYPOGRAPHY_DEFAULTS } from "./defaults";
+import { reconcileFontNames } from "./fontVocabulary";
+import {
+  foundationNameSegment,
+  kebabCaseNameFormatter,
+} from "../taxonomy/formatting";
 import {
   generateTypography,
   validateTypographyGeneration,
@@ -12,6 +17,7 @@ import {
   isTypographyDocument,
   TYPOGRAPHY_SCHEMA_VERSION,
   type TypographyDocument,
+  type TypographyFont,
   type TypographyLineHeight,
 } from "./model";
 import {
@@ -76,6 +82,26 @@ export const typographyDocumentAtom = withTaxonomyContributions(
   },
   isTypographyDocument,
   "foundations/typography",
+  {
+    resolve: (document) => document,
+    reconcile: (taxonomy, previous, document) => {
+      const named = reconcileFontNames(
+        taxonomy,
+        document.fonts.map((font) => {
+          const before = previous.fonts.find(
+            (candidate) => candidate.id === font.id,
+          );
+          return before && before.name !== font.name
+            ? { ...font, nameReference: undefined }
+            : font;
+        }),
+      );
+      return {
+        document: { ...document, fonts: named.fonts },
+        taxonomy: named.taxonomy,
+      };
+    },
+  },
 );
 
 export const updateTypographyAtom = atom(
@@ -153,6 +179,94 @@ export function lineHeightConsumers(
       : []),
   ];
 }
+
+export const addFontAtom = atom(null, (get, set) => {
+  const document = get(typographyDocumentAtom);
+  const names = new Set(
+    document.fonts.map((font) => kebabCaseNameFormatter.formatValue(font.name)),
+  );
+  let name = "New font";
+  let suffix = 2;
+  while (names.has(kebabCaseNameFormatter.formatValue(name)))
+    name = `New font ${suffix++}`;
+  const font: TypographyFont = {
+    id: crypto.randomUUID(),
+    uuid: crypto.randomUUID(),
+    conceptId: crypto.randomUUID(),
+    name,
+    fontFamily: "",
+  };
+  set(updateTypographyAtom, { fonts: [font, ...document.fonts] });
+  return font.id;
+});
+
+export const updateFontAtom = atom(
+  null,
+  (get, set, input: { id: string; name?: string; fontFamily?: string }) => {
+    const document = get(typographyDocumentAtom);
+    if (!document.fonts.some((font) => font.id === input.id))
+      throw new Error("This font is no longer available.");
+    if (input.name !== undefined && !input.name.trim())
+      throw new Error("Enter a font name.");
+    const name = input.name?.trim();
+    if (name !== undefined) foundationNameSegment(name);
+    if (
+      name !== undefined &&
+      document.fonts.some(
+        (font) =>
+          font.id !== input.id &&
+          kebabCaseNameFormatter.formatValue(font.name) ===
+            foundationNameSegment(name),
+      )
+    )
+      throw new Error("Choose a unique font name.");
+    set(updateTypographyAtom, {
+      fonts: document.fonts.map((font) =>
+        font.id === input.id
+          ? {
+              ...font,
+              ...(name !== undefined &&
+                name !== font.name && { name, nameReference: undefined }),
+              ...(input.fontFamily !== undefined && {
+                fontFamily: input.fontFamily,
+              }),
+            }
+          : font,
+      ),
+    });
+  },
+);
+
+export interface RemovedFont {
+  font: TypographyFont;
+  index: number;
+}
+
+export const removeFontAtom = atom(
+  null,
+  (get, set, id: string): RemovedFont => {
+    const document = get(typographyDocumentAtom);
+    const index = document.fonts.findIndex((font) => font.id === id);
+    if (index < 0) throw new Error("This font is no longer available.");
+    const font = structuredClone(document.fonts[index]);
+    set(updateTypographyAtom, {
+      fonts: document.fonts.filter((font) => font.id !== id),
+    });
+    return { font, index };
+  },
+);
+
+export const restoreFontAtom = atom(null, (get, set, removed: RemovedFont) => {
+  const fonts = [...get(typographyDocumentAtom).fonts];
+  if (fonts.some((font) => font.id === removed.font.id))
+    throw new Error("This font has already been restored.");
+  fonts.splice(
+    Math.min(removed.index, fonts.length),
+    0,
+    structuredClone(removed.font),
+  );
+  set(updateTypographyAtom, { fonts });
+});
 
 export const addLineHeightAtom = atom(null, (get, set) => {
   if (!get(editModeAtom))

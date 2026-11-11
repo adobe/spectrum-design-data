@@ -43,6 +43,7 @@ export const primitiveReferencesAtom = atom((get) =>
         naming: {
           registry: get(taxonomyDocumentAtom),
           names: get(typographyDocumentAtom).metricNames,
+          fonts: get(typographyDocumentAtom).fonts,
           outputUnit: get(typographyDocumentAtom).outputUnit,
         },
       },

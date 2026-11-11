@@ -1,5 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { Classification, TaxonomyDocument } from "../taxonomy/model";
+import type {
+  Classification,
+  TaxonomyDocument,
+  TaxonomyScope,
+} from "../taxonomy/model";
 
 export interface BooleanProperty {
   id: string;
@@ -29,11 +33,14 @@ export type OptionProperty = BooleanProperty | VariantProperty;
 export function classificationIssues(
   classification: Classification,
   taxonomy: TaxonomyDocument,
+  scope: TaxonomyScope = "structures",
 ): string[] {
   return Object.entries(classification).flatMap(([categoryId, assigned]) => {
     const category = taxonomy.categories.find((item) => item.id === categoryId);
-    if (!category || !category.scopes.includes("structures"))
-      return ["Choose a Registry category available to Structures."];
+    if (!category || !category.scopes.includes(scope))
+      return [
+        `Choose a Registry category available to ${scope === "structures" ? "Structures" : "Styles"}.`,
+      ];
     const ids = typeof assigned === "string" ? [assigned] : assigned;
     if (!ids.length || new Set(ids).size !== ids.length)
       return [`${category.name}: choose distinct Registry terms.`];
@@ -102,10 +109,10 @@ export function hasVariantTokenNaming(
   property: VariantProperty,
   option: VariantOption,
 ) {
-  return (
-    Object.keys(property.classification).length > 0 &&
-    Object.keys(option.classification).length > 0
-  );
+  return property.categoryId
+    ? typeof option.classification[property.categoryId] === "string"
+    : Object.keys(property.classification).length > 0 &&
+        Object.keys(option.classification).length > 0;
 }
 
 export function createVariantProperty(

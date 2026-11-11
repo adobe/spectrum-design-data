@@ -29,6 +29,7 @@ import {
   configuredStructure,
   structureConfigurationIssues,
 } from "./configuration";
+import type { TextStyleSource } from "../styles/textAppearance";
 
 export interface ResolvedModule {
   instance: StructureInstance;
@@ -115,6 +116,7 @@ export function resolveComposition(
   options: Record<string, string> = {},
   indentationLevel: 0 | 1 | 2 = 1,
   previews: Readonly<Record<string, StructurePreviewState>> = {},
+  textStyles?: TextStyleSource,
 ): ResolvedComposition {
   assertStructureGraph(catalog);
   const byId = new Map(catalog.map((source) => [source.conceptId, source]));
@@ -163,10 +165,9 @@ export function resolveComposition(
       indentationLevel,
     );
     const leaves = new Map(
-      resolveElements(effective, references, rules, size).map((leaf) => [
-        leaf.element.id,
-        leaf,
-      ]),
+      resolveElements(effective, references, rules, size, textStyles).map(
+        (leaf) => [leaf.element.id, leaf],
+      ),
     );
     const children = (effective.elements ?? []).map((child): ResolvedChild => {
       if (isLeaf(child)) return leaves.get(child.id)!;

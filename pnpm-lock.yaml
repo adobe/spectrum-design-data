@@ -253,6 +253,9 @@ importers:
       katex:
         specifier: 0.19.0
         version: 0.19.0
+      lz-string:
+        specifier: 1.5.0
+        version: 1.5.0
       prismjs:
         specifier: 1.30.0
         version: 1.30.0

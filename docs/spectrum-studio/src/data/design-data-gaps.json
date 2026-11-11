@@ -2,6 +2,51 @@
   "schemaVersion": 1,
   "gaps": [
     {
+      "id": "LTAX-022",
+      "title": "Style recipes and selected conditional-rule outputs",
+      "links": ["GAP-006", "JTC-003"],
+      "kind": "spec-schema",
+      "direction": "app-to-reference",
+      "owner": "joint",
+      "scope": "Studio-local Text, Icon, Background and Border recipes with Registry naming, per-option differences, shared conditional-rule output selections and durable concept/mode-row publications. Six appearance-only Text defaults and existing Structure Text elements share recipe/variant references and whole line-height families. Generated property tokens use existing structured names and literal/reference output, with an explicit Text style namespace and weight vocabulary to review. Component composition UI is deferred; canonical data and upstream schemas are unchanged.",
+      "profile": "reference-checkout",
+      "revision": "e5311a86e46111d8151e70f94fd77c3b73e247e9",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": { "status": "needed" },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-022-C1",
+          "description": "Review recipe storage, Styles Registry scope, rule-owned output declarations, family/index resolution and whole line-height scales. Local implementation does not establish upstream recipe acceptance.",
+          "check": "manual",
+          "evidence": [
+            "docs/styles.md",
+            "src/features/styles/model.ts",
+            "src/features/styles/generation.ts",
+            "tests/styles.ts",
+            "tests/text-styles.ts",
+            "src/features/styles/textAppearance.ts"
+          ]
+        },
+        {
+          "id": "LTAX-022-C2",
+          "description": "Review stable publications, independent saved/working upgrades, authored reset addresses, Save/Cancel/reload and actual Component token references.",
+          "check": "manual",
+          "evidence": [
+            "tests/styles-integration.ts",
+            "tests/styles-lifecycle.ts",
+            "tests/text-styles.ts",
+            "src/features/edit-session/stylesUpgrade.ts"
+          ]
+        }
+      ],
+      "blockers": [
+        "Style recipe and selected conditional-output contracts have not been proposed or accepted upstream"
+      ],
+      "history": []
+    },
+    {
       "id": "LTAX-021",
       "title": "Conceptual token tiers and tier-scoped Registry categories",
       "links": ["GAP-006", "JTC-003"],
@@ -23,16 +68,29 @@
           "id": "LTAX-021-C1",
           "description": "Review producer-owned tiers, literal/reference independence, three-way manual creation, category restrictions and tier-aware shared projection caching.",
           "check": "manual",
-          "evidence": ["tests/token-tiers.ts", "tests/token-creation-flow.ts", "src/features/tokens/tier.ts", "src/features/taxonomy/model.ts"]
+          "evidence": [
+            "tests/token-tiers.ts",
+            "tests/token-creation-flow.ts",
+            "src/features/tokens/tier.ts",
+            "src/features/taxonomy/model.ts"
+          ]
         },
         {
           "id": "LTAX-021-C2",
           "description": "Review saved/working migration, uncertain-tier diagnostics, authored Changes/reset accounting and local taxonomy metadata. Local checks do not establish upstream schema acceptance.",
           "check": "manual",
-          "evidence": ["src/features/edit-session/tokenTierUpgrade.ts", "tests/token-tiers.ts", "src/features/taxonomy/export.ts", "docs/rfcs/token-tiers-and-category-scope.md"]
+          "evidence": [
+            "src/features/edit-session/tokenTierUpgrade.ts",
+            "tests/token-tiers.ts",
+            "src/features/taxonomy/export.ts",
+            "docs/rfcs/token-tiers-and-category-scope.md"
+          ]
         }
       ],
-      "blockers": ["Upstream token and field schemas do not yet represent tier or allowedTokenTiers", "RFC has not been submitted or accepted"],
+      "blockers": [
+        "Upstream token and field schemas do not yet represent tier or allowedTokenTiers",
+        "RFC has not been submitted or accepted"
+      ],
       "history": []
     },
     {
@@ -84,7 +142,7 @@
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "Authoring envelope 20: Registry-backed Generator options, explicit rebased default, operation-compatible token value types, retained inactive bindings, typed rounding, atomic Registry/rule/Structure/component edits and custom Size compatibility envelope 4. Global typography component-size ownership and automatic conditional execution remain outside this slice.",
+      "scope": "Authoring envelope 20: Registry-backed Generator options, explicit rebased default, operation-compatible token value types, retained inactive bindings, typed rounding, atomic Registry/rule/Structure/component edits and custom Size compatibility envelope 4. Envelope 31 replaces authored ratio generation with explicit formula-linked Foundation scales for layout values, static exclusions and confirmed token re-enrollment. Global typography component-size ownership and automatic conditional execution remain outside this slice.",
       "profile": "reference-checkout",
       "revision": "70639e5ed4461289814805ce01fc67fcd6a375e8",
       "implementation": "implemented",
@@ -111,6 +169,16 @@
             "tests/e2e/storybook-tshirt.spec.ts",
             "docs/design-data-authoring-storage-contract.md",
             "docs/structure-element-templates.md"
+          ]
+        },
+        {
+          "id": "LTAX-019-C3",
+          "description": "Review atomic layout scale/formula authoring, independent version 31 upgrades, exact desktop/mobile rounding, preview/export agreement and Changes/Impact/reset coverage. The scale workflow is app-owned; it does not establish an upstream Generator contract.",
+          "check": "manual",
+          "evidence": [
+            "tests/structure-layout-scales.ts",
+            "tests/structure-layout-scale-migration.ts",
+            "docs/component-sizing.md"
           ]
         }
       ],
@@ -462,7 +530,7 @@
       "kind": "app-capability",
       "direction": "app-to-reference",
       "owner": "leonardo",
-      "scope": "Immutable category/term UUIDs, author-editable group order, one term per group, explicit foundation classifications, shared canonical names/hierarchy, optional custom-color numeric naming rules, v6/v7 working/saved upgrades and future-Save direct compatibility aliases; compatibility records excluded from canonical concept/mode-value denominators",
+      "scope": "Immutable category/term UUIDs, author-editable group order, one term per group, explicit foundation classifications, shared canonical names/hierarchy, optional per-term name inclusion without changing structured classification, optional custom-color numeric naming rules, v6/v7 working/saved upgrades and future-Save direct compatibility aliases; compatibility records excluded from canonical concept/mode-value denominators",
       "profile": "reference-checkout",
       "revision": "838a6835b746f9d77b2697374408901f334d854e",
       "implementation": "verified",
@@ -492,6 +560,16 @@
         "Modal Component size adds owning contexts to Size and Radius without changing global Spacing; proportional Radius does not establish historical desktop/mobile reference parity"
       ],
       "history": [
+        {
+          "date": "2026-11-10",
+          "event": "Term-level name inclusion extends the existing category projection control. Shipped defaults omit the Color Property term, preserving structured classification, values, publication identities and required-context inventories; other Property terms keep their names. Authoring version 29 applies the default to implicit choices in older saved/working records and preserves explicit choices and unrelated edits. Focused tests cover every represented base palette, the actual Analysis comparison/table data, additional app-only High variants, collisions, exact authored Changes, narrow reset, name-only Impact, and Save/Cancel/reload. This is not a color-parameter change, full value-parity claim, historical pin refresh or upstream acceptance.",
+          "evidence": [
+            "tests/palette-naming.ts",
+            "tests/palette-assessment.ts",
+            "tests/color-alignment-defaults.ts",
+            "docs/token-alignment-workflow.md"
+          ]
+        },
         {
           "date": "2026-10-06",
           "event": "Architecture slice started against reviewed Spectrum studio baseline cca2d9b",

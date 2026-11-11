@@ -173,6 +173,7 @@ test("Typography panel NumberFields and Pickers use equal columns and paired fie
     .click();
   await page.getByRole("tab", { name: "Typography", exact: true }).click();
   const panel = page.locator('[data-component="FoundationsTypographyPanel"]');
+  await panel.getByRole("tab", { name: "Font sizes", exact: true }).click();
   const base = panel.getByRole("textbox", { name: /^Base size/ });
   const rootForInput = (input: ReturnType<typeof panel.getByRole>) =>
     input.locator("../..");
@@ -196,9 +197,7 @@ test("Typography panel NumberFields and Pickers use equal columns and paired fie
       (await scaleRoot.boundingBox())!.y - (await ratioRoot.boundingBox())!.y,
     ),
   ).toBeLessThanOrEqual(1);
-  await panel
-    .getByRole("button", { name: "Line heights", exact: true })
-    .click();
+  await panel.getByRole("tab", { name: "Line heights", exact: true }).click();
   const card = panel.getByRole("region", {
     name: "body line height",
     exact: true,

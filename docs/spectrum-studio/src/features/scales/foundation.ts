@@ -28,6 +28,8 @@ export interface DimensionScale
   id: string;
   name: string;
   nameRef?: TaxonomyNameReference;
+  /** Apply component size before rounding, rather than at a Structure consumer. */
+  componentSizeScaling?: boolean;
 }
 
 /** The saved shape shared by every foundation made of dimension scales, such as spacing and size. */
@@ -70,6 +72,8 @@ export function isDimensionScale(value: unknown): value is DimensionScale {
     isFoundationPublishingMetadata(scale) &&
     typeof scale.name === "string" &&
     typeof scale.scaleTypeId === "string" &&
+    (scale.componentSizeScaling === undefined ||
+      typeof scale.componentSizeScaling === "boolean") &&
     (scale.base === undefined || isFiniteNumber(scale.base)) &&
     isFiniteNumber(scale.below) &&
     isFiniteNumber(scale.above) &&
@@ -156,7 +160,7 @@ export function generateDimensionScale(
       rules,
       scaleTypes,
       rawValueMultiplier:
-        prefix === "size" || prefix === "radius"
+        prefix === "size" || prefix === "radius" || scale.componentSizeScaling
           ? sizing.status === "ready"
             ? sizing.componentSize
             : Number.NaN

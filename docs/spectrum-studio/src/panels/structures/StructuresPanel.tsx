@@ -57,7 +57,7 @@ export function StructuresPanel() {
       ) : (
         <ListView
           aria-label="Structures"
-          UNSAFE_className="structuresList"
+          UNSAFE_className="structuresList previewList"
           selectionMode="single"
           selectionStyle="highlight"
           isQuiet

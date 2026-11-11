@@ -19,6 +19,9 @@ export interface NotificationKind {
 }
 
 export const NOTIFICATION_KINDS = {
+  style: { noun: "Style", tier: "item" },
+  styleProperty: { noun: "Property", tier: "part" },
+  styleOption: { noun: "Option", tier: "part" },
   structure: { noun: "Structure", tier: "item" },
   structureLayer: { noun: "Layer", tier: "part" },
   structureElement: { noun: "Element", tier: "part" },
@@ -63,6 +66,7 @@ export const NOTIFICATION_KINDS = {
   dimensionScale: { noun: "Scale", tier: "item" },
   opacityLevel: { noun: "Opacity level", tier: "item" },
   lineHeight: { noun: "Line height", tier: "item" },
+  font: { noun: "Font", tier: "item" },
   shadowLayer: { noun: "Shadow layer", tier: "part" },
   modeSet: { noun: "Mode set", tier: "item" },
   formula: { noun: "Formula", tier: "item" },

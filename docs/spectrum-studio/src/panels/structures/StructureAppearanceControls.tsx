@@ -9,10 +9,9 @@ import {
   ToggleButtonGroup,
 } from "@react-spectrum/s2";
 import { useState, type ReactNode } from "react";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { CategoryIcon } from "../../components/CategoryIcon";
 import { NestedPanelAccordion } from "../../components/NestedPanelAccordion";
-import { SideLabelRow } from "../../components/fields/SideLabelRow";
+import { DesignValueDisplay } from "../design/DesignEditorPanel";
 import { DividableComboBox } from "../../components/fields/DividableComboBox";
 import {
   TokenComboBox,
@@ -67,7 +66,6 @@ export interface StructureAppearanceControlsProps {
   layoutControls?: ReactNode;
   sizingLayout?: "paired" | "individual";
 }
-const fullWidth = style({ width: "full" });
 const CONTROL_SIZE = "S";
 
 function numberLiteral(
@@ -232,44 +230,6 @@ export function StructureAppearanceControls({
       />
     );
   };
-  const sideRow = (
-    label: string,
-    selectedKey: string,
-    items: { id: string; label: string }[],
-    onSelect: (id: string) => void,
-    isDisabled = false,
-  ) => (
-    <SideLabelRow
-      label={label}
-      size={CONTROL_SIZE}
-      labelWidth="auto"
-      isDisabled={isDisabled}
-    >
-      {(labelId) => (
-        <ToggleButtonGroup
-          aria-labelledby={labelId}
-          size={CONTROL_SIZE}
-          density="compact"
-          isJustified
-          styles={fullWidth}
-          selectionMode="single"
-          disallowEmptySelection
-          isDisabled={isDisabled}
-          selectedKeys={[selectedKey]}
-          onSelectionChange={(keys) => {
-            const id = [...keys][0];
-            if (typeof id === "string") onSelect(id);
-          }}
-        >
-          {items.map((item) => (
-            <ToggleButton key={item.id} id={item.id}>
-              {item.label}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      )}
-    </SideLabelRow>
-  );
   const constraintSlots = [
     "minWidth",
     "minHeight",
@@ -421,17 +381,7 @@ export function StructureAppearanceControls({
         </div>
       )}
       <div className="structureAppearanceLoose">
-        {sideRow(
-          "Show as",
-          displayMode,
-          [
-            { id: "tokens", label: "Tokens" },
-            { id: "values", label: "Values" },
-          ],
-          (id) => {
-            if (id === "tokens" || id === "values") setDisplayMode(id);
-          },
-        )}
+        <DesignValueDisplay value={displayMode} onChange={setDisplayMode} />
       </div>
       {sections.length > 0 && (
         <Accordion

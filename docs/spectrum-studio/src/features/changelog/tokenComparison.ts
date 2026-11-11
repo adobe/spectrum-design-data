@@ -198,6 +198,7 @@ function dependencyPaths(
     | "id"
     | "type"
     | "groupId"
+    | "fontId"
     | "dataVis"
     | "paletteColorId"
     | "taxonomySource"
@@ -262,6 +263,9 @@ function dependencyPaths(
       uiScale(source.scaleId, source.contrastId);
   } else if (token.type === "colors") {
     uiScale(token.groupId, token.taxonomySource?.stepId);
+  } else if (token.fontId) {
+    paths.push(entity("typography", "fonts", token.fontId));
+    paths.push(["typography", "hideFromPublishing"]);
   } else if (token.type === "typography") {
     for (const key of [
       "scaleTypeId",
@@ -353,7 +357,7 @@ function dependencyPaths(
       (candidate) => candidate.id === token.groupId,
     );
     paths.push(entity(token.type, "scales", token.groupId));
-    if (token.type !== "spacing")
+    if (token.type !== "spacing" || scale?.componentSizeScaling)
       paths.push(["componentSizing", "componentSize"]);
     if (scale) {
       paths.push(

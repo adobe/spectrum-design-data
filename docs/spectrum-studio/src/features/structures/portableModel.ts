@@ -59,8 +59,8 @@ export type StructureEffect =
       kind: "elementFields";
       elementId: string;
       fields: Pick<PortableElement, "bindings"> &
-        Partial<Pick<PortableElement, "orientation" | "name">>;
-      unset: ("orientation" | "name")[];
+        Partial<Pick<PortableElement, "orientation" | "name" | "textStyle">>;
+      unset: ("orientation" | "name" | "textStyle")[];
     };
 
 export interface StructureConfiguration {

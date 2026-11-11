@@ -12,14 +12,15 @@ export function TextValuePreview({
   fontStyle = "normal",
   fontFamily,
   style,
-}: PreviewTextOptions & { style?: CSSProperties }) {
+  sampleText = "Ag",
+}: PreviewTextOptions & { style?: CSSProperties; sampleText?: string }) {
   return (
     <span
       aria-hidden="true"
       className="valuePreviewText"
       style={{ fontSize, fontWeight, fontStyle, fontFamily, ...style }}
     >
-      Ag
+      {sampleText}
     </span>
   );
 }

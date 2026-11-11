@@ -24,6 +24,7 @@ export function projectSnapshot(
           browserTokenEdits: snapshot.browserTokenEdits,
           taxonomy: snapshot.taxonomy ?? defaults.system.taxonomy,
           structures: snapshot.structures ?? defaults.system.structures,
+          styles: snapshot.styles ?? defaults.system.styles,
           foundations: {
             ...(snapshot.opacity && { opacity: snapshot.opacity }),
             color: snapshot.colorSystem,

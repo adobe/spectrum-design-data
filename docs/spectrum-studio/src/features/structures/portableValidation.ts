@@ -118,6 +118,8 @@ export function portableStructureIssues(
       if (effect.kind === "elementFields") {
         if (
           !Array.isArray(effect.fields.bindings) ||
+          (Object.hasOwn(effect.fields, "textStyle") &&
+            effect.unset.includes("textStyle")) ||
           ["orientation", "name"].some(
             (key) =>
               Object.hasOwn(effect.fields, key) ===

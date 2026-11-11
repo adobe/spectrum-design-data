@@ -11,6 +11,10 @@ import { primitiveReferencesAtom } from "./primitiveReferenceState";
 import { browserModeContextAtom } from "./browserState";
 import type { BrowserToken } from "./browserModel";
 import { semanticTokenSource } from "./semanticSource";
+import { styleArtifactsAtom } from "../styles/state";
+import { styleBrowserToken } from "../styles/artifacts";
+import { authoringSourceSnapshotAtom } from "../edit-session/state";
+import { canonicalTokenModeKey } from "./browserModel";
 
 export const semanticBrowserStateAtom = atom(
   (
@@ -52,7 +56,21 @@ export const semanticBrowserStateAtom = atom(
           ),
         ),
       );
-      return { status: "ready", tokens };
+      const styles = get(styleArtifactsAtom);
+      tokens.push(
+        ...styles.rows
+          .filter((row) => row.modeKey === canonicalTokenModeKey(selection))
+          .map((row) =>
+            styleBrowserToken(row, get(authoringSourceSnapshotAtom)),
+          ),
+      );
+      return styles.issues.length
+        ? {
+            status: "error",
+            tokens,
+            error: styles.issues.map((issue) => issue.message).join(" "),
+          }
+        : { status: "ready", tokens };
     } catch (failure) {
       return {
         status: "error",

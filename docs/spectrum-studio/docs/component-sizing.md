@@ -67,8 +67,10 @@ Existing clamps, rounding choices, output units and explicit bindings remain
 in place.
 
 In Structures, Component size applies to active Generator targets that use
-eligible typed geometry or Spacing references. A Spacing primitive itself
-does not change: only its component use does. References to Size, Radius and
+Spacing references. Ordinary Spacing primitives do not change: only their
+component use does. A Spacing scale with **Follow component size** enabled
+instead applies the multiplier before rounding in its Foundation generator.
+Structure generation does not multiply those values again. References to Size, Radius and
 Typography already contain their resolved scaling, so they are not multiplied
 again. Centered padding is recomputed from resolved minimum height and content
 height; its final result is not scaled again.
@@ -78,6 +80,32 @@ Hug/Fill, unitless ratios, colors, opacity, elevation, motion and preview
 fallback sizes are not inputs to this multiplier. Explicit token overrides
 retain precedence and their original generated baselines for staleness review.
 They are not multiplied after being applied.
+
+## Layout values and Foundation scales
+
+Entering a hardcoded layout value under a generation rule opens a scale choice.
+**Reuse existing formula** creates a Foundation scale linked to that formula,
+with the entered value as its base. **Create new formula** opens the formula
+editor before creating the scale. **Keep value static** excludes the property
+from the Structure's generation rule. A value without a generation rule stays
+fixed without a prompt.
+
+Selecting a token normally follows its own scale using the rule's offsets.
+If the property was excluded from generation, the editor asks before restoring
+it. When more than one rule could apply, choose which rule to restore.
+The Foundation scale remains editable through its formula, base, range and
+rounding settings.
+
+One shared edit, such as setting left and right padding together, creates one
+shared scale. Separate edits create separate scales. Formula and scale changes
+stay pending until Apply; Cancel creates neither a scale nor Registry terms.
+This flow applies to layout properties, not child text or icon bindings.
+
+Storage version 31 converts legacy ratio-generated layout values to explicit
+Foundation scales. Base horizontal padding stays linked to the Type scale
+formula and retains its desktop and mobile values. Saved and working edits
+are converted independently with shared identities. **Multiply by ratio**
+is no longer offered in the Generator editor.
 
 Platform-neutral pseudocode for this first phase:
 
@@ -163,3 +191,7 @@ adaptation. That communication feature remains a separate tracked deliverable.
 - [Authoring lifecycle](../tests/component-sizing-lifecycle.ts): independent
   upgrades, saved precision, default/modal editing, Changes/reset, real Impact,
   Save, Cancel and reload.
+- [Layout scale authoring](../tests/structure-layout-scales.ts): formula choices,
+  static exclusions, rule application, token re-enrollment and cancellation.
+- [Layout scale conversion](../tests/structure-layout-scale-migration.ts): exact
+  mode values, linked formula propagation, Changes/reset and storage version 31.

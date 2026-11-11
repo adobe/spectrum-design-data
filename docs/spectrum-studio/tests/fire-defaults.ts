@@ -62,19 +62,19 @@ import { tokenIdentity } from "../src/features/tokens/canonicalIdentity";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 
 const correctedLightValues = new Map([
-  ["fuchsia-color-1500", "#360041"],
-  ["celery-color-800", "#5c8c36"],
-  ["green-color-1200", "#004c34"],
-  ["celery-color-400", "#b3d69e"],
-  ["green-color-500", "#7fc69a"],
-  ["pink-color-600", "#ec79be"],
-  ["fuchsia-color-900", "#b33bc7"],
-  ["purple-color-1200", "#5f0ca7"],
-  ["indigo-color-1500", "#1e0062"],
-  ["fuchsia-color-1200", "#6f1580"],
-  ["turquoise-color-300", "#c0e7ed"],
-  ["cyan-color-500", "#85bcee"],
-  ["blue-color-800", "#4c77f6"],
+  ["fuchsia-1500", "#360041"],
+  ["celery-800", "#5c8c36"],
+  ["green-1200", "#004c34"],
+  ["celery-400", "#b3d69e"],
+  ["green-500", "#7fc69a"],
+  ["pink-600", "#ec79be"],
+  ["fuchsia-900", "#b33bc7"],
+  ["purple-1200", "#5f0ca7"],
+  ["indigo-1500", "#1e0062"],
+  ["fuchsia-1200", "#6f1580"],
+  ["turquoise-300", "#c0e7ed"],
+  ["cyan-500", "#85bcee"],
+  ["blue-800", "#4c77f6"],
 ]);
 const verifiedCorrections = new Set<string>();
 

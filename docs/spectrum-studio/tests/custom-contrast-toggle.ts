@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import {
@@ -385,7 +386,7 @@ try {
     flushPersistedState();
     assert.deepEqual(
       JSON.parse(
-        data.get(AUTHORING_STORAGE_KEY)!,
+        decodeAuthoringStorage(data.get(AUTHORING_STORAGE_KEY)!),
       ).saved.colorSystem.scales.find(
         (scale: { id: string }) => scale.id === gray.id,
       ).disabledCustomContrasts,

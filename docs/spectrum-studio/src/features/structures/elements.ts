@@ -61,6 +61,10 @@ interface ElementBindingBase {
   slot: ElementSlot;
   family: "size" | "typography";
 }
+export interface TextStyleReference {
+  recipeId: string;
+  options: { [propertyId: string]: string };
+}
 export type ElementBinding = ElementBindingBase &
   (
     | { $ref: string; value?: never }
@@ -74,6 +78,7 @@ export interface StructureElement {
   glyph?: string;
   orientation?: string;
   name?: string;
+  textStyle?: TextStyleReference;
 }
 export const elementLabel = (element: StructureElement) =>
   element.kind === "slot" ? element.name! : ELEMENT_TYPES[element.kind].label;
@@ -119,6 +124,7 @@ export function isStructureElement(value: unknown): value is StructureElement {
       "glyph",
       "orientation",
       "name",
+      "textStyle",
     ]) ||
     typeof value.id !== "string" ||
     !taxonomyIdPattern.test(value.id) ||
@@ -132,6 +138,22 @@ export function isStructureElement(value: unknown): value is StructureElement {
   if (kind === "slot") {
     if (typeof value.name !== "string" || !value.name.trim()) return false;
   } else if (value.name !== undefined) return false;
+  if (
+    value.textStyle !== undefined &&
+    (kind !== "text" ||
+      !record(value.textStyle) ||
+      !fields(value.textStyle, ["recipeId", "options"]) ||
+      typeof value.textStyle.recipeId !== "string" ||
+      !taxonomyIdPattern.test(value.textStyle.recipeId) ||
+      !record(value.textStyle.options) ||
+      !Object.entries(value.textStyle.options).every(
+        ([key, id]) =>
+          taxonomyIdPattern.test(key) &&
+          typeof id === "string" &&
+          taxonomyIdPattern.test(id),
+      ))
+  )
+    return false;
   if (kind === "workflowIcon" || kind === "uiIcon") {
     if (
       !isSpectrumIconName(value.glyph) ||

@@ -13,11 +13,15 @@ import type { TokenComparison } from "./tokenComparison";
 import type { AuthoringComparison } from "./registry";
 import type { ChangeField } from "./changes";
 import { sameValue } from "./contract";
+import { buildStylesForSource } from "../styles/artifacts";
 
 const inventories = new WeakMap<EditSessionSnapshot, CanonicalAliasRow[]>();
 function inventory(snapshot: EditSessionSnapshot) {
   const cached = inventories.get(snapshot);
   if (cached) return cached;
+  const styles = buildStylesForSource(snapshot);
+  if (styles.issues.length)
+    throw new Error(styles.issues.map((issue) => issue.message).join(" "));
   const rows = canonicalAliasRows(
     completeAliasSource(snapshot),
     buildTshirtArtifacts(snapshot),
@@ -30,15 +34,17 @@ function inventory(snapshot: EditSessionSnapshot) {
 }
 
 export function hasEffectiveTokenEdits(...snapshots: EditSessionSnapshot[]) {
-  return snapshots.some((snapshot) =>
-    Object.values(snapshot.browserTokenEdits ?? {}).some(
-      (edit) =>
-        edit.authoring &&
-        (Object.keys(edit.authoring.assignments).length > 0 ||
-          Object.keys(edit.authoring).some(
-            (key) => key !== "identity" && key !== "assignments",
-          )),
-    ),
+  return snapshots.some(
+    (snapshot) =>
+      !!snapshot.styles?.recipes.length ||
+      Object.values(snapshot.browserTokenEdits ?? {}).some(
+        (edit) =>
+          edit.authoring &&
+          (Object.keys(edit.authoring.assignments).length > 0 ||
+            Object.keys(edit.authoring).some(
+              (key) => key !== "identity" && key !== "assignments",
+            )),
+      ),
   );
 }
 
@@ -51,7 +57,7 @@ export function compareEffectiveTokens(
   const group = (snapshot: EditSessionSnapshot) => {
     const result = new Map<string, Map<string, CanonicalAliasRow>>();
     for (const row of inventory(snapshot).filter(
-      (row) => !!row.token.semantic === semantic,
+      (row) => (!!row.token.semantic || !!row.token.style) === semantic,
     )) {
       const contexts =
         result.get(row.token.id) ?? new Map<string, CanonicalAliasRow>();
@@ -69,6 +75,20 @@ export function compareEffectiveTokens(
     const original = left?.values().next().value?.token;
     const latest = right?.values().next().value?.token;
     const token = latest ?? original!;
+    const styleRecipeIds = new Set(
+      [original?.style?.recipeId, latest?.style?.recipeId].filter(
+        (id) => id !== undefined,
+      ),
+    );
+    const styleRuleIds = new Set(
+      [shipped, working].flatMap((snapshot) =>
+        (snapshot.styles?.recipes ?? [])
+          .filter((recipe) => styleRecipeIds.has(recipe.id))
+          .flatMap((recipe) =>
+            recipe.applications.map((application) => application.ruleId),
+          ),
+      ),
+    );
     const edit = working.browserTokenEdits?.[id];
     const fields: ChangeField[] = [];
     for (const [label, property, a, b] of [
@@ -227,8 +247,23 @@ export function compareEffectiveTokens(
         upstream: authored.groups.flatMap((group) =>
           group.items.flatMap((item) =>
             item.fields.flatMap((field) =>
-              field.address?.path[0] === "browserTokenEdits" &&
-              field.address.path[1] === id
+              field.address &&
+              ((field.address.path[0] === "browserTokenEdits" &&
+                field.address.path[1] === id) ||
+                (field.address.path[0] === "styles" &&
+                  field.address.path.some(
+                    (part) =>
+                      typeof part === "object" &&
+                      "id" in part &&
+                      styleRecipeIds.has(part.id),
+                  )) ||
+                (field.address.path[0] === "rules" &&
+                  field.address.path.some(
+                    (part) =>
+                      typeof part === "object" &&
+                      "id" in part &&
+                      styleRuleIds.has(part.id),
+                  )))
                 ? [
                     {
                       title: `${item.title} / ${field.key}`,

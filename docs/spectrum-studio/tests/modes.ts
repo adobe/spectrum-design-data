@@ -1,5 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
+import Color from "colorjs.io";
+import {
+  serializePickerColor,
+  pickerColorsEqual,
+} from "../src/components/color-picker/colorUtils";
 import { enterEditModeAtom } from "../src/features/edit-session/state";
 import { createStore } from "jotai";
 import {
@@ -216,6 +221,20 @@ function mode(id: string, overrides?: Partial<Mode>): Mode {
 }
 
 const light = mode("light");
+const shadowSource = new Color("p3", [0.9, 0.1, 0.1], 0.35);
+const shadowMode = setParameterValue(
+  light,
+  "elevation.color",
+  serializePickerColor(shadowSource, "sRGB"),
+);
+const restoredShadow = new Color(shadowMode.foundations.elevation!.color!);
+assert.ok(pickerColorsEqual(restoredShadow, shadowSource));
+assert.equal(Number(restoredShadow.alpha), 0.35);
+assert.deepEqual(
+  light.foundations,
+  {},
+  "A picker callback must not mutate its source mode.",
+);
 const dark = setParameterValue(mode("dark"), "color.backgroundLightness", 0.1);
 assert.deepEqual(dark.foundations.color, { backgroundLightness: 0.1 });
 assert.deepEqual(

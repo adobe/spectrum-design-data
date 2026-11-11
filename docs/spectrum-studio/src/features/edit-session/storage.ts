@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { upgradeTypographyFontsSnapshot } from "../typography/fontsUpgrade";
 import {
   isFoundationModeAttachments,
   type FoundationModeAttachments,
@@ -6,6 +7,12 @@ import {
 import { upgradeGeneratorRulesSnapshot } from "./generatorRulesUpgrade";
 import { upgradeScaleAdjustmentSnapshot } from "./scaleAdjustmentUpgrade";
 import { upgradeFoundationSettingsSnapshot } from "./foundationSettingsUpgrade";
+import { upgradeColorNamingSnapshot } from "./colorNamingUpgrade";
+import { upgradeStylesSnapshot } from "./stylesUpgrade";
+import {
+  isLayoutScaleMigrationSource,
+  upgradeLayoutScalesSnapshot,
+} from "./layoutScalesUpgrade";
 import { upgradeTokenTierData } from "./tokenTierUpgrade";
 import { upgradePlatformScaleSnapshot } from "./platformScaleUpgrade";
 import { upgradeScaleKeys } from "../modes/scaleKeys";
@@ -17,10 +24,14 @@ import {
   encodeStructureSource,
   decodeStructureSource,
 } from "./structureSourceCodec";
+import {
+  decodeAuthoringStorage,
+  encodeAuthoringStorage,
+} from "./authoringStorageCodec";
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
-export const AUTHORING_RECORD_VERSION = 28;
+export const AUTHORING_RECORD_VERSION = 33;
 
 export interface AuthoringRecord<T> {
   version:
@@ -51,7 +62,12 @@ export interface AuthoringRecord<T> {
     | 25
     | 26
     | 27
-    | 28;
+    | 28
+    | 29
+    | 30
+    | 31
+    | 32
+    | 33;
   working: T;
   saved: T;
   isEditing: boolean;
@@ -105,7 +121,12 @@ export function readAuthoringRecord<T>(
       | 24
       | 25
       | 26
-      | 27,
+      | 27
+      | 28
+      | 29
+      | 30
+      | 31
+      | 32,
   ) => unknown,
   reportIssue?: (message: string) => void,
   reconcile?: (value: T, identities: Map<string, string>) => T,
@@ -113,7 +134,7 @@ export function readAuthoringRecord<T>(
   if (typeof window === "undefined") return null;
   const raw = window.localStorage.getItem(AUTHORING_STORAGE_KEY);
   if (raw === null) return null;
-  const value: unknown = JSON.parse(raw);
+  const value: unknown = JSON.parse(decodeAuthoringStorage(raw));
   if (
     !isRecord(value) ||
     (value.version !== 1 &&
@@ -143,6 +164,11 @@ export function readAuthoringRecord<T>(
       value.version !== 25 &&
       value.version !== 26 &&
       value.version !== 27 &&
+      value.version !== 28 &&
+      value.version !== 29 &&
+      value.version !== 30 &&
+      value.version !== 31 &&
+      value.version !== 32 &&
       value.version !== AUTHORING_RECORD_VERSION) ||
     typeof value.isEditing !== "boolean" ||
     !isFoundationModeAttachments(value.attachments) ||
@@ -153,35 +179,45 @@ export function readAuthoringRecord<T>(
     );
   }
   const identities = new Map<string, string>();
-  const working = upgradeTokenTierData(
-    decodeStructureSource(
-      value.version !== AUTHORING_RECORD_VERSION && upgrade
-        ? upgradeGeneratorRulesSnapshot(
-            upgrade(
-              upgradeScaleAdjustmentSnapshot(
-                upgradeSizingFields(upgradeTokenTierData(value.working)),
+  const working = upgradeTypographyFontsSnapshot(
+    upgradeTokenTierData(
+      decodeStructureSource(
+        value.version !== AUTHORING_RECORD_VERSION &&
+          value.version < 28 &&
+          upgrade
+          ? upgradeGeneratorRulesSnapshot(
+              upgrade(
+                upgradeScaleAdjustmentSnapshot(
+                  upgradeSizingFields(upgradeTokenTierData(value.working)),
+                ),
+                value.version,
               ),
-              value.version,
-            ),
-          )
-        : value.working,
-      identities,
+            )
+          : value.working,
+        identities,
+      ),
     ),
+    identities,
   );
-  const saved = upgradeTokenTierData(
-    decodeStructureSource(
-      value.version !== AUTHORING_RECORD_VERSION && upgrade
-        ? upgradeGeneratorRulesSnapshot(
-            upgrade(
-              upgradeScaleAdjustmentSnapshot(
-                upgradeSizingFields(upgradeTokenTierData(value.saved)),
+  const saved = upgradeTypographyFontsSnapshot(
+    upgradeTokenTierData(
+      decodeStructureSource(
+        value.version !== AUTHORING_RECORD_VERSION &&
+          value.version < 28 &&
+          upgrade
+          ? upgradeGeneratorRulesSnapshot(
+              upgrade(
+                upgradeScaleAdjustmentSnapshot(
+                  upgradeSizingFields(upgradeTokenTierData(value.saved)),
+                ),
+                value.version,
               ),
-              value.version,
-            ),
-          )
-        : value.saved,
-      identities,
+            )
+          : value.saved,
+        identities,
+      ),
     ),
+    identities,
   );
   const platformWorking =
     value.version < 25
@@ -210,21 +246,41 @@ export function readAuthoringRecord<T>(
   validate(keyedWorking);
   validate(keyedSaved);
   const upgradedWorking =
-    value.version !== AUTHORING_RECORD_VERSION && upgrade
+    value.version < 28 && upgrade
       ? upgradeFoundationSettingsSnapshot(keyedWorking)
       : keyedWorking;
   const upgradedSaved =
-    value.version !== AUTHORING_RECORD_VERSION && upgrade
+    value.version < 28 && upgrade
       ? upgradeFoundationSettingsSnapshot(keyedSaved)
       : keyedSaved;
-  validate(upgradedWorking);
-  validate(upgradedSaved);
+  const namedWorking =
+    value.version < 29 && upgrade
+      ? upgradeColorNamingSnapshot(upgradedWorking)
+      : upgradedWorking;
+  const namedSaved =
+    value.version < 29 && upgrade
+      ? upgradeColorNamingSnapshot(upgradedSaved)
+      : upgradedSaved;
+  const stylesWorking = upgrade
+    ? upgradeStylesSnapshot(namedWorking)
+    : namedWorking;
+  const stylesSaved = upgrade ? upgradeStylesSnapshot(namedSaved) : namedSaved;
+  validate(stylesWorking);
+  validate(stylesSaved);
+  const layoutWorking =
+    value.version < 31 && upgrade && isLayoutScaleMigrationSource(stylesWorking)
+      ? upgradeLayoutScalesSnapshot(stylesWorking, identities)
+      : stylesWorking;
+  const layoutSaved =
+    value.version < 31 && upgrade && isLayoutScaleMigrationSource(stylesSaved)
+      ? upgradeLayoutScalesSnapshot(stylesSaved, identities)
+      : stylesSaved;
+  validate(layoutWorking);
+  validate(layoutSaved);
   const record: AuthoringRecord<T> = {
     version: upgrade ? AUTHORING_RECORD_VERSION : value.version,
-    working: reconcile
-      ? reconcile(upgradedWorking, identities)
-      : upgradedWorking,
-    saved: reconcile ? reconcile(upgradedSaved, identities) : upgradedSaved,
+    working: reconcile ? reconcile(layoutWorking, identities) : layoutWorking,
+    saved: reconcile ? reconcile(layoutSaved, identities) : layoutSaved,
     isEditing: value.isEditing,
     attachments: value.attachments,
     savedAttachments: value.savedAttachments,
@@ -243,7 +299,7 @@ export function writeAuthoringRecord<T>(
     throw new Error(
       "Stored changes could not be restored. Reset all before replacing them.",
     );
-  const serialized = JSON.stringify({
+  const serialized = encodeAuthoringStorage({
     ...record,
     working:
       record.version === AUTHORING_RECORD_VERSION

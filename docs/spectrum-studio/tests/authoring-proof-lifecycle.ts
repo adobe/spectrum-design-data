@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { mock } from "node:test";
 import { createStore } from "jotai";
@@ -251,7 +252,9 @@ try {
     );
     assert.equal(storage.writes, 1);
     assert.deepEqual(
-      JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      JSON.parse(
+        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      ),
       expectedStoredRecord(store),
     );
   });
@@ -290,7 +293,9 @@ try {
         ),
       );
       assert.deepEqual(
-        JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
+        JSON.parse(
+          decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
+        ),
         expectedStoredRecord(store),
       );
     });
@@ -318,7 +323,10 @@ try {
       await advance();
       assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), durable);
       assert.equal(storage.writes, writes);
-      assert.deepEqual(JSON.parse(durable), expectedStoredRecord(store));
+      assert.deepEqual(
+        JSON.parse(decodeAuthoringStorage(durable)),
+        expectedStoredRecord(store),
+      );
     });
   await scenario(async (store, bootstrap) => {
     bootstrap.reply({
@@ -354,7 +362,9 @@ try {
     resolve(activeWorker());
     await advance();
     assert.deepEqual(
-      JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      JSON.parse(
+        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      ),
       expectedStoredRecord(store),
     );
   });
@@ -380,7 +390,9 @@ try {
       ),
     );
     assert.deepEqual(
-      JSON.parse(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      JSON.parse(
+        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
+      ),
       expectedStoredRecord(store),
     );
   });

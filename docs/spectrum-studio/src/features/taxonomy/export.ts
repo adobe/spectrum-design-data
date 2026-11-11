@@ -15,6 +15,10 @@ import { aliasReferencePacket, type AliasDocument } from "../tokens/aliases";
 import { projectShadowValue } from "../design-data/shadowValue";
 import type { TokenTier } from "../tokens/tier";
 import { tokenOutputMetadata } from "../tokens/outputMetadata";
+import {
+  FONT_FAMILY_SCHEMA,
+  fontFamilyOutputIssue,
+} from "../typography/fontTokens";
 export const TAXONOMY_PROFILE = "leonardo-flat-taxonomy-v1";
 export interface TaxonomyExport {
   schemaVersion: 1;
@@ -165,6 +169,8 @@ export function canonicalTokenRecord(
   rows: readonly CanonicalAliasRow[],
 ) {
   const resolved = canonicalTaxonomyValue(row, rows);
+  const fontIssue = fontFamilyOutputIssue(row.token);
+  if (fontIssue) throw new Error(fontIssue);
   const value =
     "$ref" in resolved
       ? resolved
@@ -177,6 +183,7 @@ export function canonicalTokenRecord(
   return {
     uuid: row.rowId,
     conceptId: row.id,
+    ...(row.token.fontId && { $schema: FONT_FAMILY_SCHEMA }),
     name:
       row.canonicalName ??
       row.token.semantic?.token.name ??

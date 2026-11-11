@@ -11,15 +11,6 @@
   resize: horizontal;
 }
 
-.structureEditorFields {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-  width: 100%;
-  flex-grow: 1;
-}
-
 .structureEditorPair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -40,12 +31,6 @@
   flex-direction: column;
   min-width: 0;
   width: 100%;
-}
-
-/* Rows outside the section accordions align with accordion panel content (Small: 8px inset). */
-.structureAppearanceLoose {
-  padding: 8px;
-  min-width: 0;
 }
 
 /* S2 TreeView has no Small size; zoom scales it to the Small ratio (1 / 1.125) and its layout box. */

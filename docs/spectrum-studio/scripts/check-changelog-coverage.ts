@@ -27,9 +27,17 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 // component-sizing-lifecycle.ts and changelog-schema-review.ts --sizing-only cover the shared
 // size source, typography baseline, both modal overrides and availability settings, including
 // valid narrow resets, independent upgrades, exact Impact unions and Save/Cancel/reload.
+// palette-naming.ts covers optional term projection flags, field-level reset, exact Changes counts,
+// unchanged values/identities/denominators and independent Save/Cancel/reload without a data migration.
+// structure-layout-scales.ts and structure-layout-scale-migration.ts cover component-size
+// scaling, linked formulas, explicit static exclusions, Changes/reset, and v31 Save/Cancel/reload.
+// styles.ts, styles-integration.ts and styles-lifecycle.ts cover recipe fields, option
+// differences, selected rule outputs, named property expansion, stable publications,
+// field/domain reset addresses, independent v29 upgrades, Save/Cancel/reload, Delete/Undo,
+// real Component Impact and preview-only selections without altering output identities.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "4c38855ac8495e7782715744fd50043f246b6fe0f170bbde661926bc1fdd3579";
+  "ee812ed2a5e3e023cfe4f0abec2b1b931d68fcfe89ff119f1ae66de6d5913a85";
 const schemaMetadata = new Set([
   "title",
   "description",
@@ -53,6 +61,164 @@ export function assertChangeSchemaCoverage(value: {
   definitions: Record<string, object>;
 }) {
   const definitions = structuredClone(value.definitions);
+  // text-styles.ts covers complete references, option removal, map values and atomic resets.
+  const propertiesOf = (name: string) => {
+    const definition = definitions[name];
+    assert(
+      definition &&
+        "properties" in definition &&
+        definition.properties &&
+        typeof definition.properties === "object",
+    );
+    return definition.properties;
+  };
+  assert.deepEqual(
+    schemaShape(definitions.TextStyleReference),
+    schemaShape({
+      type: "object",
+      properties: {
+        recipeId: { type: "string" },
+        options: { type: "object", additionalProperties: { type: "string" } },
+      },
+      additionalProperties: false,
+      required: ["options", "recipeId"],
+    }),
+  );
+  const elementProperties = propertiesOf("PortableElement");
+  assert.deepEqual(Reflect.get(elementProperties, "textStyle"), {
+    $ref: "#/definitions/TextStyleReference",
+  });
+  Reflect.deleteProperty(elementProperties, "textStyle");
+  const effect = definitions.StructureEffect;
+  assert("anyOf" in effect && Array.isArray(effect.anyOf));
+  const fieldsEffect = effect.anyOf.find(
+    (entry) => entry.properties?.kind?.const === "elementFields",
+  );
+  assert(fieldsEffect);
+  assert.deepEqual(fieldsEffect.properties.fields.properties.textStyle, {
+    $ref: "#/definitions/TextStyleReference",
+  });
+  assert.deepEqual(fieldsEffect.properties.unset.items.enum, [
+    "name",
+    "orientation",
+    "textStyle",
+  ]);
+  delete fieldsEffect.properties.fields.properties.textStyle;
+  fieldsEffect.properties.unset.items.enum = ["name", "orientation"];
+  delete definitions.TextStyleReference;
+  const appearance = structuredClone(definitions.StyleAppearance);
+  assert("required" in appearance);
+  Reflect.deleteProperty(appearance, "required");
+  const appearanceProperties = propertiesOf("StyleAppearance");
+  Reflect.set(appearance, "properties", {
+    ...appearanceProperties,
+    color: definitions.StyleColor,
+  });
+  assert.deepEqual(
+    schemaShape(definitions["Partial<StyleAppearance>"]),
+    schemaShape(appearance),
+  );
+  delete definitions["Partial<StyleAppearance>"];
+  for (const [name, field, previous, expected] of [
+    [
+      "StyleRecipe",
+      "differences",
+      "Record<string,Partial<StyleAppearance>>",
+      {
+        type: "object",
+        additionalProperties: {
+          $ref: "#/definitions/Partial%3CStyleAppearance%3E",
+        },
+      },
+    ],
+    [
+      "StylePublication",
+      "rows",
+      "Record<string,string>",
+      {
+        type: "object",
+        additionalProperties: { type: "string" },
+      },
+    ],
+    [
+      "StylesDocument",
+      "examples",
+      "Record<string,{icon:string|null;}>",
+      {
+        type: "object",
+        additionalProperties: {
+          type: "object",
+          properties: { icon: { type: ["null", "string"] } },
+          additionalProperties: false,
+          required: ["icon"],
+        },
+      },
+    ],
+  ] as const) {
+    const properties = propertiesOf(name);
+    assert.deepEqual(
+      schemaShape(Reflect.get(properties, field)),
+      schemaShape(expected),
+    );
+    Reflect.set(properties, field, {
+      $ref: `#/definitions/${encodeURIComponent(previous)}`,
+    });
+    definitions[previous] = { type: "object", additionalProperties: false };
+  }
+  // typography-fonts.ts reviews font fields, identity-based resets, Impact and persistence.
+  assert.deepEqual(
+    schemaShape(definitions.TypographyFont),
+    schemaShape({
+      type: "object",
+      properties: {
+        id: { type: "string" },
+        uuid: { type: "string" },
+        conceptId: { type: "string" },
+        nameReference: { $ref: "#/definitions/TaxonomyNameReference" },
+        name: { type: "string" },
+        fontFamily: { type: "string" },
+      },
+      additionalProperties: false,
+      required: ["conceptId", "fontFamily", "id", "name", "uuid"],
+    }),
+  );
+  const typography = definitions.TypographyDocument;
+  assert(
+    "properties" in typography &&
+      typography.properties &&
+      typeof typography.properties === "object",
+  );
+  assert.deepEqual(Reflect.get(typography.properties, "fonts"), {
+    type: "array",
+    items: { $ref: "#/definitions/TypographyFont" },
+  });
+  assert("required" in typography && Array.isArray(typography.required));
+  assert(typography.required.includes("fonts"));
+  typography.required = typography.required.filter(
+    (key: unknown) => key !== "fonts",
+  );
+  Reflect.deleteProperty(typography.properties, "fonts");
+  assert.deepEqual(Reflect.get(typography.properties, "schemaVersion"), {
+    type: "number",
+    const: 11,
+  });
+  Reflect.set(typography.properties, "schemaVersion", {
+    type: "number",
+    const: 9,
+  });
+  delete definitions.TypographyFont;
+  const dimension = definitions["CanonicalNamedSource<DimensionScale>"];
+  assert(
+    "properties" in dimension &&
+      dimension.properties &&
+      typeof dimension.properties === "object",
+  );
+  assert.deepEqual(
+    schemaShape(Reflect.get(dimension.properties, "componentSizeScaling")),
+    { type: "boolean" },
+    "Dimension component-size scaling needs reviewed Changes coverage.",
+  );
+  Reflect.deleteProperty(dimension.properties, "componentSizeScaling");
   // Publication metadata is checked separately; it must not change authored Changes slots.
   assert.deepEqual(
     schemaShape(definitions.TokenIdentity),

@@ -1,5 +1,18 @@
 # Foundation authoring and generated-token storage contract
 
+## Browser storage encoding
+
+The authoring record keeps complete, independent saved and working snapshots.
+Its storage codec compresses those snapshots losslessly with the
+`lz-string-utf16-v1` encoding. Publication identities and authored values are
+preserved; this changes the browser storage representation, not the design-data
+schema or generated output.
+
+Older plain-JSON records remain readable. Write failures retain the previous
+record and leave Reset all unapplied. Reset all does not clear unrelated storage
+or appearance preferences. `tests/authoring-storage-quota.ts` checks the actual
+shipped defaults against a 5 MiB quota, lossless reload, and reset atomicity.
+
 ## Changes comparison baseline
 
 Changes compares working design data, including unsaved edits, with shipped
@@ -53,6 +66,67 @@ distinct equal-valued branches, and new, removed and re-enabled modes.
 `tests/canonical-identity-lifecycle.ts` covers prototype reference migration,
 independent saved/working edits, identity conflicts, Save, Cancel, reload and
 reset.
+
+## Text Style references
+
+Text leaves optionally store `textStyle: { recipeId, options }`, where `options`
+maps Style property IDs to selected option IDs. Omitted selections use the
+recipe's authored defaults. Complete portable leaf overrides store the
+reference or an explicit `textStyle` removal. Older leaves without this field
+remain unstyled; restoration never adds shipped recipes or assignments.
+
+Style appearance fields and Text Style references reset as complete values,
+so reverting a literal to a reference cannot leave both binding forms behind.
+Style publications retain their concept and mode-row UUIDs through appearance
+edits. Element references consume those rows without creating more concepts.
+Fresh designs and confirmed Reset all receive the six shipped Text Styles and
+the existing Text Structure's Component/Description assignments.
+`tests/text-styles.ts` covers these contracts and shared preview/export output.
+
+## Typography fonts
+
+Authoring envelope **33** stores the Fonts collection in Typography schema **11**.
+Each entry stores its source ID, token UUID, concept ID, Registry name reference,
+editable Name, and plain text Font family. Name edits register the normalized
+Family term; token generation reads that reference rather than parsing the label.
+New cards start with an empty family. They do not load font files or change the
+existing text and numeric-scale previews.
+
+Each font generates one primitive with `property: 'font-family'`, its registered
+`family`, the literal string value, and the design-data font-family schema URL.
+Sans-serif and Serif retain the canonical token and concept IDs. Monospace and
+new fonts have their own saved identities. Families do not inherit text-size
+or text-zoom modes. Blank families remain editable drafts; export requires a
+value accepted by the font-family schema.
+
+Older Typography documents receive Sans-serif (Adobe Clean Spectrum VF),
+Serif (Adobe Clean Serif), and Monospace (Source Code Pro). Saved and working
+snapshots upgrade independently. Existing entries and intentional empty
+collections are preserved.
+
+Font edits, additions, removals, and order changes appear in Changes and
+authored Impact. Field resets retain unrelated edits; removal supports Undo.
+Save, Cancel, reload, and Reset all use the existing Typography lifecycle.
+`tests/typography-fonts.ts` covers these behaviors and unchanged numeric output.
+`tests/font-family-tokens.ts` checks exact canonical font records, Registry
+references, string previews, and identity-preserving migration.
+
+## Explicit layout scales
+
+Authoring envelope **31** converts legacy ratio-generated layout values into
+Foundation scales linked to editable formulas. Saved and working snapshots
+share allocated identities but retain their separate base values. Existing
+Styles data and conditional-rule outputs are preserved.
+
+Converted Spacing scales apply Component size before rounding. Structure
+consumers do not multiply them again, preserving desktop and mobile output.
+The conversion runs once; current records do not recreate deleted scales.
+
+New formula, scale, binding and Registry edits remain pending until all scale
+choices are applied. Cancel creates no records. Keeping a value static excludes
+its property from the generation rule. See
+[Component and text sizing](component-sizing.md) and
+`tests/structure-layout-scale-migration.ts` for the flow and lifecycle coverage.
 
 ## Platform scale default upgrade
 
@@ -484,6 +558,11 @@ execution scheduling within the existing LTAX-002, LTAX-005 and LTAX-014 ownersh
 boundaries, not schema or alignment acceptance.
 
 ## Active Typography previews
+
+Foundation controls use Fonts, Font sizes, Line heights and Iconography tabs.
+System settings and Mode sets remain accordions above them. The selected tab is
+temporary view state, defaults to Fonts and does not change authored data,
+generated tokens or Changes.
 
 Typography keeps its sample text, display choices, icon selection and line-height
 controls outside the derived-preview boundary. The preview defers a coherent

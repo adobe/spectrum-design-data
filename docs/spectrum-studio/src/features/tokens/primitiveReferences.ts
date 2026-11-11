@@ -51,6 +51,7 @@ export interface PrimitiveReference {
   measurement?: NominalFontSizeMeasurement;
   /** A generated value with no token of its own (typed, multiplied, or derived); emitted as a literal. */
   synthetic?: boolean;
+  componentSizeApplied?: boolean;
 }
 export interface PrimitiveReferenceOutputs {
   spacing: { scale: DimensionScale; values: GeneratedDimensionValue[] }[];
@@ -77,7 +78,12 @@ export function primitiveReferencesFromOutputs(
       outputs.typography?.values ?? [],
       outputs.spacing,
       outputs.size,
-      outputs.typography?.naming ?? { registry },
+      outputs.typography
+        ? {
+            ...outputs.typography.naming,
+            fonts: outputs.typography.document.fonts,
+          }
+        : { registry },
       undefined,
       outputs.radius,
       { includeUnpublished: true },
@@ -98,10 +104,20 @@ export function primitiveReferencesFromOutputs(
       index: number;
       step: number;
       hidden: boolean;
+      componentSizeApplied?: boolean;
       metricId?: string;
       unit?: "px" | "multiplier";
     }
   >();
+  for (const font of outputs.typography?.document.fonts ?? [])
+    identities.set(font.id, {
+      sourceId: font.id,
+      sourceName: font.name,
+      index: 0,
+      step: 0,
+      hidden: outputs.typography?.document.hideFromPublishing ?? false,
+      metricId: "font-family",
+    });
   if (outputs.typography)
     for (const group of typographyTokenGroups(
       outputs.typography.document,
@@ -127,6 +143,10 @@ export function primitiveReferencesFromOutputs(
           index: token.index,
           step: token.step,
           hidden: scale.hideFromPublishing ?? false,
+          componentSizeApplied:
+            family === "size" ||
+            family === "radius" ||
+            scale.componentSizeScaling === true,
         });
     }
   for (const level of outputs.elevation.levels)
@@ -169,6 +189,7 @@ export function primitiveReferencesFromOutputs(
       const valueError =
         family !== "elevation" &&
         family !== "color" &&
+        !row.fontId &&
         (typeof row.value !== "number" ||
           !Number.isFinite(row.value) ||
           row.value < 0)
@@ -182,7 +203,7 @@ export function primitiveReferencesFromOutputs(
       return {
         ...identity,
         id:
-          family === "color"
+          family === "color" || row.fontId
             ? row.id
             : primitiveReferenceId(family, identity.sourceId, identity.index),
         family,

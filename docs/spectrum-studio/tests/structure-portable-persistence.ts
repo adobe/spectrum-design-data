@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
 import {
@@ -147,7 +148,9 @@ assert.equal(
   "element",
 );
 assert.deepEqual(
-  JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!).working.structures,
+  JSON.parse(
+    decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+  ).working.structures,
   (encodeStructureSource(working) as typeof shape).structures,
 );
 store.set(cancelEditAtom);
@@ -236,7 +239,9 @@ assert.deepEqual(
 );
 stopReload();
 
-const invalid = JSON.parse(localStorage.getItem(AUTHORING_STORAGE_KEY)!);
+const invalid = JSON.parse(
+  decodeAuthoringStorage(localStorage.getItem(AUTHORING_STORAGE_KEY)!),
+);
 invalid.saved.structures.structures[0].name.termId = crypto.randomUUID();
 localStorage.data.set(AUTHORING_STORAGE_KEY, JSON.stringify(invalid));
 const beforeInvalid = localStorage.getItem(AUTHORING_STORAGE_KEY);

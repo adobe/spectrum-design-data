@@ -21,10 +21,7 @@ import {
 const source = ts.createSourceFile(
   "StructureProperties.tsx",
   readFileSync(
-    new URL(
-      "../src/panels/structures/StructureProperties.tsx",
-      import.meta.url,
-    ),
+    new URL("../src/panels/design/DesignProperties.tsx", import.meta.url),
     "utf8",
   ),
   ts.ScriptTarget.Latest,

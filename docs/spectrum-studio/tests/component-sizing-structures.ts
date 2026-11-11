@@ -11,7 +11,10 @@ import { createRule, WHOLE_NUMBERS_RULE_ID } from "../src/features/logic/model";
 import { generateDimensionScale } from "../src/features/scales/foundation";
 import { resolveModeParameterValues } from "../src/features/modes/parameterResolution";
 import { centerInMinHeight } from "../src/features/structures/resolution";
-import { structureGeneration } from "../src/features/structures/model";
+import {
+  assignStructure,
+  structureGeneration,
+} from "../src/features/structures/model";
 import { structureCandidates } from "../src/features/structures/children";
 import type { PrimitiveReference } from "../src/features/tokens/primitiveReferences";
 import { primitiveReferencesFromOutputs } from "../src/features/tokens/primitiveReferences";
@@ -239,6 +242,9 @@ generation.applications = [];
 inactiveBase.generation = generation;
 delete inactiveBase.editor;
 inactiveBase.elements = [];
+inactiveBase.properties = assignStructure(inactiveBase, {
+  paddingLeft: { value: { kind: "number", value: 12, unit: "px" } },
+}).properties;
 inactive.structures!.structures = [inactiveBase];
 const literalBinding = inactiveBase.properties.find(
   (binding) => "value" in binding && binding.value.kind === "number",
@@ -263,6 +269,9 @@ const excluded = structuredClone(source);
 const excludedBase = excluded.structures!.structures.find(
   (structure) => structure.conceptId === base.conceptId,
 )!;
+excludedBase.properties = assignStructure(excludedBase, {
+  paddingLeft: { value: { kind: "number", value: 12, unit: "px" } },
+}).properties;
 const excludedGeneration = structureGeneration(excludedBase);
 excludedBase.generation = {
   ...excludedGeneration,

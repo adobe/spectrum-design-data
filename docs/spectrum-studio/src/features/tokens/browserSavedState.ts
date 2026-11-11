@@ -66,6 +66,7 @@ import { categoricalBrowserSources } from "../color-system/data-vis/output";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
 import { designSystemDefaults } from "../../data/defaults";
 import { tokenIdentity } from "./canonicalIdentity";
+import { buildStylesForSource, styleBrowserToken } from "../styles/artifacts";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import { radiusDocumentAtom } from "../radius/state";
 import { RADIUS_DEFAULTS } from "../radius/defaults";
@@ -187,6 +188,7 @@ function savedSources(
         })),
         {
           names: typography.metricNames,
+          fonts: typography.hideFromPublishing ? [] : typography.fonts,
           outputUnit: typography.outputUnit,
           registry,
         },
@@ -232,7 +234,7 @@ export function browserSourcesForSnapshot(
   snapshot: ReturnType<typeof createDefaultSnapshot>,
   modes: Mode[],
 ) {
-  return savedSources(
+  const sources = savedSources(
     snapshot.colorSystem,
     snapshot.typography,
     snapshot.spacing ?? SPACING_DEFAULTS,
@@ -251,6 +253,15 @@ export function browserSourcesForSnapshot(
     snapshot.opacity,
     snapshot.componentSizing,
   );
+  const modeKey = canonicalTokenModeKey(
+    selectionForModes(snapshot.modeSets, modes),
+  );
+  return [
+    ...sources,
+    ...buildStylesForSource(snapshot)
+      .rows.filter((row) => row.modeKey === modeKey)
+      .map((row) => styleBrowserToken(row, snapshot)),
+  ];
 }
 
 export const savedBrowserTokensAtom = atom((get) => {
@@ -402,6 +413,7 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
       snapshot.componentSizing,
     ).map((token) => token.id),
     ...generated.bundle.semantics.map((row) => row.conceptId),
+    ...buildStylesForSource(snapshot).rows.map((row) => row.conceptId),
   ]);
 });
 

@@ -6,6 +6,7 @@ import {
   emptyStructureEditor,
   resolveStructureOptions,
   EMPTY_STRUCTURE_PREVIEW,
+  type StructurePreviewState,
 } from "../src/features/structures/variants";
 import { synchronizeVariantIdentities } from "../src/features/structures/semanticIdentity";
 import {
@@ -51,7 +52,17 @@ import {
 import { createDefaultSnapshot } from "../src/features/edit-session/state";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { compareSemanticTokens } from "../src/features/changelog/tokenComparison";
-import { defaultStructureReferences } from "../src/features/structures/thumbnail";
+import {
+  defaultStructureReferences,
+  structureThumbnailPreviewAtom,
+} from "../src/features/structures/thumbnail";
+import {
+  structuresDocumentAtom,
+  structurePreviewsAtom,
+} from "../src/features/structures/documentState";
+import { workingTshirtArtifactsAtom } from "../src/features/design-data/tshirtState";
+import { rulesAtom } from "../src/features/logic/library";
+import { resolveCompositionResult } from "../src/features/structures/composition";
 
 const fixture = createTshirtFixture({ fiveSizes: true });
 const baseline = structuredClone(fixture.bundle);
@@ -454,6 +465,78 @@ assert.notEqual(
   9999,
   "List thumbnails use declared default modes instead of active preview values.",
 );
+const thumbnailStore = createStore();
+const thumbnails = thumbnailStore.get(structureThumbnailPreviewAtom);
+assert(
+  thumbnails.status === "ready",
+  `Registry naming diagnostics must not block all thumbnails: ${
+    thumbnails.status === "error" ? thumbnails.error : ""
+  }`,
+);
+const thumbnailGeneration = thumbnailStore.get(workingTshirtArtifactsAtom);
+assert(thumbnailGeneration.status === "ready");
+const thumbnailCatalog = thumbnailStore.get(structuresDocumentAtom).structures;
+thumbnailStore.set(
+  structurePreviewsAtom,
+  Object.fromEntries(
+    thumbnailCatalog.map<[string, StructurePreviewState]>((item) => [
+      item.conceptId,
+      {
+        ...EMPTY_STRUCTURE_PREVIEW,
+        indentationLevel: 2,
+        options: Object.fromEntries(
+          (item.editor?.properties ?? []).flatMap((property) =>
+            property.kind === "variant"
+              ? property.options
+                  .filter((option) => option.id !== property.defaultOptionId)
+                  .slice(0, 1)
+                  .map((option) => [property.id, option.id])
+              : [],
+          ),
+        ),
+        booleans: Object.fromEntries(
+          (item.editor?.properties ?? []).flatMap((property) =>
+            property.kind === "boolean"
+              ? [[property.id, !property.defaultValue]]
+              : [],
+          ),
+        ),
+      },
+    ]),
+  ),
+);
+assert.strictEqual(
+  thumbnailStore.get(structureThumbnailPreviewAtom),
+  thumbnails,
+  "Root and owned-layout editor selections do not change default preview data.",
+);
+for (const item of thumbnailCatalog.filter((item) => !item.parentStructureId)) {
+  const composition = resolveCompositionResult(
+    item,
+    thumbnailCatalog,
+    thumbnails.references,
+    thumbnailStore.get(rulesAtom),
+    thumbnailGeneration.bundle,
+    thumbnails.selection,
+    "m",
+    {
+      availableWidth: 400,
+      availableHeight: 100,
+      naturalWidth: 200,
+      naturalHeight: 40,
+    },
+    {},
+    EMPTY_STRUCTURE_PREVIEW.options,
+    EMPTY_STRUCTURE_PREVIEW.indentationLevel,
+    { [item.conceptId]: EMPTY_STRUCTURE_PREVIEW },
+  );
+  assert(composition.status === "ready", `${item.name} resolves its default.`);
+  assert.deepEqual(composition.value.issues, []);
+  assert(
+    composition.value.children.length > 0,
+    `${item.name} retains visible default-variation content in its thumbnail.`,
+  );
+}
 const packet = await buildGeneratedClassificationCompatibility(
   ratioBundle,
   await buildClassificationReviewExport(

@@ -86,8 +86,14 @@ const noteStyles = style({
 /** Focused, in-page editor: parameters on one side, a large graph and sample table on the other. */
 export function ScaleTypeEditorLayout({
   scaleTypeId,
+  initialDraft,
+  onApply,
+  onCancel,
 }: {
   scaleTypeId: string;
+  initialDraft?: ScaleType;
+  onApply?: (formula: ScaleType) => void;
+  onCancel?: () => void;
 }) {
   const notify = useNotify();
   const isNew = scaleTypeId === NEW_SCALE_TYPE_ID;
@@ -102,13 +108,19 @@ export function ScaleTypeEditorLayout({
   const size = useAtomValue(sizeDocumentAtom);
   const radius = useAtomValue(radiusDocumentAtom);
   const [draft, setDraft] = useState<ScaleType | null>(() =>
-    isNew ? createScaleType(newKind) : stored ? structuredClone(stored) : null,
+    initialDraft
+      ? structuredClone(initialDraft)
+      : isNew
+        ? createScaleType(newKind)
+        : stored
+          ? structuredClone(stored)
+          : null,
   );
   const isReadOnlyMode = useIsReadOnly();
   const setEditing = useSetAtom(editingScaleTypeIdAtom);
   const addScaleType = useSetAtom(addScaleTypeAtom);
   const replaceScaleType = useSetAtom(replaceScaleTypeWithConsumersAtom);
-  const close = () => setEditing(null);
+  const close = () => (onCancel ? onCancel() : setEditing(null));
 
   if (!draft) {
     return (
@@ -136,7 +148,14 @@ export function ScaleTypeEditorLayout({
         )
       ? "Another formula already uses this name."
       : undefined;
-  const issues = scaleTypeIssues(draft);
+  const issues = [
+    ...scaleTypeIssues(draft),
+    ...(onApply && !draft.base.overridable
+      ? [
+          "Allow a custom base so this formula can use the entered layout value.",
+        ]
+      : []),
+  ];
   const isDirty = isNew || JSON.stringify(draft) !== JSON.stringify(stored);
   const canSave = isDirty && !nameError && issues.length === 0;
   const ignored = isReadOnly
@@ -147,6 +166,10 @@ export function ScaleTypeEditorLayout({
     if (!draft) return;
     const next = { ...draft, name: trimmedName };
     try {
+      if (onApply) {
+        onApply(next);
+        return;
+      }
       if (isNew) {
         const added = notify.added("formula", () => {
           addScaleType(next);
@@ -168,7 +191,7 @@ export function ScaleTypeEditorLayout({
         <header className={headerStyles}>
           <ActionButton onPress={close}>
             <ChevronLeft />
-            <Text>Back to library</Text>
+            <Text>{onCancel ? "Cancel" : "Back to library"}</Text>
           </ActionButton>
           <h2 className={titleStyles}>{isNew ? "New formula" : draft.name}</h2>
           {!isReadOnly && (
@@ -184,7 +207,11 @@ export function ScaleTypeEditorLayout({
                 </Button>
               )}
               <Button variant="accent" isDisabled={!canSave} onPress={save}>
-                {isNew ? "Add formula" : "Save changes"}
+                {onApply
+                  ? "Apply formula"
+                  : isNew
+                    ? "Add formula"
+                    : "Save changes"}
               </Button>
             </ButtonGroup>
           )}

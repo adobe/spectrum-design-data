@@ -2,6 +2,8 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import ts from "typescript";
+import { createStore } from "jotai";
+import { typographyPanelTabAtom } from "../src/state/view/typographyView";
 
 function parse(url: URL) {
   const file = ts.createSourceFile(
@@ -48,6 +50,105 @@ function stringAttribute(node: ts.JsxOpeningLikeElement, name: string) {
 }
 
 const page = parse(new URL("../src/pages/Foundations.tsx", import.meta.url));
+const typography = parse(
+  new URL(
+    "../src/panels/foundations/FoundationsTypographyPanel.tsx",
+    import.meta.url,
+  ),
+);
+const typographyTabs = typography.elements
+  .filter(
+    (element) =>
+      element.openingElement.tagName.getText(typography.file) === "Tab",
+  )
+  .map((element) => stringAttribute(element.openingElement, "id"));
+assert.deepEqual(typographyTabs, [
+  "fonts",
+  "font-sizes",
+  "line-heights",
+  "iconography",
+]);
+assert.deepEqual(
+  typography.elements
+    .filter(
+      (element) =>
+        element.openingElement.tagName.getText(typography.file) ===
+        "AccordionItem",
+    )
+    .map((element) => stringAttribute(element.openingElement, "id")),
+  ["system-settings"],
+);
+const color = parse(
+  new URL(
+    "../src/panels/foundations/FoundationsColorPanel.tsx",
+    import.meta.url,
+  ),
+);
+const colorTabs = color.elements.find(
+  (element) => element.openingElement.tagName.getText(color.file) === "Tabs",
+)!;
+const tabs = typography.elements.find(
+  (element) =>
+    element.openingElement.tagName.getText(typography.file) === "Tabs",
+)!;
+assert.equal(
+  stringAttribute(tabs.openingElement, "density"),
+  stringAttribute(colorTabs.openingElement, "density"),
+);
+assert.equal(
+  stringAttribute(tabs.openingElement, "aria-label"),
+  "Typography controls",
+);
+assert.deepEqual(
+  typography.elements
+    .filter(
+      (element) =>
+        element.openingElement.tagName.getText(typography.file) === "TabPanel",
+    )
+    .map((element) => stringAttribute(element.openingElement, "id")),
+  typographyTabs,
+);
+assert.match(
+  typography.variables.get("controls")!.getText(typography.file),
+  /padding:\s*16/,
+);
+assert.match(
+  typography.variables.get("tabPanelStyles")!.getText(typography.file),
+  /marginTop:\s*16/,
+);
+const root = typography.elements.find(
+  (element) =>
+    stringAttribute(element.openingElement, "data-component") ===
+    "FoundationsTypographyPanel",
+)!;
+assert(
+  root.children.some(
+    (child) =>
+      ts.isJsxExpression(child) &&
+      child.expression?.getText(typography.file) === "sections",
+  ),
+);
+assert.equal(
+  attribute(typography.owners[0], "after"),
+  undefined,
+  "Typography tabs must be siblings of, not children inside, the settings accordion.",
+);
+const selection = createStore();
+assert.equal(selection.get(typographyPanelTabAtom), "fonts");
+selection.set(typographyPanelTabAtom, "font-sizes");
+assert.equal(selection.get(typographyPanelTabAtom), "font-sizes");
+selection.set(typographyPanelTabAtom, "line-heights");
+assert.equal(selection.get(typographyPanelTabAtom), "line-heights");
+const fonts = typography.elements.find(
+  (element) =>
+    element.openingElement.tagName.getText(typography.file) === "TabPanel" &&
+    stringAttribute(element.openingElement, "id") === "fonts",
+)!;
+assert.match(fonts.getText(typography.file), /aria-label="Add font"/);
+assert.match(fonts.getText(typography.file), /className=\{tabActions\}/);
+assert.match(fonts.getText(typography.file), /className=\{tabStack\}/);
+assert.match(typography.file.text, /foundationCardStyles/);
+assert.match(typography.file.text, /label="Font family"/);
 const directory = new URL("../src/panels/foundations/", import.meta.url);
 let checked = 0;
 for (const name of readdirSync(directory).filter((file) =>

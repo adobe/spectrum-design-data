@@ -10,6 +10,8 @@ import {
   assertStructureTaxonomy,
   type Structure,
 } from "./model";
+import { stylesDocumentAtom } from "../styles/state";
+import { structureTextStyleIssues } from "../styles/textAppearance";
 import { primitiveReferencesAtom } from "../tokens/primitiveReferenceState";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import { restoreEditorRemoval } from "./variantOperations";
@@ -107,6 +109,11 @@ export const updateStructureEditorAtom = atom(
       get(modeSetsAtom),
     );
     assertStructureTaxonomy(updated, taxonomy);
+    const styleIssues = structureTextStyleIssues(
+      updated.structures,
+      get(stylesDocumentAtom),
+    );
+    if (styleIssues.length) throw new Error(styleIssues.join(" "));
     assertStructureReferences(
       updated,
       new Map(

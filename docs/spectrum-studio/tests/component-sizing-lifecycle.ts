@@ -287,6 +287,7 @@ assert.equal(comparison.slots.filter((slot) => slot.changed).length, 1);
 for (const [category, tokens, values, changed] of [
   ["size", 19, 38, 13],
   ["radius", 11, 22, 10],
+  ["spacing", 23, 28, 5],
 ] as const) {
   const records = impact.records.filter(
     (record) => record.category === category,
@@ -317,7 +318,7 @@ assert(
 assert(
   !impact.records.some(
     (record) =>
-      ["spacing", "typography", "color", "opacity"].includes(record.category) &&
+      ["typography", "color", "opacity"].includes(record.category) &&
       record.modeValues.some((value) => value.changed),
   ),
 );
@@ -331,8 +332,20 @@ if (componentImpact.status === "ready") {
   assert.equal(componentImpact.summary.affected.count, 13);
   assert.equal(componentImpact.summary.affected.total, 27);
 }
+const componentSpacingIds = new Set(
+  impact.records
+    .filter(
+      (record) =>
+        record.category === "spacing" &&
+        record.modeValues.some((value) => value.changed),
+    )
+    .map((record) => record.tokenId),
+);
 for (const record of store.get(browserTokenImpactRecordsAtom))
-  if (["spacing", "color", "opacity", "elevation"].includes(record.category))
+  if (
+    ["spacing", "color", "opacity", "elevation"].includes(record.category) &&
+    !componentSpacingIds.has(record.tokenId)
+  )
     for (const value of record.modeValues)
       assert(
         !tokenModeSetIds(
@@ -403,6 +416,7 @@ assert.equal(modalImpact.records.length, impact.records.length);
 for (const [category, tokens, values, changed] of [
   ["size", 19, 38, 6],
   ["radius", 11, 22, 5],
+  ["spacing", 23, 28, 4],
 ] as const) {
   const records = modalImpact.records.filter(
     (record) => record.category === category,
@@ -428,7 +442,7 @@ for (const [category, tokens, values, changed] of [
 assert(
   !modalImpact.records.some(
     (record) =>
-      ["spacing", "typography", "color", "opacity"].includes(record.category) &&
+      ["typography", "color", "opacity"].includes(record.category) &&
       record.modeValues.some((value) => value.changed),
   ),
 );

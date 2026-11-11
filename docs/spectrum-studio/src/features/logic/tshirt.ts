@@ -46,6 +46,7 @@ function componentMultiplier(
   context: TshirtMappingContext,
 ) {
   return ruleAppliesToReference(rule, anchor) &&
+    !anchor.componentSizeApplied &&
     (anchor.family === "spacing" ||
       (anchor.synthetic &&
         (anchor.family === "size" || anchor.family === "radius"))) &&

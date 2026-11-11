@@ -269,7 +269,7 @@ reviewField(
   },
   (field) =>
     field.address?.path.includes("elements") === true &&
-    field.address.path.at(-1) === "elements",
+    field.address.path.at(-1) === "bindings",
 );
 
 const disabled = structuredClone(shipped);

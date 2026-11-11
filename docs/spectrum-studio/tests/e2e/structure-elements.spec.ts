@@ -902,6 +902,9 @@ test("Bound Typography steps and line-height sources cannot be removed from an e
   const typography = page.locator(
     '[data-component="FoundationsTypographyPanel"]',
   );
+  await typography
+    .getByRole("tab", { name: "Font sizes", exact: true })
+    .click();
   const smaller = typography.getByRole("textbox", {
     name: "Smaller sizes",
     exact: true,
@@ -915,7 +918,7 @@ test("Bound Typography steps and line-height sources cannot be removed from an e
       .first(),
   ).toBeVisible();
   await typography
-    .getByRole("button", { name: "Line heights", exact: true })
+    .getByRole("tab", { name: "Line heights", exact: true })
     .click();
   await typography
     .getByRole("button", {

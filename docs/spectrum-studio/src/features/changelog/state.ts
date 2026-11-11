@@ -1,5 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
+import { EMPTY_STYLES } from "../styles/model";
+import { selectedStyleIdAtom } from "../styles/state";
 import { COMPONENT_SIZING_DEFAULTS } from "../foundations/componentSizing";
 import { atom, type Getter, type Setter } from "jotai";
 import { compareAuthoring } from "./registry";
@@ -401,15 +403,34 @@ export const legacyChangeGroupsAtom = atom((get) => {
       items: components,
     });
   const snapshot = get(authoringSnapshotAtom);
-  const settingChanges = compareAuthoring(
+  const authoring = compareAuthoring(
     {
       ...snapshot,
       foundationParameterSettings: foundationParameterDefaults(),
       componentSizing: { ...COMPONENT_SIZING_DEFAULTS },
+      styles: structuredClone(
+        designSystemDefaults.system.styles ?? EMPTY_STYLES,
+      ),
     },
     snapshot,
-  )
-    .groups.flatMap((group) => group.items)
+  );
+  const styleChanges = authoring.groups
+    .flatMap((group) => group.items)
+    .filter((item) => item.sourceKind === "style");
+  if (styleChanges.length) {
+    let group = groups.find((group) => group.id === "structures");
+    if (!group) {
+      group = { id: "structures", label: "Design", count: 0, items: [] };
+      groups.push(group);
+    }
+    group.items.push(...styleChanges);
+    group.count += styleChanges.reduce(
+      (sum, item) => sum + item.fields.length,
+      0,
+    );
+  }
+  const settingChanges = authoring.groups
+    .flatMap((group) => group.items)
     .filter((item) =>
       item.fields.some(
         (field) =>
@@ -1208,8 +1229,12 @@ export const revertChangeTopicAtom = atom(
       set(restoreAuthoringSnapshotAtom, {
         ...get(authoringSnapshotAtom),
         structures: structuredClone(designSystemDefaults.system.structures),
+        styles: structuredClone(
+          designSystemDefaults.system.styles ?? EMPTY_STYLES,
+        ),
       });
       set(selectedStructureIdAtom, null);
+      set(selectedStyleIdAtom, null);
       return;
     }
     if (topic === "registry") {
