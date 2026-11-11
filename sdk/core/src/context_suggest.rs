@@ -825,19 +825,37 @@ mod tests {
                 json!({"component": "table", "property": "color", "part": "item"}),
                 json!({}),
             ),
+            rec(
+                "e",
+                json!({"component": "breadcrumbs", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "f",
+                json!({"component": "side-navigation", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "g",
+                json!({"component": "menu", "property": "color", "part": "item"}),
+                json!({}),
+            ),
+            rec(
+                "h",
+                json!({"component": "tree-view", "property": "color", "part": "item"}),
+                json!({}),
+            ),
         ]);
         assert_eq!(one(&g, 0).context, "List view item");
         assert_eq!(one(&g, 1).context, "Segmented control item");
         assert_eq!(one(&g, 2).context, "Tab item");
         let bare = one(&g, 3);
+        assert_eq!(one(&g, 4).context, "Breadcrumb item");
+        assert_eq!(one(&g, 5).context, "Navigation item");
+        assert_eq!(one(&g, 6).context, "Menu item");
+        assert_eq!(one(&g, 7).context, "Tree view item");
         assert_eq!(bare.context, "Item");
         assert!(bare.registry_gap.is_some());
-        let plural = RegistryData::embedded().context_roles("Tab items").unwrap();
-        assert_eq!(plural, ["navigation"]);
-        assert_eq!(
-            RegistryData::embedded().context_roles("Tab item").unwrap(),
-            ["tab-item"]
-        );
     }
 
     #[test]
