@@ -65,9 +65,11 @@ version). **Call this first in a session.** No required inputs.
 
 ### `design-data-query`
 
-Filter tokens by expression. Required: `filter` (string), e.g. `component=button`,
-`component=button,state=hover`, `property=color-*`, `colorScheme=dark`. Returns an
-array of matching tokens (empty when none match).
+Filter tokens by expression. Required: `filter` (string), e.g. `property=background-color`,
+`property=*color*`, `state=hover`, `state=hover,colorScheme=dark`. Filterable fields in the
+pinned release are `property`, `variant`, `state`, `colorScheme`, `scale`, `contrast`;
+`component=…` returns nothing, so use `design-data-component-search` for components. Returns
+an array of matching tokens (empty when none match).
 
 ### `design-data-suggest`
 
@@ -88,7 +90,7 @@ displayName, category, and a snippet; pass the id to `design-data-component`.
 ### `design-data-resolve`
 
 Resolve a token property to its value for a mode context. Required: `property`
-(string, e.g. `background-color-default`). Optional: `colorScheme` (`light`/`dark`),
+(string, e.g. `background-color`). Optional: `colorScheme` (`light`/`dark`),
 `scale` (`desktop`/`mobile`), `contrast` (`regular`/`high`). Errors when no token
 matches; use `design-data-query` to find the exact property name first.
 
@@ -101,7 +103,7 @@ returns one page by `id`, the `slug` from the list (e.g. `colors`).
 ## Workflow
 
 1. `design-data-primer` to see what data exists.
-2. `design-data-query` when you know component, property, or state.
+2. `design-data-query` when you know the property or state.
 3. `design-data-suggest` when the user describes an intent.
 4. `design-data-component-search`, then `design-data-component`, for component options.
 5. `design-data-resolve` for a concrete value in a given mode.

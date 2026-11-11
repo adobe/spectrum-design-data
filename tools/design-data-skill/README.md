@@ -93,7 +93,9 @@ Custom datasets, validation, diffing, and authoring: use
 ## Maintenance
 
 `moon run :version` (after `changeset version`) syncs the pinned MCP version and the
-plugin version. Tests check the pin, manifest, tool names, and packed contents.
+plugin version. Tests check the pin, manifest, tool names, and packed contents. The pin comes from the
+workspace version, so between merging the Version Packages PR and the npm publish the
+pinned release may not exist yet; installs from `main` fail in that window.
 
 ## Usage
 

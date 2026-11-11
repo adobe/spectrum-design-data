@@ -25,7 +25,7 @@ of guessing.
 
 **Look things up**
 
-- **Find a token:** "what's the token for the default row background?" (filter/query tools)
+- **Find a token:** "what's the token for the default row background?" (the query tool filters by property, state, variant, and mode, not by component)
 - **Suggest a token from a description:** "I need a background for a selected, hovered
   row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
   before you invent.

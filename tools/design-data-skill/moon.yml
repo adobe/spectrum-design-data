@@ -31,6 +31,11 @@ tasks:
     inputs:
       - "package.json"
       - "/tools/design-data-mcp/package.json"
+      - "scripts/sync-mcp-pin.mjs"
+      - ".mcp.json"
+      - ".claude-plugin/plugin.json"
+      - "skills/design-data/SKILL.md"
+      - "README.md"
     outputs:
       - ".mcp.json"
       - ".claude-plugin/plugin.json"

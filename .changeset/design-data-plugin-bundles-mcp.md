@@ -1,5 +1,5 @@
 ---
-"@adobe/design-data-skill": minor
+"@adobe/design-data-skill": major
 ---
 
 Rename the plugin to `spectrum-design-data` (install with
