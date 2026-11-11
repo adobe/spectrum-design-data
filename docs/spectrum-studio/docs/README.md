@@ -12,6 +12,7 @@ as the source of truth for design-data alignment status, not any prose doc.
 
 | Doc                                                                                    | Use it for                                                                                      |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [master-migration-plan.md](master-migration-plan.md)                                     | Agent-first north star, package-wide exact parity, migration gates and initiative/epic crosswalk |
 | [ROADMAP.md](ROADMAP.md)                                                               | Initiatives, epics, guiding principles, open decisions                                          |
 | [design-data-gap-register.md](design-data-gap-register.md)                             | Generated view of `src/data/design-data-gaps.json`. Do not edit by hand; run `pnpm gaps:docs`   |
 | [design-data-target-contract.md](design-data-target-contract.md)                       | Agreed direction and proposed boundaries with design-data. **Hashed evidence pin: do not edit** |
@@ -29,7 +30,9 @@ How a built feature works. Read when working in that area.
 | [category-icons.md](category-icons.md)                                 | Category icons and the icon catalog check |
 | [token-value-previews.md](token-value-previews.md)                     | Token value previews                      |
 | [structure-element-templates.md](structure-element-templates.md)       | Structure element templates               |
+| [styles.md](styles.md)                                               | Style recipes, shared rule outputs and semantic tokens |
 | [component-sizing.md](component-sizing.md)                           | Scale modes and independent sizing baselines |
+| [token-alignment-workflow.md](token-alignment-workflow.md)             | Reviewed token-family alignment, naming and color baseline |
 
 ## Hashed evidence pin
 

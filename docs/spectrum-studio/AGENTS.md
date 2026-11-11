@@ -26,6 +26,8 @@ This package lives at `docs/spectrum-studio` in the `adobe/spectrum-design-data`
 
 At the start of Studio work in each new session, perform the [Studio startup check](../../.ai/rules/spectrum-studio-upgrades.md): fetch and report whether this branch is behind main, without changing working files or rebasing. Run [upgrade-studio-from-main](../../.ai/skills/upgrade-studio-from-main/SKILL.md) only when the user requests the upgrade. That workflow does not authorize automatic commits or pushes, including through the root session-completion instructions.
 
+Before planned or unplanned work, read the [master migration plan's agent core](docs/master-migration-plan.md#agent-core-apply-to-every-task). It defines the package-wide destination and exact reproduction required before repository cutover; the roadmap still owns epic status and the gap register owns alignment evidence. Use its [work-alignment protocol](docs/master-migration-plan.md#work-alignment-protocol) in the existing plan/reasoning, then load only relevant roadmap sections and skills. Strategic alignment never authorizes additional scope. Pure styling work only needs to confirm unchanged system/data behavior.
+
 **Domain map** (where to look, and which skill to read first):
 
 | Area | Code | Skill |
@@ -173,6 +175,7 @@ The Studio upgrade rule and skill also live in the root `.ai/` directory.
 | `notifications` | Adding a new add or delete action, a new kind of item, or any user-facing confirmation |
 | `authoring-lifecycle` | Adding or changing persisted, editable design data (foundations, collections, token sources): saving, Changes, Impact |
 | `design-data-contract` | Anything that may differ from design-data: taxonomy, tokens, modes, schema, outputs, the gap register, the Analysis page |
+| `token-alignment` | Working through migration-analysis gaps in bounded token-family chunks; individual formula and parameter changes require user review |
 | `modes` | Mode sets, modes, mode parameters, bindings, text scaling, color scheme or contrast, per-mode token values, mode selection or preview |
 | `tokens` | The Tokens page or browser, token generation sources, names and identity, per-mode token edits, aliases, cascade export |
 | `color-system` | Color scales, stops, contrast steps, surfaces, palette, polarity, color output, CSS color library, color picker, Scale Editor, color evaluation (data-vis scales have their own skill) |

@@ -2,6 +2,8 @@
 
 High-level initiatives (`INIT-n`) and epics (`EPIC-n.m`) for this project. Agents read this before planning any feature (see "Roadmap alignment" in `AGENTS.md`). It describes direction, not implementation detail.
 
+The [master migration plan](master-migration-plan.md) defines the package-wide north star, exact-reproduction acceptance and evidence gates. This roadmap retains delivery ownership and status; neither document authorizes unrequested implementation.
+
 **Status legend:** `done` · `in progress` · `planned` · `long horizon` · `parked` (not yet defined)
 
 ## Purpose
@@ -10,7 +12,7 @@ An almost end-to-end **design system authoring experience** that eventually beco
 
 - Designers author **adaptive foundations** (color, typography, spacing, motion, …) as formulas with parameters, not as hand-picked values.
 - Designers define **presets inside modes**. Chosen parameters are exposed as **end-user adaptive controls** (brightness, contrast, text size, spacing, …), so shipped products adapt the way the designer intended.
-- Foundations produce **primitive tokens**. **Structures**, **option groups**, a shared **taxonomy**, and **rules** produce **semantic tokens** and variants.
+- Foundations produce **primitive tokens**. **Structures**, **Styles**, **option groups**, a shared **taxonomy**, and **rules** produce **semantic tokens** and variants.
 - Everything combines into design data. A **preview app** built from authored **components** lets designers see and test changes live.
 - Saving and review run through **GitHub**: branch → commits → PR against the design-data repo.
 
@@ -20,7 +22,7 @@ An almost end-to-end **design system authoring experience** that eventually beco
 2. **System-first design, with overrides.** Values come from formulas and rules. Manual overrides are always possible, visible, and revertible, unless the formula that produces a value locks that part (the pattern in the Color foundation and the changelog).
 3. **One generation path.** Preview, tokens, and code export all read from the same generator. No drift.
 4. **Dogfood.** Previews render the tool's own generated output.
-5. **Can align with design-data.** Models must be mappable to the design-data spec (name object, `value` XOR `$ref`, mode sets, cascade), even where design-data is still changing. The end goal is a 1:1 match.
+5. **Can align with design-data.** Models must be mappable to the design-data spec (name object, `value` XOR `$ref`, mode sets, cascade), even where design-data is still changing. Repository cutover requires exact package-wide reproduction from shipped defaults, preserving identities/references, as defined in the master migration plan. Near-match results support refinement, not final completion.
 6. **Pure CSS for web output.** No runtime JS in the exported color library. Blend in linear light and hit contrast targets exactly.
 
 ## Dependency map
@@ -87,6 +89,8 @@ The single source of terminology for the whole app.
 
 ## INIT-4 Structures & semantic tokens — `planned` (depends on INIT-3)
 
+Semantic authoring includes reusable Structures and Styles; see [Styles](styles.md). Their implementation evidence remains distinct from these delivery statuses and upstream acceptance.
+
 | Epic | Status | Intent |
 |---|---|---|
 | EPIC-4.1 Structure model | `planned` | Basic, abstract, compositional interfaces reused as scaffolding for any component. Broader than design-data's `structure`/`substructure` name fields |
@@ -123,7 +127,7 @@ System-level derivations that generate semantic tokens and structure variants.
 | EPIC-7.1 Mappable models | `in progress` | Keep every model mappable to design-data: name object, `value` XOR `$ref`, mode sets / values by mode, Foundation → Platform → Product cascade |
 | EPIC-7.2 Export / import | `planned` | Read and write design-data format |
 | EPIC-7.3 Spec validation | `planned` | Validate output against design-data SPEC rules |
-| EPIC-7.4 1:1 convergence | `long horizon` | Become the design-data authoring UI once its registry is restructured |
+| EPIC-7.4 1:1 convergence | `long horizon` | Become the complete authoring UI for `packages/design-data`: components, guidelines, mode-sets, registry, relationships, tokens and visuals. Refine systems/defaults, use bounded residual overrides, prove exact reproduction and identity preservation, then perform approved schema/layout cutover. Guidelines/visuals delivery detail remains to be planned |
 
 ## INIT-8 Platforms & code output — `planned`
 
