@@ -175,6 +175,8 @@
         "object": "border"
       }
     },
+    "context": "Border",
+    "contextRole": ["border"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
     "uuid": "d2c4cb48-8a90-461d-95bc-d882ba01472b",

@@ -87,6 +87,9 @@
         "object": "background"
       }
     },
+    "context": "Selection (background opacity)",
+    "contextRole": ["selection"],
+    "contextQualifier": "background opacity",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.95",
     "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576",
@@ -578,6 +581,9 @@
         "state": ["default"]
       }
     },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "100px",
     "uuid": "3a11949c-f1ac-490b-8416-f4883402d105",
@@ -654,6 +660,9 @@
       "part": "preview",
       "property": "minimum-height"
     },
+    "context": "Preview (minimum height)",
+    "contextRole": ["preview"],
+    "contextQualifier": "minimum height",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "130px",
     "uuid": "58eb5be8-644f-448e-99b9-94d1fbb93240",
@@ -668,6 +677,9 @@
         "object": "background"
       }
     },
+    "context": "Selection (size)",
+    "contextRole": ["selection"],
+    "contextQualifier": "size",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "496fd060-70a9-48d0-948f-593b81847199",

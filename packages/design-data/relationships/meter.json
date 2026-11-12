@@ -497,6 +497,9 @@
         "scale": "desktop"
       }
     },
+    "context": "Width (default)",
+    "contextRole": ["width"],
+    "contextQualifier": "default",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "192px",
     "uuid": "ceeda4da-026b-496c-8abd-7081aceae262",
@@ -512,6 +515,9 @@
         "scale": "mobile"
       }
     },
+    "context": "Width (default)",
+    "contextRole": ["width"],
+    "contextQualifier": "default",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "240px",
     "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568",
