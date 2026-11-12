@@ -13,7 +13,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 const packageDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -104,19 +104,28 @@ export function verifyPackage(directory = packageDirectory) {
       "node_modules",
       ...manifest.name.split("/"),
     );
-    const installedManifest = validatePackedPackage(installed);
+    validatePackedPackage(installed);
     for (const target of ["node", "web"]) {
       const entry =
         target === "node"
           ? manifest.name
-          : pathToFileURL(
-              join(installed, installedManifest.exports["."].browser),
-            ).href;
+          : `${manifest.name}/web`;
       const smoke = `
         import assert from 'node:assert/strict';
         import { readFileSync } from 'node:fs';
         import * as wasm from ${JSON.stringify(entry)};
-        ${target === "web" ? `await wasm.default({ module_or_path: readFileSync(${JSON.stringify(join(installed, "pkg/web/design_data_wasm_bg.wasm"))}) });` : ""}
+        ${target === "web" ? `await wasm.default({ module_or_path: readFileSync(new URL(import.meta.resolve(${JSON.stringify(`${manifest.name}/module.wasm`)}))) });` : ""}
+        const resolver = new wasm.ValueResolver({
+          records: [{ id: 'fixture', source: 'tokens/fixture.json', raw: { uuid: 'fixture', value: 8 } }],
+          modeSets: [],
+        });
+        try {
+          const [result] = resolver.resolveValues([{ id: 'fixture', context: {} }]);
+          assert.equal(result.value, 8, 'Batch resolver returned an unexpected value');
+          assert.equal(result.issue, null, 'Batch resolver did not preserve the null diagnostic contract');
+        } finally {
+          resolver.free();
+        }
         const dataset = wasm.Dataset.embedded();
         try {
           const tokens = dataset.query('');
