@@ -12,10 +12,19 @@
       "props": {
         "direction": { "value": "column" },
         "align": { "value": "start" },
-        "width": {
-          "when": { "options": { "size": ["m", "l", "xl"] } },
-          "relationship": { "property": "width", "context": "Width (default)" }
-        },
+        "width": [
+          {
+            "when": { "options": { "size": "m" } },
+            "token": { "anatomy": "field", "property": "width", "size": "l" }
+          },
+          {
+            "when": { "options": { "size": ["l", "xl"] } },
+            "relationship": {
+              "property": "width",
+              "context": "Width (default)"
+            }
+          }
+        ],
         "fill": [
           {
             "when": { "states": ["hover"] },
