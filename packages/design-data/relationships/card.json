@@ -87,9 +87,8 @@
         "object": "background"
       }
     },
-    "context": "Selection (background opacity)",
-    "contextRole": ["selection"],
-    "contextQualifier": "background opacity",
+    "context": "Selection checkbox",
+    "contextRole": ["control"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.95",
     "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576",
@@ -677,9 +676,8 @@
         "object": "background"
       }
     },
-    "context": "Selection (size)",
-    "contextRole": ["selection"],
-    "contextQualifier": "size",
+    "context": "Selection checkbox",
+    "contextRole": ["control"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "496fd060-70a9-48d0-948f-593b81847199",
