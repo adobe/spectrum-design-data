@@ -18,23 +18,31 @@ export function resolvePaletteLinks(
   )
     return document;
   const palette = new Map(document.palette.map((color) => [color.id, color]));
-  return {
-    ...document,
-    scales: document.scales.map((scale) => ({
-      ...scale,
-      stops: scale.stops.map((stop) => {
-        if (stop.paletteColorId === undefined) return stop;
-        const color = palette.get(stop.paletteColorId);
-        if (!color) return withoutLink(stop);
-        return {
-          ...stop,
-          lightness: color.lightness,
-          hue: color.hue,
-          chroma: color.chroma,
-        };
-      }),
-    })),
-  };
+  const scales = document.scales.map((scale) => {
+    const stops = scale.stops.map((stop) => {
+      if (stop.paletteColorId === undefined) return stop;
+      const color = palette.get(stop.paletteColorId);
+      if (!color) return withoutLink(stop);
+      if (
+        stop.lightness === color.lightness &&
+        stop.hue === color.hue &&
+        stop.chroma === color.chroma
+      )
+        return stop;
+      return {
+        ...stop,
+        lightness: color.lightness,
+        hue: color.hue,
+        chroma: color.chroma,
+      };
+    });
+    return stops.every((stop, index) => stop === scale.stops[index])
+      ? scale
+      : { ...scale, stops };
+  });
+  return scales.every((scale, index) => scale === document.scales[index])
+    ? document
+    : { ...document, scales };
 }
 
 export interface PaletteConsumer {

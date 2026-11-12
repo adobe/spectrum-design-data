@@ -6,6 +6,8 @@ Canonical instructions for every AI tool in this repository. `CLAUDE.md` files o
 
 Shared rules and skills live in `.ai/` (see [.ai/README.md](.ai/README.md)). Edit them there, then run `pnpm ai:sync`. Never edit `.github/instructions/`, `.cursor/rules/`, or the `.claude/`/`.cursor/` symlinks by hand.
 
+For work in `docs/spectrum-studio`, `packages/design-data`, `packages/design-data-spec`, `sdk`, or `tools/design-data`, read the [relationship-map skill](.ai/skills/relationship-map/SKILL.md). Review the changed owner and its immediate relevant dependencies/dependents in source/tests. Graph commands are optional heavy work requiring explicit approval; queries never refresh automatically. If bounded current graph evidence is unavailable, state that limitation and use focused source evidence rather than blocking development on a full rebuild. Never present an old graph as current or load the whole graph into the prompt. The existing Scout/Ferrograph procedures remain authoritative for behavior and symbol tracing.
+
 For sessions doing **Spectrum Studio** work, read [Studio's instructions](docs/spectrum-studio/AGENTS.md) and perform the [Studio startup check](.ai/rules/spectrum-studio-upgrades.md) before editing. This fetch-and-report check does not authorize a rebase. It does not apply to sessions working only on other projects.
 
 ## Repository Rules

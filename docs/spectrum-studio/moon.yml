@@ -23,7 +23,7 @@ fileGroups:
     - "package.json"
     - ".storybook/**/*"
 tasks:
-  # TypeScript, category-icon and changelog-coverage checks (CI).
+  # Local entry; the complete CI inventory includes these checks once.
   typecheck:
     command:
       - pnpm
@@ -35,6 +35,8 @@ tasks:
       - "tests/**/*"
       - "docs/**/*"
       - "/pnpm-lock.yaml"
+    options:
+      runInCI: false
   # Full lint, including bounded non-browser test typing.
   lint:
     command:
@@ -43,9 +45,11 @@ tasks:
       - lint
     options:
       cache: false
-      runInCI: true
+      runInCI: false
   # Complete non-browser inventory, sequential execution and all-failure reporting.
   test:
+    deps:
+      - sdk-wasm:build
     command:
       - pnpm
       - run
@@ -55,6 +59,8 @@ tasks:
       - "@globs(configs)"
       - "tests/**/*"
       - "docs/**/*"
+      - "/.github/hooks/studio-resources.json"
+      - "/.github/ci-targets.json"
       - "/pnpm-lock.yaml"
   # Production build, including the data-vis adapter bundle.
   build:
@@ -69,8 +75,12 @@ tasks:
     outputs:
       - "dist/"
       - "public/data-vis/data-vis.js"
+    options:
+      runInCI: false
   # Local development server (HTTPS).
   dev:
+    deps:
+      - sdk-wasm:build
     command:
       - pnpm
       - run

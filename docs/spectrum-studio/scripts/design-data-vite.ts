@@ -8,7 +8,7 @@ import {
   referenceRoot,
 } from "./design-data-loader";
 import type { AnalysisInput } from "../src/features/design-data/comparison";
-import { resolveColorOpacityValues } from "./color-opacity-resolution";
+import { packagedAnalysisReference } from "./packaged-analysis-reference";
 import {
   assessmentGitWatchPaths,
   attachReferenceAssessment,
@@ -51,9 +51,12 @@ export function designDataAnalysisPlugin(): Plugin {
         appRoot,
         "DESIGN_DATA_",
       ).DESIGN_DATA_SDK;
-      const roots = [
+      const datasetRoots = [
         resolve(root, "packages/design-data"),
         resolve(root, "packages/design-data-spec"),
+      ];
+      const roots = [
+        ...datasetRoots,
         resolve(appRoot, "src/data"),
         resolve(appRoot, "src/features"),
         resolve(appRoot, "scripts"),
@@ -81,9 +84,15 @@ export function designDataAnalysisPlugin(): Plugin {
         );
       };
       const invalidate = analysisInputInvalidator(roots, documents, () => {
-        cached = undefined;
         notify();
       });
+      const invalidateDataset = analysisInputInvalidator(
+        datasetRoots,
+        [],
+        () => {
+          cached = undefined;
+        },
+      );
       const gitFiles = await assessmentGitWatchPaths(root);
       const bindGitWatchers = () => {
         gitWatchers.forEach((watcher) => watcher.close());
@@ -116,14 +125,18 @@ export function designDataAnalysisPlugin(): Plugin {
       };
       bindGitWatchers();
       server.watcher.add([...roots, ...documents]);
-      for (const event of analysisWatchEvents)
+      for (const event of analysisWatchEvents) {
+        server.watcher.on(event, invalidateDataset);
         server.watcher.on(event, invalidate);
+      }
       server.httpServer?.once("close", () => {
         closed = true;
         gitWatchers.forEach((watcher) => watcher.close());
         clearTimeout(timer);
-        for (const event of analysisWatchEvents)
+        for (const event of analysisWatchEvents) {
+          server.watcher.off(event, invalidateDataset);
           server.watcher.off(event, invalidate);
+        }
       });
       server.middlewares.use(
         "/__design-data/reference",
@@ -139,9 +152,7 @@ export function designDataAnalysisPlugin(): Plugin {
             return;
           }
           try {
-            cached ??= loadReferenceInput(root, sdk).then((input) =>
-              resolveColorOpacityValues(input, root, sdk),
-            );
+            cached ??= loadReferenceInput(root, sdk);
             // Assessment hashes/refs are checked on every request; a manual refresh
             // never reuses stale reviewed metadata just because dataset bytes are cached.
             const input = await attachReferenceAssessment(await cached, root);
@@ -156,59 +167,33 @@ export function designDataAnalysisPlugin(): Plugin {
           }
         },
       );
-      server.middlewares.use(
-        "/__design-data/resolve-values",
-        async (request, response) => {
-          if (
-            request.method !== "POST" ||
-            (request.url !== "/" && request.url !== "")
-          ) {
-            response.statusCode = 400;
-            response.end("Only a value-resolution POST is supported.");
-            return;
-          }
-          try {
-            let body = "";
-            for await (const chunk of request) {
-              body += String(chunk);
-              if (body.length > 32 * 1024 * 1024)
-                throw new Error(
-                  "Analysis input exceeds the resolution batch limit.",
-                );
-            }
-            const input = JSON.parse(body) as AnalysisInput;
-            if (
-              !Array.isArray(input.records) ||
-              !input.source ||
-              input.source.kind === "reference" ||
-              !Array.isArray(input.limitations)
-            )
-              throw new Error("Invalid app Analysis input.");
-            cached ??= loadReferenceInput(root, sdk).then((input) =>
-              resolveColorOpacityValues(input, root, sdk),
-            );
-            const result = await resolveColorOpacityValues(
-              input,
-              root,
-              sdk,
-              await cached,
-            );
-            response.setHeader("Content-Type", "application/json");
-            response.setHeader("Cache-Control", "no-store");
-            response.end(
-              JSON.stringify({
-                resolvedValues: result.resolvedValues,
-                valueResolution: result.valueResolution,
-              }),
-            );
-          } catch (error) {
-            response.statusCode = 400;
-            response.end(
-              error instanceof Error ? error.message : String(error),
-            );
-          }
-        },
+    },
+  };
+}
+
+export function packagedAnalysisPlugin(): Plugin {
+  const id = "\0virtual:analysis-reference";
+  let production = false;
+  return {
+    name: "packaged-analysis-reference",
+    configResolved(config) {
+      production = config.command === "build";
+    },
+    resolveId(source) {
+      if (source === "virtual:analysis-reference") return id;
+    },
+    async load(source) {
+      if (source !== id) return;
+      if (!production) return 'export default "/__design-data/reference";';
+      const snapshot = await packagedAnalysisReference(
+        resolve(appRoot, "../.."),
       );
+      const reference = this.emitFile({
+        type: "asset",
+        name: "analysis-reference.json",
+        source: snapshot,
+      });
+      return `export default import.meta.ROLLUP_FILE_URL_${reference};`;
     },
   };
 }

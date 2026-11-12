@@ -5,18 +5,19 @@ alwaysApply: true
 
 # Code verification
 
-Verify changes with the narrowest check that covers them. Do not run the full
-lint and build after every edit. This project's `pnpm lint` and `pnpm build`
-chain type checks, coverage scripts, a data-vis bundle build, and ESLint, so
-running them repeatedly is slow.
+Verify the changed element and its immediate relevant relationships. Whole-site,
+whole-domain and whole-project local checks need an explicit user request,
+including for shared-infrastructure changes. Comprehensive CI stays unchanged.
 
 Use the `verify-change` skill (`.agents/skills/verify-change/SKILL.md`) to pick
 checks. The short version:
 
-1. **While working:** run the affected `tests/*.ts` script, and `pnpm typecheck`
-   if types or exports changed.
-2. **When a feature is complete:** run `pnpm lint` once, and `pnpm build` once
-   if build, bundling, or data-vis inputs changed.
+1. **While working:** inspect `pnpm check:list`, then run named covering IDs
+   through `pnpm check:focused --only <id,...>`. Check the declared scope/cost
+   and prerequisite expansion, not just the filename. Use file-targeted typing
+   and linting for changed inputs; do not expand grouped test aliases.
+2. **When a feature is complete:** add only the lint/build checks needed by
+   changed inputs. CI owns the complete inventory, not another local sweep.
 3. **Browser checks:** prefer non-browser tests. UI or story changes do not
    automatically require a browser run. If needed, common interaction and
    rendering checks run only in isolated Storybook stories.
@@ -33,6 +34,18 @@ the change touches what they cover or the user asks, once at the end.
 Fix errors caused by the change, then rerun only the failing check. Report
 pre-existing or unconfirmed failures without expanding into unrelated fixes.
 
+The inventory declares scope and cost; unknown checks are not assumed cheap.
+At most two small invocations may overlap (256 MiB/30 seconds each), or one
+explicitly approved heavy invocation may run alone (1 GiB/60 seconds). Each
+deadline covers the whole selection. Add `--heavy-approved` and, for broader
+scope, `--scope-approved` only after the corresponding user permission.
+
+Busy means not run: continue independent work without waiting, polling or
+retrying. A timeout, resource cutoff or incomplete cleanup stops work;
+approval is required before retrying or increasing limits. Do not create a
+replacement job or subagent. Native monitoring and optional client hooks do not
+provide an OS-level memory guarantee; see `docs/agent-execution.md`.
+
 ## Search and resource limits
 
 - Search only `docs/spectrum-studio/` and, when needed, source `packages/`.
@@ -41,9 +54,10 @@ pre-existing or unconfirmed failures without expanding into unrelated fixes.
 - Default to one scoped search. Never exceed 10 concurrent ripgrep processes
   across the task and delegated work; this includes tools and shell wrappers.
   Use `--threads 1` for shell `rg`.
-- Run one resource-heavy job at a time. Do not overlap builds, tests, type
-  checks, browser runners or baseline preparation. Browser tests use
-  `--workers=1`; reuse an appropriate existing server.
+- Use only the shared runner's admitted small slots or exclusive heavy slot.
+  Do not overlap heavy jobs or start work to bypass a busy response. Browser tests use
+  `--workers=1`. Browser configs reject automatic server reuse until revision
+  identity can be verified; do not kill an existing server or start a duplicate.
 - Protect the user's device, not just task throughput. On stalls or
   sluggishness, stop task-owned work and ask before retrying. Do not launch
   more jobs, duplicate servers or repository copies to work around the issue.

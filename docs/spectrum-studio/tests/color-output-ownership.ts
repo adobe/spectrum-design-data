@@ -6,6 +6,7 @@ import {
   assertStoredSnapshot,
   restoreAuthoringSnapshotAtom,
   captureSnapshot,
+  enterEditModeAtom,
 } from "../src/features/edit-session/state";
 import {
   canonicalAliasRows,
@@ -52,7 +53,10 @@ import {
   savedBrowserConceptIdsAtom,
   savedBrowserTokensAtom,
 } from "../src/features/tokens/browserSavedState";
-import { browserTokensAtom } from "../src/features/tokens/browserState";
+import {
+  browserTokensAtom,
+  resetBrowserTokenAtom,
+} from "../src/features/tokens/browserState";
 import { generateElevation } from "../src/features/elevation/generate";
 import { resolveElevationDocument } from "../src/features/elevation/resolution";
 import { buildShadowArtifacts } from "../src/features/design-data/shadowArtifacts";
@@ -257,14 +261,15 @@ blocked.components!.components[0].assignments.push({
 assertStoredSnapshot(blocked);
 const store = createStore();
 store.set(restoreAuthoringSnapshotAtom, blocked);
+store.set(enterEditModeAtom);
 assert.ok(
   store.get(savedBrowserConceptIdsAtom).has(blockedIdentity.conceptId),
-  "A saved color concept must remain identifiable even when its output is unavailable.",
+  "A saved color concept must remain identifiable when its override misses contrast.",
 );
 assert.deepEqual(
   captureSnapshot(store.get).tokenOverrides,
   blocked.tokenOverrides,
-  "A failed output must not discard a saved source.",
+  "A contrast warning must not discard a saved source.",
 );
 const input = {
   base: blocked.colorSystem,
@@ -277,30 +282,40 @@ const input = {
   rules: blocked.rules,
 };
 const result = buildCascadeTokenInventory(input);
-assert.ok(result.blockedColors.some((row) => row.uuid === id));
+assert.ok(!result.blockedColors.some((row) => row.uuid === id));
 assert.ok(
-  !result.tokens.some((row) => row.uuid === id),
-  "A failed output cannot be a success-shaped token value.",
+  result.tokens.some(
+    (row) =>
+      row.uuid === id &&
+      row.value ===
+        serializeOutputColor(
+          new Color("#ffffff"),
+          blocked.colorSystem.settings.colorOutput,
+        ),
+  ),
+  "A below-target manual value remains available in the chosen output format.",
 );
-assert.throws(() => buildCascadeTokenExport(input), ColorOutputError);
+assert.doesNotThrow(() => buildCascadeTokenExport(input));
 const catalog = componentTokenCatalog(blocked);
 assert.ok(
   catalog.find(
-    (row) => row.browserId === blockedIdentity.conceptId && row.outputError,
+    (row) => row.browserId === blockedIdentity.conceptId && !row.outputError,
   ),
 );
-assert.throws(
-  () =>
-    assertComponentReferences(blocked.components!, blocked.taxonomy!, catalog),
-  ColorOutputError,
+assert.doesNotThrow(() =>
+  assertComponentReferences(blocked.components!, blocked.taxonomy!, catalog),
 );
 const changes = store.get(changeGroupsResultAtom);
 assert.equal(
   changes.status,
-  "blocked",
-  "Changes must report unavailable output rather than crashing edit controls or inventing zero counts.",
+  "ready",
+  "A manual contrast shortfall must not block Changes or token impact.",
 );
-assert.ok(changes.status === "blocked" && changes.error.details.tokenId === id);
+assert.ok(
+  store
+    .get(browserTokensAtom)
+    .find((row) => row.id === blockedIdentity.conceptId)?.contrastWarning,
+);
 store.set(browserTokenEditsAtom, {
   ...store.get(browserTokenEditsAtom),
   [blockedIdentity.conceptId]: {
@@ -308,20 +323,31 @@ store.set(browserTokenEditsAtom, {
     description: "Retained description",
   },
 });
-store.set(revertBlockedColorValueAtom, id);
-assert.equal(captureSnapshot(store.get).tokenOverrides[id], undefined);
+assert.throws(
+  () => store.set(revertBlockedColorValueAtom, id),
+  /no longer has a blocked manual output/,
+  "Contrast warnings do not enter the blocked-output recovery path.",
+);
 assert.equal(
   store.get(browserTokenEditsAtom)[blockedIdentity.conceptId].description,
   "Retained description",
+  "The warning preserves unrelated authored metadata.",
+);
+store.set(resetBrowserTokenAtom, blockedIdentity.conceptId);
+assert.equal(captureSnapshot(store.get).tokenOverrides[id], undefined);
+assert.equal(
+  store.get(browserTokenEditsAtom)[blockedIdentity.conceptId].description,
+  undefined,
+  "The ordinary full-token reset keeps its existing metadata reset behavior.",
 );
 assert.equal(
   store.get(changeGroupsResultAtom).status,
   "ready",
-  "Reverting a failed manual value must restore output and Changes.",
+  "Reverting a below-target manual value keeps output and Changes available.",
 );
 assert.doesNotThrow(
   () => store.get(browserTokensAtom),
-  "A failed saved baseline must not prevent browsing recovered working output.",
+  "A below-target saved baseline must not prevent browsing recovered working output.",
 );
 const canonicalEdits = structuredClone(store.get(browserTokenEditsAtom));
 canonicalEdits[blockedIdentity.conceptId].authoring!.assignments["[]"] = {
@@ -331,14 +357,14 @@ canonicalEdits[blockedIdentity.conceptId].authoring!.assignments["[]"] = {
 store.set(browserTokenEditsAtom, canonicalEdits);
 assert.equal(
   store.get(changeGroupsResultAtom).status,
-  "blocked",
-  "Canonical assignments use the same manual-color output guard.",
+  "ready",
+  "Canonical assignments use the same non-blocking contrast assessment.",
 );
-store.set(revertBlockedColorValueAtom, id);
+store.set(resetBrowserTokenAtom, blockedIdentity.conceptId);
 const recovered = store.get(browserTokenEditsAtom)[blockedIdentity.conceptId];
 assert.deepEqual(recovered.authoring!.assignments, {});
 assert.deepEqual(recovered.authoring!.identity, blockedIdentity);
-assert.equal(recovered.description, "Retained description");
+assert.equal(recovered.description, undefined);
 assert.equal(store.get(changeGroupsResultAtom).status, "ready");
 
 const packet = buildDataVisSourcePacket({
@@ -458,5 +484,5 @@ assert.deepEqual(
   "Output mapping must not overwrite the wide authored shadow color.",
 );
 console.log(
-  "Color output ownership: manual formatting, preserved failed sources/references, blocked emission, unchanged alias inventories, wide authored geometry and strict packet upgrades passed.",
+  "Color output ownership: manual formatting, below-target values and references, available Changes and exports, unchanged alias inventories, wide authored geometry and strict packet upgrades passed.",
 );

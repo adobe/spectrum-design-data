@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, type Getter, type Setter } from "jotai";
+import { selectAtom } from "jotai/utils";
 import { persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { authoringSourceSnapshotAtom } from "../edit-session/state";
@@ -7,9 +8,13 @@ import { taxonomyDocumentAtom } from "../taxonomy/state";
 import type { TaxonomyDocument } from "../taxonomy/model";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import { styleContexts } from "./artifacts";
+import { completeAliasSource } from "../tokens/aliasTargets";
 import { synchronizeStylePublications } from "./generation";
-import { buildStyleArtifacts } from "./generation";
-import { canonicalJson } from "../design-data/canonicalJson";
+import {
+  buildStyleArtifacts,
+  mergeStyleArtifacts,
+  type StyleContext,
+} from "./generation";
 import { registerStyleName, withStylesVocabulary } from "./vocabulary";
 import {
   EMPTY_STYLES,
@@ -20,6 +25,7 @@ import {
 import type { StylePropertiesEditor } from "./variants";
 import { designSystemDefaults } from "../../data/defaults";
 import { browserModeContextAtom } from "../tokens/browserState";
+import { canonicalTokenModeKey } from "../tokens/browserModel";
 import { structureTextStyleIssues } from "./textAppearance";
 import type { SpectrumIconName } from "../icons/spectrumIconNames.generated";
 
@@ -55,12 +61,124 @@ export const stylePreviewAtom = atom<{
   options: {},
   display: "tokens",
 });
+const styleContextInputAtom = atom((get) => ({
+  ...completeAliasSource(get(authoringSourceSnapshotAtom)),
+  styles: undefined,
+}));
+const styleFoundationSourceAtom = selectAtom(
+  styleContextInputAtom,
+  (source) => source,
+  (left, right) =>
+    Object.keys(left).every(
+      (key) =>
+        left[key as keyof typeof left] === right[key as keyof typeof right],
+    ),
+);
 export const styleContextsStateAtom = atom((get) => {
   try {
     return {
-      contexts: styleContexts(get(authoringSourceSnapshotAtom)),
+      contexts: styleContexts(get(styleFoundationSourceAtom)),
       error: "",
     };
+  } catch (failure) {
+    return {
+      contexts: [],
+      error: failure instanceof Error ? failure.message : String(failure),
+    };
+  }
+});
+function currentStyleContexts(get: Getter) {
+  const state = get(styleContextsStateAtom);
+  if (state.error) throw new Error(state.error);
+  return state.contexts;
+}
+const styleDisplayContextsAtom = atom((get) => {
+  const source = get(styleFoundationSourceAtom);
+  const modeKey = get(browserModeContextAtom).key;
+  const defaults = Object.fromEntries(
+    source.modeSets
+      .filter((axis) => axis.modes.length)
+      .map((axis) => [axis.id, axis.defaultModeId]),
+  );
+  const current = Object.fromEntries(JSON.parse(modeKey) as [string, string][]);
+  return styleContexts(
+    source,
+    canonicalTokenModeKey(defaults) === modeKey
+      ? [current]
+      : [current, defaults],
+  );
+});
+const styleCurrentContextsAtom = atom((get) => {
+  const modeKey = get(browserModeContextAtom).key;
+  return get(styleDisplayContextsAtom).filter(
+    (context) => canonicalTokenModeKey(context.selection) === modeKey,
+  );
+});
+const stylePublicationRowsAtom = selectAtom(
+  stylesDocumentAtom,
+  (document) => document.publications,
+);
+const stylePublicationIndexAtom = atom((get) => {
+  const index = new Map<string, StylesDocument["publications"]>();
+  for (const publication of get(stylePublicationRowsAtom)) {
+    const records = index.get(publication.recipeId) ?? [];
+    records.push(publication);
+    index.set(publication.recipeId, records);
+  }
+  return index;
+});
+interface CachedPreview {
+  inputs: readonly unknown[];
+  artifacts: ReturnType<typeof buildStyleArtifacts>;
+}
+const previewRepositoryAtom = atom(
+  () => new Map<string, Partial<Record<"preview" | "text", CachedPreview>>>(),
+);
+function scopedStyleArtifacts(
+  get: Getter,
+  recipes: StyleRecipe[],
+  contexts: StyleContext[],
+  kind: "preview" | "text",
+): ReturnType<typeof buildStyleArtifacts> {
+  const source = get(styleFoundationSourceAtom);
+  const document = get(stylesDocumentAtom);
+  const publications = get(stylePublicationIndexAtom);
+  const cache = get(previewRepositoryAtom);
+  const currentIds = new Set(document.recipes.map((recipe) => recipe.id));
+  for (const id of cache.keys()) if (!currentIds.has(id)) cache.delete(id);
+  const results = recipes.map((recipe) => {
+    const rows = publications.get(recipe.id);
+    const inputs = [
+      recipe,
+      rows,
+      contexts,
+      source.taxonomy,
+      source.rules,
+      source.modeSets,
+    ];
+    const entry = cache.get(recipe.id) ?? {};
+    const previous = entry[kind];
+    if (previous?.inputs.every((value, index) => value === inputs[index]))
+      return previous.artifacts;
+    const artifacts = buildStyleArtifacts(
+      { ...document, recipes: [recipe], publications: rows ?? [] },
+      source.taxonomy,
+      source.rules,
+      source.modeSets,
+      contexts,
+      undefined,
+      kind === "preview",
+      false,
+    );
+    entry[kind] = { inputs, artifacts };
+    cache.set(recipe.id, entry);
+    return artifacts;
+  });
+  return mergeStyleArtifacts(results, kind !== "preview");
+}
+export const stylePreviewContextsStateAtom = atom((get) => {
+  try {
+    return { contexts: get(styleDisplayContextsAtom), error: "" };
   } catch (failure) {
     return {
       contexts: [],
@@ -99,20 +217,50 @@ export const textStyleSourceAtom = atom((get) => ({
   artifacts: get(styleArtifactsAtom),
   modeKey: get(browserModeContextAtom).key,
 }));
-export const stylePreviewArtifactsAtom = atom((get) => {
+export const previewTextStyleSourceAtom = atom((get) => {
   const source = get(authoringSourceSnapshotAtom);
   try {
-    const contexts = get(styleContextsStateAtom);
-    if (contexts.error) throw new Error(contexts.error);
+    if (!source.taxonomy)
+      throw new Error("Style preview needs an available Registry.");
+    return {
+      document: get(stylesDocumentAtom),
+      artifacts: scopedStyleArtifacts(
+        get,
+        source.styles?.recipes ?? [],
+        get(styleDisplayContextsAtom),
+        "text",
+      ),
+      modeKey: get(browserModeContextAtom).key,
+    };
+  } catch (failure) {
+    return {
+      document: get(stylesDocumentAtom),
+      artifacts: {
+        rows: [],
+        issues: [
+          {
+            recipeId: "",
+            message:
+              failure instanceof Error ? failure.message : String(failure),
+          },
+        ],
+      },
+      modeKey: get(browserModeContextAtom).key,
+    };
+  }
+});
+function previewArtifacts(get: Getter, selectedOnly: boolean) {
+  const source = get(authoringSourceSnapshotAtom);
+  try {
+    const selectedId = selectedOnly ? get(selectedStyleIdAtom) : null;
     return source.taxonomy
-      ? buildStyleArtifacts(
-          source.styles ?? EMPTY_STYLES,
-          source.taxonomy,
-          source.rules ?? [],
-          source.modeSets,
-          contexts.contexts,
-          undefined,
-          true,
+      ? scopedStyleArtifacts(
+          get,
+          (source.styles?.recipes ?? []).filter(
+            (recipe) => !selectedOnly || recipe.id === selectedId,
+          ),
+          get(styleCurrentContextsAtom),
+          "preview",
         )
       : {
           rows: [],
@@ -134,18 +282,23 @@ export const stylePreviewArtifactsAtom = atom((get) => {
       ],
     };
   }
-});
+}
+export const stylePreviewArtifactsAtom = atom((get) =>
+  previewArtifacts(get, true),
+);
+export const styleLibraryArtifactsAtom = atom((get) =>
+  previewArtifacts(get, false),
+);
 export const prepareStylePublicationsAtom = atom(null, (get, set) => {
   const source = get(authoringSourceSnapshotAtom),
     document = get(stylesDocumentAtom);
   if (!document.recipes.length) return;
   const next = synchronizeStylePublications(
     document,
-    styleContexts(source),
+    currentStyleContexts(get),
     source.rules ?? [],
   );
-  if (canonicalJson(next.publications) !== canonicalJson(document.publications))
-    set(stylesDocumentAtom, next);
+  if (next !== document) set(stylesDocumentAtom, next);
 });
 export const renameStyleAtom = atom(
   null,
@@ -198,7 +351,9 @@ function writeStyleRecipe(
   };
   const document = synchronizeStylePublications(
     source.styles,
-    styleContexts(source),
+    taxonomy === get(taxonomyDocumentAtom)
+      ? currentStyleContexts(get)
+      : styleContexts(source),
     source.rules ?? [],
   );
   const issues = structureTextStyleIssues(
@@ -206,17 +361,13 @@ function writeStyleRecipe(
     document,
   );
   if (issues.length) throw new Error(issues.join(" "));
-  withValidatedAuthoringUpdates(
-    get,
-    new Map<string, unknown>([
-      ["registry/taxonomy", taxonomy],
-      ["design/styles", document],
-    ]),
-    () => {
-      set(taxonomyDocumentAtom, taxonomy);
-      set(stylesDocumentAtom, document);
-    },
-  );
+  const updates = new Map<string, unknown>([["design/styles", document]]);
+  const taxonomyChanged = taxonomy !== get(taxonomyDocumentAtom);
+  if (taxonomyChanged) updates.set("registry/taxonomy", taxonomy);
+  withValidatedAuthoringUpdates(get, updates, () => {
+    if (taxonomyChanged) set(taxonomyDocumentAtom, taxonomy);
+    set(stylesDocumentAtom, document);
+  });
 }
 export const saveStyleAtom = atom(null, (get, set, recipe: StyleRecipe) => {
   writeStyleRecipe(

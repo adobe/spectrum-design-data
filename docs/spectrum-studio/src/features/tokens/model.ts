@@ -57,6 +57,20 @@ export interface TokenSource {
   contrastId: string;
 }
 
+export interface ColorOverrideSource {
+  scaleId: string;
+  contrastId: string;
+  name: TokenName;
+}
+
+export interface ColorOverrideContrast {
+  colorName: string;
+  scaleIndex: string;
+  requestedContrast: number;
+  actualContrast: number;
+  background: string;
+}
+
 export interface GeneratedToken {
   uuid: string;
   name: TokenName;
@@ -70,6 +84,7 @@ export interface ResolvedToken extends GeneratedToken {
   valueOverridden: boolean;
   /** The foundational data moved after the user edited this token. */
   stale: boolean;
+  contrastWarning?: ColorOverrideContrast;
 }
 
 export interface TokenSet {

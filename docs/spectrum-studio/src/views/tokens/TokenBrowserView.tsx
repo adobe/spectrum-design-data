@@ -10,6 +10,8 @@ import OpenIn from "@react-spectrum/s2/icons/OpenIn";
 import Search from "@react-spectrum/s2/icons/Search";
 import ViewGrid from "@react-spectrum/s2/icons/ViewGrid";
 import ViewList from "@react-spectrum/s2/icons/ViewList";
+import AlertTriangle from "@react-spectrum/s2/icons/AlertTriangle";
+import { Focusable } from "react-aria-components";
 import type { Key, TableProps } from "react-aria-components";
 import { tokenPanelRegistry, type TokenPanelId } from "../../features/tokens/view/tokenPanelRegistry";
 import { filterBrowserTokens, groupBrowserCards, tokenValueText, type BrowserToken, type TokenLifecycle } from "../../features/tokens/browserModel";
@@ -24,6 +26,8 @@ import {
   tokenSelectionState, tokenTableSelectionIndex, toggleTokenSelection, type TokenTablePresentationRow,
 } from "../../features/tokens/view/tokenTablePresentation";
 import { filterAllModeTokenTableRows } from "../../features/tokens/view/allModeTokenTable";
+import { TokenNameTag } from "../../components/tokens/TokenNameTag";
+import { overrideContrastMessage } from "../../features/tokens/colorOutput";
 
 export interface TokenBrowserViewProps {
   modeView?: "selected" | "all";
@@ -55,7 +59,7 @@ const emptySelection = new Set<string>();
 const tokenTableSelectionProps = { selectionBehavior: "toggle" } satisfies Pick<TableProps, "selectionBehavior">;
 
 export function TokenStatusBadge({ status }: { status: TokenLifecycle }) {
-  return <Badge variant={status === "released" ? "positive" : status === "deprecated" ? "notice" : "neutral"} fillStyle="subtle">{statusLabels[status]}</Badge>;
+  return <Badge data-token-release styles={style({ width: "fit" })} variant={status === "released" ? "positive" : status === "deprecated" ? "notice" : "neutral"} fillStyle="subtle">{statusLabels[status]}</Badge>;
 }
 
 export function TokenBrowserView(props: TokenBrowserViewProps) {
@@ -116,6 +120,8 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
     const ids = selection.rows.get(item.id)!;
     const state = tokenSelectionState(ids, selectedIds);
     const description = [token?.description, ...(token?.projection?.issues ?? [])].filter(Boolean).join(" ");
+    const referenceName = token?.referenceName ?? token?.alias?.targetName ??
+      (token?.semantic && "$ref" in token.semantic.token ? token.semantic.target.name : undefined);
     return (
       <Row id={item.id} textValue={item.contextLabel} dependencies={[selectedIds, isEditing]}
         data-token-root={rootIds.has(item.id)} data-token-leaf={item.children.length === 0} data-token-name={token?.name} data-token-id={token?.id}>
@@ -125,9 +131,19 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
         </Cell>}
         <Cell><span className="tokenName">{item.label}</span>{token?.semantic && <Badge variant="neutral" fillStyle="subtle">Semantic</Badge>}{token?.alias && <Badge variant="informative" fillStyle="subtle">Alias</Badge>}</Cell>
         <Cell>{token && showValue && <ValuePreview preview={previews.get(allModes ? item.id : token.id)!} />}</Cell>
-        <Cell>{token && showValue && <span className="tokenValue">{tokenValueText(token)}</span>}</Cell>
+        <Cell>{token && showValue && <div className={style({ display: "flex", alignItems: "center", gap: 8 })}>
+          <span className="tokenValue">{tokenValueText(token)}</span>
+          {token.contrastWarning && <TooltipTrigger>
+            <Focusable><span tabIndex={0} aria-label={overrideContrastMessage(token.contrastWarning)} className={style({ color: "negative", display: "flex" })}><AlertTriangle /></span></Focusable>
+            <Tooltip>{overrideContrastMessage(token.contrastWarning)}</Tooltip>
+          </TooltipTrigger>}
+        </div>}</Cell>
+        <Cell>{token && showValue && token.valueOverridden && <TooltipTrigger>
+          <Focusable><span tabIndex={0} className={style({ width: "fit" })}><Badge variant="notice" fillStyle="subtle" styles={style({ width: "fit" })}>Override</Badge></span></Focusable>
+          <Tooltip>This value is an override to the original generated value</Tooltip>
+        </TooltipTrigger>}</Cell>
         <Cell>{token && <TokenStatusBadge status={token.status} />}</Cell>
-        <Cell>{(showValue && allModes ? token?.referenceName : undefined) ?? token?.alias?.targetName ?? (token?.semantic ? "$ref" in token.semantic.token ? token.semantic.target.name : "Generated literal" : "")}</Cell>
+        <Cell>{showValue && referenceName && <TokenNameTag name={referenceName} />}</Cell>
         <Cell><span className="tokenDescription" title={description || undefined}>{description}</span></Cell>
         {!allModes && <Cell>{token && <div className="tokenRowActions">
           <TooltipTrigger><ActionButton preventFocusOnPress aria-label={`Open ${token.name}`} onPress={() => onOpen(token.id)}><OpenIn /></ActionButton><Tooltip>Open</Tooltip></TooltipTrigger>
@@ -167,8 +183,10 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
             onChange={(checked) => onSelectionChange(toggleTokenSelection(selectedIds, selection.eligibleIds, checked))} />
         </Column>}
         <Column id="token-column:name" isRowHeader width={260}>Name</Column><Column id="token-column:preview" width={100}>Preview</Column>
-        <Column id="token-column:value" width={140}>Value</Column><Column id="token-column:status" width={240}>Status</Column>
-        <Column id="token-column:alias" width={110}>Alias</Column><Column id="token-column:description" minWidth={200}>Description</Column>{!allModes && <Column id="token-column:actions" width={100}>Actions</Column>}
+        <Column id="token-column:value" width={160}>Value</Column>
+        <Column id="token-column:override" width={110} aria-label="Override">{null}</Column>
+        <Column id="token-column:status" width={150}>Release status</Column>
+        <Column id="token-column:alias" width={160}>Alias</Column><Column id="token-column:description" minWidth={200}>Description</Column>{!allModes && <Column id="token-column:actions" width={100}>Actions</Column>}
       </TableHeader>
       <TableBody items={tree} dependencies={[selectedIds, isEditing]} renderEmptyState={() => <div className="tokenEmpty" role="status">{emptyMessage}</div>}>{renderRow}</TableBody>
     </TableView>

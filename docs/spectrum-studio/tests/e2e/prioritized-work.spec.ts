@@ -2,7 +2,12 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { createStore } from "jotai";
-import { computeAnalysisComparison } from "../../src/features/design-data/analysisWork";
+import {
+  computeAnalysisComparison as computeComparison,
+  type AnalysisComparisonRequest,
+} from "../../src/features/design-data/analysisWork";
+import { createValueResolutionService } from "../../src/features/design-data/wasmResolution";
+import { createHash } from "node:crypto";
 import {
   reportWithFreshness,
   type AnalysisInput,
@@ -59,6 +64,22 @@ import {
 import { paletteColorHex } from "../../src/features/color-system/paletteValue";
 import { assessClassificationStandard } from "../../src/features/taxonomy/standardization";
 import { CLASSIFICATION_REVIEW_LABEL } from "../../src/features/taxonomy/reviewPresentation";
+
+const resolution = createValueResolutionService(async () => {
+  const { ValueResolver } = await import("@adobe/design-data-wasm");
+  const bytes = await readFile(
+    new URL(
+      "../../../../sdk/wasm/pkg/web/design_data_wasm_bg.wasm",
+      import.meta.url,
+    ),
+  );
+  return {
+    engine: `wasm:sha256:${createHash("sha256").update(bytes).digest("hex")}`,
+    create: (input) => new ValueResolver(input),
+  };
+});
+const computeAnalysisComparison = (request: AnalysisComparisonRequest) =>
+  computeComparison({ ...request, resolveValues: true }, resolution.resolve);
 
 interface ContinuousContrastAudit {
   running: boolean;
@@ -920,7 +941,7 @@ test("Selected Analysis stays canonical, cancels replaced work and blocks stale 
   ).toContainText("unassessable");
   await expect(page.locator("html")).toHaveAttribute(
     "data-analysis-workers-active",
-    "0",
+    "1",
   );
   await expect(page.locator("html")).toHaveAttribute(
     "data-analysis-workers-peak",
@@ -940,7 +961,7 @@ test("Analysis failure is explicit and retry restores the exact requested report
   await page.route(pattern, (route) =>
     route.fulfill({
       contentType: "text/javascript",
-      body: 'self.onmessage = () => self.postMessage({ type: "error", error: "Injected Analysis failure" });',
+      body: 'self.onmessage = event => self.postMessage({ id: event.data.id, type: "error", error: "Injected Analysis failure" });',
     }),
   );
   await page.goto("/");
@@ -959,7 +980,7 @@ test("Analysis failure is explicit and retry restores the exact requested report
   expect((await download(page)).inputs.app.kind).toBe("defaults");
   await expect(page.locator("html")).toHaveAttribute(
     "data-analysis-workers-active",
-    "0",
+    "1",
   );
 });
 

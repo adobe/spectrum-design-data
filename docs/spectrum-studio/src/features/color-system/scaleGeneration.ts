@@ -70,7 +70,7 @@ export interface ResolvedScaleColor {
 const scaleDataCache = new Map<string, ScaleData>();
 
 function scaleCacheKey(scale: ColorScale, output: OutputColorSpace) {
-  return `${JSON.stringify(output)}|${scale.id}|${scale.name}|${scaleInterpolation(scale)}|${scale.stops.map((stop) => `${stop.lightness},${stop.hue},${stop.chroma}`).join(";")}`;
+  return `${JSON.stringify(output)}|${scale.id}|${scaleInterpolation(scale)}|${scale.stops.map((stop) => `${stop.lightness},${stop.hue},${stop.chroma}`).join(";")}`;
 }
 
 function sortStops(stops: ColorStop[]) {
@@ -299,7 +299,10 @@ export function buildScaleData(
   const cacheKey = scaleCacheKey(scale, output);
   const cached = scaleDataCache.get(cacheKey);
   if (cached) {
-    return cached;
+    if (cached.scale === scale) return cached;
+    const current = { ...cached, scale };
+    scaleDataCache.set(cacheKey, current);
+    return current;
   }
   const ramp = buildRamp(scale, output);
   const keyColors =

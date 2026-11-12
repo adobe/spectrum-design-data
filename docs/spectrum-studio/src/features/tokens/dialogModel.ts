@@ -5,7 +5,7 @@ import {
   type TaxonomyDocument,
 } from "../taxonomy/model";
 import { assertShadowValue } from "../design-data/shadowValue";
-import type { CanonicalAliasRow } from "./aliasTargets";
+import type { CanonicalAliasRow } from "./baseAliasRows";
 import {
   parseBrowserTokenValue,
   projectBrowserTokens,
@@ -303,7 +303,7 @@ export function commitDialogDraft(
           unit: original.unit,
           targetId: draft.tokenId,
           groupId: original.groupId,
-          ...(original.semantic || original.classificationScope
+          ...(original.semantic || original.classificationScope === "structures"
             ? { scope: "structures" as const }
             : {}),
         },
@@ -405,11 +405,12 @@ export function dialogClassification(
       token.taxonomySource?.governed ??
       token.projection?.classification ??
       {},
-    token.semantic || token.classificationScope === "structures"
-      ? "structures"
-      : token.type === "motion"
-        ? "size"
-        : token.type,
+    token.classificationScope ??
+      (token.semantic
+        ? "structures"
+        : token.type === "motion"
+          ? "size"
+          : token.type),
     token.tier,
   );
   if (token.manual && !token.tier) {

@@ -28,6 +28,7 @@ import {
   type StyleAppearance,
   type StyleColor,
   type StyleProperty,
+  type StylePublication,
   type StyleRecipe,
   type StylesDocument,
 } from "./model";
@@ -80,6 +81,18 @@ export interface StyleIssue {
 export interface StyleArtifacts {
   rows: StyleRow[];
   issues: StyleIssue[];
+}
+function publicationIndex(publications: readonly StylePublication[]) {
+  const index = new Map<string, Map<string, StylePublication>>();
+  for (const publication of publications) {
+    let recipe = index.get(publication.recipeId);
+    if (!recipe) {
+      recipe = new Map();
+      index.set(publication.recipeId, recipe);
+    }
+    if (!recipe.has(publication.key)) recipe.set(publication.key, publication);
+  }
+  return index;
 }
 const propertyValues: Record<StyleProperty, string[]> = {
   color: ["color"],
@@ -215,6 +228,34 @@ function typeClassification(recipe: StyleRecipe, taxonomy: TaxonomyDocument) {
     result,
   );
 }
+export function mergeStyleArtifacts(
+  artifacts: readonly StyleArtifacts[],
+  checkNames = true,
+): StyleArtifacts {
+  const rows = artifacts.flatMap((artifact) => artifact.rows);
+  const issues: StyleIssue[] = [];
+  const seen = new Set<string>();
+  const report = (issue: StyleIssue) => {
+    const key = JSON.stringify([issue.recipeId, issue.message]);
+    if (!seen.has(key)) {
+      seen.add(key);
+      issues.push(issue);
+    }
+  };
+  for (const artifact of artifacts) artifact.issues.forEach(report);
+  const names = new Map<string, string>();
+  if (checkNames)
+    for (const row of rows) {
+      const key = JSON.stringify([row.name, row.modeKey]);
+      if (names.has(key) && names.get(key) !== row.conceptId)
+        report({
+          recipeId: row.recipeId,
+          message: `Generated token name ${row.name} collides with another style output.`,
+        });
+      names.set(key, row.conceptId);
+    }
+  return { rows, issues };
+}
 export function buildStyleArtifacts(
   document: StylesDocument,
   taxonomy: TaxonomyDocument,
@@ -223,9 +264,11 @@ export function buildStyleArtifacts(
   contexts: StyleContext[],
   publications = document.publications,
   includeLocalVariants = false,
+  checkNames = true,
 ): StyleArtifacts {
   const rows: StyleRow[] = [],
     issues: StyleIssue[] = [];
+  const indexedPublications = publicationIndex(publications);
   const report = (recipeId: string, message: string) => {
     if (
       !issues.some(
@@ -243,8 +286,9 @@ export function buildStyleArtifacts(
         );
         continue;
       }
+      const variants = styleVariants(recipe);
       for (const context of contexts)
-        for (const variant of styleVariants(recipe)) {
+        for (const variant of variants) {
           if (!variant.publish && !includeLocalVariants) continue;
           const type = typeClassification(recipe, taxonomy);
           const base = mergeClassifications(
@@ -534,10 +578,9 @@ export function buildStyleArtifacts(
                     output.id ?? null,
                     property === "lineHeight" ? reference?.index : null,
                   ]);
-                  const publication = publications.find(
-                    (entry) =>
-                      entry.recipeId === recipe.id && entry.key === key,
-                  );
+                  const publication = indexedPublications
+                    .get(recipe.id)
+                    ?.get(key);
                   const modeKey = canonicalTokenModeKey(context.selection);
                   const uuid = publication?.rows[modeKey];
                   if (!publication || !uuid) {
@@ -615,18 +658,10 @@ export function buildStyleArtifacts(
           }
         }
     }
-    const names = new Map<string, string>();
-    for (const row of rows) {
-      if (includeLocalVariants) continue;
-      const key = JSON.stringify([row.name, row.modeKey]);
-      if (names.has(key) && names.get(key) !== row.conceptId)
-        report(
-          row.recipeId,
-          `Generated token name ${row.name} collides with another style output.`,
-        );
-      names.set(key, row.conceptId);
-    }
-    return { rows, issues };
+    return mergeStyleArtifacts(
+      [{ rows, issues }],
+      checkNames && !includeLocalVariants,
+    );
   });
 }
 
@@ -635,8 +670,44 @@ export function synchronizeStylePublications(
   contexts: StyleContext[],
   rules: readonly Rule[],
 ) {
-  const next = structuredClone(document);
-  for (const recipe of next.recipes)
+  let publications = document.publications;
+  const indexedPublications = publicationIndex(publications);
+  const positions = new Map(
+    publications.map((publication, index) => [publication, index]),
+  );
+  const modeKeys = [
+    ...new Set(
+      contexts.map((context) => canonicalTokenModeKey(context.selection)),
+    ),
+  ];
+  const lineHeightIndices = new Map<
+    string | undefined,
+    Set<number | undefined>
+  >();
+  for (const context of contexts)
+    for (const reference of context.references) {
+      if (reference.property !== "lineHeight") continue;
+      let indices = lineHeightIndices.get(reference.metricId);
+      if (!indices) {
+        indices = new Set();
+        lineHeightIndices.set(reference.metricId, indices);
+      }
+      indices.add(reference.index);
+    }
+  const replace = (publication: StylePublication, position?: number) => {
+    if (publications === document.publications)
+      publications = [...publications];
+    if (position === undefined) publications.push(publication);
+    else publications[position] = publication;
+    positions.set(publication, position ?? publications.length - 1);
+    let recipe = indexedPublications.get(publication.recipeId);
+    if (!recipe) {
+      recipe = new Map();
+      indexedPublications.set(publication.recipeId, recipe);
+    }
+    recipe.set(publication.key, publication);
+  };
+  for (const recipe of document.recipes)
     for (const variant of styleVariants(recipe)) {
       const outputs = [
         undefined,
@@ -658,18 +729,9 @@ export function synchronizeStylePublications(
         const indices =
           property === "lineHeight"
             ? [
-                ...new Set(
-                  contexts.flatMap((context) =>
-                    context.references
-                      .filter(
-                        (reference) =>
-                          reference.property === "lineHeight" &&
-                          reference.metricId ===
-                            variant.appearance.lineHeight?.metricId,
-                      )
-                      .map((reference) => reference.index),
-                  ),
-                ),
+                ...(lineHeightIndices.get(
+                  variant.appearance.lineHeight?.metricId,
+                ) ?? []),
               ]
             : [undefined];
         for (const family of families)
@@ -682,9 +744,7 @@ export function synchronizeStylePublications(
                 output ?? null,
                 index ?? null,
               ]);
-              let publication = next.publications.find(
-                (entry) => entry.recipeId === recipe.id && entry.key === key,
-              );
+              let publication = indexedPublications.get(recipe.id)?.get(key);
               if (!publication) {
                 publication = {
                   id: crypto.randomUUID(),
@@ -692,14 +752,19 @@ export function synchronizeStylePublications(
                   key,
                   rows: {},
                 };
-                next.publications.push(publication);
+                replace(publication);
               }
-              for (const context of contexts) {
-                const modeKey = canonicalTokenModeKey(context.selection);
-                publication.rows[modeKey] ??= crypto.randomUUID();
+              const missing = modeKeys.filter((key) => !publication.rows[key]);
+              if (missing.length) {
+                const rows = { ...publication.rows };
+                for (const modeKey of missing)
+                  rows[modeKey] = crypto.randomUUID();
+                replace({ ...publication, rows }, positions.get(publication));
               }
             }
       }
     }
-  return next;
+  return publications === document.publications
+    ? document
+    : { ...document, publications };
 }

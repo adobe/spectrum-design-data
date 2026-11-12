@@ -94,6 +94,7 @@ import {
   tokenIdentityRow,
 } from "../tokens/canonicalIdentity";
 import { canonicalTokenByUuid } from "../tokens/canonicalCatalogue";
+import { isLeaf } from "../structures/children";
 export type {
   TshirtArtifactBundle,
   TshirtSemanticRow,
@@ -109,6 +110,47 @@ export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   tokenOverrides?: import("../tokens/model").TokenOverrideMap;
   /** Tokens linked across all structures, kept when a build isolates one structure. */
   linkedReferenceIds?: readonly string[];
+}
+export function buildFocusedTshirtArtifacts(
+  source: TshirtAuthoringSource,
+  structureId: string | null,
+): TshirtArtifactBundle {
+  const catalog = source.structures?.structures ?? [];
+  const byId = new Map(
+    catalog.map((structure) => [structure.conceptId, structure]),
+  );
+  const owned = new Map<string, string[]>();
+  for (const structure of catalog) {
+    if (!structure.parentStructureId) continue;
+    const children = owned.get(structure.parentStructureId) ?? [];
+    children.push(structure.conceptId);
+    owned.set(structure.parentStructureId, children);
+  }
+  const scope = new Set(structureId ? [structureId] : []);
+  for (const id of scope) {
+    const structure = byId.get(id);
+    if (!structure) throw new Error(`Structure ${id} is no longer available.`);
+    if (structure.parentStructureId) scope.add(structure.parentStructureId);
+    for (const child of structure.elements ?? [])
+      if (!isLeaf(child)) scope.add(child.structureId);
+    for (const childId of owned.get(id) ?? []) scope.add(childId);
+  }
+  if (!source.structures)
+    throw new Error("Structure preview needs an available authoring document.");
+  return buildTshirtArtifacts({
+    ...source,
+    structures: {
+      ...source.structures,
+      structures: catalog.filter((structure) => scope.has(structure.conceptId)),
+    },
+    linkedReferenceIds:
+      source.linkedReferenceIds ??
+      catalog.flatMap((structure) =>
+        structure.properties.flatMap((binding) =>
+          "$ref" in binding ? [binding.$ref] : [],
+        ),
+      ),
+  });
 }
 interface SourceContext {
   kind: TshirtSemanticRow["kind"];

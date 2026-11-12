@@ -154,7 +154,7 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
       ? comparison.value
       : comparison.status === "pending"
         ? comparison.partial
-        : undefined;
+        : comparison.display;
   const groups = value?.groups ?? [];
   const tokenComparison =
     comparison.status === "ready"
@@ -396,8 +396,8 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
       )}
       {!isCollapsed && (
         <DerivedContentBoundary
-          state={value ? "ready" : comparison.status}
-          label="Calculating changes"
+          state={comparison.status}
+          label="Updating generated changes"
           error={
             comparison.status === "unavailable" ? comparison.error : undefined
           }

@@ -564,7 +564,7 @@ export function registerTerm(
   document: TaxonomyDocument,
   categoryId: string,
   value: TaxonomyValue,
-  id: string,
+  id: string | (() => string),
 ): TaxonomyDocument {
   value = normalizeTermValue(value);
   const category = document.categories.find((item) => item.id === categoryId);
@@ -604,7 +604,7 @@ export function registerTerm(
     terms: [
       ...document.terms,
       {
-        id,
+        id: typeof id === "function" ? id() : id,
         categoryId,
         value: typeof value === "string" ? value.trim() : value,
         description: "",

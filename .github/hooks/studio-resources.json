@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "node docs/spectrum-studio/scripts/agentAdmission.mjs",
+        "powershell": "node docs/spectrum-studio/scripts/agentAdmission.mjs",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

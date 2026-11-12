@@ -11,6 +11,7 @@ import {
 import { defaultsAnalysisInput } from "./projection";
 import { assessGaps, gapRegister, type GapResult } from "./gaps";
 import { VALUE_CONTEXT_POLICY } from "./colorOpacityAssessment";
+import { unavailableValueResolution, wasmResolution } from "./wasmResolution";
 
 export type AnalysisDataset = "defaults" | "saved" | "working";
 export type AnalysisWorkSource =
@@ -29,6 +30,7 @@ export interface AnalysisComparisonRequest {
 }
 export interface AnalysisComparisonResult {
   app: AnalysisInput;
+  reference?: AnalysisInput;
   report?: AnalysisReport;
   unsaved?: boolean;
 }
@@ -38,6 +40,7 @@ export interface AnalysisGapRequest {
   reference?: AnalysisInput;
   saved: EditSessionSnapshot;
   stale: boolean;
+  savedComparison?: AnalysisComparisonResult;
 }
 export interface AnalysisGapResult {
   selected: GapResult[];
@@ -55,53 +58,16 @@ async function fingerprint(input: AnalysisInput): Promise<AnalysisInput> {
   return { ...input, source: { ...input.source, hash } };
 }
 
-function isResolutionResult(
-  value: unknown,
-): value is Pick<AnalysisInput, "resolvedValues" | "valueResolution"> {
-  if (!value || typeof value !== "object") return false;
-  const result = value as Record<string, unknown>;
-  if (!result.valueResolution || typeof result.valueResolution !== "object")
-    return false;
-  const evidence = result.valueResolution as Record<string, unknown>;
-  if (
-    typeof evidence.datasetHash !== "string" ||
-    typeof evidence.engine !== "string" ||
-    (evidence.referenceHash !== undefined &&
-      typeof evidence.referenceHash !== "string") ||
-    (evidence.error !== undefined && typeof evidence.error !== "string") ||
-    (evidence.contextPolicy !== undefined &&
-      typeof evidence.contextPolicy !== "string")
-  )
-    return false;
-  if (result.resolvedValues === undefined)
-    return typeof evidence.error === "string";
-  return (
-    Array.isArray(result.resolvedValues) &&
-    result.resolvedValues.every((value: unknown) => {
-      if (!value || typeof value !== "object") return false;
-      const row = value as Record<string, unknown>;
-      return (
-        typeof row.id === "string" &&
-        !!row.context &&
-        typeof row.context === "object" &&
-        !Array.isArray(row.context) &&
-        Object.values(row.context).every((mode) => typeof mode === "string") &&
-        Array.isArray(row.chain) &&
-        row.chain.every((hop: unknown) => typeof hop === "string") &&
-        (row.issue === null || typeof row.issue === "string")
-      );
-    })
-  );
-}
-
 export async function computeAnalysisComparison(
   request: AnalysisComparisonRequest,
+  resolveValues = wasmResolution.resolve,
 ): Promise<AnalysisComparisonResult> {
-  const { source, reference } = request;
+  const { source } = request;
+  let reference = request.reference;
   if (request.cachedApp && request.cachedApp.source.kind !== source.dataset)
     throw new Error("Cached Analysis input belongs to a different dataset.");
   const working =
-    source.dataset !== "defaults"
+    source.dataset !== "defaults" && !request.cachedApp
       ? prepareAuthoringSnapshot(source.working)
       : undefined;
   const projected =
@@ -117,42 +83,26 @@ export async function computeAnalysisComparison(
     request.resolveValues &&
     reference &&
     (!app.valueResolution ||
+      app.valueResolution.error ||
+      reference.valueResolution?.error ||
       app.valueResolution.contextPolicy !== VALUE_CONTEXT_POLICY ||
-      app.valueResolution.referenceHash !== reference.source.hash)
+      app.valueResolution.referenceHash !== reference.source.hash ||
+      app.valueResolution.engine !== reference.valueResolution?.engine)
   ) {
     try {
-      const response = await fetch("/__design-data/resolve-values", {
-        method: "POST",
-        signal: AbortSignal.timeout(45000),
-        headers: { "Content-Type": "application/json" },
-        body: canonicalJson(app),
-      });
-      if (!response.ok) throw new Error(await response.text());
-      const result: unknown = await response.json();
-      if (!isResolutionResult(result))
-        throw new Error("Invalid token resolution response.");
-      app = {
-        ...app,
-        resolvedValues: result.resolvedValues,
-        valueResolution: result.valueResolution,
-      };
-      if (result.valueResolution?.error)
-        app.limitations = [...app.limitations, result.valueResolution.error];
+      reference = await resolveValues(reference);
+      app = await resolveValues(app, reference);
     } catch (error) {
-      app = {
-        ...app,
-        limitations: [
-          ...app.limitations,
-          `Token resolution unavailable: ${error instanceof Error ? error.message : String(error)}`,
-        ],
-      };
+      app = unavailableValueResolution(app, error, reference);
     }
   }
   return {
     app,
-    ...(reference && { report: compareDesignData(app, reference) }),
+    ...(reference && { reference, report: compareDesignData(app, reference) }),
     ...(source.dataset !== "defaults" && {
-      unsaved: canonicalJson(source.saved) !== canonicalJson(working),
+      unsaved:
+        canonicalJson(source.saved) !==
+        canonicalJson(working ?? prepareAuthoringSnapshot(source.working)),
     }),
   };
 }
@@ -162,11 +112,20 @@ export function computeAnalysisGaps({
   reference,
   saved,
   stale,
+  savedComparison,
 }: AnalysisGapRequest): AnalysisGapResult {
   const savedInput =
-    comparison.app.source.kind === "saved"
+    savedComparison?.app ??
+    (comparison.app.source.kind === "saved"
       ? comparison.app
-      : projectSnapshot(saved, "saved");
+      : projectSnapshot(saved, "saved"));
+  const savedReport =
+    savedComparison?.report ??
+    (comparison.app.source.kind === "saved"
+      ? comparison.report
+      : reference
+        ? compareDesignData(savedInput, reference)
+        : undefined);
   return {
     selected: assessGaps(
       comparison.app,
@@ -178,7 +137,7 @@ export function computeAnalysisGaps({
     saved: assessGaps(
       savedInput,
       reference,
-      reference ? compareDesignData(savedInput, reference).findings : [],
+      savedReport?.findings ?? [],
       gapRegister,
       stale,
     ),

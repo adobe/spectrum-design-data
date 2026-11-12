@@ -51,6 +51,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Node CI tasks
+        # Outer bound leaves room for Studio's 60-minute supervised profile.
+        timeout-minutes: 90
         run: moon ci $(jq -r '.node[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()

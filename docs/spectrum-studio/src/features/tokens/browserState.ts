@@ -156,6 +156,7 @@ export const browserTokensAtom = atom((get) => {
         output,
         colors,
         opacityLinkedScaleIds(get(resolvedColorSystemDocumentAtom)),
+        get(resolvedColorSystemDocumentAtom),
       ),
       get(taxonomyDocumentAtom),
     ),

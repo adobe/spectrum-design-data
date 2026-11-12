@@ -76,6 +76,7 @@ export interface AnalysisRecord {
 }
 
 export interface AnalysisSource {
+  referenceOrigin?: "live-checkout" | "packaged";
   kind: "defaults" | "saved" | "working" | "reference";
   root: string;
   hash: string;
@@ -254,6 +255,40 @@ export function compareDesignData(
     ...reviewedColorMappings(app, reference),
     ...reviewedTypographyMappings(app, reference),
   ];
+  const indexRecords = (key: (row: AnalysisRecord) => string | undefined) => {
+    const index = new Map<
+      string,
+      { row: AnalysisRecord; position: number }[]
+    >();
+    reference.records.forEach((row, position) => {
+      const value = key(row);
+      if (value === undefined) return;
+      const bucket = index.get(value);
+      if (bucket) bucket.push({ row, position });
+      else index.set(value, [{ row, position }]);
+    });
+    return index;
+  };
+  const identityKey = (category: string, identity: string) =>
+    canonicalJson([category, identity]);
+  const byId = indexRecords((row) => row.id);
+  const byIdentity = indexRecords((row) =>
+    row.identity === undefined
+      ? undefined
+      : identityKey(row.category, row.identity),
+  );
+  const byConcept = indexRecords((row) =>
+    row.conceptId ? identityKey(row.category, row.conceptId) : undefined,
+  );
+  const appCounts = new Map<string, number>();
+  for (const row of app.records)
+    appCounts.set(row.id, (appCounts.get(row.id) ?? 0) + 1);
+  const byMapping = new Map<string, ReviewedMapping[]>();
+  for (const mapping of mappings) {
+    const bucket = byMapping.get(mapping.app);
+    if (bucket) bucket.push(mapping);
+    else byMapping.set(mapping.app, [mapping]);
+  }
   const appOwnedDefinitions = new Set([
     "foundations",
     "authoring/rules",
@@ -275,10 +310,10 @@ export function compareDesignData(
   const findings: AnalysisFinding[] = [];
   const used = new Set<string>();
   const mappingErrors = mappings.flatMap((mapping) => [
-    ...(app.records.some((row) => row.id === mapping.app)
+    ...(appCounts.has(mapping.app)
       ? []
       : [`Mapping app record is absent: ${mapping.app}`]),
-    ...(reference.records.some((row) => row.id === mapping.reference)
+    ...(byId.has(mapping.reference)
       ? []
       : [`Mapping reference record is absent: ${mapping.reference}`]),
   ]);
@@ -312,11 +347,9 @@ export function compareDesignData(
   const candidatesFor = (left: AnalysisRecord) => {
     const concept =
       left.conceptId &&
-      reference.records.filter(
-        (right) =>
-          right.category === left.category &&
-          right.conceptId === left.conceptId,
-      );
+      byConcept
+        .get(identityKey(left.category, left.conceptId))
+        ?.map((item) => item.row);
     if (concept && concept.length) {
       const exact = concept.filter(
         (right) => left.identity && left.identity === right.identity,
@@ -343,14 +376,18 @@ export function compareDesignData(
         }),
       );
     }
-    return reference.records.filter(
-      (right) =>
-        right.category === left.category &&
-        (mappings.some(
-          (item) => item.app === left.id && item.reference === right.id,
-        ) ||
-          (left.identity !== undefined && left.identity === right.identity)),
-    );
+    const candidates = new Map<number, AnalysisRecord>();
+    for (const item of left.identity !== undefined
+      ? (byIdentity.get(identityKey(left.category, left.identity)) ?? [])
+      : [])
+      candidates.set(item.position, item.row);
+    for (const mapping of byMapping.get(left.id) ?? [])
+      for (const item of byId.get(mapping.reference) ?? [])
+        if (item.row.category === left.category)
+          candidates.set(item.position, item.row);
+    return [...candidates.entries()]
+      .sort(([left], [right]) => left - right)
+      .map(([, row]) => row);
   };
   const candidatesByApp = new Map(
     app.records.map((left) => [left.id, candidatesFor(left)]),
@@ -430,10 +467,9 @@ export function compareDesignData(
   }
   for (const left of app.records) {
     if (left.category === "mode-sets") continue;
-    const mapping = mappings.filter((item) => item.app === left.id);
+    const mapping = byMapping.get(left.id) ?? [];
     const candidates = candidatesByApp.get(left.id) ?? [];
-    const duplicate =
-      app.records.filter((item) => item.id === left.id).length > 1;
+    const duplicate = (appCounts.get(left.id) ?? 0) > 1;
     if (duplicate || candidates.length > 1 || mapping.length > 1) {
       add(
         "ambiguous",

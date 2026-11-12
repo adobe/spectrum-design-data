@@ -222,6 +222,30 @@ export interface AuthoringComparison {
   slots: AuthoredSlot[];
   groups: ChangeGroup[];
 }
+interface ComparisonPart {
+  inputs: readonly unknown[];
+  slots: AuthoredSlot[];
+  items: ChangeItem[];
+}
+interface ComparisonCache {
+  previous: Map<string, ComparisonPart>;
+  next: Map<string, ComparisonPart>;
+}
+
+/** Store-owned reuse for immutable accepted snapshots, not arbitrary mutable inputs. */
+export function createAuthoringComparator() {
+  let previous = new Map<string, ComparisonPart>();
+  return (
+    shipped: EditSessionSnapshot,
+    working: EditSessionSnapshot,
+    attachments?: FoundationModeAttachments,
+  ): AuthoringComparison => {
+    const cache = { previous, next: new Map<string, ComparisonPart>() };
+    const result = compareAuthoring(shipped, working, attachments, cache);
+    previous = cache.next;
+    return result;
+  };
+}
 export function assertDomainCoverage(snapshot: EditSessionSnapshot): void {
   for (const key of Object.keys(snapshot)) {
     if (!(key in CHANGE_DOMAINS))
@@ -254,6 +278,7 @@ export function compareAuthoring(
     FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
     working.modeSets,
   ),
+  cache?: ComparisonCache,
 ): AuthoringComparison {
   assertDomainCoverage(shipped);
   assertDomainCoverage(working);
@@ -266,7 +291,41 @@ export function compareAuthoring(
     after: unknown,
     title: string,
     sourceKind = definition.sourceKind,
+    sourceReferences: readonly unknown[] = [before, after],
   ) {
+    const cacheKey = `${pathId(path)}:${sourceKind}`;
+    const inputs = [
+      ...sourceReferences,
+      title,
+      definition.topic,
+      definition.category,
+      shipped.rules,
+      working.rules,
+      working.scaleTypes,
+      working.taxonomy,
+      ...(path[0] === "colorSystem" && path[1] === "contrasts"
+        ? [shipped.colorSystem.contrasts, working.colorSystem.contrasts]
+        : []),
+      ...(path[0] === "opacity"
+        ? [shipped.opacity?.levels, working.opacity?.levels]
+        : []),
+      ...(before === undefined && sourceKind === "structure"
+        ? [working.structures]
+        : []),
+    ];
+    const cached = cache?.previous.get(cacheKey);
+    if (
+      cached &&
+      cached.inputs.length === inputs.length &&
+      inputs.every((input, index) => input === cached.inputs[index])
+    ) {
+      slots.push(...cached.slots);
+      items.push(...cached.items);
+      cache?.next.set(cacheKey, cached);
+      return;
+    }
+    const slotStart = slots.length;
+    const itemStart = items.length;
     const fields: ChangeField[] = [];
     function walk(
       left: unknown,
@@ -294,6 +353,9 @@ export function compareAuthoring(
         value.every(
           (item: unknown) => record(item) && typeof item.id === "string",
         );
+      const styleMembers =
+        definition.category === "styles" &&
+        ["options", "applications"].includes(names.at(-1) ?? "");
       if (
         (definition.category === "rules" ||
           (definition.category === "color" &&
@@ -301,15 +363,17 @@ export function compareAuthoring(
             (fieldPath.includes("customContrasts") ||
               fieldPath.includes("disabledCustomContrasts"))) ||
           (definition.category === "typography" && names.at(-1) === "fonts") ||
+          styleMembers ||
           (definition.category === "structures" &&
             names.length === 1 &&
             names[0] === "elements")) &&
         !collectionOrder &&
         ruleMembers(left) &&
         ruleMembers(right) &&
-        ["children", "branches", "steps", "fonts", "elements"].includes(
-          names.at(-1) ?? "",
-        )
+        (styleMembers ||
+          ["children", "branches", "steps", "fonts", "elements"].includes(
+            names.at(-1) ?? "",
+          ))
       ) {
         const originals = new Map(left.map((item) => [item.id, item]));
         const latest = new Map(right.map((item) => [item.id, item]));
@@ -524,6 +588,11 @@ export function compareAuthoring(
           address: { path, expected: after },
         }),
       });
+    cache?.next.set(cacheKey, {
+      inputs,
+      slots: slots.slice(slotStart),
+      items: items.slice(itemStart),
+    });
   }
   function collection(
     definition: DomainDefinition,
@@ -601,6 +670,8 @@ export function compareAuthoring(
         settingsBefore,
         settingsAfter,
         "Color settings",
+        definition.sourceKind,
+        [before, after],
       );
     } else if (domain === "foundationParameterSettings") {
       for (const id of new Set([
@@ -693,6 +764,8 @@ export function compareAuthoring(
         rest(before),
         rest(after),
         `${definition.label} settings`,
+        definition.sourceKind,
+        [before, after],
       );
     } else if (Array.isArray(before) || Array.isArray(after)) {
       collection(definition, [domain], before, after);

@@ -44,6 +44,7 @@ import {
 import {
   canonicalAliasRows,
   completeAliasSource,
+  type CanonicalAliasRow,
 } from "../tokens/aliasTargets";
 import {
   canonicalTokenModeKey,
@@ -76,6 +77,30 @@ export type ComponentTokenSource = TshirtAuthoringSource & {
   colorSystem: CascadeExportInput["base"];
   tokenOverrides: CascadeExportInput["overrides"];
 };
+
+export function componentStyleToken(
+  row: CanonicalAliasRow,
+): Extract<ComponentToken, { value: LiteralValue }> {
+  const token = row.token;
+  if (!token.style)
+    throw new Error("A Style component target needs Style output.");
+  if (token.validationError) throw new Error(token.validationError);
+  return {
+    id: row.rowId,
+    browserId: row.id,
+    name: row.name,
+    property: String(row.canonicalName?.property),
+    value:
+      token.unit === "px" && typeof token.value === "number"
+        ? `${token.value}px`
+        : token.value,
+    displayValue: `${token.value}${token.unit}`,
+    context: token.style.context,
+    ownerId: token.style.recipeId,
+    kind: "semantic",
+    tier: "semantic",
+  };
+}
 
 export function componentTokenCatalog(
   source: ComponentTokenSource,
@@ -345,32 +370,20 @@ function buildComponentTokenCatalog(
     });
   }
   const variants = buildTshirtArtifacts(source);
-  const styles = source.styles?.recipes.length
-    ? canonicalAliasRows(
-        completeAliasSource(source),
-        variants,
-        "preserve-for-review",
-      )
-    : [];
-  for (const row of styles.filter((row) => row.token.style)) {
-    const token = row.token,
-      style = token.style!;
-    if (token.validationError) throw new Error(token.validationError);
-    add({
-      id: row.rowId,
-      browserId: row.id,
-      name: row.name,
-      property: String(row.canonicalName?.property),
-      value:
-        token.unit === "px" && typeof token.value === "number"
-          ? `${token.value}px`
-          : token.value,
-      displayValue: `${token.value}${token.unit}`,
-      context: style.context,
-      ownerId: style.recipeId,
-      kind: "semantic",
-      tier: "semantic",
-    });
+  const hasAuthoringEdits = Object.values(source.browserTokenEdits ?? {}).some(
+    (edit) => edit.authoring,
+  );
+  const rows =
+    source.styles?.recipes.length || hasAuthoringEdits
+      ? canonicalAliasRows(
+          completeAliasSource(source),
+          variants,
+          "preserve-for-review",
+          { excludeColors: hasAuthoringEdits && reuseColors },
+        )
+      : [];
+  for (const row of rows.filter((row) => row.token.style)) {
+    add(componentStyleToken(row));
   }
   for (const row of variants.semantics) {
     const token = row.token;
@@ -395,15 +408,7 @@ function buildComponentTokenCatalog(
       tier: "semantic",
     });
   }
-  if (
-    Object.values(source.browserTokenEdits ?? {}).some((edit) => edit.authoring)
-  ) {
-    const rows = canonicalAliasRows(
-      completeAliasSource(source),
-      variants,
-      "preserve-for-review",
-      { excludeColors: reuseColors },
-    );
+  if (hasAuthoringEdits) {
     const rowsByMode = new Map<string, Map<string, (typeof rows)[number]>>();
     for (const [id, componentToken] of [...result]) {
       if (!componentToken.browserId) continue;

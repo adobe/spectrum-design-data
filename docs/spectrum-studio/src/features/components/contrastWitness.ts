@@ -19,8 +19,8 @@ export interface ComponentContrastWitness {
 export const componentContrastWitnessAtom =
   atom<ComponentContrastWitness | null>(null);
 
-export function componentContrastSignature(source: WitnessSource) {
-  return canonicalJson({
+export function componentContrastInput(source: WitnessSource) {
+  return {
     ...source,
     aliases: undefined,
     colorSystem: {
@@ -33,7 +33,10 @@ export function componentContrastSignature(source: WitnessSource) {
         },
       ),
     },
-  });
+  };
+}
+export function componentContrastSignature(source: WitnessSource) {
+  return canonicalJson(componentContrastInput(source));
 }
 
 /** Establish only after checking the complete canonical catalog, including collisions. */
@@ -108,16 +111,20 @@ export function matchesComponentContrastWitness(
   witness: ComponentContrastWitness | null,
   source: WitnessSource,
 ) {
-  const validContrast = (value: number) =>
-    Number.isFinite(value) && value >= 1 && value <= 21;
   return (
     witness !== null &&
-    source.colorSystem.contrasts.every(
-      (contrast) =>
-        validContrast(contrast.value) &&
-        (contrast.oppositeValue === undefined ||
-          validContrast(contrast.oppositeValue)),
-    ) &&
+    validComponentContrastValues(source) &&
     witness.signature === componentContrastSignature(source)
+  );
+}
+
+export function validComponentContrastValues(source: WitnessSource) {
+  const validContrast = (value: number) =>
+    Number.isFinite(value) && value >= 1 && value <= 21;
+  return source.colorSystem.contrasts.every(
+    (contrast) =>
+      validContrast(contrast.value) &&
+      (contrast.oppositeValue === undefined ||
+        validContrast(contrast.oppositeValue)),
   );
 }

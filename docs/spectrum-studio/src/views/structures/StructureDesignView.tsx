@@ -65,7 +65,7 @@ import {
   resolveCompositionResult,
   structureHasIndentation,
 } from "../../features/structures/composition";
-import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
+import { focusedTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
 import { browserModeContextAtom } from "../../features/tokens/browserState";
 import { measureCompositionLayouts } from "./compositionMeasurement";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
@@ -92,7 +92,7 @@ import { StructureOptionSample } from "./StructureOptionSample";
 import { useNotify } from "../../components/notifications/notificationContext";
 import { configuredStructure } from "../../features/structures/configuration";
 import { editStructureOptionBindingsAtom } from "../../features/structures/configurationState";
-import { textStyleSourceAtom } from "../../features/styles/state";
+import { previewTextStyleSourceAtom } from "../../features/styles/state";
 
 const structureDesignInputAtom = atom((get) => ({
   structure: get(selectedStructureAtom),
@@ -101,10 +101,10 @@ const structureDesignInputAtom = atom((get) => ({
   taxonomy: get(taxonomyDocumentAtom),
   rules: get(rulesAtom),
   catalog: get(structuresDocumentAtom).structures,
-  generation: get(workingTshirtArtifactsAtom),
+  generation: get(focusedTshirtArtifactsAtom),
   mode: get(browserModeContextAtom),
   selectedElementId: get(selectedElementIdAtom),
-  textStyles: get(textStyleSourceAtom),
+  textStyles: get(previewTextStyleSourceAtom),
 }));
 
 export function StructureDesignView() {

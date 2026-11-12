@@ -38,6 +38,8 @@ import {
   type AnalysisReport,
 } from "../../features/design-data/comparison";
 import { useAnalysisWork } from "../../features/design-data/useAnalysisWork";
+import { loadAnalysisReference } from "../../features/design-data/analysisService";
+import referenceUrl from "virtual:analysis-reference";
 import { gapRegisterLoadIssues } from "../../features/design-data/gaps";
 import type { AnalysisDataset } from "../../features/design-data/analysisWork";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
@@ -129,16 +131,12 @@ export default function AnalysisView() {
     const controller = new AbortController();
     setStatus(previousReference.current ? "refreshing" : "loading");
     setError("");
-    if (!import.meta.env.DEV) {
-      setStatus("unavailable");
-      setError("Local reference data is unavailable in this hosted build.");
-      return;
-    }
-    void fetch("/__design-data/reference", { signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok)
-          throw new Error(`Reference request failed (${response.status}).`);
-        const input: AnalysisInput = await response.json();
+    void loadAnalysisReference(
+      referenceUrl,
+      !import.meta.env.DEV,
+      controller.signal,
+    )
+      .then((input) => {
         if (
           !input.source ||
           !Array.isArray(input.records) ||
@@ -170,7 +168,14 @@ export default function AnalysisView() {
         if (controller.signal.aborted) return;
         previousReference.current = input;
         setReference(input);
-        setStatus(input.errors.length ? "partial" : "live");
+        setError(input.valueResolution?.error ?? "");
+        setStatus(
+          input.errors.length || input.valueResolution?.error
+            ? "partial"
+            : input.source.referenceOrigin === "packaged"
+              ? "packaged"
+              : "live",
+        );
       })
       .catch((failure: unknown) => {
         if (controller.signal.aborted) return;
@@ -407,6 +412,7 @@ export default function AnalysisView() {
             : ((
                 {
                   live: "Comparison ready",
+                  packaged: "Packaged reference snapshot",
                   partial: "Validation issues",
                   stale: "Last-good results",
                   refreshing: "Refreshing reference",
@@ -642,7 +648,10 @@ export default function AnalysisView() {
               repository is loaded.
             </p>
             <p className="analysisProvenance">
-              Configured checkout: {reference?.source.root}
+              {reference?.source.referenceOrigin === "packaged"
+                ? "Packaged reference: "
+                : "Configured checkout: "}
+              {reference?.source.root}
             </p>
             <ul>
               {reference?.errors.map((issue) => (

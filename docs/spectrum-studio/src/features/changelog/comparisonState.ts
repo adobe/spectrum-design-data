@@ -2,10 +2,11 @@
 import { atom } from "jotai";
 import {
   authoringSnapshotAtom,
+  authoringSourceSnapshotAtom,
   createDefaultSnapshot,
 } from "../edit-session/state";
 import { foundationModeAttachmentsAtom } from "../../state/view/foundationModeAttachments";
-import { compareAuthoring } from "./registry";
+import { createAuthoringComparator } from "./registry";
 import {
   comparePrimitiveTokens,
   compareSemanticTokens,
@@ -14,13 +15,24 @@ import {
 import { mergeChangeGroups } from "./mergeGroups";
 
 export const shippedChangeSnapshot = createDefaultSnapshot();
+const authoringComparatorAtom = atom(() => createAuthoringComparator());
 export const authoredComparisonAtom = atom((get) =>
-  compareAuthoring(
+  get(authoringComparatorAtom)(
     shippedChangeSnapshot,
     get(authoringSnapshotAtom),
     get(foundationModeAttachmentsAtom),
   ),
 );
+export const immediateAuthoredComparisonAtom = atom((get) => {
+  const source = get(authoringSourceSnapshotAtom);
+  // Alias pruning changes source Changes and still belongs to the prepared worker path.
+  if (source.aliases?.tokens.length) return undefined;
+  return get(authoringComparatorAtom)(
+    shippedChangeSnapshot,
+    source,
+    get(foundationModeAttachmentsAtom),
+  );
+});
 
 export const tokenComparisonResultAtom = atom(
   (

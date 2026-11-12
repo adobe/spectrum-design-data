@@ -1,115 +1,76 @@
 ---
 name: verify-change
-description: Choose which checks to run, and when, after changing code in spectrum-studio. Use before running any test, lint, build, Playwright, or performance command, and when finishing an implementation plan. Maps changed paths to the narrowest covering check and sets rules for slow checks, browser smoke paths, and the final report.
+description: Select bounded Studio checks from the executable inventory. Use before tests, lint, builds, browser checks or performance commands, and when finishing a feature.
 ---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
 
 # Verify a change
 
-Goal: prove the change works with the smallest check that covers it. Slow
-checks are the exception, not the default. Use `pnpm`, never `npm`.
+Prove the requested behavior with the smallest covering selection. Do not turn
+verification into another feature or a whole-domain investigation.
 
-## Before running anything
+## Select checks
 
-State one line: **what changed, which check covers it, why.** If no check
-applies (docs, rules, comments), say so and run nothing.
+1. State what changed, which check IDs cover it and why.
+2. Inspect `pnpm check:list --only <id,...>`. IDs, declared scope/resource class
+   and prerequisites come from `scripts/checkInventory.ts`. A filename is not
+   proof of small work: full catalogs and broad fixtures are integration checks.
+   Do not expand grouped aliases or invent a second test map.
+3. Run exact element-level IDs with `pnpm check:focused --only <id,...>`.
+   Small jobs reserve 256 MiB and have a 30-second whole-selection deadline.
+   At most two may overlap; never start extra commands outside admission.
+4. For changed types, inspect `types-files --files <file,...>` or `runner-types`;
+   for lint, inspect `lint-files --files <file,...>`. These follow actual imports
+   but do not append every tooling root. They are conservatively heavy.
+   Do not automatically add `app-types`, `tooling-types` or `test-types-*`.
+5. Add lifecycle/Changes checks only when persisted behavior changes. Integration
+   or project scope needs an explicit user request and `--scope-approved`.
+   Named heavy checks need explicit approval and `--heavy-approved`; they run
+   alone, with 1 GiB and a 60-second selection deadline. Profiles and flags record
+   approval, not grant it. Existing comprehensive CI coverage is unchanged.
 
-Browser testing is not required merely because UI code or a story changed.
-Prefer non-browser checks. If browser evidence is needed, use the smallest
-isolated Storybook check that covers the behavior. Common input, focus,
-keyboard, menu and layout checks must not run against app pages.
+The runner owns deadlines, shared admission, process accounting, output limits
+and stopping. See [the execution contract](../../../docs/agent-execution.md).
+Its cutoffs are provisional safety limits, not performance baselines.
 
-Before testing an actual app page in any browser, ask the user for permission.
-Explain the behavior to verify, why an isolated story cannot cover it and the
-proposed scope. This includes Playwright, browser canvas actions and manual
-inspection. General approval to implement or verify is not permission to test
-app pages. Without an explicit answer, skip that check and state the gap.
+## Browser checks
 
-Follow the search and resource limits in `AGENTS.md`, Working rule 3. Search
-only Studio and, when needed, `packages/`; exclude dependency, vendor, cache,
-generated-output and report directories. Default to one scoped search and
-one resource-heavy job at a time. The task-wide ceiling is 10 concurrent
-ripgrep processes, including delegated work; shell `rg` uses `--threads 1`.
-Browser runners use `--workers=1`. Do not run builds, tests, type checks or
-baseline preparation concurrently.
+- Run only after the relevant major feature is complete, or after separate
+  approval. UI changes do not automatically require a browser.
+- Prefer existing isolated Storybook checks for input, focus, keyboard, menus
+  and layout. Inspect IDs with `pnpm check:list --profile browser`.
+- Select a file with
+  `pnpm check:focused --profile browser --only browser-storybook-<name>`.
+  The configurations enforce one worker, zero retries and bounded execution.
+- Before any actual app-page check, ask for explicit permission. Explain what
+  integration a story cannot prove and name the scenario. Add `--app-approved`
+  only after receiving that permission; the flag records approval, not grants it.
+- Collect page errors and assert user-visible behavior. Screenshots alone do
+  not prove interaction correctness. Do not add a viewport/page matrix without
+  a requirement. Report skipped evidence plainly.
 
-## Tiers
+## Stop instead of expanding
 
-| Tier | When | Checks |
-| --- | --- | --- |
-| 1. Targeted | After each meaningful edit | The affected `tests/*.ts` script from the map below. `pnpm typecheck` only if types, exports, schema or file moves changed |
-| 2. Domain | When the domain's change is finished | The full domain row from the map (all scripts listed), plus `pnpm test:changelog` and `pnpm test:impact` if persisted design data changed |
-| 3. Feature complete | Once, when the whole feature is done | `pnpm lint`. Add `pnpm build` only if build config, bundling, or data-vis inputs changed. A focused Storybook browser check only if needed; app checks require explicit permission |
-| 4. Slow, gated | Only if a trigger below applies or the user asks | Performance chains, Playwright suites, `test:data-vis`, `test:design-data-sdk`, `analyze:design-data`. Run each at most once, at the end |
+- Busy returns "not run" immediately. Continue independent work; do not wait,
+  poll or retry. A resource cutoff, timeout, cancellation or incomplete cleanup blocks later
+  work. Report the reason and ask before retrying or increasing scope/limits.
+- Do not launch another job, background agent, duplicate server or repository
+  copy to get around a blocked run.
+- A failing check does not authorize an unrelated fix or expensive baseline.
+  Separate task regressions from existing/unconfirmed failures. Never change
+  pins, snapshots or assertions just to obtain a pass.
+- Do not repeat a passing check unless its relevant source, configuration,
+  data or toolchain changed. Results are not cached by command name.
+- Search only Studio/source packages, excluding dependencies, caches, generated
+  output and reports. Default to one scoped search and direct agent work.
+- Keep the requested outcome and non-goals in view. New debt is a finding, not
+  an instruction to create more implementation tasks.
 
-`pnpm typecheck` = `check:category-icons` + `check:changelog-coverage` + `tsc` (app and node).
-`pnpm lint` = `typecheck` + ESLint. `pnpm build` = `check:category-icons` + data-vis bundle build + `vite build`.
+## Handoff
 
-## Path to check map
-
-| Changed area | Tier 1 and 2 checks |
-| --- | --- |
-| `features/color-system`, `panels/color-system`, `views/color-system`, `components/color-picker`, `components/palette` | `test:color-picker`, `test:color-output`, `test:custom-contrasts`, `test:polarity`, `test:contrast-multiplier`, `test:color-analysis`, `test:gray-defaults`, `test:palette` |
-| `color-system/data-vis` (features, panels, views) | `test:data-vis-editors`, `test:data-vis-interpolation`, `test:sequential-defaults`; the full `test:data-vis` chain only at tier 4 |
-| `features/tokens`, `panels/tokens`, `views/tokens` | `test:tokens`, `test:token-aliases`, `test:value-preview`, `test:primitive-references` |
-| `features/taxonomy`, `panels/registry`, `views/registry` | `test:taxonomy`, `test:taxonomy-order`, `test:taxonomy-identity`, `test:taxonomy-sources`, `test:canonical-names`, `test:classification`, `test:registry-projection`, `test:taxonomy-projection` |
-| `features/modes` | `test:modes`, `test:mode-combinations`, `test:mode-integrity`, `test:mode-ui` |
-| `features/changelog`, `features/impact`, `features/edit-session` | `test:changelog`, `test:impact`, `test:component-impact`, `test:persistence`, `check:changelog-coverage` |
-| `features/design-data`, `src/data/design-data-gaps.json`, `docs/design-data-gap-register.md` | `test:design-data-gaps`, `check:design-data-gaps`, `test:design-data`, `test:design-data-assessment`, `test:design-data-coverage`, `test:design-data-materialization`, `test:design-data-portable-contract`, `test:dimension-artifacts`, `test:shadow-artifacts`. Regenerate the register doc with `pnpm gaps:docs` |
-| `features/scales`, `spacing`, `size`, `radius` | `test:scales`, `test:scale-library`, `test:spacing`, `test:size`, `test:radius`, `test:dimension-analysis` |
-| `features/logic`, `panels/logic`, `components/logic` | `test:logic`, `test:logic-formulas`, `test:tshirt-sizing`, `test:tshirt-integration` |
-| `features/typography`, `panels/typography`, `views/typography` | `test:typography`, `test:typography-tokens`, `test:typography-preview`, `test:typography-analysis`, `test:typography-reference` |
-| `features/elevation` | `test:elevation`, `test:shadow-artifacts` |
-| `features/structures`, `panels/structures`, `views/structures` | `test:structures`, `test:structure-elements`, `test:structure-references`, `test:structure-padding-icons`, `test:base-structure-defaults` |
-| `features/components`, `panels/components` | `test:components` |
-| Category icons, icon catalog | `check:category-icons`, `test:category-icons` |
-| `src/data/design-system.*` defaults or schema | `test:defaults` (`pnpm schema:defaults` regenerates), `check:changelog-coverage` |
-| Foundation creation, foundations panels | `test:foundation-creation` |
-| Home page | `test:home-quick-links` |
-| Layout-only views, panels, pages (no logic) | `pnpm typecheck`; a focused Storybook check only if browser evidence is needed. Ask before any app-page check |
-| Storybook stories | Non-browser checks first; if needed, select only affected stories in the matching `tests/e2e/storybook-*.spec.ts`, with `--workers=1` |
-| Docs added, moved, renamed or archived | `pnpm check:docs-index` (every doc listed in `docs/README.md` or `docs/archive/README.md`, every index link resolves). Also `check:design-data-gaps` if a doc cited by the gap register moved |
-| Rules, skills, other markdown | No tests |
-
-Tests with no `package.json` script (run directly with `pnpm exec tsx tests/<file>.ts`): `color-scale-defaults`, `token-preview-controls`, `token-table-presentation`, `favicon`.
-
-## Slow checks and their triggers
-
-Run only when the trigger applies, or the user asks. Once, at the end.
-
-| Check | Trigger |
-| --- | --- |
-| `test:prioritized-work` (19 scripts) | Workers, derived/prioritized work, virtualizer, transitions, code chunking, or authoring validation/persistence batching changed (`*.worker.ts`, `*Work.ts`, `features/code`) |
-| `test:color-system` | Color scale generation, CSS library generation, or their workers changed |
-| `test:data-vis` (builds a bundle, then 10 scripts) | Data-vis generation, export, or the data-vis build config changed |
-| App-page Playwright | Only after explicit user permission, with a rationale for why an isolated story cannot cover the behavior. Run only the approved scenario, with `--workers=1`; the config may start `pnpm dev` |
-| Storybook e2e | Changed behavior needs browser evidence that non-browser checks cannot provide. Run only affected stories, with `--workers=1`, not the whole suite |
-| `test:design-data-sdk`, `analyze:design-data` | Only when the user asks. They need the reference checkout (`DESIGN_DATA_PATH`) |
-
-## Browser scope
-
-- Use isolated stories for basic interactions and rendering. Do not repeat
-  their coverage on app pages.
-- App-only integration, such as routing or saved state across reload, may
-  justify requesting permission. It does not authorize running the check.
-  Explain why the specific integration cannot be covered in a story.
-- Stay within the approved scenario. Do not expand to other pages, viewport
-  matrices or the full suite.
-- Collect `pageerror` events in any browser check that is run. Skipping an
-  unnecessary or unapproved browser check is not a completion failure.
-
-## Rules
-
-- Do not re-run a passing check without a code change.
-- After a failure, re-run only the failing check.
-- Do not "validate" by re-reading code. Run a named check or say none applies.
-- Do not run `pnpm build` to check types. Use `pnpm typecheck`.
-- If a command stalls or the device becomes sluggish, stop task-owned work, report it and ask before retrying. Do not add concurrent jobs or retry while the user is unavailable.
-- When a check fails, compare against the last commit in the cheapest scoped way before changing unrelated code. Do not automatically copy the repository, start more servers or run broad baseline checks. Ask before expensive baseline work; app-browser permission still applies. If confirmation is unavailable, report that the baseline is unconfirmed. If the failure is pre-existing, report the check and error and ask before investigating or fixing it. Never use `git stash`, `git checkout` or a reset to test this; the working tree and stashes may hold the user's unfinished work.
-- Never fix a failing check by updating a pin, fingerprint, or snapshot. See `authoring-lifecycle` and `design-data-contract`.
-
-## Final report format
-
-```
-Checks run: <command> - pass/fail (one line each)
-Checks skipped: <command> - <reason> (one line each)
-```
+State the outcome, exact selected commands and results, remaining evidence gaps,
+and any intentionally running task-owned process. Do not equate tool launch
+success with a passing check, a type check with browser correctness, or moving
+work to a worker with bounded memory. Ask about a local commit as required by
+`AGENTS.md`; never push automatically.

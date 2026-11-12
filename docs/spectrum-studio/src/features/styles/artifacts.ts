@@ -1,9 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  canonicalAliasRows,
+  canonicalBaseAliasRows,
   completeAliasSource,
   type AliasAuthoringSource,
-} from "../tokens/aliasTargets";
+} from "../tokens/baseAliasRows";
 import { dialogRowsForMode } from "../tokens/dialogModel";
 import {
   canonicalTokenModeKey,
@@ -16,6 +16,7 @@ import {
 } from "../taxonomy/model";
 import {
   buildStyleArtifacts,
+  synchronizeStylePublications,
   type StyleContext,
   type StyleReference,
   type StyleRow,
@@ -24,15 +25,31 @@ import { EMPTY_STYLES, type StyleProperty } from "./model";
 
 export type StyleAuthoringSource = Partial<AliasAuthoringSource> &
   Pick<AliasAuthoringSource, "colorSystem" | "typography" | "modeSets">;
-export function styleContexts(source: StyleAuthoringSource): StyleContext[] {
+export function reconcileStyleSource<T extends StyleAuthoringSource>(
+  source: T,
+): T {
+  if (!source.styles?.recipes.length) return source;
+  const styles = synchronizeStylePublications(
+    source.styles,
+    styleContexts(source),
+    source.rules ?? [],
+  );
+  return styles === source.styles ? source : { ...source, styles };
+}
+export function styleContexts(
+  source: StyleAuthoringSource,
+  selections: readonly Record<string, string>[] = modeSelections(
+    source.modeSets,
+  ),
+): StyleContext[] {
   const foundation = completeAliasSource(source);
-  const rows = canonicalAliasRows(
+  const rows = canonicalBaseAliasRows(
     foundation,
     undefined,
     "preserve-for-review",
-    { includeUnpublished: true, excludeStyles: true },
+    { includeUnpublished: true, selections },
   );
-  return modeSelections(source.modeSets).map((selection) => {
+  return selections.map((selection) => {
     const key = canonicalTokenModeKey(selection);
     const references = dialogRowsForMode(rows, key).flatMap(
       (row): StyleReference[] => {
@@ -100,7 +117,10 @@ export function styleContexts(source: StyleAuthoringSource): StyleContext[] {
     };
   });
 }
-export function buildStylesForSource(source: StyleAuthoringSource) {
+export function buildStylesForSource(
+  source: StyleAuthoringSource,
+  selections?: readonly Record<string, string>[],
+) {
   if (!source.styles?.recipes.length) return { rows: [], issues: [] };
   if (!source.taxonomy)
     return {
@@ -114,7 +134,7 @@ export function buildStylesForSource(source: StyleAuthoringSource) {
     source.taxonomy,
     source.rules ?? [],
     source.modeSets,
-    styleContexts(source),
+    styleContexts(source, selections),
   );
 }
 export function styleBrowserToken(

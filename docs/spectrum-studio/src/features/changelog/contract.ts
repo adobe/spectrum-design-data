@@ -41,6 +41,7 @@ export function readPath(value: unknown, path: SourcePath): unknown {
 }
 
 export function sameValue(left: unknown, right: unknown): boolean {
+  if (left === right) return true;
   if (left === undefined || right === undefined) return left === right;
   if (Array.isArray(left) && Array.isArray(right))
     return (

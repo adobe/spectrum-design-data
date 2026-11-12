@@ -3,20 +3,21 @@
 import {
   buildTshirtArtifacts,
   type TshirtAuthoringSource,
-  type TshirtArtifactBundle,
 } from "./tshirtArtifacts";
+import { prepareTshirtWorkResult, type TshirtWorkResult } from "./tshirtCache";
 import type { WorkerReply } from "../derived-work/workerTask";
 
-self.onmessage = (event: MessageEvent<TshirtAuthoringSource>) => {
+self.onmessage = async (event: MessageEvent<TshirtAuthoringSource>) => {
   try {
+    const bundle = buildTshirtArtifacts(event.data, "working");
     self.postMessage({
       type: "ready",
-      value: buildTshirtArtifacts(event.data, "working"),
-    } satisfies WorkerReply<TshirtArtifactBundle>);
+      value: await prepareTshirtWorkResult(event.data, bundle),
+    } satisfies WorkerReply<TshirtWorkResult>);
   } catch (failure) {
     self.postMessage({
       type: "error",
       error: failure instanceof Error ? failure.message : String(failure),
-    } satisfies WorkerReply<TshirtArtifactBundle>);
+    } satisfies WorkerReply<TshirtWorkResult>);
   }
 };

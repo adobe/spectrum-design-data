@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom } from "jotai";
+import { atom, type Getter } from "jotai";
 import type { Atom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import type { LinearRgb } from "../color-system/colorMath";
@@ -56,10 +56,14 @@ const scaleIdsAtom = selectAtom(
 const contrastsAtom = selectAtom(
   resolvedColorSystemDocumentAtom,
   (document) => document.contrasts,
+  (previous, next) =>
+    previous === next || JSON.stringify(previous) === JSON.stringify(next),
 );
 const settingsAtom = selectAtom(
   resolvedColorSystemDocumentAtom,
   (document) => document.settings,
+  (previous, next) =>
+    previous === next || JSON.stringify(previous) === JSON.stringify(next),
 );
 
 export const outputGamutAtom = selectAtom(
@@ -85,46 +89,59 @@ const paletteTokensAtom = atom((get): GeneratedToken[] =>
   generatePaletteTokens(get(paletteAtom), get(outputGamutAtom)),
 );
 
-// jotai 3 dropped atomFamily; this keeps per-scale derivations isolated so editing one
-// scale never recomputes the other eighteen.
-const scaleTokensFamily = (() => {
-  const cache = new Map<string, Atom<GeneratedToken[]>>();
-  return (scaleId: string) => {
-    const cached = cache.get(scaleId);
-    if (cached) return cached;
+const scaleTokensCacheAtom = atom(
+  () => new Map<string, Atom<GeneratedToken[]>>(),
+);
+const scalesByIdAtom = atom((get) => {
+  const scales = new Map(
+    get(resolvedColorSystemDocumentAtom).scales.map((scale) => [
+      scale.id,
+      scale,
+    ]),
+  );
+  const cache = get(scaleTokensCacheAtom);
+  for (const id of cache.keys()) if (!scales.has(id)) cache.delete(id);
+  return scales;
+});
+function scaleTokensFamily(get: Getter, scaleId: string) {
+  const cache = get(scaleTokensCacheAtom);
+  const cached = cache.get(scaleId);
+  if (cached) return cached;
 
-    const scaleAtom = selectAtom(
-      resolvedColorSystemDocumentAtom,
-      (document): ColorScale | null =>
-        document.scales.find((scale) => scale.id === scaleId) ?? null,
+  const scaleAtom = selectAtom(
+    scalesByIdAtom,
+    (scales): ColorScale | null => scales.get(scaleId) ?? null,
+    // Mode resolution may copy unchanged records. Compare only this small projection.
+    (previous, next) =>
+      previous === next || JSON.stringify(previous) === JSON.stringify(next),
+  );
+
+  const tokensAtom = atom((get): GeneratedToken[] => {
+    const scale = get(scaleAtom);
+    if (!scale) return [];
+    const contrasts: ContrastToken[] = get(contrastsAtom);
+    const settings = get(settingsAtom);
+    const background: LinearRgb = get(backgroundLinearAtom);
+    return generateColorTokensForScale(
+      scale,
+      contrasts,
+      background,
+      settings,
+      settings.colorOutput,
+      get(rulesAtom),
     );
+  });
 
-    const tokensAtom = atom((get): GeneratedToken[] => {
-      const scale = get(scaleAtom);
-      if (!scale) return [];
-      const contrasts: ContrastToken[] = get(contrastsAtom);
-      const settings = get(settingsAtom);
-      const background: LinearRgb = get(backgroundLinearAtom);
-      return generateColorTokensForScale(
-        scale,
-        contrasts,
-        background,
-        settings,
-        settings.colorOutput,
-        get(rulesAtom),
-      );
-    });
-
-    cache.set(scaleId, tokensAtom);
-    return tokensAtom;
-  };
-})();
+  cache.set(scaleId, tokensAtom);
+  return tokensAtom;
+}
 
 export const generatedColorTokensAtom = atom((get) => {
   assertColorScaleOutput(get(resolvedColorSystemDocumentAtom));
+  const ids = get(scaleIdsAtom);
   return [
     ...get(paletteTokensAtom),
-    ...get(scaleIdsAtom).flatMap((scaleId) => get(scaleTokensFamily(scaleId))),
+    ...ids.flatMap((scaleId) => get(scaleTokensFamily(get, scaleId))),
   ];
 });
 
@@ -206,7 +223,7 @@ export const overrideStatusBySourceAtom = atom((get) => {
   if (Object.keys(overrides).length === 0) return statuses;
 
   for (const scaleId of get(scaleIdsAtom)) {
-    for (const token of get(scaleTokensFamily(scaleId))) {
+    for (const token of get(scaleTokensFamily(get, scaleId))) {
       const override = overrides[token.uuid];
       if (!override) continue;
       statuses.set(

@@ -14,7 +14,8 @@ import {
 } from "../../features/structures/state";
 import { topLevelStructures } from "../../features/structures/children";
 import { StructureCard } from "./StructureCard";
-import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
+import { tshirtCacheStatusAtom } from "../../features/design-data/tshirtCacheState";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 import { StructureThumbnail } from "../../views/structures/StructureThumbnail";
 
 const panelStyles = style({
@@ -30,7 +31,7 @@ const listStyles = style({ flexGrow: 1, minHeight: 0, minWidth: 0 });
 
 export function StructuresPanel() {
   const structures = topLevelStructures(useAtomValue(resolvedStructuresAtom));
-  const generation = useAtomValue(workingTshirtArtifactsAtom);
+  const generation = useAtomValue(tshirtCacheStatusAtom);
   const [selected, setSelected] = useAtom(selectedStructureIdAtom);
   const editing = useAtomValue(editModeAtom);
   const store = useStore();
@@ -47,59 +48,68 @@ export function StructuresPanel() {
           <Text>Add structure</Text>
         </ActionButton>
       )}
-      {generation.status === "error" && <p role="alert">{generation.error}</p>}
-      {structures.length === 0 ? (
-        <Text>
-          {editing
-            ? "Add a structure to begin."
-            : "Enter Edit mode to add a structure."}
-        </Text>
-      ) : (
-        <ListView
-          aria-label="Structures"
-          UNSAFE_className="structuresList previewList"
-          selectionMode="single"
-          selectionStyle="highlight"
-          isQuiet
-          overflowMode="wrap"
-          styles={listStyles}
-          selectedKeys={selected ? [selected] : []}
-          onSelectionChange={(keys) => {
-            if (keys !== "all")
-              setSelected(
-                typeof [...keys][0] === "string" ? String([...keys][0]) : null,
-              );
-          }}
-        >
-          {structures.map((structure) => (
-            <ListViewItem
-              key={structure.conceptId}
-              id={structure.conceptId}
-              textValue={structure.name}
-            >
-              <StructureCard
-                preview={<StructureThumbnail structure={structure} />}
-                structure={structure}
-                isReadOnly={!editing}
-                onDelete={() => {
-                  notify.remove({
-                    kind: "structure",
-                    noun: structure.name,
-                    run: (store) =>
-                      store.set(removeStructureAtom, structure.conceptId),
-                    undo: (removed) => {
-                      if (removed) store.set(restoreStructureAtom, removed);
-                    },
-                    onDone: () => {
-                      if (selected === structure.conceptId) setSelected(null);
-                    },
-                  });
-                }}
-              />
-            </ListViewItem>
-          ))}
-        </ListView>
-      )}
+      <DerivedContentBoundary
+        state={
+          generation.status === "error" ? "unavailable" : generation.status
+        }
+        error={generation.status === "error" ? generation.error : undefined}
+        label="Updating Structure previews"
+      >
+        {structures.length === 0 ? (
+          <Text>
+            {editing
+              ? "Add a structure to begin."
+              : "Enter Edit mode to add a structure."}
+          </Text>
+        ) : (
+          <ListView
+            aria-label="Structures"
+            UNSAFE_className="structuresList previewList"
+            selectionMode="single"
+            selectionStyle="highlight"
+            isQuiet
+            overflowMode="wrap"
+            styles={listStyles}
+            selectedKeys={selected ? [selected] : []}
+            onSelectionChange={(keys) => {
+              if (keys !== "all")
+                setSelected(
+                  typeof [...keys][0] === "string"
+                    ? String([...keys][0])
+                    : null,
+                );
+            }}
+          >
+            {structures.map((structure) => (
+              <ListViewItem
+                key={structure.conceptId}
+                id={structure.conceptId}
+                textValue={structure.name}
+              >
+                <StructureCard
+                  preview={<StructureThumbnail structure={structure} />}
+                  structure={structure}
+                  isReadOnly={!editing}
+                  onDelete={() => {
+                    notify.remove({
+                      kind: "structure",
+                      noun: structure.name,
+                      run: (store) =>
+                        store.set(removeStructureAtom, structure.conceptId),
+                      undo: (removed) => {
+                        if (removed) store.set(restoreStructureAtom, removed);
+                      },
+                      onDone: () => {
+                        if (selected === structure.conceptId) setSelected(null);
+                      },
+                    });
+                  }}
+                />
+              </ListViewItem>
+            ))}
+          </ListView>
+        )}
+      </DerivedContentBoundary>
     </div>
   );
 }

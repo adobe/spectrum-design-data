@@ -1,11 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
 import Color from "colorjs.io";
-import type { ResolvedToken } from "./model";
+import type {
+  ColorOverrideContrast,
+  ColorOverrideSource,
+  ResolvedToken,
+} from "./model";
 import type { ColorSystemDocument } from "../color-system/model";
-import {
-  ColorOutputError,
-  measureOutputContrast,
-} from "../color-system/outputContrast";
+import { measureOutputContrast } from "../color-system/outputContrast";
 import { serializeOutputColor } from "../color-system/outputSerialization";
 import {
   outputGamut,
@@ -49,32 +50,74 @@ export function normalizeBrowserColorOutputs(
   settings: ColorOutputSettings,
   finalUiValues: ReadonlyMap<string, string>,
   opacityScaleIds: ReadonlySet<string> = new Set(),
+  document?: ColorSystemDocument,
 ): BrowserToken[] {
   const opacityTokenIds = new Set(
     tokens
       .filter((token) => opacityScaleIds.has(token.groupId))
       .flatMap((token) => (token.rowId ? [token.id, token.rowId] : [token.id])),
   );
-  return tokens.map((token) =>
-    token.type === "colors" && !token.validationError
-      ? {
-          ...token,
-          value:
-            (!token.referenceId &&
-            !token.literalShadows &&
-            !token.lifecycle?.frozen &&
-            !token.valueOverridden
-              ? finalUiValues.get(token.sourceId ?? token.id)
-              : undefined) ??
-            serializeColor(
-              new Color(String(token.value)),
-              settings,
-              opacityScaleIds.has(token.groupId) ||
-                (!!token.referenceId && opacityTokenIds.has(token.referenceId)),
-            ),
-        }
-      : token,
+  return tokens.map((token) => {
+    if (token.type !== "colors" || token.validationError) return token;
+    const value =
+      (!token.referenceId &&
+      !token.literalShadows &&
+      !token.lifecycle?.frozen &&
+      !token.valueOverridden
+        ? finalUiValues.get(token.sourceId ?? token.id)
+        : undefined) ??
+      serializeColor(
+        new Color(String(token.value)),
+        settings,
+        opacityScaleIds.has(token.groupId) ||
+          (!!token.referenceId && opacityTokenIds.has(token.referenceId)),
+      );
+    return {
+      ...token,
+      value,
+      contrastWarning: document
+        ? token.valueOverridden && token.colorSource
+          ? assessColorOverrideContrast(value, token.colorSource, document)
+          : undefined
+        : token.contrastWarning,
+    };
+  });
+}
+
+export function assessColorOverrideContrast(
+  value: string,
+  source: ColorOverrideSource,
+  document: ColorSystemDocument,
+): ColorOverrideContrast | undefined {
+  const scale = document.scales.find((scale) => scale.id === source.scaleId);
+  const target = (scale?.customContrasts?.steps ?? document.contrasts).find(
+    (contrast) => contrast.id === source.contrastId,
   );
+  if (!scale || !target || isOpacityColorStop(target)) return undefined;
+  const settings = document.settings.colorOutput;
+  const background = outputColorCss(
+    resolvedBackgroundLinear(document),
+    settings,
+  );
+  const actualContrast = measureOutputContrast(
+    value,
+    background,
+    outputGamut(settings),
+  );
+  if (actualContrast >= target.value) return undefined;
+  return {
+    colorName: source.name.colorName,
+    scaleIndex: source.name.contrastValue,
+    requestedContrast: target.value,
+    actualContrast,
+    background,
+  };
+}
+
+export function overrideContrastMessage(
+  warning: ColorOverrideContrast,
+): string {
+  return `Override value does not meet system defined contrast for ${warning.colorName} ${warning.scaleIndex} of ${warning.requestedContrast}:1`;
 }
 
 export function normalizeManualColorOutput(
@@ -95,26 +138,13 @@ export function normalizeManualColorOutput(
     settings,
     !!target && isOpacityColorStop(target),
   );
-  if (scale && target && !isOpacityColorStop(target)) {
-    const background = outputColorCss(
-      resolvedBackgroundLinear(document),
-      settings,
-    );
-    const actual = measureOutputContrast(
+  return {
+    ...token,
+    value,
+    contrastWarning: assessColorOverrideContrast(
       value,
-      background,
-      outputGamut(settings),
-    );
-    if (actual < target.value)
-      throw new ColorOutputError({
-        requestedContrast: target.value,
-        achievableContrast: actual,
-        gamut: outputGamut(settings),
-        background,
-        source: `Manual color ${token.uuid}`,
-        observedColor: value,
-        tokenId: token.uuid,
-      });
-  }
-  return { ...token, value };
+      { ...token.source, name: token.generated.name },
+      document,
+    ),
+  };
 }

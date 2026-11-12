@@ -12,8 +12,10 @@ import {
 import type {
   ComparisonOutput,
   ComparisonProgress,
+  ComparisonProgressMessage,
   ComparisonRequest,
 } from "./comparisonWork";
+import { restoreComparisonProgress } from "./comparisonWork";
 
 export function useComparisonWork() {
   const input = useAtomValue(comparisonRequestAtom);
@@ -25,13 +27,24 @@ export function useComparisonWork() {
       LatestRequest<ComparisonRequest, ComparisonOutput, ComparisonProgress>
     >(undefined);
   useEffect(() => {
-    const work = new LatestRequest(
-      workerTask<ComparisonRequest, ComparisonOutput, ComparisonProgress>(
-        () =>
-          new Worker(new URL("./comparison.worker.ts", import.meta.url), {
-            type: "module",
-          }),
-      ),
+    const work = new LatestRequest<
+      ComparisonRequest,
+      ComparisonOutput,
+      ComparisonProgress
+    >(
+      (input, signal, progress) =>
+        workerTask<
+          ComparisonRequest,
+          ComparisonOutput,
+          ComparisonProgressMessage
+        >(
+          () =>
+            new Worker(new URL("./comparison.worker.ts", import.meta.url), {
+              type: "module",
+            }),
+        )(input, signal, (partial) =>
+          progress(restoreComparisonProgress(input, partial)),
+        ),
       publish,
     );
     current.current = work;

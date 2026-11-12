@@ -58,6 +58,12 @@ import {
 import type { ColorSystemDocument } from "../../features/color-system/model";
 import { modesForSelection } from "../../features/modes/combinations";
 import { TOKEN_TIERS, isTokenTier } from "../../features/tokens/tier";
+import {
+  normalizeBrowserColorOutputs,
+  opacityLinkedScaleIds,
+  overrideContrastMessage,
+} from "../../features/tokens/colorOutput";
+import { resolveColorDocument } from "../../features/color-system/resolution";
 
 export interface TokenInspectorProps {
   token: BrowserToken;
@@ -156,10 +162,35 @@ export function TokenInspector(props: TokenInspectorProps) {
       }),
     [draft, original, props.modeKey],
   );
-  const tokens = useMemo(
-    () => resolveDialogTokens(rows, edits, taxonomy, draft.modeKey, draft),
-    [rows, edits, taxonomy, draft],
-  );
+  const tokens = useMemo(() => {
+    const document = resolveColorDocument(
+      props.colorSystem,
+      modesForSelection(
+        props.modeSets,
+        Object.fromEntries(modePairs(draft.modeKey)),
+      ),
+      undefined,
+      { modeSets: props.modeSets },
+    );
+    const resolved = resolveDialogTokens(
+      rows,
+      edits,
+      taxonomy,
+      draft.modeKey,
+      draft,
+    );
+    return normalizeBrowserColorOutputs(
+      resolved,
+      document.settings.colorOutput,
+      new Map(),
+      opacityLinkedScaleIds(document),
+      document,
+    ).map((token, index) =>
+      token.valueOverridden
+        ? token
+        : { ...token, value: resolved[index].value },
+    );
+  }, [rows, edits, taxonomy, draft, props.colorSystem, props.modeSets]);
   const token = tokens.find((item) => item.id === original.id) ?? original;
   const editable = isEditing && !original.alias;
   const deprecated = draft.deprecated;
@@ -288,6 +319,11 @@ export function TokenInspector(props: TokenInspectorProps) {
                   />
                 ))}
               </div>
+              {error && (
+                <p className={styles.warning} role="alert">
+                  {error}
+                </p>
+              )}
               <div
                 className={
                   deprecated && replacement
@@ -346,6 +382,14 @@ export function TokenInspector(props: TokenInspectorProps) {
               {token.validationError && (
                 <p role="alert">{token.validationError}</p>
               )}
+              {token.contrastWarning && (
+                <p className={styles.warning} role="status">
+                  {overrideContrastMessage(token.contrastWarning)}. This value
+                  has {token.contrastWarning.actualContrast.toFixed(2)}:1
+                  contrast against {token.contrastWarning.background}. Choose a
+                  different color to meet the target, or save this override.
+                </p>
+              )}
               {editable && (
                 <>
                   {token.manual && (
@@ -369,11 +413,12 @@ export function TokenInspector(props: TokenInspectorProps) {
                       taxonomy={taxonomy}
                       tier={token.tier}
                       scope={
-                        token.semantic || token.classificationScope
+                        token.classificationScope ??
+                        (token.semantic
                           ? "structures"
                           : token.type === "motion"
                             ? "size"
-                            : token.type
+                            : token.type)
                       }
                       value={draft.classification ?? projection.classification}
                       onChange={(classification) =>
@@ -584,11 +629,6 @@ export function TokenInspector(props: TokenInspectorProps) {
                   ))}
                 </TagGroup>
               </section>
-              {error && (
-                <p className={styles.warning} role="alert">
-                  {error}
-                </p>
-              )}
               {editable && !!projection.issues.length && (
                 <p role="status">{projection.issues.join(" ")}</p>
               )}
@@ -623,11 +663,12 @@ export function TokenInspector(props: TokenInspectorProps) {
                   value={aliasClassification}
                   taxonomy={taxonomy}
                   scope={
-                    token.semantic || token.classificationScope
+                    token.classificationScope ??
+                    (token.semantic
                       ? "structures"
                       : token.type === "motion"
                         ? "size"
-                        : token.type
+                        : token.type)
                   }
                   onChange={setAliasClassification}
                 />
@@ -649,6 +690,23 @@ export function TokenInspector(props: TokenInspectorProps) {
                   );
                   if (projection.issues.length) {
                     setAliasError(projection.issues.join(" "));
+                    return;
+                  }
+                  const aliasName = projection.name;
+                  if (
+                    tokens.some((item) => item.name === aliasName) ||
+                    draft.aliases.some(
+                      (alias) =>
+                        dialogClassification(
+                          token,
+                          alias.classification,
+                          taxonomy,
+                        ).name === aliasName,
+                    )
+                  ) {
+                    setAliasError(
+                      `A token named ${aliasName} already exists. Choose a different classification.`,
+                    );
                     return;
                   }
                   setDraft({

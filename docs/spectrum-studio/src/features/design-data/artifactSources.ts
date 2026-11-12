@@ -49,13 +49,15 @@ function dimensionSource(
     browserTokenEdits,
   };
 }
+const workingSourceAtom = atom((get) => get(authoringSourceSnapshotAtom));
+const savedSourceAtom = atom((get) => get(editSessionSnapshotAtom));
 const dimensionWorkingSourceAtom = selectAtom(
-  authoringSourceSnapshotAtom,
+  workingSourceAtom,
   dimensionSource,
   sameReferences,
 );
 const dimensionSavedSourceAtom = selectAtom(
-  editSessionSnapshotAtom,
+  savedSourceAtom,
   (source) => (source ? dimensionSource(source) : null),
   sameReferences,
 );
@@ -63,15 +65,23 @@ export const dimensionArtifactRequestAtom = atom((get) => {
   const working = get(dimensionWorkingSourceAtom);
   return { working, saved: get(dimensionSavedSourceAtom) ?? working };
 });
-export const tshirtArtifactSourceAtom = selectAtom(
-  authoringSourceSnapshotAtom,
-  (source): TshirtAuthoringSource => ({
+function tshirtSource(source: TshirtAuthoringSource): TshirtAuthoringSource {
+  return {
     ...dimensionSource(source),
     structures: source.structures,
     elevation: source.elevation,
     opacity: source.opacity,
     interpolations: source.interpolations,
     tokenOverrides: source.tokenOverrides,
-  }),
+  };
+}
+export const tshirtArtifactSourceAtom = selectAtom(
+  workingSourceAtom,
+  tshirtSource,
+  sameReferences,
+);
+export const savedTshirtArtifactSourceAtom = selectAtom(
+  savedSourceAtom,
+  (source) => (source ? tshirtSource(source) : null),
   sameReferences,
 );

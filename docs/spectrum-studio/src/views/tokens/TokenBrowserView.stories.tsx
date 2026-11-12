@@ -14,6 +14,33 @@ import {
   TokenBrowserView,
   type TokenBrowserViewProps,
 } from "./TokenBrowserView";
+import type { BrowserToken } from "../../features/tokens/browserModel";
+
+const diagnosticTokens: BrowserToken[] = [
+  {
+    ...singletonStoryTokens[0],
+    id: "red-900",
+    name: "red-900",
+    status: "released",
+    value: "rgb(221, 221, 221)",
+    valueOverridden: true,
+    contrastWarning: {
+      colorName: "red",
+      scaleIndex: "900",
+      requestedContrast: 4.5,
+      actualContrast: 1.36,
+      background: "rgb(255, 255, 255)",
+    },
+  },
+  {
+    ...singletonStoryTokens[0],
+    id: "red-workflow",
+    name: "red-workflow-icon",
+    referenceId: "red-900",
+    referenceName: "red-900",
+    valueOverridden: false,
+  },
+];
 
 function ControlledBrowser(args: TokenBrowserViewProps) {
   const [query, setQuery] = useState(args.query);
@@ -342,5 +369,34 @@ export const GenerationErrors: Story = {
       );
     }
     canvasElement.dataset.playComplete = "true";
+  },
+};
+
+export const OverrideDiagnostics: Story = {
+  args: { tokens: diagnosticTokens },
+};
+
+export const AllModeOverrideDiagnostics: Story = {
+  args: {
+    tokens: diagnosticTokens,
+    modeView: "all",
+    modeRows: diagnosticTokens.map((token) => ({
+      id: `${token.id}-parent`,
+      label: token.name,
+      contextLabel: token.name,
+      token,
+      sourcePathIds: [],
+      children: [
+        {
+          id: `${token.id}-light`,
+          label: "Light",
+          contextLabel: `${token.name} / Light`,
+          token,
+          modeContext: '[["scheme","light"]]',
+          sourcePathIds: [],
+          children: [],
+        },
+      ],
+    })),
   },
 };

@@ -10,28 +10,30 @@ as the source of truth for design-data alignment status, not any prose doc.
 
 ## Current and canonical
 
-| Doc                                                                                    | Use it for                                                                                      |
-| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [master-migration-plan.md](master-migration-plan.md)                                     | Agent-first north star, package-wide exact parity, migration gates and initiative/epic crosswalk |
-| [ROADMAP.md](ROADMAP.md)                                                               | Initiatives, epics, guiding principles, open decisions                                          |
-| [design-data-gap-register.md](design-data-gap-register.md)                             | Generated view of `src/data/design-data-gaps.json`. Do not edit by hand; run `pnpm gaps:docs`   |
-| [design-data-target-contract.md](design-data-target-contract.md)                       | Agreed direction and proposed boundaries with design-data. **Hashed evidence pin: do not edit** |
-| [design-data-authoring-storage-contract.md](design-data-authoring-storage-contract.md) | How authored data is stored, validated and persisted                                            |
-| [design-data-coverage-metrics.md](design-data-coverage-metrics.md)                     | How coverage is measured on the Analysis page                                                   |
+| Doc                                                                                    | Use it for                                                                                       |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [master-migration-plan.md](master-migration-plan.md)                                   | Agent-first north star, package-wide exact parity, migration gates and initiative/epic crosswalk |
+| [agent-execution.md](agent-execution.md)                                               | Bounded verification commands, resource cutoffs, browser scope and client-enforcement limits     |
+| [relationship-map.md](relationship-map.md)                                            | How agents obtain fresh relationship context, reuse the map and review dependency changes       |
+| [ROADMAP.md](ROADMAP.md)                                                               | Initiatives, epics, guiding principles, open decisions                                           |
+| [design-data-gap-register.md](design-data-gap-register.md)                             | Generated view of `src/data/design-data-gaps.json`. Do not edit by hand; run `pnpm gaps:docs`    |
+| [design-data-target-contract.md](design-data-target-contract.md)                       | Agreed direction and proposed boundaries with design-data. **Hashed evidence pin: do not edit**  |
+| [design-data-authoring-storage-contract.md](design-data-authoring-storage-contract.md) | How authored data is stored, validated and persisted                                             |
+| [design-data-coverage-metrics.md](design-data-coverage-metrics.md)                     | How coverage is measured on the Analysis page                                                    |
 
 ## Feature references
 
 How a built feature works. Read when working in that area.
 
-| Doc                                                                    | Area                                      |
-| ---------------------------------------------------------------------- | ----------------------------------------- |
-| [color-system-data-vis.md](color-system-data-vis.md)                   | Data-visualization color recipes          |
-| [contrast-polarity-compensation.md](contrast-polarity-compensation.md) | Contrast and polarity math                |
-| [category-icons.md](category-icons.md)                                 | Category icons and the icon catalog check |
-| [token-value-previews.md](token-value-previews.md)                     | Token value previews                      |
-| [structure-element-templates.md](structure-element-templates.md)       | Structure element templates               |
-| [styles.md](styles.md)                                               | Style recipes, shared rule outputs and semantic tokens |
-| [component-sizing.md](component-sizing.md)                           | Scale modes and independent sizing baselines |
+| Doc                                                                    | Area                                                       |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [color-system-data-vis.md](color-system-data-vis.md)                   | Data-visualization color recipes                           |
+| [contrast-polarity-compensation.md](contrast-polarity-compensation.md) | Contrast and polarity math                                 |
+| [category-icons.md](category-icons.md)                                 | Category icons and the icon catalog check                  |
+| [token-value-previews.md](token-value-previews.md)                     | Token value previews                                       |
+| [structure-element-templates.md](structure-element-templates.md)       | Structure element templates                                |
+| [styles.md](styles.md)                                                 | Style recipes, shared rule outputs and semantic tokens     |
+| [component-sizing.md](component-sizing.md)                             | Scale modes and independent sizing baselines               |
 | [token-alignment-workflow.md](token-alignment-workflow.md)             | Reviewed token-family alignment, naming and color baseline |
 
 ## Hashed evidence pin
@@ -51,7 +53,7 @@ Plans that were done are in [archive/](archive/README.md). The gap register and
 | [rfcs/classification-standard-and-migration.md](rfcs/classification-standard-and-migration.md)   | LTAX-011                                                                     |
 | [rfcs/foundation-recipes-and-stable-identity.md](rfcs/foundation-recipes-and-stable-identity.md) | Recipe storage and UUID-preserving migration proposal; DEBT-017 remains open |
 | [rfcs/portable-structures.md](rfcs/portable-structures.md)                                       | LTAX-013; local Structure authoring contract and separate upstream proposal  |
-| [rfcs/token-tiers-and-category-scope.md](rfcs/token-tiers-and-category-scope.md)                   | LTAX-021; conceptual token tiers and tier-scoped Registry categories          |
+| [rfcs/token-tiers-and-category-scope.md](rfcs/token-tiers-and-category-scope.md)                 | LTAX-021; conceptual token tiers and tier-scoped Registry categories         |
 
 ## Other
 
