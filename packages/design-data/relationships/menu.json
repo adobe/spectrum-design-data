@@ -14,7 +14,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "07d3f4df-2add-590b-893f-b8da1cfd1d74"
   },
   {
@@ -32,7 +32,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "a445ea87-c0ef-5ea0-8908-da4f656c0f62"
   },
   {
@@ -50,7 +50,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "bbac69d0-d008-5ef3-b23a-7f815230bf70"
   },
   {
@@ -68,7 +68,7 @@
       "property": "component-height-300"
     },
     "context": "Minimum height",
-    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "cbbcb975-a3b8-5369-920c-784d65832c38"
   },
   {
@@ -977,7 +977,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
+    "$ref": "8c1fbaf8-9117-5882-bf02-65bb8fca5e7d",
     "uuid": "e80f594f-bf4c-548f-9bb3-650106d927ca"
   },
   {
@@ -995,7 +995,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
+    "$ref": "b1fb3013-a13a-56b3-9f91-e1099791759a",
     "uuid": "85bd4d39-d845-5c65-94f2-081c8ac190c0"
   },
   {
@@ -1031,7 +1031,7 @@
       "property": "size"
     },
     "context": "Thumbnail",
-    "$ref": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
+    "$ref": "96dfba6c-1687-575f-bd7a-c6bc81962afe",
     "uuid": "08196022-5c59-5906-977f-ef9ae3a093e4"
   },
   {

@@ -19,3 +19,4 @@ Refine size tokens and remove the medium suffix from shared banner tokens.
 - **packages/tokens/test/sizeRefinements.test.js**: Cover canonical and legacy data.
 - **tooltip tip tokens**: Desktop is 4px by 8px; mobile is 5px by 10px (1.25x).
 - **visuals/accordion.json**: Size M preview width uses field-width-large (240px) for iOS text.
+- **tokens, relationships**: Add mobile values (desktop x 1.25) to 54 shared size tokens.

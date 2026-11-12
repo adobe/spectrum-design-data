@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
+    "$ref": "1e14bd31-91d6-5968-9a56-2c543145dc45",
     "uuid": "57ad31a4-567c-5298-9cad-d19b7dac5864"
   },
   {
@@ -32,7 +32,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "88b0cf8d-1162-5b11-aabb-01d93e443bc4"
   },
   {
@@ -50,7 +50,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "68a3e909-1c7c-547e-bf0b-575c77352a6e"
   },
   {
@@ -68,7 +68,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "8b599c58-23fa-5ac3-b579-096c8b3eb9c7"
   },
   {
@@ -131,7 +131,7 @@
       "property": "component-height-75"
     },
     "context": "Height (slider control)",
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "2d83dc53-a61e-500e-8618-4a0718c06926"
   },
   {
@@ -149,7 +149,7 @@
       "property": "component-height-100"
     },
     "context": "Height (slider control)",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "3f8549ce-d841-5642-98ee-989f2e085350"
   },
   {
@@ -167,7 +167,7 @@
       "property": "component-height-200"
     },
     "context": "Height (slider control)",
-    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "df82c29f-35de-5194-a543-944425c60905"
   },
   {
@@ -185,7 +185,7 @@
       "property": "component-height-300"
     },
     "context": "Height (slider control)",
-    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "1a6e6268-5547-5949-8220-f7738ab34708"
   },
   {
@@ -203,7 +203,7 @@
       "property": "size"
     },
     "context": "Handle (size)",
-    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
+    "$ref": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
     "uuid": "e0265821-e343-593a-8490-092badd161de"
   },
   {
@@ -221,7 +221,7 @@
       "property": "size"
     },
     "context": "Handle (size)",
-    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
+    "$ref": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
     "uuid": "c398eb61-40cb-55c5-b78b-b28a2addb68c"
   },
   {
@@ -239,7 +239,7 @@
       "property": "size"
     },
     "context": "Handle (size)",
-    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
+    "$ref": "c25b80df-3ec6-508a-9c75-e550972cce19",
     "uuid": "1ae8f682-f8b8-5e2d-b5d5-ac17b35532eb"
   },
   {
@@ -257,7 +257,7 @@
       "property": "size"
     },
     "context": "Handle (size)",
-    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
+    "$ref": "8bca789b-593d-5563-8bd5-eeb1b987631b",
     "uuid": "29a8f53d-0156-5f9f-b970-5a82883828df"
   },
   {
@@ -275,7 +275,7 @@
       "property": "height"
     },
     "context": "Handle (size)",
-    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
+    "$ref": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
     "uuid": "1e2f7f62-acaa-5ae9-8c22-27c0cd825741"
   },
   {
@@ -293,7 +293,7 @@
       "property": "height"
     },
     "context": "Handle (size)",
-    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
+    "$ref": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
     "uuid": "7e2ff638-7453-5e02-931a-057ffbcd3435"
   },
   {
@@ -311,7 +311,7 @@
       "property": "height"
     },
     "context": "Handle (size)",
-    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
+    "$ref": "c25b80df-3ec6-508a-9c75-e550972cce19",
     "uuid": "99899c26-f7d5-58ad-a786-fbee796cb874"
   },
   {
@@ -329,7 +329,7 @@
       "property": "height"
     },
     "context": "Handle (size)",
-    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
+    "$ref": "8bca789b-593d-5563-8bd5-eeb1b987631b",
     "uuid": "12c8a311-2f31-5bcd-aa11-c99c3a9bc8c9"
   },
   {

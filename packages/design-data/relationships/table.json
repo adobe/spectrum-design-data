@@ -41,7 +41,7 @@
       "property": "component-height-100"
     },
     "context": "Column header row height",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "c53e5a2e-e02e-50f9-8506-47505619c359"
   },
   {
@@ -77,7 +77,7 @@
       "property": "height"
     },
     "context": "Row height (minimum, regular density)",
-    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
+    "$ref": "1cb0e333-463a-546e-b45e-c5f67c60a385",
     "uuid": "b0e0bdff-6771-5417-b723-6de7654b51b6"
   },
   {
@@ -212,7 +212,7 @@
       "property": "row-height"
     },
     "context": "Section header row height",
-    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
+    "$ref": "b66f56a3-c8ec-539f-9e2b-67e46bcb8042",
     "uuid": "c06ac877-6227-5d19-9392-40a80b079efe"
   },
   {

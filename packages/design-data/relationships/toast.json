@@ -14,7 +14,7 @@
       "property": "height"
     },
     "context": "Height",
-    "$ref": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d",
+    "$ref": "29848bbc-2cd1-5ca9-a0ee-238b841b1a28",
     "uuid": "45d3224b-8df9-5ad2-bd51-f6dbbe232468"
   },
   {
@@ -32,7 +32,7 @@
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
-    "$ref": "b377dd74-b519-4a29-bba1-870b1861915a",
+    "$ref": "61fd56ca-7da4-5336-bc33-8f0df04b8b46",
     "uuid": "a9e232cb-84a5-5e40-86cd-33bf3fda9ed3"
   },
   {

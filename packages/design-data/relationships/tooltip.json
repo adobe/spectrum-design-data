@@ -14,7 +14,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "04bcf012-6402-5c31-8241-552c8becfe73"
   },
   {
@@ -32,7 +32,7 @@
       "property": "maximum-width"
     },
     "context": "Maximum width",
-    "$ref": "231d919c-9219-4d12-8f3d-d7dc74695137",
+    "$ref": "077d4b14-20d9-5a61-81fb-04c364157e4a",
     "uuid": "e0711c6d-5f57-5919-85c8-f189d9822773"
   },
   {

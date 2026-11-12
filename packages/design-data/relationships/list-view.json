@@ -32,7 +32,7 @@
       "property": "minimum-height"
     },
     "context": "Component height",
-    "$ref": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826",
+    "$ref": "cdd8d437-60db-57be-9663-86d8cd8809e9",
     "uuid": "d6cf4119-2db4-5f7f-a8ac-548c58ab8fc1"
   },
   {
@@ -50,7 +50,7 @@
       "property": "minimum-width"
     },
     "context": "Component width",
-    "$ref": "cf6d396e-e889-4269-9c0f-d97fe977939f",
+    "$ref": "a03f4dfd-723b-527d-8c0f-ec812d470684",
     "uuid": "ab1996ad-6213-5723-b8f8-9ef2c7cae6b1"
   },
   {
@@ -248,7 +248,7 @@
       "property": "component-height-100"
     },
     "context": "Height",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "25715cb0-9f0d-54a8-b821-59ee9f1189f7"
   },
   {

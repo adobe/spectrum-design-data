@@ -1993,11 +1993,32 @@
       "property": "width",
       "size": "l",
       "legacyKey": "bar-width-large",
-      "anatomy": "bar"
+      "anatomy": "bar",
+      "scale": "desktop"
     },
     "value": "192px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "f7cb09c8-a44c-4455-bffd-199b76fd1c25",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "357dc351-ecd6-5759-a4d3-1e6010dee55a"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "l",
+      "legacyKey": "bar-width-large",
+      "anatomy": "bar",
+      "scale": "mobile"
+    },
+    "value": "240px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "ec422181-d393-5f76-83c9-fc6a1a354262",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "357dc351-ecd6-5759-a4d3-1e6010dee55a",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2178,11 +2199,33 @@
       "property": "size",
       "size": "m",
       "legacyKey": "base-visual-size-medium",
-      "anatomy": "visual"
+      "anatomy": "visual",
+      "scale": "desktop"
     },
     "value": "18px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "89766302-b727-438e-bf4b-7549b98569cf",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f006a75-2181-50eb-90cd-c37a5f1a97d2"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "structure": "base",
+      "property": "size",
+      "size": "m",
+      "legacyKey": "base-visual-size-medium",
+      "anatomy": "visual",
+      "scale": "mobile"
+    },
+    "value": "23px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c70c700f-c459-5a57-8c78-42873b0727cd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f006a75-2181-50eb-90cd-c37a5f1a97d2",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2272,11 +2315,32 @@
       "property": "size",
       "size": "s",
       "legacyKey": "control-size-small",
-      "anatomy": "control"
+      "anatomy": "control",
+      "scale": "desktop"
     },
     "value": "14px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "df281f36-9d5b-5332-9ed8-265c1cbbd840"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "size": "s",
+      "legacyKey": "control-size-small",
+      "anatomy": "control",
+      "scale": "mobile"
+    },
+    "value": "18px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "df281f36-9d5b-5332-9ed8-265c1cbbd840",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2287,11 +2351,32 @@
       "property": "size",
       "size": "m",
       "legacyKey": "control-size-medium",
-      "anatomy": "control"
+      "anatomy": "control",
+      "scale": "desktop"
     },
     "value": "16px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "a337c6c4-f656-5ae0-9f55-bd83ce778e5b"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "size": "m",
+      "legacyKey": "control-size-medium",
+      "anatomy": "control",
+      "scale": "mobile"
+    },
+    "value": "20px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "a337c6c4-f656-5ae0-9f55-bd83ce778e5b",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2302,11 +2387,32 @@
       "property": "size",
       "size": "l",
       "legacyKey": "control-size-large",
-      "anatomy": "control"
+      "anatomy": "control",
+      "scale": "desktop"
     },
     "value": "18px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ebdd6885-e5a4-5ff8-892f-e2352ac31394"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "size": "l",
+      "legacyKey": "control-size-large",
+      "anatomy": "control",
+      "scale": "mobile"
+    },
+    "value": "23px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c25b80df-3ec6-508a-9c75-e550972cce19",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ebdd6885-e5a4-5ff8-892f-e2352ac31394",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2317,11 +2423,32 @@
       "property": "size",
       "size": "xl",
       "legacyKey": "control-size-extra-large",
-      "anatomy": "control"
+      "anatomy": "control",
+      "scale": "desktop"
     },
     "value": "20px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "546460ea-c1b5-5d13-b6ec-49f780638e9e"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "size": "xl",
+      "legacyKey": "control-size-extra-large",
+      "anatomy": "control",
+      "scale": "mobile"
+    },
+    "value": "25px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "8bca789b-593d-5563-8bd5-eeb1b987631b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "546460ea-c1b5-5d13-b6ec-49f780638e9e",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2332,11 +2459,32 @@
       "property": "width",
       "size": "s",
       "legacyKey": "field-width-small",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "144px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "188453d2-7e27-414d-b5a2-680653844526",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "90d249d3-57a2-511e-809f-ebe095ddd51e"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "s",
+      "legacyKey": "field-width-small",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "180px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "1e14bd31-91d6-5968-9a56-2c543145dc45",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "90d249d3-57a2-511e-809f-ebe095ddd51e",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2347,11 +2495,32 @@
       "property": "width",
       "size": "m",
       "legacyKey": "field-width-medium",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "192px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d25285ba-9448-5be3-9437-9cbf8fe0bc1d"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "m",
+      "legacyKey": "field-width-medium",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "240px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "96d49f3b-62aa-5948-ad46-4c069630ad48",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d25285ba-9448-5be3-9437-9cbf8fe0bc1d",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2362,11 +2531,32 @@
       "property": "width",
       "size": "l",
       "legacyKey": "field-width-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "240px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "0fb38ac8-dbfb-442a-b142-3435102fe879",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "11059061-1a7f-5331-b92d-217ca077ff97"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "l",
+      "legacyKey": "field-width-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "300px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "11059061-1a7f-5331-b92d-217ca077ff97",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2377,11 +2567,32 @@
       "property": "width",
       "size": "xl",
       "legacyKey": "field-width-extra-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "288px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "4c09da43-93d3-46ed-8302-dc685d099097",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f8cbf20-50e1-5c64-8c1e-3db9ccfec4d8"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "xl",
+      "legacyKey": "field-width-extra-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "360px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "14c5152e-77ae-5f05-b80c-286323b648b4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f8cbf20-50e1-5c64-8c1e-3db9ccfec4d8",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2392,11 +2603,32 @@
       "property": "width",
       "size": "xxl",
       "legacyKey": "field-width-2x-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "352px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "fc046594-4492-4613-9202-5331be3f0c10",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8115d62e-159b-5802-8d24-03fdafa4dfc2"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "size": "xxl",
+      "legacyKey": "field-width-2x-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "440px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "a0f9bdf9-571b-54a9-b43a-09328c82eadd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8115d62e-159b-5802-8d24-03fdafa4dfc2",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2422,11 +2654,32 @@
       "property": "minimum-width",
       "size": "s",
       "legacyKey": "field-minimum-width-small",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "120px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "83b01fb3-ddcd-4421-8b28-5240a2a1ab54",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "044eaeb0-bc19-5e11-82f3-c61ecb9babad"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-width",
+      "size": "s",
+      "legacyKey": "field-minimum-width-small",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "150px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "26f09b9c-a7ff-5cd6-8cf5-260b0fd5467a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "044eaeb0-bc19-5e11-82f3-c61ecb9babad",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2452,11 +2705,32 @@
       "property": "minimum-width",
       "size": "l",
       "legacyKey": "field-minimum-width-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "192px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "b7ec8b9b-92bd-4770-becf-31948d8b00b5",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "398cef2e-1025-57ad-9236-bf1817c39194"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-width",
+      "size": "l",
+      "legacyKey": "field-minimum-width-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "240px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "3d423e2d-8087-59cd-aa1b-25b42b9b5d82",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "398cef2e-1025-57ad-9236-bf1817c39194",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2497,11 +2771,32 @@
       "property": "minimum-height",
       "size": "m",
       "legacyKey": "field-minimum-height-medium",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "40px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "6c798793-070a-442d-804f-198c583fcab3",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4ae36ca6-c167-52ef-ad35-2b25b54b20a5"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-height",
+      "size": "m",
+      "legacyKey": "field-minimum-height-medium",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "50px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c9cb4038-b9ae-58a6-b6b8-f64fe4b57343",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4ae36ca6-c167-52ef-ad35-2b25b54b20a5",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2512,11 +2807,32 @@
       "property": "minimum-height",
       "size": "l",
       "legacyKey": "field-minimum-height-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "56px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "efd80cfa-0646-5934-a4d8-b1d1c1f40c09"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-height",
+      "size": "l",
+      "legacyKey": "field-minimum-height-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "70px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c869329b-29d9-5b91-8999-abbda5059bb8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "efd80cfa-0646-5934-a4d8-b1d1c1f40c09",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2527,11 +2843,32 @@
       "property": "minimum-height",
       "size": "xl",
       "legacyKey": "field-minimum-height-extra-large",
-      "anatomy": "field"
+      "anatomy": "field",
+      "scale": "desktop"
     },
     "value": "64px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "a4f7e555-c980-4164-ae1f-6a19d680b24a",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ccb93f67-2df3-5660-a439-92ee085cdd1e"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-height",
+      "size": "xl",
+      "legacyKey": "field-minimum-height-extra-large",
+      "anatomy": "field",
+      "scale": "mobile"
+    },
+    "value": "80px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "0511e5cb-9bf3-5365-a460-316a1b7f4ff2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ccb93f67-2df3-5660-a439-92ee085cdd1e",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2542,11 +2879,32 @@
       "property": "minimum-width",
       "size": "s",
       "legacyKey": "list-item-minimum-width-small",
-      "anatomy": "list-item"
+      "anatomy": "list-item",
+      "scale": "desktop"
     },
     "value": "144px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "d2eb3062-0839-435a-aad6-309ece18ca25",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c54e3b25-7945-5d35-b57b-f4eea0807467"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-width",
+      "size": "s",
+      "legacyKey": "list-item-minimum-width-small",
+      "anatomy": "list-item",
+      "scale": "mobile"
+    },
+    "value": "180px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c3ead1a1-5501-56a5-a67b-a219cf2738b8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c54e3b25-7945-5d35-b57b-f4eea0807467",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2557,11 +2915,32 @@
       "property": "minimum-width",
       "size": "m",
       "legacyKey": "list-item-minimum-width-medium",
-      "anatomy": "list-item"
+      "anatomy": "list-item",
+      "scale": "desktop"
     },
     "value": "192px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "cf6d396e-e889-4269-9c0f-d97fe977939f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d59f6fb0-c2c8-5aee-86d4-1e58b126eea3"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-width",
+      "size": "m",
+      "legacyKey": "list-item-minimum-width-medium",
+      "anatomy": "list-item",
+      "scale": "mobile"
+    },
+    "value": "240px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "a03f4dfd-723b-527d-8c0f-ec812d470684",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d59f6fb0-c2c8-5aee-86d4-1e58b126eea3",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2647,11 +3026,32 @@
       "property": "height",
       "size": "s",
       "legacyKey": "list-item-height-small",
-      "anatomy": "list-item"
+      "anatomy": "list-item",
+      "scale": "desktop"
     },
     "value": "32px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "8b203efb-317a-4849-95b0-45d678eff0f4",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "39520dd0-83ac-59cf-82e9-1b0051e5c557"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "height",
+      "size": "s",
+      "legacyKey": "list-item-height-small",
+      "anatomy": "list-item",
+      "scale": "mobile"
+    },
+    "value": "40px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "b66f56a3-c8ec-539f-9e2b-67e46bcb8042",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "39520dd0-83ac-59cf-82e9-1b0051e5c557",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2662,11 +3062,32 @@
       "property": "height",
       "size": "m",
       "legacyKey": "list-item-height-medium",
-      "anatomy": "list-item"
+      "anatomy": "list-item",
+      "scale": "desktop"
     },
     "value": "40px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "69dd2a4e-6d50-5f77-96d3-f01e669b7543"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "height",
+      "size": "m",
+      "legacyKey": "list-item-height-medium",
+      "anatomy": "list-item",
+      "scale": "mobile"
+    },
+    "value": "50px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "1cb0e333-463a-546e-b45e-c5f67c60a385",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "69dd2a4e-6d50-5f77-96d3-f01e669b7543",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2706,11 +3127,31 @@
     "name": {
       "property": "minimum-height",
       "legacyKey": "list-item-minimum-height",
-      "anatomy": "list-item"
+      "anatomy": "list-item",
+      "scale": "desktop"
     },
     "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "08e50e6e-e4d1-5dfb-8f61-e3c506a9ec5e"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "minimum-height",
+      "legacyKey": "list-item-minimum-height",
+      "anatomy": "list-item",
+      "scale": "mobile"
+    },
+    "value": "50px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "cdd8d437-60db-57be-9663-86d8cd8809e9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "08e50e6e-e4d1-5dfb-8f61-e3c506a9ec5e",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2721,11 +3162,32 @@
       "property": "size",
       "legacyKey": "visual-size-50",
       "anatomy": "visual",
-      "scaleIndex": 50
+      "scaleIndex": 50,
+      "scale": "desktop"
     },
     "$ref": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f9c1c9f6-3c9c-5312-b8cf-81e6abb11585"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-50",
+      "anatomy": "visual",
+      "scaleIndex": 50,
+      "scale": "mobile"
+    },
+    "value": "20px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f9c1c9f6-3c9c-5312-b8cf-81e6abb11585",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2736,11 +3198,32 @@
       "property": "size",
       "legacyKey": "visual-size-75",
       "anatomy": "visual",
-      "scaleIndex": 75
+      "scaleIndex": 75,
+      "scale": "desktop"
     },
     "$ref": "0efd036f-4738-4cba-aa6e-c154a68af0fb",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "bec3cf5e-b4fc-5be2-bdc3-abb31c02a2ab"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-75",
+      "anatomy": "visual",
+      "scaleIndex": 75,
+      "scale": "mobile"
+    },
+    "value": "25px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "90cde499-440b-584a-af95-26799a05e23e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "bec3cf5e-b4fc-5be2-bdc3-abb31c02a2ab",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2751,11 +3234,32 @@
       "property": "size",
       "legacyKey": "visual-size-100",
       "anatomy": "visual",
-      "scaleIndex": 100
+      "scaleIndex": 100,
+      "scale": "desktop"
     },
     "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "cae804bb-ebef-480b-a98f-15452dff5650",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4c77108b-36c4-527e-943a-a92c4fa20222"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-100",
+      "anatomy": "visual",
+      "scaleIndex": 100,
+      "scale": "mobile"
+    },
+    "value": "30px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4c77108b-36c4-527e-943a-a92c4fa20222",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2766,11 +3270,32 @@
       "property": "size",
       "legacyKey": "visual-size-200",
       "anatomy": "visual",
-      "scaleIndex": 200
+      "scaleIndex": 200,
+      "scale": "desktop"
     },
     "$ref": "fd71a9ac-284c-48a3-9665-5f68b90fc660",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4fda4a30-1277-54f9-8803-d8160747bb09"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-200",
+      "anatomy": "visual",
+      "scaleIndex": 200,
+      "scale": "mobile"
+    },
+    "value": "35px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "47d5bb68-3dce-58ae-a20c-4e797817c551",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4fda4a30-1277-54f9-8803-d8160747bb09",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2781,11 +3306,32 @@
       "property": "size",
       "legacyKey": "visual-size-300",
       "anatomy": "visual",
-      "scaleIndex": 300
+      "scaleIndex": 300,
+      "scale": "desktop"
     },
     "$ref": "9e6c70a8-d921-42b2-9084-7408424124ef",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c38c0528-0f20-5b75-8e0f-da850ad35758"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-300",
+      "anatomy": "visual",
+      "scaleIndex": 300,
+      "scale": "mobile"
+    },
+    "value": "40px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "cb2dbb62-9fe3-57b8-8497-c7b238154919",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c38c0528-0f20-5b75-8e0f-da850ad35758",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2796,11 +3342,32 @@
       "property": "size",
       "legacyKey": "visual-size-400",
       "anatomy": "visual",
-      "scaleIndex": 400
+      "scaleIndex": 400,
+      "scale": "desktop"
     },
     "$ref": "4570ed23-5b28-4937-80f9-602852b91302",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "dfa6bd7c-70f5-5f48-b10f-8187648babb0"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-400",
+      "anatomy": "visual",
+      "scaleIndex": 400,
+      "scale": "mobile"
+    },
+    "value": "45px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "6d694abd-9edb-5c4c-92de-f2ab46ce7fd5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "dfa6bd7c-70f5-5f48-b10f-8187648babb0",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2811,11 +3378,32 @@
       "property": "size",
       "legacyKey": "visual-size-500",
       "anatomy": "visual",
-      "scaleIndex": 500
+      "scaleIndex": 500,
+      "scale": "desktop"
     },
     "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "d2b6af19-0151-4203-89da-6f61f88358ae",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "599a24a9-8464-5ffb-a6e5-9965c11547d7"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-500",
+      "anatomy": "visual",
+      "scaleIndex": 500,
+      "scale": "mobile"
+    },
+    "value": "50px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "8c1fbaf8-9117-5882-bf02-65bb8fca5e7d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "599a24a9-8464-5ffb-a6e5-9965c11547d7",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2826,11 +3414,32 @@
       "property": "size",
       "legacyKey": "visual-size-600",
       "anatomy": "visual",
-      "scaleIndex": 600
+      "scaleIndex": 600,
+      "scale": "desktop"
     },
     "$ref": "03042116-4c2d-4a29-b17f-47da76f5e103",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "bb349769-e3ef-5d5a-afa2-5e6a307acea1"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-600",
+      "anatomy": "visual",
+      "scaleIndex": 600,
+      "scale": "mobile"
+    },
+    "value": "60px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "b1fb3013-a13a-56b3-9f91-e1099791759a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "bb349769-e3ef-5d5a-afa2-5e6a307acea1",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2841,11 +3450,32 @@
       "property": "size",
       "legacyKey": "visual-size-700",
       "anatomy": "visual",
-      "scaleIndex": 700
+      "scaleIndex": 700,
+      "scale": "desktop"
     },
     "$ref": "859dc7a3-678a-414a-a177-728925480c5d",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6962ed31-28eb-5a4c-8f63-5e88e4c14b47"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-700",
+      "anatomy": "visual",
+      "scaleIndex": 700,
+      "scale": "mobile"
+    },
+    "value": "70px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "96dfba6c-1687-575f-bd7a-c6bc81962afe",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6962ed31-28eb-5a4c-8f63-5e88e4c14b47",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2856,11 +3486,32 @@
       "property": "size",
       "legacyKey": "visual-size-800",
       "anatomy": "visual",
-      "scaleIndex": 800
+      "scaleIndex": 800,
+      "scale": "desktop"
     },
     "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "cbd0511f-c73d-40fa-9dfa-619ee5a38472",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "64c4ef1e-b53b-55b5-a108-83be0b8262a5"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-800",
+      "anatomy": "visual",
+      "scaleIndex": 800,
+      "scale": "mobile"
+    },
+    "value": "80px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "7d55cf1b-1f33-5549-9f3b-45f61f913d78",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "64c4ef1e-b53b-55b5-a108-83be0b8262a5",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2871,11 +3522,32 @@
       "property": "size",
       "legacyKey": "visual-size-900",
       "anatomy": "visual",
-      "scaleIndex": 900
+      "scaleIndex": 900,
+      "scale": "desktop"
     },
     "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "786f4575-8665-4ac2-903b-f6492b9dcf95",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d8483bc3-b0c0-5abe-8598-5a648d2b1b8c"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-900",
+      "anatomy": "visual",
+      "scaleIndex": 900,
+      "scale": "mobile"
+    },
+    "value": "100px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "cb2242a1-5bdc-5cae-a512-8f1635478ea4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d8483bc3-b0c0-5abe-8598-5a648d2b1b8c",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2886,11 +3558,32 @@
       "property": "size",
       "legacyKey": "visual-size-1000",
       "anatomy": "visual",
-      "scaleIndex": 1000
+      "scaleIndex": 1000,
+      "scale": "desktop"
     },
     "$ref": "eade2b64-ec37-4e11-959e-963f7aeade0f",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7db1ba97-9f60-5e65-b2d8-df77b711b897"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "visual-size-1000",
+      "anatomy": "visual",
+      "scaleIndex": 1000,
+      "scale": "mobile"
+    },
+    "value": "120px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "f89892a3-0346-55b0-95ee-8eddd1519495",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7db1ba97-9f60-5e65-b2d8-df77b711b897",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2931,11 +3624,32 @@
       "property": "thickness",
       "size": "s",
       "legacyKey": "bar-thickness-small",
-      "anatomy": "bar"
+      "anatomy": "bar",
+      "scale": "desktop"
     },
     "value": "4px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "5952b589-51da-4733-8606-6a8a93738df1",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "0ee8489d-a780-5e3e-b799-df36f7b9e1c9"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "thickness",
+      "size": "s",
+      "legacyKey": "bar-thickness-small",
+      "anatomy": "bar",
+      "scale": "mobile"
+    },
+    "value": "5px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "2680a852-162b-527c-a292-35a053f8bd54",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "0ee8489d-a780-5e3e-b799-df36f7b9e1c9",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2946,11 +3660,32 @@
       "property": "thickness",
       "size": "m",
       "legacyKey": "bar-thickness-medium",
-      "anatomy": "bar"
+      "anatomy": "bar",
+      "scale": "desktop"
     },
     "value": "6px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "302ed90f-dc40-50c8-92c2-0e45821ea081"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "thickness",
+      "size": "m",
+      "legacyKey": "bar-thickness-medium",
+      "anatomy": "bar",
+      "scale": "mobile"
+    },
+    "value": "8px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "c426f1ca-5b7f-560a-9a83-d6fbba88e8bf",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "302ed90f-dc40-50c8-92c2-0e45821ea081",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2961,11 +3696,32 @@
       "property": "thickness",
       "size": "l",
       "legacyKey": "bar-thickness-large",
-      "anatomy": "bar"
+      "anatomy": "bar",
+      "scale": "desktop"
     },
     "value": "8px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "46d32810-88b6-4c89-9536-965e85455bb0",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "e6411dd0-1687-5756-874e-eaff92cb98e2"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "thickness",
+      "size": "l",
+      "legacyKey": "bar-thickness-large",
+      "anatomy": "bar",
+      "scale": "mobile"
+    },
+    "value": "10px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "1167f6f4-6069-5158-af7e-4486c1abff3c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "e6411dd0-1687-5756-874e-eaff92cb98e2",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -2976,11 +3732,32 @@
       "property": "thickness",
       "size": "xl",
       "legacyKey": "bar-thickness-extra-large",
-      "anatomy": "bar"
+      "anatomy": "bar",
+      "scale": "desktop"
     },
     "value": "10px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "60b59b7b-b6d9-50ed-a8ae-7ea1f48c35cb"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "thickness",
+      "size": "xl",
+      "legacyKey": "bar-thickness-extra-large",
+      "anatomy": "bar",
+      "scale": "mobile"
+    },
+    "value": "13px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "20a5f904-581b-5438-ace0-a0f9bfa76018",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "60b59b7b-b6d9-50ed-a8ae-7ea1f48c35cb",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }

@@ -64,7 +64,8 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
     assert_eq!(items[0]["marker"], 1);
     assert_eq!(height["render"]["markers"][0]["n"], 1);
     assert_eq!(items[0]["token"]["name"], "base-height-extra-small");
-    assert_eq!(items[0]["values"]["value"], "20px");
+    assert_eq!(items[0]["values"]["desktop"], "20px");
+    assert_eq!(items[0]["values"]["mobile"], "25px");
     let scene = &height["render"]["scene"];
     assert!(scene["measurements"]
         .as_array()

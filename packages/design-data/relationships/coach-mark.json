@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Width",
-    "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
+    "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "e7a86e86-a669-59b1-aec0-515f659ac9a8"
   },
   {
@@ -32,7 +32,7 @@
       "property": "minimum-width"
     },
     "context": "Width",
-    "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
+    "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "ef7764b0-6d41-5489-ae48-27ec8ad5bd9c"
   },
   {
@@ -50,7 +50,7 @@
       "property": "maximum-width"
     },
     "context": "Width",
-    "$ref": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa",
+    "$ref": "a44e6674-a29c-50a6-aacf-189e380d87e2",
     "uuid": "21e347ee-28d6-599c-b649-e3d8489ce04a"
   },
   {

@@ -14,7 +14,7 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f",
+    "$ref": "0efd036f-4738-4cba-aa6e-c154a68af0fb",
     "uuid": "fd872767-bdd5-5132-b522-cf5787d61620"
   },
   {
@@ -32,7 +32,7 @@
       "property": "size"
     },
     "context": "Size (keyboard focus)",
-    "$ref": "9e6c70a8-d921-42b2-9084-7408424124ef",
+    "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "uuid": "e5a2b468-d872-5164-b453-c5619dd2187f"
   },
   {

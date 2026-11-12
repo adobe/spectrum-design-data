@@ -14,10 +14,14 @@ const sourceTokens = (
     ),
   )
 ).flat();
+// A scale-set has a desktop and a mobile record that share one legacyKey.
 const byKey = new Map(
-  sourceTokens.map((token) => [token.name.legacyKey, token]),
+  sourceTokens
+    .filter((token) => token.name.scale !== "mobile")
+    .map((token) => [token.name.legacyKey, token]),
 );
 const legacyTokens = await getAllTokens();
+const legacy = (key) => legacyTokens[key].sets?.desktop ?? legacyTokens[key];
 const aliasSchema =
   "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json";
 
@@ -37,10 +41,10 @@ for (const [key, targetKey, value] of [
     t.is(token.$ref, target.uuid);
     t.false(Object.hasOwn(token, "value"));
     t.is(target.value, value);
-    t.is(legacyTokens[key].$schema, aliasSchema);
-    t.is(legacyTokens[key].value, `{${targetKey}}`);
-    t.is(legacyTokens[targetKey].value, value);
-    t.is(legacyTokens[key].uuid, token.uuid);
+    t.is(legacy(key).$schema, aliasSchema);
+    t.is(legacy(key).value, `{${targetKey}}`);
+    t.is(legacy(targetKey).value, value);
+    t.is(legacy(key).uuid, token.uuid);
   });
 }
 
@@ -49,6 +53,7 @@ test("the new container maximum width uses the 2x-small taxonomy", (t) => {
     structure: "container",
     property: "maximum-width",
     size: "xxs",
+    scale: "desktop",
     legacyKey: "container-maximum-width-2x-small",
   });
 });
@@ -67,8 +72,8 @@ for (const [key, uuid, value] of [
     t.is(token.value, value);
     t.false(byKey.has(`${key}-medium`));
     t.false(Object.hasOwn(legacyTokens, `${key}-medium`));
-    t.is(legacyTokens[key].uuid, uuid);
-    t.is(legacyTokens[key].value, value);
+    t.is(legacy(key).uuid, uuid);
+    t.is(legacy(key).value, value);
   });
 }
 
@@ -122,3 +127,34 @@ for (const [file, key, targetKey, count] of [
     t.is(legacyTokens[key].renamed, targetKey);
   });
 }
+
+const byUuid = new Map(sourceTokens.map((token) => [token.uuid, token]));
+const resolvePx = (token) =>
+  token.$ref
+    ? resolvePx(byUuid.get(token.$ref))
+    : Number.parseFloat(token.value);
+const mobileTwins = sourceTokens.filter(
+  (token) =>
+    token.name.scale === "mobile" &&
+    token.rationale?.startsWith("Mobile value: desktop x 1.25"),
+);
+
+test("mobile twins are desktop x 1.25, rounded half up", (t) => {
+  t.true(mobileTwins.length > 0);
+  for (const twin of mobileTwins) {
+    const desktop = sourceTokens.find(
+      (token) =>
+        token.conceptId === twin.conceptId && token.name.scale === "desktop",
+    );
+    t.truthy(desktop, twin.name.legacyKey);
+    t.is(
+      Number.parseFloat(twin.value),
+      Math.floor(resolvePx(desktop) * 1.25 + 0.5),
+      twin.name.legacyKey,
+    );
+    t.deepEqual(Object.keys(legacyTokens[twin.name.legacyKey].sets), [
+      "desktop",
+      "mobile",
+    ]);
+  }
+});

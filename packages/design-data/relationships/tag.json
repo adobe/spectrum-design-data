@@ -14,7 +14,7 @@
       "property": "size"
     },
     "context": "Components",
-    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
+    "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "e658ce35-1966-56ca-82a4-ab0227c5e0f2"
   },
   {
@@ -32,7 +32,7 @@
       "property": "size"
     },
     "context": "Components",
-    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
+    "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "66baac18-d131-55a6-96ce-2aedff431b2c"
   },
   {
@@ -50,7 +50,7 @@
       "property": "size"
     },
     "context": "Components",
-    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
+    "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "b5562b62-a00b-513c-b5ae-a16544ed1312"
   },
   {
@@ -68,7 +68,7 @@
       "property": "size"
     },
     "context": "Components",
-    "$ref": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
+    "$ref": "90cde499-440b-584a-af95-26799a05e23e",
     "uuid": "bfb57733-9290-551d-982c-e421c9750c0b"
   },
   {
@@ -86,7 +86,7 @@
       "property": "size"
     },
     "context": "Components",
-    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
+    "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "4d718bae-a517-5df0-af64-ac63d36ae578"
   },
   {
@@ -104,7 +104,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "91df6ac4-abe7-5d58-927b-b487e729d128"
   },
   {
@@ -122,7 +122,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "75ead5bc-b09d-5baf-b0fc-34e8cbb54d47"
   },
   {
@@ -140,7 +140,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
-    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8e395e7c-991c-506e-a17f-5af23ff24799"
   },
   {

@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Size",
-    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
+    "$ref": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
     "uuid": "4aacb145-8172-5dd4-b779-2554034278f5"
   },
   {
@@ -32,7 +32,7 @@
       "property": "minimum-width"
     },
     "context": "Size",
-    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
+    "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "uuid": "80c0c35e-810d-5e0c-aee2-3875711d9ae8"
   },
   {
@@ -50,7 +50,7 @@
       "property": "height"
     },
     "context": "Size",
-    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
+    "$ref": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
     "uuid": "3f690677-821d-5501-b255-a0ba9493fe54"
   },
   {
@@ -68,7 +68,7 @@
       "property": "minimum-height"
     },
     "context": "Size",
-    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
+    "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "uuid": "bcb52afd-d909-5cb7-b855-117fbffca359"
   },
   {

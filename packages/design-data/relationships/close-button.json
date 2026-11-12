@@ -14,7 +14,7 @@
       "property": "component-height-75"
     },
     "context": "Button size",
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "a86fecbe-84a7-5b98-a61c-4aae2f90dc09"
   },
   {
@@ -32,7 +32,7 @@
       "property": "component-height-100"
     },
     "context": "Button size",
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "9e224be4-5ea7-5bd8-b60d-55818c51d833"
   },
   {
@@ -50,7 +50,7 @@
       "property": "component-height-200"
     },
     "context": "Button size",
-    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8a8bd615-f033-55b9-ac7b-0a631d2b2724"
   },
   {
@@ -68,7 +68,7 @@
       "property": "component-height-300"
     },
     "context": "Button size",
-    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "ecb86e17-4978-570d-8137-2d253c955421"
   },
   {

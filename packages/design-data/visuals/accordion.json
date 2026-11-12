@@ -14,8 +14,28 @@
         "align": { "value": "start" },
         "width": [
           {
-            "when": { "options": { "size": "m" } },
-            "token": { "anatomy": "field", "property": "width", "size": "l" }
+            "when": {
+              "options": { "size": "m" },
+              "modes": { "scale": "desktop" }
+            },
+            "token": {
+              "anatomy": "field",
+              "property": "width",
+              "size": "l",
+              "scale": "desktop"
+            }
+          },
+          {
+            "when": {
+              "options": { "size": "m" },
+              "modes": { "scale": "mobile" }
+            },
+            "token": {
+              "anatomy": "field",
+              "property": "width",
+              "size": "l",
+              "scale": "mobile"
+            }
           },
           {
             "when": { "options": { "size": ["l", "xl"] } },

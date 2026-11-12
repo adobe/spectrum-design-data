@@ -14,7 +14,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "860f8886-295b-51dd-9297-b7de5c86e911"
   },
   {
@@ -32,7 +32,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "d1402f05-6d0d-563e-9949-c2541b10dbc8"
   },
   {
@@ -50,7 +50,7 @@
       "property": "width"
     },
     "context": "Width (default)",
-    "$ref": "fc046594-4492-4613-9202-5331be3f0c10",
+    "$ref": "a0f9bdf9-571b-54a9-b43a-09328c82eadd",
     "uuid": "b49e5267-4ccd-564e-b25b-54f45d23c362"
   },
   {
@@ -68,7 +68,7 @@
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
-    "$ref": "b7ec8b9b-92bd-4770-becf-31948d8b00b5",
+    "$ref": "3d423e2d-8087-59cd-aa1b-25b42b9b5d82",
     "uuid": "ec447f07-64fc-590a-861b-35de5fcc442a"
   },
   {
@@ -86,7 +86,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum)",
-    "$ref": "6c798793-070a-442d-804f-198c583fcab3",
+    "$ref": "c9cb4038-b9ae-58a6-b6b8-f64fe4b57343",
     "uuid": "fa78fc54-e187-5e4c-8f9f-e062cc165039"
   },
   {
@@ -104,7 +104,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum)",
-    "$ref": "f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c",
+    "$ref": "c869329b-29d9-5b91-8999-abbda5059bb8",
     "uuid": "bc4e0b6f-ed62-57d6-91dc-d7e804621926"
   },
   {
@@ -122,7 +122,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum)",
-    "$ref": "a4f7e555-c980-4164-ae1f-6a19d680b24a",
+    "$ref": "0511e5cb-9bf3-5365-a460-316a1b7f4ff2",
     "uuid": "64ed1cf1-904d-5385-8fc4-900eefb1ce04"
   },
   {
