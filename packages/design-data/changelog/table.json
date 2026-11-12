@@ -168,6 +168,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.3",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "b1d5b9f10083f57fed518d5dca54d19db1d8b87b",
+      "commits": [
+        {
+          "commit": "561321665edf27babb14064aa344de2188afa26f",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1731,"title":"feat(design-data): add relationship contexts to table","url":"https://github.com/adobe/spectrum-design-data/pull/1731"},
+          "entries": [
+            {"id":"56132166-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected row, highlight selection)"],"scope":{"property":"color","options":null},"record":"f4dd8ece-3499-51e6-9c43-bb1ffe668a67","name":"color","fields":[{"path":"context","before":"S1 Selected row background (highlight selection)","after":"Background (selected row, highlight selection)"}]},
+            {"id":"56132166-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected row, highlight selection)"],"scope":{"property":"opacity","options":null},"record":"2a854d3e-9d57-5535-a83d-fe4bb4b95702","name":"opacity","fields":[{"path":"context","before":"S1 Selected row background (highlight selection)","after":"Background (selected row, highlight selection)"}]},
+            {"id":"56132166-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected row, highlight selection, hover)"],"scope":{"property":"opacity","options":null},"record":"460db317-aecb-5367-bb64-096f8e82970b","name":"opacity","fields":[{"path":"context","before":"S1 Selected row background (highlight selection, hover)","after":"Background (selected row, highlight selection, hover)"}]}
+          ],
+          "metadata": {"count":27,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
     }
   ]
 }
