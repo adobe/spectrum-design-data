@@ -1,5 +1,22 @@
 # @adobe/design-data-wasm
 
+## 0.19.2
+
+### Patch Changes
+
+- [#1731](https://github.com/adobe/spectrum-design-data/pull/1731) [`5613216`](https://github.com/adobe/spectrum-design-data/commit/561321665edf27babb14064aa344de2188afa26f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add relationship contexts and structured context fields to the 24 `table`
+  records that had none, and rename three existing ones.
+  - 15 row heights reuse `Row height (minimum, <density> density)`; a record with
+    no `density` option is regular. 6 section-header heights reuse
+    `Section header row height`.
+  - The 3 existing `S1 Selected row background (highlight selection)` records
+    (accent tint, 0.1 and 0.15 opacity) drop the `S1 ` prefix and become
+    `Background (selected row, highlight selection)` and its hover variant.
+  - The 3 non-emphasized selected-row backgrounds (neutral color) are a different
+    relationship and get `Background (selected row, non-emphasized)` and its hover
+    variant.
+  - Lowers the `table` SPEC-091 and SPEC-092 baselines.
+
 ## 0.19.1
 
 ### Patch Changes
