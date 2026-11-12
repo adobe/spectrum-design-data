@@ -14,6 +14,13 @@ parallel type surface.
 pnpm add @adobe/design-data-wasm
 ```
 
+## Building from a checkout
+
+Run `pnpm install` from the repository root, then `moon run sdk-wasm:build`.
+The workspace provides a pinned `wasm-pack`; no global installation is needed.
+pnpm allows this tool's installation script to download its native executable.
+The pinned Rust toolchain is still required.
+
 ## Release verification
 
 Run `moon run sdk-wasm:verify-package` to build both targets and check the
@@ -79,7 +86,7 @@ import init, { Dataset } from "@adobe/design-data-wasm";
 // or explicit browser path:
 import init, {
   Dataset,
-} from "@adobe/design-data-wasm/pkg/web/design_data_wasm.js";
+} from "@adobe/design-data-wasm/web";
 
 await init(); // pass wasm URL if needed: await init(new URL('./wasm/design_data_wasm_bg.wasm', import.meta.url))
 
@@ -87,7 +94,44 @@ const ds = Dataset.fromTokens(tokens);
 const results = ds.query("property=color");
 ```
 
+For bundlers that emit assets, import
+`@adobe/design-data-wasm/module.wasm?url` and pass that URL to `init()`.
+Keep initialization and large queries in a worker when they would otherwise
+block the browser's main thread.
+
 ## API
+
+### Reusable batch value resolution
+
+`ValueResolver` shares the native CLI's `resolve-values` implementation. It
+accepts source-keyed records and custom mode declarations, then reuses its
+prepared graph across query batches. It does not replace structural
+JSON-schema validation or provide file locations for embedded tokens.
+
+```js
+import { ValueResolver } from '@adobe/design-data-wasm';
+
+const resolver = new ValueResolver({
+  records: [
+    { id: 'tokens/example.json#example', source: 'tokens/example.json',
+      raw: { uuid: 'example', name: { property: 'size' }, value: 8 } },
+  ],
+  modeSets: [],
+});
+try {
+  const rows = resolver.resolveValues([
+    { id: 'tokens/example.json#example', context: {}, selectConcept: true },
+  ]);
+  console.log(rows[0].value, rows[0].chain, rows[0].issue);
+} finally {
+  resolver.free();
+}
+```
+
+Results retain the query ID, selected record ID, label, context, structured
+value, alias chain and diagnostic. Missing optional results are `null`.
+Ambiguous identities, cycles and missing references remain diagnostics, not
+silently selected values. Free replaced resolvers to release their Rust memory.
 
 ### Legacy compatibility output
 

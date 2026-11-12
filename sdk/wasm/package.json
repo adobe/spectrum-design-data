@@ -11,7 +11,12 @@
       "node": "./pkg/node/design_data_wasm.js",
       "browser": "./pkg/web/design_data_wasm.js",
       "default": "./pkg/web/design_data_wasm.js"
-    }
+    },
+    "./web": {
+      "types": "./pkg/web/design_data_wasm.d.ts",
+      "default": "./pkg/web/design_data_wasm.js"
+    },
+    "./module.wasm": "./pkg/web/design_data_wasm_bg.wasm"
   },
   "files": [
     "pkg/node/design_data_wasm.js",
@@ -54,6 +59,7 @@
   "author": "Adobe",
   "license": "Apache-2.0",
   "devDependencies": {
-    "ava": "^6.1.2"
+    "ava": "^6.1.2",
+    "wasm-pack": "0.13.1"
   }
 }

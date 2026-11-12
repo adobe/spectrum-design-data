@@ -48,6 +48,9 @@
   },
   "packageManager": "pnpm@10.17.1",
   "pnpm": {
+    "onlyBuiltDependencies": [
+      "wasm-pack"
+    ],
     "overrides": {
       "@react-aria/collections": "3.0.0",
       "@react-aria/landmark": "3.0.2",

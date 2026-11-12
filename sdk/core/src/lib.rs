@@ -38,6 +38,7 @@ pub mod schema;
 pub mod suggest;
 pub mod text_metrics;
 pub mod validate;
+pub mod value_resolution;
 pub mod visual;
 pub mod visual_compare;
 pub mod write;

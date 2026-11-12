@@ -27,9 +27,11 @@ mod dataset;
 mod error;
 mod registry;
 mod types;
+mod value_resolution;
 
 pub use dataset::Dataset;
 pub use registry::{find_value, get_active_values, get_default, get_values, has_value};
+pub use value_resolution::ValueResolver;
 
 /// Initialise the panic hook so that Rust panics are forwarded to the browser console.
 ///

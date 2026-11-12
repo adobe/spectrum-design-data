@@ -116,6 +116,20 @@ tasks:
       - "/packages/design-data/guidelines/*.json"
     deps:
       - codegen-check
+  value-resolution-test:
+    command: cargo
+    args:
+      - nextest
+      - run
+      - -p
+      - design-data-core
+      - --lib
+      - -E
+      - "test(value_resolution)"
+    inputs:
+      - "core/src/**/*.rs"
+    deps:
+      - codegen-check
   fmt:
     command: cargo
     args:

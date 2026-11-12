@@ -49,14 +49,14 @@ tasks:
   # cache-build runs first to generate src/embedded_cache.redb so Dataset.embedded() works.
   #
   # Uses platform: system (bash) so we can prepend $HOME/.cargo/bin to PATH before invoking
-  # node scripts/build.mjs. This ensures wasm-pack finds rustup's rustc proxy rather than a
+  # pnpm exec node scripts/build.mjs. This ensures wasm-pack finds rustup's rustc proxy rather than a
   # Homebrew-managed rustc that lacks the wasm32-unknown-unknown target. CI is unaffected:
   # dtolnay/rust-toolchain already places rustup's rustc first.
   build:
     command: bash
     args:
       - -c
-      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build.mjs'
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && pnpm exec node scripts/build.mjs'
     inputs:
       - "@globs(sources)"
       - "/sdk/core/src/**/*.rs"
@@ -69,6 +69,8 @@ tasks:
       - "/packages/design-data/icons/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
+      - "package.json"
+      - "/pnpm-lock.yaml"
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
@@ -113,6 +115,21 @@ tasks:
     deps:
       - build
       - test
+  test-resolution:
+    command: [pnpm, ava, test/value-resolution.test.js]
+    deps:
+      - build
+    inputs:
+      - "test/value-resolution.test.js"
+      - "src/value_resolution.rs"
+      - "/sdk/core/src/value_resolution.rs"
+
+  test-build-tool:
+    command: [pnpm, ava, test/build-tool.test.js]
+    inputs:
+      - "test/build-tool.test.js"
+      - "package.json"
+      - "/pnpm-lock.yaml"
 
   verify-package:
     command: [node, scripts/verify-package.mjs]
