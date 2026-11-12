@@ -1616,6 +1616,39 @@ impl Ctx<'_> {
                 fit.first().copied()
             }
         });
+        if let Some(c) = chosen {
+            // Candidates tied with the chosen one that name a different token are ambiguous.
+            let has_states = |c: &Value| {
+                c.get("states")
+                    .and_then(Value::as_array)
+                    .is_some_and(|s| !s.is_empty())
+            };
+            let tied = |o: &&Value| {
+                has_states(o) == has_states(c)
+                    && (!has_states(c)
+                        || (o.get("states").and_then(Value::as_array).map(Vec::len)
+                            == c.get("states").and_then(Value::as_array).map(Vec::len)
+                            && precedence(o) == precedence(c)))
+            };
+            let mut tokens: Vec<&str> = fit
+                .iter()
+                .filter(|o| tied(o))
+                .filter_map(|o| o.get("token").and_then(Value::as_str))
+                .collect();
+            tokens.sort_unstable();
+            tokens.dedup();
+            if tokens.len() > 1 {
+                let what = entry
+                    .get("miss")
+                    .and_then(Value::as_str)
+                    .unwrap_or_default();
+                self.diags.push(format!(
+                    "{} is ambiguous: {} candidates remain after narrowing",
+                    what.replacen(": no ", ": ", 1),
+                    tokens.len()
+                ));
+            }
+        }
         let Some(chosen) = chosen else {
             if let Some(miss) = entry
                 .get("miss")
@@ -3950,6 +3983,35 @@ mod tests {
         cx.resolve_candidates(&serde_json::json!({ "candidates": list }))
             .map(|r| r.token)
             .unwrap_or_default()
+    }
+
+    #[test]
+    fn tied_candidates_with_different_tokens_report_a_diagnostic() {
+        let diags = |tokens: &[&str]| {
+            let list: Vec<Value> = tokens
+                .iter()
+                .map(|t| serde_json::json!({ "value": "v", "token": t }))
+                .collect();
+            let r = req(&[]);
+            let defaults = HashMap::new();
+            let mut cx = Ctx {
+                req: &r,
+                option_defaults: &defaults,
+                diags: Vec::new(),
+            };
+            let entry = serde_json::json!({
+                "candidates": list,
+                "miss": "fill: no relationship 'color' / 'Dot'"
+            });
+            cx.resolve_candidates(&entry);
+            cx.diags
+        };
+        assert_eq!(
+            diags(&["a", "b"]),
+            ["fill: relationship 'color' / 'Dot' is ambiguous: 2 candidates remain after narrowing"]
+        );
+        assert!(diags(&["a", "a"]).is_empty());
+        assert!(diags(&["a"]).is_empty());
     }
 
     #[test]
