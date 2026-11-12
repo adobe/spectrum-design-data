@@ -128,9 +128,11 @@ design-data catalog export --out ./catalog --platform react-spectrum
 ```
 
 It writes `components/`, `guidelines/`, `guidelines/manifest.json`, and the
-foundation icon sets under `icons/` (copied as-is) under `--out`, creates the
-directory if needed, and removes stale `.json` files from `components/`,
-`guidelines/`, and `icons/` first. Without a platform it exports the
+foundation icon sets under `icons/` (copied as-is) under `--out`. It also writes
+the visual recipes under `visuals/`, one per component with its `sizeScale`,
+with the platform's recipes replacing or joining the foundation ones. It creates
+the directory if needed and removes stale `.json` files from `components/`,
+`guidelines/`, `icons/`, and `visuals/` first. Without a platform it exports the
 foundation catalogs. Relationships aren't part of the export.
 
 ## Use a platform from the MCP server

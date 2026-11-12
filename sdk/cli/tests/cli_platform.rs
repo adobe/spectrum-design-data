@@ -599,6 +599,47 @@ fn catalog_export_writes_icon_sets() {
 }
 
 #[test]
+fn catalog_export_writes_visual_recipes() {
+    let out = tempfile::tempdir().expect("out dir");
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .success();
+    let recipe: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(out.path().join("visuals/button.json")).unwrap())
+            .unwrap();
+    let source: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(repo_root().join("packages/design-data/visuals/button.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(recipe["component"], "button");
+    assert!(recipe["sizeScale"].is_object());
+    assert_eq!(recipe["sizeScale"], source["sizeScale"]);
+    assert!(!out.path().join("visuals/button-ios.json").exists());
+}
+
+#[test]
+fn catalog_export_with_platform_merges_platform_recipes() {
+    let out = tempfile::tempdir().expect("out dir");
+    let out_arg = out.path().to_str().unwrap();
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--platform", "ios", "--out", out_arg],
+    )
+    .success();
+    assert!(out.path().join("visuals/button-ios.json").is_file());
+    assert!(out.path().join("visuals/button.json").is_file());
+
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out_arg],
+    )
+    .success();
+    assert!(!out.path().join("visuals/button-ios.json").exists());
+}
+
+#[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");
     let out_arg = out.path().to_str().unwrap();
