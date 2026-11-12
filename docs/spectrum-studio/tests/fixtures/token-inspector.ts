@@ -9,6 +9,7 @@ import {
 import type { CanonicalAliasRow } from "../../src/features/tokens/aliasTargets";
 import type { TaxonomyDocument } from "../../src/features/taxonomy/model";
 import type { ModeSet } from "../../src/features/modes/model";
+import { createColorDefaults } from "../../src/data/defaults";
 
 const categoryId = "11111111-1111-4111-8111-111111111111";
 const termIds = [
@@ -96,6 +97,8 @@ export const inspectorModeKey = canonicalTokenModeKey({
 
 export function inspectorRows(
   edits: BrowserTokenEdits = {},
+  taxonomy = inspectorTaxonomy,
+  classificationScope?: "styles" | "structures",
 ): CanonicalAliasRow[] {
   return inspectorModeSets[0].modes.flatMap((scheme) =>
     inspectorModeSets[1].modes.flatMap((contrast) => {
@@ -113,6 +116,11 @@ export function inspectorRows(
           groupId: "colors",
           value: scheme.id === "light" ? "#1473e6" : "#7abaff",
           unit: "",
+          colorSource: {
+            scaleId: "inspector-color",
+            contrastId: "inspector-900",
+            name: { colorName: "red", contrastValue: "900" },
+          },
         },
         {
           id: "replacement",
@@ -173,6 +181,8 @@ export function inspectorRows(
           generatedName: String(inspectorTaxonomy.terms[index].value),
           generatedValue: source.value,
           groupLabel: source.groupId,
+          tier: classificationScope ? "semantic" : "primitive",
+          classificationScope,
           taxonomySource: {
             id: source.id,
             governed: { [categoryId]: termIds[index] },
@@ -181,7 +191,7 @@ export function inspectorRows(
       );
       return projectBrowserTokens(
         resolveBrowserTokens(sources, edits, context, { includeManual: true }),
-        inspectorTaxonomy,
+        taxonomy,
       ).map((token) => ({
         id: token.id,
         rowId: `${token.id}-${scheme.id}-${contrast.id}`,
@@ -191,4 +201,20 @@ export function inspectorRows(
       }));
     }),
   );
+}
+
+export function inspectorContrastDocument() {
+  const document = createColorDefaults();
+  document.backgroundLightness = 1;
+  document.scales.push({
+    id: "inspector-color",
+    name: "Red",
+    stops: [{ id: "inspector-key", lightness: 0.5, hue: 30, chroma: 40 }],
+    customContrasts: {
+      steps: [{ id: "inspector-900", value: 4.5, scaleIndex: 900 }],
+      baseContrastId: "inspector-900",
+      namingRuleId: "rule-standard-scale-naming",
+    },
+  });
+  return document;
 }

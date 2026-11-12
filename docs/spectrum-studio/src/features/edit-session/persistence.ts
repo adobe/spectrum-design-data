@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, getDefaultStore, type Getter } from "jotai";
-import { prepareStylePublicationsAtom } from "../styles/state";
+import { stylesDocumentAtom } from "../styles/state";
 import { editModeAtom } from "../../state/view/editMode";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import {
@@ -44,6 +44,7 @@ import {
   readAuthoringRecord,
   readViewPreferences,
   writeAuthoringRecord,
+  writePreparedAuthoringRecord,
   writeViewPreferences,
   type AuthoringRecord,
 } from "./storage";
@@ -53,15 +54,19 @@ import {
 } from "../derived-work/LatestRequest";
 import { workerTask } from "../derived-work/workerTask";
 import {
-  componentContrastSignature,
+  componentContrastInput,
   componentContrastWitnessAtom,
   matchesComponentContrastWitness,
+  type ComponentContrastWitness,
 } from "../components/contrastWitness";
 import type { PreparedAuthoringResult } from "./recordPreparation";
 import {
   componentColorWitnessAtom,
+  componentColorInput,
   matchesComponentColorWitness,
+  type ComponentColorWitness,
 } from "../components/colorWitness";
+import { sameValue } from "../changelog/contract";
 
 type Store = ReturnType<typeof getDefaultStore>;
 const active = new WeakMap<Store, () => void>();
@@ -98,7 +103,7 @@ export function initializeAuthoringPersistence(
   active.get(store)?.();
   const report = (
     failure: unknown,
-    scope: "authoring" | "preferences" = "authoring",
+    scope: "authoring" | "preferences" | "artifacts" = "authoring",
   ) =>
     store.set(
       reportPersistenceIssueAtom,
@@ -252,8 +257,12 @@ export function initializeAuthoringPersistence(
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   let pending = false;
-  let proving:
-    | { source: ReturnType<typeof capturePersistenceInput>; signature: string }
+  let proving: ReturnType<typeof capturePersistenceInput> | undefined;
+  let completedContrast:
+    | { source: EditSessionSnapshot; witness: ComponentContrastWitness }
+    | undefined;
+  let completedColor:
+    | { source: EditSessionSnapshot; witness: ComponentColorWitness }
     | undefined;
   const validateScheduled:
     | WorkExecutor<RecordValue, PreparedAuthoringResult>
@@ -269,6 +278,100 @@ export function initializeAuthoringPersistence(
         : typeof Worker === "undefined"
           ? undefined
           : validateInWorker;
+  type Witnesses = Pick<
+    PreparedAuthoringResult,
+    "componentContrastWitness" | "componentColorWitness"
+  >;
+  const proofs =
+    options.validateScheduled === undefined &&
+    typeof Worker !== "undefined" &&
+    new LatestRequest<ReturnType<typeof capturePersistenceInput>, Witnesses>(
+      (source, signal, progress) =>
+        workerTask<EditSessionSnapshot, Witnesses>(
+          () =>
+            new Worker(
+              new URL("./referenceWitness.worker.ts", import.meta.url),
+              {
+                type: "module",
+              },
+            ),
+        )(source.working, signal, progress),
+      (state) => {
+        if (state.status === "pending") return;
+        proving = undefined;
+        const current = store.get(persistenceInputAtom);
+        if (state.status === "unavailable") {
+          if (current === state.input) report(state.error, "artifacts");
+        } else {
+          if (
+            state.value.componentContrastWitness &&
+            matchesComponentContrastWitness(
+              state.value.componentContrastWitness,
+              current.working,
+            )
+          ) {
+            completedContrast = {
+              source: current.working,
+              witness: state.value.componentContrastWitness,
+            };
+            store.set(
+              componentContrastWitnessAtom,
+              state.value.componentContrastWitness,
+            );
+          }
+          if (
+            state.value.componentColorWitness &&
+            matchesComponentColorWitness(
+              state.value.componentColorWitness,
+              current.working,
+            )
+          ) {
+            completedColor = {
+              source: current.working,
+              witness: state.value.componentColorWitness,
+            };
+            store.set(
+              componentColorWitnessAtom,
+              state.value.componentColorWitness,
+            );
+          }
+        }
+        if (current !== state.input) requestProof();
+      },
+      { nearby: 0, visible: 0, background: 200 },
+    );
+  const requestProof = (priority: "visible" | "background" = "background") => {
+    if (!proofs) return;
+    const source = store.get(persistenceInputAtom);
+    if (
+      proving &&
+      source.saved === proving.saved &&
+      source.attachments === proving.attachments &&
+      source.savedAttachments === proving.savedAttachments &&
+      sameValue(
+        componentContrastInput(source.working),
+        componentContrastInput(proving.working),
+      )
+    )
+      return;
+    if (
+      completedContrast &&
+      completedColor &&
+      completedContrast.witness === store.get(componentContrastWitnessAtom) &&
+      sameValue(
+        componentContrastInput(completedContrast.source),
+        componentContrastInput(source.working),
+      ) &&
+      completedColor.witness === store.get(componentColorWitnessAtom) &&
+      sameValue(
+        componentColorInput(completedColor.source),
+        componentColorInput(source.working),
+      )
+    )
+      return;
+    proving = source;
+    proofs.request(source, priority);
+  };
   const scheduled =
     validateScheduled &&
     new LatestRequest<PersistenceJob, PreparedAuthoringResult>(
@@ -276,8 +379,6 @@ export function initializeAuthoringPersistence(
       (state) => {
         if (state.status === "pending") return;
         const current = store.get(persistenceInputAtom);
-        const wasProving = proving?.source === state.input.source;
-        if (wasProving) proving = undefined;
         if (
           state.status === "ready" &&
           matchesComponentContrastWitness(
@@ -302,34 +403,36 @@ export function initializeAuthoringPersistence(
             state.value.componentColorWitness,
           );
         }
-        if (current !== state.input.source) {
-          if (wasProving) schedule();
-          return;
-        }
+        if (current !== state.input.source) return;
         if (state.status === "unavailable") report(state.error);
         else if (state.status === "ready") {
-          store.set(
-            componentContrastWitnessAtom,
-            state.value.componentContrastWitness,
-          );
-          store.set(
-            componentColorWitnessAtom,
-            state.value.componentColorWitness,
-          );
           try {
             if (state.input.persist) {
-              writeAuthoringRecord(state.value.record);
+              if (state.value.serialized !== undefined)
+                writePreparedAuthoringRecord(state.value.serialized);
+              else writeAuthoringRecord(state.value.record);
               if (
+                state.value.stylePublicationsChanged &&
+                state.value.record.working.styles
+              ) {
+                store.set(stylesDocumentAtom, {
+                  ...store.get(stylesDocumentAtom),
+                  publications: state.value.record.working.styles.publications,
+                });
+              }
+              if (
+                state.value.browserTokenEditsChanged ??
                 JSON.stringify(current.working.browserTokenEdits) !==
-                JSON.stringify(state.value.record.working.browserTokenEdits)
+                  JSON.stringify(state.value.record.working.browserTokenEdits)
               )
                 store.set(
                   restoreAuthoringSnapshotAtom,
                   state.value.record.working,
                 );
               if (
+                state.value.savedChanged ??
                 JSON.stringify(current.saved) !==
-                JSON.stringify(state.value.record.saved)
+                  JSON.stringify(state.value.record.saved)
               )
                 store.set(editSessionSnapshotAtom, state.value.record.saved);
               pending = false;
@@ -345,6 +448,9 @@ export function initializeAuthoringPersistence(
     clearTimeout(timer);
     timer = undefined;
     proving = undefined;
+    completedContrast = undefined;
+    completedColor = undefined;
+    if (proofs) proofs.cancel();
     scheduled?.cancel();
     const record = captureAuthoringRecord(store.get);
     assertStoredSnapshot(record.working);
@@ -368,22 +474,6 @@ export function initializeAuthoringPersistence(
   ) => {
     if (!scheduled) return;
     const source = store.get(persistenceInputAtom);
-    if (
-      proving &&
-      source.saved === proving.source.saved &&
-      source.attachments === proving.source.attachments &&
-      source.savedAttachments === proving.source.savedAttachments &&
-      componentContrastSignature(source.working) === proving.signature
-    )
-      return;
-    proving =
-      options.validateScheduled === undefined &&
-      !matchesComponentContrastWitness(
-        store.get(componentContrastWitnessAtom),
-        source.working,
-      )
-        ? { source, signature: componentContrastSignature(source.working) }
-        : undefined;
     scheduled.request(
       {
         source,
@@ -400,21 +490,13 @@ export function initializeAuthoringPersistence(
       priority,
     );
   };
-  let preparingStyles = false;
   const schedule = () => {
-    if (preparingStyles) return;
-    preparingStyles = true;
-    try {
-      store.set(prepareStylePublicationsAtom);
-    } catch (failure) {
-      report(failure);
-    } finally {
-      preparingStyles = false;
-    }
     pending = true;
     clearTimeout(timer);
-    if (scheduled) request(true);
-    else
+    if (scheduled) {
+      request(true);
+      requestProof();
+    } else
       timer = setTimeout(() => {
         try {
           flush();
@@ -443,7 +525,7 @@ export function initializeAuthoringPersistence(
     registerPersistenceFlush(flush),
   ];
   if (scheduled && options.validateScheduled === undefined) {
-    request(false, "visible");
+    requestProof("visible");
   }
   const onPageHide = () => {
     if (pending) {
@@ -458,6 +540,9 @@ export function initializeAuthoringPersistence(
   const dispose = () => {
     clearTimeout(timer);
     proving = undefined;
+    completedContrast = undefined;
+    completedColor = undefined;
+    if (proofs) proofs.cancel();
     scheduled?.cancel();
     store.set(componentContrastWitnessAtom, null);
     store.set(componentColorWitnessAtom, null);

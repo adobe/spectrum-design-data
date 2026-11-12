@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
-import { authoringSnapshotAtom } from "../edit-session/state";
+import { authoringSourceSnapshotAtom } from "../edit-session/state";
 import {
   canonicalAliasRows,
   completeAliasSource,
@@ -46,12 +46,22 @@ export function defaultStructureReferences(
 
 export const structureThumbnailPreviewAtom = atom((get) => {
   try {
-    const source = get(authoringSnapshotAtom);
+    const source = get(authoringSourceSnapshotAtom);
+    const selection = Object.fromEntries(
+      source.modeSets
+        .filter((axis) => axis.modes.length)
+        .map((axis) => [axis.id, axis.defaultModeId]),
+    );
     const rows = canonicalAliasRows(
       completeAliasSource(source),
       undefined,
       "preserve-for-review",
-      { excludeColors: true, includeUnpublished: true, excludeStyles: true },
+      {
+        excludeColors: true,
+        includeUnpublished: true,
+        excludeStyles: true,
+        selections: [selection],
+      },
     );
     return {
       status: "ready" as const,

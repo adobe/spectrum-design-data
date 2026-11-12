@@ -174,30 +174,32 @@ assert(
       item.reason.includes("excluded from publishing"),
   ),
 );
-const originalFetch = globalThis.fetch;
 const requests: string[] = [];
-try {
+{
   let referenceHash = reference.source.hash;
-  globalThis.fetch = async (_url, options) => {
-    const body = JSON.parse(String(options?.body)) as AnalysisInput;
-    requests.push(body.source.hash);
-    return Response.json({
+  const resolve = async (input: AnalysisInput, reference?: AnalysisInput) => {
+    if (input.source.kind !== "reference") requests.push(input.source.hash);
+    return {
+      ...input,
       resolvedValues: [],
       valueResolution: {
-        datasetHash: body.source.hash,
-        referenceHash,
+        datasetHash: input.source.hash,
+        ...(reference && { referenceHash: reference.source.hash }),
         contextPolicy: VALUE_CONTEXT_POLICY,
         engine: "fixture",
       },
-    });
+    };
   };
-  const initial = await computeAnalysisComparison({
-    type: "compare",
-    source: { dataset: "working", saved, working },
-    cachedApp: workingResult.app,
-    reference,
-    resolveValues: true,
-  });
+  const initial = await computeAnalysisComparison(
+    {
+      type: "compare",
+      source: { dataset: "working", saved, working },
+      cachedApp: workingResult.app,
+      reference,
+      resolveValues: true,
+    },
+    resolve,
+  );
   assert.equal(requests.length, 1);
   referenceHash = "updated";
   const nextReference = {
@@ -216,13 +218,16 @@ try {
       },
     ],
   };
-  const updated = await computeAnalysisComparison({
-    type: "compare",
-    source: { dataset: "working", saved, working },
-    cachedApp: initial.app,
-    reference: nextReference,
-    resolveValues: true,
-  });
+  const updated = await computeAnalysisComparison(
+    {
+      type: "compare",
+      source: { dataset: "working", saved, working },
+      cachedApp: initial.app,
+      reference: nextReference,
+      resolveValues: true,
+    },
+    resolve,
+  );
   assert.equal(
     requests.length,
     2,
@@ -234,8 +239,6 @@ try {
     ),
   );
   assert.deepEqual(tokenIds(updated.app), tokenIds(workingResult.app));
-} finally {
-  globalThis.fetch = originalFetch;
 }
 console.log(
   "Reference add/change/remove/schema/directory invalidation, working/saved membership and resolution-cache refresh pass.",

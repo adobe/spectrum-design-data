@@ -1,11 +1,18 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync, existsSync } from "node:fs";
+import {
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  existsSync,
+  mkdirSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import {
-  runChecks,
+  runChecks as executeChecks,
   selectChecks,
   type CheckCommand,
 } from "../scripts/checkRunner";
@@ -16,6 +23,11 @@ import {
 } from "../scripts/checkInventory";
 
 const directory = mkdtempSync(join(tmpdir(), "studio-check-runner-"));
+const runChecks: typeof executeChecks = (inventory, options) =>
+  executeChecks(inventory, {
+    ...options,
+    leaseDirectory: join(directory, "lease"),
+  });
 const node = (id: string, source: string): CheckCommand => ({
   id,
   command: process.execPath,
@@ -124,7 +136,7 @@ try {
   assert.equal(timeout.exitCode, 1);
   assert.deepEqual(
     timeout.results.map((result) => result.status),
-    ["timed-out", "passed"],
+    ["timed-out", "blocked"],
   );
   assert.ok(
     existsSync(descendantPath),
@@ -155,7 +167,7 @@ try {
   assert.equal(interrupted.results[0].interrupted, true);
   assert.deepEqual(
     interrupted.results.map((result) => result.status),
-    ["failed", "blocked"],
+    ["cancelled", "blocked"],
   );
   assert.equal(process.listenerCount("SIGTERM"), previousListeners);
   const interruptCleanup = setTimeout(() => process.emit("SIGTERM"), 100);
@@ -190,10 +202,91 @@ try {
     ["favicon"],
   );
   assert.notEqual(cli(["--list", "--only", "absent"]).status, 0);
+  assert.match(cli([]).stderr, /Choose checks with --only/);
+  assert.match(cli(["--all"]).stderr, /--all requires --profile ci/);
+  assert.match(cli(["--only", "tokens-performance"]).stderr, /scope approval/);
+  assert.match(
+    cli(["--profile", "browser"]).stderr,
+    /Choose checks with --only/,
+  );
+  const browsers = cli(["--profile", "browser", "--list"]);
+  assert.match(
+    cli(["--profile", "browser", "--only", "browser-*"]).stderr,
+    /explicit file IDs/,
+  );
+  assert.equal(browsers.status, 0, browsers.stderr);
+  const browserChecks: CheckCommand[] = JSON.parse(browsers.stdout);
+  const narrowedBrowser = cli([
+    "--profile",
+    "browser",
+    "--list",
+    "--only",
+    "browser-storybook-nav-sidebar",
+    "--grep",
+    "light.*1280",
+  ]);
+  assert.equal(narrowedBrowser.status, 0, narrowedBrowser.stderr);
+  assert.deepEqual(JSON.parse(narrowedBrowser.stdout)[0].args.slice(-2), [
+    "--grep",
+    "light.*1280",
+  ]);
+  assert.match(
+    cli(["--only", "favicon", "--grep", "light"]).stderr,
+    /only supported.*browser/,
+  );
+  const appCheck = browserChecks.find(
+    (check) => check.env?.STUDIO_BROWSER_SCOPE === "app",
+  );
+  assert(appCheck);
+  assert.match(
+    cli(["--profile", "browser", "--only", appCheck.id]).stderr,
+    /explicit user permission/,
+  );
+  const complete = cli(["--profile", "ci", "--all", "--list"]);
+  assert.equal(complete.status, 0, complete.stderr);
+  assert(
+    JSON.parse(complete.stdout).some(
+      (check: CheckCommand) => check.id === "production-build",
+    ),
+  );
+  assert(
+    !JSON.parse(complete.stdout).some(
+      (check: CheckCommand) => check.id === "package-build",
+    ),
+  );
+  const limited = await runChecks(
+    [
+      node("stop-first", "process.exitCode=2"),
+      node("stop-later", "throw Error('not admitted')"),
+    ],
+    {
+      cwd: directory,
+      logDirectory: join(directory, "stop-first"),
+      stopOnFailure: true,
+    },
+  );
+  assert.deepEqual(
+    limited.results.map((result) => result.status),
+    ["failed", "blocked"],
+  );
+  assert.doesNotMatch(limited.results[1].reason!, /Approval is required/);
+  const output = "x".repeat(128 * 1024);
+  const drained = await runChecks(
+    [node("drain-output", "process.stdout.write('x'.repeat(128 * 1024));")],
+    { cwd: directory, logDirectory: join(directory, "drain-output") },
+  );
+  assert.equal(drained.exitCode, 0);
+  assert.equal(
+    readFileSync(drained.results[0].log, "utf8"),
+    output,
+    "Normal exit must drain stdout before finalizing.",
+  );
   for (const path of ["src", "tests", "public"]) {
     const unsafe = cli([
       "--only",
       "favicon",
+      "--heavy-approved",
+      "--scope-approved",
       "--log-dir",
       join(studioRoot, path),
     ]);
@@ -202,6 +295,56 @@ try {
   }
 
   const real = checkInventory(join(directory, "outputs"));
+  const ciTargets = JSON.parse(
+    readFileSync(join(studioRoot, "../../.github/ci-targets.json"), "utf8"),
+  );
+  if (process.platform !== "win32") {
+    const bin = join(directory, "bin");
+    mkdirSync(bin);
+    const tasks: Record<string, Record<string, object>> = {};
+    for (const target of [
+      ...ciTargets.node,
+      ...ciTargets.rust,
+      ...ciTargets.excludedFromCI,
+    ]) {
+      const [project, task] = target.split(":");
+      (tasks[project] ??= {})[task] = {
+        options: { runInCI: true },
+        deps: [],
+      };
+    }
+    writeFileSync(
+      join(bin, "moon"),
+      `#!/usr/bin/env node\n// Copyright 2026 Adobe. All rights reserved.\nif(JSON.stringify(process.argv.slice(2))!==JSON.stringify(['query','tasks','--json']))process.exit(64);\nconsole.log(${JSON.stringify(JSON.stringify({ tasks }))});\n`,
+      { mode: 0o700 },
+    );
+    const guard = spawnSync(
+      process.execPath,
+      [join(studioRoot, "../../.github/scripts/check-ci-coverage.mjs")],
+      {
+        cwd: directory,
+        env: { ...process.env, PATH: `${bin}:${process.env.PATH ?? ""}` },
+        encoding: "utf8",
+        timeout: 5000,
+      },
+    );
+    assert.equal(guard.status, 0, guard.stdout + guard.stderr);
+  }
+  assert(ciTargets.node.includes("spectrum-studio:test"));
+  for (const duplicate of ["typecheck", "lint", "build"])
+    assert(!ciTargets.node.includes(`spectrum-studio:${duplicate}`));
+  for (const id of [
+    "app-types",
+    "tooling-types",
+    "eslint",
+    "production-build",
+    "adapter-build",
+    "check-category-icons",
+  ])
+    assert(
+      real.some((check) => check.id === id),
+      `The complete CI inventory retains ${id}.`,
+    );
   assert.equal(
     selectChecks(real).length,
     real.length,

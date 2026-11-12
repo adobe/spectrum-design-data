@@ -381,24 +381,33 @@ export function resolutionRequests(
   input: AnalysisInput,
   reference?: AnalysisInput,
 ) {
+  return {
+    ...resolutionDataset(input),
+    queries: [...resolutionQueries(input, reference)],
+  };
+}
+
+export function* resolutionQueries(
+  input: AnalysisInput,
+  reference?: AnalysisInput,
+) {
   const extraContexts = reference
     ? [...declaredContextVariants(input), ...declaredContextVariants(reference)]
     : input.source.kind === "reference"
       ? declaredContextVariants(input)
       : [];
-  const queries = input.records.filter(isInventoryToken).flatMap((row) =>
-    [
-      ...new Map(
-        [...requiredValueContexts(row, input), ...extraContexts]
-          .filter((context) => contextMatches(row, context, input, false))
-          .map((context) => [valueContextKey(context), context]),
-      ).values(),
-    ].map((context) => ({
-      id: row.id,
-      context,
-      selectConcept: true,
-    })),
-  );
+  for (const row of input.records.filter(isInventoryToken)) {
+    for (const context of new Map(
+      [...requiredValueContexts(row, input), ...extraContexts]
+        .filter((context) => contextMatches(row, context, input, false))
+        .map((context) => [valueContextKey(context), context]),
+    ).values()) {
+      yield { id: row.id, context, selectConcept: true };
+    }
+  }
+}
+
+export function resolutionDataset(input: AnalysisInput) {
   return {
     modeSets: modeAxes(input).map((axis) => {
       const declaration = input.records.find(
@@ -443,7 +452,6 @@ export function resolutionRequests(
           ...(row.reference ? { $ref: row.reference } : { value: row.value }),
         },
       })),
-    queries,
   };
 }
 
@@ -501,6 +509,14 @@ function effectiveValue(
   context: ValueContext,
   input: AnalysisInput,
 ) {
+  if (input.valueResolution?.error)
+    return {
+      id: row.id,
+      context,
+      value: undefined,
+      chain: [],
+      issue: input.valueResolution.error,
+    };
   if (
     input.valueResolution &&
     input.valueResolution.datasetHash !== input.source.hash

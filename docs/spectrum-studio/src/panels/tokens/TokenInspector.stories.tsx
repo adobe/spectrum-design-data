@@ -9,6 +9,7 @@ import {
   inspectorModeSets,
   inspectorRows,
   inspectorTaxonomy,
+  inspectorContrastDocument,
 } from "../../../tests/fixtures/token-inspector";
 import { DEFAULT_COLOR_OUTPUT } from "../../features/color-system/outputSettings";
 import { commitDialogDraft } from "../../features/tokens/dialogModel";
@@ -17,7 +18,11 @@ import { createColorDefaults } from "../../data/defaults";
 function ControlledInspector(args: TokenInspectorProps) {
   const [open, setOpen] = useState(true);
   const [edits, setEdits] = useState(args.edits);
-  const rows = inspectorRows(edits);
+  const rows = inspectorRows(
+    edits,
+    args.taxonomy,
+    args.token.classificationScope,
+  );
   const token = rows.find(
     (row) => row.token.id === args.token.id && row.context === inspectorModeKey,
   )!.token;
@@ -232,6 +237,92 @@ export const Shadow: Story = {
   args: {
     isEditing: true,
     token: rows.find((row) => row.token.id === "shadow")!.token,
+  },
+};
+
+export const AliasSave: Story = {
+  args: {
+    isEditing: true,
+    token: {
+      ...rows[0].token,
+      tier: "semantic",
+      classificationScope: "styles",
+    },
+    taxonomy: {
+      ...inspectorTaxonomy,
+      categories: inspectorTaxonomy.categories.map((category) => ({
+        ...category,
+        scopes: ["styles"],
+      })),
+    },
+  },
+  play: async ({ canvasElement, args }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(
+      await body.findByRole("button", { name: "Create new alias" }),
+    );
+    const aliasDialog = body.getByRole("dialog", { name: "Create new alias" });
+    await userEvent.click(
+      within(aliasDialog).getByRole("button", { name: "Add term" }),
+    );
+    const terms = await body.findByRole("combobox", {
+      name: "Search categories and terms",
+    });
+    await userEvent.click(terms);
+    await userEvent.type(terms, "new-alias");
+    await userEvent.click(
+      await body.findByRole("option", { name: "Token: new-alias" }),
+    );
+    await userEvent.click(
+      within(aliasDialog).getByRole("button", { name: "Create alias" }),
+    );
+    await expect(
+      body.queryByRole("dialog", { name: "Create new alias" }),
+    ).not.toBeInTheDocument();
+    await userEvent.click(body.getByRole("button", { name: "Save" }));
+    await waitFor(() =>
+      expect(body.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+    await expect(args.onSave).toHaveBeenCalled();
+    await expect(args.onClose).toHaveBeenCalled();
+    await userEvent.click(body.getByRole("button", { name: "Open token" }));
+    await expect(
+      await body.findByRole("gridcell", { name: /new-alias/ }),
+    ).toBeVisible();
+    canvasElement.dataset.playComplete = "true";
+  },
+};
+
+export const ContrastWarning: Story = {
+  args: { isEditing: true, colorSystem: inspectorContrastDocument() },
+  play: async ({ canvasElement, args }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    const field = await body.findByRole("combobox", { name: "Mode value" });
+    await userEvent.click(field);
+    await userEvent.clear(field);
+    await userEvent.type(field, "#dddddd");
+    await userEvent.keyboard("{Enter}");
+    const warning = await body.findByText(
+      /Override value does not meet system defined contrast for red 900 of 4.5:1/,
+    );
+    await expect(warning).toBeVisible();
+    await expect(body.getByRole("button", { name: "Save" })).toBeEnabled();
+    await userEvent.click(body.getByRole("button", { name: "Save" }));
+    await waitFor(() =>
+      expect(body.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+    await expect(args.onSave).toHaveBeenCalled();
+    await userEvent.click(body.getByRole("button", { name: "Open token" }));
+    await expect(
+      await body.findByText(
+        /Override value does not meet system defined contrast/,
+      ),
+    ).toBeVisible();
+    await userEvent.click(body.getByRole("button", { name: "Reset value" }));
+    await expect(
+      body.queryByText(/Override value does not meet system defined contrast/),
+    ).not.toBeInTheDocument();
+    canvasElement.dataset.playComplete = "true";
   },
 };
 export const Opacity: Story = {

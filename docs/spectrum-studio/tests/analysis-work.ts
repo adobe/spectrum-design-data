@@ -66,104 +66,81 @@ assert.match(shipped.app.source.hash, /^[a-f0-9]{64}$/);
 assert.equal(shipped.unsaved, undefined);
 assert.deepEqual(shipped.report, compareDesignData(shipped.app, reference));
 
-const originalFetch = globalThis.fetch;
-try {
-  globalThis.fetch = async (_input, options) => {
-    assert(options?.signal, "Resolution requests must have a time limit.");
-    throw new DOMException("Resolution request timed out.", "TimeoutError");
-  };
-  const unavailable = await computeAnalysisComparison({
-    type: "compare",
-    source: defaultSource,
-    cachedApp: shipped.app,
-    reference,
-    resolveValues: true,
-  });
-  assert(
-    unavailable.app.limitations.some((message) =>
-      message.includes("Resolution request timed out."),
-    ),
-  );
-  assert(unavailable.report, "Resolution failure must not block comparison.");
-  for (const response of [
-    null,
-    {},
-    { valueResolution: { datasetHash: shipped.app.source.hash, engine: 1 } },
+{
+  const unavailable = await computeAnalysisComparison(
     {
-      valueResolution: {
-        datasetHash: shipped.app.source.hash,
-        engine: "fixture",
-      },
-      resolvedValues: [{ id: "invalid", context: [], chain: [], issue: null }],
-    },
-  ]) {
-    globalThis.fetch = async () => Response.json(response);
-    const invalidResponse = await computeAnalysisComparison({
       type: "compare",
       source: defaultSource,
       cachedApp: shipped.app,
       reference,
       resolveValues: true,
-    });
-    assert(
-      invalidResponse.app.limitations.some((message) =>
-        message.includes("Invalid token resolution response."),
-      ),
-    );
-    assert.deepEqual(invalidResponse.app.records, shipped.app.records);
-    assert(invalidResponse.report);
-  }
+    },
+    async () => {
+      throw new Error("WASM initialization failed.");
+    },
+  );
+  assert(
+    unavailable.app.limitations.some((message) =>
+      message.includes("WASM initialization failed."),
+    ),
+  );
+  assert(unavailable.report, "Resolution failure must not block comparison.");
   let resolutions = 0;
-  globalThis.fetch = async () => {
+  const resolve = async (input: AnalysisInput, reference?: AnalysisInput) => {
     resolutions += 1;
-    return Response.json({
+    return {
+      ...input,
       valueResolution: {
-        datasetHash: shipped.app.source.hash,
-        referenceHash: reference.source.hash,
+        datasetHash: input.source.hash,
+        ...(reference && { referenceHash: reference.source.hash }),
         contextPolicy: VALUE_CONTEXT_POLICY,
         engine: "fixture",
       },
       resolvedValues: [],
-    });
+    };
   };
-  const updated = await computeAnalysisComparison({
-    type: "compare",
-    source: defaultSource,
-    reference,
-    resolveValues: true,
-    cachedApp: {
-      ...shipped.app,
-      valueResolution: {
-        datasetHash: shipped.app.source.hash,
-        referenceHash: reference.source.hash,
-        contextPolicy: "old-policy",
-        engine: "fixture",
+  const updated = await computeAnalysisComparison(
+    {
+      type: "compare",
+      source: defaultSource,
+      reference,
+      resolveValues: true,
+      cachedApp: {
+        ...shipped.app,
+        valueResolution: {
+          datasetHash: shipped.app.source.hash,
+          referenceHash: reference.source.hash,
+          contextPolicy: "old-policy",
+          engine: "fixture",
+        },
       },
     },
-  });
+    resolve,
+  );
   assert.equal(
     resolutions,
-    1,
+    2,
     "An older context policy must be resolved again.",
   );
   assert.equal(
     updated.app.valueResolution?.contextPolicy,
     VALUE_CONTEXT_POLICY,
   );
-  await computeAnalysisComparison({
-    type: "compare",
-    source: defaultSource,
-    reference,
-    resolveValues: true,
-    cachedApp: updated.app,
-  });
+  await computeAnalysisComparison(
+    {
+      type: "compare",
+      source: defaultSource,
+      reference: updated.reference,
+      resolveValues: true,
+      cachedApp: updated.app,
+    },
+    resolve,
+  );
   assert.equal(
     resolutions,
-    1,
+    2,
     "Current policy and reference evidence may be reused.",
   );
-} finally {
-  globalThis.fetch = originalFetch;
 }
 
 const store = createStore();

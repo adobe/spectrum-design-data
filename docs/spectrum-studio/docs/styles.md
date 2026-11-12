@@ -123,6 +123,17 @@ Cancel, reload and Delete/Undo preserve those identities. Adding a mode prepares
 new row identities at the authoring persistence boundary, never during rendering.
 Publication metadata is excluded from authored Changes.
 
+Membership-preserving edits reuse publication objects and their existing UUIDs.
+Reconciliation copies only records that need new output membership or mode rows;
+it retains inactive identities. Editing an option records its stable option and
+field path, rather than replacing the entire options collection in Changes.
+
+Design previews evaluate the current mode through the same foundation and Style
+builders as full output. Text consumers also retain the authored default mode for
+fallback. The library reuses unchanged recipe results instead of regenerating
+every recipe for one appearance edit. These scoped results do not replace the
+all-mode output used for validation and publication.
+
 Tokens / Values changes only field display. Typing an explicit value creates a
 literal; choosing a token preserves its reference. Preview selections and sample
 geometry do not change output. Sample icon resources are stored separately from

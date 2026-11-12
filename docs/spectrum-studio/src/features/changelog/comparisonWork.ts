@@ -16,6 +16,33 @@ export interface ComparisonProgress {
   authored: AuthoringComparison;
   groups: ChangeGroup[];
 }
+export interface ComparisonProgressMessage {
+  authored: AuthoringComparison;
+  groups: ChangeGroup[];
+  aliases: EditSessionSnapshot["aliases"];
+}
+export function comparisonProgressMessage(
+  progress: ComparisonProgress,
+): ComparisonProgressMessage {
+  return {
+    authored: progress.authored,
+    groups: progress.groups,
+    aliases: progress.working.aliases,
+  };
+}
+export function restoreComparisonProgress(
+  input: ComparisonRequest,
+  progress: ComparisonProgressMessage,
+): ComparisonProgress {
+  return {
+    working:
+      progress.aliases === input.working.aliases
+        ? input.working
+        : { ...input.working, aliases: progress.aliases },
+    authored: progress.authored,
+    groups: progress.groups,
+  };
+}
 export type ComparisonOutput = ComparisonProgress & {
   tokens:
     | { status: "ready"; comparison: TokenComparison }

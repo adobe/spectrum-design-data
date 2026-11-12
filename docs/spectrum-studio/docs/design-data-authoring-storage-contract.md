@@ -13,6 +13,34 @@ record and leave Reset all unapplied. Reset all does not clear unrelated storage
 or appearance preferences. `tests/authoring-storage-quota.ts` checks the actual
 shipped defaults against a 5 MiB quota, lossless reload, and reset atomicity.
 
+Ordinary edits schedule validated record preparation in a coalesced worker.
+That worker reconciles required publication identities and prepares the portable,
+compressed bytes. The browser writes those bytes only if the captured authoring
+source is still current. Optional Component reference proofs run independently:
+a pending or failed proof cannot delay a valid record or write an older one.
+Scheduling compares immutable proof inputs without serializing unchanged
+publication documents. Completed worker proofs still undergo canonical
+current-source validation before reuse.
+
+Canonical identity reconciliation rewrites references copy-on-write. Unchanged
+Style publications and Component assignments retain their source references;
+record preparation therefore does not report a publication change merely
+because reconciliation ran. Primitive identity discovery excludes Style output,
+whose identities already belong to Style publications.
+`tests/canonical-identity-sharing.ts` checks these no-op boundaries, later mutable
+input changes, zero allocations and the worker's publication-change flag.
+Save, Cancel and page-close flush keep their synchronous current-data contracts;
+they do not rely on an unfinished background result.
+
+Generated Structure output is shared by matching consumers. Its worker also
+prepares cache hashes and encoded bytes, rather than repeating that work in the
+UI thread. Browser storage access remains synchronous, and a damaged cache can
+still require an integrity check. Caches and proofs remain disposable derivatives,
+not authoring authority. `tests/authoring-proof-lifecycle.ts` and
+`tests/generated-cache-work.ts` cover these boundaries.
+`tests/authoring-worker-build.mjs` checks the three worker assets through Vite's
+production worker pipeline without building the full application.
+
 ## Changes comparison baseline
 
 Changes compares working design data, including unsaved edits, with shipped
@@ -23,12 +51,25 @@ generated primitive/semantic output is measured separately in Token impact.
 Additions/removals use stable union identities and actual scoped value contexts.
 Missing output remains unavailable without hiding known source differences.
 
+Accepted authored fields appear without waiting for token comparison when no
+alias preparation is required. Unchanged immutable owners reuse their comparison
+records. The last completed token comparison can remain visible while updating,
+but it cannot authorize destructive Changes actions for a newer source. A failed
+generated comparison leaves the available authored differences visible.
+
 Save, Cancel, reload, and saved/reference accounting retain their existing
 meanings. Scoped reset plans are validated before applying through the existing
 restore owner; generated reset choices do not add semantic override support or
 change the storage envelope. See [Changes comparison contract](archive/changelog-plan.md).
 
 ## Canonical token identity and mode ownership
+
+Ordinary Color edits retain unchanged scale and palette records. Resolved mode
+projections are compared per scale, so copied but unchanged records do not trigger
+fresh token generation. Scale lookup and derivation caches are store-owned and
+discard removed scales. Renaming a scale reuses its color ramp while updating the
+source metadata. Shared background and mode changes still invalidate the output
+they affect.
 
 Authoring envelope **28** stores token publication identities alongside token
 edits. A concept has one `conceptId`; each emitted mode row has its own `uuid`.
@@ -66,6 +107,28 @@ distinct equal-valued branches, and new, removed and re-enabled modes.
 `tests/canonical-identity-lifecycle.ts` covers prototype reference migration,
 independent saved/working edits, identity conflicts, Save, Cancel, reload and
 reset.
+
+## Token overrides and aliases
+
+A manual color override keeps the chosen value even when it misses the source
+scale's contrast target. Studio measures the formatted output against the
+resolved background and reports the shortfall as a derived diagnostic, not an
+unavailable token. The token dialog warns before Save; the Tokens table shows
+an error icon beside the value and an Override badge in a separate column.
+Changes, stale-override assessment, references, previews, and exports continue
+to use the chosen value. Correcting or resetting the override clears the warning;
+changing a relevant mode, background, or target reassesses it.
+
+Contrast warnings are not persisted and do not change token identity, saved
+baselines, or the storage envelope. Invalid color input and invalid references
+still need correction. This override policy does not change generated-color
+validation.
+
+Creating an alias in the token dialog stages a classified reference. Save commits
+the alias and closes the dialog; Cancel discards it. Alias names come from the
+Registry, and their classification scope follows the referenced token, including
+Style tokens. The table shows the referenced token's projected name as a token
+chip. An alias alone is not a value override.
 
 ## Text Style references
 
@@ -363,6 +426,32 @@ and changes to registered guards invalidate that authorization. Public validatio
 outside the batch is unchanged. This does not bypass dependency checks or make
 mutable documents permanently trusted.
 
+Style example icons are preview-only metadata. When a proposal changes only
+examples and retains the accepted recipe/publication references, the Component
+guard validates the proposed document without rebuilding tokens. Recipe,
+publication or combined-owner edits retain the normal dependency checks.
+`tests/style-example-acceptance.ts` checks complete output parity and rejection
+of invalid identities or mixed proposals. The persistence lifecycle regression
+uses these local edits rather than repeatedly changing a global Color setting.
+Its preparation/coalescing, Save/Cancel and pagehide/error cases run as separate
+checks in `tests/authoring-persistence-work.ts`,
+`tests/authoring-persistence-save-cancel-work.ts` and
+`tests/authoring-persistence-flush-errors-work.ts`. Each successful durable
+transition still uses the full stored-record validator.
+
+Style-only edits can reuse immutable, store-owned Foundation rows and reference
+contexts. The Component guard regenerates changed recipes through the shared
+Style generator and canonical projection, while retaining unrelated targets.
+Reuse requires unchanged publication references, Foundation inputs and target
+metadata. Browser token edits must contain only identity metadata. Changes
+outside those conditions use the complete catalog, retaining its existing Color
+proof reuse. Component reference and value checks still run.
+This does not make ordinary Base or Color edits scoped.
+`tests/scoped-style-acceptance.ts` checks the actual Style editing action, zero
+warm Foundation color generation, stable identities and complete-catalog parity.
+`tests/scoped-style-safety.ts` checks rejected edits, recovery and invalidation
+when Foundation inputs, publications or authored token metadata change.
+
 Complete Registry draft validation reuses projections for the accepted and
 proposed taxonomy only within that synchronous validation call. Registry evidence
 lists and complete Typography CSS generation use the same scoped reuse. No
@@ -465,6 +554,16 @@ identity, ordering, non-contrast values and component definitions remain covered
 changed or ineligible inputs use full validation. The proof is not persisted and
 does not authorize other guards to skip their checks.
 
+For accepted contrast-number edits, the Component guard checks the shape of
+each proposed owner rather than revalidating unchanged owners. Its first use of
+a proof still checks the complete canonical signature against the current store.
+Subsequent uses compare immutable input projections, sharing unchanged
+publication documents. Replacing or modifying the proof invalidates this reuse;
+changed inputs still require complete catalog validation. Public snapshot and
+witness validation continue to check mutable inputs in full.
+`tests/accepted-authoring.ts` covers this boundary with growing inactive identity
+rows, invalid proposed owners and cross-category UUID collisions.
+
 Initial proof preparation does not save untouched defaults. Numeric contrast
 changes and editing-state changes may let that preparation finish, but only its
 matching proof can be reused: its obsolete authoring record is never written.
@@ -483,6 +582,12 @@ reference existence, property/value types and required mode contexts still run
 synchronously for each accepted edit. No reference-only shortcut is used.
 
 The worker constructs both dependency proofs from one complete catalog pass.
+Within that pass, Style targets and authored-token overlays share one canonical
+alias projection. The merge still checks the complete target inventory; it does
+not regenerate the same Style output for the overlay phase.
+`tests/component-catalog-projection.ts` compares these Style rows with the full
+canonical alias projection and counts recipe evaluation with and without
+authored identity metadata.
 Color reuse does not require eligibility for the separate contrast-number proof.
 Returned color values and contexts are detached copies. Blocked color output
 retains its typed failure and cannot enter this partition; non-JSON inputs,

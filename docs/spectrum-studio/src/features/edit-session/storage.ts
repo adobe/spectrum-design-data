@@ -290,8 +290,8 @@ export function readAuthoringRecord<T>(
   return record;
 }
 
-export function writeAuthoringRecord<T>(
-  record: AuthoringRecord<T>,
+export function writePreparedAuthoringRecord(
+  serialized: string,
   replaceInvalid = false,
 ) {
   if (typeof window === "undefined") return;
@@ -299,7 +299,16 @@ export function writeAuthoringRecord<T>(
     throw new Error(
       "Stored changes could not be restored. Reset all before replacing them.",
     );
-  const serialized = encodeAuthoringStorage({
+  if (window.localStorage.getItem(AUTHORING_STORAGE_KEY) !== serialized) {
+    window.localStorage.setItem(AUTHORING_STORAGE_KEY, serialized);
+  }
+  blocked = false;
+}
+
+export function serializeAuthoringRecord<T>(
+  record: AuthoringRecord<T>,
+): string {
+  return encodeAuthoringStorage({
     ...record,
     working:
       record.version === AUTHORING_RECORD_VERSION
@@ -310,10 +319,21 @@ export function writeAuthoringRecord<T>(
         ? encodeStructureSource(record.saved)
         : record.saved,
   });
-  if (window.localStorage.getItem(AUTHORING_STORAGE_KEY) !== serialized) {
-    window.localStorage.setItem(AUTHORING_STORAGE_KEY, serialized);
-  }
-  blocked = false;
+}
+
+export function writeAuthoringRecord<T>(
+  record: AuthoringRecord<T>,
+  replaceInvalid = false,
+) {
+  if (typeof window === "undefined") return;
+  if (blocked && !replaceInvalid)
+    throw new Error(
+      "Stored changes could not be restored. Reset all before replacing them.",
+    );
+  writePreparedAuthoringRecord(
+    serializeAuthoringRecord(record),
+    replaceInvalid,
+  );
 }
 
 export function readViewPreferences(): ViewPreferences | null {

@@ -21,7 +21,7 @@ import {
 import { measureCompositionLayouts } from "./compositionMeasurement";
 import { useAtomValue } from "jotai";
 import { structurePreviewsAtom } from "../../features/structures/documentState";
-import { textStyleSourceAtom } from "../../features/styles/state";
+import { previewTextStyleSourceAtom } from "../../features/styles/state";
 import { canonicalTokenModeKey } from "../../features/tokens/browserModel";
 
 interface StructureOptionSampleProps extends Pick<
@@ -56,7 +56,7 @@ export function StructureOptionSample({
   ...interaction
 }: StructureOptionSampleProps) {
   const previews = useAtomValue(structurePreviewsAtom);
-  const source = useAtomValue(textStyleSourceAtom);
+  const source = useAtomValue(previewTextStyleSourceAtom);
   const textStyles = { ...source, modeKey: canonicalTokenModeKey(mode) };
   const frame = useRef<HTMLDivElement>(null);
   const natural = useRef<HTMLDivElement>(null);

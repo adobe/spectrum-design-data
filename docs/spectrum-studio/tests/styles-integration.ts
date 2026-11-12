@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   createDefaultSnapshot,
   assertStoredSnapshot,
@@ -17,8 +18,10 @@ import {
 import { synchronizeStylePublications } from "../src/features/styles/generation";
 import {
   canonicalAliasRows,
+  canonicalStyleAliasRows,
   completeAliasSource,
 } from "../src/features/tokens/aliasTargets";
+import { canonicalBaseAliasRows } from "../src/features/tokens/baseAliasRows";
 import { compareAuthoring } from "../src/features/changelog/registry";
 import { isRule } from "../src/features/logic/model";
 import { canonicalTokenRecord } from "../src/features/taxonomy/export";
@@ -26,6 +29,18 @@ import { componentTokenCatalog } from "../src/features/components/references";
 import { compareSemanticTokens } from "../src/features/changelog/tokenComparison";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
 import { leafElements } from "../src/features/structures/children";
+
+for (const file of [
+  "../src/features/styles/artifacts.ts",
+  "../src/features/tokens/baseAliasRows.ts",
+]) {
+  const source = readFileSync(new URL(file, import.meta.url), "utf8");
+  assert.doesNotMatch(
+    source,
+    /from\s+["'][^"']*\/aliasTargets["']/,
+    "Style construction and base rows must not depend on the aggregate catalog.",
+  );
+}
 
 const saved = createDefaultSnapshot();
 saved.styles = structuredClone(EMPTY_STYLES);
@@ -99,6 +114,61 @@ assert.deepEqual(output.issues, []);
 assert.equal(output.rows.length, contexts.length);
 assert.equal(new Set(output.rows.map((row) => row.conceptId)).size, 1);
 const aliases = canonicalAliasRows(completeAliasSource(working));
+const canonicalSource = completeAliasSource(working);
+const defaultSelection = Object.fromEntries(
+  working.modeSets.map((axis) => [axis.id, axis.defaultModeId]),
+);
+for (const options of [
+  {},
+  { excludeColors: true },
+  { includeUnpublished: true, selections: [defaultSelection] },
+]) {
+  const baseRows = canonicalBaseAliasRows(
+    canonicalSource,
+    undefined,
+    "preserve-for-review",
+    options,
+  );
+  const aggregate = canonicalAliasRows(
+    canonicalSource,
+    undefined,
+    "preserve-for-review",
+    options,
+  );
+  assert.deepEqual(
+    canonicalAliasRows(canonicalSource, undefined, "preserve-for-review", {
+      ...options,
+      excludeStyles: true,
+    }),
+    baseRows,
+    "Excluding Styles retains the complete non-Style catalog and its order.",
+  );
+  const referenceRows = options.excludeColors
+    ? canonicalBaseAliasRows(
+        canonicalSource,
+        undefined,
+        "preserve-for-review",
+        {
+          includeUnpublished: options.includeUnpublished,
+          selections: options.selections,
+        },
+      )
+    : baseRows;
+  assert.deepEqual(
+    aggregate.filter((row) => row.token.style),
+    canonicalStyleAliasRows(
+      canonicalSource,
+      referenceRows,
+      buildStylesForSource(working, options.selections),
+    ),
+    "Styles retain their resolved references even when aggregate color rows are excluded.",
+  );
+  assert.deepEqual(
+    aggregate.filter((row) => !row.token.style),
+    baseRows,
+    "Style assembly preserves non-Style rows without changing values or identities.",
+  );
+}
 assert.deepEqual(
   aliases
     .filter((row) => row.token.style && row.token.validationError)

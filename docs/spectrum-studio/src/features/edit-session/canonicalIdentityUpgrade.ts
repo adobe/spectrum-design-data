@@ -84,9 +84,9 @@ export function upgradeCanonicalTokenIdentities<
   };
   const bundle = buildTshirtArtifacts(snapshot);
   // Styles already own durable concept and mode-row publications.
-  const rows = canonicalAliasRows(source, bundle, "preserve-for-review").filter(
-    (row) => !row.token.style && !row.token.fontId,
-  );
+  const rows = canonicalAliasRows(source, bundle, "preserve-for-review", {
+    excludeStyles: true,
+  }).filter((row) => !row.token.fontId);
   const contexts = new Map<string, Set<string>>();
   for (const row of rows) {
     const coordinate = row.token.sourceId ?? row.token.id;
@@ -106,12 +106,12 @@ export function upgradeCanonicalTokenIdentities<
   )
     ? componentTokenCatalog({ ...snapshot, ...source })
     : [];
+  const existingTargets = new Set(componentTargets.map((target) => target.id));
   if (
     snapshot.components?.components.some((component) =>
       component.assignments.some(
         (assignment) =>
-          assignment.$ref &&
-          !componentTargets.some((target) => target.id === assignment.$ref),
+          assignment.$ref && !existingTargets.has(assignment.$ref),
       ),
     )
   ) {
@@ -274,19 +274,28 @@ export function upgradeCanonicalTokenIdentities<
       ].includes(key)
         ? (remap.get(value) ?? value)
         : value;
-    if (Array.isArray(value)) return value.map((item) => rewrite(item, key));
+    if (Array.isArray(value)) {
+      const result = value.map((item) => rewrite(item, key));
+      return result.every((item, index) => item === value[index])
+        ? value
+        : result;
+    }
     if (!value || typeof value !== "object") return value;
-    return Object.fromEntries(
-      Object.entries(value).map(([field, item]) => [
-        key === "classifications" ? (remap.get(field) ?? field) : field,
+    let changed = false;
+    const entries = Object.entries(value).map(([field, item]) => {
+      const nextField =
+        key === "classifications" ? (remap.get(field) ?? field) : field;
+      const next =
         field === "identity" ||
         (field === "tokenId" &&
           "kind" in value &&
           value.kind === "primitive-token")
           ? item
-          : rewrite(item, field),
-      ]),
-    );
+          : rewrite(item, field);
+      if (nextField !== field || next !== item) changed = true;
+      return [nextField, next];
+    });
+    return changed ? Object.fromEntries(entries) : value;
   };
   // Source-coordinate references used by Structure generators are not token identities.
   const { structures, ...rest } = snapshot;
@@ -294,15 +303,16 @@ export function upgradeCanonicalTokenIdentities<
     T,
     "structures"
   >;
-  const components = snapshot.components && {
-    ...snapshot.components,
-    components: snapshot.components.components.map((component) => ({
-      ...component,
-      assignments: component.assignments.map((assignment) => {
+  const targets = new Map<string, (typeof componentTargets)[number]>();
+  for (const target of componentTargets)
+    if (!targets.has(target.id)) targets.set(target.id, target);
+  let components = snapshot.components;
+  if (components) {
+    const previous = components;
+    const configured = previous.components.map((component) => {
+      const assignments = component.assignments.map((assignment) => {
         if (!assignment.$ref) return assignment;
-        const target = componentTargets.find(
-          (target) => target.id === assignment.$ref,
-        );
+        const target = targets.get(assignment.$ref);
         const identity = tokenIdentity(
           edits,
           target?.browserId ?? assignment.$ref,
@@ -310,12 +320,28 @@ export function upgradeCanonicalTokenIdentities<
         const uuid =
           identity &&
           tokenIdentityRow(identity, source.modeSets, target?.context ?? {});
-        return {
-          ...assignment,
-          $ref: uuid ?? remap.get(assignment.$ref) ?? assignment.$ref,
-        };
-      }),
-    })),
-  };
-  return { ...rewritten, structures, ...(components && { components }) } as T;
+        const reference = uuid ?? remap.get(assignment.$ref) ?? assignment.$ref;
+        return reference === assignment.$ref
+          ? assignment
+          : { ...assignment, $ref: reference };
+      });
+      return assignments.every(
+        (assignment, index) => assignment === component.assignments[index],
+      )
+        ? component
+        : { ...component, assignments };
+    });
+    if (
+      configured.some(
+        (component, index) => component !== previous.components[index],
+      )
+    )
+      components = { ...previous, components: configured };
+  }
+  return {
+    ...snapshot,
+    ...rewritten,
+    structures,
+    ...(components && { components }),
+  } as T;
 }

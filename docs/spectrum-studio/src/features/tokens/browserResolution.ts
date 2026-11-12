@@ -121,7 +121,9 @@ export function resolveBrowserTokens(
       manual: true,
       tier: manual.tier,
       referenceId: manual.targetId,
-      classificationScope: manual.scope,
+      classificationScope:
+        target?.classificationScope ??
+        (target?.semantic ? "structures" : manual.scope),
     });
   }
   const tokens = allSources.map((source): BrowserToken => {
@@ -155,7 +157,8 @@ export function resolveBrowserTokens(
         tier: edit?.authoring?.manual
           ? edit.authoring.manual.tier
           : source.tier,
-        classificationScope: edit?.authoring?.manual?.scope,
+        classificationScope:
+          source.classificationScope ?? edit?.authoring?.manual?.scope,
       }),
       lifecycle: edit?.authoring?.lifecycle,
     };
@@ -200,6 +203,10 @@ export function resolveBrowserTokens(
       token.shadows = target.shadows;
       token.referenceId = target.id;
       token.referenceName = target.name;
+      if (token.manual && authoring?.manual?.targetId)
+        token.classificationScope =
+          target.classificationScope ??
+          (target.semantic ? "structures" : token.classificationScope);
     } else if (token.manual && !assignment)
       throw new Error(MISSING_VALUE_MESSAGE);
     else if (assignment?.kind === "literal") {

@@ -15,6 +15,37 @@ active Vite mode, and reads an optional server-only `DESIGN_DATA_SDK` override.
 Missing/unreadable checkout responses show an explicit connection/configuration
 problem and suppress coverage charts, rather than presenting absence as 0% coverage.
 
+## Resolution and hosted references
+
+Analysis resolves token values in a shared browser worker using
+`@adobe/design-data-wasm`. It prepares the selected dataset once and reuses that
+graph for query batches. This is the native SDK's batch resolver, not a second
+JavaScript implementation. Studio's authoring formulas, generators, identities,
+manual overrides and Save/Cancel behavior are unchanged.
+
+Local development still reads the configured checkout, including dirty data.
+It retains native structural validation and reviewed architectural evidence;
+WASM's relational validation is not a substitute for either. App source edits
+refresh architectural evidence without discarding the cached reference dataset.
+
+Hosted builds use an explicitly labeled **Packaged reference snapshot**.
+Embedded WASM tokens and a build-generated companion reconstruct the full
+reference inventory, retaining source files, JSON pointers, schemas and
+non-token records. The build checks exact inventory agreement; the worker checks
+the WASM and inventory fingerprints before comparison. A mismatched or
+unreadable snapshot is unavailable, never replaced silently with live data.
+Architectural checkout evidence is unavailable in the packaged snapshot.
+
+Build the WASM package before starting Studio directly with `pnpm dev`:
+`moon run sdk-wasm:build`. Studio's Moon entries and bounded production-build
+checks include that prerequisite. WASM and the reference asset load only when
+Analysis needs them. Hashed asset URLs and fingerprint checks prevent a cached
+reference from being paired with a different WASM build.
+
+Cancelling active Analysis work terminates its worker, including synchronous
+WASM computation. The next request initializes a new worker. Resolution failures
+remain visible and do not change authored data or count as passing evidence.
+
 ## What the percentages mean
 
 ### Token comparison

@@ -128,31 +128,16 @@ test("Color/opacity table expands modes, preserves parent results and exports sh
   );
   expect(resolvedReference.valueResolution?.error).toBeUndefined();
   const errors: string[] = [];
+  const nativeResolutionRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/__design-data/resolve-values"))
+      nativeResolutionRequests.push(request.url());
+  });
   page.on("pageerror", (error) => errors.push(error.message));
   await page.route("**/__design-data/reference", (route) =>
     route.fulfill({ json: resolvedReference }),
   );
   await page.goto("/");
-  const endpoint = await page.request.post("/__design-data/resolve-values", {
-    data: app,
-    timeout: 45000,
-  });
-  expect(endpoint.ok(), await endpoint.text()).toBe(true);
-  expect((await endpoint.json()).valueResolution?.error).toBeUndefined();
-  await page.route("**/__design-data/resolve-values", async (route) => {
-    const result = await resolveColorOpacityValues(
-      route.request().postDataJSON() as AnalysisInput,
-      fileURLToPath(new URL("../../../../", import.meta.url)),
-      undefined,
-      resolvedReference,
-    );
-    await route.fulfill({
-      json: {
-        resolvedValues: result.resolvedValues,
-        valueResolution: result.valueResolution,
-      },
-    });
-  });
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
     .getByRole("link", { name: /Migration analysis/ })
@@ -164,6 +149,7 @@ test("Color/opacity table expands modes, preserves parent results and exports sh
     name: "Color and opacity mode values",
   });
   await expect(table).toBeVisible();
+  expect(nativeResolutionRequests).toEqual([]);
   await expect(table).toContainText("App value");
   await expect(table).toContainText("Design data value");
   await page

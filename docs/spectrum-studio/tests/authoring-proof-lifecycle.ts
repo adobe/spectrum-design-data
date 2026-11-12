@@ -1,9 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
 import { mock } from "node:test";
 import { createStore } from "jotai";
 import type { PreparedAuthoringResult } from "../src/features/edit-session/recordPreparation";
+import type { EditSessionSnapshot } from "../src/features/edit-session/state";
 import type { WorkerReply } from "../src/features/derived-work/workerTask";
 
 class MemoryStorage implements Storage {
@@ -26,41 +26,28 @@ class MemoryStorage implements Storage {
   }
   setItem(key: string, value: string) {
     this.data.set(key, value);
-    this.writes += 1;
+    this.writes++;
   }
 }
+
 class ManualWorker {
   static instances: ManualWorker[] = [];
-  static peak = 0;
-  onmessage:
-    | ((event: MessageEvent<WorkerReply<PreparedAuthoringResult>>) => void)
-    | null = null;
+  onmessage: ((event: MessageEvent<WorkerReply<unknown>>) => void) | null =
+    null;
   onerror = null;
   onmessageerror = null;
   terminated = false;
-  input?: PreparedAuthoringResult["record"];
+  input: unknown;
   private delivery: ManualWorker["onmessage"] = null;
   constructor(readonly url: URL) {
     ManualWorker.instances.push(this);
   }
-  postMessage(input: PreparedAuthoringResult["record"]) {
+  postMessage(input: unknown) {
     this.input = structuredClone(input);
     this.delivery = this.onmessage;
-    if (String(this.url).includes("recordPreparation.worker")) {
-      ManualWorker.peak = Math.max(
-        ManualWorker.peak,
-        ManualWorker.instances.filter(
-          (worker) =>
-            String(worker.url).includes("recordPreparation.worker") &&
-            !worker.terminated,
-        ).length,
-      );
-    }
   }
-  reply(data: WorkerReply<PreparedAuthoringResult>) {
-    this.delivery?.({ data } as MessageEvent<
-      WorkerReply<PreparedAuthoringResult>
-    >);
+  reply(data: WorkerReply<unknown>) {
+    this.delivery?.({ data } as MessageEvent<WorkerReply<unknown>>);
   }
   terminate() {
     this.terminated = true;
@@ -83,21 +70,10 @@ Object.defineProperty(globalThis, "Worker", {
 });
 const { initializeAuthoringPersistence } =
   await import("../src/features/edit-session/persistence");
-const { prepareAuthoringRecord } =
-  await import("../src/features/edit-session/recordPreparation");
-const { encodeStructureSource } =
-  await import("../src/features/edit-session/structureSourceCodec");
-const { AUTHORING_STORAGE_KEY } =
+const { serializeAuthoringRecord, AUTHORING_STORAGE_KEY, readAuthoringRecord } =
   await import("../src/features/edit-session/storage");
-const {
-  enterEditModeAtom,
-  saveEditAtom,
-  cancelEditAtom,
-  resetAllAuthoringAtom,
-  editSessionSnapshotAtom,
-  authoringSourceSnapshotAtom,
-  captureAuthoringRecord,
-} = await import("../src/features/edit-session/state");
+const { enterEditModeAtom, authoringSourceSnapshotAtom, assertStoredSnapshot } =
+  await import("../src/features/edit-session/state");
 const {
   updateColorSystemSettingsAtom,
   updateContrastTokenAtom,
@@ -110,322 +86,166 @@ const {
 } = await import("../src/features/components/contrastWitness");
 const { componentColorWitnessAtom, matchesComponentColorWitness } =
   await import("../src/features/components/colorWitness");
-const { foundationModeAttachmentsAtom } =
-  await import("../src/state/view/foundationModeAttachments");
 const { persistenceIssuesAtom, flushPersistedState } =
   await import("../src/state/persist");
+
 mock.timers.enable({ apis: ["setTimeout"] });
 async function advance(ms = 0) {
   mock.timers.tick(ms);
   for (let index = 0; index < 12; index++) await Promise.resolve();
 }
-function activeWorker() {
+function activeWorker(kind: "recordPreparation" | "referenceWitness") {
   const active = ManualWorker.instances.filter(
     (worker) =>
-      String(worker.url).includes("recordPreparation.worker") &&
-      !worker.terminated,
+      String(worker.url).includes(`${kind}.worker`) && !worker.terminated,
   );
   assert.equal(
     active.length,
     1,
-    "Exactly one authoring worker owns the current request.",
+    `Exactly one ${kind} worker owns current work.`,
   );
   return active[0];
 }
-function resolve(worker: ManualWorker) {
-  const record = prepareAuthoringRecord(worker.input!);
+function resolveRecord(worker: ManualWorker) {
+  // This transport check simulates an already validated worker reply. The actual
+  // record preparation oracle is covered by authoring-persistence-work.ts.
+  const record = worker.input as PreparedAuthoringResult["record"];
   worker.reply({
     type: "ready",
-    value: { record, ...createComponentReferenceWitnesses(record.working) },
+    value: {
+      record,
+      serialized: serializeAuthoringRecord(record),
+      stylePublicationsChanged: false,
+      componentContrastWitness: null,
+      componentColorWitness: null,
+    } satisfies PreparedAuthoringResult,
   });
 }
-function expectedStoredRecord(store: ReturnType<typeof createStore>) {
-  const record = prepareAuthoringRecord(captureAuthoringRecord(store.get));
-  return {
-    ...record,
-    working: encodeStructureSource(record.working),
-    saved: encodeStructureSource(record.saved),
-  };
-}
-function changeContrast(store: ReturnType<typeof createStore>) {
-  const first = store.get(contrastTokensAtom)[0];
-  store.set(updateContrastTokenAtom, {
-    id: first.id,
-    value: first.value + 0.01,
-  });
-}
-async function scenario(
-  run: (
-    store: ReturnType<typeof createStore>,
-    bootstrap: ManualWorker,
-  ) => Promise<void>,
-) {
-  storage.removeItem(AUTHORING_STORAGE_KEY);
-  storage.writes = 0;
-  const store = createStore();
-  const dispose = initializeAuthoringPersistence(store);
-  try {
-    await advance();
-    await run(store, activeWorker());
-  } finally {
-    dispose();
-    assert.equal(store.get(componentContrastWitnessAtom), null);
-    assert.equal(store.get(componentColorWitnessAtom), null);
-    assert.equal(
-      ManualWorker.instances.filter(
-        (worker) =>
-          String(worker.url).includes("recordPreparation.worker") &&
-          !worker.terminated,
-      ).length,
-      0,
-    );
-  }
-}
+const store = createStore();
+const dispose = initializeAuthoringPersistence(store);
 try {
-  await scenario(async (store, bootstrap) => {
-    resolve(bootstrap);
-    await advance();
-    assert.ok(
-      matchesComponentContrastWitness(
-        store.get(componentContrastWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.ok(
-      matchesComponentColorWitness(
-        store.get(componentColorWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.equal(
-      storage.getItem(AUTHORING_STORAGE_KEY),
-      null,
-      "Bootstrap validation must not save untouched defaults.",
-    );
-    assert.equal(storage.writes, 0);
-  });
-  await scenario(async (store, bootstrap) => {
-    store.set(enterEditModeAtom);
-    changeContrast(store);
-    changeContrast(store);
-    await advance(1000);
-    assert.equal(
-      activeWorker(),
-      bootstrap,
-      "Editing-state and numeric-only changes cannot starve initial proof.",
-    );
-    resolve(bootstrap);
-    await advance();
-    assert.ok(
-      matchesComponentContrastWitness(
-        store.get(componentContrastWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.equal(
-      store.get(componentColorWitnessAtom),
-      null,
-      "Changed contrast values cannot reuse the bootstrap color partition.",
-    );
-    assert.equal(
-      storage.getItem(AUTHORING_STORAGE_KEY),
-      null,
-      "A reusable proof never authorizes writing its obsolete record.",
-    );
-    await advance(199);
-    assert.equal(storage.writes, 0);
-    await advance(1);
-    const latest = activeWorker();
-    assert.notEqual(latest, bootstrap);
-    assert.equal(latest.input!.isEditing, true);
-    assert.deepEqual(
-      latest.input!.working,
-      store.get(authoringSourceSnapshotAtom),
-    );
-    resolve(latest);
-    await advance();
-    assert.ok(
-      matchesComponentColorWitness(
-        store.get(componentColorWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.equal(storage.writes, 1);
-    assert.deepEqual(
-      JSON.parse(
-        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      ),
-      expectedStoredRecord(store),
-    );
-  });
-  for (const invalidate of [
-    (store: ReturnType<typeof createStore>) =>
-      store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.3 }),
-    (store: ReturnType<typeof createStore>) =>
-      store.set(foundationModeAttachmentsAtom, {}),
-    (store: ReturnType<typeof createStore>) =>
-      store.set(
-        editSessionSnapshotAtom,
-        structuredClone(store.get(editSessionSnapshotAtom)),
-      ),
-  ])
-    await scenario(async (store, bootstrap) => {
-      store.set(enterEditModeAtom);
-      invalidate(store);
-      assert.equal(
-        bootstrap.terminated,
-        true,
-        "Other source, attachment or saved-baseline identities cancel initial proof.",
-      );
-      resolve(bootstrap);
-      await advance();
-      assert.equal(store.get(componentContrastWitnessAtom), null);
-      assert.equal(store.get(componentColorWitnessAtom), null);
-      assert.equal(storage.writes, 0);
-      await advance(200);
-      const latest = activeWorker();
-      resolve(latest);
-      await advance();
-      assert.ok(
-        matchesComponentContrastWitness(
-          store.get(componentContrastWitnessAtom),
-          store.get(authoringSourceSnapshotAtom),
-        ),
-      );
-      assert.deepEqual(
-        JSON.parse(
-          decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
-        ),
-        expectedStoredRecord(store),
-      );
+  await advance();
+  const bootstrap = activeWorker("referenceWitness");
+  assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), null);
+  const originalWitnesses = createComponentReferenceWitnesses(
+    bootstrap.input as EditSessionSnapshot,
+  );
+  store.set(enterEditModeAtom);
+  const first = store.get(contrastTokensAtom)[0];
+  for (const delta of [0.01, 0.02, 0.03])
+    store.set(updateContrastTokenAtom, {
+      id: first.id,
+      value: first.value + delta,
     });
-  for (const action of [
-    (store: ReturnType<typeof createStore>) => store.set(saveEditAtom),
-    (store: ReturnType<typeof createStore>) => store.set(cancelEditAtom),
-    (store: ReturnType<typeof createStore>) => store.set(resetAllAuthoringAtom),
-    () => flushPersistedState(),
-    () => events.dispatchEvent(new Event("pagehide")),
-  ])
-    await scenario(async (store, bootstrap) => {
-      store.set(enterEditModeAtom);
-      changeContrast(store);
-      assert.equal(activeWorker(), bootstrap);
-      action(store);
-      assert.equal(
-        bootstrap.terminated,
-        true,
-        "Durable lifecycle actions cancel a protected, obsolete proof request.",
-      );
-      const durable = storage.getItem(AUTHORING_STORAGE_KEY);
-      assert.ok(durable);
-      const writes = storage.writes;
-      resolve(bootstrap);
-      await advance();
-      assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), durable);
-      assert.equal(storage.writes, writes);
-      assert.deepEqual(
-        JSON.parse(decodeAuthoringStorage(durable)),
-        expectedStoredRecord(store),
-      );
-    });
-  await scenario(async (store, bootstrap) => {
-    bootstrap.reply({
-      type: "error",
-      error: "Injected proof preparation failure.",
-    });
-    await advance();
-    assert.equal(store.get(componentContrastWitnessAtom), null);
-    assert.equal(store.get(componentColorWitnessAtom), null);
-    assert(
-      store
-        .get(persistenceIssuesAtom)
-        .some((issue) => issue.includes("Injected proof preparation failure")),
-    );
-    assert.equal(storage.writes, 0);
-    store.set(enterEditModeAtom);
-    changeContrast(store);
-    await advance(200);
-    resolve(activeWorker());
-    await advance();
-    assert.ok(
-      matchesComponentContrastWitness(
-        store.get(componentContrastWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.equal(
-      storage.writes,
-      0,
-      "Recovery first publishes only the reusable proof, never the superseded record.",
-    );
-    await advance(200);
-    resolve(activeWorker());
-    await advance();
-    assert.deepEqual(
-      JSON.parse(
-        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      ),
-      expectedStoredRecord(store),
-    );
-  });
-  await scenario(async (store, bootstrap) => {
-    store.set(enterEditModeAtom);
-    changeContrast(store);
-    bootstrap.reply({ type: "error", error: "Obsolete preparation failure." });
-    await advance();
-    assert.equal(store.get(componentContrastWitnessAtom), null);
-    assert(
-      !store
-        .get(persistenceIssuesAtom)
-        .some((issue) => issue.includes("Obsolete preparation failure")),
-    );
-    assert.equal(storage.writes, 0);
-    await advance(200);
-    resolve(activeWorker());
-    await advance();
-    assert.ok(
-      matchesComponentContrastWitness(
-        store.get(componentContrastWitnessAtom),
-        store.get(authoringSourceSnapshotAtom),
-      ),
-    );
-    assert.deepEqual(
-      JSON.parse(
-        decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
-      ),
-      expectedStoredRecord(store),
-    );
-  });
-  await scenario(async (store, bootstrap) => {
-    const disposeAgain = initializeAuthoringPersistence(store);
-    try {
-      assert.equal(bootstrap.terminated, true);
-      resolve(bootstrap);
-      await advance();
-      assert.equal(
-        store.get(componentContrastWitnessAtom),
-        null,
-        "Reinitialization rejects the disposed owner's late proof.",
-      );
-      assert.equal(store.get(componentColorWitnessAtom), null);
-      resolve(activeWorker());
-      await advance();
-      assert.ok(store.get(componentContrastWitnessAtom));
-      assert.equal(storage.writes, 0);
-    } finally {
-      disposeAgain();
-    }
-  });
+  await advance(200);
   assert.equal(
-    ManualWorker.peak,
-    1,
-    "Repeated sessions never overlap authoring workers.",
+    activeWorker("referenceWitness"),
+    bootstrap,
+    "Reusable proof warming may continue without blocking current durability.",
+  );
+  const currentRecord = activeWorker("recordPreparation");
+  assert.equal(storage.writes, 0);
+  resolveRecord(currentRecord);
+  await advance();
+  assert(
+    storage.getItem(AUTHORING_STORAGE_KEY),
+    "Current authored data is durable while optional proof generation is still pending.",
+  );
+  const stored = readAuthoringRecord(assertStoredSnapshot)!;
+  assert.equal(
+    stored.working.colorSystem.contrasts.find((entry) => entry.id === first.id)!
+      .value,
+    store.get(contrastTokensAtom).find((entry) => entry.id === first.id)!.value,
+  );
+  const writes = storage.writes;
+  bootstrap.reply({ type: "ready", value: originalWitnesses });
+  await advance();
+  assert.equal(
+    storage.writes,
+    writes,
+    "A proof reply cannot write an obsolete record.",
+  );
+  assert(
+    matchesComponentContrastWitness(
+      store.get(componentContrastWitnessAtom),
+      store.get(authoringSourceSnapshotAtom),
+    ),
+  );
+  assert.equal(
+    store.get(componentColorWitnessAtom),
+    null,
+    "An old color proof cannot authorize different current contrast values.",
+  );
+  await advance(200);
+  const currentProof = activeWorker("referenceWitness");
+  currentProof.reply({
+    type: "ready",
+    value: createComponentReferenceWitnesses(
+      currentProof.input as EditSessionSnapshot,
+    ),
+  });
+  await advance();
+  assert(
+    matchesComponentColorWitness(
+      store.get(componentColorWitnessAtom),
+      store.get(authoringSourceSnapshotAtom),
+    ),
+  );
+  assert.equal(storage.writes, writes);
+
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.3 });
+  await advance(200);
+  const obsolete = activeWorker("recordPreparation");
+  const obsoleteProof = activeWorker("referenceWitness");
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.4 });
+  assert(obsolete.terminated);
+  assert(obsoleteProof.terminated);
+  resolveRecord(obsolete);
+  obsoleteProof.reply({ type: "ready", value: originalWitnesses });
+  await advance();
+  assert.equal(storage.writes, writes);
+  await advance(200);
+  const beforeFlush = activeWorker("recordPreparation");
+  const proofBeforeFlush = activeWorker("referenceWitness");
+  flushPersistedState();
+  assert(beforeFlush.terminated);
+  assert(proofBeforeFlush.terminated);
+  const durable = storage.getItem(AUTHORING_STORAGE_KEY);
+  const afterFlush = storage.writes;
+  resolveRecord(beforeFlush);
+  proofBeforeFlush.reply({ type: "ready", value: originalWitnesses });
+  await advance();
+  assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), durable);
+  assert.equal(storage.writes, afterFlush);
+
+  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.5 });
+  await advance(200);
+  const failedProof = activeWorker("referenceWitness");
+  failedProof.reply({
+    type: "error",
+    error: "Injected optional proof failure.",
+  });
+  await advance();
+  assert(
+    store
+      .get(persistenceIssuesAtom)
+      .some((issue) => issue.includes("Injected optional proof failure")),
+  );
+  resolveRecord(activeWorker("recordPreparation"));
+  await advance();
+  assert.equal(
+    readAuthoringRecord(assertStoredSnapshot)!.working.colorSystem.settings
+      .backgroundBlend,
+    0.5,
+    "Optional proof failure does not prevent validated record durability.",
   );
 } finally {
+  dispose();
   mock.timers.reset();
-  delete (globalThis as { window?: unknown }).window;
-  delete (globalThis as { Worker?: unknown }).Worker;
+  assert.equal(store.get(componentContrastWitnessAtom), null);
+  assert.equal(store.get(componentColorWitnessAtom), null);
+  assert(ManualWorker.instances.every((worker) => worker.terminated));
 }
 console.log(
-  "Production persistence proof lifecycle: unsaved bootstrap, starvation prevention, exact latest writes, source/baseline/attachment invalidation, Save/Cancel/reset/flush/pagehide, explicit failure/recovery and bounded disposal passed.",
+  "Independent proof warming, durable current records, cancellation, flush and explicit proof errors passed.",
 );

@@ -446,7 +446,7 @@ test("adaptive CSS preserves nested surface references in light and dark context
     }
 });
 
-test("failed manual output retains navigation, Save and recovery controls", async ({
+test("below-target manual output keeps impact, navigation, Save and reset available", async ({
   page,
 }) => {
   const snapshot = createDefaultSnapshot(),
@@ -471,7 +471,7 @@ test("failed manual output retains navigation, Save and recovery controls", asyn
     page
       .getByRole("region", { name: "Token impact", exact: true })
       .getByRole("alert"),
-  ).toContainText("Token impact is unavailable");
+  ).toHaveCount(0);
   await expect(
     page
       .getByRole("region", { name: "System impact", exact: true })

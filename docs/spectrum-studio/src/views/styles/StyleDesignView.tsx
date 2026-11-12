@@ -34,7 +34,7 @@ import {
   styleSampleTextAtom,
   styleSampleIconsAtom,
   stylePreviewArtifactsAtom,
-  styleContextsStateAtom,
+  stylePreviewContextsStateAtom,
   saveStyleAtom,
   renameStyleAtom,
   editStylePropertiesAtom,
@@ -100,7 +100,7 @@ function StyleDesignContent({
   const taxonomy = useAtomValue(taxonomyDocumentAtom),
     source = useAtomValue(authoringSourceSnapshotAtom);
   const artifacts = useAtomValue(stylePreviewArtifactsAtom),
-    contexts = useAtomValue(styleContextsStateAtom);
+    contexts = useAtomValue(stylePreviewContextsStateAtom);
   const mode = useAtomValue(browserModeContextAtom),
     selection = Object.fromEntries(tokenModePairs(mode.key));
   const [preview, setPreview] = useAtom(stylePreviewAtom);

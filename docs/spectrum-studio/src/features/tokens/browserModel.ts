@@ -32,6 +32,7 @@ import { isTokenAuthoring } from "./tokenAssignments";
 import type { UiSwatchSource } from "../color-system/data-vis/model";
 import type { ValuePreviewDescriptor } from "./valuePreview";
 import { UNCLASSIFIED_TIER_MESSAGE, type TokenTier } from "./tier";
+import type { ColorOverrideContrast, ColorOverrideSource } from "./model";
 import {
   parseBrowserTokenValue,
   resolveBrowserTokens,
@@ -98,6 +99,8 @@ export interface BrowserTokenSource {
   taxonomySource?: TaxonomySourceContext;
   projection?: TaxonomyProjection;
   validationError?: string;
+  colorSource?: ColorOverrideSource;
+  contrastWarning?: ColorOverrideContrast;
   shadows?: GeneratedShadow[];
   /** Transient display context for a resolved compatibility alias. */
   valuePreview?: ValuePreviewDescriptor;
@@ -318,14 +321,15 @@ function projectTokenBatch(
       document,
       token.id,
       token.taxonomyEvidence ?? {},
-      token.type as
-        | "colors"
-        | "typography"
-        | "spacing"
-        | "size"
-        | "radius"
-        | "opacity"
-        | "elevation",
+      token.classificationScope ??
+        (token.type as
+          | "colors"
+          | "typography"
+          | "spacing"
+          | "size"
+          | "radius"
+          | "opacity"
+          | "elevation"),
       token.taxonomySource,
       token.tier,
     );

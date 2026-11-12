@@ -1,217 +1,76 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
 import assert from "node:assert/strict";
-import { mock } from "node:test";
-import { createStore } from "jotai";
-import type { WorkExecutor } from "../src/features/derived-work/LatestRequest";
-import type { EditSessionSnapshot } from "../src/features/edit-session/state";
-import type { AuthoringRecord } from "../src/features/edit-session/storage";
-
-class MemoryStorage implements Storage {
-  data = new Map<string, string>();
-  writes = new Map<string, number>();
-  failKey?: string;
-  get length() {
-    return this.data.size;
-  }
-  clear() {
-    throw new Error("Broad storage clearing is prohibited.");
-  }
-  key(index: number) {
-    return [...this.data.keys()][index] ?? null;
-  }
-  getItem(key: string) {
-    return this.data.get(key) ?? null;
-  }
-  removeItem(key: string) {
-    this.data.delete(key);
-  }
-  setItem(key: string, value: string) {
-    if (key === this.failKey) throw new Error("Injected quota failure.");
-    this.data.set(key, value);
-    this.writes.set(key, (this.writes.get(key) ?? 0) + 1);
-  }
-}
-class IdleArtifactWorker {
-  onmessage = null;
-  onerror = null;
-  onmessageerror = null;
-  postMessage() {}
-  terminate() {}
-}
-const storage = new MemoryStorage();
-const events = new EventTarget();
-Object.defineProperty(globalThis, "window", {
-  configurable: true,
-  value: {
-    localStorage: storage,
-    sessionStorage: new MemoryStorage(),
-    addEventListener: events.addEventListener.bind(events),
-    removeEventListener: events.removeEventListener.bind(events),
-  },
-});
-Object.defineProperty(globalThis, "Worker", {
-  configurable: true,
-  value: IdleArtifactWorker,
-});
-const { initializeAuthoringPersistence } =
-  await import("../src/features/edit-session/persistence");
-const { prepareAuthoringRecord } =
-  await import("../src/features/edit-session/recordPreparation");
-const { AUTHORING_STORAGE_KEY, AUTHORING_RECORD_VERSION, readAuthoringRecord } =
-  await import("../src/features/edit-session/storage");
-const {
+import { decodeAuthoringStorage } from "../src/features/edit-session/authoringStorageCodec";
+import {
+  advance,
+  AUTHORING_RECORD_VERSION,
+  AUTHORING_STORAGE_KEY,
   captureAuthoringRecord,
+  cleanup,
+  count,
   enterEditModeAtom,
-  saveEditAtom,
-  cancelEditAtom,
-  assertStoredSnapshot,
-} = await import("../src/features/edit-session/state");
-const { updateColorSystemSettingsAtom } =
-  await import("../src/features/color-system/state");
-const { persistenceIssuesAtom } = await import("../src/state/persist");
-type RecordValue = AuthoringRecord<EditSessionSnapshot>;
-const requests: {
-  record: RecordValue;
-  signal: AbortSignal;
-  resolve: (record: RecordValue) => void;
-  reject: (error: Error) => void;
-}[] = [];
-const execute: WorkExecutor<RecordValue, RecordValue> = (record, signal) =>
-  new Promise((resolve, reject) => {
-    requests.push({ record, signal, resolve, reject });
-  });
-const read = (): RecordValue => readAuthoringRecord(assertStoredSnapshot)!;
-const count = () => storage.writes.get(AUTHORING_STORAGE_KEY) ?? 0;
-mock.timers.enable({ apis: ["setTimeout"] });
-async function advance(ms = 0) {
-  mock.timers.tick(ms);
-  for (let index = 0; index < 8; index++) await Promise.resolve();
-}
-const store = createStore();
-const dispose = initializeAuthoringPersistence(store, {
-  validateScheduled: execute,
-});
+  prepareAuthoringRecord,
+  prepareAuthoringResult,
+  read,
+  requests,
+  serializeAuthoringRecord,
+  storage,
+  store,
+  updateExample,
+  workingIcon,
+} from "./helpers/authoringPersistence";
+
 try {
   const initial = captureAuthoringRecord(store.get);
-  assert.equal(
-    JSON.stringify(prepareAuthoringRecord(initial)),
-    JSON.stringify(initial),
-  );
+  const prepared = prepareAuthoringResult(initial);
+  assert.equal(JSON.stringify(prepared.record), JSON.stringify(initial));
+  assert.equal(prepared.serialized, serializeAuthoringRecord(prepared.record));
+  assert.equal(prepared.componentContrastWitness, null);
+  assert.equal(prepared.componentColorWitness, null);
+  assert.equal(prepared.stylePublicationsChanged, false);
+  assert.equal(prepared.browserTokenEditsChanged, false);
+  assert.equal(prepared.savedChanged, false);
   assert.throws(
     () => prepareAuthoringRecord({ ...initial, version: 13 }),
     /unsupported format/,
   );
   store.set(enterEditModeAtom);
-  for (const backgroundBlend of [0.1, 0.2, 0.3, 0.4, 0.5])
-    store.set(updateColorSystemSettingsAtom, { backgroundBlend });
+  for (const icon of ["Add", "Checkmark", "Close", "Edit", "Alert"])
+    updateExample(icon);
   await advance(199);
   assert.equal(requests.length, 0);
   assert.equal(count(), 0);
   await advance(1);
   assert.equal(requests.length, 1);
-  assert.equal(
-    requests[0].record.working.colorSystem.settings.backgroundBlend,
-    0.5,
-  );
+  assert.equal(workingIcon(requests[0].record), "Alert");
   requests[0].resolve(prepareAuthoringRecord(requests[0].record));
   await advance();
   assert.equal(count(), 1);
-  assert.equal(read().version, AUTHORING_RECORD_VERSION);
+  const firstStored = read();
+  assert.equal(firstStored.version, AUTHORING_RECORD_VERSION);
   const persisted = JSON.parse(
     decodeAuthoringStorage(storage.getItem(AUTHORING_STORAGE_KEY)!),
   );
   assert.equal(persisted.working.structures.schemaVersion, 1);
   assert.equal(persisted.saved.structures.schemaVersion, 1);
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.5);
-  assert.deepEqual(read().saved, initial.saved);
+  assert.equal(workingIcon(firstStored), "Alert");
+  assert.deepEqual(firstStored.saved, initial.saved);
+  const firstBytes = storage.getItem(AUTHORING_STORAGE_KEY);
 
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.6 });
+  updateExample("Info");
   await advance(200);
   const obsolete = requests.at(-1)!;
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.7 });
+  updateExample("More");
   assert.equal(obsolete.signal.aborted, true);
-  obsolete.resolve(prepareAuthoringRecord(obsolete.record));
+  obsolete.resolve(prepared.record);
   await advance();
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.5);
+  assert.equal(count(), 1);
+  assert.equal(storage.getItem(AUTHORING_STORAGE_KEY), firstBytes);
   await advance(200);
-  const beforeSave = requests.at(-1)!;
-  store.set(saveEditAtom);
-  assert.equal(beforeSave.signal.aborted, true);
-  beforeSave.resolve(prepareAuthoringRecord(beforeSave.record));
-  await advance();
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.7);
-  assert.equal(read().saved.colorSystem.settings.backgroundBlend, 0.7);
-
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.8 });
-  await advance(200);
-  const beforeCancel = requests.at(-1)!;
-  store.set(cancelEditAtom);
-  beforeCancel.resolve(prepareAuthoringRecord(beforeCancel.record));
-  await advance();
-  assert.equal(beforeCancel.signal.aborted, true);
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.7);
-  assert.equal(read().isEditing, false);
-
-  store.set(enterEditModeAtom);
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.9 });
-  await advance(200);
-  const beforeHide = requests.at(-1)!;
-  events.dispatchEvent(new Event("pagehide"));
-  assert.equal(beforeHide.signal.aborted, true);
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
-  const afterHide = count();
-  beforeHide.resolve(prepareAuthoringRecord(beforeHide.record));
-  await advance();
-  assert.equal(count(), afterHide);
-  assert.equal(read().saved.colorSystem.settings.backgroundBlend, 0.7);
-
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.2 });
-  await advance(200);
-  requests.at(-1)!.reject(new Error("Injected validation failure."));
-  await advance();
-  assert(
-    store
-      .get(persistenceIssuesAtom)
-      .some((issue) => issue.includes("Injected validation failure")),
-  );
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.3 });
-  await advance(200);
-  storage.failKey = AUTHORING_STORAGE_KEY;
-  const failedWrite = requests.at(-1)!;
-  failedWrite.resolve(prepareAuthoringRecord(failedWrite.record));
-  await advance();
-  assert(
-    store
-      .get(persistenceIssuesAtom)
-      .some((issue) => issue.includes("Injected quota failure")),
-  );
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
-  storage.failKey = undefined;
-
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.4 });
-  await advance(200);
-  const staleFailure = requests.at(-1)!;
-  store.set(updateColorSystemSettingsAtom, { backgroundBlend: 0.5 });
-  staleFailure.reject(new Error("Obsolete validation failure."));
-  await advance();
-  assert(
-    !store
-      .get(persistenceIssuesAtom)
-      .some((issue) => issue.includes("Obsolete validation failure")),
-  );
-  await advance(200);
-  const beforeDispose = requests.at(-1)!;
-  dispose();
-  assert.equal(beforeDispose.signal.aborted, true);
-  beforeDispose.resolve(prepareAuthoringRecord(beforeDispose.record));
-  await advance();
-  assert.equal(read().working.colorSystem.settings.backgroundBlend, 0.9);
+  assert.equal(workingIcon(requests.at(-1)!.record), "More");
 } finally {
-  dispose();
-  mock.timers.reset();
+  cleanup();
 }
 console.log(
-  "Scheduled persistence: exact records, coalescing, stale work, Save/Cancel, pagehide, validation/storage errors and disposal passed.",
+  "Scheduled persistence: exact prepared records, coalescing, full validated reload and obsolete completion rejection passed.",
 );

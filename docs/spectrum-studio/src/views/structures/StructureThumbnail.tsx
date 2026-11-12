@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useLayoutEffect, useRef, useState } from "react";
 import { structureThumbnailPreviewAtom } from "../../features/structures/thumbnail";
 import { rulesAtom } from "../../features/logic/library";
-import { workingTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
+import { tshirtArtifactPublicationAtom } from "../../features/design-data/tshirtCacheState";
 import { structuresDocumentAtom } from "../../features/structures/documentState";
 import type { Structure } from "../../features/structures/model";
 import { EMPTY_STRUCTURE_PREVIEW } from "../../features/structures/variants";
@@ -13,7 +13,7 @@ import "./StructureThumbnail.css";
 export function StructureThumbnail({ structure }: { structure: Structure }) {
   const preview = useAtomValue(structureThumbnailPreviewAtom);
   const rules = useAtomValue(rulesAtom);
-  const generation = useAtomValue(workingTshirtArtifactsAtom);
+  const generation = useAtomValue(tshirtArtifactPublicationAtom);
   const catalog = useAtomValue(structuresDocumentAtom).structures;
   const host = useRef<HTMLDivElement>(null);
   const natural = useRef<HTMLDivElement>(null);
@@ -51,9 +51,7 @@ export function StructureThumbnail({ structure }: { structure: Structure }) {
             catalog={catalog}
             references={preview.references}
             rules={rules}
-            bundle={
-              generation.status === "ready" ? generation.bundle : undefined
-            }
+            bundle={generation?.bundle}
             mode={preview.selection}
             preview={EMPTY_STRUCTURE_PREVIEW}
             previewSelections={{}}

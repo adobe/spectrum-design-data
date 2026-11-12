@@ -104,7 +104,9 @@ export function withTaxonomyContributions<T>(
           get,
           new Map<string, unknown>([
             [sourceKey, next],
-            ["registry/taxonomy", taxonomy],
+            ...(taxonomy !== get(taxonomyDocumentAtom)
+              ? [["registry/taxonomy", taxonomy] as const]
+              : []),
             ...(related?.updates ?? []),
           ]),
           () => {

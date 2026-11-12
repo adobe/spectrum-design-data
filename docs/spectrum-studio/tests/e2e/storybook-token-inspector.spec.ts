@@ -92,7 +92,13 @@ for (const appearance of ["light", "dark"])
     expect(errors).toEqual([]);
   });
 
-for (const story of ["read-only", "editing", "overridden"]) {
+for (const story of [
+  "read-only",
+  "editing",
+  "overridden",
+  "alias-save",
+  "contrast-warning",
+]) {
   test(`Token inspector ${story} completes its interactions`, async ({
     page,
   }) => {

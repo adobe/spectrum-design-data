@@ -50,6 +50,68 @@ export function tshirtCacheSource(source: TshirtAuthoringSource) {
   };
 }
 
+export interface PreparedTshirtCache {
+  sourceHash: string;
+  resultHash: string;
+  serialized: string;
+}
+export async function prepareTshirtCache(
+  source: TshirtAuthoringSource,
+  bundle: TshirtArtifactBundle,
+  hash: HashText = hashArtifactText,
+): Promise<PreparedTshirtCache> {
+  const captured = structuredClone(bundle);
+  const sourceText = canonicalJson(tshirtCacheSource(source));
+  const resultText = canonicalJson(captured);
+  if (new TextEncoder().encode(resultText).byteLength > 5_000_000)
+    throw new Error(
+      "Generated token cache exceeds its 5 MB limit. Authoring data remains separate.",
+    );
+  const [sourceHash, resultHash] = await Promise.all([
+    hash(sourceText),
+    hash(resultText),
+  ]);
+  return {
+    sourceHash,
+    resultHash,
+    serialized: JSON.stringify({
+      version: 1,
+      sourceHash,
+      resultHash,
+      bundle: captured,
+    } satisfies TshirtCacheRecord),
+  };
+}
+export interface TshirtWorkResult {
+  bundle: TshirtArtifactBundle;
+  cache:
+    | { status: "ready"; record: PreparedTshirtCache }
+    | { status: "unavailable"; error: string };
+}
+export async function prepareTshirtWorkResult(
+  source: TshirtAuthoringSource,
+  bundle: TshirtArtifactBundle,
+  hash: HashText = hashArtifactText,
+): Promise<TshirtWorkResult> {
+  try {
+    return {
+      bundle,
+      cache: {
+        status: "ready",
+        record: await prepareTshirtCache(source, bundle, hash),
+      },
+    };
+  } catch (failure) {
+    return {
+      bundle,
+      cache: {
+        status: "unavailable",
+        error: failure instanceof Error ? failure.message : String(failure),
+      },
+    };
+  }
+}
+
 /** Cached output is checked against reconstruction, never used as authoring authority. */
 export function createTshirtCacheWriter(
   storage: ArtifactStorage,
@@ -63,35 +125,22 @@ export function createTshirtCacheWriter(
     async update(
       source: TshirtAuthoringSource,
       bundle: TshirtArtifactBundle,
+      prepared?: PreparedTshirtCache,
     ): Promise<
       { status: "ready"; repaired?: string } | { status: "superseded" }
     > {
       const current = ++revision;
-      const captured = structuredClone(bundle);
-      const sourceText = canonicalJson(tshirtCacheSource(source)),
-        resultText = canonicalJson(captured);
-      if (new TextEncoder().encode(resultText).byteLength > 5_000_000)
-        throw new Error(
-          "Generated token cache exceeds its 5 MB limit. Authoring data remains separate.",
-        );
-      let sourceHash: string, resultHash: string;
+      let cache: PreparedTshirtCache;
       try {
-        [sourceHash, resultHash] = await Promise.all([
-          hash(sourceText),
-          hash(resultText),
-        ]);
+        cache = prepared ?? (await prepareTshirtCache(source, bundle, hash));
       } catch (failure) {
         if (current !== revision) return { status: "superseded" };
         throw failure;
       }
       if (current !== revision) return { status: "superseded" };
-      const record: TshirtCacheRecord = {
-        version: 1,
-        sourceHash,
-        resultHash,
-        bundle: captured,
-      };
+      const { sourceHash, resultHash, serialized } = cache;
       const raw = storage.getItem(TSHIRT_CACHE_KEY);
+      if (raw === serialized) return { status: "ready" };
       let repaired: string | undefined;
       if (raw !== null) {
         let previous: unknown;
@@ -119,14 +168,14 @@ export function createTshirtCacheWriter(
           } else if (
             previous.sourceHash === sourceHash &&
             (previous.resultHash !== resultHash ||
-              canonicalJson(previous.bundle) !== resultText)
+              (await hash(canonicalJson(previous.bundle))) !== resultHash)
           ) {
             repaired =
               "The generated token cache did not match its sources and has been rebuilt.";
           }
         }
       }
-      const serialized = JSON.stringify(record);
+      if (current !== revision) return { status: "superseded" };
       if (raw !== serialized) storage.setItem(TSHIRT_CACHE_KEY, serialized);
       return { status: "ready", ...(repaired && { repaired }) };
     },

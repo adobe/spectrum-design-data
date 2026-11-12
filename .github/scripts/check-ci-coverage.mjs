@@ -39,9 +39,12 @@ const excluded = new Set(excludedFromCI);
 
 let moonOutput;
 try {
-  moonOutput = execSync('moon query tasks', { cwd: root, encoding: 'utf8' });
+  moonOutput = execSync('moon query tasks --json', {
+    cwd: root,
+    encoding: 'utf8',
+  });
 } catch (err) {
-  console.error('Failed to run `moon query tasks`:', err.message);
+  console.error('Failed to run `moon query tasks --json`:', err.message);
   process.exit(1);
 }
 

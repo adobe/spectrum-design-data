@@ -11,9 +11,12 @@ import {
   LatestRequest,
   type DerivedState,
 } from "../derived-work/LatestRequest";
-import { workerTask } from "../derived-work/workerTask";
+import {
+  analysisService,
+  compareAnalysis as compare,
+  assessAnalysisGaps as gaps,
+} from "./analysisService";
 import type { AnalysisInput } from "./comparison";
-import { VALUE_CONTEXT_POLICY } from "./colorOpacityAssessment";
 import type {
   AnalysisComparisonRequest,
   AnalysisComparisonResult,
@@ -24,18 +27,6 @@ import type {
 } from "./analysisWork";
 
 const defaultSnapshotAtom = atom(() => createDefaultSnapshot());
-const compare = workerTask<AnalysisComparisonRequest, AnalysisComparisonResult>(
-  () =>
-    new Worker(new URL("./analysis.worker.ts", import.meta.url), {
-      type: "module",
-    }),
-);
-const gaps = workerTask<AnalysisGapRequest, AnalysisGapResult>(
-  () =>
-    new Worker(new URL("./analysis.worker.ts", import.meta.url), {
-      type: "module",
-    }),
-);
 
 export function useAnalysisWork(
   dataset: AnalysisDataset,
@@ -81,14 +72,7 @@ export function useAnalysisWork(
           : source.working;
     const cachedApp =
       cache.current?.key === key &&
-      cache.current.app.source.kind === source.dataset &&
-      (!cache.current.app.valueResolution ||
-        (cache.current.app.valueResolution.referenceHash ===
-          reference?.source.hash &&
-          cache.current.app.valueResolution.contextPolicy ===
-            VALUE_CONTEXT_POLICY &&
-          cache.current.app.valueResolution.engine ===
-            reference?.valueResolution?.engine))
+      cache.current.app.source.kind === source.dataset
         ? cache.current.app
         : undefined;
     return {
@@ -96,7 +80,7 @@ export function useAnalysisWork(
       source,
       reference,
       cachedApp,
-      resolveValues: import.meta.env.DEV,
+      resolveValues: true,
     };
   }, [source, reference]);
   const [comparison, publishComparison] =
@@ -133,13 +117,15 @@ export function useAnalysisWork(
     return () => {
       controller.cancel();
       gapController.cancel();
+      analysisService.dispose();
       current.current = undefined;
       currentGaps.current = undefined;
     };
   }, []);
   useEffect(() => {
-    current.current?.request(input, "visible");
-  }, [input]);
+    if (reference) current.current?.request(input, "visible");
+    else current.current?.cancel();
+  }, [input, reference]);
   const result =
     comparison?.input === input && comparison.status === "ready"
       ? comparison.value

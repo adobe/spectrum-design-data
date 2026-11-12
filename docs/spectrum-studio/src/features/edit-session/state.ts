@@ -13,6 +13,8 @@ import {
   stylePreviewAtom,
 } from "../styles/state";
 import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
+import { createScopedStyleCatalog } from "../components/scopedStyleCatalog";
+import { reconcileStyleSource } from "../styles/artifacts";
 import { tokenIdentity } from "../tokens/canonicalIdentity";
 import { clearPersistenceIssuesAtom, persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
@@ -190,9 +192,13 @@ import {
 import { selectAtom } from "jotai/utils";
 import { prepareAuthoringSnapshot } from "./snapshotPreparation";
 import {
+  componentContrastInput,
   componentContrastWitnessAtom,
   matchesComponentContrastWitness,
+  validComponentContrastValues,
+  type ComponentContrastWitness,
 } from "../components/contrastWitness";
+import { sameValue } from "../changelog/contract";
 import { componentColorWitnessAtom } from "../components/colorWitness";
 import { opacityDocumentAtom } from "../opacity/state";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
@@ -237,42 +243,42 @@ export interface EditSessionSnapshot {
   foundationParameterSettings?: FoundationParameterSettings;
 }
 
+const optionalSnapshotField =
+  (validate: (value: unknown) => boolean) => (value: unknown) =>
+    value === undefined || validate(value);
+const snapshotValidators = {
+  colorSystem: isColorSystemDocument,
+  componentSizing: optionalSnapshotField(isComponentSizingDocument),
+  components: optionalSnapshotField(isComponentsDocument),
+  aliases: optionalSnapshotField(isAliasDocument),
+  taxonomy: optionalSnapshotField(isTaxonomyDocument),
+  typography: isTypographyDocument,
+  spacing: optionalSnapshotField(isSpacingDocument),
+  size: optionalSnapshotField(isSizeDocument),
+  radius: optionalSnapshotField(isRadiusDocument),
+  elevation: optionalSnapshotField(isElevationDocument),
+  opacity: optionalSnapshotField(isOpacityDocument),
+  styles: optionalSnapshotField(isStylesDocument),
+  structures: optionalSnapshotField(isStructuresDocument),
+  rules: optionalSnapshotField(isRuleList),
+  scaleTypes: optionalSnapshotField(isScaleTypeList),
+  interpolations: optionalSnapshotField(isInterpolationList),
+  tokenOverrides: isTokenOverrideMap,
+  browserTokenEdits: optionalSnapshotField(isBrowserTokenEdits),
+  modeSets: isModeSetList,
+  platforms: isPlatformList,
+  foundationParameterSettings: optionalSnapshotField(
+    isFoundationParameterSettings,
+  ),
+  adaptiveClaims: isAdaptiveClaims,
+} satisfies Record<keyof EditSessionSnapshot, (value: unknown) => boolean>;
+
 export function isSnapshot(data: unknown): data is EditSessionSnapshot | null {
   if (data === null) return true;
   if (typeof data !== "object") return false;
   const snapshot = data as Partial<EditSessionSnapshot>;
-  return (
-    isColorSystemDocument(snapshot.colorSystem) &&
-    (snapshot.componentSizing === undefined ||
-      isComponentSizingDocument(snapshot.componentSizing)) &&
-    (snapshot.components === undefined ||
-      isComponentsDocument(snapshot.components)) &&
-    (snapshot.aliases === undefined || isAliasDocument(snapshot.aliases)) &&
-    (snapshot.taxonomy === undefined ||
-      isTaxonomyDocument(snapshot.taxonomy)) &&
-    isTypographyDocument(snapshot.typography) &&
-    (snapshot.spacing === undefined || isSpacingDocument(snapshot.spacing)) &&
-    (snapshot.size === undefined || isSizeDocument(snapshot.size)) &&
-    (snapshot.radius === undefined || isRadiusDocument(snapshot.radius)) &&
-    (snapshot.elevation === undefined ||
-      isElevationDocument(snapshot.elevation)) &&
-    (snapshot.opacity === undefined || isOpacityDocument(snapshot.opacity)) &&
-    (snapshot.styles === undefined || isStylesDocument(snapshot.styles)) &&
-    (snapshot.structures === undefined ||
-      isStructuresDocument(snapshot.structures)) &&
-    (snapshot.rules === undefined || isRuleList(snapshot.rules)) &&
-    (snapshot.scaleTypes === undefined ||
-      isScaleTypeList(snapshot.scaleTypes)) &&
-    (snapshot.interpolations === undefined ||
-      isInterpolationList(snapshot.interpolations)) &&
-    isTokenOverrideMap(snapshot.tokenOverrides) &&
-    (snapshot.browserTokenEdits === undefined ||
-      isBrowserTokenEdits(snapshot.browserTokenEdits)) &&
-    isModeSetList(snapshot.modeSets) &&
-    isPlatformList(snapshot.platforms) &&
-    (snapshot.foundationParameterSettings === undefined ||
-      isFoundationParameterSettings(snapshot.foundationParameterSettings)) &&
-    isAdaptiveClaims(snapshot.adaptiveClaims)
+  return Object.entries(snapshotValidators).every(([key, validate]) =>
+    validate(snapshot[key as keyof EditSessionSnapshot]),
   );
 }
 
@@ -754,7 +760,7 @@ export function captureAuthoringRecord(
 ): AuthoringRecord<EditSessionSnapshot> {
   const allocations = new Map<string, string>();
   const working = upgradeCanonicalTokenIdentities(
-    captureSnapshot(get),
+    reconcileStyleSource(captureSnapshot(get)),
     allocations,
   );
   const saved = upgradeCanonicalTokenIdentities(
@@ -807,7 +813,7 @@ export const cancelEditAtom = atom(null, (get, set) => {
 /** Save commits working data and its cancellation baseline together. */
 export const saveEditAtom = atom(null, (get, set) => {
   const snapshot = upgradeCanonicalTokenIdentities(
-    structuredClone(captureSnapshot(get)),
+    reconcileStyleSource(structuredClone(captureSnapshot(get))),
   );
   const attachments = structuredClone(
     pruneFoundationModeAttachments(
@@ -938,6 +944,34 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "tokens/browser/edits": "browserTokenEdits",
   "tokens/color/overrides": "tokenOverrides",
 };
+interface ContrastProofCache {
+  witness?: ComponentContrastWitness;
+  signature?: string;
+  input?: ReturnType<typeof componentContrastInput>;
+}
+const contrastProofCacheAtom = atom((): ContrastProofCache => ({}));
+const scopedStyleCatalogAtom = atom(createScopedStyleCatalog);
+function matchesAcceptedContrastWitness(
+  get: Getter,
+  candidate: EditSessionSnapshot,
+) {
+  const witness = get(componentContrastWitnessAtom);
+  if (!witness || !validComponentContrastValues(candidate)) return false;
+  const cached = get(contrastProofCacheAtom);
+  if (cached.witness !== witness || cached.signature !== witness.signature) {
+    const current = get(authoringSourceSnapshotAtom);
+    cached.witness = witness;
+    cached.signature = witness.signature;
+    cached.input = matchesComponentContrastWitness(witness, current)
+      ? componentContrastInput(current)
+      : undefined;
+  }
+  // Store-owned inputs are immutable; public witness matching stays cold.
+  return (
+    cached.input !== undefined &&
+    sameValue(cached.input, componentContrastInput(candidate))
+  );
+}
 registerAuthoringGuard("component-dependencies", (get, updates) => {
   const overrides = Object.fromEntries(
     [...updates].flatMap(([key, next]) =>
@@ -953,16 +987,29 @@ registerAuthoringGuard("component-dependencies", (get, updates) => {
     )
   )
     return;
+  for (const [key, next] of updates) {
+    const field = componentSourceFields[key];
+    if (field && !snapshotValidators[field](next))
+      throw new Error(
+        "The component dependency update has invalid source data.",
+      );
+  }
   const candidate = { ...captureSnapshot(get), ...overrides };
-  if (!isSnapshot(candidate) || !candidate?.taxonomy)
+  if (!candidate.taxonomy)
     throw new Error("The component dependency update has invalid source data.");
+  if (updates.size === 1 && updates.has("design/styles")) {
+    const current = get(stylesDocumentAtom);
+    if (
+      candidate.styles?.schemaVersion === current.schemaVersion &&
+      candidate.styles.recipes === current.recipes &&
+      candidate.styles.publications === current.publications
+    )
+      return;
+  }
   if (
     updates.has("foundations/color") &&
     !updates.has("components") &&
-    matchesComponentContrastWitness(
-      get(componentContrastWitnessAtom),
-      candidate,
-    )
+    matchesAcceptedContrastWitness(get, candidate)
   )
     return;
   const components = candidate.components ?? get(componentsDocumentAtom);
@@ -970,7 +1017,13 @@ registerAuthoringGuard("component-dependencies", (get, updates) => {
   assertComponentReferences(
     components,
     candidate.taxonomy,
-    componentTokenCatalog(candidate, get(componentColorWitnessAtom)),
+    updates.size === 1 && updates.has("design/styles")
+      ? get(scopedStyleCatalogAtom)(
+          get(authoringSourceSnapshotAtom),
+          candidate,
+          get(componentColorWitnessAtom),
+        )
+      : componentTokenCatalog(candidate, get(componentColorWitnessAtom)),
     { sourceOnly: true },
   );
 });

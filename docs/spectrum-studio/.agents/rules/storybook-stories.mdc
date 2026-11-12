@@ -56,6 +56,9 @@ For the color picker specifically, include sRGB, Display P3, OKLCH, cartesian, p
   for explicit permission; if the user is unavailable, skip it.
 - Run only affected stories with one browser worker (`--workers=1`). Do not
   run browser checks alongside builds, tests, type checks or baseline jobs.
+- Select the file through `pnpm check:focused --profile browser --only
+browser-storybook-<name>`, after the relevant feature is complete or separately
+  approved. A cutoff stops work; it does not authorize retries or another runner.
 - Use Storybook `play` functions for deterministic interaction checks.
 - Assert accessible names, roles, focus movement, keyboard operation, and meaningful state changes.
 - Do not use screenshots as the only verification for interactive behavior.

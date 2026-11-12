@@ -108,6 +108,25 @@ assert.equal(
   "unassessable",
 );
 assert.equal(assess([], [primitive]).concepts[0].verdict, "unassessable");
+const resolutionFailure = input([token("a")]);
+resolutionFailure.valueResolution = {
+  datasetHash: resolutionFailure.source.hash,
+  engine: "wasm:unavailable",
+  error: "Token resolution unavailable: fixture initialization failure",
+};
+const failedResolution = assessColorsAndOpacities(
+  resolutionFailure,
+  input([primitive], "reference"),
+);
+assert.equal(failedResolution.concepts[0].verdict, "unassessable");
+assert(
+  failedResolution.concepts[0].rows.some((row) =>
+    row.issues.some((issue) =>
+      issue.includes("fixture initialization failure"),
+    ),
+  ),
+  "A failed resolver cannot present raw literal values as passing evidence.",
+);
 assert.equal(
   assess([token("a"), token("b")], [primitive]).concepts[0].verdict,
   "unassessable",

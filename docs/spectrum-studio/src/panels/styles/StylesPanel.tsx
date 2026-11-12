@@ -30,8 +30,8 @@ import {
   createStyleAtom,
   removeStyleAtom,
   restoreStyleAtom,
-  stylePreviewArtifactsAtom,
-  styleContextsStateAtom,
+  styleLibraryArtifactsAtom,
+  stylePreviewContextsStateAtom,
   styleSampleTextAtom,
   styleSampleIconsAtom,
 } from "../../features/styles/state";
@@ -52,8 +52,8 @@ import "../../views/styles/Styles.css";
 export function StylesPanel() {
   const document = useAtomValue(stylesDocumentAtom),
     taxonomy = useAtomValue(taxonomyDocumentAtom);
-  const artifacts = useAtomValue(stylePreviewArtifactsAtom),
-    contexts = useAtomValue(styleContextsStateAtom);
+  const artifacts = useAtomValue(styleLibraryArtifactsAtom),
+    contexts = useAtomValue(stylePreviewContextsStateAtom);
   const [selected, select] = useAtom(selectedStyleIdAtom);
   const editing = useAtomValue(editModeAtom),
     store = useStore(),

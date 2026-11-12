@@ -260,16 +260,22 @@ function reconcileName<T extends NamedSource>(
     }
   }
   if (!reference) throw new Error("Missing registered source name.");
+  const name = registeredSourceName(next, reference, scope);
   return {
-    source: {
-      ...source,
-      nameRef: reference,
-      name: registeredSourceName(next, reference, scope),
-    },
+    source:
+      source.nameRef === reference && source.name === name
+        ? source
+        : { ...source, nameRef: reference, name },
     taxonomy: next,
   };
 }
 
+function sharedArray<T>(previous: T[], next: T[]): T[] {
+  return previous.length === next.length &&
+    next.every((value, index) => value === previous[index])
+    ? previous
+    : next;
+}
 export function resolveColorSourceNames(
   document: ColorSystemDocument,
   taxonomy: TaxonomyDocument,
@@ -279,12 +285,10 @@ export function resolveColorSourceNames(
       throw new Error(
         `Color source ${source.id} has no registered name reference.`,
       );
-    return {
-      ...source,
-      name: registeredSourceName(taxonomy, source.nameRef, "colors"),
-    };
+    const name = registeredSourceName(taxonomy, source.nameRef, "colors");
+    return source.name === name ? source : { ...source, name };
   };
-  const scales = document.scales.map(resolve);
+  const scales = sharedArray(document.scales, document.scales.map(resolve));
   for (const sources of [
     document.palette,
     document.scales,
@@ -292,22 +296,36 @@ export function resolveColorSourceNames(
     document.dataVisScales,
   ])
     assertRegisteredSourceNames(sources, taxonomy, "colors");
-  return {
+  const result = {
     ...document,
-    palette: document.palette.map(resolve),
+    palette: sharedArray(document.palette, document.palette.map(resolve)),
     scales,
-    dataVisScales: document.dataVisScales.map(resolve),
-    surfaces: document.surfaces.map((source) => {
-      const named = resolve(source);
-      if (!named.sourceScaleId) return named;
-      const target = scales.find((scale) => scale.id === named.sourceScaleId);
-      if (!target)
-        throw new Error(
-          `Surface ${source.id} references an unavailable color scale ${named.sourceScaleId}.`,
-        );
-      return { ...named, source: target.name };
-    }),
+    dataVisScales: sharedArray(
+      document.dataVisScales,
+      document.dataVisScales.map(resolve),
+    ),
+    surfaces: sharedArray(
+      document.surfaces,
+      document.surfaces.map((source) => {
+        const named = resolve(source);
+        if (!named.sourceScaleId) return named;
+        const target = scales.find((scale) => scale.id === named.sourceScaleId);
+        if (!target)
+          throw new Error(
+            `Surface ${source.id} references an unavailable color scale ${named.sourceScaleId}.`,
+          );
+        return named.source === target.name
+          ? named
+          : { ...named, source: target.name };
+      }),
+    ),
   };
+  return result.scales === document.scales &&
+    result.palette === document.palette &&
+    result.dataVisScales === document.dataVisScales &&
+    result.surfaces === document.surfaces
+    ? document
+    : result;
 }
 
 export function reconcileColorSourceNames(
@@ -322,17 +340,20 @@ export function reconcileColorSourceNames(
     after: T[],
     categoryId: string,
   ): T[] =>
-    after.map((source) => {
-      const result = reconcileName(
-        before.find((candidate) => candidate.id === source.id),
-        source,
-        next,
-        categoryId,
-        "colors",
-      );
-      next = result.taxonomy;
-      return result.source;
-    });
+    sharedArray(
+      after,
+      after.map((source) => {
+        const result = reconcileName(
+          before.find((candidate) => candidate.id === source.id),
+          source,
+          next,
+          categoryId,
+          "colors",
+        );
+        next = result.taxonomy;
+        return result.source;
+      }),
+    );
   const result = {
     ...document,
     palette: reconcile(
@@ -361,7 +382,7 @@ export function reconcileColorSourceNames(
       next,
       "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
       contrastStepIndex(position, undefined, rules, document.contrasts),
-      crypto.randomUUID(),
+      () => crypto.randomUUID(),
     );
   }
   for (const scale of document.scales) {
@@ -370,7 +391,7 @@ export function reconcileColorSourceNames(
         next,
         "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
         contrastStepIndex(position, scale, rules, document.contrasts),
-        crypto.randomUUID(),
+        () => crypto.randomUUID(),
       );
     });
   }
@@ -384,10 +405,7 @@ export function reconcileColorSourceNames(
           "Categorical colors require the existing Number category.",
         );
       scale.members.forEach((_, index) => {
-        next = registerTerm(
-          next,
-          numberCategory.id,
-          index + 1,
+        next = registerTerm(next, numberCategory.id, index + 1, () =>
           crypto.randomUUID(),
         );
       });

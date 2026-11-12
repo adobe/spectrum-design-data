@@ -1,23 +1,47 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
-import {
-  authoringSnapshotAtom,
-  createDefaultSnapshot,
-  editSessionSnapshotAtom,
-} from "../edit-session/state";
+import { createDefaultSnapshot } from "../edit-session/state";
 import {
   buildTshirtArtifacts,
+  buildFocusedTshirtArtifacts,
   type TshirtArtifactBundle,
 } from "./tshirtArtifacts";
+import { selectedStructureIdAtom } from "../structures/documentState";
+import { tshirtArtifactPublicationAtom } from "./tshirtCacheState";
+import {
+  savedTshirtArtifactSourceAtom,
+  tshirtArtifactSourceAtom,
+} from "./artifactSources";
 
 export type TshirtGenerationState =
   | { status: "ready"; bundle: TshirtArtifactBundle }
   | { status: "error"; error: string };
 export const workingTshirtArtifactsAtom = atom((get): TshirtGenerationState => {
   try {
+    const source = get(tshirtArtifactSourceAtom);
+    const publication = get(tshirtArtifactPublicationAtom);
     return {
       status: "ready",
-      bundle: buildTshirtArtifacts(get(authoringSnapshotAtom), "working"),
+      bundle:
+        publication?.source === source
+          ? publication.bundle
+          : buildTshirtArtifacts(source, "working"),
+    };
+  } catch (failure) {
+    return {
+      status: "error",
+      error: failure instanceof Error ? failure.message : String(failure),
+    };
+  }
+});
+export const focusedTshirtArtifactsAtom = atom((get): TshirtGenerationState => {
+  try {
+    return {
+      status: "ready",
+      bundle: buildFocusedTshirtArtifacts(
+        get(tshirtArtifactSourceAtom),
+        get(selectedStructureIdAtom),
+      ),
     };
   } catch (failure) {
     return {
@@ -31,7 +55,7 @@ export const savedTshirtArtifactsAtom = atom((get): TshirtGenerationState => {
     return {
       status: "ready",
       bundle: buildTshirtArtifacts(
-        get(editSessionSnapshotAtom) ?? createDefaultSnapshot(),
+        get(savedTshirtArtifactSourceAtom) ?? createDefaultSnapshot(),
         "saved",
       ),
     };

@@ -30,6 +30,8 @@ export function browserColorSources(
       value: token.value,
       generatedName: tokenDisplayName(token.generated.name),
       generatedValue: token.generated.value,
+      colorSource: { ...token.source, name: token.generated.name },
+      ...(token.contrastWarning && { contrastWarning: token.contrastWarning }),
       unit: "",
       legacyOverridden: token.valueOverridden,
       legacyStale: token.stale,

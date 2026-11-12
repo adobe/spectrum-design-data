@@ -5,7 +5,11 @@ import {
   PERSISTENCE_ISSUE_PREFIXES,
   reportPersistenceIssueAtom,
 } from "../../state/persist";
-import { createTshirtCacheWriter, type TshirtCacheStatus } from "./tshirtCache";
+import {
+  createTshirtCacheWriter,
+  type TshirtCacheStatus,
+  type TshirtWorkResult,
+} from "./tshirtCache";
 import { tshirtArtifactSourceAtom } from "./artifactSources";
 import { LatestRequest } from "../derived-work/LatestRequest";
 import { workerTask } from "../derived-work/workerTask";
@@ -17,6 +21,10 @@ import type {
 export const tshirtCacheStatusAtom = atom<TshirtCacheStatus>({
   status: "pending",
 });
+export const tshirtArtifactPublicationAtom = atom<{
+  source: TshirtAuthoringSource;
+  bundle: TshirtArtifactBundle;
+} | null>(null);
 export function initializeTshirtArtifactCache(
   store: ReturnType<typeof createStore>,
 ) {
@@ -33,7 +41,7 @@ export function initializeTshirtArtifactCache(
     );
   };
   const work = new LatestRequest(
-    workerTask<TshirtAuthoringSource, TshirtArtifactBundle>(
+    workerTask<TshirtAuthoringSource, TshirtWorkResult>(
       () =>
         new Worker(new URL("./tshirt.worker.ts", import.meta.url), {
           type: "module",
@@ -43,10 +51,24 @@ export function initializeTshirtArtifactCache(
       if (state.status === "pending")
         store.set(tshirtCacheStatusAtom, { status: "pending" });
       else if (state.status === "unavailable") fail(state.error);
-      else
+      else {
+        if (store.get(tshirtArtifactSourceAtom) !== state.input) return;
+        store.set(tshirtArtifactPublicationAtom, {
+          source: state.input,
+          bundle: state.value.bundle,
+        });
+        if (state.value.cache.status === "unavailable") {
+          fail(state.value.cache.error);
+          return;
+        }
+        const preparedCache = state.value.cache.record;
         void (async () => {
           try {
-            const result = await writer.update(state.input, state.value);
+            const result = await writer.update(
+              state.input,
+              state.value.bundle,
+              preparedCache,
+            );
             if (disposed || result.status === "superseded") return;
             if (result.repaired) console.warn(result.repaired);
             store.set(tshirtCacheStatusAtom, { status: "ready" });
@@ -59,6 +81,7 @@ export function initializeTshirtArtifactCache(
             fail(error);
           }
         })();
+      }
     },
     { nearby: 0, visible: 0, background: 200 },
   );
@@ -71,6 +94,7 @@ export function initializeTshirtArtifactCache(
   return () => {
     disposed = true;
     work.cancel();
+    store.set(tshirtArtifactPublicationAtom, null);
     writer.invalidate();
     unsubscribe();
   };

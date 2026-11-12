@@ -280,6 +280,41 @@ assert.equal(alias.value, 8);
 assert.equal(alias.status, "draft");
 assert.equal(alias.referenceId, "first");
 assert.equal(isBrowserTokenEdits(withAlias), true);
+const styleTaxonomy: TaxonomyDocument = {
+  ...taxonomy,
+  categories: taxonomy.categories.map((category) => ({
+    ...category,
+    scopes: ["styles"],
+  })),
+};
+const styleRows = fixtureRows.map((row) => ({
+  ...row,
+  token: {
+    ...row.token,
+    tier: "semantic" as const,
+    classificationScope: "styles" as const,
+    originalSource: {
+      ...row.token.originalSource!,
+      tier: "semantic" as const,
+      classificationScope: "styles" as const,
+    },
+  },
+}));
+const styleDraft = createDialogDraft(styleRows[0].token, lightKey);
+styleDraft.aliases = [
+  { id: "style-alias", classification: { [categoryId]: termIds.alias } },
+];
+const styleEdits = commitDialogDraft(styleDraft, styleRows, {}, styleTaxonomy);
+const styleAlias = resolveDialogTokens(
+  styleRows,
+  styleEdits,
+  styleTaxonomy,
+  key,
+).find((token) => token.id === "style-alias")!;
+assert.equal(styleAlias.classificationScope, "styles");
+assert.equal(styleAlias.name, "alias");
+assert.deepEqual(styleAlias.projection?.issues, []);
+assert.equal(styleAlias.referenceId, first.id);
 const aliasRows = fixtureRows.map((row) => ({
   ...row,
   token: resolveDialogTokens(
