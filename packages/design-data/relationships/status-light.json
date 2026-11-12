@@ -407,7 +407,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f",
@@ -416,7 +419,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5",
@@ -425,7 +431,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae",
@@ -434,7 +443,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42",
@@ -443,7 +455,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224",
@@ -452,7 +467,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c",
@@ -461,7 +479,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2",
@@ -470,7 +491,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "25e8289f-6c82-4485-8920-a187f790cd47",
@@ -479,7 +503,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3",
@@ -488,7 +515,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8",
@@ -497,7 +527,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d",
@@ -506,7 +539,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2",
@@ -515,7 +551,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
@@ -524,7 +563,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
@@ -533,7 +575,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
@@ -542,7 +587,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "8f6f9f6e-1762-4ac3-a9b9-6cacd135dfac",
@@ -551,7 +599,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "37c1311b-29ed-44ab-b656-a7538726ad77",
@@ -560,7 +611,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "d8adaaf1-b6a3-400a-853b-6ba5a5c873e7",
@@ -569,7 +623,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "18735078-a942-442b-bc04-1b72bac77c98",
@@ -578,7 +635,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "a46d8e05-4f56-4b46-a279-0164abfa42e8",
@@ -587,7 +647,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "a2cc3b6e-014f-4522-8d05-9e9d06464504",
@@ -596,7 +659,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "c3c126c9-2133-416a-ac0e-4ae00546941b",
@@ -605,7 +671,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "091a2073-baa0-4cc6-b943-9dddc285ad62",
@@ -614,7 +683,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "ad004c2f-8cab-45d5-8e22-921d3f0332ea",
@@ -623,7 +695,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "36b69bb1-d443-4ec6-807b-ea449a886825",
@@ -632,7 +707,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "38e60263-cb08-4090-a653-5acbd1664ae0",
@@ -641,7 +719,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "656af4f3-a545-4445-9d2b-2c4a17ab46db",
@@ -650,7 +731,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "681fc141-b235-4cde-9c3a-f0033943d772",
@@ -659,7 +743,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "0ee2957b-c401-4106-8ff3-9de9fa544a03",
@@ -668,7 +755,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "ef836f5b-c6b9-4e6b-a671-e979dc53c407",
@@ -677,7 +767,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "8bc581a9-558c-424d-a72b-f24b48207b82",
@@ -686,7 +779,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "178e4bc6-6986-4e77-aab0-78dbe66f8e6f",
@@ -695,7 +791,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "9bf3d052-42d1-454b-8ae6-ee0b40d9a9c8",
@@ -704,7 +803,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "cb59d4d5-c17e-428d-a22a-e9a3fc02ac9c",
@@ -713,7 +815,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "584ccbd4-3243-4041-b665-e2342d2b26e8",
@@ -722,7 +827,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "056968e0-d29e-4b1c-a9b1-50853f6d159b",
@@ -731,7 +839,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "2b0a6584-db41-43b9-ba39-39171548c01a",
@@ -740,7 +851,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "736e4768-7944-40ec-a412-4cd36299e03d",
@@ -749,7 +863,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "15de4533-1a59-4a9f-899f-004a429471c7",
@@ -758,7 +875,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "73e40884-6d55-4a56-a376-bd788e615754",
@@ -767,7 +887,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "4a2ebbb5-b8b7-43a0-9d64-4974bb382a8b",
@@ -776,7 +899,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "c14eedf9-0f34-4a38-9b89-7c9b5f3e0af6",
@@ -785,7 +911,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "4be32a08-c731-4c59-b376-ba0ef134e14e",
@@ -794,7 +923,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "496cef67-3a25-4d99-8545-e8aa9a7f0adc",
@@ -803,7 +935,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "fcbf8451-ad82-4247-a867-a5d0034667b5",
@@ -812,7 +947,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "2c31e5bc-cf23-42d6-85e8-9947e305d1ff",
@@ -821,7 +959,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "04c6819d-5049-4e18-bb83-95239fa3d8c2",
@@ -830,7 +971,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "bc700351-a33c-4164-9ba7-3f86733ebe54",
@@ -839,7 +983,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "86aa8b9c-b124-45ba-a359-a58295d28509",
@@ -848,7 +995,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "24026c61-470e-41b9-a247-58605b54706d",
@@ -857,7 +1007,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "9022dc27-f9d9-4697-b808-ebe36d216f8b",
@@ -866,7 +1019,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "12fd4bac-b0ef-4285-a0e4-5947526a91a9",
@@ -875,7 +1031,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "a25ac05c-c108-4caf-a77e-79b4fd36ee91",
@@ -884,7 +1043,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "349dc3c5-fd57-403c-bc42-2a60b8325bd3",
@@ -893,7 +1055,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "35f96ec6-0eae-4c55-aa54-134f03feda7d",
@@ -902,7 +1067,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "f7d55707-b9db-4711-b93f-dcc03932516c",
@@ -911,7 +1079,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "$ref": "7e749788-d92d-4ad5-b4d2-446e77c5a041",
