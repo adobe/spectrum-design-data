@@ -4009,6 +4009,19 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let catalogs = manifest::load_merged_catalogs(&resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
+    // Recipes come from the same loader `render` uses, so a platform recipe has
+    // already replaced (or joined) the foundation one. Load (and check the names)
+    // before touching DIR so a failure can't leave it half-cleared.
+    let (graph, _, _) = load_visual_graph(&resolved, None, true)?;
+    if let Some(bad) = graph.visuals.iter().find(|v| {
+        v.component.is_empty() || v.component.contains(['/', '\\']) || v.component.starts_with('.')
+    }) {
+        miette::bail!(
+            "recipe {} has an unsafe component name {:?}",
+            bad.file.display(),
+            bad.component
+        );
+    }
 
     let components_out = out.join("components");
     let guidelines_out = out.join("guidelines");
@@ -4066,9 +4079,6 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
         }
     }
 
-    // Recipes come from the same loader `render` uses, so a platform recipe has
-    // already replaced (or joined) the foundation one.
-    let (graph, _, _) = load_visual_graph(&resolved, None, true)?;
     if !graph.visuals.is_empty() {
         std::fs::create_dir_all(&visuals_out).into_diagnostic()?;
     }

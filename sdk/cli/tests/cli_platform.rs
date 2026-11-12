@@ -639,6 +639,46 @@ fn catalog_export_with_platform_merges_platform_recipes() {
     assert!(!out.path().join("visuals/button-ios.json").exists());
 }
 
+/// A platform recipe with a foundation component's name replaces the foundation recipe.
+#[test]
+fn catalog_export_platform_recipe_replaces_foundation_recipe() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    let root = repo_root();
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            root.display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("button.json"),
+        json!({"component": "button", "root": "container", "sizeScale": {"zz": 1},
+            "parts": {"container": {"kind": "box", "props": {}}}})
+        .to_string(),
+    )
+    .unwrap();
+    let out = tempfile::tempdir().expect("out dir");
+    design_data(
+        project.path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .success();
+    let recipe: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(out.path().join("visuals/button.json")).unwrap())
+            .unwrap();
+    assert_eq!(recipe["sizeScale"], json!({"zz": 1}));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");

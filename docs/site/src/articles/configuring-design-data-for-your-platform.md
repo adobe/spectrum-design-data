@@ -130,7 +130,11 @@ design-data catalog export --out ./catalog --platform react-spectrum
 It writes `components/`, `guidelines/`, `guidelines/manifest.json`, and the
 foundation icon sets under `icons/` (copied as-is) under `--out`. It also writes
 the visual recipes under `visuals/`, one per component with its `sizeScale`,
-with the platform's recipes replacing or joining the foundation ones. It creates
+with the platform's recipes replacing or joining the foundation ones. Like
+`components/`, `visuals/` is keyed by real component names: a component the
+platform manifest aliases (`componentAliases`, such as `button` → `button-ios`)
+stays the foundation recipe under its own name, and the platform recipe is the
+separate `button-ios.json`, so apply the alias yourself. It creates
 the directory if needed and removes stale `.json` files from `components/`,
 `guidelines/`, `icons/`, and `visuals/` first. Without a platform it exports the
 foundation catalogs. Relationships aren't part of the export.
