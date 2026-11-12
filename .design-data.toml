@@ -15,8 +15,8 @@ ios = "platforms/ios/manifest.json"
 react-spectrum = "platforms/react-spectrum/manifest.json"
 web-components = "platforms/web-components/manifest.json"
 
-# Owned by its implementation repo (not incubated here); pinned by sha until a release tag exists.
+# Owned by its implementation repo (not incubated here); pinned to its release tag.
 [platforms.rune]
 repo = "GarthDB/spectrum-rune"
-sha = "f5f2573786ae011d4d3f49635d2296778b0bb7c9"
+tag = "v0.1.0"
 manifest_path = "platforms/rune/manifest.json"
