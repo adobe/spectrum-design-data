@@ -37,7 +37,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "6px",
+        "value": "5px",
         "uuid": "70c9f65f-1e23-4c47-94dd-0c3ddde15743"
       }
     }
@@ -54,7 +54,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
+        "value": "10px",
         "uuid": "ad2c09a6-c42e-4eef-94a3-6c2180c6e2af"
       }
     }

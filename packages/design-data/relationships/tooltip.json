@@ -376,7 +376,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "6px",
+    "value": "5px",
     "uuid": "70c9f65f-1e23-4c47-94dd-0c3ddde15743",
     "legacyKey": "tooltip-tip-height",
     "setUuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
@@ -410,7 +410,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "12px",
+    "value": "10px",
     "uuid": "ad2c09a6-c42e-4eef-94a3-6c2180c6e2af",
     "legacyKey": "tooltip-tip-width",
     "setUuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",

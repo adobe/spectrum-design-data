@@ -17,5 +17,5 @@ Refine size tokens and remove the medium suffix from shared banner tokens.
 - **relationships/action-bar.json**, **relationships/toast.json**: Update banner-height guidance.
 - **packages/tokens/src/**: Regenerate legacy aliases, names, and replacement mappings.
 - **packages/tokens/test/sizeRefinements.test.js**: Cover canonical and legacy data.
-- **tooltip tip tokens**: Desktop is 4px by 8px; mobile stays 6px by 12px.
+- **tooltip tip tokens**: Desktop is 4px by 8px; mobile is 5px by 10px (1.25x).
 - **visuals/accordion.json**: Size M preview width uses field-width-large (240px) for iOS text.
