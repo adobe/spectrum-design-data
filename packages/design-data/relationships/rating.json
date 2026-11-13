@@ -5,6 +5,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Layout",
+    "contextRole": ["layout"],
     "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "d1f97ecd-e7ad-538a-bb67-406456499ac2"
   },
@@ -14,6 +15,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Layout",
+    "contextRole": ["layout"],
     "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "6c1bc549-4a67-5c2d-9bf8-385085d390b1"
   },
@@ -23,6 +25,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Layout",
+    "contextRole": ["layout"],
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "bb3c8cd0-60e0-53aa-9569-d1096919fc52"
   },
@@ -32,6 +35,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Layout",
+    "contextRole": ["layout"],
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "1ea942fb-8269-523b-ba21-b086c0800c83"
   },
@@ -41,6 +45,7 @@
       "property": "width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
     "uuid": "d6360280-8f6c-5ecb-809a-27d3a5b8e225"
   },
@@ -50,6 +55,7 @@
       "property": "width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
     "uuid": "6401005e-dbf0-5ec9-ad4f-e7b5fbcb9ce2"
   },
@@ -59,6 +65,7 @@
       "property": "height"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
     "uuid": "cdaac6e9-6c93-595c-a008-310221618008"
   },
@@ -68,6 +75,7 @@
       "property": "height"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
     "uuid": "5a1d31e8-2bd2-5b8c-b702-c1b55f7c4dc0"
   },
@@ -77,6 +85,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "f02abfa3-ac1f-5891-bebd-e954090e0de8"
   },
@@ -86,6 +95,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
     "uuid": "0d8addbb-07a6-59dd-bb7e-505491835072"
   },
@@ -95,6 +105,7 @@
       "property": "thickness"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "440d90e8-3560-5073-aa79-0a101a14517d"
   },
@@ -104,6 +115,7 @@
       "property": "gap"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "7b18d436-cb2b-5c25-8c5b-dfa828f6f6ec"
   },
@@ -113,6 +125,8 @@
       "property": "space-between"
     },
     "context": "Spacing (padding)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "padding",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "eb6f9ad3-d7e2-5b0a-b142-d8174b180625"
   },
@@ -122,6 +136,8 @@
       "property": "space-between"
     },
     "context": "Spacing (padding)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "padding",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "e10458a6-2298-593f-8752-211159f33d49"
   },
@@ -131,6 +147,7 @@
       "property": "spacing"
     },
     "context": "Spacing",
+    "contextRole": ["spacing"],
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "a52ba960-78ad-5b2b-9c60-2b4813e13e38"
   },
@@ -140,6 +157,7 @@
       "property": "content-color"
     },
     "context": "Default",
+    "contextRole": ["state"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "24c45187-3be8-56dd-8448-209f9cc3f83c"
   },
@@ -158,6 +176,7 @@
       "property": "content-color"
     },
     "context": "Hover",
+    "contextRole": ["state"],
     "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
     "uuid": "ec31724c-5008-5fad-80e9-2af326399aaa"
   },
@@ -167,6 +186,7 @@
       "property": "content-color"
     },
     "context": "Hover",
+    "contextRole": ["state"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "647c01b0-3feb-5e93-8a83-e2f2d81da942"
   },
@@ -176,6 +196,7 @@
       "property": "content-color"
     },
     "context": "Down",
+    "contextRole": ["state"],
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "62e8acfb-87b7-5bfd-8abb-90b0bfeffd4a"
   },
@@ -185,6 +206,7 @@
       "property": "content-color"
     },
     "context": "Down",
+    "contextRole": ["state"],
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
     "uuid": "98e3b3e1-a12e-57e7-91f5-5bb243855666"
   },
@@ -194,6 +216,7 @@
       "property": "content-color"
     },
     "context": "Disabled",
+    "contextRole": ["state"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "59d7097e-114f-5690-a796-4f4c5ed2fe08"
   },

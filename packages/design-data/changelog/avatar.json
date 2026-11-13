@@ -94,6 +94,43 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["context","contextRole"]}
+        },
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":43,"fields":["contextQualifier","contextRole"]}
+        },
+        {
+          "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1772,"title":"fix(design-data): align selected-row contexts with highlight selection and fix avatar text context","url":"https://github.com/adobe/spectrum-design-data/pull/1772"},
+          "entries": [
+            {"id":"6bf292db-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"font-family","options":null},"record":"06808c2e-2a8a-5c3d-aa0a-7bf18ee1dd7c","name":"font-family","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]},
+            {"id":"6bf292db-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"font-weight","options":null},"record":"aaf860d6-1ec5-5cb2-95e7-08ec5cad34f8","name":"font-weight","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]},
+            {"id":"6bf292db-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"font-style","options":null},"record":"407e78e3-414a-54a5-9d64-058222f881ab","name":"font-style","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]},
+            {"id":"6bf292db-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"font-size-100","options":null},"record":"86cce3f6-9aa6-5dff-aabe-e486d4561346","name":"font-size-100","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]},
+            {"id":"6bf292db-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"font-size-100","options":null},"record":"5fc9df87-91dd-5f9d-b8a4-b06043f078b0","name":"font-size-100","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]},
+            {"id":"6bf292db-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (initials)"],"scope":{"property":"line-height-100","options":null},"record":"114c0d9b-d4ae-55ae-a320-82b8c4b16182","name":"line-height-100","fields":[{"path":"context","before":"Text (List view item)","after":"Text (initials)"}]}
+          ],
+          "metadata": {"count":6,"fields":["contextQualifier"]}
+        }
+      ]
     }
   ]
 }

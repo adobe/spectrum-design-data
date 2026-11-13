@@ -5,6 +5,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "94ee9b15-821f-528e-833f-9532afc28a73"
   },
@@ -14,6 +15,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "1744fa93-bede-573e-993b-8238f849da7c"
   },
@@ -23,6 +25,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
     "uuid": "b9035308-88ee-5c0e-ae1e-be9be707f14a"
   },
@@ -32,6 +35,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "cb2dbb62-9fe3-57b8-8497-c7b238154919",
     "uuid": "61fd2f10-7fa6-5927-9957-e2784b9b3b09"
   },
@@ -41,6 +45,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "cbd0511f-c73d-40fa-9dfa-619ee5a38472",
     "uuid": "c6ef5d7c-1950-5721-ab41-7135ea6e7163"
   },
@@ -50,6 +55,7 @@
       "property": "size"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "7d55cf1b-1f33-5549-9f3b-45f61f913d78",
     "uuid": "99f22c9e-d61d-54d1-9b5b-4fecbca30322"
   },
@@ -59,6 +65,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84",
     "uuid": "512e82a7-fc40-5ecb-b57f-834dc0f66d9f"
   },
@@ -68,6 +75,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4",
     "uuid": "fce9a79b-37ac-5f41-b13f-8f8dc5f911f6"
   },
@@ -77,6 +85,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "a3adff4d-e69e-4aa0-95ec-2019328b7d08",
     "uuid": "c523fdd1-7463-5ae2-90db-c48c6937b660"
   },
@@ -86,6 +95,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "aa930d94-7874-44d7-80f1-dc431d40c4a4",
     "uuid": "4dcf8a28-6e0a-537a-8c7b-8f15d5487357"
   },
@@ -95,6 +105,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea",
     "uuid": "ad177d9c-fa35-538e-98cc-a7b3c29dc22d"
   },
@@ -104,6 +115,7 @@
       "property": "thickness"
     },
     "context": "Thickness",
+    "contextRole": ["thickness"],
     "$ref": "076b031f-5980-4112-bf0b-2cec47f54c6b",
     "uuid": "65f6144b-38d1-5ea6-a2f5-ad2c37696317"
   },
@@ -113,6 +125,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding (fill)",
+    "contextRole": ["rounding"],
+    "contextPart": "fill",
     "$ref": "4853520b-bda3-45d1-bd20-8508cac08847",
     "uuid": "e6bb1337-15fd-5fbc-baed-145c8949ed04"
   },
@@ -122,6 +136,7 @@
       "property": "color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "6f2bb13a-8579-495c-8fe3-0046b1f99b01",
     "uuid": "95ead168-7f5f-574a-88d0-0a469cc6244e"
   },
@@ -131,6 +146,7 @@
       "property": "content-color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "74b68a93-8600-51cf-89d7-b5fab8fbeb6e"
   },
@@ -140,6 +156,8 @@
       "property": "color"
     },
     "context": "Track and fill (white)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "white",
     "$ref": "23791534-8963-4ff8-bfb4-15108da47103",
     "uuid": "a788986d-f5c8-5a42-b302-15358ed74859"
   },
@@ -149,6 +167,8 @@
       "property": "color"
     },
     "context": "Track and fill (white)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "white",
     "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
     "uuid": "a256c2a6-6d0f-51ed-9af8-00d03f163c32"
   },
@@ -158,6 +178,8 @@
       "property": "color"
     },
     "context": "Track and fill (black)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "black",
     "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0",
     "uuid": "784b960b-9b78-596b-b43a-15546999eee7"
   },
@@ -167,6 +189,8 @@
       "property": "color"
     },
     "context": "Track and fill (black)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "black",
     "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
     "uuid": "8fec7f0f-3acf-559d-bb52-881d8d5d65a9"
   },

@@ -14,3 +14,9 @@
 ios = "platforms/ios/manifest.json"
 react-spectrum = "platforms/react-spectrum/manifest.json"
 web-components = "platforms/web-components/manifest.json"
+
+# Owned by its implementation repo (not incubated here); pinned to its release tag.
+[platforms.rune]
+repo = "GarthDB/spectrum-rune"
+tag = "v0.2.0"
+manifest_path = "platforms/rune/manifest.json"

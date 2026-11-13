@@ -5,6 +5,7 @@
       "property": "width"
     },
     "context": "Height & width",
+    "contextRole": ["size"],
     "$ref": "bb70e39d-c686-4cd2-a991-6b51fa16d9df",
     "uuid": "1d3fb710-b459-5db8-8b43-bbb9ed6f188e"
   },
@@ -14,6 +15,7 @@
       "property": "height"
     },
     "context": "Height & width",
+    "contextRole": ["size"],
     "$ref": "be327284-79fe-40b7-b996-8ad176d40d8e",
     "uuid": "87044282-6810-5b30-8083-55738ad4cc9e"
   },
@@ -23,6 +25,8 @@
       "property": "window-to-edge"
     },
     "context": "Margins (dialog option)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "dialog option",
     "$ref": "e595caf6-37f9-4f84-b81b-dd44ed0d6431",
     "uuid": "bc6b0498-ea7e-5c20-a545-3da4a9346468"
   },
@@ -32,6 +36,8 @@
       "property": "corner-radius"
     },
     "context": "Rounding (dialog option)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "dialog option",
     "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500",
     "uuid": "2d2cf941-77a6-5b40-bb19-06e144090be8"
   },
@@ -41,6 +47,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085",
     "uuid": "429f07e9-9372-503b-914d-0f212c04268d"
   },
@@ -50,6 +57,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
     "uuid": "81f47685-c92e-5df3-9b4d-47d8a6132e21"
   },
@@ -59,6 +67,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
     "uuid": "983b4b23-823b-56f8-964b-e870cd811f8c"
   },
@@ -68,6 +77,7 @@
       "property": "color"
     },
     "context": "Overlay",
+    "contextRole": ["layout"],
     "$ref": "af66daa6-9e52-4e68-a605-86d1de4ee971",
     "uuid": "3ea128a5-c15b-56e6-9f6e-b0d1020597c1"
   },
@@ -77,6 +87,7 @@
       "property": "opacity"
     },
     "context": "Overlay",
+    "contextRole": ["layout"],
     "$ref": "26b9803c-577f-4a29-badd-dfc459e8b73e",
     "uuid": "998c0eac-b15c-500d-8ec9-e46e8b7205ff"
   },
@@ -86,6 +97,7 @@
       "property": "opacity"
     },
     "context": "Overlay",
+    "contextRole": ["layout"],
     "$ref": "31d5b502-6266-4309-8f8a-3892e6e158da",
     "uuid": "750fab00-15a0-575f-9b8f-1596db934756"
   },
@@ -95,6 +107,7 @@
       "property": "opacity"
     },
     "context": "Overlay",
+    "contextRole": ["layout"],
     "$ref": "8964a28b-af18-4623-b530-7f4446ee6fa4",
     "uuid": "16318184-4483-587d-8da1-0820f59c07f3"
   },
@@ -104,6 +117,7 @@
       "property": "color"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9",
     "uuid": "b6a02924-0ce5-5404-90fe-fdc4bf97e3ed"
   },

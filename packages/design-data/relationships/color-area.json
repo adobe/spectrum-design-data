@@ -5,6 +5,7 @@
       "property": "width"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "uuid": "ba920b3d-eb8e-572b-8316-d781acdecbfb"
   },
@@ -14,6 +15,7 @@
       "property": "width"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
     "uuid": "4aacb145-8172-5dd4-b779-2554034278f5"
   },
@@ -23,6 +25,7 @@
       "property": "minimum-width"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "48e8e946-d978-5fc1-84bd-e183bed32a97"
   },
@@ -32,6 +35,7 @@
       "property": "minimum-width"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "uuid": "80c0c35e-810d-5e0c-aee2-3875711d9ae8"
   },
@@ -41,6 +45,7 @@
       "property": "height"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "uuid": "6d8bd6c7-a136-5387-bf0d-dba532f5dd9f"
   },
@@ -50,6 +55,7 @@
       "property": "height"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
     "uuid": "3f690677-821d-5501-b255-a0ba9493fe54"
   },
@@ -59,6 +65,7 @@
       "property": "minimum-height"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "37b2f3ad-88bc-52db-bd32-5ebdf1719e89"
   },
@@ -68,6 +75,7 @@
       "property": "minimum-height"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "uuid": "bcb52afd-d909-5cb7-b855-117fbffca359"
   },
@@ -113,6 +121,7 @@
       "property": "color"
     },
     "context": "Disabled",
+    "contextRole": ["state"],
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "65c76c10-f058-5967-bf64-72b338ada0a8"
   },

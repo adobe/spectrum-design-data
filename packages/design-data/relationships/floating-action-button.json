@@ -7,6 +7,8 @@
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",
     "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
@@ -35,6 +37,8 @@
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "82e8cf04-7eda-4f36-8d2c-fda63241c3de",
@@ -48,6 +52,8 @@
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "a4ddc1a6-1367-4153-bb7c-c217d16d10f4",

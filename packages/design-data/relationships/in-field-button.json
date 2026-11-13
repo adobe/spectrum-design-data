@@ -218,6 +218,9 @@
         "position": "inner"
       }
     },
+    "context": "Rounding (stacked, inner)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "stacked, inner",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
     "uuid": "f8ed9a70-58f1-4f1a-9e87-24bca6d7b4e1",
@@ -366,6 +369,9 @@
         "size": "extra-large"
       }
     },
+    "context": "Width (stacked)",
+    "contextRole": ["width"],
+    "contextQualifier": "stacked",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
     "uuid": "5f844b3f-e0d7-40f0-a754-a14bee6a0fb4",
@@ -385,6 +391,9 @@
         "size": "large"
       }
     },
+    "context": "Width (stacked)",
+    "contextRole": ["width"],
+    "contextQualifier": "stacked",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
     "uuid": "4e103763-4310-4aff-980f-652ad023084f",
@@ -404,6 +413,9 @@
         "size": "medium"
       }
     },
+    "context": "Width (stacked)",
+    "contextRole": ["width"],
+    "contextQualifier": "stacked",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
     "uuid": "bb8c7ce0-1766-47f9-b30e-36b3b57dc2ea",
@@ -423,6 +435,9 @@
         "size": "small"
       }
     },
+    "context": "Width (stacked)",
+    "contextRole": ["width"],
+    "contextQualifier": "stacked",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "24125066-c8d1-4c4a-85b3-493d112d3ca0",

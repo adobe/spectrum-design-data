@@ -19,6 +19,22 @@
           "metadata": {"count":2,"fields":["implementation added"]}
         }
       ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
     }
   ]
 }

@@ -287,6 +287,14 @@ pub fn apply_configured(
     let Some(manifest) = load_configured_manifest(resolved)? else {
         return Ok(HashMap::new());
     };
+    // Platform relationship `override`/`remove` target foundation records by uuid, so
+    // the foundation set must be loaded first. Callers that already loaded it are skipped.
+    if graph.relationships.is_empty() {
+        if let Some(dir) = resolved.relationships.as_deref() {
+            let rels = TokenGraph::load_spec_relationships(dir)?;
+            *graph = std::mem::take(graph).with_relationships(rels);
+        }
+    }
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
 }
@@ -934,6 +942,48 @@ mod tests {
         std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
 
         assert!(err.to_string().contains("unreadable.json"));
+    }
+
+    /// #1759: override/remove target foundation relationships, so `apply_configured`
+    /// must load them itself when the caller has not.
+    #[test]
+    fn relationship_override_and_remove_find_foundation_records() {
+        let dir = tempfile::tempdir().unwrap();
+        let rel_dir = dir.path().join("relationships");
+        std::fs::create_dir_all(&rel_dir).unwrap();
+        let rel = |uuid: &str| {
+            json!({"scope": {"component": "button", "property": "x"},
+                   "context": "c", "$ref": "btn-bg", "uuid": uuid})
+        };
+        std::fs::write(
+            rel_dir.join("button.json"),
+            json!([
+                rel("aaaaaaaa-0000-4000-8000-000000000001"),
+                rel("aaaaaaaa-0000-4000-8000-000000000002")
+            ])
+            .to_string(),
+        )
+        .unwrap();
+        let mut over = rel("aaaaaaaa-0000-4000-8000-000000000001");
+        over["context"] = json!("overridden");
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "relationships",
+                "ops.json",
+                json!([
+                    {"op": "override", "uuid": "aaaaaaaa-0000-4000-8000-000000000001", "value": over},
+                    {"op": "remove", "uuid": "aaaaaaaa-0000-4000-8000-000000000002"}
+                ]),
+            )],
+        );
+        let mut graph = make_graph();
+        let mut resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        resolved.relationships = Some(rel_dir);
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert_eq!(graph.relationships.len(), 1);
+        assert_eq!(graph.relationships[0].raw["context"], "overridden");
     }
 
     #[test]

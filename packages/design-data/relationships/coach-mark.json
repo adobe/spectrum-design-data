@@ -5,6 +5,7 @@
       "property": "width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
     "uuid": "0cb6ac3e-df42-5768-9bcd-bbece9ab65d6"
   },
@@ -14,6 +15,7 @@
       "property": "width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "e7a86e86-a669-59b1-aec0-515f659ac9a8"
   },
@@ -23,6 +25,7 @@
       "property": "minimum-width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
     "uuid": "dc4baf04-5315-5bc9-be04-83ae1d01f441"
   },
@@ -32,6 +35,7 @@
       "property": "minimum-width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "ef7764b0-6d41-5489-ae48-27ec8ad5bd9c"
   },
@@ -41,6 +45,7 @@
       "property": "maximum-width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa",
     "uuid": "05828929-40a3-5685-ac12-7b7610f93562"
   },
@@ -50,6 +55,7 @@
       "property": "maximum-width"
     },
     "context": "Width",
+    "contextRole": ["width"],
     "$ref": "a44e6674-a29c-50a6-aacf-189e380d87e2",
     "uuid": "21e347ee-28d6-599c-b649-e3d8489ce04a"
   },
@@ -59,6 +65,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom/start/end edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom/start/end edge to text",
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "uuid": "9c7f021b-4567-5c6e-9ae1-3eb77bd6c855"
   },
@@ -68,6 +76,8 @@
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to footer)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "header to body, body to footer",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "cf921abd-9351-5725-9394-5d3591d43a29"
   },
@@ -77,6 +87,8 @@
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to footer)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "header to body, body to footer",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "ebe74cc4-454d-57e8-8c81-5da58a6892bb"
   },
@@ -86,6 +98,8 @@
       "property": "space-between"
     },
     "context": "Spacing (pagination to bottom)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "pagination to bottom",
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "uuid": "d4fcb4b4-049d-5102-9e2b-9840e0ead5f1"
   },
@@ -95,6 +109,8 @@
       "property": "minimum-height"
     },
     "context": "Media (16:9)",
+    "contextRole": ["layout"],
+    "contextQualifier": "16:9",
     "$ref": "e62c5a76-685c-4b48-98bb-746d6dd4b10e",
     "uuid": "85e83e0f-f2f6-5dc6-b06a-c632f1502af6"
   },
@@ -104,6 +120,8 @@
       "property": "minimum-height"
     },
     "context": "Media (16:9)",
+    "contextRole": ["layout"],
+    "contextQualifier": "16:9",
     "$ref": "53703e12-f837-4573-bd44-e4727ed2aeaa",
     "uuid": "5d92d7b9-6e09-5878-84cb-e744af5fdb2c"
   },
@@ -113,6 +131,8 @@
       "property": "height"
     },
     "context": "Media (4:3)",
+    "contextRole": ["layout"],
+    "contextQualifier": "4:3",
     "$ref": "f6381a33-ac4e-4ff9-86a3-183c857772ad",
     "uuid": "a7c080be-0510-5c85-b357-900051cd0ca1"
   },
@@ -122,6 +142,8 @@
       "property": "height"
     },
     "context": "Media (4:3)",
+    "contextRole": ["layout"],
+    "contextQualifier": "4:3",
     "$ref": "45b31e46-b878-40a2-a28a-91c480f45253",
     "uuid": "e6ad01fa-1b5b-54af-a0b1-72d9d51dd8b5"
   },
@@ -131,6 +153,8 @@
       "property": "spacing"
     },
     "context": "Spacing (action button to menu)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "action button to menu",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "7188921e-5386-5a95-98e0-b51296686045"
   },
@@ -140,6 +164,7 @@
       "property": "font-family"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8",
     "uuid": "6d532503-e6cc-5eac-b0e8-1eb5ddb53012"
   },
@@ -149,6 +174,7 @@
       "property": "font-weight"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4",
     "uuid": "340a70b4-00c7-561a-b0e8-c0d1e0be0aa2"
   },
@@ -158,6 +184,7 @@
       "property": "font-style"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "70955f1b-4124-432e-bd9d-c5b42c890195",
     "uuid": "e6df8e20-8f4c-558a-aba8-febd1f844318"
   },
@@ -167,6 +194,7 @@
       "property": "font-size"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
     "uuid": "f1d98ddd-e812-5dab-b9d7-11de7ac78b08"
   },
@@ -176,6 +204,7 @@
       "property": "font-size"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "45855bc5-3b86-49a9-b443-7be9aa763c4e",
     "uuid": "5e4d3179-2e2b-5949-82e0-5876120ce7f4"
   },
@@ -185,6 +214,7 @@
       "property": "line-height"
     },
     "context": "Title",
+    "contextRole": ["label"],
     "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f",
     "uuid": "43d592a1-4634-58bf-ad3d-2145ff818875"
   },
@@ -194,6 +224,7 @@
       "property": "font-family"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b",
     "uuid": "8e2f2586-b455-5a7b-aee4-381a91120b23"
   },
@@ -203,6 +234,7 @@
       "property": "font-weight"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31",
     "uuid": "038b7393-f5ca-54ef-9b09-69a4ba4628cc"
   },
@@ -212,6 +244,7 @@
       "property": "font-style"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "d317d387-9bc8-4258-a79a-a0dd4e22d952",
     "uuid": "14a6ff10-448d-5195-837f-b829fe97a76f"
   },
@@ -221,6 +254,7 @@
       "property": "font-size"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
     "uuid": "5f9a090a-54b8-5ae6-84a6-2b1b54d5e473"
   },
@@ -230,6 +264,7 @@
       "property": "font-size"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "73959c3d-afc2-4f6e-bd34-0399bf3b5b73",
     "uuid": "c797942b-2a80-5a38-9d56-dc27d2f759f6"
   },
@@ -239,6 +274,7 @@
       "property": "line-height-200"
     },
     "context": "Body",
+    "contextRole": ["label"],
     "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97",
     "uuid": "20dda3b7-d889-5dfc-877d-0389d97b8545"
   },
@@ -248,6 +284,7 @@
       "property": "font-weight"
     },
     "context": "Pagination",
+    "contextRole": ["pagination"],
     "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
     "uuid": "cf612470-9ca9-527c-84e0-ef0bd0fa2401"
   },
@@ -257,6 +294,7 @@
       "property": "font-size"
     },
     "context": "Pagination",
+    "contextRole": ["pagination"],
     "$ref": "06ae2458-8490-4741-8a02-97f60cc01592",
     "uuid": "31999b20-7615-5c2e-a8a0-e6f7d84e9851"
   },
@@ -266,6 +304,7 @@
       "property": "font-size"
     },
     "context": "Pagination",
+    "contextRole": ["pagination"],
     "$ref": "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2",
     "uuid": "98dab4a6-7c2f-59d7-9088-73cb271ebb91"
   },
@@ -275,6 +314,7 @@
       "property": "color"
     },
     "context": "Color",
+    "contextRole": ["background"],
     "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9",
     "uuid": "9217690b-1582-56c8-bb16-1bd862bbdd20"
   },
@@ -284,6 +324,7 @@
       "property": "color"
     },
     "context": "Color",
+    "contextRole": ["background"],
     "$ref": "a7218010-91c1-4f20-8072-7b1801593014",
     "uuid": "acd03366-c68b-5bf5-a98d-4dfabb580223"
   },
@@ -293,6 +334,7 @@
       "property": "color"
     },
     "context": "Color",
+    "contextRole": ["background"],
     "$ref": "f8cefe70-db2c-489e-bbbe-964050e96ab6",
     "uuid": "41510f6d-d0c1-502d-b2c0-e373af8e14ff"
   },

@@ -649,7 +649,7 @@ enum Commands {
 
 #[derive(Subcommand)]
 enum CatalogSub {
-    /// Write merged `components/`, `guidelines/`, `guidelines/manifest.json` and `icons/` under DIR
+    /// Write merged `components/`, `guidelines/`, `guidelines/manifest.json`, `icons/` and `visuals/` under DIR
     Export {
         /// Output directory (created if missing)
         #[arg(long, value_name = "DIR")]
@@ -1175,6 +1175,15 @@ fn load_visual_env_for(
         platform_id: platform,
         ..Default::default()
     })?;
+    load_visual_graph(&resolved, visuals_path, load_visuals)
+}
+
+/// [`load_visual_env_for`] on an already-resolved data source.
+fn load_visual_graph(
+    resolved: &data_source::ResolvedData,
+    visuals_path: Option<PathBuf>,
+    load_visuals: bool,
+) -> miette::Result<(TokenGraph, PathBuf, Option<manifest::PlatformIdentity>)> {
     let mut graph = TokenGraph::from_json_dir_with_catalogs(
         &resolved.tokens_root,
         resolved.mode_sets.as_deref(),
@@ -1214,10 +1223,10 @@ fn load_visual_env_for(
     // Foundation→Platform cascade, after the relationships and recipes load so
     // extension relationships and recipes layer onto them. A no-op when no platform
     // is selected.
-    manifest::apply_configured(&mut graph, &resolved)
+    manifest::apply_configured(&mut graph, resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
-    let platform = manifest::platform_identity(&resolved).into_diagnostic()?;
+    let platform = manifest::platform_identity(resolved).into_diagnostic()?;
     Ok((graph, visuals_dir, platform))
 }
 
@@ -3994,12 +4003,25 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
 /// `design-data catalog export --out DIR`: write the component and guideline
 /// catalogs after the selected platform manifest (if any) is applied, in the
 /// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
-/// `icons/*.json` layout.
+/// `icons/*.json` + `visuals/*.json` layout.
 fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides::default())?;
     let catalogs = manifest::load_merged_catalogs(&resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
+    // Recipes come from the same loader `render` uses, so a platform recipe has
+    // already replaced (or joined) the foundation one. Load (and check the names)
+    // before touching DIR so a failure can't leave it half-cleared.
+    let (graph, _, _) = load_visual_graph(&resolved, None, true)?;
+    if let Some(bad) = graph.visuals.iter().find(|v| {
+        v.component.is_empty() || v.component.contains(['/', '\\']) || v.component.starts_with('.')
+    }) {
+        miette::bail!(
+            "recipe {} has an unsafe component name {:?}",
+            bad.file.display(),
+            bad.component
+        );
+    }
 
     let components_out = out.join("components");
     let guidelines_out = out.join("guidelines");
@@ -4011,7 +4033,8 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     }
     // Drop `.json` files from a previous export so reusing DIR can't leave
     // components, guidelines or icon sets behind that this cascade no longer contains.
-    for dir in [&components_out, &guidelines_out, &icons_out] {
+    let visuals_out = out.join("visuals");
+    for dir in [&components_out, &guidelines_out, &icons_out, &visuals_out] {
         if !dir.is_dir() {
             continue;
         }
@@ -4056,6 +4079,16 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
         }
     }
 
+    if !graph.visuals.is_empty() {
+        std::fs::create_dir_all(&visuals_out).into_diagnostic()?;
+    }
+    for recipe in &graph.visuals {
+        write_json(
+            visuals_out.join(format!("{}.json", recipe.component)),
+            &recipe.raw,
+        )?;
+    }
+
     // Start from the foundation guidelines manifest, then add or replace
     // entries for platform-contributed documents.
     let mut entries: Vec<serde_json::Value> = resolved
@@ -4095,10 +4128,11 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     )?;
 
     println!(
-        "Exported {} component(s), {} guideline(s) and {} icon set(s) to {}",
+        "Exported {} component(s), {} guideline(s), {} icon set(s) and {} recipe(s) to {}",
         catalogs.components.len(),
         catalogs.guidelines.len(),
         icon_sets,
+        graph.visuals.len(),
         out.display()
     );
     Ok(ExitCode::SUCCESS)

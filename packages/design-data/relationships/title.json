@@ -14,6 +14,7 @@
       "property": "margin"
     },
     "context": "Margins",
+    "contextRole": ["spacing"],
     "$ref": "14d9dc6c-28fc-41cf-a1ae-600a150f520a",
     "uuid": "33e468da-87a2-562e-aaa3-f187c5d5757e"
   },
@@ -23,6 +24,7 @@
       "property": "margin"
     },
     "context": "Margins",
+    "contextRole": ["spacing"],
     "$ref": "73a0bd28-7691-47b0-9e9b-62ec22940e63",
     "uuid": "f84be9a6-4aa5-54d8-95e0-194e2b82ab71"
   },
@@ -32,6 +34,7 @@
       "property": "color"
     },
     "context": "Color",
+    "contextRole": ["background"],
     "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b",
     "uuid": "517c290b-dabf-5a7b-829c-146910bfae7e"
   },

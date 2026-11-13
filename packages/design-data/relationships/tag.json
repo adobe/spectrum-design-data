@@ -5,6 +5,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "0fd43936-1984-5b8c-85cb-dfe1e226b859"
   },
@@ -14,6 +15,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "e658ce35-1966-56ca-82a4-ab0227c5e0f2"
   },
@@ -23,6 +25,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "621aad48-b3cf-56bf-8cc0-b42692357ca4"
   },
@@ -32,6 +35,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "66baac18-d131-55a6-96ce-2aedff431b2c"
   },
@@ -41,6 +45,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "092382e8-5e92-503c-99f6-813992c4357a"
   },
@@ -50,6 +55,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "b5562b62-a00b-513c-b5ae-a16544ed1312"
   },
@@ -59,6 +65,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
     "uuid": "a7406d4c-a89b-5c9d-ba93-f4d170e1fe6a"
   },
@@ -68,6 +75,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "90cde499-440b-584a-af95-26799a05e23e",
     "uuid": "bfb57733-9290-551d-982c-e421c9750c0b"
   },
@@ -77,6 +85,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "29e3d3a8-fb3a-5287-b7bd-ea13dce1c520"
   },
@@ -86,6 +95,7 @@
       "property": "size"
     },
     "context": "Components",
+    "contextRole": ["layout"],
     "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "4d718bae-a517-5df0-af64-ac63d36ae578"
   },
@@ -95,6 +105,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "665a5cfc-abe6-5455-bcef-62fd408eda7c"
   },
@@ -104,6 +115,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "91df6ac4-abe7-5d58-927b-b487e729d128"
   },
@@ -113,6 +125,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "a256fbd8-453f-5079-ade2-d3dd46dc150b"
   },
@@ -122,6 +135,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "75ead5bc-b09d-5baf-b0fc-34e8cbb54d47"
   },
@@ -131,6 +145,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "93d0b1e9-2521-55af-ad48-c90f98e4578a"
   },
@@ -140,6 +155,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8e395e7c-991c-506e-a17f-5af23ff24799"
   },
@@ -149,6 +165,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "d3327dae-cc93-4099-ad75-b5a4193af8e4",
     "uuid": "3efd593b-5d0a-5133-8847-e07ac1e34549"
   },
@@ -158,6 +176,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "3b9e5d81-e49a-4080-ac53-094e0f7eb151",
     "uuid": "10b1a05d-b542-53f7-90da-395b0bbbfb14"
   },
@@ -167,6 +187,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "9b373ba1-7381-4360-8730-bd91afacbfa7",
     "uuid": "9c5c944a-7b68-5bd3-b1a0-1290e5a6cc9a"
   },
@@ -176,6 +198,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "40485b19-e1ac-4981-a17c-bb6e264c730d",
     "uuid": "2e76415f-3ea1-53df-9a0d-e092405ef046"
   },
@@ -185,6 +209,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "234b3886-77eb-4ad5-9d19-40d801a54617",
     "uuid": "b8e313c6-8e99-53dc-b0d1-f68d4fd7a886"
   },
@@ -194,6 +220,8 @@
       "property": "minimum-width"
     },
     "context": "Minimum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "b2788159-dd2d-4f94-9282-d8cdbba41807",
     "uuid": "fad09aeb-b8d4-5dc4-bdb1-656483afda26"
   },
@@ -203,6 +231,8 @@
       "property": "maximum-width-multiplier"
     },
     "context": "Maximum width (with label)",
+    "contextRole": ["width"],
+    "contextQualifier": "with label",
     "$ref": "8771f506-a491-4222-be86-0e666ea2c711",
     "uuid": "fbb4ad27-7819-52aa-b80f-f36568997daa"
   },
@@ -212,6 +242,8 @@
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824",
     "uuid": "97ef0740-e339-5839-b988-a3b6c01b96d0"
   },
@@ -221,6 +253,8 @@
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177",
     "uuid": "d7782eb4-c02f-5332-b45c-2ca9bf810f3a"
   },
@@ -230,6 +264,8 @@
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "103daec0-9711-4422-84d1-62ab77afa00d",
     "uuid": "398bde76-ca18-5fee-8eaa-225b0d466ac4"
   },
@@ -239,6 +275,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "b33cf7ed-c818-5916-b015-9d4311af3f8b"
   },
@@ -248,6 +285,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
     "uuid": "a41e0ada-6147-5c00-ada2-5b56145b5c0d"
   },
@@ -257,6 +295,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90",
     "uuid": "c7475fdc-f4e9-536a-a7a1-917fd95231f8"
   },
@@ -266,6 +305,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "577e3e50-4be7-5ed4-bc5b-eb91c75f049c"
   },
@@ -275,6 +315,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "99e2cf2e-76c4-511e-8c28-9cdb9405b2b7"
   },
@@ -284,6 +325,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "64cfbe43-15ea-52d5-aa7b-893c83a4bdeb"
   },
@@ -293,6 +335,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "845c9903-ce68-5446-9060-375a30ff89c4"
   },
@@ -302,6 +345,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
     "uuid": "f3efe6ad-9037-54ee-a231-1c64c09a9090"
   },
@@ -311,6 +355,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
     "uuid": "dbd67759-f925-52a3-a2bf-a06d0c724298"
   },
@@ -320,6 +365,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "8e597833-1025-4de4-b34a-2f34201487c3",
     "uuid": "3fa393b9-b32f-5d63-9455-f81bc57a3b08"
   },
@@ -329,6 +375,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "622d259d-b52b-409a-bf58-04705d8423f9",
     "uuid": "b322c96a-9c1a-5b18-906a-b6640e2dbcc1"
   },
@@ -338,6 +385,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "c9fac273-0c5c-46cd-b774-ad566a540511",
     "uuid": "f424a952-c56d-5bcd-8d4b-20d4f25a2dab"
   },
@@ -347,6 +395,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "11f924ca-5542-4864-b153-77363a32d690",
     "uuid": "8ac9ddde-e9b5-531a-bd07-214ebb958701"
   },
@@ -356,6 +405,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "5b416331-7910-4d64-9b5f-43fd1832d3a6",
     "uuid": "abb938e6-5891-5783-abeb-30ef417c8c02"
   },
@@ -365,6 +415,7 @@
       "property": "size"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "11f65b04-c50d-45bb-86bd-34520aa7db61",
     "uuid": "b2998d31-b1ea-5d0e-a89e-d52fba0ca2a7"
   },
@@ -374,6 +425,8 @@
       "property": "component-edge-to-visual-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "4d95aa43-e8d8-56c5-83fc-3c563b05a89f"
   },
@@ -383,6 +436,8 @@
       "property": "component-edge-to-visual-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "bcab0ba9-38c6-5920-b7f2-ff08593b3cab"
   },
@@ -392,6 +447,8 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "5e1d4979-f8dd-5551-8040-3c8ce0995257"
   },
@@ -401,6 +458,8 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "09eed8a4-6e71-5f5c-956e-bdaa00286c85"
   },
@@ -410,6 +469,8 @@
       "property": "component-edge-to-visual-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "9eca3de6-f644-5d9b-88ac-f08b6be6059b"
   },
@@ -419,6 +480,8 @@
       "property": "component-edge-to-visual-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "d14b803f-9b6a-5c51-a16d-d261d8fb0458"
   },
@@ -428,6 +491,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "1ecccc29-a464-5b34-bb45-f143985aa3e5"
   },
@@ -437,6 +502,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "62cc287f-a7bf-56ee-bc78-a37432be9b40"
   },
@@ -446,6 +513,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "0bd1d7e1-f5d6-5102-97f3-5d9095fed5fd"
   },
@@ -455,6 +524,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "90c86213-5029-5ae4-b416-482e163a48db"
   },
@@ -464,6 +535,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "f27e470a-5c04-590e-b6bc-44730a60abd6"
   },
@@ -473,6 +546,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "fa0564fb-385e-51ca-9d23-da55d19432e9"
   },
@@ -482,6 +557,8 @@
       "property": "space-between"
     },
     "context": "Spacing (visual to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "visual to label",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "3965e81b-a94e-5d56-9fda-81ed79b2267d"
   },
@@ -491,6 +568,8 @@
       "property": "space-between"
     },
     "context": "Spacing (visual to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "visual to label",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "03fa8af9-4011-52da-b73e-41313945c85c"
   },
@@ -500,6 +579,8 @@
       "property": "space-between"
     },
     "context": "Spacing (visual to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "visual to label",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "305b077c-c9ab-58d7-bd56-97e11e5831e9"
   },
@@ -509,6 +590,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "a084cd41-14d1-5bde-bb23-d47971d0d2ef"
   },
@@ -518,6 +601,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "34f88823-2ea9-5f96-b89e-8161f33ec12f"
   },
@@ -527,6 +612,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "6ee442c7-6691-534f-b1e6-82de7f392ce9"
   },
@@ -536,6 +623,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "03a46f95-5d42-505d-9c7f-d41c28df32ac"
   },
@@ -545,6 +634,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "b4c54c5c-2121-5c7d-89f7-9cf082d1bf60"
   },
@@ -554,6 +645,8 @@
       "property": "space-between"
     },
     "context": "Spacing (label to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to cross icon",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "86c52301-b3c4-59d9-8591-f94c7ef6c940"
   },
@@ -563,6 +656,8 @@
       "property": "space-between"
     },
     "context": "Spacing (cross icon to end edge)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "cross icon to end edge",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "8a9ca4fb-f229-5632-a56b-105fea6cddc0"
   },
@@ -572,6 +667,8 @@
       "property": "space-between"
     },
     "context": "Spacing (cross icon to end edge)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "cross icon to end edge",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "dde40748-6ad0-5edb-b836-83b6915972a2"
   },
@@ -581,6 +678,8 @@
       "property": "space-between"
     },
     "context": "Spacing (cross icon to end edge)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "cross icon to end edge",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "51667610-8862-58bd-b7cb-4f8520c99d31"
   },
@@ -590,6 +689,8 @@
       "property": "component-top-to-workflow-icon-75"
     },
     "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "0986f7e4-5697-5b08-90e2-bc0f286cb9c9"
   },
@@ -599,6 +700,8 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "423f2ed0-9b0b-544f-a674-895715dd4328"
   },
@@ -608,6 +711,8 @@
       "property": "component-top-to-workflow-icon-200"
     },
     "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "767c3470-fe90-5abe-97eb-66a2da00bfd9"
   },
@@ -617,6 +722,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to avatar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to avatar",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "8b3c04ea-4db8-5345-837d-3473d0750e63"
   },
@@ -626,6 +733,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to avatar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to avatar",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "f541da35-985d-5e78-92cf-ec456dfc9ee7"
   },
@@ -635,6 +744,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to avatar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to avatar",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "f8eac174-e7f2-5374-a36a-6ac9a850f3e7"
   },
@@ -644,6 +755,8 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to label",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "a66e8d6b-134e-53eb-8421-70fca44c2080"
   },
@@ -653,6 +766,8 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "82632dd6-5eed-56f6-9431-d729367f02e2"
   },
@@ -662,6 +777,8 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to label",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "41b9c5b2-8cfa-5c3e-9465-a51676104823"
   },
@@ -671,6 +788,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "27f29e43-28ea-5690-b945-191468cb6de0"
   },
@@ -680,6 +799,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "6052e803-cb74-5f2c-9340-a5212e436b07"
   },
@@ -689,6 +810,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "d2de3c54-d9e6-5917-887c-f82761fc5750"
   },
@@ -698,6 +821,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "c97b0e50-029e-5668-ab28-72fa845f0046"
   },
@@ -707,6 +832,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "4444ee41-2fb2-518a-8ac7-e8589540a2b4"
   },
@@ -716,6 +843,8 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to cross icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to cross icon",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "1d3606c0-4b10-5195-903a-e2647c7a7686"
   },
@@ -725,6 +854,7 @@
       "property": "thickness"
     },
     "context": "Focus indicator",
+    "contextRole": ["focus"],
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "dfec3440-a581-5e54-9f37-8900c95294e9"
   },
@@ -734,6 +864,7 @@
       "property": "gap"
     },
     "context": "Focus indicator",
+    "contextRole": ["focus"],
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "cf1d29c0-a74d-5558-8960-e691abbaf944"
   },
@@ -743,6 +874,7 @@
       "property": "font-family"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "21111fda-f194-5b74-bc82-13190e90c64e"
   },
@@ -752,6 +884,7 @@
       "property": "font-weight"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
     "uuid": "2268827b-15bc-573c-923c-a3f3a2b534ed"
   },
@@ -761,6 +894,7 @@
       "property": "font-style"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "49d90781-20c0-5904-ab80-b41b06a14d2a"
   },
@@ -770,6 +904,7 @@
       "property": "font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
     "uuid": "b742cf52-938c-5718-93d8-831e5fd5da4f"
   },
@@ -779,6 +914,7 @@
       "property": "font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
     "uuid": "d1f4031e-c696-5895-9fd2-a6e669739750"
   },
@@ -788,6 +924,7 @@
       "property": "font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "68223c23-6553-5a2f-83bf-e1433e2f1497"
   },
@@ -797,6 +934,7 @@
       "property": "font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "77f365dd-823c-5b8c-85d5-942adab58ae3"
   },
@@ -806,6 +944,7 @@
       "property": "font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
     "uuid": "52cbd354-f8b1-5d5d-9e4e-d7e5f55bf99d"
   },
@@ -815,6 +954,7 @@
       "property": "font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
     "uuid": "3427c298-4cb4-54ba-ab4d-0706b63a4322"
   },
@@ -824,6 +964,7 @@
       "property": "line-height-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "40c135e5-1bc4-5730-9ba6-a8086fa2a411"
   },
@@ -833,6 +974,7 @@
       "property": "line-height-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "5a726dc1-2a7e-5d15-ba5f-32dbdeae6d7d"
   },
@@ -842,6 +984,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
     "uuid": "6693fc59-5b66-5274-983c-1c2749ecad8c"
   },
@@ -851,6 +994,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e",
     "uuid": "57c55f5d-2375-5a33-bbb6-bef5bf740f8b"
   },
@@ -860,6 +1004,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18",
     "uuid": "bdd800c6-b7b6-558b-b4aa-5f345502b050"
   },
@@ -869,6 +1014,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5",
     "uuid": "99aa4658-c677-56c6-a0e1-6a6c84063374"
   },
@@ -878,6 +1024,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce",
     "uuid": "b96e2a20-4994-56aa-8bd7-20c423d7508e"
   },
@@ -887,6 +1034,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975",
     "uuid": "c4a2026a-0b2a-5bc9-989f-0e991d3c9996"
   },
@@ -896,6 +1044,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541",
     "uuid": "6639f386-69a5-55c8-a2d9-57c4c6c05f4b"
   },
@@ -905,6 +1054,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6",
     "uuid": "f4810ff6-5e8e-54ab-878c-deb7af8298d7"
   },
@@ -914,6 +1064,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a5201034-a592-47c6-be78-050ae951043e",
     "uuid": "12ec3356-1dc6-53f5-beac-594119fe4793"
   },
@@ -923,6 +1074,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65",
     "uuid": "b55baa48-6aae-5ace-a342-c530ce817f2d"
   },
@@ -932,6 +1084,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "af809118-7a97-409c-925f-8d7636a791c8",
     "uuid": "de6e45a0-65eb-5f79-b329-73e74891cf2d"
   },
@@ -941,6 +1094,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67",
     "uuid": "b69ed140-2f9d-57fd-bff3-b3140925d56e"
   },
@@ -959,6 +1113,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
     "uuid": "c3a6d0d7-f740-5753-b036-8f8f6f957fa9"
   },
@@ -968,6 +1123,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "1c220122-5f32-42f9-848f-ae10061241e5",
     "uuid": "8f386ab2-717b-5ab2-8177-b83535b18b78"
   },
@@ -977,6 +1133,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "966c56d0-4461-45e7-9e20-0277f2111a34",
     "uuid": "fdc4334d-7eee-5929-9332-e6f367dfa7c1"
   },
@@ -986,6 +1143,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "9b8df7df-3439-4614-b446-97a4de782e27",
     "uuid": "0cb9486a-65ca-5071-9397-f3046f10a6bf"
   },
@@ -1022,6 +1180,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "98ba01e9-893d-526e-a1dd-9492edcb79af"
   },
@@ -1031,6 +1190,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "dc9dcdc0-2a6e-5e15-9780-0f66de2eb4bd"
   },
@@ -1040,6 +1200,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "d8fe9bfa-757b-57db-abb4-ee8f9d52ef6e"
   },
@@ -1049,6 +1210,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "27ca88ce-9b83-598d-bc98-25ef57d9652d"
   },
@@ -1058,6 +1220,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "5402012a-e4c5-5e96-8630-c7397e71fecf"
   },
@@ -1067,6 +1230,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "0886d775-21b9-58e0-9e90-a6a915211936"
   },
@@ -1112,6 +1276,7 @@
       "property": "color"
     },
     "context": "Fill",
+    "contextRole": ["track"],
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "aaf4b1d6-12f7-57cd-aada-e56c6c823c99"
   },
@@ -1130,6 +1295,7 @@
       "property": "color"
     },
     "context": "Focus indicator",
+    "contextRole": ["focus"],
     "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
     "uuid": "2fa394ae-90df-5c43-85e0-438052bcb6a9"
   },

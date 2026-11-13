@@ -5,6 +5,8 @@
       "property": "spacing"
     },
     "context": "Spacing (horizontal)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "horizontal",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "3351e4f9-18f7-574a-95cd-0a46385fef51"
   },
@@ -14,6 +16,8 @@
       "property": "spacing"
     },
     "context": "Spacing (horizontal)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "horizontal",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "7d497d62-8aa1-5e73-859e-9ae1753c61f2"
   }

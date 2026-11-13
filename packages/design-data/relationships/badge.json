@@ -5,6 +5,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "7095a28b-11e1-51bb-bb97-12b255e13039"
   },
@@ -14,6 +15,7 @@
       "property": "component-height-75"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "1a41628c-d2d3-54cd-b791-aee3001056d5"
   },
@@ -23,6 +25,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "6506e05d-9f64-5a30-a686-08cb75c83967"
   },
@@ -32,6 +35,7 @@
       "property": "component-height-100"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "85fbef46-d31f-5bd6-89ac-ba9c0ad454aa"
   },
@@ -41,6 +45,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "522559f1-940d-592e-9161-3a12e0ea8bc6"
   },
@@ -50,6 +55,7 @@
       "property": "component-height-200"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8e86d3f1-3f59-54b5-bdaa-aaa3e61a606f"
   },
@@ -59,6 +65,7 @@
       "property": "component-height-300"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "a5da4444-4477-57ab-9e71-8757c94d1270"
   },
@@ -68,6 +75,7 @@
       "property": "component-height-300"
     },
     "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "b45f4a3e-3c97-57da-9d5a-0c74b989b7f7"
   },
@@ -77,6 +85,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "933f619c-03a9-5af7-99e4-4b8635303303"
   },
@@ -86,6 +95,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
     "uuid": "b6b6aa8b-0a71-5256-ab9c-f7d1cb16ec73"
   },
@@ -95,6 +105,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90",
     "uuid": "c54dfe2f-9a32-5ea5-a48c-756d76d5aafd"
   },
@@ -104,6 +115,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9",
     "uuid": "d9723d4d-8081-58c2-aa8e-37f4c481aca5"
   },
@@ -113,6 +125,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
     "uuid": "dadd4be6-4368-58a1-811d-ec84b60beb1a"
   },
@@ -122,6 +135,7 @@
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
     "uuid": "b46cf298-7d12-552c-9afe-44e3753ed8d4"
   },
@@ -131,6 +145,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "8303277c-4574-50a1-b7a7-b5d5a45da8b9"
   },
@@ -140,6 +155,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "ad8f63eb-571e-5097-a71d-cd41f2d1a5e2"
   },
@@ -149,6 +165,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
     "uuid": "7fdd5e2e-c56d-51a4-8753-31ebe8036221"
   },
@@ -158,6 +175,7 @@
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
     "uuid": "872c64f2-e3a9-517d-963e-e164af217622"
   },
@@ -167,6 +185,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
     "uuid": "7f4b25a7-3757-5166-b29a-59510ac0041b"
   },
@@ -176,6 +195,7 @@
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "65f791f8-a88f-4765-a57e-3e023a436642",
     "uuid": "412be4a8-eb3a-5351-8931-5d7de5788934"
   },
@@ -185,6 +205,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "f10a3001-844a-582a-82ce-8b011bcd5c5c"
   },
@@ -194,6 +216,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "968bb729-399e-5abf-964f-6c24a844f5ff"
   },
@@ -203,6 +227,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "d8a0dbec-b3bf-59ec-babd-cceb4f858f92"
   },
@@ -212,6 +238,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "81c63d69-cc69-5755-8caf-802918767155"
   },
@@ -221,6 +249,8 @@
       "property": "component-edge-to-visual-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "4593939f-4fc5-5619-b2c5-39567c209a8c"
   },
@@ -230,6 +260,8 @@
       "property": "component-edge-to-visual-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "c2ae9501-1cca-5632-a61c-2312c5153e46"
   },
@@ -239,6 +271,8 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "26dfab35-b1c6-5ecc-a3f1-60837b8d8de9"
   },
@@ -248,6 +282,8 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "38c6d3cd-160f-5b99-85e4-b0e73930eb81"
   },
@@ -257,6 +293,8 @@
       "property": "component-edge-to-visual-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "e806a5ff-d9ee-5eff-a27c-4b2451777dd7"
   },
@@ -266,6 +304,8 @@
       "property": "component-edge-to-visual-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "81123daa-2b42-5061-9aec-a7f8d2e0010b"
   },
@@ -275,6 +315,8 @@
       "property": "component-edge-to-visual-300"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
     "uuid": "9fcda443-2ebe-5568-b801-5430715df398"
   },
@@ -284,6 +326,8 @@
       "property": "component-edge-to-visual-300"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
     "uuid": "b62f9bd8-be7f-5c1c-ad73-3047c673313b"
   },
@@ -293,6 +337,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "uuid": "285ae659-a582-5dea-a58e-2a1b5477acca"
   },
@@ -302,6 +348,8 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "uuid": "f9176aed-c4d2-501a-8a7c-ce47ac1e289b"
   },
@@ -311,6 +359,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "uuid": "3611eb58-f1bb-5e2d-a0b5-f0c9bf097879"
   },
@@ -320,6 +370,8 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "44f69fb1-c965-5b43-a01c-a24b7907beae"
   },
@@ -329,6 +381,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
     "uuid": "d7d9bfb4-50f4-5c95-bf14-466c43082e6b"
   },
@@ -338,6 +392,8 @@
       "property": "component-edge-to-text-200"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "uuid": "a9d165de-d729-5446-8b87-e3587799a427"
   },
@@ -347,6 +403,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
     "uuid": "fe4d2c5d-ef84-5a4b-98a3-e8d37ab7b15e"
   },
@@ -356,6 +414,8 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Spacing (start/end edges)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges",
     "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
     "uuid": "262efda7-d442-5da7-a1a2-c8e4b98b9321"
   },
@@ -365,6 +425,8 @@
       "property": "component-edge-to-visual-only-75"
     },
     "context": "Spacing (start/end edges, icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, icon only",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "d725821e-773b-5f2e-91ea-3b8066e0243d"
   },
@@ -374,6 +436,8 @@
       "property": "component-edge-to-visual-only-100"
     },
     "context": "Spacing (start/end edges, icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, icon only",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "8e5b8213-cab3-5876-97f0-f154d96768d2"
   },
@@ -383,6 +447,8 @@
       "property": "component-edge-to-visual-only-200"
     },
     "context": "Spacing (start/end edges, icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, icon only",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "f30d9d6c-669e-58e9-8654-35e2066c371f"
   },
@@ -392,6 +458,8 @@
       "property": "component-edge-to-visual-only-300"
     },
     "context": "Spacing (start/end edges, icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, icon only",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "3cbd164d-e55c-584a-9d4d-144373bfcef2"
   },
@@ -401,6 +469,8 @@
       "property": "component-top-to-workflow-icon-75"
     },
     "context": "Spacing (top edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to icon",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "4b693f67-f05c-5123-98ff-f162fe5f58ea"
   },
@@ -410,6 +480,8 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to icon",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "39b5d264-4449-5d0a-b045-d05514983a75"
   },
@@ -419,6 +491,8 @@
       "property": "component-top-to-workflow-icon-200"
     },
     "context": "Spacing (top edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to icon",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "3895f636-9095-5b64-8e60-e50a4d9271d7"
   },
@@ -428,6 +502,8 @@
       "property": "component-top-to-workflow-icon-300"
     },
     "context": "Spacing (top edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "76c4e189-c45a-52c5-ac4b-fa3d33745c37"
   },
@@ -437,6 +513,7 @@
       "property": "border-width"
     },
     "context": "Border",
+    "contextRole": ["border"],
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "3d2ea1fe-49a0-56d0-b3a5-77b8f6ccc507"
   },
@@ -446,6 +523,8 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "d119666c-5ee8-5849-b1ac-5081194af612"
   },
@@ -455,6 +534,8 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "fff1bf84-385f-56f3-85ec-a9d02b30765b"
   },
@@ -464,6 +545,8 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "7e0e1808-df98-5dec-a327-9853d52878f8"
   },
@@ -473,6 +556,8 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "fa2b2b4a-2eb2-57bc-94ec-df18fb240cd2"
   },
@@ -482,6 +567,8 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "dae1e1c7-dd03-566d-b22a-37beac225476"
   },
@@ -491,6 +578,8 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "0c132cb0-4c8b-5efd-83a6-86e9a3b8c06a"
   },
@@ -500,6 +589,8 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "95baf91c-da1e-56c0-a916-1f70df1eb866"
   },
@@ -509,6 +600,8 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "78b9d987-190f-5aff-a362-6f1aa973e5bd"
   },
@@ -518,6 +611,8 @@
       "property": "color"
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "e7824b7d-297e-5aca-b9f5-0445b6e49dca"
   },
@@ -531,6 +626,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "86a162cc-9e91-494c-9fee-207721eb4e88",
     "uuid": "a2ff2730-ae65-5055-b38e-71daaf70a9e9"
   },
@@ -544,6 +641,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "86a162cc-9e91-494c-9fee-207721eb4e88",
     "uuid": "a804d37f-ef8f-50c4-b336-95aa933585c5"
   },
@@ -557,6 +656,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06",
     "uuid": "8b67bbcb-a3a0-5d77-843b-04f59f33505a"
   },
@@ -570,6 +671,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef",
     "uuid": "1fbbe887-c29e-51c6-a84c-21286ac0aaca"
   },
@@ -583,6 +686,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b",
     "uuid": "4394b35f-c444-502a-a0fe-af40e1e93ad4"
   },
@@ -596,6 +701,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
     "uuid": "502aa428-e848-555b-b707-d93ef38b6bea"
   },
@@ -609,6 +716,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e",
     "uuid": "df8aaa5d-da57-5c7b-9f84-96683406f961"
   },
@@ -622,6 +731,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18",
     "uuid": "414a0bd8-0bad-565b-a8e9-92d8f19fe903"
   },
@@ -635,6 +746,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "3acd52f0-d19c-4174-9ad5-42885ec9d49d",
     "uuid": "4a80be59-e593-5c4b-999b-9f48ec082368"
   },
@@ -648,6 +761,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "da3a7c08-7f54-4486-bb66-146db21f0627",
     "uuid": "c11a904f-d800-58a3-b59a-e9acc40c9b12"
   },
@@ -661,6 +776,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "02e7121e-71eb-4228-a61a-963d7f2a531b",
     "uuid": "b826295c-eccc-580f-a00e-80f53e7ad389"
   },
@@ -674,6 +791,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc",
     "uuid": "aee3c8f1-af34-5ecf-be23-30063ce57b36"
   },
@@ -687,6 +806,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb",
     "uuid": "ff286e2d-8245-51ae-83df-88c6d9112b55"
   },
@@ -700,6 +821,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5",
     "uuid": "cf1570fb-bca8-5f48-8d61-b5d3b1c6c068"
   },
@@ -713,6 +836,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "48f3445a-63d8-4477-a2f5-1fee6a022328",
     "uuid": "9c6be336-9625-54b6-984b-f4cde9c1efbb"
   },
@@ -726,6 +851,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "323428c1-792d-41b4-8a17-a12f1ac00e2a",
     "uuid": "250e8302-eb89-5e6a-a5b8-31033d46ff58"
   },
@@ -739,6 +866,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "85515d6c-4674-435f-a2d4-b9bf8311781e",
     "uuid": "3fbe8778-39c4-5c10-81a0-404fe1196f7e"
   },
@@ -752,6 +881,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "d878d795-2292-4d90-a9e2-37af1d97a532",
     "uuid": "ef6532fc-7e29-5e4b-a020-67ed9228f5b4"
   },
@@ -765,6 +896,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "82b54f71-7c9e-4388-9e3b-4d13f12fad60",
     "uuid": "f0a1f66a-23f6-5c57-a224-37e516cf2e83"
   },
@@ -778,6 +911,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "27688f39-6b46-4b40-a3c5-67694a0ff672",
     "uuid": "21bb92bc-752b-5c5b-a05c-9aabd2a9e460"
   },
@@ -791,6 +926,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5adeb281-3183-43e0-b20c-bd4e29f4da7e",
     "uuid": "b5b9fd6b-4b2f-52ed-91df-e7047f4b9a32"
   },
@@ -804,6 +941,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a3e71134-b44f-4b52-a84d-4841e01505e6",
     "uuid": "74ef3534-6ad1-5d71-89e5-e74341d605b1"
   },
@@ -817,6 +956,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "385372e9-8b04-45ea-a7a2-f1f62ac68ad6",
     "uuid": "91b42db3-379d-5a26-9310-6c9e044021d3"
   },
@@ -830,6 +971,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "8cec4a84-3eea-45d6-ae1b-64907be7da78",
     "uuid": "17928f51-3f41-50e5-8e26-f1c04a85e19a"
   },
@@ -843,6 +986,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ce074ee2-a2a2-4da3-a99e-603524193d46",
     "uuid": "8be4668c-a899-59f7-89a9-632630fa8d40"
   },
@@ -856,6 +1001,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3fb6aa49-631f-489b-9dab-63a5712d72da",
     "uuid": "66a7b7cb-dbd2-5ff1-9c6a-f956b004d779"
   },
@@ -869,6 +1016,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "981c054e-9db5-4589-b9e7-eed307b115ca",
     "uuid": "eaccbe0d-001b-5099-817b-c27b97443dff"
   },
@@ -882,6 +1031,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3e9a6c2a-bd09-4d28-a95c-920109c1852f",
     "uuid": "b0090441-e49c-57dc-87ac-1d4896e8725e"
   },
@@ -895,6 +1046,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "37c3db03-6dd6-47e5-a03c-25663d116c52",
     "uuid": "8da47be0-dea0-580b-aaa4-68b7dd182b54"
   },
@@ -908,6 +1061,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "f8e435de-1630-4628-8b6d-128987d66ddc",
     "uuid": "8a266bac-f7a0-5374-aada-b12bb7c9a65e"
   },
@@ -921,6 +1076,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "61c5e375-bff3-479f-8c32-2d2a5edb906c",
     "uuid": "5e21789f-65ff-5256-b9a1-f405bf047fe5"
   },
@@ -934,6 +1091,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ff49d6b0-4f39-4cbb-a580-db03b0579a71",
     "uuid": "19b901eb-3584-556a-bf24-4511f6c52c3d"
   },
@@ -947,6 +1106,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "f6e68186-e7fe-4d36-b371-72461a271358",
     "uuid": "b4d9c316-f9c3-5683-a5b3-23f691f746f2"
   },
@@ -960,6 +1121,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5df9a029-dc91-4078-a198-574486948834",
     "uuid": "5578f6c9-ad0d-57d4-ab9f-e894e14a60f6"
   },
@@ -973,6 +1136,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "67d55f09-a468-4174-9b59-13008b32b44e",
     "uuid": "2fea74e9-3007-53cb-b567-2e3564fefa6a"
   },
@@ -986,6 +1151,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "d4fd682d-4bef-4a92-bf14-90ce02b534e6",
     "uuid": "e40c5566-1431-5668-9f50-9be632b8f4cc"
   },
@@ -999,6 +1166,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df",
     "uuid": "698a7393-385d-58a1-a0b6-e00bfce8273c"
   },
@@ -1012,6 +1181,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "b6e14409-7a61-46fc-80d0-2b7854baf871",
     "uuid": "885cbcdc-ddb6-5512-8180-21a0bd15393d"
   },
@@ -1025,6 +1196,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "d5cac08e-56e8-4217-a153-33f43c1a2059",
     "uuid": "a5129b86-403a-5f5d-b760-acef285c37b9"
   },
@@ -1038,6 +1211,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "49170573-9c22-42e1-a1ce-cd3d3972ddb7",
     "uuid": "e47d5e34-4a44-5272-b3f3-e08bec99b3a5"
   },
@@ -1051,6 +1226,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "f7814be9-b21f-40ff-9d34-8c0a96eea93e",
     "uuid": "c976cecd-cd76-5e53-875b-86b67c39d636"
   },
@@ -1064,6 +1241,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "be1d8187-effc-430f-ac31-3904cf83a6d6",
     "uuid": "075c0ad9-1189-5347-ac7a-d739f7600c08"
   },
@@ -1077,6 +1256,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "9a727140-328d-430f-9b10-8965eebe77d1",
     "uuid": "1725cfcd-ef96-5b60-959a-66b4515d2097"
   },
@@ -1090,6 +1271,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e2f2ef18-aabf-44fd-b074-d94f75862f3d",
     "uuid": "00b088c3-fd7a-55c7-b6fd-f779fd288dd1"
   },
@@ -1103,6 +1286,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "12c060c6-db12-41ca-8b53-f4fc0afd2ed7",
     "uuid": "ca08e3e5-2652-5c93-b775-da5e848d10b9"
   },
@@ -1116,6 +1301,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "543af64f-9c28-4e88-8597-3259cd7ebf1f",
     "uuid": "9770930a-be9d-5e37-8e8b-c164ab18e4d7"
   },
@@ -1129,6 +1316,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "764bb832-de5a-4c21-b429-f911a931ead6",
     "uuid": "540c68f0-7262-5444-b108-38e9733fc93a"
   },
@@ -1142,6 +1331,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "c6c435b6-34b3-4fc1-bf96-a56a15e01fe5",
     "uuid": "c135341e-74b6-56e9-a3bc-26e0e8d46410"
   },
@@ -1155,6 +1346,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "83591a94-83e1-4557-8f50-cc1fe9793b76",
     "uuid": "8006ee7a-ffca-590b-bcae-f0b4daf83d11"
   },
@@ -1168,6 +1361,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "db8b9268-68dc-46be-aace-1adf8d85061b",
     "uuid": "f523640b-c468-5d04-b623-86b6ef8c9723"
   },
@@ -1181,6 +1376,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "23859fff-27f5-4576-83c9-0fbc316e880a",
     "uuid": "56495611-0bbc-5252-a3c6-88e41a7dc239"
   },
@@ -1194,6 +1391,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "b7f5a677-4e89-40e1-8324-7619a628ce8b",
     "uuid": "abd8c9b9-4597-5999-b460-113bd8a27b3b"
   },
@@ -1207,6 +1406,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "dedf817e-2883-4632-936c-207fdafe7469",
     "uuid": "0c711e03-d125-50f5-a5aa-bb49e7e0e415"
   },
@@ -1220,6 +1421,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ed07d8f4-390f-4124-a4c4-81b62767c6cd",
     "uuid": "8c90a6c7-a92c-52b4-861e-a9a832ffdcad"
   },
@@ -1233,6 +1436,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e577d521-0271-4226-a094-624b35a05826",
     "uuid": "d4da930c-13d0-559e-bd4c-7d594feaff3e"
   },
@@ -1246,6 +1451,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "720cfaa3-6bb1-4df1-946f-94fabae54e7b",
     "uuid": "8f403aa8-be53-5aa8-b335-a478a3f794c2"
   },
@@ -1259,6 +1466,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5f61f890-93b3-4ab9-bc80-d75198a5bacf",
     "uuid": "fb9d2d1f-a481-5825-ae90-86eae5c92b43"
   },
@@ -1272,6 +1481,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "7b4d71d3-ad78-4e02-a48e-fa79f40854a2",
     "uuid": "775af07c-4abd-5bc5-86ce-f845bc0b6014"
   },
@@ -1285,6 +1496,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "13e66afc-a9d8-46a9-8b15-310c5b35e52f",
     "uuid": "5a5b9ca2-e3ee-5be9-a679-9f90d17a767d"
   },
@@ -1298,6 +1511,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "4e02601f-12da-4ce2-b58c-0aa0e309442d",
     "uuid": "133a7262-4f0c-5fab-819c-aa0f7bd6c851"
   },
@@ -1311,6 +1526,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5867d764-d909-4490-b947-533e89997d0a",
     "uuid": "f8d8c755-9d49-5b3b-be2e-65918dcdf2e7"
   },
@@ -1324,6 +1541,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "c7b29eba-f8a3-43f7-b5b9-0c1a7f04bb38",
     "uuid": "8379c4c4-0cb5-57d1-8f07-9a18f2fb23cf"
   },
@@ -1337,6 +1556,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "78fc6322-a961-429a-bd40-3e1c1bf2c4e9",
     "uuid": "dd3f5f07-a33c-5060-97d7-74c4ceb50e14"
   },
@@ -1350,6 +1571,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3a363aa8-cf27-48a1-8c61-b1f1eaff6110",
     "uuid": "f857b3e2-b2e8-5306-8049-e4036d5ec867"
   },
@@ -1363,6 +1586,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "b60042cd-3ce7-4952-aeae-338d2b5fe98d",
     "uuid": "a422e9ce-102f-5146-af39-cc5071031223"
   },
@@ -1376,6 +1601,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e763acbc-2c17-46c5-8484-1d8536e7ef10",
     "uuid": "0d17b432-0a2a-5e8c-afd9-46e08a4fe9c0"
   },
@@ -1389,6 +1616,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "6beacbfc-6d61-4567-86fe-39771550cf20",
     "uuid": "779d2378-ff7e-5f42-81cf-15650577a400"
   },
@@ -1402,6 +1631,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "50eb3d20-ab84-4541-8807-551391016b54",
     "uuid": "03fb589e-5140-5d37-bd8f-e14753a6148c"
   },
@@ -1415,6 +1646,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "168c3534-c54e-415b-a623-27c2a8caea8c",
     "uuid": "a90fa1b9-2906-5f5e-8c65-7ae426fe73cd"
   },
@@ -1428,6 +1661,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "c6dcdb8e-4966-4de6-a74a-fffa0793d58e",
     "uuid": "6243b967-92f4-5754-8820-e5e35dbece9e"
   },
@@ -1441,6 +1676,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "fbd8df06-a6c9-462b-ad25-a3f77016128e",
     "uuid": "eb588859-c02c-577d-9fb6-ae57e0bc692f"
   },
@@ -1454,6 +1691,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "6dc7df67-2cfb-440f-9b1c-b7262a7cc2d3",
     "uuid": "da728519-b145-5bec-a211-dca6010cb0d0"
   },
@@ -1467,6 +1706,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "d442e5b5-5083-443d-ba60-12c60406c452",
     "uuid": "e58ff238-9a36-5e6a-bfba-ae95d5153d10"
   },
@@ -1480,6 +1721,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "8e940601-2401-46ff-a5fb-9137d12678b7",
     "uuid": "1d28ab57-b57b-520d-85e2-904d55f40478"
   },
@@ -1493,6 +1736,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "13d332e4-45b0-4549-a1a3-a608034960a1",
     "uuid": "6017147e-d8ad-55ff-aa10-13d15721c230"
   },
@@ -1506,6 +1751,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a6e04390-003e-4565-bf96-e0fb8a791cb9",
     "uuid": "5eb1c2d6-d309-5694-8e4c-42c4ec435d8c"
   },
@@ -1519,6 +1766,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e0bb7dad-7f1b-4b6e-b2fe-99f8b14f3240",
     "uuid": "5f1410ea-c40d-5dfa-b7cf-8f9deb96648b"
   },
@@ -1531,6 +1780,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "457fbeb8-56cd-4f3c-9950-f5e01f83f07c",
     "uuid": "e3d48d44-8b55-5918-bc4c-1f24c968796e"
   },
@@ -1551,6 +1802,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "457fbeb8-56cd-4f3c-9950-f5e01f83f07c",
     "uuid": "28911657-483a-5943-90d0-b7a343321f6e"
   },
@@ -1563,6 +1816,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "5ce8c477-ae6e-427a-ac5c-79d15c8056ab",
     "uuid": "bce52ad2-7489-543e-beae-afc38d1ca66d"
   },
@@ -1583,6 +1838,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "5ce8c477-ae6e-427a-ac5c-79d15c8056ab",
     "uuid": "195cea6f-f4e1-5a5c-9ee8-ed570a5edc98"
   },
@@ -1595,6 +1852,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "e804baf9-ae2c-4574-96d9-10cd5253fe47",
     "uuid": "401d0f06-a77c-5cda-9d92-511481e643af"
   },
@@ -1615,6 +1874,8 @@
       }
     },
     "context": "Text and icon (semantic)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "semantic",
     "$ref": "e804baf9-ae2c-4574-96d9-10cd5253fe47",
     "uuid": "be8a2a08-b31f-5a23-a521-f3e1f28793de"
   },
@@ -1628,6 +1889,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "cc79fbaf-a2e1-4761-82e7-1dbea52acee8",
     "uuid": "317ec087-5e9b-58c6-bd09-1431c4753e11"
   },
@@ -1641,6 +1904,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "9a9589e8-c08c-486f-a42f-8e139dedaa37",
     "uuid": "5353a1be-c6e6-53bc-976f-2459f7acbc57"
   },
@@ -1654,6 +1919,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "64b2528e-4c1b-4850-a67f-8bd7bb05d36c",
     "uuid": "0c0d986c-f886-5a43-ab51-efea7f5ca7d6"
   },
@@ -1667,6 +1934,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "97293b77-c21d-4ba1-bd2c-5d1de37d75eb",
     "uuid": "e4f339b7-a238-531c-a65e-e6745da3c8b5"
   },
@@ -1680,6 +1949,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "c120499e-98c4-442d-971f-31dee8d16c4d",
     "uuid": "ead95456-1f07-56b7-8003-231f13dcaa8c"
   },
@@ -1693,6 +1964,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "5c9c8a1c-c4ac-45e5-ba5f-b08edd9f4297",
     "uuid": "e710fc41-98c9-582f-a7f9-b59aa7f73cac"
   },
@@ -1706,6 +1979,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "62dfb07f-5eee-451c-9c77-745d8f714766",
     "uuid": "1900455a-2bbf-5cfb-997e-69784e2b3edb"
   },
@@ -1719,6 +1994,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "4cbe010f-0608-47e3-bf27-c7da70a70b9e",
     "uuid": "7d39c194-753b-53e4-9f27-df2c0dce84b6"
   },
@@ -1732,6 +2009,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "71ebebf0-95e7-45f7-9f6f-d14ef51cf4f0",
     "uuid": "26179400-1e37-5fde-b3cb-dd77012d1405"
   },
@@ -1745,6 +2024,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1",
     "uuid": "4902a393-c721-5911-83b0-79eef12cfe74"
   },
@@ -1758,6 +2039,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "c7575b76-8035-4037-8bd5-e8bdb82bddc3",
     "uuid": "681907fd-bc93-5cff-b6ee-b8a924a5f1ff"
   },
@@ -1771,6 +2054,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "ea3ceaa2-235b-4c55-88b2-c0d744434d83",
     "uuid": "83b256a8-8fdf-5b46-8a5f-610891bbb90e"
   },
@@ -1784,6 +2069,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "f0799e87-dbb2-4e71-8253-65f45eddc078",
     "uuid": "0b7983be-672a-55ef-9ae0-aef1dcfbeae3"
   },
@@ -1797,6 +2084,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "c9bfd62b-95c7-47d3-bace-ce3f2bfaade8",
     "uuid": "d8fe5366-4e74-5d99-a619-7829c92b37de"
   },
@@ -1810,6 +2099,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "163958bd-7303-4328-ad3c-b04f8dacaf32",
     "uuid": "109cf83f-76b6-50cd-8f7e-a8ef2e4e3938"
   },
@@ -1823,6 +2114,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf",
     "uuid": "66f60bb9-63b1-5353-857b-a7f8f8b34117"
   },
@@ -1836,6 +2129,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "c7644c81-1b2c-40ee-b3a6-b25e88fc34ea",
     "uuid": "dec50c24-f281-5048-b60d-9537e6ff1aa4"
   },
@@ -1849,6 +2144,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "531be3e1-ddfa-4d3b-9a7f-73d7f0e38cd9",
     "uuid": "c9c918bd-5aa3-5d43-b24a-3cb839c18220"
   },
@@ -1862,6 +2159,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "83fd0c1f-fbf3-4540-b370-6f44a6dbba7e",
     "uuid": "3d5a89db-d395-5881-8e86-24167720a2c6"
   },
@@ -1875,6 +2174,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a95998aa-d6ce-4090-9743-614196862acf",
     "uuid": "abb80baf-1413-5e5b-aad8-b662b63ae90f"
   },
@@ -1888,6 +2189,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "6529e76c-0c21-449f-a318-2629cf90a58a",
     "uuid": "30557a12-c414-5c18-a216-1fc5b0f25df7"
   },
@@ -1901,6 +2204,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5d7cd7c1-66fa-49d4-923b-8cca2dcb4726",
     "uuid": "352c9d4c-e6a2-5017-a983-4033a87866a2"
   },
@@ -1914,6 +2219,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "c098c385-7fce-4f16-b1d1-54a86c608e64",
     "uuid": "d41a53ba-843d-5ee2-b817-e7107cc471f9"
   },
@@ -1927,6 +2234,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "8a6b560b-50b2-4dbf-900b-0ed63233df8b",
     "uuid": "07c7e151-cac9-591b-bb5c-890ca68d4802"
   },
@@ -1940,6 +2249,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e7e1eb3c-7590-4622-a261-8de879bb1500",
     "uuid": "3678276b-12de-5ebc-bddb-a584348b6368"
   },
@@ -1953,6 +2264,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "9b2505cc-2a71-4b1e-804d-3f2ffa69d06c",
     "uuid": "543bde83-63aa-5e6b-9c29-e12ff9d31c3c"
   },
@@ -1966,6 +2279,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a9671857-3e09-4132-a522-cd8f5b4cf8ff",
     "uuid": "ad3ee252-101b-5428-8d39-afe1dd88bace"
   },
@@ -1979,6 +2294,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5d5cfc7a-e6f4-4d6d-a39b-359350ddd280",
     "uuid": "beb48355-8316-5c40-8392-d88dd0b99ede"
   },
@@ -1992,6 +2309,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "fcb0fe04-3498-4cfa-964d-5134bbcc74c6",
     "uuid": "740ca924-7340-514c-917f-8d0072361acc"
   },
@@ -2005,6 +2324,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a238d434-3d0b-48fe-a413-a07e9229cdda",
     "uuid": "f9c54cb6-61a0-5ea5-8b4f-cc52d734ae47"
   },
@@ -2018,6 +2339,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "2dd50902-f9bb-4f79-b31c-3997f4fd2163",
     "uuid": "2c3795ae-2736-5da9-b879-f3fe36e1a26f"
   },
@@ -2031,6 +2354,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "b80c47b0-222b-49a2-9012-1465a4575092",
     "uuid": "9c57b24e-ac6d-5421-b9a1-daa276eeb441"
   },
@@ -2044,6 +2369,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ab75a3ba-17ce-4aae-902f-2b3e0233b726",
     "uuid": "65160a4d-6707-51b5-b336-b2f353079536"
   },
@@ -2057,6 +2384,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "cf459b71-0d91-4cb4-96b8-f536e553f66e",
     "uuid": "4031d7ce-b62c-57bc-8531-f7c256356ae5"
   },
@@ -2070,6 +2399,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "67618d20-60a0-44d9-b98a-a84faf409788",
     "uuid": "b9b197c4-80da-521e-8f52-4cbf99d64c92"
   },
@@ -2083,6 +2414,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "2182ee3c-55aa-4d07-9cc1-f827c88ce3d6",
     "uuid": "6380a336-41c4-5f16-b077-9d7ad7096d78"
   },
@@ -2096,6 +2429,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3b582b64-988e-4b5d-a08d-e04269403536",
     "uuid": "d449229d-7bef-5f66-b80d-c3739f41f112"
   },
@@ -2109,6 +2444,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "e10ef55e-c18d-4b73-97d0-330b480e9aa4",
     "uuid": "639867d4-b52e-5999-b57c-4e291bac8995"
   },
@@ -2122,6 +2459,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3911fa84-a5b3-4ea1-b6ad-47f222482ddb",
     "uuid": "8b6de815-d4bf-5d90-847a-4f972f2b7280"
   },
@@ -2135,6 +2474,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "7623166b-5320-40eb-8a5f-2cd12f17bdb2",
     "uuid": "0f4e0a5d-b049-5333-8d59-13d60708e112"
   },
@@ -2148,6 +2489,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "73620c8b-3943-46c0-acb8-d517e7e6081e",
     "uuid": "2a5616b6-135f-52a5-a6c9-38266a403c1a"
   },
@@ -2161,6 +2504,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "0acaf55e-7e99-45f9-b99b-e461fa78a481",
     "uuid": "be45f077-58f5-551b-a352-fcfb5d3c2250"
   },
@@ -2174,6 +2519,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "084200e3-85bf-496e-b12a-b439e108b9fb",
     "uuid": "dace73f6-aaa2-5d64-a2ba-3ed5296050a1"
   },
@@ -2187,6 +2534,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "740e1c42-e68c-4c10-9bcd-30dc0bae6418",
     "uuid": "cdf57019-5c15-50d4-95df-4e65a15898e8"
   },
@@ -2200,6 +2549,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "2f72eaf9-547a-436e-86ab-695979db4f93",
     "uuid": "0f70eb35-4462-588e-ac92-a5a354b1e77d"
   },
@@ -2213,6 +2564,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "7d52711e-43fa-4a95-a7b1-3a7367570596",
     "uuid": "3eb5f9a0-627e-522f-b3b2-9c9e62cfb5d1"
   },
@@ -2226,6 +2579,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "7da4709c-caf3-401a-a2ce-07186a7e8e8c",
     "uuid": "c6bd9449-899e-5497-83df-9def2531e59b"
   },
@@ -2239,6 +2594,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "93563495-60af-4a84-b811-9672fc46a1cc",
     "uuid": "479fe2bd-cd3c-5626-80c4-f9c4bea2d549"
   },
@@ -2252,6 +2609,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "dda05431-bce9-4686-8738-78fb409ab28f",
     "uuid": "73ced6f6-d3ab-5940-8cf6-c146a12d3c5f"
   },
@@ -2265,6 +2624,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "533023cb-f78a-4f1c-af52-244b3c10a7bb",
     "uuid": "1122ef02-6aad-500c-a3ea-d1f17f27fd6e"
   },
@@ -2278,6 +2639,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "2110b943-24cf-4afd-81b2-31676f1400f8",
     "uuid": "f5368d50-1ca7-5a85-948d-96fdeb02b0f0"
   },
@@ -2291,6 +2654,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "a53f9f9a-8fde-4de2-83a3-944e1c4556c1",
     "uuid": "1a7c1df9-a016-5cb3-8dfe-3e10b482f394"
   },
@@ -2304,6 +2669,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "896f2a2f-4d02-4104-ac33-a3705a9c61e3",
     "uuid": "3f9d458e-7eec-5665-8f7b-c37b873533b9"
   },
@@ -2317,6 +2684,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "1d628f99-7c9c-423d-a470-a260d84d0d8d",
     "uuid": "c76725a4-3e46-587d-a4f6-745ec1259988"
   },
@@ -2330,6 +2699,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "9bb9c1e9-6067-49a4-b4af-13ccd87830d9",
     "uuid": "c0a71b1f-481e-5055-b8ce-447d2c742937"
   },
@@ -2343,6 +2714,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "3e62d682-c770-498d-a25a-5544775aeaa1",
     "uuid": "d03db79a-7796-51bf-b827-044b9bad3429"
   },
@@ -2356,6 +2729,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "28ef060d-098c-4388-b600-00f4f8fe49aa",
     "uuid": "707864e0-d178-5560-a705-d2933bcc1b21"
   },
@@ -2369,6 +2744,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "09787c85-44e0-4efe-b427-f6e7dde544a4",
     "uuid": "b09a882a-c1ca-5fe6-8807-d129c3cd05d5"
   },
@@ -2382,6 +2759,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "143b0387-7069-4bef-b852-9c456d692b88",
     "uuid": "ea597644-0b39-57ee-bc1f-54d41c84b6b1"
   },
@@ -2395,6 +2774,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "b526e518-47b2-4a1c-b54b-42596381b7fd",
     "uuid": "41dca270-543f-5f25-9740-32197a5470d2"
   },
@@ -2408,6 +2789,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "41f3d269-85d6-4c82-9b1c-e40ea508fa78",
     "uuid": "5f51248c-6b98-53f5-b01c-dac6a7bc8e77"
   },
@@ -2421,6 +2804,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "72400c8f-2e44-4757-8be6-3c1eb28d9606",
     "uuid": "f0c7ad07-a22e-5b12-8e01-5e5bc0b3fca1"
   },
@@ -2434,6 +2819,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "d726501f-8920-4434-b397-b0974037161a",
     "uuid": "3ba22fec-bedd-5832-bcb7-7a63367c5a71"
   },
@@ -2447,6 +2834,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "aa7d44fd-6c77-43dc-8981-4200356fd02a",
     "uuid": "07261465-9274-51f8-b617-227b822b67b5"
   },
@@ -2460,6 +2849,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "5e5d9ba8-df94-43e1-ad40-f78312925ec5",
     "uuid": "96f08ebb-7032-5e39-a017-7923b2900174"
   },
@@ -2473,6 +2864,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "4e874813-4ebc-4855-bcb3-83024a6d1ba2",
     "uuid": "183efeb6-b33b-5059-aad3-c21f26c5b21b"
   },
@@ -2486,6 +2879,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "4f1f131b-b6d1-401b-82ff-be6fc0cce9f3",
     "uuid": "b39869f0-0073-5a7e-9640-ae18cfd79da0"
   },
@@ -2499,6 +2894,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "77b47209-4527-462b-a11f-b3e5f47857ec",
     "uuid": "a43817fe-9c44-5ae4-89a3-63b3172b45ff"
   },
@@ -2512,6 +2909,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ac6995d9-8982-4dac-ba85-4c79ec7850a1",
     "uuid": "8ad2a931-273b-5b1f-921c-8ab6f2e84bcd"
   },
@@ -2525,6 +2924,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "4d114a18-a876-4b01-a356-64b6098496f4",
     "uuid": "86b871b5-1797-584a-87c9-a2f1511bb000"
   },
@@ -2538,6 +2939,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "68b6af88-a951-48f8-89c3-9d599a05f4dc",
     "uuid": "eaaf2166-e175-5c53-b51c-4b8a49d07e34"
   },
@@ -2551,6 +2954,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "f326443a-8f5d-4aa2-8bbb-17dc7b0420d6",
     "uuid": "c5133a4d-7ff4-5cf5-a7a8-39eaead30b84"
   },
@@ -2564,6 +2969,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "c80f665a-801e-45c8-b59b-8b9b47ebb356",
     "uuid": "d2b0d0ee-eec5-5bbe-8a00-80bfe3f0fbdd"
   },
@@ -2577,6 +2984,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "6f596774-e326-4d80-bf1d-23f7ad1f4ccb",
     "uuid": "4f120c39-8e24-506e-8e26-36e42519be13"
   },
@@ -2590,6 +2999,8 @@
       }
     },
     "context": "Background (non-semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "non-semantic",
     "$ref": "ec3dddb5-3944-493c-b5c8-f08c3272dc06",
     "uuid": "adf047bb-1013-5f98-9d6b-0b8764c04748"
   },
@@ -2610,6 +3021,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085",
     "uuid": "9b944a9b-1833-57f8-9a31-1a90c9874892"
   },
@@ -2630,6 +3043,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
     "uuid": "70e23797-93ba-5044-b243-f96245441c28"
   },
@@ -2650,6 +3065,8 @@
       }
     },
     "context": "Background (semantic)",
+    "contextRole": ["background"],
+    "contextQualifier": "semantic",
     "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
     "uuid": "0ca41b96-b2cb-5a0c-9f12-47448c8c0fad"
   },
@@ -2663,6 +3080,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42",
     "uuid": "01143fc5-1461-57f8-aeac-fd37d51a0fc4"
   },
@@ -2676,6 +3095,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224",
     "uuid": "88612e47-9778-51ae-8a97-501346ed7c11"
   },
@@ -2689,6 +3110,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c",
     "uuid": "c56511b2-4cf9-52ed-962d-22c482427594"
   },
@@ -2702,6 +3125,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322",
     "uuid": "0fdaca5f-4356-520e-a280-51044d2f9927"
   },
@@ -2715,6 +3140,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89",
     "uuid": "624c6f1d-dcb6-5758-b82e-9f9294f68d31"
   },
@@ -2728,6 +3155,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
     "uuid": "693be828-9ce5-560e-8929-28658bdf431f"
   },
@@ -2741,6 +3170,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f",
     "uuid": "55e24850-7c5e-5797-a2fe-8916c4b71717"
   },
@@ -2754,6 +3185,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5",
     "uuid": "c36f91b0-911e-5c3a-a20e-2bbdfaf9fbcd"
   },
@@ -2767,6 +3200,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae",
     "uuid": "8875a261-2ae6-5071-b05a-9d3b8fe3e55f"
   },
@@ -2780,6 +3215,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
     "uuid": "ccfe10c8-20a9-5d66-b844-b065fc04088e"
   },
@@ -2793,6 +3230,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
     "uuid": "52b28871-2ebe-573a-9b7f-0b42b5468c83"
   },
@@ -2806,6 +3245,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
     "uuid": "bd19a513-0f87-5a4a-9796-3958c205ac75"
   },
@@ -2819,6 +3260,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8",
     "uuid": "db46ced0-edac-5190-86e9-51b279bcb284"
   },
@@ -2832,6 +3275,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d",
     "uuid": "a3193187-47e6-5041-852e-72a8cfa94c99"
   },
@@ -2845,6 +3290,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2",
     "uuid": "782e0482-b950-5630-a8ea-86f69bc0cf35"
   },
@@ -2858,6 +3305,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2",
     "uuid": "4c7a5a0d-87f6-55aa-9d11-6f17ffdb6eb4"
   },
@@ -2871,6 +3320,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "25e8289f-6c82-4485-8920-a187f790cd47",
     "uuid": "57e342cc-6724-5ee3-b0d7-ba419ac2a611"
   },
@@ -2884,6 +3335,8 @@
       }
     },
     "context": "Border (semantic)",
+    "contextRole": ["border"],
+    "contextQualifier": "semantic",
     "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3",
     "uuid": "0ecb019a-cca0-5659-810f-0ffe1e65fdd9"
   },
@@ -2893,6 +3346,7 @@
       "property": "font-family"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "60c7e882-2f9d-5b5b-8a53-716f0f260dbe"
   },
@@ -2902,6 +3356,7 @@
       "property": "font-weight"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
     "uuid": "47eed422-708c-531b-81aa-975b802b6508"
   },
@@ -2911,6 +3366,7 @@
       "property": "font-style"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "4653f209-1032-51a7-bae7-3436926cffc4"
   },
@@ -2920,6 +3376,7 @@
       "property": "font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
     "uuid": "81ad243d-7692-5723-9937-d8707f1975b7"
   },
@@ -2929,6 +3386,7 @@
       "property": "font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
     "uuid": "9e20ea2d-2a6d-5cd0-bf91-9201ce146573"
   },
@@ -2938,6 +3396,7 @@
       "property": "font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "764812ce-0360-5cf8-93d7-31eb14bf8067"
   },
@@ -2947,6 +3406,7 @@
       "property": "font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "b2ceffcd-6123-5760-9b58-2065c38a95c1"
   },
@@ -2956,6 +3416,7 @@
       "property": "font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
     "uuid": "9988fd81-1554-5ae6-b4e2-34d330b194c5"
   },
@@ -2965,6 +3426,7 @@
       "property": "font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
     "uuid": "2f484264-3099-54aa-8fc7-cacab083472e"
   },
@@ -2974,6 +3436,7 @@
       "property": "font-size-300"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
     "uuid": "d292b221-7d9e-5be2-931a-289bb94436a5"
   },
@@ -2983,6 +3446,7 @@
       "property": "font-size-300"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
     "uuid": "cd9e1739-5747-5847-84df-7a2986e4b23b"
   },
@@ -2992,6 +3456,7 @@
       "property": "line-height-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "f6f17d00-9c16-59e5-b18a-f6512253c3aa"
   },
@@ -3001,6 +3466,7 @@
       "property": "line-height-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "71642b0c-09fc-57df-8f5d-e7869de1b441"
   },
@@ -3010,6 +3476,7 @@
       "property": "line-height-font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
     "uuid": "430e7353-129b-5420-90bd-bf4774610419"
   },
@@ -3019,6 +3486,7 @@
       "property": "line-height-font-size-75"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
     "uuid": "985c656f-d67d-593c-ba06-e1d9c79289f2"
   },
@@ -3028,6 +3496,7 @@
       "property": "line-height-font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
     "uuid": "83cdfe77-76e9-5f37-88e2-549dc0a1497b"
   },
@@ -3037,6 +3506,7 @@
       "property": "line-height-font-size-100"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "898fde6d-f477-46a6-8323-698dee558580",
     "uuid": "c8acfdef-438e-5d1a-9db8-00c3d5332aa4"
   },
@@ -3046,6 +3516,7 @@
       "property": "line-height-font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
     "uuid": "8a31452d-9559-5577-90de-c7501ce7edaa"
   },
@@ -3055,6 +3526,7 @@
       "property": "line-height-font-size-200"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
     "uuid": "f9221b0f-d949-5148-a119-b9f43561c35c"
   },
@@ -3064,6 +3536,7 @@
       "property": "line-height-font-size-300"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "52e64384-f918-4415-8d02-da3af639890f",
     "uuid": "ed5dd93b-1249-5946-88bc-825d46e5c300"
   },
@@ -3073,6 +3546,7 @@
       "property": "line-height-font-size-300"
     },
     "context": "Label",
+    "contextRole": ["label"],
     "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
     "uuid": "7a73a52c-026b-5cf6-bb2d-ae5e0deaedfc"
   }
