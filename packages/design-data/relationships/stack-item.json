@@ -79,9 +79,9 @@
         "object": "background"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",
     "uuid": "95685612-09b7-477f-9c13-06eb58abe5c8",
@@ -395,9 +395,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d1cd1fc2-5ad1-4a6e-bef8-55a385c1ce29",
@@ -413,9 +413,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "67946e29-b480-4991-85eb-c57331a509f7",
@@ -431,9 +431,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "bb522e19-6bb9-471c-95af-5ab7fa748557",
@@ -449,9 +449,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "35415d70-944b-4c5a-ae70-4810f991b70d",

@@ -401,9 +401,9 @@
       "component": "avatar",
       "property": "font-family"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "06808c2e-2a8a-5c3d-aa0a-7bf18ee1dd7c"
   },
@@ -412,9 +412,9 @@
       "component": "avatar",
       "property": "font-weight"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "aaf860d6-1ec5-5cb2-95e7-08ec5cad34f8"
   },
@@ -423,9 +423,9 @@
       "component": "avatar",
       "property": "font-style"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "407e78e3-414a-54a5-9d64-058222f881ab"
   },
@@ -434,9 +434,9 @@
       "component": "avatar",
       "property": "font-size-100"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "86cce3f6-9aa6-5dff-aabe-e486d4561346"
   },
@@ -445,9 +445,9 @@
       "component": "avatar",
       "property": "font-size-100"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "5fc9df87-91dd-5f9d-b8a4-b06043f078b0"
   },
@@ -456,9 +456,9 @@
       "component": "avatar",
       "property": "line-height-100"
     },
-    "context": "Text (List view item)",
+    "context": "Text (initials)",
     "contextRole": ["label"],
-    "contextQualifier": "List view item",
+    "contextQualifier": "initials",
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "114c0d9b-d4ae-55ae-a320-82b8c4b16182"
   },

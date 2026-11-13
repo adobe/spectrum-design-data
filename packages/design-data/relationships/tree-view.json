@@ -427,9 +427,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$ref": "65854450-ed1a-49ea-ab29-d257b8a0569e",
     "uuid": "e8fa0269-141b-5a64-aa5f-1ec49f05e25c"
   },
@@ -438,9 +438,9 @@
       "component": "tree-view",
       "property": "opacity"
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$ref": "a83e023c-dc92-4b3e-8375-351bbf8ec9bb",
     "uuid": "1ea7f0c4-96b6-5f8f-a622-4d0cdef4e4c8"
   },
@@ -449,9 +449,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected + highlight)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected + highlight",
+    "contextQualifier": "selected, highlight",
     "$ref": "beaff99a-634a-4ce8-b2f4-54c63202d45b",
     "uuid": "52ab8770-f367-5c2c-9bd3-bbd405524677"
   },
@@ -460,9 +460,9 @@
       "component": "tree-view",
       "property": "opacity"
     },
-    "context": "Background (selected + highlight)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected + highlight",
+    "contextQualifier": "selected, highlight",
     "$ref": "2d07949e-416d-4ab6-b36e-15dde4df78b0",
     "uuid": "2fbbfcdc-72ef-530f-aab5-90a55025acd3"
   },
@@ -471,9 +471,9 @@
       "component": "tree-view",
       "property": "content-color"
     },
-    "context": "Border (selected + highlight)",
+    "context": "Border (selected, highlight)",
     "contextRole": ["border"],
-    "contextQualifier": "selected + highlight",
+    "contextQualifier": "selected, highlight",
     "$ref": "9cfbf8bc-e4f3-4658-922e-9421e2ed126b",
     "uuid": "185a04cb-a1ad-54f8-887a-75a2ee8ba194"
   },
@@ -1530,9 +1530,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d31772fd-95f3-413d-ab20-826033d71938",
