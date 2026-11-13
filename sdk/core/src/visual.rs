@@ -190,6 +190,16 @@ impl std::str::FromStr for IconOverride {
 }
 
 /// The label scenes and compiled recipes use for a token record.
+/// Sort key of a token among same-selector candidates: mode-context score, then the number of
+/// name fields (fewer is the more specific selector match). Equal keys are a true tie.
+fn rank_key(raw: &Value, ctx: &std::collections::HashMap<String, String>) -> (usize, usize) {
+    let fields = raw
+        .get("name")
+        .and_then(Value::as_object)
+        .map_or(0, |o| o.len());
+    (name_ctx_score(raw, ctx), fields)
+}
+
 pub fn token_label(rec: &crate::graph::TokenRecord) -> String {
     let Some(name) = rec.raw.get("name").and_then(Value::as_object) else {
         return rec.name.clone();
@@ -792,18 +802,8 @@ impl<'a> CompileCx<'a> {
             })
             .collect();
         fit.sort_by(|(a, _), (b, _)| {
-            let sa = name_ctx_score(&a.raw, &mctx);
-            let sb = name_ctx_score(&b.raw, &mctx);
-            let ea = a
-                .raw
-                .get("name")
-                .and_then(Value::as_object)
-                .map_or(0, |o| o.len());
-            let eb = b
-                .raw
-                .get("name")
-                .and_then(Value::as_object)
-                .map_or(0, |o| o.len());
+            let (sa, ea) = rank_key(&a.raw, &mctx);
+            let (sb, eb) = rank_key(&b.raw, &mctx);
             sb.cmp(&sa).then(ea.cmp(&eb)).then(a.name.cmp(&b.name))
         });
         fit
@@ -1134,6 +1134,8 @@ impl<'a> CompileCx<'a> {
             return (Vec::new(), String::new());
         };
         let (cands, miss) = cands.unwrap_or_default();
+        let mut rank_ctx = self.mode_ctx();
+        rank_ctx.insert("size".into(), self.req.size.clone());
         let list = self
             .rank_by(
                 cands
@@ -1149,11 +1151,13 @@ impl<'a> CompileCx<'a> {
                     extra
                 };
                 let precedence = self.interaction_precedence(&states);
+                let (score, fields) = rank_key(&t.raw, &rank_ctx);
                 let mut c = serde_json::json!({
                     "value": self.terminal(t),
                     "token": token_label(t),
                     "chain": self.alias_chain(t),
                     "states": states,
+                    "rank": [score, fields],
                 });
                 if !precedence.is_empty() {
                     c["precedence"] = serde_json::json!(precedence);
@@ -1624,7 +1628,8 @@ impl Ctx<'_> {
                     .is_some_and(|s| !s.is_empty())
             };
             let tied = |o: &&Value| {
-                has_states(o) == has_states(c)
+                o.get("rank") == c.get("rank")
+                    && has_states(o) == has_states(c)
                     && (!has_states(c)
                         || (o.get("states").and_then(Value::as_array).map(Vec::len)
                             == c.get("states").and_then(Value::as_array).map(Vec::len)
@@ -3990,7 +3995,11 @@ mod tests {
         let diags = |tokens: &[&str]| {
             let list: Vec<Value> = tokens
                 .iter()
-                .map(|t| serde_json::json!({ "value": "v", "token": t }))
+                .map(|t| {
+                    // `x:` tokens rank one name field fewer, so they are the specific match.
+                    let fields = if t.starts_with("x:") { 3 } else { 4 };
+                    serde_json::json!({ "value": "v", "token": t, "rank": [0, fields] })
+                })
                 .collect();
             let r = req(&[]);
             let defaults = HashMap::new();
@@ -4011,6 +4020,8 @@ mod tests {
             ["fill: relationship 'color' / 'Dot' is ambiguous: 2 candidates remain after narrowing"]
         );
         assert!(diags(&["a", "a"]).is_empty());
+        // A candidate with fewer name fields wins the tie-break, so nothing is ambiguous.
+        assert!(diags(&["x:row", "track"]).is_empty());
         assert!(diags(&["a"]).is_empty());
     }
 
