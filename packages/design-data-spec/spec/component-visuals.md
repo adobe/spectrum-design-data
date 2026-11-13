@@ -177,6 +177,8 @@ Selector strings **MAY** contain `{size}` (the request's `size` option value, e.
 
 **NORMATIVE:** `token` and `relationship` selectors yield a set of candidate tokens. The renderer **MUST** narrow the candidates with the request's mode context (for example `colorScheme`, `scale`) using the [cascade](cascade.md), and **MUST** report a diagnostic if zero or more than one candidate remains.
 
+**NORMATIVE:** When several candidates remain after narrowing, a renderer **MAY** fall back to the candidate whose token name has the fewest name fields (the most general token), and only then report a diagnostic for candidates that still tie with different tokens. A recipe **SHOULD NOT** depend on this fallback: pin `variant`, `anatomy` or another name field in the selector instead.
+
 A conditional entry is a value source plus `when`. A condition has optional `options` (option name → value, or array of values), `states` (state names that must all be active) and `modes` (mode-set name → mode). An array matches when any listed value matches, and counts as one condition.
 
 **NORMATIVE:** When several entries match a request, the renderer **MUST** choose the one with the most conditions (options + states + modes). Ties go to the later entry in document order. An entry without `when` is the default. An entry **MAY** set an integer `priority` (default 0); a higher priority wins before condition count is compared. Use it for states that override every other combination, such as `disabled`.
