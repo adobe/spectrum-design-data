@@ -5,6 +5,7 @@
       "property": "height"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51",
     "uuid": "a372ba95-bf02-5ba6-ab23-51230cf10bf7"
   },
@@ -14,6 +15,7 @@
       "property": "width"
     },
     "context": "Size",
+    "contextRole": ["size"],
     "$ref": "889e2495-b882-4aa3-8a5b-1a71d44edde4",
     "uuid": "bcf49c03-5000-5f19-8574-c69bfbd1cbe5"
   },
@@ -23,6 +25,7 @@
       "property": "border-width"
     },
     "context": "Border",
+    "contextRole": ["border"],
     "$ref": "51cd5039-1319-451a-b13f-bb3a218238a5",
     "uuid": "ee5a2569-aa3c-5a32-8408-a20135c41170"
   },
@@ -32,6 +35,7 @@
       "property": "border-width"
     },
     "context": "Border",
+    "contextRole": ["border"],
     "$ref": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb",
     "uuid": "dfc2b4db-8554-53ca-8463-d6f818381692"
   },
@@ -41,6 +45,7 @@
       "property": "space-between"
     },
     "context": "Spacing",
+    "contextRole": ["spacing"],
     "$ref": "92beba60-f61d-426a-a864-203dca7244a0",
     "uuid": "836ba9d4-48c8-5769-b8df-fbad86c055f2"
   },
@@ -50,6 +55,7 @@
       "property": "x"
     },
     "context": "Shadows",
+    "contextRole": ["shadow"],
     "$ref": "59324423-4428-40d7-a227-5f75aeb38312",
     "uuid": "353bdb10-3f8f-5aba-b42e-ec0c30739d05"
   },
@@ -59,6 +65,7 @@
       "property": "y"
     },
     "context": "Shadows",
+    "contextRole": ["shadow"],
     "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
     "uuid": "81b1c710-1a6a-550b-a1e6-6f0d4b5db1cc"
   },
@@ -68,6 +75,7 @@
       "property": "blur"
     },
     "context": "Shadows",
+    "contextRole": ["shadow"],
     "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
     "uuid": "9b0ca872-e6ea-57dc-b2a3-ebf59683c311"
   },
@@ -77,6 +85,7 @@
       "property": "color"
     },
     "context": "Border",
+    "contextRole": ["border"],
     "$ref": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca",
     "uuid": "6eec5a64-6ad2-56d7-81d3-2ee26cd26599"
   },

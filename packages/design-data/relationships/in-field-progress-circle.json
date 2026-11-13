@@ -5,6 +5,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "dbb4f6bf-ddfb-4184-babe-63815cad7202",
     "uuid": "06b5b87b-bd20-5d4a-827c-71373877a7ba"
   },
@@ -14,6 +15,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7",
     "uuid": "083dcc84-8df9-54ee-a75a-277b09b4a478"
   },
@@ -23,6 +25,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c",
     "uuid": "f4f6ec30-fccd-5964-9f87-e0cdb58a3e82"
   },
@@ -32,6 +35,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "c522b33c-93b8-491f-b4df-c241f5b5ade8",
     "uuid": "975db74a-4a19-5ce4-b446-ea482e04a482"
   },
@@ -41,6 +45,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "86567889-978e-4dfe-8412-42c8f33c3f44",
     "uuid": "f3bac3b4-0b91-59c5-8c5d-46e48e8952db"
   },
@@ -50,6 +55,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "85377238-7488-42e0-99ce-f4fd73316d24",
     "uuid": "c393386d-fabd-5ba6-a93e-f089d315bc96"
   },
@@ -59,6 +65,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "32d0a47d-c4bb-4955-aef0-28e07f429b92",
     "uuid": "74055ce9-02a9-522a-8457-ca0fd356f84e"
   },
@@ -68,6 +75,7 @@
       "property": "size"
     },
     "context": "Height",
+    "contextRole": ["height"],
     "$ref": "9e740bd1-b98a-416a-be82-20e222cab3b1",
     "uuid": "de23841d-722d-5474-9bf2-22e1527b5fea"
   },
@@ -77,6 +85,7 @@
       "property": "color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
     "uuid": "04e7530d-711f-5944-b730-2b52a6f8008b"
   },
@@ -86,6 +95,7 @@
       "property": "color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
     "uuid": "5a3b8ec5-5d5a-51f0-8807-48cc664394dd"
   },
@@ -95,6 +105,7 @@
       "property": "color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
     "uuid": "6a1ace26-5c8d-5118-a33c-b03ff72cf37d"
   },
@@ -104,6 +115,7 @@
       "property": "content-color"
     },
     "context": "Track and fill",
+    "contextRole": ["track", "track"],
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "38238a36-7cf4-50a4-816b-0e8cf16e8d2c"
   },
@@ -113,6 +125,8 @@
       "property": "color"
     },
     "context": "Track and fill (static white)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "static white",
     "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
     "uuid": "5352ddca-7b3a-56ca-995e-83afd589b7dd"
   },
@@ -122,6 +136,8 @@
       "property": "color"
     },
     "context": "Track and fill (static white)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "static white",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
     "uuid": "8819d728-cc9f-5119-b2bf-09047ee6fc4b"
   },
@@ -131,6 +147,8 @@
       "property": "color"
     },
     "context": "Track and fill (static black)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "static black",
     "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",
     "uuid": "d3f33ca6-6123-5f8e-8ef2-2a3f56f7a1e9"
   },
@@ -140,6 +158,8 @@
       "property": "color"
     },
     "context": "Track and fill (static black)",
+    "contextRole": ["track", "track"],
+    "contextQualifier": "static black",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "6365fdd6-8f51-5ed8-86c3-c033ecbe1367"
   },

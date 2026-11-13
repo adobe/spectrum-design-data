@@ -5,6 +5,7 @@
       "property": "component-height-75"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
     "uuid": "b99a7954-bc00-59c9-bbc3-d3e9dd1d01cf"
   },
@@ -14,6 +15,7 @@
       "property": "component-height-75"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
     "uuid": "a86fecbe-84a7-5b98-a61c-4aae2f90dc09"
   },
@@ -23,6 +25,7 @@
       "property": "component-height-100"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "uuid": "531597ee-2c0b-528a-9fb1-bdab8f14b290"
   },
@@ -32,6 +35,7 @@
       "property": "component-height-100"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
     "uuid": "9e224be4-5ea7-5bd8-b60d-55818c51d833"
   },
@@ -41,6 +45,7 @@
       "property": "component-height-200"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
     "uuid": "c55280d1-253b-580f-9025-f5fc9b12a437"
   },
@@ -50,6 +55,7 @@
       "property": "component-height-200"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
     "uuid": "8a8bd615-f033-55b9-ac7b-0a631d2b2724"
   },
@@ -59,6 +65,7 @@
       "property": "component-height-300"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
     "uuid": "706a5aa5-cc78-59e7-8004-21eb2ac89634"
   },
@@ -68,6 +75,7 @@
       "property": "component-height-300"
     },
     "context": "Button size",
+    "contextRole": ["size"],
     "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
     "uuid": "ecb86e17-4978-570d-8137-2d253c955421"
   },
@@ -77,6 +85,8 @@
       "property": "component-size-difference"
     },
     "context": "Button size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824",
     "uuid": "039ec835-b2b4-5289-a592-7f7779379442"
   },
@@ -86,6 +96,8 @@
       "property": "component-size-width-ratio"
     },
     "context": "Button size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177",
     "uuid": "30cfea9e-600c-5522-9591-1c2cccaa0d4f"
   },
@@ -95,6 +107,8 @@
       "property": "component-size-minimum-perspective"
     },
     "context": "Button size (down)",
+    "contextRole": ["size"],
+    "contextQualifier": "down",
     "$ref": "103daec0-9711-4422-84d1-62ab77afa00d",
     "uuid": "e2650b3e-0058-55a3-a5bc-9aa3ffa636af"
   },
@@ -104,6 +118,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "5b416331-7910-4d64-9b5f-43fd1832d3a6",
     "uuid": "17d47c8c-b216-5866-bfc7-7c91c73c61c3"
   },
@@ -113,6 +128,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "11f65b04-c50d-45bb-86bd-34520aa7db61",
     "uuid": "34cd8ec0-25a4-5930-8ef4-528aa3e6cb77"
   },
@@ -122,6 +138,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5",
     "uuid": "3845daec-cb28-502c-83f6-31fdd67050f9"
   },
@@ -131,6 +148,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "37867ac1-4101-4553-98e1-c8a94fdd2d66",
     "uuid": "a4dc22a7-618d-580c-9004-4862589e1163"
   },
@@ -140,6 +158,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "b7e0939f-45ef-4250-8138-2bee9dcb2be4",
     "uuid": "d64675cb-6400-5391-940a-d46a262465d0"
   },
@@ -149,6 +168,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd",
     "uuid": "ce818f7c-98b1-50ba-9c48-53cd6c6ec59d"
   },
@@ -158,6 +178,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "1228762d-8c89-4e04-a097-5001d805877d",
     "uuid": "af294705-0fef-5fcf-977c-e90f6cdb32d7"
   },
@@ -167,6 +188,7 @@
       "property": "size"
     },
     "context": "Cross icon size",
+    "contextRole": ["size"],
     "$ref": "a865d5f8-4798-4721-ab76-3b51067d6439",
     "uuid": "49de6029-3de0-5c75-9da6-191d574d688c"
   },
@@ -176,6 +198,7 @@
       "property": "thickness"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "e4f55d88-8753-5563-b8b6-973fc32d2494"
   },
@@ -185,6 +208,7 @@
       "property": "gap"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "bfdda508-8d71-532b-9729-4195e3f4f766"
   },
@@ -194,6 +218,7 @@
       "property": "content-color"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "051cb46f-9da2-5a6f-bbbf-2f6d29f62116"
   },
@@ -203,6 +228,7 @@
       "property": "content-color"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "fb3a1e5e-51fc-50b1-b49c-acfc3221b35b"
   },
@@ -212,6 +238,7 @@
       "property": "content-color"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "099de897-e8ae-5c69-ad08-ddc7e7939cb3"
   },
@@ -221,6 +248,7 @@
       "property": "content-color"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "037377be-8775-58d4-946e-d052cb73467e"
   },
@@ -230,6 +258,7 @@
       "property": "content-color"
     },
     "context": "Cross icon",
+    "contextRole": ["icon"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "95f4cb3f-5a41-5841-960c-f4b70c8dc0ff"
   },
@@ -239,6 +268,7 @@
       "property": "color"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
     "uuid": "c9dcdca1-d554-54a0-8faa-217fdedee773"
   },
@@ -248,6 +278,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "1bfc1c8f-f469-597c-8442-e537707b9ec0"
   },
@@ -257,6 +288,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "07602829-b7f9-5965-aa60-bd5982f80720"
   },
@@ -266,6 +298,7 @@
       "property": "color"
     },
     "context": "Background",
+    "contextRole": ["background"],
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "4aa6650c-5232-505f-89f4-8a5aaf47aa38"
   },
@@ -275,6 +308,8 @@
       "property": "color"
     },
     "context": "Cross icon (static white)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static white",
     "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2",
     "uuid": "ced19328-9b74-5b20-9992-e73de05418f7"
   },
@@ -284,6 +319,8 @@
       "property": "color"
     },
     "context": "Cross icon (static white)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static white",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
     "uuid": "5ff0314e-f175-5278-b02b-9a2e93cecec0"
   },
@@ -293,6 +330,8 @@
       "property": "color"
     },
     "context": "Cross icon (static white)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static white",
     "$ref": "fbd40c55-bb12-43ff-9fa6-c93884befc89",
     "uuid": "d851324a-bee9-5a2e-a2d5-230bb5232c66"
   },
@@ -302,6 +341,8 @@
       "property": "color"
     },
     "context": "Focus ring (static white)",
+    "contextRole": ["focus"],
+    "contextQualifier": "static white",
     "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
     "uuid": "19387326-4852-5af7-a3ca-1434c58d55ce"
   },
@@ -311,6 +352,8 @@
       "property": "color"
     },
     "context": "Background (static white)",
+    "contextRole": ["background"],
+    "contextQualifier": "static white",
     "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca",
     "uuid": "b4213fe6-f8f9-5446-83c2-7054df5e67b0"
   },
@@ -320,6 +363,8 @@
       "property": "color"
     },
     "context": "Cross icon (static black)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static black",
     "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361",
     "uuid": "3e127d7a-7c30-5fca-8cb5-6193195ba9e6"
   },
@@ -329,6 +374,8 @@
       "property": "color"
     },
     "context": "Cross icon (static black)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static black",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "badba104-1791-571f-8f59-ab7f86809d49"
   },
@@ -338,6 +385,8 @@
       "property": "color"
     },
     "context": "Cross icon (static black)",
+    "contextRole": ["icon"],
+    "contextQualifier": "static black",
     "$ref": "579e401c-de49-41af-a8c7-a0a070c31979",
     "uuid": "ea9a8a5e-298a-5dbe-b4bb-e0a870585c5b"
   },
@@ -347,6 +396,8 @@
       "property": "color"
     },
     "context": "Focus ring (static black)",
+    "contextRole": ["focus"],
+    "contextQualifier": "static black",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",
     "uuid": "2963d529-0938-5092-9eb6-e9a0cbc3f1b4"
   },
@@ -356,6 +407,8 @@
       "property": "color"
     },
     "context": "Background (static black)",
+    "contextRole": ["background"],
+    "contextQualifier": "static black",
     "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a",
     "uuid": "df2cf738-5a42-5946-a101-9180e1d9fb5e"
   }
