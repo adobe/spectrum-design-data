@@ -15,12 +15,15 @@ fn main() {
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/package.json");
 
     println!("cargo:rerun-if-changed={}", pkg_json.display());
-    println!(
-        "cargo:rerun-if-changed={}",
-        Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/design-data/guidelines")
-            .display()
-    );
+    for dir in ["guidelines", "relationships", "icons", "visuals"] {
+        println!(
+            "cargo:rerun-if-changed={}",
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../packages/design-data")
+                .join(dir)
+                .display()
+        );
+    }
     println!(
         "cargo:rerun-if-changed={}",
         Path::new(env!("CARGO_MANIFEST_DIR"))

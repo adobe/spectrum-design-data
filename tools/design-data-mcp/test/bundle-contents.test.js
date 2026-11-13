@@ -127,8 +127,8 @@ test("manifest.json is valid and declares 8 tools", (t) => {
   );
   t.is(
     manifest.tools?.length,
-    8,
-    `manifest must declare 8 tools, got ${manifest.tools?.length}`,
+    10,
+    `manifest must declare 10 tools, got ${manifest.tools?.length}`,
   );
 });
 

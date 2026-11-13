@@ -272,3 +272,19 @@ fn width_sets_the_demo_width_for_render_and_for_a_batch_state() {
     );
     assert_eq!(root_width(&read("accordion-m-w120-light-desktop")), 120.0);
 }
+
+/// Outside a checkout, `render` uses the recipes, relationships and tokens embedded in the binary.
+#[test]
+fn render_works_from_the_embedded_snapshot_outside_a_checkout() {
+    let cwd = tempfile::tempdir().unwrap();
+    let cache = tempfile::tempdir().unwrap();
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(cwd.path())
+        .env("DESIGN_DATA_CACHE_DIR", cache.path())
+        .args(["render", "action-button", "--color-scheme", "dark"])
+        .assert()
+        .success();
+    let svg = String::from_utf8(out.get_output().stdout.clone()).unwrap();
+    assert!(svg.starts_with("<svg"), "{svg}");
+}

@@ -80,7 +80,7 @@ test.serial("manifest.json is well-formed and in sync", (t) => {
   t.is(manifest.manifest_version, "0.3", "manifest_version should be '0.3'");
   t.is(typeof manifest.name, "string", "manifest.name should be a string");
   t.true(Array.isArray(manifest.tools), "manifest.tools should be an array");
-  t.is(manifest.tools.length, 8, "manifest should list 8 tools");
+  t.is(manifest.tools.length, 10, "manifest should list 10 tools");
   for (const entry of manifest.tools) {
     t.is(typeof entry.name, "string", "tool entry name should be a string");
     t.is(
