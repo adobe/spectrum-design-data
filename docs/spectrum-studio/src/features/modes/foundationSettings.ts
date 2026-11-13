@@ -28,6 +28,12 @@ export const ADAPTIVE_SETTING_IDS: readonly FoundationSettingId[] = [
   "color.scaleAdjustment",
   "typography.textZoom",
 ];
+/** Must match `foundationParameterSettings` in design-system.defaults.json. */
+export const DEFAULT_ADAPTIVE_SETTING_IDS: readonly FoundationSettingId[] = [
+  "color.backgroundLightness",
+  "color.contrastMultiplier",
+  "typography.textZoom",
+];
 export const ADAPTIVE_COLOR_CHANNEL_IDS = [
   "color.hueShift",
   "color.saturation",
@@ -43,7 +49,9 @@ export function foundationParameterDefaults(
         modal: true,
         adaptive:
           ADAPTIVE_SETTING_IDS.includes(id) &&
-          (claims ? Object.hasOwn(claims, id) : id === "typography.textZoom"),
+          (claims
+            ? Object.hasOwn(claims, id)
+            : DEFAULT_ADAPTIVE_SETTING_IDS.includes(id)),
       },
     ]),
   ) as FoundationParameterSettings;
