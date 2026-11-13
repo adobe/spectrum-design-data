@@ -236,7 +236,11 @@ store.set(restoreAuthoringSnapshotAtom, original);
 store.set(replaceSources, []);
 assert.deepEqual(
   store.get(adaptiveParametersAtom).map((parameter) => parameter.id),
-  ["typography.textZoom"],
+  [
+    "color.backgroundLightness",
+    "color.contrastMultiplier",
+    "typography.textZoom",
+  ],
   "Adaptive availability does not require mode sets.",
 );
 store.set(updateFoundationParameterSettingAtom, {
@@ -321,7 +325,7 @@ for (const mode of [dark, wireframe]) {
   );
 }
 store.set(restoreAuthoringSnapshotAtom, original);
-toggle("adaptive", true);
+toggle("adaptive", false);
 const changed = store.get(authoringSourceSnapshotAtom);
 const comparison = compareAuthoring(original, changed);
 const fields = comparison.groups

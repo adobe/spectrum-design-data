@@ -10125,7 +10125,7 @@
     "foundationParameterSettings": {
       "color.backgroundLightness": {
         "modal": true,
-        "adaptive": false
+        "adaptive": true
       },
       "color.backgroundScaleId": {
         "modal": true,
@@ -10133,7 +10133,7 @@
       },
       "color.contrastMultiplier": {
         "modal": true,
-        "adaptive": false
+        "adaptive": true
       },
       "color.scaleAdjustment": {
         "modal": true,
@@ -23608,7 +23608,7 @@
       "typography": {
         "schemaVersion": 11,
         "scaleTypeId": "scale-type-typography",
-        "outputUnit": "rem",
+        "outputUnit": "px",
         "smallSizes": 2,
         "largeSizes": 14,
         "componentSize": "m",
