@@ -87,7 +87,8 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable it.
 * **Tools:** `design-data-primer`, `design-data-query`, `design-data-suggest`,
   `design-data-component`, `design-data-component-search`, `design-data-resolve`,
-  `design-data-guideline-list`, `design-data-guideline`. Inputs are documented in
+  `design-data-guideline-list`, `design-data-guideline`,
+  `design-data-visual-recipe`, `design-data-render`. Inputs are documented in
   [SKILL.md](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/skills/design-data/SKILL.md).
 
 ## Data and freshness

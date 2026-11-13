@@ -14,7 +14,7 @@ when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
   "Spectrum component options", design-data primer, query tokens, suggest token,
   resolve token value, component schema, Spectrum guideline, @adobe/design-data-mcp.
-allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline
+allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline, mcp__plugin_spectrum-design-data_design-data__design-data-visual-recipe, mcp__plugin_spectrum-design-data_design-data__design-data-render
 ---
 
 # Spectrum Design Data
@@ -103,6 +103,14 @@ when `ambiguous: true`, the `token` is only the top pick; narrow further or repo
 `designing`, `fundamentals`, `developing`, `support`). `design-data-guideline`
 returns one page by `id`, the `slug` from the list (e.g. `colors`).
 
+### `design-data-visual-recipe` and `design-data-render`
+
+`design-data-visual-recipe` returns a component's visual recipe by `id`; only
+components with a recipe are available (the error lists them). `design-data-render`
+draws one as SVG text. Required: `component`. Optional: `size` (default `m`),
+`states` (e.g. `["hover"]`), `options` (object), `colorScheme`, `scale`, `label`,
+`width` (px). SVG only; there is no PNG output.
+
 ## Workflow
 
 1. `design-data-primer` to see what data exists.
@@ -111,6 +119,7 @@ returns one page by `id`, the `slug` from the list (e.g. `colors`).
 4. `design-data-component-search`, then `design-data-component`, for component options.
 5. `design-data-resolve` for a concrete value in a given mode.
 6. `design-data-guideline-list`, then `design-data-guideline`, for design guidance.
+7. `design-data-render` to draw a component as SVG; `design-data-visual-recipe` to read its recipe.
 
 ## Limits
 
