@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-skill",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Read-only Spectrum design-data lookup plugin: a skill plus the bundled @adobe/design-data-mcp server",
   "type": "module",
   "files": [

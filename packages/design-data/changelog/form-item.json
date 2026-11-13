@@ -3,5 +3,22 @@
   "specVersion": "1.0.0-draft",
   "component": "form-item",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "3.11.4",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "f31644653d65c700a5c603472656ec1e18d49633",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1768,"title":"feat(design-data): add relationship contexts to bar-panel, standard-panel, in-field-button and form-item","url":"https://github.com/adobe/spectrum-design-data/pull/1768"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
+    }
+  ]
 }

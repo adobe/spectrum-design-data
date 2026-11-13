@@ -1,5 +1,58 @@
 # @adobe/spectrum-design-data
 
+## 3.11.4
+
+### Patch Changes
+
+- [#1770](https://github.com/adobe/spectrum-design-data/pull/1770) [`e3479b3`](https://github.com/adobe/spectrum-design-data/commit/e3479b3ea0c5855942b51e88e44b748045acae8d) Thanks [@GarthDB](https://github.com/GarthDB)! - Backfill the structured context fields on 4,187 existing relationship records
+  that had a `context` string and no fields.
+  - `contextRole` (registry term ids) is derived from the main word, through the
+    registry labels and aliases. Text in the trailing parenthesis becomes
+    `contextPart` when it is a declared anatomy part of the record's component or a
+    registry anatomy term (103 records), otherwise `contextQualifier` (1,818).
+  - No `context` string changes; it stays the identity key for recipes and the
+    changelog. SPEC-090 is clean for every backfilled record.
+  - 197 records are skipped: 76 main words not in the registry, 95 strings that
+    would not agree with the derived label, and 26 with unusual parentheses.
+
+- [#1766](https://github.com/adobe/spectrum-design-data/pull/1766) [`ea86c6d`](https://github.com/adobe/spectrum-design-data/commit/ea86c6d75726d6d9b1ba24c209328a4d386cc274) Thanks [@GarthDB](https://github.com/GarthDB)! - Add relationship contexts and structured context fields to 29 records in
+  `stack-item`, `card`, `floating-action-button`, `color-handle`, `popover`,
+  `avatar`, `color-loupe`, `contextual-help`, `meter` and `picker` that had none.
+  - Each context reuses a string already on the component or used by a sibling
+    component for the same relationship: `Border`, `Body`, `Title`, `Drop shadow`,
+    `Background (selected, emphasized)`, and `Width (default)` for plain widths.
+  - No existing context string is changed.
+  - Lowers the SPEC-092 baseline for these components.
+
+- [#1768](https://github.com/adobe/spectrum-design-data/pull/1768) [`f316446`](https://github.com/adobe/spectrum-design-data/commit/f31644653d65c700a5c603472656ec1e18d49633) Thanks [@GarthDB](https://github.com/GarthDB)! - Add relationship contexts and structured context fields to the 20 records in
+  `bar-panel`, `standard-panel`, `in-field-button` and `form-item` that had none.
+  - Panels: `Gripper` and `Gripper (drag)`, `Width (default)`, `Width (minimum)`,
+    `Width (maximum)`, and `Title` for the standard-panel title font size.
+  - `in-field-button`: `Width (stacked)` and `Rounding (stacked, inner)`.
+  - `form-item` gap: `Spacing (label to field, field to help text)`.
+  - No existing context string is changed.
+  - Lowers the SPEC-092 baseline for these components.
+
+- [#1772](https://github.com/adobe/spectrum-design-data/pull/1772) [`6bf292d`](https://github.com/adobe/spectrum-design-data/commit/6bf292db462f14344b6112f027dfc56cd886fa11) Thanks [@GarthDB](https://github.com/GarthDB)! - Align selected-row context wording with the highlight selection model, and fix a
+  copy-pasted avatar string. Renames 17 existing relationship context strings and
+  their structured fields; no recipe binds any of them.
+  - `tree-view` and `stack-item`: `Background (selected, emphasized)` becomes
+    `Background (selected, highlight)`. List view, Tree view and Table dropped the
+    emphasized option for checkbox or highlight selection.
+  - `tree-view`: the three `… (selected + highlight)` strings (two backgrounds and a
+    border) become `… (selected, highlight)`, the same wording as the rest.
+  - `table`: `Background (selected row, non-emphasized)` and its hover variant
+    become `… (selected row, checkbox selection)`, the neutral selected fill.
+  - `avatar`: `Text (List view item)` becomes `Text (initials)` on the six font
+    records, which style the initials.
+  - `action-button` `Background (selected, emphasized)` is unchanged.
+
+- [#1763](https://github.com/adobe/spectrum-design-data/pull/1763) [`d1123a1`](https://github.com/adobe/spectrum-design-data/commit/d1123a17afa74644b4fab739e70d55077d1cd40f) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `scope.options.variant` on the 57 `status-light` "Semantic (Dot)" and
+  "Non-semantic (Dot)" relationships, taken from each referenced token's
+  `colorRole` or `colorFamily`. A `variant` selector now resolves to one token
+  instead of one per colour family. The `gray`, `red`, `orange` and `green`
+  options still have no dot token.
+
 ## 3.11.3
 
 ### Patch Changes

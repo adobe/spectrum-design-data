@@ -1,5 +1,14 @@
 # @adobe/design-data-spec
 
+## 4.17.1
+
+### Patch Changes
+
+- [#1765](https://github.com/adobe/spectrum-design-data/pull/1765) [`599afd2`](https://github.com/adobe/spectrum-design-data/commit/599afd2ef8a2c22d0d7041bcd833732b683c99d6) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify `artifact-moves.md`: a platform in its own repo keeps replacing the
+  foundation record until its pin bump deletes the copy; a recipe or relationship
+  move is recorded on the component's `lifecycle.moves`; and a foundation-owned
+  component that gains a recipe is a file move plus ordinary data edits.
+
 ## 4.17.0
 
 ### Minor Changes
