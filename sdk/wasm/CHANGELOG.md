@@ -1,5 +1,23 @@
 # @adobe/design-data-wasm
 
+## 0.20.0
+
+### Minor Changes
+
+- [#1775](https://github.com/adobe/spectrum-design-data/pull/1775) [`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes to the embedded data and render them to SVG.
+  - MCP: new `design-data-visual-recipe` and `design-data-render` tools.
+  - WASM: `Dataset.embedded()` now carries recipes. New `visualRecipes()`,
+    `visualRecipe(name)` and `renderComponentSvg(request)`.
+  - `@adobe/spectrum-design-data` publishes `visuals/` and exports `./visuals/*`.
+
+### Patch Changes
+
+- [#1774](https://github.com/adobe/spectrum-design-data/pull/1774) [`d5a64c4`](https://github.com/adobe/spectrum-design-data/commit/d5a64c4c59c03a38f89e70f0cb11b959d4c84d84) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `status-light` dot relationships for the `gray`, `red`, `orange`, `green`
+  and `blue` colors and the `accent` role (3 records each: light, dark, wireframe),
+  pointing at the existing `*-visual-color` tokens. Add `accent` and `blue` to the
+  component's `variant` options. The set now matches the official S2 - Web Figma
+  file's status light.
+
 ## 0.19.3
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @adobe/design-data-skill
 
+## 2.1.0
+
+### Minor Changes
+
+- [#1775](https://github.com/adobe/spectrum-design-data/pull/1775) [`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the new `design-data-visual-recipe` and `design-data-render` MCP tools in the skill.
+
+### Patch Changes
+
+- Updated dependencies [[`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895)]:
+  - @adobe/design-data-mcp@1.11.0
+
 ## 2.0.3
 
 ### Patch Changes

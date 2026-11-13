@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data",
-  "version": "3.3.13",
+  "version": "3.3.14",
   "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, validation, and guideline and component lookups",
   "type": "module",
   "main": "./src/index.js",

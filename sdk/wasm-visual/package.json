@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-visual",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Slim WebAssembly renderer for Spectrum component visual recipes, with precompiled variants: SVG or scene JSON in the browser or Node",
   "type": "module",
   "main": "./pkg/node/design_data_wasm_visual.js",
