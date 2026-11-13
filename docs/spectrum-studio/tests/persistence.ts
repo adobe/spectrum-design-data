@@ -8,6 +8,7 @@ import {
   decodeStructureSource,
 } from "../src/features/edit-session/structureSourceCodec";
 import { compareAuthoring } from "../src/features/changelog/registry";
+import type { LayoutScaleProposal } from "../src/features/structures/layoutScales";
 
 class MemoryStorage implements Storage {
   data = new Map<string, string>();
@@ -838,6 +839,69 @@ assert.equal(
   false,
   "Confirmed Reset all uses the reconciled default catalog, not the retired metric seeds.",
 );
+dispose();
+
+const { previewOverridesAtom } =
+  await import("../src/features/modes/previewState");
+const { structurePreviewsAtom } =
+  await import("../src/features/structures/documentState");
+const { EMPTY_STRUCTURE_PREVIEW } =
+  await import("../src/features/structures/variants");
+const { pendingLayoutScaleAtom } =
+  await import("../src/features/structures/layoutScaleState");
+const { selectedStyleIdAtom, stylePreviewAtom } =
+  await import("../src/features/styles/state");
+const viewStore = createStore();
+dispose = initializeAuthoringPersistence(viewStore);
+const shipped = createDefaultSnapshot();
+const keptStructure = shipped.structures!.structures[0].conceptId;
+const keptStyle = shipped.styles!.recipes[0].id;
+const stylePreview = {
+  options: { size: "large" },
+  display: "values" as const,
+};
+viewStore.set(selectedStyleIdAtom, keptStyle);
+viewStore.set(stylePreviewAtom, stylePreview);
+viewStore.set(enterEditModeAtom);
+const addedStructure = viewStore.set(addStructureAtom);
+viewStore.set(previewOverridesAtom, { "color.backgroundLightness": 0.4 });
+viewStore.set(structurePreviewsAtom, {
+  [keptStructure]: { ...EMPTY_STRUCTURE_PREVIEW, indentationLevel: 1 },
+  [addedStructure]: EMPTY_STRUCTURE_PREVIEW,
+});
+viewStore.set(pendingLayoutScaleAtom, {
+  questions: [],
+} as unknown as LayoutScaleProposal);
+viewStore.set(resetAllAuthoringAtom);
+assert.deepEqual(viewStore.get(authoringSnapshotAtom), shipped);
+assert.equal(viewStore.get(selectedStyleIdAtom), keptStyle);
+assert.deepEqual(
+  viewStore.get(stylePreviewAtom),
+  stylePreview,
+  "Reset all keeps the selected Style and its preview choices.",
+);
+assert.deepEqual(viewStore.get(previewOverridesAtom), {
+  "color.backgroundLightness": 0.4,
+});
+assert.deepEqual(
+  viewStore.get(structurePreviewsAtom),
+  { [keptStructure]: { ...EMPTY_STRUCTURE_PREVIEW, indentationLevel: 1 } },
+  "Reset all keeps previews for shipped Structures and drops removed ones.",
+);
+assert.equal(viewStore.get(selectedStructureIdAtom), null);
+assert.equal(
+  viewStore.get(pendingLayoutScaleAtom),
+  null,
+  "Unfinished proposals tied to replaced data are discarded.",
+);
+viewStore.set(selectedStyleIdAtom, "missing-style");
+viewStore.set(stylePreviewAtom, stylePreview);
+viewStore.set(resetAllAuthoringAtom);
+assert.equal(viewStore.get(selectedStyleIdAtom), null);
+assert.deepEqual(viewStore.get(stylePreviewAtom), {
+  options: {},
+  display: "values",
+});
 dispose();
 assert.equal(localStorage.getItem("another-app"), "preserve");
 assert.equal(localStorage.getItem("leonardo:v1:unknown-owner"), "preserve");

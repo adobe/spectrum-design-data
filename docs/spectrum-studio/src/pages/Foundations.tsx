@@ -32,7 +32,6 @@ import { ElevationElements } from "../views/elevation/ElevationElements";
 import { ElevationAnalyze } from "../views/elevation/ElevationAnalyze";
 import { ElevationCssExport } from "../views/elevation/ElevationCssExport";
 import { colorPanelTabAtom } from "../state/view/dataVisView";
-import { DataVisElements } from "../views/color-system/data-vis/DataVisElements";
 import { DataVisAnalyze } from "../views/color-system/data-vis/DataVisAnalyze";
 import { DataVisCode } from "../views/color-system/data-vis/DataVisCode";
 import { CurrentColorOutputBoundary } from "../components/ColorOutputBoundary";
@@ -43,6 +42,11 @@ import { OpacityCssExport } from "../views/opacity/OpacityCssExport";
 const ColorEvaluation = lazy(() =>
   import("../views/color-system/ColorEvaluation").then((module) => ({
     default: module.ColorEvaluation,
+  })),
+);
+const DataVisElements = lazy(() =>
+  import("../views/color-system/data-vis/DataVisElements").then((module) => ({
+    default: module.DataVisElements,
   })),
 );
 const ColorAnalyze = lazy(() =>
@@ -64,7 +68,13 @@ export default function Foundations() {
   const elements =
     selectedFoundationTab === "colors" ? (
       dataVis ? (
-        <DataVisElements />
+        <Suspense
+          fallback={
+            <LoadingIndicator size="L" aria-label="Loading data vis examples" />
+          }
+        >
+          <DataVisElements />
+        </Suspense>
       ) : (
         <Suspense
           fallback={
@@ -230,7 +240,7 @@ export default function Foundations() {
           dataComponent="Foundations"
           hasElementsSurface={selectedFoundationTab !== "motion"}
           elements={elements}
-          preview={<SampleApp />}
+          apps={<SampleApp />}
           analyze={analyze}
           code={code}
         />

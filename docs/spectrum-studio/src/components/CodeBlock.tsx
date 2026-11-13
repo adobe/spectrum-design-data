@@ -23,6 +23,16 @@ const preStyles = style({
   font: "code-xs",
   flexGrow: 1,
   minHeight: 0,
+  // Syntax colors for the selector-based rules in CodeBlock.css.
+  "--code-comment": { type: "color", value: "gray-600" },
+  "--code-punctuation": { type: "color", value: "gray-700" },
+  "--code-property": { type: "color", value: "blue-900" },
+  "--code-number": { type: "color", value: "orange-900" },
+  "--code-string": { type: "color", value: "green-900" },
+  "--code-operator": { type: "color", value: "yellow-1000" },
+  "--code-keyword": { type: "color", value: "purple-900" },
+  "--code-function": { type: "color", value: "cyan-900" },
+  "--code-regex": { type: "color", value: "red-900" },
 });
 
 const CodeChunk = memo(function CodeChunk({

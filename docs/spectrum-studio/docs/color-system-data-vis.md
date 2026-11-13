@@ -286,12 +286,65 @@ appear as active value changes or create additional published mode-value rows.
 
 ## Elements and Analyze
 
-Elements shows the scales and small, deterministic sample heatmaps or numbered
-category bars. **Sample values** provides an equivalent data table. The
-diverging example owns a -4 to 7 range with a zero midpoint; none of that data
-is stored in the Foundation. Elements uses the shared generated-background
-surface, independently of the app's appearance. Data vis panel and chooser
-previews also render transparency over that actual UI background.
+Elements shows compact demonstrations selected by scale type. Categorical
+scales use stacked bars, a donut and a scatter plot from React Spectrum
+Charts S2. All three use exactly the generated category count and final
+member colors, in saved order. Sequential and diverging scales use a
+U.S. state choropleth and a square-cell heat map of the same 50 regional observations.
+Both read colors from the existing continuous scale function. Diverging
+normalization places zero at the center, with each arm normalized separately.
+
+The scale title and subtle type badge sit beside a 32-pixel color preview.
+Charts sit side by side when the available content width permits and stack
+on narrower layouts. **Sample data** opens a shared data table, which is
+mounted only while expanded. Labels stay generic: Category, Sample, Region
+and Metric. These examples do not change authored data or exports.
+
+Elements uses the shared generated-background surface, independently of the
+app's appearance. That background and its light/dark presentation are passed
+explicitly to S2 charts. Data vis panel and chooser previews also render
+transparency over that actual UI background.
+
+### Example data and rendering cost
+
+The examples use three fixed reference datasets, not numeric progressions:
+
+- **Categorical:** the [Gapminder teaching extract](https://github.com/jennybc/gapminder/blob/main/inst/extdata/gapminder.tsv)
+  (CC0), sampled at 1952, 1967, 1982, 1997 and 2007. The fixture retains
+  32 country profiles. Metric 1 is population in millions; Metric 2 is GDP
+  per capita divided by 1,000; Metric 3 is life expectancy. Bars use Metric 1
+  over all five samples, the donut uses its final sample, and scatter uses
+  Metrics 2 and 3 from those same observations. Profiles are deterministically
+  sampled, then reused for counts above 32, with distinct category labels.
+- **Sequential:** [USArrests](https://vincentarelbundock.github.io/Rdatasets/doc/datasets/USArrests.html),
+  assault rates per 100,000 residents in 1973. The smallest and largest
+  observed rates map to the scale endpoints.
+- **Diverging:** [state.x77](https://vincentarelbundock.github.io/Rdatasets/doc/datasets/state.html),
+  1974 per-capita income minus the 50-state median. Negative and positive
+  deviations share a zero reference. Both R datasets contain public
+  statistical observations; source names are kept out of the preview labels.
+
+Map paths come from [U.S. Atlas 3.0.1](https://github.com/topojson/us-atlas),
+using its preprojected Albers state geography from the 2017 U.S. Census.
+The checked-in paths include Alaska and Hawaii insets and retain the ISC
+license notice. DC and territories are excluded because these fixtures cover
+50 states. Projection and topology decoding happen outside the browser;
+rendering needs only native SVG, with no map SDK, tiles or network requests.
+
+The S2 chart adapter loads on demand and mounts only near visible categorical
+rows. It uses SVG, disables animations and releases chart views on unmount.
+Fixtures and chart inputs are memoized; work grows with the category count,
+with five observations per category. Quantitative previews do not load the
+chart runtime. Vite's automatic chunking replaces the all-dependencies vendor
+bucket so chart-only dependencies can remain behind the lazy import.
+
+The library still has a first-use download, parsing and rendering cost.
+Published unpacked sizes include roughly 0.86 MB for React Spectrum Charts,
+2.06 MB for its spec builder, 3.73 MB for Vega and 5.94 MB for Vega-Lite;
+these are not compressed transfer sizes. Studio's service worker precaches
+JavaScript, so lazy chunks may still download during background installation.
+No performance tests or production build are required for this source-based
+assessment, and it does not establish zero impact for arbitrary scale counts.
 
 Analyze plots lightness, chroma, hue or background contrast. Comparisons can
 use the actual generated UI background, one selected color, adjacent colors

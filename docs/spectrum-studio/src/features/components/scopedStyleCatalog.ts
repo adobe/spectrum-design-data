@@ -46,7 +46,7 @@ function metadata(token: ComponentToken) {
   return canonicalJson({ ...token, value: null, displayValue: "" });
 }
 
-/** Reuse only immutable store-owned foundations; public catalog calls stay cold. */
+/** Reuse only immutable store-owned foundations; public catalog calls return fresh copies. */
 export function createScopedStyleCatalog() {
   let basis:
     | {

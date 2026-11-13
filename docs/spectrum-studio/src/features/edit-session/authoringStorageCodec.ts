@@ -16,6 +16,36 @@ export function encodeAuthoringStorage<
   });
 }
 
+/**
+ * Whether `serialized` already stores `value`, checked without compressing it
+ * again. Malformed or differently encoded text never matches.
+ */
+export function storesAuthoringValue<
+  T extends { working: unknown; saved: unknown },
+>(serialized: string, value: T): boolean {
+  try {
+    const stored: unknown = JSON.parse(serialized);
+    if (
+      !record(stored) ||
+      stored.encoding !== ENCODING ||
+      typeof stored.snapshots !== "string"
+    )
+      return false;
+    const { working, saved, ...metadata } = value;
+    return (
+      JSON.stringify({
+        ...metadata,
+        encoding: ENCODING,
+        snapshots: stored.snapshots,
+      }) === serialized &&
+      LZString.decompressFromUTF16(stored.snapshots) ===
+        JSON.stringify([working, saved])
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function decodeAuthoringStorage(serialized: string): string {
   const value: unknown = JSON.parse(serialized);
   if (!record(value) || !("encoding" in value)) return serialized;

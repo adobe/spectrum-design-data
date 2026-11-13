@@ -11,7 +11,6 @@ import {
   Slider,
 } from "@react-spectrum/s2";
 import { Dialog } from "react-aria-components";
-import { parseColor } from "react-aria-components";
 import { useEffect, useRef, useState, type ComponentRef } from "react";
 import { MAX_CONTRAST_MULTIPLIER } from "../features/color-system/polarity";
 import {
@@ -20,6 +19,7 @@ import {
   type FoundationParameterDefinition,
 } from "../features/modes/parameters";
 import { ColorScalePicker } from "./color-picker/ColorScalePicker";
+import { DraftLightnessSlider, DraftSlider } from "./editable/DraftSlider";
 import { NumberField } from "./fields/NumberField";
 import { ColorPickerContents } from "./color-picker/ColorPickerContents";
 import { popoverDialogStyles } from "./popoverLayout";
@@ -85,14 +85,14 @@ export function ModeParameterControl({
       );
     case "shadowDepth":
       return (
-        <Slider
+        <DraftSlider
           label={`${parameter.label} (%)`}
           value={Number(value)}
           minValue={0}
           maxValue={200}
           step={1}
           ref={sliderRef}
-          onChange={(next) => onChange(Array.isArray(next) ? next[0] : next)}
+          onChange={onChange}
         />
       );
     case "shadowColor":
@@ -127,19 +127,19 @@ export function ModeParameterControl({
       );
     case "textZoom":
       return (
-        <Slider
+        <DraftSlider
           label={parameter.label}
           contextualHelp={contextualHelp}
           value={Number(value)}
           {...TEXT_ZOOM_RANGE}
           ref={sliderRef}
           formatOptions={{ signDisplay: "exceptZero" }}
-          onChange={(next) => onChange(Array.isArray(next) ? next[0] : next)}
+          onChange={onChange}
         />
       );
     case "contrastMultiplier":
       return (
-        <Slider
+        <DraftSlider
           label={parameter.label}
           value={Number(value)}
           minValue={0}
@@ -147,20 +147,17 @@ export function ModeParameterControl({
           step={0.01}
           ref={sliderRef}
           formatOptions={{ style: "percent" }}
-          onChange={(next) => onChange(Array.isArray(next) ? next[0] : next)}
+          onChange={onChange}
         />
       );
     case "backgroundLightness":
       return (
-        <ColorSlider
+        <DraftLightnessSlider
           label={parameter.label}
-          channel="lightness"
           UNSAFE_style={{ width: "100%" }}
           ref={colorRef}
-          value={parseColor(`hsl(0, 0%, ${Number(value) * 100}%)`)}
-          onChange={(next) => {
-            if (next) onChange(next.getChannelValue("lightness") / 100);
-          }}
+          value={Number(value)}
+          onChange={onChange}
         />
       );
     case "backgroundScale":

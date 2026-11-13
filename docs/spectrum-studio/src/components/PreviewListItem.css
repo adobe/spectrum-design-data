@@ -1,5 +1,24 @@
 /* Copyright 2026 Adobe. All rights reserved. */
 
+/* Card rows: the bottom 8px of each row is the gap between cards, so the
+   card outline, hover/selection background and focus ring all stop above it. */
 .previewList [role="row"] {
   border-block-end-width: 0;
+  padding-block-end: 16px;
+}
+.previewList [role="row"]::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 8px;
+  border: 1px solid var(--spectrum-gray-300);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.previewList [role="row"][data-selected]::after {
+  border-color: transparent;
+}
+.previewList [role="row"] > div > div:first-child,
+.previewList [role="row"][data-focus-visible] > div > div:nth-child(2) {
+  inset: 0 0 8px;
+  border-radius: 8px;
 }

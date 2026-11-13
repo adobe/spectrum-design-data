@@ -33,6 +33,11 @@ const homeHeadingStyles = {
   marginBottom: 0,
 };
 
+const homeHeroTextStyles = style({
+  "--home-hero-heading": { type: "color", value: "heading" },
+  "--home-hero-subdued": { type: "color", value: "neutral-subdued" },
+});
+
 export default function Home() {
   const colorScheme = useAtomValue(appColorSchemeAtom);
   const setActivePage = useSetAtom(activePageAtom);
@@ -49,7 +54,7 @@ export default function Home() {
         })}`}
       >
         <BentoGrid>
-          <BentoCard colSpan={4} className="homeHero">
+          <BentoCard colSpan={4} className={`homeHero ${homeHeroTextStyles}`}>
             <h1>Explore Spectrum's system in real time.</h1>
             <p>
               Powering quality and consistency of design across 100+ Adobe

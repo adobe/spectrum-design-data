@@ -203,10 +203,17 @@
               "icon"
             ]
           }
+        },
+        "colorRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleColorRole"
+          }
         }
       },
       "additionalProperties": false,
       "required": [
+        "colorRoles",
         "examples",
         "publications",
         "recipes",
@@ -838,6 +845,26 @@
         "key",
         "recipeId",
         "rows"
+      ]
+    },
+    "StyleColorRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "roleTermId": {
+          "type": "string"
+        },
+        "scaleId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "roleTermId",
+        "scaleId"
       ]
     },
     "ComponentSizingDocument": {

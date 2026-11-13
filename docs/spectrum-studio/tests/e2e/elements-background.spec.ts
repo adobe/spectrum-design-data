@@ -159,7 +159,7 @@ async function geometry(page: Page) {
 
 async function selectMode(page: Page, name: "Light" | "Dark") {
   await page
-    .getByRole("radio", { name: "Preview", exact: true })
+    .getByRole("radio", { name: "Apps", exact: true })
     .dispatchEvent("click");
   await selectPreviewMode(page, name);
   await page
@@ -266,7 +266,7 @@ test("Elevation sample fills follow adaptive preview backgrounds without changin
   );
   for (const lightness of ["0", "100", "0"]) {
     await page
-      .getByRole("radio", { name: "Preview", exact: true })
+      .getByRole("radio", { name: "Apps", exact: true })
       .dispatchEvent("click");
     await page
       .getByRole("button", { name: "Adaptive controls", exact: true })
@@ -436,7 +436,7 @@ for (const appearance of ["light", "dark"] as const)
       AUTHORING_STORAGE_KEY,
     );
     await page
-      .getByRole("radio", { name: "Preview", exact: true })
+      .getByRole("radio", { name: "Apps", exact: true })
       .dispatchEvent("click");
     await expect(
       page.getByRole("radiogroup", { name: "Color scheme", exact: true }),
@@ -489,7 +489,7 @@ test("Adaptive background previews update every Elements surface without saving"
     AUTHORING_STORAGE_KEY,
   );
   await page
-    .getByRole("radio", { name: "Preview", exact: true })
+    .getByRole("radio", { name: "Apps", exact: true })
     .dispatchEvent("click");
   await page
     .getByRole("button", { name: "Adaptive controls", exact: true })

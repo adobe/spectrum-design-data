@@ -35,9 +35,11 @@ import schema from "../src/data/design-system.schema.json" with { type: "json" }
 // differences, selected rule outputs, named property expansion, stable publications,
 // field/domain reset addresses, independent v29 upgrades, Save/Cancel/reload, Delete/Undo,
 // real Component Impact and preview-only selections without altering output identities.
+// styles-lifecycle.ts also covers authored color roles: unique Role terms, Changes/reset,
+// Delete/Undo, Registry term creation and Save/Cancel, with no token output.
 // Pin model shape independently from default values and upstream alignment evidence.
 const reviewedShape =
-  "ee812ed2a5e3e023cfe4f0abec2b1b931d68fcfe89ff119f1ae66de6d5913a85";
+  "c1052bd9d012d60e70bb061cceeb44e9a906c6e44da07b3fb59af70ed83d807b";
 const schemaMetadata = new Set([
   "title",
   "description",

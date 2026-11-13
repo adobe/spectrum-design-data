@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import {
   Cell,
   Column,
@@ -10,181 +11,220 @@ import {
   TableHeader,
   TableView,
 } from "@react-spectrum/s2";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { LoadingIndicator } from "../../../components/LoadingIndicator";
+import { DataVisHeatmap } from "./DataVisHeatmap";
+import { dataVisStatePaths } from "../../../assets/dataVisStates";
 import {
-  dataVisExampleBars,
-  dataVisExampleCells,
+  categoricalExample,
+  quantitativeExample,
+  type QuantitativeExampleKind,
 } from "../../../features/color-system/data-vis/examples";
+import "./DataVisExamples.css";
 
-const example = style({
-  width: "full",
-  maxWidth: 640,
-  height: 200,
-  display: "block",
-});
-const caption = style({ font: "body-sm", color: "neutral-subdued", margin: 0 });
-const figure = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-  margin: 0,
-  minWidth: 0,
-});
+const CategoricalCharts = lazy(() =>
+  import("./DataVisCategoricalCharts").then((module) => ({
+    default: module.DataVisCategoricalCharts,
+  })),
+);
 
-export function DataVisExamples({
+export type DataVisExamplesProps = {
+  name: string;
+  background: string;
+  colorScheme: "light" | "dark";
+} & (
+  | { kind: "categorical"; colors: readonly string[] }
+  | { kind: QuantitativeExampleKind; evaluate: (position: number) => string }
+);
+
+export function DataVisExamples(props: DataVisExamplesProps) {
+  return props.kind === "categorical" ? (
+    <CategoricalExamples {...props} />
+  ) : (
+    <QuantitativeExamples {...props} />
+  );
+}
+
+function CategoricalExamples({
   name,
   colors,
-  evaluate,
-  diverging = false,
-}: {
-  name: string;
-  colors: readonly string[];
-  evaluate?: (position: number) => string;
-  diverging?: boolean;
-}) {
-  if (evaluate) {
-    const cells = dataVisExampleCells(diverging);
-    return (
-      <figure className={figure}>
-        <svg
-          className={example}
-          viewBox="0 0 640 200"
-          role="img"
-          aria-label={`${name} heatmap example`}
-        >
-          <desc>
-            Sample data is normalized by this example, not stored in the color
-            Foundation. Exact values are available in the sample values table.
-          </desc>
-          {cells.map((cell, index) => (
-            <rect
-              key={index}
-              x={(cell.column - 1) * 53}
-              y={(cell.row - 1) * 48}
-              width={49}
-              height={44}
-              rx={3}
-              fill={evaluate(cell.position)}
-            >
-              <title>
-                Row {cell.row}, column {cell.column}: {cell.value.toFixed(2)}
-              </title>
-            </rect>
-          ))}
-        </svg>
-        <figcaption className={caption}>
-          {diverging
-            ? "This example owns a -4 to 7 data range with a zero midpoint."
-            : "This example owns a 0 to 1 data range."}{" "}
-          The function itself remains continuous.
-        </figcaption>
-        <Disclosure isQuiet>
-          <DisclosureTitle>Sample values</DisclosureTitle>
-          <DisclosurePanel>
-            <TableView
-              aria-label={`${name} sample values`}
-              density="compact"
-              overflowMode="wrap"
-            >
-              <TableHeader>
-                <Column isRowHeader>Cell</Column>
-                <Column>Value</Column>
-                <Column>Function position</Column>
-              </TableHeader>
-              <TableBody>
-                {cells.map((cell, index) => (
-                  <Row id={index} key={index}>
-                    <Cell>
-                      Row {cell.row}, column {cell.column}
-                    </Cell>
-                    <Cell>{cell.value.toFixed(2)}</Cell>
-                    <Cell>{cell.position.toFixed(4)}</Cell>
-                  </Row>
-                ))}
-              </TableBody>
-            </TableView>
-          </DisclosurePanel>
-        </Disclosure>
-      </figure>
+  background,
+  colorScheme,
+}: Extract<DataVisExamplesProps, { kind: "categorical" }>) {
+  const data = useMemo(
+    () => categoricalExample(colors.length),
+    [colors.length],
+  );
+  const palette = useMemo(() => [...colors], [colors]);
+  const [expanded, setExpanded] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const frame = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const target = frame.current;
+    if (!target) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      {
+        root: target.closest('[data-component="DataVisElements"]'),
+        rootMargin: "240px 0px",
+      },
     );
-  }
-  const bars = dataVisExampleBars(colors.length);
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
   return (
-    <figure className={figure}>
-      <svg
-        className={example}
-        viewBox="0 0 640 200"
-        role="img"
-        aria-label={`${name} category example`}
-      >
-        <desc>
-          Each numbered category uses one saved member in its selected order.
-          Exact values are available in the sample values table.
-        </desc>
-        {bars.map((bar, index) => (
-          <g key={bar.category}>
-            <rect
-              x={8 + (index * 624) / bars.length}
-              y={180 - bar.value}
-              width={Math.max(2, 624 / bars.length - 8)}
-              height={bar.value}
-              rx={3}
-              fill={colors[index]}
-            >
-              <title>
-                Category {bar.category}: {bar.value}
-              </title>
-            </rect>
-            <text
-              x={8 + ((index + 0.5) * 624) / bars.length - 4}
-              y={196}
-              textAnchor="middle"
-              fontSize={12}
-              fill="currentColor"
-            >
-              {bar.category}
-            </text>
-          </g>
-        ))}
-      </svg>
-      <figcaption className={caption}>
-        {colors.length ? (
-          <>
-            Sample categories use the saved order
-            {colors.length > 20
-              ? "; this small example shows the first 20"
-              : ""}
-            . No extra tokens are created.
-          </>
-        ) : (
-          "No categorical colors to preview."
-        )}
-      </figcaption>
-      {bars.length > 0 && (
-        <Disclosure isQuiet>
-          <DisclosureTitle>Sample values</DisclosureTitle>
+    <figure className="dataVisExampleFigure" ref={frame}>
+      {!colors.length ? (
+        <p>No categorical colors to preview.</p>
+      ) : visible ? (
+        <Suspense
+          fallback={
+            <div className="dataVisExampleChart">
+              <LoadingIndicator size="M" aria-label="Loading chart examples" />
+            </div>
+          }
+        >
+          <CategoricalCharts
+            name={name}
+            colors={palette}
+            data={data}
+            background={background}
+            colorScheme={colorScheme}
+          />
+        </Suspense>
+      ) : (
+        <div
+          className="dataVisExampleGrid"
+          data-kind="categorical"
+          aria-hidden="true"
+        >
+          <div className="dataVisExampleChart" />
+          <div className="dataVisExampleChart" />
+          <div className="dataVisExampleChart" />
+        </div>
+      )}
+      {!!colors.length && (
+        <Disclosure
+          isQuiet
+          isExpanded={expanded}
+          onExpandedChange={setExpanded}
+        >
+          <DisclosureTitle>Sample data</DisclosureTitle>
           <DisclosurePanel>
-            <TableView
-              aria-label={`${name} sample values`}
-              density="compact"
-              overflowMode="wrap"
-            >
-              <TableHeader>
-                <Column isRowHeader>Category</Column>
-                <Column>Value</Column>
-              </TableHeader>
-              <TableBody>
-                {bars.map((bar) => (
-                  <Row id={bar.category} key={bar.category}>
-                    <Cell>{bar.category}</Cell>
-                    <Cell>{bar.value}</Cell>
-                  </Row>
-                ))}
-              </TableBody>
-            </TableView>
+            {expanded && (
+              <div className="dataVisExampleTable">
+                <TableView
+                  aria-label={`${name} sample data`}
+                  density="compact"
+                  overflowMode="wrap"
+                >
+                  <TableHeader>
+                    <Column isRowHeader>Category</Column>
+                    <Column>Sample</Column>
+                    <Column>Metric 1</Column>
+                    <Column>Metric 2</Column>
+                    <Column>Metric 3</Column>
+                  </TableHeader>
+                  <TableBody>
+                    {data.records.map((record) => (
+                      <Row id={record.id} key={record.id}>
+                        <Cell>{record.category}</Cell>
+                        <Cell>{record.sample}</Cell>
+                        <Cell>{record.metric1.toFixed(2)}</Cell>
+                        <Cell>{record.metric2.toFixed(2)}</Cell>
+                        <Cell>{record.metric3.toFixed(2)}</Cell>
+                      </Row>
+                    ))}
+                  </TableBody>
+                </TableView>
+              </div>
+            )}
           </DisclosurePanel>
         </Disclosure>
       )}
+    </figure>
+  );
+}
+
+function QuantitativeExamples({
+  name,
+  kind,
+  evaluate,
+}: Extract<DataVisExamplesProps, { kind: QuantitativeExampleKind }>) {
+  const records = useMemo(
+    () => quantitativeExample(kind, evaluate),
+    [kind, evaluate],
+  );
+  const byId = useMemo(
+    () => new Map(records.map((record) => [record.id, record])),
+    [records],
+  );
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <figure className="dataVisExampleFigure">
+      <div className="dataVisExampleGrid" data-kind={kind}>
+        <svg
+          className="dataVisExampleMap"
+          viewBox="0 0 975 610"
+          role="img"
+          aria-label={`${name} choropleth example`}
+        >
+          <desc>
+            Regions are colored by Metric 1. Exact values are available in
+            Sample data.
+          </desc>
+          {dataVisStatePaths.map((state) => {
+            const record = byId.get(state.id)!;
+            return (
+              <path
+                key={state.id}
+                d={state.path}
+                fill={record.color}
+                stroke="var(--elements-preview-divider, currentColor)"
+                strokeWidth={0.75}
+                strokeLinejoin="round"
+              >
+                <title>
+                  {record.region}: {record.value.toFixed(2)}
+                </title>
+              </path>
+            );
+          })}
+        </svg>
+        <DataVisHeatmap name={name} records={records} />
+      </div>
+      <Disclosure isQuiet isExpanded={expanded} onExpandedChange={setExpanded}>
+        <DisclosureTitle>Sample data</DisclosureTitle>
+        <DisclosurePanel>
+          {expanded && (
+            <div className="dataVisExampleTable">
+              <TableView
+                aria-label={`${name} sample data`}
+                density="compact"
+                overflowMode="wrap"
+              >
+                <TableHeader>
+                  <Column isRowHeader>Region</Column>
+                  <Column>Metric 1</Column>
+                  <Column>Function position</Column>
+                </TableHeader>
+                <TableBody>
+                  {records.map((record) => (
+                    <Row id={record.id} key={record.id}>
+                      <Cell>{record.region}</Cell>
+                      <Cell>{record.value.toFixed(2)}</Cell>
+                      <Cell>{record.position.toFixed(4)}</Cell>
+                    </Row>
+                  ))}
+                </TableBody>
+              </TableView>
+            </div>
+          )}
+        </DisclosurePanel>
+      </Disclosure>
     </figure>
   );
 }

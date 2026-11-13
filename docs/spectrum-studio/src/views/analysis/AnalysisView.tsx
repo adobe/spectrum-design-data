@@ -64,6 +64,8 @@ import { modeCoverageRows } from "./colorOpacityPresentation";
 import { ClassificationReview } from "./ClassificationReview";
 import { unavailableTokenReference } from "../../features/design-data/tokenInventory";
 
+const noticeTextStyles = style({ color: "neutral-subdued" });
+
 const classifications = [
   "all",
   "invalid-input",
@@ -798,13 +800,13 @@ export default function AnalysisView() {
             </p>
             {(coverage.inventories.app !== "complete" ||
               coverage.inventories.reference !== "complete") && (
-              <p className="analysisCoverageNotice">
+              <p className={`analysisCoverageNotice ${noticeTextStyles}`}>
                 Partial inventory: percentages describe observed records only.
                 Missing data is not inferred from failed app input.
               </p>
             )}
             {(status === "stale" || status === "refreshing") && (
-              <p className="analysisCoverageNotice">
+              <p className={`analysisCoverageNotice ${noticeTextStyles}`}>
                 Reference data is stale or refreshing. These are last-good
                 comparison results.
               </p>
@@ -1096,7 +1098,7 @@ export default function AnalysisView() {
                 </div>
               </section>
             )}
-            <p className="analysisCoverageNotice">
+            <p className={`analysisCoverageNotice ${noticeTextStyles}`}>
               Grouping tokens by type does not match identities or validate
               schemas. Unknown and legacy properties remain in Other /
               unclassified tokens.

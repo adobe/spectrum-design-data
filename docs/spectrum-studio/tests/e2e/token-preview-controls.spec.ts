@@ -97,7 +97,7 @@ for (const width of [1280, 390]) {
       .getByRole("navigation", { name: "Navigation", exact: true })
       .getByRole("link", { name: "Foundations", exact: true })
       .click();
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     const preview = page.locator(".previewToolbarAnchor").getByRole("group", {
       name: "Design-system preview controls",
       exact: true,

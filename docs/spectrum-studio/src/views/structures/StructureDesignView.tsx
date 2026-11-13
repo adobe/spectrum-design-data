@@ -56,6 +56,7 @@ import { resolveElements } from "../../features/structures/elementResolution";
 import { rulesAtom } from "../../features/logic/library";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import "./StructureDesignView.css";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { DesignEditorPanel } from "../../panels/design/DesignEditorPanel";
 import {
   isLeaf,
@@ -93,6 +94,9 @@ import { useNotify } from "../../components/notifications/notificationContext";
 import { configuredStructure } from "../../features/structures/configuration";
 import { editStructureOptionBindingsAtom } from "../../features/structures/configurationState";
 import { previewTextStyleSourceAtom } from "../../features/styles/state";
+
+const variantLabelTextStyles = style({ color: "neutral-subdued" });
+const variantColumnLabelTextStyles = style({ color: "neutral" });
 
 const structureDesignInputAtom = atom((get) => ({
   structure: get(selectedStructureAtom),
@@ -232,13 +236,25 @@ function StructureDesignContent({
       [inspectorSource.conceptId]: { ...inspectorPreview, ...patch },
     }));
   };
-  const inspectorStructure =
-    inspectorSource && authoredStructure
-      ? configuredStructure(authoredStructure, inspectorPath, catalog, {
-          ...previews,
-          [authoredStructure.conceptId]: preview,
-        }).structure
-      : null;
+  const hasInspector = !!inspectorSource;
+  // Stable across canvas-only renders (such as panning) so the settings panel reuses its picker options.
+  const inspectorStructure = useMemo(
+    () =>
+      hasInspector && authoredStructure
+        ? configuredStructure(authoredStructure, inspectorPath, catalog, {
+            ...previews,
+            [authoredStructure.conceptId]: preview,
+          }).structure
+        : null,
+    [
+      hasInspector,
+      authoredStructure,
+      inspectorPath,
+      catalog,
+      previews,
+      preview,
+    ],
+  );
   const inspectorVariant = inspectorSource
     ? activeVariant(
         inspectorSource,
@@ -548,7 +564,9 @@ function StructureDesignContent({
                       className="structureVariantColumn"
                     >
                       {column.label && (
-                        <span className="structureVariantLabel structureVariantColumnLabel">
+                        <span
+                          className={`structureVariantLabel structureVariantColumnLabel ${variantColumnLabelTextStyles}`}
+                        >
                           {column.label}
                         </span>
                       )}
@@ -582,7 +600,9 @@ function StructureDesignContent({
                             data-selected={cell.isActive || undefined}
                           >
                             {cell.label && (
-                              <span className="structureVariantLabel">
+                              <span
+                                className={`structureVariantLabel ${variantLabelTextStyles}`}
+                              >
                                 {cell.label}
                               </span>
                             )}

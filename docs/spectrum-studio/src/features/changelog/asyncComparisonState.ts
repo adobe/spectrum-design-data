@@ -1,6 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
-import { authoringSourceSnapshotAtom } from "../edit-session/state";
+import {
+  authoringResetRevisionAtom,
+  authoringSourceSnapshotAtom,
+} from "../edit-session/state";
 import { foundationModeAttachmentsAtom } from "../../state/view/foundationModeAttachments";
 import {
   immediateAuthoredComparisonAtom,
@@ -32,7 +35,10 @@ export type ComparisonState = DerivedState<
   ComparisonProgress
 > & { display?: ComparisonProgress };
 const publicationAtom = atom<ComparisonState | null>(null);
-const lastReadyAtom = atom<ComparisonOutput | undefined>(undefined);
+/** The last finished result, kept to avoid flicker while edits recalculate, but not across a reset. */
+const lastReadyAtom = atom<
+  { value: ComparisonOutput; resetRevision: number } | undefined
+>(undefined);
 export const comparisonPublicationAtom = atom(
   (get) => get(publicationAtom),
   (get, set, publication: ComparisonState | null) => {
@@ -41,7 +47,10 @@ export const comparisonPublicationAtom = atom(
       publication?.status === "ready" &&
       publication.input === get(comparisonRequestAtom)
     )
-      set(lastReadyAtom, publication.value);
+      set(lastReadyAtom, {
+        value: publication.value,
+        resetRevision: get(authoringResetRevisionAtom),
+      });
     set(publicationAtom, publication);
   },
 );
@@ -55,7 +64,11 @@ export const asyncComparisonAtom = atom((get): ComparisonState => {
       ? published
       : { status: "pending" as const, input };
   const authored = get(immediateAuthoredComparisonAtom);
-  const lastReady = get(lastReadyAtom);
+  const stored = get(lastReadyAtom);
+  const lastReady =
+    stored?.resetRevision === get(authoringResetRevisionAtom)
+      ? stored.value
+      : undefined;
   const partial =
     current.status === "pending" && current.partial
       ? current.partial

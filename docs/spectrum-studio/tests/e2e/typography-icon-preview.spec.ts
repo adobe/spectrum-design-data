@@ -374,7 +374,7 @@ test("Adaptive text size updates icon samples without changing authored Analysis
     AUTHORING_STORAGE_KEY,
   );
   await page
-    .getByRole("radio", { name: "Preview", exact: true })
+    .getByRole("radio", { name: "Apps", exact: true })
     .dispatchEvent("click");
   await page
     .getByRole("button", { name: "Adaptive controls", exact: true })

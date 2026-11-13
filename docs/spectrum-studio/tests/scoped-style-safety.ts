@@ -12,6 +12,7 @@ import {
 } from "../src/features/styles/state";
 import { componentsDocumentAtom } from "../src/features/components/documentState";
 import {
+  clearComponentTokenCatalogCache,
   componentTokenCatalog,
   type ComponentTokenSource,
 } from "../src/features/components/references";
@@ -94,6 +95,8 @@ for (const candidate of fallbacks) {
   });
   let scoped: ReturnType<typeof resolve>;
   try {
+    // Equal content would otherwise reuse the earlier canonical build.
+    clearComponentTokenCatalogCache();
     scoped = resolve(after, candidate);
     assert(
       conversions > 0,

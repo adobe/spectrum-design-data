@@ -4,9 +4,12 @@ import { getAppStatus } from "./status";
 import { appStatusStore } from "./store";
 
 export function useAppStatus() {
-  const snapshot = useSyncExternalStore(
+  return getAppStatus(useAppStatusSnapshot());
+}
+
+export function useAppStatusSnapshot() {
+  return useSyncExternalStore(
     appStatusStore.subscribe,
     appStatusStore.getSnapshot,
   );
-  return getAppStatus(snapshot);
 }

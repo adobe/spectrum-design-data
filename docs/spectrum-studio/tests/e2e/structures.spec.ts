@@ -672,7 +672,7 @@ test("Mode switching resolves live bounds and complete shadows without saving pr
     page.locator('[data-component="StructurePreview"]'),
   ).toBeVisible();
   const authored = (await record(page)).working;
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   const toolbar = page.locator('[data-component="PreviewToolbar"]');
   const dark = toolbar.getByRole("radio", { name: "Dark", exact: true });
   if (await dark.isVisible()) await dark.click();

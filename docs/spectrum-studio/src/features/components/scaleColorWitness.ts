@@ -20,7 +20,8 @@ export function preparedScaleColorsFitBudget(
   );
 }
 
-function inputSignature(input: unknown): string | null {
+/** JSON text for plain, finite, acyclic data; null when JSON would change or merge values. */
+export function inputSignature(input: unknown): string | null {
   const ancestors = new WeakSet<object>();
   const supported = (value: unknown): boolean => {
     if (

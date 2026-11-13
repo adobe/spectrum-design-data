@@ -312,7 +312,8 @@ export function DataVisPanel() {
                     ? scale.members.flatMap((member) => {
                         const token = categorical.find(
                           (token) =>
-                            token.id === dataVisMemberId(scale.id, member.id),
+                            (token.sourceId ?? token.id) ===
+                            dataVisMemberId(scale.id, member.id),
                         );
                         return token && typeof token.value === "string"
                           ? [token.value]

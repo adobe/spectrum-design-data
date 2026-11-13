@@ -1,4 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
+export { DraftLightnessSlider, DraftSlider } from "./DraftSlider";
 export { EditableNumberField } from "./EditableNumberField";
 export { EditablePicker } from "./EditablePicker";
 export { EditableSlider } from "./EditableSlider";

@@ -38,6 +38,7 @@ import {
   type ComponentColorWitness,
 } from "./colorWitness";
 import {
+  inputSignature,
   withPreparedScaleColors,
   type PreparedScaleColors,
 } from "./scaleColorWitness";
@@ -102,16 +103,97 @@ export function componentStyleToken(
   };
 }
 
+// Every field the catalog reads; a new source field fails type checking until listed.
+const catalogSourceFields = Object.keys({
+  browserTokenEdits: true,
+  colorSystem: true,
+  componentSizing: true,
+  elevation: true,
+  interpolations: true,
+  linkedReferenceIds: true,
+  modeSets: true,
+  opacity: true,
+  radius: true,
+  rules: true,
+  scaleTypes: true,
+  size: true,
+  spacing: true,
+  structures: true,
+  styles: true,
+  taxonomy: true,
+  tokenOverrides: true,
+  typography: true,
+} satisfies Record<
+  keyof ComponentTokenSource,
+  true
+>) as (keyof ComponentTokenSource)[];
+const CATALOG_CACHE_LIMIT = 3;
+const catalogCache: {
+  key: string;
+  witness: ComponentColorWitness | null;
+  tokens: ComponentToken[];
+}[] = [];
+/** Lets tests observe canonical generation again; the app never needs this. */
+export function clearComponentTokenCatalogCache() {
+  catalogCache.length = 0;
+}
+
+// Exact JSON content identifies a source; undefined fields are left out, as saving does.
+const catalogCacheKey = (source: ComponentTokenSource) =>
+  inputSignature(
+    Object.fromEntries(
+      catalogSourceFields
+        .filter((field) => source[field] !== undefined)
+        .map((field) => [field, source[field]]),
+    ),
+  );
+const copyComponentToken = (token: ComponentToken): ComponentToken =>
+  token.outputError
+    ? { ...token, context: { ...token.context } }
+    : {
+        ...token,
+        context: { ...token.context },
+        value:
+          typeof token.value === "object"
+            ? structuredClone(token.value)
+            : token.value,
+      };
+
+/**
+ * The catalog depends only on the source fields and the color witness, so repeated
+ * checks of the same JSON data reuse one build. Every caller receives its own copies.
+ */
 export function componentTokenCatalog(
   source: ComponentTokenSource,
   colorWitness: ComponentColorWitness | null = null,
 ): ComponentToken[] {
   if (!source.taxonomy || !source.elevation || !source.scaleTypes)
     throw new Error("Component references need complete foundation data.");
-  return withTaxonomyProjection(
+  const key = catalogCacheKey(source);
+  const index =
+    key === null
+      ? -1
+      : catalogCache.findIndex(
+          (entry) => entry.witness === colorWitness && entry.key === key,
+        );
+  if (index >= 0) {
+    const [entry] = catalogCache.splice(index, 1);
+    catalogCache.unshift(entry);
+    return entry.tokens.map(copyComponentToken);
+  }
+  const tokens = withTaxonomyProjection(
     source.taxonomy,
     () => buildComponentTokenCatalog(source, colorWitness).tokens,
   );
+  if (key !== null) {
+    catalogCache.unshift({
+      key,
+      witness: colorWitness,
+      tokens: tokens.map(copyComponentToken),
+    });
+    catalogCache.splice(CATALOG_CACHE_LIMIT);
+  }
+  return tokens;
 }
 
 export function componentTokenCatalogWithColorWitness(

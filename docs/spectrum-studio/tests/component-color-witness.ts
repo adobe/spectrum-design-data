@@ -10,6 +10,7 @@ import {
 import { createComponentReferenceWitnesses } from "../src/features/components/contrastWitness";
 import {
   assertComponentReferences,
+  clearComponentTokenCatalogCache,
   componentTokenCatalog,
   componentTokenCatalogWithColorWitness,
 } from "../src/features/components/references";
@@ -432,6 +433,8 @@ try {
     "Accepted authoring data is identical with and without reuse.",
   );
   conversions = 0;
+  // Identical content would otherwise reuse the first store's canonical build.
+  clearComponentTokenCatalogCache();
   assert.deepEqual(second.get(componentTokensAtom), updatedCatalog);
   assert.ok(
     conversions > 0,
@@ -449,6 +452,7 @@ try {
     "Late worker evidence preserves the complete current catalog without regenerating its colors.",
   );
   second.set(componentColorWitnessAtom, null);
+  clearComponentTokenCatalogCache();
   assert.deepEqual(second.get(componentTokensAtom), updatedCatalog);
   assert.ok(
     conversions > 0,

@@ -12,9 +12,38 @@ test.beforeEach(({ page }) => {
   const collected: string[] = [];
   errors.set(page, collected);
   page.on("pageerror", (error) => collected.push(error.message));
+  page.on("console", (message) => {
+    if (
+      message.type() === "error" &&
+      message.text().startsWith("Failed to render chart:")
+    )
+      collected.push(message.text());
+  });
 });
 test.afterEach(({ page }) => {
   expect(errors.get(page)).toEqual([]);
+});
+
+test("Views/Data vis examples: categorical rendering", async ({
+  page,
+  request,
+}) => {
+  const index: StoryIndex = await (await request.get("/index.json")).json();
+  for (const name of ["Categorical", "Live colors"]) {
+    const story = Object.values(index.entries).find(
+      (entry) =>
+        entry.title === "Views/Data vis examples" &&
+        entry.name === name &&
+        entry.type === "story",
+    );
+    if (!story)
+      throw new Error(`Missing categorical rendering story: ${name}.`);
+    await page.setViewportSize({ width: 1280, height: 1000 });
+    await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+    await expect(page.locator('[data-play-complete="true"]')).toBeVisible();
+    for (const chart of ["bar", "donut", "scatter"])
+      await expect(page.locator(`[data-chart="${chart}"] svg`)).toBeVisible();
+  }
 });
 
 const families = [
@@ -40,7 +69,12 @@ const families = [
   },
   {
     title: "Views/Data vis examples",
-    interaction: ["Sequential", "Categorical"],
+    interaction: [
+      "Sequential",
+      "Categorical",
+      "Many categories",
+      "Live colors",
+    ],
   },
 ];
 

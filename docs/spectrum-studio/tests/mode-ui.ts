@@ -563,7 +563,11 @@ assert.deepEqual(
   { ...configured, adaptiveClaims: {} },
   "Cancel restores data removed by one-click deletion.",
 );
-assert.deepEqual(removal.get(previewOverridesAtom), {});
+assert.deepEqual(
+  removal.get(previewOverridesAtom),
+  { "typography.textZoom": 3 },
+  "Cancel keeps preview selections; they are view settings, not authored data.",
+);
 assert.deepEqual(removal.get(foundationModeAttachmentsAtom), attachments);
 removal.set(enterEditModeAtom);
 removal.set(detachFoundationModeSetAtom, {

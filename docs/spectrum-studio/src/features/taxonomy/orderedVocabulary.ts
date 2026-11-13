@@ -54,7 +54,7 @@ const vocabulary: Record<string, readonly (readonly [string, string])[]> = {
     ["d20e0d12-0915-4d33-91f4-ba1b6272326f", "positive"],
     ["b1529dac-f806-4cf4-828e-18053154d25f", "negative"],
     ["c987efac-c9dd-413b-8f9d-973815d089e4", "informative"],
-    ["63da69ae-6929-4d6f-ae36-6750a5d315b0", "warning"],
+    ["63da69ae-6929-4d6f-ae36-6750a5d315b0", "notice"],
     ["bb9dd37e-a07f-4602-97df-faec059917c7", "neutral"],
     ["6e32af80-32c2-4c5a-afb3-e8ed734543d3", "accent"],
   ],

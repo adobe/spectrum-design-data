@@ -13,6 +13,7 @@ import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import {
   useId,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
@@ -24,6 +25,11 @@ import { TokenNameTag } from "../tokens/TokenNameTag";
 import "./TokenComboBox.css";
 import { fittedMenuWidth } from "./menuSizing";
 import { exactTokenEntryMatch, type ValueNormalizer } from "./tokenEntry";
+import {
+  menuMeasurementChoices,
+  tokenMenuChoices,
+  tokenOptionDescription,
+} from "./tokenMenuChoices";
 
 export interface TokenComboBoxOption {
   id: string;
@@ -74,6 +80,28 @@ const subscribeViewport = (onChange: () => void) => {
 };
 const viewportWidth = () => window.innerWidth;
 const serverViewportWidth = () => 360;
+const tokenMenuItem = (option: TokenComboBoxOption) => (
+  <ComboBoxItem
+    key={option.id}
+    id={option.id}
+    textValue={
+      option.kind === "preset"
+        ? option.name
+        : `${option.name} ${option.displayValue}`
+    }
+  >
+    <Text slot="label">
+      {option.kind === "preset" ? (
+        option.name
+      ) : (
+        <TokenNameTag name={option.name} />
+      )}
+    </Text>
+    {option.kind === "token" && (
+      <Text slot="description">{tokenOptionDescription(option)}</Text>
+    )}
+  </ComboBoxItem>
+);
 
 export function TokenComboBox({
   placeholder,
@@ -136,24 +164,30 @@ export function TokenComboBox({
       restoreFocus.current = false;
     }
   }, [inlineEditing]);
-  const offered = options.filter(
-    (option) => !isOptionAllowed || isOptionAllowed(option),
+  // Availability checks can be costly, so a closed, unfocused field skips them.
+  // Choosing or typing a value still checks availability before accepting it.
+  const allowed = menuOpen || editing ? isOptionAllowed : undefined;
+  const { choices, disabled, presets, tokens } = useMemo(
+    () => tokenMenuChoices(options, selectedKey, allowed),
+    [options, selectedKey, allowed],
   );
-  const choices =
-    selected && !offered.some((option) => option.id === selected.id)
-      ? [...offered, selected]
-      : offered;
-  const disabled = choices
-    .filter(
-      (option) =>
-        option.error || !offered.some((item) => item.id === option.id),
-    )
-    .map((option) => option.id);
-  const presets = choices.filter((option) => option.kind === "preset");
-  const tokens = choices.filter((option) => option.kind === "token");
-  const descriptionFor = (option: TokenComboBoxOption) =>
-    option.error ??
-    `${option.displayValue}${option.hidden ? " - Not published" : ""}`;
+  const probeRows = useMemo(() => menuMeasurementChoices(choices), [choices]);
+  const items = useMemo(
+    () =>
+      presets.length > 0 ? (
+        <>
+          <ComboBoxSection aria-label="System options">
+            {presets.map(tokenMenuItem)}
+          </ComboBoxSection>
+          <ComboBoxSection aria-label="Foundation tokens">
+            {tokens.map(tokenMenuItem)}
+          </ComboBoxSection>
+        </>
+      ) : (
+        tokens.map(tokenMenuItem)
+      ),
+    [presets, tokens],
+  );
   const fieldError =
     customError ??
     error ??
@@ -176,7 +210,7 @@ export function TokenComboBox({
     if (probe) observer.observe(probe);
     observer.observe(trigger);
     return () => observer.disconnect();
-  }, [options, isOptionAllowed, selectedKey, menuOpen, menuWidth]);
+  }, [probeRows, menuOpen, menuWidth, inlineEditing]);
   const showTag =
     !editing && displayMode === "tokens" && selected?.kind === "token";
   const accessibleSuffix =
@@ -202,28 +236,6 @@ export function TokenComboBox({
   const hasClearAction =
     !isRequired &&
     (selectedKey !== null || isMixed || !!customValue?.displayValue);
-  const renderOption = (option: TokenComboBoxOption) => (
-    <ComboBoxItem
-      key={option.id}
-      id={option.id}
-      textValue={
-        option.kind === "preset"
-          ? option.name
-          : `${option.name} ${option.displayValue}`
-      }
-    >
-      <Text slot="label">
-        {option.kind === "preset" ? (
-          option.name
-        ) : (
-          <TokenNameTag name={option.name} />
-        )}
-      </Text>
-      {option.kind === "token" && (
-        <Text slot="description">{descriptionFor(option)}</Text>
-      )}
-    </ComboBoxItem>
-  );
   function finishEditing(focusTrigger = false) {
     draft.current = null;
     keyboardSelection.current = false;
@@ -457,18 +469,7 @@ export function TokenComboBox({
               <Text slot="description">{customValue.displayValue}</Text>
             </ComboBoxItem>
           )}
-          {presets.length > 0 ? (
-            <>
-              <ComboBoxSection aria-label="System options">
-                {presets.map(renderOption)}
-              </ComboBoxSection>
-              <ComboBoxSection aria-label="Foundation tokens">
-                {tokens.map(renderOption)}
-              </ComboBoxSection>
-            </>
-          ) : (
-            tokens.map(renderOption)
-          )}
+          {items}
         </ComboBox>
         {hasClearAction && (
           <div className="tokenComboBoxClear">
@@ -490,7 +491,7 @@ export function TokenComboBox({
           className="tokenComboBoxMenuMeasurement"
           aria-hidden="true"
         >
-          {choices.map((option) => (
+          {probeRows.map((option) => (
             <div key={option.id}>
               <Text styles={menuLabelStyles}>
                 {option.kind === "token" ? (
@@ -501,7 +502,7 @@ export function TokenComboBox({
               </Text>
               {option.kind === "token" && (
                 <Text styles={menuDescriptionStyles}>
-                  {descriptionFor(option)}
+                  {tokenOptionDescription(option)}
                 </Text>
               )}
             </div>

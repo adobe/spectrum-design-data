@@ -24,9 +24,15 @@ This runs the same script as `pnpm --filter @adobe/spectrum-studio dev`, or `pnp
 
 ## Install as an app
 
-Spectrum Studio can be installed as a desktop app (a progressive web app). In Chrome or Edge, open the production build (`pnpm build`, then `pnpm preview`, or the hosted site) and choose **Install** in the address bar. The installed app opens in its own window and works offline.
+Spectrum Studio can be installed as a desktop app (a progressive web app). In Chrome or Edge, open the production build (`pnpm build`, then `pnpm preview`, or the hosted site) and choose **Install** in the address bar, or the **Install app** button (desktop icon) in Studio's header. The installed app opens in its own window and works offline.
 
-The cloud button in the header shows the app's status: up to date, update available (click to reload into the new version), or offline. Updates otherwise apply the next time you open the app. The service worker is off in `pnpm dev`. Run `pnpm test:pwa` after a build to check the install files.
+The header button is hidden inside the installed app. In browsers without an install prompt (Safari, Firefox), or when Chrome has no prompt to offer, it opens a dialog with manual steps instead. Studio never shows install prompts on its own.
+
+To invite someone to install, share a link ending in `#install` (for example `https://<studio-host>/#install`). It opens the install dialog once, with **Install app** and **Maybe later**, then removes `#install` from the address so refreshing doesn't reopen it.
+
+The cloud button in the header shows the app's status: up to date, update available (click to reload into the new version), or offline. Updates otherwise apply the next time you open the app. Run `pnpm test:pwa` after a build to check the install files.
+
+The service worker is off in `pnpm dev`, so the dev server can't be installed. To install it, run `pnpm moon run spectrum-studio:dev-pwa` from the repository root (or `pnpm dev:pwa` from this folder) instead and choose **Install** in the address bar. The installed app only works while the dev server is running. If pages look out of date afterward in `pnpm dev`, open DevTools → Application → Service workers and choose **Unregister**.
 
 ## Scripts
 
@@ -35,6 +41,7 @@ Run the `pnpm` commands below from this folder, or from the repository root with
 | Command | What it does |
 | --- | --- |
 | `pnpm dev` | Start the dev server |
+| `pnpm dev:pwa` | Start the dev server with the service worker on, so it can be installed as an app |
 | `pnpm build` | Production build |
 | `pnpm preview` | Preview the production build |
 | `pnpm lint` | TypeScript and ESLint checks |
@@ -46,7 +53,7 @@ Run the `pnpm` commands below from this folder, or from the repository root with
 
 Individual checks are `pnpm test:*` scripts (see `package.json`). Run the narrowest one that covers your change. Checks that fail today are listed in [docs/known-debt.md](docs/known-debt.md).
 
-Moon tasks (`pnpm moon run spectrum-studio:<task>` from the repository root): `typecheck`, `lint`, `test` and `build` run in CI. `dev`, `e2e` and `e2e-storybook` are local only.
+Moon tasks (`pnpm moon run spectrum-studio:<task>` from the repository root): `typecheck`, `lint`, `test` and `build` run in CI. `dev`, `dev-pwa`, `e2e` and `e2e-storybook` are local only.
 
 ### Complete check reports
 

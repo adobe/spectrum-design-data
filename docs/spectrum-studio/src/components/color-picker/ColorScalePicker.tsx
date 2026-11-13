@@ -36,6 +36,16 @@ const gradientStyles = style({
   borderRadius: "sm",
 });
 
+/** The CSS gradient that previews a color scale's ramp. */
+export function colorScaleGradient(
+  scale: ColorSystemDocument["scales"][number],
+  colorOutput: ColorSystemDocument["settings"]["colorOutput"],
+): string {
+  return `linear-gradient(to right, ${buildScaleData(scale, colorOutput)
+    .ramp.map((color) => color.css)
+    .join(", ")})`;
+}
+
 export function ColorScalePicker({
   document,
   selectedKey,
@@ -50,12 +60,7 @@ export function ColorScalePicker({
       document.scales.map((scale) => ({
         id: scale.id,
         name: termLabel(scale.name),
-        gradient: `linear-gradient(to right, ${buildScaleData(
-          scale,
-          document.settings.colorOutput,
-        )
-          .ramp.map((color) => color.css)
-          .join(", ")})`,
+        gradient: colorScaleGradient(scale, document.settings.colorOutput),
       })),
     [document.scales, document.settings.colorOutput],
   );

@@ -4,11 +4,9 @@ import {
   ActionButton,
   Badge,
   Button,
-  ColorSlider,
   ColorSwatch,
   Divider,
   LabeledValue,
-  Slider,
   Tab,
   TabList,
   TabPanel,
@@ -21,7 +19,6 @@ import Delete from "@react-spectrum/s2/icons/Delete";
 import Revert from "@react-spectrum/s2/icons/Revert";
 import Sort from "@react-spectrum/s2/icons/Sort";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { parseColor } from "react-aria-components";
 import { useState } from "react";
 import {
   resolvedColorSystemDocumentAtom,
@@ -50,6 +47,8 @@ import {
 } from "../../features/color-system/polarity";
 import { ContrastRamp } from "../../views/color-system/ContrastRamp";
 import {
+  DraftLightnessSlider,
+  DraftSlider,
   EditableSlider,
   EditOnly,
   useIsReadOnly,
@@ -153,10 +152,6 @@ const resolvedColorSwatchButtonStyles = style({
 
 function asNumber(value: number | number[]) {
   return Array.isArray(value) ? value[0] : value;
-}
-
-function backgroundLightnessColor(value: number) {
-  return parseColor(`hsl(0, 0%, ${value * 100}%)`);
 }
 
 export function FoundationsColorPanel() {
@@ -276,18 +271,11 @@ export function FoundationsColorPanel() {
                 formatOptions={{ style: "percent" }}
               />
             ) : (
-              <ColorSlider
+              <DraftLightnessSlider
                 UNSAFE_style={{ width: "100%" }}
                 label="Background lightness"
-                channel="lightness"
-                value={backgroundLightnessColor(
-                  colorDocument.backgroundLightness,
-                )}
-                onChange={(color) =>
-                  updateBackgroundLightness(
-                    (color?.getChannelValue("lightness") ?? 0) / 100,
-                  )
-                }
+                value={colorDocument.backgroundLightness}
+                onChange={updateBackgroundLightness}
               />
             ))}
         </div>
@@ -300,7 +288,7 @@ export function FoundationsColorPanel() {
               formatOptions={{ style: "percent" }}
             />
           ) : (
-            <Slider
+            <DraftSlider
               styles={contrastSliderStyles}
               label="Overall contrast"
               value={multiplier}
@@ -308,7 +296,7 @@ export function FoundationsColorPanel() {
               maxValue={MAX_CONTRAST_MULTIPLIER}
               step={0.01}
               formatOptions={{ style: "percent" }}
-              onChange={(value) => updateMultiplier(asNumber(value))}
+              onChange={updateMultiplier}
             />
           ))}
       </div>

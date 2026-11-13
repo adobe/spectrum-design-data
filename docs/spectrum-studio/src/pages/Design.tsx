@@ -41,6 +41,8 @@ const comingSoonStyles = style({
   padding: 16,
 });
 const tabsStyles = style({ flexGrow: 1, minHeight: 0, minWidth: 0 });
+// The Color roles accordion sits directly under the tab list.
+const flushTabPanelStyles = style({ marginTop: 0 });
 
 export default function Design() {
   const notify = useNotify();
@@ -80,7 +82,11 @@ export default function Design() {
                 <Text>Structures</Text>
               </Tab>
             </TabList>
-            <TabPanel id="concepts" UNSAFE_className="designSectionPanel">
+            <TabPanel
+              id="concepts"
+              UNSAFE_className="designSectionPanel"
+              styles={flushTabPanelStyles}
+            >
               <Suspense
                 fallback={<LoadingIndicator aria-label="Loading styles" />}
               >
@@ -100,7 +106,7 @@ export default function Design() {
           dataComponent="Design"
           configuration={{
             selectedKey:
-              section === "concepts" && view === "preview" ? "design" : view,
+              section === "concepts" && view === "apps" ? "design" : view,
             onSelectionChange: setView,
             surface: "pasteboard",
             options: [
@@ -158,9 +164,9 @@ export default function Design() {
                 ? []
                 : [
                     {
-                      id: "preview" as const,
-                      label: "Preview",
-                      icon: <CategoryIcon category="view.preview" />,
+                      id: "apps" as const,
+                      label: "Apps",
+                      icon: <CategoryIcon category="view.apps" />,
                       content: <SampleApp />,
                     },
                   ]),

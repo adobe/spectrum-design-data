@@ -14,6 +14,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:pwa": "vite --mode pwa",
     "build": "node --import tsx scripts/checks.ts --profile performance --only package-build",
     "build:raw": "pnpm check:category-icons && pnpm build:data-vis && vite build",
     "build:data-vis": "vite build --config vite.data-vis.config.ts",
@@ -189,6 +190,7 @@
     "@adobe/design-data-wasm": "workspace:*",
     "@adobe/react-spectrum-ui": "1.2.1",
     "@react-spectrum/s2": "1.7.1",
+    "@spectrum-charts/react-spectrum-charts-s2": "0.11.1",
     "@spectrum-css/tokens": "16.0.2",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
@@ -201,7 +203,9 @@
     "react": "19.2.4",
     "react-aria-components": "1.21.1",
     "react-dom": "19.2.4",
-    "uuid": "14.0.0"
+    "uuid": "14.0.0",
+    "vega": "6.4.0",
+    "vega-lite": "6.4.2"
   },
   "devDependencies": {
     "@eslint/js": "9.39.4",

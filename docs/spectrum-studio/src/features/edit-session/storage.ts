@@ -27,10 +27,13 @@ import {
 import {
   decodeAuthoringStorage,
   encodeAuthoringStorage,
+  storesAuthoringValue,
 } from "./authoringStorageCodec";
 
 export const AUTHORING_STORAGE_KEY = "leonardo:authoring:v1";
 export const PREFERENCES_STORAGE_KEY = "leonardo:preferences:v1";
+/** Fingerprint of the shipped defaults that stored edits were last loaded against. */
+export const SHIPPED_DEFAULTS_STORAGE_KEY = "leonardo:authoring-defaults:v1";
 export const AUTHORING_RECORD_VERSION = 33;
 
 export interface AuthoringRecord<T> {
@@ -305,20 +308,19 @@ export function writePreparedAuthoringRecord(
   blocked = false;
 }
 
+function storedAuthoringValue<T>(record: AuthoringRecord<T>) {
+  if (record.version !== AUTHORING_RECORD_VERSION) return record;
+  return {
+    ...record,
+    working: encodeStructureSource(record.working),
+    saved: encodeStructureSource(record.saved),
+  };
+}
+
 export function serializeAuthoringRecord<T>(
   record: AuthoringRecord<T>,
 ): string {
-  return encodeAuthoringStorage({
-    ...record,
-    working:
-      record.version === AUTHORING_RECORD_VERSION
-        ? encodeStructureSource(record.working)
-        : record.working,
-    saved:
-      record.version === AUTHORING_RECORD_VERSION
-        ? encodeStructureSource(record.saved)
-        : record.saved,
-  });
+  return encodeAuthoringStorage(storedAuthoringValue(record));
 }
 
 export function writeAuthoringRecord<T>(
@@ -334,6 +336,49 @@ export function writeAuthoringRecord<T>(
     serializeAuthoringRecord(record),
     replaceInvalid,
   );
+}
+
+/**
+ * Writes like `writeAuthoringRecord`, but skips compression when the stored
+ * copy already holds this record, as it does on most page loads.
+ */
+export function writeAuthoringRecordIfChanged<T>(record: AuthoringRecord<T>) {
+  if (typeof window === "undefined") return;
+  if (blocked) {
+    writeAuthoringRecord(record);
+    return;
+  }
+  const value = storedAuthoringValue(record);
+  const stored = window.localStorage.getItem(AUTHORING_STORAGE_KEY);
+  if (stored !== null && storesAuthoringValue(stored, value)) return;
+  writePreparedAuthoringRecord(encodeAuthoringStorage(value));
+}
+
+/**
+ * Whether stored edits were last loaded against different shipped defaults.
+ * Records from before the stamp existed have no stamp and are kept.
+ */
+export function shippedDefaultsChanged(fingerprint: string): boolean {
+  if (typeof window === "undefined") return false;
+  const stamp = window.localStorage.getItem(SHIPPED_DEFAULTS_STORAGE_KEY);
+  return (
+    stamp !== null &&
+    stamp !== fingerprint &&
+    window.localStorage.getItem(AUTHORING_STORAGE_KEY) !== null
+  );
+}
+
+export function writeShippedDefaultsStamp(fingerprint: string) {
+  if (typeof window === "undefined") return;
+  try {
+    if (
+      window.localStorage.getItem(SHIPPED_DEFAULTS_STORAGE_KEY) !== fingerprint
+    )
+      window.localStorage.setItem(SHIPPED_DEFAULTS_STORAGE_KEY, fingerprint);
+  } catch {
+    // Without a stamp, the next load keeps stored edits.
+    window.localStorage.removeItem(SHIPPED_DEFAULTS_STORAGE_KEY);
+  }
 }
 
 export function readViewPreferences(): ViewPreferences | null {

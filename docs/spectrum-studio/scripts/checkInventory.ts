@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { readdirSync, realpathSync, statSync } from "node:fs";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { availableParallelism } from "node:os";
 import { fileURLToPath } from "node:url";
 import type { CheckCommand } from "./checkRunner";
 
@@ -132,6 +133,27 @@ export function checkInventory(
     ]),
     ...typeChecks,
     {
+      id: "data-vis-dependency-install",
+      command: "pnpm",
+      args: [
+        "--filter",
+        "@adobe/spectrum-studio...",
+        "install",
+        "--ignore-scripts",
+        "--frozen-lockfile",
+        "--reporter=append-only",
+        "--network-concurrency=1",
+        "--child-concurrency=1",
+      ],
+      env: {
+        NODE_OPTIONS: "--max-old-space-size=256",
+        // pnpm 10 interprets this as idle CPUs; reserving all leaves one worker.
+        PNPM_WORKERS: String(availableParallelism()),
+      },
+      scope: "element",
+      resources: "heavy",
+    },
+    {
       id: "analysis-dependency-install",
       command: "pnpm",
       args: [
@@ -202,20 +224,31 @@ export function checkInventory(
             args: [`tests/${file}`],
           }
         : tsx(file.replace(/\.tsx?$/, ""), [`tests/${file}`]);
-      return file === "analysis-packaged-reference.ts"
-        ? { ...check, requires: ["analysis-wasm-build-sdk"] }
-        : file === "data-vis-export.ts"
-          ? {
-              ...check,
-              requires: ["adapter-build"],
-              env: {
-                DATA_VIS_BUNDLE_PATH: join(
-                  outputDirectory,
-                  "data-vis/data-vis.js",
-                ),
-              },
-            }
-          : check;
+      return [
+        "data-vis-examples.ts",
+        "data-vis-preview.ts",
+        "data-vis-chart-runtime.ts",
+      ].includes(file)
+        ? { ...check, scope: "element", resources: "small" }
+        : file === "analysis-packaged-reference.ts"
+          ? { ...check, requires: ["analysis-wasm-build-sdk"] }
+          : file === "data-vis-export.ts"
+            ? {
+                ...check,
+                requires: ["adapter-build"],
+                env: {
+                  DATA_VIS_BUNDLE_PATH: join(
+                    outputDirectory,
+                    "data-vis/data-vis.js",
+                  ),
+                },
+              }
+            : /^(?:authoring-(?:edit|startup)-performance|component-catalog-cache)\.ts$/.test(
+                  file,
+                )
+              ? // A smaller heap makes V8 collect garbage before the 1 GiB process-tree limit.
+                { ...check, args: ["--max-old-space-size=512", ...check.args] }
+              : check;
     }),
     {
       ...tsx("analysis-reference-performance-work", [
@@ -291,7 +324,7 @@ export function checkInventory(
 }
 
 export function browserCheckInventory(root = studioRoot): CheckCommand[] {
-  return readdirSync(join(root, "tests/e2e"))
+  const checks = readdirSync(join(root, "tests/e2e"))
     .filter((name) => name.endsWith(".spec.ts"))
     .sort()
     .map(
@@ -320,6 +353,29 @@ export function browserCheckInventory(root = studioRoot): CheckCommand[] {
         ],
       }),
     );
+  const examples = checks.find(
+    (check) => check.id === "browser-storybook-data-vis",
+  );
+  if (examples)
+    checks.push(
+      {
+        ...examples,
+        id: "browser-storybook-data-vis-examples",
+        scope: "element",
+        args: [...examples.args, "--grep", "^Views/Data vis examples:"],
+      },
+      {
+        ...examples,
+        id: "browser-storybook-data-vis-rendering",
+        scope: "element",
+        args: [
+          ...examples.args,
+          "--grep",
+          "^Views/Data vis examples: categorical rendering$",
+        ],
+      },
+    );
+  return checks;
 }
 
 export const packageBuildCheck: CheckCommand = {

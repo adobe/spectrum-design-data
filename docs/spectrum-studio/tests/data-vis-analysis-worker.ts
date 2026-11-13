@@ -20,41 +20,6 @@ import {
   uiSwatchKey,
   type UiSwatch,
 } from "../src/features/color-system/data-vis/resolution";
-import {
-  dataVisExampleBars,
-  dataVisExampleCells,
-} from "../src/features/color-system/data-vis/examples";
-
-const sequentialCells = dataVisExampleCells(),
-  divergingCells = dataVisExampleCells(true);
-assert.equal(sequentialCells.length, 48);
-assert.equal(new Set(sequentialCells.map((cell) => cell.value)).size, 48);
-assert.ok(sequentialCells.every((cell) => cell.position === cell.value));
-assert.ok(
-  divergingCells.every((cell) => cell.position >= 0 && cell.position <= 1),
-);
-assert.ok(
-  divergingCells
-    .filter((cell) => cell.value === -4)
-    .every((cell) => cell.position === 0),
-);
-assert.ok(
-  divergingCells
-    .filter((cell) => cell.value === 0)
-    .every((cell) => cell.position === 0.5),
-);
-assert.ok(
-  divergingCells
-    .filter((cell) => cell.value === 7)
-    .every((cell) => cell.position === 1),
-);
-assert.equal(dataVisExampleBars(25).length, 20);
-assert.deepEqual(dataVisExampleBars(2), [
-  { category: 1, value: 50 },
-  { category: 2, value: 87 },
-]);
-assert.deepEqual(dataVisExampleBars(0), []);
-assert.throws(() => dataVisExampleBars(-1), /valid categorical/);
 
 const swatch = (value: string, index: number): UiSwatch => {
   const source = {

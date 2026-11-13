@@ -2,6 +2,25 @@
 .stylesLibrary {
   min-width: 0;
   overflow: auto;
+}
+.stylesTabs {
+  padding: 16px;
+}
+.stylesTabActions {
+  margin-block-end: 8px;
+}
+.colorRoleSwatch {
+  grid-area: icon;
+  grid-row-end: span 2;
+  align-self: center;
+  width: 32px;
+  height: 20px;
+  margin-inline-end: 8px;
+  border-radius: 4px;
+  background: var(--spectrum-gray-200);
+}
+.colorRolesEmpty {
+  display: block;
   padding: 16px;
 }
 .stylesFields {

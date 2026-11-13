@@ -18,7 +18,7 @@ export async function selectMode(page: Page, name: string) {
       .getByRole("navigation", { name: "Navigation", exact: true })
       .getByRole("link", { name: "Foundations", exact: true })
       .click();
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     toolbar = page.locator('[data-component="PreviewToolbar"]');
   }
   const radio = toolbar.getByRole("radio", { name, exact: true });

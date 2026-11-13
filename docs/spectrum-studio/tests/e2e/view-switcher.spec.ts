@@ -23,7 +23,7 @@ test("Foundations and Design retain independent views without changing the Token
   await expect(
     page.getByRole("radio", { name: "Design", exact: true }),
   ).toBeChecked();
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
 
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
@@ -32,7 +32,7 @@ test("Foundations and Design retain independent views without changing the Token
   await expect(
     page.getByRole("radio", { name: "Code", exact: true }),
   ).toBeChecked();
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
     .getByRole("link", { name: "Tokens", exact: true })
@@ -49,14 +49,14 @@ test("Foundations and Design retain independent views without changing the Token
     .getByRole("link", { name: "Foundations", exact: true })
     .click();
   await expect(
-    page.getByRole("radio", { name: "Preview", exact: true }),
+    page.getByRole("radio", { name: "Apps", exact: true }),
   ).toBeChecked();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
     .getByRole("link", { name: /^Design(?: |$)/ })
     .click();
   await expect(
-    page.getByRole("radio", { name: "Preview", exact: true }),
+    page.getByRole("radio", { name: "Apps", exact: true }),
   ).toBeChecked();
 
   expect(errors).toEqual([]);

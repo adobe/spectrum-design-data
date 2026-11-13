@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { Text } from "@react-spectrum/s2";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Panel } from "../../components/Panel";
 import { EditableTextField } from "../../components/editable";
 import {
@@ -82,34 +82,12 @@ const selectionFor = (
           : null
         : { $ref: id };
 
-export function StructureEditorPanel({
-  structure,
-  references,
-  layout,
-  isReadOnly,
-  report,
-  onChange,
-  embedded = false,
-  onRename,
-}: StructureEditorPanelProps) {
-  const [commitError, setCommitError] = useState<string>();
-  const [name, setName] = useState(structure.name);
-  useEffect(
-    () => setName(structure.name),
-    [structure.conceptId, structure.name],
-  );
+function appearanceFields(
+  structure: Structure,
+  references: readonly PrimitiveReference[],
+  layout: PreviewLayoutContext,
+) {
   const resolved = resolveStructure(structure, references, layout);
-  const commit = (action: () => void) => {
-    try {
-      action();
-      setCommitError(undefined);
-    } catch (failure) {
-      const message =
-        failure instanceof Error ? failure.message : String(failure);
-      setCommitError(message);
-      report(failure);
-    }
-  };
   const fields: Partial<Record<StructureSlot, AppearanceField>> = {};
   for (const slot of STRUCTURE_SLOT_KEYS) {
     const definition = structureSlotDefinition(slot);
@@ -133,8 +111,7 @@ export function StructureEditorPanel({
                 ? CENTER_OPTION_ID
                 : selection.value.termId,
       customValue:
-        definition.family &&
-        definition.family !== "elevation"
+        definition.family && definition.family !== "elevation"
           ? {
               displayValue:
                 selection &&
@@ -196,6 +173,41 @@ export function StructureEditorPanel({
         : undefined,
     };
   }
+  return fields;
+}
+
+export function StructureEditorPanel({
+  structure,
+  references,
+  layout,
+  isReadOnly,
+  report,
+  onChange,
+  embedded = false,
+  onRename,
+}: StructureEditorPanelProps) {
+  const [commitError, setCommitError] = useState<string>();
+  const [name, setName] = useState(structure.name);
+  useEffect(
+    () => setName(structure.name),
+    [structure.conceptId, structure.name],
+  );
+  // Picker options and availability checks are rebuilt only when the structure, tokens or layout change.
+  const fields = useMemo(
+    () => appearanceFields(structure, references, layout),
+    [structure, references, layout],
+  );
+  const commit = (action: () => void) => {
+    try {
+      action();
+      setCommitError(undefined);
+    } catch (failure) {
+      const message =
+        failure instanceof Error ? failure.message : String(failure);
+      setCommitError(message);
+      report(failure);
+    }
+  };
   const content = (
     <div className="structureAppearance">
       <StructureAppearanceControls

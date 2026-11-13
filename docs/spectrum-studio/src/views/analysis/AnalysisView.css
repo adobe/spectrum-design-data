@@ -105,7 +105,6 @@
   margin-block: 24px;
 }
 .analysisCoverageNotice {
-  color: var(--spectrum-gray-700);
   overflow-wrap: anywhere;
 }
 

@@ -6,7 +6,7 @@ import {
   dataVisInputDocumentAtom,
   resolvedCategoricalTokensAtom,
 } from "../../../features/color-system/data-vis/state";
-import { dataVisMemberId } from "../../../features/color-system/data-vis/identity";
+import { categoricalPreviewMembers } from "../../../features/color-system/data-vis/categoricalPreview";
 import { dataVisBackground } from "../../../features/color-system/data-vis/resolution";
 import { usePaletteInspections } from "../../../features/color-system/data-vis/usePaletteInspections";
 import type {
@@ -24,28 +24,7 @@ export function useCategoricalChecks() {
     for (const scale of document.dataVisScales)
       if (scale.kind === "categorical") {
         try {
-          const members = scale.members.map((member, index) => {
-            const token = tokens.find(
-              (token) => token.id === dataVisMemberId(scale.id, member.id),
-            );
-            if (
-              !token ||
-              token.validationError ||
-              typeof token.value !== "string"
-            )
-              throw new Error(
-                token?.validationError ??
-                  "A categorical output is unavailable.",
-              );
-            return {
-              id: token.id,
-              source: member.source,
-              label: `Color ${index + 1}`,
-              value: token.value,
-              generatedValue: token.value,
-              manuallyOverridden: token.valueOverridden,
-            };
-          });
+          const members = categoricalPreviewMembers(scale, tokens);
           palettes.push({
             id: scale.id,
             members,

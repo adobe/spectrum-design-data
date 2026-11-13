@@ -10,8 +10,7 @@ import {
   continuousSamples,
   type ContinuousScale,
 } from "../../../features/color-system/data-vis/continuous";
-import { dataVisMemberId } from "../../../features/color-system/data-vis/identity";
-import { concreteColor } from "../../../features/color-system/data-vis/colors";
+import { categoricalPreviewMembers } from "../../../features/color-system/data-vis/categoricalPreview";
 import type { DataVisScale } from "../../../features/color-system/data-vis/model";
 import type { DataVisObservation } from "../../../features/color-system/data-vis/analysis";
 
@@ -54,27 +53,15 @@ export function useDataVisDisplay(): DataVisDisplay[] {
           };
         }
         try {
-          const observations = definition.members.map((member, index) => {
-            const token = tokens.find(
-              (token) => token.id === dataVisMemberId(definition.id, member.id),
-            );
-            if (!token || token.validationError)
-              throw new Error(
-                token?.validationError ??
-                  "A categorical output is unavailable.",
-              );
-            if (typeof token.value !== "string")
-              throw new Error(
-                "A categorical token needs a concrete color value.",
-              );
-            concreteColor(token.value);
-            return {
-              id: member.id,
-              label: `Color ${index + 1}`,
-              position: index + 1,
-              value: token.value,
-            };
-          });
+          const observations = categoricalPreviewMembers(
+            definition,
+            tokens,
+          ).map((member, index) => ({
+            id: definition.members[index].id,
+            label: member.label,
+            position: index + 1,
+            value: member.value,
+          }));
           return { definition, status: "ready", observations };
         } catch (failure) {
           return {

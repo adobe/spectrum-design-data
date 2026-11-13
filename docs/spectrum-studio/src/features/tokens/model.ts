@@ -120,7 +120,8 @@ export function tokenNamesEqual(first: TokenName, second: TokenName) {
   );
 }
 
-function hash32(input: string, seed: number) {
+/** Fast, non-cryptographic 32-bit FNV-1a hash with a final mix. */
+export function hash32(input: string, seed: number) {
   let value = seed;
   for (let index = 0; index < input.length; index += 1) {
     value ^= input.charCodeAt(index);

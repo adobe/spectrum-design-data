@@ -275,7 +275,7 @@ test("Named text-size overrides coexist with adaptation and retain Save, Cancel 
           .foundations.typography.textZoom,
     )
     .toBe(5);
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .getByRole("button", { name: "Adaptive controls", exact: true })
     .click();

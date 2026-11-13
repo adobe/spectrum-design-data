@@ -11,6 +11,11 @@ import {
   groupChangedFields,
 } from "./logPresentation";
 import "./ChangeFields.css";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+
+const beforeTextStyles = style({ color: "negative" });
+// S2 has no positive text color, so use its green scale.
+const afterTextStyles = style({ color: "green-900" });
 
 export interface ChangeFieldsProps {
   item: ChangeItem;
@@ -43,7 +48,9 @@ export function ChangeFields({
         )}
         <span className="changeFieldValues">
           {field.before !== undefined && (
-            <span className="changelogValueSide changeFieldBefore">
+            <span
+              className={`changelogValueSide changeFieldBefore ${beforeTextStyles}`}
+            >
               {beforeLabel && <span>{beforeLabel}:</span>}
               {field.beforePreview && (
                 <ValuePreview preview={field.beforePreview} />
@@ -55,7 +62,9 @@ export function ChangeFields({
             <span aria-label="changed to">→</span>
           )}
           {field.after !== undefined && (
-            <span className="changelogValueSide changeFieldAfter">
+            <span
+              className={`changelogValueSide changeFieldAfter ${afterTextStyles}`}
+            >
               {afterLabel && <span>{afterLabel}:</span>}
               {field.afterPreview && (
                 <ValuePreview preview={field.afterPreview} />

@@ -5,7 +5,12 @@ import { persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { authoringSourceSnapshotAtom } from "../edit-session/state";
 import { taxonomyDocumentAtom } from "../taxonomy/state";
-import type { TaxonomyDocument } from "../taxonomy/model";
+import {
+  registerTerm,
+  taxonomyValueKey,
+  type TaxonomyDocument,
+} from "../taxonomy/model";
+import { ORDERED_CATEGORY_IDS } from "../taxonomy/orderedVocabulary";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import { styleContexts } from "./artifacts";
 import { completeAliasSource } from "../tokens/aliasTargets";
@@ -19,6 +24,7 @@ import { registerStyleName, withStylesVocabulary } from "./vocabulary";
 import {
   EMPTY_STYLES,
   isStylesDocument,
+  type StyleColorRole,
   type StyleRecipe,
   type StylesDocument,
 } from "./model";
@@ -465,5 +471,115 @@ export const restoreStyleAtom = atom(
       withStylesVocabulary(get(taxonomyDocumentAtom)),
       index,
     );
+  },
+);
+
+function writeColorRoles(
+  get: Getter,
+  set: Setter,
+  colorRoles: StyleColorRole[],
+  taxonomy = get(taxonomyDocumentAtom),
+) {
+  const next = { ...get(stylesDocumentAtom), colorRoles };
+  const updates = new Map<string, unknown>([["design/styles", next]]);
+  const taxonomyChanged = taxonomy !== get(taxonomyDocumentAtom);
+  if (taxonomyChanged) updates.set("registry/taxonomy", taxonomy);
+  withValidatedAuthoringUpdates(get, updates, () => {
+    if (taxonomyChanged) set(taxonomyDocumentAtom, taxonomy);
+    set(stylesDocumentAtom, next);
+  });
+}
+/** Adds a color role from an existing Role term or a newly typed name. */
+export const addColorRoleAtom = atom(
+  null,
+  (
+    get,
+    set,
+    input: { roleTermId?: string; name?: string; scaleId: string },
+  ): StyleColorRole => {
+    if (!get(editModeAtom))
+      throw new Error("Enter Edit mode to add a color role.");
+    if (!input.scaleId) throw new Error("Choose a color scale.");
+    let taxonomy = get(taxonomyDocumentAtom);
+    let roleTermId = input.roleTermId;
+    if (!roleTermId) {
+      const name = input.name?.trim();
+      if (!name) throw new Error("Choose or enter a role.");
+      taxonomy = registerTerm(taxonomy, ORDERED_CATEGORY_IDS.role, name, () =>
+        crypto.randomUUID(),
+      );
+      roleTermId = taxonomy.terms.find(
+        (term) =>
+          term.categoryId === ORDERED_CATEGORY_IDS.role &&
+          taxonomyValueKey(term.value) === taxonomyValueKey(name),
+      )?.id;
+    } else if (
+      !taxonomy.terms.some(
+        (term) =>
+          term.id === roleTermId &&
+          term.categoryId === ORDERED_CATEGORY_IDS.role,
+      )
+    )
+      throw new Error("Choose an available role.");
+    if (!roleTermId) throw new Error("Choose or enter a role.");
+    const roles = get(stylesDocumentAtom).colorRoles;
+    if (roles.some((role) => role.roleTermId === roleTermId))
+      throw new Error("This role already has a color scale.");
+    const role = {
+      id: crypto.randomUUID(),
+      roleTermId,
+      scaleId: input.scaleId,
+    };
+    writeColorRoles(get, set, [...roles, role], taxonomy);
+    return role;
+  },
+);
+export const setColorRoleScaleAtom = atom(
+  null,
+  (get, set, input: { id: string; scaleId: string }) => {
+    if (!get(editModeAtom))
+      throw new Error("Enter Edit mode to change color roles.");
+    if (!input.scaleId) throw new Error("Choose a color scale.");
+    const roles = get(stylesDocumentAtom).colorRoles;
+    if (!roles.some((role) => role.id === input.id))
+      throw new Error("This color role is no longer available.");
+    writeColorRoles(
+      get,
+      set,
+      roles.map((role) =>
+        role.id === input.id ? { ...role, scaleId: input.scaleId } : role,
+      ),
+    );
+  },
+);
+export const removeColorRoleAtom = atom(null, (get, set, id: string) => {
+  if (!get(editModeAtom))
+    throw new Error("Enter Edit mode to delete a color role.");
+  const roles = get(stylesDocumentAtom).colorRoles;
+  const index = roles.findIndex((role) => role.id === id);
+  if (index < 0) throw new Error("This color role is no longer available.");
+  writeColorRoles(
+    get,
+    set,
+    roles.filter((role) => role.id !== id),
+  );
+  return { role: roles[index], index };
+});
+export const restoreColorRoleAtom = atom(
+  null,
+  (get, set, removed: { role: StyleColorRole; index: number }) => {
+    if (!get(editModeAtom))
+      throw new Error("Enter Edit mode to change color roles.");
+    const roles = [...get(stylesDocumentAtom).colorRoles];
+    if (
+      roles.some(
+        (role) =>
+          role.id === removed.role.id ||
+          role.roleTermId === removed.role.roleTermId,
+      )
+    )
+      throw new Error("This color role already exists.");
+    roles.splice(Math.min(removed.index, roles.length), 0, removed.role);
+    writeColorRoles(get, set, roles);
   },
 );

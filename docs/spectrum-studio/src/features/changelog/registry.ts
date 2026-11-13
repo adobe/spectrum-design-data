@@ -355,7 +355,7 @@ export function compareAuthoring(
         );
       const styleMembers =
         definition.category === "styles" &&
-        ["options", "applications"].includes(names.at(-1) ?? "");
+        ["options", "applications", "colorRoles"].includes(names.at(-1) ?? "");
       if (
         (definition.category === "rules" ||
           (definition.category === "color" &&
@@ -459,12 +459,14 @@ export function compareAuthoring(
         }
         return;
       }
+      // Added/removed members report separately; order covers shared members only.
+      const sharedOrder = (from: { id: string }[], other: { id: string }[]) =>
+        from
+          .map((item) => item.id)
+          .filter((id) => other.some((item) => item.id === id));
       const changed =
         collectionOrder && ruleMembers(left) && ruleMembers(right)
-          ? !sameValue(
-              left.map((item) => item.id),
-              right.map((item) => item.id),
-            )
+          ? !sameValue(sharedOrder(left, right), sharedOrder(right, left))
           : fieldPath.at(-1) === "hideFromPublishing"
             ? (left === true) !== (right === true)
             : !sameValue(left, right);

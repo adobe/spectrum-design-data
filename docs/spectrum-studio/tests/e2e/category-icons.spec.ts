@@ -116,7 +116,7 @@ for (const width of [1280, 390]) {
       "elevation",
       "motion",
       "view.elements",
-      "view.preview",
+      "view.apps",
       "view.analyze",
       "view.code",
     ])
@@ -159,7 +159,7 @@ for (const width of [1280, 390]) {
       "structures",
       "design",
       "view.permutations",
-      "view.preview",
+      "view.apps",
     ])
       await icon(page, category);
     await page
