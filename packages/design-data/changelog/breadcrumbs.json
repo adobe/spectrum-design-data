@@ -156,6 +156,22 @@
           "metadata": {"count":18,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":49,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
     }
   ]
 }

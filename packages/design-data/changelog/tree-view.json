@@ -251,6 +251,35 @@
           "metadata": {"count":2,"fields":["context","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.13",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":81,"fields":["contextPart","contextQualifier","contextRole"]}
+        },
+        {
+          "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1772,"title":"fix(design-data): align selected-row contexts with highlight selection and fix avatar text context","url":"https://github.com/adobe/spectrum-design-data/pull/1772"},
+          "entries": [
+            {"id":"6bf292db-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected, highlight)"],"scope":{"property":"color","options":null},"record":"e8fa0269-141b-5a64-aa5f-1ec49f05e25c","name":"color","fields":[{"path":"context","before":"Background (selected, emphasized)","after":"Background (selected, highlight)"}]},
+            {"id":"6bf292db-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected, highlight)"],"scope":{"property":"opacity","options":null},"record":"1ea7f0c4-96b6-5f8f-a622-4d0cdef4e4c8","name":"opacity","fields":[{"path":"context","before":"Background (selected, emphasized)","after":"Background (selected, highlight)"}]},
+            {"id":"6bf292db-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected, highlight)"],"scope":{"property":"color","options":null},"record":"52ab8770-f367-5c2c-9bd3-bbd405524677","name":"color","fields":[{"path":"context","before":"Background (selected + highlight)","after":"Background (selected, highlight)"}]},
+            {"id":"6bf292db-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected, highlight)"],"scope":{"property":"opacity","options":null},"record":"2fbbfcdc-72ef-530f-aab5-90a55025acd3","name":"opacity","fields":[{"path":"context","before":"Background (selected + highlight)","after":"Background (selected, highlight)"}]},
+            {"id":"6bf292db-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border (selected, highlight)"],"scope":{"property":"content-color","options":null},"record":"185a04cb-a1ad-54f8-887a-75a2ee8ba194","name":"content-color","fields":[{"path":"context","before":"Border (selected + highlight)","after":"Border (selected, highlight)"}]}
+          ],
+          "metadata": {"count":6,"fields":["context","contextQualifier"]}
+        }
+      ]
     }
   ]
 }
