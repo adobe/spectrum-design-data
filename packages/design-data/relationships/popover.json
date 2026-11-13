@@ -5,6 +5,7 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
+    "contextRole": ["rounding"],
     "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7",
     "uuid": "6fa63b2b-f9be-51e6-9b25-4e68ce6b3b15"
   },
@@ -14,6 +15,7 @@
       "property": "width"
     },
     "context": "Tip",
+    "contextRole": ["layout"],
     "$ref": "c4bc3596-1fbc-4b08-85af-6bd8142e499a",
     "uuid": "1e63da8d-d557-56fb-bf33-826f814cefbd"
   },
@@ -23,6 +25,7 @@
       "property": "height"
     },
     "context": "Tip",
+    "contextRole": ["layout"],
     "$ref": "5960406b-973d-4e1f-9bb4-2c7a22422c5b",
     "uuid": "4359f741-10e0-5a01-b85b-8c49a6c01f5d"
   },
@@ -32,6 +35,8 @@
       "property": "space-between"
     },
     "context": "Spacing (left/right edge to content area)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "left/right edge to content area",
     "$ref": "c872da51-317e-44cf-aef8-2f5f9fb77ae8",
     "uuid": "eb9395f9-48d4-50ca-9425-4a1742accea2"
   },
@@ -41,6 +46,8 @@
       "property": "spacing"
     },
     "context": "Spacing (tip to source)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "tip to source",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "cfc223bc-a1c0-53c5-b5d0-bafe6e9dfbd1"
   },
@@ -50,6 +57,7 @@
       "property": "border-width"
     },
     "context": "Border",
+    "contextRole": ["border"],
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "19b75dc9-263a-58f3-9723-b25f29f66149"
   },
@@ -59,6 +67,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085",
     "uuid": "ea498e14-e368-5fd5-8488-7c950e4bcc3b"
   },
@@ -68,6 +77,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
     "uuid": "b8715743-2b23-5e1c-a4a7-db0163742a54"
   },
@@ -77,6 +87,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
     "uuid": "476e144e-30f8-5426-b561-f030d5d21d89"
   },
@@ -86,6 +97,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "66da6f53-5446-43c1-bbe0-73b46763fde1",
     "uuid": "f73191eb-7222-58b2-98ab-4cb3e1912bd8"
   },
@@ -95,6 +107,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3",
     "uuid": "605f047c-ee8a-56f9-bae3-4990ffba0d78"
   },
@@ -104,6 +117,7 @@
       "property": "color"
     },
     "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "92133ef4-9b81-4fbd-9736-8b83078ef053",
     "uuid": "f005b469-723f-56eb-91a1-ea3b314244db"
   },
@@ -113,6 +127,7 @@
       "property": "color"
     },
     "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$ref": "e475981f-97af-479c-859b-7619dd87c448",
     "uuid": "537381a4-48f7-55d0-afa7-13e8e1bac362"
   },
@@ -122,6 +137,7 @@
       "property": "x"
     },
     "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$ref": "59324423-4428-40d7-a227-5f75aeb38312",
     "uuid": "468649d5-60c9-547e-a46c-4463013e3fab"
   },
@@ -131,6 +147,7 @@
       "property": "y"
     },
     "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
     "uuid": "9c26f24f-92dd-595a-8f3d-738f1be77967"
   },
@@ -140,6 +157,7 @@
       "property": "blur"
     },
     "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
     "uuid": "9240b18a-182c-5891-ae8a-7ee8166a39d6"
   },

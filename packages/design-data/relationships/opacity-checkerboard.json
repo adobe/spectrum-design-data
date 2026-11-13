@@ -5,6 +5,7 @@
       "property": "size"
     },
     "context": "Square size",
+    "contextRole": ["size"],
     "$ref": "2537f52b-5cae-4a35-a1f3-b1d4fe89060d",
     "uuid": "0f6128bc-b1cf-5f0a-9817-fbd131a00a07"
   },
@@ -14,6 +15,7 @@
       "property": "size"
     },
     "context": "Square size",
+    "contextRole": ["size"],
     "$ref": "0916cc84-f46f-45c3-b76d-d7d85d576480",
     "uuid": "36cc5146-a8d4-5585-ac89-19b47ed21f81"
   },
@@ -23,6 +25,7 @@
       "property": "size"
     },
     "context": "Square size",
+    "contextRole": ["size"],
     "$ref": "ead3f34f-55b1-4012-a4af-0f7fbf226020",
     "uuid": "a33dcff2-1fba-50af-9a72-6a9e4e1b8af2"
   },
@@ -32,6 +35,7 @@
       "property": "size"
     },
     "context": "Square size",
+    "contextRole": ["size"],
     "$ref": "cc6fdec6-c03a-4691-805f-b60d199bb60d",
     "uuid": "469b133b-1c79-50a5-b85d-0ea63973e63c"
   },

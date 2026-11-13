@@ -5,6 +5,7 @@
       "property": "size"
     },
     "context": "Header icons",
+    "contextRole": ["icon"],
     "$ref": "fdd4f0b4-3284-4734-b158-ecd5da36d586",
     "uuid": "2e5e5beb-e3ba-5c8f-bde0-97d813e8de82"
   },
@@ -14,6 +15,7 @@
       "property": "size"
     },
     "context": "Header icons",
+    "contextRole": ["icon"],
     "$ref": "c4d6bea8-61b0-45a4-81e0-1e5dd7429463",
     "uuid": "f627ae2c-2768-59ff-bf10-7f3ac83404d1"
   },
@@ -32,6 +34,7 @@
       "property": "component-height-100"
     },
     "context": "Column header row height",
+    "contextRole": ["height"],
     "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "uuid": "da960b8c-e7d2-5e6d-a30e-8e84d8cc894a"
   },
@@ -41,6 +44,7 @@
       "property": "component-height-100"
     },
     "context": "Column header row height",
+    "contextRole": ["height"],
     "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
     "uuid": "c53e5a2e-e02e-50f9-8506-47505619c359"
   },
@@ -50,6 +54,8 @@
       "property": "space-between"
     },
     "context": "Spacing (column header row top/bottom to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "column header row top/bottom to text",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "37623f2f-0ee0-5a78-8518-009bb6a769ed"
   },
@@ -59,6 +65,8 @@
       "property": "height"
     },
     "context": "Row height (minimum, compact density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, compact density",
     "$ref": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
     "uuid": "45830a37-e22d-5096-a56b-cb4404c0912b"
   },
@@ -68,6 +76,8 @@
       "property": "height"
     },
     "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
     "uuid": "8aa6cad0-ff93-5e04-81cb-11910c5c8994"
   },
@@ -77,6 +87,8 @@
       "property": "height"
     },
     "context": "Row height (minimum, regular density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, regular density",
     "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
     "uuid": "b0e0bdff-6771-5417-b723-6de7654b51b6"
   },
@@ -86,6 +98,8 @@
       "property": "height"
     },
     "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$ref": "697f4b63-14b9-4d58-9d16-b9dfd72ff391",
     "uuid": "9b1c212d-179c-5150-9171-abf4a32a37bb"
   },
@@ -95,6 +109,8 @@
       "property": "height"
     },
     "context": "Row height (minimum, spacious density)",
+    "contextRole": ["height"],
+    "contextQualifier": "minimum, spacious density",
     "$ref": "572d1c5f-62a1-4bfc-a3e0-520a999545fe",
     "uuid": "7af0b6f2-0556-5537-a3e1-b376687f1e9f"
   },
@@ -104,6 +120,8 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, compact density)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "row top/bottom to text, compact density",
     "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
     "uuid": "56a7e115-f26e-5a84-ad4d-80d75cc8af23"
   },
@@ -122,6 +140,8 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, spacious density)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "row top/bottom to text, spacious density",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "029b20fc-ed1f-523a-befe-6eadb4990106"
   },
@@ -131,6 +151,8 @@
       "property": "space-between"
     },
     "context": "Spacing (text to start/end edge or divider)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "text to start/end edge or divider",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "607bcf55-e4e4-5183-bc70-d7e25b9356da"
   },
@@ -158,6 +180,8 @@
       "property": "space-between"
     },
     "context": "Spacing (checkbox to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "checkbox to text",
     "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "uuid": "af927e6a-02e0-5e8c-bb09-e8f8bae35008"
   },
@@ -203,6 +227,7 @@
       "property": "row-height"
     },
     "context": "Section header row height",
+    "contextRole": ["height"],
     "$ref": "4c9e9bd8-9320-4648-bf2c-bb2db74a63fb",
     "uuid": "faf962de-f0d8-517b-bc71-b5eec13fe9c4"
   },
@@ -212,6 +237,7 @@
       "property": "row-height"
     },
     "context": "Section header row height",
+    "contextRole": ["height"],
     "$ref": "07beb872-72a0-400e-b434-dd076c9be0a7",
     "uuid": "c06ac877-6227-5d19-9392-40a80b079efe"
   },
@@ -221,6 +247,8 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "section header row top/bottom to text",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "22051ce7-9813-57ab-a656-31c424dfaa8c"
   },
@@ -230,6 +258,8 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "section header row top/bottom to text",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "040d0d01-1040-50da-9127-e78157ab0aac"
   },
@@ -239,6 +269,7 @@
       "property": "content-color"
     },
     "context": "Selection indicator",
+    "contextRole": ["control"],
     "$ref": "9cfbf8bc-e4f3-4658-922e-9421e2ed126b",
     "uuid": "a52b01f2-c927-56ed-b24b-2f394f17a694"
   },
@@ -257,6 +288,8 @@
       "property": "corner-radius"
     },
     "context": "Focus indicator (cell)",
+    "contextRole": ["focus"],
+    "contextPart": "cell",
     "$ref": "b4971f86-aeea-42c9-9ba7-a74cf4d1a545",
     "uuid": "05752691-6c16-5dbf-a9f6-377fa36eae0e"
   },
@@ -266,6 +299,8 @@
       "property": "thickness"
     },
     "context": "Focus indicator (row)",
+    "contextRole": ["focus"],
+    "contextPart": "row",
     "$ref": "d33433fd-6430-4769-a0b8-6d8c32a64803",
     "uuid": "06a319ba-b071-5903-9b98-0f4234563b91"
   },
@@ -275,6 +310,8 @@
       "property": "color"
     },
     "context": "Column header and row (text)",
+    "contextRole": ["layout", "layout"],
+    "contextPart": "text",
     "$ref": "a7218010-91c1-4f20-8072-7b1801593014",
     "uuid": "c6666774-15bb-5f72-940f-883e092eec8f"
   },
@@ -383,6 +420,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
     "uuid": "e5e05ad6-df70-5301-94f7-b99bdf470ef1"
   },
@@ -392,6 +431,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
     "uuid": "c5c87977-3fbb-524a-9783-1bde4eb37cb0"
   },
@@ -401,6 +442,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
     "uuid": "b6ae3c2e-b409-546c-be99-64cc01972d70"
   },
@@ -410,6 +453,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "01cd6c7e-f2eb-4b5d-9e2a-30940e1ab37b",
     "uuid": "84896d7b-0ba4-55bc-a56b-8a24006481e3"
   },
@@ -419,6 +464,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "1666d544-ad1b-445a-9a57-d2277fb752eb",
     "uuid": "87fcfef9-2dcb-5170-9088-abb89c76cbdf"
   },
@@ -428,6 +475,8 @@
       "property": "color"
     },
     "context": "Column header and row (background, border and divider)",
+    "contextRole": ["layout", "layout"],
+    "contextQualifier": "background, border and divider",
     "$ref": "4b6e738d-ac71-4d34-83eb-cd45e511b144",
     "uuid": "21cb5fc0-c6ca-543c-9df3-d4b1a94c97e8"
   },
@@ -437,6 +486,8 @@
       "property": "color"
     },
     "context": "Summary row (background)",
+    "contextRole": ["layout"],
+    "contextQualifier": "background",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "640fb1e5-51a2-5b1e-a6e3-d26c6c60ad6d"
   },
@@ -446,6 +497,8 @@
       "property": "color"
     },
     "context": "Summary row (background)",
+    "contextRole": ["layout"],
+    "contextQualifier": "background",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "c5f11f31-42a4-5fb4-926c-6b0a7978e454"
   },
@@ -455,6 +508,8 @@
       "property": "color"
     },
     "context": "Summary row (background)",
+    "contextRole": ["layout"],
+    "contextQualifier": "background",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "b22fdcc8-2e1a-5e70-976a-7e9699346427"
   },
@@ -464,6 +519,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "ff2e9674-43ca-5139-8a73-8e78108dd7ba"
   },
@@ -473,6 +530,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "f8a54b09-9c0c-5d8e-ad9a-4bb4c2050ad5"
   },
@@ -482,6 +541,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "3d82e7c8-5109-5bb3-83ba-5b882a7ff3b0"
   },
@@ -491,6 +552,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
     "uuid": "c8f516f5-a02e-5d39-bbb7-f97a0c640c78"
   },
@@ -500,6 +563,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
     "uuid": "5201d056-8158-59af-8f49-6a2c75e08598"
   },
@@ -509,6 +574,8 @@
       "property": "color"
     },
     "context": "Row (disabled)",
+    "contextRole": ["layout"],
+    "contextQualifier": "disabled",
     "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
     "uuid": "1eadf879-ca14-5ff2-bc5d-9e1abd856c00"
   },
@@ -518,6 +585,8 @@
       "property": "color"
     },
     "context": "Row (not selected, hover)",
+    "contextRole": ["layout"],
+    "contextQualifier": "not selected, hover",
     "$ref": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e",
     "uuid": "fa6e2eb3-d381-540c-9853-26cfc5d225b9"
   },
@@ -527,6 +596,8 @@
       "property": "color"
     },
     "context": "Row (checkbox selection)",
+    "contextRole": ["layout"],
+    "contextQualifier": "checkbox selection",
     "$ref": "128c4963-471a-44e3-9fb5-328d92d0266d",
     "uuid": "e3fae6bb-b981-5cd4-a770-2cbb7b511f3f"
   },
@@ -536,6 +607,8 @@
       "property": "color"
     },
     "context": "Row (checkbox selection, hover)",
+    "contextRole": ["layout"],
+    "contextQualifier": "checkbox selection, hover",
     "$ref": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
     "uuid": "7c85fd37-6dbf-5fcb-a7bf-42bbab71fe29"
   },
@@ -545,6 +618,8 @@
       "property": "color"
     },
     "context": "Row (checkbox selection, down)",
+    "contextRole": ["layout"],
+    "contextQualifier": "checkbox selection, down",
     "$ref": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
     "uuid": "b8d22e2a-5135-5f94-9cc4-32ab39a6f124"
   },
@@ -554,6 +629,8 @@
       "property": "color"
     },
     "context": "Row (checkbox selection, keyboard focus)",
+    "contextRole": ["layout"],
+    "contextQualifier": "checkbox selection, keyboard focus",
     "$ref": "93f433f2-2d0b-4225-8b39-b10000808360",
     "uuid": "d8b73ea1-bba5-57ea-b259-e3f8cc264aa8"
   },
@@ -563,6 +640,8 @@
       "property": "color"
     },
     "context": "Focus indicator (cell)",
+    "contextRole": ["focus"],
+    "contextPart": "cell",
     "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
     "uuid": "219de6a0-491a-548e-857d-7d9207ba1a8c"
   },
@@ -572,6 +651,7 @@
       "property": "font-family"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "d7785778-0f59-5c6f-953c-d557871f721e"
   },
@@ -581,6 +661,7 @@
       "property": "font-weight"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "0ac5041f-a71d-5933-b28b-8a714eb7147f"
   },
@@ -590,6 +671,7 @@
       "property": "font-style"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "06493a3e-45d3-59ae-8e3d-6def71d16845"
   },
@@ -599,6 +681,7 @@
       "property": "font-size-100"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "16f523e6-16e4-5db6-878f-f5ce83db06c4"
   },
@@ -608,6 +691,7 @@
       "property": "font-size-100"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "2e296f39-3640-5926-ae05-1695f44c9c43"
   },
@@ -617,6 +701,7 @@
       "property": "line-height-100"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "7347823c-147e-5ecd-8534-15165bca15f9"
   },
@@ -626,6 +711,7 @@
       "property": "line-height-100"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "f8b98cef-e631-5ffd-be19-8aeaa8f6eb60"
   },
@@ -635,6 +721,7 @@
       "property": "font-weight"
     },
     "context": "Column header and row",
+    "contextRole": ["layout", "layout"],
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "f0dbaa3f-a1da-50a8-ae7a-ba81b7c731f4"
   },

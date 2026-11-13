@@ -26,6 +26,7 @@
       "property": "corner-radius"
     },
     "context": "Corner radius",
+    "contextRole": ["rounding"],
     "$ref": "bb9d8350-b1fb-4496-9c22-6ec9647ff117",
     "uuid": "6169d1de-4198-59da-8b62-60a744a66b1a"
   },
@@ -35,6 +36,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "161b5af1-18f0-538a-8ca7-88a35e5ddaab"
   },
@@ -44,6 +46,7 @@
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
+    "contextRole": ["icon"],
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "547472d1-6925-5f6c-8932-09c82db7ad40"
   },
@@ -53,6 +56,8 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "b8f81b81-493d-58bc-9ca3-a55eb9ae3c35"
   },
@@ -62,6 +67,8 @@
       "property": "top-to-workflow-icon-compact-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to edge, workflow icon only",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "8768d1e6-a010-5870-a06c-f5a5e1cc50f5"
   },
@@ -71,6 +78,8 @@
       "property": "top-to-workflow-icon-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to edge, workflow icon only",
     "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a",
     "uuid": "8feeff5a-8973-5bc4-adbd-572ad768a389"
   },
@@ -80,6 +89,8 @@
       "property": "spacing"
     },
     "context": "Spacing (edge to edge)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to edge",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "ae891374-12cf-59dc-a6e4-0082f2ccb8c9"
   },
@@ -89,6 +100,8 @@
       "property": "top-to-text-compact-medium"
     },
     "context": "Spacing (top edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a1ec389c-1034-5f0f-b205-cc0e6396b11a"
   },
@@ -98,6 +111,8 @@
       "property": "top-to-text-medium"
     },
     "context": "Spacing (top edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "84006095-45e2-5043-9a92-74820d3fb1eb"
   },
@@ -107,6 +122,8 @@
       "property": "bottom-to-text-compact-medium"
     },
     "context": "Spacing (bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "bottom edge to label",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "b1508aae-18be-54ea-a06e-e7797c49d058"
   },
@@ -116,6 +133,8 @@
       "property": "bottom-to-text-medium"
     },
     "context": "Spacing (bottom edge to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "bottom edge to label",
     "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a",
     "uuid": "8a9953bb-744d-5543-afcf-4b23515a1528"
   },
@@ -125,6 +144,8 @@
       "property": "to-tab-item-horizontal-medium"
     },
     "context": "Spacing (between tab items, horizontal)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "between tab items, horizontal",
     "$ref": "7a5f3049-0c20-4ff8-84ea-d161e58546fb",
     "uuid": "997ffb60-9e33-561b-a57a-bd268fc52a39"
   },
@@ -134,6 +155,7 @@
       "property": "thickness"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "19379285-91bf-5590-91de-427a794b302a"
   },
@@ -143,6 +165,7 @@
       "property": "gap"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "uuid": "8fde5051-f3be-5c8b-837b-7150ac042709"
   },
@@ -152,6 +175,8 @@
       "property": "spacing"
     },
     "context": "Spacing (selected)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "selected",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "5eedefa8-cec9-577b-8933-41b116a014c4"
   },
@@ -161,6 +186,8 @@
       "property": "spacing"
     },
     "context": "Spacing (selected)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "selected",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "3466354b-9829-53db-9e65-23d9803e8e7f"
   },
@@ -170,6 +197,8 @@
       "property": "spacing"
     },
     "context": "Spacing (selected with keyboard focus)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "selected with keyboard focus",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "f1d8a41c-a3d6-5986-b1eb-7b1f72fcad01"
   },
@@ -179,6 +208,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "76b15bd5-4183-5a55-acbf-6c71f80e5d3f"
   },
@@ -188,6 +218,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "d2271af6-b916-544b-8cd8-f1ccc708fc01"
   },
@@ -197,6 +228,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "d3c80b59-7234-54d6-a47f-8338d18bcd7a"
   },
@@ -206,6 +238,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "3a4febc0-051a-557e-acf3-4766d9e3b0b8"
   },
@@ -215,6 +248,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "3a8622f5-c4b7-5166-af51-3e2bd25b7e86"
   },
@@ -224,6 +258,7 @@
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
+    "contextRole": ["navigation", "control"],
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "db2235db-d618-5841-8ec4-9c8503641c75"
   },
@@ -233,6 +268,7 @@
       "property": "color"
     },
     "context": "Disabled",
+    "contextRole": ["state"],
     "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
     "uuid": "01f94f5d-9de4-50d7-b217-91d5834e01b2"
   },
@@ -242,6 +278,7 @@
       "property": "content-color"
     },
     "context": "Disabled",
+    "contextRole": ["state"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "b1c08998-2064-58c4-9e06-349ae16613fd"
   },
@@ -251,6 +288,7 @@
       "property": "color"
     },
     "context": "Focus ring",
+    "contextRole": ["focus"],
     "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
     "uuid": "5742995a-8b49-545b-90da-74f6e535e0eb"
   },
