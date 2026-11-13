@@ -1363,6 +1363,8 @@
       "component": "picker",
       "property": "border-width"
     },
+    "context": "Border",
+    "contextRole": ["border"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "69c28762-f456-4641-b6ce-7cb295e3a27d",

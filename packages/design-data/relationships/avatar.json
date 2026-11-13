@@ -421,6 +421,8 @@
         "object": "border"
       }
     },
+    "context": "Border",
+    "contextRole": ["border"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
     "uuid": "bae79ea7-2b3e-4d43-af42-7deab67acc7c",
@@ -434,6 +436,8 @@
         "state": ["disabled"]
       }
     },
+    "context": "Disabled",
+    "contextRole": ["state"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74",
     "uuid": "84d25d1b-f9e4-4a9e-8cd0-92367ff00637",
