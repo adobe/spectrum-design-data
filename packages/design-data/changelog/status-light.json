@@ -142,6 +142,42 @@
           "metadata": {"count":57,"fields":["scope.options.variant"]}
         }
       ]
+    },
+    {
+      "release": "3.12.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-13",
+      "commit": "d70745af97fbc5cca29cab40fc1ef91abfe7962b",
+      "commits": [
+        {
+          "commit": "d5a64c4c59c03a38f89e70f0cb11b959d4c84d84",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1774,"title":"fix(design-data): add status-light gray, red, orange, green, blue and accent dot relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1774"},
+          "entries": [
+            {"id":"d5a64c4c-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Semantic (Dot)"],"scope":{"property":"color","options":{"variant":"accent"}},"record":"a18e0db7-802f-51f0-ad54-8fc8d5b52f23","name":"color[variant=accent]","fields":[],"after":"dbcb4372-f250-42bd-a5bc-b9d48cfb9322"},
+            {"id":"d5a64c4c-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Semantic (Dot)"],"scope":{"property":"color","options":{"variant":"accent"}},"record":"93f1855f-b1b9-5b0b-8635-9de9e3b3342a","name":"color[variant=accent]","fields":[],"after":"8ccd197f-fc8e-4d31-866c-2b96049eea89"},
+            {"id":"d5a64c4c-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Semantic (Dot)"],"scope":{"property":"color","options":{"variant":"accent"}},"record":"54f6d3dd-64df-5236-8917-586919e3c16b","name":"color[variant=accent]","fields":[],"after":"6e12afb7-c76e-4a83-acc2-f891953d5190"},
+            {"id":"d5a64c4c-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"gray"}},"record":"2a1767ee-96b9-5cf4-a4eb-08e20e85ac55","name":"color[variant=gray]","fields":[],"after":"744537db-023b-4833-8262-9c349b0915ee"},
+            {"id":"d5a64c4c-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"gray"}},"record":"2c1d0383-9740-57c7-a89d-177348d11d61","name":"color[variant=gray]","fields":[],"after":"0f7a39c2-3ee7-4ff0-873f-334c81054b77"},
+            {"id":"d5a64c4c-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"gray"}},"record":"94aac01c-af12-514b-b99b-f188e03d1472","name":"color[variant=gray]","fields":[],"after":"e8113995-d2ec-4089-a050-9b393eb9e403"},
+            {"id":"d5a64c4c-6","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"red"}},"record":"660d3943-8cc7-5ff2-9ab7-7ae1acd851a5","name":"color[variant=red]","fields":[],"after":"7fe7c804-7e6b-48ac-b1fa-b88874e0a330"},
+            {"id":"d5a64c4c-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"red"}},"record":"40b440ae-514f-5801-a6fc-2e53e37c01d6","name":"color[variant=red]","fields":[],"after":"870f90ab-7f3e-41b6-9c11-59e9c4ff82c6"},
+            {"id":"d5a64c4c-8","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"red"}},"record":"c0019731-c4e7-520d-b535-175e97da6d53","name":"color[variant=red]","fields":[],"after":"834d0a71-9060-4ce0-8e25-8b062ef89b19"},
+            {"id":"d5a64c4c-9","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"orange"}},"record":"d047ceec-20b2-5169-9261-b109340c7ee9","name":"color[variant=orange]","fields":[],"after":"8fdaf9e0-bd3e-4188-84bd-7abf72e50b58"},
+            {"id":"d5a64c4c-10","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"orange"}},"record":"3bfad833-e6da-5ae5-9d05-8772066373d8","name":"color[variant=orange]","fields":[],"after":"e7bf9977-2edf-48bc-8099-ad95e57b55b1"},
+            {"id":"d5a64c4c-11","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"orange"}},"record":"7fd9d9cf-7054-583b-938f-82bd5cfeea1b","name":"color[variant=orange]","fields":[],"after":"f76b6279-2d64-47fe-a531-1737a834b21a"},
+            {"id":"d5a64c4c-12","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"green"}},"record":"fd6cb2f2-6574-5345-9dc5-307e8bd38e92","name":"color[variant=green]","fields":[],"after":"83f76815-8660-425e-80e6-825a5be0628f"},
+            {"id":"d5a64c4c-13","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"green"}},"record":"7d2729f6-14de-5e43-b045-a52edda4d8c3","name":"color[variant=green]","fields":[],"after":"1219770d-543d-4216-9e87-c158f8a74df6"},
+            {"id":"d5a64c4c-14","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"green"}},"record":"f2ac2182-a4ba-5d64-b7b1-9c66538655c2","name":"color[variant=green]","fields":[],"after":"4aba2da7-3eed-4a11-830c-58cc4f6bb6cb"},
+            {"id":"d5a64c4c-15","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"blue"}},"record":"dfe6ac57-caed-5467-b7a0-540299253994","name":"color[variant=blue]","fields":[],"after":"b7cca44c-7c7d-4904-8f2c-d5bde4ea42a2"},
+            {"id":"d5a64c4c-16","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"blue"}},"record":"6ea8a7e9-9126-555d-bb9c-eb8af69f8654","name":"color[variant=blue]","fields":[],"after":"63fe16ed-70fa-4eaf-918c-f642ff69ce05"},
+            {"id":"d5a64c4c-17","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Non-semantic (Dot)"],"scope":{"property":"color","options":{"variant":"blue"}},"record":"37ecd687-cf46-53e1-9f20-4868eff600c7","name":"color[variant=blue]","fields":[],"after":"0f058412-085d-4670-8cd5-964ed903a20a"},
+            {"id":"d5a64c4c-18","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"status-light/options/variant/values/accent","name":"accent","fields":[],"after":{"value":"accent"}},
+            {"id":"d5a64c4c-19","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"status-light/options/variant/values/blue","name":"blue","fields":[],"after":{"value":"blue"}}
+          ]
+        }
+      ]
     }
   ]
 }
