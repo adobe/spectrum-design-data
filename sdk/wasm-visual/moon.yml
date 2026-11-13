@@ -72,7 +72,7 @@ tasks:
       - "variants"
       - "catalog.json"
       - "OFL-SourceSans3.txt"
-    toolchains: "system"
+    toolchain: "system"
 
   # Pack the built package and render a packed variant. Run after build-package.
   verify-package:
