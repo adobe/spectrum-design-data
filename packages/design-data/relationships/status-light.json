@@ -680,6 +680,48 @@
       "component": "status-light",
       "property": "color",
       "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322",
+    "uuid": "a18e0db7-802f-51f0-ad54-8fc8d5b52f23"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89",
+    "uuid": "93f1855f-b1b9-5b0b-8635-9de9e3b3342a"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
+    "uuid": "54f6d3dd-64df-5236-8917-586919e3c16b"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
         "variant": "celery"
       }
     },
@@ -1430,6 +1472,48 @@
     "contextPart": "Dot",
     "$ref": "4aba2da7-3eed-4a11-830c-58cc4f6bb6cb",
     "uuid": "f2ac2182-a4ba-5d64-b7b1-9c66538655c2"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "b7cca44c-7c7d-4904-8f2c-d5bde4ea42a2",
+    "uuid": "dfe6ac57-caed-5467-b7a0-540299253994"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "63fe16ed-70fa-4eaf-918c-f642ff69ce05",
+    "uuid": "6ea8a7e9-9126-555d-bb9c-eb8af69f8654"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "0f058412-085d-4670-8cd5-964ed903a20a",
+    "uuid": "37ecd687-cf46-53e1-9f20-4868eff600c7"
   },
   {
     "scope": {
