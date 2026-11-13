@@ -231,7 +231,7 @@ test("mode pickers preserve focus, route overrides and allow read-only adaptive 
     page.getByRole("button", { name: "Edit Dark for color", exact: true }),
   ).toHaveCount(0);
   const saved = await working(page);
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .getByRole("button", { name: "Adaptive controls", exact: true })
     .click();

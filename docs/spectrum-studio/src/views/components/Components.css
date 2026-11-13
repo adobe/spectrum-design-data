@@ -25,7 +25,7 @@
 .componentContent h2 { margin-block: 0 8px; }
 .componentCondition { display: grid; grid-template-columns: [field] minmax(0, 1fr); }
 .componentCondition > button { justify-self: start; }
-.componentStory { display: flex; height: 100vh; background: var(--spectrum-gray-25); color: var(--spectrum-gray-900); }
+.componentStory { display: flex; height: 100vh; background: var(--spectrum-gray-25); }
 .componentDescription { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (width < 800px) {
   .componentsLayout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(280px, min(45vh, 360px)) minmax(0, 1fr); }

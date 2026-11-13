@@ -98,7 +98,7 @@ test("raw Spectrum tokens follow chrome appearance without leaking into authored
     .getByRole("link", { name: "Foundations", exact: true })
     .dispatchEvent("click");
   await page
-    .getByRole("radio", { name: "Preview", exact: true })
+    .getByRole("radio", { name: "Apps", exact: true })
     .dispatchEvent("click");
   const preview = page.getByRole("region", {
     name: "Sample application preview",

@@ -27,6 +27,13 @@ import {
   type Classification,
 } from "../../features/taxonomy/model";
 import { categoryAllowsTier } from "../../features/tokens/tier";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+
+const subduedTextStyles = style({ color: "neutral-subdued" });
+const errorTextStyles = style({ color: "negative" });
+const factsStyles = style({
+  "--token-fact-label": { type: "color", value: "neutral-subdued" },
+});
 
 export interface TokenDetailsDialogProps {
   tokens: BrowserToken[];
@@ -311,7 +318,7 @@ export function TokenDetailsDialog({
                   <PickerItem id="released">Released</PickerItem>
                 )}
               </Picker>
-              <p className="tokenEditScope">
+              <p className={`tokenEditScope ${subduedTextStyles}`}>
                 Value scope:{" "}
                 {tokens.every((token) => token.dataVis?.static)
                   ? "All modes (Static)"
@@ -320,7 +327,7 @@ export function TokenDetailsDialog({
                     : modeLabel}
               </p>
               {!bulk && (
-                <dl className="tokenDetailsFacts">
+                <dl className={`tokenDetailsFacts ${factsStyles}`}>
                   <dt>Type</dt>
                   <dd>{token.type}</dd>
                   <dt>Source</dt>
@@ -393,7 +400,7 @@ export function TokenDetailsDialog({
             </div>
           )}
           {error && (
-            <p className="tokenDialogError" role="alert">
+            <p className={`tokenDialogError ${errorTextStyles}`} role="alert">
               {error}
             </p>
           )}

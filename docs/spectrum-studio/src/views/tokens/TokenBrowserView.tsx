@@ -29,6 +29,8 @@ import { filterAllModeTokenTableRows } from "../../features/tokens/view/allModeT
 import { TokenNameTag } from "../../components/tokens/TokenNameTag";
 import { overrideContrastMessage } from "../../features/tokens/colorOutput";
 
+const summaryTextStyles = style({ color: "neutral-subdued" });
+
 export interface TokenBrowserViewProps {
   modeView?: "selected" | "all";
   onModeViewChange?: (view: "selected" | "all") => void;
@@ -243,7 +245,7 @@ export function TokenBrowserView(props: TokenBrowserViewProps) {
           <TooltipTrigger><ToggleButton id="grid" aria-label="Grid view"><ViewGrid /></ToggleButton><Tooltip>Grid view</Tooltip></TooltipTrigger>
         </ToggleButtonGroup>}
       </div>
-      {!props.catalogError && <div className="tokenBrowserSummary" role="status" aria-busy={pending || undefined}>{filtered.length} {filtered.length === 1 ? "token" : "tokens"}{selectedIds.size > 0 ? ` · ${selectedIds.size} selected` : ""}</div>}
+      {!props.catalogError && <div className={`tokenBrowserSummary ${summaryTextStyles}`} role="status" aria-busy={pending || undefined}>{filtered.length} {filtered.length === 1 ? "token" : "tokens"}{selectedIds.size > 0 ? ` · ${selectedIds.size} selected` : ""}</div>}
       {props.generationError && <p role="alert">Structure generation needs repair: {props.generationError}</p>}
       <div className="tokenCollectionWork">
         <DerivedContentBoundary state={props.catalogError ? "unavailable" : pending ? "pending" : "ready"} error={props.catalogError} label="Updating tokens">

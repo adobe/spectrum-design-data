@@ -53,17 +53,24 @@ export interface StylePublication {
   key: string;
   rows: { [modeKey: string]: string };
 }
+export interface StyleColorRole {
+  id: string;
+  roleTermId: string;
+  scaleId: string;
+}
 export interface StylesDocument {
   schemaVersion: 1;
   recipes: StyleRecipe[];
   publications: StylePublication[];
   examples: { [recipeId: string]: { icon: string | null } };
+  colorRoles: StyleColorRole[];
 }
 export const EMPTY_STYLES: StylesDocument = {
   schemaVersion: 1,
   recipes: [],
   publications: [],
   examples: {},
+  colorRoles: [],
 };
 export const STYLE_LABELS: Record<StyleKind, string> = {
   text: "Text styles",
@@ -147,11 +154,13 @@ export function isStylesDocument(value: unknown): value is StylesDocument {
     value.schemaVersion !== 1 ||
     !Array.isArray(value.recipes) ||
     !Array.isArray(value.publications) ||
-    !record(value.examples)
+    !record(value.examples) ||
+    !Array.isArray(value.colorRoles)
   )
     return false;
   const ids = new Set<string>();
   const publicationKeys = new Set<string>();
+  const roleTermIds = new Set<string>();
   const claim = (value: unknown) => {
     if (!uuid(value) || ids.has(value)) return false;
     ids.add(value);
@@ -233,6 +242,20 @@ export function isStylesDocument(value: unknown): value is StylesDocument {
       (entry) =>
         record(entry) &&
         (entry.icon === null || typeof entry.icon === "string"),
-    )
+    ) &&
+    value.colorRoles.every((entry) => {
+      if (
+        !record(entry) ||
+        Object.keys(entry).length !== 3 ||
+        !claim(entry.id) ||
+        !uuid(entry.roleTermId) ||
+        roleTermIds.has(entry.roleTermId) ||
+        typeof entry.scaleId !== "string" ||
+        !entry.scaleId
+      )
+        return false;
+      roleTermIds.add(entry.roleTermId);
+      return true;
+    })
   );
 }

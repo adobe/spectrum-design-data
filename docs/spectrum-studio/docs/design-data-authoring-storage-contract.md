@@ -1199,8 +1199,8 @@ Undo restores concept, binding IDs and list position without stealing a later
 selection.
 
 Design has independent Concepts/Elements/Structures sections and
-Design/Permutations/Preview views, starting on Structures and Design. Only
-Structures is implemented; Preview retains the existing sample app. The
+Design/Permutations/Apps views, starting on Structures and Design. Only
+Structures is implemented; Apps retains the existing sample app. The
 centered white/fuchsia sample resolves authored settings, including complete
 shadows, while its non-modal settings Panel stays at the top-right. The
 Tokens/Values view, searches, split expansion, selections, intrinsic/container

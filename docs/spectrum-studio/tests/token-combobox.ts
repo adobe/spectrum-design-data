@@ -8,6 +8,11 @@ import {
   numericEntryValue,
 } from "../src/components/fields/tokenEntry";
 import { combinedTokenSelection } from "../src/components/fields/tokenSelection";
+import {
+  MENU_MEASUREMENT_ROWS,
+  menuMeasurementChoices,
+  tokenMenuChoices,
+} from "../src/components/fields/tokenMenuChoices";
 
 const options: TokenComboBoxOption[] = [
   { id: "a", kind: "token", name: "opacity-100", displayValue: "3%" },
@@ -127,6 +132,71 @@ assert.equal(
   true,
 );
 
+const ids = (rows: readonly TokenComboBoxOption[]) =>
+  rows.map((option) => option.id);
+const unfiltered = tokenMenuChoices(options, "a");
+assert.deepEqual(ids(unfiltered.choices), ids(options));
+assert.deepEqual(unfiltered.disabled, ["invalid"]);
+assert.deepEqual(ids(unfiltered.presets), ["hug"]);
+assert.deepEqual(ids(unfiltered.tokens), ["a", "b", "c", "zero", "invalid"]);
+const withoutB = (option: TokenComboBoxOption) => option.id !== "b";
+assert.deepEqual(
+  ids(tokenMenuChoices(options, "a", withoutB).choices),
+  ["a", "c", "zero", "invalid", "hug"],
+  "Disallowed options leave the menu.",
+);
+const keptSelection = tokenMenuChoices(options, "b", withoutB);
+assert.deepEqual(
+  ids(keptSelection.choices),
+  ["a", "c", "zero", "invalid", "hug", "b"],
+  "A disallowed current selection stays visible at the end.",
+);
+assert.deepEqual(keptSelection.disabled, ["invalid", "b"]);
+assert.deepEqual(ids(tokenMenuChoices(options, "missing", withoutB).choices), [
+  "a",
+  "c",
+  "zero",
+  "invalid",
+  "hug",
+]);
+
+assert.equal(
+  menuMeasurementChoices(options),
+  options,
+  "Short menus measure every row.",
+);
+const longMenu: TokenComboBoxOption[] = [
+  { id: "auto", kind: "preset", name: "Auto", displayValue: "Auto" },
+  ...Array.from({ length: 80 }, (_, index) => ({
+    id: `size-${index}`,
+    kind: "token" as const,
+    name: `size-${index * 25}`,
+    displayValue: `${index}px`,
+  })),
+];
+longMenu.splice(30, 0, {
+  id: "long-name",
+  kind: "token",
+  name: "component-height-with-a-much-longer-name",
+  displayValue: "4px",
+});
+longMenu.splice(60, 0, {
+  id: "long-description",
+  kind: "token",
+  name: "size-1",
+  displayValue: "8px",
+  error: "This token resolves to a value outside the allowed range.",
+});
+const probed = menuMeasurementChoices(longMenu);
+assert.ok(probed.length <= MENU_MEASUREMENT_ROWS);
+for (const id of ["auto", "long-name", "long-description"])
+  assert.ok(ids(probed).includes(id), `The width probe measures ${id}.`);
+assert.deepEqual(
+  ids(probed),
+  ids(longMenu).filter((id) => ids(probed).includes(id)),
+  "The width probe keeps menu order.",
+);
+
 const elevation = readFileSync(
   new URL("../src/panels/elevation/ShadowOpacityControls.tsx", import.meta.url),
   "utf8",
@@ -140,5 +210,5 @@ assert.doesNotMatch(
   /Manual percentage|EditableNumberField|id:\s*["']manual["']/,
 );
 console.log(
-  "Token ComboBox matching, numeric entry, mixed values and Elevation reuse checks passed.",
+  "Token ComboBox matching, numeric entry, mixed values, menu rows, width probe and Elevation reuse checks passed.",
 );

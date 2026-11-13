@@ -13,6 +13,7 @@ import {
   retryComparisonAtom,
 } from "../src/features/changelog/asyncComparisonState";
 import { computeComparison } from "../src/features/changelog/computeComparison";
+import { mergeChangeGroups } from "../src/features/changelog/mergeGroups";
 import {
   authoredComparisonAtom,
   parityChangeGroupsAtom,
@@ -31,7 +32,10 @@ import {
   dimensionArtifactStateAtom,
 } from "../src/features/design-data/dimensionArtifactState";
 import { computeDimensionWork } from "../src/features/design-data/dimensionWork";
-import { enterEditModeAtom } from "../src/features/edit-session/state";
+import {
+  enterEditModeAtom,
+  resetAllAuthoringAtom,
+} from "../src/features/edit-session/state";
 import { platformsAtom } from "../src/features/platforms/state";
 import { spacingDocumentAtom } from "../src/features/spacing/state";
 
@@ -148,6 +152,55 @@ store.set(comparisonPublicationAtom, {
   error: "Obsolete failure",
 });
 assert.equal(store.get(asyncComparisonAtom).status, "pending");
+const resetStore = createStore();
+const publishRecalculating = () => {
+  const request = resetStore.get(comparisonRequestAtom);
+  const authored = resetStore.get(authoredComparisonAtom);
+  resetStore.set(comparisonPublicationAtom, {
+    status: "pending",
+    input: request,
+    partial: {
+      working: request.working,
+      authored,
+      groups: mergeChangeGroups(authored),
+    },
+  });
+  return authored;
+};
+resetStore.set(enterEditModeAtom);
+const editedSpacing = resetStore.get(spacingDocumentAtom);
+resetStore.set(spacingDocumentAtom, {
+  ...editedSpacing,
+  scales: editedSpacing.scales.map((entry) =>
+    entry.id === "5d3d6a7a-36c9-4a53-9f15-447f2a1e68f6"
+      ? { ...entry, base: entry.base! + 1 }
+      : entry,
+  ),
+});
+const editedInput = resetStore.get(comparisonRequestAtom);
+const edited = computeComparison(editedInput);
+if (edited.tokens.status !== "ready") throw new Error(edited.tokens.error);
+const editedTokens = edited.tokens.comparison;
+assert(editedTokens.items.length, "The spacing edit changes generated tokens.");
+resetStore.set(comparisonPublicationAtom, {
+  status: "ready",
+  input: editedInput,
+  value: edited,
+});
+resetStore.set(retryComparisonAtom);
+const retriedAuthored = publishRecalculating();
+assert.deepEqual(
+  resetStore.get(asyncComparisonAtom).partial?.groups,
+  mergeChangeGroups(retriedAuthored, editedTokens),
+  "While Changes recalculates after an edit, it keeps the last token list to avoid flicker.",
+);
+resetStore.set(resetAllAuthoringAtom);
+const resetAuthored = publishRecalculating();
+assert.deepEqual(
+  resetStore.get(asyncComparisonAtom).partial?.groups,
+  mergeChangeGroups(resetAuthored),
+  "After Reset all, Changes must not show the token list from before the reset.",
+);
 const sources = createStore();
 sources.set(enterEditModeAtom);
 const dimensionInput = sources.get(dimensionArtifactRequestAtom),

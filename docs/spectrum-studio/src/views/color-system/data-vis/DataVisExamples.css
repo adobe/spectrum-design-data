@@ -1,0 +1,79 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+.dataVisScale {
+  container: data-vis-scale / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.dataVisScaleHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 16px 24px;
+}
+
+.dataVisScaleTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.dataVisScaleTitle h2 {
+  overflow-wrap: anywhere;
+}
+
+.dataVisExampleFigure {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  min-width: 0;
+}
+
+.dataVisExampleGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.dataVisExampleChart {
+  width: 100%;
+  min-width: 0;
+  height: 224px;
+}
+
+.dataVisExampleChart svg {
+  max-width: 100%;
+}
+
+.dataVisExampleMap,
+.dataVisExampleHeatmap {
+  display: block;
+  width: 100%;
+  height: 224px;
+}
+
+.dataVisExampleTable {
+  max-height: 320px;
+  overflow: auto;
+}
+
+@container data-vis-scale (width >= 640px) {
+  .dataVisScaleHeader,
+  .dataVisExampleGrid[data-kind="sequential"],
+  .dataVisExampleGrid[data-kind="diverging"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container data-vis-scale (width >= 800px) {
+  .dataVisExampleGrid[data-kind="categorical"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

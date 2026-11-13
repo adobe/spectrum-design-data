@@ -111,6 +111,11 @@ export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   /** Tokens linked across all structures, kept when a build isolates one structure. */
   linkedReferenceIds?: readonly string[];
 }
+const buildCounts = { full: 0, focused: 0 };
+/** Counts token-set generations so timing tests can detect repeated work. */
+export function tshirtBuildStats() {
+  return { ...buildCounts };
+}
 export function buildFocusedTshirtArtifacts(
   source: TshirtAuthoringSource,
   structureId: string | null,
@@ -137,7 +142,8 @@ export function buildFocusedTshirtArtifacts(
   }
   if (!source.structures)
     throw new Error("Structure preview needs an available authoring document.");
-  return buildTshirtArtifacts({
+  buildCounts.focused++;
+  return generateTshirtArtifacts({
     ...source,
     structures: {
       ...source.structures,
@@ -208,6 +214,13 @@ function primitiveRecord(
 }
 
 export function buildTshirtArtifacts(
+  snapshot: TshirtAuthoringSource,
+  sourceKind: TshirtArtifactBundle["sourceKind"] = "working",
+): TshirtArtifactBundle {
+  buildCounts.full++;
+  return generateTshirtArtifacts(snapshot, sourceKind);
+}
+function generateTshirtArtifacts(
   snapshot: TshirtAuthoringSource,
   sourceKind: TshirtArtifactBundle["sourceKind"] = "working",
 ): TshirtArtifactBundle {

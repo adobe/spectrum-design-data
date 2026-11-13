@@ -238,7 +238,7 @@ test("author the 13-step Gray list, Save/reload, and preserve a shared 16-step s
   await expect(page.locator('[data-view="code"]')).toContainText(
     "--contrast-gray-25",
   );
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await expect(page.locator('[data-component="PreviewToolbar"]')).toBeVisible();
 });
 

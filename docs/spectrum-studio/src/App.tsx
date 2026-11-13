@@ -17,6 +17,7 @@ import { ColorPickerDefaultsProvider } from "./components/color-picker/ColorPick
 import { colorOutputSettingsAtom } from "./features/color-system/state";
 import { useComparisonWork } from "./features/changelog/useComparisonWork";
 import { PreviewSurfaceProvider } from "./components/PreviewSurfaceProvider";
+import { providerTextStyles, useBodyTextStyles } from "./utils/spectrumChrome";
 
 function ApplicationWork() {
   const storageIssues = useAtomValue(persistenceIssuesAtom);
@@ -43,6 +44,13 @@ function ApplicationWork() {
 function App() {
   const colorScheme = useAtomValue(appColorSchemeAtom);
   const colorOutput = useAtomValue(colorOutputSettingsAtom);
+  useEffect(() => {
+    if (
+      import.meta.env.DEV &&
+      !performance.getEntriesByName("studio:first-render").length
+    )
+      performance.measure("studio:first-render");
+  }, []);
   useLayoutEffect(() => {
     const body = document.body;
     const previous = ["spectrum", "spectrum--light", "spectrum--dark"].map(
@@ -59,11 +67,13 @@ function App() {
         body.classList.toggle(name, enabled);
     };
   }, [colorScheme]);
+  useBodyTextStyles(colorScheme);
 
   return (
     <Provider
       colorScheme={colorScheme}
       UNSAFE_className={`spectrum spectrum--${colorScheme}`}
+      styles={providerTextStyles}
     >
       <PreviewSurfaceProvider colorScheme={colorScheme}>
         <NotificationProvider>

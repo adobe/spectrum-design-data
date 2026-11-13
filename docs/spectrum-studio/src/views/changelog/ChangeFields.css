@@ -46,14 +46,6 @@
   overflow-wrap: anywhere;
 }
 
-.changeFieldBefore {
-  color: var(--spectrum-red-900);
-}
-
-.changeFieldAfter {
-  color: var(--spectrum-green-900);
-}
-
 .changeFieldResetReason {
   grid-column: 1 / -1;
   font-size: 0.85em;

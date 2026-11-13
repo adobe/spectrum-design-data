@@ -63,9 +63,9 @@ const views = [
     icon: <CategoryIcon category="view.elements" />,
   },
   {
-    id: "preview",
-    label: "Preview",
-    icon: <CategoryIcon category="view.preview" />,
+    id: "apps",
+    label: "Apps",
+    icon: <CategoryIcon category="view.apps" />,
   },
   {
     id: "analyze",
@@ -77,7 +77,7 @@ const views = [
 
 interface ViewSwitcherProps {
   elements: ReactNode;
-  preview: ReactNode;
+  apps: ReactNode;
   /** Shown for Analyze; falls back to Elements when a page has nothing to analyze. */
   analyze?: ReactNode;
   code: ReactNode;
@@ -126,8 +126,8 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
   const content = configuration
     ? configuration.options.find((view) => view.id === selectedView)?.content
     : "elements" in props
-      ? selectedView === "preview"
-        ? props.preview
+      ? selectedView === "apps"
+        ? props.apps
         : selectedView === "code"
           ? props.code
           : selectedView === "analyze" && props.analyze !== undefined
@@ -155,7 +155,7 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
               else notify.error("This content view is unavailable.");
             } else if (
               key === "elements" ||
-              key === "preview" ||
+              key === "apps" ||
               key === "analyze" ||
               key === "code"
             )
@@ -175,7 +175,7 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
         className={`${viewPanelStyles} ${configuration?.surface === "pasteboard" ? pasteboardStyles : ""}`}
         data-view={selectedView}
       >
-        {selectedView === "preview" ? (
+        {selectedView === "apps" ? (
           <div
             style={{
               position: "relative",

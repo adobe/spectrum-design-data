@@ -21,6 +21,12 @@ storage-version, restore and Reset all paths. Do not add preservation migrations
 or backups unless the user requests them. Ordinary compatible editing still
 requires Save/Cancel, Changes and scoped-reset behavior.
 
+Startup does this automatically when the shipped defaults change. It stores a
+fingerprint of `createDefaultSnapshot()` under `leonardo:authoring-defaults:v1`;
+when a stored fingerprint differs and an authoring record exists, startup runs
+Reset all silently, keeping view state. Records saved before the fingerprint
+existed are stamped and kept.
+
 ## Two comparison paths: touch both
 
 The repo has two parallel comparison paths. A new domain needs both.
@@ -39,7 +45,7 @@ example. V = enforced by a script or type; M = manual convention.
 
 | # | Step | Where | Enforced | Check |
 | --- | --- | --- | --- | --- |
-| 1 | Schema and defaults | `src/data/design-system.schema.json`, `design-system.defaults.json`, `src/data/defaults.ts`, `src/features/<domain>/{model,defaults}.ts` | Schema shape hash (`scripts/check-changelog-coverage.ts`) | `pnpm check:changelog-coverage`, `pnpm test:defaults` |
+| 1 | Schema and defaults | `src/data/design-system.schema.json`, `design-system.defaults.json`, `src/data/defaults.ts`, `src/features/<domain>/{model,defaults}.ts`. After adding default tokens, run `pnpm identities:defaults` to record their permanent IDs. Without them, Studio creates random IDs and Changes reports the shipped tokens as removed, even after Reset all | Schema shape hash (`scripts/check-changelog-coverage.ts`); `token-identities` check | `pnpm check:changelog-coverage`, `pnpm test:defaults`, `pnpm identities:defaults --check` |
 | 2 | State atoms | `src/features/<domain>/state.ts` (dimension foundations use `createDimensionFoundationState`) | M | the domain's `test:*` |
 | 3 | Snapshot key | `src/features/edit-session/state.ts`: `EditSessionSnapshot` field, `isSnapshot`, `captureSourceSnapshot`, `createDefaultSnapshot`, `restoreAuthoringSnapshotAtom` | V for the key (see 7). The other four sites are M | `pnpm typecheck` |
 | 4 | Stored-data validation | `assertStoredSnapshot` in `edit-session/state.ts`. Review additive-field compatibility; incompatible development records follow Working rule 7 | M. **Do not add throw-on-load checks for reference differences** (AGENTS.md, Working rule 2). Return diagnostics instead | `pnpm test:persistence` |

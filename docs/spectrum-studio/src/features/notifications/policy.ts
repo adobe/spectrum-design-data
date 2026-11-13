@@ -20,6 +20,7 @@ export interface NotificationKind {
 
 export const NOTIFICATION_KINDS = {
   style: { noun: "Style", tier: "item" },
+  colorRole: { noun: "Color role", tier: "item" },
   styleProperty: { noun: "Property", tier: "part" },
   styleOption: { noun: "Option", tier: "part" },
   structure: { noun: "Structure", tier: "item" },

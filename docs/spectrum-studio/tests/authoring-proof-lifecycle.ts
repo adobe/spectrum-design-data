@@ -123,6 +123,7 @@ function resolveRecord(worker: ManualWorker) {
 }
 const store = createStore();
 const dispose = initializeAuthoringPersistence(store);
+const startupWrites = storage.writes;
 try {
   await advance();
   const bootstrap = activeWorker("referenceWitness");
@@ -144,7 +145,7 @@ try {
     "Reusable proof warming may continue without blocking current durability.",
   );
   const currentRecord = activeWorker("recordPreparation");
-  assert.equal(storage.writes, 0);
+  assert.equal(storage.writes, startupWrites);
   resolveRecord(currentRecord);
   await advance();
   assert(

@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
 import { captureSnapshot, assertStoredSnapshot } from "../edit-session/state";
+import { componentColorWitnessAtom } from "../components/colorWitness";
 import { canonicalJson } from "../design-data/canonicalJson";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import { editModeAtom } from "../../state/view/editMode";
@@ -72,7 +73,8 @@ export const answerLayoutScaleAtom = atom(
         candidate.modeSets,
       ),
     };
-    assertStoredSnapshot(snapshot);
+    // The same witness as the component guard below, so both checks share one catalog build.
+    assertStoredSnapshot(snapshot, get(componentColorWitnessAtom));
     buildTshirtArtifacts(snapshot);
     const updates = new Map<string, unknown>([
       ["registry/taxonomy", snapshot.taxonomy],

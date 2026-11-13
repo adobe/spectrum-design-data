@@ -62,7 +62,7 @@ async function seedReferenceTypography(page: Page, isEditing = false) {
 
 async function setTextZoom(page: Page, zoom: number) {
   await page
-    .getByRole("radio", { name: "Preview", exact: true })
+    .getByRole("radio", { name: "Apps", exact: true })
     .dispatchEvent("click");
   await page.getByRole("button", { name: "Adaptive controls" }).first().click();
   const slider = page.getByRole("slider", { name: "Adaptive text scaling" });

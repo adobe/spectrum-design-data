@@ -19,7 +19,12 @@ import {
   selectedStyleIdAtom,
   stylePreviewAtom,
   editStylePropertiesAtom,
+  addColorRoleAtom,
+  setColorRoleScaleAtom,
+  removeColorRoleAtom,
+  restoreColorRoleAtom,
 } from "../src/features/styles/state";
+import { ORDERED_CATEGORY_IDS } from "../src/features/taxonomy/orderedVocabulary";
 import {
   EMPTY_STYLES,
   isStylesDocument,
@@ -514,6 +519,106 @@ assert.deepEqual(
   store.get(authoringSourceSnapshotAtom).styles,
   createDefaultSnapshot().styles,
 );
+
+const roleDefaults = store.get(authoringSourceSnapshotAtom);
+const roleNames = (snapshot: typeof roleDefaults) =>
+  Object.fromEntries(
+    snapshot.styles!.colorRoles.map((role) => [
+      snapshot.taxonomy!.terms.find(
+        (term) =>
+          term.id === role.roleTermId &&
+          term.categoryId === ORDERED_CATEGORY_IDS.role,
+      )?.value,
+      role.scaleId,
+    ]),
+  );
+assert.deepEqual(
+  roleNames(roleDefaults),
+  {
+    informative: "scale-48",
+    accent: "scale-48",
+    positive: "scale-32",
+    negative: "scale-6",
+    notice: "scale-14",
+    neutral: "scale-gray",
+  },
+  "Default color roles use Registry Role terms and their shipped scales.",
+);
+assert.throws(
+  () =>
+    createStore().set(addColorRoleAtom, { name: "brand", scaleId: "scale-48" }),
+  /Edit mode/,
+);
+const roleStore = store;
+const roleStart = roleStore.get(authoringSourceSnapshotAtom);
+const roleBaseline = {
+  ...roleStart,
+  styles: structuredClone(roleStart.styles),
+  taxonomy: structuredClone(roleStart.taxonomy),
+};
+const negative = roleBaseline.styles!.colorRoles.find(
+  (role) => role.scaleId === "scale-6",
+)!;
+const removedRole = roleStore.set(removeColorRoleAtom, negative.id);
+assert(
+  !roleStore
+    .get(stylesDocumentAtom)
+    .colorRoles.some((role) => role.id === negative.id),
+);
+roleStore.set(restoreColorRoleAtom, removedRole);
+assert.deepEqual(
+  roleStore.get(stylesDocumentAtom).colorRoles,
+  roleBaseline.styles!.colorRoles,
+  "Delete/Undo restores a color role in place.",
+);
+assert.throws(
+  () =>
+    roleStore.set(addColorRoleAtom, {
+      roleTermId: negative.roleTermId,
+      scaleId: "scale-14",
+    }),
+  /already/,
+  "A Role term maps to one color scale.",
+);
+roleStore.set(setColorRoleScaleAtom, { id: negative.id, scaleId: "scale-14" });
+const added = roleStore.set(addColorRoleAtom, {
+  name: "brand",
+  scaleId: "scale-48",
+});
+const roleWorking = roleStore.get(authoringSourceSnapshotAtom);
+assertStoredSnapshot(roleWorking);
+assert.equal(roleNames(roleWorking).negative, "scale-14");
+assert.equal(roleNames(roleWorking).brand, "scale-48");
+assert.equal(
+  roleWorking.taxonomy!.terms.find((term) => term.id === added.roleTermId)
+    ?.categoryId,
+  ORDERED_CATEGORY_IDS.role,
+  "A typed role name registers a new Role term.",
+);
+assert(
+  compareAuthoring(roleBaseline, roleWorking).groups.some(
+    (group) => group.items.length,
+  ),
+  "Color role edits appear in Changes.",
+);
+roleStore.set(cancelEditAtom);
+const cancelled = roleStore.get(authoringSourceSnapshotAtom);
+assert.deepEqual(
+  { styles: cancelled.styles, taxonomy: cancelled.taxonomy },
+  { styles: roleBaseline.styles, taxonomy: roleBaseline.taxonomy },
+  "Cancel restores color roles and the matching Registry edit together.",
+);
+const duplicateRoles = structuredClone(roleDefaults.styles!);
+duplicateRoles.colorRoles.push({
+  ...duplicateRoles.colorRoles[0],
+  id: crypto.randomUUID(),
+});
+assert(!isStylesDocument(duplicateRoles), "Role terms are unique.");
+const missingRoles: Partial<typeof duplicateRoles> = structuredClone(
+  roleDefaults.styles!,
+);
+delete missingRoles.colorRoles;
+assert(!isStylesDocument(missingRoles), "Color roles are required.");
 console.log(
-  "Styles field/domain resets, local options, real Component Impact, independent migrations, Save/Cancel/reload and Delete/Undo passed.",
+  "Styles field/domain resets, local options, real Component Impact, independent migrations, Save/Cancel/reload, Delete/Undo and color roles passed.",
 );

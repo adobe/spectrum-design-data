@@ -1,7 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtom, useAtomValue } from "jotai";
-import { memo, useDeferredValue, type ComponentType } from "react";
+import {
+  lazy,
+  memo,
+  Suspense,
+  useDeferredValue,
+  type ComponentType,
+} from "react";
 
 import { TopBar } from "../components/TopBar";
 import { NavSidebar } from "../components/NavSidebar";
@@ -17,37 +23,26 @@ import { editModeAtom } from "../state/view/editMode";
 import { appColorSchemeAtom } from "../features/modes/capabilities";
 import { spectrumChromeClassName } from "../utils/spectrumChrome";
 import Home from "../views/home/Home";
-import SystemHealth from "./SystemHealth";
-import Foundations from "./Foundations";
-import Design from "./Design";
-import Tokens from "./Tokens";
-import Platforms from "./Platforms";
-import Themes from "./Themes";
-import Modes from "./Modes";
-import Components from "./Components";
-import Settings from "./Settings";
-import Registry from "./Registry";
-import Logic from "./Logic";
-import Analysis from "./Analysis";
 import Accessibility from "./Accessibility";
 import { CurrentColorOutputBoundary } from "../components/ColorOutputBoundary";
 import { DerivedContentBoundary } from "../components/DerivedContentBoundary";
 
+// Each page's code loads on its first visit, so a refresh only loads Home's code.
 const pages: Record<string, ComponentType> = {
-  registry: Registry,
+  registry: lazy(() => import("./Registry")),
   home: Home,
-  "system-health": SystemHealth,
-  analysis: Analysis,
+  "system-health": lazy(() => import("./SystemHealth")),
+  analysis: lazy(() => import("./Analysis")),
   accessibility: Accessibility,
-  foundations: Foundations,
-  design: Design,
-  logic: Logic,
-  tokens: Tokens,
-  platforms: Platforms,
-  themes: Themes,
-  modes: Modes,
-  components: Components,
-  settings: Settings,
+  foundations: lazy(() => import("./Foundations")),
+  design: lazy(() => import("./Design")),
+  logic: lazy(() => import("./Logic")),
+  tokens: lazy(() => import("./Tokens")),
+  platforms: lazy(() => import("./Platforms")),
+  themes: lazy(() => import("./Themes")),
+  modes: lazy(() => import("./Modes")),
+  components: lazy(() => import("./Components")),
+  settings: lazy(() => import("./Settings")),
 };
 
 const PageContent = memo(function PageContent({ page }: { page: string }) {
@@ -153,12 +148,22 @@ export default function BrowsingContext() {
           })}
           style={{ gridColumn: mainGridColumn }}
         >
-          <DerivedContentBoundary
-            state={isPagePending ? "pending" : "ready"}
-            label="Page content"
+          {/* While a page's code loads, the previous page stays visible; the
+              fallback appears only before any page has been shown. */}
+          <Suspense
+            fallback={
+              <DerivedContentBoundary state="pending" label="Page content">
+                {null}
+              </DerivedContentBoundary>
+            }
           >
-            <PageContent page={displayedPage} />
-          </DerivedContentBoundary>
+            <DerivedContentBoundary
+              state={isPagePending ? "pending" : "ready"}
+              label="Page content"
+            >
+              <PageContent page={displayedPage} />
+            </DerivedContentBoundary>
+          </Suspense>
         </main>
 
         {showChangelog && (

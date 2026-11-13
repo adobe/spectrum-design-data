@@ -30,7 +30,7 @@
     "styles": "ColorFill",
     "structures": "3D",
     "view.elements": "ViewGrid",
-    "view.preview": "Preview",
+    "view.apps": "WebNavBar",
     "view.analyze": "ChartTrend",
     "view.code": "Code",
     "view.permutations": "AppsAll",

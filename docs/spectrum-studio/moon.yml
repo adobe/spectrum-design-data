@@ -88,6 +88,17 @@ tasks:
     options:
       persistent: true
       runInCI: false
+  # Dev server with the service worker on, so it can be installed as an app.
+  dev-pwa:
+    deps:
+      - sdk-wasm:build
+    command:
+      - pnpm
+      - run
+      - dev:pwa
+    options:
+      persistent: true
+      runInCI: false
   # Playwright end-to-end checks. Need browsers installed, so local only.
   e2e:
     command:

@@ -35,6 +35,7 @@ import {
   captureAuthoringRecord,
   createDefaultSnapshot,
   editSessionSnapshotAtom,
+  resetAllAuthoringAtom,
   restoreAuthoringSnapshotAtom,
   type EditSessionSnapshot,
 } from "./state";
@@ -43,11 +44,15 @@ import {
   blockAuthoringStorage,
   readAuthoringRecord,
   readViewPreferences,
+  shippedDefaultsChanged,
   writeAuthoringRecord,
+  writeAuthoringRecordIfChanged,
   writePreparedAuthoringRecord,
+  writeShippedDefaultsStamp,
   writeViewPreferences,
   type AuthoringRecord,
 } from "./storage";
+import { hash32 } from "../tokens/model";
 import {
   LatestRequest,
   type WorkExecutor,
@@ -95,6 +100,17 @@ const validateInWorker = workerTask<RecordValue, PreparedAuthoringResult>(
       type: "module",
     }),
 );
+let shippedDefaults: string | undefined;
+/** Identifies the shipped defaults so edits stored against older ones can be reset. */
+function shippedDefaultsFingerprint() {
+  if (shippedDefaults === undefined) {
+    const text = JSON.stringify(createDefaultSnapshot());
+    shippedDefaults = [2166136261, 1099511628]
+      .map((seed) => hash32(text, seed).toString(16).padStart(8, "0"))
+      .join("");
+  }
+  return shippedDefaults;
+}
 
 export function initializeAuthoringPersistence(
   store: Store = getDefaultStore(),
@@ -109,7 +125,7 @@ export function initializeAuthoringPersistence(
       reportPersistenceIssueAtom,
       `${PERSISTENCE_ISSUE_PREFIXES[scope]} ${failure instanceof Error ? failure.message : String(failure)}`,
     );
-  try {
+  function restoreStoredAuthoring() {
     const identities = new Map<string, string>();
     let upgraded = false;
     const record = readAuthoringRecord(
@@ -214,7 +230,7 @@ export function initializeAuthoringPersistence(
             "Stored foundation cards reference an unavailable mode set.",
           );
       }
-      writeAuthoringRecord(record);
+      writeAuthoringRecordIfChanged(record);
       store.set(
         modeSelectionAtom,
         upgradeScaleSelection(
@@ -228,6 +244,13 @@ export function initializeAuthoringPersistence(
       store.set(savedFoundationModeAttachmentsAtom, record.savedAttachments);
       store.set(editModeAtom, record.isEditing);
     } else store.set(editSessionSnapshotAtom, createDefaultSnapshot());
+  }
+  try {
+    const defaults = shippedDefaultsFingerprint();
+    // Edits stored against older defaults would show shipped data as removed.
+    if (shippedDefaultsChanged(defaults)) store.set(resetAllAuthoringAtom);
+    else restoreStoredAuthoring();
+    writeShippedDefaultsStamp(defaults);
   } catch (failure) {
     blockAuthoringStorage();
     report(failure);

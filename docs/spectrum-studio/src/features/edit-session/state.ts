@@ -7,11 +7,7 @@ import {
   isStylesDocument,
   type StylesDocument,
 } from "../styles/model";
-import {
-  stylesDocumentAtom,
-  selectedStyleIdAtom,
-  stylePreviewAtom,
-} from "../styles/state";
+import { stylesDocumentAtom, selectedStyleIdAtom } from "../styles/state";
 import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
 import { createScopedStyleCatalog } from "../components/scopedStyleCatalog";
 import { reconcileStyleSource } from "../styles/artifacts";
@@ -131,7 +127,6 @@ import {
 } from "../taxonomy/naming";
 import { normalizeModeState } from "../modes/integrity";
 import { modeSelectionAtom } from "../modes/selection";
-import { previewOverridesAtom } from "../modes/previewState";
 import { elevationDocumentAtom } from "../elevation/state";
 import { ELEVATION_DEFAULTS } from "../elevation/defaults";
 import {
@@ -144,7 +139,7 @@ import { registeredSourceName } from "../taxonomy/naming";
 import {
   structuresDocumentAtom,
   selectedStructureIdAtom,
-  clearStructurePreviewsAtom,
+  structurePreviewsAtom,
 } from "../structures/documentState";
 import {
   assertStructureReferences,
@@ -199,7 +194,10 @@ import {
   type ComponentContrastWitness,
 } from "../components/contrastWitness";
 import { sameValue } from "../changelog/contract";
-import { componentColorWitnessAtom } from "../components/colorWitness";
+import {
+  componentColorWitnessAtom,
+  type ComponentColorWitness,
+} from "../components/colorWitness";
 import { opacityDocumentAtom } from "../opacity/state";
 import { OPACITY_DEFAULTS } from "../opacity/defaults";
 import { isOpacityDocument, type OpacityDocument } from "../opacity/model";
@@ -433,8 +431,10 @@ export function createDefaultSnapshot(): EditSessionSnapshot {
   };
 }
 
+/** A color witness is a shortcut that must give the same result as a cold check. */
 export function assertStoredSnapshot(
   value: unknown,
+  colorWitness: ComponentColorWitness | null = null,
 ): asserts value is EditSessionSnapshot {
   if (
     !isSnapshot(value) ||
@@ -677,18 +677,47 @@ export function assertStoredSnapshot(
     assertComponentReferences(
       value.components,
       value.taxonomy,
-      componentTokenCatalog(value),
+      componentTokenCatalog(value, colorWitness),
       { sourceOnly: true },
     );
   }
 }
 
+/** Bumped by Reset all and Cancel so results calculated for replaced data are not shown. */
+export const authoringResetRevisionAtom = atom(0);
+
+/** View settings survive a data restore unless they point at something the restored data lacks. */
+const keepValidViewStateAtom = atom(null, (get, set) => {
+  const structureIds = new Set(
+    get(structuresDocumentAtom).structures.map((item) => item.conceptId),
+  );
+  const selectedStructure = get(selectedStructureIdAtom);
+  if (selectedStructure && !structureIds.has(selectedStructure))
+    set(selectedStructureIdAtom, null);
+  const previews = get(structurePreviewsAtom);
+  if (Object.keys(previews).some((id) => !structureIds.has(id)))
+    set(
+      structurePreviewsAtom,
+      Object.fromEntries(
+        Object.entries(previews).filter(([id]) => structureIds.has(id)),
+      ),
+    );
+  const selectedStyle = get(selectedStyleIdAtom);
+  if (
+    selectedStyle &&
+    !get(stylesDocumentAtom).recipes.some(
+      (recipe) => recipe.id === selectedStyle,
+    )
+  )
+    set(selectedStyleIdAtom, null);
+});
+
+/** Replaces authored data. Unsaved drafts tied to the old data are dropped; view settings are kept. */
 export const restoreAuthoringSnapshotAtom = atom(
   null,
   (_get, set, snapshot: EditSessionSnapshot) => {
     assertStoredSnapshot(snapshot);
     set(pendingLayoutScaleAtom, null);
-    set(clearStructurePreviewsAtom);
     set(clearRememberedModeSettingsAtom);
     set(taxonomyContributionsEnabledAtom, false);
     try {
@@ -710,8 +739,6 @@ export const restoreAuthoringSnapshotAtom = atom(
       if (snapshot.opacity) set(opacityDocumentAtom, snapshot.opacity);
       set(structuresDocumentAtom, snapshot.structures!);
       set(stylesDocumentAtom, snapshot.styles ?? structuredClone(EMPTY_STYLES));
-      set(selectedStyleIdAtom, null);
-      set(stylePreviewAtom, { options: {}, display: "tokens" });
       if (
         JSON.stringify(_get(componentsDocumentAtom)) !==
         JSON.stringify(snapshot.components)
@@ -719,12 +746,6 @@ export const restoreAuthoringSnapshotAtom = atom(
         set(componentDraftRevisionAtom, (revision) => revision + 1);
       }
       set(componentsDocumentAtom, snapshot.components!);
-      if (
-        !snapshot.structures!.structures.some(
-          (item) => item.conceptId === _get(selectedStructureIdAtom),
-        )
-      )
-        set(selectedStructureIdAtom, null);
       if (snapshot.rules) set(rulesAtom, snapshot.rules);
       if (snapshot.scaleTypes) set(scaleTypesAtom, snapshot.scaleTypes);
       if (snapshot.interpolations)
@@ -748,10 +769,10 @@ export const restoreAuthoringSnapshotAtom = atom(
           claims: {},
         }).selection,
       );
-      set(previewOverridesAtom, {});
     } finally {
       set(taxonomyContributionsEnabledAtom, true);
     }
+    set(keepValidViewStateAtom);
   },
 );
 
@@ -806,6 +827,7 @@ export const cancelEditAtom = atom(null, (get, set) => {
     });
     set(restoreAuthoringSnapshotAtom, structuredClone(snapshot));
     set(foundationModeAttachmentsAtom, structuredClone(attachments));
+    set(authoringResetRevisionAtom, (revision) => revision + 1);
   }
   set(editModeAtom, false);
 });
@@ -922,6 +944,7 @@ export const resetAllAuthoringAtom = atom(null, (get, set) => {
     structuredClone(FOUNDATION_MODE_ATTACHMENT_DEFAULTS),
   );
   set(clearPersistenceIssuesAtom, "authoring");
+  set(authoringResetRevisionAtom, (revision) => revision + 1);
 });
 
 const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {

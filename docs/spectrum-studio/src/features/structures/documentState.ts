@@ -41,9 +41,6 @@ export const selectedStructureIdAtom = atom<string | null>(null);
 export const structurePreviewsAtom = atom<
   Record<string, StructurePreviewState>
 >({});
-export const clearStructurePreviewsAtom = atom(null, (_get, set) =>
-  set(structurePreviewsAtom, {}),
-);
 export const structurePreviewStateAtom = atom(
   (get): StructurePreviewState => {
     const id = get(selectedStructureIdAtom);

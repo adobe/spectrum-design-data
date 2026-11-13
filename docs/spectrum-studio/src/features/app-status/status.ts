@@ -5,6 +5,9 @@ export type AppStatus = "offline" | "update" | "online";
 export interface AppStatusSnapshot {
   isOnline: boolean;
   updateAvailable: boolean;
+  canPromptInstall: boolean;
+  isInstalled: boolean;
+  installDialogOpen: boolean;
 }
 
 export const APP_STATUS_MESSAGES: Record<AppStatus, string> = {
@@ -16,7 +19,7 @@ export const APP_STATUS_MESSAGES: Record<AppStatus, string> = {
 export function getAppStatus({
   isOnline,
   updateAvailable,
-}: AppStatusSnapshot): AppStatus {
+}: Pick<AppStatusSnapshot, "isOnline" | "updateAvailable">): AppStatus {
   if (!isOnline) return "offline";
   if (updateAvailable) return "update";
   return "online";

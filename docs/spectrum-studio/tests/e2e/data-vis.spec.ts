@@ -30,6 +30,20 @@ import { serializeOutputColor } from "../../src/features/color-system/outputSeri
 import { sequentialDefaults } from "../fixtures/sequentialDefaults";
 
 const errors = new WeakMap<Page, string[]>();
+async function expectGradientColor(preview: Locator, color: string) {
+  await expect
+    .poll(() =>
+      preview.evaluate((element, value) => {
+        const probe = document.createElement("span");
+        probe.style.color = value;
+        element.append(probe);
+        const normalized = getComputedStyle(probe).color;
+        probe.remove();
+        return getComputedStyle(element).backgroundImage.includes(normalized);
+      }, color),
+    )
+    .toBe(true);
+}
 test.use({ viewport: { width: 1600, height: 1000 }, actionTimeout: 15_000 });
 test.beforeEach(({ page }) => {
   const collected: string[] = [];
@@ -732,7 +746,7 @@ test("Contrast modes inherit, reset and require a destination for temporary edit
     dialog.getByRole("textbox", { name: "Contrast", exact: true }),
   ).toHaveValue("1.3");
   await closeScale(page, dialog);
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .getByRole("button", { name: "Adaptive controls", exact: true })
     .click();
@@ -892,9 +906,10 @@ test("Final source and member-token overrides reach Elements, Analyze, panel pre
   await expect(
     elements.getByRole("img", { name: /1: #654321$/ }),
   ).toBeVisible();
-  await expect(
-    elements.getByRole("img", { name: /50%: #123456$/ }),
-  ).toBeVisible();
+  await expectGradientColor(
+    elements.getByRole("img", { name: "Data divergence colors", exact: true }),
+    "#123456",
+  );
   await expect(
     elements.getByRole("img", { name: "Data sequence colors", exact: true }),
   ).toHaveCSS("background-image", /in oklch/);
@@ -944,23 +959,23 @@ for (const dark of [false, true])
     await expect(elements).toHaveAttribute("data-elements-surface", "true");
     await expect(
       elements.getByRole("img", {
-        name: "Data sequence heatmap example",
+        name: "Data sequence heat map example",
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       elements.getByRole("img", {
-        name: "Data divergence heatmap example",
+        name: "Data divergence heat map example",
         exact: true,
       }),
     ).toBeVisible();
     await elements
-      .getByRole("button", { name: "Sample values", exact: true })
+      .getByRole("button", { name: "Sample data", exact: true })
       .first()
       .click();
     await expect(
       elements.getByRole("grid", {
-        name: "Data sequence sample values",
+        name: "Data sequence sample data",
         exact: true,
       }),
     ).toBeVisible();
@@ -970,7 +985,7 @@ for (const dark of [false, true])
       ),
     ).toBe(
       await elements
-        .locator('[aria-label="Data sequence swatches"]')
+        .getByRole("img", { name: "Data sequence colors", exact: true })
         .evaluate((element) => getComputedStyle(element).backgroundColor),
     );
     const readOnly = await openScale(page, "Data sequence");
@@ -1134,10 +1149,11 @@ test("Downloads use the actual compiled adapter and preserve mode/fluid parity; 
   expect(runtime.wide).toMatch(/^color\(display-p3 /);
   expect(runtime.validWideColor).toBe(true);
   await page.getByRole("radio", { name: "Elements", exact: true }).click();
-  const center = page
-    .locator('[aria-label="Data divergence swatches"]')
-    .getByRole("img", { name: /^50%: / });
-  await expect(center).toHaveAttribute("aria-label", `50%: ${runtime.center}`);
+  const center = page.getByRole("img", {
+    name: "Data divergence colors",
+    exact: true,
+  });
+  await expectGradientColor(center, runtime.center);
   const dialog = await openScale(page, "Data sequence");
   await number(dialog, "Contrast", "2.61803399");
   await closeScale(page, dialog);
@@ -1380,15 +1396,16 @@ test("Static choices cancel without edits and all three types restore their reta
     await selectMode(page, "Dark");
     await selectMode(page, "High");
     await page.getByRole("radio", { name: "Elements", exact: true }).click();
-    const swatches = page.locator(`[aria-label="${name} swatches"]`);
+    const swatches = page.locator(`[aria-label="${name} colors"]`).last();
     for (const color of frozen) {
-      const label =
-        id === DATA_VIS_IDS.categorical
-          ? `Color ${frozen.findIndex((member) => member.id === color.id) + 1}: ${color.value}`
-          : `${color.position! * 100}%: ${color.value}`;
-      await expect(
-        swatches.getByRole("img", { name: label, exact: true }),
-      ).toBeVisible();
+      if (id === DATA_VIS_IDS.categorical)
+        await expect(
+          swatches.getByRole("img", {
+            name: `Color ${frozen.findIndex((member) => member.id === color.id) + 1}: ${color.value}`,
+            exact: true,
+          }),
+        ).toBeVisible();
+      else await expectGradientColor(swatches, color.value);
     }
     dialog = await openScale(page, name);
     await toggleStatic(dialog);

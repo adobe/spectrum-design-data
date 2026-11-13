@@ -1,13 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { LabeledValue, Slider } from "@react-spectrum/s2";
+import { LabeledValue } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import type { ComponentProps, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { DraftSlider, type DraftSliderProps } from "./DraftSlider";
 import { useIsReadOnly } from "./useIsReadOnly";
 import "./EditableSlider.css";
 
-type SliderProps = ComponentProps<typeof Slider>;
-
-interface EditableSliderProps extends Omit<SliderProps, "label"> {
+interface EditableSliderProps extends Omit<DraftSliderProps, "label"> {
   label: ReactNode;
   isReadOnly?: boolean;
   labelGap?: "compact";
@@ -32,7 +31,7 @@ export function EditableSlider({
   }
 
   return (
-    <Slider
+    <DraftSlider
       UNSAFE_className={`${style({ width: "full", maxWidth: 420 })}${labelGap === "compact" ? " editableSliderCompactLabel" : ""}`}
       {...props}
     />

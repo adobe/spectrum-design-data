@@ -15,10 +15,12 @@ import { editModeAtom } from "../state/view/editMode";
 import { EditablePicker } from "./editable";
 import { EditModeActions } from "./EditModeActions";
 import { AppStatusButton } from "./AppStatusButton";
+import { InstallAppButton } from "./InstallAppButton";
 import { applyPendingModeParameterAtom, pendingModeParameterAtom } from "../features/modes/selection";
 import { BRANCH_NAME, VERSION } from "../state/view/editMode"
 import { appColorSchemeAtom } from "../features/modes/capabilities";
 import { spectrumChromeClassName } from "../utils/spectrumChrome";
+import { setTitleBarColor } from "../features/app-status/titleBar";
 
 const branchStyles = style({ font: "detail", color: "neutral-subdued" });
 
@@ -46,13 +48,24 @@ export function TopBar() {
   const [platformId, setPlatformId] = useState(PLATFORM_OPTIONS[0].id);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const searchFieldRef = useRef<TextFieldRef>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     if (isSearchVisible) searchFieldRef.current?.focus();
   }, [isSearchVisible]);
 
+  // Match the installed app's title bar to this bar in light and dark appearance.
+  useLayoutEffect(() => {
+    if (!headerRef.current) return;
+    setTitleBarColor(
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]'),
+      getComputedStyle(headerRef.current).backgroundColor,
+    );
+  }, [colorScheme]);
+
   return (
     <header
+      ref={headerRef}
       data-component="TopBar"
       className={style({
         display: "grid",
@@ -162,6 +175,7 @@ export function TopBar() {
             </ActionButton>
           </>
         )}
+        <InstallAppButton />
         <AppStatusButton />
         <TooltipTrigger>
           <ToggleButton isQuiet aria-label="Dark app appearance" isSelected={colorScheme === "dark"}

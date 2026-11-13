@@ -22,10 +22,6 @@ h6 {
   margin-top: 0;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, li, ol, dl {
-  color: var(--spectrum-gray-900, light-dark(black, white));
-}
-
 /* List reset only under #root. ToastContainer portals to document.body, so its <ol>
    layout stays outside these selectors and keeps Spectrum padding. */
 #root ul *,

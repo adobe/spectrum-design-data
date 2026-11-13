@@ -186,7 +186,7 @@ for (const width of [1600, 360]) {
   });
 
   test(`adaptive controls fit at ${width}px`, async ({ page }) => {
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     await page
       .getByRole("button", { name: "Adaptive controls", exact: true })
       .click();

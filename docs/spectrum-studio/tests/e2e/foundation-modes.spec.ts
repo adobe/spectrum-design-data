@@ -343,7 +343,7 @@ for (const width of [1280, 800])
     page,
   }, info) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     const toolbar = page.locator('[data-component="PreviewToolbar"]');
     await expect(toolbar).toBeVisible();
     await expect(
@@ -391,7 +391,7 @@ for (const width of [1280, 800])
     });
     await selectMode(page, "Dark");
     const box = await toolbar.boundingBox();
-    const view = await page.locator('[data-view="preview"]').boundingBox();
+    const view = await page.locator('[data-view="apps"]').boundingBox();
     expect(box).not.toBeNull();
     expect(view).not.toBeNull();
     expect(
@@ -408,7 +408,7 @@ for (const width of [1280, 800])
       .getByRole("navigation", { name: "Navigation", exact: true })
       .getByRole("link", { name: "Foundations", exact: true })
       .click();
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     await expect(appearance).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".sampleApp")).toHaveAttribute(
       "data-scheme",
@@ -432,7 +432,7 @@ for (const width of [1280, 800])
       ]);
       jotai.getDefaultStore().set(navigation.activePageAtom, "design");
     });
-    await page.getByRole("radio", { name: "Preview", exact: true }).click();
+    await page.getByRole("radio", { name: "Apps", exact: true }).click();
     await expect(toolbar).toBeVisible();
     await expect(page.locator(".sampleApp")).toHaveAttribute(
       "data-scheme",
@@ -1006,7 +1006,7 @@ test("temporary adaptive previews do not enter saved source or survive refresh",
     .getByRole("button", { name: "Save", exact: true })
     .click();
   const source = await working(page);
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .locator('[data-component="PreviewToolbar"]')
     .getByRole("button", { name: "Adaptive controls" })
@@ -1023,7 +1023,7 @@ test("temporary adaptive previews do not enter saved source or survive refresh",
     .getByRole("navigation", { name: "Navigation", exact: true })
     .getByRole("link", { name: "Foundations", exact: true })
     .click();
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   await page
     .locator('[data-component="PreviewToolbar"]')
     .getByRole("button", { name: "Adaptive controls" })

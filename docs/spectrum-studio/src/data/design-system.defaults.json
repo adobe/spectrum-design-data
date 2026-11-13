@@ -10084,7 +10084,39 @@
         "a3013546-dc30-408a-bcf9-594659df8317": {
           "icon": "ChevronDown"
         }
-      }
+      },
+      "colorRoles": [
+        {
+          "id": "cecc0b42-fb70-4cbd-85ec-bec7d92fb2b0",
+          "roleTermId": "c987efac-c9dd-413b-8f9d-973815d089e4",
+          "scaleId": "scale-48"
+        },
+        {
+          "id": "fbcbd86f-9444-4779-9aa2-e794ff058a9c",
+          "roleTermId": "6e32af80-32c2-4c5a-afb3-e8ed734543d3",
+          "scaleId": "scale-48"
+        },
+        {
+          "id": "cadb023e-0bfd-4a95-a8cf-aeacdf449c26",
+          "roleTermId": "d20e0d12-0915-4d33-91f4-ba1b6272326f",
+          "scaleId": "scale-32"
+        },
+        {
+          "id": "89b495b2-68b1-4591-8af6-32e794d305cb",
+          "roleTermId": "b1529dac-f806-4cf4-828e-18053154d25f",
+          "scaleId": "scale-6"
+        },
+        {
+          "id": "a8038311-5706-4031-a9b7-a5d46d1be5e2",
+          "roleTermId": "63da69ae-6929-4d6f-ae36-6750a5d315b0",
+          "scaleId": "scale-14"
+        },
+        {
+          "id": "070bfaa1-51ca-455f-a67b-20699b41ca81",
+          "roleTermId": "bb9dd37e-a07f-4602-97df-faec059917c7",
+          "scaleId": "scale-gray"
+        }
+      ]
     },
     "componentSizing": {
       "schemaVersion": 1,
@@ -10159,10 +10191,16 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["colors", "styles"],
+          "scopes": [
+            "colors",
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["primitive", "semantic"]
+          "allowedTokenTiers": [
+            "primitive",
+            "semantic"
+          ]
         },
         {
           "id": "d8be9a69-fac3-495d-8be4-6a12311817a3",
@@ -10171,10 +10209,15 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["colors", "styles"],
+          "scopes": [
+            "colors",
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["primitive"]
+          "allowedTokenTiers": [
+            "primitive"
+          ]
         },
         {
           "id": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
@@ -10183,10 +10226,18 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["spacing", "size", "radius", "elevation", "styles"],
+          "scopes": [
+            "spacing",
+            "size",
+            "radius",
+            "elevation",
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["primitive"]
+          "allowedTokenTiers": [
+            "primitive"
+          ]
         },
         {
           "id": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
@@ -10207,7 +10258,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["primitive", "semantic"]
+          "allowedTokenTiers": [
+            "primitive",
+            "semantic"
+          ]
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1000",
@@ -10288,7 +10342,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1004",
@@ -10349,7 +10406,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
@@ -10370,7 +10430,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
@@ -10399,10 +10462,16 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["structures", "styles"],
+          "scopes": [
+            "structures",
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
@@ -10503,7 +10572,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
@@ -10524,7 +10596,10 @@
           ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic", "component"]
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
@@ -10553,7 +10628,9 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["styles"],
+          "scopes": [
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true
         },
@@ -10564,10 +10641,27 @@
           "description": "",
           "valueType": "string",
           "cardinality": "one",
-          "scopes": ["styles"],
+          "scopes": [
+            "styles"
+          ],
           "required": false,
           "includeInProjections": true,
-          "allowedTokenTiers": ["semantic"]
+          "allowedTokenTiers": [
+            "semantic"
+          ]
+        },
+        {
+          "id": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
+          "key": "family",
+          "name": "Family",
+          "description": "The family of a font-family primitive.",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "typography"
+          ],
+          "required": false,
+          "includeInProjections": true
         }
       ],
       "terms": [
@@ -10816,6 +10910,132 @@
           "id": "e79cb365-125a-4803-b4b4-10b45a89c299",
           "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
           "value": "ice",
+          "description": ""
+        },
+        {
+          "id": "3c1f6b52-8e4d-4a7b-9f2e-6d0a5c8b1e47",
+          "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+          "value": "categorical",
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0001-4c3a-9d6e-2f8b1a4c7e01",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 1,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0002-4c3a-9d6e-2f8b1a4c7e02",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 2,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0003-4c3a-9d6e-2f8b1a4c7e03",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 3,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0004-4c3a-9d6e-2f8b1a4c7e04",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 4,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0005-4c3a-9d6e-2f8b1a4c7e05",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 5,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0006-4c3a-9d6e-2f8b1a4c7e06",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 6,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0007-4c3a-9d6e-2f8b1a4c7e07",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 7,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0008-4c3a-9d6e-2f8b1a4c7e08",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 8,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0009-4c3a-9d6e-2f8b1a4c7e09",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 9,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0010-4c3a-9d6e-2f8b1a4c7e10",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 10,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0011-4c3a-9d6e-2f8b1a4c7e11",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 11,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0012-4c3a-9d6e-2f8b1a4c7e12",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 12,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0013-4c3a-9d6e-2f8b1a4c7e13",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 13,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0014-4c3a-9d6e-2f8b1a4c7e14",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 14,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0015-4c3a-9d6e-2f8b1a4c7e15",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 15,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0016-4c3a-9d6e-2f8b1a4c7e16",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 16,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0017-4c3a-9d6e-2f8b1a4c7e17",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 17,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0018-4c3a-9d6e-2f8b1a4c7e18",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 18,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0019-4c3a-9d6e-2f8b1a4c7e19",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 19,
+          "description": ""
+        },
+        {
+          "id": "5b0e7a10-0020-4c3a-9d6e-2f8b1a4c7e20",
+          "categoryId": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+          "value": 20,
           "description": ""
         },
         {
@@ -11145,7 +11365,7 @@
         {
           "id": "63da69ae-6929-4d6f-ae36-6750a5d315b0",
           "categoryId": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "value": "warning",
+          "value": "notice",
           "description": ""
         },
         {
@@ -11729,6 +11949,30 @@
           "categoryId": "01e1ee2e-6501-4e20-a20a-e204873f6afc",
           "value": "bold weight",
           "description": ""
+        },
+        {
+          "id": "7bb75e52-f0dc-41ec-a132-8e249d4f7d47",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+          "value": "font-family",
+          "description": ""
+        },
+        {
+          "id": "c014ec31-45cb-49f0-b532-3996117b4b91",
+          "categoryId": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
+          "value": "sans-serif",
+          "description": ""
+        },
+        {
+          "id": "faf27668-2c4a-401e-8d82-ab35d403ea82",
+          "categoryId": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
+          "value": "serif",
+          "description": ""
+        },
+        {
+          "id": "99a6a290-13cd-4a6c-8d93-54a714f10c54",
+          "categoryId": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
+          "value": "monospace",
+          "description": ""
         }
       ],
       "order": [
@@ -11755,7 +11999,8 @@
         "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
         "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
         "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
-        "f0ba0ee1-786b-4cf5-ab99-85d8e167407e"
+        "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+        "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41"
       ],
       "classifications": {}
     },
@@ -11978,7 +12223,9 @@
                 "ruleId": "df16c6d7-95a2-44ab-9491-47e210369a07",
                 "targets": {
                   "kind": "custom",
-                  "bindingIds": ["e40cbb13-d9c4-89e7-8e2d-0847807b3cbc"]
+                  "bindingIds": [
+                    "e40cbb13-d9c4-89e7-8e2d-0847807b3cbc"
+                  ]
                 },
                 "previewTargets": {
                   "kind": "custom",
@@ -11994,7 +12241,9 @@
                 },
                 "previewTargets": {
                   "kind": "custom",
-                  "bindingIds": ["13c8888a-70d6-8fdb-84d8-1fdc767d58a9"]
+                  "bindingIds": [
+                    "13c8888a-70d6-8fdb-84d8-1fdc767d58a9"
+                  ]
                 }
               }
             ]
@@ -13087,7 +13336,9 @@
                 },
                 "previewTargets": {
                   "kind": "custom",
-                  "bindingIds": ["96feb974-25b5-8080-bd3c-c120c241d52b"]
+                  "bindingIds": [
+                    "96feb974-25b5-8080-bd3c-c120c241d52b"
+                  ]
                 }
               }
             ]
@@ -13239,7 +13490,9 @@
                 },
                 "previewTargets": {
                   "kind": "custom",
-                  "bindingIds": ["5eca9515-d5ae-87ea-a00e-d0feee567a13"]
+                  "bindingIds": [
+                    "5eca9515-d5ae-87ea-a00e-d0feee567a13"
+                  ]
                 }
               }
             ]
@@ -13340,7 +13593,9 @@
                 "ruleId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1103",
                 "targets": {
                   "kind": "custom",
-                  "bindingIds": ["20881a2d-02ff-89b3-8acd-fa5c73903a0b"]
+                  "bindingIds": [
+                    "20881a2d-02ff-89b3-8acd-fa5c73903a0b"
+                  ]
                 }
               }
             ],
@@ -13531,7 +13786,9 @@
             {
               "target": {
                 "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1001",
-                "path": ["e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"]
+                "path": [
+                  "e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"
+                ]
               },
               "when": {
                 "optionId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1401",
@@ -13548,7 +13805,9 @@
             {
               "target": {
                 "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1001",
-                "path": ["e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"]
+                "path": [
+                  "e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"
+                ]
               },
               "when": {
                 "optionId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1401",
@@ -13565,7 +13824,9 @@
             {
               "target": {
                 "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1001",
-                "path": ["e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"]
+                "path": [
+                  "e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"
+                ]
               },
               "when": {
                 "optionId": "4b966739-2941-4903-b641-a66a4d2b65c6",
@@ -13580,7 +13841,9 @@
             {
               "target": {
                 "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1001",
-                "path": ["e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"]
+                "path": [
+                  "e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"
+                ]
               },
               "when": {
                 "optionId": "4b966739-2941-4903-b641-a66a4d2b65c6",
@@ -13930,7 +14193,9 @@
                 "ruleId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1101",
                 "targets": {
                   "kind": "custom",
-                  "bindingIds": ["1439e186-e0d8-8f45-bbf5-60339e13001b"]
+                  "bindingIds": [
+                    "1439e186-e0d8-8f45-bbf5-60339e13001b"
+                  ]
                 }
               },
               {
@@ -14028,7 +14293,9 @@
           ],
           "parentStructureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1003",
           "generation": {
-            "sizeTermIds": ["b07988e3-0510-4bf5-a531-86ea718b1502"],
+            "sizeTermIds": [
+              "b07988e3-0510-4bf5-a531-86ea718b1502"
+            ],
             "applications": []
           },
           "elements": [
@@ -14120,7 +14387,9 @@
           ],
           "parentStructureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1003",
           "generation": {
-            "sizeTermIds": ["b07988e3-0510-4bf5-a531-86ea718b1502"],
+            "sizeTermIds": [
+              "b07988e3-0510-4bf5-a531-86ea718b1502"
+            ],
             "applications": []
           },
           "elements": [
@@ -20147,7 +20416,9 @@
         {
           "target": {
             "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1001",
-            "path": ["e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"]
+            "path": [
+              "e00f9ed1-95c7-4a81-b8a7-b2600e0a1301"
+            ]
           },
           "identities": {
             "e00f9ed1-95c7-4a81-b8a7-b2600e0a1403": {
@@ -22174,6 +22445,189 @@
               "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
               "termId": "e79cb365-125a-4803-b4b4-10b45a89c299"
             }
+          },
+          {
+            "id": "data-vis-categorical",
+            "kind": "categorical",
+            "members": [
+              {
+                "id": "categorical-color-1",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-53",
+                  "contrastId": "contrast-80"
+                }
+              },
+              {
+                "id": "categorical-color-2",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-3",
+                  "contrastId": "contrast-78"
+                }
+              },
+              {
+                "id": "categorical-color-3",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-14",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-4",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-48",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-5",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-57",
+                  "contrastId": "contrast-78"
+                }
+              },
+              {
+                "id": "categorical-color-6",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-64",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-7",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-36",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-8",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-60",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-9",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-32",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-10",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-29",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-11",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-6",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-12",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-44",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-13",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-1",
+                  "contrastId": "contrast-81"
+                }
+              },
+              {
+                "id": "categorical-color-14",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-40",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-15",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-10",
+                  "contrastId": "contrast-76"
+                }
+              },
+              {
+                "id": "categorical-color-16",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-22",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-17",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-48",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-18",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-36",
+                  "contrastId": "contrast-79"
+                }
+              },
+              {
+                "id": "categorical-color-19",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-64",
+                  "contrastId": "contrast-74"
+                }
+              },
+              {
+                "id": "categorical-color-20",
+                "source": {
+                  "kind": "ui-swatch",
+                  "scaleId": "scale-6",
+                  "contrastId": "contrast-81"
+                }
+              }
+            ],
+            "preferences": {
+              "size": {
+                "kind": "auto"
+              },
+              "minimumBackgroundContrast": 3,
+              "minimumDeltaE": 11,
+              "cvdProfiles": [
+                "protanopia",
+                "deuteranopia",
+                "tritanopia"
+              ],
+              "style": "balanced"
+            },
+            "name": {
+              "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+              "termId": "3c1f6b52-8e4d-4a7b-9f2e-6d0a5c8b1e47"
+            }
           }
         ],
         "background": "#ffffff",
@@ -23335,7 +23789,12 @@
             "name": "Light",
             "description": "",
             "iconId": "light",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {}
           },
           {
@@ -23344,7 +23803,11 @@
             "name": "Dark",
             "description": "",
             "iconId": "dark",
-            "platformIds": ["react", "ios", "android"],
+            "platformIds": [
+              "react",
+              "ios",
+              "android"
+            ],
             "foundations": {
               "color": {
                 "backgroundLightness": 0.08
@@ -23358,7 +23821,12 @@
             "name": "Wireframe",
             "description": "",
             "iconId": "none",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {
               "color": {
                 "scaleAdjustment": {
@@ -23381,7 +23849,9 @@
         "description": "",
         "iconId": "contrast",
         "defaultModeId": "mode-contrast-regular",
-        "authoringCapabilities": ["color.contrastMultiplier"],
+        "authoringCapabilities": [
+          "color.contrastMultiplier"
+        ],
         "modes": [
           {
             "id": "mode-contrast-regular",
@@ -23389,7 +23859,12 @@
             "name": "Regular",
             "description": "",
             "iconId": "contrast",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {}
           },
           {
@@ -23398,7 +23873,12 @@
             "name": "High",
             "description": "",
             "iconId": "contrast",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {
               "color": {
                 "contrastMultiplier": 2
@@ -23414,7 +23894,9 @@
         "description": "",
         "iconId": "textSize",
         "defaultModeId": "mode-text-scaling-default",
-        "authoringCapabilities": ["typography.textZoom"],
+        "authoringCapabilities": [
+          "typography.textZoom"
+        ],
         "modes": [
           {
             "id": "mode-text-scaling-default",
@@ -23422,7 +23904,12 @@
             "name": "Default",
             "description": "",
             "iconId": "textSize",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {}
           },
           {
@@ -23431,7 +23918,12 @@
             "name": "Larger",
             "description": "",
             "iconId": "textSize",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {
               "typography": {
                 "textZoom": 2
@@ -23444,7 +23936,12 @@
             "name": "Largest",
             "description": "",
             "iconId": "textSize",
-            "platformIds": ["react", "web-components", "ios", "android"],
+            "platformIds": [
+              "react",
+              "web-components",
+              "ios",
+              "android"
+            ],
             "foundations": {
               "typography": {
                 "textZoom": 4
@@ -23460,7 +23957,10 @@
         "description": "",
         "iconId": "none",
         "defaultModeId": "mode-platform-scale-default",
-        "authoringCapabilities": ["size.componentSize", "typography.textSize"],
+        "authoringCapabilities": [
+          "size.componentSize",
+          "typography.textSize"
+        ],
         "modes": [
           {
             "id": "mode-platform-scale-default",
@@ -23697,7 +24197,12 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing", "size", "font-size", "radius"]
+          "types": [
+            "spacing",
+            "size",
+            "font-size",
+            "radius"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -23744,7 +24249,10 @@
         ],
         "applicability": {
           "kind": "specific",
-          "types": ["color", "opacity"]
+          "types": [
+            "color",
+            "opacity"
+          ]
         },
         "when": {
           "id": "interaction-colors-scope",
@@ -23827,7 +24335,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -23865,7 +24375,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -23899,7 +24411,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -23937,7 +24451,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["size"]
+          "types": [
+            "size"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -23979,7 +24495,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["workflow-icon-size"]
+          "types": [
+            "workflow-icon-size"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24013,7 +24531,12 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing", "size", "workflow-icon-size", "line-height"]
+          "types": [
+            "spacing",
+            "size",
+            "workflow-icon-size",
+            "line-height"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24047,7 +24570,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24081,7 +24606,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24115,7 +24642,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["size"]
+          "types": [
+            "size"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24149,7 +24678,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24171,7 +24702,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24193,7 +24726,9 @@
         "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
         "applicability": {
           "kind": "specific",
-          "types": ["spacing"]
+          "types": [
+            "spacing"
+          ]
         },
         "movement": "available-token",
         "mappings": [
@@ -24214,7 +24749,9 @@
         "type": "conditional",
         "applicability": {
           "kind": "specific",
-          "types": ["color"]
+          "types": [
+            "color"
+          ]
         },
         "outputs": [
           {
@@ -24479,9 +25016,13 @@
             },
             "accessibility": {
               "role": "button",
-              "intents": ["trigger"],
+              "intents": [
+                "trigger"
+              ],
               "focusable": true,
-              "keyboardIntents": ["activate"],
+              "keyboardIntents": [
+                "activate"
+              ],
               "wcag": [
                 {
                   "criterion": "2.1.1",
@@ -24898,9 +25439,15 @@
             },
             "accessibility": {
               "role": "menu",
-              "intents": ["select"],
+              "intents": [
+                "select"
+              ],
               "focusable": false,
-              "keyboardIntents": ["navigate-options", "activate", "dismiss"],
+              "keyboardIntents": [
+                "navigate-options",
+                "activate",
+                "dismiss"
+              ],
               "wcag": [
                 {
                   "criterion": "2.1.1",
@@ -25070,7 +25617,9 @@
               },
               "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
               "options": {
-                "state": ["hover"]
+                "state": [
+                  "hover"
+                ]
               },
               "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
               "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
@@ -25083,7 +25632,9 @@
               },
               "partId": "c835d150-76ed-45f4-b3d7-3d912f70cebf",
               "options": {
-                "state": ["disabled"]
+                "state": [
+                  "disabled"
+                ]
               },
               "description": "App-authored example using Spectrum studio data, not the complete Spectrum relationship matrix.",
               "value": 0.5
@@ -38962,6 +39513,466 @@
             "rows": {
               "[[\"mode-set-platform-scale\",\"mode-platform-scale-default\"]]": "9f6cf38f-5932-4c9e-844d-2afc08deac90",
               "[[\"mode-set-platform-scale\",\"59d95d49-114c-44de-9574-2dbbdf5546dd\"]]": "1781780d-4ff8-46ba-9b66-ae1e58b5e4f7"
+            }
+          }
+        }
+      },
+      "88fe0757-c0e0-432c-bb49-95d4bd327b6f": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "e27bbff4-e916-814b-998a-303bc7730a50",
+            "conceptId": "88fe0757-c0e0-432c-bb49-95d4bd327b6f",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 1
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "e385a053-5a75-42d4-80e5-b83b219d2542",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9cf6f4aa-9b89-4b81-a4de-20fc750d5040",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "da2ffb86-9f39-4bd8-a4e4-b8d0f16d673e",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "70e03ea9-1603-4807-a4d4-597a37009cb2",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "55ba4852-62c5-4460-8ebb-2011337d6624",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "07194eaf-d864-4e1f-97cd-39bfa46e1757"
+            }
+          }
+        }
+      },
+      "5aa10725-1b6a-4194-85e7-1ce8084b80fb": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "ff5f59b9-38ba-8741-a0b2-7dc70b0507a5",
+            "conceptId": "5aa10725-1b6a-4194-85e7-1ce8084b80fb",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 2
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "b0f7ae3d-aa0c-49d5-935c-b86c85deb758",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "ae2f911e-6318-42fc-8c02-f52058071249",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "61ea9456-d8b7-45df-8b37-261470d7f4ab",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "dd873530-54b2-4e55-820a-675b976998a6",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "a292c097-c4a1-4020-802c-2221ae34902a",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "47b0ddd9-966a-43a5-9556-7e5e81b62758"
+            }
+          }
+        }
+      },
+      "a08af9f2-4e93-432e-99c3-e283543aa4c6": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "b330c5b5-1b19-8b41-a8f4-d40a959239b2",
+            "conceptId": "a08af9f2-4e93-432e-99c3-e283543aa4c6",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 3
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "81721209-bcf8-4744-8884-1f2c5917cf87",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "161deecd-24b9-4e50-9195-a71a34456e3e",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "1792a6d0-97e1-4993-b41c-59064f859fc8",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9a6f1fd8-f8b2-4339-91b7-c815f8d7464b",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "b4b9dccf-09be-4371-be49-bd639d978157",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "99f212d6-3b74-4757-9730-89c6f0cee4f5"
+            }
+          }
+        }
+      },
+      "2947187f-96b0-4935-a853-eb1c6b3a1bf7": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "20216c8e-1156-80fc-9703-98519c9d6ee6",
+            "conceptId": "2947187f-96b0-4935-a853-eb1c6b3a1bf7",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 4
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "7335f2e7-1d33-45d4-b094-e949fb4d8622",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "d6a32294-1a19-49fc-8109-b8272e3b31ab",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "2def6c0f-c14b-4313-a19b-7d55d29324c4",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "42300a34-4c94-4ceb-8773-2b072764ced2",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "15ad6212-f327-4471-a361-5b35431c095a",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "94a13d7f-2b79-4bd0-8219-e0d850037b8a"
+            }
+          }
+        }
+      },
+      "ca1429db-8c74-4421-a65d-00e79bfa09c0": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "1395c3a2-a442-83d9-89ab-4214829745eb",
+            "conceptId": "ca1429db-8c74-4421-a65d-00e79bfa09c0",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 5
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "7557f643-5aad-4eb9-a8c2-f0ac00456d6f",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9730e6e9-ad99-4593-80ba-8c58b1511bdf",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "dd7b334c-ae03-48a8-9ec9-653c9a6cbf59",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "d740345f-f6be-48a9-9792-da2fa90abac8",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "8ae4e628-0084-4660-8502-08fe26a32bcb",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "28621264-df3f-4186-8b61-b654e61a51ae"
+            }
+          }
+        }
+      },
+      "0da67945-eabb-4559-98b5-c3cb6d246554": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "faa26801-f4b0-8280-90e2-d8c0ddec0566",
+            "conceptId": "0da67945-eabb-4559-98b5-c3cb6d246554",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 6
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "e4580aaf-ab54-48d3-9724-514ab5a18ad8",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "10211485-0b6f-4c64-a0bd-a99d8d3aeacb",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "88b5bf85-0afc-4048-897b-567d4506905d",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9cb33cfd-a879-47a9-aaae-fdcc6919d812",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "fe365715-269d-4a23-8cd0-562275cd3e68",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "4992dfc1-23c1-484e-856f-872cd9aaa57b"
+            }
+          }
+        }
+      },
+      "2b1088d1-ce86-486e-b12f-f70191fe1094": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "ea887c36-af89-8eaa-9e0d-bb090a3beb32",
+            "conceptId": "2b1088d1-ce86-486e-b12f-f70191fe1094",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 7
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "eae56d69-4e7d-41f5-8097-7f7e9c757368",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "813325bc-df50-4adb-bccb-27fa9364d957",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "0d674ca9-cf15-4d26-ab0c-a8035d58ff03",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "35db2370-eee5-4374-ac4e-db6e2bf0f13a",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "af903fe4-ff0f-4814-a6ff-4774d92291b3",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "dac4c52a-4798-4f43-b0cb-60f416295b8e"
+            }
+          }
+        }
+      },
+      "80e0d18b-b8e5-4702-b4d9-357aedce1ed7": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "418a41e1-f905-8645-9517-eac696ad2974",
+            "conceptId": "80e0d18b-b8e5-4702-b4d9-357aedce1ed7",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 8
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "ad9468fc-89e9-422c-918e-ae8c46b343e2",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "3f793daf-31b9-49fb-bac8-3a4a12f985d6",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "60c8aab1-2a28-4df1-b4b4-7d1bc06d0961",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "38b49372-6ed1-47b7-92fc-282f297e8c94",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "9207a938-f9ad-42a7-a912-c8f9ce843a0a",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "75f49745-ea80-4b3a-aeeb-e782382762fa"
+            }
+          }
+        }
+      },
+      "202976cf-ac32-4433-81da-34e6ca97e467": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "009e8c39-910d-8531-b07f-fbea23c00306",
+            "conceptId": "202976cf-ac32-4433-81da-34e6ca97e467",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 9
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "ffecbbcd-ab70-4421-a4ed-0554d1f0bb37",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "6e1c2607-d9d9-4af1-9687-73fb93ce769a",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "75180880-1e9b-4b58-b0e4-04c93fa191a6",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "381e009b-405b-4f55-a896-a74dd71b054d",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "9f23383c-be0a-4dbd-929c-587803989596",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "5729ffa3-1805-465c-b4dc-1a6e809a2601"
+            }
+          }
+        }
+      },
+      "22dabded-f860-49df-a352-a2b947545b0f": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "0d576cb3-ff95-8866-8e42-34e536b30776",
+            "conceptId": "22dabded-f860-49df-a352-a2b947545b0f",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 10
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "f70ebddf-32e1-4e29-b654-d2f4129ef8a7",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "68bf6c7d-27c8-4bfc-b078-b6867fee6800",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "983fcb0f-40f9-45ca-8212-3d7f94d1c453",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "2fd01819-4876-4f76-9027-71ea7d6424a6",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "54a4db42-93d1-4855-8056-cf1d17f0c807",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "4de67694-edf5-4cfa-a194-2344abd07640"
+            }
+          }
+        }
+      },
+      "f76675be-6e58-4688-ab84-3efe4cb1f31e": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "21749886-5503-88f0-910e-b0b5fd8c45df",
+            "conceptId": "f76675be-6e58-4688-ab84-3efe4cb1f31e",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 11
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "5776b0ad-8aaa-4493-a436-d7ba23c5f806",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "19409c06-a3ab-4de6-84f2-5b9e660ef6ab",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "0312bb4a-3773-4216-bd95-3b61d9ce4c25",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "500f05b2-866e-461f-9319-eeadce651417",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "4f791534-304c-4a97-b37f-df0344800ecd",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "b90983a7-2de0-45a7-8625-51eb2a915dfb"
+            }
+          }
+        }
+      },
+      "e2726148-227e-42e1-b08d-eb51cdd45551": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "c01081fa-93c3-8691-aa40-0795d8839d22",
+            "conceptId": "e2726148-227e-42e1-b08d-eb51cdd45551",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 12
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "dcb6c12f-82b5-4c9e-a0be-ded8bfe9f726",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "08c6d75c-98d2-4114-8785-cb7e3645bc28",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "a613536f-d081-437a-a863-06013d0e66ab",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "28650a7a-7dce-475e-8e2c-9cc9a0164227",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "9d318f9f-296f-44cd-abec-4a31dc7a9712",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9b81b98b-7f33-4480-9d5a-6516732db5a1"
+            }
+          }
+        }
+      },
+      "cffab28c-e755-4d9b-b5db-28b781cb6641": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "3beb2221-4c66-8814-a1a9-395e0efc2571",
+            "conceptId": "cffab28c-e755-4d9b-b5db-28b781cb6641",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 13
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "78d56e65-e243-4ac6-8330-e731ad0df7d3",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "80f7e900-f431-4a17-8b3e-37c59c651d91",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "e6f55d2e-0318-4fbd-a3a4-0cf03c5282e5",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "1cfc1066-99fa-4f43-9e71-6fa8c5392e25",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "df4e62d7-2fe3-4c98-9e07-37a5d7a942b2",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "a49908e8-e353-4034-a818-d9b4744553e0"
+            }
+          }
+        }
+      },
+      "fff3f6d9-dc76-4fb6-bca1-7eb1e20f53b4": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "23c945bb-064c-8d64-83bd-a6ac976cbdf1",
+            "conceptId": "fff3f6d9-dc76-4fb6-bca1-7eb1e20f53b4",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 14
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "f6edcfe1-f5ac-4ec8-ac21-aec85d5d381a",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "48548895-d38c-4987-b6b4-9b5af1bc8415",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "588a7a6f-b1fc-416b-9415-9270f88ee86c",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "83c6d612-6305-4f02-9666-b8c3249f1611",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "436dfbca-40e0-41d4-a98c-788db800b7e3",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "f4f20767-cc8a-4b40-b8af-5990ed7090d4"
+            }
+          }
+        }
+      },
+      "fb2df75f-6461-490f-96bd-48fb546eaf20": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "c6f5f2ba-24cb-85f5-9101-faef4712d55b",
+            "conceptId": "fb2df75f-6461-490f-96bd-48fb546eaf20",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 15
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "ed2c0b6e-1a50-4426-afaa-480a25b18dd1",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "993135c1-853f-4545-95d4-b8db1922e7fd",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "29fcc494-560b-4524-a637-0a6f37858c98",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "87bc189b-6724-490e-8542-f290412e3107",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "feacfdef-0604-4c5f-aed9-c3736557a61f",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "7ee4003f-9a61-49b5-9747-972809c920ed"
+            }
+          }
+        }
+      },
+      "c43413ec-5d14-4216-9d10-97186d903c41": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "f3793414-68cb-8903-8a58-5bb43364ca90",
+            "conceptId": "c43413ec-5d14-4216-9d10-97186d903c41",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 16
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "e7b7dc41-3ae1-406a-b4b0-d8dee6cbd171",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "ba9e8f3d-fbbf-4991-84e8-65378a303b3b",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "d0c9fd04-fbfe-42f9-9276-a8a266fbfce5",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "23e6dedd-bf80-4922-a377-f0d7c244f100",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "5828a763-1534-4058-a0b1-5e86290d69e5",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "67a72326-a104-41d9-b171-ec1260457416"
+            }
+          }
+        }
+      },
+      "03898ddc-29a7-4bb1-abb5-3253387fff2c": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "4edbb9e0-1e21-84ef-91a4-22250c2070fb",
+            "conceptId": "03898ddc-29a7-4bb1-abb5-3253387fff2c",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 17
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "03565089-c184-4a48-8e23-4c06d0d2a963",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "d29d83b5-4308-4c5b-a203-36502e1d553b",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "596c08ac-bf67-4fe1-b7f7-2748210397f7",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "3bda3633-009a-4627-810c-9be65ac96bb3",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "5de5baa7-89bd-4582-a358-df2d34db6518",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "4cb76394-aacc-4109-b131-b16ed767be85"
+            }
+          }
+        }
+      },
+      "7ef3983a-267e-43f2-8d4c-80fff672cba0": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "0e0ae453-0ba4-8554-acd4-bbcc5965f696",
+            "conceptId": "7ef3983a-267e-43f2-8d4c-80fff672cba0",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 18
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "875c71b2-c21c-4565-9df0-d25cf8f1097f",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "c0a4af61-6e14-47b0-8f13-68ef18059777",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "5f8f107c-3f89-400a-bc21-c8822766f72a",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "9c772ec6-b0b0-467e-88f6-e3a38804c125",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "23b8324e-94d5-422c-9560-043efa001c00",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "c492d720-7a7a-4499-84a7-4321eee4dcbc"
+            }
+          }
+        }
+      },
+      "3f2706e8-b290-41d8-b6c6-4de33a519922": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "46656e84-7d82-8d70-8226-d3071d0e045e",
+            "conceptId": "3f2706e8-b290-41d8-b6c6-4de33a519922",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 19
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "04a5676b-d500-4183-abab-af19a04a78be",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "7a7205cb-2a38-418e-aad0-827a9b13be38",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "c181995b-6a74-47ac-b411-33753fbe5d12",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "5a5aead7-ded8-4550-8443-d0f25da78bdb",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "d6cebd8a-cb50-4ae6-bfd3-077360b4d646",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "45736090-e4e1-40c4-b2bc-2b695d2c6003"
+            }
+          }
+        }
+      },
+      "a4de80c0-8ee3-4f48-ae86-5a13995a4fd8": {
+        "values": {},
+        "authoring": {
+          "assignments": {},
+          "identity": {
+            "sourceId": "cbde7ef7-65ef-8a3d-b6dd-7628962b5651",
+            "conceptId": "a4de80c0-8ee3-4f48-ae86-5a13995a4fd8",
+            "name": {
+              "colorFamily": "categorical",
+              "property": "color",
+              "number": 20
+            },
+            "rows": {
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "7bf6bfdb-5897-4519-86d7-9467bf14cc78",
+              "[[\"mode-set-color-scheme\",\"mode-light\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "21fdfe3f-f304-4deb-acfe-6022fafc337e",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "3d2d22a9-1a73-476a-b320-ec9eead49aae",
+              "[[\"mode-set-color-scheme\",\"mode-dark\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "4c332cf5-aa7c-43c2-8e42-9c93227c1506",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-regular\"]]": "a9bee9b2-884c-4da3-bff7-a3a8ad05cf27",
+              "[[\"mode-set-color-scheme\",\"mode-wireframe\"],[\"mode-set-contrast\",\"mode-contrast-high\"]]": "5266cd83-b649-44e3-9df0-4ff809ef65e4"
             }
           }
         }

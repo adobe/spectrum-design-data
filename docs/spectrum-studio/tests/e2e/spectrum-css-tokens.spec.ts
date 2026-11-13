@@ -71,7 +71,7 @@ test("Spectrum CSS variables resolve in app themes, overlays and independent pre
   }
   await page.setViewportSize({ width: 1600, height: 900 });
   await appearance.click();
-  await page.getByRole("radio", { name: "Preview", exact: true }).click();
+  await page.getByRole("radio", { name: "Apps", exact: true }).click();
   const preview = page.locator(".sampleApp");
   await expect(preview).toHaveAttribute("data-scheme", "light");
   await expectSpectrumCssTokens(preview, light);

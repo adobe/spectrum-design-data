@@ -3,7 +3,23 @@ import { Provider } from "@react-spectrum/s2";
 import type { Preview } from "@storybook/react";
 import "../src/index.css";
 import "../src/components/color-picker/color-picker.css";
+import type { ReactNode } from "react";
 import { PreviewSurfaceProvider } from "../src/components/PreviewSurfaceProvider";
+import {
+  providerTextStyles,
+  useBodyTextStyles,
+} from "../src/utils/spectrumChrome";
+
+function BodyTextStyles({
+  colorScheme,
+  children,
+}: {
+  colorScheme: "light" | "dark";
+  children: ReactNode;
+}) {
+  useBodyTextStyles(colorScheme);
+  return children;
+}
 
 const preview: Preview = {
   parameters: {
@@ -29,12 +45,15 @@ const preview: Preview = {
       <Provider
         colorScheme={context.globals.colorScheme ?? "light"}
         UNSAFE_className={`spectrum spectrum--${context.globals.colorScheme ?? "light"}`}
+        styles={providerTextStyles}
       >
-        <PreviewSurfaceProvider
-          colorScheme={context.globals.colorScheme ?? "light"}
-        >
-          <Story />
-        </PreviewSurfaceProvider>
+        <BodyTextStyles colorScheme={context.globals.colorScheme ?? "light"}>
+          <PreviewSurfaceProvider
+            colorScheme={context.globals.colorScheme ?? "light"}
+          >
+            <Story />
+          </PreviewSurfaceProvider>
+        </BodyTextStyles>
       </Provider>
     ),
   ],
