@@ -1266,6 +1266,174 @@
   {
     "scope": {
       "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "744537db-023b-4833-8262-9c349b0915ee",
+    "uuid": "2a1767ee-96b9-5cf4-a4eb-08e20e85ac55"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "0f7a39c2-3ee7-4ff0-873f-334c81054b77",
+    "uuid": "2c1d0383-9740-57c7-a89d-177348d11d61"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "e8113995-d2ec-4089-a050-9b393eb9e403",
+    "uuid": "94aac01c-af12-514b-b99b-f188e03d1472"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "7fe7c804-7e6b-48ac-b1fa-b88874e0a330",
+    "uuid": "660d3943-8cc7-5ff2-9ab7-7ae1acd851a5"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "870f90ab-7f3e-41b6-9c11-59e9c4ff82c6",
+    "uuid": "40b440ae-514f-5801-a6fc-2e53e37c01d6"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "834d0a71-9060-4ce0-8e25-8b062ef89b19",
+    "uuid": "c0019731-c4e7-520d-b535-175e97da6d53"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "8fdaf9e0-bd3e-4188-84bd-7abf72e50b58",
+    "uuid": "d047ceec-20b2-5169-9261-b109340c7ee9"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "e7bf9977-2edf-48bc-8099-ad95e57b55b1",
+    "uuid": "3bfad833-e6da-5ae5-9d05-8772066373d8"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "f76b6279-2d64-47fe-a531-1737a834b21a",
+    "uuid": "7fd9d9cf-7054-583b-938f-82bd5cfeea1b"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "83f76815-8660-425e-80e6-825a5be0628f",
+    "uuid": "fd6cb2f2-6574-5345-9dc5-307e8bd38e92"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "1219770d-543d-4216-9e87-c158f8a74df6",
+    "uuid": "7d2729f6-14de-5e43-b045-a52edda4d8c3"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "4aba2da7-3eed-4a11-830c-58cc4f6bb6cb",
+    "uuid": "f2ac2182-a4ba-5d64-b7b1-9c66538655c2"
+  },
+  {
+    "scope": {
+      "component": "status-light",
       "property": "color"
     },
     "context": "Label",
