@@ -68,6 +68,8 @@ The steps are the same in both directions. Where they differ, each direction is 
 ### Promotion
 
 * **3.** Move the file content from `platforms/<id>/extensions/<kind>/` into the matching foundation directory under `packages/design-data/`. Delete the extension file.
+* **Platform in its own repo.** **NORMATIVE:** When the platform manifest lives in another repository, the foundation change cannot delete the platform's copy in the same change. The platform's copy keeps replacing the foundation record for that platform until the platform bumps its pin to the release that contains the move, and that bump deletes the copy. Step 3's single-owner rule then holds per release, not per commit: the foundation owns the artifact from the move's `version`, and the platform's copy is a replacement, not a second owner. The platform's copy **SHOULD** be deleted in the pin-bump change.
+* **Foundation-owned component with no foundation recipe.** A component the foundation already owns can gain a recipe from a platform without moving as a unit. The recipe is a plain file move (above). Edits to the component's existing relationships (for example, pinning `scope.options`) are ordinary data changes, not moves, and are not recorded in `lifecycle.moves`. If the platform's component declaration corrects the foundation's (for example, anatomy), that is also an edit to the foundation component, made in the same change.
 * **Mode added to a set.** **NORMATIVE:** A promotion that adds a mode to a foundation mode set **MUST** declare a fallback mode for it, and validation **MUST** check that the fallback exists in the set. A token that omits a mode field applies under the set's default, which for `colorScheme` is `light`, a poor stand-in for `dark-elevated`. Without a declared fallback, platforms with no values for the new mode would silently resolve to the wrong thing. SPEC-005 already checks peer-mode coverage; the fallback check is proposed as SPEC-078 below.
 * **4.** The foundation record carries the values the foundation team set. A platform whose values differ keeps them as an `overrides` entry (tokens) or a platform replacement (mode sets, components). Its output does not change.
 * **Version.** **NORMATIVE:** A promotion adds foundation content, so it is a **minor** change ([Evolution: Change classification](evolution.md#change-classification)). The release that contains it is the `version` recorded in the move.
@@ -106,6 +108,8 @@ Overrides and extensions in other platforms are kept, not rewritten.
 | `decidedBy` | string                | No       | Who decided, for example `foundation team`. |
 | `evidence`  | array of string       | No       | Platform ids that needed it (promotion).    |
 | `comment`   | string                | No       | Free text.                                  |
+
+**Where the entry goes.** A recipe and a relationship have no `lifecycle`. When one moves, record the entry on the `lifecycle.moves` of the component it belongs to. The entry's `comment` **SHOULD** name what moved (for example, "visual recipe"). A relationship that moves on its own, with no recipe or component, has no record to carry the entry; name it in the proposal issue.
 
 A **place** is `{ "foundation": true }` or `{ "platform": "<id>", "platformVersion": "<version>" }`. `platformVersion` is optional.
 
