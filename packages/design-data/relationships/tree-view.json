@@ -427,9 +427,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$ref": "65854450-ed1a-49ea-ab29-d257b8a0569e",
     "uuid": "e8fa0269-141b-5a64-aa5f-1ec49f05e25c"
   },
@@ -438,9 +438,9 @@
       "component": "tree-view",
       "property": "opacity"
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$ref": "a83e023c-dc92-4b3e-8375-351bbf8ec9bb",
     "uuid": "1ea7f0c4-96b6-5f8f-a622-4d0cdef4e4c8"
   },
@@ -1530,9 +1530,9 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, emphasized)",
+    "context": "Background (selected, highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d31772fd-95f3-413d-ab20-826033d71938",

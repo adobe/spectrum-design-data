@@ -853,9 +853,9 @@
         "object": "background"
       }
     },
-    "context": "Background (selected row, non-emphasized)",
+    "context": "Background (selected row, checkbox selection)",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, non-emphasized",
+    "contextQualifier": "selected row, checkbox selection",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
     "uuid": "8578067a-6ce0-4059-84ad-4688c71df156",
@@ -902,9 +902,9 @@
         "emphasis": "non-emphasized"
       }
     },
-    "context": "Background (selected row, non-emphasized)",
+    "context": "Background (selected row, checkbox selection)",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, non-emphasized",
+    "contextQualifier": "selected row, checkbox selection",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384",
@@ -921,9 +921,9 @@
         "emphasis": "non-emphasized"
       }
     },
-    "context": "Background (selected row, non-emphasized, hover)",
+    "context": "Background (selected row, checkbox selection, hover)",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, non-emphasized, hover",
+    "contextQualifier": "selected row, checkbox selection, hover",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0",
