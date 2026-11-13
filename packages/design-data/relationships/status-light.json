@@ -468,7 +468,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -479,7 +482,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -490,7 +496,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -501,7 +510,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -512,7 +524,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -523,7 +538,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -534,7 +552,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -545,7 +566,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -556,7 +580,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -567,7 +594,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -578,7 +608,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -589,7 +622,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "notice"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -600,7 +636,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -611,7 +650,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -622,7 +664,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Semantic (Dot)",
     "contextRole": ["background"],
@@ -633,7 +678,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -644,7 +692,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -655,7 +706,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "celery"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -666,7 +720,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -677,7 +734,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -688,7 +748,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "chartreuse"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -699,7 +762,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -710,7 +776,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -721,7 +790,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cyan"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -732,7 +804,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -743,7 +818,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -754,7 +832,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "fuchsia"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -765,7 +846,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -776,7 +860,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -787,7 +874,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "purple"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -798,7 +888,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -809,7 +902,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -820,7 +916,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "magenta"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -831,7 +930,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -842,7 +944,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -853,7 +958,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "indigo"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -864,7 +972,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -875,7 +986,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -886,7 +1000,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "seafoam"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -897,7 +1014,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -908,7 +1028,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -919,7 +1042,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "yellow"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -930,7 +1056,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -941,7 +1070,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -952,7 +1084,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "pink"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -963,7 +1098,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -974,7 +1112,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -985,7 +1126,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "turquoise"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -996,7 +1140,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1007,7 +1154,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1018,7 +1168,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "cinnamon"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1029,7 +1182,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1040,7 +1196,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1051,7 +1210,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "brown"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1062,7 +1224,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1073,7 +1238,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
@@ -1084,7 +1252,10 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "silver"
+      }
     },
     "context": "Non-semantic (Dot)",
     "contextRole": ["background"],
