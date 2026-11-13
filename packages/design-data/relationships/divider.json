@@ -44,7 +44,7 @@
       "component": "divider",
       "property": "vertical-minimum-height"
     },
-    "context": "Horizontal",
+    "context": "Vertical",
     "contextRole": ["layout"],
     "$ref": "f639e3fe-0a2d-45be-8392-ee1e587f4840",
     "uuid": "2aa871a4-49ac-500c-9842-61b1c1bf937e"
