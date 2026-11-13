@@ -3527,6 +3527,7 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
         "summary row",
         "s1 row",
         "horizontal",
+        "vertical",
         "content",
         "media",
         "header",
