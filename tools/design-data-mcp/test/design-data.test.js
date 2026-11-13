@@ -30,6 +30,8 @@ const EXPECTED_TOOLS = [
   "design-data-resolve",
   "design-data-guideline-list",
   "design-data-guideline",
+  "design-data-visual-recipe",
+  "design-data-render",
 ];
 
 // ── design-data-suggest (wasm-backed) ────────────────────────────────────────
@@ -209,11 +211,36 @@ test("each tool has required MCP annotations", (t) => {
   }
 });
 
+test("design-data-visual-recipe returns a recipe and design-data-render returns SVG", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const recipe = await tools["design-data-visual-recipe"].handler({
+    id: "action-button",
+  });
+  t.is(recipe.component, "action-button");
+  const svg = await tools["design-data-render"].handler({
+    component: "action-button",
+    colorScheme: "dark",
+  });
+  t.true(svg.startsWith("<svg"));
+});
+
+test("design-data-render rejects a component without a recipe", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  await t.throwsAsync(
+    tools["design-data-render"].handler({ component: "zzz-no-recipe" }),
+    { message: /no visual recipe/ },
+  );
+});
+
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes eight tools", (t) => {
+test("createDesignDataTools exposes ten tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 8);
+  t.is(tools.length, 10);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,

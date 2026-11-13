@@ -515,5 +515,121 @@ export function createDesignDataTools() {
         return loadDataFile("guidelines", id);
       },
     },
+
+    // ── visual recipe ───────────────────────────────────────────────────────
+    {
+      name: "design-data-visual-recipe",
+      annotations: {
+        title: "Design Data: Get Visual Recipe",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Get the visual recipe (parts, layout, and token bindings used to draw it) for a " +
+        "Spectrum component by ID, e.g. button, action-button, badge. Only components " +
+        "with a recipe are available; use design-data-render to draw one as SVG.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+            description: "Component ID in kebab-case, e.g. action-button",
+          },
+        },
+        required: ["id"],
+        additionalProperties: false,
+      },
+      async handler({ id }) {
+        const ds = await getDataset();
+        const recipe = ds.visualRecipe(id);
+        if (!recipe) {
+          throw new Error(
+            `No visual recipe for "${id}". Available: ${ds.visualRecipes().join(", ")}`,
+          );
+        }
+        return recipe;
+      },
+    },
+
+    // ── render ──────────────────────────────────────────────────────────────
+    {
+      name: "design-data-render",
+      annotations: {
+        title: "Design Data: Render Component SVG",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Render a Spectrum component to SVG from its visual recipe, resolving token values " +
+        "for the given size, states, options, and mode. Returns the SVG markup as text. " +
+        "Only components with a recipe can be rendered (see design-data-visual-recipe).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          component: {
+            type: "string",
+            description: "Component ID in kebab-case, e.g. action-button",
+          },
+          size: {
+            type: "string",
+            description: 'Size, e.g. "s", "m", "l" (default: "m")',
+            default: "m",
+          },
+          states: {
+            type: "array",
+            items: { type: "string" },
+            description: 'Interaction states, e.g. ["hover"] or ["focus-ring"]',
+          },
+          options: {
+            type: "object",
+            description:
+              "Component options from the recipe, e.g. { isSelected: true, variant: 'accent' }",
+          },
+          colorScheme: {
+            type: "string",
+            description:
+              'Color scheme mode, e.g. "light" or "dark" (default: light)',
+          },
+          scale: {
+            type: "string",
+            description:
+              'Scale mode, e.g. "desktop" or "mobile" (default: desktop)',
+          },
+          label: {
+            type: "string",
+            description:
+              'Label text for components that show one (default: "Label")',
+          },
+          width: {
+            type: "number",
+            description: "Demo width in px for the root (optional)",
+          },
+        },
+        required: ["component"],
+        additionalProperties: false,
+      },
+      async handler({
+        component,
+        size = "m",
+        states = [],
+        options = {},
+        colorScheme = "light",
+        scale = "desktop",
+        label = "Label",
+        width,
+      }) {
+        const ds = await getDataset();
+        const request = {
+          component,
+          size,
+          states,
+          options,
+          mode: { colorScheme, scale },
+          label,
+        };
+        if (width !== undefined) request.width = width;
+        return ds.renderComponentSvg(request);
+      },
+    },
   ];
 }

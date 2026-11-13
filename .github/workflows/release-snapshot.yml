@@ -91,6 +91,19 @@ jobs:
           path: sdk/wasm/pkg
           retention-days: 1
           if-no-files-found: error
+      - name: Build visual engine package
+        run: moon run sdk-wasm-visual:build-package
+      - name: Upload visual engine package build
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-pkg-build
+          path: |
+            sdk/wasm-visual/pkg
+            sdk/wasm-visual/variants
+            sdk/wasm-visual/catalog.json
+            sdk/wasm-visual/OFL-SourceSans3.txt
+          retention-days: 1
+          if-no-files-found: error
 
   release:
     needs: [get-snapshot-tag, build-wasm]
@@ -126,6 +139,11 @@ jobs:
         with:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
+      - name: Download visual engine package build
+        uses: actions/download-artifact@v4
+        with:
+          name: visual-pkg-build
+          path: sdk/wasm-visual
       - name: Snapshot release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -135,6 +153,7 @@ jobs:
         run: |
           pnpm changeset version --snapshot $SNAPSHOT_TAG
           node sdk/wasm/scripts/verify-package.mjs
+          node sdk/wasm-visual/scripts/verify-package.mjs
           git config --global user.name "$USERNAME"
           git config --global user.email "$EMAIL"
           git add .

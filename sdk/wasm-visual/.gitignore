@@ -1,1 +1,5 @@
+# Build output, rebuilt by `moon run sdk-wasm-visual:build-package`.
 pkg/
+variants/
+catalog.json
+OFL-SourceSans3.txt

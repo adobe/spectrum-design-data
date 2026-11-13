@@ -115,7 +115,7 @@ test("src/cli.js (manifest entry_point) is present", (t) => {
 
 // ── manifest sanity ───────────────────────────────────────────────────────────
 
-test("manifest.json is valid and declares 8 tools", (t) => {
+test("manifest.json is valid and declares 10 tools", (t) => {
   const manifestPath = join(stagingDir, "manifest.json");
   t.true(existsSync(manifestPath), "manifest.json must exist");
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
@@ -127,8 +127,8 @@ test("manifest.json is valid and declares 8 tools", (t) => {
   );
   t.is(
     manifest.tools?.length,
-    8,
-    `manifest must declare 8 tools, got ${manifest.tools?.length}`,
+    10,
+    `manifest must declare 10 tools, got ${manifest.tools?.length}`,
   );
 });
 

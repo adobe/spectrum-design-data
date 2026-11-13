@@ -50,6 +50,47 @@ tasks:
       - "pkg/web"
     toolchain: "system"
 
+  # The publishable package: node and web builds plus `variants/` and `catalog.json` from
+  # `design-data site --data-only`. Never committed.
+  build-package:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build.mjs && node scripts/build.mjs web && node scripts/build-data.mjs'
+    inputs:
+      - "@globs(renderer)"
+      - "scripts/build-data.mjs"
+      - "/sdk/cli/src/**/*.rs"
+      - "/sdk/plugins/site/**/*"
+      - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/relationships/*.json"
+      - "/packages/design-data/tokens/*.tokens.json"
+      - "/packages/design-data/icons/*.json"
+    outputs:
+      - "pkg/node"
+      - "pkg/web"
+      - "variants"
+      - "catalog.json"
+      - "OFL-SourceSans3.txt"
+    toolchains: "system"
+
+  # Pack the built package and render a packed variant. Run after build-package.
+  verify-package:
+    command: node
+    args:
+      - scripts/verify-package.mjs
+    deps:
+      - build-package
+    inputs:
+      - "scripts/verify-package.mjs"
+      - "package.json"
+      - "pkg/**/*"
+      - "variants/**/*"
+      - "catalog.json"
+    options:
+      cache: false
+      runInCI: false
+
   # Byte equality with `design-data render` over the request matrix, plus the size and
   # latency budgets. Builds the debug CLI here (not a separate cached task: a cache hit would
   # not restore its binary).

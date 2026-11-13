@@ -155,12 +155,12 @@
     },
     {
       "path": "sdk/wasm-visual",
-      "kind": "crate",
-      "audience": "maintainer",
+      "kind": "package",
+      "audience": "consumer",
       "lifecycle": "incubating",
-      "published": false,
+      "published": true,
       "llms": false,
-      "summary": "Slim solve-only WebAssembly engine for component visual recipes."
+      "summary": "Slim WebAssembly renderer for component visual recipes, with precompiled variants."
     },
     {
       "path": "platforms",

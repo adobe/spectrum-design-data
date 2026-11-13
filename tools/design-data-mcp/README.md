@@ -69,6 +69,8 @@ any network failure (offline/air-gapped use is unaffected); set
 | `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)  |
 | `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category     |
 | `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)        |
+| `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one          |
+| `design-data-render`           | Render a component with a recipe to SVG for a size, states, options, and mode       |
 
 ## Testing guideline content
 

@@ -25,6 +25,7 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`sdk/plugins/site/controls`](../sdk/plugins/site/controls/) | `site-controls-bundle` | active | no | no | Build script and pinned lockfile for the Spectrum Web Components bundle in assets/. |
 | [`sdk/tui`](../sdk/tui/) | `@adobe/design-data-tui` | active | no | no | Interactive terminal UI for authoring and inspecting design data. |
 | [`sdk/wasm`](../sdk/wasm/) | `@adobe/design-data-wasm` | active | published | yes | WebAssembly bindings for design-data-core. |
+| [`sdk/wasm-visual`](../sdk/wasm-visual/) | `@adobe/design-data-visual` | incubating | published | no | Slim WebAssembly renderer for component visual recipes, with precompiled variants. |
 | [`platforms`](../platforms/) | — | incubating | no | no | Incubating platform manifests for implementation teams. |
 | [`tools/component-diff-generator`](../tools/component-diff-generator/) | `@adobe/spectrum-component-diff-generator` | active | published | yes | Diff reports for component schema changes with breaking-change analysis. |
 | [`tools/design-data`](../tools/design-data/) | `@adobe/design-data` | active | published | yes | Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions. |

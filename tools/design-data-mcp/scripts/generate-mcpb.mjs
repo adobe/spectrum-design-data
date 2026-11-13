@@ -150,9 +150,9 @@ fs.writeFileSync(
       description:
         "Spectrum design tokens, component schemas, and design guidelines — offline, zero-config.",
       long_description:
-        "Provides 7 read-only tools for browsing Adobe Spectrum design data: token lookup, " +
+        "Provides read-only tools for browsing Adobe Spectrum design data: token lookup, " +
         "natural-language token suggestions, component schema inspection, token value resolution " +
-        "for mode contexts (color-scheme, scale, contrast), and Spectrum design guidelines. " +
+        "for mode contexts (color-scheme, scale, contrast), component visual recipes rendered to SVG, and Spectrum design guidelines. " +
         "All data is served from an embedded Spectrum snapshot — no network access, no API keys, " +
         "and no configuration required. Works offline immediately after install.",
       author: {

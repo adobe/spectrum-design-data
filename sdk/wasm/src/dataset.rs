@@ -74,6 +74,9 @@ include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
 include!(concat!(env!("OUT_DIR"), "/embedded_icons.rs"));
 
 #[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_visuals.rs"));
+
+#[cfg(feature = "embedded")]
 fn load_embedded_graph() -> Result<TokenGraph, String> {
     let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
     let mut relationships = Vec::new();
@@ -96,7 +99,23 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
                 .map_err(|e| e.to_string())?,
         );
     }
-    Ok(graph.with_relationships(relationships).with_icons(icons))
+    let mut visuals = Vec::new();
+    for (filename, text) in EMBEDDED_VISUALS {
+        let raw: serde_json::Value =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        if let Some(component) = raw.get("component").and_then(|v| v.as_str()) {
+            visuals.push(design_data_core::graph::VisualRecord {
+                component: component.to_string(),
+                file: std::path::PathBuf::from("visuals").join(filename),
+                raw: raw.clone(),
+                layer: design_data_core::graph::Layer::Foundation,
+            });
+        }
+    }
+    Ok(graph
+        .with_relationships(relationships)
+        .with_icons(icons)
+        .with_visuals(visuals))
 }
 
 // ---------------------------------------------------------------------------
@@ -246,6 +265,48 @@ impl Dataset {
     pub fn render_svg(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
         let scene = self.scene(recipe, request)?;
         Ok(design_data_core::visual::scene_to_svg(&scene))
+    }
+
+    /// Names of the components that have a visual recipe in this dataset.
+    #[wasm_bindgen(js_name = "visualRecipes")]
+    pub fn visual_recipes(&self) -> Vec<String> {
+        let mut names: Vec<String> = self
+            .graph
+            .visuals
+            .iter()
+            .map(|v| v.component.clone())
+            .collect();
+        names.sort();
+        names
+    }
+
+    /// The visual recipe for a component (after platform aliases), or `undefined`.
+    #[wasm_bindgen(js_name = "visualRecipe")]
+    pub fn visual_recipe(&self, component: &str) -> Result<JsValue, JsValue> {
+        match self.graph.visual_recipe(component) {
+            Some(r) => {
+                use serde::Serialize;
+                r.raw
+                    .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+                    .map_err(js_err)
+            }
+            None => Ok(JsValue::UNDEFINED),
+        }
+    }
+
+    /// Render a component to SVG using the dataset's own recipe for `request.component`.
+    /// Throws when the component has no recipe.
+    #[wasm_bindgen(js_name = "renderComponentSvg")]
+    pub fn render_component_svg(&self, request: JsValue) -> Result<String, JsValue> {
+        let name = js_sys::Reflect::get(&request, &JsValue::from_str("component"))?
+            .as_string()
+            .unwrap_or_default();
+        let recipe = self
+            .graph
+            .visual_recipe(&name)
+            .ok_or_else(|| js_err(format!("no visual recipe for '{name}'")))?;
+        let recipe = serde_wasm_bindgen::to_value(&recipe.raw).map_err(js_err)?;
+        self.render_svg(recipe, request)
     }
 
     // -----------------------------------------------------------------------

@@ -29,6 +29,9 @@
 //!       components/
 //!       fields/
 //!       guidelines/     ← structured guideline documents (*.json + manifest.json)
+//!       relationships/  ← component/token relationships
+//!       icons/          ← icon sets
+//!       visuals/        ← component visual recipes
 //!       mode-sets/
 //!       naming-exceptions.json
 //!     design-data-spec/
@@ -70,6 +73,17 @@ static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design
 static GUIDELINES: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
 
+/// Component/token relationships (`packages/design-data/relationships/`, ~2.5 MB). Recipes
+/// bind their values through these.
+static RELATIONSHIPS: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/relationships");
+
+/// Icon sets (`packages/design-data/icons/`).
+static ICONS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/icons");
+
+/// Component visual recipes (`packages/design-data/visuals/`, ~70 KB).
+static VISUALS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/visuals");
+
 /// Naming exceptions list (`packages/design-data/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -89,7 +103,7 @@ static SPEC_SCHEMAS: Dir<'_> =
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
-const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v3");
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v4");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -174,6 +188,7 @@ fn evict_stale_versions(current: &Path) {
 /// - `<root>/packages/design-data/components/`
 /// - `<root>/packages/design-data/fields/`
 /// - `<root>/packages/design-data/guidelines/`
+/// - `<root>/packages/design-data/{relationships,icons,visuals}/`
 /// - `<root>/packages/design-data-spec/schemas/` — manifest and fragment schemas
 /// - `<root>/.complete`
 ///
@@ -208,6 +223,12 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     extract(&COMPONENTS, &tmp.join("packages/design-data/components"))?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
     extract(&GUIDELINES, &tmp.join("packages/design-data/guidelines"))?;
+    extract(
+        &RELATIONSHIPS,
+        &tmp.join("packages/design-data/relationships"),
+    )?;
+    extract(&ICONS, &tmp.join("packages/design-data/icons"))?;
+    extract(&VISUALS, &tmp.join("packages/design-data/visuals"))?;
     extract(
         &SPEC_SCHEMAS,
         &tmp.join("packages/design-data-spec/schemas"),
@@ -297,6 +318,17 @@ mod tests {
         assert!(
             root.join("packages/design-data/guidelines").is_dir(),
             "guidelines missing"
+        );
+        for dir in ["relationships", "icons", "visuals"] {
+            assert!(
+                root.join("packages/design-data").join(dir).is_dir(),
+                "{dir} missing"
+            );
+        }
+        assert!(
+            root.join("packages/design-data/visuals/button.json")
+                .is_file(),
+            "visuals/button.json missing"
         );
         assert!(
             root.join("packages/design-data/naming-exceptions.json")

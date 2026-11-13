@@ -1,0 +1,60 @@
+{
+  "name": "@adobe/design-data-visual",
+  "version": "0.0.0",
+  "description": "Slim WebAssembly renderer for Spectrum component visual recipes, with precompiled variants: SVG or scene JSON in the browser or Node",
+  "type": "module",
+  "main": "./pkg/node/design_data_wasm_visual.js",
+  "types": "./pkg/node/design_data_wasm_visual.d.ts",
+  "exports": {
+    ".": {
+      "types": "./pkg/node/design_data_wasm_visual.d.ts",
+      "node": "./pkg/node/design_data_wasm_visual.js",
+      "browser": "./pkg/web/design_data_wasm_visual.js",
+      "default": "./pkg/web/design_data_wasm_visual.js"
+    },
+    "./catalog.json": "./catalog.json",
+    "./variants/*": "./variants/*"
+  },
+  "files": [
+    "pkg/node/design_data_wasm_visual.js",
+    "pkg/node/design_data_wasm_visual_bg.wasm",
+    "pkg/node/design_data_wasm_visual.d.ts",
+    "pkg/node/design_data_wasm_visual_bg.wasm.d.ts",
+    "pkg/node/package.json",
+    "pkg/web/design_data_wasm_visual.js",
+    "pkg/web/design_data_wasm_visual_bg.wasm",
+    "pkg/web/design_data_wasm_visual.d.ts",
+    "pkg/web/design_data_wasm_visual_bg.wasm.d.ts",
+    "pkg/web/package.json",
+    "variants/",
+    "catalog.json",
+    "OFL-SourceSans3.txt",
+    "README.md"
+  ],
+  "keywords": [
+    "spectrum",
+    "design-system",
+    "wasm",
+    "webassembly",
+    "svg"
+  ],
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "sdk/wasm-visual"
+  },
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/sdk/wasm-visual#readme",
+  "author": "Adobe",
+  "license": "Apache-2.0"
+}
