@@ -4,3 +4,4 @@ packages:
   - "tools/*"
   - "sdk/tui"
   - "sdk/wasm"
+  - "sdk/wasm-visual"

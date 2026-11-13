@@ -342,6 +342,8 @@ importers:
         specifier: ^6.1.2
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
+  sdk/wasm-visual: {}
+
   tools/changeset-linter:
     dependencies:
       chalk:

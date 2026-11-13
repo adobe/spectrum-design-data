@@ -31,6 +31,7 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 - [sdk/plugins/site/assets](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/site/assets): Browser assets (HTML and visual runtime) embedded by the site generator.
 - [sdk/plugins/site/controls](https://github.com/adobe/spectrum-design-data/blob/main/sdk/plugins/site/controls): Build script and pinned lockfile for the Spectrum Web Components bundle in assets/.
 - [sdk/tui](https://github.com/adobe/spectrum-design-data/blob/main/sdk/tui): Interactive terminal UI for authoring and inspecting design data.
+- [sdk/wasm-visual](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm-visual): Slim WebAssembly renderer for component visual recipes, with precompiled variants.
 - [platforms](https://github.com/adobe/spectrum-design-data/blob/main/platforms): Incubating platform manifests for implementation teams.
 - [docs/release-timeline](https://github.com/adobe/spectrum-design-data/blob/main/docs/release-timeline): Interactive timeline of Spectrum token releases.
 - [docs/s2-docs](https://github.com/adobe/spectrum-design-data/blob/main/docs/s2-docs): Spectrum 2 documentation content mirrored from Spectrum Hub.
@@ -41,7 +42,7 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 
 ## Maintainer-only tooling
 
-The 20 maintainer tools (release, taxonomy, authoring, and sync utilities) are not intended for Spectrum users, even when published to npm. They are listed in the [repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md).
+The 19 maintainer tools (release, taxonomy, authoring, and sync utilities) are not intended for Spectrum users, even when published to npm. They are listed in the [repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md).
 
 ## Optional
 
