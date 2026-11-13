@@ -58,6 +58,15 @@ export function verifyPackage(directory = packageDirectory) {
         }
       }
     }
+    for (const [target, type] of [
+      ["node", "commonjs"],
+      ["web", "module"],
+    ]) {
+      const nested = JSON.parse(
+        readFileSync(join(root, "pkg", target, "package.json"), "utf8"),
+      );
+      assert.equal(nested.type ?? "commonjs", type, `${target} module type`);
+    }
     assert.equal(manifest.exports["."].node, manifest.main);
     const catalog = JSON.parse(
       readFileSync(join(root, "catalog.json"), "utf8"),
