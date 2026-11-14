@@ -53,6 +53,7 @@
     "./registry/navigation-terms.json": "./registry/navigation-terms.json"
   },
   "files": [
+    "dataset.json",
     "tokens/",
     "components/",
     "changelog/",

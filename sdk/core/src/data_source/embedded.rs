@@ -84,6 +84,12 @@ static ICONS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-
 /// Component visual recipes (`packages/design-data/visuals/`, ~70 KB).
 static VISUALS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/visuals");
 
+/// Dataset root descriptor (`packages/design-data/dataset.json`).
+static DATASET_JSON: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../packages/design-data/dataset.json"
+));
+
 /// Naming exceptions list (`packages/design-data/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -103,7 +109,7 @@ static SPEC_SCHEMAS: Dir<'_> =
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
-const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v4");
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v5");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -234,6 +240,10 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         &tmp.join("packages/design-data-spec/schemas"),
     )?;
 
+    write_file(
+        &tmp.join("packages/design-data/dataset.json"),
+        DATASET_JSON.as_bytes(),
+    )?;
     write_file(
         &tmp.join("packages/design-data/naming-exceptions.json"),
         NAMING_EXCEPTIONS.as_bytes(),

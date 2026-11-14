@@ -10,6 +10,11 @@
       "minLength": 1,
       "description": "The spec version this dataset targets (e.g. \"1.0.0-draft\")."
     },
+    "layoutRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The visual layout revision the recipes were authored against (spec/component-visuals.md). A renderer whose revision differs from this one warns, because the same recipe can lay out differently. A dataset without the field is revision 0."
+    },
     "directories": {
       "type": "object",
       "description": "Declares which registered directories the dataset provides. List a directory key with the value true to declare it present and authoritative; omit the key otherwise. The value is constrained to true so the flag cannot be used to negate a directory's presence (in particular it cannot waive the required tokens/ directory).",

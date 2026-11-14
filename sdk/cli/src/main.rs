@@ -1236,6 +1236,15 @@ fn load_visual_graph(
         .find(|d| d.is_dir())
         .unwrap_or_else(|| PathBuf::from("visuals"))
     });
+    if load_visuals {
+        if let Some(w) = resolved
+            .tokens_root
+            .parent()
+            .and_then(design_data_core::visual::layout_revision_warning)
+        {
+            eprintln!("warning: {w}");
+        }
+    }
     if load_visuals && visuals_dir.is_dir() {
         graph.visuals = TokenGraph::load_spec_visuals(&visuals_dir)
             .into_diagnostic()
