@@ -47,7 +47,9 @@ tasks:
       - pnpm
       - ava
     deps:
-      - "~:stage"
+      # bundle = stage + `mcpb validate` + `mcpb pack`, so CI fails on a bad manifest
+      # or unpackable tree before release, not after npm is published.
+      - "~:bundle"
     inputs:
       - src/**/*
       - test/**/*
