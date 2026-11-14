@@ -1,6 +1,7 @@
 # Proposal 002: Component Property Axes — `style`, `staticColor`, `emphasis`
 
 **Status:** Draft\
+**Note (2026-11-13):** [Discussion #1453](https://github.com/adobe/spectrum-design-data/discussions/1453) proposes that the shared taxonomy hold only terms that mean the same on any component, which conflicts with importing component-schema enums such as `style` and `staticColor` into it. The `style` and `emphasis` fields already exist under `packages/design-data/fields/`; `staticColor` does not. Settle [#1453](https://github.com/adobe/spectrum-design-data/issues/1453) before adding more fields from this proposal.\
 **Affects:** 234 active tokens across `color-aliases.json`, `color-component.json`, `icons.json`, `semantic-color-palette.json`\
 **Spec reference:** taxonomy.md — name object field definitions
 
