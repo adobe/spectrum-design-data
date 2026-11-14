@@ -1490,13 +1490,12 @@ fn platform_scale_modes_compared_individually_when_one_diverges() {
     }
 }
 
-/// The `accent-color-100`-shaped bug: a `.Color theme` variable whose
-/// design-data concept has no member for *any* of Light/Dark/Wireframe
-/// (a plain single-scheme alias, not a genuinely per-scheme set) rolls
-/// up to `SkippedUncovered`, not `MultiModeMismatch` — "nothing to
-/// compare in any mode" is a coverage gap, not a divergence.
+/// A `.Color theme` variable whose design-data record is a plain literal with
+/// no `colorScheme` member (for example `static-blue-1000`) has one value for
+/// every mode, so each Figma mode is compared against it. When Figma's modes
+/// agree with that value the variable matches.
 #[test]
-fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
+fn single_scheme_literal_compares_against_every_figma_mode() {
     let var = mock_variable(
         "colorTheme/accent-color-100",
         "COLOR",
@@ -1510,9 +1509,6 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
         ],
     );
     let meta = mock_meta_color_theme(var);
-    // A plain single-scheme alias, not a real per-scheme set: one member,
-    // no `colorScheme` field at all, so a light/dark/wireframe lookup
-    // never finds a match — every mode is genuinely uncovered.
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("tokens.json");
     let mut f = std::fs::File::create(&path).unwrap();
@@ -1533,14 +1529,61 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
     let report = diff_values(&meta, &graph, None).unwrap();
-    assert_eq!(report.counts.multi_mode_mismatch, 0);
-    assert_eq!(report.counts.skipped_uncovered, 1);
-    assert_eq!(report.counts.matched, 0);
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+}
+
+/// A real per-scheme set that has no member for one of Figma's modes must not
+/// borrow another member's value for it: the context-free `record` is an
+/// arbitrary sibling (Light), so the missing mode stays uncovered instead of
+/// being compared to the wrong scheme.
+#[test]
+fn a_set_missing_a_mode_does_not_borrow_a_sibling_value() {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(1.0)),
+            ("m-dark", c(0.0)),
+            ("m-wireframe", c(0.0)),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let member = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorRole": "accent", "colorScheme": scheme, "legacyKey": "accent-color-100"},
+            "value": value,
+            "uuid": format!("u-accent-color-100-{scheme}"),
+            "conceptId": "su-accent-color-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([member("light", "#ffffff"), member("dark", "#000000")])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
     match &report.entries[0].class {
-        DiffClass::SkippedUncovered { reason } => {
-            assert_eq!(reason, "multimode-uncovered");
+        DiffClass::MultiModeMismatch { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(
+                matches!(by_mode["Wireframe"], DiffClass::SkippedUncovered { .. }),
+                "{:?}",
+                by_mode["Wireframe"]
+            );
         }
-        other => panic!("expected SkippedUncovered, got {other:?}"),
+        other => panic!("expected MultiModeMismatch, got {other:?}"),
     }
 }
 
