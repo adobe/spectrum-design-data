@@ -1,5 +1,16 @@
 # @adobe/design-data-mcp
 
+## 1.12.1
+
+### Patch Changes
+
+- [#1789](https://github.com/adobe/spectrum-design-data/pull/1789) [`544047f`](https://github.com/adobe/spectrum-design-data/commit/544047fe07b51c40928d23785f97147377fa948e) Thanks [@GarthDB](https://github.com/GarthDB)! - Publish the Claude Desktop extension (`design-data.mcpb`) with each release.
+  - **Release workflow**: after `changeset publish`, builds and validates the bundle and attaches
+    it to the `@adobe/design-data-mcp@<version>` release and to a rolling `design-data-mcpb`
+    release. It was documented as downloadable but no release had the file.
+  - **README**: links the rolling release (one URL that never changes) and adds a first-run check.
+  - The step runs last in the job, so a failure cannot hold back the CLI binaries or Homebrew.
+
 ## 1.12.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @adobe/design-data-skill
 
+## 2.2.1
+
+### Patch Changes
+
+- [#1787](https://github.com/adobe/spectrum-design-data/pull/1787) [`46f7b73`](https://github.com/adobe/spectrum-design-data/commit/46f7b738f868b164aa5781c627687a08620ad07b) Thanks [@GarthDB](https://github.com/GarthDB)! - Document installing the plugin in the GitHub Copilot app, and that a new session is needed.
+  - **`README.md`**: adds the Copilot app steps (Customize, marketplace, Install) and says to
+    start a new session after installing, because an already-open session does not load the
+    plugin's tools. Also says "all of them" instead of "all eight" for the read-only tools.
+
+- Updated dependencies [[`544047f`](https://github.com/adobe/spectrum-design-data/commit/544047fe07b51c40928d23785f97147377fa948e)]:
+  - @adobe/design-data-mcp@1.12.1
+
 ## 2.2.0
 
 ### Minor Changes
