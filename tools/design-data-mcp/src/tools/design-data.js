@@ -24,6 +24,7 @@ import { searchComponents } from "@adobe/design-data/component";
 import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 
 import { checkDatasetFreshness } from "../dataset-freshness.js";
+import { findFont } from "../fonts.js";
 
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
@@ -119,6 +120,12 @@ function loadGuidelineManifest() {
   const guidelinesDir = join(pkgRoot, "guidelines");
   if (!existsSync(guidelinesDir)) return null;
   return { guidelines: listGuidelines(guidelinesDir) };
+}
+
+/** The font status as sent to the model; `searched` only when asked for (it is long). */
+function fontSummary(status, full = false) {
+  const { searched, ...rest } = status;
+  return full ? { ...rest, searched } : rest;
 }
 
 export function createDesignDataTools() {
@@ -555,14 +562,21 @@ export function createDesignDataTools() {
     {
       name: "design-data-render",
       annotations: {
-        title: "Design Data: Render Component SVG",
+        title: "Design Data: Render Component",
         readOnlyHint: true,
         openWorldHint: false,
       },
       description:
-        "Render a Spectrum component to SVG from its visual recipe, resolving token values " +
-        "for the given size, states, options, and mode. Returns the SVG markup as text. " +
-        "Only components with a recipe can be rendered (see design-data-visual-recipe).",
+        "Render a Spectrum component from its visual recipe, resolving token values for the " +
+        "given size, states, options, and mode. Returns SVG markup as text by default, or " +
+        'a PNG image with format "png". Only components with a recipe can be rendered ' +
+        "(see design-data-visual-recipe). PNG text uses Adobe Clean Spectrum VF when it is " +
+        "installed on this machine (found automatically, or set with the fontPath argument " +
+        "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
+        "result includes a font status: when font.fallback is true, tell the user the text " +
+        "may differ slightly and pass on font.help (it says how to install the font); do " +
+        "not call the image exact. When font.found is true, do not tell the user to " +
+        "download anything.",
       inputSchema: {
         type: "object",
         properties: {
@@ -604,6 +618,25 @@ export function createDesignDataTools() {
             type: "number",
             description: "Demo width in px for the root (optional)",
           },
+          format: {
+            type: "string",
+            enum: ["svg", "png"],
+            description:
+              'Output format: "svg" (default, text) or "png" (an image, with a font status)',
+            default: "svg",
+          },
+          pixelRatio: {
+            type: "number",
+            minimum: 1,
+            maximum: 4,
+            description: "Pixels per unit for PNG output (default: 2)",
+          },
+          fontPath: {
+            type: "string",
+            description:
+              "Path to a TrueType (.ttf) font file for PNG text, e.g. a copy of " +
+              "AdobeCleanSpectrumVF-Roman.ttf. Optional: an installed copy is found automatically.",
+          },
         },
         required: ["component"],
         additionalProperties: false,
@@ -617,7 +650,13 @@ export function createDesignDataTools() {
         scale = "desktop",
         label = "Label",
         width,
+        format = "svg",
+        pixelRatio = 2,
+        fontPath,
       }) {
+        if (format !== "svg" && format !== "png") {
+          throw new Error('format must be "svg" or "png"');
+        }
         const ds = await getDataset();
         const request = {
           component,
@@ -628,7 +667,65 @@ export function createDesignDataTools() {
           label,
         };
         if (width !== undefined) request.width = width;
-        return ds.renderComponentSvg(request);
+        if (format === "svg") return ds.renderComponentSvg(request);
+
+        if (!(pixelRatio >= 1 && pixelRatio <= 4)) {
+          throw new Error("pixelRatio must be between 1 and 4");
+        }
+        const wasm = await getWasm();
+        const { fonts, status } = findFont(wasm, { fontPath });
+        const out = ds.renderComponentPng(request, fonts, { pixelRatio });
+        return {
+          content: [
+            {
+              type: "image",
+              data: Buffer.from(out.png).toString("base64"),
+              mimeType: "image/png",
+            },
+            {
+              type: "text",
+              text: JSON.stringify(
+                { font: fontSummary(status), diagnostics: out.diagnostics },
+                null,
+                2,
+              ),
+            },
+          ],
+        };
+      },
+    },
+
+    // ── font status ─────────────────────────────────────────────────────────
+    {
+      name: "design-data-font-status",
+      annotations: {
+        title: "Design Data: Font Status",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Check which font draws text in PNG renders from design-data-render: Adobe Clean " +
+        "Spectrum VF if it is installed on this machine, otherwise a bundled open font. " +
+        "Returns { found, fallback, using, rejected, related, searched, help }. When " +
+        "fallback is true, tell the user and pass on help (Adobe employees can download the " +
+        "font from the Brand Center; they install the .ttf, or point DESIGN_DATA_FONT or " +
+        "fontPath at it). If the user says it is installed but found is false, ask for the " +
+        "file path and pass it as fontPath. Do not tell the user to download anything when " +
+        "found is true. Never offer or attach the font file.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          fontPath: {
+            type: "string",
+            description:
+              "Path to a TrueType (.ttf) font file to check instead of searching",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ fontPath }) {
+        const wasm = await getWasm();
+        return fontSummary(findFont(wasm, { fontPath }).status, true);
       },
     },
   ];

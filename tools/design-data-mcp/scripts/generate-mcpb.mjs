@@ -152,9 +152,11 @@ fs.writeFileSync(
       long_description:
         "Provides read-only tools for browsing Adobe Spectrum design data: token lookup, " +
         "natural-language token suggestions, component schema inspection, token value resolution " +
-        "for mode contexts (color-scheme, scale, contrast), component visual recipes rendered to SVG, and Spectrum design guidelines. " +
+        "for mode contexts (color-scheme, scale, contrast), component visual recipes rendered to SVG or PNG, and Spectrum design guidelines. " +
         "All data is served from an embedded Spectrum snapshot — no network access, no API keys, " +
-        "and no configuration required. Works offline immediately after install.",
+        "and no configuration required. Works offline immediately after install. PNG renders " +
+        "draw text in Adobe Clean Spectrum VF when it is installed on this machine, and in a " +
+        "bundled open font otherwise (the result says which).",
       author: {
         name: "Adobe",
         url: "https://www.adobe.com",
@@ -184,12 +186,26 @@ fs.writeFileSync(
         platforms: ["darwin", "win32", "linux"],
         runtimes: { node: ">=20.12" },
       },
+      // Optional: an installed Adobe Clean Spectrum VF is found automatically. This is for a
+      // copy kept somewhere the search does not look.
+      user_config: {
+        font_file: {
+          type: "file",
+          title: "Adobe Clean Spectrum VF font file (.ttf)",
+          description:
+            "Optional. Path to AdobeCleanSpectrumVF-Roman.ttf, for PNG renders. Leave empty " +
+            "to use the installed font, or a bundled open font when it is not installed. " +
+            "Adobe employees can download it from the Brand Center.",
+          required: false,
+        },
+      },
       server: {
         type: "node",
         entry_point: "src/cli.js",
         mcp_config: {
           command: "node",
           args: ["${__dirname}/src/cli.js"],
+          env: { DESIGN_DATA_FONT: "${user_config.font_file}" },
         },
       },
     },
