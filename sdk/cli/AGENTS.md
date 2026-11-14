@@ -19,6 +19,8 @@ moon run sdk:lint
 
 Changesets do not release the CLI. `release.yml` builds and tags `design-data-cli@<version>` from the `version` in `sdk/cli/Cargo.toml` (and the Homebrew formula installs from that tag), so bump it, with `sdk/Cargo.lock`, in any PR that changes CLI behavior: minor for a new command or flag, patch for a fix. A changeset is only needed for a JS package the change touches.
 
+**Layout revision.** A change to `core/src/visual.rs` that alters `core/tests/fixtures/recipe-snapshots.json` must bump `LAYOUT_REVISION` and `layoutRevision` in `packages/design-data/dataset.json` together, with a `@adobe/spectrum-design-data` changeset. The CLI warns on stderr when the dataset's revision differs. A test fails if the two disagree.
+
 ## suggest-context
 
 `design-data suggest-context --out <file>` (core: `sdk/core/src/context_suggest.rs`) writes a review file of proposed relationship contexts for the records SPEC-092 flags. It never writes data and refuses an `--out` inside the dataset. Tiers: `binding`, `sibling`, `template`; each run re-measures every tier against the existing human contexts (own context hidden) and marks template proposals `needs review` unless their basis reaches 80% main-word agreement. Applying a review file is a separate step.

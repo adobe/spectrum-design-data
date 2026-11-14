@@ -266,6 +266,10 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 
+## Layout revision
+
+The solver is shared by the CLI, WASM, MCP and TUI, and a solver change can move existing recipes without a recipe change. The renderer carries an integer **layout revision** (`LAYOUT_REVISION` in `sdk/core/src/visual.rs`) and the dataset declares the one it was authored against as `layoutRevision` in `dataset.json` ([Dataset layout](dataset-layout.md)). **SHOULD:** a renderer warns, outside the scene `diagnostics`, when the two differ; a dataset without the field is revision 0. **NORMATIVE for this repository:** a change that alters the committed recipe snapshots bumps both numbers in the same change.
+
 ## Platform-owned recipes
 
 Implemented for `render`, `site` and the Rust core (see [Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). `render` and `site` load the foundation recipes into the graph, then apply the platform's `extensions/visuals/` over them, and look recipes up through `componentAliases`.

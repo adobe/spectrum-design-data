@@ -4057,9 +4057,60 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     s
 }
 
+/// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
+/// same change whenever a solver change alters how existing recipes render
+/// (a changed `recipe-snapshots.json`).
+pub const LAYOUT_REVISION: u32 = 1;
+
+/// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
+/// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
+pub fn layout_revision_warning(root: &std::path::Path) -> Option<String> {
+    if !root.join("visuals").is_dir() {
+        return None;
+    }
+    let data = std::fs::read_to_string(root.join("dataset.json"))
+        .ok()
+        .and_then(|s| serde_json::from_str::<Value>(&s).ok())
+        .and_then(|v| v.get("layoutRevision")?.as_u64())
+        .unwrap_or(0);
+    let engine = u64::from(LAYOUT_REVISION);
+    match data.cmp(&engine) {
+        std::cmp::Ordering::Equal => None,
+        std::cmp::Ordering::Less => Some(format!(
+            "this data targets layout revision {data}, this renderer is revision {engine}: \
+             recipes can lay out differently. Use a newer data release, or an older CLI."
+        )),
+        std::cmp::Ordering::Greater => Some(format!(
+            "this data targets layout revision {data}, this renderer is revision {engine}: \
+             upgrade the CLI."
+        )),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn layout_revision_matches_the_data() {
+        let root =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+        assert_eq!(layout_revision_warning(&root), None);
+    }
+
+    #[test]
+    fn layout_revision_warns_on_missing_and_newer() {
+        let dir = std::env::temp_dir().join(format!("ddrev-{}", std::process::id()));
+        std::fs::create_dir_all(dir.join("visuals")).unwrap();
+        let old = layout_revision_warning(&dir).unwrap();
+        assert!(old.contains("revision 0"), "{old}");
+        std::fs::write(dir.join("dataset.json"), r#"{"layoutRevision": 99}"#).unwrap();
+        assert!(layout_revision_warning(&dir)
+            .unwrap()
+            .contains("upgrade the CLI"));
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert_eq!(layout_revision_warning(&dir), None);
+    }
     use std::path::PathBuf;
 
     fn root() -> PathBuf {

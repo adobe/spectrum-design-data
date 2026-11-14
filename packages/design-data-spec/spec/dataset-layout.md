@@ -60,6 +60,8 @@ A dataset **MAY** carry a root **descriptor** to make its structure and target s
 * **`.design-data.toml`** — a project-level config (TOML) that primarily declares where the dataset lives (`[source]`) and cache overrides. It is consumed during [discovery](#dataset-discovery) tier 2.
 * **`dataset.json`** — an OPTIONAL JSON descriptor placed at the dataset root that **MAY** declare which optional directories are present, pin the spec version the dataset targets, and override default discovery paths. It **MUST** conform to [`dataset.schema.json`](../schemas/dataset.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/dataset.schema.json`).
 
+A `dataset.json` **MAY** carry `layoutRevision`, an integer naming the visual layout revision its recipes were authored against (see [Component visuals](component-visuals.md)). A renderer whose own revision differs **SHOULD** warn, because the same recipe can lay out differently. A dataset without the field is revision 0.
+
 **NORMATIVE:** Neither descriptor is required. A dataset with a conformant `tokens/` directory and no descriptor is fully conformant. When a `dataset.json` is present it **MUST** validate against `dataset.schema.json`, but its absence **MUST NOT** be treated as an error.
 
 ## Structural validation
