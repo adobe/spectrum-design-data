@@ -41,6 +41,9 @@
         "align": {
           "value": "center"
         },
+        "justify": {
+          "value": "start"
+        },
         "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",

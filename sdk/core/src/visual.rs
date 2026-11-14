@@ -2927,7 +2927,6 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         gap: (flow.len() > 1).then_some(gap),
         padding: [pad_bs, pad_e, pad_be, pad_s],
     };
-    let mut x = ox + pad_s;
     let mut y = oy
         + pad_bs
         + if column {
@@ -2942,6 +2941,14 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         flow.iter().map(|c| c.grow).sum()
     };
     let free_w = (w - sum_w - pad_s - pad_e).max(0.0);
+    // A row with no growing part justifies its content in the space a minWidth or width leaves.
+    let mut x = ox
+        + pad_s
+        + if column || total_grow > 0.0 {
+            0.0
+        } else {
+            axis_offset(&justify, free_w)
+        };
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
         let cw = if column && c.kind == "box" && c.auto_w {
@@ -4292,6 +4299,53 @@ mod tests {
     }
 
     #[test]
+    fn a_row_centres_its_content_in_a_min_width_wider_than_the_content() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["i"], "props": {
+                    "minWidth": lit(100.into()), "height": lit(20.into()),
+                    "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) } },
+                "i": { "kind": "box", "props": { "width": lit(16.into()), "height": lit(16.into()) } }
+            }
+        });
+        let s = build_scene(&g, &recipe, &req(&[])).unwrap();
+        let i = part(&s, "i").unwrap();
+        assert_eq!(i.x, 8.0 + (100.0 - 16.0) / 2.0);
+    }
+
+    #[test]
+    fn a_row_justifies_end_and_start_and_a_growing_child_takes_the_free_space() {
+        let (g, _) = load();
+        let scene = |justify: Option<&str>, grow: bool| {
+            let mut root = serde_json::json!({
+                "minWidth": lit(100.into()), "height": lit(20.into()),
+                "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) });
+            if let Some(j) = justify {
+                root["justify"] = lit(j.into());
+            }
+            let mut i = serde_json::json!({ "width": lit(16.into()), "height": lit(16.into()) });
+            if grow {
+                i["grow"] = lit(true.into());
+            }
+            let recipe = serde_json::json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": {
+                    "r": { "kind": "box", "children": ["i"], "props": root },
+                    "i": { "kind": "box", "props": i }
+                }
+            });
+            let s = build_scene(&g, &recipe, &req(&[])).unwrap();
+            part(&s, "i").unwrap().clone()
+        };
+        assert_eq!(scene(Some("start"), false).x, 8.0 + 10.0);
+        assert_eq!(scene(Some("end"), false).x, 8.0 + 100.0 - 10.0 - 16.0);
+        let grown = scene(None, true);
+        assert_eq!((grown.x, grown.w), (8.0 + 10.0, 80.0));
+    }
+
+    #[test]
     fn a_growing_text_keeps_its_width_and_the_next_part_moves_to_the_row_end() {
         let (g, _) = load();
         let recipe = |grow: bool| {
@@ -4303,7 +4357,7 @@ mod tests {
                 "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
                 "parts": {
                     "r": { "kind": "box", "children": ["t", "i"], "props": {
-                        "width": lit(300.into()), "height": lit(20.into()),
+                        "width": lit(300.into()), "height": lit(20.into()), "justify": lit("start".into()),
                         "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) } },
                     "t": { "kind": "text", "props": t },
                     "i": { "kind": "box", "props": { "width": lit(16.into()), "height": lit(16.into()) } }
