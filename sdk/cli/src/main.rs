@@ -1464,7 +1464,31 @@ fn run_render(
     if format == "png" && output.is_none() {
         miette::bail!("--format png writes binary data: pass --output <FILE>");
     }
-    let text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    let mut text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    let mut sources = fonts
+        .iter()
+        .map(|p| {
+            std::fs::read(p)
+                .map(|data| design_data_core::raster::FontSource {
+                    data,
+                    origin: p.display().to_string(),
+                })
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to read --font {}", p.display()))
+        })
+        .collect::<miette::Result<Vec<_>>>()?;
+    // A supplied font sets the layout widths too, so boxes fit the text drawn in them; an
+    // explicit --text-metrics still wins.
+    if text_metrics.is_none() {
+        if let Some(first) = sources.first() {
+            let font = design_data_core::raster::font::Font::parse(first.data.clone())
+                .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?;
+            text_metrics = Some(
+                font.text_metrics()
+                    .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?,
+            );
+        }
+    }
     if let (Some(file), Some(dir)) = (&batch, &out) {
         return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
     }
@@ -1515,22 +1539,9 @@ fn run_render(
             scale: pixel_ratio,
             background: None,
         };
-        let sources = if fonts.is_empty() {
-            vec![design_data_core::raster::fallback_font()]
-        } else {
-            fonts
-                .iter()
-                .map(|p| {
-                    std::fs::read(p)
-                        .map(|data| design_data_core::raster::FontSource {
-                            data,
-                            origin: p.display().to_string(),
-                        })
-                        .into_diagnostic()
-                        .wrap_err_with(|| format!("failed to read --font {}", p.display()))
-                })
-                .collect::<miette::Result<Vec<_>>>()?
-        };
+        if sources.is_empty() {
+            sources.push(design_data_core::raster::fallback_font());
+        }
         let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
             .map_err(|e| miette::miette!("{e}"))?;
         for d in &out.diagnostics {

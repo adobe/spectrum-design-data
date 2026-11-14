@@ -293,6 +293,14 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
     }
 }
 
+/// A CSS `font-weight` as a number; anything unreadable is 400, as the layout measures it.
+fn css_weight(w: Option<&str>) -> f64 {
+    Some(crate::visual::css_font_weight(w))
+        .filter(|w| w.bytes().all(|b| b.is_ascii_digit() || b == b'.'))
+        .and_then(|w| w.parse().ok())
+        .unwrap_or(400.0)
+}
+
 /// The font for `n`: the first family in its stack that a supplied font matches, else the
 /// first supplied font.
 fn pick_font<'a>(
@@ -356,6 +364,19 @@ fn draw_text(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
         );
         return;
     };
+    // The recipe's weight sets `wght`. `wdth` is always 100: a variable font's own default
+    // can be an extreme (Adobe Clean Spectrum VF defaults to its narrowest, 62.5).
+    let weight = css_weight(n.font_weight.as_deref());
+    let coords = f.font.normalize(&[("wght", weight), ("wdth", 100.0)]);
+    if !f.font.axes().iter().any(|a| &a.tag == b"wght") && weight != 400.0 {
+        note(
+            diags,
+            format!(
+                "{}: {} has no weight axis; text is drawn at the font's own weight, not {weight}",
+                n.part, f.origin
+            ),
+        );
+    }
     let em = n.font_size / f.font.units_per_em();
     if !(em.is_finite() && em > 0.0) {
         return;
@@ -377,7 +398,7 @@ fn draw_text(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                 ),
             );
         }
-        match f.font.outline(g) {
+        match f.font.outline_at(g, &coords) {
             Ok(contours) => {
                 for c in &contours {
                     polys.push(
@@ -398,7 +419,7 @@ fn draw_text(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                 format!("{}: glyph for U+{:04X}: {e}", n.part, u32::from(ch)),
             ),
         }
-        pen += f.font.advance(g) * em;
+        pen += f.font.advance_at(g, &coords) * em;
     }
     if !path::fill(cv, &polys, path::Rule::NonZero, color) {
         note(
@@ -785,6 +806,24 @@ mod tests {
         );
         assert!(d.iter().any(|m| m.contains("placeholder bars")));
         assert!(ink_rows(&img).is_some());
+    }
+
+    #[test]
+    fn the_recipe_weight_changes_the_glyphs() {
+        let ink = |weight: &str| {
+            let mut n = text("H", 80.0);
+            n.font_weight = Some(weight.into());
+            let (img, d) = render_text(n);
+            assert!(d.is_empty(), "{d:?}");
+            img.rgba.chunks(4).map(|p| u64::from(p[3])).sum::<u64>()
+        };
+        let (light, regular, bold, black) = (ink("200"), ink("400"), ink("700"), ink("900"));
+        assert!(
+            light < regular && regular < bold && bold < black,
+            "{light} {regular} {bold} {black}"
+        );
+        assert_eq!(ink("bold"), bold);
+        assert_eq!(ink("nonsense"), regular, "an unreadable weight is 400");
     }
 
     #[test]

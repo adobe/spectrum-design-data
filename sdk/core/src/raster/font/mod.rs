@@ -16,6 +16,10 @@
 
 use super::path::Pt;
 
+pub mod metrics;
+pub mod var;
+pub use var::Axis;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct FontError(pub String);
 
@@ -343,8 +347,14 @@ impl Font {
     /// The contours of `glyph` in font units, composite glyphs resolved. Empty for a blank
     /// glyph such as a space.
     pub fn outline(&self, glyph: u16) -> Result<Vec<Contour>, FontError> {
+        self.outline_at(glyph, &[])
+    }
+
+    /// [`Font::outline`] at normalized axis `coords` (from [`Font::normalize`]); empty
+    /// `coords` is the font's default instance.
+    pub fn outline_at(&self, glyph: u16, coords: &[f64]) -> Result<Vec<Contour>, FontError> {
         let mut budget = MAX_COMPONENTS;
-        self.load(glyph, 0, &mut budget)
+        self.load(glyph, 0, &mut budget, coords)
     }
 
     fn load(
@@ -352,6 +362,7 @@ impl Font {
         glyph: u16,
         depth: usize,
         budget: &mut usize,
+        coords: &[f64],
     ) -> Result<Vec<Contour>, FontError> {
         if glyph >= self.num_glyphs {
             return Err(bad("glyph index out of range"));
@@ -362,12 +373,14 @@ impl Font {
         }
         let n = i16_at(g, 0).ok_or_else(|| bad("glyph header"))?;
         if n >= 0 {
-            return simple_glyph(g, n as usize);
+            let mut contours = simple_glyph(g, n as usize)?;
+            self.apply_simple(glyph, coords, &mut contours);
+            return Ok(contours);
         }
         if depth >= MAX_COMPOSITE_DEPTH {
             return Err(bad("composite glyphs nest too deeply"));
         }
-        let (mut out, mut p) = (Vec::new(), 10usize);
+        let (mut parts, mut p) = (Vec::new(), 10usize);
         loop {
             *budget = budget
                 .checked_sub(1)
@@ -420,7 +433,20 @@ impl Font {
             } else {
                 [1.0, 0.0, 0.0, 1.0]
             };
-            for mut contour in self.load(comp, depth + 1, budget)? {
+            parts.push((comp, m, dx, dy));
+            if flags & 0x20 == 0 {
+                break;
+            }
+        }
+        // Each component's offset is a point with its own deltas.
+        let offsets: Vec<(f64, f64)> = parts.iter().map(|c| (c.2, c.3)).collect();
+        let deltas = self.glyph_deltas(glyph, coords, &offsets, None);
+        let mut out = Vec::new();
+        for (i, (comp, m, dx, dy)) in parts.into_iter().enumerate() {
+            let (dx, dy) = deltas
+                .as_ref()
+                .map_or((dx, dy), |d| (dx + d.0[i], dy + d.1[i]));
+            for mut contour in self.load(comp, depth + 1, budget, coords)? {
                 for pt in &mut contour {
                     // [xscale scale01; scale10 yscale], the offset is not scaled.
                     let (x, y) = (pt.x, pt.y);
@@ -428,9 +454,6 @@ impl Font {
                     pt.y = m[1] * x + m[3] * y + dy;
                 }
                 out.push(contour);
-            }
-            if flags & 0x20 == 0 {
-                break;
             }
         }
         Ok(out)
