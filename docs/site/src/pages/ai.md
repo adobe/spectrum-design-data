@@ -66,7 +66,7 @@ Components or React Spectrum.
 
 ## Plugin vs. MCP server
 
-Same data, same eight read-only tools, two ways to install them:
+Same data, same read-only tools, two ways to install them:
 
 | | `spectrum-design-data` plugin | MCP server only |
 |---|---|---|
@@ -118,21 +118,47 @@ The plugin bundles the MCP server and the skill, so there is no separate MCP set
 /plugin install spectrum-design-data@spectrum-design-data
 ```
 
-**GitHub Copilot** (CLI and desktop app): Copilot CLI reads the same `marketplace.json`
-Claude Code plugins use (it checks `.claude-plugin/` alongside its own `.github/plugin/`),
-so this repo is already a Copilot plugin marketplace. No separate Copilot config is needed:
+**GitHub Copilot app** (desktop): two links, two clicks each. The app asks you to confirm
+before it changes anything.
+
+1. [**Add the marketplace to the GitHub Copilot app**](https://github.com/copilot/app/launch?open=ghapp%3A%2F%2Fplugins%2Fmarketplace%2Fadd%3Fsource%3Dadobe%252Fspectrum-design-data)
+   (once). This lets the app find plugins from this repository.
+2. [**Install the plugin in the GitHub Copilot app**](https://github.com/copilot/app/launch?open=ghapp%3A%2F%2Fplugins%2Finstall%3Fsource%3Dspectrum-design-data%2540spectrum-design-data).
+   Click **Allow** when the app asks, then confirm the install under **Customize**.
+3. **Start a new session.** A session that was already open does not pick up the plugin's
+   tools. In the new session, ask the assistant to use the design-data tools (for example, "use
+   the design-data primer").
+
+Didn't work?
+
+- **The link opened a web page and not the app.** The app has to be installed. If the browser
+  can't hand off to it, the link shows a fallback page; open the app yourself and use the manual
+  steps below.
+- **The app says the marketplace isn't found.** Finish step 1, then try step 2 again.
+- **The plugin is installed but the assistant says it has no design-data tool.** Start a new
+  session, check that **Customize → Installed → spectrum-design-data** is switched on, and
+  make sure Node.js 20.12 or later is available to the app (the plugin starts its server with
+  `npx`).
+
+To do the same by hand: **Customize**, use the marketplace settings next to the marketplace
+dropdown to add `adobe/spectrum-design-data`, then find **spectrum-design-data** on the
+Browse page and click **Install**. See
+[Customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app).
+
+**GitHub Copilot CLI**: it reads the same `marketplace.json` Claude Code plugins use (it
+checks `.claude-plugin/` alongside its own `.github/plugin/`), so this repo is already a
+Copilot plugin marketplace. No separate Copilot config is needed:
 
 ```
 copilot plugin marketplace add adobe/spectrum-design-data
 copilot plugin install spectrum-design-data@spectrum-design-data
 ```
 
-Installing the plugin adds its skill and registers its MCP server. Skills configured for a repo or via Copilot CLI are
-automatically available in the GitHub Copilot app; manage them there under Customize →
-Skills. (Plugin installs themselves are tracked per client, so if you also want it listed
-under Customize → Plugins in the desktop app, install it there too. You can also skip the
-marketplace and copy `tools/design-data-skill/skills/design-data/` directly into
-`~/.copilot/skills/` or a repo's `.github/skills/`. Copilot also reads `.claude/skills/`.)
+Installing the plugin adds its skill and registers its MCP server. Skills configured for a
+repo or via Copilot CLI are also available in the GitHub Copilot app; manage them there under
+Customize → Skills. You can also skip the marketplace and copy
+`tools/design-data-skill/skills/design-data/` directly into `~/.copilot/skills/` or a repo's
+`.github/skills/`. Copilot also reads `.claude/skills/`.
 
 **Cursor** (skill only, no bundled MCP server; add the MCP config above as well): Settings →
 Rules → **Add Rule** → **Remote Rule (GitHub)**:
