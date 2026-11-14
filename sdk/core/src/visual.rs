@@ -4316,6 +4316,36 @@ mod tests {
     }
 
     #[test]
+    fn a_row_justifies_end_and_start_and_a_growing_child_takes_the_free_space() {
+        let (g, _) = load();
+        let scene = |justify: Option<&str>, grow: bool| {
+            let mut root = serde_json::json!({
+                "minWidth": lit(100.into()), "height": lit(20.into()),
+                "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) });
+            if let Some(j) = justify {
+                root["justify"] = lit(j.into());
+            }
+            let mut i = serde_json::json!({ "width": lit(16.into()), "height": lit(16.into()) });
+            if grow {
+                i["grow"] = lit(true.into());
+            }
+            let recipe = serde_json::json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": {
+                    "r": { "kind": "box", "children": ["i"], "props": root },
+                    "i": { "kind": "box", "props": i }
+                }
+            });
+            let s = build_scene(&g, &recipe, &req(&[])).unwrap();
+            part(&s, "i").unwrap().clone()
+        };
+        assert_eq!(scene(Some("start"), false).x, 8.0 + 10.0);
+        assert_eq!(scene(Some("end"), false).x, 8.0 + 100.0 - 10.0 - 16.0);
+        let grown = scene(None, true);
+        assert_eq!((grown.x, grown.w), (8.0 + 10.0, 80.0));
+    }
+
+    #[test]
     fn a_growing_text_keeps_its_width_and_the_next_part_moves_to_the_row_end() {
         let (g, _) = load();
         let recipe = |grow: bool| {
