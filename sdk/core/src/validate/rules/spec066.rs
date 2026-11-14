@@ -95,6 +95,9 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
     });
+    if let Some(o) = v.raw.pointer("/repeat/option").and_then(Value::as_str) {
+        used.options.insert(o.into());
+    }
     if !sizes.is_empty() {
         used.options.insert("size".into());
     }
