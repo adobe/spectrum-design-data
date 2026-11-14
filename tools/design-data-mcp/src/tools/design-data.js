@@ -608,6 +608,24 @@ export function createDesignDataTools() {
             description:
               "Component options from the recipe, e.g. { isSelected: true, variant: 'accent' }",
           },
+          icon: {
+            description:
+              'Replace the component\'s content icon (e.g. a button\'s icon): { "set": "workflow", "name": "edit" }, ' +
+              'or "none" to hide an optional one. Do not use options.icon: it is ignored. ' +
+              "A name the catalog lacks is reported in diagnostics.",
+            oneOf: [
+              { type: "string", enum: ["none"] },
+              {
+                type: "object",
+                properties: {
+                  set: { type: "string" },
+                  name: { type: "string" },
+                },
+                required: ["set", "name"],
+                additionalProperties: false,
+              },
+            ],
+          },
           colorScheme: {
             type: "string",
             description:
@@ -655,6 +673,7 @@ export function createDesignDataTools() {
         size = "m",
         states = [],
         options = {},
+        icon,
         colorScheme = "light",
         scale = "desktop",
         label = "Label",
@@ -676,6 +695,7 @@ export function createDesignDataTools() {
           label,
         };
         if (width !== undefined) request.width = width;
+        if (icon !== undefined) request.icon = icon;
         if (format === "svg") return ds.renderComponentSvg(request);
 
         if (!(pixelRatio >= 1 && pixelRatio <= 4)) {
