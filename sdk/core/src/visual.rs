@@ -2153,15 +2153,24 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let Some(rep) = variant.repeat.as_ref() else {
         return solve_one(variant, req);
     };
-    let items: Vec<&Value> = rep
+    let entries = rep
         .get("option")
         .and_then(Value::as_str)
         .and_then(|o| req.options.get(o))
-        .and_then(Value::as_array)
+        .and_then(Value::as_array);
+    let items: Vec<&Value> = entries
         .map(|a| a.iter().filter(|i| i.is_object()).collect())
         .unwrap_or_default();
+    let skipped = entries.map_or(0, |a| a.len() - items.len());
     if items.is_empty() {
-        return solve_one(variant, req);
+        let mut scene = solve_one(variant, req)?;
+        if skipped > 0 {
+            scene.diagnostics.push(format!(
+                "repeat: the entries of '{}' must be objects; drawing one plain root",
+                rep["option"].as_str().unwrap_or_default()
+            ));
+        }
+        return Ok(scene);
     }
     let item_req = |item: &Value, width: Option<f64>| {
         let mut r = req.clone();
@@ -2199,14 +2208,19 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             .collect::<Result<Vec<_>, _>>()?;
     }
     let id = variant.root.as_str();
-    let mut out = scenes.remove(0);
     let (mut y, mut nodes, mut diagnostics) = (0.0, Vec::new(), Vec::new());
-    for (i, s) in std::iter::once(out.clone()).chain(scenes).enumerate() {
+    if skipped > 0 {
+        diagnostics.push(format!(
+            "repeat: {skipped} entries that are not objects were skipped"
+        ));
+    }
+    let mut first = None;
+    for (i, mut s) in scenes.into_iter().enumerate() {
         let Some(root) = s.nodes.first() else {
             continue;
         };
         let (ox, oy, h) = (root.x, root.y, root.h);
-        for (j, mut n) in s.nodes.into_iter().enumerate() {
+        for (j, mut n) in std::mem::take(&mut s.nodes).into_iter().enumerate() {
             n.part = if j == 0 {
                 format!("{id}-{}", i + 1)
             } else {
@@ -2216,9 +2230,15 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             n.y += y - oy + RING_MARGIN;
             nodes.push(n);
         }
-        diagnostics.extend(s.diagnostics.iter().map(|d| format!("{id}-{}: {d}", i + 1)));
+        diagnostics.extend(
+            s.diagnostics
+                .drain(..)
+                .map(|d| format!("{id}-{}: {d}", i + 1)),
+        );
         y += h;
+        first.get_or_insert(s);
     }
+    let mut out = first.ok_or("repeat: no copy drew a root")?;
     out.height = y + 2.0 * RING_MARGIN;
     out.width = widest + 2.0 * RING_MARGIN;
     out.press = None;
@@ -5111,6 +5131,16 @@ mod tests {
         r.label = "Title".into();
         r.options.insert("items".into(), items);
         build_scene(&g, &recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn repeat_skips_entries_that_are_not_objects_with_a_diagnostic() {
+        let s = accordion_items(serde_json::json!(["A", "B"]));
+        assert!(part(&s, "item").is_some());
+        assert!(s.diagnostics.iter().any(|d| d.contains("must be objects")));
+        let s = accordion_items(serde_json::json!(["A", { "label": "B" }]));
+        assert!(part(&s, "item-1").is_some() && part(&s, "item-2").is_none());
+        assert!(s.diagnostics.iter().any(|d| d.contains("skipped")));
     }
 
     #[test]
