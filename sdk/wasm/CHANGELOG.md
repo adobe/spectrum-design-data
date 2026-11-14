@@ -1,5 +1,23 @@
 # @adobe/design-data-wasm
 
+## 0.21.0
+
+### Minor Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Render components to PNG, and pick the text font from descriptors.
+  - **`Dataset.renderComponentPng(request, fonts, options)`**: returns `{ png, diagnostics }`.
+    A font not marked `fallback` also sets the layout text widths, so boxes fit their text.
+    `options` takes `pixelRatio` and `background`.
+  - **`describeFont` and `chooseFont`**: WebAssembly cannot read the disk, so a caller reads each
+    font's `name` table, describes it, and lets `chooseFont` pick Adobe Clean Spectrum VF with
+    the same rules and wording as the `design-data` CLI.
+  - The slim `@adobe/design-data-wasm-visual` build is unchanged and has no rasterizer.
+
+### Patch Changes
+
+- [#1781](https://github.com/adobe/spectrum-design-data/pull/1781) [`2f7023f`](https://github.com/adobe/spectrum-design-data/commit/2f7023f33fcd2e3ddcbac8c5e443a26142f5c0d8) Thanks [@GarthDB](https://github.com/GarthDB)! - Center a row's content in the visual renderer when `minWidth` or `width`
+  leaves free space, so a button with no icon no longer pushes its label left.
+
 ## 0.20.0
 
 ### Minor Changes

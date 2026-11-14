@@ -1,5 +1,17 @@
 # @adobe/design-data-tui
 
+## 0.22.0
+
+### Minor Changes
+
+- [#1782](https://github.com/adobe/spectrum-design-data/pull/1782) [`17653e0`](https://github.com/adobe/spectrum-design-data/commit/17653e02204d7c3b8eac53430a91e2559e03e731) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `:preview <component>`, which draws a component from its visual recipe in the terminal.
+  - **`:preview button [size=l] [state=hover] [scheme=dark] [scale=mobile]`**: opens an overlay
+    with the component drawn in half-block characters, using the same renderer as
+    `design-data render --format png`. `c` switches light and dark, `s` the size, `t` the state.
+  - **Font**: text uses Adobe Clean Spectrum VF when it is installed, and a bundled open font
+    otherwise. The footer says which, and points to `design-data fonts` on fallback.
+  - The first preview loads the recipes lazily, so TUI startup is unchanged.
+
 ## 0.21.0
 
 ### Minor Changes

@@ -1,5 +1,15 @@
 # @adobe/design-data-agent-mcp
 
+## 1.15.23
+
+### Patch Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Document `design-data render --format png` and `design-data fonts` in the agent skill, and how
+  to relay the font status to the user.
+- Updated dependencies [[`2f7023f`](https://github.com/adobe/spectrum-design-data/commit/2f7023f33fcd2e3ddcbac8c5e443a26142f5c0d8), [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e)]:
+  - @adobe/design-data-wasm@0.21.0
+  - @adobe/design-data@3.3.15
+
 ## 1.15.22
 
 ### Patch Changes
