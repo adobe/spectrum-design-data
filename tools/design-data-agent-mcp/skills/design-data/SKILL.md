@@ -178,6 +178,33 @@ for Layer-1 JSON-Schema validation before writing.
 
 ***
 
+## Component previews and fonts (CLI)
+
+The `design-data` CLI draws a component's visual recipe. SVG needs no setup; PNG text uses
+Adobe Clean Spectrum VF when it is installed.
+
+```bash
+design-data render button --format svg > button.svg
+design-data render button --format png --output button.png   # --pixel-ratio N, default 2
+design-data fonts          # exit 0: found; exit 1: the bundled fallback would be used
+design-data fonts --json   # { found, fallback, using, rejected, related, searched, help }
+```
+
+* The font is found by itself (font folders and Creative Cloud's font cache), or chosen
+  with `--font <file.ttf>` (repeatable) or `DESIGN_DATA_FONT=<file.ttf>`. A chosen font also
+  sets the layout text widths, so SVG output changes when `--font` is passed.
+* When `render --format png` falls back to the bundled Source Sans 3 it prints a warning
+  with the install steps. Relay it: say the text may differ slightly from Adobe Clean
+  Spectrum VF and the image is not exact. Do not tell the user to download anything when
+  `design-data fonts` exits 0.
+* Adobe employees get the font from the Brand Center
+  (<https://inside.corp.adobe.com/content/inside/en/brand-center/font.html>, employees
+  only): install the `.ttf` (not the `.otf`, which uses PostScript outlines and cannot be
+  read). Creative Cloud's "Adobe Clean" is a different font and is not used. Someone
+  outside Adobe cannot get it, so the fallback is the best result; say so.
+* If the user says the font is installed but `design-data fonts` says it is not, ask for
+  the file's path and use `--font` or `DESIGN_DATA_FONT`. Never offer or attach the font file.
+
 ## Gotchas
 
 * **Scale values:** `desktop` and `mobile` — not `medium`/`large`.

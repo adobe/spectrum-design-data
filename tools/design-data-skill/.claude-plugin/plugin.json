@@ -1,7 +1,7 @@
 {
   "name": "spectrum-design-data",
   "version": "2.1.0",
-  "description": "Read-only Spectrum lookup: find official design tokens, inspect component options, resolve values across modes, and read design guidelines. Bundles the @adobe/design-data-mcp server.",
+  "description": "Read-only Spectrum lookup: find official design tokens, inspect component options, resolve values across modes, read design guidelines, and render components to SVG or PNG. Bundles the @adobe/design-data-mcp server.",
   "author": {
     "name": "Adobe"
   },
