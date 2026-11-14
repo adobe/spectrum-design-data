@@ -251,6 +251,23 @@
           "metadata": {"count":111,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.13.0",
+      "version": "1.3.3",
+      "bump": "patch",
+      "date": "2026-11-13",
+      "commit": "bf03145172d55980e7bc23c22c622a31ff2a0256",
+      "commits": [
+        {
+          "commit": "2f7023f33fcd2e3ddcbac8c5e443a26142f5c0d8",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1781,"title":"fix(visual): center row content when minWidth leaves free space","url":"https://github.com/adobe/spectrum-design-data/pull/1781"},
+          "entries": [
+            {"id":"2f7023f3-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/container","name":"container","fields":[{"path":"props.justify.value","after":"start"}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -402,6 +402,24 @@
           "metadata": {"count":104,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.13.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-13",
+      "commit": "bf03145172d55980e7bc23c22c622a31ff2a0256",
+      "commits": [
+        {
+          "commit": "331dc43983087cfd807dd364240b234fc4ef0dab",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1796,"title":"feat(visual): repeat a recipe root over an array option (accordion items)","url":"https://github.com/adobe/spectrum-design-data/pull/1796"},
+          "entries": [
+            {"id":"331dc439-0","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["items","isMultiple","down"],"after":["isMultiple","down"]}]},
+            {"id":"331dc439-1","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/repeat","name":"repeat","fields":[{"path":"repeat.label","after":"label"},{"path":"repeat.option","after":"items"},{"path":"repeat.with.hasActionButton","after":"hasActionButton"},{"path":"repeat.with.hasSwitch","after":"hasSwitch"},{"path":"repeat.with.isOpen","after":"isExpanded"}]}
+          ]
+        }
+      ]
     }
   ]
 }

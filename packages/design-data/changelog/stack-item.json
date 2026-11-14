@@ -43,6 +43,23 @@
           "metadata": {"count":5,"fields":["context","contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "3.13.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-11-13",
+      "commit": "bf03145172d55980e7bc23c22c622a31ff2a0256",
+      "commits": [
+        {
+          "commit": "5b20b303e2eb2a24942f208bdc405beb99bd4a45",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1807,"title":"fix(design-data): declare selected as a prop-driven state on three components","url":"https://github.com/adobe/spectrum-design-data/pull/1807"},
+          "entries": [
+            {"id":"5b20b303-0","kind":"state","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/states/selected","name":"selected","fields":[{"path":"trigger","before":"interaction","after":"prop"}]}
+          ]
+        }
+      ]
     }
   ]
 }
