@@ -15,4 +15,5 @@ expression: rendered
     name       Open the token naming wizard
     find       Open the fuzzy-find token explorer
     authoring  Open the token lifecycle action-picker
+    preview    Draw a component from its visual recipe
     quit       Quit the TUI

@@ -82,6 +82,7 @@ define_commands! {
     Name    => "name",                    "Open the token naming wizard",
     Find      => "find",                   "Open the fuzzy-find token explorer",
     Authoring => "authoring" | "author",  "Open the token lifecycle action-picker",
+    Preview   => "preview",               "Draw a component from its visual recipe",
     Quit      => "quit",                   "Quit the TUI",
 }
 

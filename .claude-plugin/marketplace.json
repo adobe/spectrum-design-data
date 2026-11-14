@@ -13,7 +13,7 @@
     },
     {
       "name": "spectrum-design-data",
-      "description": "Plugin: read-only Spectrum lookup (tokens, component options, mode resolution, guidelines). Bundles a pinned @adobe/design-data-mcp server with an embedded snapshot; needs Node.js >=20.12.0 and an initial npx download.",
+      "description": "Plugin: read-only Spectrum lookup (tokens, component options, mode resolution, guidelines, SVG and PNG renders). Bundles a pinned @adobe/design-data-mcp server with an embedded snapshot; needs Node.js >=20.12.0 and an initial npx download.",
       "source": "./tools/design-data-skill"
     },
     {

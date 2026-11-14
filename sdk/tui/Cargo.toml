@@ -10,7 +10,7 @@ description = "Interactive TUI for Spectrum design data authoring and inspection
 path = "src/lib.rs"
 
 [dependencies]
-design-data-core = { path = "../core" }
+design-data-core = { path = "../core", features = ["raster", "raster-fallback-font"] }
 ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
 crossterm = { version = "0.29", features = ["serde"] }
 tui-input = "0.15"

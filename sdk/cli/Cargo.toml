@@ -1,6 +1,6 @@
 [package]
 name = "design-data-cli"
-version = "0.33.1"
+version = "0.34.1"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
@@ -12,7 +12,7 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive", "env"] }
-design-data-core = { path = "../core", features = ["fetch"] }
+design-data-core = { path = "../core", features = ["fetch", "raster", "raster-fallback-font"] }
 design-data-dtcg = { path = "../plugins/dtcg" }
 design-data-figma = { path = "../plugins/figma" }
 design-data-site = { path = "../plugins/site" }

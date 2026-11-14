@@ -116,6 +116,8 @@ struct TuiArgs {
     snapshot_ansi: bool,
 }
 
+// Parsed once at startup, so the size of the largest variant (`Render`) costs nothing.
+#[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
 enum Commands {
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
@@ -252,7 +254,7 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
     },
-    /// Render a component from its visual recipe to SVG (draft)
+    /// Render a component from its visual recipe to SVG or PNG (draft)
     Render {
         /// Component name (e.g. action-button)
         #[arg(value_name = "COMPONENT", required_unless_present = "batch")]
@@ -295,15 +297,33 @@ enum Commands {
         /// Directory containing cascade-format .tokens.json files
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
-        /// Output format: `svg` or `scene` (resolved scene graph as JSON)
-        #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
+        /// Output format: `svg`, `png` (needs --output) or `scene` (resolved scene graph as JSON)
+        #[arg(long, default_value = "svg", value_parser = ["svg", "png", "scene"])]
         format: String,
+        /// Pixels per unit for `--format png`
+        #[arg(
+            long,
+            value_name = "N",
+            default_value_t = 2.0,
+            conflicts_with = "batch"
+        )]
+        pixel_ratio: f64,
+        /// TrueType font file for `--format png` text (repeatable; default: bundled Source Sans 3)
+        #[arg(long = "font", value_name = "FILE")]
+        fonts: Vec<PathBuf>,
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
         /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
+    },
+    /// Check which font draws text in PNG previews (Adobe Clean Spectrum VF) and how to install it.
+    /// Exits 0 when the font is found and 1 when the bundled fallback would be used.
+    Fonts {
+        /// Print the status as JSON
+        #[arg(long)]
+        json: bool,
     },
     /// Compare scenes from `render --batch` with measured platform values (draft)
     RenderCompare {
@@ -1448,10 +1468,53 @@ fn run_render(
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     format: String,
+    pixel_ratio: f64,
+    fonts: Vec<PathBuf>,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    if format == "png" && output.is_none() {
+        miette::bail!("--format png writes binary data: pass --output <FILE>");
+    }
+    let mut text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    let mut sources = fonts
+        .iter()
+        .map(|p| {
+            std::fs::read(p)
+                .map(|data| design_data_core::raster::FontSource {
+                    data,
+                    origin: p.display().to_string(),
+                })
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to read --font {}", p.display()))
+        })
+        .collect::<miette::Result<Vec<_>>>()?;
+    // Without --font a PNG looks for Adobe Clean Spectrum VF on this machine, else uses the
+    // bundled Source Sans 3 and says so.
+    let mut font_status = None;
+    if sources.is_empty() && format == "png" {
+        use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+        let found = discover::discover(
+            TARGET_FAMILY,
+            &discover::Env::current(),
+            Some(design_data_core::raster::fallback_font()),
+        );
+        sources.extend(found.font);
+        font_status = Some(found.status);
+    }
+    // A chosen font sets the layout widths too, so boxes fit the text drawn in them; an
+    // explicit --text-metrics still wins. The fallback is the committed table's own font.
+    let chosen = font_status.as_ref().is_none_or(|s| !s.fallback);
+    if text_metrics.is_none() && chosen {
+        if let Some(first) = sources.first() {
+            let font = design_data_core::raster::font::Font::parse(first.data.clone())
+                .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?;
+            text_metrics = Some(
+                font.text_metrics()
+                    .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?,
+            );
+        }
+    }
     if let (Some(file), Some(dir)) = (&batch, &out) {
         return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
     }
@@ -1496,6 +1559,25 @@ fn run_render(
             Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
             None => eprintln!("warning: {d}"),
         }
+    }
+    if format == "png" {
+        let opts = design_data_core::raster::RasterOptions {
+            scale: pixel_ratio,
+            background: None,
+        };
+        if let Some(st) = font_status.as_ref().filter(|s| s.fallback) {
+            eprintln!("warning: {}", st.help);
+        }
+        let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
+            .map_err(|e| miette::miette!("{e}"))?;
+        for d in &out.diagnostics {
+            eprintln!("warning: {d}");
+        }
+        let p = output.expect("checked above");
+        std::fs::write(&p, out.png)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to write {}", p.display()))?;
+        return Ok(ExitCode::SUCCESS);
     }
     let svg = if format == "scene" {
         serde_json::to_string_pretty(&scene).into_diagnostic()?
@@ -4000,6 +4082,50 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
+fn run_fonts(json: bool) -> miette::Result<ExitCode> {
+    use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+    let found = discover::discover(
+        TARGET_FAMILY,
+        &discover::Env::current(),
+        Some(design_data_core::raster::fallback_font()),
+    );
+    let st = &found.status;
+    if json {
+        println!("{}", serde_json::to_string_pretty(st).into_diagnostic()?);
+    } else {
+        println!("Font for PNG previews: {}", st.target);
+        println!(
+            "  {}",
+            if st.found {
+                "Found."
+            } else {
+                "Not found: the bundled fallback is used."
+            }
+        );
+        println!("  Using:    {}", st.using);
+        if !st.searched.is_empty() {
+            println!("  Searched: {}", st.searched.join("\n            "));
+        }
+        for r in &st.rejected {
+            println!("  Skipped:  {} {}", r.origin, r.reason);
+        }
+        if !st.related.is_empty() {
+            println!(
+                "  Other Adobe Clean fonts here (not used): {}",
+                st.related.join(", ")
+            );
+        }
+        if !st.found {
+            println!("\n{}", st.help);
+        }
+    }
+    Ok(if st.found {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
+}
+
 /// `design-data catalog export --out DIR`: write the component and guideline
 /// catalogs after the selected platform manifest (if any) is applied, in the
 /// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
@@ -4487,6 +4613,7 @@ fn main() -> ExitCode {
             exclude_typography,
             path,
         } => run_suggest_context(components, out, exclude_typography, path),
+        Commands::Fonts { json } => run_fonts(json),
         Commands::RenderCompare {
             scenes,
             measured,
@@ -4517,6 +4644,8 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
+            fonts,
             output,
             text_metrics,
         } => run_render(
@@ -4534,6 +4663,8 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
+            fonts,
             output,
             text_metrics,
         ),
