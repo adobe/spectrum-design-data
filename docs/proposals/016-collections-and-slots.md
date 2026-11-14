@@ -61,4 +61,4 @@ The slot declaration (`component-format.md`) has `name`, `description`, `require
 2. **Content slot**: caller content, drawn as a placeholder when empty (accordion panel, dialog body; `qkj5.76`).
 3. **Action slot**: SWC `actions`, replacing the `hasActionButton` and `hasSwitch` booleans.
 
-This changes the component format, so it waits for the Spectrum team. Tracked in `p6ga.11.4`.
+This changes the component format, so it waits for the Spectrum team. Tracked in `p6ga.11.4`; the RFC is [discussion #1801](https://github.com/adobe/spectrum-design-data/discussions/1801).
