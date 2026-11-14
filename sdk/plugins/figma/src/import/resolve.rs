@@ -21,7 +21,7 @@ use crate::color::{format_color, parse_color};
 use crate::mapping::figma_opacity_to_fraction;
 use crate::mapping::{FONT_STYLE, FONT_WEIGHT, OPACITY};
 use crate::types::{FigmaColor, FigmaVariable, VariablesMeta};
-use design_data_core::graph::TokenGraph;
+use design_data_core::graph::{TokenGraph, TokenRecord};
 
 /// Whether `leaf`'s (already alias-resolved) schema is the opacity schema.
 pub(super) fn record_is_opacity(leaf: &design_data_core::graph::TokenRecord) -> bool {
@@ -156,6 +156,37 @@ pub(super) fn resolve_set_member_in_context(
             .get("value")
             .cloned()
     })?
+}
+
+/// The value `record` resolves to for one mode, following its `$ref` chain
+/// hop by hop. A hop into a mode set must land on the member for this mode:
+/// [`TokenGraph::resolve_alias_in_context`] returns the lowest-uuid child when
+/// no child matches the context, so a set that lacks this mode would otherwise
+/// lend an arbitrary sibling's value. Returns `None` when a hop is missing,
+/// cyclic, or lands on a different mode's member.
+pub(super) fn resolve_ref_chain_in_context(
+    graph: &TokenGraph,
+    record: &TokenRecord,
+    field: &str,
+    mode_key: &str,
+) -> Option<Value> {
+    let ctx = HashMap::from([(field.to_string(), mode_key.to_string())]);
+    let mut current = record;
+    let mut seen: Vec<&str> = vec![&record.name];
+    while let Some(target) = current.alias_target.as_deref() {
+        let next = graph.resolve_alias_in_context(target, &ctx)?;
+        let member_mode = next
+            .raw
+            .get("name")
+            .and_then(|n| n.get(field))
+            .and_then(Value::as_str);
+        if member_mode.is_some_and(|m| m != mode_key) || seen.contains(&next.name.as_str()) {
+            return None;
+        }
+        seen.push(&next.name);
+        current = next;
+    }
+    current.raw.get("value").cloned()
 }
 
 /// The `name` field a genuinely multi-mode variable's design-data set is

@@ -22,7 +22,7 @@ use super::naming::{invert_name, resolve_alias_target};
 use super::resolve::{
     collapse_modes, default_source_context, diff_against_source, multimode_name_field,
     record_concept_id, record_is_font_name, record_is_opacity, resolve_figma_value,
-    resolve_set_member_in_context, scale_aligned_source_value,
+    resolve_ref_chain_in_context, resolve_set_member_in_context, scale_aligned_source_value,
 };
 use crate::mapping::build_export_payload;
 use crate::types::{FigmaVariable, VariablesMeta};
@@ -192,13 +192,7 @@ fn diff_multimode(
                     // arbitrary sibling, so the mode stays uncovered.
                     (!graph.has_relationship_record(legacy_key)
                         && record.raw.get("name").and_then(|n| n.get(field)).is_none())
-                    .then(|| {
-                        record
-                            .resolve_leaf_in_context(graph, &ctx)
-                            .raw
-                            .get("value")
-                            .cloned()
-                    })
+                    .then(|| resolve_ref_chain_in_context(graph, record, field, &mode_key))
                     .flatten()
                 })
         });
