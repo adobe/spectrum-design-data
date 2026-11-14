@@ -1,5 +1,21 @@
 # @adobe/design-data-skill
 
+## 2.2.0
+
+### Minor Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Tell agents how PNG text gets its font.
+  - **`skills/design-data/SKILL.md`**: documents `format: "png"`, `design-data-font-status` and
+    a Fonts section: relay `font.fallback` and `font.help`, point Adobe employees to the Brand
+    Center `.ttf`, ask for a path when the user says it is installed, and never say to download
+    what was found.
+  - **Plugin and marketplace descriptions**: mention SVG and PNG renders.
+
+### Patch Changes
+
+- Updated dependencies [[`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e)]:
+  - @adobe/design-data-mcp@1.12.0
+
 ## 2.1.0
 
 ### Minor Changes

@@ -1,5 +1,12 @@
 # @adobe/design-data
 
+## 3.3.15
+
+### Patch Changes
+
+- Updated dependencies [[`2f7023f`](https://github.com/adobe/spectrum-design-data/commit/2f7023f33fcd2e3ddcbac8c5e443a26142f5c0d8), [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e)]:
+  - @adobe/design-data-wasm@0.21.0
+
 ## 3.3.14
 
 ### Patch Changes
