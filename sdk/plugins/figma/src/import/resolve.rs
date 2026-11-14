@@ -258,6 +258,9 @@ pub(super) fn resolve_figma_value(
     depth: usize,
     mode_name: Option<&str>,
 ) -> Option<Value> {
+    if let Some((color, opacity)) = color_with_opacity(value) {
+        return resolve_color_with_opacity(meta, color, opacity, depth, mode_name);
+    }
     if !is_alias(value) {
         return Some(value.clone());
     }
@@ -279,6 +282,34 @@ pub(super) fn resolve_figma_value(
         .map_or(&collection.default_mode_id, |m| &m.mode_id);
     let next = target.values_by_mode.get(mode_id)?;
     resolve_figma_value(meta, next, depth + 1, mode_name)
+}
+
+/// A color paired with an opacity, the shape Figma stores for a transparency
+/// variable: `{ "color": {r, g, b, a}, "opacity": <alias to an opacity variable> }`.
+fn color_with_opacity(value: &Value) -> Option<(&Value, &Value)> {
+    if is_alias(value) {
+        return None;
+    }
+    Some((value.get("color")?, value.get("opacity")?))
+}
+
+/// Fold the opacity into the color's alpha. The opacity must be an alias to an
+/// opacity variable (a FLOAT on Figma's 0 to 100 scale); a literal opacity has
+/// no known scale here, so it stays unconvertible instead of guessing.
+fn resolve_color_with_opacity(
+    meta: &VariablesMeta,
+    color: &Value,
+    opacity: &Value,
+    depth: usize,
+    mode_name: Option<&str>,
+) -> Option<Value> {
+    if depth >= MAX_ALIAS_DEPTH || !is_alias(opacity) {
+        return None;
+    }
+    let scale = resolve_figma_value(meta, opacity, depth + 1, mode_name)?.as_f64()?;
+    let mut base = color_from(&resolve_figma_value(meta, color, depth + 1, mode_name)?)?;
+    base.a *= figma_opacity_to_fraction(scale);
+    serde_json::to_value(base).ok()
 }
 
 fn values_agree(a: &Value, b: &Value) -> bool {
