@@ -4089,6 +4089,7 @@ pub fn layout_revision_warning(root: &std::path::Path) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn layout_revision_matches_the_data() {
@@ -4110,7 +4111,6 @@ mod tests {
         std::fs::remove_dir_all(&dir).unwrap();
         assert_eq!(layout_revision_warning(&dir), None);
     }
-    use super::*;
     use std::path::PathBuf;
 
     fn root() -> PathBuf {
