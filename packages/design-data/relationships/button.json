@@ -2020,42 +2020,6 @@
         "isLabelHidden": [false, true],
         "isPending": [false, true],
         "style": "fill",
-        "variant": "primary",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
-    "uuid": "a5cd97f7-cca7-53b9-9246-487cd48879e7"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
-        "variant": "primary",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
-    "uuid": "196ac443-310e-5999-8412-22c6737d6abe"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
         "variant": "secondary"
       }
     },

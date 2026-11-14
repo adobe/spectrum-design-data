@@ -17,5 +17,5 @@ sizes) still point at the deprecated token.
 
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-Remove 22 identical relationship records that the repoint left behind (desktop and
+Remove 24 identical relationship records that the repoint left behind (desktop and
 mobile records pointing at the same token). No token changes.
