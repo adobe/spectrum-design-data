@@ -2240,6 +2240,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Unitless width-to-height ratio (for example 4:3 as 1.333), used to derive a width from a height"
     }
   ]
 }
