@@ -31,6 +31,20 @@ tools/design-data-skill/
 /plugin install spectrum-design-data@spectrum-design-data
 ```
 
+### GitHub Copilot app
+
+Click **Customize** in the sidebar, use the marketplace settings control next to the
+marketplace dropdown to add the Git repository `adobe/spectrum-design-data`, then find
+**spectrum-design-data** on the Browse page and click **Install**. Under **Installed**, check
+that its toggle is on. The app's own steps are in
+[Customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app).
+
+**Start a new session after installing.** A session that was already open does not pick up the
+plugin's tools. An agent in such a session may look for the answer another way (reading code,
+or starting its own copy of the server) and give a result that does not come from the
+installed plugin. In a new session, ask it to use only the design-data MCP tools; if it says
+it has no such tool, the server did not start (it needs Node.js `>=20.12.0` on the app's PATH).
+
 ### GitHub Copilot CLI
 
 ```
@@ -38,7 +52,7 @@ copilot plugin marketplace add adobe/spectrum-design-data
 copilot plugin install spectrum-design-data@spectrum-design-data
 ```
 
-Copilot should not prompt for this plugin's tools: all eight are read-only and
+Copilot should not prompt for this plugin's tools: all of them are read-only and
 declare it. If a client or setting still asks for approval, you can pre-approve
 the server by name (`design-data`, from the plugin's `.mcp.json`):
 
