@@ -13,7 +13,7 @@
     { "name": "down", "trigger": "interaction" },
     { "name": "hover", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "selected", "trigger": "interaction" },
+    { "name": "selected", "trigger": "prop" },
     { "name": "selected-default", "trigger": "interaction" },
     { "name": "selected-down", "trigger": "interaction" },
     { "name": "selected-hover", "trigger": "interaction" },
