@@ -723,3 +723,27 @@ function fakeTrueType(family) {
   head.writeUInt32BE(table.length, 24);
   return Buffer.concat([head, table, Buffer.alloc(2048)]);
 }
+
+test("design-data-render applies the icon field and flags options.icon", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const render = tools["design-data-render"].handler;
+  const base = { component: "button", format: "png", pixelRatio: 1 };
+  const png = async (extra) => {
+    const out = await render({ ...base, fontPath: FONT_FIXTURE, ...extra });
+    return {
+      img: out.content[0].data,
+      diagnostics: JSON.parse(out.content[1].text).diagnostics,
+    };
+  };
+  const dflt = await png({});
+  const edit = await png({ icon: { set: "workflow", name: "edit" } });
+  t.deepEqual(edit.diagnostics, []);
+  t.not(edit.img, dflt.img, "edit icon differs from the default add icon");
+  const viaOption = await png({ options: { icon: "edit" } });
+  t.is(viaOption.img, dflt.img);
+  t.regex(viaOption.diagnostics.join("\n"), /option 'icon'.*ignored/);
+  const bad = await png({ icon: { set: "workflow", name: "no-such-icon" } });
+  t.true(bad.diagnostics.length > 0);
+});

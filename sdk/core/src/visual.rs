@@ -2142,6 +2142,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         option_defaults: &variant.option_defaults,
         diags: Vec::new(),
     };
+    if req.options.contains_key("icon") {
+        cx.diags.push(
+            "option 'icon' is not drawn and was ignored; use the request's icon field ({set, name} or \"none\")"
+                .into(),
+        );
+    }
     let rp = |cx: &mut Ctx, part: &Value, name: &str| -> Option<Resolved> {
         debug_assert!(
             reads_prop(part, std::ptr::eq(part, root), name),
