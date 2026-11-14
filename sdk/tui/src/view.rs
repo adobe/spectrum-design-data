@@ -23,6 +23,7 @@ mod authoring_mode_set;
 mod find;
 mod home;
 mod naming;
+mod preview;
 mod results;
 pub(crate) mod shared;
 mod wizard;
@@ -35,6 +36,7 @@ use authoring::render_authoring;
 use find::render_find;
 use home::render_home;
 use naming::render_naming;
+use preview::render_preview;
 use results::{render_describe, render_query, render_resolve, render_validate};
 use wizard::render_wizard;
 
@@ -201,6 +203,10 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
             Modal::Authoring(ref mut am) => {
                 let popup_area = modal_frame(frame, area, 82, 85);
                 render_authoring(frame, am, popup_area, theme, &label);
+            }
+            Modal::Preview(ref pv) => {
+                let popup_area = modal_frame(frame, area, 92, 92);
+                render_preview(frame, pv, popup_area, theme);
             }
         }
     }

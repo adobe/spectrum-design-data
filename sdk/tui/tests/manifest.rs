@@ -208,6 +208,7 @@ fn resolve_respects_manifest_restrictions() {
     assert!(candidates.iter().any(|c| c.is_winner));
 
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(&tokens_dir),
         components_dir: None,
