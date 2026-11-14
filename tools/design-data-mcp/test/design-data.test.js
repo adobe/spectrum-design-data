@@ -10,10 +10,15 @@
 
 import test from "ava";
 import { tmpdir } from "node:os";
-import { mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { fontDirs, resetFontCache } from "../src/fonts.js";
 import { randomUUID } from "node:crypto";
-import { createDesignDataTools } from "../src/tools/design-data.js";
+import {
+  createDesignDataTools,
+  fontSummary,
+} from "../src/tools/design-data.js";
 
 // These tests call the real design-data-primer handler, which does a
 // best-effort registry.npmjs.org freshness check. Disable it here so this
@@ -32,6 +37,7 @@ const EXPECTED_TOOLS = [
   "design-data-guideline",
   "design-data-visual-recipe",
   "design-data-render",
+  "design-data-font-status",
 ];
 
 // ── design-data-suggest (wasm-backed) ────────────────────────────────────────
@@ -238,9 +244,9 @@ test("design-data-render rejects a component without a recipe", async (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes ten tools", (t) => {
+test("createDesignDataTools exposes eleven tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 10);
+  t.is(tools.length, 11);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -472,3 +478,248 @@ test("design-data-primer reports mode-set modes", async (t) => {
   t.true(modeSets.scale.includes("mobile"));
   t.true(modeSets.contrast.includes("high"));
 });
+
+// ── PNG rendering ─────────────────────────────────────────────────────────────
+
+const FONT_FIXTURE = fileURLToPath(
+  new URL(
+    "../../../sdk/core/src/raster/fonts/SourceSans3VF-Upright.ttf",
+    import.meta.url,
+  ),
+);
+
+test("design-data-render returns a PNG image block with the font status", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-render"].handler({
+    component: "badge",
+    format: "png",
+    pixelRatio: 1,
+    fontPath: FONT_FIXTURE,
+  });
+  t.is(result.content.length, 2);
+  const [image, text] = result.content;
+  t.is(image.type, "image");
+  t.is(image.mimeType, "image/png");
+  const png = Buffer.from(image.data, "base64");
+  t.is(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  t.true(png.readUInt32BE(16) > 20 && png.readUInt32BE(20) > 10);
+  const info = JSON.parse(text.text);
+  t.true(info.font.found);
+  t.false(info.font.fallback);
+  t.is(info.font.using, FONT_FIXTURE);
+  t.deepEqual(info.diagnostics, []);
+  t.is(info.font.searched, undefined, "the long folder list is left out");
+});
+
+test.serial(
+  "design-data-render tells the model when it fell back to the bundled font",
+  async (t) => {
+    const tools = Object.fromEntries(
+      createDesignDataTools().map((tool) => [tool.name, tool]),
+    );
+    const empty = mkdtempSync(join(tmpdir(), "dd-empty-"));
+    const saved = {
+      HOME: process.env.HOME,
+      DESIGN_DATA_FONT: process.env.DESIGN_DATA_FONT,
+    };
+    process.env.HOME = empty;
+    delete process.env.DESIGN_DATA_FONT;
+    try {
+      const status = await tools["design-data-font-status"].handler({});
+      if (status.found) {
+        t.pass("this machine has the real font in a system folder");
+        return;
+      }
+      t.true(status.fallback);
+      t.regex(status.help, /Brand Center/);
+      t.true(Array.isArray(status.searched));
+      const result = await tools["design-data-render"].handler({
+        component: "badge",
+        format: "png",
+        pixelRatio: 1,
+      });
+      const info = JSON.parse(result.content[1].text);
+      t.true(info.font.fallback);
+      t.is(info.font.using, "bundled Source Sans 3");
+      t.regex(info.font.help, /DESIGN_DATA_FONT/);
+    } finally {
+      for (const [k, v] of Object.entries(saved)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
+    }
+  },
+);
+
+test("design-data-render validates format and pixelRatio", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const render = tools["design-data-render"].handler;
+  await t.throwsAsync(render({ component: "badge", format: "gif" }), {
+    message: /format must be/,
+  });
+  await t.throwsAsync(
+    render({
+      component: "badge",
+      format: "png",
+      pixelRatio: 9,
+      fontPath: FONT_FIXTURE,
+    }),
+    { message: /pixelRatio/ },
+  );
+  await t.throwsAsync(
+    render({
+      component: "zzz-no-recipe",
+      format: "png",
+      fontPath: FONT_FIXTURE,
+    }),
+    { message: /no visual recipe/ },
+  );
+});
+
+test("design-data-font-status checks a given font file", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const status = await tools["design-data-font-status"].handler({
+    fontPath: FONT_FIXTURE,
+  });
+  t.true(status.found);
+  t.is(status.using, FONT_FIXTURE);
+  t.true(Array.isArray(status.searched));
+});
+
+test("the server passes an image block through to the client", async (t) => {
+  const { Client } = await import("@modelcontextprotocol/sdk/client/index.js");
+  const { InMemoryTransport } =
+    await import("@modelcontextprotocol/sdk/inMemory.js");
+  const { createMCPServer } = await import("../src/index.js");
+  const [a, b] = InMemoryTransport.createLinkedPair();
+  const server = createMCPServer();
+  const client = new Client({ name: "t", version: "0" });
+  await Promise.all([server.connect(a), client.connect(b)]);
+  const res = await client.callTool({
+    name: "design-data-render",
+    arguments: {
+      component: "badge",
+      format: "png",
+      pixelRatio: 1,
+      fontPath: FONT_FIXTURE,
+    },
+  });
+  t.falsy(res.isError);
+  t.deepEqual(
+    res.content.map((c) => c.type),
+    ["image", "text"],
+  );
+  t.is(res.content[0].mimeType, "image/png");
+  const svg = await client.callTool({
+    name: "design-data-render",
+    arguments: { component: "badge" },
+  });
+  t.is(svg.content[0].type, "text");
+  t.true(svg.content[0].text.startsWith("<svg"));
+  const list = await client.listTools();
+  t.true(list.tools.some((x) => x.name === "design-data-font-status"));
+  await client.close();
+});
+
+test("the font status sent to the model caps the related families", (t) => {
+  const status = {
+    found: false,
+    fallback: true,
+    rejected: [],
+    related: ["a", "b", "c", "d", "e", "f", "g"],
+    searched: ["/x"],
+    help: "h",
+  };
+  const short = fontSummary(status);
+  t.deepEqual(short.related, ["a", "b", "c", "d", "e"]);
+  t.is(short.relatedMore, 2);
+  t.is(short.searched, undefined);
+  t.deepEqual(fontSummary(status, true).searched, ["/x"]);
+  const few = fontSummary({ ...status, related: ["a"] });
+  t.deepEqual(few.related, ["a"]);
+  t.is(few.relatedMore, undefined);
+});
+
+test.serial(
+  "a font found on the machine that will not draw is skipped, not fatal",
+  async (t) => {
+    const tools = Object.fromEntries(
+      createDesignDataTools().map((tool) => [tool.name, tool]),
+    );
+    const home = mkdtempSync(join(tmpdir(), "dd-bad-font-"));
+    // Identifies as Adobe Clean Spectrum VF (so it is chosen) but has no outlines.
+    const dir = fontDirs({ home })[0];
+    mkdirSync(dir, { recursive: true });
+    const broken = join(dir, "AdobeCleanSpectrumVF-Roman.ttf");
+    writeFileSync(broken, fakeTrueType("Adobe Clean Spectrum VF"));
+    const saved = {
+      HOME: process.env.HOME,
+      DESIGN_DATA_FONT: process.env.DESIGN_DATA_FONT,
+    };
+    process.env.HOME = home;
+    delete process.env.DESIGN_DATA_FONT;
+    resetFontCache();
+    try {
+      const result = await tools["design-data-render"].handler({
+        component: "badge",
+        format: "png",
+        pixelRatio: 1,
+      });
+      t.is(result.content[0].type, "image", "a picture is still drawn");
+      const { font } = JSON.parse(result.content[1].text);
+      t.is(font.rejected[0].origin, broken);
+      t.regex(font.rejected[0].reason, /^cannot be drawn/);
+      t.regex(
+        font.help,
+        /AdobeCleanSpectrumVF-Roman\.ttf but it cannot be drawn/,
+      );
+      t.not(font.using, broken);
+      // A font the user named must fail loudly instead.
+      await t.throwsAsync(
+        tools["design-data-render"].handler({
+          component: "badge",
+          format: "png",
+          fontPath: broken,
+        }),
+        { message: /font /i },
+      );
+    } finally {
+      for (const [k, v] of Object.entries(saved)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
+      resetFontCache();
+    }
+  },
+);
+
+// A TrueType file with only a name table: it identifies, but cannot be parsed as a font.
+function fakeTrueType(family) {
+  const u16 = (s) => Buffer.from(s, "utf16le").swap16();
+  const [f, sub] = [u16(family), u16("Regular")];
+  const name = Buffer.alloc(30);
+  name.writeUInt16BE(2, 2);
+  name.writeUInt16BE(30, 4);
+  [
+    [1, 0, f.length],
+    [2, f.length, sub.length],
+  ].forEach(([id, off, len], i) => {
+    [3, 1, 0x409, id, len, off].forEach((v, k) =>
+      name.writeUInt16BE(v, 6 + 12 * i + 2 * k),
+    );
+  });
+  const table = Buffer.concat([name, f, sub]);
+  const head = Buffer.alloc(28);
+  head.writeUInt32BE(0x00010000, 0);
+  head.writeUInt16BE(1, 4);
+  head.write("name", 12, "latin1");
+  head.writeUInt32BE(28, 20);
+  head.writeUInt32BE(table.length, 24);
+  return Buffer.concat([head, table, Buffer.alloc(2048)]);
+}

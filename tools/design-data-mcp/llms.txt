@@ -17,6 +17,7 @@ access, no CLI binary, and no configuration required.
 - [Setup via npx (Cursor / Claude Desktop manual config)](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#setup-via-npx-cursor--claude-desktop-manual-config)
 - [Staying current](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#staying-current)
 - [Tools](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#tools)
+- [Fonts for PNG renders](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#fonts-for-png-renders)
 - [Testing guideline content](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#testing-guideline-content)
 - [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#license)
 - [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository

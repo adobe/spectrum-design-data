@@ -80,7 +80,7 @@ test.serial("manifest.json is well-formed and in sync", (t) => {
   t.is(manifest.manifest_version, "0.3", "manifest_version should be '0.3'");
   t.is(typeof manifest.name, "string", "manifest.name should be a string");
   t.true(Array.isArray(manifest.tools), "manifest.tools should be an array");
-  t.is(manifest.tools.length, 10, "manifest should list 10 tools");
+  t.is(manifest.tools.length, 11, "manifest should list 11 tools");
   for (const entry of manifest.tools) {
     t.is(typeof entry.name, "string", "tool entry name should be a string");
     t.is(
@@ -93,4 +93,16 @@ test.serial("manifest.json is well-formed and in sync", (t) => {
     manifest.server?.entry_point,
     "manifest should have server.entry_point",
   );
+  // The optional font file the user can pick at install time reaches the server as DESIGN_DATA_FONT.
+  t.is(manifest.user_config?.font_file?.type, "file");
+  t.false(manifest.user_config.font_file.required);
+  t.is(
+    manifest.server.mcp_config.env?.DESIGN_DATA_FONT,
+    "${user_config.font_file}",
+  );
+  t.true(
+    existsSync(join(stagingDir, "src", "fonts", "SourceSans3VF-Upright.ttf")),
+    "the bundled fallback font must be in the bundle",
+  );
+  t.true(existsSync(join(stagingDir, "src", "fonts", "OFL-SourceSans3.txt")));
 });

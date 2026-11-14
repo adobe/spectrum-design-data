@@ -4,7 +4,7 @@
 
 The comparison pipeline checks design-data visual-recipe renders against real platform components (React Spectrum S2 and SWC through Storybook, then the iOS Catalog app). **Numbers decide the verdict.** Pixel diffs and AI review only help a person look.
 
-The SDK covers the data side and nothing else. It renders states and compares numbers. It captures nothing and handles no images, so adapters that read a platform (Playwright for Storybook, the iOS capture) live outside the SDK and only have to write the JSON below.
+The SDK covers the data side and nothing else. It renders states and compares numbers. It captures nothing and compares no images (`design-data render --format png` can write a single render as a PNG for a person to look at, but it is not part of the comparison), so adapters that read a platform (Playwright for Storybook, the iOS capture) live outside the SDK and only have to write the JSON below.
 
 ```text
 states.json ──design-data render --batch──▶ <dir>/<id>.svg + <id>.scene.json + index.json

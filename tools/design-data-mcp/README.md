@@ -70,7 +70,59 @@ any network failure (offline/air-gapped use is unaffected); set
 | `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category     |
 | `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)        |
 | `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one          |
-| `design-data-render`           | Render a component with a recipe to SVG for a size, states, options, and mode       |
+| `design-data-render`           | Render a component with a recipe to SVG (default) or PNG for a size, states, mode   |
+| `design-data-font-status`      | Which font draws PNG text: Adobe Clean Spectrum VF if installed, else a fallback    |
+
+## Fonts for PNG renders
+
+`design-data-render` draws SVG by default. With `format: "png"` it returns an image, and
+the text in it is drawn in **Adobe Clean Spectrum VF** when that font is installed on the
+machine running the server. Nothing needs configuring: the server looks in your font
+folders and in Creative Cloud's font cache (any hidden subfolder under
+`CoreSync/plugins/livetype`) and picks the file by its name and contents, not its file name.
+The result says which font it used (`font.using`) and whether it fell back
+(`font.fallback`); call `design-data-font-status` to check without rendering.
+
+If the font is not installed, text is drawn in a bundled open font (Source Sans 3, SIL
+Open Font License) and the result says so, with the install steps. The fallback is close
+but not identical: widths differ slightly and the image should not be called exact.
+
+**Getting the font.** Adobe employees can download Adobe Clean Spectrum VF from the
+[Brand Center](https://inside.corp.adobe.com/content/inside/en/brand-center/font.html)
+(employees only). Install `AdobeCleanSpectrumVF-Roman.ttf`: double-click it and choose
+Install Font. Use the `.ttf` file; the `.otf` (PostScript outline) version and the Italic file are
+not used. Creative Cloud's "Adobe Clean" is a different font from Adobe Clean Spectrum VF
+and is not used either. The font is read from your machine and never bundled or sent
+anywhere.
+
+**Pointing at a font that is somewhere else.** Any of these works, in this order:
+
+1. The `fontPath` argument of `design-data-render` or `design-data-font-status`.
+
+2. The `DESIGN_DATA_FONT` environment variable, set to the file's full path. In an MCP
+   configuration that is the server's `env`:
+
+   ```json
+   {
+     "mcpServers": {
+       "design-data": {
+         "command": "npx",
+         "args": ["-y", "@adobe/design-data-mcp"],
+         "env": {
+           "DESIGN_DATA_FONT": "/Users/me/fonts/AdobeCleanSpectrumVF-Roman.ttf"
+         }
+       }
+     }
+   }
+   ```
+
+3. In the Claude Desktop extension, the optional "Adobe Clean Spectrum VF font file"
+   setting shown at install time.
+
+4. The automatic search described above.
+
+The font search runs once per server process; restart the server after installing the
+font.
 
 ## Testing guideline content
 
