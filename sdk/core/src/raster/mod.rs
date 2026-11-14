@@ -16,11 +16,13 @@
 //! bytes (this crate never reads the filesystem or embeds one).
 
 pub mod canvas;
+pub mod path;
 pub mod png;
 pub mod shape;
 
-use crate::visual::{Scene, SceneNode};
+use crate::visual::{icon_fit, Scene, SceneNode};
 use canvas::{parse_color, Canvas, Rgba};
+use serde_json::Value;
 use shape::{paint, rrect_sdf, Paint, Xf};
 
 /// Pixels allowed in one image, so a bad `scale` cannot allocate without bound.
@@ -272,8 +274,69 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
                 });
             }
         }
-        "icon" => note(diags, "icons are not drawn yet".into()),
+        "icon" => draw_icon(cv, xf, n, diags),
         _ => {}
+    }
+}
+
+/// The icon's drawing (its paths filled in the node's color), or the plus-sign placeholder
+/// the SVG backend draws when the recipe compile found no drawing for it.
+fn draw_icon(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
+    let color = color_of(n.color.as_deref(), "icon", &n.part, diags)
+        .or_else(|| n.color.is_none().then_some(Rgba::BLACK));
+    let Some(color) = color else { return };
+    let drawing = n.icon.as_ref().and_then(|i| i.drawing.as_ref());
+    let fit = drawing.and_then(|d| {
+        let fit = icon_fit(d.get("viewBox")?.as_str()?, n.x, n.y, n.w, n.h)?;
+        Some((fit, d.get("paths")?.as_array()?))
+    });
+    let Some(((k, tx, ty), paths)) = fit else {
+        let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
+        let (r, hw) = (n.w.min(n.h) * 0.35, (n.w / 10.0).max(1.0) / 2.0);
+        let bb = (cx - r - hw, cy - r - hw, cx + r + hw, cy + r + hw);
+        paint(cv, xf, bb, color, Paint::Fill, |x, y| {
+            let bar = |dx: f64, dy: f64| {
+                let (px, py) = ((x - cx).abs(), (y - cy).abs());
+                (px - dx).max(0.0).hypot((py - dy).max(0.0))
+            };
+            bar(r, 0.0).min(bar(0.0, r)) - hw
+        });
+        return;
+    };
+    // Clockwise about the node's center, as the SVG backend's `rotate(deg cx cy)`.
+    let (sin, cos) = n.rotation.unwrap_or(0.0).to_radians().sin_cos();
+    let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
+    let to_device = |p: path::Pt| {
+        let (x, y) = (p[0] * k + tx - cx, p[1] * k + ty - cy);
+        [
+            (cx + x * cos - y * sin) * xf.s + xf.tx,
+            (cy + x * sin + y * cos) * xf.s + xf.ty,
+        ]
+    };
+    for p in paths {
+        let d = p.get("d").and_then(Value::as_str).unwrap_or_default();
+        let rule = path::Rule::parse(p.get("fillRule").and_then(Value::as_str));
+        match path::flatten(d, 0.1 / (k * xf.s)) {
+            Ok(polys) => {
+                let polys: Vec<Vec<path::Pt>> = polys
+                    .iter()
+                    .map(|poly| poly.iter().map(|&q| to_device(q)).collect())
+                    .collect();
+                if !path::fill(cv, &polys, rule, color) {
+                    note(
+                        diags,
+                        format!("{}: icon path is too large to draw; skipped", n.part),
+                    );
+                }
+            }
+            Err(e) => note(
+                diags,
+                format!(
+                    "{}: icon path is not valid SVG path data ({e}); skipped",
+                    n.part
+                ),
+            ),
+        }
     }
 }
 
@@ -453,16 +516,87 @@ mod tests {
     }
 
     #[test]
-    fn text_is_a_bar_with_a_diagnostic_and_icons_are_skipped() {
+    fn text_is_a_bar_with_a_diagnostic() {
         let mut t = node("text", "label", 2.0, 0.0, 20.0, 12.0);
         t.text = Some("Hi".into());
         t.color = Some("#000000".into());
-        let i = node("icon", "icon", 0.0, 0.0, 8.0, 8.0);
-        let (img, d) = render(&scene(24.0, 12.0, vec![t, i]), 2.0);
+        let (img, d) = render(&scene(24.0, 12.0, vec![t]), 2.0);
         assert!(at(&img, 20, 12)[3] > 100);
-        assert_eq!(d.len(), 2, "{d:?}");
-        assert!(d.iter().any(|m| m.contains("placeholder bars")));
-        assert!(d.iter().any(|m| m.contains("icons")));
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert!(d[0].contains("placeholder bars"));
+    }
+
+    fn icon(drawing: Option<serde_json::Value>, color: &str) -> SceneNode {
+        let mut n = node("icon", "mark", 0.0, 0.0, 10.0, 10.0);
+        n.color = Some(color.into());
+        n.icon = Some(crate::visual::IconRef {
+            set: "ui".into(),
+            name: "t".into(),
+            drawing,
+        });
+        n
+    }
+
+    fn drawing(d: &str, rule: Option<&str>) -> serde_json::Value {
+        let mut p = serde_json::json!({ "d": d });
+        if let Some(r) = rule {
+            p["fillRule"] = r.into();
+        }
+        serde_json::json!({ "viewBox": "0 0 10 10", "paths": [p] })
+    }
+
+    #[test]
+    fn an_icon_fills_its_paths_scaled_into_its_box() {
+        // Drawn at 20 units from a 10-unit viewBox: the 10x4 strip becomes 20x8.
+        let mut n = icon(Some(drawing("M0 0h10v4H0z", None)), "#0000ff");
+        n.w = 20.0;
+        n.h = 20.0;
+        let (img, d) = render(&scene(20.0, 20.0, vec![n]), 1.0);
+        assert_eq!(at(&img, 10, 4), [0, 0, 255, 255]);
+        assert_eq!(at(&img, 10, 12)[3], 0);
+        assert!(d.is_empty());
+    }
+
+    #[test]
+    fn an_icon_rotates_clockwise_about_its_center() {
+        let mut n = icon(Some(drawing("M0 0h10v4H0z", None)), "#000000");
+        n.rotation = Some(90.0);
+        let (img, _) = render(&scene(10.0, 10.0, vec![n]), 1.0);
+        // The top strip turns into the right-hand strip.
+        assert_eq!(at(&img, 8, 5)[3], 255);
+        assert_eq!(at(&img, 5, 2)[3], 0);
+        assert_eq!(at(&img, 1, 5)[3], 0);
+    }
+
+    #[test]
+    fn an_icon_honours_even_odd_fill_rule() {
+        let d = "M0 0h10v10H0zM3 3h4v4H3z";
+        let center = |rule| {
+            let n = icon(Some(drawing(d, rule)), "#000000");
+            at(&render(&scene(10.0, 10.0, vec![n]), 1.0).0, 5, 5)[3]
+        };
+        assert_eq!(center(None), 255);
+        assert_eq!(center(Some("evenodd")), 0);
+    }
+
+    #[test]
+    fn an_icon_without_a_drawing_is_a_plus_and_bad_path_data_is_reported() {
+        let (img, d) = render(&scene(10.0, 10.0, vec![icon(None, "#ff0000")]), 4.0);
+        assert_eq!(at(&img, 20, 20), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 20, 5), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 4, 4)[3], 0);
+        assert!(d.is_empty());
+
+        let (img, d) = render(
+            &scene(
+                10.0,
+                10.0,
+                vec![icon(Some(drawing("L1 1", None)), "#000000")],
+            ),
+            1.0,
+        );
+        assert_eq!(at(&img, 5, 5)[3], 0);
+        assert!(d[0].contains("not valid SVG path data"), "{d:?}");
     }
 
     #[test]
