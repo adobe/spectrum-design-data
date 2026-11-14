@@ -406,12 +406,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "768px",
     "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
-    "legacyKey": "meter-maximum-width",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 213 of the mapping sheet."
+    "legacyKey": "meter-maximum-width"
   },
   {
     "scope": {

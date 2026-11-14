@@ -83,8 +83,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "588dd683-2e48-4f76-9e6f-56f266b94e83",
-    "deprecated": true,
-    "deprecated_comment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -102,8 +100,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "96ab7508-15ea-4910-bed7-51d9dc6af3a2",
-    "deprecated": true,
-    "deprecated_comment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -121,8 +117,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "fe075ee5-298a-458b-b8fd-0dbb7ef4534b",
-    "deprecated": true,
-    "deprecated_comment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -140,8 +134,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "2451e056-68d0-4cb1-b046-2ccb989f8909",
-    "deprecated": true,
-    "deprecated_comment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

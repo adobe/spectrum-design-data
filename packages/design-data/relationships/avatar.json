@@ -607,7 +607,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-800. If 72px is needed exactly, implementations can override.",
+      "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
     "rationale": "Deprecated via refine-from-sheets from row 35 of the mapping sheet."
   },
@@ -628,7 +629,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-800. If 72px is needed exactly, implementations can override.",
+      "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
     },
     "rationale": "Deprecated via refine-from-sheets from row 35 of the mapping sheet."
   },
@@ -693,7 +695,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-900. If 88px is needed exactly, implementations can override.",
+      "replacedBy": "786f4575-8665-4ac2-903b-f6492b9dcf95"
     },
     "rationale": "Deprecated via refine-from-sheets from row 37 of the mapping sheet."
   },
@@ -714,7 +717,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-900. If 88px is needed exactly, implementations can override.",
+      "replacedBy": "786f4575-8665-4ac2-903b-f6492b9dcf95"
     },
     "rationale": "Deprecated via refine-from-sheets from row 37 of the mapping sheet."
   },
@@ -779,7 +783,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-1000. If 104px is needed exactly, implementations can override.",
+      "replacedBy": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453"
     },
     "rationale": "Deprecated via refine-from-sheets from row 39 of the mapping sheet."
   },
@@ -800,7 +805,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-1000. If 104px is needed exactly, implementations can override.",
+      "replacedBy": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453"
     },
     "rationale": "Deprecated via refine-from-sheets from row 39 of the mapping sheet."
   },
@@ -1041,7 +1047,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
     "rationale": "Deprecated via refine-from-sheets from row 45 of the mapping sheet."
   },
@@ -1062,7 +1069,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
     "rationale": "Deprecated via refine-from-sheets from row 45 of the mapping sheet."
   },
@@ -1171,7 +1179,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
+      "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
     "rationale": "Deprecated via refine-from-sheets from row 48 of the mapping sheet."
   },
@@ -1192,7 +1201,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
+      "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
     "rationale": "Deprecated via refine-from-sheets from row 48 of the mapping sheet."
   },

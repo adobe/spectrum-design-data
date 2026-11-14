@@ -177,7 +177,7 @@
     "component": "thumbnail",
     "uuid": "843927ab-cce4-45e5-a626-0f09dce95c27",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-500 or visual-size-600.",
+    "deprecated_comment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -189,7 +189,8 @@
         "value": "48px",
         "uuid": "543dcd25-42cc-4198-b4ba-ba5524b08691"
       }
-    }
+    },
+    "renamed": "visual-size-500"
   },
   "thumbnail-size-700": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -236,7 +237,7 @@
     "component": "thumbnail",
     "uuid": "644086da-cb67-4cd9-902d-a05f67858932",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -248,7 +249,8 @@
         "value": "56px",
         "uuid": "94ca9817-988a-4e4f-9163-954d29204049"
       }
-    }
+    },
+    "renamed": "visual-size-600"
   },
   "thumbnail-size-900": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

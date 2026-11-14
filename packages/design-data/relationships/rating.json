@@ -467,12 +467,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "128px",
     "uuid": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
-    "legacyKey": "rating-width-medium",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Depends on icon count, not a fixed per-size value; compute at render time, no token needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 248 of the mapping sheet."
+    "legacyKey": "rating-width-medium"
   },
   {
     "scope": {
@@ -485,11 +480,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "104px",
     "uuid": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
-    "legacyKey": "rating-width-small",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Depends on icon count, not a fixed per-size value; compute at render time, no token needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 249 of the mapping sheet."
+    "legacyKey": "rating-width-small"
   }
 ]

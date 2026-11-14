@@ -12,9 +12,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "meter",
     "value": "768px",
-    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
-    "deprecated": true,
-    "deprecated_comment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
+    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
   },
   "meter-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

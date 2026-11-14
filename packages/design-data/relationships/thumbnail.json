@@ -729,7 +729,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-500 or visual-size-600."
+      "deprecatedComment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
     "rationale": "Deprecated via refine-from-sheets from row 374 of the mapping sheet."
   },
@@ -750,7 +751,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-500 or visual-size-600."
+      "deprecatedComment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
     },
     "rationale": "Deprecated via refine-from-sheets from row 374 of the mapping sheet."
   },
@@ -859,7 +861,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
+      "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
     "rationale": "Deprecated via refine-from-sheets from row 377 of the mapping sheet."
   },
@@ -880,7 +883,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override."
+      "deprecatedComment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
+      "replacedBy": "7d5d9d24-05ad-4438-8542-b79ae0593a56"
     },
     "rationale": "Deprecated via refine-from-sheets from row 377 of the mapping sheet."
   },

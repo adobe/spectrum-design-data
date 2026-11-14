@@ -838,12 +838,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "152px",
     "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4",
-    "legacyKey": "date-picker-minimum-width",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Fixed input pattern (mm/dd/yyyy) is component-specific; platform-specific token, not foundational."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 169 of the mapping sheet."
+    "legacyKey": "date-picker-minimum-width"
   },
   {
     "scope": {

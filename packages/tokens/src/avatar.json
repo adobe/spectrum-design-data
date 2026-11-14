@@ -62,7 +62,7 @@
     "component": "avatar",
     "uuid": "a8ae28c2-1047-45e7-9d21-36d92a6eb58d",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-800 or -900. if 72px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-800. If 72px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -74,7 +74,8 @@
         "value": "80px",
         "uuid": "371af425-26e6-4891-a195-b4dbee5e17b9"
       }
-    }
+    },
+    "renamed": "visual-size-800"
   },
   "avatar-size-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -101,7 +102,7 @@
     "component": "avatar",
     "uuid": "0784e2ac-d40b-4021-9435-08b80a7fe61c",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-900 or -1000. if 88px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-900. If 88px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -113,7 +114,8 @@
         "value": "96px",
         "uuid": "b8372421-023d-4d86-b792-eb1c9fd8230c"
       }
-    }
+    },
+    "renamed": "visual-size-900"
   },
   "avatar-size-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -140,7 +142,7 @@
     "component": "avatar",
     "uuid": "268105fd-2308-4e1e-8f3a-822f32559250",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-1000. if 104px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-1000. If 104px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -152,7 +154,8 @@
         "value": "112px",
         "uuid": "06359a10-02d1-4886-a841-940b5ffbb0f0"
       }
-    }
+    },
+    "renamed": "visual-size-1000"
   },
   "avatar-size-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -259,7 +262,7 @@
     "component": "avatar",
     "uuid": "5329cf23-d3ec-4513-8aaa-06f36eafd06e",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-500 or -600. if 44px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-500. If 44px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -271,7 +274,8 @@
         "value": "48px",
         "uuid": "9ea7c014-2c8d-403f-ad7f-fa3c08a3a46d"
       }
-    }
+    },
+    "renamed": "visual-size-500"
   },
   "avatar-size-700": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -318,7 +322,7 @@
     "component": "avatar",
     "uuid": "b5158bd5-8349-4330-84f1-7b900119366f",
     "deprecated": true,
-    "deprecated_comment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override.",
+    "deprecated_comment": "Replaced by visual-size-600. If 52px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -330,7 +334,8 @@
         "value": "56px",
         "uuid": "99cf09f1-da56-4961-a805-723b68f718c2"
       }
-    }
+    },
+    "renamed": "visual-size-600"
   },
   "avatar-size-900": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

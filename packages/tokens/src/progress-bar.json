@@ -3,9 +3,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "progress-bar",
     "value": "768px",
-    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784",
-    "deprecated": true,
-    "deprecated_comment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
+    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784"
   },
   "progress-bar-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

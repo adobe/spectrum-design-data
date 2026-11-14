@@ -8,3 +8,6 @@ Propagate size taxonomy refinements from the cascade source into the legacy toke
 	tokens and mark consolidated size tokens `deprecated` with a `renamed` migration target.
 - **Component multiplier and size tokens**: 19 tokens that already had a `renamed` target
 	(for example `button-minimum-width-multiplier`) are now also marked `deprecated`.
+- **Computed and platform-owned tokens**: 45 tokens (for example `switch-control-width-*` and
+	`table-row-height-*-spacious`) stay active, and seven avatar and thumbnail tokens now name a
+	single `renamed` target.

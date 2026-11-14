@@ -918,9 +918,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-300}",
-    "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
+    "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7"
   },
   "table-row-height-extra-large-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -946,8 +944,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "6d69b2dc-16d1-4153-9f57-227f2a0f2c8c",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -985,9 +981,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-200}",
-    "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
+    "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde"
   },
   "table-row-height-large-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1013,8 +1007,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "81954a8f-3bd6-43fa-9fba-9cf209435025",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1052,9 +1044,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-100}",
-    "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
+    "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2"
   },
   "table-row-height-medium-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1080,8 +1070,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1119,9 +1107,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-75}",
-    "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
+    "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a"
   },
   "table-row-height-small-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1147,8 +1133,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "60852607-b336-4dd8-ae03-db21292a2378",
-    "deprecated": true,
-    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

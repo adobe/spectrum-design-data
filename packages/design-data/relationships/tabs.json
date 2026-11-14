@@ -764,12 +764,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "uuid": "49130d66-edfb-48bd-8648-96c47f40a884",
-    "legacyKey": "tab-item-compact-height-extra-large",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Density affects padding, not height; height token no longer needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 325 of the mapping sheet."
+    "legacyKey": "tab-item-compact-height-extra-large"
   },
   {
     "scope": {
@@ -787,12 +782,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702",
-    "legacyKey": "tab-item-compact-height-large",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Density affects padding, not height; height token no longer needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 326 of the mapping sheet."
+    "legacyKey": "tab-item-compact-height-large"
   },
   {
     "scope": {
@@ -807,12 +797,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "e8c7c826-548d-4037-b064-3cf699675d35",
-    "legacyKey": "tab-item-compact-height-medium",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Density affects padding, not height; height token no longer needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 327 of the mapping sheet."
+    "legacyKey": "tab-item-compact-height-medium"
   },
   {
     "scope": {
@@ -830,12 +815,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96",
-    "legacyKey": "tab-item-compact-height-small",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Density affects padding, not height; height token no longer needed."
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 328 of the mapping sheet."
+    "legacyKey": "tab-item-compact-height-small"
   },
   {
     "scope": {
