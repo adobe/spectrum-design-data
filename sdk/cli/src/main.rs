@@ -1477,9 +1477,23 @@ fn run_render(
                 .wrap_err_with(|| format!("failed to read --font {}", p.display()))
         })
         .collect::<miette::Result<Vec<_>>>()?;
-    // A supplied font sets the layout widths too, so boxes fit the text drawn in them; an
-    // explicit --text-metrics still wins.
-    if text_metrics.is_none() {
+    // Without --font a PNG looks for Adobe Clean Spectrum VF on this machine, else uses the
+    // bundled Source Sans 3 and says so.
+    let mut font_status = None;
+    if sources.is_empty() && format == "png" {
+        use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+        let found = discover::discover(
+            TARGET_FAMILY,
+            &discover::Env::current(),
+            Some(design_data_core::raster::fallback_font()),
+        );
+        sources.extend(found.font);
+        font_status = Some(found.status);
+    }
+    // A chosen font sets the layout widths too, so boxes fit the text drawn in them; an
+    // explicit --text-metrics still wins. The fallback is the committed table's own font.
+    let chosen = font_status.as_ref().is_none_or(|s| !s.fallback);
+    if text_metrics.is_none() && chosen {
         if let Some(first) = sources.first() {
             let font = design_data_core::raster::font::Font::parse(first.data.clone())
                 .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?;
@@ -1539,8 +1553,8 @@ fn run_render(
             scale: pixel_ratio,
             background: None,
         };
-        if sources.is_empty() {
-            sources.push(design_data_core::raster::fallback_font());
+        if let Some(st) = font_status.as_ref().filter(|s| s.fallback) {
+            eprintln!("warning: {}", st.help);
         }
         let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
             .map_err(|e| miette::miette!("{e}"))?;

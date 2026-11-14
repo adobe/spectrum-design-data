@@ -15,8 +15,12 @@
 //! are refused with a message that says so, rather than misread.
 
 use super::path::Pt;
+use super::{family_key, FontSource};
 
+#[cfg(not(target_arch = "wasm32"))]
+pub mod discover;
 pub mod metrics;
+pub mod resolve;
 pub mod var;
 pub use var::Axis;
 
@@ -50,6 +54,25 @@ const MAX_COMPOSITE_DEPTH: usize = 6;
 /// Components one composite glyph may pull in, across all nesting.
 const MAX_COMPONENTS: usize = 256;
 
+/// How a font file stores its outlines.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Flavor {
+    /// `glyf` quadratic outlines (`.ttf`), which this renderer reads.
+    TrueType,
+    /// PostScript `CFF`/`CFF2` outlines (often `.otf`), which it does not.
+    Cff,
+}
+
+/// What a font file says about itself, read without checking its outlines.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Inspect {
+    pub flavor: Flavor,
+    pub family: Option<String>,
+    pub subfamily: Option<String>,
+    /// Has `fvar` axes.
+    pub variable: bool,
+}
+
 #[derive(Debug, Clone)]
 pub struct Font {
     data: Vec<u8>,
@@ -78,21 +101,23 @@ fn u32_at(d: &[u8], o: usize) -> Option<u32> {
 }
 
 impl Font {
-    /// Read a font file. Fails with a message for CFF, WOFF and damaged files.
-    pub fn parse(data: Vec<u8>) -> Result<Font, FontError> {
-        match data.get(..4) {
-            Some([0, 1, 0, 0]) | Some(b"true") => {}
-            Some(b"OTTO") => {
+    /// The table directory of a TrueType or CFF font, with no outline data checked.
+    fn open(data: Vec<u8>) -> Result<(Flavor, Font), FontError> {
+        let flavor = match data.get(..4) {
+            Some([0, 1, 0, 0]) | Some(b"true") => Flavor::TrueType,
+            Some(b"OTTO") => Flavor::Cff,
+            Some(b"wOFF") | Some(b"wOF2") => {
                 return Err(FontError(
-                    "CFF/CFF2 fonts (.otf with PostScript outlines) are not supported; use the TrueType (.ttf) file".into(),
+                    "WOFF fonts are not supported; use the .ttf file".into(),
                 ))
             }
-            Some(b"wOFF") | Some(b"wOF2") => {
-                return Err(FontError("WOFF fonts are not supported; use the .ttf file".into()))
+            Some(b"ttcf") => {
+                return Err(FontError(
+                    "font collections (.ttc) are not supported".into(),
+                ))
             }
-            Some(b"ttcf") => return Err(FontError("font collections (.ttc) are not supported".into())),
             _ => return Err(FontError("not a TrueType font file".into())),
-        }
+        };
         let count = u16_at(&data, 4).ok_or_else(|| bad("table directory"))? as usize;
         let mut tables = Vec::with_capacity(count);
         for i in 0..count {
@@ -114,7 +139,7 @@ impl Font {
             }
             tables.push((tag, off, len));
         }
-        let mut font = Font {
+        let font = Font {
             data,
             tables,
             units_per_em: 0,
@@ -125,6 +150,18 @@ impl Font {
             descender: 0,
             cmap: (0, 0),
         };
+        Ok((flavor, font))
+    }
+
+    /// Read a font file. Fails with a message for CFF, WOFF and damaged files.
+    pub fn parse(data: Vec<u8>) -> Result<Font, FontError> {
+        // Said before the directory is read, so even a damaged CFF file gets the useful message.
+        if data.get(..4) == Some(b"OTTO") {
+            return Err(FontError(
+                "CFF/CFF2 fonts (.otf with PostScript outlines) are not supported; use the TrueType (.ttf) file".into(),
+            ));
+        }
+        let (_, mut font) = Self::open(data)?;
         for tag in [
             b"head", b"hhea", b"maxp", b"hmtx", b"cmap", b"loca", b"glyf",
         ] {
@@ -163,6 +200,20 @@ impl Font {
 
     fn table(&self, tag: &[u8; 4]) -> Option<(usize, usize)> {
         self.tables.iter().find(|t| &t.0 == tag).map(|t| (t.1, t.2))
+    }
+
+    /// Read a file's family, style and flavor from its table directory and `name` table. This
+    /// works for CFF fonts too, so a font that cannot be drawn can still be identified. Returns
+    /// the file's bytes back so a caller keeps them without copying.
+    pub fn inspect(data: Vec<u8>) -> Result<(Inspect, Vec<u8>), FontError> {
+        let (flavor, font) = Self::open(data)?;
+        let info = Inspect {
+            flavor,
+            family: font.family(),
+            subfamily: font.name(17).or_else(|| font.name(2)),
+            variable: font.has_table(b"fvar"),
+        };
+        Ok((info, font.data))
     }
 
     /// The table's tag, for callers that check which tables a font carries.
@@ -299,8 +350,10 @@ impl Font {
             let (rank, text) = match (platform, encoding) {
                 (3, _) | (0, _) => {
                     let units: Vec<u16> = raw
-                        .chunks_exact(2)
-                        .map(|c| u16::from_be_bytes([c[0], c[1]]))
+                        .as_chunks::<2>()
+                        .0
+                        .iter()
+                        .map(|c| u16::from_be_bytes(*c))
                         .collect();
                     (2, String::from_utf16_lossy(&units))
                 }
