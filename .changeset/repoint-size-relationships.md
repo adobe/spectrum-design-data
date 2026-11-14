@@ -4,7 +4,7 @@
 "@adobe/design-data-wasm": patch
 ---
 
-Repoint 554 component relationships from deprecated size tokens to their shared
+Repoint 561 component relationships from deprecated size tokens to their shared
 replacements (RFC: Size semantic tokens refinement, SDS-16264).
 
 Values follow the shared scales, so some sizes change: field widths become
