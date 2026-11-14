@@ -23,6 +23,7 @@
 # Environment:
 #   PUBLISHED   JSON array of { name, version } from changesets/action (required)
 #   GH_TOKEN    token that can create releases and upload assets (required unless DRY_RUN=1)
+#   GITHUB_SHA  commit new releases are created at (set by Actions)
 #   DRY_RUN     when 1, build and print the gh commands instead of running them
 #   SKIP_BUILD  when 1, reuse an existing dist/design-data.mcpb (tests)
 
@@ -59,21 +60,50 @@ test -s dist/design-data.mcpb || { echo "dist/design-data.mcpb is missing or emp
 unzip -p dist/design-data.mcpb manifest.json | jq -e --arg v "$VERSION" '.version == $v' >/dev/null \
   || { echo "manifest.json in the bundle does not declare version ${VERSION}" >&2; exit 1; }
 
+# `gh release view` fails both when the release does not exist and when something else is wrong
+# (bad token, network). Only the first means "create it"; anything else stops here with the real
+# error instead of falling through to a create that would fail with a misleading message.
+release_exists() {
+  if [ "${DRY_RUN:-0}" = "1" ]; then
+    echo "[dry-run] gh release view $1"
+    return 0
+  fi
+  local out
+  if out=$(gh release view "$1" 2>&1); then
+    return 0
+  fi
+  if printf '%s' "$out" | grep -qi "release not found"; then
+    return 1
+  fi
+  echo "could not look up release ${1}: ${out}" >&2
+  exit 1
+}
+
+# Create releases at the commit being released when it is known (it is, in Actions), so a
+# release made here points at the right place and not at the default branch's newest commit.
+TARGET=()
+if [ -n "${GITHUB_SHA:-}" ]; then
+  TARGET=(--target "$GITHUB_SHA")
+fi
+
 # The package release is normally created by changesets/action; make sure it exists.
-if ! gh_run release view "$TAG" >/dev/null 2>&1; then
-  gh_run release create "$TAG" --title "$TAG" --notes "Release of ${TAG}."
+if ! release_exists "$TAG"; then
+  gh_run release create "$TAG" --title "$TAG" --notes "Release of ${TAG}." ${TARGET[@]+"${TARGET[@]}"}
 fi
 gh_run release upload "$TAG" dist/design-data.mcpb --clobber
 
 # Rolling release: created once, then only its asset and notes change. Not marked latest,
-# so it never displaces the repository's real latest release.
-if ! gh_run release view "$ROLLING_TAG" >/dev/null 2>&1; then
+# so it never displaces the repository's real latest release. (The asset is replaced in
+# place, so a download in the few seconds of the swap can 404; the next one works.)
+if ! release_exists "$ROLLING_TAG"; then
   gh_run release create "$ROLLING_TAG" --title "Claude Desktop extension (latest)" \
     --notes "The newest design-data.mcpb, for Claude Desktop. Drag it into Settings, Extensions." \
-    --latest=false
+    --latest=false ${TARGET[@]+"${TARGET[@]}"}
 fi
 gh_run release upload "$ROLLING_TAG" dist/design-data.mcpb --clobber
+# The notes only say which version the asset is; if this fails the asset is still correct.
 gh_run release edit "$ROLLING_TAG" \
-  --notes "design-data.mcpb for @adobe/design-data-mcp ${VERSION}. Drag it into Claude Desktop, Settings, Extensions."
+  --notes "design-data.mcpb for @adobe/design-data-mcp ${VERSION}. Drag it into Claude Desktop, Settings, Extensions." \
+  || echo "warning: could not update the notes on ${ROLLING_TAG}; the uploaded asset is current" >&2
 
 echo "Attached design-data.mcpb (${VERSION}) to ${TAG} and ${ROLLING_TAG}."

@@ -62,10 +62,13 @@ function setup({ manifestVersion = "1.12.0", bundle = true } = {}) {
     join(dir, "bin", "gh"),
     `#!/usr/bin/env bash
 echo "$*" >> "${log}"
-# \`release view <tag>\` fails for the tags listed in MISSING (comma separated).
+# \`release view <tag>\`: "release not found" for the tags in MISSING, another error for BROKEN.
 if [ "$1" = release ] && [ "$2" = view ]; then
-  case ",$MISSING," in *",$3,"*) exit 1;; esac
+  case ",$MISSING," in *",$3,"*) echo "release not found" >&2; exit 1;; esac
+  case ",$BROKEN," in *",$3,"*) echo "HTTP 401: Bad credentials" >&2; exit 1;; esac
 fi
+# \`release edit\` fails when EDIT_FAILS is set.
+if [ "$1" = release ] && [ "$2" = edit ] && [ -n "$EDIT_FAILS" ]; then exit 1; fi
 exit 0
 `,
   );
@@ -152,6 +155,45 @@ test("creates the releases that are missing before uploading to them", (t) => {
   );
   // The rolling release must not displace the repository's real latest release.
   t.regex(c[at("release create design-data-mcpb")], /--latest=false/);
+});
+
+test("an error that is not 'release not found' stops the run and creates nothing", (t) => {
+  for (const broken of ["@adobe/design-data-mcp@1.12.0", "design-data-mcpb"]) {
+    const { run, calls } = setup();
+    const r = run({ PUBLISHED: PUBLISHED("1.12.0"), BROKEN: broken });
+    t.not(r.status, 0, broken);
+    t.regex(r.stderr, /could not look up release/);
+    t.regex(r.stderr, /Bad credentials/, "the real error is shown");
+    t.false(
+      calls().some((l) => l.startsWith("release create")),
+      broken,
+    );
+  }
+});
+
+test("new releases are created at the commit being released", (t) => {
+  const { run, calls } = setup();
+  const r = run({
+    PUBLISHED: PUBLISHED("1.12.0"),
+    MISSING: "@adobe/design-data-mcp@1.12.0,design-data-mcpb",
+    GITHUB_SHA: "abc123",
+  });
+  t.is(r.status, 0, r.stderr);
+  const creates = calls().filter((l) => l.startsWith("release create"));
+  t.is(creates.length, 2);
+  for (const c of creates) t.regex(c, /--target abc123/);
+  // Without it (a local run) no --target is passed.
+  const local = setup();
+  local.run({ PUBLISHED: PUBLISHED("1.12.0"), MISSING: "design-data-mcpb" });
+  t.false(local.calls().some((l) => l.includes("--target")));
+});
+
+test("a failed notes update is only a warning, because the asset is already uploaded", (t) => {
+  const { run, calls } = setup();
+  const r = run({ PUBLISHED: PUBLISHED("1.12.0"), EDIT_FAILS: "1" });
+  t.is(r.status, 0, r.stderr);
+  t.regex(r.stderr, /could not update the notes/);
+  t.true(calls().some((l) => l.startsWith("release upload design-data-mcpb")));
 });
 
 test("refuses a bundle whose manifest is for another version", (t) => {
