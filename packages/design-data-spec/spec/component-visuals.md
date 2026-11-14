@@ -94,7 +94,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Opacity.** Renderers read `opacity` only on the root part. It dims the whole component as one group (SVG `<g opacity>`), so overlapping parts do not show through each other, the way iOS dims a disabled control. On any other part `opacity` is ignored (SPEC-083).
 
-**Height.** A root `box` with no `height` is 32 high, unless the recipe binds `paddingBlockStart` or `paddingBlockEnd`: then its height is the tallest flowed child plus the block padding, and the children sit between the paddings. An explicit `height` always wins and the block padding then only offsets the children.
+**Height.** An unset root `height` is the content plus the block padding. A column root is the stacked children. A row root that binds `minHeight` or `paddingBlockStart`/`paddingBlockEnd` is the tallest flowed child plus the block padding, floored at `minHeight`, and the children sit between the paddings. A row root that binds none of these is 32 high, whatever its content. To hug one text line, bind `paddingBlockStart` and `paddingBlockEnd` to a literal `0`. An explicit `height` always wins and the block padding then only offsets the children.
 
 **NORMATIVE:** A renderer **MUST** clamp a uniform `cornerRadius` that is larger than half the shorter side of its box to that value, on all four corners, so the corner stays circular (like CSS `border-radius`).
 
