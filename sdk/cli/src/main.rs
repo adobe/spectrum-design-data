@@ -87,7 +87,8 @@ struct Cli {
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
 #[derive(Args)]
 struct TuiArgs {
-    /// Path to the token dataset directory (default: current directory).
+    /// Path to the token dataset directory (default: resolved from `.design-data.toml`, the
+    /// enclosing repo checkout, or the embedded dataset).
     #[arg(value_name = "DATASET")]
     dataset: Option<PathBuf>,
     /// Path to the components directory (default: spec-bundled).
@@ -4487,8 +4488,29 @@ fn run_write_token(key: &str, target: &Path, opts: WriteTokenOpts<'_>) -> miette
 
 /// Launch the interactive TUI from a set of parsed TUI arguments.
 fn run_tui(args: TuiArgs) -> ExitCode {
+    let dataset = match args.dataset {
+        Some(d) => d,
+        None => match resolve_data_source(CliPathOverrides::default()) {
+            Ok(r) => {
+                if args.allow_write
+                    && matches!(r.provenance, data_source::Provenance::Embedded { .. })
+                {
+                    eprintln!(
+                        "Error: --allow-write needs an explicit DATASET path; the embedded \
+                         dataset is a read-only cache copy."
+                    );
+                    return ExitCode::from(2);
+                }
+                r.tokens_root
+            }
+            Err(e) => {
+                eprintln!("Error: {e:?}");
+                return ExitCode::from(2);
+            }
+        },
+    };
     let opts = LaunchOptions {
-        dataset: args.dataset.unwrap_or_else(|| PathBuf::from(".")),
+        dataset,
         components: args.components,
         mode_sets: args.mode_sets,
         allow_write: args.allow_write,
