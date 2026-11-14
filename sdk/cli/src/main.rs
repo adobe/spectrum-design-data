@@ -313,6 +313,13 @@ enum Commands {
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
     },
+    /// Check which font draws text in PNG previews (Adobe Clean Spectrum VF) and how to install it.
+    /// Exits 0 when the font is found and 1 when the bundled fallback would be used.
+    Fonts {
+        /// Print the status as JSON
+        #[arg(long)]
+        json: bool,
+    },
     /// Compare scenes from `render --batch` with measured platform values (draft)
     RenderCompare {
         /// Directory of <id>.scene.json files (a `render --batch --out` directory)
@@ -4074,6 +4081,50 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
 /// catalogs after the selected platform manifest (if any) is applied, in the
 /// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
 /// `icons/*.json` + `visuals/*.json` layout.
+fn run_fonts(json: bool) -> miette::Result<ExitCode> {
+    use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+    let found = discover::discover(
+        TARGET_FAMILY,
+        &discover::Env::current(),
+        Some(design_data_core::raster::fallback_font()),
+    );
+    let st = &found.status;
+    if json {
+        println!("{}", serde_json::to_string_pretty(st).into_diagnostic()?);
+    } else {
+        println!("Font for PNG previews: {}", st.target);
+        println!(
+            "  {}",
+            if st.found {
+                "Found."
+            } else {
+                "Not found: the bundled fallback is used."
+            }
+        );
+        println!("  Using:    {}", st.using);
+        if !st.searched.is_empty() {
+            println!("  Searched: {}", st.searched.join("\n            "));
+        }
+        for r in &st.rejected {
+            println!("  Skipped:  {} {}", r.origin, r.reason);
+        }
+        if !st.related.is_empty() {
+            println!(
+                "  Other Adobe Clean fonts here (not used): {}",
+                st.related.join(", ")
+            );
+        }
+        if !st.found {
+            println!("\n{}", st.help);
+        }
+    }
+    Ok(if st.found {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
+}
+
 fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides::default())?;
     let catalogs = manifest::load_merged_catalogs(&resolved)
@@ -4557,6 +4608,7 @@ fn main() -> ExitCode {
             exclude_typography,
             path,
         } => run_suggest_context(components, out, exclude_typography, path),
+        Commands::Fonts { json } => run_fonts(json),
         Commands::RenderCompare {
             scenes,
             measured,
