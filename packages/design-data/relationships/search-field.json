@@ -939,6 +939,8 @@
     "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b",
     "legacyKey": "search-field-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   }

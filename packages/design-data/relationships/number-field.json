@@ -1654,6 +1654,8 @@
     "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
     "legacyKey": "number-field-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "cd95b6dd-25af-47f8-b79e-32ba79bf2463"
     }
   },
@@ -1858,6 +1860,8 @@
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1878,6 +1882,8 @@
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1898,6 +1904,8 @@
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1918,6 +1926,8 @@
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1938,6 +1948,8 @@
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1958,6 +1970,8 @@
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1978,6 +1992,8 @@
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   },
@@ -1998,6 +2014,8 @@
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
     }
   }

@@ -69,6 +69,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "coach-mark",
     "uuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -87,6 +89,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "coach-mark",
     "uuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

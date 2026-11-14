@@ -1638,6 +1638,8 @@
     "uuid": "67b68a30-ae00-4da2-9730-99196a2eaf96",
     "legacyKey": "picker-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "8f502252-4495-4c6b-9343-3576500bd6e2"
     }
   },

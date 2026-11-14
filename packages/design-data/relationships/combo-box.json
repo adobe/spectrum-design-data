@@ -1394,6 +1394,8 @@
     "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66",
     "legacyKey": "combo-box-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00"
     }
   },

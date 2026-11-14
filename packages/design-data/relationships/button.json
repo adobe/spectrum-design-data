@@ -1259,6 +1259,8 @@
     "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358",
     "legacyKey": "button-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b"
     }
   },

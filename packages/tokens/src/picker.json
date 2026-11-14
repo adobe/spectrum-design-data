@@ -27,6 +27,8 @@
     "component": "picker",
     "value": 2,
     "uuid": "67b68a30-ae00-4da2-9730-99196a2eaf96",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "renamed": "aspect-ratio-500"
   },
   "picker-visual-to-disclosure-icon-extra-large": {

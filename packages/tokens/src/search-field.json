@@ -4,6 +4,8 @@
     "component": "search-field",
     "value": 4,
     "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "renamed": "aspect-ratio-800"
   }
 }

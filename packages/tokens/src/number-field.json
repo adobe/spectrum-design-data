@@ -62,6 +62,8 @@
     "component": "number-field",
     "value": 1.25,
     "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "renamed": "aspect-ratio-100"
   },
   "number-field-visual-to-in-field-stepper-extra-large": {
@@ -148,6 +150,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -166,6 +170,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -184,6 +190,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -202,6 +210,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

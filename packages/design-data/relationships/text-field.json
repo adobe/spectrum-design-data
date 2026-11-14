@@ -1578,6 +1578,8 @@
     "uuid": "875bbeaf-b4b7-41b9-8e6f-d6a57ec03049",
     "legacyKey": "text-field-minimum-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "6475b781-e930-4cb1-860d-80386b75079f"
     }
   }

@@ -28,6 +28,8 @@
     "component": "swatch",
     "value": 2,
     "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "renamed": "aspect-ratio-500"
   },
   "swatch-size-extra-small": {

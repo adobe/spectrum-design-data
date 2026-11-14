@@ -600,6 +600,8 @@
     "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7",
     "legacyKey": "swatch-rectangle-width-multiplier",
     "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
       "replacedBy": "8f502252-4495-4c6b-9343-3576500bd6e2"
     }
   },
