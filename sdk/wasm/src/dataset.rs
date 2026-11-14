@@ -309,6 +309,67 @@ impl Dataset {
         self.render_svg(recipe, request)
     }
 
+    /// Render a component to PNG using the dataset's own recipe for `request.component`.
+    ///
+    /// `fonts` is `[{ data: Uint8Array, origin: string, fallback?: boolean }]`, TrueType files
+    /// the caller found (see `describeFont` and `chooseFont`). The first font that is not
+    /// marked `fallback` also supplies the layout text widths, so boxes fit the text drawn in
+    /// them. `options` is `{ pixelRatio?: number (default 2), background?: string }`.
+    /// Returns `{ png: Uint8Array, diagnostics: string[] }`; throws when the component has no
+    /// recipe or a font cannot be read.
+    #[wasm_bindgen(js_name = "renderComponentPng")]
+    pub fn render_component_png(
+        &self,
+        request: JsValue,
+        fonts: JsValue,
+        options: JsValue,
+    ) -> Result<JsValue, JsValue> {
+        use design_data_core::raster::{font::Font, scene_to_png, RasterOptions};
+        let mut request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
+        let recipe = self
+            .graph
+            .visual_recipe(&request.component)
+            .ok_or_else(|| js_err(format!("no visual recipe for '{}'", request.component)))?;
+        let (sources, layout_from) = read_fonts(&fonts)?;
+        if request.text_metrics.is_none() {
+            if let Some(i) = layout_from {
+                let font = Font::parse(sources[i].data.clone())
+                    .map_err(|e| js_err(format!("font {}: {e}", sources[i].origin)))?;
+                request.text_metrics = Some(font.text_metrics().map_err(js_err)?);
+            }
+        }
+        let scene = design_data_core::visual::build_scene_cached(
+            &self.graph,
+            &recipe.raw,
+            &request,
+            &self.scenes,
+        )
+        .map_err(js_err)?;
+        let mut opts = RasterOptions::default();
+        if let Some(p) = js_number(&options, "pixelRatio") {
+            opts.scale = p;
+        }
+        opts.background = js_string(&options, "background");
+        let out = scene_to_png(&scene, &sources, &opts).map_err(js_err)?;
+        let diagnostics = js_sys::Array::new();
+        for d in scene.diagnostics.iter().chain(&out.diagnostics) {
+            diagnostics.push(&JsValue::from_str(d));
+        }
+        let result = js_sys::Object::new();
+        js_sys::Reflect::set(
+            &result,
+            &"png".into(),
+            &js_sys::Uint8Array::from(&out.png[..]),
+        )?;
+        js_sys::Reflect::set(&result, &"diagnostics".into(), &diagnostics)?;
+        Ok(result.into())
+    }
+
     // -----------------------------------------------------------------------
     // Primer
     // -----------------------------------------------------------------------
@@ -679,6 +740,48 @@ impl Dataset {
     pub fn token_count(&self) -> usize {
         self.graph.tokens.len()
     }
+}
+
+/// The font entries of a `renderComponentPng` call, and the index of the one layout follows.
+fn read_fonts(
+    fonts: &JsValue,
+) -> Result<(Vec<design_data_core::raster::FontSource>, Option<usize>), JsValue> {
+    use wasm_bindgen::JsCast;
+    let mut out = Vec::new();
+    let mut layout = None;
+    if fonts.is_undefined() || fonts.is_null() {
+        return Ok((out, layout));
+    }
+    let list: js_sys::Array = fonts
+        .clone()
+        .dyn_into()
+        .map_err(|_| js_err("fonts must be an array of { data, origin }"))?;
+    for (i, entry) in list.iter().enumerate() {
+        let data: js_sys::Uint8Array = js_sys::Reflect::get(&entry, &"data".into())?
+            .dyn_into()
+            .map_err(|_| js_err(format!("fonts[{i}].data must be a Uint8Array")))?;
+        let origin = js_string(&entry, "origin").unwrap_or_else(|| format!("font {i}"));
+        let fallback = js_sys::Reflect::get(&entry, &"fallback".into())
+            .ok()
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false);
+        if layout.is_none() && !fallback {
+            layout = Some(out.len());
+        }
+        out.push(design_data_core::raster::FontSource {
+            data: data.to_vec(),
+            origin,
+        });
+    }
+    Ok((out, layout))
+}
+
+fn js_string(obj: &JsValue, key: &str) -> Option<String> {
+    js_sys::Reflect::get(obj, &key.into()).ok()?.as_string()
+}
+
+fn js_number(obj: &JsValue, key: &str) -> Option<f64> {
+    js_sys::Reflect::get(obj, &key.into()).ok()?.as_f64()
 }
 
 impl Dataset {

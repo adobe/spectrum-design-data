@@ -55,7 +55,8 @@ const MAX_COMPOSITE_DEPTH: usize = 6;
 const MAX_COMPONENTS: usize = 256;
 
 /// How a font file stores its outlines.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum Flavor {
     /// `glyf` quadratic outlines (`.ttf`), which this renderer reads.
     TrueType,
@@ -64,7 +65,7 @@ pub enum Flavor {
 }
 
 /// What a font file says about itself, read without checking its outlines.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Inspect {
     pub flavor: Flavor,
     pub family: Option<String>,
@@ -328,48 +329,7 @@ impl Font {
     /// A `name` table string (`1` family, `2` subfamily, `16` typographic family, ...).
     pub fn name(&self, id: u16) -> Option<String> {
         let (base, len) = self.table(b"name")?;
-        let d = &self.data;
-        let (count, strings) = (
-            u16_at(d, base + 2)? as usize,
-            base + u16_at(d, base + 4)? as usize,
-        );
-        let mut best: Option<(u8, String)> = None;
-        for i in 0..count {
-            let r = base + 6 + 12 * i;
-            if u16_at(d, r + 6)? != id {
-                continue;
-            }
-            let (platform, encoding) = (u16_at(d, r)?, u16_at(d, r + 2)?);
-            let (slen, soff) = (u16_at(d, r + 8)? as usize, u16_at(d, r + 10)? as usize);
-            let Some(raw) = d
-                .get(strings + soff..strings + soff + slen)
-                .filter(|_| strings + soff + slen <= base + len.max(strings - base + soff + slen))
-            else {
-                continue;
-            };
-            let (rank, text) = match (platform, encoding) {
-                (3, _) | (0, _) => {
-                    let units: Vec<u16> = raw
-                        .as_chunks::<2>()
-                        .0
-                        .iter()
-                        .map(|c| u16::from_be_bytes(*c))
-                        .collect();
-                    (2, String::from_utf16_lossy(&units))
-                }
-                (1, 0) => (
-                    1,
-                    raw.iter()
-                        .map(|&b| if b < 128 { b as char } else { '?' })
-                        .collect(),
-                ),
-                _ => continue,
-            };
-            if best.as_ref().is_none_or(|b| rank > b.0) {
-                best = Some((rank, text));
-            }
-        }
-        best.map(|b| b.1)
+        name_in_table(self.data.get(base..base + len)?, id)
     }
 
     /// The family name: the typographic family (`16`) when present, else `1`.
@@ -572,6 +532,54 @@ fn simple_glyph(g: &[u8], contours: usize) -> Result<Vec<Contour>, FontError> {
         start = end + 1;
     }
     Ok(out)
+}
+
+/// A string from a standalone `name` table (the table's own bytes, not a whole font file).
+/// Windows and Unicode records are UTF-16, Macintosh Roman records ASCII only.
+pub fn name_in_table(t: &[u8], id: u16) -> Option<String> {
+    let (count, strings) = (u16_at(t, 2)? as usize, u16_at(t, 4)? as usize);
+    let mut best: Option<(u8, String)> = None;
+    for i in 0..count {
+        let r = 6 + 12 * i;
+        if u16_at(t, r + 6)? != id {
+            continue;
+        }
+        let (platform, encoding) = (u16_at(t, r)?, u16_at(t, r + 2)?);
+        let (len, off) = (u16_at(t, r + 8)? as usize, u16_at(t, r + 10)? as usize);
+        let Some(raw) = t.get(strings + off..strings + off + len) else {
+            continue;
+        };
+        let (rank, text) = match (platform, encoding) {
+            (3, _) | (0, _) => {
+                let units: Vec<u16> = raw
+                    .as_chunks::<2>()
+                    .0
+                    .iter()
+                    .map(|c| u16::from_be_bytes(*c))
+                    .collect();
+                (2, String::from_utf16_lossy(&units))
+            }
+            (1, 0) => (
+                1,
+                raw.iter()
+                    .map(|&b| if b < 128 { b as char } else { '?' })
+                    .collect(),
+            ),
+            _ => continue,
+        };
+        if best.as_ref().is_none_or(|b| rank > b.0) {
+            best = Some((rank, text));
+        }
+    }
+    best.map(|b| b.1)
+}
+
+/// Family (typographic `16`, else `1`) and subfamily (`17`, else `2`) of a `name` table.
+pub fn names_in_table(t: &[u8]) -> (Option<String>, Option<String>) {
+    (
+        name_in_table(t, 16).or_else(|| name_in_table(t, 1)),
+        name_in_table(t, 17).or_else(|| name_in_table(t, 2)),
+    )
 }
 
 /// Turn a TrueType contour (quadratic splines through implied on-curve points) into a

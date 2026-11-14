@@ -10,7 +10,7 @@ description = "WebAssembly bindings for design-data-core — exposes query, vali
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-design-data-core = { path = "../core", default-features = false, features = ["wasm"] }
+design-data-core = { path = "../core", default-features = false, features = ["wasm", "raster"] }
 wasm-bindgen = "0.2"
 serde-wasm-bindgen = "0.6"
 serde = { version = "1.0", features = ["derive"] }

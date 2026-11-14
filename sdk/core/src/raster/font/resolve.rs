@@ -11,7 +11,7 @@
 //! Choosing the text font and saying why. Pure: callers read files and offer their bytes, so
 //! this is the same on every target and easy to test.
 
-use super::{family_key, Flavor, Font, FontSource};
+use super::{family_key, Flavor, Font, FontSource, Inspect};
 use serde::Serialize;
 use std::collections::BTreeSet;
 
@@ -60,7 +60,7 @@ pub struct Resolved {
 pub struct Resolver {
     target: String,
     key: String,
-    best: Option<(u8, String, Vec<u8>)>,
+    best: Option<(u8, String, Option<Vec<u8>>)>,
     rejected: Vec<Rejected>,
     related: BTreeSet<String>,
     pub searched: Vec<String>,
@@ -116,7 +116,39 @@ impl Resolver {
         }
         let rank = if info.variable { 2 } else { 1 };
         if self.best.as_ref().is_none_or(|b| rank > b.0) {
-            self.best = Some((rank, origin.into(), data));
+            self.best = Some((rank, origin.into(), Some(data)));
+        }
+    }
+
+    /// Consider a file by what it says about itself, without its bytes. For callers that
+    /// cannot afford to read every font in full: they read each file's `name` table, pick
+    /// with this, then read only the winner. The font itself is not validated here.
+    pub fn offer_info(&mut self, origin: &str, info: &Inspect) {
+        let Some(family) = info.family.clone() else {
+            return;
+        };
+        let key = family_key(&family);
+        if key != self.key {
+            if key.starts_with("adobeclean") {
+                self.related.insert(family);
+            }
+            return;
+        }
+        let mut reject = |reason: &str| {
+            self.rejected.push(Rejected {
+                origin: origin.into(),
+                reason: reason.into(),
+            })
+        };
+        if info.flavor == Flavor::Cff {
+            return reject(CFF_REASON);
+        }
+        if is_italic(info) {
+            return reject(ITALIC_REASON);
+        }
+        let rank = if info.variable { 2 } else { 1 };
+        if self.best.as_ref().is_none_or(|b| rank > b.0) {
+            self.best = Some((rank, origin.into(), None));
         }
     }
 
@@ -146,7 +178,7 @@ impl Resolver {
             status.help = format!("Using {origin}.");
             status.using = origin.clone();
             return Resolved {
-                font: Some(FontSource { data, origin }),
+                font: data.map(|data| FontSource { data, origin }),
                 status,
             };
         }
@@ -160,6 +192,16 @@ impl Resolver {
             status,
         }
     }
+}
+
+const CFF_REASON: &str =
+    "is the PostScript-outline (CFF) version; the TrueType (.ttf) file is needed";
+const ITALIC_REASON: &str = "is the Italic file; the Roman file is needed";
+
+fn is_italic(info: &Inspect) -> bool {
+    info.subfamily
+        .as_deref()
+        .is_some_and(|s| s.to_ascii_lowercase().contains("italic"))
 }
 
 /// A font the user named (`--font` or `DESIGN_DATA_FONT`): used as given, if it is readable.
@@ -354,6 +396,62 @@ pub(crate) mod tests {
         );
         let err = explicit("/mine.otf", b"OTTO\0\0\0\0\0\0\0\0".to_vec(), "--font").unwrap_err();
         assert!(err.contains("/mine.otf") && err.contains("CFF"), "{err}");
+    }
+
+    #[test]
+    fn choosing_from_descriptors_needs_no_file_bytes() {
+        let info = |family: &str, sub: &str, flavor, variable| Inspect {
+            flavor,
+            family: Some(family.into()),
+            subfamily: Some(sub.into()),
+            variable,
+        };
+        let mut r = Resolver::new(TARGET_FAMILY);
+        r.offer_info(
+            "a.otf",
+            &info("Adobe Clean Spectrum VF", "Regular", Flavor::Cff, true),
+        );
+        r.offer_info(
+            "b.ttf",
+            &info("Adobe Clean Spectrum VF", "Italic", Flavor::TrueType, true),
+        );
+        r.offer_info(
+            "c.ttf",
+            &info(
+                "Adobe Clean Spectrum VF",
+                "Regular",
+                Flavor::TrueType,
+                false,
+            ),
+        );
+        r.offer_info(
+            "d.ttf",
+            &info("Adobe Clean Spectrum VF", "Regular", Flavor::TrueType, true),
+        );
+        r.offer_info(
+            "e.ttf",
+            &info("Adobe Clean", "Bold", Flavor::TrueType, false),
+        );
+        let out = r.finish(None);
+        // The variable file beats the static one; the CFF and Italic files are reported.
+        assert!(out.status.found && out.font.is_none());
+        assert_eq!(out.status.using, "d.ttf");
+        assert_eq!(out.status.rejected.len(), 2);
+        assert_eq!(out.status.related, vec!["Adobe Clean"]);
+    }
+
+    #[test]
+    fn name_tables_are_read_without_a_font_around_them() {
+        let f = fake_font(b"OTTO", "Adobe Clean Spectrum VF", "Italic");
+        // The name table starts after the 12-byte header and one 16-byte record.
+        let (family, sub) = super::super::names_in_table(&f[28..]);
+        assert_eq!(family.as_deref(), Some("Adobe Clean Spectrum VF"));
+        assert_eq!(sub.as_deref(), Some("Italic"));
+        assert_eq!(super::super::names_in_table(&[1, 2, 3]), (None, None));
+        // A record that points past the table is skipped, not read.
+        let mut bad = f[28..].to_vec();
+        bad.truncate(40);
+        assert_eq!(super::super::names_in_table(&bad).0, None);
     }
 
     #[test]
