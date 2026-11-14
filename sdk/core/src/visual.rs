@@ -3520,13 +3520,15 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
 
     if req.icon == Some(IconOverride::None)
-        && cx.option("isLabelHidden") == Value::Bool(true)
+        && !nodes
+            .iter()
+            .any(|n| n.kind == "text" && n.text.as_deref().is_some_and(|t| !t.is_empty()))
         && parts.values().any(|p| {
             is_content_icon(p) == (true, true) && cx.when_score(p.get("visibleWhen")).is_some()
         })
     {
         cx.diags
-            .push("icon none with isLabelHidden leaves the component with nothing to draw".into());
+            .push("icon none with no label text leaves the component with nothing to draw".into());
     }
 
     // Every icon node names the icon its part references and carries its compiled drawing.
@@ -5936,7 +5938,10 @@ mod tests {
             serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
         let scene = override_scene(icon, Some(IconOverride::None));
         assert!(scene.nodes.iter().all(|n| n.part != "mark"));
-        assert!(scene.diagnostics.is_empty());
+        assert!(scene
+            .diagnostics
+            .iter()
+            .all(|d| !d.contains("not optional")));
     }
 
     #[test]
@@ -5969,10 +5974,7 @@ mod tests {
             component: "gadget".into(),
             size: "m".into(),
             icon: Some(IconOverride::None),
-            options: HashMap::from([
-                ("isLabelHidden".into(), true.into()),
-                ("shown".into(), true.into()),
-            ]),
+            options: HashMap::from([("shown".into(), true.into())]),
             ..Default::default()
         };
         let warned = |visible| {
