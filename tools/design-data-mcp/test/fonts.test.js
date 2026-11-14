@@ -14,6 +14,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -221,4 +222,89 @@ test("scans are remembered until the cache is reset", (t) => {
   );
   resetFontCache();
   t.true(findFont(wasm, { dirs: [dir], target: TARGET, env: {} }).status.found);
+});
+
+test("an unset optional field is ignored, whether empty or still a placeholder", (t) => {
+  for (const value of [
+    "",
+    "${user_config.font_file}",
+    "  ${user_config.font_file} ",
+  ]) {
+    const { status } = findFont(wasm, {
+      dirs: [],
+      env: { DESIGN_DATA_FONT: value },
+    });
+    t.deepEqual(status.rejected, [], JSON.stringify(value));
+    t.true(status.fallback);
+    t.notRegex(status.help, /user_config/);
+  }
+  // A real path still counts, and a bad one is still reported.
+  const bad = findFont(wasm, {
+    dirs: [],
+    env: { DESIGN_DATA_FONT: "/no/such.ttf" },
+  });
+  t.is(bad.status.rejected.length, 1);
+});
+
+test.serial(
+  "a remembered 'not found' goes stale and the scan is repeated",
+  (t) => {
+    const root = tmp();
+    const dir = join(root, "Fonts");
+    mkdirSync(dir, { recursive: true });
+    const opts = { dirs: [dir], target: TARGET, env: {} };
+    t.false(findFont(wasm, opts).status.found);
+    copyFont(join(dir, "late.ttf"));
+    t.false(findFont(wasm, opts).status.found, "still remembered");
+    const real = Date.now;
+    Date.now = () => real() + 60_000;
+    try {
+      t.true(
+        findFont(wasm, opts).status.found,
+        "found after the memory expires",
+      );
+    } finally {
+      Date.now = real;
+    }
+  },
+);
+
+test("a font removed after the scan is reported and the search goes on", (t) => {
+  const root = tmp();
+  const dir = join(root, "Fonts");
+  const first = join(dir, "a.ttf");
+  const second = join(dir, "b.ttf");
+  copyFont(first);
+  copyFont(second);
+  const opts = { dirs: [dir], target: TARGET, env: {} };
+  t.is(findFont(wasm, opts).status.using, first);
+  rmSync(first);
+  const { status, fonts } = findFont(wasm, opts);
+  t.is(status.using, second, "the next font is used");
+  t.true(Buffer.from(fonts[0].data).equals(readFileSync(CORE_FONT)));
+  t.is(status.rejected[0].origin, first);
+  t.regex(status.rejected[0].reason, /cannot be read: ENOENT/);
+  t.regex(status.help, /a\.ttf but it cannot be read/);
+  // With nothing left it falls back instead of throwing.
+  rmSync(second);
+  const none = findFont(wasm, opts);
+  t.true(none.status.fallback);
+  t.true(none.fonts[0].fallback);
+});
+
+test("files to exclude and reasons to report are honoured", (t) => {
+  const root = tmp();
+  const dir = join(root, "Fonts");
+  const only = join(dir, "x.ttf");
+  copyFont(only);
+  const { status } = findFont(wasm, {
+    dirs: [dir],
+    target: TARGET,
+    env: {},
+    exclude: [only],
+    skipped: [{ origin: only, reason: "cannot be drawn (broken)" }],
+  });
+  t.true(status.fallback);
+  t.regex(status.help, /x\.ttf but it cannot be drawn \(broken\)\./);
+  t.is(status.rejected[0].origin, only);
 });

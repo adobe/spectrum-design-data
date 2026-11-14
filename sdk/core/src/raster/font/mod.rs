@@ -582,6 +582,52 @@ pub fn names_in_table(t: &[u8]) -> (Option<String>, Option<String>) {
     )
 }
 
+/// Largest `name` table read when identifying a file.
+const MAX_NAME_TABLE: usize = 1 << 20;
+
+/// Identify a font from the start of its file (`head`, enough to hold the table directory)
+/// and its `name` table, without reading the rest. `read(offset, len)` supplies the table's
+/// bytes. This is how a scan identifies hundreds of files cheaply, then reads only the winner
+/// in full. `None` for anything that is not a TrueType or CFF font, or whose directory or
+/// `name` table does not fit the file.
+pub fn inspect_head(
+    head: &[u8],
+    file_len: u64,
+    read: &mut dyn FnMut(u64, usize) -> Option<Vec<u8>>,
+) -> Option<Inspect> {
+    let flavor = match head.get(..4)? {
+        [0, 1, 0, 0] | b"true" => Flavor::TrueType,
+        b"OTTO" => Flavor::Cff,
+        _ => return None,
+    };
+    let count = u16_at(head, 4)? as usize;
+    let (mut name, mut variable) = (None, false);
+    for i in 0..count {
+        let rec = 12 + 16 * i;
+        match head.get(rec..rec + 4)? {
+            b"fvar" => variable = true,
+            b"name" => {
+                name = Some((
+                    u64::from(u32_at(head, rec + 8)?),
+                    u32_at(head, rec + 12)? as usize,
+                ))
+            }
+            _ => {}
+        }
+    }
+    let (offset, len) = name?;
+    if len > MAX_NAME_TABLE || offset.checked_add(len as u64)? > file_len {
+        return None;
+    }
+    let (family, subfamily) = names_in_table(&read(offset, len)?);
+    Some(Inspect {
+        flavor,
+        family,
+        subfamily,
+        variable,
+    })
+}
+
 /// Turn a TrueType contour (quadratic splines through implied on-curve points) into a
 /// polygon, with curves no further than `tol` font units from the true outline.
 pub fn contour_polygon(c: &[OutlinePoint], tol: f64) -> Vec<Pt> {
@@ -687,6 +733,58 @@ mod tests {
         // The accent sits above the base glyph.
         let top = |c: &[Contour]| c.iter().flatten().map(|p| p.y).fold(f64::MIN, f64::max);
         assert!(top(&eacute) > top(&e) + 100.0);
+    }
+
+    fn inspect_bytes(d: &[u8], head: usize) -> Option<Inspect> {
+        inspect_head(&d[..head.min(d.len())], d.len() as u64, &mut |o, n| {
+            d.get(o as usize..o as usize + n).map(<[u8]>::to_vec)
+        })
+    }
+
+    #[test]
+    fn a_font_is_identified_from_its_head_and_name_table_alone() {
+        let info = inspect_bytes(SS3, 4096).expect("fixture identifies");
+        assert_eq!(info.flavor, Flavor::TrueType);
+        assert_eq!(info.family.as_deref(), Some("SourceSans3VF"));
+        assert!(info.variable);
+        // Same answer as the full-file reader.
+        let (full, _) = Font::inspect(SS3.to_vec()).unwrap();
+        assert_eq!(info, full);
+        // Only the name table is asked for, not the whole file.
+        let mut asked = Vec::new();
+        inspect_head(&SS3[..4096], SS3.len() as u64, &mut |o, n| {
+            asked.push((o, n));
+            SS3.get(o as usize..o as usize + n).map(<[u8]>::to_vec)
+        });
+        assert_eq!(asked.len(), 1);
+        assert!(asked[0].1 < 100_000, "{asked:?}");
+    }
+
+    #[test]
+    fn head_inspection_refuses_what_is_not_a_font_or_does_not_fit() {
+        assert!(inspect_bytes(b"", 4096).is_none());
+        assert!(inspect_bytes(b"wOF2\0\0\0\0\0\0\0\0", 4096).is_none());
+        assert!(inspect_bytes(&[0xB2, 0x59, 0x3B, 0x76, 0, 0, 0, 0], 4096).is_none());
+        // A head too short to hold the table directory.
+        assert!(inspect_bytes(SS3, 40).is_none());
+        // A name table that runs past the end of the file, or is absurdly large.
+        let short = |d: &[u8]| {
+            inspect_head(&d[..4096], 5000, &mut |o, n| {
+                d.get(o as usize..o as usize + n).map(<[u8]>::to_vec)
+            })
+        };
+        assert!(short(SS3).is_none());
+        let mut huge = SS3[..4096].to_vec();
+        let name_rec = (0..huge.len() - 4)
+            .step_by(16)
+            .skip(1)
+            .find(|&i| &huge[i..i + 4] == b"name");
+        if let Some(rec) = name_rec {
+            huge[rec + 12..rec + 16].copy_from_slice(&u32::MAX.to_be_bytes());
+            assert!(inspect_head(&huge, SS3.len() as u64, &mut |_, _| None).is_none());
+        }
+        // A reader that cannot supply the table gives None, not a panic.
+        assert!(inspect_head(&SS3[..4096], SS3.len() as u64, &mut |_, _| None).is_none());
     }
 
     #[test]

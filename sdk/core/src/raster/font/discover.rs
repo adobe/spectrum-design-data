@@ -13,13 +13,15 @@
 //! bytes to a [`Resolver`].
 
 use super::resolve::{explicit, Resolved, Resolver};
-use super::FontSource;
+use super::{inspect_head, Font, FontSource, Inspect};
 use std::fs;
-use std::io::Read;
+use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 
-/// Largest font file read. Adobe's variable fonts are about 1 MB.
+/// Largest font file considered. Adobe's variable fonts are about 1 MB.
 const MAX_FONT_BYTES: u64 = 25 * 1024 * 1024;
+/// Smaller files cannot hold a font and a name table.
+const MIN_FONT_BYTES: u64 = 1024;
 /// Folders deeper than this are not entered (Creative Cloud keeps fonts one level down).
 const MAX_DEPTH: usize = 4;
 /// Files looked at before giving up, so a huge font folder cannot stall a render.
@@ -113,47 +115,63 @@ fn files_under(dir: &Path, depth: usize, out: &mut Vec<PathBuf>) {
     }
 }
 
-/// The first four bytes say whether a file is TrueType or CFF; everything else is skipped
-/// without reading it (Creative Cloud keeps encrypted files beside the fonts).
-fn looks_like_font(path: &Path) -> bool {
-    let Ok(mut f) = fs::File::open(path) else {
-        return false;
-    };
-    if f.metadata().map_or(true, |m| {
-        !m.is_file() || m.len() > MAX_FONT_BYTES || m.len() < 1024
-    }) {
-        return false;
+/// Bytes read from the start of a file: enough for any table directory (a font has well under
+/// 200 tables, 16 bytes each).
+const HEAD_BYTES: usize = 4096;
+
+/// Identify a file from its table directory and `name` table, reading a few KB, never the
+/// whole file. `None` for anything that is not a usable-size TrueType or CFF font; Creative
+/// Cloud keeps encrypted files beside its fonts, and they fail the header check here.
+fn inspect_file(path: &Path) -> Option<Inspect> {
+    let mut f = fs::File::open(path).ok()?;
+    let len = f.metadata().ok().filter(|m| m.is_file())?.len();
+    if !(MIN_FONT_BYTES..=MAX_FONT_BYTES).contains(&len) {
+        return None;
     }
-    let mut head = [0u8; 4];
-    f.read_exact(&mut head).is_ok() && matches!(&head, [0, 1, 0, 0] | b"true" | b"OTTO")
+    let mut head = vec![0u8; HEAD_BYTES.min(len as usize)];
+    f.read_exact(&mut head).ok()?;
+    inspect_head(&head, len, &mut |offset, n| {
+        f.seek(SeekFrom::Start(offset)).ok()?;
+        let mut table = vec![0u8; n];
+        f.read_exact(&mut table).ok()?;
+        Some(table)
+    })
 }
 
 /// Choose the text font: `DESIGN_DATA_FONT` when set, else the best match for `target` in the
 /// font folders, else `fallback`. Explicit `--font` paths are handled by the caller.
+///
+/// Files are identified by a few KB each; only the winner is read in full, and if it turns
+/// out not to parse it is reported and the next best is tried, so a damaged file never keeps a
+/// good one from being used.
 pub fn discover(target: &str, env: &Env, fallback: Option<FontSource>) -> Resolved {
-    let mut resolver = Resolver::new(target);
+    let mut env_rejected = None;
     if let Some(path) = &env.font_override {
         let origin = path.display().to_string();
         match fs::read(path) {
             Ok(data) => match explicit(&origin, data, super::resolve::ENV_VAR) {
                 Ok(done) => return done,
-                Err(e) => resolver.reject(
-                    &origin,
-                    &format!("is unusable (set with {}): {e}", super::resolve::ENV_VAR),
-                ),
+                Err(e) => {
+                    env_rejected = Some((
+                        origin,
+                        format!("is unusable (set with {}): {e}", super::resolve::ENV_VAR),
+                    ))
+                }
             },
-            Err(e) => resolver.reject(
-                &origin,
-                &format!("cannot be read (set with {}): {e}", super::resolve::ENV_VAR),
-            ),
+            Err(e) => {
+                env_rejected = Some((
+                    origin,
+                    format!("cannot be read (set with {}): {e}", super::resolve::ENV_VAR),
+                ))
+            }
         }
     }
-    let mut seen = 0;
+    let (mut searched, mut candidates, mut seen) = (Vec::new(), Vec::new(), 0);
     for dir in font_dirs(env) {
         if !dir.is_dir() {
             continue;
         }
-        resolver.searched.push(dir.display().to_string());
+        searched.push(dir.display().to_string());
         let mut files = Vec::new();
         files_under(&dir, 0, &mut files);
         for file in files {
@@ -161,14 +179,44 @@ pub fn discover(target: &str, env: &Env, fallback: Option<FontSource>) -> Resolv
             if seen > MAX_FILES {
                 break;
             }
-            if looks_like_font(&file) {
-                if let Ok(data) = fs::read(&file) {
-                    resolver.offer(&file.display().to_string(), data);
-                }
+            if let Some(info) = inspect_file(&file) {
+                candidates.push((file.display().to_string(), info));
             }
         }
     }
-    resolver.finish(fallback)
+    let mut unusable: Vec<(String, String)> = Vec::new();
+    loop {
+        let mut resolver = Resolver::new(target);
+        resolver.searched = searched.clone();
+        if let Some((origin, reason)) = &env_rejected {
+            resolver.reject(origin, reason);
+        }
+        for (origin, reason) in &unusable {
+            resolver.reject(origin, reason);
+        }
+        for (origin, info) in &candidates {
+            if !unusable.iter().any(|(o, _)| o == origin) {
+                resolver.offer_info(origin, info);
+            }
+        }
+        let mut resolved = resolver.finish(fallback.clone());
+        if !resolved.status.found {
+            return resolved;
+        }
+        let origin = resolved.status.using.clone();
+        match fs::read(&origin)
+            .map_err(|e| e.to_string())
+            .and_then(|data| {
+                Font::parse(data.clone()).map_err(|e| e.to_string())?;
+                Ok(data)
+            }) {
+            Ok(data) => {
+                resolved.font = Some(FontSource { data, origin });
+                return resolved;
+            }
+            Err(e) => unusable.push((origin, format!("cannot be read: {e}"))),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -300,6 +348,76 @@ mod tests {
     }
 
     const TARGET: &str = "Adobe Clean Spectrum VF";
+
+    /// The fixture with its `head` table's unitsPerEm zeroed: it identifies by name but will
+    /// not parse as a font.
+    fn damaged() -> Vec<u8> {
+        let mut d = SS3.to_vec();
+        let count = u16::from_be_bytes([d[4], d[5]]) as usize;
+        let rec = (0..count)
+            .map(|i| 12 + 16 * i)
+            .find(|&r| &d[r..r + 4] == b"head")
+            .expect("head table");
+        let off = u32::from_be_bytes(d[rec + 8..rec + 12].try_into().unwrap()) as usize;
+        d[off + 18..off + 20].fill(0);
+        d
+    }
+
+    #[test]
+    fn a_damaged_match_is_reported_and_the_next_good_one_is_used() {
+        let home = tempfile::tempdir().unwrap();
+        let (bad, good) = (
+            home.path().join("Library/Fonts/a-damaged.ttf"),
+            home.path().join("Library/Fonts/b-good.ttf"),
+        );
+        put(&bad, &damaged());
+        put(&good, SS3);
+        let out = discover(&font().family().unwrap(), &mac(home.path()), None);
+        assert!(out.status.found, "{:?}", out.status);
+        assert_eq!(out.status.using, good.display().to_string());
+        assert!(out.font.is_some(), "the winner's bytes are read");
+        let r = &out.status.rejected;
+        assert_eq!(r.len(), 1, "{r:?}");
+        assert_eq!(r[0].origin, bad.display().to_string());
+        assert!(r[0].reason.contains("cannot be read"), "{}", r[0].reason);
+    }
+
+    #[test]
+    fn only_a_damaged_match_falls_back_with_the_reason() {
+        let home = tempfile::tempdir().unwrap();
+        put(&home.path().join("Library/Fonts/only.ttf"), &damaged());
+        let fb = FontSource {
+            data: vec![1],
+            origin: "bundled Source Sans 3".into(),
+        };
+        let out = discover(&font().family().unwrap(), &mac(home.path()), Some(fb));
+        assert!(!out.status.found && out.status.fallback);
+        assert_eq!(out.status.rejected.len(), 1);
+        assert!(
+            out.status.help.contains("only.ttf but it cannot be read"),
+            "{}",
+            out.status.help
+        );
+        assert_eq!(out.font.unwrap().origin, "bundled Source Sans 3");
+    }
+
+    #[test]
+    fn a_font_is_identified_without_reading_it_in_full() {
+        // 20 MB of padding after a real font: identifying it must not need that much I/O, and
+        // the name table is found by seeking, so the padding is never touched.
+        let home = tempfile::tempdir().unwrap();
+        let mut big = SS3.to_vec();
+        big.resize(20 * 1024 * 1024, 0);
+        let path = home.path().join("Library/Fonts/padded.ttf");
+        put(&path, &big);
+        let info = inspect_file(&path).expect("identifies");
+        assert_eq!(info.family.as_deref(), Some("SourceSans3VF"));
+        // Beyond the size cap it is not considered at all.
+        big.resize(26 * 1024 * 1024, 0);
+        put(&path, &big);
+        assert!(inspect_file(&path).is_none());
+        assert!(inspect_file(&home.path().join("nope.ttf")).is_none());
+    }
 
     #[test]
     fn too_small_and_too_deep_files_are_skipped() {

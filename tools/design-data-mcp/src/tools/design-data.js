@@ -682,8 +682,36 @@ export function createDesignDataTools() {
           throw new Error("pixelRatio must be between 1 and 4");
         }
         const wasm = await getWasm();
-        const { fonts, status } = findFont(wasm, { fontPath });
-        const out = ds.renderComponentPng(request, fonts, { pixelRatio });
+        // A font the user named must work. One found on the machine should never keep the
+        // picture from being drawn: if it will not parse, say so, skip it and choose again.
+        const skipped = [];
+        let found;
+        let out;
+        for (;;) {
+          found = findFont(wasm, {
+            fontPath,
+            exclude: skipped.map((s) => s.origin),
+            skipped,
+          });
+          try {
+            out = ds.renderComponentPng(request, found.fonts, { pixelRatio });
+            break;
+          } catch (e) {
+            const message = String(e?.message ?? e);
+            if (
+              found.explicit ||
+              found.fonts[0].fallback ||
+              !/^font /.test(message)
+            ) {
+              throw e;
+            }
+            skipped.push({
+              origin: found.status.using,
+              reason: `cannot be drawn (${message.replace(/^font [^:]*: /, "")})`,
+            });
+          }
+        }
+        const { status } = found;
         return {
           content: [
             {

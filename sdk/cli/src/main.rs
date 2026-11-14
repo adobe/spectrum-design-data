@@ -301,7 +301,12 @@ enum Commands {
         #[arg(long, default_value = "svg", value_parser = ["svg", "png", "scene"])]
         format: String,
         /// Pixels per unit for `--format png`
-        #[arg(long, value_name = "N", default_value_t = 2.0)]
+        #[arg(
+            long,
+            value_name = "N",
+            default_value_t = 2.0,
+            conflicts_with = "batch"
+        )]
         pixel_ratio: f64,
         /// TrueType font file for `--format png` text (repeatable; default: bundled Source Sans 3)
         #[arg(long = "font", value_name = "FILE")]
@@ -4077,10 +4082,6 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
-/// `design-data catalog export --out DIR`: write the component and guideline
-/// catalogs after the selected platform manifest (if any) is applied, in the
-/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
-/// `icons/*.json` + `visuals/*.json` layout.
 fn run_fonts(json: bool) -> miette::Result<ExitCode> {
     use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
     let found = discover::discover(
@@ -4125,6 +4126,10 @@ fn run_fonts(json: bool) -> miette::Result<ExitCode> {
     })
 }
 
+/// `design-data catalog export --out DIR`: write the component and guideline
+/// catalogs after the selected platform manifest (if any) is applied, in the
+/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
+/// `icons/*.json` + `visuals/*.json` layout.
 fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides::default())?;
     let catalogs = manifest::load_merged_catalogs(&resolved)
