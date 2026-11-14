@@ -1582,7 +1582,7 @@ fn an_alias_to_a_palette_set_missing_a_mode_stays_uncovered_for_that_mode() {
 
     let report = diff_values(&meta, &graph, None).unwrap();
     match &report.entries[0].class {
-        DiffClass::MultiModeMismatch { modes } => {
+        DiffClass::PartiallyUncovered { modes } => {
             let by_mode: HashMap<&str, &DiffClass> =
                 modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
             assert!(matches!(by_mode["Light"], DiffClass::Match));
@@ -1593,7 +1593,7 @@ fn an_alias_to_a_palette_set_missing_a_mode_stays_uncovered_for_that_mode() {
                 by_mode["Wireframe"]
             );
         }
-        other => panic!("expected MultiModeMismatch, got {other:?}"),
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
 }
 
@@ -1636,7 +1636,7 @@ fn a_set_missing_a_mode_does_not_borrow_a_sibling_value() {
 
     let report = diff_values(&meta, &graph, None).unwrap();
     match &report.entries[0].class {
-        DiffClass::MultiModeMismatch { modes } => {
+        DiffClass::PartiallyUncovered { modes } => {
             let by_mode: HashMap<&str, &DiffClass> =
                 modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
             assert!(matches!(by_mode["Light"], DiffClass::Match));
@@ -1647,7 +1647,7 @@ fn a_set_missing_a_mode_does_not_borrow_a_sibling_value() {
                 by_mode["Wireframe"]
             );
         }
-        other => panic!("expected MultiModeMismatch, got {other:?}"),
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
 }
 
@@ -1795,6 +1795,44 @@ fn single_valued_alias_to_a_plain_token_reports_the_mode_that_differs() {
             assert!(matches!(by_mode["Dark"], DiffClass::ValueMismatch { .. }));
         }
         other => panic!("expected MultiModeMismatch, got {other:?}"),
+    }
+}
+
+/// Dark matches while Light and Wireframe hold a value shape the diff cannot
+/// convert. No mode disagrees, so this is a coverage gap, not a mismatch.
+#[test]
+fn matching_and_unconvertible_modes_report_skipped_not_mismatch() {
+    let var = mock_variable(
+        "colorTheme/color-wheel-border-color",
+        "COLOR",
+        vec![
+            ("m-light", json!({"unsupported": true})),
+            ("m-dark", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+            ("m-wireframe", json!({"unsupported": true})),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let graph = mock_color_set_graph(
+        "color-wheel-border-color",
+        json!("#000000"),
+        json!("#ffffff"),
+        json!("#000000"),
+    );
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 0, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 1);
+    match &report.entries[0].class {
+        DiffClass::PartiallyUncovered { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(matches!(
+                by_mode["Light"],
+                DiffClass::SkippedUncovered { .. }
+            ));
+        }
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
 }
 
@@ -2052,11 +2090,12 @@ fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
     let report = diff_values(&meta, &graph, None).unwrap();
-    assert_eq!(report.counts.multi_mode_mismatch, 1);
+    assert_eq!(report.counts.multi_mode_mismatch, 0);
+    assert_eq!(report.counts.skipped_uncovered, 1);
     assert_eq!(report.counts.matched, 0);
 
     match &report.entries[0].class {
-        DiffClass::MultiModeMismatch { modes } => {
+        DiffClass::PartiallyUncovered { modes } => {
             let by_mode: HashMap<&str, &DiffClass> =
                 modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
             assert!(matches!(by_mode["Light"], DiffClass::Match));
@@ -2068,7 +2107,7 @@ fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
                 other => panic!("expected SkippedUncovered for Wireframe, got {other:?}"),
             }
         }
-        other => panic!("expected MultiModeMismatch, got {other:?}"),
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
 }
 
