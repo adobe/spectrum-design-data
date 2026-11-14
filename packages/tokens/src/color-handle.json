@@ -72,6 +72,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-handle",
     "uuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-300 (base); component-specific to Color handle, not a control-size concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -83,12 +85,15 @@
         "value": "20px",
         "uuid": "b81cc6a6-390f-43dc-a6c8-dd335c177da3"
       }
-    }
+    },
+    "renamed": "size-300"
   },
   "color-handle-size-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-handle",
     "uuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-500 (key-focus); component-specific to Color handle, not a control-size concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -100,6 +105,7 @@
         "value": "40px",
         "uuid": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385"
       }
-    }
+    },
+    "renamed": "size-500"
   }
 }

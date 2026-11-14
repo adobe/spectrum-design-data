@@ -73,7 +73,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
     "uuid": "0174a22e-21b2-5d7d-bd9f-5102c302f5eb"
   },
   {
@@ -84,7 +84,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "976298d3-326f-43da-aa71-bbd2dc1fad3d",
+    "$ref": "1e14bd31-91d6-5968-9a56-2c543145dc45",
     "uuid": "2f066a9e-55f5-5a33-96d4-3c7406438c82"
   },
   {
@@ -95,7 +95,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "9c5e2199-2ae1-554d-8589-1184b85020f2"
   },
   {
@@ -106,7 +106,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "7e06632c-7afe-513d-a54b-3915809546fd"
   },
   {
@@ -117,7 +117,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "6eeeae74-e9e8-5298-8ff7-2f9e81977488"
   },
   {
@@ -128,7 +128,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "6c7f03e4-8eec-58d0-84bf-85a2c4b439fa"
   },
   {
@@ -139,7 +139,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "390d7748-2ca1-591c-b0ec-248bf3d26845"
   },
   {
@@ -150,7 +150,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "e81263b7-30ff-5b28-a8a6-6e0f7ef23686"
   },
   {
@@ -161,7 +161,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
+    "$ref": "cd95b6dd-25af-47f8-b79e-32ba79bf2463",
     "uuid": "f0551b7c-30a2-509c-a480-fa78b759182f"
   },
   {
@@ -259,7 +259,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "51670d3e-617d-5a67-920c-b509ddfe5c54"
   },
   {
@@ -269,7 +269,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "b0078b74-d144-5c34-afcc-2fba63f51c87"
   },
   {
@@ -279,7 +279,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "1e801a74-2339-5234-892c-186c8f9facd7"
   },
   {
@@ -289,7 +289,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "5792cbe7-1b27-5d12-80b1-642e85042488"
   },
   {
@@ -299,7 +299,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "92105479-b5c2-589a-aabd-8b306cfd83a0"
   },
   {
@@ -309,7 +309,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "757cba84-4c71-548d-9e94-a5816bc35867"
   },
   {
@@ -319,7 +319,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "12bb6611-139b-566d-b546-b35ec3c936b7"
   },
   {
@@ -329,7 +329,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "f490c3b6-7af6-566d-8a31-9296936fd0d9"
   },
   {
@@ -1652,7 +1652,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.25,
     "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
-    "legacyKey": "number-field-minimum-width-multiplier"
+    "legacyKey": "number-field-minimum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "cd95b6dd-25af-47f8-b79e-32ba79bf2463"
+    }
   },
   {
     "scope": {
@@ -1853,7 +1858,12 @@
     "uuid": "c5796762-5837-4600-92e0-5f11364ce471",
     "legacyKey": "number-field-with-stepper-minimum-width-extra-large",
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1870,7 +1880,12 @@
     "uuid": "9da98fb6-a90a-4805-8969-88d4a8958157",
     "legacyKey": "number-field-with-stepper-minimum-width-extra-large",
     "setUuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1887,7 +1902,12 @@
     "uuid": "ce84b84a-2036-4041-a121-31f69963bf6c",
     "legacyKey": "number-field-with-stepper-minimum-width-large",
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1904,7 +1924,12 @@
     "uuid": "71530ba4-3eb9-4136-b1d2-a28ae5ddf034",
     "legacyKey": "number-field-with-stepper-minimum-width-large",
     "setUuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1921,7 +1946,12 @@
     "uuid": "c7f0b058-d896-4acb-9aac-d073682f8546",
     "legacyKey": "number-field-with-stepper-minimum-width-medium",
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1938,7 +1968,12 @@
     "uuid": "4268fc6a-118d-4b3b-a581-b2ab8a503f21",
     "legacyKey": "number-field-with-stepper-minimum-width-medium",
     "setUuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1955,7 +1990,12 @@
     "uuid": "fcd3bdc5-5685-4b14-9ed7-7fd7bb11b584",
     "legacyKey": "number-field-with-stepper-minimum-width-small",
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   },
   {
     "scope": {
@@ -1972,6 +2012,11 @@
     "uuid": "08801f40-08ab-47df-82b8-e9cb8a63e3aa",
     "legacyKey": "number-field-with-stepper-minimum-width-small",
     "setUuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   }
 ]

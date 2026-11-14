@@ -27,6 +27,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-area",
     "uuid": "4915f362-d8f1-4c87-b45f-f4c99266ba1f",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -38,12 +40,15 @@
         "value": "240px",
         "uuid": "552a014a-c590-48f8-98dc-26849b62c3ab"
       }
-    }
+    },
+    "renamed": "size-1300"
   },
   "color-area-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-area",
     "uuid": "3ecf36e7-fbcd-4f8b-8c8b-ef51c0424cd2",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -55,12 +60,15 @@
         "value": "80px",
         "uuid": "9b84d54e-2b10-4502-b072-ded2a8bf9cb3"
       }
-    }
+    },
+    "renamed": "size-800"
   },
   "color-area-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-area",
     "uuid": "28afd99b-0227-41e5-91b6-87da309d7ed7",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -72,12 +80,15 @@
         "value": "80px",
         "uuid": "126cd0b8-55cc-489c-9582-fddde76b431c"
       }
-    }
+    },
+    "renamed": "size-800"
   },
   "color-area-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-area",
     "uuid": "26e77fb6-d62e-492b-b2b6-3fba9fb62fb5",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -89,6 +100,7 @@
         "value": "240px",
         "uuid": "e5daae6b-7040-4e80-a251-db4c8c79e113"
       }
-    }
+    },
+    "renamed": "size-1300"
   }
 }

@@ -7,7 +7,7 @@
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
     "contextQualifier": "keyboard focus",
-    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
+    "$ref": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f",
     "uuid": "71ffdb80-5555-501f-821e-2efb410ed43c"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
     "contextQualifier": "keyboard focus",
-    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
+    "$ref": "0efd036f-4738-4cba-aa6e-c154a68af0fb",
     "uuid": "fd872767-bdd5-5132-b522-cf5787d61620"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
     "contextQualifier": "keyboard focus",
-    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
+    "$ref": "9e6c70a8-d921-42b2-9084-7408424124ef",
     "uuid": "d31ec6a9-6706-52e2-832a-e8a9cec70827"
   },
   {
@@ -40,7 +40,7 @@
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
     "contextQualifier": "keyboard focus",
-    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
+    "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "uuid": "e5a2b468-d872-5164-b453-c5619dd2187f"
   },
   {
@@ -313,7 +313,13 @@
     "uuid": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
     "legacyKey": "color-handle-size",
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-300 (base); component-specific to Color handle, not a control-size concept.",
+      "replacedBy": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 434 of the mapping sheet."
   },
   {
     "scope": {
@@ -328,7 +334,13 @@
     "uuid": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
     "legacyKey": "color-handle-size",
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-300 (base); component-specific to Color handle, not a control-size concept.",
+      "replacedBy": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 434 of the mapping sheet."
   },
   {
     "scope": {
@@ -344,7 +356,13 @@
     "uuid": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
     "legacyKey": "color-handle-size-key-focus",
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-500 (key-focus); component-specific to Color handle, not a control-size concept.",
+      "replacedBy": "9e6c70a8-d921-42b2-9084-7408424124ef"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 435 of the mapping sheet."
   },
   {
     "scope": {
@@ -360,6 +378,12 @@
     "uuid": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
     "legacyKey": "color-handle-size-key-focus",
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-500 (key-focus); component-specific to Color handle, not a control-size concept.",
+      "replacedBy": "9e6c70a8-d921-42b2-9084-7408424124ef"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 435 of the mapping sheet."
   }
 ]

@@ -26,7 +26,7 @@
     },
     "context": "Component height",
     "contextRole": ["height"],
-    "$ref": "fe1dcf27-addf-4aa9-9057-7b98a4dcacdc",
+    "$ref": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826",
     "uuid": "32a43069-6be7-5bf4-9220-b3b43cccb9f2"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Component height",
     "contextRole": ["height"],
-    "$ref": "6ca2c317-7e17-41f7-8e2c-20a762fe284d",
+    "$ref": "cdd8d437-60db-57be-9663-86d8cd8809e9",
     "uuid": "d6cf4119-2db4-5f7f-a8ac-548c58ab8fc1"
   },
   {
@@ -46,7 +46,7 @@
     },
     "context": "Component width",
     "contextRole": ["width"],
-    "$ref": "82b718ef-6127-472b-b92f-f2f15833c49f",
+    "$ref": "cf6d396e-e889-4269-9c0f-d97fe977939f",
     "uuid": "aaf50116-a11a-5304-96b8-6380291545a1"
   },
   {
@@ -56,7 +56,7 @@
     },
     "context": "Component width",
     "contextRole": ["width"],
-    "$ref": "3f68b526-a22a-4086-a40d-3a875a6324b3",
+    "$ref": "a03f4dfd-723b-527d-8c0f-ec812d470684",
     "uuid": "ab1996ad-6213-5723-b8f8-9ef2c7cae6b1"
   },
   {
@@ -280,7 +280,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "8bae50ef-03de-5e19-bbc9-d9c3c32d1f59"
   },
   {
@@ -290,7 +290,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "25715cb0-9f0d-54a8-b821-59ee9f1189f7"
   },
   {
@@ -855,7 +855,13 @@
     "uuid": "fe1dcf27-addf-4aa9-9057-7b98a4dcacdc",
     "legacyKey": "list-view-minimum-height",
     "setUuid": "5dc02446-3f40-4370-b367-5f97b2ad3ca4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-* scale.",
+      "replacedBy": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 210 of the mapping sheet."
   },
   {
     "scope": {
@@ -870,7 +876,13 @@
     "uuid": "6ca2c317-7e17-41f7-8e2c-20a762fe284d",
     "legacyKey": "list-view-minimum-height",
     "setUuid": "5dc02446-3f40-4370-b367-5f97b2ad3ca4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-* scale.",
+      "replacedBy": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 210 of the mapping sheet."
   },
   {
     "scope": {
@@ -885,7 +897,13 @@
     "uuid": "82b718ef-6127-472b-b92f-f2f15833c49f",
     "legacyKey": "list-view-minimum-width",
     "setUuid": "378170d5-ffa0-42fe-9f8a-421e539217ab",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 211 of the mapping sheet."
   },
   {
     "scope": {
@@ -900,6 +918,12 @@
     "uuid": "3f68b526-a22a-4086-a40d-3a875a6324b3",
     "legacyKey": "list-view-minimum-width",
     "setUuid": "378170d5-ffa0-42fe-9f8a-421e539217ab",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 211 of the mapping sheet."
   }
 ]

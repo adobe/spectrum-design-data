@@ -46,7 +46,7 @@
     },
     "context": "Minimum width",
     "contextRole": ["width"],
-    "$ref": "8007ebd8-fd67-4dc2-8444-9e6a50c88675",
+    "$ref": "3e2c5e59-3167-453e-b484-ad0d6d6506da",
     "uuid": "f14ba33d-fe21-5b48-a9f9-cb4bc2c04ae2"
   },
   {
@@ -89,7 +89,7 @@
     },
     "context": "Minimum title area height",
     "contextRole": ["height"],
-    "$ref": "81ebf2b1-01fd-45a3-a099-72048e7d7991",
+    "$ref": "053e6718-fedb-4944-8e17-ea49f263dd25",
     "uuid": "9bd2c7de-b925-596e-9310-9a0f20ae7ca9"
   },
   {
@@ -99,7 +99,7 @@
     },
     "context": "Minimum title area height",
     "contextRole": ["height"],
-    "$ref": "fede8012-f00b-412b-8981-16f60a6133ab",
+    "$ref": "0b8813a4-a6e4-5e25-8dbb-a716595b9e3d",
     "uuid": "5174c5d8-f55a-5603-9960-203717e2f528"
   },
   {
@@ -710,6 +710,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "240px",
     "uuid": "8007ebd8-fd67-4dc2-8444-9e6a50c88675",
-    "legacyKey": "in-line-alert-minimum-width"
+    "legacyKey": "in-line-alert-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared banner-* scale.",
+      "replacedBy": "3e2c5e59-3167-453e-b484-ad0d6d6506da"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 204 of the mapping sheet."
   }
 ]

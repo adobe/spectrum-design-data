@@ -7,7 +7,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "dad01ae6-b161-4d09-8296-33c6ee7d8ca1",
+    "$ref": "7473d6b7-2cb0-4dc2-835b-6f8dd4bd8850",
     "uuid": "214cd351-88ce-5cbb-a4e3-269820c6e08b"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "6d94093e-daba-4312-b083-61f44d027737",
+    "$ref": "0cf3ca29-4823-421a-a5c2-d2b3e1c4f959",
     "uuid": "b062e04d-e7df-58dd-9a63-6425327abc9d"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "813d9d3b-8e02-44d9-a898-3045947edc08",
+    "$ref": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d",
     "uuid": "5f614d25-51fa-5bd5-be32-d5af933a44c7"
   },
   {
@@ -40,7 +40,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "549fbfad-78b7-430d-8fac-7d23084f2bea",
+    "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
     "uuid": "192b842c-e015-583c-a893-5c0ffaed9a37"
   },
   {
@@ -51,7 +51,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "7a98c2aa-404f-4fba-a20d-f5b73919b13e",
+    "$ref": "327565ee-24c0-4fce-bc15-a7fe3718c4e1",
     "uuid": "0f442430-8bc8-5131-ac1d-49643762e5d9"
   },
   {
@@ -62,7 +62,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "b99da217-1715-446c-9120-53e435cb0d0a",
+    "$ref": "04b1b698-7e07-4e47-9753-284de29c36a2",
     "uuid": "3ffb2af6-ef1e-5f47-a7ce-716d54334f37"
   },
   {
@@ -73,7 +73,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "bec36248-9c3d-4ecd-857e-c5c20bdc0e1a",
+    "$ref": "945e6087-09e9-4f7d-bc2c-a94b87b35d03",
     "uuid": "b21fd926-8fdd-593d-a5f4-d648a306eceb"
   },
   {
@@ -84,7 +84,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "5645fd64-11a8-4a0e-95f6-2f0cd89f5852",
+    "$ref": "21150406-e0d0-4584-8e72-d852f6dc83a8",
     "uuid": "22e63dbf-67ca-56f6-b52a-b90c9d902cf1"
   },
   {
@@ -95,7 +95,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "dc3ab4d0-f006-4ade-91da-ef263a676244",
+    "$ref": "d24e6f8e-4af2-4c4a-8a4a-f2cd06d8edb5",
     "uuid": "a19fdf3b-3b12-5435-a520-1416ddbfa09a"
   },
   {
@@ -106,7 +106,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "7a94daad-ec68-4ef1-9c84-9bf6c9b6b696",
+    "$ref": "5f5773d3-e2d0-431b-b461-f472499a7a1f",
     "uuid": "f6a49721-5d49-5511-bc8a-29c179c11880"
   },
   {
@@ -117,7 +117,7 @@
     "context": "Width (maximum)",
     "contextRole": ["width"],
     "contextQualifier": "maximum",
-    "$ref": "9b2b13ac-1728-49f5-8e15-6eeed2e7f855",
+    "$ref": "231d919c-9219-4d12-8f3d-d7dc74695137",
     "uuid": "76929dae-3eb6-573b-9334-939064c3f803"
   },
   {
@@ -128,7 +128,7 @@
     "context": "Width (maximum)",
     "contextRole": ["width"],
     "contextQualifier": "maximum",
-    "$ref": "42b0d345-b069-48b6-be41-6ed9047097d4",
+    "$ref": "fc89675c-6344-443d-a1cd-aef607e0ae23",
     "uuid": "7515b0c3-1d8d-5b2c-b9b4-81785d5672d6"
   },
   {
@@ -139,7 +139,7 @@
     "context": "Width (maximum)",
     "contextRole": ["width"],
     "contextQualifier": "maximum",
-    "$ref": "ccfe1006-0ddd-4203-b0e0-4c92a090c376",
+    "$ref": "ea8ff009-1e4b-42c7-9df0-1c8f33e7d322",
     "uuid": "100af87b-b3da-5bfd-b043-fc62b9e77c67"
   },
   {
@@ -150,7 +150,7 @@
     "context": "Width (maximum)",
     "contextRole": ["width"],
     "contextQualifier": "maximum",
-    "$ref": "2e85d49c-4002-4beb-9173-f4b2ab78d043",
+    "$ref": "0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3",
     "uuid": "070f0de0-fb38-59dd-ae0b-5b2a038e490c"
   },
   {
@@ -161,7 +161,7 @@
     "context": "Width (maximum)",
     "contextRole": ["width"],
     "contextQualifier": "maximum",
-    "$ref": "6f924664-b056-4fdb-a6ab-c5609e3e9316",
+    "$ref": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057",
     "uuid": "8b15024b-b429-5518-a37a-ab111fa96906"
   },
   {
@@ -547,7 +547,7 @@
     "context": "Height (minimum)",
     "contextRole": ["height"],
     "contextQualifier": "minimum",
-    "$ref": "f4492a8a-8cb4-481f-a2e4-73da516023be",
+    "$ref": "50a7fb55-51f5-43e1-b931-16834a1f641e",
     "uuid": "cb103d9b-fdc3-5e2f-b3d4-cb35c18a9895"
   },
   {
@@ -558,7 +558,7 @@
     "context": "Height (minimum)",
     "contextRole": ["height"],
     "contextQualifier": "minimum",
-    "$ref": "862e84ab-4efa-4c8e-a0e0-5ed158dadbcb",
+    "$ref": "5f05aab8-29de-4e83-affb-e018cd7570b2",
     "uuid": "f4e8d000-bdb5-5451-90d8-4efebc3128c6"
   },
   {
@@ -569,7 +569,7 @@
     "context": "Height (minimum)",
     "contextRole": ["height"],
     "contextQualifier": "minimum",
-    "$ref": "a29c460d-3496-49e9-8996-f4b42b9fbce7",
+    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
     "uuid": "cc626539-b48e-5b8a-9588-b347e3efb510"
   },
   {
@@ -580,7 +580,7 @@
     "context": "Height (minimum)",
     "contextRole": ["height"],
     "contextQualifier": "minimum",
-    "$ref": "2047247e-07d1-4b9b-b184-c173e6421daf",
+    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
     "uuid": "78bc14e4-444f-59fe-ae39-5645e362171f"
   },
   {
@@ -591,7 +591,7 @@
     "context": "Height (minimum)",
     "contextRole": ["height"],
     "contextQualifier": "minimum",
-    "$ref": "ef218a9a-900a-4454-840c-2380020bcbf3",
+    "$ref": "2c4fdbae-c98a-401a-b339-dd6b016c434a",
     "uuid": "788fb95e-d76c-5f8b-88c0-c7ffc1bad745"
   },
   {
@@ -922,7 +922,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), default variant",
-    "$ref": "fabfd445-4c39-4d39-9f7f-1ec531d4eb40",
+    "$ref": "50a7fb55-51f5-43e1-b931-16834a1f641e",
     "uuid": "1a7fb1f7-ec8b-57af-80a8-277572d9d3ee"
   },
   {
@@ -931,7 +931,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), default variant",
-    "$ref": "9264b1ff-23ae-4fd5-8863-742c305689e2",
+    "$ref": "93663edb-9399-4ad9-9b53-41aae64a8a5b",
     "uuid": "a48057fe-9eee-5349-8302-6629481f96c7"
   },
   {
@@ -940,7 +940,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), default variant",
-    "$ref": "8422dc66-e17d-4c54-a18b-a997a8e5d7c3",
+    "$ref": "5f05aab8-29de-4e83-affb-e018cd7570b2",
     "uuid": "d67a5af3-5342-5c42-a74f-fcf2211375a7"
   },
   {
@@ -949,7 +949,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), default variant",
-    "$ref": "e5027e50-3a1f-425d-b06b-8e4cf4663c22",
+    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
     "uuid": "58a1d8e3-7ac7-5c4f-ae54-9a464ae6da2c"
   },
   {
@@ -958,7 +958,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), default variant",
-    "$ref": "6b242eb5-aa73-417c-b786-9047ae7a65ac",
+    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
     "uuid": "3e58b684-51f1-5876-a364-cc03d435893d"
   },
   {
@@ -967,7 +967,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), hero image variant",
-    "$ref": "dc2f0f1a-609a-448a-833d-ded2580ef737",
+    "$ref": "5f05aab8-29de-4e83-affb-e018cd7570b2",
     "uuid": "93e04c8c-e9e7-57f8-9601-ca7e8edc3513"
   },
   {
@@ -976,7 +976,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), hero image variant",
-    "$ref": "adfc74bd-7520-4bfa-b278-28178007cfbc",
+    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
     "uuid": "32dd4c5c-88a1-5863-9156-ade7e4fed3f3"
   },
   {
@@ -985,7 +985,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), hero image variant",
-    "$ref": "63ecc7ce-8a38-4d18-94ed-d9e6394279ba",
+    "$ref": "a6626a0d-3592-4ad7-8184-30c39b49a34d",
     "uuid": "c716cab0-d94c-5491-9cbe-a72e0d59ee8d"
   },
   {
@@ -994,7 +994,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), hero image variant",
-    "$ref": "d5586b0d-1ff1-4e7e-88ce-75d41aff90d9",
+    "$ref": "f933e568-2034-4194-962d-b5af7934d536",
     "uuid": "661c8a94-2d95-5261-a866-067c4f5c5643"
   },
   {
@@ -1003,7 +1003,7 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), hero image variant",
-    "$ref": "24d72e3c-ed0d-47d7-85f5-4792fcf87b7f",
+    "$ref": "6dacb97d-a6c0-4346-8ff4-643456744379",
     "uuid": "d3ad46db-39ff-57a3-a612-977c6077cf7a"
   },
   {
@@ -1022,44 +1022,8 @@
       "component": "cards",
       "property": "minimum-height"
     },
-    "context": "Height (minimum), default variant",
-    "$ref": "f646530e-480c-4dbb-85fe-771eb5685966",
-    "uuid": "4adc9405-c7dd-5945-9762-342feea96ae3"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "53c81b30-6d98-4eaa-857f-15707d54a548",
-    "uuid": "280f9fba-9bce-5789-bc8f-86bc53c171e9"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "7cf979ef-c47b-41f3-8230-49d67ad47740",
-    "uuid": "6aa5495e-c118-5abf-8b60-6587d4bc6d91"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "9a9f173d-6262-490f-976f-bd9abb9ec355",
-    "uuid": "d4a4e638-d241-532b-b60a-3729eb4fbf0d"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
     "context": "Height (minimum), title below variant",
-    "$ref": "3373c4d2-d81b-4649-bc24-5251879778c1",
+    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
     "uuid": "b5735a6d-c6a2-5353-b9d0-5f24dca71256"
   },
   {
@@ -1068,26 +1032,8 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), title below variant",
-    "$ref": "5f4edfbc-eb2e-4dd5-add1-bf45530b0e61",
-    "uuid": "4457494c-c564-5796-a29d-d21ce693ed4d"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), title below variant",
-    "$ref": "4cc4f673-912b-4e53-a75e-c8bd4603ab19",
+    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
     "uuid": "1e349ce2-dfc9-5b70-b1d3-b1d3d0e009dd"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), title below variant",
-    "$ref": "a603a785-8cd8-4caf-a2b4-cfe3371cc10e",
-    "uuid": "53448753-61a8-5943-9290-1f19793aa86e"
   },
   {
     "scope": {
@@ -1118,7 +1064,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf",
+    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "2db232bb-760f-5379-8efc-2cae84e7be8f"
   },
   {
@@ -1128,7 +1074,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "545604c8-484f-4697-907c-31e2b2cb46d0",
+    "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "97765bdf-8604-5855-89bc-c75b4a5d7c2e"
   },
   {
@@ -1138,7 +1084,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "95c5905f-b209-4e84-881f-13ea85f12d87",
+    "$ref": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
     "uuid": "d5614232-e8a5-5d2b-a033-80bc4cfd3187"
   },
   {
@@ -1148,7 +1094,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe",
+    "$ref": "cb2dbb62-9fe3-57b8-8497-c7b238154919",
     "uuid": "41a6be15-5178-5f81-ba7e-dc4bde09c0a8"
   },
   {
@@ -1158,7 +1104,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "87234a25-8f6d-457c-9d3f-363930fec12c",
+    "$ref": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "uuid": "3d2cb57e-3edc-530f-a98c-6bf9239b0f4d"
   },
   {
@@ -1168,7 +1114,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "1798b58e-fce4-411d-ba8d-75006fa4f53e",
+    "$ref": "8c1fbaf8-9117-5882-bf02-65bb8fca5e7d",
     "uuid": "b0420726-47da-555e-9b44-c597f2d31148"
   },
   {
@@ -1178,7 +1124,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "d6aaa2c4-d213-44de-9bae-742d26df8765",
+    "$ref": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
     "uuid": "16e0c434-0e5d-57b1-90ef-da6e255f254f"
   },
   {
@@ -1188,7 +1134,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "5eab16f9-5537-4a14-958d-d96200c5723f",
+    "$ref": "b1fb3013-a13a-56b3-9f91-e1099791759a",
     "uuid": "084d49d7-184a-5d77-aae9-e4b154d7c211"
   },
   {
@@ -1198,7 +1144,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202",
+    "$ref": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
     "uuid": "1b15fbd9-ac50-5b8c-9314-16c61607003f"
   },
   {
@@ -1208,7 +1154,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "97f11dd2-0173-464c-9eef-c260c9e8cf22",
+    "$ref": "96dfba6c-1687-575f-bd7a-c6bc81962afe",
     "uuid": "4ca3a6a5-b204-51ad-b1b5-f4df539fda91"
   },
   {
@@ -1218,7 +1164,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "48959be8-02f9-45b9-8190-af60c93cbb6c",
+    "$ref": "cbd0511f-c73d-40fa-9dfa-619ee5a38472",
     "uuid": "39d4a198-f471-5b07-a3b6-8930b866ae9c"
   },
   {
@@ -1228,7 +1174,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14",
+    "$ref": "7d55cf1b-1f33-5549-9f3b-45f61f913d78",
     "uuid": "13e95e58-419a-56c2-932a-56e247cb3784"
   },
   {

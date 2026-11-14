@@ -7,7 +7,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "c4b2177d-4468-4180-be27-69d26a51ba0b",
+    "$ref": "abe2fb5d-998a-4694-a67a-9363bb7db322",
     "uuid": "696553dd-4330-55df-b972-077858dd9bdd"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "c49c3add-28e5-5f13-a7db-d723a636dab7"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "ef984775-9f08-5f5e-b694-d82ff57ddd6e"
   },
   {
@@ -39,7 +39,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "a03f9858-f162-5b8c-963d-67cfcd4f944c"
   },
   {
@@ -49,7 +49,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "f57e25b1-8103-5997-9724-563401b0d79c"
   },
   {
@@ -59,7 +59,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "f2bbab3f-a044-59fa-bd15-2d6227f9c745"
   },
   {
@@ -69,7 +69,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "7a55a19e-94df-5df0-895d-336e7d73febe"
   },
   {
@@ -79,7 +79,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "e5e6d5e9-dabc-52aa-8653-66452a81e8b8"
   },
   {
@@ -89,7 +89,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "9b57e74f-7d64-5aaa-b6ca-c0b73f9dc89d"
   },
   {
@@ -99,7 +99,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "bd01833c-6c4d-5486-a55d-5c00b62819fc"
   },
   {
@@ -109,7 +109,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "e8e9495a-25b8-5f61-ac2e-48cfbb292d5b"
   },
   {
@@ -937,6 +937,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 4,
     "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b",
-    "legacyKey": "search-field-minimum-width-multiplier"
+    "legacyKey": "search-field-minimum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   }
 ]

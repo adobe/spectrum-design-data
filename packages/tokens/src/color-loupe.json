@@ -32,7 +32,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "color-loupe",
     "value": "64px",
-    "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51"
+    "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-800 (64px); component-specific to Color loupe, not a shared category.",
+    "renamed": "size-800"
   },
   "color-loupe-inner-border": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -62,6 +65,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "color-loupe",
     "value": "48px",
-    "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4"
+    "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-700 (48px); component-specific to Color loupe, not a shared category.",
+    "renamed": "size-700"
   }
 }

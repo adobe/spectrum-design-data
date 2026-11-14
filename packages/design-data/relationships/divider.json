@@ -6,7 +6,7 @@
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
-    "$ref": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36",
+    "$ref": "a53172f2-1e81-4691-9129-5b680f0b9863",
     "uuid": "4de34f6d-65ed-561c-bca6-79c3914c9b37"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
-    "$ref": "3cf3e962-92f3-4334-8b92-9a1da9396c25",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
     "uuid": "0a91b590-fac6-5fdf-b19d-01bcdb211dfa"
   },
   {
@@ -26,7 +26,7 @@
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
-    "$ref": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
     "uuid": "6cbddd6d-0f35-5b57-a3d8-63229f54f38a"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Horizontal",
     "contextRole": ["layout"],
-    "$ref": "a0093378-0b2c-474b-9fe5-76940fd1398b",
+    "$ref": "f639e3fe-0a2d-45be-8392-ee1e587f4840",
     "uuid": "5f735347-8c40-59d7-a403-d3af41bfe9ce"
   },
   {
@@ -44,9 +44,9 @@
       "component": "divider",
       "property": "vertical-minimum-height"
     },
-    "context": "Horizontal",
+    "context": "Vertical",
     "contextRole": ["layout"],
-    "$ref": "299db7d6-66f6-4fcb-890d-223406c85ae4",
+    "$ref": "f639e3fe-0a2d-45be-8392-ee1e587f4840",
     "uuid": "2aa871a4-49ac-500c-9842-61b1c1bf937e"
   },
   {
@@ -161,7 +161,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",
     "uuid": "a0093378-0b2c-474b-9fe5-76940fd1398b",
-    "legacyKey": "divider-horizontal-minimum-width"
+    "legacyKey": "divider-horizontal-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "f639e3fe-0a2d-45be-8392-ee1e587f4840"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 170 of the mapping sheet."
   },
   {
     "scope": {
@@ -174,7 +180,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5",
-    "legacyKey": "divider-thickness-large"
+    "legacyKey": "divider-thickness-large",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 171 of the mapping sheet."
   },
   {
     "scope": {
@@ -187,7 +199,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "3cf3e962-92f3-4334-8b92-9a1da9396c25",
-    "legacyKey": "divider-thickness-medium"
+    "legacyKey": "divider-thickness-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 172 of the mapping sheet."
   },
   {
     "scope": {
@@ -200,7 +218,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36",
-    "legacyKey": "divider-thickness-small"
+    "legacyKey": "divider-thickness-small",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "a53172f2-1e81-4691-9129-5b680f0b9863"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 173 of the mapping sheet."
   },
   {
     "scope": {
@@ -210,6 +234,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",
     "uuid": "299db7d6-66f6-4fcb-890d-223406c85ae4",
-    "legacyKey": "divider-vertical-minimum-height"
+    "legacyKey": "divider-vertical-minimum-height",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "f639e3fe-0a2d-45be-8392-ee1e587f4840"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 174 of the mapping sheet."
   }
 ]

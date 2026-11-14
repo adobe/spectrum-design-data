@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "49d5c54a-8aeb-4cd2-9499-9cb05a3ab599",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "26px",
         "uuid": "b7ae7b32-b347-4e09-9978-3b0b92a4dbab"
       }
-    }
+    },
+    "renamed": "control-size-extra-large"
   },
   "switch-control-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "3253cbd9-6ba1-494b-b464-2109db29381a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "22px",
         "uuid": "91b828ce-8ff9-4d32-958e-a8a23ef9b345"
       }
-    }
+    },
+    "renamed": "control-size-large"
   },
   "switch-control-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "db115429-09a3-4a6f-b05c-a89d7349a554",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,12 +56,15 @@
         "value": "20px",
         "uuid": "0d5f13f2-4d5b-4c30-b3a3-fa4fcc33b928"
       }
-    }
+    },
+    "renamed": "control-size-medium"
   },
   "switch-control-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "switch",
     "uuid": "d4af5ddb-949f-41c1-87eb-d8298b7b1f74",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -65,7 +76,8 @@
         "value": "18px",
         "uuid": "a1dbcaf0-bbcf-444d-9d22-7f86db20303a"
       }
-    }
+    },
+    "renamed": "control-size-small"
   },
   "switch-control-width-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

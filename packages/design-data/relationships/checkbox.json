@@ -7,7 +7,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "460e8170-de69-4f8e-8420-6c87a1f6f5cd",
+    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
     "uuid": "b39e6bf4-59b7-5d07-821d-c31531ecd5aa"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "af31c1a5-ffce-4a54-8862-3e711ca53d25",
+    "$ref": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
     "uuid": "8390829e-64ae-5f79-b943-6f6755a2ea0d"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "86288454-7192-4e4c-b55f-fc509fc58c01",
+    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
     "uuid": "dd234ae3-bf4c-5176-9044-80dac9ec69ef"
   },
   {
@@ -40,7 +40,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "00fee3f7-a743-45d6-a2b6-028d5d96964a",
+    "$ref": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
     "uuid": "488b3d86-1068-53b2-afa6-373bd8c0a97b"
   },
   {
@@ -51,7 +51,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "839a52bc-b9ee-473f-acde-0799b4f55ded",
+    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
     "uuid": "5d67cdd3-623c-563d-a02a-71159d9c533c"
   },
   {
@@ -62,7 +62,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "b4367578-989e-438d-9a3e-7cb077f2f7c9",
+    "$ref": "c25b80df-3ec6-508a-9c75-e550972cce19",
     "uuid": "6832bd57-e354-560f-bc15-d7004f125d64"
   },
   {
@@ -73,7 +73,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "4ba47ba1-c9bd-447e-8948-009d5b424e0d",
+    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
     "uuid": "719e10fc-5219-5750-99c9-80bc5af00718"
   },
   {
@@ -84,7 +84,7 @@
     "context": "Control (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "13093f8b-e38e-449f-a982-7f960bb84dfa",
+    "$ref": "8bca789b-593d-5563-8bd5-eeb1b987631b",
     "uuid": "ff693ff4-5508-5f96-8479-496a239459d4"
   },
   {
@@ -182,7 +182,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "589a04e5-1f53-57ae-87d0-63199d8c335c"
   },
   {
@@ -192,7 +192,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "56df73f8-ec56-52a5-a02a-d7dee2559c12"
   },
   {
@@ -202,7 +202,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "d7b2cacb-8e85-5b76-9cbd-ffeb85d3138a"
   },
   {
@@ -212,7 +212,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "fa76619c-4212-5bd3-92f3-bbd1f5b64b19"
   },
   {
@@ -222,7 +222,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "76c00ca8-d39e-5b0f-a760-443971f7c9b9"
   },
   {
@@ -232,7 +232,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "c076f807-e826-59b6-9b16-8f4bce0b94c2"
   },
   {
@@ -242,7 +242,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "c975f104-ef66-5602-beac-5649157891f1"
   },
   {
@@ -252,7 +252,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "1be245d6-85a8-585b-855f-ec588b331e9b"
   },
   {
@@ -1002,7 +1002,13 @@
     "uuid": "4ba47ba1-c9bd-447e-8948-009d5b424e0d",
     "legacyKey": "checkbox-control-size-extra-large",
     "setUuid": "05686950-e677-4bc0-90c2-0addbe401d17",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 85 of the mapping sheet."
   },
   {
     "scope": {
@@ -1019,7 +1025,13 @@
     "uuid": "13093f8b-e38e-449f-a982-7f960bb84dfa",
     "legacyKey": "checkbox-control-size-extra-large",
     "setUuid": "05686950-e677-4bc0-90c2-0addbe401d17",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 85 of the mapping sheet."
   },
   {
     "scope": {
@@ -1036,7 +1048,13 @@
     "uuid": "839a52bc-b9ee-473f-acde-0799b4f55ded",
     "legacyKey": "checkbox-control-size-large",
     "setUuid": "71f3577d-e685-41e9-9443-c498fd0125ba",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 86 of the mapping sheet."
   },
   {
     "scope": {
@@ -1053,7 +1071,13 @@
     "uuid": "b4367578-989e-438d-9a3e-7cb077f2f7c9",
     "legacyKey": "checkbox-control-size-large",
     "setUuid": "71f3577d-e685-41e9-9443-c498fd0125ba",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 86 of the mapping sheet."
   },
   {
     "scope": {
@@ -1070,7 +1094,13 @@
     "uuid": "86288454-7192-4e4c-b55f-fc509fc58c01",
     "legacyKey": "checkbox-control-size-medium",
     "setUuid": "04a220ef-907c-433a-b040-fe421cdaf930",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 87 of the mapping sheet."
   },
   {
     "scope": {
@@ -1087,7 +1117,13 @@
     "uuid": "00fee3f7-a743-45d6-a2b6-028d5d96964a",
     "legacyKey": "checkbox-control-size-medium",
     "setUuid": "04a220ef-907c-433a-b040-fe421cdaf930",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 87 of the mapping sheet."
   },
   {
     "scope": {
@@ -1104,7 +1140,13 @@
     "uuid": "460e8170-de69-4f8e-8420-6c87a1f6f5cd",
     "legacyKey": "checkbox-control-size-small",
     "setUuid": "39090c90-aa5a-448f-8dd5-01e0c0a5fa2a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 88 of the mapping sheet."
   },
   {
     "scope": {
@@ -1121,7 +1163,13 @@
     "uuid": "af31c1a5-ffce-4a54-8862-3e711ca53d25",
     "legacyKey": "checkbox-control-size-small",
     "setUuid": "39090c90-aa5a-448f-8dd5-01e0c0a5fa2a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 88 of the mapping sheet."
   },
   {
     "scope": {

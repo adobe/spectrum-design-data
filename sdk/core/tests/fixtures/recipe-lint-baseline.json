@@ -1,4 +1,7 @@
 {
+  "SPEC-067": {
+    "accordion": 2
+  },
   "SPEC-068": {
     "accordion": 1,
     "checkbox": 16

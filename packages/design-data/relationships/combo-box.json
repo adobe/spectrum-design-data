@@ -78,7 +78,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
     "uuid": "d7d326aa-7774-5cb6-afca-07d41edca573"
   },
   {
@@ -89,7 +89,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "976298d3-326f-43da-aa71-bbd2dc1fad3d",
+    "$ref": "1e14bd31-91d6-5968-9a56-2c543145dc45",
     "uuid": "9424959f-3e62-57b9-8d9a-d548af72ad03"
   },
   {
@@ -100,7 +100,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "d93457bf-8669-5488-b6e9-214543c9c375"
   },
   {
@@ -111,7 +111,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "638a6ee9-1f51-5619-8c02-6e8a60b021f2"
   },
   {
@@ -122,7 +122,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "3a710654-9f29-5c2c-ba6d-f9014e8b3ae8"
   },
   {
@@ -133,7 +133,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "11f9f800-36c3-5c85-ab9e-d5402907fe38"
   },
   {
@@ -144,7 +144,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "4e8bd74d-c1e8-59c6-a278-d337f2122335"
   },
   {
@@ -155,7 +155,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "955df190-c224-5547-8262-18bf0b36c64c"
   },
   {
@@ -166,7 +166,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "eabcc77a-f263-43ed-9944-9daa78a56b66",
+    "$ref": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00",
     "uuid": "8a3da01f-28f9-51c5-bd75-63418920eb0d"
   },
   {
@@ -176,7 +176,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "1b365f13-7515-5787-baa1-a9c7120080e7"
   },
   {
@@ -186,7 +186,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "b39ce61c-5e72-56c0-ac30-c883ec758d6c"
   },
   {
@@ -196,7 +196,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "b03cb261-b591-51bc-8d1e-da2598186d11"
   },
   {
@@ -206,7 +206,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "2c3d77bf-49c0-533a-9c8e-9404cdaa07c2"
   },
   {
@@ -216,7 +216,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "2f23a830-c801-552e-acdb-a7f1e7dde9fb"
   },
   {
@@ -226,7 +226,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "896895a0-a9ec-5f71-9694-82421b565676"
   },
   {
@@ -236,7 +236,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "d6e56020-8275-5627-b437-f13441adf5e2"
   },
   {
@@ -246,7 +246,7 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "b250ef0c-5083-5071-9462-4252200e12a1"
   },
   {
@@ -1392,7 +1392,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2.5,
     "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66",
-    "legacyKey": "combo-box-minimum-width-multiplier"
+    "legacyKey": "combo-box-minimum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00"
+    }
   },
   {
     "scope": {

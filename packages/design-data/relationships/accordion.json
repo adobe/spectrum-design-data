@@ -7,7 +7,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "47ae1059-6b16-4823-866d-11be0c0e0e8a",
+    "$ref": "cf6d396e-e889-4269-9c0f-d97fe977939f",
     "uuid": "5ba88741-0552-5c3a-a729-1f772241514b"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "ae8169fe-1672-4e95-87a5-344ec4d7f163",
+    "$ref": "a03f4dfd-723b-527d-8c0f-ec812d470684",
     "uuid": "4796115f-caad-5758-ac47-98eb9d6036c0"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "c416a2c8-cf8f-5c73-93e8-92f7436df862"
   },
   {
@@ -40,7 +40,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "594666cd-b2a6-5910-8e48-636dd59ad70a"
   },
   {
@@ -51,7 +51,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "95623e92-d9ce-569e-9493-cc2097b1421f"
   },
   {
@@ -62,7 +62,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "36a0a921-14f8-52b3-b260-57828eb2f1ba"
   },
   {
@@ -73,7 +73,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "82179069-00a0-5f12-99a7-a69e03d4fd99"
   },
   {
@@ -84,7 +84,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "789235f0-843f-5290-b8b7-32b639d456ae"
   },
   {
@@ -136,7 +136,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "2727e530-ee0b-52d9-adee-a795dc93ac81"
   },
   {
@@ -147,7 +147,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "ffa9a4be-9f4b-5695-97fb-7b637d31b2fb"
   },
   {
@@ -158,7 +158,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "6bcf486b-ed86-5fd7-86d0-5239465b89da"
   },
   {
@@ -169,7 +169,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "862d2015-0b37-5423-abea-f81c7d8e6311"
   },
   {
@@ -180,7 +180,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "b7831607-05b0-58e3-bec3-b4ec29a3059b"
   },
   {
@@ -191,7 +191,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "68c1db0d-1598-5159-ae4f-22b22c5c89e3"
   },
   {
@@ -202,7 +202,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "2e0afbd3-d616-58c9-90d3-0db4265031b1"
   },
   {
@@ -213,7 +213,7 @@
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
     "contextQualifier": "top/bottom edge to label",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "5d8a466f-4e25-59a4-90d5-bcf42eedbd81"
   },
   {
@@ -2406,7 +2406,13 @@
     "uuid": "47ae1059-6b16-4823-866d-11be0c0e0e8a",
     "legacyKey": "accordion-minimum-width",
     "setUuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 2 of the mapping sheet."
   },
   {
     "scope": {
@@ -2421,7 +2427,13 @@
     "uuid": "ae8169fe-1672-4e95-87a5-344ec4d7f163",
     "legacyKey": "accordion-minimum-width",
     "setUuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 2 of the mapping sheet."
   },
   {
     "scope": {

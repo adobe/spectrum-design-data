@@ -4579,7 +4579,7 @@ mod tests {
             (height.kind.as_str(), height.h, height.w),
             ("height", c.h, c.w)
         );
-        assert!(height.token.token.starts_with("component-height"));
+        assert!(height.token.token.starts_with("base-height"));
         let pad = find("paddingInlineStart");
         assert_eq!((pad.kind.as_str(), pad.x, pad.w), ("padding", c.x, 12.0));
         let gap = find("gap");

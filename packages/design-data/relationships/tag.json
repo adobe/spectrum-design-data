@@ -6,7 +6,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "60fd0b38-3bad-4a0f-8a69-d4cf79b635ff",
+    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "uuid": "0fd43936-1984-5b8c-85cb-dfe1e226b859"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "6f6fae3d-eafd-41d7-a863-b2f0b57240ab",
+    "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
     "uuid": "e658ce35-1966-56ca-82a4-ab0227c5e0f2"
   },
   {
@@ -26,7 +26,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "f3293ec2-befd-49e8-a280-b5a1827aa40c",
+    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
     "uuid": "621aad48-b3cf-56bf-8cc0-b42692357ca4"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "a2833b95-ba74-4caf-89e6-8294465d2780",
+    "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
     "uuid": "66baac18-d131-55a6-96ce-2aedff431b2c"
   },
   {
@@ -46,27 +46,7 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "0578d5e5-9c2d-46f2-9268-85bdf566b3a5",
-    "uuid": "092382e8-5e92-503c-99f6-813992c4357a"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "7f33676b-63dd-4d16-b7e1-36520ade716d",
-    "uuid": "b5562b62-a00b-513c-b5ae-a16544ed1312"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "20706cc7-9d07-4938-8328-debd3ab8d822",
+    "$ref": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
     "uuid": "a7406d4c-a89b-5c9d-ba93-f4d170e1fe6a"
   },
   {
@@ -76,28 +56,8 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "852fc55b-beb7-428c-bc0c-452abc204de3",
+    "$ref": "90cde499-440b-584a-af95-26799a05e23e",
     "uuid": "bfb57733-9290-551d-982c-e421c9750c0b"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf",
-    "uuid": "29e3d3a8-fb3a-5287-b7bd-ea13dce1c520"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "545604c8-484f-4697-907c-31e2b2cb46d0",
-    "uuid": "4d718bae-a517-5df0-af64-ac63d36ae578"
   },
   {
     "scope": {
@@ -106,7 +66,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "665a5cfc-abe6-5455-bcef-62fd408eda7c"
   },
   {
@@ -116,7 +76,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "91df6ac4-abe7-5d58-927b-b487e729d128"
   },
   {
@@ -126,7 +86,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "a256fbd8-453f-5079-ade2-d3dd46dc150b"
   },
   {
@@ -136,7 +96,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "75ead5bc-b09d-5baf-b0fc-34e8cbb54d47"
   },
   {
@@ -146,7 +106,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "93d0b1e9-2521-55af-ad48-c90f98e4578a"
   },
   {
@@ -156,7 +116,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8e395e7c-991c-506e-a17f-5af23ff24799"
   },
   {

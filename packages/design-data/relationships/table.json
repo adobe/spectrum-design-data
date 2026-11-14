@@ -35,7 +35,7 @@
     },
     "context": "Column header row height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "da960b8c-e7d2-5e6d-a30e-8e84d8cc894a"
   },
   {
@@ -45,7 +45,7 @@
     },
     "context": "Column header row height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "c53e5a2e-e02e-50f9-8506-47505619c359"
   },
   {
@@ -78,7 +78,7 @@
     "context": "Row height (minimum, regular density)",
     "contextRole": ["height"],
     "contextQualifier": "minimum, regular density",
-    "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "8aa6cad0-ff93-5e04-81cb-11910c5c8994"
   },
   {
@@ -89,7 +89,7 @@
     "context": "Row height (minimum, regular density)",
     "contextRole": ["height"],
     "contextQualifier": "minimum, regular density",
-    "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
+    "$ref": "1cb0e333-463a-546e-b45e-c5f67c60a385",
     "uuid": "b0e0bdff-6771-5417-b723-6de7654b51b6"
   },
   {
@@ -228,7 +228,7 @@
     },
     "context": "Section header row height",
     "contextRole": ["height"],
-    "$ref": "4c9e9bd8-9320-4648-bf2c-bb2db74a63fb",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "faf962de-f0d8-517b-bc71-b5eec13fe9c4"
   },
   {
@@ -238,7 +238,7 @@
     },
     "context": "Section header row height",
     "contextRole": ["height"],
-    "$ref": "07beb872-72a0-400e-b434-dd076c9be0a7",
+    "$ref": "b66f56a3-c8ec-539f-9e2b-67e46bcb8042",
     "uuid": "c06ac877-6227-5d19-9392-40a80b079efe"
   },
   {
@@ -301,7 +301,7 @@
     "context": "Focus indicator (row)",
     "contextRole": ["focus"],
     "contextPart": "row",
-    "$ref": "d33433fd-6430-4769-a0b8-6d8c32a64803",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
     "uuid": "06a319ba-b071-5903-9b98-0f4234563b91"
   },
   {
@@ -2988,7 +2988,13 @@
     "uuid": "d52d3141-27a5-40eb-800f-1a09acd42534",
     "legacyKey": "table-row-height-extra-large",
     "setUuid": "34dfc670-7333-40fc-96e0-93a466273634",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "f5d4825e-d704-4eb8-bde7-45c6db956a39"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 334 of the mapping sheet."
   },
   {
     "scope": {
@@ -3008,7 +3014,13 @@
     "uuid": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
     "legacyKey": "table-row-height-extra-large",
     "setUuid": "34dfc670-7333-40fc-96e0-93a466273634",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "f5d4825e-d704-4eb8-bde7-45c6db956a39"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 334 of the mapping sheet."
   },
   {
     "scope": {
@@ -3040,7 +3052,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "d52d3141-27a5-40eb-800f-1a09acd42534",
+    "$ref": "f5d4825e-d704-4eb8-bde7-45c6db956a39",
     "uuid": "face2717-9c2c-4e18-9632-4e4a595b1fc7",
     "legacyKey": "table-row-height-extra-large-regular",
     "setUuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
@@ -3063,7 +3075,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
+    "$ref": "f5d4825e-d704-4eb8-bde7-45c6db956a39",
     "uuid": "b7753c9a-8854-4927-89dd-80d47bff5fa5",
     "legacyKey": "table-row-height-extra-large-regular",
     "setUuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
@@ -3134,7 +3146,13 @@
     "uuid": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
     "legacyKey": "table-row-height-large",
     "setUuid": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 337 of the mapping sheet."
   },
   {
     "scope": {
@@ -3154,7 +3172,13 @@
     "uuid": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
     "legacyKey": "table-row-height-large",
     "setUuid": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 337 of the mapping sheet."
   },
   {
     "scope": {
@@ -3186,7 +3210,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
+    "$ref": "2451ab96-310a-4965-8fbe-fa4a645cd410",
     "uuid": "3b22a4c7-525c-4482-9e58-19cbe46d318b",
     "legacyKey": "table-row-height-large-regular",
     "setUuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
@@ -3209,7 +3233,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
+    "$ref": "2451ab96-310a-4965-8fbe-fa4a645cd410",
     "uuid": "b92bc058-27ea-4e86-a1a2-e5dbae3c2ee8",
     "legacyKey": "table-row-height-large-regular",
     "setUuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
@@ -3277,7 +3301,13 @@
     "uuid": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
     "legacyKey": "table-row-height-medium",
     "setUuid": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 340 of the mapping sheet."
   },
   {
     "scope": {
@@ -3294,7 +3324,13 @@
     "uuid": "2cf7918c-f84a-4903-a6ba-b110807842ba",
     "legacyKey": "table-row-height-medium",
     "setUuid": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 340 of the mapping sheet."
   },
   {
     "scope": {
@@ -3323,7 +3359,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "1dc88a25-18bc-491a-ab02-2c1ec36f4c1e",
     "legacyKey": "table-row-height-medium-regular",
     "setUuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
@@ -3346,7 +3382,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
+    "$ref": "dfa352e4-ca25-4c89-830b-cc06eda4c398",
     "uuid": "72e6564c-2acf-4f77-80d9-b21d2d55a580",
     "legacyKey": "table-row-height-medium-regular",
     "setUuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
@@ -3411,7 +3447,13 @@
     "uuid": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
     "legacyKey": "table-row-height-small",
     "setUuid": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 343 of the mapping sheet."
   },
   {
     "scope": {
@@ -3431,7 +3473,13 @@
     "uuid": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
     "legacyKey": "table-row-height-small",
     "setUuid": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale.",
+      "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 343 of the mapping sheet."
   },
   {
     "scope": {
@@ -3463,7 +3511,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "fd53964b-cf4a-4cdf-b088-418364b1c518",
     "legacyKey": "table-row-height-small-regular",
     "setUuid": "f8519e64-027c-4724-b5f3-772ee266ba78",
@@ -3486,7 +3534,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
+    "$ref": "8b203efb-317a-4849-95b0-45d678eff0f4",
     "uuid": "cdbb999d-c2a9-4325-9689-bede2ad3559a",
     "legacyKey": "table-row-height-small-regular",
     "setUuid": "f8519e64-027c-4724-b5f3-772ee266ba78",
@@ -4208,7 +4256,13 @@
     "uuid": "34b1c98f-7159-4ae0-b299-bf2fc53035c0",
     "legacyKey": "table-section-header-row-height-extra-large",
     "setUuid": "7ec12e53-f33b-40ff-a051-cb62f71a376e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 346 of the mapping sheet."
   },
   {
     "scope": {
@@ -4227,7 +4281,13 @@
     "uuid": "06164331-9a76-4adf-b859-82074df19fbd",
     "legacyKey": "table-section-header-row-height-extra-large",
     "setUuid": "7ec12e53-f33b-40ff-a051-cb62f71a376e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "2451ab96-310a-4965-8fbe-fa4a645cd410"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 346 of the mapping sheet."
   },
   {
     "scope": {
@@ -4246,7 +4306,13 @@
     "uuid": "553f5ffd-a163-4b33-b96a-5acc08cfb820",
     "legacyKey": "table-section-header-row-height-large",
     "setUuid": "db3b99d0-492f-4360-8d36-d497e1e00462",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 347 of the mapping sheet."
   },
   {
     "scope": {
@@ -4265,7 +4331,13 @@
     "uuid": "cc41c4f1-bfc5-4aa5-87af-97f191cc7af3",
     "legacyKey": "table-section-header-row-height-large",
     "setUuid": "db3b99d0-492f-4360-8d36-d497e1e00462",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "dfa352e4-ca25-4c89-830b-cc06eda4c398"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 347 of the mapping sheet."
   },
   {
     "scope": {
@@ -4282,7 +4354,13 @@
     "uuid": "4c9e9bd8-9320-4648-bf2c-bb2db74a63fb",
     "legacyKey": "table-section-header-row-height-medium",
     "setUuid": "9b7fb04a-96c6-4eb2-87ff-e0703b02617b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 348 of the mapping sheet."
   },
   {
     "scope": {
@@ -4299,7 +4377,13 @@
     "uuid": "07beb872-72a0-400e-b434-dd076c9be0a7",
     "legacyKey": "table-section-header-row-height-medium",
     "setUuid": "9b7fb04a-96c6-4eb2-87ff-e0703b02617b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "8b203efb-317a-4849-95b0-45d678eff0f4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 348 of the mapping sheet."
   },
   {
     "scope": {
@@ -4318,7 +4402,13 @@
     "uuid": "89bd3638-bbbb-432d-84eb-e217f9bb0cbf",
     "legacyKey": "table-section-header-row-height-small",
     "setUuid": "58fd11fd-232a-474b-b53e-3b54a5d96266",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "45291200-eb38-4732-8387-a9be8ee41565"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 349 of the mapping sheet."
   },
   {
     "scope": {
@@ -4337,7 +4427,13 @@
     "uuid": "2cd8dc05-2f95-45b5-b8a4-0273baf3ba0e",
     "legacyKey": "table-section-header-row-height-small",
     "setUuid": "58fd11fd-232a-474b-b53e-3b54a5d96266",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-height-* scale, one step down.",
+      "replacedBy": "45291200-eb38-4732-8387-a9be8ee41565"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 349 of the mapping sheet."
   },
   {
     "scope": {

@@ -2,7 +2,7 @@
 
 # Proposal 015: One visual layout engine (Rust solve, slim WASM in the browser)
 
-**Status:** Accepted 2026-11-07 (Option A, merged in #1683). No engine swap, no schema or recipe change comes with this document; the work is tracked as beads `hck9.5` to `hck9.8`, `hck9.10` and `hck9.11`.\
+**Status:** Accepted 2026-11-07 (Option A, merged in [#1683](https://github.com/adobe/spectrum-design-data/issues/1683)). No engine swap, no schema or recipe change comes with this document; the work is tracked as beads `hck9.5` to `hck9.8`, `hck9.10` and `hck9.11`.\
 **Affects:** `sdk/core/src/visual.rs`, `sdk/plugins/site/assets/visual-runtime.js`, `sdk/wasm/test/visual-runtime-*.test.js`, a new slim WASM target\
 **Bead:** `spectrum-design-data-hck9`. Waiting on this decision: `qkj5.133` (label width), `qkj5.13` (wrapping), `p6ga.8.76` (nested recipes), `p6ga.8.77` (fill width), `p6ga.11.3` (accordion container).\
 **Prototype:** branch `spike/hck9-single-engine` (not merged): `sdk/spikes/hck9-slim-engine` (slim WASM crate), `sdk/spikes/hck9-measure` (measurement scripts), `CompiledVariant::from_compiled` and a table-driven `text_width_w` in `sdk/core/src/visual.rs`.
@@ -23,8 +23,8 @@ If the owner picks B instead, the cost is in [Option B](#option-b-keep-the-js-co
 
 Two separate needs, and the Adobe Fonts kit covers one of them:
 
-- **Drawing the text.** Solved. The browser gets Adobe Clean from the kit under the Adobe Fonts licence, and nothing is copied into the repo.
-- **Measuring the text for layout.** The kit only helps where there is a browser: `canvas.measureText` is exact there. The Rust CLI (spec sheets, `render-compare`, Figma payloads, goldens) has no browser, so it needs a table of advance widths and kerning. That is why option C (a measure callback) was rejected: the CLI cannot call it and would get a different number.
+* **Drawing the text.** Solved. The browser gets Adobe Clean from the kit under the Adobe Fonts licence, and nothing is copied into the repo.
+* **Measuring the text for layout.** The kit only helps where there is a browser: `canvas.measureText` is exact there. The Rust CLI (spec sheets, `render-compare`, Figma payloads, goldens) has no browser, so it needs a table of advance widths and kerning. That is why option C (a measure callback) was rejected: the CLI cannot call it and would get a different number.
 
 The way to use the kit for both: **build the table from the kit instead of committing it.** `sdk/spikes/hck9-measure/kern.mjs` already does this (loads the kit in headless Chrome, measures each character and pair). Turn it into a `text-metrics` adapter in `tools/platform-capture` that writes the table to a git-ignored cache. The CLI, the slim WASM and the site read it through a `--text-metrics <file>` override. The committed default stays the Source Sans 3 (OFL) table.
 
@@ -36,18 +36,18 @@ The way to use the kit for both: **build the table from the kit instead of commi
 
 What choice 3 means in practice:
 
-- **Goldens and CI never depend on the kit.** The kit needs the network and Adobe can update the font, which would change goldens. CI and goldens use the committed OFL table. The kit-generated table is for `render-compare` against S2 and for the deployed explorer. Goldens change when step 1a lands (labels go from 7 to 9 % too wide to about 4 to 6.6 % too wide for button against S2) and change again if the default table ever changes.
-- **The CLI and the site agree only when both read the same file.** The site must fetch the same table the CLI was given; a site on the OFL default next to a CLI on the kit table will differ by that 4 to 6.6 %. A different file is the one way the "CLI == browser" result stops holding.
-- **Make a font update visible.** Stamp the generated table with its generation date and the measured width of "Test" at weight 700, and have `render-compare` print that stamp.
-- **The deployed explorer needs the table at deploy time.** `hub-prototype:build` would run the generator (network and VPN) and ship the table next to the `.wasm`; otherwise the site falls back to the OFL table. The kit loads from all the places that matter, checked on 2026-11-07: a GitHub `ubuntu-latest` runner (the font file returned 200 with no `Referer`, with `localhost` and with `example.com`, and the preinstalled headless Chrome loaded `adobe-clean-spectrum-vf` and measured "Test" at 700 14px as 23.665 px), a local headless Chrome (23.673 px), and the deployed explorer on the `adt` host, which draws Adobe Clean. So generation is not limited to local and deploy time: a CI job can run it. Goldens still stay on the committed OFL table, and the Linux and macOS widths differ by 0.008 px (0.03 %), which is one more reason a generated table cannot feed goldens. Not checked: canvas measurement on the `adt` page itself (the glyphs load there, so it should work).
-- Source Sans 3 is also what a browser without the kit falls back to, so on the OFL default the layout matches what such a viewer sees.
+* **Goldens and CI never depend on the kit.** The kit needs the network and Adobe can update the font, which would change goldens. CI and goldens use the committed OFL table. The kit-generated table is for `render-compare` against S2 and for the deployed explorer. Goldens change when step 1a lands (labels go from 7 to 9 % too wide to about 4 to 6.6 % too wide for button against S2) and change again if the default table ever changes.
+* **The CLI and the site agree only when both read the same file.** The site must fetch the same table the CLI was given; a site on the OFL default next to a CLI on the kit table will differ by that 4 to 6.6 %. A different file is the one way the "CLI == browser" result stops holding.
+* **Make a font update visible.** Stamp the generated table with its generation date and the measured width of "Test" at weight 700, and have `render-compare` print that stamp.
+* **The deployed explorer needs the table at deploy time.** `hub-prototype:build` would run the generator (network and VPN) and ship the table next to the `.wasm`; otherwise the site falls back to the OFL table. The kit loads from all the places that matter, checked on 2026-11-07: a GitHub `ubuntu-latest` runner (the font file returned 200 with no `Referer`, with `localhost` and with `example.com`, and the preinstalled headless Chrome loaded `adobe-clean-spectrum-vf` and measured "Test" at 700 14px as 23.665 px), a local headless Chrome (23.673 px), and the deployed explorer on the `adt` host, which draws Adobe Clean. So generation is not limited to local and deploy time: a CI job can run it. Goldens still stay on the committed OFL table, and the Linux and macOS widths differ by 0.008 px (0.03 %), which is one more reason a generated table cannot feed goldens. Not checked: canvas measurement on the `adt` page itself (the glyphs load there, so it should work).
+* Source Sans 3 is also what a browser without the kit falls back to, so on the OFL default the layout matches what such a viewer sees.
 
 ## Background
 
-- `sdk/core/src/visual.rs` (4.6 k lines) compiles a recipe against the token graph (`compile_recipe`, `compile_variant`) and lays it out (`solve`, pure and graph-free after hck9.1). The CLI, spec sheets, `render-compare` and the Figma payloads call it.
-- `sdk/plugins/site/assets/visual-runtime.js` (973 lines) is a hand copy of `solve` and `scene_to_svg`. The explorer (`backend.js`) imports it and gets `data.json` with every recipe pre-compiled (`compile_recipe` output). `sdk/wasm/test/visual-runtime-parity.test.js`, `parity.test.js` and the 21 golden SVGs in `visual-golden/` catch drift.
-- The spec-sheet pages (`docs/hub-prototype/specs/specs.js:7`) also import `renderSvg` (the `scene_to_svg` mirror) from `visual-runtime.js`, and `docs/hub-prototype/build.mjs:84-85` copies it into `dist/specs/`. The site is not published from CI. `docs/hub-prototype/build.mjs` (`moon run hub-prototype:build`) builds the CLI, writes `dist/<platform>/` and the owner deploys it with `adt deploy`. Its README states "no WASM at runtime" as a property, which this proposal would change.
-- Text width today is `chars * font_size * 0.46` (`AVG_ADVANCE_EM`, `visual.rs:27`, mirrored in JS). Widths are independent of weight and of the actual letters.
+* `sdk/core/src/visual.rs` (4.6 k lines) compiles a recipe against the token graph (`compile_recipe`, `compile_variant`) and lays it out (`solve`, pure and graph-free after hck9.1). The CLI, spec sheets, `render-compare` and the Figma payloads call it.
+* `sdk/plugins/site/assets/visual-runtime.js` (973 lines) is a hand copy of `solve` and `scene_to_svg`. The explorer (`backend.js`) imports it and gets `data.json` with every recipe pre-compiled (`compile_recipe` output). `sdk/wasm/test/visual-runtime-parity.test.js`, `parity.test.js` and the 21 golden SVGs in `visual-golden/` catch drift.
+* The spec-sheet pages (`docs/hub-prototype/specs/specs.js:7`) also import `renderSvg` (the `scene_to_svg` mirror) from `visual-runtime.js`, and `docs/hub-prototype/build.mjs:84-85` copies it into `dist/specs/`. The site is not published from CI. `docs/hub-prototype/build.mjs` (`moon run hub-prototype:build`) builds the CLI, writes `dist/<platform>/` and the owner deploys it with `adt deploy`. Its README states "no WASM at runtime" as a property, which this proposal would change.
+* Text width today is `chars * font_size * 0.46` (`AVG_ADVANCE_EM`, `visual.rs:27`, mirrored in JS). Widths are independent of weight and of the actual letters.
 
 ## 1. Text measurement
 
@@ -62,18 +62,18 @@ I measured the button label "Test" (weight 700, sizes 12/14/16/18 for S/M/L/XL) 
 | L (16)  | 27.063                                 | 27.054, 27.063                    | 28.852                  | 29.44            | 27.056                |
 | XL (18) | 30.438                                 | 30.436, 30.438                    | 32.459                  | 33.12            | 30.438                |
 
-- **S2 uses `adobe-clean-spectrum-vf`.** Its DOM widths equal Chrome's width for that family to the third decimal. The 7 to 9 % gap in `qkj5.133` is the flat 0.46 em estimate ("Test" is 1.691 em in Clean, 1.84 in the estimate), not a data error.
-- The static `adobe-clean` family is not S2's font (1.741 em), and the generic `sans-serif` fallback is 1.98 em. Source Sans 3 is 1.803 em, +6.6 % at weight 700. Mean over eleven button-like strings: Source Sans 3 is +4.2 % wide (range +1.1 to +6.6) at 700 and +2.9 % at 400; the flat estimate averages +0.4 % but ranges from -6.4 to +8.8 % at 700 and up to +15 % at 400, so a near-zero mean hides errors of several percent on individual labels.
-- The Adobe Clean files in `~/Library/Fonts` are root-owned mode 700 and the static family, so a local font-file measurement of the right font is not possible on this machine (same finding as `p6ga.8.80`). Nothing in the repo vendors a font.
+* **S2 uses `adobe-clean-spectrum-vf`.** Its DOM widths equal Chrome's width for that family to the third decimal. The 7 to 9 % gap in `qkj5.133` is the flat 0.46 em estimate ("Test" is 1.691 em in Clean, 1.84 in the estimate), not a data error.
+* The static `adobe-clean` family is not S2's font (1.741 em), and the generic `sans-serif` fallback is 1.98 em. Source Sans 3 is 1.803 em, +6.6 % at weight 700. Mean over eleven button-like strings: Source Sans 3 is +4.2 % wide (range +1.1 to +6.6) at 700 and +2.9 % at 400; the flat estimate averages +0.4 % but ranges from -6.4 to +8.8 % at 700 and up to +15 % at 400, so a near-zero mean hides errors of several percent on individual labels.
+* The Adobe Clean files in `~/Library/Fonts` are root-owned mode 700 and the static family, so a local font-file measurement of the right font is not possible on this machine (same finding as `p6ga.8.80`). Nothing in the repo vendors a font.
 
 ### How the CLI measures
 
 A measurement table is enough; no font parser or shaper is needed:
 
-- `advance[c]` for printable ASCII per weight, in 1/1000 em, plus `kern["ab"]` for pairs. Sum advances and add kerning between neighbours. Measured with canvas at 1000 px so the numbers are integer-friendly.
-- Kerning matters. Without it "Test" is 1.7575 em against 1.6909 real (+3.9 %, 0.93 px at 14), and advance-only sums are +0.4 % mean for Adobe Clean at 700 but 3.9 % worst case (5.3 % for Source Sans 3). With pair kerning the error against Chrome over eleven strings (including `WAVE Typography AVATAR To Yo`) is 0.002 % mean, 0.04 % worst case (`kern.mjs`). The same method on Source Sans 3 gives 0.016 % worst case.
-- Size: Adobe Clean wght 400 + 700 is 56 KB raw / 24 KB gzip (3.4 k kern pairs); Source Sans 3 is 21 KB raw (885 pairs). Linear interpolation for 500/600 is within 0.27 %; 800 clamps to 700 and is 1.9 % off (2.5 % worst), so a third table is needed only when a recipe uses weight 800 (headings). The table sums reproduce S2 label widths: the prototype renders S/M/L/XL "Test" within 0.014 px (table above).
-- Not covered: non-ASCII (falls back to 0.46 em), italics, other families, ligatures and contextual alternates, text with explicit `letter-spacing`. A prototype run of all 60 button states against `~/Spectrum/platform-compare/rsp-button/run2` with the table: label width differences 60 to 0, total differences 272 to 212. The 212 left are padding and gap (container paddingLeft 12 vs 16 and the like), tracked on other beads, and are not text related.
+* `advance[c]` for printable ASCII per weight, in 1/1000 em, plus `kern["ab"]` for pairs. Sum advances and add kerning between neighbours. Measured with canvas at 1000 px so the numbers are integer-friendly.
+* Kerning matters. Without it "Test" is 1.7575 em against 1.6909 real (+3.9 %, 0.93 px at 14), and advance-only sums are +0.4 % mean for Adobe Clean at 700 but 3.9 % worst case (5.3 % for Source Sans 3). With pair kerning the error against Chrome over eleven strings (including `WAVE Typography AVATAR To Yo`) is 0.002 % mean, 0.04 % worst case (`kern.mjs`). The same method on Source Sans 3 gives 0.016 % worst case.
+* Size: Adobe Clean wght 400 + 700 is 56 KB raw / 24 KB gzip (3.4 k kern pairs); Source Sans 3 is 21 KB raw (885 pairs). Linear interpolation for 500/600 is within 0.27 %; 800 clamps to 700 and is 1.9 % off (2.5 % worst), so a third table is needed only when a recipe uses weight 800 (headings). The table sums reproduce S2 label widths: the prototype renders S/M/L/XL "Test" within 0.014 px (table above).
+* Not covered: non-ASCII (falls back to 0.46 em), italics, other families, ligatures and contextual alternates, text with explicit `letter-spacing`. A prototype run of all 60 button states against `~/Spectrum/platform-compare/rsp-button/run2` with the table: label width differences 60 to 0, total differences 272 to 212. The 212 left are padding and gap (container paddingLeft 12 vs 16 and the like), tracked on other beads, and are not text related.
 
 ### How the browser measures
 
@@ -87,18 +87,18 @@ Three ways, in increasing risk:
 
 What a line-breaking, min-height layout needs, and why it is cheaper written once:
 
-- **A width constraint.** Today every box hugs its content (`solve` computes `c.w` from the text, `visual.rs:2174`). Wrapping needs an available width first, from a root `width`/`maxWidth`/fill (that is `p6ga.8.77`). So the layout becomes two-pass: resolve the constraint, then measure under it. This is the real change; it touches the row/column flow in both engines.
-- **A greedy breaker.** Break opportunities after a space and after a hyphen; per word width from the table; line count = greedy fill. Prototype in `wrap.mjs` over six labels, three sizes, two weights and seven widths: **252 of 252 line counts equal Chrome's** (the first version, which split only on spaces, failed five cases, all on a hyphenated word). About 30 lines in Rust. No `taffy` dependency is needed; spec R3 says to revisit `taffy` when a text-field is piloted, and this evidence says a greedy breaker covers badge, checkbox and button labels.
-- **Min-height instead of fixed height.** Container height = `max(minHeight, lines * lineHeight + paddingBlock)`. Derived vertical padding (SPEC-087, `component-visuals.md` "Derived contexts") is `(minHeight - lineHeight) / 2`. For a single line this is the token value; for several lines the padding stays that value and the height grows, so the formula stays defined over one line (spec text already says tooling solves with a label that does not wrap). The recipe needs a `minHeight` that is not a `height`, and a `wrap`/`overflow` choice (`wrap | truncate`, as in React Spectrum Badge `overflowMode`). Truncation needs an ellipsis measurement (one more table entry).
-- **Alignment.** Multi-line labels need `text-anchor`/line placement and `<tspan>` or one `<text>` per line in `scene_to_svg`.
-- **Where the mirrored cost lands.** Every item above touches both `solve` and `scene_to_svg` and needs new parity cases. See the numbers in Option B.
+* **A width constraint.** Today every box hugs its content (`solve` computes `c.w` from the text, `visual.rs:2174`). Wrapping needs an available width first, from a root `width`/`maxWidth`/fill (that is `p6ga.8.77`). So the layout becomes two-pass: resolve the constraint, then measure under it. This is the real change; it touches the row/column flow in both engines.
+* **A greedy breaker.** Break opportunities after a space and after a hyphen; per word width from the table; line count = greedy fill. Prototype in `wrap.mjs` over six labels, three sizes, two weights and seven widths: **252 of 252 line counts equal Chrome's** (the first version, which split only on spaces, failed five cases, all on a hyphenated word). About 30 lines in Rust. No `taffy` dependency is needed; spec R3 says to revisit `taffy` when a text-field is piloted, and this evidence says a greedy breaker covers badge, checkbox and button labels.
+* **Min-height instead of fixed height.** Container height = `max(minHeight, lines * lineHeight + paddingBlock)`. Derived vertical padding (SPEC-087, `component-visuals.md` "Derived contexts") is `(minHeight - lineHeight) / 2`. For a single line this is the token value; for several lines the padding stays that value and the height grows, so the formula stays defined over one line (spec text already says tooling solves with a label that does not wrap). The recipe needs a `minHeight` that is not a `height`, and a `wrap`/`overflow` choice (`wrap | truncate`, as in React Spectrum Badge `overflowMode`). Truncation needs an ellipsis measurement (one more table entry).
+* **Alignment.** Multi-line labels need `text-anchor`/line placement and `<tspan>` or one `<text>` per line in `scene_to_svg`.
+* **Where the mirrored cost lands.** Every item above touches both `solve` and `scene_to_svg` and needs new parity cases. See the numbers in Option B.
 
 Wrapping is `qkj5.13`. It depends on measurement (step 1) and fill width (`p6ga.8.77`).
 
 ## 3. Build and CI cost
 
-- **Where it is built.** Not in `sdk-wasm`: that crate embeds the token cache and is **14.0 MB** per target (`pkg/node`, `pkg/web`). A slim target is a separate crate depending on `design-data-core` with `default-features = false, features = ["wasm"]`, built with `wasm-pack build --release --target web`. Prototype: `sdk/spikes/hck9-slim-engine` (the crate carries its own `[workspace]` and a copy of `sdk/Cargo.lock`; promotion would make it a workspace member such as `sdk/wasm-visual`).
-- **Size** (prototype, this machine, wasm-opt off because wasm-pack's bundled binaryen fails validation on bulk-memory, as in the 2026-10-30 spike; a pinned `wasm-opt -Oz` gave under 1 % then):
+* **Where it is built.** Not in `sdk-wasm`: that crate embeds the token cache and is **14.0 MB** per target (`pkg/node`, `pkg/web`). A slim target is a separate crate depending on `design-data-core` with `default-features = false, features = ["wasm"]`, built with `wasm-pack build --release --target web`. Prototype: `sdk/spikes/hck9-slim-engine` (the crate carries its own `[workspace]` and a copy of `sdk/Cargo.lock`; promotion would make it a workspace member such as `sdk/wasm-visual`).
+* **Size** (prototype, this machine, wasm-opt off because wasm-pack's bundled binaryen fails validation on bulk-memory, as in the 2026-10-30 spike; a pinned `wasm-opt -Oz` gave under 1 % then):
 
 |                                                    | Raw       | gzip      | brotli   |
 | -------------------------------------------------- | --------- | --------- | -------- |
@@ -109,10 +109,10 @@ Wrapping is `qkj5.13`. It depends on measurement (step 1) and fill width (`p6ga.
 
 The 2026-10-30 build was 157 KB / 77 KB gzip; core has since grown (icons, constraints, option templates) and the table adds about 56 KB. The glue JS is 9.8 KB.
 
-- **Browser runtime** (Chrome, `bench.html`): WASM instantiate 2.1 ms; building an `Engine` from one variant JSON 3.7 ms, from a whole component 23.8 ms (so the site should split `data.json` per variant: it parses the compiled recipe on every construction); 0.112 ms per scene through JSON in/out against 0.020 ms for the JS runtime. The explorer rerenders on a control change, so 0.1 ms is below any threshold.
-- **CI time.** Cold `cargo build --release --target wasm32-unknown-unknown` of the slim crate took **16 s wall / 50 s CPU** on this machine with an empty target dir (about 1 to 2 minutes on a 2 to 4 vCPU runner; not measured there). The Rust job's cost today (memory `ci-rust-job-slowness-2026-11`: 35 to 37 min before #1675/#1676, `sdk-wasm:build` 5 to 6 min of it) is dominated by the full 14 MB module; the slim target has no cache blob, so I expect it to be much cheaper, but I did not measure it in CI. To avoid adding to the PR critical path: build the slim target only from a Moon task whose inputs are `sdk/core/src/visual*.rs`, the slim crate and the recipes, and run the byte-equality test in the same task, so PRs that do not touch the renderer hit the Moon cache. Do not add it to the always-run set until step 3.
-- **How the site is published today.** `moon run hub-prototype:build` on the owner's machine, then `adt deploy` (VPN), per `docs/hub-prototype/README.md`. No workflow publishes it. So the slim build lands in `hub-prototype/build.mjs` (one `wasm-pack` call, copy the `.wasm`), with no deploy workflow to change. `rustup target add wasm32-unknown-unknown` and `wasm-pack` are already required by `sdk-wasm`.
-- **Artifact policy.** Build it; do not commit the `.wasm`. A committed binary needs a rebuild after every layout change and would drift; the build script is one command.
+* **Browser runtime** (Chrome, `bench.html`): WASM instantiate 2.1 ms; building an `Engine` from one variant JSON 3.7 ms, from a whole component 23.8 ms (so the site should split `data.json` per variant: it parses the compiled recipe on every construction); 0.112 ms per scene through JSON in/out against 0.020 ms for the JS runtime. The explorer rerenders on a control change, so 0.1 ms is below any threshold.
+* **CI time.** Cold `cargo build --release --target wasm32-unknown-unknown` of the slim crate took **16 s wall / 50 s CPU** on this machine with an empty target dir (about 1 to 2 minutes on a 2 to 4 vCPU runner; not measured there). The Rust job's cost today (memory `ci-rust-job-slowness-2026-11`: 35 to 37 min before [#1675](https://github.com/adobe/spectrum-design-data/issues/1675)/[#1676](https://github.com/adobe/spectrum-design-data/issues/1676), `sdk-wasm:build` 5 to 6 min of it) is dominated by the full 14 MB module; the slim target has no cache blob, so I expect it to be much cheaper, but I did not measure it in CI. To avoid adding to the PR critical path: build the slim target only from a Moon task whose inputs are `sdk/core/src/visual*.rs`, the slim crate and the recipes, and run the byte-equality test in the same task, so PRs that do not touch the renderer hit the Moon cache. Do not add it to the always-run set until step 3.
+* **How the site is published today.** `moon run hub-prototype:build` on the owner's machine, then `adt deploy` (VPN), per `docs/hub-prototype/README.md`. No workflow publishes it. So the slim build lands in `hub-prototype/build.mjs` (one `wasm-pack` call, copy the `.wasm`), with no deploy workflow to change. `rustup target add wasm32-unknown-unknown` and `wasm-pack` are already required by `sdk-wasm`.
+* **Artifact policy.** Build it; do not commit the `.wasm`. A committed binary needs a rebuild after every layout change and would drift; the build script is one command.
 
 ## 4. Migration (if A)
 
@@ -135,20 +135,20 @@ Feature beads then depend as follows (already added): `qkj5.133` on `hck9.5`; `q
 
 Rust `solve` compiled to slim WASM; the site loads it instead of `visual-runtime.js`.
 
-- **Text:** one table, one implementation; CLI == browser (byte-identical SVG verified for the button).
-- **Wrapping and the three queued features:** written once, in Rust, with its tests (the unit tests in `visual.rs`, the snapshots in `sdk/core/tests`).
-- **Cost:** a new wasm target and a build step in `hub-prototype/build.mjs`, 119 KB gzip on the page, a per-variant data split, the licensing decision.
-- **Risk:** the site needs WASM (every browser the explorer supports has it); `wasm-pack` and `wasm-opt` are another thing to keep pinned.
+* **Text:** one table, one implementation; CLI == browser (byte-identical SVG verified for the button).
+* **Wrapping and the three queued features:** written once, in Rust, with its tests (the unit tests in `visual.rs`, the snapshots in `sdk/core/tests`).
+* **Cost:** a new wasm target and a build step in `hub-prototype/build.mjs`, 119 KB gzip on the page, a per-variant data split, the licensing decision.
+* **Risk:** the site needs WASM (every browser the explorer supports has it); `wasm-pack` and `wasm-opt` are another thing to keep pinned.
 
 ### Option B: keep the JS copy
 
 Mirror every feature. Evidence of what that costs, from the three most recent features (`git show --numstat`):
 
-| Feature                             | `visual.rs`     | `visual-runtime.js`         | JS tests added |
-| ----------------------------------- | --------------- | --------------------------- | -------------- |
-| Icon paths from the catalog (#1668) | +498 / -80      | +61 / -27                   | +113           |
-| `--icon` and `request.icon` (#1669) | +211 / -1       | +36 / -6                    | +68            |
-| Label and icon controls (#1671)     | n/a (site only) | +83 (`content-controls.js`) | +104           |
+| Feature                                                                                          | `visual.rs`     | `visual-runtime.js`         | JS tests added |
+| ------------------------------------------------------------------------------------------------ | --------------- | --------------------------- | -------------- |
+| Icon paths from the catalog ([#1668](https://github.com/adobe/spectrum-design-data/issues/1668)) | +498 / -80      | +61 / -27                   | +113           |
+| `--icon` and `request.icon` ([#1669](https://github.com/adobe/spectrum-design-data/issues/1669)) | +211 / -1       | +36 / -6                    | +68            |
+| Label and icon controls ([#1671](https://github.com/adobe/spectrum-design-data/issues/1671))     | n/a (site only) | +83 (`content-controls.js`) | +104           |
 
 So the mirror is 12 to 17 % of the Rust diff plus a comparable test file, and each feature also touches goldens and the parity matrix. For the queued work I estimate:
 
@@ -169,29 +169,29 @@ Not recommended. The evidence says a data table closes the gap without a callbac
 
 All of them already call the Rust `solve`, so they do not change engine under A. What changes is **text width**, under any option that fixes `qkj5.133`:
 
-- **`render-compare`:** label widths move toward S2 (60 button states: label differences 60 to 0). Container widths follow. Anything that stored the old widths as an expectation changes (`recipe-snapshots.json`, `visual-golden`, any pinned measured JSON).
-- **Spec sheets and the Figma payload:** measurement callouts and text frame widths change. Whether the plugin lets Figma auto-size text (so the payload width is only a hint) was not checked. SPEC-087 compares token values against the solved **line height**, which a width change does not touch (re-run `design-data validate` in step 1 to confirm).
-- **Spec-sheet pages:** they use `visual-runtime.js` today (`specs.js:7`), so they are affected by step 4, not by the engine itself; step 3b removes the dependency first.
-- **Figma plugin:** consumes `Scene` JSON from the Rust crate; no change to the `Scene` shape in steps 1 to 3. Wrapping adds line data later; that is a `Scene` extension to design with the plugin owner, not a swap risk.
-- **Shared-checkout hazards:** the prototype needs `design-data-core` built for `wasm32` with `--features wasm`; `cargo clean -p design-data-core` if a build script points at a deleted worktree.
+* **`render-compare`:** label widths move toward S2 (60 button states: label differences 60 to 0). Container widths follow. Anything that stored the old widths as an expectation changes (`recipe-snapshots.json`, `visual-golden`, any pinned measured JSON).
+* **Spec sheets and the Figma payload:** measurement callouts and text frame widths change. Whether the plugin lets Figma auto-size text (so the payload width is only a hint) was not checked. SPEC-087 compares token values against the solved **line height**, which a width change does not touch (re-run `design-data validate` in step 1 to confirm).
+* **Spec-sheet pages:** they use `visual-runtime.js` today (`specs.js:7`), so they are affected by step 4, not by the engine itself; step 3b removes the dependency first.
+* **Figma plugin:** consumes `Scene` JSON from the Rust crate; no change to the `Scene` shape in steps 1 to 3. Wrapping adds line data later; that is a `Scene` extension to design with the plugin owner, not a swap risk.
+* **Shared-checkout hazards:** the prototype needs `design-data-core` built for `wasm32` with `--features wasm`; `cargo clean -p design-data-core` if a build script points at a deleted worktree.
 
 Residual risks and what I did not measure:
 
-- Whether cached kit-measured widths count as ordinary kit use (above): a confirmation, not an open licensing problem, since nothing font-derived is committed. Everything else in step 1a works with the OFL table.
-- Weights 500, 600 (interpolated, 0.27 % worst) and 800 (clamped, 2.5 % worst); non-ASCII; italics. Add tables or a font-family key when a recipe needs them.
-- The kit must be loaded for a viewer to see Adobe Clean at all; the table cannot fix that.
-- I did not measure browsers other than the system Chrome, a CI runner for the build time, `wasm-opt -Oz` on today's build, or the Figma plugin against changed widths.
-- `wasm-pack`'s bundled `wasm-opt` failed validation in the 2026-10-30 spike and I did not retry it; the numbers above are without any `wasm-opt`.
-- The prototype does not handle the icon override in the WASM `Engine` and was run only for the button; badge, switch, accordion and the platform builds were not re-verified for byte equality in this spike (the 2026-10-30 spike verified button, badge and switch).
+* Whether cached kit-measured widths count as ordinary kit use (above): a confirmation, not an open licensing problem, since nothing font-derived is committed. Everything else in step 1a works with the OFL table.
+* Weights 500, 600 (interpolated, 0.27 % worst) and 800 (clamped, 2.5 % worst); non-ASCII; italics. Add tables or a font-family key when a recipe needs them.
+* The kit must be loaded for a viewer to see Adobe Clean at all; the table cannot fix that.
+* I did not measure browsers other than the system Chrome, a CI runner for the build time, `wasm-opt -Oz` on today's build, or the Figma plugin against changed widths.
+* `wasm-pack`'s bundled `wasm-opt` failed validation in the 2026-10-30 spike and I did not retry it; the numbers above are without any `wasm-opt`.
+* The prototype does not handle the icon override in the WASM `Engine` and was run only for the button; badge, switch, accordion and the platform builds were not re-verified for byte equality in this spike (the 2026-10-30 spike verified button, badge and switch).
 
 ## Prototype
 
 Branch `spike/hck9-single-engine`, not merged:
 
-- `sdk/spikes/hck9-slim-engine/`: slim crate (`Engine::new(variantJson, key)`, `svg(reqJson)`), `wasm-pack build --release --target web`.
-- `sdk/core/src/visual.rs`: `CompiledVariant::from_compiled`, `text_width_w` (advance + kerning, weights 400/700 interpolated).
-- `sdk/core/src/text_metrics_proto.json`: the committed Source Sans 3 (OFL) table, so the crate builds from a clean checkout. The S2 numbers in this document came from the Adobe Clean table instead; `sdk/spikes/hck9-measure/kern.mjs` plus `compact.py` regenerate it into the git-ignored `text_metrics_clean.json`, and copying that over `text_metrics_proto.json` reproduces them. That file is not committed.
-- `sdk/spikes/hck9-measure/`: `measure.mjs`, `kern.mjs`, `kern-ss3.mjs`, `wrap.mjs`, `interp.mjs`, `bench.html`/`bench.mjs`, `compact.py`.
+* `sdk/spikes/hck9-slim-engine/`: slim crate (`Engine::new(variantJson, key)`, `svg(reqJson)`), `wasm-pack build --release --target web`.
+* `sdk/core/src/visual.rs`: `CompiledVariant::from_compiled`, `text_width_w` (advance + kerning, weights 400/700 interpolated).
+* `sdk/core/src/text_metrics_proto.json`: the committed Source Sans 3 (OFL) table, so the crate builds from a clean checkout. The S2 numbers in this document came from the Adobe Clean table instead; `sdk/spikes/hck9-measure/kern.mjs` plus `compact.py` regenerate it into the git-ignored `text_metrics_clean.json`, and copying that over `text_metrics_proto.json` reproduces them. That file is not committed.
+* `sdk/spikes/hck9-measure/`: `measure.mjs`, `kern.mjs`, `kern-ss3.mjs`, `wrap.mjs`, `interp.mjs`, `bench.html`/`bench.mjs`, `compact.py`.
 
 ## Follow-up beads
 

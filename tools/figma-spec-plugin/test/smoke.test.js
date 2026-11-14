@@ -226,7 +226,7 @@ test("measurements are drawn from the scene and labelled by the sheet", async (t
     n.children.forEach(walk);
   };
   walk(page.children[0]);
-  t.true(legends.includes("component-height-100 · 32px"), legends.join("|"));
+  t.true(legends.includes("base-height-medium · 32px"), legends.join("|"));
 });
 
 test("a failed render keeps the previous render and drops the half-built one", async (t) => {

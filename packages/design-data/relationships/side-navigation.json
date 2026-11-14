@@ -6,7 +6,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "5fec3613-6f4d-59e5-8d76-20e465ddf651"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "5c444b07-59e2-59cf-a40c-079f3665f4d7"
   },
   {
@@ -27,7 +27,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "d087f995-da55-4c96-89c4-69a9a83e2f05",
+    "$ref": "ef6d6538-212a-45ff-9fbc-f9276af09c27",
     "uuid": "8b17bb3d-3506-5143-85d4-d5e901255569"
   },
   {
@@ -38,7 +38,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2",
+    "$ref": "aa52bf54-a17a-5c95-985a-f5bb45809323",
     "uuid": "b3a03b6c-4da1-56e0-bb6c-c0c93a6bd1b5"
   },
   {
@@ -49,7 +49,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "998bb752-7826-4437-ac18-14e08644e226",
+    "$ref": "d2eb3062-0839-435a-aad6-309ece18ca25",
     "uuid": "3e7cb4f8-76b5-5229-adea-e1f06ef49baf"
   },
   {
@@ -60,7 +60,7 @@
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "ad835d79-64d9-4183-ace0-912c87fc2241",
+    "$ref": "c3ead1a1-5501-56a5-a67b-a219cf2738b8",
     "uuid": "bdee5e33-8822-5d16-bddb-e252d64fb7f1"
   },
   {
@@ -125,7 +125,7 @@
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
-    "$ref": "07262bb6-4b57-4848-b45d-bbf808bdf257",
+    "$ref": "89766302-b727-438e-bf4b-7549b98569cf",
     "uuid": "260b9873-03c0-5b12-9d32-614b6aa16263"
   },
   {
@@ -135,7 +135,7 @@
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
-    "$ref": "dfae987d-8f6c-4b2c-a01b-3a010581488d",
+    "$ref": "c70c700f-c459-5a57-8c78-42873b0727cd",
     "uuid": "ca478c10-7c12-58f0-8cf2-f62e524d178a"
   },
   {
@@ -145,7 +145,7 @@
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
-    "$ref": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
     "uuid": "29333605-b805-5ce4-b8aa-4f1bb01f3645"
   },
   {
@@ -927,7 +927,13 @@
     "uuid": "07262bb6-4b57-4848-b45d-bbf808bdf257",
     "legacyKey": "side-navigation-indicator-height",
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
+      "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 420 of the mapping sheet."
   },
   {
     "scope": {
@@ -943,7 +949,13 @@
     "uuid": "dfae987d-8f6c-4b2c-a01b-3a010581488d",
     "legacyKey": "side-navigation-indicator-height",
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
+      "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 420 of the mapping sheet."
   },
   {
     "scope": {
@@ -954,7 +966,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
-    "legacyKey": "side-navigation-indicator-thickness"
+    "legacyKey": "side-navigation-indicator-thickness",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 421 of the mapping sheet."
   },
   {
     "scope": {
@@ -1137,7 +1155,13 @@
     "uuid": "998bb752-7826-4437-ac18-14e08644e226",
     "legacyKey": "side-navigation-minimum-width",
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 260 of the mapping sheet."
   },
   {
     "scope": {
@@ -1152,7 +1176,13 @@
     "uuid": "ad835d79-64d9-4183-ace0-912c87fc2241",
     "legacyKey": "side-navigation-minimum-width",
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 260 of the mapping sheet."
   },
   {
     "scope": {
@@ -1531,7 +1561,13 @@
     "uuid": "d087f995-da55-4c96-89c4-69a9a83e2f05",
     "legacyKey": "side-navigation-width",
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
+      "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 261 of the mapping sheet."
   },
   {
     "scope": {
@@ -1546,7 +1582,13 @@
     "uuid": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2",
     "legacyKey": "side-navigation-width",
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
+      "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 261 of the mapping sheet."
   },
   {
     "scope": {

@@ -6,7 +6,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c",
+    "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
     "uuid": "0cb6ac3e-df42-5768-9bcd-bbece9ab65d6"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "b3f14387-44fd-43d3-a152-c8e691ef87df",
+    "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "e7a86e86-a669-59b1-aec0-515f659ac9a8"
   },
   {
@@ -26,7 +26,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "9f413341-5ed5-4cd0-8348-1c7141dcab8d",
+    "$ref": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49",
     "uuid": "dc4baf04-5315-5bc9-be04-83ae1d01f441"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "9004d69e-5726-42f5-a4d0-de09db2de784",
+    "$ref": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "uuid": "ef7764b0-6d41-5489-ae48-27ec8ad5bd9c"
   },
   {
@@ -46,7 +46,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396",
+    "$ref": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa",
     "uuid": "05828929-40a3-5685-ac12-7b7610f93562"
   },
   {
@@ -56,7 +56,7 @@
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90",
+    "$ref": "a44e6674-a29c-50a6-aacf-189e380d87e2",
     "uuid": "21e347ee-28d6-599c-b649-e3d8489ce04a"
   },
   {
@@ -457,7 +457,13 @@
     "uuid": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396",
     "legacyKey": "coach-mark-maximum-width",
     "setUuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 107 of the mapping sheet."
   },
   {
     "scope": {
@@ -472,7 +478,13 @@
     "uuid": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90",
     "legacyKey": "coach-mark-maximum-width",
     "setUuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 107 of the mapping sheet."
   },
   {
     "scope": {
@@ -488,7 +500,12 @@
     "uuid": "f6381a33-ac4e-4ff9-86a3-183c857772ad",
     "legacyKey": "coach-mark-media-height",
     "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "0f95b804-e429-45ca-a809-a386bdfc463d"
+    }
   },
   {
     "scope": {
@@ -504,7 +521,12 @@
     "uuid": "45b31e46-b878-40a2-a28a-91c480f45253",
     "legacyKey": "coach-mark-media-height",
     "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "0f95b804-e429-45ca-a809-a386bdfc463d"
+    }
   },
   {
     "scope": {
@@ -520,7 +542,12 @@
     "uuid": "e62c5a76-685c-4b48-98bb-746d6dd4b10e",
     "legacyKey": "coach-mark-media-minimum-height",
     "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "d9a794f7-9127-4c24-8627-d97fdfdf0b03"
+    }
   },
   {
     "scope": {
@@ -536,7 +563,12 @@
     "uuid": "53703e12-f837-4573-bd44-e4727ed2aeaa",
     "legacyKey": "coach-mark-media-minimum-height",
     "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "d9a794f7-9127-4c24-8627-d97fdfdf0b03"
+    }
   },
   {
     "scope": {
@@ -551,7 +583,13 @@
     "uuid": "9f413341-5ed5-4cd0-8348-1c7141dcab8d",
     "legacyKey": "coach-mark-minimum-width",
     "setUuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 110 of the mapping sheet."
   },
   {
     "scope": {
@@ -566,7 +604,13 @@
     "uuid": "9004d69e-5726-42f5-a4d0-de09db2de784",
     "legacyKey": "coach-mark-minimum-width",
     "setUuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 110 of the mapping sheet."
   },
   {
     "scope": {
@@ -728,7 +772,13 @@
     "uuid": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c",
     "legacyKey": "coach-mark-width",
     "setUuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 111 of the mapping sheet."
   },
   {
     "scope": {
@@ -743,6 +793,12 @@
     "uuid": "b3f14387-44fd-43d3-a152-c8e691ef87df",
     "legacyKey": "coach-mark-width",
     "setUuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 111 of the mapping sheet."
   }
 ]

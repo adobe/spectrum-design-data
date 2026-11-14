@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "checkbox",
     "uuid": "05686950-e677-4bc0-90c2-0addbe401d17",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "26px",
         "uuid": "13093f8b-e38e-449f-a982-7f960bb84dfa"
       }
-    }
+    },
+    "renamed": "control-size-extra-large"
   },
   "checkbox-control-size-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "checkbox",
     "uuid": "71f3577d-e685-41e9-9443-c498fd0125ba",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "22px",
         "uuid": "b4367578-989e-438d-9a3e-7cb077f2f7c9"
       }
-    }
+    },
+    "renamed": "control-size-large"
   },
   "checkbox-control-size-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "checkbox",
     "uuid": "04a220ef-907c-433a-b040-fe421cdaf930",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,12 +56,15 @@
         "value": "20px",
         "uuid": "00fee3f7-a743-45d6-a2b6-028d5d96964a"
       }
-    }
+    },
+    "renamed": "control-size-medium"
   },
   "checkbox-control-size-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "checkbox",
     "uuid": "39090c90-aa5a-448f-8dd5-01e0c0a5fa2a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared control-size-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -65,7 +76,8 @@
         "value": "18px",
         "uuid": "af31c1a5-ffce-4a54-8862-3e711ca53d25"
       }
-    }
+    },
+    "renamed": "control-size-small"
   },
   "checkbox-top-to-control-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -229,8 +229,8 @@ fn width_sets_the_demo_width_for_render_and_for_a_batch_state() {
         .stdout
         .clone();
     let hug: Value = serde_json::from_slice(&hug).unwrap();
-    // The recipe's own width for the medium size, from the field width tokens.
-    assert_eq!(root_width(&hug), 208.0);
+    // The recipe pins the medium size to field-width-large (240), see accordion.json.
+    assert_eq!(root_width(&hug), 240.0);
 
     let out = dd(&["render", "accordion", "--format", "scene", "--width", "300"])
         .success()
@@ -267,7 +267,7 @@ fn width_sets_the_demo_width_for_render_and_for_a_batch_state() {
     };
     assert_eq!(
         root_width(&read("accordion-m-light-desktop")),
-        208.0,
+        240.0,
         "a state without a width keeps the recipe's"
     );
     assert_eq!(root_width(&read("accordion-m-w120-light-desktop")), 120.0);

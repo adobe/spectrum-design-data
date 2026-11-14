@@ -20,25 +20,37 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-dialog",
     "value": "640px",
-    "uuid": "5ec703d4-19d9-4be5-976f-e4c1966c0d3d"
+    "uuid": "5ec703d4-19d9-4be5-976f-e4c1966c0d3d",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-3x-large"
   },
   "standard-dialog-maximum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-dialog",
     "value": "480px",
-    "uuid": "1c886eb9-f651-42ce-baff-9b3996077f92"
+    "uuid": "1c886eb9-f651-42ce-baff-9b3996077f92",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-2x-large"
   },
   "standard-dialog-maximum-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-dialog",
     "value": "400px",
-    "uuid": "c00d9b06-f198-4cd5-9b69-ed3796314dab"
+    "uuid": "c00d9b06-f198-4cd5-9b69-ed3796314dab",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-extra-large"
   },
   "standard-dialog-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-dialog",
     "value": "288px",
-    "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d"
+    "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-minimum-width-extra-large"
   },
   "standard-dialog-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -6,7 +6,7 @@
     },
     "context": "Component width",
     "contextRole": ["width"],
-    "$ref": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
+    "$ref": "5f5773d3-e2d0-431b-b461-f472499a7a1f",
     "uuid": "fceccff0-2b22-59fc-aad0-fd0ecee05b91"
   },
   {
@@ -111,7 +111,7 @@
     "context": "Text area (filled, hover)",
     "contextRole": ["label"],
     "contextQualifier": "filled, hover",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "ac4db542-eee9-55ed-aa57-2e577a2d33f6"
   },
   {
@@ -122,7 +122,7 @@
     "context": "Text area (filled, hover)",
     "contextRole": ["label"],
     "contextQualifier": "filled, hover",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "29245d80-66fa-5d26-9706-70677b3a12b2"
   },
   {
@@ -613,6 +613,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "428px",
     "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
-    "legacyKey": "drop-zone-width"
+    "legacyKey": "drop-zone-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-width-* scale.",
+      "replacedBy": "5f5773d3-e2d0-431b-b461-f472499a7a1f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 187 of the mapping sheet."
   }
 ]

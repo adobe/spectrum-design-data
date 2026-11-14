@@ -61,7 +61,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "number-field",
     "value": 1.25,
-    "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0"
+    "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
+    "renamed": "aspect-ratio-100"
   },
   "number-field-visual-to-in-field-stepper-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -147,6 +150,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -158,12 +163,15 @@
         "value": "198px",
         "uuid": "9da98fb6-a90a-4805-8969-88d4a8958157"
       }
-    }
+    },
+    "renamed": "aspect-ratio-800"
   },
   "number-field-with-stepper-minimum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -175,12 +183,15 @@
         "value": "174px",
         "uuid": "71530ba4-3eb9-4136-b1d2-a28ae5ddf034"
       }
-    }
+    },
+    "renamed": "aspect-ratio-800"
   },
   "number-field-with-stepper-minimum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -192,12 +203,15 @@
         "value": "150px",
         "uuid": "4268fc6a-118d-4b3b-a581-b2ab8a503f21"
       }
-    }
+    },
+    "renamed": "aspect-ratio-800"
   },
   "number-field-with-stepper-minimum-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "number-field",
     "uuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -209,6 +223,7 @@
         "value": "126px",
         "uuid": "08801f40-08ab-47df-82b8-e9cb8a63e3aa"
       }
-    }
+    },
+    "renamed": "aspect-ratio-800"
   }
 }

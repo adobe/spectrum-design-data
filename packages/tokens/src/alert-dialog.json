@@ -29,13 +29,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "alert-dialog",
     "value": "480px",
-    "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1"
+    "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-2x-large"
   },
   "alert-dialog-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "alert-dialog",
     "value": "288px",
-    "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd"
+    "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-minimum-width-extra-large"
   },
   "alert-dialog-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

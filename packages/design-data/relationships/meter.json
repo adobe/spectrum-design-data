@@ -6,7 +6,7 @@
     },
     "context": "Minimum width",
     "contextRole": ["width"],
-    "$ref": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295",
+    "$ref": "3f50af14-ea93-4819-a04f-49b17139b0a0",
     "uuid": "d24f32e2-edc1-5317-a4c5-1877bfbdfe7c"
   },
   {
@@ -193,7 +193,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "0013e354-3f26-41a5-8486-2577045872f6",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
     "uuid": "f7a06eab-bf35-5e9b-af2e-a3456bab128d"
   },
   {
@@ -204,7 +204,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "eb9c3cff-5a1a-4832-a623-6ab258b81d37",
+    "$ref": "2680a852-162b-527c-a292-35a053f8bd54",
     "uuid": "04a87b33-c888-59ad-aeb9-8dfc9a0496af"
   },
   {
@@ -215,7 +215,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "6e404f16-900e-4dd2-8705-3c9077f52240",
+    "$ref": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e",
     "uuid": "9cf30d96-3d4f-540e-ab77-1db78e42ede1"
   },
   {
@@ -226,7 +226,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca",
+    "$ref": "c426f1ca-5b7f-560a-9a83-d6fbba88e8bf",
     "uuid": "6305e900-9698-5668-a9b9-3e53326655dd"
   },
   {
@@ -237,7 +237,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "06751674-2222-433d-9dc6-40f14b2add6c",
+    "$ref": "46d32810-88b6-4c89-9536-965e85455bb0",
     "uuid": "d834820b-dbc4-54f5-a335-8ba10b63e3cf"
   },
   {
@@ -248,7 +248,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "c9052808-918e-4368-b113-28f928104eda",
+    "$ref": "1167f6f4-6069-5158-af7e-4486c1abff3c",
     "uuid": "69b67d27-8dc7-5d8f-b87e-162208629ac6"
   },
   {
@@ -259,7 +259,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "e5ac2b35-da1d-4936-baa8-498705c9529c",
+    "$ref": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc",
     "uuid": "6f9b1c9f-c077-5e39-925d-d75d3c279ce8"
   },
   {
@@ -270,7 +270,7 @@
     "context": "Meter (thickness)",
     "contextRole": ["track"],
     "contextQualifier": "thickness",
-    "$ref": "272738b2-a274-4e2e-8582-9c2cc7962a85",
+    "$ref": "20a5f904-581b-5438-ace0-a0f9bfa76018",
     "uuid": "14f3c314-b390-5a38-a50a-962f248ecef7"
   },
   {
@@ -386,7 +386,7 @@
       "property": "meter-default-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "ceeda4da-026b-496c-8abd-7081aceae262",
+    "$ref": "f7cb09c8-a44c-4455-bffd-199b76fd1c25",
     "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5",
     "legacyKey": "meter-default-width",
     "lifecycle": {
@@ -416,7 +416,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295",
-    "legacyKey": "meter-minimum-width"
+    "legacyKey": "meter-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "3f50af14-ea93-4819-a04f-49b17139b0a0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 214 of the mapping sheet."
   },
   {
     "scope": {
@@ -432,7 +438,13 @@
     "uuid": "e5ac2b35-da1d-4936-baa8-498705c9529c",
     "legacyKey": "meter-thickness-extra-large",
     "setUuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 215 of the mapping sheet."
   },
   {
     "scope": {
@@ -448,7 +460,13 @@
     "uuid": "272738b2-a274-4e2e-8582-9c2cc7962a85",
     "legacyKey": "meter-thickness-extra-large",
     "setUuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 215 of the mapping sheet."
   },
   {
     "scope": {
@@ -464,7 +482,13 @@
     "uuid": "06751674-2222-433d-9dc6-40f14b2add6c",
     "legacyKey": "meter-thickness-large",
     "setUuid": "13344afb-aeba-4871-82c6-13275b3aa535",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 216 of the mapping sheet."
   },
   {
     "scope": {
@@ -480,7 +504,13 @@
     "uuid": "c9052808-918e-4368-b113-28f928104eda",
     "legacyKey": "meter-thickness-large",
     "setUuid": "13344afb-aeba-4871-82c6-13275b3aa535",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 216 of the mapping sheet."
   },
   {
     "scope": {
@@ -496,7 +526,13 @@
     "uuid": "6e404f16-900e-4dd2-8705-3c9077f52240",
     "legacyKey": "meter-thickness-medium",
     "setUuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 217 of the mapping sheet."
   },
   {
     "scope": {
@@ -512,7 +548,13 @@
     "uuid": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca",
     "legacyKey": "meter-thickness-medium",
     "setUuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 217 of the mapping sheet."
   },
   {
     "scope": {
@@ -528,7 +570,13 @@
     "uuid": "0013e354-3f26-41a5-8486-2577045872f6",
     "legacyKey": "meter-thickness-small",
     "setUuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 218 of the mapping sheet."
   },
   {
     "scope": {
@@ -544,7 +592,13 @@
     "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37",
     "legacyKey": "meter-thickness-small",
     "setUuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 218 of the mapping sheet."
   },
   {
     "scope": {
@@ -562,7 +616,13 @@
     "uuid": "ceeda4da-026b-496c-8abd-7081aceae262",
     "legacyKey": "meter-width",
     "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 219 of the mapping sheet."
   },
   {
     "scope": {
@@ -580,6 +640,12 @@
     "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568",
     "legacyKey": "meter-width",
     "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 219 of the mapping sheet."
   }
 ]

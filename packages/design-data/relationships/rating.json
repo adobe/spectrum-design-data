@@ -311,7 +311,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
-    "legacyKey": "rating-height-medium"
+    "legacyKey": "rating-height-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 246 of the mapping sheet."
   },
   {
     "scope": {
@@ -324,7 +330,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
-    "legacyKey": "rating-height-small"
+    "legacyKey": "rating-height-small",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 247 of the mapping sheet."
   },
   {
     "scope": {
