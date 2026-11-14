@@ -116,6 +116,8 @@ struct TuiArgs {
     snapshot_ansi: bool,
 }
 
+// Parsed once at startup, so the size of the largest variant (`Render`) costs nothing.
+#[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
 enum Commands {
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
@@ -301,6 +303,9 @@ enum Commands {
         /// Pixels per unit for `--format png`
         #[arg(long, value_name = "N", default_value_t = 2.0)]
         pixel_ratio: f64,
+        /// TrueType font file for `--format png` text (repeatable; default: bundled Source Sans 3)
+        #[arg(long = "font", value_name = "FILE")]
+        fonts: Vec<PathBuf>,
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
@@ -1452,6 +1457,7 @@ fn run_render(
     path: Option<PathBuf>,
     format: String,
     pixel_ratio: f64,
+    fonts: Vec<PathBuf>,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
@@ -1509,7 +1515,23 @@ fn run_render(
             scale: pixel_ratio,
             background: None,
         };
-        let out = design_data_core::raster::scene_to_png(&scene, &[], &opts)
+        let sources = if fonts.is_empty() {
+            vec![design_data_core::raster::fallback_font()]
+        } else {
+            fonts
+                .iter()
+                .map(|p| {
+                    std::fs::read(p)
+                        .map(|data| design_data_core::raster::FontSource {
+                            data,
+                            origin: p.display().to_string(),
+                        })
+                        .into_diagnostic()
+                        .wrap_err_with(|| format!("failed to read --font {}", p.display()))
+                })
+                .collect::<miette::Result<Vec<_>>>()?
+        };
+        let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
             .map_err(|e| miette::miette!("{e}"))?;
         for d in &out.diagnostics {
             eprintln!("warning: {d}");
@@ -4541,6 +4563,7 @@ fn main() -> ExitCode {
             path,
             format,
             pixel_ratio,
+            fonts,
             output,
             text_metrics,
         } => run_render(
@@ -4559,6 +4582,7 @@ fn main() -> ExitCode {
             path,
             format,
             pixel_ratio,
+            fonts,
             output,
             text_metrics,
         ),

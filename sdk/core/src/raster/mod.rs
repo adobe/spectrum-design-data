@@ -16,12 +16,14 @@
 //! bytes (this crate never reads the filesystem or embeds one).
 
 pub mod canvas;
+pub mod font;
 pub mod path;
 pub mod png;
 pub mod shape;
 
 use crate::visual::{icon_fit, Scene, SceneNode};
 use canvas::{parse_color, Canvas, Rgba};
+use font::{contour_polygon, Font};
 use serde_json::Value;
 use shape::{paint, rrect_sdf, Paint, Xf};
 
@@ -34,6 +36,31 @@ const MAX_PIXELS: f64 = 64.0e6;
 pub struct FontSource {
     pub data: Vec<u8>,
     pub origin: String,
+}
+
+/// The bundled text font: Source Sans 3 (SIL Open Font License, `fonts/OFL-SourceSans3.txt`).
+#[cfg(feature = "raster-fallback-font")]
+pub fn fallback_font() -> FontSource {
+    FontSource {
+        data: include_bytes!("fonts/SourceSans3VF-Upright.ttf").to_vec(),
+        origin: "bundled Source Sans 3".into(),
+    }
+}
+
+/// A parsed font and the family name scene nodes are matched against.
+struct Loaded {
+    font: Font,
+    origin: String,
+    key: String,
+}
+
+/// Lowercase letters and digits only, so `Adobe Clean Spectrum VF` matches
+/// `adobe-clean-spectrum-vf`.
+pub fn family_key(name: &str) -> String {
+    name.chars()
+        .filter(char::is_ascii_alphanumeric)
+        .map(|c| c.to_ascii_lowercase())
+        .collect()
 }
 
 #[derive(Debug, Clone)]
@@ -82,7 +109,7 @@ pub struct RasterOutput {
 /// Draw `scene` at `opts.scale`. Diagnostics list what was approximated or skipped.
 pub fn rasterize(
     scene: &Scene,
-    _fonts: &[FontSource],
+    fonts: &[FontSource],
     opts: &RasterOptions,
 ) -> Result<(Image, Vec<String>), RasterError> {
     if !(opts.scale.is_finite() && opts.scale > 0.0) {
@@ -110,6 +137,17 @@ pub fn rasterize(
 
     let mut cv = Canvas::new(w as usize, h as usize);
     let mut diags: Vec<String> = Vec::new();
+    let mut loaded = Vec::new();
+    for f in fonts {
+        match Font::parse(f.data.clone()) {
+            Ok(font) => loaded.push(Loaded {
+                key: family_key(&font.family().unwrap_or_default()),
+                font,
+                origin: f.origin.clone(),
+            }),
+            Err(e) => diags.push(format!("font {}: {e}; ignored", f.origin)),
+        }
+    }
     let base = Xf::scale(opts.scale);
     let press_xf = |p: &crate::visual::Press| base.pressed(p.scale, p.cx, p.cy);
     let global = scene.press.as_ref().filter(|p| p.part.is_none());
@@ -131,7 +169,7 @@ pub fn rasterize(
             Some((a, b, pressed)) if (a..=b).contains(&i) => pressed,
             _ => whole,
         };
-        draw_node(&mut cv, xf, n, &mut diags);
+        draw_node(&mut cv, xf, n, &loaded, &mut diags);
     }
     if let Some(o) = scene.opacity {
         cv.scale_opacity(o.clamp(0.0, 1.0) as f32);
@@ -184,7 +222,7 @@ fn corner_radii(n: &SceneNode) -> [f64; 4] {
     n.radii.unwrap_or([n.radius; 4])
 }
 
-fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
+fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
         "box" => {
@@ -221,31 +259,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
                 });
             }
         }
-        "text" => {
-            note(
-                diags,
-                "text is drawn as placeholder bars: no font is loaded".into(),
-            );
-            let Some(text) = n.text.as_deref().filter(|t| !t.trim().is_empty()) else {
-                return;
-            };
-            let c = color_of(n.color.as_deref(), "text", &n.part, diags).unwrap_or(Rgba::BLACK);
-            let width = if n.w > 0.0 {
-                n.w
-            } else {
-                text.chars().count() as f64 * n.font_size * 0.5
-            };
-            let (bh, cy) = (n.font_size * 0.45, n.y + n.h / 2.0);
-            let (x, y) = (n.x, cy - bh / 2.0);
-            paint(
-                cv,
-                xf,
-                (x, y, x + width, y + bh),
-                c.with_alpha(0.55),
-                Paint::Fill,
-                |px, py| rrect_sdf(px, py, x, y, width, bh, [bh / 2.0; 4]),
-            );
-        }
+        "text" => draw_text(cv, xf, n, fonts, diags),
         "progress" => {
             let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
             let side = n.w.min(n.h);
@@ -276,6 +290,121 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
         }
         "icon" => draw_icon(cv, xf, n, diags),
         _ => {}
+    }
+}
+
+/// The font for `n`: the first family in its stack that a supplied font matches, else the
+/// first supplied font.
+fn pick_font<'a>(
+    fonts: &'a [Loaded],
+    n: &SceneNode,
+    diags: &mut Vec<String>,
+) -> Option<&'a Loaded> {
+    let wanted: Vec<String> = n
+        .font_family
+        .as_deref()
+        .unwrap_or("")
+        .split(',')
+        .map(|f| family_key(f.trim_matches(|c: char| c == '\'' || c == '"' || c.is_whitespace())))
+        .filter(|k| !k.is_empty())
+        .collect();
+    let hit = wanted
+        .iter()
+        .find_map(|w| fonts.iter().find(|f| &f.key == w));
+    let chosen = hit.or_else(|| fonts.first())?;
+    if hit.is_none() && !wanted.is_empty() {
+        note(
+            diags,
+            format!(
+                "{}: no supplied font matches '{}'; text uses {} ({})",
+                n.part,
+                n.font_family.as_deref().unwrap_or_default(),
+                chosen.font.family().unwrap_or_default(),
+                chosen.origin
+            ),
+        );
+    }
+    Some(chosen)
+}
+
+/// Text from the font's outlines, left aligned at the node's `x` and vertically centered on
+/// the node's box the way the SVG backend's `dominant-baseline="central"` does.
+fn draw_text(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
+    let Some(text) = n.text.as_deref().filter(|t| !t.trim().is_empty()) else {
+        return;
+    };
+    let color = color_of(n.color.as_deref(), "text", &n.part, diags).unwrap_or(Rgba::BLACK);
+    let Some(f) = pick_font(fonts, n, diags) else {
+        note(
+            diags,
+            "text is drawn as placeholder bars: no font is loaded".into(),
+        );
+        let width = if n.w > 0.0 {
+            n.w
+        } else {
+            text.chars().count() as f64 * n.font_size * 0.5
+        };
+        let (bh, cy) = (n.font_size * 0.45, n.y + n.h / 2.0);
+        let y = cy - bh / 2.0;
+        paint(
+            cv,
+            xf,
+            (n.x, y, n.x + width, y + bh),
+            color.with_alpha(0.55),
+            Paint::Fill,
+            |px, py| rrect_sdf(px, py, n.x, y, width, bh, [bh / 2.0; 4]),
+        );
+        return;
+    };
+    let em = n.font_size / f.font.units_per_em();
+    if !(em.is_finite() && em > 0.0) {
+        return;
+    }
+    let (ascent, descent) = f.font.ascent_descent();
+    let baseline = n.y + n.h / 2.0 + (ascent + descent) / 2.0 * em;
+    let tol = 0.1 / (em * xf.s);
+    let (mut pen, mut polys) = (n.x, Vec::new());
+    for ch in text.chars().filter(|c| !c.is_control()) {
+        let g = f.font.glyph_index(ch);
+        if g == 0 {
+            note(
+                diags,
+                format!(
+                    "{}: {} has no glyph for U+{:04X}",
+                    n.part,
+                    f.origin,
+                    u32::from(ch)
+                ),
+            );
+        }
+        match f.font.outline(g) {
+            Ok(contours) => {
+                for c in &contours {
+                    polys.push(
+                        contour_polygon(c, tol)
+                            .iter()
+                            .map(|p| {
+                                [
+                                    (pen + p[0] * em) * xf.s + xf.tx,
+                                    (baseline - p[1] * em) * xf.s + xf.ty,
+                                ]
+                            })
+                            .collect(),
+                    );
+                }
+            }
+            Err(e) => note(
+                diags,
+                format!("{}: glyph for U+{:04X}: {e}", n.part, u32::from(ch)),
+            ),
+        }
+        pen += f.font.advance(g) * em;
+    }
+    if !path::fill(cv, &polys, path::Rule::NonZero, color) {
+        note(
+            diags,
+            format!("{}: text is too large to draw; skipped", n.part),
+        );
     }
 }
 
@@ -524,6 +653,147 @@ mod tests {
         assert!(at(&img, 20, 12)[3] > 100);
         assert_eq!(d.len(), 1, "{d:?}");
         assert!(d[0].contains("placeholder bars"));
+    }
+
+    fn source_sans() -> FontSource {
+        FontSource {
+            data: include_bytes!("fonts/SourceSans3VF-Upright.ttf").to_vec(),
+            origin: "test".into(),
+        }
+    }
+
+    fn text(s: &str, size: f64) -> SceneNode {
+        let mut n = node("text", "label", 0.0, 0.0, 200.0, 100.0);
+        n.text = Some(s.into());
+        n.font_size = size;
+        n.color = Some("#000000".into());
+        n
+    }
+
+    fn render_text(n: SceneNode) -> (Image, Vec<String>) {
+        let o = RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        rasterize(&scene(200.0, 100.0, vec![n]), &[source_sans()], &o).unwrap()
+    }
+
+    /// Separate ink runs along a row.
+    fn runs(img: &Image, y: u32) -> usize {
+        let mut prev = false;
+        (0..img.width)
+            .filter(|&x| {
+                let on = at(img, x, y)[3] > 127;
+                let start = on && !prev;
+                prev = on;
+                start
+            })
+            .count()
+    }
+
+    fn ink_rows(img: &Image) -> Option<(u32, u32)> {
+        let rows: Vec<u32> = (0..img.height)
+            .filter(|&y| (0..img.width).any(|x| at(img, x, y)[3] > 127))
+            .collect();
+        Some((*rows.first()?, *rows.last()?))
+    }
+
+    #[test]
+    fn text_draws_glyph_outlines_and_advances_the_pen() {
+        let (img, d) = render_text(text("H", 80.0));
+        let (top, bottom) = ink_rows(&img).expect("H has ink");
+        let near_top = top + (bottom - top) / 5;
+        // Two stems above the crossbar, and some row where the crossbar joins them.
+        assert_eq!(runs(&img, near_top), 2);
+        assert!(
+            (top..=bottom).any(|y| runs(&img, y) == 1),
+            "no crossbar row"
+        );
+        assert!(d.is_empty(), "{d:?}");
+        let (two, _) = render_text(text("HH", 80.0));
+        assert_eq!(runs(&two, near_top), 4);
+    }
+
+    #[test]
+    fn text_is_centered_on_its_box_like_dominant_baseline_central() {
+        let (img, _) = render_text(text("H", 40.0));
+        let (top, bottom) = ink_rows(&img).unwrap();
+        let center = f64::from(top + bottom) / 2.0;
+        assert!((center - 50.0).abs() < 8.0, "ink center {center}");
+        assert!(bottom - top > 20, "cap height at 40px is about 26px");
+    }
+
+    #[test]
+    fn text_follows_scale_and_position() {
+        let mut n = text("H", 40.0);
+        n.x = 100.0;
+        let (img, _) = render_text(n);
+        assert!((0..100).all(|x| (0..img.height).all(|y| at(&img, x, y)[3] == 0)));
+        assert!((100..200).any(|x| (0..img.height).any(|y| at(&img, x, y)[3] > 0)));
+        let o = RasterOptions {
+            scale: 2.0,
+            background: None,
+        };
+        let big = rasterize(
+            &scene(200.0, 100.0, vec![text("H", 40.0)]),
+            &[source_sans()],
+            &o,
+        )
+        .unwrap()
+        .0;
+        assert_eq!((big.width, big.height), (400, 200));
+        let (top, bottom) = ink_rows(&big).unwrap();
+        assert!(bottom - top > 45, "twice the cap height");
+    }
+
+    #[test]
+    fn text_reports_a_missing_glyph_and_an_unmatched_family() {
+        let (_, d) = render_text(text("\u{10FFFF}", 40.0));
+        assert!(
+            d.iter().any(|m| m.contains("no glyph for U+10FFFF")),
+            "{d:?}"
+        );
+        let mut n = text("H", 40.0);
+        n.font_family = Some("Adobe Clean, sans-serif".into());
+        let (img, d) = render_text(n);
+        assert!(ink_rows(&img).is_some(), "falls back to the supplied font");
+        assert!(
+            d.iter().any(|m| m.contains("no supplied font matches")),
+            "{d:?}"
+        );
+        let mut n = text("H", 40.0);
+        n.font_family = Some("'Source Sans 3 VF', serif".into());
+        assert!(render_text(n).1.is_empty());
+    }
+
+    #[test]
+    fn an_unreadable_font_is_reported_and_text_falls_back_to_bars() {
+        let junk = FontSource {
+            data: b"OTTO....".to_vec(),
+            origin: "adobe.otf".into(),
+        };
+        let o = RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let (img, d) =
+            rasterize(&scene(200.0, 100.0, vec![text("Hi", 40.0)]), &[junk], &o).unwrap();
+        assert!(
+            d.iter()
+                .any(|m| m.contains("adobe.otf") && m.contains("CFF") && m.contains("ignored")),
+            "{d:?}"
+        );
+        assert!(d.iter().any(|m| m.contains("placeholder bars")));
+        assert!(ink_rows(&img).is_some());
+    }
+
+    #[test]
+    fn family_keys_ignore_case_spaces_and_hyphens() {
+        assert_eq!(
+            family_key("Adobe Clean Spectrum VF"),
+            family_key("adobe-clean-spectrum-vf")
+        );
+        assert_ne!(family_key("Adobe Clean"), family_key("Adobe Clean Serif"));
     }
 
     fn icon(drawing: Option<serde_json::Value>, color: &str) -> SceneNode {
