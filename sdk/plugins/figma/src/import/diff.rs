@@ -182,6 +182,22 @@ fn diff_multimode(
                         })
                         .flatten()
                 })
+                .or_else(|| {
+                    // A single-valued alias (for example `accent-color-100`, a `$ref`
+                    // to a palette token) has no per-scheme member of its own, but the
+                    // token it points at may. Follow the record's own `$ref` chain in
+                    // this mode's context. A literal single-scheme record has no
+                    // `$ref`, so it stays uncovered.
+                    (!graph.has_relationship_record(legacy_key) && record.alias_target.is_some())
+                        .then(|| {
+                            record
+                                .resolve_leaf_in_context(graph, &ctx)
+                                .raw
+                                .get("value")
+                                .cloned()
+                        })
+                        .flatten()
+                })
         });
 
         let class = if let Some(None) = dd_resolution {

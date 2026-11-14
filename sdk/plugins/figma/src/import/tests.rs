@@ -1544,6 +1544,62 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
     }
 }
 
+/// The real shape of `accent-color-100`: a single-valued alias (`$ref` to a
+/// palette set) with a `conceptId` but no `colorScheme` member of its own.
+/// Each Figma mode must follow the alias chain in that mode's context, so a
+/// variable whose palette target differs per scheme compares per mode
+/// instead of rolling up to `multimode-uncovered`.
+#[test]
+fn single_valued_alias_to_a_palette_set_compares_through_its_ref() {
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+            ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+            (
+                "m-wireframe",
+                json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}),
+            ),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let palette = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100, "colorScheme": scheme},
+            "value": value,
+            "uuid": format!("u-blue-100-{scheme}"),
+            "conceptId": "su-blue-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([
+            palette("light", "#ffffff"),
+            palette("dark", "#000000"),
+            palette("wireframe", "#ffffff"),
+            {
+                "$schema": "https://example.com/color.json",
+                "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+                "$ref": "su-blue-100",
+                "uuid": "u-accent-color-100",
+                "conceptId": "su-accent-color-100",
+            },
+        ])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.skipped_uncovered, 0, "{:?}", report.entries);
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+}
+
 /// A follow-up PR #1416 review finding: the `diff_multimode` routing
 /// guard checked only the snake_case `conceptId` field. Relationship
 /// (CTR) raw uses camelCase `setUuid` instead
