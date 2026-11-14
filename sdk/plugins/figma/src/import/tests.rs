@@ -1600,6 +1600,97 @@ fn single_valued_alias_to_a_palette_set_compares_through_its_ref() {
     assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
 }
 
+/// Builds a graph with one single-valued `accent-color-100` alias whose
+/// `$ref` is `target_ref`, plus an optional plain (single-value, no
+/// `colorScheme` member) target token `u-target`.
+fn alias_graph(target_ref: &str, target_value: Option<&str>) -> TokenGraph {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut rows = vec![json!({
+        "$schema": "https://example.com/color.json",
+        "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+        "$ref": target_ref,
+        "uuid": "u-accent-color-100",
+        "conceptId": "su-accent-color-100",
+    })];
+    if let Some(v) = target_value {
+        rows.push(json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100},
+            "value": v,
+            "uuid": "u-target",
+            "conceptId": "su-target",
+        }));
+    }
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(f, "{}", json!(rows)).unwrap();
+    with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap())
+}
+
+fn accent_color_100(light: f64, dark: f64, wireframe: f64) -> VariablesMeta {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    mock_meta_color_theme(mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(light)),
+            ("m-dark", c(dark)),
+            ("m-wireframe", c(wireframe)),
+        ],
+    ))
+}
+
+/// A `$ref` that resolves to nothing leaves every mode uncovered; it must
+/// not be reported as a mismatch.
+#[test]
+fn single_valued_alias_with_an_unresolvable_ref_stays_uncovered() {
+    let report = diff_values(
+        &accent_color_100(1.0, 1.0, 1.0),
+        &alias_graph("su-missing", None),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.skipped_uncovered, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.multi_mode_mismatch, 0);
+    assert_eq!(report.counts.matched, 0);
+}
+
+/// An alias to a plain single-value token compares that one value against
+/// every Figma mode: all agree is a match.
+#[test]
+fn single_valued_alias_to_a_plain_token_matches_when_every_mode_agrees() {
+    let report = diff_values(
+        &accent_color_100(1.0, 1.0, 1.0),
+        &alias_graph("su-target", Some("#ffffff")),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+}
+
+/// ...and a Figma mode that differs from that single value is now reported
+/// as a per-mode mismatch (it used to roll up to `multimode-uncovered`).
+#[test]
+fn single_valued_alias_to_a_plain_token_reports_the_mode_that_differs() {
+    let report = diff_values(
+        &accent_color_100(1.0, 0.0, 1.0),
+        &alias_graph("su-target", Some("#ffffff")),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 1, "{:?}", report.entries);
+    match &report.entries[0].class {
+        DiffClass::MultiModeMismatch { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::ValueMismatch { .. }));
+        }
+        other => panic!("expected MultiModeMismatch, got {other:?}"),
+    }
+}
+
 /// A follow-up PR #1416 review finding: the `diff_multimode` routing
 /// guard checked only the snake_case `conceptId` field. Relationship
 /// (CTR) raw uses camelCase `setUuid` instead
