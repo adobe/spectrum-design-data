@@ -4487,8 +4487,18 @@ fn run_write_token(key: &str, target: &Path, opts: WriteTokenOpts<'_>) -> miette
 
 /// Launch the interactive TUI from a set of parsed TUI arguments.
 fn run_tui(args: TuiArgs) -> ExitCode {
+    let dataset = match args.dataset {
+        Some(d) => d,
+        None => match resolve_data_source(CliPathOverrides::default()) {
+            Ok(r) => r.tokens_root,
+            Err(e) => {
+                eprintln!("Error: {e:?}");
+                return ExitCode::from(2);
+            }
+        },
+    };
     let opts = LaunchOptions {
-        dataset: args.dataset.unwrap_or_else(|| PathBuf::from(".")),
+        dataset,
         components: args.components,
         mode_sets: args.mode_sets,
         allow_write: args.allow_write,
