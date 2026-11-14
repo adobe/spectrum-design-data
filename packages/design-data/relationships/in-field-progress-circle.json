@@ -16,28 +16,8 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
-    "uuid": "083dcc84-8df9-54ee-a75a-277b09b4a478"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "size"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "f4f6ec30-fccd-5964-9f87-e0cdb58a3e82"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "size"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
-    "uuid": "975db74a-4a19-5ce4-b446-ea482e04a482"
   },
   {
     "scope": {
@@ -56,28 +36,8 @@
     },
     "context": "Height",
     "contextRole": ["height"],
-    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
-    "uuid": "c393386d-fabd-5ba6-a93e-f089d315bc96"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "size"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
     "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
     "uuid": "74055ce9-02a9-522a-8457-ca0fd356f84e"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "size"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
-    "uuid": "de23841d-722d-5474-9bf2-22e1527b5fea"
   },
   {
     "scope": {

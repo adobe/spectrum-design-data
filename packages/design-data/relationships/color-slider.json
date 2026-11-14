@@ -32,32 +32,12 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "minimum-length"
-    },
-    "context": "Length",
-    "contextRole": ["size"],
-    "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
-    "uuid": "0e18796a-fa31-5c21-a31a-715a5c875de8"
-  },
-  {
-    "scope": {
-      "component": "color-slider",
       "property": "width"
     },
     "context": "Width",
     "contextRole": ["width"],
     "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
     "uuid": "b1b926fb-ec45-5e81-8c96-fb5c3014ee74"
-  },
-  {
-    "scope": {
-      "component": "color-slider",
-      "property": "width"
-    },
-    "context": "Width",
-    "contextRole": ["width"],
-    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
-    "uuid": "e30278c4-e27e-501e-a2c7-d932c6572960"
   },
   {
     "scope": {

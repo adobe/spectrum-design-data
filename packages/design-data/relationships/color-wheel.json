@@ -43,33 +43,12 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "minimum-width"
-    },
-    "context": "Width (minimum)",
-    "contextRole": ["width"],
-    "contextQualifier": "minimum",
-    "$ref": "db351495-cc43-4fb6-9e36-404e6d7cf375",
-    "uuid": "a83028b4-f448-51cc-abd4-9c77d0eaffe1"
-  },
-  {
-    "scope": {
-      "component": "color-wheel",
       "property": "width"
     },
     "context": "Track width",
     "contextRole": ["width"],
     "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
     "uuid": "6ed026b6-240d-5c82-a845-8b6f644a66b3"
-  },
-  {
-    "scope": {
-      "component": "color-wheel",
-      "property": "width"
-    },
-    "context": "Track width",
-    "contextRole": ["width"],
-    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
-    "uuid": "d45991dc-4e4d-5ee5-9675-f7599343b25f"
   },
   {
     "scope": {

@@ -46,26 +46,6 @@
     },
     "context": "Components",
     "contextRole": ["layout"],
-    "$ref": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
-    "uuid": "092382e8-5e92-503c-99f6-813992c4357a"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "486839c8-66f0-58f8-a9c7-f2ca0272620d",
-    "uuid": "b5562b62-a00b-513c-b5ae-a16544ed1312"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
     "$ref": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
     "uuid": "a7406d4c-a89b-5c9d-ba93-f4d170e1fe6a"
   },
@@ -78,26 +58,6 @@
     "contextRole": ["layout"],
     "$ref": "90cde499-440b-584a-af95-26799a05e23e",
     "uuid": "bfb57733-9290-551d-982c-e421c9750c0b"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "cae804bb-ebef-480b-a98f-15452dff5650",
-    "uuid": "29e3d3a8-fb3a-5287-b7bd-ea13dce1c520"
-  },
-  {
-    "scope": {
-      "component": "tag",
-      "property": "size"
-    },
-    "context": "Components",
-    "contextRole": ["layout"],
-    "$ref": "10ddbd2f-ebf5-5023-aa64-66378d702f99",
-    "uuid": "4d718bae-a517-5df0-af64-ac63d36ae578"
   },
   {
     "scope": {

@@ -1022,42 +1022,6 @@
       "component": "cards",
       "property": "minimum-height"
     },
-    "context": "Height (minimum), default variant",
-    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
-    "uuid": "4adc9405-c7dd-5945-9762-342feea96ae3"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
-    "uuid": "280f9fba-9bce-5789-bc8f-86bc53c171e9"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
-    "uuid": "6aa5495e-c118-5abf-8b60-6587d4bc6d91"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), default variant",
-    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
-    "uuid": "d4a4e638-d241-532b-b60a-3729eb4fbf0d"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
     "context": "Height (minimum), title below variant",
     "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
     "uuid": "b5735a6d-c6a2-5353-b9d0-5f24dca71256"
@@ -1068,26 +1032,8 @@
       "property": "minimum-height"
     },
     "context": "Height (minimum), title below variant",
-    "$ref": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e",
-    "uuid": "4457494c-c564-5796-a29d-d21ce693ed4d"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), title below variant",
     "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
     "uuid": "1e349ce2-dfc9-5b70-b1d3-b1d3d0e009dd"
-  },
-  {
-    "scope": {
-      "component": "cards",
-      "property": "minimum-height"
-    },
-    "context": "Height (minimum), title below variant",
-    "$ref": "066afe3c-54d2-491f-a6b9-f206c2e9a21d",
-    "uuid": "53448753-61a8-5943-9290-1f19793aa86e"
   },
   {
     "scope": {

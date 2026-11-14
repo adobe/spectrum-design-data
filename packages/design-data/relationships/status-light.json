@@ -96,28 +96,8 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "0d252df3-59fc-422e-8f47-d4c894660eb9",
-    "uuid": "cdb5bb11-5867-5a51-98d8-634d1fb1fa80"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "size"
-    },
-    "context": "Dot size",
-    "contextRole": ["size"],
     "$ref": "dba2b2d5-43b9-4e2a-9b45-fbc02d16a84d",
     "uuid": "b483ca80-d3cf-5bec-92d9-6f8e56652e1a"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "size"
-    },
-    "context": "Dot size",
-    "contextRole": ["size"],
-    "$ref": "dba2b2d5-43b9-4e2a-9b45-fbc02d16a84d",
-    "uuid": "24bbd4dc-0a12-538e-b63b-915acb3f006a"
   },
   {
     "scope": {
@@ -136,28 +116,8 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "7f5f9ac3-2029-4cd2-8a4b-e16c58122487",
-    "uuid": "b382d33d-7809-5e2c-ab8a-3946ef0a0d15"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "size"
-    },
-    "context": "Dot size",
-    "contextRole": ["size"],
     "$ref": "b0281fdc-b044-45e6-af04-e56913432575",
     "uuid": "233e2ac3-3d39-5d98-bb51-8e097f783702"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "size"
-    },
-    "context": "Dot size",
-    "contextRole": ["size"],
-    "$ref": "b0281fdc-b044-45e6-af04-e56913432575",
-    "uuid": "d4217b9c-28b3-5063-aaa8-bb0d0ea8bda3"
   },
   {
     "scope": {
