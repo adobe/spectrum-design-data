@@ -66,3 +66,34 @@ fn bare_record_replay_conflict_is_rejected() {
         .assert()
         .failure();
 }
+
+/// Bare `--snapshot-ansi` from a directory holding malformed JSON must use the embedded
+/// dataset instead of trying to parse everything under `.`.
+#[test]
+fn bare_launch_ignores_cwd_json_and_uses_embedded_data() {
+    let cwd = tempfile::tempdir().unwrap();
+    let cache = tempfile::tempdir().unwrap();
+    std::fs::write(cwd.path().join("bad.json"), "{\n  // jsonc\n}").unwrap();
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(cwd.path())
+        .env("DESIGN_DATA_CACHE_DIR", cache.path())
+        .arg("--snapshot-ansi")
+        .assert()
+        .success();
+}
+
+/// `--allow-write` without a dataset path must not target the embedded cache copy.
+#[test]
+fn allow_write_without_dataset_is_rejected_for_embedded_data() {
+    let cwd = tempfile::tempdir().unwrap();
+    let cache = tempfile::tempdir().unwrap();
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(cwd.path())
+        .env("DESIGN_DATA_CACHE_DIR", cache.path())
+        .args(["--allow-write", "--snapshot-ansi"])
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains("explicit DATASET"));
+}
