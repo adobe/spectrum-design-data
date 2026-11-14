@@ -43,6 +43,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors. A component with no `size` option declares one entry, the size renderers draw. |
 | `derived`     | array  | OPTIONAL    | Relationship contexts the recipe derives from the layout instead of binding. See [Derived contexts](#derived-contexts). SPEC-087.                                                             |
 | `notVisual`   | array  | OPTIONAL    | Component options and states that deliberately have no visual in this recipe (for example `["isReadOnly"]`). SPEC-066.                                                                        |
+| `repeat`      | object | OPTIONAL    | Draw the root once per entry of an array option. See [Repeated roots](#repeated-roots).                                                                                                       |
 | `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                                                                                                   |
 
 ### Part
@@ -131,6 +132,27 @@ A part of kind `component` draws another component's recipe inside this one, for
 * **Limits.** A recipe **MUST NOT** nest itself, directly or through other recipes (cycle), and nesting is at most two levels deep (host, nested, nested in nested). SPEC-089 checks both; the compiler refuses to compile either.
 * **Compiled shape.** A compiled `component` part carries `nested` (the nested variant as `CompiledVariant::to_value` writes it: `root`, `optionDefaults`, `parts`, `drawings`) and `nestedSize`. Every other part of a compiled recipe is unchanged, so a reader that does not know the kind sees an unknown part and ignores it. A backend with one variant document (the slim WASM `Engine`) needs nothing else.
 * **Platforms.** The nested recipe is looked up through the active platform's component aliases, as the renderer does everywhere: under `--platform`, a nested `button` draws `button-ios` if the platform aliases it. The `sizeMap` must then map into the platform recipe's `sizeScale`, or the compile fails. SPEC-089 checks the graph it is given.
+
+### Repeated roots
+
+A collection component (an accordion's items, a tab list's tabs) is one root drawn several times. A recipe says so with `repeat`:
+
+```json
+"repeat": {
+  "option": "items",
+  "label": "label",
+  "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch" }
+}
+```
+
+* **`option`.** A declared array option of the component. Each entry that is an object is one copy of the root.
+* **`label`.** The entry field that holds the copy's label (the request `label`).
+* **`with`.** Maps a component option to the entry field that sets it for that copy. A field the entry does not have leaves the option at the request's value, then the component default.
+* **Cascade.** Every copy is solved as its own request: the container's size, mode, states and other options reach each copy, and an entry's fields override them. **NORMATIVE:** The recipe's parts and bindings stay those of one root; `repeat` adds no parts.
+* **Layout.** The copies stack in a column, in array order, with no gap (a copy draws its own separators). Every copy is as wide as the widest (a second solve at that width when the first widths differ), so a hugging root does not give ragged edges.
+* **Nodes.** **NORMATIVE:** The root node of copy *n* (counting from 1 over the entries that are drawn, so a skipped entry does not take a number) is `<root>-<n>` and every other node is `<root>-<n>.<part>`. Measurements, layout and opacity are those of the first copy (so a per-entry disabled dim does not reach the others); the scene has no press. Diagnostics are prefixed with the copy's id.
+* **No entries.** When the request does not set the option, or it is empty, the root is drawn once, exactly as without `repeat`, with its ids unchanged. Entries that are not objects are skipped; when none is an object the root is drawn once and the scene's `diagnostics` say so.
+* **Validation.** SPEC-066 counts the `option` as used and warns when it is not a declared array option, when a `with` key is not a declared option, or when `label` or a `with` field is not a property of the option's item schema.
 
 ### Icons
 

@@ -32,6 +32,33 @@
       "uniqueItems": true,
       "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
     },
+    "repeat": {
+      "type": "object",
+      "description": "Draw the root once per entry of an array option, stacked in a column (spec/component-visuals.md, Repeated roots).",
+      "required": ["option"],
+      "properties": {
+        "option": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A declared array option of the component, such as `items`."
+        },
+        "label": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "Field of each entry that holds the copy's label."
+        },
+        "with": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+          },
+          "description": "Maps a component option to the entry field that sets it for that copy."
+        }
+      },
+      "additionalProperties": false
+    },
     "sizeScale": {
       "type": "object",
       "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors. Selectors may also use {size} and {<option>} for any declared option.",
