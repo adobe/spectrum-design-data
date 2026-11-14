@@ -12,7 +12,7 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive", "env"] }
-design-data-core = { path = "../core", features = ["fetch"] }
+design-data-core = { path = "../core", features = ["fetch", "raster"] }
 design-data-dtcg = { path = "../plugins/dtcg" }
 design-data-figma = { path = "../plugins/figma" }
 design-data-site = { path = "../plugins/site" }

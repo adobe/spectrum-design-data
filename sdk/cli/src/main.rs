@@ -252,7 +252,7 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
     },
-    /// Render a component from its visual recipe to SVG (draft)
+    /// Render a component from its visual recipe to SVG or PNG (draft)
     Render {
         /// Component name (e.g. action-button)
         #[arg(value_name = "COMPONENT", required_unless_present = "batch")]
@@ -295,9 +295,12 @@ enum Commands {
         /// Directory containing cascade-format .tokens.json files
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
-        /// Output format: `svg` or `scene` (resolved scene graph as JSON)
-        #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
+        /// Output format: `svg`, `png` (needs --output) or `scene` (resolved scene graph as JSON)
+        #[arg(long, default_value = "svg", value_parser = ["svg", "png", "scene"])]
         format: String,
+        /// Pixels per unit for `--format png`
+        #[arg(long, value_name = "N", default_value_t = 2.0)]
+        pixel_ratio: f64,
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
@@ -1448,9 +1451,13 @@ fn run_render(
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     format: String,
+    pixel_ratio: f64,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
+    if format == "png" && output.is_none() {
+        miette::bail!("--format png writes binary data: pass --output <FILE>");
+    }
     let text_metrics = load_text_metrics(text_metrics.as_deref())?;
     if let (Some(file), Some(dir)) = (&batch, &out) {
         return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
@@ -1496,6 +1503,22 @@ fn run_render(
             Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
             None => eprintln!("warning: {d}"),
         }
+    }
+    if format == "png" {
+        let opts = design_data_core::raster::RasterOptions {
+            scale: pixel_ratio,
+            background: None,
+        };
+        let out = design_data_core::raster::scene_to_png(&scene, &[], &opts)
+            .map_err(|e| miette::miette!("{e}"))?;
+        for d in &out.diagnostics {
+            eprintln!("warning: {d}");
+        }
+        let p = output.expect("checked above");
+        std::fs::write(&p, out.png)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to write {}", p.display()))?;
+        return Ok(ExitCode::SUCCESS);
     }
     let svg = if format == "scene" {
         serde_json::to_string_pretty(&scene).into_diagnostic()?
@@ -4517,6 +4540,7 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
             output,
             text_metrics,
         } => run_render(
@@ -4534,6 +4558,7 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
             output,
             text_metrics,
         ),

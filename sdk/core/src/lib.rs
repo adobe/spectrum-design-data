@@ -32,6 +32,8 @@ pub mod migrate;
 pub mod naming;
 pub mod primer;
 pub mod query;
+#[cfg(feature = "raster")]
+pub mod raster;
 pub mod record_diff;
 pub mod registry;
 pub mod report;

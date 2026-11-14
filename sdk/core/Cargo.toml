@@ -54,6 +54,9 @@ wasm = ["cache"]
 # so they are excluded from the `wasm` feature set. Included in `default` so native
 # tooling (CLI/TUI/tests) retains full schema validation with HTTP + file resolution.
 schema-resolvers = ["jsonschema/resolve-http", "jsonschema/resolve-file"]
+# Pure-Rust rasterizer: renders a visual-recipe Scene to RGBA pixels or PNG, no external crates.
+# Off for the wasm crates; the CLI and TUI turn it on.
+raster = []
 fetch = ["dep:reqwest", "dep:tokio", "dep:flate2", "dep:tar"]
 
 # On wasm32-unknown-unknown, getrandom (pulled in transitively e.g. by ahash → jsonschema)
