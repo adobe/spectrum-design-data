@@ -1640,6 +1640,8 @@
 
       async function refresh(opts = {}) {
         const token = ++stageToken;
+        // Diagnostics describe the scenes on screen, not every scene seen since load.
+        seenDiagnostics.clear();
         const o = liveOptions();
         const bg = staticBg(o);
         $("stage").classList.toggle("dark", bg === "dark");
