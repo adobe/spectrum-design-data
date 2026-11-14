@@ -5626,6 +5626,30 @@ mod tests {
         build_scene(&g, &recipe, &req).unwrap()
     }
 
+    #[test]
+    fn options_icon_is_reported_as_ignored() {
+        let g = icon_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box"}}
+        });
+        let mut req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        assert!(build_scene(&g, &recipe, &req)
+            .unwrap()
+            .diagnostics
+            .is_empty());
+        req.options.insert("icon".into(), serde_json::json!("edit"));
+        let d = build_scene(&g, &recipe, &req).unwrap().diagnostics;
+        assert!(
+            d.iter().any(|m| m.contains("option 'icon' is not drawn")),
+            "{d:?}"
+        );
+    }
+
     fn pick(set: &str, name: &str) -> Option<IconOverride> {
         Some(IconOverride::Icon {
             set: set.into(),
