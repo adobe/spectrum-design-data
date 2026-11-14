@@ -1533,6 +1533,70 @@ fn single_scheme_literal_compares_against_every_figma_mode() {
     assert_eq!(report.counts.skipped_uncovered, 0);
 }
 
+/// The same borrowing one hop away: an alias whose `$ref` target is a palette
+/// set that lacks Figma's Wireframe mode. `resolve_concept_in_context` returns
+/// the lowest-uuid child when none matches, which here is the Dark member, so
+/// without the per-hop check Wireframe (black in Figma) would falsely match it.
+#[test]
+fn an_alias_to_a_palette_set_missing_a_mode_stays_uncovered_for_that_mode() {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(1.0)),
+            ("m-dark", c(0.0)),
+            ("m-wireframe", c(0.0)),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let palette = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100, "colorScheme": scheme},
+            "value": value,
+            "uuid": format!("u-blue-100-{scheme}"),
+            "conceptId": "su-blue-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([
+            palette("light", "#ffffff"),
+            palette("dark", "#000000"),
+            {
+                "$schema": "https://example.com/color.json",
+                "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+                "$ref": "su-blue-100",
+                "uuid": "u-accent-color-100",
+                "conceptId": "su-accent-color-100",
+            },
+        ])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    match &report.entries[0].class {
+        DiffClass::MultiModeMismatch { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(
+                matches!(by_mode["Wireframe"], DiffClass::SkippedUncovered { .. }),
+                "{:?}",
+                by_mode["Wireframe"]
+            );
+        }
+        other => panic!("expected MultiModeMismatch, got {other:?}"),
+    }
+}
+
 /// A real per-scheme set that has no member for one of Figma's modes must not
 /// borrow another member's value for it: the context-free `record` is an
 /// arbitrary sibling (Light), so the missing mode stays uncovered instead of
