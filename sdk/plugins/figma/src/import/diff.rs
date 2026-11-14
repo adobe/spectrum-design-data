@@ -52,6 +52,11 @@ pub enum DiffClass {
     /// [`DiffClass::Match`] — full agreement across modes is reported as a
     /// plain [`DiffClass::Match`] instead.
     MultiModeMismatch { modes: Vec<ModeDiff> },
+    /// A genuinely multi-mode variable where no mode disagrees but at least
+    /// one could not be compared (for example Dark matches and Light holds a
+    /// value shape the diff cannot convert). Counted with
+    /// [`DiffClass::SkippedUncovered`]; `modes` says which modes were compared.
+    PartiallyUncovered { modes: Vec<ModeDiff> },
 }
 
 /// One Figma mode's classification within a [`DiffClass::MultiModeMismatch`].
@@ -114,8 +119,10 @@ pub struct DiffReport {
 /// Rolls up to a plain [`DiffClass::Match`] when every mode agrees, to
 /// [`DiffClass::SkippedUncovered`] when every mode is uncovered (no
 /// design-data value to compare in any mode — a coverage gap, not a
-/// divergence), else [`DiffClass::MultiModeMismatch`] listing every mode's
-/// own classification (matches included, for context).
+/// divergence), to [`DiffClass::MultiModeMismatch`] when at least one mode
+/// disagrees (listing every mode's own classification, matches included, for
+/// context), else to [`DiffClass::PartiallyUncovered`]: some modes match and
+/// the rest could not be compared.
 fn diff_multimode(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
@@ -246,8 +253,17 @@ fn diff_multimode(
         DiffClass::SkippedUncovered {
             reason: "multimode-uncovered".to_string(),
         }
-    } else {
+    } else if modes.iter().any(|m| {
+        matches!(
+            m.class,
+            DiffClass::ValueMismatch { .. } | DiffClass::FigmaOnly
+        )
+    }) {
         DiffClass::MultiModeMismatch { modes }
+    } else {
+        // Some modes match and the rest could not be compared. No mode
+        // disagrees, so this is a coverage gap, not a mismatch.
+        DiffClass::PartiallyUncovered { modes }
     }
 }
 
@@ -361,7 +377,9 @@ pub fn diff_values_with_options(
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
-                DiffClass::SkippedUncovered { .. } => counts.skipped_uncovered += 1,
+                DiffClass::SkippedUncovered { .. } | DiffClass::PartiallyUncovered { .. } => {
+                    counts.skipped_uncovered += 1
+                }
                 _ => counts.multi_mode_mismatch += 1,
             }
             entries.push(DiffEntry {
