@@ -14,7 +14,10 @@ import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
-import { createDesignDataTools } from "../src/tools/design-data.js";
+import {
+  createDesignDataTools,
+  fontSummary,
+} from "../src/tools/design-data.js";
 
 // These tests call the real design-data-primer handler, which does a
 // best-effort registry.npmjs.org freshness check. Disable it here so this
@@ -618,4 +621,23 @@ test("the server passes an image block through to the client", async (t) => {
   const list = await client.listTools();
   t.true(list.tools.some((x) => x.name === "design-data-font-status"));
   await client.close();
+});
+
+test("the font status sent to the model caps the related families", (t) => {
+  const status = {
+    found: false,
+    fallback: true,
+    rejected: [],
+    related: ["a", "b", "c", "d", "e", "f", "g"],
+    searched: ["/x"],
+    help: "h",
+  };
+  const short = fontSummary(status);
+  t.deepEqual(short.related, ["a", "b", "c", "d", "e"]);
+  t.is(short.relatedMore, 2);
+  t.is(short.searched, undefined);
+  t.deepEqual(fontSummary(status, true).searched, ["/x"]);
+  const few = fontSummary({ ...status, related: ["a"] });
+  t.deepEqual(few.related, ["a"]);
+  t.is(few.relatedMore, undefined);
 });

@@ -118,6 +118,12 @@ draws one. Required: `component`. Optional: `size` (default `m`), `states` (e.g.
   user. Read `font` before describing it (see Fonts), and mention anything in
   `diagnostics` that affects what they see.
 
+PNG output and `design-data-font-status` need an `@adobe/design-data-mcp` newer than
+1.11.0. An older server ignores `format: "png"` and returns SVG text, and has no
+`design-data-font-status` tool. If a `png` call returns text that starts with `<svg`, or the
+status tool is missing, tell the user the MCP server is out of date and to update it
+(`npx -y @adobe/design-data-mcp@latest`, or the plugin's next release); do not present the SVG as a PNG.
+
 ### `design-data-font-status`
 
 Which font draws text in PNG renders: `{ found, fallback, using, rejected, related,

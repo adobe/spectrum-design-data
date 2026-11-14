@@ -122,11 +122,20 @@ function loadGuidelineManifest() {
   return { guidelines: listGuidelines(guidelinesDir) };
 }
 
-/** The font status as sent to the model; `searched` only when asked for (it is long). */
-function fontSummary(status, full = false) {
-  const { searched, ...rest } = status;
-  return full ? { ...rest, searched } : rest;
+/**
+ * The font status as sent to the model. `searched` (long) only when asked for, and `related`
+ * capped: a machine with Creative Cloud can list nineteen Adobe Clean families, none used.
+ */
+export function fontSummary(status, full = false) {
+  const { searched, related, ...rest } = status;
+  const out = { ...rest, related: related.slice(0, RELATED_SHOWN) };
+  if (related.length > RELATED_SHOWN) {
+    out.relatedMore = related.length - RELATED_SHOWN;
+  }
+  return full ? { ...out, searched } : out;
 }
+
+const RELATED_SHOWN = 5;
 
 export function createDesignDataTools() {
   return [
