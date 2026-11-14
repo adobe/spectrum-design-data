@@ -6,11 +6,19 @@ access, no CLI binary, and no configuration required.
 
 ## Install in Claude Desktop (Extension)
 
-Download the latest `design-data.mcpb` from the
-[releases page](https://github.com/adobe/spectrum-design-data/releases) and drag it into
-**Claude Desktop → Settings → Extensions**.
+1. Download
+   [design-data.mcpb](https://github.com/adobe/spectrum-design-data/releases/download/design-data-mcpb/design-data.mcpb)
+   (always the newest build; each `@adobe/design-data-mcp@<version>` release on the
+   [releases page](https://github.com/adobe/spectrum-design-data/releases) carries the same
+   file for that version).
+2. Drag it into **Claude Desktop → Settings → Extensions**, or double-click it.
+3. Check it works: start a new chat and ask *"Use the design-data primer."*
 
 No API keys or configuration needed. The extension installs and runs offline.
+
+The install screen has an optional **Adobe Clean Spectrum VF font file** field. Leave it empty
+unless the font is somewhere the extension does not look (see
+[Fonts for PNG renders](#fonts-for-png-renders)).
 
 ## Setup via npx (Cursor / Claude Desktop manual config)
 

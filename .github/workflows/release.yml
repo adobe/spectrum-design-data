@@ -531,3 +531,15 @@ jobs:
           gh pr merge "${BRANCH}" --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Build the Claude Desktop extension and attach it to GitHub Releases (the package's own
+      # release and a rolling `design-data-mcpb` one that README links). Last in the job on
+      # purpose: a failure here must never hold back the CLI binaries or the Homebrew bump,
+      # and npm is already published by now. Skipped when the MCP package was not published.
+      - name: Attach Claude Desktop extension (.mcpb)
+        if: steps.cs.outputs.published == 'true' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: tools/design-data-mcp/scripts/publish-mcpb.sh
+        env:
+          PUBLISHED: ${{ steps.cs.outputs.publishedPackages }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
