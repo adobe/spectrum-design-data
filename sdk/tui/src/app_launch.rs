@@ -35,6 +35,7 @@ use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
 use ratatui::{backend::Backend, backend::CrosstermBackend, Terminal};
 
+use crate::preview::PreviewSource;
 use crate::runtime::{replay as tui_replay, run as tui_run};
 use crate::theme::Theme;
 use crate::{Message, Model, UpdateCtx};
@@ -96,6 +97,8 @@ struct DatasetHandle {
     allow_write: bool,
     /// Active color theme (terminal-native or Spectrum).
     theme: Theme,
+    /// Where `:preview` loads recipes from, on first use.
+    preview: Arc<PreviewSource>,
 }
 
 impl DatasetHandle {
@@ -123,6 +126,7 @@ impl DatasetHandle {
 
         let components_dir = resolved.components.clone();
         let mode_sets_dir = resolved.mode_sets.clone();
+        let resolved = Arc::new(resolved);
 
         let (mut graph, mut token_index) = TokenGraph::open_cached_with_index_with_catalogs(
             &path,
@@ -149,6 +153,7 @@ impl DatasetHandle {
 
         Ok(Self {
             token_count: graph.tokens.len(),
+            preview: Arc::new(PreviewSource::new(path.clone(), resolved)),
             dataset_path: path,
             graph,
             token_index,
@@ -177,6 +182,7 @@ impl DatasetHandle {
 
     fn update_ctx(&self) -> UpdateCtx<'_> {
         UpdateCtx {
+            preview: Some(self.preview.clone()),
             graph: &self.graph,
             dataset_path: Some(&self.dataset_path),
             components_dir: self.components_dir.as_deref(),
