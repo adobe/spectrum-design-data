@@ -2941,16 +2941,13 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         _ => (pad_bs, pad_be),
     };
-    // An unset `height` is the content plus the block padding: the tallest flowed child in a
-    // row (only when the recipe binds block padding or a `minHeight`; otherwise the 32
-    // default), or the stacked children in a column. `minHeight` is the floor.
+    // An unset `height` is the content plus the block padding: the stacked children in a
+    // column, the tallest flowed child in a row. `minHeight` is the floor.
     let h = explicit_h.unwrap_or_else(|| {
         let content = if column {
             sum_h + pad_bs + pad_be
-        } else if block_padded || min_h.is_some() {
-            tallest + pad_bs + pad_be
         } else {
-            32.0
+            tallest + pad_bs + pad_be
         };
         match min_h {
             Some(m) if content <= m + 1e-6 => m,
@@ -4060,7 +4057,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
 /// same change whenever a solver change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`).
-pub const LAYOUT_REVISION: u32 = 1;
+pub const LAYOUT_REVISION: u32 = 2;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -5526,8 +5523,9 @@ mod tests {
     }
 
     #[test]
-    fn no_block_padding_keeps_the_default_height() {
-        assert_eq!(padded_box(serde_json::json!({})).nodes[0].h, 32.0);
+    fn no_block_padding_hugs_the_content() {
+        let s = padded_box(serde_json::json!({}));
+        assert_eq!(s.nodes[0].h, part(&s, "label").unwrap().h);
     }
 
     #[test]

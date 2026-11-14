@@ -19,7 +19,7 @@ moon run sdk:lint
 
 Changesets do not release the CLI. `release.yml` builds and tags `design-data-cli@<version>` from the `version` in `sdk/cli/Cargo.toml` (and the Homebrew formula installs from that tag), so bump it, with `sdk/Cargo.lock`, in any PR that changes CLI behavior: minor for a new command or flag, patch for a fix. A changeset is only needed for a JS package the change touches.
 
-**Layout revision.** A change to `core/src/visual.rs` that alters `core/tests/fixtures/recipe-snapshots.json` must bump `LAYOUT_REVISION` and `layoutRevision` in `packages/design-data/dataset.json` together, with a `@adobe/spectrum-design-data` changeset. The CLI warns on stderr when the dataset's revision differs. A test fails if the two disagree.
+**Layout revision.** A change to `core/src/visual.rs` that alters `core/tests/fixtures/recipe-snapshots.json` must bump `LAYOUT_REVISION` and `layoutRevision` in `packages/design-data/dataset.json` together, with a `@adobe/spectrum-design-data` changeset. The CLI warns on stderr when the dataset's revision differs. A test fails if the two disagree. The check reads `<tokens root>/../dataset.json` and `visuals/`, so it does not fire for a dataset that moves `tokens/` via `paths.tokens` or for platform recipes outside `visuals/`.
 
 ## suggest-context
 
