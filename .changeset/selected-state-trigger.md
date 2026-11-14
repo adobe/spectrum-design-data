@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-wasm": patch
 ---
 
 Declare the `selected` state of `select-box`, `stack-item` and `tree-view` with
