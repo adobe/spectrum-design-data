@@ -1836,6 +1836,63 @@ fn matching_and_unconvertible_modes_report_skipped_not_mismatch() {
     }
 }
 
+/// Figma stores a transparency variable as a color plus an alias to an opacity
+/// variable (FLOAT on a 0 to 100 scale). The diff folds the opacity into the
+/// alpha and compares against the rgba design-data stores per scheme.
+#[test]
+fn a_color_with_an_opacity_alias_compares_as_rgba() {
+    let opacity = mock_variable(
+        "colorTheme/opacity-100",
+        "FLOAT",
+        vec![
+            ("m-light", json!(4.0)),
+            ("m-dark", json!(4.0)),
+            ("m-wireframe", json!(4.0)),
+        ],
+    );
+    let op = json!({"type": "VARIABLE_ALIAS", "id": opacity.id.clone()});
+    let pair = |c: f64| json!({"color": {"r": c, "g": c, "b": c, "a": 1.0}, "opacity": op.clone()});
+    let var = mock_variable(
+        "colorTheme/transparent-neutral-100",
+        "COLOR",
+        vec![
+            ("m-light", pair(0.0)),
+            ("m-dark", pair(1.0)),
+            ("m-wireframe", pair(0.0)),
+        ],
+    );
+    let mut meta = mock_meta_color_theme(var);
+    meta.variables.insert(opacity.id.clone(), opacity);
+    let graph = mock_color_set_graph(
+        "transparent-neutral-100",
+        json!("rgba(0, 0, 0, 0.04)"),
+        json!("rgba(255, 255, 255, 0.04)"),
+        json!("rgba(0, 0, 0, 0.04)"),
+    );
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+
+    // A different opacity step is a real mismatch, not a skip.
+    let graph = mock_color_set_graph(
+        "transparent-neutral-100",
+        json!("rgba(0, 0, 0, 0.08)"),
+        json!("rgba(255, 255, 255, 0.08)"),
+        json!("rgba(0, 0, 0, 0.08)"),
+    );
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 1, "{:?}", report.entries);
+}
+
+/// A literal opacity has no known scale, so it is not guessed at.
+#[test]
+fn a_color_with_a_literal_opacity_stays_unconvertible() {
+    let meta = mock_meta(vec![]);
+    let value = json!({"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0}, "opacity": 4.0});
+    assert!(resolve_figma_value(&meta, &value, 0, None).is_none());
+}
+
 /// A follow-up PR #1416 review finding: the `diff_multimode` routing
 /// guard checked only the snake_case `conceptId` field. Relationship
 /// (CTR) raw uses camelCase `setUuid` instead
