@@ -1244,3 +1244,24 @@ rules:
     message: "Relationship {scope} has no context and no contexted record references it; add a context so a recipe can bind it"
     spec_ref: spec/relationship-format.md#context
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-093
+    name: relationship-context-names-option
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      A condition on a component option belongs in `scope.options`: a record that pins no option
+      is the default for its `(property, context)`, and a recipe picks the record that pins the
+      most options matching its request. A parenthesised part of `context` that equals a declared
+      option value, a boolean option name (`emphasized`) or its negation (`non emphasized`)
+      repeats the option inside the string. `default` is flagged only when a sibling record with
+      the same main word names an option value; `Width (default)` beside `Width (minimum)` names a
+      measurement. Interaction states are not checked. Existing data is held at a baseline
+      (sdk/core/tests/fixtures/recipe-lint-baseline.json) until it is migrated.
+    assert: >
+      A relationship `context` SHOULD NOT name a value of an option the component declares; pin
+      it in `scope.options` instead.
+    message: "Relationship context '{context}' names {options}; pin scope.options instead (a record that pins no option is the default), or says default beside records that name an option value; leave the default record unpinned and drop the word"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"

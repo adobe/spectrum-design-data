@@ -66,7 +66,9 @@ Layer 1 (`relationship.schema.json`) only enforces shape: `scope.options` is an 
 
 **When a live record may omit it.** A live record **MAY** have no `context` when a contexted record reaches it through `$ref` uuids, directly or through other records, because the recipe binds the contexted record and the alias chain supplies the value. A live record with no context that nothing contexted reaches cannot be bound by a recipe and **SHOULD** get one (rule SPEC-092). Deprecated records are exempt.
 
-SPEC-091 and SPEC-092 are warnings held at a baseline (`sdk/core/tests/fixtures/recipe-lint-baseline.json`), so existing data passes while new warnings fail the ratchet.
+**Options belong in `scope.options`, not in the context.** A parenthesised part of a context **SHOULD NOT** equal a value of an option the component declares, a boolean option name (`emphasized`) or its negation (`non emphasized`), and `default` **SHOULD NOT** appear beside records that name an option value (rule SPEC-093). Pin the option in `scope.options` instead: a record that pins no option is the default, so the default value needs no label. `Width (default)` beside `Width (minimum)` is a measurement, not an option, and is fine. Interaction states (`down`, `focus`) are not checked.
+
+SPEC-091, SPEC-092 and SPEC-093 are warnings held at a baseline (`sdk/core/tests/fixtures/recipe-lint-baseline.json`), so existing data passes while new warnings fail the ratchet.
 
 ## Value-owning vs. relationship-only
 
@@ -122,3 +124,4 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-090 | `relationship-context-fields-agree`         | warning  | `contextRole`/`contextPart`/`contextQualifier` **MUST** be consistent, and agree with the `context` string when it is present.                                                                                                                     |
 | SPEC-091 | `relationship-context-main-word-registered` | warning  | The main word of `context` **SHOULD** be in `registry/relationship-contexts.json`.                                                                                                                                                                 |
 | SPEC-092 | `relationship-live-record-has-context`      | warning  | A live CTR with no `context` **SHOULD** be reached by a contexted CTR through `$ref`.                                                                                                                                                              |
+| SPEC-093 | `relationship-context-names-option`         | warning  | A `context` **SHOULD NOT** name an option value; pin it in `scope.options`.                                                                                                                                                                        |
