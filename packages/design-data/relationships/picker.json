@@ -1154,66 +1154,78 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
     "uuid": "9be433e1-2682-58ef-9e1e-e6372e638acb"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
     "uuid": "187d21ec-b950-599a-8d7d-d0e55a2deed9"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "0c35da5c-cf37-4349-82e4-8739ea94aa65",
     "uuid": "772e4665-3827-5a57-99f7-c4b4be5c1fe6"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
     "uuid": "504279a4-6147-5f07-86e6-bbe24050c073"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
     "uuid": "0c3af433-6a4f-5416-a45a-a37718cb01d1"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
     "uuid": "1f7ad1dd-62ee-5fe7-a0d1-3b73c0d1716e"
   },

@@ -1042,55 +1042,65 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
     "uuid": "8618c894-e28f-51eb-85ea-6b34272d021d"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
     "uuid": "e329f121-3cd0-53fd-929b-206a4a156f5f"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
     "uuid": "52bddf1d-b4b2-5bd3-864c-0fa35359622d"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
     "uuid": "f018ee1a-20c1-51d0-ad65-d6785b311664"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
     "uuid": "a081da37-205f-51b0-8a57-06b4bd3f030d"
   },
