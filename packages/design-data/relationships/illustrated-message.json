@@ -2,22 +2,26 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "vertical-maximum-width"
+      "property": "vertical-maximum-width",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Maximum width (Vertical variant)",
+    "context": "Maximum width",
     "contextRole": ["width"],
-    "contextQualifier": "Vertical variant",
     "$ref": "95c055b0-f688-4405-8426-1b2302e32ebd",
     "uuid": "7625ce65-6d91-5f36-a57c-906f8699eff9"
   },
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "horizontal-maximum-width"
+      "property": "horizontal-maximum-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Maximum width (Horizontal variant)",
+    "context": "Maximum width",
     "contextRole": ["width"],
-    "contextQualifier": "Horizontal variant",
     "$ref": "4413ee4d-86b1-4d88-b2ee-64c0939698b9",
     "uuid": "71eac12b-9ce5-59df-8499-b9431b91be85"
   },

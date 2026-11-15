@@ -348,11 +348,13 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Text and alert icon (disabled)",
+    "context": "Text and alert icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "8d2c38c3-1443-5d44-be50-38485e76d106"
   },
