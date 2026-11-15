@@ -36,7 +36,6 @@
   },
   "SPEC-093": {
     "action-group": 3,
-    "alert-dialog": 8,
     "button-group": 2,
     "checkbox": 25,
     "color-handle": 2,
@@ -51,7 +50,6 @@
     "swatch-group": 1,
     "tabs": 4,
     "text-area": 5,
-    "text-field": 5,
-    "tooltip": 7
+    "text-field": 5
   }
 }

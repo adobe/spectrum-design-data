@@ -205,22 +205,26 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "workflow-icon-size-100"
+      "property": "workflow-icon-size-100",
+      "options": {
+        "variant": ["error", "warning"]
+      }
     },
-    "context": "Icon (error and warning variants)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "error and warning variants",
     "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
     "uuid": "ad57f6f4-f87e-5fc6-9302-6c0dda544500"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "workflow-icon-size-100"
+      "property": "workflow-icon-size-100",
+      "options": {
+        "variant": ["error", "warning"]
+      }
     },
-    "context": "Icon (error and warning variants)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "error and warning variants",
     "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
     "uuid": "8429edc7-72c8-56d6-aa83-53e43304fe66"
   },
@@ -308,66 +312,78 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "warning"
+      }
     },
-    "context": "Icon (warning variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "warning variant",
     "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8",
     "uuid": "7a7776f7-b007-56d9-a751-5641d147f3b0"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "warning"
+      }
     },
-    "context": "Icon (warning variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "warning variant",
     "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d",
     "uuid": "9c2c71dc-aac0-5d8f-80a1-f68e666077ff"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "warning"
+      }
     },
-    "context": "Icon (warning variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "warning variant",
     "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2",
     "uuid": "de568f59-23a2-528c-a865-f6b30113aca5"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "error"
+      }
     },
-    "context": "Icon (error variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "error variant",
     "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
     "uuid": "00d32cb0-97c0-55a4-96aa-7a356276e426"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "error"
+      }
     },
-    "context": "Icon (error variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "error variant",
     "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
     "uuid": "f9f50d80-fa29-5e1d-90b2-71c9a533937c"
   },
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "error"
+      }
     },
-    "context": "Icon (error variant)",
+    "context": "Icon",
     "contextRole": ["icon"],
-    "contextQualifier": "error variant",
     "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
     "uuid": "7902bab7-9659-5372-9826-adb93ecdfd39"
   },
