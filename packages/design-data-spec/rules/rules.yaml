@@ -1321,10 +1321,10 @@ rules:
     note: >
       An alternative is an AND and the `anyOf` is an OR, so an alternative that contains another
       alternative adds nothing. An alternative that repeats a pin the record already has is
-      redundant too.
+      redundant too, and one that contradicts a pin of the record can never match.
     assert: >
-      An `anyOf` alternative SHOULD NOT repeat a pin of the record, and SHOULD NOT equal or contain
-      another alternative.
+      An `anyOf` alternative SHOULD NOT repeat or contradict a pin of the record, and SHOULD NOT
+      equal or contain another alternative.
     message: "Relationship anyOf alternative {i} is covered by alternative {j}; remove it"
     spec_ref: spec/relationship-format.md#any-of
     introduced_in: "1.0.0-draft"

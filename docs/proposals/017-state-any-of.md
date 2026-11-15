@@ -120,7 +120,7 @@ reads: emphasized, and selected or indeterminate. Alternatives follow the shape 
 * SPEC-053 checks each alternative's option names and values as it does the base pins.
 * Warning (SPEC-098): an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
 * Warning (SPEC-096): all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
-* Warning (SPEC-097): an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
+* Warning (SPEC-097): an alternative that repeats or contradicts a base pin, or one alternative that contains another (the larger one is redundant).
 * The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by SPEC-095 (error), a rule over component option names next to SPEC-037 and SPEC-038, so the reservation is checked and not only written down.
 * The tie guard (`relationship_option_ties`) expands `anyOf` into its alternatives before it compares pin sets. An `anyOf` record and a plain-pin record with the same base pins score the same for a request that matches both. If they point at different tokens the guard flags the pair as a tie, and that is intended: the author must say which wins, with a record that pins both. If they point at the same token it is not a tie, but the plain-pin record is a redundant duplicate, which the redundancy lint (`p6ga.21.4`) reports. The checkbox migration removes such duplicates.
 
@@ -163,13 +163,13 @@ Readers of `scope.options` checked on 2026-11-15, with what each needs:
 
 The rules below are built (`p6ga.21.12`, PR 2b) and claimed in `rules.yaml`, with a conformance case each. SPEC-099 was added in review: a record with a `legacyKey` cannot use an any-of.
 
-| ID       | Name                                | Severity | Checks                                                                          |
-| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.    |
-| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                   |
-| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value). |
-| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.         |
-| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).  |
+| ID       | Name                                | Severity | Checks                                                                                 |
+| -------- | ----------------------------------- | -------- | -------------------------------------------------------------------------------------- |
+| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.           |
+| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                          |
+| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value).        |
+| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats or contradicts a base pin, or one alternative contains another. |
+| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).         |
 
 SPEC-053 and SPEC-054 gain their per-alternative and per-member checks and keep their IDs.
 
