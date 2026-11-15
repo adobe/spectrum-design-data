@@ -1,5 +1,31 @@
 # @adobe/spectrum-design-data
 
+## 3.15.0
+
+### Minor Changes
+
+- [#1827](https://github.com/adobe/spectrum-design-data/pull/1827) [`2e21148`](https://github.com/adobe/spectrum-design-data/commit/2e21148898b9b9df5150510c21a7c94106e0f0a8) Thanks [@GarthDB](https://github.com/GarthDB)! - Move option qualifiers out of the relationship `context` strings of `action-button` and into
+  `scope.options` (rule SPEC-093).
+  - `Background (selected, emphasized)` and `(selected, non emphasized)`, `(disabled)`,
+    `(disabled, black)` and `(disabled, white)` become `Background` with `isSelected`,
+    `isEmphasized`, `isDisabled` and `staticColor` pinned. `Label, icon, and hold icon` and
+    `Focus ring (black)` / `(white)` follow the same pattern.
+  - Two records are added so that selected + disabled resolves to the disabled token, as the
+    recipe's `when` order did before.
+  - **Render change:** the keyboard-focus ring of a static black or white action button is now
+    black or white. The `Focus ring (black)` and `(white)` records were not reachable before, so
+    the ring fell back to the default blue. All other states render unchanged.
+
+  A platform recipe that binds the old context strings must use the new ones. Record `uuid`
+  values do not change.
+
+### Patch Changes
+
+- [#1829](https://github.com/adobe/spectrum-design-data/pull/1829) [`4d5b3fd`](https://github.com/adobe/spectrum-design-data/commit/4d5b3fd12e0144d8c554a96e7176c5f8fe592e96) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the emphasized option out of eight `action-bar` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Control (selected, emphasized)` and `Background (emphasized)`
+  pin `isEmphasized: true`; `Control (selected, non emphasized)` is the unpinned default of
+  `Control (selected)`. `action-bar` has no visual recipe, so nothing renders differently.
+
 ## 3.14.0
 
 ### Minor Changes
