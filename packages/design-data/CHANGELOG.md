@@ -1,5 +1,111 @@
 # @adobe/spectrum-design-data
 
+## 3.15.1
+
+### Patch Changes
+
+- [#1840](https://github.com/adobe/spectrum-design-data/pull/1840) [`e755433`](https://github.com/adobe/spectrum-design-data/commit/e75543372e5a75e0e0f6580047191af3f0de2e1b) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `variant` qualifier out of 8 `alert-dialog` relationship contexts and into
+  `scope.options` (rule SPEC-093).
+  - `Icon (error variant)` and `Icon (warning variant)` become `Icon` with `variant: error` or
+    `variant: warning` pinned.
+  - `Icon (error and warning variants)` becomes `Icon` with the any-of pin
+    `variant: ["error", "warning"]`.
+  - `alert-dialog` declares five variants and the default, `confirmation`, has no record, so every
+    record keeps its pin.
+
+  `alert-dialog` has no visual recipe, so nothing renders differently.
+
+- [#1842](https://github.com/adobe/spectrum-design-data/pull/1842) [`bb70755`](https://github.com/adobe/spectrum-design-data/commit/bb7075540461e38400ed5ab7aeacda2632fb5e11) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `image` qualifier out of 6 `avatar` relationship contexts and into `scope.options`
+  (rule SPEC-093). `Text (initials)` becomes `Text` with `image: initials` pinned. The default
+  `image` is `user image` and no `Text` record covers the other values, so the pin stays and an
+  avatar showing a picture has no `Text` binding, as before. `avatar` has no visual recipe, so
+  nothing renders differently.
+
+- [#1837](https://github.com/adobe/spectrum-design-data/pull/1837) [`6296be3`](https://github.com/adobe/spectrum-design-data/commit/6296be3701c705fb73cd370f8f65a06122cd3ec1) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `isMultiline` qualifier out of 11 `breadcrumbs` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Spacing (top and bottom edge to text, multiline)` becomes
+  `Spacing (top and bottom edge to text)` with `isMultiline: true` pinned, next to the existing
+  unpinned default record of the same context, and the same for the other `Spacing` and `Text`
+  multiline contexts. The `(medium)` contexts and `(hover, down, focus states)` are unchanged.
+  `breadcrumbs` has no visual recipe, so nothing renders differently.
+
+- [#1843](https://github.com/adobe/spectrum-design-data/pull/1843) [`d7bec9f`](https://github.com/adobe/spectrum-design-data/commit/d7bec9ffae3b320fa4ddccd612d812c99d36570e) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `isError` qualifier out of 26 `Border (error)` relationship contexts in `picker`,
+  `combo-box`, `number-field`, `text-area` and `text-field`, and into `scope.options` (rule
+  SPEC-093). Each becomes `Border` with `isError: true` pinned. The plain `Border` records use a
+  different property (`border-width`), so no unpinned `color` record exists and a field without an
+  error has no `Border` color binding, as before. None of these components has a visual recipe, so
+  nothing renders differently.
+
+- [#1830](https://github.com/adobe/spectrum-design-data/pull/1830) [`458a8a5`](https://github.com/adobe/spectrum-design-data/commit/458a8a5785ce10b782c6dc1b91de9710b38ddc92) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `variant` qualifier out of 46 `in-line-alert` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Background (Bold fill, Informative)` becomes
+  `Background (Bold fill)` with `variant: informative` pinned, and the same for the negative,
+  notice and positive variants and for the subtle and border fills. The `neutral` records keep an
+  explicit `variant: neutral` pin: the component also declares `accent`, which has no records,
+  so an unpinned neutral record would answer an `accent` request. `in-line-alert` has no visual
+  recipe, so nothing renders differently.
+
+- [#1839](https://github.com/adobe/spectrum-design-data/pull/1839) [`897182b`](https://github.com/adobe/spectrum-design-data/commit/897182b53d1a8f814881f27d1cc05771b40fdb02) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `variant` and `staticColor` qualifiers out of 10 `link` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Text (secondary)` becomes `Text` with `variant: secondary`
+  pinned, and `Text (white)` and `Text (black)` become `Text` with `staticColor` pinned. `primary`
+  is the default variant and the secondary records cover the only other value, so the four
+  `Text (primary)` records become the unpinned default of `Text`. `link` has no visual recipe, so
+  nothing renders differently.
+
+- [#1832](https://github.com/adobe/spectrum-design-data/pull/1832) [`4dc0b99`](https://github.com/adobe/spectrum-design-data/commit/4dc0b99e96c11388055f1b21a7c8f0af6cbf5706) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `orientation` and `isSelected` qualifiers out of 29 `select-box` relationship contexts
+  and into `scope.options` (rule SPEC-093). `Text (horizontal)` and `Text (vertical)` become `Text`
+  with `orientation` pinned, and `Border (selected)` becomes `Border` with `isSelected: true`
+  pinned. `orientation` defaults to `vertical`, so the vertical `font-weight` record is the only
+  unpinned one; every other vertical record keeps `orientation: vertical`, because no horizontal
+  record covers its property. `select-box` has no visual recipe, so nothing renders differently.
+
+- [#1845](https://github.com/adobe/spectrum-design-data/pull/1845) [`46c51e6`](https://github.com/adobe/spectrum-design-data/commit/46c51e6dc5d7a729f8836cf0a53434f428333fcd) Thanks [@GarthDB](https://github.com/GarthDB)! - Move option qualifiers out of 21 relationship contexts in ten small components and into
+  `scope.options` (rule SPEC-093): `tabs`, `action-group`, `button-group`, `illustrated-message` and
+  `swatch-group` pin `orientation` or `density`, `progress-bar` pins `staticColor: white`, and
+  `color-handle`, `search-field`, `field-label` and `help-text` pin `isDisabled`. A default pin is
+  dropped only where records for the same property cover every other declared value (the regular
+  `action-group` spacing). None of these components has a visual recipe, so nothing renders
+  differently.
+
+- [#1836](https://github.com/adobe/spectrum-design-data/pull/1836) [`2d4d639`](https://github.com/adobe/spectrum-design-data/commit/2d4d639c756af46abd6ecb0caff2a57ace6000c1) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `shape` and `isSelected` qualifiers out of 16 `swatch` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Size (square)` becomes `Size` with `shape: square` pinned,
+  `Width (rectangle)` becomes `Width` with `shape: rectangle` pinned, and `Border and inner border
+(selected)` becomes `Border and inner border` with `isSelected: true` pinned. `square` is the
+  default shape, but no `Width` or `Size` record for the other shape shares its property, so the
+  square pin stays. The structured `contextPart` field is dropped with the qualifier it held.
+  `swatch` has no visual recipe, so nothing renders differently.
+
+- [#1831](https://github.com/adobe/spectrum-design-data/pull/1831) [`56221a6`](https://github.com/adobe/spectrum-design-data/commit/56221a6e992a8923ac63562c6a4ac449159c222b) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `isEmphasized: false` on the four `switch` `background-color / Track` records for a selected
+  switch, and add one record for selected + disabled + not emphasized that uses the disabled token.
+  The records came from `Control (selected, non emphasized)`, and the emphasized fill lives under a
+  different key (`content-color / Control`), so an emphasized request could resolve to the
+  non-emphasized token. Selected + disabled still applies to both emphasis values. Render output is
+  unchanged.
+
+- [#1834](https://github.com/adobe/spectrum-design-data/pull/1834) [`7a1c9a1`](https://github.com/adobe/spectrum-design-data/commit/7a1c9a1f835887368a149d807fa7d3352702644e) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `density` qualifier out of 22 `table` relationship contexts and into `scope.options`
+  (rule SPEC-093). `Row height (minimum, compact density)` and `(minimum, spacious density)` become
+  `Row height (minimum)` with `density` pinned, and `Spacing (row top/bottom to text, compact
+density)` and `(… spacious density)` become `Spacing (row top/bottom to text)`. `regular` is the
+  default density and compact and spacious records cover the other values of that property, so the
+  regular `Row height (minimum)` records are unpinned. `table` has no visual recipe, so nothing
+  renders differently.
+
+- [#1841](https://github.com/adobe/spectrum-design-data/pull/1841) [`17451d4`](https://github.com/adobe/spectrum-design-data/commit/17451d427120a5a0e9148c5ae8223855cfad8e4b) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `variant` qualifier out of 7 `tooltip` relationship contexts and into `scope.options`
+  (rule SPEC-093).
+  - `Background (Informative)` and `Background (Negative)` become `Background` with
+    `variant: informative` or `variant: negative` pinned.
+  - `neutral` is the default variant and the other two declared values both have records, so the
+    `Background (Neutral)` record becomes the unpinned default of `Background`.
+
+  `tooltip` has no visual recipe, so nothing renders differently.
+
+- [#1835](https://github.com/adobe/spectrum-design-data/pull/1835) [`5ce2aa3`](https://github.com/adobe/spectrum-design-data/commit/5ce2aa3c4ed45b01a5fb6200d45ba478b6d9d8e9) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `selectionStyle` qualifier out of 18 `tree-view` relationship contexts and into
+  `scope.options` (rule SPEC-093). `Background (selected, highlight)`, `Border (selected,
+highlight)` and `Border width (selected, highlight)` pin `selectionStyle: highlight`;
+  `Spacing (edge to checkbox, checkbox)` pins `selectionStyle: checkbox`. `checkbox` is the default
+  style, and the color records of `Background (selected)` are unpinned because a highlight record
+  covers the other style. `Label and icon (selected, checkbox and highlight)` named both styles,
+  so it becomes `Label and icon (selected)` with no pin. `tree-view` has no visual recipe, so
+  nothing renders differently.
+
 ## 3.15.0
 
 ### Minor Changes

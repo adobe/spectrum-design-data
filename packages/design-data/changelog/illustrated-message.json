@@ -90,6 +90,25 @@
           "metadata": {"count":34,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"vertical-maximum-width","options":{"orientation":"vertical"}},"record":"7625ce65-6d91-5f36-a57c-906f8699eff9","name":"vertical-maximum-width[orientation=vertical]","fields":[{"path":"context","before":"Maximum width (Vertical variant)","after":"Maximum width"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"horizontal-maximum-width","options":{"orientation":"horizontal"}},"record":"71eac12b-9ce5-59df-8499-b9431b91be85","name":"horizontal-maximum-width[orientation=horizontal]","fields":[{"path":"context","before":"Maximum width (Horizontal variant)","after":"Maximum width"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier","scope.options.orientation"]}
+        }
+      ]
     }
   ]
 }

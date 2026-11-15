@@ -1,5 +1,15 @@
 # @adobe/design-data-spec
 
+## 4.20.0
+
+### Minor Changes
+
+- [#1846](https://github.com/adobe/spectrum-design-data/pull/1846) [`254adf1`](https://github.com/adobe/spectrum-design-data/commit/254adf11b565f4768a69340a5ccadc1e72303dbe) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the rule that an engine must refuse a relationship record whose `scope.options` holds a value
+  shape it does not understand, instead of ignoring the key. The understood shapes are an array of
+  strings for `state`, and a string, number or boolean (or an array of those) for every other
+  option. This lets a later version add a shape, such as an any-of across options, without an older
+  engine silently applying the record to every request.
+
 ## 4.19.0
 
 ### Minor Changes

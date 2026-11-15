@@ -83,6 +83,26 @@
           "metadata": {"count":3,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"horizontal"}},"record":"bb396a5c-8c22-5ee3-9d24-b27b07054a5a","name":"spacing[orientation=horizontal]","fields":[{"path":"context","before":"Spacing (horizontal, regular)","after":"Spacing"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"horizontal"}},"record":"7fe5c978-a252-502a-a4db-8ad34faf70c0","name":"spacing[orientation=horizontal]","fields":[{"path":"context","before":"Spacing (horizontal, regular)","after":"Spacing"}]},
+            {"id":"46c51e6d-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"horizontal","density":"compact"}},"record":"ebaccad6-94d5-5dd0-bf4c-e127e74149f5","name":"spacing[density=compact,orientation=horizontal]","fields":[{"path":"context","before":"Spacing (horizontal, compact)","after":"Spacing"}]}
+          ],
+          "metadata": {"count":3,"fields":["contextQualifier","scope.options.density","scope.options.orientation"]}
+        }
+      ]
     }
   ]
 }
