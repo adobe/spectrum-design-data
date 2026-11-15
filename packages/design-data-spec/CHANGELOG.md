@@ -1,5 +1,14 @@
 # @adobe/design-data-spec
 
+## 4.19.0
+
+### Minor Changes
+
+- [#1822](https://github.com/adobe/spectrum-design-data/pull/1822) [`5574cc4`](https://github.com/adobe/spectrum-design-data/commit/5574cc4b6835105742025f482c3305f5642dc6e3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rule SPEC-093 (`relationship-context-names-option`, warning). A relationship `context` that
+  names a component option value, such as `Control (selected, non emphasized)`, should pin that
+  option in `scope.options` instead. A record that pins no option is the default, so the default
+  value needs no label in the context. Existing data is held at a baseline until it is migrated.
+
 ## 4.18.0
 
 ### Minor Changes
