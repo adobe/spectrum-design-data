@@ -41,13 +41,14 @@ impl ValidationRule for Rule {
             let Some(component) = scope.get("component").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let Some(states) = scope
-                .get("options")
-                .and_then(|o| o.get("state"))
-                .and_then(|v| v.as_array())
-            else {
+            let Some(options) = scope.get("options").and_then(|o| o.as_object()) else {
                 continue;
             };
+            // Every state the record mentions, including the members of a state any-of.
+            let states = crate::scope::mentioned_states(options);
+            if states.is_empty() {
+                continue;
+            }
             let Some(comp) = comp_map.get(component) else {
                 continue; // SPEC-051 covers undeclared component
             };
@@ -68,7 +69,7 @@ impl ValidationRule for Rule {
             }
 
             let rel_label = serde_json::to_string(scope).unwrap_or_default();
-            for state in states.iter().filter_map(|s| s.as_str()) {
+            for state in states.iter().map(String::as_str) {
                 if !declared_states.contains(state) {
                     out.push(Diagnostic {
                         file: rel.file.clone(),
@@ -176,5 +177,23 @@ mod tests {
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn a_member_of_a_state_any_of_is_checked() {
+        let comp = json!({"name": "button", "states": [{"name": "hover"}, {"name": "down"}]});
+        let ok = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {
+                "state": [{"anyOf": ["hover", "down"]}]}}, "value": "#fff"}),
+            comp.clone(),
+        );
+        assert!(ok.is_empty(), "{ok:?}");
+        let bad = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {
+                "state": ["hover", {"anyOf": ["down", "dragging"]}]}}, "value": "#fff"}),
+            comp,
+        );
+        assert_eq!(bad.len(), 1);
+        assert!(bad[0].message.contains("dragging"));
     }
 }

@@ -941,16 +941,20 @@ impl<'a> CompileCx<'a> {
                 let r = &self.graph.relationships[i];
                 let scope = r.raw.get("scope");
                 if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                    refs.push((
-                        rf.to_string(),
-                        pinned_options(scope, &declared),
-                        scope_state_ids(scope),
-                        RelationshipRef {
-                            uuid: r.uuid.clone(),
-                            context: context.clone(),
-                            property: property.clone(),
-                        },
-                    ));
+                    // A record with an any-of is one candidate per alternative, so the solver
+                    // and the compiled format only ever see plain pins and states.
+                    for (options, states) in scope_variants(scope, &declared) {
+                        refs.push((
+                            rf.to_string(),
+                            options,
+                            states,
+                            RelationshipRef {
+                                uuid: r.uuid.clone(),
+                                context: context.clone(),
+                                property: property.clone(),
+                            },
+                        ));
+                    }
                 }
             }
             self.lookup
@@ -1707,29 +1711,36 @@ impl Ctx<'_> {
 /// state, `scale` and `colorScheme` are modes.
 const RELATIONSHIP_RESERVED_OPTIONS: &[&str] = &["state", "scale", "colorScheme"];
 
-/// State ids a relationship's `scope.options.state` pins, normalized like a token
-/// `name.state` (so `key-focus` is `keyboard-focus`). They replace the token's own.
-fn scope_state_ids(scope: Option<&Value>) -> Vec<String> {
-    let state = scope
-        .and_then(|s| s.get("options"))
-        .and_then(|o| o.get("state"));
-    name_states(state.map(|v| serde_json::json!({ "state": v })).as_ref())
-}
-
-/// The component options a relationship's `scope.options` pins, or `None` when it pins none.
-/// Keys the component does not declare as options are ignored.
-fn pinned_options(scope: Option<&Value>, declared: &[&str]) -> Option<Value> {
+/// The candidates a relationship's scope stands for, as `(component option pins, state ids)`.
+/// A record without an any-of (proposal 017) is one candidate. The pins keep only options the
+/// component declares and leave out `state`, `scale`, `colorScheme` and `anyOf`; the states are
+/// normalized like a token `name.state` (so `key-focus` is `keyboard-focus`) and replace the
+/// token's own.
+fn scope_variants(scope: Option<&Value>, declared: &[&str]) -> Vec<(Option<Value>, Vec<String>)> {
     let options = scope
         .and_then(|s| s.get("options"))
-        .and_then(Value::as_object)?;
-    let pinned: serde_json::Map<String, Value> = options
-        .iter()
-        .filter(|(k, _)| {
-            !RELATIONSHIP_RESERVED_OPTIONS.contains(&k.as_str()) && declared.contains(&k.as_str())
+        .and_then(Value::as_object);
+    let Some(options) = options else {
+        return vec![(None, Vec::new())];
+    };
+    crate::scope::variants(options)
+        .into_iter()
+        .map(|v| {
+            let pinned: serde_json::Map<String, Value> = v
+                .options
+                .into_iter()
+                .filter(|(k, _)| {
+                    !RELATIONSHIP_RESERVED_OPTIONS.contains(&k.as_str())
+                        && declared.contains(&k.as_str())
+                })
+                .collect();
+            let states = v.states.iter().flat_map(|s| state_ids(s)).collect();
+            (
+                (!pinned.is_empty()).then_some(Value::Object(pinned)),
+                states,
+            )
         })
-        .map(|(k, v)| (k.clone(), v.clone()))
-        .collect();
-    (!pinned.is_empty()).then_some(Value::Object(pinned))
+        .collect()
 }
 
 /// A token's `name.state` as individual state ids. Legacy compound ids such as
@@ -1778,7 +1789,10 @@ pub(crate) fn state_ids(raw: &str) -> Vec<String> {
 /// each true boolean option in `OPTION_STATES`.
 pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Value> {
     let mut states: Vec<Value> = match options.get("state") {
-        Some(Value::Array(a)) => a.clone(),
+        Some(Value::Array(_)) => crate::scope::mentioned_states(options)
+            .into_iter()
+            .map(Value::String)
+            .collect(),
         Some(v @ Value::String(_)) => vec![v.clone()],
         _ => Vec::new(),
     };
@@ -1955,10 +1969,10 @@ pub fn recipe_options_in(
         let Some(opts) = r.raw.pointer("/scope/options").and_then(Value::as_object) else {
             continue;
         };
-        for key in opts.keys() {
+        for key in crate::scope::option_names(opts) {
             let reserved = RELATIONSHIP_RESERVED_OPTIONS.contains(&key.as_str());
-            if !reserved && declared.contains(&key.as_str()) && !used.contains(key) {
-                used.push(key.clone());
+            if !reserved && declared.contains(&key.as_str()) && !used.contains(&key) {
+                used.push(key);
             }
         }
     }
@@ -5692,6 +5706,114 @@ mod tests {
             .map(|c| c["options"]["style"].as_str().unwrap().to_string())
             .collect();
         assert_eq!(pins, ["accent", "primary"]);
+    }
+
+    /// A `gadget` whose `color` relationships bind a plain token and a checked token.
+    fn any_of_graph(plain_scope: Value, checked_scope: Value) -> TokenGraph {
+        let mut g = TokenGraph::default();
+        g.components.push(crate::graph::ComponentRecord {
+            name: "gadget".into(),
+            file: PathBuf::from("components/gadget.json"),
+            raw: serde_json::json!({"name": "gadget", "options": {
+                "isSelected": {"type": "boolean", "default": false},
+                "isIndeterminate": {"type": "boolean", "default": false}}}),
+            layer: crate::graph::Layer::Foundation,
+        });
+        for (key, color) in [("plain", "#111111"), ("checked", "#0000ff")] {
+            g.tokens.insert(
+                key.into(),
+                crate::graph::TokenRecord {
+                    name: key.into(),
+                    file: PathBuf::from("tokens.json"),
+                    index: 0,
+                    schema_url: None,
+                    uuid: Some(key.into()),
+                    alias_target: None,
+                    raw: serde_json::json!({"value": color,
+                        "name": {"property": "color", "variant": key}}),
+                    layer: Default::default(),
+                },
+            );
+        }
+        let rel = |index: usize, rf: &str, options: Value| crate::graph::RelationshipRecord {
+            file: PathBuf::from("relationships/gadget.json"),
+            index,
+            uuid: Some(format!("rel-{index}")),
+            raw: serde_json::json!({"$ref": rf, "context": "Control",
+                "scope": {"component": "gadget", "property": "color", "options": options}}),
+        };
+        g.relationships = vec![
+            rel(0, "plain", plain_scope),
+            rel(1, "checked", checked_scope),
+        ];
+        g
+    }
+
+    fn any_of_fill(g: &TokenGraph, options: &[(&str, bool)], states: &[&str]) -> String {
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let mut r = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            states: states.iter().map(|s| s.to_string()).collect(),
+            ..Default::default()
+        };
+        for (k, v) in options {
+            r.options.insert((*k).into(), Value::Bool(*v));
+        }
+        let scene = build_scene(g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+        scene.nodes[0].fill.clone().unwrap()
+    }
+
+    #[test]
+    fn an_option_any_of_applies_for_each_alternative() {
+        let g = any_of_graph(
+            serde_json::json!({}),
+            serde_json::json!({"anyOf": [{"isSelected": true}, {"isIndeterminate": true}]}),
+        );
+        let fill = |o: &[(&str, bool)]| any_of_fill(&g, o, &[]);
+        assert_eq!(fill(&[]), "#111111");
+        assert_eq!(fill(&[("isSelected", true)]), "#0000ff");
+        assert_eq!(fill(&[("isIndeterminate", true)]), "#0000ff");
+        assert_eq!(
+            fill(&[("isSelected", true), ("isIndeterminate", true)]),
+            "#0000ff",
+            "both alternatives match and share a token, so there is no tie"
+        );
+
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let c = compile_recipe(&g, &recipe, "gadget", &[HashMap::new()]).unwrap();
+        let cands = c["variants"]["m||"]["box"]["props"]["fill"]["candidates"]
+            .as_array()
+            .unwrap();
+        assert_eq!(
+            cands.len(),
+            3,
+            "the any-of compiles to one candidate per alternative"
+        );
+        assert!(cands
+            .iter()
+            .all(|c| c.get("anyOf").is_none() && c["options"].get("anyOf").is_none()));
+    }
+
+    #[test]
+    fn a_state_any_of_applies_for_each_member() {
+        let g = any_of_graph(
+            serde_json::json!({"state": ["default"]}),
+            serde_json::json!({"state": [{"anyOf": ["hover", "down"]}]}),
+        );
+        let fill = |states: &[&str]| any_of_fill(&g, &[], states);
+        assert_eq!(fill(&[]), "#111111");
+        assert_eq!(fill(&["hover"]), "#0000ff");
+        assert_eq!(fill(&["down"]), "#0000ff");
     }
 
     #[test]

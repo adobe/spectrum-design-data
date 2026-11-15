@@ -69,11 +69,46 @@
             "state": {
               "type": "array",
               "items": {
-                "type": "string",
-                "pattern": "^[a-z][a-z0-9-]*$"
+                "oneOf": [
+                  { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "anyOf": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9-]*$"
+                        },
+                        "minItems": 2,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": ["anyOf"],
+                    "additionalProperties": false
+                  }
+                ]
               },
               "minItems": 1,
-              "description": "Ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+              "description": "Ordered array of state ids that must all be active (e.g. [\"hover\"], [\"selected\", \"hover\"]). An element may be { \"anyOf\": [state, ...] }: at least one of the listed states is active (proposal 017). Each id is validated against the component's declared states (SPEC-054)."
+            },
+            "anyOf": {
+              "type": "array",
+              "minItems": 2,
+              "uniqueItems": true,
+              "description": "An any-of across option conditions (proposal 017): the record applies when its other pins match and at least one alternative matches. Each alternative is an object of option pins in the same form as this object, without `state`, `scale`, `colorScheme` or `anyOf`. `anyOf` is reserved and cannot be a component option name.",
+              "items": {
+                "type": "object",
+                "minProperties": 1,
+                "propertyNames": {
+                  "not": { "enum": ["state", "scale", "colorScheme", "anyOf"] }
+                },
+                "additionalProperties": {
+                  "type": ["string", "boolean", "array"],
+                  "items": { "type": ["string", "boolean"] },
+                  "minItems": 1
+                }
+              }
             }
           },
           "additionalProperties": {

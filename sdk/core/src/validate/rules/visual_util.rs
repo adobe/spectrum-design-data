@@ -207,10 +207,18 @@ pub(crate) fn component_relationships<'a>(
                 .pointer("/scope/options")
                 .and_then(Value::as_object)
                 .map(|o| {
-                    o.keys()
-                        .filter(|k| k.as_str() != "state")
+                    // Every key but `state`, plus the options inside an any-of (proposal 017).
+                    let mut names: Vec<String> = o
+                        .keys()
+                        .filter(|k| k.as_str() != "state" && k.as_str() != crate::scope::ANY_OF)
                         .cloned()
-                        .collect()
+                        .collect();
+                    for n in crate::scope::option_names(o) {
+                        if !names.contains(&n) {
+                            names.push(n);
+                        }
+                    }
+                    names
                 })
                 .unwrap_or_default();
             RelTarget {

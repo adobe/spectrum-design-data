@@ -243,6 +243,35 @@ fn tied_groups(component: &Value, records: &[Value]) -> (Vec<String>, Vec<String
     (out, truncated)
 }
 
+/// Expand any-of scopes (proposal 017) into one record per alternative, as the solver does at
+/// compile time, so every record the guard reads has plain pins.
+fn expand_any_of(records: Vec<Value>) -> Vec<Value> {
+    let mut out = Vec::new();
+    for r in records {
+        let options = r
+            .pointer("/scope/options")
+            .and_then(Value::as_object)
+            .cloned();
+        let Some(options) = options else {
+            out.push(r);
+            continue;
+        };
+        for v in design_data_core::scope::variants(&options) {
+            let mut c = r.clone();
+            let mut o = v.options;
+            if !v.states.is_empty() {
+                o.insert(
+                    "state".into(),
+                    Value::Array(v.states.into_iter().map(Value::String).collect()),
+                );
+            }
+            c["scope"]["options"] = Value::Object(o);
+            out.push(c);
+        }
+    }
+    out
+}
+
 fn actual() -> (Counts, BTreeMap<String, Vec<String>>, Vec<String>) {
     let d = data_dir();
     let mut counts = Counts::new();
@@ -258,7 +287,7 @@ fn actual() -> (Counts, BTreeMap<String, Vec<String>>, Vec<String>) {
     for f in files {
         let name = f.file_stem().unwrap().to_string_lossy().to_string();
         let component = read_json(&d.join("components").join(format!("{name}.json")));
-        let records: Vec<Value> = read_json(&f).as_array().cloned().unwrap_or_default();
+        let records = expand_any_of(read_json(&f).as_array().cloned().unwrap_or_default());
         let (tied, truncated) = tied_groups(&component, &records);
         too_big.extend(truncated.into_iter().map(|g| format!("{name}: {g}")));
         if !tied.is_empty() {
@@ -458,7 +487,7 @@ fn actual_same_pin_set() -> (Counts, BTreeMap<String, Vec<String>>) {
     for f in files {
         let name = f.file_stem().unwrap().to_string_lossy().to_string();
         let component = read_json(&d.join("components").join(format!("{name}.json")));
-        let records: Vec<Value> = read_json(&f).as_array().cloned().unwrap_or_default();
+        let records = expand_any_of(read_json(&f).as_array().cloned().unwrap_or_default());
         let flagged = same_pin_set_groups(&component, &records, &targets);
         if !flagged.is_empty() {
             counts.insert(name.clone(), flagged.len());
@@ -697,5 +726,23 @@ mod tests {
             ("b", sig(&[("name.fields", json!(2))])),
         ]);
         assert_eq!(super::same_pin_set_groups(&comp(), &rs, &same).len(), 1);
+    }
+
+    #[test]
+    fn an_any_of_expands_into_the_pin_sets_of_its_alternatives() {
+        // An any-of record and a plain record with the same refs and different pins: after
+        // expansion the any-of is two pin sets, one equal to the plain pins, none a tie.
+        let any_of = rec(
+            json!({"anyOf": [{"isSelected": true}, {"isDisabled": true}]}),
+            "a",
+        );
+        let plain = rec(json!({"isSelected": true}), "a");
+        let expanded = super::expand_any_of(vec![any_of.clone(), plain.clone()]);
+        assert_eq!(expanded.len(), 3);
+        assert!(tied_groups(&comp(), &expanded).0.is_empty());
+        // The same any-of against a plain record with a different token is a possible tie.
+        let other = rec(json!({"isDisabled": true}), "b");
+        let expanded = super::expand_any_of(vec![any_of, other]);
+        assert_eq!(tied_groups(&comp(), &expanded).0.len(), 1);
     }
 }

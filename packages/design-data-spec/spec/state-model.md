@@ -136,6 +136,8 @@ The following algorithm is **NORMATIVE** for conforming validators and renderers
 
 7. If no candidate remains, the property falls back to the `default` state (or baseline tokens when no `default` state is declared).
 
+A relationship whose `scope.options` holds an any-of (see [Relationship format — Any-of](relationship-format.md#any-of)) is resolved as the set of records it stands for, all with the same token. Each expansion is a candidate in steps 3 to 6, so a record with `{ "anyOf": ["hover", "down"] }` is a candidate when hover or down is active, and with both active it ranks as the expansion with the higher interaction precedence. `prop` states never add precedence. Candidates that share a token do not tie.
+
 The result is the resolved appearance for the component instance. States that define no token for a property do not affect it, so a focus state that only binds a ring stroke never changes a fill.
 
 **Example:** A button is `hover`, `keyboard-focus` and `down` at once, with default precedences (50, 60, 70).

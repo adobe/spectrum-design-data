@@ -673,7 +673,7 @@ mod tests {
     #[test]
     fn a_manifest_relationship_the_engine_cannot_read_is_named_by_entry() {
         let bad = serde_json::json!({"scope": {"component": "x", "property": "y",
-            "options": {"anyOf": [{"a": true}, {"b": true}]}}, "uuid": "u", "$ref": "t"});
+            "options": {"future": {"min": 1}}}, "uuid": "u", "$ref": "t"});
         let ok = serde_json::json!({"scope": {"component": "x", "property": "y",
             "options": {"size": "m"}}, "uuid": "v", "$ref": "t"});
         let manifest = serde_json::json!({"extensions": {"relationships": [
