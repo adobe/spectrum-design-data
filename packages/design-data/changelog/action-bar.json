@@ -137,6 +137,31 @@
           "metadata": {"count":62,"fields":["contextPart","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.0",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-14",
+      "commit": "4d5b3fd12e0144d8c554a96e7176c5f8fe592e96",
+      "commits": [
+        {
+          "commit": "4d5b3fd12e0144d8c554a96e7176c5f8fe592e96",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1829,"title":"fix(design-data): pin the emphasized option in action-bar relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1829"},
+          "entries": [
+            {"id":"4d5b3fd1-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"content-color","options":{"isEmphasized":true}},"record":"fe4a3714-2b9c-5630-a3db-67f310657803","name":"content-color[isEmphasized=?]","fields":[{"path":"context","before":"Background (emphasized)","after":"Background"}]},
+            {"id":"4d5b3fd1-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":null},"record":"118c5be9-e4f1-5a09-b76e-9a681c1ae30e","name":"content-color","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":null},"record":"80a0ae3e-219f-5216-bd8c-d3f6287eab37","name":"content-color","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":null},"record":"7f0c0238-b081-572f-8f97-139eb989e766","name":"content-color","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":{"isEmphasized":true}},"record":"6095dcb4-02e3-5e29-97e5-92e58b2ffcf4","name":"content-color[isEmphasized=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":{"isEmphasized":true}},"record":"e57055a1-a322-5c10-8790-c65b863d2b38","name":"content-color[isEmphasized=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":{"isEmphasized":true}},"record":"9787caf6-3e38-5cd0-b4ea-4a6f78f6fab6","name":"content-color[isEmphasized=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control (selected)"}]},
+            {"id":"4d5b3fd1-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control (selected)"],"scope":{"property":"content-color","options":{"isEmphasized":true}},"record":"a28f0359-65bc-5bd4-b8fb-6498e4cfd58d","name":"content-color[isEmphasized=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control (selected)"}]}
+          ],
+          "metadata": {"count":8,"fields":["contextQualifier","scope.options.isEmphasized"]}
+        }
+      ]
     }
   ]
 }
