@@ -52,6 +52,9 @@ const MAX_ASSIGNMENTS: usize = 4096;
 const RANKED_NAME_FIELDS: &[&str] = &["state", "colorScheme", "scale", "size"];
 
 type Counts = BTreeMap<String, usize>;
+/// `(property, context)` -> pin set as JSON -> (the pins, the refs of the records that pin them).
+type PinGroups =
+    BTreeMap<(String, String), BTreeMap<String, (BTreeMap<String, Value>, BTreeSet<String>)>>;
 
 fn data_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data")
@@ -92,10 +95,7 @@ fn tied_groups(component: &Value, records: &[Value]) -> (Vec<String>, Vec<String
     let options = component.get("options").and_then(Value::as_object);
     let declared = |k: &str| !RESERVED.contains(&k) && options.is_some_and(|o| o.contains_key(k));
     // (property, context) -> pin set (as sorted JSON) -> refs
-    let mut groups: BTreeMap<
-        (String, String),
-        BTreeMap<String, (BTreeMap<String, Value>, BTreeSet<String>)>,
-    > = BTreeMap::new();
+    let mut groups: PinGroups = BTreeMap::new();
     for r in records {
         let Some(property) = r.pointer("/scope/property").and_then(Value::as_str) else {
             continue;
