@@ -384,6 +384,23 @@
           "metadata": {"count":258,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.13.1",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-14",
+      "commit": "8b06028b7d5cf01ec1d2bf824a8d8f06b0d954e8",
+      "commits": [
+        {
+          "commit": "8b06028b7d5cf01ec1d2bf824a8d8f06b0d954e8",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1816,"title":"fix(design-data): mark action-button and badge content icon optional","url":"https://github.com/adobe/spectrum-design-data/pull/1816"},
+          "entries": [
+            {"id":"8b06028b-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"badge/visual/parts/icon","name":"icon","fields":[{"path":"icon.optional","after":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

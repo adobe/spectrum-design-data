@@ -1,5 +1,12 @@
 # @adobe/spectrum-design-data
 
+## 3.13.1
+
+### Patch Changes
+
+- [#1816](https://github.com/adobe/spectrum-design-data/pull/1816) [`8b06028`](https://github.com/adobe/spectrum-design-data/commit/8b06028b7d5cf01ec1d2bf824a8d8f06b0d954e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Mark the action-button and badge content icon as optional, so the component explorer
+  offers a "None" icon choice. Figma and React Spectrum S2 let both omit the icon.
+
 ## 3.13.0
 
 ### Minor Changes
