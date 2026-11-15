@@ -40,17 +40,12 @@
     "button-group": 2,
     "checkbox": 25,
     "color-handle": 2,
-    "combo-box": 5,
     "field-label": 1,
     "help-text": 1,
     "illustrated-message": 2,
-    "number-field": 5,
-    "picker": 6,
     "progress-bar": 3,
     "search-field": 2,
     "swatch-group": 1,
-    "tabs": 4,
-    "text-area": 5,
-    "text-field": 5
+    "tabs": 4
   }
 }
