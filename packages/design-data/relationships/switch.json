@@ -1692,7 +1692,8 @@
       "part": "track",
       "property": "background-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isEmphasized": false
       }
     },
     "context": "Track",
@@ -1706,7 +1707,8 @@
       "part": "track",
       "property": "background-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isEmphasized": false
       }
     },
     "context": "Track",
@@ -1720,7 +1722,8 @@
       "part": "track",
       "property": "background-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isEmphasized": false
       }
     },
     "context": "Track",
@@ -1734,7 +1737,8 @@
       "part": "track",
       "property": "background-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isEmphasized": false
       }
     },
     "context": "Track",
@@ -1814,6 +1818,22 @@
     "contextRole": ["track"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "52e8e73b-21f2-5ae1-862d-8edc2fe38b5c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color",
+      "options": {
+        "isDisabled": true,
+        "isSelected": true,
+        "isEmphasized": false
+      }
+    },
+    "context": "Track",
+    "contextRole": ["track"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "2d87406b-503d-4b96-bd2e-2298ea8e0f33"
   },
   {
     "scope": {
