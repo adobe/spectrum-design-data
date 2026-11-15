@@ -130,12 +130,12 @@ The 25 flagged records keep their pins and gain the alternative: `Control (selec
 
 ### Alternatives
 
-| Option                                                                | Why not                                                                                                                                                                          |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Duplicate the records with `isIndeterminate: true`                    | Doubles the 25 records, and every future selected variant needs a hand-made duplicate. That is the redundancy the migration is removing, and it needs a parity lint to stay true. |
-| A derived option `isChecked` (true for selected or indeterminate)     | Needs computed options in the component declaration, plus solver and validation work. Worth it if a second component shows the same "A or B" pattern; only the checkbox does today.  |
-| Keep the qualifier in the context string (the pre-migration state)    | The status quo. It works, but it is the encoding SPEC-093 flags, and it hides the option from the resolver.                                                                       |
-| `allOf`, `not` and `xor` alongside `anyOf`                            | No data needs them. `allOf` is the existing AND, and no record says "not this option". Add them when a case appears.                                                              |
+| Option                                                             | Why not                                                                                                                                                                             |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Duplicate the records with `isIndeterminate: true`                 | Doubles the 25 records, and every future selected variant needs a hand-made duplicate. That is the redundancy the migration is removing, and it needs a parity lint to stay true.   |
+| A derived option `isChecked` (true for selected or indeterminate)  | Needs computed options in the component declaration, plus solver and validation work. Worth it if a second component shows the same "A or B" pattern; only the checkbox does today. |
+| Keep the qualifier in the context string (the pre-migration state) | The status quo. It works, but it is the encoding SPEC-093 flags, and it hides the option from the resolver.                                                                         |
+| `allOf`, `not` and `xor` alongside `anyOf`                         | No data needs them. `allOf` is the existing AND, and no record says "not this option". Add them when a case appears.                                                                |
 
 ### Rollout
 
@@ -143,47 +143,50 @@ Together with the state form, so there is one `anyOf` implementation: spec text 
 
 Readers of `scope.options` checked on 2026-11-15, with what each needs:
 
-| Reader                                                                                                              | Change needed                                                                                                                                                                       |
-| ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `relationship.schema.json`                                                                                          | New `anyOf` property in `scope.options`. Today every other key must be a string, boolean or array of them, so old validators reject the key.                                           |
-| `pinned_options`, `when_score`, `RELATIONSHIP_RESERVED_OPTIONS` in `sdk/core/src/visual.rs`                         | Read the alternatives and score as in "Option score". Today an undeclared key is dropped, so an unread `anyOf` would make a record apply to every request.                            |
-| SPEC-053 (`spec053.rs`), SPEC-065 (`spec065.rs`), `visual_util.rs`, SPEC-066, SPEC-076                              | Add `anyOf` to the reserved keys they already skip (`state`, `scale`, `colorScheme`) and check each alternative. SPEC-065 (error-constraint coverage) must expand alternatives.      |
-| `relationship_option_ties.rs` (guard)                                                                               | Expand alternatives into pin sets before comparing.                                                                                                                                 |
-| `record_diff.rs` (changelog)                                                                                        | None: it diffs `scope.options` as a whole, so an added or changed `anyOf` shows as a re-scope.                                                                                       |
-| `legacy.rs` (`ctr_to_legacy_token`), Figma `mapping/graph.rs`, `tools/token-mapping-analyzer/src/ctr-scope.js`      | Copy every option into a name object. Exclude `anyOf`. Not reachable for the checkbox: its records carry no `legacyKey`.                                                              |
-| `public_names.rs`, `graph.rs` scale lookup, `spec_sheet.rs` state lookup, `context_suggest.rs`                      | None: they read named keys (`state`, `scale`, `structure`).                                                                                                                          |
-| TUI (`sdk/tui/src/preview.rs`)                                                                                      | None. It loads relationships into a core `TokenGraph` and renders through core; it never reads `scope`.                                                                              |
-| MCP `design-data-mcp` query tool (`ComponentBindings` in `sdk/core/src/query.rs`)                                   | None. It reads only `/scope/component` and `$ref`.                                                                                                                                  |
-| MCP `design-data-agent-mcp` (`read.js`, `cascade-bootstrap.js`)                                                      | None in code: `read.js` merges the raw relationship JSON into the component it returns and `cascade-bootstrap.js` copies the files, so `anyOf` reaches an agent verbatim. Describe it in the skill and tool docs so an agent does not misread it. |
-| `sdk/wasm` (`dataset.rs`)                                                                                           | None. It embeds the relationship JSON and builds a core graph; validation, rendering and the legacy projection all run in core.                                                      |
-| `sdk/wasm-visual` slim engine, site `backend.js` and `index.html`                                                    | None, if `anyOf` is expanded when a recipe is compiled (Decision 4). The slim engine takes a precompiled variant whose candidates already carry a plain `options` pin map; it never sees `scope.options`. |
+| Reader                                                                                                         | Change needed                                                                                                                                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `relationship.schema.json`                                                                                     | New `anyOf` property in `scope.options`. Applied to platform-manifest fragments only, where an old schema rejects the object value. Foundation files are not schema-checked, so the loader gate (above) is what refuses them.                     |
+| `unsupported_scope_shape` (`sdk/core/src/graph.rs`, the loader gate)                                           | Add the `anyOf` shapes to the accepted list in PR 2. Everything not listed stays refused, so the list is deny-by-default and is not turned into an allow-by-absence check.                                                                        |
+| `pinned_options`, `when_score`, `RELATIONSHIP_RESERVED_OPTIONS` in `sdk/core/src/visual.rs`                    | Read the alternatives and score as in "Option score". Today an undeclared key is dropped, so an unread `anyOf` would make a record apply to every request.                                                                                        |
+| SPEC-053 (`spec053.rs`), SPEC-065 (`spec065.rs`), `visual_util.rs`, SPEC-066, SPEC-076                         | Add `anyOf` to the reserved keys they already skip (`state`, `scale`, `colorScheme`) and check each alternative. SPEC-065 (error-constraint coverage) must expand alternatives.                                                                   |
+| `relationship_option_ties.rs` (guard)                                                                          | Expand alternatives into pin sets before comparing.                                                                                                                                                                                               |
+| `record_diff.rs` (changelog)                                                                                   | None: it diffs `scope.options` as a whole, so an added or changed `anyOf` shows as a re-scope.                                                                                                                                                    |
+| `legacy.rs` (`ctr_to_legacy_token`), Figma `mapping/graph.rs`, `tools/token-mapping-analyzer/src/ctr-scope.js` | Copy every option into a name object. Exclude `anyOf`. Not reachable for the checkbox: its records carry no `legacyKey`.                                                                                                                          |
+| `public_names.rs`, `graph.rs` scale lookup, `spec_sheet.rs` state lookup, `context_suggest.rs`                 | None: they read named keys (`state`, `scale`, `structure`).                                                                                                                                                                                       |
+| TUI (`sdk/tui/src/preview.rs`)                                                                                 | None. It loads relationships into a core `TokenGraph` and renders through core; it never reads `scope`.                                                                                                                                           |
+| MCP `design-data-mcp` query tool (`ComponentBindings` in `sdk/core/src/query.rs`)                              | None. It reads only `/scope/component` and `$ref`.                                                                                                                                                                                                |
+| MCP `design-data-agent-mcp` (`read.js`, `cascade-bootstrap.js`)                                                | None in code: `read.js` merges the raw relationship JSON into the component it returns and `cascade-bootstrap.js` copies the files, so `anyOf` reaches an agent verbatim. Describe it in the skill and tool docs so an agent does not misread it. |
+| `sdk/wasm` (`dataset.rs`)                                                                                      | None. It embeds the relationship JSON and builds a core graph; validation, rendering and the legacy projection all run in core.                                                                                                                   |
+| `sdk/wasm-visual` slim engine, site `backend.js` and `index.html`                                              | None, if `anyOf` is expanded when a recipe is compiled (Decision 4). The slim engine takes a precompiled variant whose candidates already carry a plain `options` pin map; it never sees `scope.options`.                                         |
 
 ### New rules (provisional IDs)
 
 SPEC-093 is the last rule in `rules.yaml`, and no proposal or code uses a higher number. The IDs below are provisional and are claimed in `rules.yaml` when the rules are built (`p6ga.21.12`).
 
-| ID       | Name (provisional)                  | Severity | Checks                                                                                           |
-| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.                     |
-| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                                    |
-| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value).                  |
-| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.                          |
-| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).                   |
+| ID       | Name (provisional)                  | Severity | Checks                                                                          |
+| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.    |
+| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                   |
+| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value). |
+| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.         |
+| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).  |
 
 SPEC-053 and SPEC-054 gain their per-alternative and per-member checks and keep their IDs.
 
 ### Release ordering
 
-The two kinds of consumer fail in different directions, so the order matters.
+An engine that does not know `anyOf` must not run data that uses it. Two facts shape the fix, both checked in the code on 2026-11-15:
 
-* **Validators fail closed.** Today every `scope.options` value must be a string, boolean or array of them, so a validator that embeds an old `relationship.schema.json` rejects the object value `anyOf`. That is the safe direction, but it breaks `validate` for anyone who updates `@adobe/spectrum-design-data` before `@adobe/design-data-spec` and the SDK.
-* **The solver fails open.** An old solver drops `anyOf` and applies the record to every request.
+* **Foundation relationship files are not schema-checked.** `relationship.schema.json` is applied only to platform-manifest fragments (`FragmentValidation::RelationshipAdds`, `manifest.rs`). `validate` and every other command load `relationships/*.json` with `TokenGraph::load_spec_relationships`, which parses and does not validate. The data already holds 73 numeric pins (`scaleIndex`) that the schema forbids, and `validate` passes. So an old validator does **not** reject `anyOf` in foundation data.
+* **An engine that ignores an unknown pin fails open.** `pinned_options` keeps only declared options, so an engine that dropped `anyOf` would apply the record to every request.
 
-Nothing in this proposal enforces the order, so enforcement is an **acceptance item of `p6ga.21.12`**, not a follow-up: a revision gate in `dataset.json`.
+The gate is therefore a **shape gate in the loader**, not a `dataset.json` field (a `scopeRevision` was proposed first and replaced: platform manifests have no `dataset.json`, and a number is one more thing to keep in step). `unsupported_scope_shape` in `sdk/core/src/graph.rs` runs in `load_spec_relationships` and on every relationship a platform manifest adds or overrides. A record whose `scope.options` holds a value shape the engine does not understand is an **error** that names the file, record and key and says the data is newer than the engine. The check is deny-by-default: it accepts the shapes in use today (a string, number or boolean, or an array of those; `state` as an array of strings) and nothing else.
 
-* `dataset.json` carries a `scopeRevision` (absent is 1), which is 2 when any relationship record uses `anyOf` or an `anyOf` state element. This mirrors `layoutRevision` for recipes (#1804, `LAYOUT_REVISION` in `visual.rs`).
-* The CLI, the wasm engines and the MCP servers compare it with the `SCOPE_REVISION` they were built with. Data newer than the engine is an **error**, not a warning, because the failure it prevents is silent wrong output.
-* The gate cannot protect an engine released before the gate exists, which has no check. So the gate ships in an engine release before any data sets `scopeRevision: 2`, and the order is: (1) a release with the gate, (2) a release with `anyOf` support, which may be the same one, (3) the data release that uses it. Engines older than (1) stay exposed until they update.
+* **PR 1 (the gate).** Ships in its own release (CLI 0.37.0, the spec, `@adobe/design-data-wasm`), accepting only today's shapes. It changes no behavior for existing data.
+* **PR 2 (`anyOf`).** Teaches the schema, the loader's accepted shapes and the solver the new forms. Only then can data use them.
+* **Data.** The checkbox and breadcrumbs records that use `anyOf` ship in a later release, and their changeset names the engine release they need.
+
+The gate cannot protect an engine released before PR 1, which has no check and still fails open; those engines stay exposed until they update. That is why PR 1 ships and propagates before any data uses `anyOf`.
 
 ### Decisions
 
