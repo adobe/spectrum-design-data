@@ -486,7 +486,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background and Icon (Subtle fill)",
     "$ref": "cc79fbaf-a2e1-4761-82e7-1dbea52acee8",
@@ -495,7 +498,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background and Icon (Subtle fill)",
     "$ref": "9a9589e8-c08c-486f-a42f-8e139dedaa37",
@@ -504,7 +510,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background and Icon (Subtle fill)",
     "$ref": "64b2528e-4c1b-4850-a67f-8bd7bb05d36c",
@@ -702,7 +711,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background (Bold fill)",
     "contextRole": ["background"],
@@ -713,7 +725,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background (Bold fill)",
     "contextRole": ["background"],
@@ -724,7 +739,10 @@
   {
     "scope": {
       "component": "in-line-alert",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background (Bold fill)",
     "contextRole": ["background"],
