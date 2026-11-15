@@ -56,7 +56,6 @@
     "tabs": 4,
     "text-area": 5,
     "text-field": 5,
-    "tooltip": 7,
-    "tree-view": 20
+    "tooltip": 7
   }
 }

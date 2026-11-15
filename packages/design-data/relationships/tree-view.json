@@ -120,11 +120,14 @@
   {
     "scope": {
       "component": "tree-view",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "selectionStyle": "checkbox"
+      }
     },
-    "context": "Spacing (edge to checkbox, checkbox)",
+    "context": "Spacing (edge to checkbox)",
     "contextRole": ["spacing"],
-    "contextQualifier": "edge to checkbox, checkbox",
+    "contextQualifier": "edge to checkbox",
     "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
     "uuid": "55c1e072-6ae7-5afb-9eed-d6d75adaf1a8"
   },
@@ -230,11 +233,14 @@
   {
     "scope": {
       "component": "tree-view",
-      "property": "border-width"
+      "property": "border-width",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Border width (selected, highlight)",
+    "context": "Border width (selected)",
     "contextRole": ["border"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "8a8d1c1a-6792-5131-8a21-513fca05b580"
   },
@@ -361,9 +367,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "8f19994d-f49a-42ea-97bd-98ab1d76d02d",
     "uuid": "fba9e9ed-088d-5c95-8fdf-b704059ead08"
   },
@@ -372,9 +378,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "c325ed8f-8248-40c3-a0f0-efba57638f24",
     "uuid": "a5fbe4b7-c5fc-5087-ade8-ad395bc799fb"
   },
@@ -383,9 +389,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "128c4963-471a-44e3-9fb5-328d92d0266d",
     "uuid": "48bd927e-838c-56df-9ac2-6b25fb09fbee"
   },
@@ -394,9 +400,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
     "uuid": "6629a25d-c2be-5699-84b9-18e1f322d1c7"
   },
@@ -405,9 +411,9 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
     "uuid": "d58bff93-ce3b-54d2-aec6-f72d22a66218"
   },
@@ -416,64 +422,79 @@
       "component": "tree-view",
       "property": "color"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
+    "contextQualifier": "selected",
     "$ref": "93f433f2-2d0b-4225-8b39-b10000808360",
     "uuid": "db64ee48-d22b-54f6-a559-3a81d3de3394"
   },
   {
     "scope": {
       "component": "tree-view",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "65854450-ed1a-49ea-ab29-d257b8a0569e",
     "uuid": "e8fa0269-141b-5a64-aa5f-1ec49f05e25c"
   },
   {
     "scope": {
       "component": "tree-view",
-      "property": "opacity"
+      "property": "opacity",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "a83e023c-dc92-4b3e-8375-351bbf8ec9bb",
     "uuid": "1ea7f0c4-96b6-5f8f-a622-4d0cdef4e4c8"
   },
   {
     "scope": {
       "component": "tree-view",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "beaff99a-634a-4ce8-b2f4-54c63202d45b",
     "uuid": "52ab8770-f367-5c2c-9bd3-bbd405524677"
   },
   {
     "scope": {
       "component": "tree-view",
-      "property": "opacity"
+      "property": "opacity",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "2d07949e-416d-4ab6-b36e-15dde4df78b0",
     "uuid": "2fbbfcdc-72ef-530f-aab5-90a55025acd3"
   },
   {
     "scope": {
       "component": "tree-view",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "selectionStyle": "highlight"
+      }
     },
-    "context": "Border (selected, highlight)",
+    "context": "Border (selected)",
     "contextRole": ["border"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$ref": "9cfbf8bc-e4f3-4658-922e-9421e2ed126b",
     "uuid": "185a04cb-a1ad-54f8-887a-75a2ee8ba194"
   },
@@ -526,9 +547,9 @@
       "component": "tree-view",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon (selected)",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
+    "contextQualifier": "selected",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "0187ef2e-bcf3-5759-aa00-a12205b2eb61"
   },
@@ -537,9 +558,9 @@
       "component": "tree-view",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon (selected)",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
+    "contextQualifier": "selected",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "d278c4d2-6529-52af-916b-6902e350c266"
   },
@@ -548,9 +569,9 @@
       "component": "tree-view",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon (selected)",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
+    "contextQualifier": "selected",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "feb1f9ea-753f-5cf4-a127-c57c91d57e2b"
   },
@@ -559,9 +580,9 @@
       "component": "tree-view",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon (selected)",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
+    "contextQualifier": "selected",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "beded186-295f-59df-95fb-7ccb9300591b"
   },
@@ -1527,12 +1548,13 @@
       "options": {
         "state": ["selected"],
         "object": "background",
-        "emphasis": "emphasized"
+        "emphasis": "emphasized",
+        "selectionStyle": "highlight"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (selected)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "selected",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d31772fd-95f3-413d-ab20-826033d71938",
