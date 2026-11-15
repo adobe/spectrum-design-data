@@ -31,7 +31,8 @@
 //!
 //! A second check covers the case the first cannot see: records of one `(property, context)`
 //! with the *same* pin set and different `$ref`s. That is fine when the targets differ in a
-//! name field the solver ranks by (state, color scheme, scale, size, script), and an
+//! name field the solver ranks by (state, color scheme, scale, size, or the number of name
+//! fields), and an
 //! ambiguity when the targets are indistinguishable. The groups where they are indistinguishable
 //! are counted per component against `relationship-same-pin-set-baseline.json`. Context-less
 //! records are skipped, because a recipe cannot bind them (SPEC-092), and so are dangling
@@ -47,6 +48,8 @@ use serde_json::Value;
 
 const RESERVED: &[&str] = &["state", "scale", "colorScheme"];
 const MAX_ASSIGNMENTS: usize = 4096;
+/// Token name fields the solver ranks by (see `load_targets`).
+const RANKED_NAME_FIELDS: &[&str] = &["state", "colorScheme", "scale", "size"];
 
 type Counts = BTreeMap<String, usize>;
 
@@ -308,12 +311,13 @@ fn relationship_option_ties_match_the_baseline() {
     assert!(problems.is_empty(), "\n{}\n", problems.join("\n"));
 }
 
-/// What can tell two records with one pin set apart at solve time. The solver ranks a
-/// relationship's target by the target token's own name fields (state, color scheme, scale,
-/// and the `size` or `script` the recipe asks for), so two records separate when their targets
-/// differ in any name field, or in the scope of a relationship target. The record's own
-/// `state`, `scale` and `colorScheme` options count too. Only records whose targets are
-/// indistinguishable by all of that are flagged.
+/// What the solver can use to tell two records with one pin set apart. For relationship
+/// bindings it filters candidate tokens by the request's modes and size against the token name
+/// (`rank_by`), then prefers a candidate whose states match the request and, among equals, the
+/// token with fewer name fields (`rank_key`, `resolve_candidates` in `visual.rs`). Other name
+/// fields (`property`, `anatomy`, `colorRole`, `variant`, `script`, `scaleIndex` and so on) are
+/// not ranked, so a difference in them alone does not count. This is an over-approximation: a
+/// group can be counted that the solver still resolves through the recipe's `when` rules.
 type Signature = BTreeMap<String, Value>;
 
 fn pick(into: &mut Signature, from: Option<&Value>) {
@@ -343,21 +347,32 @@ fn load_targets() -> HashMap<String, Signature> {
             if path.extension().is_none_or(|e| e != "json") {
                 continue;
             }
-            let Some(items) = read_json(&path).as_array().cloned() else {
-                continue;
-            };
+            let items = read_json(&path)
+                .as_array()
+                .cloned()
+                .unwrap_or_else(|| panic!("{} is not a JSON array", path.display()));
             for item in items {
                 let Some(uuid) = item.get("uuid").and_then(Value::as_str) else {
                     continue;
                 };
                 let mut sig = Signature::new();
                 if let Some(name) = item.get("name").and_then(Value::as_object) {
-                    for (k, v) in name.iter().filter(|(k, _)| k.as_str() != "legacyKey") {
-                        sig.insert(format!("name.{k}"), v.clone());
+                    // What `rank_by` and `resolve_candidates` in `visual.rs` can use to pick
+                    // between tokens: the request's modes (colorScheme, scale), its size, the
+                    // token's state, and, among equals, the token with fewer name fields.
+                    for k in RANKED_NAME_FIELDS {
+                        if let Some(v) = name.get(*k) {
+                            sig.insert(format!("name.{k}"), v.clone());
+                        }
                     }
-                } else if let Some(scope) = item.get("scope").and_then(Value::as_object) {
-                    for (k, v) in scope {
-                        sig.insert(format!("scope.{k}"), v.clone());
+                    sig.insert("name.fields".into(), Value::from(name.len()));
+                } else if let Some(options) =
+                    item.pointer("/scope/options").and_then(Value::as_object)
+                {
+                    for k in RANKED_NAME_FIELDS {
+                        if let Some(v) = options.get(*k) {
+                            sig.insert(format!("name.{k}"), v.clone());
+                        }
                     }
                 }
                 out.insert(uuid.to_string(), sig);
@@ -367,8 +382,10 @@ fn load_targets() -> HashMap<String, Signature> {
     out
 }
 
-/// Groups where two records share a pin set, point at different tokens, and nothing in their
-/// own scope or their targets' state, color scheme or scale tells them apart.
+/// Groups where two records share a pin set, point at different tokens, and the solver has
+/// nothing to rank them by: no difference in the targets' `RANKED_NAME_FIELDS` or name-field
+/// count (or a relationship target's equivalent scope options), and none in the record's own
+/// `state`, `scale` or `colorScheme`.
 fn same_pin_set_groups(
     component: &Value,
     records: &[Value],
@@ -652,23 +669,32 @@ mod tests {
         let t = targets(&[
             (
                 "a",
-                sig(&[
-                    ("name.property", json!("padding")),
-                    ("name.size", json!("s")),
-                ]),
+                sig(&[("name.size", json!("s")), ("name.fields", json!(2))]),
             ),
             (
                 "b",
-                sig(&[
-                    ("name.property", json!("padding")),
-                    ("name.size", json!("l")),
-                ]),
+                sig(&[("name.size", json!("l")), ("name.fields", json!(2))]),
             ),
         ]);
         assert!(super::same_pin_set_groups(&comp(), &rs, &t).is_empty());
+    }
+
+    #[test]
+    fn fewer_name_fields_tells_them_apart_but_other_fields_do_not() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "b"),
+        ];
+        let by_count = targets(&[
+            ("a", sig(&[("name.fields", json!(2))])),
+            ("b", sig(&[("name.fields", json!(3))])),
+        ]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &by_count).is_empty());
+        // `load_targets` only keeps ranked fields, so tokens that differ by property or role
+        // have equal signatures and are flagged.
         let same = targets(&[
-            ("a", sig(&[("name.property", json!("padding"))])),
-            ("b", sig(&[("name.property", json!("padding"))])),
+            ("a", sig(&[("name.fields", json!(2))])),
+            ("b", sig(&[("name.fields", json!(2))])),
         ]);
         assert_eq!(super::same_pin_set_groups(&comp(), &rs, &same).len(), 1);
     }
