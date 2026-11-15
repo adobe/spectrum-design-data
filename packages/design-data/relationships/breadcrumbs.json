@@ -125,7 +125,7 @@
       "options": {
         "state": [
           {
-            "anyOf": ["hover", "down", "focus"]
+            "anyOf": ["hover", "down", "keyboard-focus"]
           }
         ]
       }
@@ -142,7 +142,7 @@
       "options": {
         "state": [
           {
-            "anyOf": ["hover", "down", "focus"]
+            "anyOf": ["hover", "down", "keyboard-focus"]
           }
         ]
       }
