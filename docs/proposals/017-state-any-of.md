@@ -39,14 +39,16 @@ A plain array of strings means exactly what it does now, so no existing record c
 
 ### Meaning
 
-A record with `anyOf` elements is equivalent to one record per combination of members, all with the same `$ref`. Implementations may evaluate it directly or expand it, but must give the same answer as the expansion.
+A record with `anyOf` elements is equivalent to one record per combination of members, all with the same `$ref`. Each expanded record's `state` is a **set**: a state that appears twice counts once. Implementations may evaluate the record directly or expand it, but must give the same answer as the expansion.
 
-For the resolution algorithm in `state-model.md`:
+The rule for the resolution algorithm in `state-model.md` is therefore one sentence: **a record with `anyOf` ranks as its best-ranked expanded record that is a candidate.** In terms of the steps:
 
-1. **Candidate test (step 3).** An `anyOf` element counts as active when any member is active.
-2. **Specificity (step 4).** An `anyOf` element counts as one matched state, however many of its members are active. The expansion agrees: it has one record per member, each matching one state.
-3. **Precedence (step 5).** An `anyOf` element contributes the precedence of its **highest-precedence active member**. With hover (50) and down (70) both active, the group counts as 70, the same as the `["down"]` record would in the expansion.
+1. **Candidate test (step 3).** The record is a candidate when at least one expanded record has only active states.
+2. **Specificity (step 4).** Count the distinct states of the best-ranked candidate expansion. An `anyOf` element adds one matched state however many of its members are active, because each expanded record picks one member.
+3. **Precedence (step 5).** Compare the matched `interaction` states of that same expanded record. `prop` states never contribute precedence, as in step 5 today. So `{ anyOf: ["selected", "hover"] }` with only `selected` active has an empty interaction list, like `["selected"]`; with both active it ranks as the `["hover"]` expansion, which beats `["selected"]`. With hover (50) and down (70) both active, `{ anyOf: ["hover", "down"] }` ranks as the `["down"]` expansion (70).
 4. **Ties (step 6).** Unchanged.
+
+Members of one `anyOf` do not need to share a trigger type.
 
 ### Where it applies
 
@@ -54,9 +56,9 @@ Only `relationship.scope.options.state`. Token `name.state` stays atomic, becaus
 
 ### Validation
 
-* **Layer 1** (`relationship.schema.json`): each `state` element is a string or `{ anyOf: [string, ...] }` with at least two members.
+* **Layer 1** (`relationship.schema.json`): each `state` element is a string or `{ anyOf: [string, ...] }` with `minItems: 2` and `uniqueItems: true`. A one-member `anyOf` or a repeated member fails the schema; write the id directly.
 * **SPEC-054** (`ctr-state-valid`) checks every member against the component's declared states, as it does for plain ids.
-* A member listed twice, or an `anyOf` with a single member, is a warning: write the id directly.
+* **New warning:** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
 * **New lint** (redundancy lint, `p6ga.21.4`): records with the same `$ref` and scope whose `state` differs in one element **SHOULD** be one record with `anyOf`.
 
 ## What this does not add
@@ -86,4 +88,4 @@ Consumers that read `scope.options.state` as an array of strings (the TUI, the q
 ## Open questions
 
 1. Should `anyOf` also be allowed with a single object instead of an array, `state: { "anyOf": [...] }`? That reads well for the common case but makes the field a union of two shapes. This draft keeps one shape, an array.
-2. Is "highest-precedence active member" the right rule for step 3 of the algorithm, or should a group take the precedence of its first listed member? The data's same-token merges give the same result either way.
+2. Mixed `prop` and `interaction` members in one `anyOf` are allowed by the expansion rule. Is that worth keeping, or should the schema require one trigger type per group? No record in the data mixes them today.
