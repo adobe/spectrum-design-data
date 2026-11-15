@@ -3528,7 +3528,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         })
     {
         cx.diags
-            .push("icon none with no label text leaves the component with nothing to draw".into());
+            .push("icon none with no label text leaves the component with no icon or label".into());
     }
 
     // Every icon node names the icon its part references and carries its compiled drawing.
@@ -5963,7 +5963,8 @@ mod tests {
             serde_json::json!({
                 "component": "gadget", "root": "box", "sizeScale": {"m": 100},
                 "parts": {
-                    "box": {"kind": "box", "children": ["mark"]},
+                    "box": {"kind": "box", "children": ["mark", "label"]},
+                    "label": {"kind": "text"},
                     "mark": {"kind": "icon", "icon": icon,
                         "visibleWhen": {"options": {"shown": visible}},
                         "props": {"width": {"value": 10}, "height": {"value": 10}}}
@@ -5985,6 +5986,14 @@ mod tests {
         };
         assert!(warned(true));
         assert!(!warned(false));
+        let labelled = RenderRequest {
+            label: "Go".into(),
+            ..req
+        };
+        assert!(build_scene(&g, &recipe(true), &labelled)
+            .unwrap()
+            .diagnostics
+            .is_empty());
     }
 
     #[test]
