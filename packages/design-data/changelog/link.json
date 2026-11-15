@@ -134,6 +134,33 @@
           "metadata": {"count":13,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "897182b53d1a8f814881f27d1cc05771b40fdb02",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1839,"title":"fix(design-data): pin variant and staticColor in link relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1839"},
+          "entries": [
+            {"id":"897182b5-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"8c3ab299-e6fb-5eb7-b46e-75a190854c72","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"23a4b93f-3011-55c0-9c6d-d2ccb65d6450","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"f832683f-d75c-5c7d-891f-7fc18fbb550f","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"b49a4e0c-4a0b-55c4-b286-31f24703e5cd","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"640cbe74-685b-519e-8b0c-6f13ac74191c","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"08fbc0f3-b812-5e2e-9d00-2b86677917fb","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"44523a87-0a64-5955-92fc-a54ce98f1952","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"6d62c862-f102-5157-acae-566ad3c44e13","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"context","before":"Text (white)","after":"Text"}]},
+            {"id":"897182b5-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"context","before":"Text (black)","after":"Text"}]}
+          ],
+          "metadata": {"count":10,"fields":["contextQualifier","scope.options.staticColor","scope.options.variant"]}
+        }
+      ]
     }
   ]
 }

@@ -315,6 +315,29 @@
           "metadata": {"count":151,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.11",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "d7bec9ffae3b320fa4ddccd612d812c99d36570e",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1843,"title":"fix(design-data): pin isError in field relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1843"},
+          "entries": [
+            {"id":"d7bec9ff-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"9be433e1-2682-58ef-9e1e-e6372e638acb","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"187d21ec-b950-599a-8d7d-d0e55a2deed9","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"772e4665-3827-5a57-99f7-c4b4be5c1fe6","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"504279a4-6147-5f07-86e6-bbe24050c073","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"0c3af433-6a4f-5416-a45a-a37718cb01d1","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"1f7ad1dd-62ee-5fe7-a0d1-3b73c0d1716e","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]}
+          ],
+          "metadata": {"count":6,"fields":["contextQualifier","scope.options.isError"]}
+        }
+      ]
     }
   ]
 }

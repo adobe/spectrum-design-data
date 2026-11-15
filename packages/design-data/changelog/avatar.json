@@ -131,6 +131,29 @@
           "metadata": {"count":6,"fields":["contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.7",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "bb7075540461e38400ed5ab7aeacda2632fb5e11",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1842,"title":"fix(design-data): pin image in avatar relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1842"},
+          "entries": [
+            {"id":"bb707554-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-family","options":{"image":"initials"}},"record":"06808c2e-2a8a-5c3d-aa0a-7bf18ee1dd7c","name":"font-family[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]},
+            {"id":"bb707554-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":{"image":"initials"}},"record":"aaf860d6-1ec5-5cb2-95e7-08ec5cad34f8","name":"font-weight[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]},
+            {"id":"bb707554-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-style","options":{"image":"initials"}},"record":"407e78e3-414a-54a5-9d64-058222f881ab","name":"font-style[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]},
+            {"id":"bb707554-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size-100","options":{"image":"initials"}},"record":"86cce3f6-9aa6-5dff-aabe-e486d4561346","name":"font-size-100[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]},
+            {"id":"bb707554-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size-100","options":{"image":"initials"}},"record":"5fc9df87-91dd-5f9d-b8a4-b06043f078b0","name":"font-size-100[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]},
+            {"id":"bb707554-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height-100","options":{"image":"initials"}},"record":"114c0d9b-d4ae-55ae-a320-82b8c4b16182","name":"line-height-100[image=initials]","fields":[{"path":"context","before":"Text (initials)","after":"Text"}]}
+          ],
+          "metadata": {"count":6,"fields":["contextQualifier","scope.options.image"]}
+        }
+      ]
     }
   ]
 }
