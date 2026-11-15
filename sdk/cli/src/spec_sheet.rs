@@ -521,15 +521,11 @@ impl Ctx<'_> {
                 // A group expands to several members but is one record.
                 let counted = usize::from(i == 0);
                 let inline = s(r, "$ref").is_none();
+                // Every state the record mentions; a state any-of lists each of its members.
                 let states: Vec<String> = scope
                     .get("options")
-                    .and_then(|o| o.get("state"))
-                    .and_then(Value::as_array)
-                    .map(|a| {
-                        a.iter()
-                            .filter_map(|v| v.as_str().map(String::from))
-                            .collect()
-                    })
+                    .and_then(Value::as_object)
+                    .map(design_data_core::scope::mentioned_states)
                     .unwrap_or_default();
                 let size = sizes
                     .get(prop)

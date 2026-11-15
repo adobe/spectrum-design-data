@@ -2,7 +2,7 @@
 
 # Proposal 017: "Any of these" in relationship scope (states, and options)
 
-**Status:** Draft. Nothing is built. Part A (states) was merged as a proposal; the addendum at the end (any-of across options) is new.\
+**Status:** Part A (states) and the addendum (any-of across options) are built in the engine, the schema and the spec text (PR 2a, `p6ga.21.12`). The rules SPEC-094 to 098, the conformance cases and the redundancy lint are PR 2b. No data uses an any-of yet; the gate (PR 1) releases first.\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md`, `spec/state-model.md` (resolution algorithm), `schemas/relationship.schema.json`, `sdk/core/src/visual.rs` (`scope_state_ids`, `resolve_candidates`), `validate/rules/spec054.rs`, 43 groups of relationship records in 6 components.\
 **Beads:** `p6ga.21.5` (this proposal), `p6ga.21.12` (build), `p6ga.21.13` (checkbox, the addendum), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
 
