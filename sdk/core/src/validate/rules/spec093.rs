@@ -14,7 +14,8 @@
 //! belongs in `scope.options`: a record that pins no option is the default, and a recipe
 //! picks the record that pins the most options matching its request. A parenthesised part
 //! that equals a declared option value (`primary`, `vertical`), a boolean option name
-//! (`emphasized`) or its negation (`non emphasized`) repeats that option inside the string.
+//! (`emphasized`) or its negation (`non emphasized`) repeats that option inside the string. A
+//! `size` value counts in its spelled form too (`m` is `medium`, `xl` is `extra large`).
 //! The word `default` is flagged only when a sibling record with the same main word names an
 //! option value, because `Width (default)` beside `Width (minimum)` names a measurement.
 //!
@@ -59,6 +60,20 @@ fn boolean_words(name: &str) -> String {
     out
 }
 
+/// The words a size value is spelled with in a context: `m` is `medium`, `xl` is `extra large`.
+fn size_words(value: &str) -> Option<&'static str> {
+    Some(match value {
+        "xxs" => "extra extra small",
+        "xs" => "extra small",
+        "s" => "small",
+        "m" => "medium",
+        "l" => "large",
+        "xl" => "extra large",
+        "xxl" => "extra extra large",
+        _ => return None,
+    })
+}
+
 /// What each normalized term would mean as an option pin: term → `option=value`.
 fn pins_of(options: &serde_json::Map<String, Value>) -> HashMap<String, String> {
     let mut pins = HashMap::new();
@@ -85,6 +100,11 @@ fn pins_of(options: &serde_json::Map<String, Value>) -> HashMap<String, String> 
                 other => other.to_string(),
             };
             let val_norm = norm(&val);
+            if name == "size" {
+                if let Some(words) = size_words(&val_norm) {
+                    pins.insert(words.to_string(), format!("{name}={val}"));
+                }
+            }
             for form in [
                 val_norm.clone(),
                 format!("{val_norm} {key}"),
@@ -293,6 +313,37 @@ mod tests {
             warnings(&["Control", "Spacing (icon to label)", "Width (minimum)"]),
             0
         );
+    }
+
+    #[test]
+    fn size_words_warn_for_a_size_option() {
+        let mut g = TokenGraph::from_records(vec![]);
+        g.components = vec![ComponentRecord {
+            layer: Default::default(),
+            file: PathBuf::from("c.json"),
+            name: "c".into(),
+            raw: json!({"name": "c", "options": {"size": {"type": "string", "default": "m",
+                "values": [{"value": "m"}, {"value": "xl"}]}}}),
+        }];
+        g.relationships = ["Height (medium)", "Gap (top, extra large)", "Gap (small)"]
+            .iter()
+            .enumerate()
+            .map(|(i, c)| RelationshipRecord {
+                file: PathBuf::from("c.json"),
+                index: i,
+                uuid: None,
+                raw: json!({"scope": {"component": "c", "property": "gap"}, "context": c, "$ref": "t"}),
+            })
+            .collect();
+        let exceptions = std::collections::HashSet::new();
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: RegistryData::embedded(),
+            manifest: None,
+        };
+        // "small" is not a declared value, so only the first two warn.
+        assert_eq!(Rule.validate(&ctx).len(), 2);
     }
 
     #[test]
