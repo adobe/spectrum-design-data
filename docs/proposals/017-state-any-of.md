@@ -1,10 +1,10 @@
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-# Proposal 017: "Any of these states" in relationship scope
+# Proposal 017: "Any of these" in relationship scope (states, and options)
 
-**Status:** Draft. Nothing is built.\
+**Status:** Draft. Nothing is built. Part A (states) was merged as a proposal; the addendum at the end (any-of across options) is new.\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md`, `spec/state-model.md` (resolution algorithm), `schemas/relationship.schema.json`, `sdk/core/src/visual.rs` (`scope_state_ids`, `resolve_candidates`), `validate/rules/spec054.rs`, 43 groups of relationship records in 6 components.\
-**Beads:** `p6ga.21.5` (this proposal), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
+**Beads:** `p6ga.21.5` (this proposal), `p6ga.21.12` (build), `p6ga.21.13` (checkbox, the addendum), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
 
 ## Problem
 
@@ -60,7 +60,7 @@ Only `relationship.scope.options.state`. Token `name.state` stays atomic, becaus
 
 * **Layer 1** (`relationship.schema.json`): each `state` element is a string or `{ anyOf: [string, ...] }` with `minItems: 2` and `uniqueItems: true`. A one-member `anyOf` or a repeated member fails the schema; write the id directly.
 * **SPEC-054** (`ctr-state-valid`) checks every member against the component's declared states, as it does for plain ids.
-* **New warning:** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
+* **New warning (SPEC-094, provisional):** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
 * **New lint** (redundancy lint, `p6ga.21.4`): records with the same `$ref` and scope whose `state` differs in one element **SHOULD** be one record with `anyOf`.
 
 ## What this does not add
@@ -91,3 +91,103 @@ Consumers that read `scope.options.state` as an array of strings (the TUI, the q
 
 1. Should `anyOf` also be allowed with a single object instead of an array, `state: { "anyOf": [...] }`? That reads well for the common case but makes the field a union of two shapes. This draft keeps one shape, an array.
 2. Mixed `prop` and `interaction` members in one `anyOf` are allowed by the expansion rule. Is that worth keeping, or should the schema require one trigger type per group? No record in the data mixes them today.
+
+## Addendum: any-of across options (checkbox)
+
+### Problem
+
+Option pins are per option: `scope.options` is an object, its keys are ANDed, and an array value means any of that one option's values. There is no way to say "`isSelected` or `isIndeterminate`".
+
+The checkbox needs it. An indeterminate checkbox is drawn like a selected one, and the checkbox recipe already fires its selected entries on `isSelected` OR `isIndeterminate` (see the `when` lists in `visuals/checkbox.json`). When the SPEC-093 migration pinned `isSelected: true` on the `Control (selected, …)` records, an indeterminate request (`isSelected: false`, `isIndeterminate: true`) matched none of them and the snapshots reported `no relationship 'background-color' / 'Control'`. The checkbox is the only component known to need it, and it holds 25 of the remaining SPEC-093 warnings (bead `p6ga.21.13`).
+
+### Proposal
+
+`scope.options` may carry a reserved key `anyOf`, an array of option-condition objects. Each object is an AND of pins in the same form as `scope.options` itself. The record applies when its other pins match **and** at least one alternative matches.
+
+```json
+{ "scope": { "options": { "isEmphasized": true, "anyOf": [{ "isSelected": true }, { "isIndeterminate": true }] } } }
+```
+
+reads: emphasized, and selected or indeterminate. Alternatives follow the shape of their container, so this and the state form stay parallel: states are an ordered all-of array whose elements may be `{ "anyOf": [...] }`, and options are an AND object that may hold an `anyOf` key.
+
+**Meaning.** A record with `anyOf` is equivalent to one record per alternative, all with the same `$ref`: the base pins plus that alternative. This is the same expansion rule as the state form, so the resolution rule stays one sentence: **a record with `anyOf` ranks as its best-ranked candidate expansion** (steps 4 and 5 of `state-model.md` for states, and the option score below).
+
+**Option score.** The solver scores a candidate by the number of its pins that match the request (an any-of array of values counts once) and drops it if one does not (`when_score` and `pinned_options` in `sdk/core/src/visual.rs`). The score of a record with `anyOf` is the score of its best matching expansion: the base pins plus the pin count of the best alternative that matches. For single-pin alternatives such as `isSelected: true` that is one point. The record is dropped when no alternative matches. A request that is both selected and indeterminate matches two alternatives, and the record scores the best of them, as the expansion does.
+
+**Rules.**
+
+* Layer 1: `anyOf` has `minItems: 2` and `uniqueItems: true`. Each item is an object of option pins with `minProperties: 1` (an empty alternative would always match and make the record unconditional), with no nested `anyOf` and no `state`, `scale` or `colorScheme` key (those are not options).
+* SPEC-053 checks each alternative's option names and values as it does the base pins.
+* Warning (SPEC-098, provisional): an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
+* Warning (SPEC-096, provisional): all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
+* Warning (SPEC-097, provisional): an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
+* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by SPEC-095 (provisional, error), a rule over component option names next to SPEC-037 and SPEC-038, so the reservation is checked and not only written down.
+* The tie guard (`relationship_option_ties`) expands `anyOf` into its alternatives before it compares pin sets. An `anyOf` record and a plain-pin record with the same base pins score the same for a request that matches both. If they point at different tokens the guard flags the pair as a tie, and that is intended: the author must say which wins, with a record that pins both. If they point at the same token it is not a tie, but the plain-pin record is a redundant duplicate, which the redundancy lint (`p6ga.21.4`) reports. The checkbox migration removes such duplicates.
+
+### Applied to the checkbox
+
+The 25 flagged records keep their pins and gain the alternative: `Control (selected, emphasized)` becomes `Control` with `isEmphasized: true` and `anyOf: [isSelected, isIndeterminate]`, and the other selected, disabled and error records likewise. The recipe's `when` lists for these bindings can collapse to one binding per role, which is what `p6ga.21.3` already asks for.
+
+### Alternatives
+
+| Option                                                                | Why not                                                                                                                                                                          |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Duplicate the records with `isIndeterminate: true`                    | Doubles the 25 records, and every future selected variant needs a hand-made duplicate. That is the redundancy the migration is removing, and it needs a parity lint to stay true. |
+| A derived option `isChecked` (true for selected or indeterminate)     | Needs computed options in the component declaration, plus solver and validation work. Worth it if a second component shows the same "A or B" pattern; only the checkbox does today.  |
+| Keep the qualifier in the context string (the pre-migration state)    | The status quo. It works, but it is the encoding SPEC-093 flags, and it hides the option from the resolver.                                                                       |
+| `allOf`, `not` and `xor` alongside `anyOf`                            | No data needs them. `allOf` is the existing AND, and no record says "not this option". Add them when a case appears.                                                              |
+
+### Rollout
+
+Together with the state form, so there is one `anyOf` implementation: spec text and schema, `pinned_options` and `when_score` in `visual.rs`, SPEC-053 and the new warnings, the guard, then the checkbox data and recipe (`p6ga.21.13`, `p6ga.21.3`).
+
+Readers of `scope.options` checked on 2026-11-15, with what each needs:
+
+| Reader                                                                                                              | Change needed                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `relationship.schema.json`                                                                                          | New `anyOf` property in `scope.options`. Today every other key must be a string, boolean or array of them, so old validators reject the key.                                           |
+| `pinned_options`, `when_score`, `RELATIONSHIP_RESERVED_OPTIONS` in `sdk/core/src/visual.rs`                         | Read the alternatives and score as in "Option score". Today an undeclared key is dropped, so an unread `anyOf` would make a record apply to every request.                            |
+| SPEC-053 (`spec053.rs`), SPEC-065 (`spec065.rs`), `visual_util.rs`, SPEC-066, SPEC-076                              | Add `anyOf` to the reserved keys they already skip (`state`, `scale`, `colorScheme`) and check each alternative. SPEC-065 (error-constraint coverage) must expand alternatives.      |
+| `relationship_option_ties.rs` (guard)                                                                               | Expand alternatives into pin sets before comparing.                                                                                                                                 |
+| `record_diff.rs` (changelog)                                                                                        | None: it diffs `scope.options` as a whole, so an added or changed `anyOf` shows as a re-scope.                                                                                       |
+| `legacy.rs` (`ctr_to_legacy_token`), Figma `mapping/graph.rs`, `tools/token-mapping-analyzer/src/ctr-scope.js`      | Copy every option into a name object. Exclude `anyOf`. Not reachable for the checkbox: its records carry no `legacyKey`.                                                              |
+| `public_names.rs`, `graph.rs` scale lookup, `spec_sheet.rs` state lookup, `context_suggest.rs`                      | None: they read named keys (`state`, `scale`, `structure`).                                                                                                                          |
+| TUI (`sdk/tui/src/preview.rs`)                                                                                      | None. It loads relationships into a core `TokenGraph` and renders through core; it never reads `scope`.                                                                              |
+| MCP `design-data-mcp` query tool (`ComponentBindings` in `sdk/core/src/query.rs`)                                   | None. It reads only `/scope/component` and `$ref`.                                                                                                                                  |
+| MCP `design-data-agent-mcp` (`read.js`, `cascade-bootstrap.js`)                                                      | None in code: `read.js` merges the raw relationship JSON into the component it returns and `cascade-bootstrap.js` copies the files, so `anyOf` reaches an agent verbatim. Describe it in the skill and tool docs so an agent does not misread it. |
+| `sdk/wasm` (`dataset.rs`)                                                                                           | None. It embeds the relationship JSON and builds a core graph; validation, rendering and the legacy projection all run in core.                                                      |
+| `sdk/wasm-visual` slim engine, site `backend.js` and `index.html`                                                    | None, if `anyOf` is expanded when a recipe is compiled (Decision 4). The slim engine takes a precompiled variant whose candidates already carry a plain `options` pin map; it never sees `scope.options`. |
+
+### New rules (provisional IDs)
+
+SPEC-093 is the last rule in `rules.yaml`, and no proposal or code uses a higher number. The IDs below are provisional and are claimed in `rules.yaml` when the rules are built (`p6ga.21.12`).
+
+| ID       | Name (provisional)                  | Severity | Checks                                                                                           |
+| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.                     |
+| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                                    |
+| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value).                  |
+| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.                          |
+| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).                   |
+
+SPEC-053 and SPEC-054 gain their per-alternative and per-member checks and keep their IDs.
+
+### Release ordering
+
+The two kinds of consumer fail in different directions, so the order matters.
+
+* **Validators fail closed.** Today every `scope.options` value must be a string, boolean or array of them, so a validator that embeds an old `relationship.schema.json` rejects the object value `anyOf`. That is the safe direction, but it breaks `validate` for anyone who updates `@adobe/spectrum-design-data` before `@adobe/design-data-spec` and the SDK.
+* **The solver fails open.** An old solver drops `anyOf` and applies the record to every request.
+
+Nothing in this proposal enforces the order, so enforcement is an **acceptance item of `p6ga.21.12`**, not a follow-up: a revision gate in `dataset.json`.
+
+* `dataset.json` carries a `scopeRevision` (absent is 1), which is 2 when any relationship record uses `anyOf` or an `anyOf` state element. This mirrors `layoutRevision` for recipes (#1804, `LAYOUT_REVISION` in `visual.rs`).
+* The CLI, the wasm engines and the MCP servers compare it with the `SCOPE_REVISION` they were built with. Data newer than the engine is an **error**, not a warning, because the failure it prevents is silent wrong output.
+* The gate cannot protect an engine released before the gate exists, which has no check. So the gate ships in an engine release before any data sets `scopeRevision: 2`, and the order is: (1) a release with the gate, (2) a release with `anyOf` support, which may be the same one, (3) the data release that uses it. Engines older than (1) stay exposed until they update.
+
+### Decisions
+
+1. **The key lives in `scope.options`, not in a sibling `scope.anyOf`.** The block already reserves `state`, `scale` and `colorScheme`, and the readers above already skip reserved keys, so `anyOf` extends that list; a sibling would also need `record_diff` to learn a new field and would add `anyOf` to the scope shape that `additionalProperties: false` rejects. Placement does **not** make an unupdated reader fail loudly: `pinned_options` keeps only declared options, so it would drop `anyOf` from `scope.options` as silently as it would ignore a sibling, and the record would then apply to every request. The protection is ordering, not placement. The schema, `pinned_options`, `when_score`, the rules and the guard land together, before any data uses `anyOf` (see Release ordering). `anyOf` is reserved as an option name, and no component declares one.
+2. **`when.options` in a recipe does not accept `anyOf`.** Once the relationships carry the OR, the checkbox recipe's duplicate `isSelected` and `isIndeterminate` entries collapse (`p6ga.21.3`). The `when` shape is shared with `visibleWhen` and read by `when_score`, SPEC-066, SPEC-075, SPEC-083 and the spec-sheet generator, so allowing `anyOf` there costs a second schema change and several rules. Revisit when a recipe has several such pairs that cannot move into relationships.
+3. **An alternative cannot pin `state`.** The state form above already says "any of these states", so a `state` in an option alternative would give two spellings and a cross-kind OR. It would also mix the two ranking steps: option scoring (`when_score`) and then state and precedence (steps 4 and 5). No record needs it.
+4. **`anyOf` is expanded when the recipe is compiled, so the compiled format and the slim engine do not change.** `compile_recipe` turns each relationship binding into ranked candidates, each carrying a plain `options` pin map, and `solve` (also inside the published `@adobe/design-data-visual` engine, which has no token graph) reads only that. Compiling a record with `anyOf` into one candidate per alternative, with the same value and token, needs no change to `CompiledVariant`, to `solve` or to the browser runtime, and no `LAYOUT_REVISION` bump. There is a precedent: a selector with `{option}` placeholders already compiles once per declared value, and each candidate pins that option (`compile_source`, `visual.rs`). Candidates that share a token do not report a tie, so a request that is both selected and indeterminate resolves cleanly. The cost is a few more compiled candidates.
