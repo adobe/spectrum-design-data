@@ -1,10 +1,10 @@
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-# Proposal 017: "Any of these states" in relationship scope
+# Proposal 017: "Any of these" in relationship scope (states, and options)
 
-**Status:** Draft. Nothing is built.\
+**Status:** Draft. Nothing is built. Part A (states) was merged as a proposal; the addendum at the end (any-of across options) is new.\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md`, `spec/state-model.md` (resolution algorithm), `schemas/relationship.schema.json`, `sdk/core/src/visual.rs` (`scope_state_ids`, `resolve_candidates`), `validate/rules/spec054.rs`, 43 groups of relationship records in 6 components.\
-**Beads:** `p6ga.21.5` (this proposal), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
+**Beads:** `p6ga.21.5` (this proposal), `p6ga.21.12` (build), `p6ga.21.13` (checkbox, the addendum), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
 
 ## Problem
 
@@ -91,3 +91,57 @@ Consumers that read `scope.options.state` as an array of strings (the TUI, the q
 
 1. Should `anyOf` also be allowed with a single object instead of an array, `state: { "anyOf": [...] }`? That reads well for the common case but makes the field a union of two shapes. This draft keeps one shape, an array.
 2. Mixed `prop` and `interaction` members in one `anyOf` are allowed by the expansion rule. Is that worth keeping, or should the schema require one trigger type per group? No record in the data mixes them today.
+
+## Addendum: any-of across options (checkbox)
+
+### Problem
+
+Option pins are per option: `scope.options` is an object, its keys are ANDed, and an array value means any of that one option's values. There is no way to say "`isSelected` or `isIndeterminate`".
+
+The checkbox needs it. An indeterminate checkbox is drawn like a selected one, and the checkbox recipe already fires its selected entries on `isSelected` OR `isIndeterminate` (see the `when` lists in `visuals/checkbox.json`). When the SPEC-093 migration pinned `isSelected: true` on the `Control (selected, …)` records, an indeterminate request (`isSelected: false`, `isIndeterminate: true`) matched none of them and the snapshots reported `no relationship 'background-color' / 'Control'`. The checkbox is the only component known to need it, and it holds 25 of the remaining SPEC-093 warnings (bead `p6ga.21.13`).
+
+### Proposal
+
+`scope.options` may carry a reserved key `anyOf`, an array of option-condition objects. Each object is an AND of pins in the same form as `scope.options` itself. The record applies when its other pins match **and** at least one alternative matches.
+
+```json
+{ "scope": { "options": { "isEmphasized": true, "anyOf": [{ "isSelected": true }, { "isIndeterminate": true }] } } }
+```
+
+reads: emphasized, and selected or indeterminate. Alternatives follow the shape of their container, so this and the state form stay parallel: states are an ordered all-of array whose elements may be `{ "anyOf": [...] }`, and options are an AND object that may hold an `anyOf` key.
+
+**Meaning.** A record with `anyOf` is equivalent to one record per alternative, all with the same `$ref`: the base pins plus that alternative. This is the same expansion rule as the state form, so the resolution rule stays one sentence: **a record with `anyOf` ranks as its best-ranked candidate expansion** (steps 4 and 5 of `state-model.md` for states, and the option score below).
+
+**Option score.** The solver scores a candidate by the number of its pins that match the request (an any-of array of values counts once) and drops it if one does not (`when_score` and `pinned_options` in `sdk/core/src/visual.rs`). The `anyOf` key adds one point when any alternative matches, and the record is dropped when none does. An alternative with several pins still adds one point, not one per pin, because the expansion's score would count those pins; so an alternative is scored by its pin count, as the expansion is. A request that is both selected and indeterminate matches two alternatives and scores the best of them, again as the expansion does.
+
+**Rules.**
+
+* Layer 1: `anyOf` has `minItems: 2` and `uniqueItems: true`. Each item is an object of option pins, with no nested `anyOf` and no `state`, `scale` or `colorScheme` key (those are not options).
+* SPEC-053 checks each alternative's option names and values as it does the base pins.
+* Warning: all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
+* Warning: an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
+* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name.
+* The tie guard (`relationship_option_ties`) expands `anyOf` into its alternatives before it compares pin sets.
+
+### Applied to the checkbox
+
+The 25 flagged records keep their pins and gain the alternative: `Control (selected, emphasized)` becomes `Control` with `isEmphasized: true` and `anyOf: [isSelected, isIndeterminate]`, and the other selected, disabled and error records likewise. The recipe's `when` lists for these bindings can collapse to one binding per role, which is what `p6ga.21.3` already asks for.
+
+### Alternatives
+
+| Option                                                                | Why not                                                                                                                                                                          |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Duplicate the records with `isIndeterminate: true`                    | Doubles the 25 records, and every future selected variant needs a hand-made duplicate. That is the redundancy the migration is removing, and it needs a parity lint to stay true. |
+| A derived option `isChecked` (true for selected or indeterminate)     | Needs computed options in the component declaration, plus solver and validation work. Worth it if a second component shows the same "A or B" pattern; only the checkbox does today.  |
+| Keep the qualifier in the context string (the pre-migration state)    | The status quo. It works, but it is the encoding SPEC-093 flags, and it hides the option from the resolver.                                                                       |
+| `allOf`, `not` and `xor` alongside `anyOf`                            | No data needs them. `allOf` is the existing AND, and no record says "not this option". Add them when a case appears.                                                              |
+
+### Rollout
+
+Together with the state form, so there is one `anyOf` implementation: spec text and schema, `pinned_options` and `when_score` in `visual.rs`, SPEC-053 and the new warnings, the guard, then the checkbox data and recipe (`p6ga.21.13`, `p6ga.21.3`). Consumers that read `scope.options` as a flat map of pins (the TUI, the query layer, the MCP, the Figma export, the spec-sheet generator) must be listed and checked first. This addendum has not listed them.
+
+### Open questions
+
+1. Is a reserved key inside `scope.options` the right place, or should the alternatives live next to it (`scope.anyOf`)? The reserved key keeps one object to read; a sibling avoids a key that a component could, in principle, declare.
+2. Should `when.options` in a recipe accept the same `anyOf`? A recipe already ORs with separate `when` entries, so it is not needed for the checkbox. Allowing it would make the two forms match.
+3. Should an alternative be allowed to pin `state`? Nothing needs it today, and it would mix the two kinds of any-of in one record.
