@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-098",
+      "severity": "warning",
+      "message_pattern": ".*alternative 1 pins no option the component declares.*"
+    }
+  ]
+}

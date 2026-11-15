@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-094",
+      "severity": "warning",
+      "message_pattern": ".*state 'down' in 2 elements.*"
+    }
+  ]
+}
