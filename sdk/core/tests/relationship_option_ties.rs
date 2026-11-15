@@ -258,7 +258,7 @@ fn relationship_option_ties_match_the_baseline() {
     let (actual, detail, too_big) = actual();
     assert!(
         too_big.is_empty(),
-        "\nThese groups have more than {MAX_ASSIGNMENTS} option combinations and were not checked for ties: {}\n",
+        "\nThese groups have more than {MAX_ASSIGNMENTS} option combinations (MAX_ASSIGNMENTS in this file) and were not checked for ties: {}\nUPDATE_OPTION_TIES_BASELINE does not clear this. Raise MAX_ASSIGNMENTS or split the group in the data.\n",
         too_big.join("; ")
     );
 
