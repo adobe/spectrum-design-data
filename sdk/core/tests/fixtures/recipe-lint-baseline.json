@@ -51,7 +51,6 @@
     "swatch-group": 1,
     "tabs": 4,
     "text-area": 5,
-    "text-field": 5,
-    "tooltip": 7
+    "text-field": 5
   }
 }
