@@ -35,16 +35,6 @@
     "toast": 3
   },
   "SPEC-093": {
-    "action-group": 3,
-    "button-group": 2,
-    "checkbox": 25,
-    "color-handle": 2,
-    "field-label": 1,
-    "help-text": 1,
-    "illustrated-message": 2,
-    "progress-bar": 3,
-    "search-field": 2,
-    "swatch-group": 1,
-    "tabs": 4
+    "checkbox": 25
   }
 }

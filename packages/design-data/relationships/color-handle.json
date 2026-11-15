@@ -126,22 +126,26 @@
   {
     "scope": {
       "component": "color-handle",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Border (disabled)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "50fc6fdf-dd00-5f34-8a43-8a520cc06352"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Border (disabled)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "disabled",
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "fc9a651b-7f49-5f3c-81aa-da578b69385e"
   },
