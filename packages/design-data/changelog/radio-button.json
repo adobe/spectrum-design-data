@@ -268,6 +268,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.14.0",
+      "version": "2.1.4",
+      "bump": "patch",
+      "date": "2026-11-14",
+      "commit": "87c45e3f76bcac529106629619d923544ca9d1e5",
+      "commits": [
+        {
+          "commit": "158ff7c6dcf3542a7c157546f84ac6f0bc52023b",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1825,"title":"fix(design-data): pin option qualifiers in radio-button and switch relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1825"},
+          "entries": [
+            {"id":"158ff7c6-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true}},"record":"6b55d3f1-23ea-5570-958c-8c85e4607a27","name":"background-color[isSelected=?]","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true}},"record":"13a06041-f43b-5322-b89a-03f82346201f","name":"background-color[isSelected=?]","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true}},"record":"f6e60d30-4c92-50ba-9a44-787df420f98b","name":"background-color[isSelected=?]","fields":[{"path":"context","before":"Control (selected, non emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"fa8b03c5-a144-515f-96e3-ce6f36320cc8","name":"content-color[isDisabled=?]","fields":[{"path":"context","before":"Control (disabled)","after":"Control"}]},
+            {"id":"158ff7c6-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true,"isEmphasized":true}},"record":"653e8c41-955d-57c2-98e2-e5ac5fcabb70","name":"background-color[isEmphasized=?,isSelected=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true,"isEmphasized":true}},"record":"80a4e21d-a780-5255-a6e0-4a1ff86b2d0c","name":"background-color[isEmphasized=?,isSelected=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true,"isEmphasized":true}},"record":"cbe517b0-5be6-5a7e-a1cf-019dad96382d","name":"background-color[isEmphasized=?,isSelected=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Control"],"scope":{"property":"background-color","options":{"isSelected":true,"isEmphasized":true}},"record":"1de2cafb-80f4-58f1-954d-a68c43b2dc5c","name":"background-color[isEmphasized=?,isSelected=?]","fields":[{"path":"context","before":"Control (selected, emphasized)","after":"Control"}]},
+            {"id":"158ff7c6-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"c8033b95-dcc5-5ee4-9e38-7313c4266ed8","name":"content-color[isDisabled=?]","fields":[{"path":"context","before":"Label (disabled)","after":"Label"}]},
+            {"id":"158ff7c6-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"radio-button/visual/parts/control","name":"control","fields":[{"path":"props.fill","before":[{"relationship":{"property":"color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"content-color","context":"Control (selected, non emphasized)"}},{"when":{"options":{"isSelected":true,"isEmphasized":true}},"relationship":{"property":"content-color","context":"Control (selected, emphasized)"}},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"content-color","context":"Control (disabled)"},"priority":10}],"after":[{"relationship":{"property":"color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"background-color","context":"Control"}},{"when":{"options":{"isSelected":true,"isEmphasized":true}},"relationship":{"property":"background-color","context":"Control"}},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"content-color","context":"Control"},"priority":10}]},{"path":"props.stroke","before":[{"relationship":{"property":"content-color","context":"Control"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"content-color","context":"Control (disabled)"},"priority":10}],"after":[{"relationship":{"property":"content-color","context":"Control"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"content-color","context":"Control"},"priority":10}]}]},
+            {"id":"158ff7c6-10","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"radio-button/visual/parts/label","name":"label","fields":[{"path":"props.color","before":[{"relationship":{"property":"content-color","context":"Label"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"content-color","context":"Label (disabled)"},"priority":10}],"after":[{"relationship":{"property":"content-color","context":"Label"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"content-color","context":"Label"},"priority":10}]}]}
+          ],
+          "metadata": {"count":9,"fields":["contextQualifier","scope.options.isDisabled","scope.options.isEmphasized","scope.options.isSelected","scope.property"]}
+        }
+      ]
     }
   ]
 }

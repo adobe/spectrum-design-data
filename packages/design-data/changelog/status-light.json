@@ -178,6 +178,42 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.14.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-14",
+      "commit": "87c45e3f76bcac529106629619d923544ca9d1e5",
+      "commits": [
+        {
+          "commit": "87c45e3f76bcac529106629619d923544ca9d1e5",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1793,"title":"fix(design-data): remove status-light container height and block-padding relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1793"},
+          "entries": [
+            {"id":"87c45e3f-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-75","options":null},"record":"03352eb9-9af2-59fe-9eb9-9b50a00bee3f","name":"component-height-75","fields":[],"before":"f70d4c16-f588-4fa9-9318-b7184a739193"},
+            {"id":"87c45e3f-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-75","options":null},"record":"4e90bd9c-58a0-5e7d-876c-481f555fb0db","name":"component-height-75","fields":[],"before":"5f363452-6317-4e7c-965a-291b3dfa8a8f"},
+            {"id":"87c45e3f-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"a6cc9f53-d5ee-5977-beee-21315ce0fd27","name":"component-height-100","fields":[],"before":"3d7afc6a-f66b-4033-9ed4-e60cde661a18"},
+            {"id":"87c45e3f-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"18cae166-39b3-5a39-8fff-7a1c96825571","name":"component-height-100","fields":[],"before":"5c31197d-0412-469d-a2dd-684efbd4b7e6"},
+            {"id":"87c45e3f-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-200","options":null},"record":"62bbd499-9f4e-5895-af4d-a5cf625fe5bf","name":"component-height-200","fields":[],"before":"8bf70f40-b282-4c5d-98f0-329245bdb6f9"},
+            {"id":"87c45e3f-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-200","options":null},"record":"6fbfd6b1-eff0-59c1-b13d-55153af57bd9","name":"component-height-200","fields":[],"before":"7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"},
+            {"id":"87c45e3f-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-300","options":null},"record":"f2bc1292-0854-5b9f-88f1-d2f1fc1afbf7","name":"component-height-300","fields":[],"before":"f4aaa7bb-e724-42ad-8ddf-934cc972995a"},
+            {"id":"87c45e3f-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-300","options":null},"record":"ecbaa2c0-ca34-5cb6-943e-a6989b624730","name":"component-height-300","fields":[],"before":"53c665a4-83ae-45f2-b90d-33ce52430b84"},
+            {"id":"87c45e3f-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"c6a9dbb9-a96e-5e23-b296-970d721ba6d9","name":"space-between","fields":[],"before":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"},
+            {"id":"87c45e3f-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"44971c04-831e-5a5f-b250-950887c02638","name":"space-between","fields":[],"before":"5741f832-f012-45bc-9e87-6e07ab2cb87f"},
+            {"id":"87c45e3f-10","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"2d63a43f-b3ae-5d38-8af8-a09d3ad4b1cb","name":"space-between","fields":[],"before":"cc707192-e70f-4965-8582-55fa97d02184"},
+            {"id":"87c45e3f-11","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top edge to dot)"],"scope":{"property":"space-between","options":null},"record":"aafd6589-c76b-5fff-81e9-51131ab3754c","name":"space-between","fields":[],"before":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"},
+            {"id":"87c45e3f-12","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"94fd88db-6341-5f6a-b3d1-857eb73ab1cf","name":"component-top-to-text-75","fields":[],"before":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"},
+            {"id":"87c45e3f-13","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"cf21cbff-0a76-576e-a596-2fa9ae45cd2f","name":"component-top-to-text-100","fields":[],"before":"5741f832-f012-45bc-9e87-6e07ab2cb87f"},
+            {"id":"87c45e3f-14","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-200","options":null},"record":"c0cc7415-f9e4-5aac-9088-ed5249c21376","name":"component-top-to-text-200","fields":[],"before":"cc707192-e70f-4965-8582-55fa97d02184"},
+            {"id":"87c45e3f-15","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-300","options":null},"record":"a19f9437-8353-58f0-abab-ee55a6c075f0","name":"component-top-to-text-300","fields":[],"before":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"},
+            {"id":"87c45e3f-16","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"3d72a391-854d-59ab-b18e-5598de848629","name":"component-bottom-to-text-75","fields":[],"before":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"},
+            {"id":"87c45e3f-17","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"61816daa-a16b-5b4a-9608-ecac3701d4e1","name":"component-bottom-to-text-100","fields":[],"before":"5741f832-f012-45bc-9e87-6e07ab2cb87f"},
+            {"id":"87c45e3f-18","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-200","options":null},"record":"7d65228c-af85-5d7d-a0c8-a9550cd3a074","name":"component-bottom-to-text-200","fields":[],"before":"cc707192-e70f-4965-8582-55fa97d02184"},
+            {"id":"87c45e3f-19","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-300","options":null},"record":"2880abd9-3623-5572-888a-80c54c6e6f93","name":"component-bottom-to-text-300","fields":[],"before":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}
+          ]
+        }
+      ]
     }
   ]
 }

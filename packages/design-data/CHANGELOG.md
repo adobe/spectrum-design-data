@@ -1,5 +1,30 @@
 # @adobe/spectrum-design-data
 
+## 3.14.0
+
+### Minor Changes
+
+- [#1825](https://github.com/adobe/spectrum-design-data/pull/1825) [`158ff7c`](https://github.com/adobe/spectrum-design-data/commit/158ff7c6dcf3542a7c157546f84ac6f0bc52023b) Thanks [@GarthDB](https://github.com/GarthDB)! - Move option qualifiers out of the relationship `context` strings of `radio-button` and `switch`
+  and into `scope.options` (rule SPEC-093).
+  - `Control (selected, non emphasized)` and `Control (selected, emphasized)` become `Control`
+    with `isSelected` and `isEmphasized` pinned. `Control (disabled)` and `Label (disabled)`
+    become `Control` and `Label` with `isDisabled` pinned.
+  - `switch` track fills move to the `Track` context.
+  - `radio-button` selected fills move from `content-color` to `background-color`, matching
+    `switch`.
+  - The foundation recipes are updated. Render output is unchanged.
+
+  A platform recipe that binds the old context strings must use the new ones. Record `uuid`
+  values do not change.
+
+- [#1793](https://github.com/adobe/spectrum-design-data/pull/1793) [`87c45e3`](https://github.com/adobe/spectrum-design-data/commit/87c45e3f76bcac529106629619d923544ca9d1e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the `status-light` "Height", "Spacing (top/bottom edge to label)" and
+  "Spacing (top edge to dot)" relationships (20 records). They described a 32px
+  control container with 7px of block padding, carried over from the deprecated
+  `status-light-top-to-dot-*` tokens. Both the official S2 - Web Figma file and
+  React Spectrum S2 render Status light as one text line (18px at M) with no
+  minimum height or block padding. A recipe should size it from the label line
+  height and place the dot by centring on the first line.
+
 ## 3.13.1
 
 ### Patch Changes
