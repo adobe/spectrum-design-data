@@ -60,7 +60,7 @@ Only `relationship.scope.options.state`. Token `name.state` stays atomic, becaus
 
 * **Layer 1** (`relationship.schema.json`): each `state` element is a string or `{ anyOf: [string, ...] }` with `minItems: 2` and `uniqueItems: true`. A one-member `anyOf` or a repeated member fails the schema; write the id directly.
 * **SPEC-054** (`ctr-state-valid`) checks every member against the component's declared states, as it does for plain ids.
-* **New warning:** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
+* **New warning (SPEC-094, provisional):** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
 * **New lint** (redundancy lint, `p6ga.21.4`): records with the same `$ref` and scope whose `state` differs in one element **SHOULD** be one record with `anyOf`.
 
 ## What this does not add
@@ -118,10 +118,10 @@ reads: emphasized, and selected or indeterminate. Alternatives follow the shape 
 
 * Layer 1: `anyOf` has `minItems: 2` and `uniqueItems: true`. Each item is an object of option pins with `minProperties: 1` (an empty alternative would always match and make the record unconditional), with no nested `anyOf` and no `state`, `scale` or `colorScheme` key (those are not options).
 * SPEC-053 checks each alternative's option names and values as it does the base pins.
-* Warning: an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
-* Warning: all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
-* Warning: an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
-* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by a new error rule over component option names (next to SPEC-037 and SPEC-038), so the reservation is checked and not only written down.
+* Warning (SPEC-098, provisional): an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
+* Warning (SPEC-096, provisional): all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
+* Warning (SPEC-097, provisional): an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
+* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by SPEC-095 (provisional, error), a rule over component option names next to SPEC-037 and SPEC-038, so the reservation is checked and not only written down.
 * The tie guard (`relationship_option_ties`) expands `anyOf` into its alternatives before it compares pin sets. An `anyOf` record and a plain-pin record with the same base pins score the same for a request that matches both. If they point at different tokens the guard flags the pair as a tie, and that is intended: the author must say which wins, with a record that pins both. If they point at the same token it is not a tie, but the plain-pin record is a redundant duplicate, which the redundancy lint (`p6ga.21.4`) reports. The checkbox migration removes such duplicates.
 
 ### Applied to the checkbox
@@ -158,6 +158,20 @@ Readers of `scope.options` checked on 2026-11-15, with what each needs:
 | `sdk/wasm` (`dataset.rs`)                                                                                           | None. It embeds the relationship JSON and builds a core graph; validation, rendering and the legacy projection all run in core.                                                      |
 | `sdk/wasm-visual` slim engine, site `backend.js` and `index.html`                                                    | None, if `anyOf` is expanded when a recipe is compiled (Decision 4). The slim engine takes a precompiled variant whose candidates already carry a plain `options` pin map; it never sees `scope.options`. |
 
+### New rules (provisional IDs)
+
+SPEC-093 is the last rule in `rules.yaml`, and no proposal or code uses a higher number. The IDs below are provisional and are claimed in `rules.yaml` when the rules are built (`p6ga.21.12`).
+
+| ID       | Name (provisional)                  | Severity | Checks                                                                                           |
+| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.                     |
+| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                                    |
+| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value).                  |
+| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.                          |
+| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).                   |
+
+SPEC-053 and SPEC-054 gain their per-alternative and per-member checks and keep their IDs.
+
 ### Release ordering
 
 The two kinds of consumer fail in different directions, so the order matters.
@@ -165,7 +179,11 @@ The two kinds of consumer fail in different directions, so the order matters.
 * **Validators fail closed.** Today every `scope.options` value must be a string, boolean or array of them, so a validator that embeds an old `relationship.schema.json` rejects the object value `anyOf`. That is the safe direction, but it breaks `validate` for anyone who updates `@adobe/spectrum-design-data` before `@adobe/design-data-spec` and the SDK.
 * **The solver fails open.** An old solver drops `anyOf` and applies the record to every request.
 
-So the spec, schema, SDK (core, CLI, wasm, wasm-visual) and MCP packages release first. Data that uses `anyOf` (the checkbox) ships in a later release, and its changeset names the spec and SDK release it needs. A version gate in `dataset.json`, like `layoutRevision` for recipes (#1804), would let a consumer warn when the data is newer than the engine; whether to add one is a follow-up for `p6ga.21.12`, not part of this addendum.
+Nothing in this proposal enforces the order, so enforcement is an **acceptance item of `p6ga.21.12`**, not a follow-up: a revision gate in `dataset.json`.
+
+* `dataset.json` carries a `scopeRevision` (absent is 1), which is 2 when any relationship record uses `anyOf` or an `anyOf` state element. This mirrors `layoutRevision` for recipes (#1804, `LAYOUT_REVISION` in `visual.rs`).
+* The CLI, the wasm engines and the MCP servers compare it with the `SCOPE_REVISION` they were built with. Data newer than the engine is an **error**, not a warning, because the failure it prevents is silent wrong output.
+* The gate cannot protect an engine released before the gate exists, which has no check. So the gate ships in an engine release before any data sets `scopeRevision: 2`, and the order is: (1) a release with the gate, (2) a release with `anyOf` support, which may be the same one, (3) the data release that uses it. Engines older than (1) stay exposed until they update.
 
 ### Decisions
 
