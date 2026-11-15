@@ -140,8 +140,8 @@
               }
             },
             "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, non emphasized)"
+              "property": "background-color",
+              "context": "Control"
             }
           },
           {
@@ -152,8 +152,8 @@
               }
             },
             "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "property": "background-color",
+              "context": "Control"
             }
           },
           {
@@ -165,7 +165,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Control (disabled)"
+              "context": "Control"
             },
             "priority": 10
           }
@@ -185,7 +185,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Control (disabled)"
+              "context": "Control"
             },
             "priority": 10
           }
@@ -271,7 +271,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Label (disabled)"
+              "context": "Label"
             },
             "priority": 10
           }

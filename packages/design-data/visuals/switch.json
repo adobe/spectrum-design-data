@@ -101,21 +101,21 @@
             "when": { "options": { "isSelected": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (selected, non emphasized)"
+              "context": "Track"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "context": "Control"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (disabled, selected)"
+              "context": "Track"
             },
             "priority": 10
           }
@@ -131,21 +131,21 @@
             "when": { "options": { "isSelected": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (selected, non emphasized)"
+              "context": "Track"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "context": "Control"
             }
           },
           {
             "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "border-color",
-              "context": "Control (disabled)"
+              "context": "Control"
             },
             "priority": 10
           },
@@ -153,7 +153,7 @@
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (disabled, selected)"
+              "context": "Track"
             },
             "priority": 11
           }
@@ -199,7 +199,7 @@
             "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (disabled)"
+              "context": "Control"
             },
             "priority": 10
           },
@@ -241,7 +241,7 @@
             "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Label (disabled)"
+              "context": "Label"
             },
             "priority": 10
           }
