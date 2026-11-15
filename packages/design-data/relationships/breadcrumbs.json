@@ -400,77 +400,98 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (breadcrumb item/title to separator icon, multiline)",
+    "context": "Spacing (breadcrumb item/title to separator icon)",
     "contextRole": ["spacing"],
-    "contextQualifier": "breadcrumb item/title to separator icon, multiline",
+    "contextQualifier": "breadcrumb item/title to separator icon",
     "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701",
     "uuid": "449501ee-604a-5f5b-a86c-506ec415e492"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (start and end edge to text, multiline)",
+    "context": "Spacing (start and end edge to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start and end edge to text, multiline",
+    "contextQualifier": "start and end edge to text",
     "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701",
     "uuid": "d770f0a5-928e-55b6-b558-1556d64ac974"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (top and bottom edge to text, multiline)",
+    "context": "Spacing (top and bottom edge to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top and bottom edge to text, multiline",
+    "contextQualifier": "top and bottom edge to text",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "67f8abc9-fa1e-52bf-8b54-f440708397b7"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (top and bottom edge to text, multiline)",
+    "context": "Spacing (top and bottom edge to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top and bottom edge to text, multiline",
+    "contextQualifier": "top and bottom edge to text",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "81ee9e5a-5ab8-50d1-a4f1-8c47e79ccba2"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (top edge to separator icon, multiline)",
+    "context": "Spacing (top edge to separator icon)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top edge to separator icon, multiline",
+    "contextQualifier": "top edge to separator icon",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "eda1af25-5f68-5d44-9b16-d368221b564f"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (separator icon to bottom text, multiline)",
+    "context": "Spacing (separator icon to bottom text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "separator icon to bottom text, multiline",
+    "contextQualifier": "separator icon to bottom text",
     "$ref": "dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7",
     "uuid": "8ffc999b-897e-553a-8ac8-2b03dedf1867"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Spacing (truncated menu button to bottom text, multiline)",
+    "context": "Spacing (truncated menu button to bottom text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "truncated menu button to bottom text, multiline",
+    "contextQualifier": "truncated menu button to bottom text",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
     "uuid": "b8bde66c-e67e-54a4-8a15-fbb9da3a14ad"
   },
@@ -488,44 +509,56 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-75"
+      "property": "font-size-75",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Text (breadcrumb item and title, multiline)",
+    "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
-    "contextQualifier": "breadcrumb item and title, multiline",
+    "contextQualifier": "breadcrumb item and title",
     "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
     "uuid": "f96502d4-d961-58fe-90db-7e6034a61468"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-75"
+      "property": "font-size-75",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Text (breadcrumb item and title, multiline)",
+    "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
-    "contextQualifier": "breadcrumb item and title, multiline",
+    "contextQualifier": "breadcrumb item and title",
     "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
     "uuid": "ee54c952-1a19-56e9-8af7-6f4e67b4441f"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-weight"
+      "property": "font-weight",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Text (breadcrumb item and title, multiline)",
+    "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
-    "contextQualifier": "breadcrumb item and title, multiline",
+    "contextQualifier": "breadcrumb item and title",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "0ab4fd78-cb57-5c42-ac1b-487e8421c225"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size"
+      "property": "font-size",
+      "options": {
+        "isMultiline": true
+      }
     },
-    "context": "Text (breadcrumb item and title, multiline)",
+    "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
-    "contextQualifier": "breadcrumb item and title, multiline",
+    "contextQualifier": "breadcrumb item and title",
     "$ref": "336e434c-9026-4bb3-96b1-5bb44376b868",
     "uuid": "c10fd0c4-be4d-5ec9-bf23-7cba7df077dc"
   },
