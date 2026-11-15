@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-096",
+      "severity": "warning",
+      "message_pattern": ".*use an array value for 'size'.*"
+    }
+  ]
+}

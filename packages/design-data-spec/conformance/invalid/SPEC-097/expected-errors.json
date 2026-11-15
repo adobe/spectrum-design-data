@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-097",
+      "severity": "warning",
+      "message_pattern": ".*alternative 1 is covered by alternative 0.*"
+    }
+  ]
+}

@@ -149,7 +149,7 @@ pub struct Variant {
 
 /// The values two pins on one option both allow, as a pin, or `None` when they share none.
 /// A pin is a value or an array that matches when any element does.
-fn intersect(a: &Value, b: &Value) -> Option<Value> {
+pub(crate) fn intersect(a: &Value, b: &Value) -> Option<Value> {
     let set = |v: &Value| -> Vec<Value> {
         match v {
             Value::Array(items) => items.clone(),
@@ -244,6 +244,45 @@ pub fn variants(options: &Map<String, Value>) -> Vec<Variant> {
         }
     }
     out
+}
+
+/// The alternative objects of `options.anyOf`, in order. Empty when there is none.
+pub fn any_of_alternatives(options: &Map<String, Value>) -> Vec<&Map<String, Value>> {
+    options
+        .get(ANY_OF)
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_object)
+        .collect()
+}
+
+/// Whether `options` uses an any-of: the `anyOf` key or a `state` element `{ "anyOf": [...] }`.
+pub fn uses_any_of(options: &Map<String, Value>) -> bool {
+    options.contains_key(ANY_OF)
+        || options
+            .get("state")
+            .and_then(Value::as_array)
+            .is_some_and(|a| a.iter().any(|e| state_alternatives(e).is_some()))
+}
+
+/// The states of each element of `options.state`, one list per element: a state string is a
+/// list of one, an `{ "anyOf": [...] }` element lists its members.
+pub fn state_elements(options: &Map<String, Value>) -> Vec<Vec<String>> {
+    options
+        .get("state")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .map(|e| match e.as_str() {
+            Some(s) => vec![s.to_string()],
+            None => state_alternatives(e)
+                .into_iter()
+                .flatten()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect(),
+        })
+        .collect()
 }
 
 /// The component option names `options` pins, including the ones inside an any-of.

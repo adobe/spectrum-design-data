@@ -43,6 +43,12 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-091` | SPEC-091 | Context main word is not in the registry (warning).                      |
 | `invalid/SPEC-092` | SPEC-092 | Live record has no context and no contexted record reaches it (warning). |
 | `invalid/SPEC-093` | SPEC-093 | Context names an option value that belongs in `scope.options` (warning). |
+| `invalid/SPEC-094` | SPEC-094 | A state is listed in more than one element of one state array (warning). |
+| `invalid/SPEC-095` | SPEC-095 | A component declares an option named `anyOf` (error).                    |
+| `invalid/SPEC-096` | SPEC-096 | An `anyOf` pins the same single option in every alternative (warning).   |
+| `invalid/SPEC-097` | SPEC-097 | An `anyOf` alternative repeats a pin or is covered by another (warning). |
+| `invalid/SPEC-098` | SPEC-098 | An `anyOf` alternative pins no declared option (warning).                |
+| `invalid/SPEC-099` | SPEC-099 | A relationship with a `legacyKey` uses an `anyOf` (error).               |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 
