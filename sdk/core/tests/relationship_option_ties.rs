@@ -29,18 +29,32 @@
 //! more than `MAX_ASSIGNMENTS` option combinations cannot be enumerated; the test fails and
 //! names it instead of reporting no tie.
 //!
+//! A second check covers the case the first cannot see: records of one `(property, context)`
+//! with the *same* pin set and different `$ref`s. That is fine when the targets differ in a
+//! name field the solver ranks by (state, color scheme, scale, size, or the number of name
+//! fields), and an
+//! ambiguity when the targets are indistinguishable. The groups where they are indistinguishable
+//! are counted per component against `relationship-same-pin-set-baseline.json`. Context-less
+//! records are skipped, because a recipe cannot bind them (SPEC-092), and so are dangling
+//! `$ref`s (SPEC-055).
+//!
 //! Regenerate after fixing a group with:
 //! `UPDATE_OPTION_TIES_BASELINE=1 cargo test -p design-data-core --test relationship_option_ties`
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::path::PathBuf;
 
 use serde_json::Value;
 
 const RESERVED: &[&str] = &["state", "scale", "colorScheme"];
 const MAX_ASSIGNMENTS: usize = 4096;
+/// Token name fields the solver ranks by (see `load_targets`).
+const RANKED_NAME_FIELDS: &[&str] = &["state", "colorScheme", "scale", "size"];
 
 type Counts = BTreeMap<String, usize>;
+/// `(property, context)` -> pin set as JSON -> (the pins, the refs of the records that pin them).
+type PinGroups =
+    BTreeMap<(String, String), BTreeMap<String, (BTreeMap<String, Value>, BTreeSet<String>)>>;
 
 fn data_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data")
@@ -49,6 +63,11 @@ fn data_dir() -> PathBuf {
 fn baseline_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests/fixtures/relationship-option-ties-baseline.json")
+}
+
+fn same_pin_set_baseline_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures/relationship-same-pin-set-baseline.json")
 }
 
 fn read_json(path: &std::path::Path) -> Value {
@@ -76,10 +95,7 @@ fn tied_groups(component: &Value, records: &[Value]) -> (Vec<String>, Vec<String
     let options = component.get("options").and_then(Value::as_object);
     let declared = |k: &str| !RESERVED.contains(&k) && options.is_some_and(|o| o.contains_key(k));
     // (property, context) -> pin set (as sorted JSON) -> refs
-    let mut groups: BTreeMap<
-        (String, String),
-        BTreeMap<String, (BTreeMap<String, Value>, BTreeSet<String>)>,
-    > = BTreeMap::new();
+    let mut groups: PinGroups = BTreeMap::new();
     for r in records {
         let Some(property) = r.pointer("/scope/property").and_then(Value::as_str) else {
             continue;
@@ -295,6 +311,200 @@ fn relationship_option_ties_match_the_baseline() {
     assert!(problems.is_empty(), "\n{}\n", problems.join("\n"));
 }
 
+/// What the solver can use to tell two records with one pin set apart. For relationship
+/// bindings it filters candidate tokens by the request's modes and size against the token name
+/// (`rank_by`), then prefers a candidate whose states match the request and, among equals, the
+/// token with fewer name fields (`rank_key`, `resolve_candidates` in `visual.rs`). Other name
+/// fields (`property`, `anatomy`, `colorRole`, `variant`, `script`, `scaleIndex` and so on) are
+/// not ranked, so a difference in them alone does not count. This is an over-approximation: a
+/// group can be counted that the solver still resolves through the recipe's `when` rules.
+type Signature = BTreeMap<String, Value>;
+
+fn pick(into: &mut Signature, from: Option<&Value>) {
+    let Some(obj) = from.and_then(Value::as_object) else {
+        return;
+    };
+    for k in RESERVED {
+        if let Some(v) = obj.get(*k) {
+            into.insert(format!("record.{k}"), v.clone());
+        }
+    }
+}
+
+/// Signature of every token and relationship by `uuid`: a token's name (without its
+/// `legacyKey`) or a relationship's scope.
+fn load_targets() -> HashMap<String, Signature> {
+    let d = data_dir();
+    let mut out = HashMap::new();
+    let mut dirs = vec![d.join("tokens"), d.join("relationships")];
+    dirs.retain(|p| p.is_dir());
+    for dir in dirs {
+        for entry in std::fs::read_dir(&dir)
+            .expect("read dir")
+            .filter_map(Result::ok)
+        {
+            let path = entry.path();
+            if path.extension().is_none_or(|e| e != "json") {
+                continue;
+            }
+            let items = read_json(&path)
+                .as_array()
+                .cloned()
+                .unwrap_or_else(|| panic!("{} is not a JSON array", path.display()));
+            for item in items {
+                let Some(uuid) = item.get("uuid").and_then(Value::as_str) else {
+                    continue;
+                };
+                let mut sig = Signature::new();
+                if let Some(name) = item.get("name").and_then(Value::as_object) {
+                    // What `rank_by` and `resolve_candidates` in `visual.rs` can use to pick
+                    // between tokens: the request's modes (colorScheme, scale), its size, the
+                    // token's state, and, among equals, the token with fewer name fields.
+                    for k in RANKED_NAME_FIELDS {
+                        if let Some(v) = name.get(*k) {
+                            sig.insert(format!("name.{k}"), v.clone());
+                        }
+                    }
+                    sig.insert("name.fields".into(), Value::from(name.len()));
+                } else if let Some(options) =
+                    item.pointer("/scope/options").and_then(Value::as_object)
+                {
+                    for k in RANKED_NAME_FIELDS {
+                        if let Some(v) = options.get(*k) {
+                            sig.insert(format!("name.{k}"), v.clone());
+                        }
+                    }
+                }
+                out.insert(uuid.to_string(), sig);
+            }
+        }
+    }
+    out
+}
+
+/// Groups where two records share a pin set, point at different tokens, and the solver has
+/// nothing to rank them by: no difference in the targets' `RANKED_NAME_FIELDS` or name-field
+/// count (or a relationship target's equivalent scope options), and none in the record's own
+/// `state`, `scale` or `colorScheme`.
+fn same_pin_set_groups(
+    component: &Value,
+    records: &[Value],
+    targets: &HashMap<String, Signature>,
+) -> Vec<String> {
+    let options = component.get("options").and_then(Value::as_object);
+    let declared = |k: &str| !RESERVED.contains(&k) && options.is_some_and(|o| o.contains_key(k));
+    type Entry = (String, Signature);
+    let mut groups: BTreeMap<(String, String, String), Vec<Entry>> = BTreeMap::new();
+    for r in records {
+        let (Some(property), Some(rf)) = (
+            r.pointer("/scope/property").and_then(Value::as_str),
+            r.get("$ref").and_then(Value::as_str),
+        ) else {
+            continue;
+        };
+        let context = r
+            .get("context")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .trim();
+        if context.is_empty() {
+            continue; // a recipe binds on (property, context): a context-less record is unreachable
+        }
+        let pins: BTreeMap<&String, &Value> = r
+            .pointer("/scope/options")
+            .and_then(Value::as_object)
+            .map(|o| o.iter().filter(|(k, _)| declared(k)).collect())
+            .unwrap_or_default();
+        // A dangling `$ref` (SPEC-055, p6ga.15) has no target to compare: treat each as distinct.
+        let mut sig = targets.get(rf).cloned().unwrap_or_else(|| {
+            Signature::from([("unresolved".to_string(), Value::String(rf.to_string()))])
+        });
+        pick(&mut sig, r.pointer("/scope/options"));
+        groups
+            .entry((
+                property.to_string(),
+                context.to_string(),
+                serde_json::to_string(&pins).unwrap(),
+            ))
+            .or_default()
+            .push((rf.to_string(), sig));
+    }
+    let mut out = BTreeSet::new();
+    for ((property, context, _), entries) in &groups {
+        'g: for (i, (ra, sa)) in entries.iter().enumerate() {
+            for (rb, sb) in &entries[i + 1..] {
+                if ra != rb && sa == sb {
+                    out.insert(format!("{property} / {context}"));
+                    break 'g;
+                }
+            }
+        }
+    }
+    out.into_iter().collect()
+}
+
+fn actual_same_pin_set() -> (Counts, BTreeMap<String, Vec<String>>) {
+    let d = data_dir();
+    let targets = load_targets();
+    let mut counts = Counts::new();
+    let mut detail = BTreeMap::new();
+    let mut files: Vec<_> = std::fs::read_dir(d.join("relationships"))
+        .expect("relationships dir")
+        .filter_map(Result::ok)
+        .map(|e| e.path())
+        .filter(|p| p.extension().is_some_and(|e| e == "json"))
+        .collect();
+    files.sort();
+    for f in files {
+        let name = f.file_stem().unwrap().to_string_lossy().to_string();
+        let component = read_json(&d.join("components").join(format!("{name}.json")));
+        let records: Vec<Value> = read_json(&f).as_array().cloned().unwrap_or_default();
+        let flagged = same_pin_set_groups(&component, &records, &targets);
+        if !flagged.is_empty() {
+            counts.insert(name.clone(), flagged.len());
+            detail.insert(name, flagged);
+        }
+    }
+    (counts, detail)
+}
+
+#[test]
+fn same_pin_set_duplicates_match_the_baseline() {
+    let (actual, detail) = actual_same_pin_set();
+
+    if std::env::var_os("UPDATE_OPTION_TIES_BASELINE").is_some() {
+        let json = serde_json::to_string_pretty(&actual).unwrap() + "\n";
+        std::fs::write(same_pin_set_baseline_path(), json).expect("write baseline");
+        return;
+    }
+
+    let baseline: Counts = serde_json::from_str(
+        &std::fs::read_to_string(same_pin_set_baseline_path())
+            .expect("read relationship-same-pin-set-baseline.json"),
+    )
+    .expect("parse baseline");
+
+    let mut problems = Vec::new();
+    let names: BTreeSet<&String> = actual.keys().chain(baseline.keys()).collect();
+    for name in names {
+        let (have, allowed) = (
+            actual.get(name).copied().unwrap_or(0),
+            baseline.get(name).copied().unwrap_or(0),
+        );
+        if have > allowed {
+            problems.push(format!(
+                "{name}: {have} groups where records share a pin set, point at different tokens and nothing tells them apart, baseline allows {allowed}. Groups: {}. Pin the option that separates them (for example size), or make the tokens differ by state, colorScheme or scale.",
+                detail.get(name).map(|d| d.join("; ")).unwrap_or_default()
+            ));
+        } else if have < allowed {
+            problems.push(format!(
+                "{name}: {have} such groups, baseline is {allowed}. Lower the baseline (UPDATE_OPTION_TIES_BASELINE=1) to keep the improvement."
+            ));
+        }
+    }
+    assert!(problems.is_empty(), "\n{}\n", problems.join("\n"));
+}
+
 #[cfg(test)]
 mod tests {
     use serde_json::json;
@@ -384,5 +594,108 @@ mod tests {
         let (tied, truncated) = tied_groups(&component, &rs);
         assert!(tied.is_empty());
         assert_eq!(truncated.len(), 1);
+    }
+
+    fn sig(pairs: &[(&str, serde_json::Value)]) -> super::Signature {
+        pairs
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.clone()))
+            .collect()
+    }
+
+    fn targets(
+        items: &[(&str, super::Signature)],
+    ) -> std::collections::HashMap<String, super::Signature> {
+        items
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn same_pin_set_with_nothing_to_tell_them_apart_is_flagged() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "b"),
+        ];
+        let t = targets(&[("a", sig(&[])), ("b", sig(&[]))]);
+        assert_eq!(super::same_pin_set_groups(&comp(), &rs, &t).len(), 1);
+    }
+
+    #[test]
+    fn a_token_scale_or_state_tells_them_apart() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "b"),
+        ];
+        let by_scale = targets(&[
+            ("a", sig(&[("name.scale", json!("desktop"))])),
+            ("b", sig(&[("name.scale", json!("mobile"))])),
+        ]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &by_scale).is_empty());
+        let by_state = targets(&[
+            ("a", sig(&[("name.state", json!(["hover"]))])),
+            ("b", sig(&[("name.state", json!(["down"]))])),
+        ]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &by_state).is_empty());
+    }
+
+    #[test]
+    fn a_state_on_the_record_scope_tells_them_apart() {
+        let rs = vec![
+            rec(json!({"isSelected": true, "state": ["hover"]}), "a"),
+            rec(json!({"isSelected": true, "state": ["down"]}), "b"),
+        ];
+        let t = targets(&[("a", sig(&[])), ("b", sig(&[]))]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &t).is_empty());
+    }
+
+    #[test]
+    fn the_same_ref_twice_is_not_flagged() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "a"),
+        ];
+        let t = targets(&[("a", sig(&[]))]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &t).is_empty());
+    }
+
+    #[test]
+    fn a_size_difference_in_the_token_name_tells_them_apart() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "b"),
+        ];
+        let t = targets(&[
+            (
+                "a",
+                sig(&[("name.size", json!("s")), ("name.fields", json!(2))]),
+            ),
+            (
+                "b",
+                sig(&[("name.size", json!("l")), ("name.fields", json!(2))]),
+            ),
+        ]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &t).is_empty());
+    }
+
+    #[test]
+    fn fewer_name_fields_tells_them_apart_but_other_fields_do_not() {
+        let rs = vec![
+            rec(json!({"isSelected": true}), "a"),
+            rec(json!({"isSelected": true}), "b"),
+        ];
+        let by_count = targets(&[
+            ("a", sig(&[("name.fields", json!(2))])),
+            ("b", sig(&[("name.fields", json!(3))])),
+        ]);
+        assert!(super::same_pin_set_groups(&comp(), &rs, &by_count).is_empty());
+        // `load_targets` only keeps ranked fields, so tokens that differ by property or role
+        // have equal signatures and are flagged.
+        let same = targets(&[
+            ("a", sig(&[("name.fields", json!(2))])),
+            ("b", sig(&[("name.fields", json!(2))])),
+        ]);
+        assert_eq!(super::same_pin_set_groups(&comp(), &rs, &same).len(), 1);
     }
 }
