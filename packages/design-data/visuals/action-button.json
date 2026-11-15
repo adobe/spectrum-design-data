@@ -232,7 +232,12 @@
     },
     "icon": {
       "kind": "icon",
-      "icon": { "set": "workflow", "name": "add", "content": true },
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
       "props": {
         "width": {
           "relationship": {
