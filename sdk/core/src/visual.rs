@@ -1786,13 +1786,11 @@ pub(crate) fn state_ids(raw: &str) -> Vec<String> {
 }
 
 /// The states a relationship `scope.options` selects: its `state` entries plus the state of
-/// each true boolean option in `OPTION_STATES`.
+/// each true boolean option in `OPTION_STATES`. Pass the options of one variant
+/// (`crate::scope::variants`), whose states are plain strings: an any-of is several records.
 pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Value> {
     let mut states: Vec<Value> = match options.get("state") {
-        Some(Value::Array(_)) => crate::scope::mentioned_states(options)
-            .into_iter()
-            .map(Value::String)
-            .collect(),
+        Some(Value::Array(a)) => a.clone(),
         Some(v @ Value::String(_)) => vec![v.clone()],
         _ => Vec::new(),
     };

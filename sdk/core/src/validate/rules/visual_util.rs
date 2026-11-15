@@ -171,7 +171,7 @@ pub(crate) fn component_relationships<'a>(
         .relationships
         .iter()
         .filter(|r| r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component))
-        .map(|r| {
+        .flat_map(|r| {
             let property = r
                 .raw
                 .pointer("/scope/property")
@@ -188,46 +188,49 @@ pub(crate) fn component_relationships<'a>(
                 .get("$ref")
                 .and_then(Value::as_str)
                 .and_then(|rf| graph.resolve_alias_key(rf));
-            let pinned: Vec<String> = r
-                .raw
-                .pointer("/scope/options")
-                .and_then(Value::as_object)
-                .map(crate::visual::scope_states)
-                .unwrap_or_default()
-                .iter()
-                .filter_map(|v| v.as_str().map(String::from))
-                .collect();
-            // A pinned relationship state replaces the bound token's own states.
-            let states = match token {
-                Some(t) if pinned.is_empty() => crate::visual::name_states(t.raw.get("name")),
-                _ => pinned,
+            // An any-of (proposal 017) is several records that share a token, so each variant
+            // is its own target, as it is for the solver.
+            let variants = match r.raw.pointer("/scope/options").and_then(Value::as_object) {
+                Some(options) => crate::scope::variants(options),
+                None => vec![crate::scope::Variant {
+                    options: Default::default(),
+                    states: Vec::new(),
+                }],
             };
-            let options = r
-                .raw
-                .pointer("/scope/options")
-                .and_then(Value::as_object)
-                .map(|o| {
-                    // Every key but `state`, plus the options inside an any-of (proposal 017).
-                    let mut names: Vec<String> = o
-                        .keys()
-                        .filter(|k| k.as_str() != "state" && k.as_str() != crate::scope::ANY_OF)
-                        .cloned()
-                        .collect();
-                    for n in crate::scope::option_names(o) {
-                        if !names.contains(&n) {
-                            names.push(n);
-                        }
+            variants
+                .into_iter()
+                .map(|v| {
+                    // The variant's options and states, with `scope_states` adding the state
+                    // of each true boolean option.
+                    let mut options = v.options.clone();
+                    if !v.states.is_empty() {
+                        options.insert(
+                            "state".into(),
+                            Value::Array(v.states.into_iter().map(Value::String).collect()),
+                        );
                     }
-                    names
+                    let pinned: Vec<String> = crate::visual::scope_states(&options)
+                        .iter()
+                        .filter_map(|x| x.as_str().map(String::from))
+                        .collect();
+                    // A pinned relationship state replaces the bound token's own states.
+                    let states = match token {
+                        Some(t) if pinned.is_empty() => {
+                            crate::visual::name_states(t.raw.get("name"))
+                        }
+                        _ => pinned,
+                    };
+                    // Every key but `state`.
+                    let options = v.options.keys().cloned().collect();
+                    RelTarget {
+                        property: property.clone(),
+                        context: context.clone(),
+                        token,
+                        states,
+                        options,
+                    }
                 })
-                .unwrap_or_default();
-            RelTarget {
-                property,
-                context,
-                token,
-                states,
-                options,
-            }
+                .collect::<Vec<_>>()
         })
         .collect()
 }
@@ -442,5 +445,45 @@ pub(crate) mod test_util {
             manifest: None,
         };
         rule.validate(&ctx)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::{component_relationships, test_util};
+
+    #[test]
+    fn an_any_of_is_one_target_per_variant_with_its_own_states() {
+        let g = test_util::graph(
+            json!({"name": "checkbox", "options": {}}),
+            vec![json!({
+                "scope": {"component": "checkbox", "property": "color", "options": {
+                    "state": ["selected", {"anyOf": ["hover", "down"]}],
+                    "anyOf": [{"isDisabled": true}, {"isError": true}]}},
+                "context": "Control", "$ref": "t"
+            })],
+            vec![],
+            vec![],
+        );
+        let targets = component_relationships(&g, "checkbox");
+        assert_eq!(targets.len(), 4);
+        let states: Vec<Vec<&str>> = targets
+            .iter()
+            .map(|t| t.states.iter().map(String::as_str).collect())
+            .collect();
+        // `isDisabled: true` adds the `disabled` state, and the alternatives never merge.
+        assert_eq!(
+            states,
+            vec![
+                vec!["selected", "hover", "disabled"],
+                vec!["selected", "down", "disabled"],
+                vec!["selected", "hover"],
+                vec!["selected", "down"],
+            ]
+        );
+        assert!(targets[0].options.contains(&"isDisabled".to_string()));
+        assert!(!targets[0].options.contains(&"isError".to_string()));
     }
 }

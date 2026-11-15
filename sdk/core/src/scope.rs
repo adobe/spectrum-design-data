@@ -147,6 +147,24 @@ pub struct Variant {
     pub states: Vec<String>,
 }
 
+/// The values two pins on one option both allow, as a pin, or `None` when they share none.
+/// A pin is a value or an array that matches when any element does.
+fn intersect(a: &Value, b: &Value) -> Option<Value> {
+    let set = |v: &Value| -> Vec<Value> {
+        match v {
+            Value::Array(items) => items.clone(),
+            other => vec![other.clone()],
+        }
+    };
+    let (sa, sb) = (set(a), set(b));
+    let shared: Vec<Value> = sa.into_iter().filter(|x| sb.contains(x)).collect();
+    match shared.len() {
+        0 => None,
+        1 => shared.into_iter().next(),
+        _ => Some(Value::Array(shared)),
+    }
+}
+
 /// The plain records `options` stands for. A record without any-of gives one variant. A
 /// combination whose alternative pins an option to a value that contradicts a base pin is
 /// dropped, because no request can match it.
@@ -195,15 +213,26 @@ pub fn variants(options: &Map<String, Value>) -> Vec<Variant> {
     }
     let mut out: Vec<Variant> = Vec::new();
     for alt in &alternatives {
-        let conflict = alt.iter().any(|(k, v)| match (base.get(k), v) {
-            (Some(b), v) if scalar(b) && scalar(v) => b != v,
-            _ => false,
-        });
+        let mut pins = base.clone();
+        let mut conflict = false;
+        for (k, v) in alt {
+            match base.get(k) {
+                // The alternative narrows a base pin: both must hold, so the pin is the values
+                // they share, and an empty overlap matches no request.
+                Some(b) => match intersect(b, v) {
+                    Some(both) => {
+                        pins.insert(k.clone(), both);
+                    }
+                    None => conflict = true,
+                },
+                None => {
+                    pins.insert(k.clone(), v.clone());
+                }
+            }
+        }
         if conflict {
             continue;
         }
-        let mut pins = base.clone();
-        pins.extend(alt.iter().map(|(k, v)| (k.clone(), v.clone())));
         for states in &state_combos {
             let v = Variant {
                 options: pins.clone(),
@@ -432,5 +461,15 @@ mod tests {
             mentioned_states(&o),
             vec!["selected".to_string(), "hover".into(), "down".into()]
         );
+    }
+
+    #[test]
+    fn an_alternative_narrows_an_array_pin_to_the_values_they_share() {
+        let v = variants(&obj(json!({
+            "size": ["s", "m"],
+            "anyOf": [{"size": "m"}, {"size": "l"}, {"size": ["m", "l"]}]
+        })));
+        assert_eq!(v.len(), 1, "{v:?}");
+        assert_eq!(v[0].options, obj(json!({"size": "m"})));
     }
 }
