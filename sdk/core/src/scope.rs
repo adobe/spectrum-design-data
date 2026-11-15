@@ -149,7 +149,7 @@ pub struct Variant {
 
 /// The values two pins on one option both allow, as a pin, or `None` when they share none.
 /// A pin is a value or an array that matches when any element does.
-fn intersect(a: &Value, b: &Value) -> Option<Value> {
+pub(crate) fn intersect(a: &Value, b: &Value) -> Option<Value> {
     let set = |v: &Value| -> Vec<Value> {
         match v {
             Value::Array(items) => items.clone(),

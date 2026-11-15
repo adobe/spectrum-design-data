@@ -10,7 +10,8 @@
 
 //! SPEC-097: relationship-any-of-redundant
 //!
-//! An alternative that adds nothing: it repeats a pin the record already has, or it equals or
+//! An alternative that adds nothing or can never match: it repeats a pin the record already has,
+//! contradicts one (it can never match), or it equals or
 //! contains another alternative (the larger one is covered by the smaller, because an alternative
 //! is an AND and the any-of is an OR). Proposal 017.
 //!
@@ -56,25 +57,46 @@ impl ValidationRule for Rule {
                 });
             };
             for (i, alt) in alts.iter().enumerate() {
-                if let Some(key) = alt.keys().find(|k| {
-                    k.as_str() != crate::scope::ANY_OF
-                        && k.as_str() != "state"
-                        && options.contains_key(k.as_str())
-                }) {
-                    warn(format!(
-                        "Relationship anyOf alternative {i} repeats the record's own pin '{key}'; remove it from the alternative"
-                    ));
-                }
-                for (j, other) in alts.iter().enumerate() {
-                    // The first of two equal alternatives is kept; a strict superset is covered.
-                    let redundant =
-                        i != j && covers(other, alt) && (alt.len() > other.len() || j < i);
-                    if redundant {
-                        warn(format!(
-                            "Relationship anyOf alternative {i} is covered by alternative {j}; remove it"
-                        ));
-                        break;
+                // One diagnostic per alternative: a pin that clashes with the record's own is
+                // the more serious finding, then a repeat, then an alternative another covers.
+                let mut repeats = None;
+                let mut contradicts = None;
+                for (key, value) in alt
+                    .iter()
+                    .filter(|(k, _)| k.as_str() != crate::scope::ANY_OF && k.as_str() != "state")
+                {
+                    let Some(own) = options.get(key.as_str()) else {
+                        continue;
+                    };
+                    match crate::scope::intersect(own, value) {
+                        None => contradicts = contradicts.or(Some(key)),
+                        Some(_) if own == value => repeats = repeats.or(Some(key)),
+                        // A partial overlap narrows the record's pin, which is meaningful.
+                        Some(_) => {}
                     }
+                }
+                let message = if let Some(key) = contradicts {
+                    Some(format!(
+                        "Relationship anyOf alternative {i} contradicts the record's own pin '{key}', so it can never match; fix or remove it"
+                    ))
+                } else if let Some(key) = repeats {
+                    Some(format!(
+                        "Relationship anyOf alternative {i} repeats the record's own pin '{key}'; remove it from the alternative"
+                    ))
+                } else {
+                    alts.iter().enumerate().find_map(|(j, other)| {
+                        // The first of two equal alternatives is kept; a strict superset is covered.
+                        let redundant =
+                            i != j && covers(other, alt) && (alt.len() > other.len() || j < i);
+                        redundant.then(|| {
+                            format!(
+                                "Relationship anyOf alternative {i} is covered by alternative {j}; remove it"
+                            )
+                        })
+                    })
+                };
+                if let Some(message) = message {
+                    warn(message);
                 }
             }
         }
@@ -174,5 +196,40 @@ mod tests {
                 "anyOf": [{"isSelected": true}, {"isIndeterminate": true, "isDisabled": true}]}))],
         );
         assert!(run(&g).is_empty());
+    }
+
+    #[test]
+    fn a_pin_that_clashes_with_the_record_is_a_contradiction_not_a_repeat() {
+        let g = graph(
+            vec![],
+            vec![rel(json!({"size": "m",
+                "anyOf": [{"size": "s"}, {"isSelected": true}]}))],
+        );
+        let d = run(&g);
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("contradicts"), "{}", d[0].message);
+    }
+
+    #[test]
+    fn a_partial_overlap_narrows_and_is_not_flagged() {
+        let g = graph(
+            vec![],
+            vec![rel(json!({"size": ["s", "m"],
+                "anyOf": [{"size": "m"}, {"isSelected": true}]}))],
+        );
+        assert!(run(&g).is_empty());
+    }
+
+    #[test]
+    fn an_alternative_gets_one_warning_even_when_it_repeats_and_is_covered() {
+        let g = graph(
+            vec![],
+            vec![rel(json!({"isEmphasized": true,
+                "anyOf": [{"isSelected": true},
+                          {"isSelected": true, "isEmphasized": true}]}))],
+        );
+        let d = run(&g);
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert!(d[0].message.contains("repeats"));
     }
 }
