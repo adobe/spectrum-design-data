@@ -62,11 +62,14 @@
   {
     "scope": {
       "component": "table",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "density": "compact"
+      }
     },
-    "context": "Row height (minimum, compact density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, compact density",
+    "contextQualifier": "minimum",
     "$ref": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
     "uuid": "45830a37-e22d-5096-a56b-cb4404c0912b"
   },
@@ -75,9 +78,9 @@
       "component": "table",
       "property": "height"
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
     "uuid": "8aa6cad0-ff93-5e04-81cb-11910c5c8994"
   },
@@ -86,42 +89,51 @@
       "component": "table",
       "property": "height"
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
     "uuid": "b0e0bdff-6771-5417-b723-6de7654b51b6"
   },
   {
     "scope": {
       "component": "table",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$ref": "697f4b63-14b9-4d58-9d16-b9dfd72ff391",
     "uuid": "9b1c212d-179c-5150-9171-abf4a32a37bb"
   },
   {
     "scope": {
       "component": "table",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$ref": "572d1c5f-62a1-4bfc-a3e0-520a999545fe",
     "uuid": "7af0b6f2-0556-5537-a3e1-b376687f1e9f"
   },
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "density": "compact"
+      }
     },
-    "context": "Spacing (row top/bottom to text, compact density)",
+    "context": "Spacing (row top/bottom to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "row top/bottom to text, compact density",
+    "contextQualifier": "row top/bottom to text",
     "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
     "uuid": "56a7e115-f26e-5a84-ad4d-80d75cc8af23"
   },
@@ -137,11 +149,14 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Spacing (row top/bottom to text, spacious density)",
+    "context": "Spacing (row top/bottom to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "row top/bottom to text, spacious density",
+    "contextQualifier": "row top/bottom to text",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "029b20fc-ed1f-523a-befe-6eadb4990106"
   },
@@ -2980,9 +2995,9 @@
         "size": "xl"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "d52d3141-27a5-40eb-800f-1a09acd42534",
@@ -3000,9 +3015,9 @@
         "size": "xl"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
@@ -3020,9 +3035,9 @@
         "density": "compact"
       }
     },
-    "context": "Row height (minimum, compact density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, compact density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7",
@@ -3085,9 +3100,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
     "uuid": "1504ecc5-0bd8-4bf2-ad3c-e073c824cd1a",
@@ -3106,9 +3121,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "80px",
     "uuid": "6efd745f-2a9a-4eea-a0a3-ebe0d3fbc149",
@@ -3126,9 +3141,9 @@
         "size": "l"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
@@ -3146,9 +3161,9 @@
         "size": "l"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "60px",
     "uuid": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
@@ -3166,9 +3181,9 @@
         "density": "compact"
       }
     },
-    "context": "Row height (minimum, compact density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, compact density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde",
@@ -3231,9 +3246,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "0cd072e1-1757-49b1-a985-09ab65feb672",
@@ -3252,9 +3267,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "e377fd73-62ca-481c-93f6-c62eb35ca720",
@@ -3403,9 +3418,9 @@
         "size": "s"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
@@ -3423,9 +3438,9 @@
         "size": "s"
       }
     },
-    "context": "Row height (minimum, regular density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, regular density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
@@ -3443,9 +3458,9 @@
         "density": "compact"
       }
     },
-    "context": "Row height (minimum, compact density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, compact density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a",
@@ -3508,9 +3523,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "cb6f8879-6d73-40ca-9ea4-7eb05b26385a",
@@ -3529,9 +3544,9 @@
         "density": "spacious"
       }
     },
-    "context": "Row height (minimum, spacious density)",
+    "context": "Row height (minimum)",
     "contextRole": ["height"],
-    "contextQualifier": "minimum, spacious density",
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "50px",
     "uuid": "ab252e1f-a13a-4630-a6ff-0cfa6e6f0c03",
