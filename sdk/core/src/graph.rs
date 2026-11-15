@@ -89,7 +89,7 @@ pub struct ComponentRecord {
 /// Understood shapes (deny by default; a new shape is added here when the solver learns it):
 /// * `state`: an array of strings;
 /// * any other option: a string, number or boolean, or an array of those.
-pub(crate) fn unsupported_scope_shape(raw: &Value) -> Option<String> {
+pub fn unsupported_scope_shape(raw: &Value) -> Option<String> {
     let options = raw.pointer("/scope/options")?;
     let Some(options) = options.as_object() else {
         return Some("scope.options is not an object".to_string());

@@ -84,6 +84,9 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
         let rows: Vec<serde_json::Value> =
             serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
         for (index, raw) in rows.into_iter().enumerate() {
+            if let Some(why) = design_data_core::graph::unsupported_scope_shape(&raw) {
+                return Err(format!("{filename} record {index}: {why}"));
+            }
             relationships.push(design_data_core::graph::RelationshipRecord {
                 file: std::path::PathBuf::from("relationships").join(filename),
                 index,

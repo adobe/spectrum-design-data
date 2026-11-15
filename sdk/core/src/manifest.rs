@@ -295,8 +295,36 @@ pub fn apply_configured(
             *graph = std::mem::take(graph).with_relationships(rels);
         }
     }
+    // The manifest file is known here and not inside `apply_platform_manifest`, so name it
+    // when a relationship the manifest adds or overrides has a shape this engine refuses.
+    if let Some(why) = unsupported_manifest_relationship(&manifest) {
+        let file = resolved
+            .platform_manifest
+            .as_ref()
+            .map_or_else(String::new, |p| format!(" {}", p.display()));
+        return Err(CoreError::ParseError(format!(
+            "platform manifest{file}: {why}"
+        )));
+    }
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
+}
+
+/// The first relationship a manifest adds or overrides whose `scope.options` this engine
+/// cannot read, as a message that names the entry. A `remove` entry has no scope.
+fn unsupported_manifest_relationship(manifest: &Value) -> Option<String> {
+    let entries = manifest
+        .pointer("/extensions/relationships")
+        .and_then(Value::as_array)?;
+    entries.iter().enumerate().find_map(|(index, entry)| {
+        let raw = match entry.get("op").and_then(Value::as_str) {
+            None => Some(entry),
+            Some("override") => entry.get("value"),
+            _ => None,
+        }?;
+        crate::graph::unsupported_scope_shape(raw)
+            .map(|why| format!("extensions.relationships entry {index}: {why}"))
+    })
 }
 
 /// Glob+merge the Layer 2 manifest's `extensions/` directory (default name
@@ -641,6 +669,34 @@ pub fn load_merged_catalogs(resolved: &ResolvedData) -> Result<MergedCatalogs, C
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_manifest_relationship_the_engine_cannot_read_is_named_by_entry() {
+        let bad = serde_json::json!({"scope": {"component": "x", "property": "y",
+            "options": {"anyOf": [{"a": true}, {"b": true}]}}, "uuid": "u", "$ref": "t"});
+        let ok = serde_json::json!({"scope": {"component": "x", "property": "y",
+            "options": {"size": "m"}}, "uuid": "v", "$ref": "t"});
+        let manifest = serde_json::json!({"extensions": {"relationships": [
+            ok.clone(),
+            {"op": "remove", "uuid": "gone"},
+            {"op": "override", "uuid": "v", "value": bad.clone()},
+            bad,
+        ]}});
+        let why = unsupported_manifest_relationship(&manifest).unwrap();
+        assert!(
+            why.starts_with("extensions.relationships entry 2:"),
+            "{why}"
+        );
+        assert!(why.contains("upgrade the CLI"), "{why}");
+        let fine = serde_json::json!({"extensions": {"relationships": [
+            ok, {"op": "remove", "uuid": "gone"}
+        ]}});
+        assert_eq!(unsupported_manifest_relationship(&fine), None);
+        assert_eq!(
+            unsupported_manifest_relationship(&serde_json::json!({})),
+            None
+        );
+    }
     use crate::data_source::{Provenance, ResolvedData};
     use crate::graph::TokenGraph;
     use serde_json::json;
