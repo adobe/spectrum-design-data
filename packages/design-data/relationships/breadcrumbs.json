@@ -121,22 +121,34 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "underline-thickness"
+      "property": "underline-thickness",
+      "options": {
+        "state": [
+          {
+            "anyOf": ["hover", "down", "keyboard-focus"]
+          }
+        ]
+      }
     },
-    "context": "Breadcrumb item (hover, down, focus states)",
+    "context": "Breadcrumb item",
     "contextRole": ["breadcrumb-item"],
-    "contextQualifier": "hover, down, focus states",
     "$ref": "13f36ce1-84bb-41db-bec8-6d6e8f5c6ed3",
     "uuid": "e0f15f2a-7334-53ea-b536-0e39d527e150"
   },
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "text-underline-gap"
+      "property": "text-underline-gap",
+      "options": {
+        "state": [
+          {
+            "anyOf": ["hover", "down", "keyboard-focus"]
+          }
+        ]
+      }
     },
-    "context": "Breadcrumb item (hover, down, focus states)",
+    "context": "Breadcrumb item",
     "contextRole": ["breadcrumb-item"],
-    "contextQualifier": "hover, down, focus states",
     "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee",
     "uuid": "9bc9cf05-3e95-5782-8fd6-d4fbf935eb81"
   },
