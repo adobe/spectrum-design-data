@@ -41,12 +41,14 @@ A plain array of strings means exactly what it does now, so no existing record c
 
 A record with `anyOf` elements is equivalent to one record per combination of members, all with the same `$ref`. Each expanded record's `state` is a **set**: a state that appears twice counts once. Implementations may evaluate the record directly or expand it, but must give the same answer as the expansion.
 
-The rule for the resolution algorithm in `state-model.md` is therefore one sentence: **a record with `anyOf` ranks as its best-ranked expanded record that is a candidate.** In terms of the steps:
+The rule for the resolution algorithm in `state-model.md` is therefore one sentence: **rank the record's candidate expansions by steps 4 and 5, and the record ranks as the best of them.** In terms of the steps:
 
-1. **Candidate test (step 3).** The record is a candidate when at least one expanded record has only active states.
-2. **Specificity (step 4).** Count the distinct states of the best-ranked candidate expansion. An `anyOf` element adds one matched state however many of its members are active, because each expanded record picks one member.
-3. **Precedence (step 5).** Compare the matched `interaction` states of that same expanded record. `prop` states never contribute precedence, as in step 5 today. So `{ anyOf: ["selected", "hover"] }` with only `selected` active has an empty interaction list, like `["selected"]`; with both active it ranks as the `["hover"]` expansion, which beats `["selected"]`. With hover (50) and down (70) both active, `{ anyOf: ["hover", "down"] }` ranks as the `["down"]` expansion (70).
+1. **Candidate test (step 3).** An expanded record is a candidate when it has only active states. The record is a candidate when at least one expanded record is.
+2. **Specificity (step 4).** Each candidate expansion matches its distinct states (the state list is a set). An `anyOf` element adds one state to each expansion, because each expansion picks one member, so the member count of a group never raises specificity.
+3. **Precedence (step 5).** Among expansions tied on specificity, compare their matched `interaction` states as step 5 does today. `prop` states never contribute precedence. So `{ anyOf: ["selected", "hover"] }` with only `selected` active has the single candidate `["selected"]`, with an empty interaction list; with both active the candidates are `["selected"]` and `["hover"]`, and `["hover"]` wins. With hover (50) and down (70) both active, `{ anyOf: ["hover", "down"] }` ranks as the `["down"]` expansion (70).
 4. **Ties (step 6).** Unchanged.
+
+The record's rank is the rank of its best expansion; it is then compared with every other record's rank by the same steps. Specificity is never counted on an expansion chosen by a later step.
 
 Members of one `anyOf` do not need to share a trigger type.
 
