@@ -86,6 +86,23 @@ or `branch` source, or a version that isn't exact, can't be compared, so it only
 warns. A `path` source, or no `[source]`, is skipped. `design-data platform show`
 reports the same result.
 
+Before you move the `foundationVersion` pin, see what the new release changes for
+you:
+
+```sh
+design-data platform impact --from 3.13.0 --to 3.15.1
+```
+
+`--from` defaults to the manifest's `foundationVersion`. The command reads the
+component changelogs of the `--to` release and lists the entries that touch what
+your recipes bind: relationship contexts and tokens, the options they read, and
+relationships your manifest overrides or removes. **BREAKS** means a binding
+names something that was renamed or removed (a context rename shows both names),
+and the command exits 1. **CHANGES** means a binding still resolves, to a
+different token or value. It does not yet cover the manifest's token
+`overrides`, or changes to a foundation recipe you did not replace. Pass
+`--changelog-dir` to read a local `changelog/` instead of fetching the release.
+
 Register the manifest in a `.design-data.toml` at the root of your project:
 
 ```toml
