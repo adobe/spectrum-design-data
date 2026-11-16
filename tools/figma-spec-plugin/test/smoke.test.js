@@ -692,7 +692,7 @@ test("icon parts draw their catalog paths via createNodeFromSvg", async (t) => {
       if (n.rotation) rotated++;
     }
   }
-  t.true(seen.has("ui/chevron") && seen.has("ui/dash"));
+  t.true(seen.has("ui/chevron") && seen.has("ui/checkmark"));
   t.true(rotated > 0);
 });
 
@@ -710,7 +710,8 @@ test("an icon without a drawing keeps the placeholder plus", async (t) => {
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
   t.is(page.children[0].findAll((f) => f.svg).length, 0);
   const plus = page.children[0].findAll(
-    (f) => f.type === "FRAME" && f.children.length === 2 && f.name === "dash",
+    (f) =>
+      f.type === "FRAME" && f.children.length === 2 && f.name === "checkmark",
   );
   t.true(n > 0 && plus.length > 0);
 });
@@ -722,10 +723,11 @@ test("an icon Figma cannot import draws the placeholder instead of failing the s
     throw new Error("cannot parse svg");
   };
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
-  const dash = page.children[0].findAll(
-    (f) => f.type === "FRAME" && f.name === "dash" && f.children.length === 2,
+  const placeholder = page.children[0].findAll(
+    (f) =>
+      f.type === "FRAME" && f.name === "checkmark" && f.children.length === 2,
   );
-  t.true(dash.length > 0);
+  t.true(placeholder.length > 0);
 });
 
 test("a comma-separated viewBox still centres the rotation", async (t) => {
