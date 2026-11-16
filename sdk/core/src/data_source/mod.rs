@@ -94,6 +94,17 @@ pub struct DesignDataConfig {
     /// `DESIGN_DATA_PLATFORM` env var is given. Has no effect unless `platforms`
     /// is also set.
     pub default_platform: Option<String>,
+    /// The design-data CLI versions this project's generated files (fixtures, exports, renders)
+    /// were made with, as a semver range: `">=0.36.5, <0.38.0"`, or `"=0.40.1"` for one exact
+    /// version. A bare `"0.40.1"` is a caret range (`>=0.40.1, <0.41.0`), as in Cargo.
+    ///
+    /// A different CLI can draw the same data differently, so a project that commits its output
+    /// pins the CLI. The CLI refuses to run a command whose output a project commits or ships
+    /// (`render`, `render-compare`, `export`, `catalog export`, `spec-sheet`, `site`,
+    /// `figma export`) outside this range, and warns for the others. Parsed when the config is
+    /// loaded, so a malformed range is an error for every command. See
+    /// [`requirements::cli_range_mismatch`].
+    pub cli_version: Option<String>,
 }
 
 /// Describes where to obtain or locate the design data.
@@ -309,6 +320,9 @@ pub enum DataSourceError {
         #[source]
         source: toml::de::Error,
     },
+    /// The `.design-data.toml` parses but a value is not usable (for example `cli_version`).
+    #[error("`.design-data.toml` at {path} is invalid: {message}")]
+    ConfigInvalid { path: PathBuf, message: String },
     /// `source.type = "path"` but the `root` directory does not exist.
     #[error("source.root '{root}' in `.design-data.toml` does not exist or is not a directory")]
     PathNotFound {
@@ -690,6 +704,14 @@ pub fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, 
                     path: candidate.clone(),
                     source: e,
                 })?;
+            if let Some(range) = &config.cli_version {
+                requirements::parse_cli_range(range).map_err(|message| {
+                    DataSourceError::ConfigInvalid {
+                        path: candidate.clone(),
+                        message,
+                    }
+                })?;
+            }
             return Ok(Some((candidate, config)));
         }
     }

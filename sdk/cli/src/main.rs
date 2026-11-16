@@ -82,9 +82,10 @@ struct Cli {
     /// optional positional flattened in via `TuiArgs`.
     #[arg(long, global = true)]
     platform: Option<String>,
-    /// Read a dataset even when its `dataset.json` says this CLI is too old for it
-    /// (`requires.cli`, or a newer `layoutRevision`). Results may be wrong. There is no
-    /// config-file or environment equivalent, and every run warns while it is in use.
+    /// Run anyway when the dataset says this CLI is too old for it (`requires.cli`, or a newer
+    /// `layoutRevision` in `dataset.json`) or this project's `cli_version` excludes this CLI.
+    /// Results may be wrong. There is no config-file or environment equivalent, and every run
+    /// warns while it is in use.
     #[arg(long, global = true)]
     ignore_data_requirements: bool,
 }
@@ -1124,6 +1125,34 @@ fn data_requirements(resolved: &data_source::ResolvedData) -> data_source::requi
     }
 }
 
+/// Whether the command being run writes output a project commits or ships (`render`,
+/// `export`, `site`, ...), set once in `main`. A project's `cli_version` is an error for these
+/// and a warning for the rest.
+static COMMITS_OUTPUT: OnceLock<bool> = OnceLock::new();
+
+/// Commands whose output a project commits or ships: a different CLI can write different files.
+fn produces_committed_output(command: &Commands) -> bool {
+    match command {
+        Commands::Render { .. }
+        | Commands::RenderCompare { .. }
+        | Commands::Export { .. }
+        | Commands::SpecSheet { .. }
+        | Commands::Site { .. }
+        | Commands::Catalog { .. } => true,
+        Commands::Figma { sub } => matches!(sub, FigmaSub::Export { .. }),
+        _ => false,
+    }
+}
+
+/// Why this CLI is outside the project's `cli_version`, if the project sets one.
+fn project_cli_range_finding() -> miette::Result<Option<String>> {
+    Ok(project_config()?.and_then(|(_, config)| {
+        config.cli_version.and_then(|range| {
+            data_source::requirements::cli_range_mismatch(&range, env!("CARGO_PKG_VERSION"))
+        })
+    }))
+}
+
 /// Set once the requirements warnings have been printed: a command may resolve its data more
 /// than once, and each warning belongs to the run, not to each resolve.
 static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
@@ -1132,7 +1161,14 @@ static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
 /// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
 /// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
 fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
-    let unmet = data_requirements(resolved);
+    let mut unmet = data_requirements(resolved);
+    if let Some(finding) = project_cli_range_finding()? {
+        if COMMITS_OUTPUT.get().copied().unwrap_or(false) {
+            unmet.errors.push(finding);
+        } else {
+            unmet.warnings.push(finding);
+        }
+    }
     let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
     if first {
         for w in &unmet.warnings {
@@ -1153,7 +1189,7 @@ fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Re
         return Ok(());
     }
     miette::bail!(
-        "{}\nPass --ignore-data-requirements to read it anyway; results may be wrong.",
+        "{}\nPass --ignore-data-requirements to continue anyway; results may be wrong.",
         unmet.errors.join("\n")
     )
 }
@@ -2252,7 +2288,8 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
         platform_id: Some(id.to_string()),
         ..Default::default()
     })?;
-    let requirements = data_requirements(&resolved);
+    let mut requirements = data_requirements(&resolved);
+    requirements.errors.extend(project_cli_range_finding()?);
     let Some(manifest_path) = resolved.platform_manifest.clone() else {
         eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
         return Ok(ExitCode::from(2));
@@ -4943,6 +4980,9 @@ fn main() -> ExitCode {
         Some(Commands::Tui(args)) => return run_tui(args),
         Some(other) => other,
     };
+    COMMITS_OUTPUT
+        .set(produces_committed_output(&command))
+        .expect("main runs exactly once; COMMITS_OUTPUT is set exactly once here");
 
     let result = match command {
         Commands::Platform { sub } => match sub {

@@ -125,6 +125,25 @@ Each entry is a local path, relative to the file, or a `github` pin to a manifes
 in another repository. A repo with exactly one manifest can keep using the older
 top-level `manifest = "path/to/manifest.json"` key. It still works.
 
+If you commit what the CLI generates (fixtures, exports, renders), pin the CLI
+that makes it. A different CLI can draw the same data differently, and a
+contributor with another version otherwise gets different files without a word.
+Add a semver range at the top of `.design-data.toml`:
+
+```toml
+cli_version = ">=0.36.5, <0.38.0"   # or "=0.40.1" for one exact version
+```
+
+A bare `"0.40.1"` is a caret range (`>=0.40.1, <0.41.0`), as in Cargo. Outside
+the range, the commands whose output you commit or ship (`render`,
+`render-compare`, `export`, `catalog export`, `spec-sheet`, `site`,
+`figma export`) stop with an error, and every other command warns.
+`--ignore-data-requirements` runs anyway and warns each time; it is a flag only,
+never a config setting. This is your project's setting, separate from a
+dataset's own `requires.cli`. A CLI older than the release that added
+`cli_version` rejects the file with `unknown field`, so everyone on the project
+needs a CLI that has it.
+
 List what's configured. A `*` marks the default:
 
 ```sh
