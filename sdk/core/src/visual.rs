@@ -3743,7 +3743,7 @@ fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
 }
 
 const DEFAULT_FONT_STACK: &str =
-    "adobe-clean-spectrum-vf, Adobe Clean, 'Source Sans 3', sans-serif";
+    "'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf, 'Source Sans 3', sans-serif";
 
 const GENERIC_FAMILIES: &[&str] = &[
     "serif",
@@ -5424,13 +5424,13 @@ mod tests {
     fn font_family_leads_the_default_stack_only_when_bound() {
         let svg = |p: Value| scene_to_svg(&label_scene(p));
         let unbound = svg(serde_json::json!({ "fontSize": { "value": 10 } }));
-        assert!(unbound.contains("font-family=\"adobe-clean-spectrum-vf,"));
+        assert!(unbound.contains("font-family=\"'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,"));
         let bound = svg(serde_json::json!({
             "fontSize": { "value": 10 },
             "fontFamily": { "value": "SF Pro" }
         }));
         assert!(
-            bound.contains("font-family=\"'SF Pro', adobe-clean-spectrum-vf,"),
+            bound.contains("font-family=\"'SF Pro', 'Adobe Clean Spectrum VF',"),
             "{bound}"
         );
     }
