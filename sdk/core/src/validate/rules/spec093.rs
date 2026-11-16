@@ -323,18 +323,24 @@ mod tests {
             file: PathBuf::from("c.json"),
             name: "c".into(),
             raw: json!({"name": "c", "options": {"size": {"type": "string", "default": "m",
-                "values": [{"value": "m"}, {"value": "xl"}]}}}),
+                "values": [{"value": "m"}, {"value": "xl"}, {"value": "xxs"}, {"value": "xxl"}]}}}),
         }];
-        g.relationships = ["Height (medium)", "Gap (top, extra large)", "Gap (small)"]
-            .iter()
-            .enumerate()
-            .map(|(i, c)| RelationshipRecord {
-                file: PathBuf::from("c.json"),
-                index: i,
-                uuid: None,
-                raw: json!({"scope": {"component": "c", "property": "gap"}, "context": c, "$ref": "t"}),
-            })
-            .collect();
+        g.relationships = [
+            "Height (medium)",
+            "Gap (top, extra large)",
+            "Gap (extra extra small)",
+            "Gap (extra extra large)",
+            "Gap (small)",
+        ]
+        .iter()
+        .enumerate()
+        .map(|(i, c)| RelationshipRecord {
+            file: PathBuf::from("c.json"),
+            index: i,
+            uuid: None,
+            raw: json!({"scope": {"component": "c", "property": "gap"}, "context": c, "$ref": "t"}),
+        })
+        .collect();
         let exceptions = std::collections::HashSet::new();
         let ctx = ValidationContext {
             graph: &g,
@@ -342,8 +348,8 @@ mod tests {
             registry: RegistryData::embedded(),
             manifest: None,
         };
-        // "small" is not a declared value, so only the first two warn.
-        assert_eq!(Rule.validate(&ctx).len(), 2);
+        // "small" is not a declared value, so only the first four warn.
+        assert_eq!(Rule.validate(&ctx).len(), 4);
     }
 
     #[test]
