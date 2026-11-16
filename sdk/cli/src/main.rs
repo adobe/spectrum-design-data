@@ -1178,13 +1178,13 @@ fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
         return Ok(());
     };
     if !commits_output {
-        eprintln!("warning: {finding}");
+        warn_once(&finding);
         return Ok(());
     }
     if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
-        eprintln!(
-            "warning: {finding} Continuing because --ignore-data-requirements is set; results may be wrong."
-        );
+        warn_once(&format!(
+            "{finding} Continuing because --ignore-data-requirements is set; results may be wrong."
+        ));
         return Ok(());
     }
     miette::bail!(
@@ -1192,31 +1192,35 @@ fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
     )
 }
 
-/// Set once the requirements warnings have been printed: a command may resolve its data more
-/// than once, and each warning belongs to the run, not to each resolve.
-static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
-    std::sync::atomic::AtomicBool::new(false);
+/// Print a requirements warning at most once per run. A command can resolve its data more than
+/// once, and the pre-dispatch `cli_version` check can name the same thing a later check does;
+/// each message belongs to the run, not to each place that notices it.
+fn warn_once(message: &str) {
+    static PRINTED: OnceLock<std::sync::Mutex<HashSet<String>>> = OnceLock::new();
+    let printed = PRINTED.get_or_init(Default::default);
+    let first = printed
+        .lock()
+        .map_or(true, |mut set| set.insert(message.to_string()));
+    if first {
+        eprintln!("warning: {message}");
+    }
+}
 
 /// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
 /// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
 fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
     let unmet = data_requirements(resolved);
-    let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
-    if first {
-        for w in &unmet.warnings {
-            eprintln!("warning: {w}");
-        }
+    for w in &unmet.warnings {
+        warn_once(w);
     }
     if unmet.errors.is_empty() {
         return Ok(());
     }
     if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
-        if first {
-            for e in &unmet.errors {
-                eprintln!(
-                    "warning: {e} Continuing because --ignore-data-requirements is set; results may be wrong."
-                );
-            }
+        for e in &unmet.errors {
+            warn_once(&format!(
+                "{e} Continuing because --ignore-data-requirements is set; results may be wrong."
+            ));
         }
         return Ok(());
     }
