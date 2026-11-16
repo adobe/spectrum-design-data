@@ -869,7 +869,18 @@ impl Ctx<'_> {
                     if !by_property {
                         options = rows[&row_order[0]].0.clone();
                         if split.is_some() {
-                            options.extend(variant_options(&pins));
+                            // In the order the author wrote the pins: the first alternative of
+                            // an any-of is the look the block shows, whatever the names sort to.
+                            let authored: Map<String, Value> = recs
+                                .first()
+                                .and_then(|r| r.pointer("/scope/options"))
+                                .and_then(Value::as_object)
+                                .into_iter()
+                                .flatten()
+                                .filter(|(k, _)| pins.contains_key(k.as_str()))
+                                .map(|(k, v)| (k.clone(), v.clone()))
+                                .collect();
+                            options.extend(variant_options(&authored));
                         } else {
                             for (k, v) in when_options(recipe, &context) {
                                 options.entry(k).or_insert(v);

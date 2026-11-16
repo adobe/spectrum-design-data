@@ -630,7 +630,9 @@ fn a_context_with_boolean_variants_is_one_block_per_variant_rendered_with_its_pi
     // The any-of reads as words (alternatives sorted), and the block renders with its first one.
     let emphasized = block("Control (indeterminate or selected, emphasized)");
     let options = &emphasized["render"]["request"]["options"];
-    assert_eq!(options["isIndeterminate"], true);
+    // The title sorts the alternatives; the scene follows the order the data wrote them.
+    assert_eq!(options["isSelected"], true);
+    assert!(options["isIndeterminate"].is_null());
     assert_eq!(options["isEmphasized"], true);
     assert_eq!(emphasized["rows"][0]["conditions"], serde_json::json!({}));
 
