@@ -23,7 +23,7 @@ use std::path::Path;
 use serde_json::Value;
 
 /// The requirements a dataset has that this engine does not meet, and what could not be read.
-#[derive(Debug, Default, PartialEq, Eq)]
+#[derive(Debug, Default, PartialEq, Eq, serde::Serialize)]
 pub struct Unmet {
     /// This engine cannot read the data correctly.
     pub errors: Vec<String>,
@@ -45,14 +45,19 @@ pub fn unmet_requirements(dataset_root: &Path, running_cli: &str, engine_layout:
             semver::Version::parse(required),
             semver::Version::parse(running_cli),
         ) {
-            (Ok(need), Ok(have)) if have < need => out.errors.push(format!(
-                "this dataset needs design-data CLI {need} or newer (this is {have}). \
-                 Install a newer CLI, or pin an older data release."
-            )),
+            // A prerelease build (`0.45.0-dev`) is the release it leads up to: compare
+            // major.minor.patch only, so it is not refused for a minimum it will meet.
+            (Ok(need), Ok(have)) if semver::Version::new(have.major, have.minor, have.patch) < need => {
+                out.errors.push(format!(
+                    "this dataset needs design-data CLI {need} or newer (this is {have}). \
+                     Install a newer CLI, or pin an older data release."
+                ));
+            }
             (Ok(_), Ok(_)) => {}
             (Err(_), _) => out.warnings.push(format!(
                 "dataset.json `requires.cli` is '{required}', which is not an exact version; ignoring it"
             )),
+            // The running version is CARGO_PKG_VERSION and always parses; nothing to compare.
             (_, Err(_)) => {}
         }
     }
@@ -95,6 +100,21 @@ mod tests {
         assert_eq!(unmet_requirements(d.path(), "0.40.0", 2), Unmet::default());
         assert_eq!(unmet_requirements(d.path(), "0.41.3", 2), Unmet::default());
         assert_eq!(unmet_requirements(d.path(), "1.0.0", 2), Unmet::default());
+    }
+
+    #[test]
+    fn a_prerelease_build_meets_the_release_it_leads_up_to() {
+        let d = dataset(r#"{"requires":{"cli":"0.45.0"}}"#);
+        assert_eq!(
+            unmet_requirements(d.path(), "0.45.0-dev", 2),
+            Unmet::default()
+        );
+        assert_eq!(
+            unmet_requirements(d.path(), "0.46.0-rc.1", 2),
+            Unmet::default()
+        );
+        let u = unmet_requirements(d.path(), "0.44.9-dev", 2);
+        assert_eq!(u.errors.len(), 1, "{u:?}");
     }
 
     #[test]

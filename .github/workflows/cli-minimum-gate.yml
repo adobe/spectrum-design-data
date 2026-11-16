@@ -15,6 +15,7 @@ on:
   pull_request:
     paths:
       - "packages/design-data/**"
+      - "packages/design-data-spec/**"
       - "sdk/**"
       - "tools/cli-minimum-gate/**"
       - ".github/workflows/cli-minimum-gate.yml"

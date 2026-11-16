@@ -148,3 +148,73 @@ fn this_checkouts_dataset_is_readable_by_this_checkouts_cli() {
     assert!(unmet.errors.is_empty(), "{:?}", unmet.errors);
     assert!(unmet.warnings.is_empty(), "{:?}", unmet.warnings);
 }
+
+/// `platform show` only prints identity and pin information: a dataset this CLI is too old for is
+/// a finding there, not a refusal.
+#[test]
+fn platform_show_reports_unmet_requirements_instead_of_refusing() {
+    let p = project_with_dataset_json(r#"{"requires":{"cli":"99.0.0"}}"#);
+    fs::write(
+        p.path().join("manifest.json"),
+        r#"{"specVersion":"1.0.0-draft","foundationVersion":"1.0.0","platform":"fixture"}"#,
+    )
+    .unwrap();
+    fs::write(
+        p.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nfixture = \"manifest.json\"\n",
+            p.path().join("data").display()
+        ),
+    )
+    .unwrap();
+    let run = |extra: &[&str]| {
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(p.path())
+            .args(["platform", "show", "fixture"])
+            .args(extra)
+            .assert()
+    };
+    run(&[]).success().stdout(contains(
+        "requirements: this dataset needs design-data CLI 99.0.0",
+    ));
+    run(&["--format", "json"])
+        .success()
+        .stdout(contains("\"requirements\""))
+        .stdout(contains("99.0.0"));
+    // `validate-manifest` reads the data, so it still refuses.
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(p.path())
+        .args(["validate-manifest", "--platform", "fixture"])
+        .assert()
+        .failure()
+        .stderr(contains("needs design-data CLI 99.0.0"));
+}
+
+/// A dataset whose `tokens/` is not where the standard layout puts it is not checked: the
+/// `dataset.json` next to it may belong to something else.
+#[test]
+fn a_moved_token_root_is_not_checked() {
+    let p = project_with_dataset_json(r#"{"requires":{"cli":"99.0.0"}}"#);
+    let data = p.path().join("data/packages/design-data");
+    std::os::unix::fs::symlink(
+        repo_root().join("packages/design-data/tokens"),
+        data.join("alt-tokens"),
+    )
+    .unwrap();
+    let alt = data.join("alt-tokens");
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(p.path())
+        .args([
+            "query",
+            alt.to_str().unwrap(),
+            "--filter",
+            "property=corner-radius",
+            "--count",
+        ])
+        .assert()
+        .success()
+        .stderr(contains("needs design-data CLI").not());
+}

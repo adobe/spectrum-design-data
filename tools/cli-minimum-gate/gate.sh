@@ -19,6 +19,8 @@
 # The minimum runs without --strict (older releases do not have it); the current CLI runs with
 # --strict, so the smoke set also has to be clean. Only the declared minimum and the current CLI
 # are compared: a version in between can still regress, as 0.37.0 refused data that 0.36.5 drew.
+# Only `render` is compared: a data change that breaks the minimum in `query`, `validate` or
+# another command is not caught here.
 
 set -euo pipefail
 
@@ -66,7 +68,10 @@ trap 'rm -rf "$work"' EXIT
 tag="design-data-cli@$min"
 gh release download "$tag" --repo "$REPO" --pattern "$ASSET" --pattern SHA256SUMS --dir "$work" 2>"$work/gh.err" \
   || fail "no release asset '$ASSET' for $tag in $REPO ($(tr '\n' ' ' <"$work/gh.err")). requires.cli must be a released CLI version; check it for a typo."
-(cd "$work" && grep " $ASSET\$" SHA256SUMS | shasum -a 256 -c - >/dev/null) \
+# SHA256SUMS lines are `<hash>  <name>`; tolerate a `*` (binary mode) or `./` before the name.
+sum="$(awk -v a="$ASSET" '{f=$2; sub(/^\*/, "", f); sub(/^\.\//, "", f); if (f == a) print $1 "  " a}' "$work/SHA256SUMS")"
+[ -n "$sum" ] || fail "SHA256SUMS for $tag has no entry for $ASSET."
+(cd "$work" && echo "$sum" | shasum -a 256 -c - >/dev/null) \
   || fail "the downloaded $ASSET does not match SHA256SUMS for $tag."
 chmod +x "$work/$ASSET"
 
