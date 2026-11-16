@@ -21,7 +21,13 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildPayloads, coreSource } from "../payloads.mjs";
-import { actionFor, plan, record } from "../plan.mjs";
+import {
+  actionFor,
+  plan,
+  record,
+  textMetricsNote,
+  textMetricsStamp,
+} from "../plan.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../../..");
@@ -599,6 +605,54 @@ test("plan creates, updates or skips a component's Figma file by sheet hash", (t
     message: /fileKey/,
   });
   t.is(actionFor(undefined, "h"), "create");
+});
+
+test("a run with a kit text-metrics table records a stamp and explains a mismatch", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "plan-kit-"));
+  const registryPath = join(dir, "figma-files.json");
+  const table = (v) => {
+    const f = join(dir, `table-${v}.json`);
+    writeFileSync(
+      f,
+      JSON.stringify({
+        meta: {
+          family: "adobe-clean-spectrum-vf",
+          test700At14px: v,
+          generated: "2026-11-16",
+          kit: "https://example.test/kit.css",
+        },
+      }),
+    );
+    return f;
+  };
+  writeFileSync(
+    registryPath,
+    JSON.stringify({
+      plan: "p",
+      project: "1",
+      files: { switch: { fileKey: "K", hash: "old" } },
+    }),
+  );
+  const stamp = record({
+    component: "switch",
+    hash: "h",
+    registryPath,
+    textMetrics: table(23.673),
+  }).textMetrics;
+  t.is(stamp.test700At14px, 23.673);
+  t.is(stamp.family, "adobe-clean-spectrum-vf");
+  t.false(JSON.stringify(stamp).includes("example.test"));
+  t.regex(stamp.platform, /-/);
+  const entry = () =>
+    JSON.parse(readFileSync(registryPath, "utf8")).files.switch;
+  t.regex(textMetricsNote(entry(), null), /pass --text-metrics/);
+  t.is(textMetricsNote(entry(), textMetricsStamp(table(23.673))), null);
+  t.regex(
+    textMetricsNote(entry(), textMetricsStamp(table(23.665))),
+    /another platform, Chrome or font version/,
+  );
+  record({ component: "switch", hash: "h2", registryPath });
+  t.is(entry().textMetrics, undefined);
 });
 
 test("undrawn markers get an outlined row badge and a note under the visual", async (t) => {
