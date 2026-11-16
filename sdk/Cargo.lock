@@ -644,7 +644,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-cli"
-version = "0.42.0"
+version = "0.44.0"
 dependencies = [
  "assert_cmd",
  "chrono",
