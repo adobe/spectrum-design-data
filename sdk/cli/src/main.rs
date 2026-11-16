@@ -2494,9 +2494,13 @@ fn run_validate_manifest(
         Ok(_) => {
             // MANIFEST-001: a platform-owned recipe binding the data does not have. Not a
             // registry rule, so `validate` is unchanged; SPEC-076/079 stay warnings.
+            // The cached graph above has no foundation recipes or icons, so a platform recipe
+            // that nests a foundation component (radio-group -> radio-button) could not be
+            // compiled. Check on the graph `render` uses: everything loaded, manifest applied.
+            let (full_graph, _, _) = load_visual_graph(&resolved, None, true)?;
             let unresolved =
                 design_data_core::validate::rules::manifest_bindings::unresolved_platform_bindings(
-                    &graph,
+                    &full_graph,
                 );
             if !unresolved.is_empty() {
                 let messages: Vec<String> = unresolved.iter().map(|b| b.message()).collect();

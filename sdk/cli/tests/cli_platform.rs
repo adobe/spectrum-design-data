@@ -737,6 +737,43 @@ fn validate_manifest_reports_a_platform_recipe_binding_a_missing_context() {
     assert_eq!(report["bindings"][0]["component"], "action-button");
 }
 
+/// A platform recipe that nests a foundation component (a `component` part, as Rune's
+/// radio-group nests radio-button) must still be checked, not reported as uncompilable:
+/// `validate-manifest` has to load the foundation recipes the nested part resolves to.
+#[test]
+fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "radio-button",
+                    "sizeMap": {"m": "m"}, "with": {"isSelected": true}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .success()
+        .stdout(contains("is valid"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");
