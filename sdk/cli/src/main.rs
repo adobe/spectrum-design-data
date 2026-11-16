@@ -2492,6 +2492,36 @@ fn run_validate_manifest(
 
     match manifest::apply_configured(&mut graph, &resolved) {
         Ok(_) => {
+            // MANIFEST-001: a platform-owned recipe binding the data does not have. Not a
+            // registry rule, so `validate` is unchanged; SPEC-076/079 stay warnings.
+            let unresolved =
+                design_data_core::validate::rules::manifest_bindings::unresolved_platform_bindings(
+                    &graph,
+                );
+            if !unresolved.is_empty() {
+                let messages: Vec<String> = unresolved.iter().map(|b| b.message()).collect();
+                match format {
+                    OutputFormat::Json => println!(
+                        "{}",
+                        serde_json::json!({
+                            "valid": false,
+                            "manifest": manifest_path.display().to_string(),
+                            "error": messages.join("\n"),
+                            "bindings": unresolved,
+                        })
+                    ),
+                    OutputFormat::Pretty => {
+                        eprintln!(
+                            "design-data: error: {} failed validation:",
+                            manifest_path.display()
+                        );
+                        for m in &messages {
+                            eprintln!("{m}");
+                        }
+                    }
+                }
+                return Ok(ExitCode::from(1));
+            }
             // Advisory-only: does the manifest's optional `platform` identity field
             // (h890.27.1) match a known id in the platform-implementations registry?
             // Never affects the exit code — `platform` is a SHOULD, not a MUST.
