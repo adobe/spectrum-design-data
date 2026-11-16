@@ -30,6 +30,7 @@ pub mod legacy;
 pub mod manifest;
 pub mod migrate;
 pub mod naming;
+pub mod platform_impact;
 pub mod primer;
 pub mod query;
 #[cfg(feature = "raster")]
