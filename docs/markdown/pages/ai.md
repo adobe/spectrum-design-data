@@ -116,12 +116,8 @@ Install it once, from one place. The plugin is published in the Design AI Market
 this repository's marketplace; use one. Each copy registers a server and a skill named
 `design-data`, so a second copy, or a `design-data` entry in a repo's `mcp.json`, gives the
 client duplicates and it may expose none of them. If the assistant reports no design-data
-tools, look for extra copies, remove them and start a new session.
-
-Plugins do not update themselves. In the Copilot app use Customize → Installed → **Update all**;
-in Copilot CLI run `copilot plugin marketplace update spectrum-design-data` and then
-`copilot plugin update spectrum-design-data@spectrum-design-data` (`@design-marketplace` for the
-Design AI Marketplace copy). Start a new session afterward.
+tools, look for extra copies, remove them and start a new session. If you install the
+plugin, remove any `design-data` entry you added by hand from an MCP config.
 
 **Claude Code:**
 
@@ -178,6 +174,18 @@ Rules → **Add Rule** → **Remote Rule (GitHub)**:
 ```
 https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
 ```
+
+## Update the plugin
+
+Plugins do not update themselves. After a new release, update by hand and start a new session
+(Claude Code needs a restart):
+
+- **Copilot app:** Customize → Installed → the plugin's menu → Update, or **Update all**.
+- **Copilot CLI:** `copilot plugin marketplace update spectrum-design-data`, then
+  `copilot plugin update spectrum-design-data@spectrum-design-data`. A copy installed from the
+  Design AI Marketplace uses `@design-marketplace` instead.
+- **Claude Code:** `claude plugin marketplace update spectrum-design-data`, then
+  `claude plugin update spectrum-design-data@spectrum-design-data`.
 
 ## Data and limits
 
