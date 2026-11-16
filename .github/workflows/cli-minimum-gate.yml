@@ -1,0 +1,48 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+# Proves `requires.cli` in packages/design-data/dataset.json: the released CLI it names must
+# draw the smoke set like the CLI built from this branch. See tools/cli-minimum-gate/gate.sh.
+name: CLI minimum gate
+on:
+  pull_request:
+    paths:
+      - "packages/design-data/**"
+      - "sdk/**"
+      - "tools/cli-minimum-gate/**"
+      - ".github/workflows/cli-minimum-gate.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: CLI minimum gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.88.0
+      # lld is the linker sdk/.cargo/config.toml sets for x86_64-unknown-linux-gnu.
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+      - name: Build the current CLI
+        run: cargo build --manifest-path sdk/Cargo.toml -p design-data-cli
+      - name: Check requires.cli against the released CLI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tools/cli-minimum-gate/gate.sh
