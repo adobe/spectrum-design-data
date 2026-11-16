@@ -402,6 +402,117 @@ fn size_by_property(recipe: &Value) -> BTreeMap<String, String> {
     map
 }
 
+/// The pins that make a record a variant of its context: any-of and a declared boolean option
+/// pinned true (`isSelected`, `isDisabled`). A false pin is the default and does not split. Those were qualifiers in the context string before SPEC-093, so
+/// a block per variant restores the old blocks. A string option (`size`, `variant`) stays a row,
+/// as does an interaction state or mode, and an undeclared key is a token name field.
+fn variant_pins(
+    declared: Option<&Map<String, Value>>,
+    options: Option<&Map<String, Value>>,
+) -> Map<String, Value> {
+    options
+        .into_iter()
+        .flatten()
+        .filter(|(k, v)| {
+            k.as_str() == design_data_core::scope::ANY_OF
+                || (is_boolean_option(declared, k) && **v == Value::Bool(true))
+        })
+        .map(|(k, v)| (k.clone(), v.clone()))
+        .collect()
+}
+
+fn is_boolean_option(declared: Option<&Map<String, Value>>, name: &str) -> bool {
+    declared
+        .and_then(|d| d.get(name))
+        .is_some_and(|o| s(o, "type") == Some("boolean"))
+}
+
+/// `isEmphasized` becomes `emphasized`, `hasHoldIcon` becomes `hold icon`.
+fn option_words(name: &str) -> String {
+    let rest = ["is", "has", "show"]
+        .iter()
+        .find_map(|p| {
+            name.strip_prefix(p)
+                .filter(|r| r.chars().next().is_some_and(char::is_uppercase))
+        })
+        .unwrap_or(name);
+    let mut out = String::new();
+    for (i, c) in rest.chars().enumerate() {
+        if c.is_uppercase() && i > 0 {
+            out.push(' ');
+        }
+        out.extend(c.to_lowercase());
+    }
+    out
+}
+
+fn pin_words(name: &str, value: &Value) -> Option<String> {
+    match value {
+        Value::Bool(true) => Some(option_words(name)),
+        _ => None,
+    }
+}
+
+/// The block title of a variant: the context with the pins in words, such as
+/// `Control (selected or indeterminate, emphasized)`.
+fn variant_title(context: &str, pins: &Map<String, Value>) -> String {
+    let mut parts: Vec<String> = Vec::new();
+    if let Some(alts) = pins
+        .get(design_data_core::scope::ANY_OF)
+        .and_then(Value::as_array)
+    {
+        let words: Vec<String> = alts
+            .iter()
+            .filter_map(Value::as_object)
+            .map(|alt| {
+                alt.iter()
+                    .filter_map(|(k, v)| pin_words(k, v))
+                    .collect::<Vec<_>>()
+                    .join(" and ")
+            })
+            .collect();
+        parts.push(words.join(" or "));
+    }
+    parts.extend(
+        pins.iter()
+            .filter(|(k, _)| k.as_str() != design_data_core::scope::ANY_OF)
+            .filter_map(|(k, v)| pin_words(k, v)),
+    );
+    if parts.is_empty() {
+        return context.to_string();
+    }
+    let detail = parts.join(", ");
+    match context.strip_suffix(')') {
+        Some(head) => format!("{head}, {detail})"),
+        None => format!("{context} ({detail})"),
+    }
+}
+
+/// The options a variant's scene renders with: each pin, an array's first value, and the first
+/// alternative of an any-of.
+fn variant_options(pins: &Map<String, Value>) -> Map<String, Value> {
+    let mut out = Map::new();
+    for (k, v) in pins {
+        if k == design_data_core::scope::ANY_OF {
+            if let Some(alt) = v
+                .as_array()
+                .and_then(|a| a.first())
+                .and_then(Value::as_object)
+            {
+                for (ak, av) in alt {
+                    out.insert(ak.clone(), av.clone());
+                }
+            }
+        } else {
+            out.insert(
+                k.clone(),
+                v.as_array().and_then(|a| a.first()).unwrap_or(v).clone(),
+            );
+        }
+    }
+    out
+}
+
 struct Item {
     inline: bool,
     /// Relationship records merged into this item (one per scale or color scheme).
@@ -598,7 +709,14 @@ impl Ctx<'_> {
         let bindings = self.recipe.map(recipe_bindings).unwrap_or_default();
         // Key: (page, title, by_property). Records without a context group by relationship
         // property under a title made from it; those blocks follow the authored contexts.
-        type Key = (String, String, bool);
+        type Key = (String, String, bool, String);
+        let declared = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.component)
+            .and_then(|c| c.raw.get("options"))
+            .and_then(Value::as_object);
         let mut order: Vec<Key> = Vec::new();
         let mut groups: BTreeMap<Key, Vec<&Value>> = BTreeMap::new();
         for r in &self.graph.relationships {
@@ -616,25 +734,65 @@ impl Ctx<'_> {
             let property = scope.and_then(|c| s(c, "property")).unwrap_or("");
             let page =
                 page_for(&terminal_schema(self.graph, tok), static_color, property).to_string();
+            let pins = variant_pins(
+                declared,
+                scope
+                    .and_then(|c| c.get("options"))
+                    .and_then(Value::as_object),
+            );
+            let variant = if pins.is_empty() {
+                String::new()
+            } else {
+                serde_json::to_string(&pins).unwrap_or_default()
+            };
             let key = match s(raw, "context") {
-                Some(context) => (page, context.trim().to_string(), false),
-                None => (page, property_title(property), true),
+                Some(context) => (page, context.trim().to_string(), false, variant),
+                None => (page, property_title(property), true, String::new()),
             };
             if !groups.contains_key(&key) {
                 order.push(key.clone());
             }
             groups.entry(key).or_default().push(raw);
         }
-        order.sort_by_key(|(p, _, by_property)| {
+        order.sort_by_key(|(p, _, by_property, _)| {
             (
                 PAGE_ORDER.iter().position(|x| x == p).unwrap_or(usize::MAX),
                 *by_property,
             )
         });
 
+        // The pin keys that vary among the variants of one context. Such a context is split
+        // into a block per variant, and the recipe's `when` on those keys no longer picks the
+        // scene's options: the variant's pins do.
+        let mut varying: BTreeMap<(String, String), Vec<String>> = BTreeMap::new();
+        for (page, context, _, variant) in groups.keys() {
+            if variant.is_empty() {
+                continue;
+            }
+            let pins: Map<String, Value> = serde_json::from_str(variant).unwrap_or_default();
+            let keys = varying.entry((page.clone(), context.clone())).or_default();
+            for (k, v) in &pins {
+                if k == design_data_core::scope::ANY_OF {
+                    for alt in v
+                        .as_array()
+                        .into_iter()
+                        .flatten()
+                        .filter_map(Value::as_object)
+                    {
+                        keys.extend(alt.keys().cloned());
+                    }
+                } else {
+                    keys.push(k.clone());
+                }
+            }
+        }
+
         let mut blocks = Vec::new();
-        for (page, context, by_property) in order {
-            let recs = &groups[&(page.clone(), context.clone(), by_property)];
+        for (page, context, by_property, variant) in order {
+            let recs = &groups[&(page.clone(), context.clone(), by_property, variant.clone())];
+            let split = varying.get(&(page.clone(), context.clone()));
+            let pins: Map<String, Value> = serde_json::from_str(&variant).unwrap_or_default();
+            let title = variant_title(&context, &pins);
             // Rows: records sharing the same scalar option conditions (state is a column).
             let mut row_order: Vec<String> = Vec::new();
             let mut rows: BTreeMap<String, (Map<String, Value>, Vec<&Value>)> = BTreeMap::new();
@@ -646,7 +804,11 @@ impl Ctx<'_> {
                     .and_then(Value::as_object);
                 for (k, v) in opts.into_iter().flatten() {
                     // A generated group's scale is a value column, not a condition.
-                    if !v.is_array() && k != "state" && !(by_property && k == "scale") {
+                    let skipped = v.is_array()
+                        || k == "state"
+                        || (by_property && k == "scale")
+                        || (split.is_some() && is_boolean_option(declared, k));
+                    if !skipped {
                         cond.insert(k.clone(), v.clone());
                     }
                 }
@@ -676,15 +838,21 @@ impl Ctx<'_> {
                     let mut options = Map::new();
                     if !by_property {
                         options = rows[&row_order[0]].0.clone();
-                        for (k, v) in when_options(recipe, &context) {
-                            options.entry(k).or_insert(v);
+                        if split.is_some() {
+                            options.extend(variant_options(&pins));
+                        } else {
+                            for (k, v) in when_options(recipe, &context) {
+                                options.entry(k).or_insert(v);
+                            }
                         }
                     }
                     let pairs: Vec<(&str, &str)> =
                         hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
                     let (states, wanted) = required_visibility(recipe, &context, &pairs);
                     for (k, v) in wanted {
-                        options.entry(k).or_insert(v);
+                        if !split.is_some_and(|keys| keys.contains(&k)) {
+                            options.entry(k).or_insert(v);
+                        }
                     }
                     self.render(recipe, &options, states)?
                 }
@@ -887,11 +1055,11 @@ impl Ctx<'_> {
                 "id": format!(
                     "{}--{}{}",
                     slug(&page),
-                    slug(&context),
+                    slug(&title),
                     if by_property { "--property" } else { "" }
                 ),
                 "page": page,
-                "title": context,
+                "title": title,
                 "titleSource": if by_property { "property" } else { "context" },
                 "render": render,
                 "records": records,
