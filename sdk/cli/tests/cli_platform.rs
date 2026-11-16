@@ -902,6 +902,204 @@ fn platform_impact_reports_a_context_renamed_in_the_release_range() {
     .stderr(contains("must be older"));
 }
 
+#[cfg(unix)]
+/// A project whose `[source]` is a github tag, served from a pre-filled cache (a symlink to this
+/// checkout's `packages/`) so no test touches the network, and a manifest with `foundation`.
+fn pinned_project(foundation: &str, source_tag: &str) -> (tempfile::TempDir, tempfile::TempDir) {
+    let cache = tempfile::tempdir().expect("cache dir");
+    let segment = source_tag.replace(['/', '@'], "-");
+    let root = cache.path().join(format!(
+        "sources/github/adobe-spectrum-design-data@tag--{segment}"
+    ));
+    fs::create_dir_all(&root).unwrap();
+    std::os::unix::fs::symlink(repo_root().join("packages"), root.join("packages")).unwrap();
+    fs::write(root.join(".complete"), "3").unwrap();
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": foundation, "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"github\"\nrepo = \"adobe/spectrum-design-data\"\ntag = \"{source_tag}\"\n\n[platforms]\nfixture = \"manifest.json\"\n"
+        ),
+    )
+    .unwrap();
+    (project, cache)
+}
+
+#[cfg(unix)]
+fn with_cache(
+    project: &std::path::Path,
+    cache: &std::path::Path,
+    args: &[&str],
+) -> assert_cmd::assert::Assert {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project)
+        .env("DESIGN_DATA_CACHE_DIR", cache)
+        .args(args)
+        .assert()
+}
+
+/// h890.36.4 (GH #1741): the pin is written twice, in the manifest and in `[source]`.
+#[cfg(unix)]
+#[test]
+fn validate_manifest_and_show_report_a_foundation_pin_mismatch() {
+    let (project, cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.9.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .code(1)
+    .stderr(contains("MANIFEST-002 (validate-manifest)"))
+    .stderr(contains("'3.9.0'"))
+    .stderr(contains("'3.10.0'"));
+    let out = with_cache(
+        project.path(),
+        cache.path(),
+        &[
+            "validate-manifest",
+            "--platform",
+            "fixture",
+            "--format",
+            "json",
+        ],
+    )
+    .code(1)
+    .get_output()
+    .stdout
+    .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["pin"]["status"], "mismatch");
+    // `platform show` compares with the source, not the embedded build, and does not fail.
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["platform", "show", "fixture"],
+    )
+    .success()
+    .stdout(contains("MISMATCH"))
+    .stdout(contains("3.10.0"))
+    .stdout(contains("embedded").not());
+}
+
+#[cfg(unix)]
+#[test]
+fn matching_pins_pass_with_or_without_the_package_prefix() {
+    let (project, cache) = pinned_project("3.10.0", "@adobe/spectrum-design-data@3.10.0");
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .success()
+    .stdout(contains("is valid"));
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["platform", "show", "fixture"],
+    )
+    .success()
+    .stdout(contains("pins agree"))
+    .stdout(contains("may be drifted").not());
+}
+
+/// A manifest from outside the project (`--manifest`, or a remote platform entry fetched into
+/// the cache) pins its own foundation: it is not compared with this project's `[source]`.
+#[cfg(unix)]
+#[test]
+fn a_manifest_from_outside_the_project_is_not_compared_with_its_source() {
+    let (project, cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.10.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    let elsewhere = tempfile::tempdir().expect("other repo");
+    fs::write(
+        elsewhere.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "platform": "fixture",
+            "foundationVersion": "@adobe/spectrum-design-data@3.9.0"})
+        .to_string(),
+    )
+    .unwrap();
+    let foreign = elsewhere.path().join("manifest.json");
+    let out = with_cache(
+        project.path(),
+        cache.path(),
+        &[
+            "validate-manifest",
+            "--manifest",
+            foreign.to_str().unwrap(),
+            "--format",
+            "json",
+        ],
+    )
+    .success()
+    .get_output()
+    .stdout
+    .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["pin"]["status"], "skipped", "{report}");
+    assert!(
+        report["pin"]["reason"]
+            .as_str()
+            .unwrap()
+            .contains("not in this project"),
+        "{report}"
+    );
+    // The project's own manifest, with the same different pin, is still compared.
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "platform": "fixture",
+            "foundationVersion": "@adobe/spectrum-design-data@3.9.0"})
+        .to_string(),
+    )
+    .unwrap();
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .code(1)
+    .stderr(contains("MANIFEST-002"));
+}
+
+#[test]
+fn a_path_source_is_not_compared_with_the_manifest_pin() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "@adobe/spectrum-design-data@3.9.0",
+            "platform": "fixture"})
+        .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nfixture = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    design_data(
+        project.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .success()
+    .stdout(contains("is valid"));
+    design_data(project.path(), &["platform", "show", "fixture"])
+        .success()
+        .stdout(contains("not compared"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");
