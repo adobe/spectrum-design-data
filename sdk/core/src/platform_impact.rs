@@ -495,6 +495,10 @@ fn source_of(commit: &Value) -> Option<String> {
 }
 
 /// Parse `3.15.1` or `@adobe/spectrum-design-data@3.15.1`.
+///
+/// shortcut: prereleases are not handled. semver orders `3.15.1-beta.1` before `3.15.1`, so a
+/// prerelease `release` would fall inside a range it should not; none of the changelogs has one
+/// (29 releases), so handle it when the first appears.
 pub fn parse_version(text: &str) -> Result<semver::Version, semver::Error> {
     semver::Version::parse(text.rsplit('@').next().unwrap_or(text))
 }
