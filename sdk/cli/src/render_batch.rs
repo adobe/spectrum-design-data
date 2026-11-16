@@ -114,6 +114,7 @@ pub fn run_batch(
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     text_metrics: Option<TextMetrics>,
+    strict: bool,
 ) -> miette::Result<ExitCode> {
     let states = read_states(file)?;
     let stamp = text_metrics.as_ref().and_then(TextMetrics::stamp);
@@ -127,6 +128,7 @@ pub fn run_batch(
     let mut seen = std::collections::HashSet::new();
     let mut index = Vec::new();
     let mut failed = 0;
+    let mut unresolved = 0;
     for st in states {
         let id = st.id.clone().unwrap_or_else(|| derived_id(&st));
         if id.is_empty() || id.contains(['/', '\\']) || id.starts_with('.') {
@@ -184,6 +186,12 @@ pub fn run_batch(
                     format!("{id}.scene.json"),
                     serde_json::to_string_pretty(&scene).into_diagnostic()?,
                 )?;
+                if strict && !diagnostics.is_empty() {
+                    for d in &diagnostics {
+                        eprintln!("error: {id}: {d}");
+                    }
+                    unresolved += 1;
+                }
                 index.push(json!({
                     "id": id, "component": scene["component"], "platform": st.platform,
                     "svg": format!("{id}.svg"), "scene": format!("{id}.scene.json"),
@@ -212,7 +220,10 @@ pub fn run_batch(
         index.len() - failed,
         out.display()
     );
-    Ok(if failed == 0 {
+    if unresolved > 0 {
+        eprintln!("--strict: {unresolved} state(s) reported diagnostics");
+    }
+    Ok(if failed == 0 && unresolved == 0 {
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)

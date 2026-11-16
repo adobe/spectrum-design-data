@@ -34,6 +34,8 @@ design-data render --batch states.json --out renders/
 
 The command writes `<id>.svg` and `<id>.scene.json` per state, and `index.json` listing them with render diagnostics. A state that fails to render is recorded in `index.json` with an `error` and the command exits 1 after the rest finish. Duplicate ids are an error.
 
+A binding that does not resolve (for example a recipe naming a relationship context the data does not have) does not fail the render: the part is still drawn, without its colour or type, the diagnostic goes to stderr and `index.json`, and the exit code is 0. Pass `--strict` (single render or `--batch`) to exit 1 when any state reports a diagnostic; the output is still written. When a script drives the CLI, use `--strict`, check the exit code, keep stderr visible, and do not rely on a `jq` filter, which prints nothing when it matches nothing.
+
 ## 2. Measured values
 
 An adapter writes one JSON document, `design-data-measured/1`:
