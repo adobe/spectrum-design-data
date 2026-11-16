@@ -87,7 +87,6 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
     let Some(options) = options.as_object() else {
         return Some("scope.options is not an object".to_string());
     };
-    let newer = NEWER;
     let mut uses_any_of = false;
     for (key, value) in options {
         let ok = match key.as_str() {
@@ -118,7 +117,7 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
         };
         if !ok {
             return Some(format!(
-                "scope.options.{key} has a value this engine does not support ({value}). {newer}"
+                "scope.options.{key} has a value this engine does not support ({value}). {NEWER}"
             ));
         }
     }

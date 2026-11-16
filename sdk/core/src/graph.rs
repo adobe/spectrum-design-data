@@ -81,8 +81,9 @@ pub struct ComponentRecord {
     pub layer: Layer,
 }
 
-/// Why this engine cannot use a relationship record's `scope.options`, or `None` when every
-/// value has a shape it understands (see [`crate::scope::unsupported_shape`]).
+/// Why this engine cannot use a relationship record's `scope` (an unknown field, or an
+/// `options` value it does not support), or `None` when every field and value has a shape it
+/// understands (see [`crate::scope::unsupported_shape`]).
 pub fn unsupported_scope_shape(raw: &Value) -> Option<String> {
     crate::scope::unsupported_shape(raw)
 }
