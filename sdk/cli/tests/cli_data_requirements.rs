@@ -28,11 +28,9 @@ fn repo_root() -> PathBuf {
         .expect("repo root canonicalizes")
 }
 
-/// A project whose `[source]` is a temp dataset root: this checkout's data, symlinked, with its
-/// own `dataset.json`.
-fn project_with_dataset_json(dataset_json: &str) -> tempfile::TempDir {
-    let project = tempfile::tempdir().expect("temp project dir");
-    let root = project.path().join("data");
+/// This checkout's data, symlinked under `root/packages/`, with its own `dataset.json`: the
+/// layout of a checkout, of a fetched github tarball and of the embedded snapshot.
+fn dataset_farm(root: &Path, dataset_json: &str) {
     let data = root.join("packages/design-data");
     fs::create_dir_all(&data).unwrap();
     let real = repo_root().join("packages");
@@ -48,6 +46,13 @@ fn project_with_dataset_json(dataset_json: &str) -> tempfile::TempDir {
         }
     }
     fs::write(data.join("dataset.json"), dataset_json).unwrap();
+}
+
+/// A project whose `[source]` is a temp dataset root: this checkout's data, symlinked, with its
+/// own `dataset.json`.
+fn project_with_dataset_json(dataset_json: &str) -> tempfile::TempDir {
+    let project = tempfile::tempdir().expect("temp project dir");
+    dataset_farm(&project.path().join("data"), dataset_json);
     write_config(project.path(), "");
     project
 }
@@ -217,4 +222,80 @@ fn a_moved_token_root_is_not_checked() {
         .assert()
         .success()
         .stderr(contains("needs design-data CLI").not());
+}
+
+/// The main case: a `github` source, whose dataset the CLI fetched into its cache
+/// (`<cache>/sources/github/<repo>@tag-<tag with / and @ as ->/packages/design-data/tokens`). The check has to see
+/// that cache-shaped dataset, not only a checkout: if its tokens root were named anything but
+/// `tokens`, the whole check would be skipped without a word.
+#[test]
+fn a_fetched_dataset_in_the_cache_is_checked() {
+    let tag = "@adobe/spectrum-design-data@3.99.0";
+    let cache = tempfile::tempdir().expect("cache dir");
+    let root = cache.path().join(format!(
+        "sources/github/adobe-spectrum-design-data@tag-{}",
+        tag.replace(['/', '@'], "-")
+    ));
+    dataset_farm(&root, r#"{"requires":{"cli":"99.0.0"}}"#);
+    fs::write(root.join(".complete"), "3").unwrap();
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"github\"\nrepo = \"adobe/spectrum-design-data\"\ntag = \"{tag}\"\n"
+        ),
+    )
+    .unwrap();
+    let run = |extra: &[&str]| {
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(project.path())
+            .env("DESIGN_DATA_CACHE_DIR", cache.path())
+            // A cache miss must fail loudly, not quietly download the tag: nothing is listening.
+            .env("HTTPS_PROXY", "http://127.0.0.1:9")
+            .env("https_proxy", "http://127.0.0.1:9")
+            .args(["query", "--filter", "property=corner-radius", "--count"])
+            .args(extra)
+            .assert()
+    };
+    run(&[])
+        .failure()
+        .stderr(contains("needs design-data CLI 99.0.0"));
+    // The same cache with the escape reads fine, so the refusal above is the check, not a
+    // broken fixture or a failed fetch.
+    run(&["--ignore-data-requirements"])
+        .success()
+        .stderr(contains("Continuing because --ignore-data-requirements"));
+}
+
+/// The embedded snapshot (no config, no checkout) is materialized to
+/// `<cache>/embedded/<version>/packages/design-data/tokens` and is checked like any other
+/// dataset. Run once to materialize it, rewrite its `dataset.json`, run again.
+#[test]
+fn the_embedded_dataset_is_checked() {
+    let cache = tempfile::tempdir().expect("cache dir");
+    let outside_any_checkout = tempfile::tempdir().expect("empty dir");
+    let run = || {
+        Command::cargo_bin("design-data")
+            .expect("design-data binary")
+            .current_dir(outside_any_checkout.path())
+            .env("DESIGN_DATA_CACHE_DIR", cache.path())
+            .args(["query", "--filter", "property=corner-radius", "--count"])
+            .assert()
+    };
+    run().success();
+    let dataset_json = cache
+        .path()
+        .join("embedded")
+        .join(design_data_core::data_source::EMBEDDED_DATA_VERSION)
+        .join("packages/design-data/dataset.json");
+    assert!(
+        dataset_json.is_file(),
+        "embedded snapshot not at {}",
+        dataset_json.display()
+    );
+    fs::write(&dataset_json, r#"{"requires":{"cli":"99.0.0"}}"#).unwrap();
+    run()
+        .failure()
+        .stderr(contains("needs design-data CLI 99.0.0"));
 }
