@@ -908,6 +908,34 @@ fn resolve_schema_root(
         .unwrap_or_else(fallback)
 }
 
+/// The `packages/design-data` directory of the foundation published as
+/// `@adobe/spectrum-design-data@<version>` on `repo`, fetched into the cache on first use.
+/// `platform impact` reads that release's `changelog/`.
+pub fn foundation_dataset_dir(
+    repo: &str,
+    version: &str,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let source = SourceConfig::Github {
+            repo: repo.to_string(),
+            tag: Some(format!("@adobe/spectrum-design-data@{version}")),
+            branch: None,
+            sha: None,
+        };
+        let root = fetch::ensure_cached(&source, cache_dir_override)?;
+        Ok(root.join("packages/design-data"))
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = (repo, version, cache_dir_override);
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
+}
+
 /// Dispatch a remote-fetch source through the fetch module (tier 2, config-driven).
 ///
 /// When the `fetch` feature is disabled this always returns `NotYetImplemented`
