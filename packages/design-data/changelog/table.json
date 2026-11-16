@@ -211,6 +211,30 @@
           "metadata": {"count":3,"fields":["context","contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.5",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "7a1c9a1f835887368a149d807fa7d3352702644e",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1834,"title":"fix(design-data): pin density in table relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1834"},
+          "entries": [
+            {"id":"7a1c9a1f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Row height (minimum)"],"scope":{"property":"height","options":{"density":"compact"}},"record":"45830a37-e22d-5096-a56b-cb4404c0912b","name":"height[density=compact]","fields":[{"path":"context","before":"Row height (minimum, compact density)","after":"Row height (minimum)"}]},
+            {"id":"7a1c9a1f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Row height (minimum)"],"scope":{"property":"height","options":null},"record":"8aa6cad0-ff93-5e04-81cb-11910c5c8994","name":"height","fields":[{"path":"context","before":"Row height (minimum, regular density)","after":"Row height (minimum)"}]},
+            {"id":"7a1c9a1f-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Row height (minimum)"],"scope":{"property":"height","options":null},"record":"b0e0bdff-6771-5417-b723-6de7654b51b6","name":"height","fields":[{"path":"context","before":"Row height (minimum, regular density)","after":"Row height (minimum)"}]},
+            {"id":"7a1c9a1f-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Row height (minimum)"],"scope":{"property":"height","options":{"density":"spacious"}},"record":"9b1c212d-179c-5150-9171-abf4a32a37bb","name":"height[density=spacious]","fields":[{"path":"context","before":"Row height (minimum, spacious density)","after":"Row height (minimum)"}]},
+            {"id":"7a1c9a1f-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Row height (minimum)"],"scope":{"property":"height","options":{"density":"spacious"}},"record":"7af0b6f2-0556-5537-a3e1-b376687f1e9f","name":"height[density=spacious]","fields":[{"path":"context","before":"Row height (minimum, spacious density)","after":"Row height (minimum)"}]},
+            {"id":"7a1c9a1f-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (row top/bottom to text)"],"scope":{"property":"space-between","options":{"density":"compact"}},"record":"56a7e115-f26e-5a84-ad4d-80d75cc8af23","name":"space-between[density=compact]","fields":[{"path":"context","before":"Spacing (row top/bottom to text, compact density)","after":"Spacing (row top/bottom to text)"}]},
+            {"id":"7a1c9a1f-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (row top/bottom to text)"],"scope":{"property":"space-between","options":{"density":"spacious"}},"record":"029b20fc-ed1f-523a-befe-6eadb4990106","name":"space-between[density=spacious]","fields":[{"path":"context","before":"Spacing (row top/bottom to text, spacious density)","after":"Spacing (row top/bottom to text)"}]}
+          ],
+          "metadata": {"count":22,"fields":["context","contextQualifier","scope.options.density"]}
+        }
+      ]
     }
   ]
 }

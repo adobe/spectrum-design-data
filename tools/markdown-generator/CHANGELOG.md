@@ -1,5 +1,13 @@
 # markdown-generator
 
+## 0.1.105
+
+### Patch Changes
+
+- Updated dependencies [[`e755433`](https://github.com/adobe/spectrum-design-data/commit/e75543372e5a75e0e0f6580047191af3f0de2e1b), [`bb70755`](https://github.com/adobe/spectrum-design-data/commit/bb7075540461e38400ed5ab7aeacda2632fb5e11), [`6296be3`](https://github.com/adobe/spectrum-design-data/commit/6296be3701c705fb73cd370f8f65a06122cd3ec1), [`d7bec9f`](https://github.com/adobe/spectrum-design-data/commit/d7bec9ffae3b320fa4ddccd612d812c99d36570e), [`458a8a5`](https://github.com/adobe/spectrum-design-data/commit/458a8a5785ce10b782c6dc1b91de9710b38ddc92), [`897182b`](https://github.com/adobe/spectrum-design-data/commit/897182b53d1a8f814881f27d1cc05771b40fdb02), [`4dc0b99`](https://github.com/adobe/spectrum-design-data/commit/4dc0b99e96c11388055f1b21a7c8f0af6cbf5706), [`46c51e6`](https://github.com/adobe/spectrum-design-data/commit/46c51e6dc5d7a729f8836cf0a53434f428333fcd), [`2d4d639`](https://github.com/adobe/spectrum-design-data/commit/2d4d639c756af46abd6ecb0caff2a57ace6000c1), [`56221a6`](https://github.com/adobe/spectrum-design-data/commit/56221a6e992a8923ac63562c6a4ac449159c222b), [`7a1c9a1`](https://github.com/adobe/spectrum-design-data/commit/7a1c9a1f835887368a149d807fa7d3352702644e), [`17451d4`](https://github.com/adobe/spectrum-design-data/commit/17451d427120a5a0e9148c5ae8223855cfad8e4b), [`5ce2aa3`](https://github.com/adobe/spectrum-design-data/commit/5ce2aa3c4ed45b01a5fb6200d45ba478b6d9d8e9)]:
+  - @adobe/spectrum-design-data@3.15.1
+  - @adobe/spectrum-component-api-schemas@6.1.86
+
 ## 0.1.104
 
 ### Patch Changes

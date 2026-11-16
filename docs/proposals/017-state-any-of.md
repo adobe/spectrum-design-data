@@ -2,7 +2,7 @@
 
 # Proposal 017: "Any of these" in relationship scope (states, and options)
 
-**Status:** Draft. Nothing is built. Part A (states) was merged as a proposal; the addendum at the end (any-of across options) is new.\
+**Status:** Part A (states) and the addendum (any-of across options) are built in the engine, the schema and the spec text (PR 2a, `p6ga.21.12`). The rules SPEC-094 to 099 and their conformance cases are PR 2b; the redundancy lint (`p6ga.21.4`) follows. No data uses an any-of yet; the gate (PR 1) releases first.\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md`, `spec/state-model.md` (resolution algorithm), `schemas/relationship.schema.json`, `sdk/core/src/visual.rs` (`scope_state_ids`, `resolve_candidates`), `validate/rules/spec054.rs`, 43 groups of relationship records in 6 components.\
 **Beads:** `p6ga.21.5` (this proposal), `p6ga.21.12` (build), `p6ga.21.13` (checkbox, the addendum), `p6ga.21.8` (breadcrumbs), `p6ga.21.4` (redundancy lint that finds the cases). Epic `p6ga.21`.
 
@@ -60,7 +60,7 @@ Only `relationship.scope.options.state`. Token `name.state` stays atomic, becaus
 
 * **Layer 1** (`relationship.schema.json`): each `state` element is a string or `{ anyOf: [string, ...] }` with `minItems: 2` and `uniqueItems: true`. A one-member `anyOf` or a repeated member fails the schema; write the id directly.
 * **SPEC-054** (`ctr-state-valid`) checks every member against the component's declared states, as it does for plain ids.
-* **New warning (SPEC-094, provisional):** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
+* **New warning (SPEC-094):** a state that appears in more than one element of the same `state` array (`["down", { "anyOf": ["down", "hover"] }]`, or two groups sharing a member). The expansion is well defined, because it is a set, but it is almost always a mistake.
 * **New lint** (redundancy lint, `p6ga.21.4`): records with the same `$ref` and scope whose `state` differs in one element **SHOULD** be one record with `anyOf`.
 
 ## What this does not add
@@ -118,10 +118,10 @@ reads: emphasized, and selected or indeterminate. Alternatives follow the shape 
 
 * Layer 1: `anyOf` has `minItems: 2` and `uniqueItems: true`. Each item is an object of option pins with `minProperties: 1` (an empty alternative would always match and make the record unconditional), with no nested `anyOf` and no `state`, `scale` or `colorScheme` key (those are not options).
 * SPEC-053 checks each alternative's option names and values as it does the base pins.
-* Warning (SPEC-098, provisional): an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
-* Warning (SPEC-096, provisional): all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
-* Warning (SPEC-097, provisional): an alternative that repeats a base pin, or one alternative that contains another (the larger one is redundant).
-* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by SPEC-095 (provisional, error), a rule over component option names next to SPEC-037 and SPEC-038, so the reservation is checked and not only written down.
+* Warning (SPEC-098): an alternative whose keys are all undeclared options. The solver drops undeclared pins (`pinned_options`), so such an alternative would become empty and always match.
+* Warning (SPEC-096): all alternatives pin the same single option. Use an array value instead (`size: ["s", "m"]`).
+* Warning (SPEC-097): an alternative that repeats or contradicts a base pin, or one alternative that contains another (the larger one is redundant).
+* The key `anyOf` is reserved. A component **MUST NOT** declare an option with that name. Enforced by SPEC-095 (error), a rule over component option names next to SPEC-037 and SPEC-038, so the reservation is checked and not only written down.
 * The tie guard (`relationship_option_ties`) expands `anyOf` into its alternatives before it compares pin sets. An `anyOf` record and a plain-pin record with the same base pins score the same for a request that matches both. If they point at different tokens the guard flags the pair as a tie, and that is intended: the author must say which wins, with a record that pins both. If they point at the same token it is not a tie, but the plain-pin record is a redundant duplicate, which the redundancy lint (`p6ga.21.4`) reports. The checkbox migration removes such duplicates.
 
 ### Applied to the checkbox
@@ -159,17 +159,17 @@ Readers of `scope.options` checked on 2026-11-15, with what each needs:
 | `sdk/wasm` (`dataset.rs`)                                                                                      | None. It embeds the relationship JSON and builds a core graph; validation, rendering and the legacy projection all run in core.                                                                                                                   |
 | `sdk/wasm-visual` slim engine, site `backend.js` and `index.html`                                              | None, if `anyOf` is expanded when a recipe is compiled (Decision 4). The slim engine takes a precompiled variant whose candidates already carry a plain `options` pin map; it never sees `scope.options`.                                         |
 
-### New rules (provisional IDs)
+### New rules
 
-SPEC-093 is the last rule in `rules.yaml`, and no proposal or code uses a higher number. The IDs below are provisional and are claimed in `rules.yaml` when the rules are built (`p6ga.21.12`).
+The rules below are built (`p6ga.21.12`, PR 2b) and claimed in `rules.yaml`, with a conformance case each. SPEC-099 was added in review: a record with a `legacyKey` cannot use an any-of.
 
-| ID       | Name (provisional)                  | Severity | Checks                                                                          |
-| -------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.    |
-| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                   |
-| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value). |
-| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats a base pin, or one alternative contains another.         |
-| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).  |
+| ID       | Name                                | Severity | Checks                                                                                 |
+| -------- | ----------------------------------- | -------- | -------------------------------------------------------------------------------------- |
+| SPEC-094 | `relationship-state-repeated`       | warning  | A state appears in more than one element of one `scope.options.state` array.           |
+| SPEC-095 | `component-option-name-reserved`    | error    | A component declares an option named `anyOf`.                                          |
+| SPEC-096 | `relationship-any-of-single-option` | warning  | All alternatives of an `anyOf` pin the same single option (use an array value).        |
+| SPEC-097 | `relationship-any-of-redundant`     | warning  | An alternative repeats or contradicts a base pin, or one alternative contains another. |
+| SPEC-098 | `relationship-any-of-undeclared`    | warning  | An alternative's keys are all undeclared options (the solver would drop them).         |
 
 SPEC-053 and SPEC-054 gain their per-alternative and per-member checks and keep their IDs.
 

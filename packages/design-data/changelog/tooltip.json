@@ -142,6 +142,30 @@
           "metadata": {"count":33,"fields":["contextPart","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "17451d427120a5a0e9148c5ae8223855cfad8e4b",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1841,"title":"fix(design-data): pin variant in tooltip relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1841"},
+          "entries": [
+            {"id":"17451d42-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"efe07ae2-329d-51e6-b054-e0114ed1930f","name":"color","fields":[{"path":"context","before":"Background (Neutral)","after":"Background"}]},
+            {"id":"17451d42-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"bf3825dc-6705-5b0e-a63a-43c0b1307d82","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"6b057e3d-4ec1-5ee7-bd2d-3b3eaf2581de","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"8f8e46f1-f322-5887-82d9-5ddbe4d3d7c1","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"048f5cb6-c584-5af4-91ba-c336760c34f6","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]},
+            {"id":"17451d42-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"6eda90cd-ecb4-592b-be49-7fd356107e37","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]},
+            {"id":"17451d42-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"7877fbc1-fb07-5888-aac9-d2e008090b36","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]}
+          ],
+          "metadata": {"count":7,"fields":["contextQualifier","scope.options.variant"]}
+        }
+      ]
     }
   ]
 }

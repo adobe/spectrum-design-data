@@ -26,7 +26,7 @@ test("measureTable loads the kit, stamps the table and validates it", async (t) 
   const page = fakePage({ weights, test700At14px: 23.6654 });
   const table = await measureTable(page, { kit: "https://kit.test/x.css", family: "fam", date: "2026-11-07" });
   t.regex(page.calls[0][0], /href="https:\/\/kit\.test\/x\.css"/);
-  t.deepEqual(table.meta, { generated: "2026-11-07", kit: "https://kit.test/x.css", family: "fam", test700At14px: 23.665 });
+  t.deepEqual(table.meta, { generated: "2026-11-07", kit: "https://kit.test/x.css", family: "fam", test700At14px: 23.665, platform: `${process.platform}-${process.arch}` });
   t.is(table[700].adv.length, N);
   t.is(table[400].kern.To, -50);
   const text = serialize(table);

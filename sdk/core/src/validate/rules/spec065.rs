@@ -183,11 +183,15 @@ impl ValidationRule for Rule {
                 continue;
             };
             let constraints = error_constraints(comp);
-            let cond = pinned(opts);
-            if !constraints.is_empty()
-                && !cond.is_empty()
-                && only_excluded(comp, &constraints, &cond)
-            {
+            // An any-of (proposal 017) matches the union of its alternatives, so the scope is
+            // excluded only when every alternative is.
+            let variants = crate::scope::variants(opts);
+            let excluded = !variants.is_empty()
+                && variants.iter().all(|v| {
+                    let cond = pinned(&v.options);
+                    !cond.is_empty() && only_excluded(comp, &constraints, &cond)
+                });
+            if !constraints.is_empty() && excluded {
                 out.push(warn(
                     &rel.file,
                     format!("/{}/scope/options", rel.index),

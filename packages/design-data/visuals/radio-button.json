@@ -148,18 +148,6 @@
             "when": {
               "options": {
                 "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "background-color",
-              "context": "Control"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
                 "isDisabled": true
               }
             },
@@ -176,18 +164,6 @@
               "property": "content-color",
               "context": "Control"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control"
-            },
-            "priority": 10
           }
         ]
       }
@@ -262,18 +238,6 @@
               "property": "content-color",
               "context": "Label"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label"
-            },
-            "priority": 10
           }
         ]
       }

@@ -300,6 +300,24 @@
           "metadata": {"count":12,"fields":["contextQualifier","contextRole","scope.options.isDisabled","scope.options.isEmphasized","scope.options.isSelected"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "56221a6e992a8923ac63562c6a4ac449159c222b",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1831,"title":"fix(design-data): pin isEmphasized false on switch track fills","url":"https://github.com/adobe/spectrum-design-data/pull/1831"},
+          "entries": [
+            {"id":"56221a6e-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track"],"scope":{"property":"background-color","options":{"isDisabled":true,"isSelected":true,"isEmphasized":false}},"record":"2d87406b-503d-4b96-bd2e-2298ea8e0f33","name":"background-color[isDisabled=?,isEmphasized=?,isSelected=?]","fields":[],"after":"8bf69fd3-1462-49b9-a78a-cc2f03380823"}
+          ],
+          "metadata": {"count":4,"fields":["scope.options.isEmphasized"]}
+        }
+      ]
     }
   ]
 }

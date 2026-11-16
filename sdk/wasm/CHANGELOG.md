@@ -1,5 +1,16 @@
 # @adobe/design-data-wasm
 
+## 0.23.0
+
+### Minor Changes
+
+- [#1846](https://github.com/adobe/spectrum-design-data/pull/1846) [`254adf1`](https://github.com/adobe/spectrum-design-data/commit/254adf11b565f4768a69340a5ccadc1e72303dbe) Thanks [@GarthDB](https://github.com/GarthDB)! - Refuse a relationship whose `scope.options` holds a value shape the engine does not understand,
+  when a platform manifest adds or overrides a relationship (`applyPlatform`). The error names the
+  record and says the data is newer than the engine. Every shape in use today is still accepted.
+
+  The embedded relationship data goes through the same check when the engine loads it, so a build
+  that embeds data newer than its own code fails at startup instead of rendering wrong output.
+
 ## 0.22.0
 
 ### Minor Changes

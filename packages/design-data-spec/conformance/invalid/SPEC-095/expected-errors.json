@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-095",
+      "severity": "error",
+      "message_pattern": ".*reserved in relationship scopes.*"
+    }
+  ]
+}

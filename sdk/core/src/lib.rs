@@ -38,6 +38,7 @@ pub mod record_diff;
 pub mod registry;
 pub mod report;
 pub mod schema;
+pub mod scope;
 pub mod suggest;
 pub mod text_metrics;
 pub mod validate;

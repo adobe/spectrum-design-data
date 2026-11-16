@@ -78,7 +78,7 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp@1.13.3"]
+      "args": ["-y", "@adobe/design-data-mcp@1.13.4"]
     }
   }
 }

@@ -81,37 +81,11 @@ pub struct ComponentRecord {
     pub layer: Layer,
 }
 
-/// Why this engine cannot use a relationship record's `scope.options`, or `None` when every
-/// value has a shape it understands. The engine must refuse what it does not understand: a
-/// solver that dropped an unknown pin would apply the record to every request, which is silent
-/// wrong output.
-///
-/// Understood shapes (deny by default; a new shape is added here when the solver learns it):
-/// * `state`: an array of strings;
-/// * any other option: a string, number or boolean, or an array of those.
+/// Why this engine cannot use a relationship record's `scope` (an unknown field, or an
+/// `options` value it does not support), or `None` when every field and value has a shape it
+/// understands (see [`crate::scope::unsupported_shape`]).
 pub fn unsupported_scope_shape(raw: &Value) -> Option<String> {
-    let options = raw.pointer("/scope/options")?;
-    let Some(options) = options.as_object() else {
-        return Some("scope.options is not an object".to_string());
-    };
-    let scalar = |v: &Value| v.is_string() || v.is_number() || v.is_boolean();
-    for (key, value) in options {
-        let ok = if key == "state" {
-            value
-                .as_array()
-                .is_some_and(|a| a.iter().all(Value::is_string))
-        } else {
-            scalar(value) || value.as_array().is_some_and(|a| a.iter().all(scalar))
-        };
-        if !ok {
-            return Some(format!(
-                "scope.options.{key} has a value this engine does not support ({value}). \
-                 The data is newer than this engine: upgrade the CLI or the @adobe/design-data-* \
-                 packages"
-            ));
-        }
-    }
-    None
+    crate::scope::unsupported_shape(raw)
 }
 
 /// One platform-extension declaration (spec-format JSON, `platform-extension.json`
@@ -3833,8 +3807,6 @@ mod tests {
     #[test]
     fn scope_shape_refuses_what_the_solver_cannot_read() {
         for options in [
-            json!({"anyOf": [{"isSelected": true}, {"isIndeterminate": true}]}),
-            json!({"state": [{"anyOf": ["hover", "down"]}]}),
             json!({"size": {"min": 1}}),
             json!({"size": [["s"], "m"]}),
             json!({"size": null}),
@@ -3857,7 +3829,7 @@ mod tests {
         let good = json!([{"scope": {"component": "x", "property": "y", "options": {"size": ["s"]}}, "uuid": "a", "$ref": "t"}]);
         std::fs::write(dir.join("good.json"), good.to_string()).unwrap();
         assert_eq!(TokenGraph::load_spec_relationships(&dir).unwrap().len(), 1);
-        let bad = json!([{"scope": {"component": "x", "property": "y", "options": {"anyOf": [{"a": 1}]}}, "uuid": "b", "$ref": "t"}]);
+        let bad = json!([{"scope": {"component": "x", "property": "y", "options": {"future": {"a": 1}}}, "uuid": "b", "$ref": "t"}]);
         std::fs::write(dir.join("bad.json"), bad.to_string()).unwrap();
         let err = TokenGraph::load_spec_relationships(&dir)
             .unwrap_err()
@@ -3871,9 +3843,26 @@ mod tests {
     }
 
     #[test]
+    fn loading_relationships_refuses_an_unknown_scope_field() {
+        let dir = std::env::temp_dir().join(format!("ddscope-field-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let bad = json!([{"scope": {"component": "x", "property": "y", "between": {"from": "top", "to": "text"}}, "uuid": "b", "$ref": "t"}]);
+        std::fs::write(dir.join("bad.json"), bad.to_string()).unwrap();
+        let err = TokenGraph::load_spec_relationships(&dir)
+            .unwrap_err()
+            .to_string();
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert!(
+            err.contains("scope.between") && err.contains("record 0"),
+            "{err}"
+        );
+        assert!(err.contains("upgrade the CLI"), "{err}");
+    }
+
+    #[test]
     fn manifest_relationship_add_and_override_refuse_an_unsupported_shape() {
         let any_of = json!({"scope": {"component": "button", "property": "color",
-            "options": {"anyOf": [{"isSelected": true}, {"isDisabled": true}]}}, "value": "#fff", "uuid": "u-new"});
+            "options": {"future": {"min": 1}}}, "value": "#fff", "uuid": "u-new"});
         let mut g = foundation_graph();
         let add = json!({
             "specVersion": "1.0.0-draft", "foundationVersion": "1.0.0",

@@ -142,14 +142,6 @@
             }
           },
           {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "border-color",
-              "context": "Control"
-            },
-            "priority": 10
-          },
-          {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": {
               "property": "background-color",
@@ -196,14 +188,6 @@
             "relationship": { "property": "color", "context": "Control" }
           },
           {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "background-color",
-              "context": "Control"
-            },
-            "priority": 10
-          },
-          {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": { "property": "color", "context": "Control" },
             "priority": 11
@@ -236,14 +220,6 @@
         "color": [
           {
             "relationship": { "property": "content-color", "context": "Label" }
-          },
-          {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label"
-            },
-            "priority": 10
           }
         ]
       }

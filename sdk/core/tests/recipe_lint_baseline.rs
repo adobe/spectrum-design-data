@@ -28,7 +28,7 @@ use design_data_core::validate::validate_all_with_full_options;
 
 const RULES: &[&str] = &[
     "SPEC-066", "SPEC-067", "SPEC-068", "SPEC-069", "SPEC-070", "SPEC-083", "SPEC-085", "SPEC-086",
-    "SPEC-087", "SPEC-090", "SPEC-091", "SPEC-092", "SPEC-093",
+    "SPEC-087", "SPEC-090", "SPEC-091", "SPEC-092", "SPEC-100",
 ];
 
 type Counts = BTreeMap<String, BTreeMap<String, usize>>;

@@ -148,8 +148,8 @@
               }
             },
             "relationship": {
-              "property": "color",
-              "context": "Control (selected, non emphasized)"
+              "property": "background-color",
+              "context": "Control"
             }
           },
           {
@@ -159,119 +159,17 @@
               }
             },
             "relationship": {
-              "property": "color",
-              "context": "Control (selected, non emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isIndeterminate": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isError": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, error)"
-            },
-            "priority": 5
-          },
-          {
-            "when": {
-              "options": {
-                "isIndeterminate": true,
-                "isError": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, error)"
-            },
-            "priority": 5
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, disabled)"
-            },
-            "priority": 10
-          },
-          {
-            "when": {
-              "options": {
-                "isIndeterminate": true,
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, disabled)"
-            },
-            "priority": 10
-          }
-        ],
-        "stroke": [
-          {
-            "relationship": {
-              "property": "content-color",
+              "property": "background-color",
               "context": "Control"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isError": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (error)"
-            },
-            "priority": 5
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (disabled)"
-            },
-            "priority": 10
           }
-        ]
+        ],
+        "stroke": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Control"
+          }
+        }
       }
     },
     "checkmark": {
@@ -474,26 +372,12 @@
             "context": "Label"
           }
         },
-        "color": [
-          {
-            "relationship": {
-              "property": "content-color",
-              "context": "Label"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label (disabled)"
-            },
-            "priority": 10
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Label"
           }
-        ]
+        }
       }
     },
     "focus-indicator": {
