@@ -774,6 +774,43 @@ fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
         .stdout(contains("is valid"));
 }
 
+/// With the foundation recipes loaded, a nested component that exists in neither the
+/// foundation nor the platform is still reported.
+#[test]
+fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "no-such-component",
+                    "sizeMap": {"m": "m"}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .code(1)
+        .stderr(contains("MANIFEST-001 (validate-manifest)"))
+        .stderr(contains("no-such-component"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");

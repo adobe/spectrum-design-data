@@ -18,8 +18,8 @@
 //! `isSelected: true` still counts. Only a binding that resolves for none, in any size or mode,
 //! is reported. Whether every combination resolves is `render --strict`'s question.
 
-use std::collections::BTreeMap;
 use std::collections::HashMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 
 use serde_json::Value;
@@ -59,12 +59,7 @@ impl UnresolvedBinding {
 /// Every binding of a platform-owned recipe (`Layer::Platform`) in `graph`, which must already
 /// have the manifest applied, that resolves for no size, mode or option combination.
 pub fn unresolved_platform_bindings(graph: &TokenGraph) -> Vec<UnresolvedBinding> {
-    // Whether a binding has candidates does not depend on the mode (lookup reads the
-    // component, size, property and context only), so one mode is enough.
-    let modes = [HashMap::from([
-        ("colorScheme".to_string(), "light".to_string()),
-        ("scale".to_string(), "desktop".to_string()),
-    ])];
+    let modes = modes_in(graph);
     let mut out = Vec::new();
     for v in graph.visuals.iter().filter(|v| v.layer == Layer::Platform) {
         let finding = |path: &str, miss: String| UnresolvedBinding {
@@ -103,6 +98,39 @@ pub fn unresolved_platform_bindings(graph: &TokenGraph) -> Vec<UnresolvedBinding
         }
     }
     out
+}
+
+/// Every colour scheme and scale the tokens declare, as one mode per pair. The renderer drops
+/// candidates that contradict the request's mode, so a token that exists only in `dark` or
+/// only on `mobile` has candidates only under that mode: checking one mode would call it
+/// missing. A binding is unresolved only when it has none under any mode the data has.
+fn modes_in(graph: &TokenGraph) -> Vec<HashMap<String, String>> {
+    let mut schemes: BTreeSet<String> = BTreeSet::from(["light".into()]);
+    let mut scales: BTreeSet<String> = BTreeSet::from(["desktop".into()]);
+    for t in graph.tokens.values() {
+        for (field, into) in [("colorScheme", &mut schemes), ("scale", &mut scales)] {
+            match t.raw.get("name").and_then(|n| n.get(field)) {
+                Some(Value::String(s)) => {
+                    into.insert(s.clone());
+                }
+                Some(Value::Array(a)) => {
+                    into.extend(a.iter().filter_map(|v| v.as_str().map(String::from)));
+                }
+                _ => {}
+            }
+        }
+    }
+    schemes
+        .iter()
+        .flat_map(|cs| {
+            scales.iter().map(move |sc| {
+                HashMap::from([
+                    ("colorScheme".to_string(), cs.clone()),
+                    ("scale".to_string(), sc.clone()),
+                ])
+            })
+        })
+        .collect()
 }
 
 /// The compiled recipe wraps every binding in an array (`/label/props/fill/0`); the recipe file
@@ -257,6 +285,19 @@ mod tests {
         let out = unresolved_platform_bindings(&g);
         assert_eq!(out.len(), 1, "{out:?}");
         assert!(out[0].miss.contains("no sizes"), "{out:?}");
+    }
+
+    #[test]
+    fn passes_a_token_that_exists_for_one_color_scheme_and_scale_only() {
+        let mut g = with_platform_recipe(json!({ "token": { "property": "dark-only" } }));
+        let mut t = token(
+            "d",
+            json!({ "property": "dark-only", "colorScheme": "dark", "scale": "mobile" }),
+            None,
+        );
+        t.uuid = Some("d".into());
+        g.tokens.insert(t.name.clone(), t);
+        assert!(unresolved_platform_bindings(&g).is_empty());
     }
 
     #[test]
