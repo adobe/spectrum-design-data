@@ -112,6 +112,17 @@ Restart the tool after changing its MCP config.
 
 The plugin bundles the MCP server and the skill, so there is no separate MCP setup.
 
+Install it once, from one place. The plugin is published in the Design AI Marketplace and in
+this repository's marketplace; use one. Each copy registers a server and a skill named
+`design-data`, so a second copy, or a `design-data` entry in a repo's `mcp.json`, gives the
+client duplicates and it may expose none of them. If the assistant reports no design-data
+tools, look for extra copies, remove them and start a new session.
+
+Plugins do not update themselves. In the Copilot app use Customize → Installed → **Update all**;
+in Copilot CLI run `copilot plugin marketplace update spectrum-design-data` and then
+`copilot plugin update spectrum-design-data@spectrum-design-data` (`@design-marketplace` for the
+Design AI Marketplace copy). Start a new session afterward.
+
 **Claude Code:**
 
 ```

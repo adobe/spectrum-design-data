@@ -24,19 +24,19 @@ of guessing.
 
 **Look things up**
 
-- **Find a token:** "what's the token for the default row background?" (the query tool filters by property, component, state, variant, and mode)
-- **Suggest a token from a description:** "I need a background for a selected, hovered
+* **Find a token:** "what's the token for the default row background?" (the query tool filters by property, component, state, variant, and mode)
+* **Suggest a token from a description:** "I need a background for a selected, hovered
   row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
   before you invent.
-- **Inspect a component's options:** "what sizes and variants does Button support?" You get
+* **Inspect a component's options:** "what sizes and variants does Button support?" You get
   the actual schema: variants, sizes, states, and boolean props.
-- **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
+* **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
   Resolve takes a property name, optional color scheme, scale, and contrast, and can
   narrow by component, variant, or state. If several tokens still match, the result is
   marked `ambiguous` with a top pick plus the alternatives.
-- **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
+* **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
-- **Get oriented:** a primer with token counts, the component list, the registry
+* **Get oriented:** a primer with token counts, the component list, the registry
   vocabulary, and where the data came from.
 
 **Use the shared vocabulary (the registry)**
@@ -53,13 +53,13 @@ Working on something that isn't in Spectrum Web Components or React Spectrum yet
 dataset won't write the component for you, but it keeps a hand-built one on Spectrum
 foundations:
 
-- Pick real Spectrum tokens for color, spacing, and radius with suggest and query instead
+* Pick real Spectrum tokens for color, spacing, and radius with suggest and query instead
   of hard-coding values.
-- Borrow the registry vocabulary for prop names (size, variant, state) so your component
+* Borrow the registry vocabulary for prop names (size, variant, state) so your component
   matches Spectrum conventions.
-- Use an existing component's schema as a model for how Spectrum organizes variants, sizes,
+* Use an existing component's schema as a model for how Spectrum organizes variants, sizes,
   and states.
-- Check the relevant guideline before you commit to a pattern.
+* Check the relevant guideline before you commit to a pattern.
 
 It answers from the data. It does not generate component code or plug into Spectrum Web
 Components or React Spectrum.
@@ -68,12 +68,12 @@ Components or React Spectrum.
 
 Same data, same read-only tools, two ways to install them:
 
-| | `spectrum-design-data` plugin | MCP server only |
-|---|---|---|
-| **Includes** | The MCP server (pinned version) and a skill that teaches the assistant when and how to use it | The MCP server |
-| **Context cost** | Registers an MCP server, so the client may load all tool definitions every session | Same: all tools loaded every session |
-| **Best for** | Quick setup with usage guidance | Always-available access, agent pipelines, clients without plugins |
-| **Setup** | Install once per tool below; no MCP config | Add to your MCP config, restart |
+|                  | `spectrum-design-data` plugin                                                                 | MCP server only                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Includes**     | The MCP server (pinned version) and a skill that teaches the assistant when and how to use it | The MCP server                                                    |
+| **Context cost** | Registers an MCP server, so the client may load all tool definitions every session            | Same: all tools loaded every session                              |
+| **Best for**     | Quick setup with usage guidance                                                               | Always-available access, agent pipelines, clients without plugins |
+| **Setup**        | Install once per tool below; no MCP config                                                    | Add to your MCP config, restart                                   |
 
 The plugin is not a lighter, skill-only install. A skill alone (for example a Cursor rule)
 costs only its description until used, but it has no tools until you add the MCP server.
@@ -97,19 +97,30 @@ tool: just `npx`, no environment variables.
 (`@latest` avoids `npx` reusing a cached, older build. The plugin instead pins an exact
 version, so its data changes only when the pin is bumped.) Where that block goes:
 
-| Tool | Config location |
-|---|---|
-| **Claude Code** | `.mcp.json` |
-| **GitHub Copilot CLI** | `~/.copilot/mcp-config.json` (add `"type": "local"`), or run `copilot mcp add design-data -- npx -y @adobe/design-data-mcp@latest` |
-| **GitHub Copilot app** (desktop) | Customize → MCP → add custom server. MCP servers configured in a repo or in Copilot CLI sync in automatically. |
-| **VS Code** | `.vscode/mcp.json` (note the root key is `servers`, not `mcpServers`) |
-| **Cursor** | `.cursor/mcp.json` |
+| Tool                             | Config location                                                                                                                    |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Claude Code**                  | `.mcp.json`                                                                                                                        |
+| **GitHub Copilot CLI**           | `~/.copilot/mcp-config.json` (add `"type": "local"`), or run `copilot mcp add design-data -- npx -y @adobe/design-data-mcp@latest` |
+| **GitHub Copilot app** (desktop) | Customize → MCP → add custom server. MCP servers configured in a repo or in Copilot CLI sync in automatically.                     |
+| **VS Code**                      | `.vscode/mcp.json` (note the root key is `servers`, not `mcpServers`)                                                              |
+| **Cursor**                       | `.cursor/mcp.json`                                                                                                                 |
 
 Restart the tool after changing its MCP config.
 
 ## Install the plugin
 
 The plugin bundles the MCP server and the skill, so there is no separate MCP setup.
+
+Install it once, from one place. The plugin is published in the Design AI Marketplace and in
+this repository's marketplace; use one. Each copy registers a server and a skill named
+`design-data`, so a second copy, or a `design-data` entry in a repo's `mcp.json`, gives the
+client duplicates and it may expose none of them. If the assistant reports no design-data
+tools, look for extra copies, remove them and start a new session.
+
+Plugins do not update themselves. In the Copilot app use Customize → Installed → **Update all**;
+in Copilot CLI run `copilot plugin marketplace update spectrum-design-data` and then
+`copilot plugin update spectrum-design-data@spectrum-design-data` (`@design-marketplace` for the
+Design AI Marketplace copy). Start a new session afterward.
 
 **Claude Code:**
 
@@ -131,11 +142,11 @@ before it changes anything.
 
 Didn't work?
 
-- **The link opened a web page and not the app.** The app has to be installed. If the browser
+* **The link opened a web page and not the app.** The app has to be installed. If the browser
   can't hand off to it, the link shows a fallback page; open the app yourself and use the manual
   steps below.
-- **The app says the marketplace isn't found.** Finish step 1, then try step 2 again.
-- **The plugin is installed but the assistant says it has no design-data tool.** Start a new
+* **The app says the marketplace isn't found.** Finish step 1, then try step 2 again.
+* **The plugin is installed but the assistant says it has no design-data tool.** Start a new
   session, check that **Customize → Installed → spectrum-design-data** is switched on, and
   make sure Node.js 20.12 or later is available to the app (the plugin starts its server with
   `npx`).
@@ -178,7 +189,7 @@ handled by `design-data-agent`, not this plugin.
 
 ## Other AI resources
 
-- **llms.txt**, at the repo root: [llms.txt](https://github.com/adobe/spectrum-design-data/blob/main/llms.txt) describes the project layout, design tokens, component schemas, and common tasks for LLMs.
-- **Generated markdown**: the [docs/markdown/](https://github.com/adobe/spectrum-design-data/tree/main/docs/markdown) directory holds auto-generated markdown for tokens, component schemas, and the design-system registry, used for docs site chatbot indexing. Regenerate with `moon run markdown-generator:generate`.
+* **llms.txt**, at the repo root: [llms.txt](https://github.com/adobe/spectrum-design-data/blob/main/llms.txt) describes the project layout, design tokens, component schemas, and common tasks for LLMs.
+* **Generated markdown**: the [docs/markdown/](https://github.com/adobe/spectrum-design-data/tree/main/docs/markdown) directory holds auto-generated markdown for tokens, component schemas, and the design-system registry, used for docs site chatbot indexing. Regenerate with `moon run markdown-generator:generate`.
 
 **See also:** [React Spectrum: Using AI](https://react-spectrum.adobe.com/ai) for React Spectrum's own AI integration (S2 component implementation docs, icons, illustrations).
