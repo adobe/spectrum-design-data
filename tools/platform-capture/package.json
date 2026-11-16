@@ -1,6 +1,6 @@
 {
   "name": "@adobe/platform-capture",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Captures platform reference renderings and rasterizes renderer SVGs for comparison",
   "type": "module",

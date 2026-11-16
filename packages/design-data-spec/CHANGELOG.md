@@ -1,5 +1,41 @@
 # @adobe/design-data-spec
 
+## 4.21.0
+
+### Minor Changes
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-100 (warning): relationship records of one component that share `property`, `context`
+  and `$ref` and differ only in the value of one declared option SHOULD be one record that pins
+  an array. Records with a `legacyKey` and records that use an any-of are skipped. It has a
+  conformance case.
+
+- [#1848](https://github.com/adobe/spectrum-design-data/pull/1848) [`da44b61`](https://github.com/adobe/spectrum-design-data/commit/da44b61596c59dfdd3434fca196e7f48f3ff95b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rules SPEC-094 to SPEC-099 for any-of in relationship scopes (proposal 017): a state repeated
+  across elements of one state array (SPEC-094), a component option named `anyOf` (SPEC-095, error),
+  an `anyOf` over one option (SPEC-096), a redundant alternative (SPEC-097), an alternative that
+  pins no declared option (SPEC-098), and a record with a `legacyKey` that uses an any-of
+  (SPEC-099, error). Each has a conformance case.
+
+- [#1847](https://github.com/adobe/spectrum-design-data/pull/1847) [`d12b8bc`](https://github.com/adobe/spectrum-design-data/commit/d12b8bce115b3c2f494de0b9d3739191b4ed8287) Thanks [@GarthDB](https://github.com/GarthDB)! - Add any-of to relationship scopes (proposal 017). `scope.options.anyOf` is an array of option
+  conditions: the record applies when its other pins match and at least one alternative matches, so
+  "selected or indeterminate" is one record. An element of `scope.options.state` may be
+  `{ "anyOf": [state, ...] }`. A record with an any-of is equivalent to one record per alternative
+  with the same `$ref`. `anyOf` is reserved as an option name, an any-of cannot be used on a record
+  that carries its own `value` or a `legacyKey`, and SPEC-053 and SPEC-054 check each alternative
+  and member. `relationship.schema.json` accepts both forms.
+  `relationship.schema.json` also allows numeric option pins (for example `scaleIndex`), which the
+  data already uses.
+
+- [#1863](https://github.com/adobe/spectrum-design-data/pull/1863) [`8d25409`](https://github.com/adobe/spectrum-design-data/commit/8d2540928d4618fe4340b570a33eb4f8f22cb680) Thanks [@GarthDB](https://github.com/GarthDB)! - An engine MUST refuse a relationship record whose `scope` has a field it does not know
+  (`component`, `part`, `property` and `options` are the known ones), and MUST NOT ignore it. This
+  is the gate that ships before new scope fields (`between`, bead p6ga.21.24) are allowed in data,
+  so an engine built before them fails loudly instead of treating two records that differ only by
+  such a field as identical.
+
+- [#1856](https://github.com/adobe/spectrum-design-data/pull/1856) [`7a5a511`](https://github.com/adobe/spectrum-design-data/commit/7a5a51166a61074fd9435d415f1f7ee2248fcb2e) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 is now an error: a relationship `context` MUST NOT name a value of an option the
+  component declares, a boolean option name or its negation (proposal 017, bead p6ga.21.9). A
+  `size` value counts in its spelled form (`m` is `medium`). The data in this repository has no
+  violation left, so the baseline entry is gone.
+
 ## 4.20.0
 
 ### Minor Changes
