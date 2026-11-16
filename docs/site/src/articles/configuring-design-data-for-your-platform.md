@@ -85,6 +85,15 @@ expands over the declared values, and a record pinned to `isSelected: true`
 counts), so this check does not ask that every combination resolve; `design-data
 render --strict` does. `design-data validate` does not run `MANIFEST-001`.
 
+`validate-manifest` also checks that the pin agrees with itself. You state the
+foundation release twice: the manifest's `foundationVersion` and the `[source]`
+`tag` (or npm `version`) in `.design-data.toml`. If they name different
+releases, it fails with `MANIFEST-002`. The package prefix doesn't count:
+`@adobe/spectrum-design-data@3.15.1` and `3.15.1` are the same release. A `sha`
+or `branch` source, or a version that isn't exact, can't be compared, so it only
+warns. A `path` source, or no `[source]`, is skipped. `design-data platform show`
+reports the same result.
+
 Before you move the `foundationVersion` pin, see what the new release changes for
 you:
 

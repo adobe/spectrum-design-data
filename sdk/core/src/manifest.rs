@@ -20,7 +20,7 @@ use std::path::{Component, Path, PathBuf};
 
 use serde_json::{Map, Value};
 
-use crate::data_source::ResolvedData;
+use crate::data_source::{ResolvedData, SourceConfig};
 use crate::discovery::discover_json_files;
 use crate::graph::TokenGraph;
 use crate::schema::SchemaRegistry;
@@ -666,8 +666,202 @@ pub fn load_merged_catalogs(resolved: &ResolvedData) -> Result<MergedCatalogs, C
     })
 }
 
+/// Whether a manifest's `foundationVersion` and the project's `[source]` pin name the same
+/// release (the pin is written twice: GH #1741).
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+#[serde(tag = "status", rename_all = "kebab-case")]
+pub enum PinCheck {
+    /// Both name this release.
+    Agree { version: String },
+    /// They name different releases.
+    Mismatch { manifest: String, source: String },
+    /// The source cannot be compared (a sha, branch or git ref, or a version that is not exact).
+    Unverifiable { reason: String },
+    /// Nothing to compare: no manifest pin, or a `path` or embedded dataset.
+    Skipped { reason: String },
+}
+
+/// `@adobe/spectrum-design-data@3.15.1` and `3.15.1` both name release `3.15.1`.
+pub fn bare_version(pin: &str) -> &str {
+    pin.rsplit_once('@').map_or(pin, |(_, v)| v).trim()
+}
+
+/// The package a pin names, if it says: `@adobe/spectrum-design-data` for
+/// `@adobe/spectrum-design-data@3.15.1`, nothing for `3.15.1`.
+fn pin_package(pin: &str) -> Option<&str> {
+    pin.rsplit_once('@')
+        .map(|(pkg, _)| pkg.trim())
+        .filter(|pkg| !pkg.is_empty())
+}
+
+/// Compare the manifest's `foundationVersion` with the `[source]` the project resolves.
+///
+/// A github `tag` and an npm `version` are compared once the package prefix is stripped from both.
+pub fn check_foundation_pin(manifest_pin: Option<&str>, source: Option<&SourceConfig>) -> PinCheck {
+    let skipped = |reason: &str| PinCheck::Skipped {
+        reason: reason.to_string(),
+    };
+    let Some(manifest_pin) = manifest_pin else {
+        return skipped("the manifest declares no `foundationVersion`");
+    };
+    let source_pin = match source {
+        None => return skipped("no `[source]` pin: the project uses the embedded dataset"),
+        Some(SourceConfig::Path { .. }) => {
+            return skipped("the `[source]` is a local path, not a release pin")
+        }
+        Some(SourceConfig::Github { tag: Some(tag), .. }) => tag.as_str(),
+        Some(SourceConfig::Npm { version, .. }) => version.as_str(),
+        Some(SourceConfig::Github { .. } | SourceConfig::Git { .. }) => {
+            return PinCheck::Unverifiable {
+                reason: "the `[source]` is pinned by sha, branch or git ref, not a release".into(),
+            }
+        }
+    };
+    let (manifest, source) = (bare_version(manifest_pin), bare_version(source_pin));
+    if semver::Version::parse(manifest).is_err() || semver::Version::parse(source).is_err() {
+        return PinCheck::Unverifiable {
+            reason: format!(
+                "`foundationVersion` '{manifest_pin}' or the `[source]` pin '{source_pin}' is not an exact version"
+            ),
+        };
+    }
+    // Two pins that name different packages are not the same release even at one version.
+    if let (Some(a), Some(b)) = (pin_package(manifest_pin), pin_package(source_pin)) {
+        if a != b {
+            return PinCheck::Mismatch {
+                manifest: manifest_pin.trim().to_string(),
+                source: source_pin.trim().to_string(),
+            };
+        }
+    }
+    // Build metadata (`3.15.1+meta`) does not make a different release: compare by precedence.
+    let same = match (
+        semver::Version::parse(manifest),
+        semver::Version::parse(source),
+    ) {
+        (Ok(a), Ok(b)) => a.cmp_precedence(&b) == std::cmp::Ordering::Equal,
+        _ => manifest == source,
+    };
+    if same {
+        PinCheck::Agree {
+            version: manifest.to_string(),
+        }
+    } else {
+        PinCheck::Mismatch {
+            manifest: manifest.to_string(),
+            source: source.to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn pins_agree_with_or_without_the_package_prefix() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        for manifest in ["@adobe/spectrum-design-data@3.15.1", "3.15.1"] {
+            assert_eq!(
+                check_foundation_pin(Some(manifest), Some(&tag)),
+                PinCheck::Agree {
+                    version: "3.15.1".into()
+                },
+                "{manifest}"
+            );
+        }
+        assert_eq!(
+            check_foundation_pin(
+                Some("@adobe/spectrum-design-data@3.15.1"),
+                Some(&gh(Some("3.15.1")))
+            ),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
+    #[test]
+    fn different_pins_are_a_mismatch() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.10.0"));
+        assert_eq!(
+            check_foundation_pin(Some("@adobe/spectrum-design-data@3.9.0"), Some(&tag)),
+            PinCheck::Mismatch {
+                manifest: "3.9.0".into(),
+                source: "3.10.0".into()
+            }
+        );
+    }
+
+    #[test]
+    fn a_source_that_is_not_a_release_pin_is_not_compared() {
+        let manifest = Some("@adobe/spectrum-design-data@3.9.0");
+        assert!(matches!(
+            check_foundation_pin(manifest, None),
+            PinCheck::Skipped { .. }
+        ));
+        let path = SourceConfig::Path {
+            root: "../x".into(),
+        };
+        assert!(matches!(
+            check_foundation_pin(manifest, Some(&path)),
+            PinCheck::Skipped { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(manifest, Some(&gh(None))),
+            PinCheck::Unverifiable { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(None, Some(&gh(Some("3.9.0")))),
+            PinCheck::Skipped { .. }
+        ));
+    }
+
+    #[test]
+    fn a_version_that_is_not_exact_is_unverifiable() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        assert!(matches!(
+            check_foundation_pin(Some("^3.15.0"), Some(&tag)),
+            PinCheck::Unverifiable { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(Some("latest"), Some(&tag)),
+            PinCheck::Unverifiable { .. }
+        ));
+    }
+
+    #[test]
+    fn pins_for_different_packages_never_agree() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        assert!(matches!(
+            check_foundation_pin(Some("@other/pkg@3.15.1"), Some(&tag)),
+            PinCheck::Mismatch { .. }
+        ));
+    }
+
+    #[test]
+    fn build_metadata_does_not_make_a_different_release() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1+abc"));
+        assert_eq!(
+            check_foundation_pin(Some("3.15.1"), Some(&tag)),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
+    #[test]
+    fn an_npm_version_is_compared() {
+        let npm = SourceConfig::Npm {
+            package: None,
+            version: "3.15.1".into(),
+        };
+        assert_eq!(
+            check_foundation_pin(Some("@adobe/spectrum-design-data@3.15.1"), Some(&npm)),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
     use super::*;
 
     #[test]
@@ -701,6 +895,15 @@ mod tests {
     use crate::graph::TokenGraph;
     use serde_json::json;
     use std::path::PathBuf;
+
+    fn gh(tag: Option<&str>) -> SourceConfig {
+        SourceConfig::Github {
+            repo: "adobe/spectrum-design-data".into(),
+            tag: tag.map(String::from),
+            branch: tag.is_none().then(|| "main".to_string()),
+            sha: None,
+        }
+    }
 
     /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the

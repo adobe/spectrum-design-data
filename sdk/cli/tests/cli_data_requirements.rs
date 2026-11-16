@@ -11,6 +11,9 @@
 //! `dataset.json` `requires.cli` and a newer `layoutRevision` (h890.36.2, GH #1869): a CLI older
 //! than its data refuses it, `--ignore-data-requirements` reads it anyway and warns every run.
 
+// The fixture datasets are symlink farms over this checkout's data.
+#![cfg(unix)]
+
 use std::fs;
 use std::path::{Path, PathBuf};
 
