@@ -32,7 +32,7 @@ To invite someone to install, share a link ending in `#install` (for example `ht
 
 The cloud button in the header shows the app's status: up to date, update available (click to reload into the new version), or offline. Updates otherwise apply the next time you open the app. Run `pnpm test:pwa` after a build to check the install files.
 
-The service worker is off in `pnpm dev`, so the dev server can't be installed. To install it, run `pnpm moon run spectrum-studio:dev-pwa` from the repository root (or `pnpm dev:pwa` from this folder) instead and choose **Install** in the address bar. The installed app only works while the dev server is running. If pages look out of date afterward in `pnpm dev`, open DevTools → Application → Service workers and choose **Unregister**.
+The service worker is off in `pnpm dev`, so the dev server can't be installed. To install it, run `pnpm moon run spectrum-studio:dev-pwa` from the repository root (or `pnpm dev:pwa` from this folder) instead and choose **Install** in the address bar. The dev server always uses `https://localhost:7437` so the installed app keeps working; if that port is busy, Vite stops with an error instead of picking another port. The installed app only works while the dev server is running. If pages look out of date afterward in `pnpm dev`, open DevTools → Application → Service workers and choose **Unregister**.
 
 ## Scripts
 

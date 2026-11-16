@@ -15,6 +15,10 @@ export default defineConfig(({ command, isPreview, mode }) => {
   return {
     server: {
       https: {},
+      // A fixed, uncommon port keeps the installed dev PWA's origin stable.
+      // strictPort fails loudly instead of silently moving to another port.
+      port: 7437,
+      strictPort: true,
       // Pages load on first visit; preparing them when the server starts keeps
       // switching pages quick during development.
       warmup: { clientFiles: ["./src/pages/*.tsx"] },

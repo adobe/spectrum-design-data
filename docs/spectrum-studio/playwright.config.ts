@@ -5,8 +5,8 @@ import {
   requireBrowserSelection,
 } from "./scripts/browserPolicy";
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "https://localhost:5173";
-const port = new URL(baseURL).port || "5173";
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "https://localhost:7437";
+const port = new URL(baseURL).port || "7437";
 requireBrowserSelection("app");
 
 export default defineConfig({
