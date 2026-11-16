@@ -930,6 +930,39 @@ fn resolve_schema_root(
         .unwrap_or_else(fallback)
 }
 
+/// The newest `@adobe/spectrum-design-data@x.y.z` release in a GitHub `releases` response
+/// (a JSON array of objects with a `tag_name`). Prereleases and drafts are ignored.
+pub fn latest_release_version(releases: &serde_json::Value) -> Option<semver::Version> {
+    releases
+        .as_array()?
+        .iter()
+        .filter(|r| r.get("draft").and_then(serde_json::Value::as_bool) != Some(true))
+        .filter_map(|r| {
+            let tag = r.get("tag_name")?.as_str()?;
+            let version = tag.strip_prefix("@adobe/spectrum-design-data@")?;
+            semver::Version::parse(version).ok()
+        })
+        .filter(|v| v.pre.is_empty())
+        .max()
+}
+
+/// The newest published foundation release on `repo`, from the GitHub API (60 unauthenticated
+/// requests an hour). `platform doctor --latest` compares the platform's pin with it.
+pub fn latest_foundation_version(repo: &str) -> Result<semver::Version, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let version = fetch::latest_release(repo, latest_release_version)?;
+        Ok(version)
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = repo;
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
+}
+
 /// The `packages/design-data` directory of the foundation published as
 /// `@adobe/spectrum-design-data@<version>` on `repo`, fetched into the cache on first use.
 /// `platform impact` reads that release's `changelog/`.
@@ -1750,6 +1783,29 @@ mod tests {
                 .schemas_root
                 .ends_with("packages/design-data-spec/schemas"),
             "schema override must not fall through to the embedded/in-repo default"
+        );
+    }
+
+    #[test]
+    fn the_latest_release_is_the_newest_stable_foundation_tag() {
+        let releases = serde_json::json!([
+            { "tag_name": "design-data-cli@0.99.0" },
+            { "tag_name": "@adobe/design-data-wasm@9.0.0" },
+            { "tag_name": "@adobe/spectrum-design-data@3.15.1" },
+            { "tag_name": "@adobe/spectrum-design-data@3.17.0" },
+            { "tag_name": "@adobe/spectrum-design-data@3.18.0-beta.1" },
+            { "tag_name": "@adobe/spectrum-design-data@4.0.0", "draft": true },
+            { "tag_name": "@adobe/spectrum-design-data@3.9.0" },
+            { "tag_name": "@adobe/spectrum-design-data@not-a-version" }
+        ]);
+        assert_eq!(
+            latest_release_version(&releases),
+            Some(semver::Version::new(3, 17, 0))
+        );
+        assert_eq!(latest_release_version(&serde_json::json!([])), None);
+        assert_eq!(
+            latest_release_version(&serde_json::json!({ "message": "rate limited" })),
+            None
         );
     }
 }

@@ -90,6 +90,8 @@ pub enum FetchError {
         source: io::Error,
     },
     /// A local filesystem operation failed.
+    #[error("no published @adobe/spectrum-design-data release found in {repo}")]
+    NoRelease { repo: String },
     #[error("cache I/O error: {0}")]
     Io(#[from] io::Error),
     /// Could not determine the OS cache directory.
@@ -335,6 +337,44 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
     evict_stale_versions(&root, &base.join("github"), &format!("{safe_repo}@"));
 
     Ok(root)
+}
+
+/// Ask GitHub for `repo`'s recent releases and pick the newest with `pick`. The API rejects a
+/// request without a `User-Agent`, which the archive downloads do not need.
+pub(crate) fn latest_release(
+    repo: &str,
+    pick: fn(&serde_json::Value) -> Option<semver::Version>,
+) -> Result<semver::Version, FetchError> {
+    let url = format!("https://api.github.com/repos/{repo}/releases?per_page=100");
+    let rt = tokio::runtime::Runtime::new().map_err(FetchError::Io)?;
+    let releases: serde_json::Value = rt.block_on(async {
+        let client = reqwest::Client::builder()
+            .timeout(std::time::Duration::from_secs(30))
+            .user_agent(concat!("design-data-cli/", env!("CARGO_PKG_VERSION")))
+            .build()
+            .map_err(|e| FetchError::Network {
+                url: url.clone(),
+                source: e,
+            })?;
+        let net = |e| FetchError::Network {
+            url: url.clone(),
+            source: e,
+        };
+        client
+            .get(&url)
+            .header("Accept", "application/vnd.github+json")
+            .send()
+            .await
+            .map_err(net)?
+            .error_for_status()
+            .map_err(net)?
+            .json()
+            .await
+            .map_err(net)
+    })?;
+    pick(&releases).ok_or_else(|| FetchError::NoRelease {
+        repo: repo.to_string(),
+    })
 }
 
 /// Download `url` and return the response body as bytes.
