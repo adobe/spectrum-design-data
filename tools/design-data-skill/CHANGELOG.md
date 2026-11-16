@@ -1,5 +1,12 @@
 # @adobe/design-data-skill
 
+## 2.2.8
+
+### Patch Changes
+
+- Updated dependencies [[`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31), [`374bbd8`](https://github.com/adobe/spectrum-design-data/commit/374bbd844ae6c08d2869730f6cd96d0f16741aeb)]:
+  - @adobe/design-data-mcp@1.13.6
+
 ## 2.2.7
 
 ### Patch Changes
