@@ -307,9 +307,10 @@ impl Dataset {
     pub fn render_component_svg(
         &self,
         request: JsValue,
-        fonts: JsValue,
+        fonts: Option<JsValue>,
     ) -> Result<String, JsValue> {
         use design_data_core::raster::font::Font;
+        let fonts = fonts.unwrap_or(JsValue::UNDEFINED);
         let mut request: design_data_core::visual::RenderRequest =
             serde_wasm_bindgen::from_value(request).map_err(js_err)?;
         request.component = self

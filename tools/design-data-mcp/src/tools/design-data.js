@@ -580,7 +580,7 @@ export function createDesignDataTools() {
         "given size, states, options, and mode. Returns SVG markup as text by default, or " +
         'a PNG image with format "png". Only components with a recipe can be rendered ' +
         "(see design-data-visual-recipe). SVG label boxes are sized with Adobe Clean Spectrum VF when " +
-        "it is installed on this machine, otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
+        "it is installed on this machine (not with fontPath), otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
         "installed on this machine (found automatically, or set with the fontPath argument " +
         "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
         "result includes a font status: when font.fallback is true, tell the user the text " +
@@ -698,18 +698,19 @@ export function createDesignDataTools() {
         if (width !== undefined) request.width = width;
         if (icon !== undefined) request.icon = icon;
         if (format === "svg") {
-          // Size the layout with the installed Adobe font when there is one, so the boxes fit
-          // the text a viewer with that font draws. Source Sans 3 (the fallback) is the
-          // built-in table, so it needs no font here.
-          const { fonts, explicit } = findFont(await getWasm(), { fontPath });
+          // Size the layout with the installed Adobe Clean Spectrum VF when there is one, so
+          // the boxes fit the text a viewer with that font draws. A font named with fontPath
+          // or DESIGN_DATA_FONT is not used: the SVG stack still asks for Adobe Clean, so
+          // sizing for another font would mismatch. Source Sans 3 is the built-in table.
+          const { fonts, explicit } = findFont(await getWasm());
           try {
             return ds.renderComponentSvg(
               request,
-              fonts.filter((f) => !f.fallback),
+              explicit ? [] : fonts.filter((f) => !f.fallback),
             );
           } catch (e) {
             // A font found on the machine that will not parse must not stop the SVG.
-            if (explicit || !/^font /.test(String(e?.message ?? e))) throw e;
+            if (!/^font /.test(String(e?.message ?? e))) throw e;
             return ds.renderComponentSvg(request);
           }
         }
