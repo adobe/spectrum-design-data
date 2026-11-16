@@ -104,7 +104,7 @@ impl ValidationRule for Rule {
                 rule_id: Some(self.id().to_string()),
                 severity: Severity::Warning,
                 message: format!(
-                    "{} relationship records for '{}' / '{}' differ only in option '{}' ({}); merge them into one record that pins an array",
+                    "{} relationship records for '{}' / '{}' differ only in option '{}' ({}); merge them into one record that pins an array, or drop a record whose values another one covers",
                     members.len(),
                     key.1,
                     key.2,
