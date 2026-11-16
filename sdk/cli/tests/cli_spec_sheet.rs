@@ -607,3 +607,39 @@ fn svg_flag_adds_a_rendered_svg_to_each_visual_and_nothing_else() {
     // Without the svg strings, --svg output is the default sheet.
     assert_eq!(with_svg, sheet_of("button"));
 }
+
+#[test]
+fn a_context_with_boolean_variants_is_one_block_per_variant_rendered_with_its_pins() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "checkbox"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let sheet: Value = serde_json::from_slice(&out).expect("sheet is JSON");
+    let block = |title: &str| {
+        blocks_of(&sheet)
+            .into_iter()
+            .find(|b| b["title"] == title)
+            .unwrap_or_else(|| panic!("no block titled {title}"))
+    };
+
+    // The any-of reads as words (alternatives sorted), and the block renders with its first one.
+    let emphasized = block("Control (indeterminate or selected, emphasized)");
+    let options = &emphasized["render"]["request"]["options"];
+    // The title sorts the alternatives; the scene follows the order the data wrote them.
+    assert_eq!(options["isSelected"], true);
+    assert!(options["isIndeterminate"].is_null());
+    assert_eq!(options["isEmphasized"], true);
+    assert_eq!(emphasized["rows"][0]["conditions"], serde_json::json!({}));
+
+    // The base block is the unselected control, not the first selected entry of the recipe.
+    let base = block("Control");
+    assert!(base["render"]["request"]["options"]["isSelected"].is_null());
+
+    let disabled = block("Control (indeterminate or selected, disabled)");
+    assert_eq!(disabled["render"]["request"]["options"]["isDisabled"], true);
+}
