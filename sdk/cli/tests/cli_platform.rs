@@ -908,8 +908,10 @@ fn platform_impact_reports_a_context_renamed_in_the_release_range() {
 fn pinned_project(foundation: &str, source_tag: &str) -> (tempfile::TempDir, tempfile::TempDir) {
     let cache = tempfile::tempdir().expect("cache dir");
     let segment = source_tag.replace(['/', '@'], "-");
+    // `<repo>@tag-<tag with / and @ as ->`: the tag already starts with `-`, so this is `tag--`
+    // in the directory name and not `tag---`.
     let root = cache.path().join(format!(
-        "sources/github/adobe-spectrum-design-data@tag--{segment}"
+        "sources/github/adobe-spectrum-design-data@tag-{segment}"
     ));
     fs::create_dir_all(&root).unwrap();
     std::os::unix::fs::symlink(repo_root().join("packages"), root.join("packages")).unwrap();
@@ -941,6 +943,9 @@ fn with_cache(
         .expect("binary design-data")
         .current_dir(project)
         .env("DESIGN_DATA_CACHE_DIR", cache)
+        // A cache miss must fail loudly, not quietly download the tag: nothing is listening.
+        .env("HTTPS_PROXY", "http://127.0.0.1:9")
+        .env("https_proxy", "http://127.0.0.1:9")
         .args(args)
         .assert()
 }
