@@ -679,6 +679,138 @@ fn catalog_export_platform_recipe_replaces_foundation_recipe() {
     assert_eq!(recipe["sizeScale"], json!({"zz": 1}));
 }
 
+/// h890.36.8 (GH #1866): `validate-manifest` reports a platform-owned recipe that binds a
+/// relationship the data does not have (MANIFEST-001), where it used to print "is valid".
+#[test]
+fn validate_manifest_reports_a_platform_recipe_binding_a_missing_context() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    let write_recipe = |context: &str| {
+        fs::write(
+            dir.join("action-button.json"),
+            json!({"component": "action-button", "root": "container", "sizeScale": {"m": 100},
+                "parts": {"container": {"kind": "box", "props": {
+                    "fill": {"relationship": {
+                        "property": "color", "context": context}}}}}})
+            .to_string(),
+        )
+        .unwrap();
+    };
+
+    // A context the data has passes.
+    write_recipe("Background");
+    design_data(project.path(), &["validate-manifest"])
+        .success()
+        .stdout(contains("is valid"));
+
+    // A context it does not have fails: a bogus one, and the name data 3.15.0 renamed to
+    // "Background" (action-button, #1827).
+    for missing in ["BogusContext", "Background (selected, non emphasized)"] {
+        write_recipe(missing);
+        design_data(project.path(), &["validate-manifest"])
+            .code(1)
+            .stderr(contains("MANIFEST-001 (validate-manifest)"))
+            .stderr(contains(missing));
+    }
+    let out = design_data(project.path(), &["validate-manifest", "--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["valid"], false);
+    assert_eq!(report["bindings"][0]["component"], "action-button");
+}
+
+/// A platform recipe that nests a foundation component (a `component` part, as Rune's
+/// radio-group nests radio-button) must still be checked, not reported as uncompilable:
+/// `validate-manifest` has to load the foundation recipes the nested part resolves to.
+#[test]
+fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "radio-button",
+                    "sizeMap": {"m": "m"}, "with": {"isSelected": true}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .success()
+        .stdout(contains("is valid"));
+}
+
+/// With the foundation recipes loaded, a nested component that exists in neither the
+/// foundation nor the platform is still reported.
+#[test]
+fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "no-such-component",
+                    "sizeMap": {"m": "m"}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .code(1)
+        .stderr(contains("MANIFEST-001 (validate-manifest)"))
+        .stderr(contains("no-such-component"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");

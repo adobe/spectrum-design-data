@@ -55,6 +55,7 @@ mod spec043;
 // SPEC-044 (dataset-structure) is a filesystem pre-pass, not a graph rule — it
 // inspects the on-disk directory layout before the graph is built. See
 // `crate::validate::dataset_structure` and `validate::validate_dataset`.
+pub mod manifest_bindings;
 mod spec045;
 mod spec046;
 mod spec047;

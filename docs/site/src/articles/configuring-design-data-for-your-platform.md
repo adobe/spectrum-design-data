@@ -68,6 +68,15 @@ category. Validate yours with:
 design-data validate-manifest --platform <id>
 ```
 
+It also checks your own recipes in `extensions/visuals/`. A binding that names a
+relationship property and context, or a token, that the foundation data does not
+have fails with `MANIFEST-001`. This is how a context the foundation renamed in
+a newer release shows up when you bump the pin. A binding passes when it
+resolves for at least one option combination (a placeholder like `{style}`
+expands over the declared values, and a record pinned to `isSelected: true`
+counts), so this check does not ask that every combination resolve; `design-data
+render --strict` does. `design-data validate` does not run `MANIFEST-001`.
+
 Register the manifest in a `.design-data.toml` at the root of your project:
 
 ```toml
@@ -171,6 +180,6 @@ when a platform seems to be missing.
 
 ## Where to go next
 
-- The [manifest spec](/spec/manifest/) for every field and extension category.
-- [`platforms/`](https://github.com/adobe/spectrum-design-data/tree/main/platforms) for the incubating React Spectrum, Web Components, and iOS manifests.
-- The ejection steps in `platforms/README.md`, when your team is ready to own its manifest in its own repo.
+* The [manifest spec](/spec/manifest/) for every field and extension category.
+* [`platforms/`](https://github.com/adobe/spectrum-design-data/tree/main/platforms) for the incubating React Spectrum, Web Components, and iOS manifests.
+* The ejection steps in `platforms/README.md`, when your team is ready to own its manifest in its own repo.
