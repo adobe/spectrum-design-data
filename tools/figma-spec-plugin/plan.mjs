@@ -41,19 +41,25 @@ const cliPath = () =>
     "debug/design-data",
   );
 
-/** The action an agent takes for one component: create the file, update it, or nothing. */
 /**
  * What a text-metrics table says about where it was measured. The table is derived from a licensed
  * font and is never committed, so the registry keeps only this stamp (no kit URL, no advances).
  * `test700At14px` moves when the platform, Chrome or the font changes.
  */
 export function textMetricsStamp(file) {
-  const m = readJson(file).meta ?? {};
+  const t = readJson(file);
+  const m = t.meta ?? {};
   return {
     family: m.family,
     test700At14px: m.test700At14px,
+    // Short hash of the advances and kerning at both weights: it moves with any change to them.
+    fingerprint: createHash("sha256")
+      .update(JSON.stringify([t[400], t[700]]))
+      .digest("hex")
+      .slice(0, 16),
     generated: m.generated,
-    platform: `${process.platform}-${process.arch}`,
+    // Where the table was measured (the generator writes it), not where this runs.
+    platform: m.platform ?? "unknown",
   };
 }
 
@@ -64,11 +70,17 @@ export function textMetricsNote(entry, stamp) {
     return `registered with the ${had.family} kit table (test700At14px ${had.test700At14px}, ${had.platform}); pass --text-metrics to compare`;
   if (!had && stamp && entry?.fileKey)
     return "registered with the default text-metrics table; this run uses the kit table";
-  if (had && stamp && had.test700At14px !== stamp.test700At14px)
-    return `kit table test700At14px ${stamp.test700At14px} (${stamp.platform}) differs from the registered ${had.test700At14px} (${had.platform}): another platform, Chrome or font version`;
+  if (
+    had &&
+    stamp &&
+    (had.test700At14px !== stamp.test700At14px ||
+      had.fingerprint !== stamp.fingerprint)
+  )
+    return `kit table ${stamp.fingerprint} (test700At14px ${stamp.test700At14px}, ${stamp.platform}) differs from the registered ${had.fingerprint} (${had.test700At14px}, ${had.platform}): another platform, Chrome or font version`;
   return null;
 }
 
+/** The action an agent takes for one component: create the file, update it, or nothing. */
 export function actionFor(entry, hash) {
   if (!entry?.fileKey) return "create";
   return entry.hash === hash ? "current" : "update";

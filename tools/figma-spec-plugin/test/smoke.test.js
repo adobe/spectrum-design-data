@@ -610,8 +610,8 @@ test("plan creates, updates or skips a component's Figma file by sheet hash", (t
 test("a run with a kit text-metrics table records a stamp and explains a mismatch", (t) => {
   const dir = mkdtempSync(join(tmpdir(), "plan-kit-"));
   const registryPath = join(dir, "figma-files.json");
-  const table = (v) => {
-    const f = join(dir, `table-${v}.json`);
+  const table = (v, adv = 1) => {
+    const f = join(dir, `table-${v}-${adv}.json`);
     writeFileSync(
       f,
       JSON.stringify({
@@ -620,7 +620,10 @@ test("a run with a kit text-metrics table records a stamp and explains a mismatc
           test700At14px: v,
           generated: "2026-11-16",
           kit: "https://example.test/kit.css",
+          platform: "linux-x64",
         },
+        400: { adv: [adv], kern: {} },
+        700: { adv: [adv], kern: {} },
       }),
     );
     return f;
@@ -642,13 +645,19 @@ test("a run with a kit text-metrics table records a stamp and explains a mismatc
   t.is(stamp.test700At14px, 23.673);
   t.is(stamp.family, "adobe-clean-spectrum-vf");
   t.false(JSON.stringify(stamp).includes("example.test"));
-  t.regex(stamp.platform, /-/);
+  t.is(stamp.platform, "linux-x64");
+  t.regex(stamp.fingerprint, /^[0-9a-f]{16}$/);
   const entry = () =>
     JSON.parse(readFileSync(registryPath, "utf8")).files.switch;
   t.regex(textMetricsNote(entry(), null), /pass --text-metrics/);
   t.is(textMetricsNote(entry(), textMetricsStamp(table(23.673))), null);
   t.regex(
     textMetricsNote(entry(), textMetricsStamp(table(23.665))),
+    /another platform, Chrome or font version/,
+  );
+  // Same test value, different advances: the fingerprint still catches it.
+  t.regex(
+    textMetricsNote(entry(), textMetricsStamp(table(23.673, 2))),
     /another platform, Chrome or font version/,
   );
   record({ component: "switch", hash: "h2", registryPath });
