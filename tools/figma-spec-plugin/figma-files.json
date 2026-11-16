@@ -27,18 +27,18 @@
     },
     "checkbox": {
       "fileKey": "mGCsOtiSAlyxMIm8jnDi6n",
-      "hash": "aefd6cd153bf17c7",
-      "generatedAt": "2026-11-05"
+      "hash": "5a6e8d67184f2262",
+      "generatedAt": "2026-11-16"
     },
     "radio-button": {
       "fileKey": "meA4TF7VCGd51tIFMWNkUr",
-      "hash": "7ee3d3655b269894",
-      "generatedAt": "2026-11-05"
+      "hash": "819038f14175d483",
+      "generatedAt": "2026-11-16"
     },
     "switch": {
       "fileKey": "v0sEpWnNVT1RCnATMqZZHt",
-      "hash": "34139ea5068f1f7d",
-      "generatedAt": "2026-11-05"
+      "hash": "02629612b71fc248",
+      "generatedAt": "2026-11-16"
     }
   }
 }
