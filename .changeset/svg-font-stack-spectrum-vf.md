@@ -11,6 +11,6 @@ generic sans-serif, about 18 % wider: "Save changes" (700, 16 px) measured 106.7
 and overran the button's right padding.
 
 `renderComponentSvg(request, fonts?)` takes the same font list as `renderComponentPng` and sizes the
-layout with the first non-fallback font. `design-data-render` passes the installed Adobe Clean
-Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font draws. Without it
+layout with the first non-fallback font. `design-data-render` passes the installed
+Adobe Clean Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font draws. Without it
 the Source Sans 3 table is used, as before.
