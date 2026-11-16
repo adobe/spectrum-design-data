@@ -13,7 +13,19 @@
     "layoutRevision": {
       "type": "integer",
       "minimum": 0,
-      "description": "The visual layout revision the recipes were authored against (spec/component-visuals.md). A renderer whose revision differs from this one warns, because the same recipe can lay out differently. A dataset without the field is revision 0."
+      "description": "The visual layout revision the recipes were authored against (spec/component-visuals.md). A renderer whose revision differs from this one warns, because the same recipe can lay out differently; the design-data CLI refuses a dataset whose revision is newer than its own. A dataset without the field is revision 0."
+    },
+    "requires": {
+      "type": "object",
+      "description": "What the dataset needs from the engine that reads it. A dataset without this object asks for nothing, so data released before it existed is not checked.",
+      "properties": {
+        "cli": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+          "description": "The oldest design-data CLI that can read this dataset correctly, as an exact version (for example \"0.40.0\"), not a range. A dataset says what it needs, not what future CLIs will do; a breaking layout change is covered by layoutRevision."
+        }
+      },
+      "additionalProperties": false
     },
     "directories": {
       "type": "object",
