@@ -30,6 +30,14 @@ pub const ANY_OF: &str = "anyOf";
 /// Most variants one record may expand to. A bound keeps a typo from building a huge product.
 pub const MAX_VARIANTS: usize = 64;
 
+/// The fields of a relationship `scope` this engine knows. A record with any other field is
+/// refused: dropping an unknown identity field (`between`, `object` ...) would make two records
+/// that differ only by it look identical.
+const SCOPE_KEYS: &[&str] = &["component", "part", "property", "options"];
+
+const NEWER: &str =
+    "The data is newer than this engine: upgrade the CLI or the @adobe/design-data-* packages";
+
 /// Keys that are not component options: a token state and the two modes.
 const NOT_OPTIONS: &[&str] = &["state", "scale", "colorScheme", ANY_OF];
 
@@ -55,6 +63,8 @@ fn state_alternatives(element: &Value) -> Option<&Vec<Value>> {
 /// understand: a solver that dropped an unknown pin would apply the record to every request,
 /// which is silent wrong output.
 ///
+/// A `scope` may only hold `component`, `part`, `property` and `options`.
+///
 /// Understood shapes (deny by default; a new shape is added here when the solver learns it):
 /// * `state`: an array whose elements are state strings or `{ "anyOf": [strings] }`;
 /// * `anyOf`: a non-empty array of non-empty objects whose keys are component options (not
@@ -64,12 +74,19 @@ fn state_alternatives(element: &Value) -> Option<&Vec<Value>> {
 /// A record that carries its own `value` (and no `$ref`) may not use an any-of, and one record
 /// may not expand to more than [`MAX_VARIANTS`] variants.
 pub fn unsupported_shape(raw: &Value) -> Option<String> {
+    if let Some(key) = raw
+        .get("scope")
+        .and_then(Value::as_object)
+        .and_then(|scope| scope.keys().find(|k| !SCOPE_KEYS.contains(&k.as_str())))
+    {
+        return Some(format!(
+            "scope.{key} is a field this engine does not know. {NEWER}"
+        ));
+    }
     let options = raw.pointer("/scope/options")?;
     let Some(options) = options.as_object() else {
         return Some("scope.options is not an object".to_string());
     };
-    let newer = "The data is newer than this engine: upgrade the CLI or the @adobe/design-data-* \
-                 packages";
     let mut uses_any_of = false;
     for (key, value) in options {
         let ok = match key.as_str() {
@@ -100,7 +117,7 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
         };
         if !ok {
             return Some(format!(
-                "scope.options.{key} has a value this engine does not support ({value}). {newer}"
+                "scope.options.{key} has a value this engine does not support ({value}). {NEWER}"
             ));
         }
     }
@@ -500,6 +517,23 @@ mod tests {
             mentioned_states(&o),
             vec!["selected".to_string(), "hover".into(), "down".into()]
         );
+    }
+
+    #[test]
+    fn an_unknown_scope_field_is_refused() {
+        let known =
+            json!({"scope": {"component": "x", "part": "p", "property": "y", "options": {}}});
+        assert_eq!(unsupported_shape(&known), None);
+        for field in ["between", "object", "from", "slot"] {
+            let mut rec = known.clone();
+            rec["scope"][field] = json!("x");
+            let why = unsupported_shape(&rec).unwrap_or_else(|| panic!("{field}"));
+            assert!(why.contains(&format!("scope.{field}")), "{why}");
+            assert!(why.contains("newer than this engine"), "{why}");
+        }
+        // Without an options object the field is still seen.
+        let bare = json!({"scope": {"component": "x", "property": "y", "between": {"from": "a"}}});
+        assert!(unsupported_shape(&bare).unwrap().contains("scope.between"));
     }
 
     #[test]
