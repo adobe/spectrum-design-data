@@ -460,7 +460,10 @@ jobs:
           # Create the release if it doesn't exist yet; --notes-file requires a
           # file so we inline a brief message. || true so a pre-existing release
           # doesn't abort the workflow.
+          # --target pins a new tag to the built commit; without it GitHub tags
+          # the current main head, which may be a later merge (0.40.1).
           gh release create "${TAG}" \
+            --target "${GITHUB_SHA}" \
             --title "design-data CLI ${CLI_VERSION}" \
             --notes "Native CLI binary for \`design-data\` v${CLI_VERSION}. Install via \`cargo install design-data-cli\` or download below." \
             || true
