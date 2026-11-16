@@ -702,11 +702,13 @@ export function createDesignDataTools() {
           // the boxes fit the text a viewer with that font draws. A font named with fontPath
           // or DESIGN_DATA_FONT is not used: the SVG stack still asks for Adobe Clean, so
           // sizing for another font would mismatch. Source Sans 3 is the built-in table.
-          const { fonts, explicit } = findFont(await getWasm());
+          const { fonts } = findFont(await getWasm(), {
+            env: { ...process.env, DESIGN_DATA_FONT: undefined },
+          });
           try {
             return ds.renderComponentSvg(
               request,
-              explicit ? [] : fonts.filter((f) => !f.fallback),
+              fonts.filter((f) => !f.fallback),
             );
           } catch (e) {
             // A font found on the machine that will not parse must not stop the SVG.

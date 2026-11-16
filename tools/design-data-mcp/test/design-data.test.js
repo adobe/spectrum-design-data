@@ -747,3 +747,25 @@ test("design-data-render applies the icon field and flags options.icon", async (
   const bad = await png({ icon: { set: "workflow", name: "no-such-icon" } });
   t.true(bad.diagnostics.length > 0);
 });
+
+test.serial(
+  "design-data-render SVG layout ignores fontPath and DESIGN_DATA_FONT",
+  async (t) => {
+    const render = createDesignDataTools().find(
+      (tool) => tool.name === "design-data-render",
+    ).handler;
+    const args = { component: "button", label: "AVAVAV To Ty" };
+    const saved = process.env.DESIGN_DATA_FONT;
+    try {
+      delete process.env.DESIGN_DATA_FONT;
+      const plain = await render(args);
+      // The fixture's unkerned widths differ from the built-in table, so using it would show.
+      t.is(await render({ ...args, fontPath: FONT_FIXTURE }), plain);
+      process.env.DESIGN_DATA_FONT = FONT_FIXTURE;
+      t.is(await render(args), plain);
+    } finally {
+      if (saved === undefined) delete process.env.DESIGN_DATA_FONT;
+      else process.env.DESIGN_DATA_FONT = saved;
+    }
+  },
+);
