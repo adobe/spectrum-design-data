@@ -82,6 +82,11 @@ struct Cli {
     /// optional positional flattened in via `TuiArgs`.
     #[arg(long, global = true)]
     platform: Option<String>,
+    /// Read a dataset even when its `dataset.json` says this CLI is too old for it
+    /// (`requires.cli`, or a newer `layoutRevision`). Results may be wrong. There is no
+    /// config-file or environment equivalent, and every run warns while it is in use.
+    #[arg(long, global = true)]
+    ignore_data_requirements: bool,
 }
 
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
@@ -1052,6 +1057,10 @@ enum QueryFormat {
 /// equivalent — [`data_source::resolve`] already reads that env var directly.
 static GLOBAL_PLATFORM_ID: OnceLock<Option<String>> = OnceLock::new();
 
+/// `--ignore-data-requirements`, set once in `main`. Command line only, on purpose: a config
+/// or environment setting would make the escape the permanent default.
+static IGNORE_DATA_REQUIREMENTS: OnceLock<bool> = OnceLock::new();
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
@@ -1062,7 +1071,40 @@ fn resolve_data_source(
         overrides.platform_id = GLOBAL_PLATFORM_ID.get().cloned().flatten();
     }
     let cwd = std::env::current_dir().into_diagnostic()?;
-    data_source::resolve(&cwd, &overrides).into_diagnostic()
+    let resolved = data_source::resolve(&cwd, &overrides).into_diagnostic()?;
+    enforce_data_requirements(&resolved)?;
+    Ok(resolved)
+}
+
+/// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
+/// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
+fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
+    let Some(root) = resolved.tokens_root.parent() else {
+        return Ok(());
+    };
+    let unmet = data_source::requirements::unmet_requirements(
+        root,
+        env!("CARGO_PKG_VERSION"),
+        design_data_core::visual::LAYOUT_REVISION,
+    );
+    for w in &unmet.warnings {
+        eprintln!("warning: {w}");
+    }
+    if unmet.errors.is_empty() {
+        return Ok(());
+    }
+    if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
+        for e in &unmet.errors {
+            eprintln!(
+                "warning: {e} Continuing because --ignore-data-requirements is set; results may be wrong."
+            );
+        }
+        return Ok(());
+    }
+    miette::bail!(
+        "{}\nPass --ignore-data-requirements to read it anyway; results may be wrong.",
+        unmet.errors.join("\n")
+    )
 }
 
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
@@ -4592,6 +4634,9 @@ fn main() -> ExitCode {
     GLOBAL_PLATFORM_ID
         .set(cli.platform.clone())
         .expect("main runs exactly once; GLOBAL_PLATFORM_ID is set exactly once here");
+    IGNORE_DATA_REQUIREMENTS
+        .set(cli.ignore_data_requirements)
+        .expect("main runs exactly once; IGNORE_DATA_REQUIREMENTS is set exactly once here");
 
     // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
     let command = match cli.command {
