@@ -579,7 +579,8 @@ export function createDesignDataTools() {
         "Render a Spectrum component from its visual recipe, resolving token values for the " +
         "given size, states, options, and mode. Returns SVG markup as text by default, or " +
         'a PNG image with format "png". Only components with a recipe can be rendered ' +
-        "(see design-data-visual-recipe). PNG text uses Adobe Clean Spectrum VF when it is " +
+        "(see design-data-visual-recipe). SVG label boxes are sized with Adobe Clean Spectrum VF when " +
+        "it is installed on this machine, otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
         "installed on this machine (found automatically, or set with the fontPath argument " +
         "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
         "result includes a font status: when font.fallback is true, tell the user the text " +
@@ -696,7 +697,22 @@ export function createDesignDataTools() {
         };
         if (width !== undefined) request.width = width;
         if (icon !== undefined) request.icon = icon;
-        if (format === "svg") return ds.renderComponentSvg(request);
+        if (format === "svg") {
+          // Size the layout with the installed Adobe font when there is one, so the boxes fit
+          // the text a viewer with that font draws. Source Sans 3 (the fallback) is the
+          // built-in table, so it needs no font here.
+          const { fonts, explicit } = findFont(await getWasm(), { fontPath });
+          try {
+            return ds.renderComponentSvg(
+              request,
+              fonts.filter((f) => !f.fallback),
+            );
+          } catch (e) {
+            // A font found on the machine that will not parse must not stop the SVG.
+            if (explicit || !/^font /.test(String(e?.message ?? e))) throw e;
+            return ds.renderComponentSvg(request);
+          }
+        }
 
         if (!(pixelRatio >= 1 && pixelRatio <= 4)) {
           throw new Error("pixelRatio must be between 1 and 4");
