@@ -1249,7 +1249,7 @@ rules:
 
   - id: SPEC-093
     name: relationship-context-names-option
-    severity: warning
+    severity: error
     layer: 2
     category: relationship
     note: >
@@ -1259,10 +1259,9 @@ rules:
       option value, a boolean option name (`emphasized`) or its negation (`non emphasized`)
       repeats the option inside the string. `default` is flagged only when a sibling record with
       the same main word names an option value; `Width (default)` beside `Width (minimum)` names a
-      measurement. Interaction states are not checked. Existing data is held at a baseline
-      (sdk/core/tests/fixtures/recipe-lint-baseline.json) until it is migrated.
+      measurement. Interaction states are not checked.
     assert: >
-      A relationship `context` SHOULD NOT name a value of an option the component declares; pin
+      A relationship `context` MUST NOT name a value of an option the component declares; pin
       it in `scope.options` instead.
     message: "Relationship context '{context}' names {options}; pin scope.options instead (a record that pins no option is the default), or says default beside records that name an option value; leave the default record unpinned and drop the word"
     spec_ref: spec/relationship-format.md#context

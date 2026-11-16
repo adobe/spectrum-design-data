@@ -3,7 +3,7 @@
   "errors": [
     {
       "rule_id": "SPEC-093",
-      "severity": "warning",
+      "severity": "error",
       "message_pattern": ".*names isEmphasized=true.*"
     }
   ]

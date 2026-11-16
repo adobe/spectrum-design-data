@@ -42,7 +42,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-090` | SPEC-090 | Structured context fields disagree with the `context` string (warning).  |
 | `invalid/SPEC-091` | SPEC-091 | Context main word is not in the registry (warning).                      |
 | `invalid/SPEC-092` | SPEC-092 | Live record has no context and no contexted record reaches it (warning). |
-| `invalid/SPEC-093` | SPEC-093 | Context names an option value that belongs in `scope.options` (warning). |
+| `invalid/SPEC-093` | SPEC-093 | Context names an option value that belongs in `scope.options` (error).   |
 | `invalid/SPEC-094` | SPEC-094 | A state is listed in more than one element of one state array (warning). |
 | `invalid/SPEC-095` | SPEC-095 | A component declares an option named `anyOf` (error).                    |
 | `invalid/SPEC-096` | SPEC-096 | An `anyOf` pins the same single option in every alternative (warning).   |
