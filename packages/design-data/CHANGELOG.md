@@ -1,5 +1,40 @@
 # @adobe/spectrum-design-data
 
+## 3.16.0
+
+### Minor Changes
+
+- [#1852](https://github.com/adobe/spectrum-design-data/pull/1852) [`0d84587`](https://github.com/adobe/spectrum-design-data/commit/0d845872dab9a2ef86dbd4afb688fb9e4b5e2c67) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the selected, indeterminate, emphasized, error and disabled qualifiers out of the `checkbox`
+  relationship contexts and into `scope.options` (rule SPEC-093), using an any-of for
+  "selected or indeterminate". The selected fills are now `background-color` / `Control` records
+  pinned with `anyOf: [{ isSelected }, { isIndeterminate }]`, and the error and disabled records pin
+  `isDisabled: false` or `isDisabled: true` so disabled beats error beats emphasized, as the recipe
+  priorities did. The `checkbox` recipe binds the same selector for every state, so its emphasized,
+  error and disabled entries are gone. Six unreferenced duplicate records are removed. Renders are
+  unchanged. `checkbox` was the last component in the SPEC-093 baseline, which is now empty.
+
+### Patch Changes
+
+- [#1853](https://github.com/adobe/spectrum-design-data/pull/1853) [`a3c769f`](https://github.com/adobe/spectrum-design-data/commit/a3c769f4fb1ecadd645086e405076a0d07966595) Thanks [@GarthDB](https://github.com/GarthDB)! - Replace the `Breadcrumb item (hover, down, focus states)` context on two `breadcrumbs`
+  relationships (`underline-thickness`, `text-underline-gap`) with `Breadcrumb item` and a
+  state any-of, `scope.options.state: [{ anyOf: ["hover", "down", "keyboard-focus"] }]`.
+  `breadcrumbs` has no visual recipe, so nothing renders differently.
+
+- [#1854](https://github.com/adobe/spectrum-design-data/pull/1854) [`6ea7910`](https://github.com/adobe/spectrum-design-data/commit/6ea7910820cc3d32ca5f09c8ea33d504553428f7) Thanks [@GarthDB](https://github.com/GarthDB)! - Drop six redundant `when` entries from the `radio-button` and `switch` visual recipes. Each
+  bound the same relationship selector as an entry that stays, and the records' `scope.options`
+  pins already choose the disabled and emphasized values. Renders are unchanged.
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Merge relationship records that said the same thing twice (SPEC-100): the three `accordion`
+  `padding-horizontal` records per scale become one with `size: [m, l, xl]`, the six
+  `action-button` static-color `Background` pairs become six records with
+  `staticColor: [black, white]`, and nine `button` records pinning `variant` to a subset of a
+  sibling's values are dropped. Nineteen records go. Nothing renders differently.
+
+- [#1855](https://github.com/adobe/spectrum-design-data/pull/1855) [`d3d8bc5`](https://github.com/adobe/spectrum-design-data/commit/d3d8bc5bcc7fcace8aa410c7d563a3ca6fcae780) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the `medium` qualifier out of nine `breadcrumbs` relationship contexts and into
+  `scope.options.size: m` (rule SPEC-093). Two of them also pin `isMultiline: false`, so a
+  multiline request never ties with the `isMultiline` records. `breadcrumbs` has no visual
+  recipe, so nothing renders differently.
+
 ## 3.15.1
 
 ### Patch Changes

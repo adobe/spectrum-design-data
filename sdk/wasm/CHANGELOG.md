@@ -1,5 +1,32 @@
 # @adobe/design-data-wasm
 
+## 0.24.0
+
+### Minor Changes
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Report the new rule SPEC-100 (relationship records that differ only in one option's value)
+  when validating.
+
+- [#1848](https://github.com/adobe/spectrum-design-data/pull/1848) [`da44b61`](https://github.com/adobe/spectrum-design-data/commit/da44b61596c59dfdd3434fca196e7f48f3ff95b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Report the any-of rules SPEC-094 to SPEC-099 when validating (proposal 017). No data uses an
+  any-of yet, so existing data reports nothing new.
+
+- [#1847](https://github.com/adobe/spectrum-design-data/pull/1847) [`d12b8bc`](https://github.com/adobe/spectrum-design-data/commit/d12b8bce115b3c2f494de0b9d3739191b4ed8287) Thanks [@GarthDB](https://github.com/GarthDB)! - Understand any-of in relationship scopes (proposal 017). The solver expands `scope.options.anyOf`
+  and `{ "anyOf": [...] }` state elements into one candidate per alternative when a recipe is
+  compiled, so a record can apply to "selected or indeterminate" without duplicates. The compiled
+  recipe format is unchanged. No data uses an any-of yet.
+
+- [#1863](https://github.com/adobe/spectrum-design-data/pull/1863) [`8d25409`](https://github.com/adobe/spectrum-design-data/commit/8d2540928d4618fe4340b570a33eb4f8f22cb680) Thanks [@GarthDB](https://github.com/GarthDB)! - Refuse a relationship record whose `scope` has a field the engine does not know. The error names
+  the file, the record and the field and says the data is newer than the engine. The committed data
+  has none, so nothing changes today.
+
+- [#1856](https://github.com/adobe/spectrum-design-data/pull/1856) [`7a5a511`](https://github.com/adobe/spectrum-design-data/commit/7a5a51166a61074fd9435d415f1f7ee2248fcb2e) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 reports an error instead of a warning, so a relationship `context` that names an option
+  value fails validation.
+
+### Patch Changes
+
+- [#1855](https://github.com/adobe/spectrum-design-data/pull/1855) [`d3d8bc5`](https://github.com/adobe/spectrum-design-data/commit/d3d8bc5bcc7fcace8aa410c7d563a3ca6fcae780) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 now reads a `size` value in its spelled form: `m` matches `medium` and `xl` matches
+  `extra large`, so a context such as `Height (medium)` is reported.
+
 ## 0.23.0
 
 ### Minor Changes

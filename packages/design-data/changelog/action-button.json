@@ -565,6 +565,29 @@
           "metadata": {"count":31,"fields":["contextQualifier","scope.options.isDisabled","scope.options.isEmphasized","scope.options.isSelected","scope.options.staticColor"]}
         }
       ]
+    },
+    {
+      "release": "3.16.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-16",
+      "commit": "8d2540928d4618fe4340b570a33eb4f8f22cb680",
+      "commits": [
+        {
+          "commit": "2a1e521b6f62f5e65f5b3db15379a7888c929392",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1857,"title":"feat(core): warn on relationship records that differ in one option value and merge them","url":"https://github.com/adobe/spectrum-design-data/pull/1857"},
+          "entries": [
+            {"id":"2a1e521b-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white"}},"record":"07ca72e8-0340-539f-a477-73dcc72cef81","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,staticColor=white]","fields":[],"before":"d9d8488d-9b38-47e0-9660-dcad040f3ca8"},
+            {"id":"2a1e521b-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white"}},"record":"6aa8788f-1a83-5fcb-b813-d1fa95b99617","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,staticColor=white]","fields":[],"before":"f24eb871-6419-4cef-88a2-cca8548ae31e"},
+            {"id":"2a1e521b-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white"}},"record":"85a6e7f5-5374-5fa7-96e1-da4ac129b2c8","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,staticColor=white]","fields":[],"before":"1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"},
+            {"id":"2a1e521b-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white","state":["keyboard-focus"]}},"record":"8006bda5-28fe-5188-a08b-3c0f7c1cde09","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,state=?,staticColor=white]","fields":[],"before":"43ca5f34-decc-4de8-9413-74ce57802b65"},
+            {"id":"2a1e521b-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white","state":["keyboard-focus"]}},"record":"7ecd43a5-7e8a-55c7-91a0-2abce382e1f2","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,state=?,staticColor=white]","fields":[],"before":"af809118-7a97-409c-925f-8d7636a791c8"},
+            {"id":"2a1e521b-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"hasHoldIcon":[false,true],"hideLabel":[false,true],"isDisabled":false,"isEmphasized":true,"isPending":false,"isQuiet":[false,true],"isSelected":true,"staticColor":"white","state":["keyboard-focus"]}},"record":"174ae798-64a6-5411-b1ef-5d5de53de022","name":"color[hasHoldIcon=?,hideLabel=?,isDisabled=?,isEmphasized=?,isPending=?,isQuiet=?,isSelected=?,state=?,staticColor=white]","fields":[],"before":"afb8dd77-7de2-4749-a594-1ff68b2fcd67"}
+          ],
+          "metadata": {"count":6,"fields":["scope.options.staticColor"]}
+        }
+      ]
     }
   ]
 }

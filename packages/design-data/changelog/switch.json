@@ -318,6 +318,25 @@
           "metadata": {"count":4,"fields":["scope.options.isEmphasized"]}
         }
       ]
+    },
+    {
+      "release": "3.16.0",
+      "version": "1.4.1",
+      "bump": "patch",
+      "date": "2026-11-16",
+      "commit": "8d2540928d4618fe4340b570a33eb4f8f22cb680",
+      "commits": [
+        {
+          "commit": "6ea7910820cc3d32ca5f09c8ea33d504553428f7",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1854,"title":"refactor(data): drop redundant when entries from radio-button and switch recipes","url":"https://github.com/adobe/spectrum-design-data/pull/1854"},
+          "entries": [
+            {"id":"6ea79108-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/handle","name":"handle","fields":[{"path":"props.fill","before":[{"relationship":{"property":"background-color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"color","context":"Control"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"background-color","context":"Control"},"priority":10},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"color","context":"Control"},"priority":11}],"after":[{"relationship":{"property":"background-color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"color","context":"Control"}},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"color","context":"Control"},"priority":11}]}]},
+            {"id":"6ea79108-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/label","name":"label","fields":[{"path":"props.color","before":[{"relationship":{"property":"content-color","context":"Label"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"content-color","context":"Label"},"priority":10}],"after":[{"relationship":{"property":"content-color","context":"Label"}}]}]},
+            {"id":"6ea79108-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"switch/visual/parts/track","name":"track","fields":[{"path":"props.stroke","before":[{"relationship":{"property":"border-color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"background-color","context":"Track"}},{"when":{"options":{"isSelected":true,"isEmphasized":true}},"relationship":{"property":"content-color","context":"Control"}},{"when":{"options":{"isDisabled":true}},"relationship":{"property":"border-color","context":"Control"},"priority":10},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"background-color","context":"Track"},"priority":11}],"after":[{"relationship":{"property":"border-color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"background-color","context":"Track"}},{"when":{"options":{"isSelected":true,"isEmphasized":true}},"relationship":{"property":"content-color","context":"Control"}},{"when":{"options":{"isSelected":true,"isDisabled":true}},"relationship":{"property":"background-color","context":"Track"},"priority":11}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

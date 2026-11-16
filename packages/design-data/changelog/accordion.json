@@ -420,6 +420,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.16.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-16",
+      "commit": "8d2540928d4618fe4340b570a33eb4f8f22cb680",
+      "commits": [
+        {
+          "commit": "2a1e521b6f62f5e65f5b3db15379a7888c929392",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1857,"title":"feat(core): warn on relationship records that differ in one option value and merge them","url":"https://github.com/adobe/spectrum-design-data/pull/1857"},
+          "entries": [
+            {"id":"2a1e521b-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Title (horizontal)"],"scope":{"property":"padding-horizontal","options":{"size":"l","scale":"desktop"}},"record":"abf241dc-e131-586f-9590-d5a58847af5f","name":"padding-horizontal[scale=desktop,size=l]","fields":[],"before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"},
+            {"id":"2a1e521b-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Title (horizontal)"],"scope":{"property":"padding-horizontal","options":{"size":"l","scale":"mobile"}},"record":"14976b88-b04c-5c86-9d89-a7e7c6558149","name":"padding-horizontal[scale=mobile,size=l]","fields":[],"before":"71731484-e759-4a5f-89ed-9fe04ac19aed"},
+            {"id":"2a1e521b-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Title (horizontal)"],"scope":{"property":"padding-horizontal","options":{"size":"xl","scale":"desktop"}},"record":"45502af9-8867-5809-bce8-76a8d7b42ba7","name":"padding-horizontal[scale=desktop,size=xl]","fields":[],"before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"},
+            {"id":"2a1e521b-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Title (horizontal)"],"scope":{"property":"padding-horizontal","options":{"size":"xl","scale":"mobile"}},"record":"81057d42-a5c1-5db2-80d0-3c81d888d966","name":"padding-horizontal[scale=mobile,size=xl]","fields":[],"before":"71731484-e759-4a5f-89ed-9fe04ac19aed"}
+          ],
+          "metadata": {"count":2,"fields":["scope.options.size"]}
+        }
+      ]
     }
   ]
 }
