@@ -1137,8 +1137,9 @@ fn produces_committed_output(command: &Commands) -> bool {
         | Commands::RenderCompare { .. }
         | Commands::Export { .. }
         | Commands::SpecSheet { .. }
-        | Commands::Site { .. }
-        | Commands::Catalog { .. } => true,
+        | Commands::Site { .. } => true,
+        // Only the subcommands that write files: a read-only one added later is not blocked.
+        Commands::Catalog { sub } => matches!(sub, CatalogSub::Export { .. }),
         Commands::Figma { sub } => matches!(sub, FigmaSub::Export { .. }),
         _ => false,
     }
@@ -1195,6 +1196,11 @@ fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
 /// Print a requirements warning at most once per run. A command can resolve its data more than
 /// once, and the pre-dispatch `cli_version` check can name the same thing a later check does;
 /// each message belongs to the run, not to each place that notices it.
+///
+/// Deduplicates on the message text, so a message must be the same string each time it is
+/// raised: the ones here are built from versions, layout numbers and the range only. Do not put
+/// a path or a count in one. Two different datasets in one run (`diff OLD NEW`) give different
+/// messages and both print.
 fn warn_once(message: &str) {
     static PRINTED: OnceLock<std::sync::Mutex<HashSet<String>>> = OnceLock::new();
     let printed = PRINTED.get_or_init(Default::default);

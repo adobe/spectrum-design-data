@@ -180,3 +180,23 @@ fn a_broken_config_does_not_stop_a_command_that_ignores_it() {
     run(p.path(), &["decompose-legacy-name", "corner-radius-100"])
         .stderr(contains("is invalid").not());
 }
+
+/// `catalog export` and `figma export` write files a project commits or ships, so they are held
+/// to the range like `render`; they are refused before they read data or reach for Figma.
+#[test]
+fn catalog_export_and_figma_export_are_held_to_the_range() {
+    let p = project(">=99.0.0");
+    let out = tempfile::tempdir().unwrap();
+    run(
+        p.path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .failure()
+    .stderr(contains(">=99.0.0"));
+    run(
+        p.path(),
+        &["figma", "export", "--file-key", "x", "--token", "y"],
+    )
+    .failure()
+    .stderr(contains(">=99.0.0"));
+}
