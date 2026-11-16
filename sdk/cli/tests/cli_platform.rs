@@ -811,6 +811,97 @@ fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
         .stderr(contains("no-such-component"));
 }
 
+/// h890.36.7 (GH #1868): `platform impact` lists what a release range changed for a platform's
+/// own recipe bindings, read from this repo's real changelogs. Data 3.15.0 renamed the
+/// action-button context `Background (selected, non emphasized)` to `Background` (#1827).
+#[test]
+fn platform_impact_reports_a_context_renamed_in_the_release_range() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "3.14.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    let write_recipe = |context: &str| {
+        fs::write(
+            dir.join("action-button.json"),
+            json!({"component": "action-button", "root": "container", "sizeScale": {"m": 100},
+                "parts": {"container": {"kind": "box", "props": {
+                    "fill": {"relationship": {"property": "color", "context": context}}}}}})
+            .to_string(),
+        )
+        .unwrap();
+    };
+    let changelog = repo_root().join("packages/design-data/changelog");
+    let impact = |extra: &[&str]| {
+        let mut args = vec![
+            "platform",
+            "impact",
+            "--to",
+            "3.15.1",
+            "--changelog-dir",
+            changelog.to_str().unwrap(),
+        ];
+        args.extend_from_slice(extra);
+        design_data(project.path(), &args)
+    };
+
+    // The recipe binds the name 3.15.0 renamed: breaks, and says where and why.
+    write_recipe("Background (selected, non emphasized)");
+    impact(&[])
+        .code(1)
+        .stdout(contains("BREAKS"))
+        .stdout(contains("renamed to 'Background'"))
+        .stdout(contains("action-button.json#/parts/container/props/fill"))
+        .stdout(contains("relationship\n").not())
+        .stdout(contains("1827"));
+    let out = impact(&["--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["from"], "3.14.0");
+    assert_eq!(report["findings"][0]["class"], "breaks");
+
+    // Starting at the release that made the rename, there is nothing left to report for it.
+    impact(&["--from", "3.15.0"])
+        .success()
+        .stdout(contains("BREAKS").not());
+
+    // A binding to the new name does not break.
+    write_recipe("Background");
+    impact(&[]).success().stdout(contains("BREAKS").not());
+
+    // A range that is not ordered is refused.
+    design_data(
+        project.path(),
+        &[
+            "platform",
+            "impact",
+            "--from",
+            "3.15.1",
+            "--to",
+            "3.14.0",
+            "--changelog-dir",
+            changelog.to_str().unwrap(),
+        ],
+    )
+    .failure()
+    .stderr(contains("must be older"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");

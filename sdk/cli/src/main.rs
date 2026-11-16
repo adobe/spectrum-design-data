@@ -701,6 +701,27 @@ enum PlatformSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Which data changes between two foundation releases hit what a platform binds: the
+    /// relationship contexts and tokens its recipes name, the options they read, and the
+    /// relationships its manifest overrides. Reads the `--to` release's component changelogs.
+    /// Exits 1 when something a binding names was renamed or removed
+    Impact {
+        /// Platform id (default: the configured `default_platform`)
+        id: Option<String>,
+        /// Release the platform is on now (default: the manifest's `foundationVersion`)
+        #[arg(long, value_name = "VERSION")]
+        from: Option<String>,
+        /// Release to move to, e.g. 3.15.1
+        #[arg(long, value_name = "VERSION")]
+        to: String,
+        /// Read `<dataset>/changelog` from this directory instead of fetching the `--to`
+        /// release (offline, or a local checkout)
+        #[arg(long, value_name = "DIR")]
+        changelog_dir: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Emit a standalone, publishable repo for a local `[platforms.<id>]` entry
     /// (manifest.json, extensions/, README, LICENSE, `.design-data.toml` pinned
     /// at the entry's `foundationVersion`, and a CI validation workflow), plus
@@ -1995,6 +2016,159 @@ fn run_platform_list(format: OutputFormat) -> miette::Result<ExitCode> {
 /// `design-data platform show <id>` (h890.27.6): resolve one named platform
 /// entry (fetching it if remote), and report its location, identity fields,
 /// and an advisory `foundationVersion`-vs-this-build drift check.
+fn run_platform_impact(
+    id: Option<String>,
+    from: Option<String>,
+    to: &str,
+    changelog_dir: Option<PathBuf>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    use design_data_core::platform_impact as pi;
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_id: id,
+        ..Default::default()
+    })?;
+    let Some(manifest_path) = resolved.platform_manifest.clone() else {
+        eprintln!("design-data: error: no platform manifest configured (pass a platform id, or set `default_platform` in `.design-data.toml`)");
+        return Ok(ExitCode::from(2));
+    };
+    let manifest_json: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(&manifest_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {}", manifest_path.display()))?,
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("{} is not JSON", manifest_path.display()))?;
+    let from_text = from
+        .or_else(|| {
+            manifest_json
+                .get("foundationVersion")
+                .and_then(|v| v.as_str())
+                .map(str::to_string)
+        })
+        .ok_or_else(|| {
+            miette::miette!("pass --from: the manifest has no `foundationVersion` to start from")
+        })?;
+    let parse = |label: &str, text: &str| {
+        pi::parse_version(text)
+            .map_err(|e| miette::miette!("--{label} '{text}' is not a release version: {e}"))
+    };
+    let (from_v, to_v) = (parse("from", &from_text)?, parse("to", to)?);
+    if from_v >= to_v {
+        miette::bail!("--from {from_v} must be older than --to {to_v}");
+    }
+
+    let dir = match changelog_dir {
+        Some(d) => d,
+        None => {
+            let cwd = std::env::current_dir().into_diagnostic()?;
+            let config = data_source::find_config(&cwd)
+                .into_diagnostic()?
+                .map(|(_, c)| c);
+            let repo = match config.as_ref().and_then(|c| c.source.as_ref()) {
+                Some(data_source::SourceConfig::Github { repo, .. }) => repo.clone(),
+                _ => "adobe/spectrum-design-data".to_string(),
+            };
+            let cache = config
+                .as_ref()
+                .and_then(|c| c.cache.as_ref())
+                .and_then(|c| c.dir.clone());
+            data_source::foundation_dataset_dir(&repo, &to_v.to_string(), cache.as_deref())
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to fetch foundation {to_v}"))?
+                .join("changelog")
+        }
+    };
+    if !dir.is_dir() {
+        miette::bail!(
+            "no changelog at {}: the {to_v} data has none, or --changelog-dir is wrong",
+            dir.display()
+        );
+    }
+
+    // The graph with the manifest applied, so the platform's own recipes are in it.
+    let (graph, _, _) = load_visual_graph(&resolved, None, false)?;
+    let bindings = pi::collect_bindings(&graph, &manifest_json);
+    let report = pi::impact(&bindings, &dir, &from_v, &to_v)
+        .into_diagnostic()
+        .wrap_err("failed to read the changelogs")?;
+    let breaks = report.findings.iter().any(|f| f.class == pi::Class::Breaks);
+
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&report).into_diagnostic()?
+        ),
+        OutputFormat::Pretty => {
+            println!(
+                "design-data: platform impact {} -> {} ({} component(s) bound, {} relationship and {} token binding(s))",
+                report.from,
+                report.to,
+                bindings.components.len(),
+                bindings.relationships.len(),
+                bindings.tokens.len()
+            );
+            for class in [pi::Class::Breaks, pi::Class::Changes] {
+                let list: Vec<_> = report
+                    .findings
+                    .iter()
+                    .filter(|f| f.class == class)
+                    .collect();
+                if list.is_empty() {
+                    continue;
+                }
+                println!(
+                    "\n{} ({})",
+                    match class {
+                        pi::Class::Breaks => "BREAKS: a binding names something renamed or removed",
+                        pi::Class::Changes =>
+                            "CHANGES: a binding still resolves, to something different",
+                    },
+                    list.len()
+                );
+                for f in list {
+                    let times = if f.entries > 1 {
+                        format!(" (x{})", f.entries)
+                    } else {
+                        String::new()
+                    };
+                    println!("  {} @ {}: {}{times}", f.component, f.release, f.message);
+                    if let Some(b) = &f.binding {
+                        let shown = std::env::current_dir()
+                            .ok()
+                            .and_then(|cwd| {
+                                b.strip_prefix(&format!("{}/", cwd.display()))
+                                    .map(str::to_string)
+                            })
+                            .unwrap_or_else(|| b.clone());
+                        println!("      binding: {shown}");
+                    }
+                    if let Some(s) = &f.source {
+                        println!("      source:  {s}");
+                    }
+                }
+            }
+            if report.findings.is_empty() {
+                println!(
+                    "\nNothing in releases {} to {} touches what this platform binds.",
+                    report.from, report.to
+                );
+            }
+            for c in &report.no_changelog {
+                println!("\nnote: no changelog for '{c}' in the {} data", report.to);
+            }
+            for n in &report.notes {
+                println!("\nnote: {n}");
+            }
+        }
+    }
+    Ok(if breaks {
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
+    })
+}
+
 fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         platform_id: Some(id.to_string()),
@@ -4604,6 +4778,13 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Impact {
+                id,
+                from,
+                to,
+                changelog_dir,
+                format,
+            } => run_platform_impact(id, from, &to, changelog_dir, format),
             PlatformSub::Eject {
                 id,
                 out,
