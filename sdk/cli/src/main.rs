@@ -1153,6 +1153,45 @@ fn project_cli_range_finding() -> miette::Result<Option<String>> {
     }))
 }
 
+/// Hold this CLI to the project's `cli_version`, once, before any command runs: a command that
+/// never resolves a dataset (`render-compare` reads scenes and a measured file) still produces
+/// output the project commits. An error for a command that writes committed output, a warning
+/// for the rest. `platform show` is skipped: it reports the range as a finding itself.
+fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
+    if matches!(
+        command,
+        Commands::Platform {
+            sub: PlatformSub::Show { .. }
+        }
+    ) {
+        return Ok(());
+    }
+    let commits_output = COMMITS_OUTPUT.get().copied().unwrap_or(false);
+    let finding = match project_cli_range_finding() {
+        Ok(finding) => finding,
+        // A command that writes nothing a project commits does not need the config; the ones
+        // that do report a broken one themselves.
+        Err(_) if !commits_output => return Ok(()),
+        Err(e) => return Err(e),
+    };
+    let Some(finding) = finding else {
+        return Ok(());
+    };
+    if !commits_output {
+        eprintln!("warning: {finding}");
+        return Ok(());
+    }
+    if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
+        eprintln!(
+            "warning: {finding} Continuing because --ignore-data-requirements is set; results may be wrong."
+        );
+        return Ok(());
+    }
+    miette::bail!(
+        "{finding}\nPass --ignore-data-requirements to continue anyway; results may be wrong."
+    )
+}
+
 /// Set once the requirements warnings have been printed: a command may resolve its data more
 /// than once, and each warning belongs to the run, not to each resolve.
 static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
@@ -1161,14 +1200,7 @@ static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
 /// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
 /// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
 fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
-    let mut unmet = data_requirements(resolved);
-    if let Some(finding) = project_cli_range_finding()? {
-        if COMMITS_OUTPUT.get().copied().unwrap_or(false) {
-            unmet.errors.push(finding);
-        } else {
-            unmet.warnings.push(finding);
-        }
-    }
+    let unmet = data_requirements(resolved);
     let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
     if first {
         for w in &unmet.warnings {
@@ -4983,6 +5015,11 @@ fn main() -> ExitCode {
     COMMITS_OUTPUT
         .set(produces_committed_output(&command))
         .expect("main runs exactly once; COMMITS_OUTPUT is set exactly once here");
+
+    if let Err(e) = enforce_project_cli_range(&command) {
+        eprintln!("Error: {e:?}");
+        return ExitCode::from(2);
+    }
 
     let result = match command {
         Commands::Platform { sub } => match sub {

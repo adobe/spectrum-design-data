@@ -116,7 +116,11 @@ fn a_project_without_cli_version_is_not_checked() {
 #[test]
 fn a_range_that_is_not_semver_is_a_config_error_for_every_command() {
     let p = project("latest");
-    for args in [RENDER, QUERY] {
+    // `platform show` and `platform list` read the config too, so they fail the same way: the
+    // message names the key and the syntax, which is the diagnosis.
+    let show: &[&str] = &["platform", "show", "fixture"];
+    let list: &[&str] = &["platform", "list"];
+    for args in [RENDER, QUERY, show, list] {
         run(p.path(), args)
             .failure()
             .stderr(contains("`cli_version` is 'latest'"))
@@ -130,4 +134,49 @@ fn platform_show_reports_the_range_instead_of_refusing() {
     run(p.path(), &["platform", "show", "fixture"])
         .success()
         .stdout(contains("requirements: this project's"));
+}
+
+/// `render-compare` reads scenes and a measured file and never resolves a dataset, so the check
+/// has to run before dispatch, not inside data resolution.
+#[test]
+fn render_compare_is_held_to_the_range_without_resolving_a_dataset() {
+    let scratch = tempfile::tempdir().unwrap();
+    let measured = scratch.path().join("measured.json");
+    let scenes = scratch.path().join("scenes");
+    let args = [
+        "render-compare",
+        "--scenes",
+        scenes.to_str().unwrap(),
+        "--measured",
+        measured.to_str().unwrap(),
+    ];
+    // Out of range: refused before it reads either path.
+    let p = project(">=99.0.0");
+    run(p.path(), &args)
+        .failure()
+        .stderr(contains(">=99.0.0"))
+        .stderr(contains("--ignore-data-requirements"));
+    // In range: the range is not what stops it (the paths do not exist), so no range message.
+    let ok = project(">=0.1.0");
+    run(ok.path(), &args)
+        .failure()
+        .stderr(contains("--ignore-data-requirements").not());
+}
+
+/// A command that never loads a dataset still warns when it is outside the range.
+#[test]
+fn a_command_that_resolves_no_dataset_still_warns() {
+    let p = project(">=99.0.0");
+    run(p.path(), &["decompose-legacy-name", "corner-radius-100"])
+        .stderr(contains("warning: this project's"));
+}
+
+/// A command that writes nothing a project commits does not need the config, so a broken one
+/// does not stop it (the commands that do use the config report it themselves).
+#[test]
+fn a_broken_config_does_not_stop_a_command_that_ignores_it() {
+    let p = tempfile::tempdir().unwrap();
+    fs::write(p.path().join(".design-data.toml"), "bogus_key = 1\n").unwrap();
+    run(p.path(), &["decompose-legacy-name", "corner-radius-100"])
+        .stderr(contains("is invalid").not());
 }
