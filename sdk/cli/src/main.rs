@@ -2019,23 +2019,43 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     let platform_version = str_field("platformVersion");
     let repository = str_field("repository");
     let foundation_version = str_field("foundationVersion");
-    let drift = foundation_version.as_deref().map(|fv| {
-        let version = fv.rsplit_once('@').map_or(fv, |(_, v)| v);
-        if version == data_source::EMBEDDED_DATA_VERSION {
-            format!("in sync (matches this build's embedded foundation {fv})")
-        } else {
-            format!(
-                "manifest declares foundationVersion \"{fv}\"; this build's embedded \
-                 foundation is \"{}\" — may be drifted",
-                data_source::EMBEDDED_DATA_VERSION
-            )
+    // The pin is stated twice, in the manifest and in `[source]` (GH #1741): compare with the
+    // source this project resolves. Only a project with no `[source]` uses the embedded build,
+    // and only then is that the thing to compare with.
+    let config = project_config();
+    let pin = manifest::check_foundation_pin(
+        foundation_version.as_deref(),
+        config.as_ref().and_then(|c| c.source.as_ref()),
+    );
+    let drift = foundation_version.as_deref().map(|fv| match &pin {
+        manifest::PinCheck::Agree { version } => {
+            format!("pins agree: foundationVersion and `[source]` both name {version}")
+        }
+        manifest::PinCheck::Mismatch { manifest, source } => {
+            format!("MISMATCH: foundationVersion is {manifest} but `[source]` pins {source}")
+        }
+        manifest::PinCheck::Unverifiable { reason } => format!("not verified: {reason}"),
+        manifest::PinCheck::Skipped { reason } => {
+            if config.as_ref().is_some_and(|c| c.source.is_some()) {
+                format!("not compared: {reason}")
+            } else {
+                let version = manifest::bare_version(fv);
+                if version == data_source::EMBEDDED_DATA_VERSION {
+                    format!("in sync (matches this build's embedded foundation {fv})")
+                } else {
+                    format!(
+                        "manifest declares foundationVersion \"{fv}\"; this build's embedded \
+                         foundation is \"{}\" — may be drifted",
+                        data_source::EMBEDDED_DATA_VERSION
+                    )
+                }
+            }
         }
     });
 
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let entry_detail = data_source::find_config(&cwd)
-        .into_diagnostic()?
-        .and_then(|(_, config)| config.platforms)
+    let entry_detail = config
+        .as_ref()
+        .and_then(|c| c.platforms.as_ref())
         .and_then(|platforms| platforms.get(id).map(describe_platform_entry));
 
     match format {
@@ -2051,6 +2071,7 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
                     "platformVersion": platform_version,
                     "repository": repository,
                     "foundationVersion": foundation_version,
+                    "pin": pin,
                     "drift": drift,
                 })
             );
@@ -2467,6 +2488,14 @@ fn run_platform_eject(
     Ok(ExitCode::SUCCESS)
 }
 
+/// The `.design-data.toml` the current directory resolves to, if any.
+fn project_config() -> Option<data_source::DesignDataConfig> {
+    let cwd = std::env::current_dir().ok()?;
+    data_source::find_config(&cwd)
+        .ok()?
+        .map(|(_, config)| config)
+}
+
 /// checks (include/exclude query parse, override-target resolution).
 ///
 /// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
@@ -2516,8 +2545,30 @@ fn run_validate_manifest(
                 design_data_core::validate::rules::manifest_bindings::unresolved_platform_bindings(
                     &full_graph,
                 );
-            if !unresolved.is_empty() {
-                let messages: Vec<String> = unresolved.iter().map(|b| b.message()).collect();
+            // MANIFEST-002: the pin is written twice (the manifest's `foundationVersion` and the
+            // project's `[source]`); they must name the same release (GH #1741). A positional
+            // PATH replaces the source, so there is nothing to compare then.
+            let manifest_pin = std::fs::read_to_string(&manifest_path)
+                .ok()
+                .and_then(|text| serde_json::from_str::<serde_json::Value>(&text).ok())
+                .and_then(|m| m.get("foundationVersion")?.as_str().map(String::from));
+            let config = if explicit_path.is_some() {
+                None
+            } else {
+                project_config()
+            };
+            let pin = manifest::check_foundation_pin(
+                manifest_pin.as_deref(),
+                config.as_ref().and_then(|c| c.source.as_ref()),
+            );
+            let mut messages: Vec<String> = Vec::new();
+            if let manifest::PinCheck::Mismatch { manifest, source } = &pin {
+                messages.push(format!(
+                    "MANIFEST-002 (validate-manifest): foundationVersion '{manifest}' does not match the `[source]` pin '{source}' in `.design-data.toml`; both must name the same release"
+                ));
+            }
+            messages.extend(unresolved.iter().map(|b| b.message()));
+            if !messages.is_empty() {
                 match format {
                     OutputFormat::Json => println!(
                         "{}",
@@ -2525,6 +2576,7 @@ fn run_validate_manifest(
                             "valid": false,
                             "manifest": manifest_path.display().to_string(),
                             "error": messages.join("\n"),
+                            "pin": pin,
                             "bindings": unresolved,
                         })
                     ),
@@ -2559,6 +2611,7 @@ fn run_validate_manifest(
                             "valid": true,
                             "manifest": manifest_path.display().to_string(),
                             "warning": identity_warning,
+                            "pin": pin,
                         })
                     );
                 }
@@ -2566,6 +2619,9 @@ fn run_validate_manifest(
                     println!("design-data: {} is valid", manifest_path.display());
                     if let Some(warning) = &identity_warning {
                         eprintln!("design-data: warning: {warning}");
+                    }
+                    if let manifest::PinCheck::Unverifiable { reason } = &pin {
+                        eprintln!("design-data: warning: foundation pin not verified: {reason}");
                     }
                 }
             }
