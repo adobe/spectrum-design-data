@@ -1356,3 +1356,20 @@ rules:
     message: "Relationship with legacyKey '{legacyKey}' uses an anyOf; a legacy token cannot express it, so remove the legacyKey or the anyOf"
     spec_ref: spec/relationship-format.md#any-of
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-100
+    name: relationship-options-mergeable
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      Relationship records of one component that share `property`, `context` and `$ref` and have
+      the same pins except for one declared option say the same thing twice. One record that pins
+      an array (`size: ["m", "l"]`) says it once. Records with a `legacyKey` are skipped, because
+      each names a legacy token, as are records that use an any-of.
+    assert: >
+      Relationship records that differ only in one declared option's value SHOULD be merged into
+      one record that pins an array.
+    message: "{n} relationship records for '{property}' / '{context}' differ only in option '{option}' ({values}); merge them into one record that pins an array"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"

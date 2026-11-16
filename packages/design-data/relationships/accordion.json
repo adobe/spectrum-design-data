@@ -976,7 +976,7 @@
       "part": "title",
       "property": "padding-horizontal",
       "options": {
-        "size": "m",
+        "size": ["m", "l", "xl"],
         "scale": "desktop"
       }
     },
@@ -992,7 +992,7 @@
       "part": "title",
       "property": "padding-horizontal",
       "options": {
-        "size": "m",
+        "size": ["m", "l", "xl"],
         "scale": "mobile"
       }
     },
@@ -1001,70 +1001,6 @@
     "contextQualifier": "horizontal",
     "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "uuid": "a794954c-197b-5c26-91a1-c02882855059"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "title",
-      "property": "padding-horizontal",
-      "options": {
-        "size": "l",
-        "scale": "desktop"
-      }
-    },
-    "context": "Title (horizontal)",
-    "contextRole": ["label"],
-    "contextQualifier": "horizontal",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
-    "uuid": "abf241dc-e131-586f-9590-d5a58847af5f"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "title",
-      "property": "padding-horizontal",
-      "options": {
-        "size": "l",
-        "scale": "mobile"
-      }
-    },
-    "context": "Title (horizontal)",
-    "contextRole": ["label"],
-    "contextQualifier": "horizontal",
-    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
-    "uuid": "14976b88-b04c-5c86-9d89-a7e7c6558149"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "title",
-      "property": "padding-horizontal",
-      "options": {
-        "size": "xl",
-        "scale": "desktop"
-      }
-    },
-    "context": "Title (horizontal)",
-    "contextRole": ["label"],
-    "contextQualifier": "horizontal",
-    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
-    "uuid": "45502af9-8867-5809-bce8-76a8d7b42ba7"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "title",
-      "property": "padding-horizontal",
-      "options": {
-        "size": "xl",
-        "scale": "mobile"
-      }
-    },
-    "context": "Title (horizontal)",
-    "contextRole": ["label"],
-    "contextQualifier": "horizontal",
-    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
-    "uuid": "81057d42-a5c1-5db2-80d0-3c81d888d966"
   },
   {
     "scope": {

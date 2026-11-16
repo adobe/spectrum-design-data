@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-100",
+      "severity": "warning",
+      "message_pattern": ".*differ only in option 'size'.*"
+    }
+  ]
+}

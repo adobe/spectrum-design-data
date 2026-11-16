@@ -2501,7 +2501,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black"
+        "staticColor": ["white", "black"]
       }
     },
     "context": "Background",
@@ -2521,7 +2521,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black"
+        "staticColor": ["white", "black"]
       }
     },
     "context": "Background",
@@ -2541,7 +2541,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black"
+        "staticColor": ["white", "black"]
       }
     },
     "context": "Background",
@@ -2603,7 +2603,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black",
+        "staticColor": ["white", "black"],
         "state": ["keyboard-focus"]
       }
     },
@@ -2624,7 +2624,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black",
+        "staticColor": ["white", "black"],
         "state": ["keyboard-focus"]
       }
     },
@@ -2645,7 +2645,7 @@
         "isPending": false,
         "isQuiet": [false, true],
         "isSelected": true,
-        "staticColor": "black",
+        "staticColor": ["white", "black"],
         "state": ["keyboard-focus"]
       }
     },
@@ -2653,66 +2653,6 @@
     "contextRole": ["background"],
     "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67",
     "uuid": "22047b35-4521-5d38-9780-74d8541bc40e"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white"
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
-    "uuid": "07ca72e8-0340-539f-a477-73dcc72cef81"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white"
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e",
-    "uuid": "6aa8788f-1a83-5fcb-b813-d1fa95b99617"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white"
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18",
-    "uuid": "85a6e7f5-5374-5fa7-96e1-da4ac129b2c8"
   },
   {
     "scope": {
@@ -2755,69 +2695,6 @@
     "contextRole": ["background"],
     "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
     "uuid": "7f239bd9-fd4f-51e1-a328-cac2bb2d1837"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65",
-    "uuid": "8006bda5-28fe-5188-a08b-3c0f7c1cde09"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "af809118-7a97-409c-925f-8d7636a791c8",
-    "uuid": "7ecd43a5-7e8a-55c7-91a0-2abce382e1f2"
-  },
-  {
-    "scope": {
-      "component": "action-button",
-      "property": "color",
-      "options": {
-        "hasHoldIcon": [false, true],
-        "hideLabel": [false, true],
-        "isDisabled": false,
-        "isEmphasized": true,
-        "isPending": false,
-        "isQuiet": [false, true],
-        "isSelected": true,
-        "staticColor": "white",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67",
-    "uuid": "174ae798-64a6-5411-b1ef-5d5de53de022"
   },
   {
     "scope": {
