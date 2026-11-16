@@ -2200,10 +2200,12 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     // The pin is stated twice, in the manifest and in `[source]` (GH #1741): compare with the
     // source this project resolves. Only a project with no `[source]` uses the embedded build,
     // and only then is that the thing to compare with.
-    let config = project_config();
-    let pin = manifest::check_foundation_pin(
+    let project = project_config()?;
+    let config = project.as_ref().map(|(_, c)| c);
+    let pin = check_project_pin(
         foundation_version.as_deref(),
-        config.as_ref().and_then(|c| c.source.as_ref()),
+        &manifest_path,
+        project.as_ref(),
     );
     let drift = foundation_version.as_deref().map(|fv| match &pin {
         manifest::PinCheck::Agree { version } => {
@@ -2214,7 +2216,7 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
         }
         manifest::PinCheck::Unverifiable { reason } => format!("not verified: {reason}"),
         manifest::PinCheck::Skipped { reason } => {
-            if config.as_ref().is_some_and(|c| c.source.is_some()) {
+            if config.is_some_and(|c| c.source.is_some()) {
                 format!("not compared: {reason}")
             } else {
                 let version = manifest::bare_version(fv);
@@ -2232,7 +2234,6 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     });
 
     let entry_detail = config
-        .as_ref()
         .and_then(|c| c.platforms.as_ref())
         .and_then(|platforms| platforms.get(id).map(describe_platform_entry));
 
@@ -2666,12 +2667,37 @@ fn run_platform_eject(
     Ok(ExitCode::SUCCESS)
 }
 
-/// The `.design-data.toml` the current directory resolves to, if any.
-fn project_config() -> Option<data_source::DesignDataConfig> {
-    let cwd = std::env::current_dir().ok()?;
-    data_source::find_config(&cwd)
-        .ok()?
-        .map(|(_, config)| config)
+/// The `.design-data.toml` the current directory resolves to (and its directory), if any. A
+/// malformed one is an error, as it was before the pin check existed.
+fn project_config() -> miette::Result<Option<(PathBuf, data_source::DesignDataConfig)>> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    Ok(data_source::find_config(&cwd)
+        .into_diagnostic()?
+        .map(|(file, config)| (file.parent().map(Path::to_path_buf).unwrap_or(cwd), config)))
+}
+
+/// Compare a manifest's `foundationVersion` with this project's `[source]` (GH #1741), but only
+/// when the manifest is the project's own. A manifest passed with `--manifest` from another
+/// repo, or fetched for a remote `[platforms.<id>]` entry, lives outside the project and can pin
+/// a different foundation for good reason, so it is not compared.
+fn check_project_pin(
+    manifest_pin: Option<&str>,
+    manifest_path: &Path,
+    project: Option<&(PathBuf, data_source::DesignDataConfig)>,
+) -> manifest::PinCheck {
+    let Some((dir, config)) = project else {
+        return manifest::check_foundation_pin(manifest_pin, None);
+    };
+    let inside = match (manifest_path.canonicalize(), dir.canonicalize()) {
+        (Ok(file), Ok(dir)) => file.starts_with(dir),
+        _ => false,
+    };
+    if !inside {
+        return manifest::PinCheck::Skipped {
+            reason: "the manifest is not in this project (`--manifest`, or a remote platform entry), so its pin is not compared with this project's `[source]`".into(),
+        };
+    }
+    manifest::check_foundation_pin(manifest_pin, config.source.as_ref())
 }
 
 /// checks (include/exclude query parse, override-target resolution).
@@ -2730,15 +2756,17 @@ fn run_validate_manifest(
                 .ok()
                 .and_then(|text| serde_json::from_str::<serde_json::Value>(&text).ok())
                 .and_then(|m| m.get("foundationVersion")?.as_str().map(String::from));
-            let config = if explicit_path.is_some() {
-                None
+            let pin = if explicit_path.is_some() {
+                manifest::PinCheck::Skipped {
+                    reason: "a positional PATH replaces the `[source]`".into(),
+                }
             } else {
-                project_config()
+                check_project_pin(
+                    manifest_pin.as_deref(),
+                    &manifest_path,
+                    project_config()?.as_ref(),
+                )
             };
-            let pin = manifest::check_foundation_pin(
-                manifest_pin.as_deref(),
-                config.as_ref().and_then(|c| c.source.as_ref()),
-            );
             let mut messages: Vec<String> = Vec::new();
             if let manifest::PinCheck::Mismatch { manifest, source } = &pin {
                 messages.push(format!(

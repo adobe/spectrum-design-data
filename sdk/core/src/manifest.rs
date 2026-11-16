@@ -686,6 +686,14 @@ pub fn bare_version(pin: &str) -> &str {
     pin.rsplit_once('@').map_or(pin, |(_, v)| v).trim()
 }
 
+/// The package a pin names, if it says: `@adobe/spectrum-design-data` for
+/// `@adobe/spectrum-design-data@3.15.1`, nothing for `3.15.1`.
+fn pin_package(pin: &str) -> Option<&str> {
+    pin.rsplit_once('@')
+        .map(|(pkg, _)| pkg.trim())
+        .filter(|pkg| !pkg.is_empty())
+}
+
 /// Compare the manifest's `foundationVersion` with the `[source]` the project resolves.
 ///
 /// A github `tag` and an npm `version` are compared once the package prefix is stripped from both.
@@ -717,7 +725,24 @@ pub fn check_foundation_pin(manifest_pin: Option<&str>, source: Option<&SourceCo
             ),
         };
     }
-    if manifest == source {
+    // Two pins that name different packages are not the same release even at one version.
+    if let (Some(a), Some(b)) = (pin_package(manifest_pin), pin_package(source_pin)) {
+        if a != b {
+            return PinCheck::Mismatch {
+                manifest: manifest_pin.trim().to_string(),
+                source: source_pin.trim().to_string(),
+            };
+        }
+    }
+    // Build metadata (`3.15.1+meta`) does not make a different release: compare by precedence.
+    let same = match (
+        semver::Version::parse(manifest),
+        semver::Version::parse(source),
+    ) {
+        (Ok(a), Ok(b)) => a.cmp_precedence(&b) == std::cmp::Ordering::Equal,
+        _ => manifest == source,
+    };
+    if same {
         PinCheck::Agree {
             version: manifest.to_string(),
         }
@@ -731,15 +756,6 @@ pub fn check_foundation_pin(manifest_pin: Option<&str>, source: Option<&SourceCo
 
 #[cfg(test)]
 mod tests {
-    fn gh(tag: Option<&str>) -> SourceConfig {
-        SourceConfig::Github {
-            repo: "adobe/spectrum-design-data".into(),
-            tag: tag.map(String::from),
-            branch: tag.is_none().then(|| "main".to_string()),
-            sha: None,
-        }
-    }
-
     #[test]
     fn pins_agree_with_or_without_the_package_prefix() {
         let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
@@ -813,6 +829,26 @@ mod tests {
     }
 
     #[test]
+    fn pins_for_different_packages_never_agree() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        assert!(matches!(
+            check_foundation_pin(Some("@other/pkg@3.15.1"), Some(&tag)),
+            PinCheck::Mismatch { .. }
+        ));
+    }
+
+    #[test]
+    fn build_metadata_does_not_make_a_different_release() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1+abc"));
+        assert_eq!(
+            check_foundation_pin(Some("3.15.1"), Some(&tag)),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
+    #[test]
     fn an_npm_version_is_compared() {
         let npm = SourceConfig::Npm {
             package: None,
@@ -859,6 +895,15 @@ mod tests {
     use crate::graph::TokenGraph;
     use serde_json::json;
     use std::path::PathBuf;
+
+    fn gh(tag: Option<&str>) -> SourceConfig {
+        SourceConfig::Github {
+            repo: "adobe/spectrum-design-data".into(),
+            tag: tag.map(String::from),
+            branch: tag.is_none().then(|| "main".to_string()),
+            sha: None,
+        }
+    }
 
     /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
