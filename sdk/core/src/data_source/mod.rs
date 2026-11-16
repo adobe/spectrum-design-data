@@ -918,13 +918,8 @@ pub fn foundation_dataset_dir(
 ) -> Result<PathBuf, DataSourceError> {
     #[cfg(feature = "fetch")]
     {
-        let source = SourceConfig::Github {
-            repo: repo.to_string(),
-            tag: Some(format!("@adobe/spectrum-design-data@{version}")),
-            branch: None,
-            sha: None,
-        };
-        let root = fetch::ensure_cached(&source, cache_dir_override)?;
+        let tag = format!("@adobe/spectrum-design-data@{version}");
+        let root = fetch::ensure_cached_keeping_others(repo, &tag, cache_dir_override)?;
         Ok(root.join("packages/design-data"))
     }
     #[cfg(not(feature = "fetch"))]
