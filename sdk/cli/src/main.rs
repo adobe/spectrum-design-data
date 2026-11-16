@@ -2013,9 +2013,9 @@ fn run_platform_list(format: OutputFormat) -> miette::Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
-/// `design-data platform show <id>` (h890.27.6): resolve one named platform
-/// entry (fetching it if remote), and report its location, identity fields,
-/// and an advisory `foundationVersion`-vs-this-build drift check.
+/// `design-data platform impact`: the data changes between two foundation releases that touch
+/// what a platform binds, read from the `--to` release's component changelogs. Exits 1 when a
+/// binding names something renamed or removed.
 fn run_platform_impact(
     id: Option<String>,
     from: Option<String>,
@@ -2133,9 +2133,10 @@ fn run_platform_impact(
                         String::new()
                     };
                     println!("  {} @ {}: {}{times}", f.component, f.release, f.message);
-                    if let Some(b) = &f.binding {
-                        let shown = std::env::current_dir()
-                            .ok()
+                    let cwd = std::env::current_dir().ok();
+                    for b in &f.bindings {
+                        let shown = cwd
+                            .as_ref()
                             .and_then(|cwd| {
                                 b.strip_prefix(&format!("{}/", cwd.display()))
                                     .map(str::to_string)
@@ -2169,6 +2170,9 @@ fn run_platform_impact(
     })
 }
 
+/// `design-data platform show <id>` (h890.27.6): resolve one named platform
+/// entry (fetching it if remote), and report its location, identity fields,
+/// and an advisory `foundationVersion`-vs-this-build drift check.
 fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         platform_id: Some(id.to_string()),

@@ -166,12 +166,12 @@ pub enum Class {
 pub struct Finding {
     pub class: Class,
     pub component: String,
-    /// The first data release that carries this change.
+    /// The earliest data release that carries this change.
     pub release: String,
     pub message: String,
-    /// Where the platform writes the binding (`file#/json/pointer`), when there is one.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub binding: Option<String>,
+    /// Every place the platform writes a binding this change touches (`file#/json/pointer`).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub bindings: Vec<String>,
     /// The pull request or commit that made the change.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
@@ -263,16 +263,88 @@ fn show(v: Option<&Value>) -> String {
     }
 }
 
-/// How one changelog entry of `component` touches the platform, if it does.
-fn classify(
-    b: &Bindings,
-    component: &str,
-    entry: &Value,
-) -> Option<(Class, String, Option<String>)> {
-    let kind = entry.get("kind").and_then(Value::as_str)?;
-    let change = entry.get("change").and_then(Value::as_str)?;
+/// The name fields of a changelog entry's `name`, e.g. `size=m,structure=base` from
+/// `corner-radius[size=m,structure=base]`, as they are after the change and before it
+/// (a `name.<field>` entry in `fields` says what the field was).
+fn name_fields(entry: &Value) -> (BTreeMap<String, String>, BTreeMap<String, String>) {
+    let name = entry.get("name").and_then(Value::as_str).unwrap_or("");
+    let mut after = BTreeMap::new();
+    if let Some((_, rest)) = name.split_once('[') {
+        for pair in rest.trim_end_matches(']').split(',') {
+            if let Some((k, v)) = pair.split_once('=') {
+                after.insert(k.to_string(), v.to_string());
+            }
+        }
+    }
+    let mut before = after.clone();
+    for f in entry
+        .get("fields")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        let Some(key) = f
+            .get("path")
+            .and_then(Value::as_str)
+            .and_then(|p| p.strip_prefix("name."))
+        else {
+            continue;
+        };
+        match f.get("before") {
+            Some(Value::String(v)) => before.insert(key.to_string(), v.clone()),
+            Some(other) => before.insert(key.to_string(), other.to_string()),
+            None => before.remove(key),
+        };
+    }
+    (before, after)
+}
+
+/// Whether a token selector selects a token with this property and name fields. A selector
+/// field the changelog name does not list is not held against it: the name lists only the
+/// fields that tell tokens of one property apart.
+fn selects(
+    selector: &Map<String, Value>,
+    property: &str,
+    fields: &BTreeMap<String, String>,
+) -> bool {
+    selector.iter().all(|(key, want)| {
+        let want = match want {
+            Value::String(s) => s.clone(),
+            other => other.to_string(),
+        };
+        if key == "property" {
+            return glob(&want, property);
+        }
+        fields.get(key).is_none_or(|have| glob(&want, have))
+    })
+}
+
+/// One way a changelog entry touches the platform: how, why, and where it is bound.
+struct Hit {
+    class: Class,
+    message: String,
+    at: Option<String>,
+}
+
+fn hit(class: Class, message: String, at: Option<&str>) -> Hit {
+    Hit {
+        class,
+        message,
+        at: at.map(String::from),
+    }
+}
+
+/// How one changelog entry of `component` touches the platform: every binding it reaches.
+fn classify(b: &Bindings, component: &str, entry: &Value) -> Vec<Hit> {
+    let (Some(kind), Some(change)) = (
+        entry.get("kind").and_then(Value::as_str),
+        entry.get("change").and_then(Value::as_str),
+    ) else {
+        return vec![];
+    };
     let name = entry.get("name").and_then(Value::as_str).unwrap_or("");
     let contexts = str_list(entry.get("contexts"));
+    let mut hits = Vec::new();
     match kind {
         "relationship" => {
             let property = property_of(entry);
@@ -283,72 +355,65 @@ fn classify(
                 } else {
                     Class::Changes
                 };
-                return Some((
+                hits.push(hit(
                     class,
                     format!("a foundation relationship your manifest overrides or removes was {change} ({property})"),
                     None,
                 ));
             }
+            let renamed_from = field(entry, "context")
+                .and_then(|f| f.get("before"))
+                .and_then(Value::as_str);
             for rb in b
                 .relationships
                 .iter()
                 .filter(|r| r.component == component && glob(&r.property, &property))
             {
                 let in_contexts = contexts.iter().any(|c| glob(&rb.context, c));
-                let renamed_from = field(entry, "context")
-                    .and_then(|f| f.get("before"))
-                    .and_then(Value::as_str);
+                let at = Some(rb.at.as_str());
                 match change {
-                    "removed" if in_contexts => {
-                        return Some((
-                            Class::Breaks,
-                            format!("relationship '{property}' / '{}' was removed", rb.context),
-                            Some(rb.at.clone()),
-                        ))
-                    }
+                    "removed" if in_contexts => hits.push(hit(
+                        Class::Breaks,
+                        format!("relationship '{property}' / '{}' was removed", rb.context),
+                        at,
+                    )),
                     "updated" => {
-                        if let Some(before) = renamed_from.filter(|b| glob(&rb.context, b)) {
+                        if let Some(before) = renamed_from.filter(|x| glob(&rb.context, x)) {
                             let after = show(field(entry, "context").and_then(|f| f.get("after")));
-                            return Some((
+                            hits.push(hit(
                                 Class::Breaks,
-                                format!(
-                                    "context '{before}' was renamed to '{after}' (property '{property}'); this binding names the old one"
-                                ),
-                                Some(rb.at.clone()),
+                                format!("context '{before}' was renamed to '{after}' (property '{property}'); this binding names the old one"),
+                                at,
                             ));
-                        }
-                        if in_contexts {
+                        } else if in_contexts {
                             let what = if field(entry, "$ref").is_some() {
                                 "now points to a different token"
                             } else {
                                 "changed (option pins or other fields)"
                             };
-                            return Some((
+                            hits.push(hit(
                                 Class::Changes,
                                 format!("relationship '{property}' / '{}' {what}", rb.context),
-                                Some(rb.at.clone()),
+                                at,
                             ));
                         }
                     }
-                    "added" if in_contexts => {
-                        return Some((
-                            Class::Changes,
-                            format!(
+                    "added" if in_contexts => hits.push(hit(
+                        Class::Changes,
+                        format!(
                             "a new record for '{property}' / '{}' can change which token resolves",
                             rb.context
                         ),
-                            Some(rb.at.clone()),
-                        ))
-                    }
+                        at,
+                    )),
                     _ => {}
                 }
             }
-            None
         }
         "token" => {
             let property = property_of(entry);
-            let value = field(entry, "value");
-            let what = match (change, value) {
+            let (before, after) = name_fields(entry);
+            let what = match (change, field(entry, "value")) {
                 ("updated", Some(v)) => format!(
                     "token '{property}' changed value {} to {}",
                     show(v.get("before")),
@@ -357,59 +422,67 @@ fn classify(
                 ("renamed", _) => format!("token '{property}' was renamed ({name})"),
                 _ => format!("token '{property}' {change}"),
             };
-            if let Some(tb) = b.tokens.iter().find(|t| {
-                t.component == component
-                    && t.selector
-                        .get("property")
-                        .and_then(Value::as_str)
-                        .is_some_and(|p| glob(p, &property))
-            }) {
-                let class = if change == "renamed" {
-                    Class::Breaks
-                } else {
-                    Class::Changes
-                };
-                return Some((class, what, Some(tb.at.clone())));
+            for tb in b.tokens.iter().filter(|t| t.component == component) {
+                let now = selects(&tb.selector, &property, &after);
+                let then = selects(&tb.selector, &property, &before);
+                let at = Some(tb.at.as_str());
+                match (change, then, now) {
+                    // A rename moved the token out of the selector's reach.
+                    ("renamed", true, false) => hits.push(hit(
+                        Class::Breaks,
+                        format!("{what}; this selector no longer matches it"),
+                        at,
+                    )),
+                    (_, _, true) => hits.push(hit(Class::Changes, what.clone(), at)),
+                    _ => {}
+                }
             }
-            let rb = b.relationships.iter().find(|r| {
-                r.component == component && contexts.iter().any(|c| glob(&r.context, c))
-            })?;
-            Some((
-                Class::Changes,
-                format!("{what}; reached through '{}'", rb.context),
-                Some(rb.at.clone()),
-            ))
+            if hits.is_empty() {
+                if let Some(rb) = b.relationships.iter().find(|r| {
+                    r.component == component && contexts.iter().any(|c| glob(&r.context, c))
+                }) {
+                    hits.push(hit(
+                        Class::Changes,
+                        format!("{what}; reached through '{}'", rb.context),
+                        Some(rb.at.as_str()),
+                    ));
+                }
+            }
         }
         "option" | "state" | "anatomy-part" => {
             let before = entry.get("before").and_then(Value::as_str).unwrap_or(name);
-            let used = b.names.get(component)?;
-            let hit = used.contains(name) || used.contains(before);
-            match change {
-                "removed" | "renamed" if hit => Some((
-                    Class::Breaks,
-                    format!(
-                        "{kind} '{before}' was {change}{}",
-                        if change == "renamed" {
-                            format!(" to '{name}'")
-                        } else {
-                            String::new()
-                        }
-                    ),
-                    None,
-                )),
-                "updated" if hit && kind != "anatomy-part" => {
-                    Some((Class::Changes, format!("{kind} '{name}' changed"), None))
+            if let Some(used) = b.names.get(component) {
+                let touched = used.contains(name) || used.contains(before);
+                match change {
+                    "removed" | "renamed" if touched => hits.push(hit(
+                        Class::Breaks,
+                        format!(
+                            "{kind} '{before}' was {change}{}",
+                            if change == "renamed" {
+                                format!(" to '{name}'")
+                            } else {
+                                String::new()
+                            }
+                        ),
+                        None,
+                    )),
+                    "updated" if touched && kind != "anatomy-part" => hits.push(hit(
+                        Class::Changes,
+                        format!("{kind} '{name}' changed"),
+                        None,
+                    )),
+                    _ => {}
                 }
-                _ => None,
             }
         }
-        "component" if change == "removed" && b.components.contains(component) => Some((
+        "component" if change == "removed" && b.components.contains(component) => hits.push(hit(
             Class::Breaks,
             format!("component '{component}' was removed"),
             None,
         )),
-        _ => None,
+        _ => {}
     }
+    hits
 }
 
 fn source_of(commit: &Value) -> Option<String> {
@@ -484,26 +557,48 @@ pub fn impact(
                     .into_iter()
                     .flatten()
                 {
-                    let Some((class, message, binding)) = classify(bindings, component, entry)
-                    else {
-                        continue;
-                    };
-                    releases.insert(version.clone());
-                    if let Some(f) = findings.iter_mut().find(|f| {
-                        f.component == *component && f.class == class && f.message == message
-                    }) {
-                        f.entries += 1;
+                    let hits = classify(bindings, component, entry);
+                    if hits.is_empty() {
                         continue;
                     }
-                    findings.push(Finding {
-                        class,
-                        component: component.clone(),
-                        release: version.to_string(),
-                        message,
-                        binding,
-                        source: source_of(commit),
-                        entries: 1,
-                    });
+                    releases.insert(version.clone());
+                    // One count per entry and message, however many bindings it reaches.
+                    let mut counted: BTreeSet<(Class, String)> = BTreeSet::new();
+                    for h in hits {
+                        let existing = findings.iter_mut().find(|f| {
+                            f.component == *component
+                                && f.class == h.class
+                                && f.message == h.message
+                        });
+                        let f = match existing {
+                            Some(f) => f,
+                            None => {
+                                findings.push(Finding {
+                                    class: h.class,
+                                    component: component.clone(),
+                                    release: version.to_string(),
+                                    message: h.message.clone(),
+                                    bindings: vec![],
+                                    source: source_of(commit),
+                                    entries: 0,
+                                });
+                                findings.last_mut().expect("just pushed")
+                            }
+                        };
+                        if let Some(at) = h.at {
+                            if !f.bindings.contains(&at) {
+                                f.bindings.push(at);
+                            }
+                        }
+                        if counted.insert((h.class, h.message)) {
+                            f.entries += 1;
+                        }
+                        // Releases need not be listed oldest first: keep the earliest.
+                        if semver::Version::parse(&f.release).is_ok_and(|first| version < first) {
+                            f.release = version.to_string();
+                            f.source = source_of(commit);
+                        }
+                    }
                 }
             }
         }
@@ -511,6 +606,16 @@ pub fn impact(
     findings.sort_by(|a, b| {
         (a.class, &a.component, &a.release).cmp(&(b.class, &b.component, &b.release))
     });
+    let contextless = bindings
+        .relationships
+        .iter()
+        .filter(|r| r.context.is_empty())
+        .count();
+    if contextless > 0 {
+        notes.push(format!(
+            "{contextless} relationship binding(s) name no `context`, so the renderer never resolves them and this report cannot match them; `validate-manifest` reports them."
+        ));
+    }
     notes.push(
         "Not covered yet: the manifest's token overrides (`overrides[].target`), and changes to a foundation recipe for a component the platform did not replace.".into(),
     );
@@ -605,7 +710,7 @@ mod tests {
         assert_eq!(f.class, Class::Breaks);
         assert_eq!(f.entries, 2);
         assert!(f.message.contains("renamed to 'Background'"), "{f:?}");
-        assert_eq!(f.binding.as_deref(), Some("v.json#/parts/c/props/fill"));
+        assert_eq!(f.bindings, ["v.json#/parts/c/props/fill"]);
         assert_eq!(
             f.source.as_deref(),
             Some("fix: contexts (#1827) (https://x/1827)")
@@ -698,6 +803,137 @@ mod tests {
             r.notes
                 .iter()
                 .any(|n| n.contains("starts at release 2.1.0")),
+            "{:?}",
+            r.notes
+        );
+    }
+
+    fn token_binding(selector: Value) -> Bindings {
+        let mut b = Bindings::default();
+        b.components.insert("action-button".into());
+        b.tokens.push(TokBinding {
+            component: "action-button".into(),
+            selector: selector.as_object().unwrap().clone(),
+            at: "v.json#/parts/c/props/cornerRadius".into(),
+        });
+        b
+    }
+
+    fn run_with(b: &Bindings, entries: Vec<Value>) -> Report {
+        let dir = changelog(entries);
+        impact(
+            b,
+            dir.path(),
+            &parse_version("3.13.0").unwrap(),
+            &parse_version("3.15.1").unwrap(),
+        )
+        .unwrap()
+    }
+
+    fn renamed(name: &str, fields: Value) -> Value {
+        json!({ "kind": "token", "change": "renamed", "contexts": [], "name": name, "fields": fields })
+    }
+
+    #[test]
+    fn a_token_selector_at_one_size_ignores_another_size() {
+        let b = token_binding(json!({ "property": "corner-radius", "size": "l" }));
+        let m = renamed(
+            "corner-radius[size=m]",
+            json!([{ "path": "name.legacyKey", "after": "x" }]),
+        );
+        assert!(run_with(&b, vec![m]).findings.is_empty());
+        let value = json!({ "kind": "token", "change": "updated", "contexts": [],
+            "name": "corner-radius[size=m]",
+            "fields": [{ "path": "value", "before": "4px", "after": "6px" }] });
+        assert!(run_with(&b, vec![value]).findings.is_empty());
+        let l = json!({ "kind": "token", "change": "updated", "contexts": [],
+            "name": "corner-radius[size=l]",
+            "fields": [{ "path": "value", "before": "4px", "after": "6px" }] });
+        assert_eq!(run_with(&b, vec![l]).findings[0].class, Class::Changes);
+    }
+
+    #[test]
+    fn a_rename_that_moves_a_token_out_of_the_selector_breaks() {
+        let b = token_binding(json!({ "property": "gap", "anatomy": "focus-ring" }));
+        let moved = renamed(
+            "gap[anatomy=focus-indicator]",
+            json!([{ "path": "name.anatomy", "before": "focus-ring", "after": "focus-indicator" }]),
+        );
+        let r = run_with(&b, vec![moved]);
+        assert_eq!(r.findings.len(), 1, "{:?}", r.findings);
+        assert_eq!(r.findings[0].class, Class::Breaks);
+        // A rename of a field the selector does not name does not break it.
+        let other = renamed(
+            "gap[anatomy=focus-ring,legacyKey=new]",
+            json!([{ "path": "name.legacyKey", "before": "old", "after": "new" }]),
+        );
+        assert_eq!(run_with(&b, vec![other]).findings[0].class, Class::Changes);
+    }
+
+    #[test]
+    fn every_binding_a_change_reaches_is_listed() {
+        let mut b = bindings();
+        b.relationships.push(RelBinding {
+            component: "action-button".into(),
+            property: "color".into(),
+            context: "Background (selected, non emphasized)".into(),
+            at: "other.json#/parts/x/props/fill".into(),
+        });
+        let removed = rel(
+            "removed",
+            "Background (selected, non emphasized)",
+            json!([]),
+        );
+        let r = run_with(&b, vec![removed]);
+        assert_eq!(r.findings.len(), 1, "{:?}", r.findings);
+        assert_eq!(r.findings[0].entries, 1);
+        assert_eq!(
+            r.findings[0].bindings,
+            [
+                "v.json#/parts/c/props/fill",
+                "other.json#/parts/x/props/fill"
+            ]
+        );
+    }
+
+    #[test]
+    fn the_earliest_release_is_kept_whatever_the_file_order() {
+        let dir = tempfile::tempdir().unwrap();
+        let release = |v: &str| {
+            json!({ "release": v, "commits": [{ "entries": [
+            rel("removed", "Background (selected, non emphasized)", json!([]))] }] })
+        };
+        std::fs::write(
+            dir.path().join("action-button.json"),
+            json!({ "component": "action-button",
+                "releases": [release("3.15.0"), release("3.14.0")] })
+            .to_string(),
+        )
+        .unwrap();
+        let r = impact(
+            &bindings(),
+            dir.path(),
+            &parse_version("3.13.0").unwrap(),
+            &parse_version("3.15.1").unwrap(),
+        )
+        .unwrap();
+        assert_eq!(r.findings.len(), 1);
+        assert_eq!(r.findings[0].release, "3.14.0");
+        assert_eq!(r.findings[0].entries, 2);
+    }
+
+    #[test]
+    fn a_binding_with_no_context_is_called_out() {
+        let mut b = bindings();
+        b.relationships.push(RelBinding {
+            component: "action-button".into(),
+            property: "color".into(),
+            context: String::new(),
+            at: "v.json#/x".into(),
+        });
+        let r = run_with(&b, vec![]);
+        assert!(
+            r.notes.iter().any(|n| n.contains("name no `context`")),
             "{:?}",
             r.notes
         );
