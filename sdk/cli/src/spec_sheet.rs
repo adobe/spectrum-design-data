@@ -410,15 +410,41 @@ fn variant_pins(
     declared: Option<&Map<String, Value>>,
     options: Option<&Map<String, Value>>,
 ) -> Map<String, Value> {
-    options
+    // Sorted, so two records that pin the same options in another key order are one variant.
+    let sorted: BTreeMap<&String, &Value> = options
         .into_iter()
         .flatten()
         .filter(|(k, v)| {
             k.as_str() == design_data_core::scope::ANY_OF
                 || (is_boolean_option(declared, k) && **v == Value::Bool(true))
         })
-        .map(|(k, v)| (k.clone(), v.clone()))
-        .collect()
+        .collect();
+    let mut out = Map::new();
+    for (k, v) in sorted {
+        let v = if k == design_data_core::scope::ANY_OF {
+            let mut alts: Vec<Value> = v
+                .as_array()
+                .into_iter()
+                .flatten()
+                .map(|alt| match alt.as_object() {
+                    Some(o) => Value::Object(
+                        o.iter()
+                            .collect::<BTreeMap<_, _>>()
+                            .into_iter()
+                            .map(|(k, v)| (k.clone(), v.clone()))
+                            .collect(),
+                    ),
+                    None => alt.clone(),
+                })
+                .collect();
+            alts.sort_by_key(Value::to_string);
+            Value::Array(alts)
+        } else {
+            v.clone()
+        };
+        out.insert(k.clone(), v);
+    }
+    out
 }
 
 fn is_boolean_option(declared: Option<&Map<String, Value>>, name: &str) -> bool {
@@ -446,10 +472,14 @@ fn option_words(name: &str) -> String {
     out
 }
 
-fn pin_words(name: &str, value: &Value) -> Option<String> {
+/// One pin in words. A top-level pin is always a true boolean; an any-of alternative may also
+/// pin a false boolean (`not selected`) or a string option (its value).
+fn pin_words(name: &str, value: &Value) -> String {
     match value {
-        Value::Bool(true) => Some(option_words(name)),
-        _ => None,
+        Value::Bool(true) => option_words(name),
+        Value::Bool(false) => format!("not {}", option_words(name)),
+        Value::String(v) => v.clone(),
+        other => other.to_string(),
     }
 }
 
@@ -466,7 +496,7 @@ fn variant_title(context: &str, pins: &Map<String, Value>) -> String {
             .filter_map(Value::as_object)
             .map(|alt| {
                 alt.iter()
-                    .filter_map(|(k, v)| pin_words(k, v))
+                    .map(|(k, v)| pin_words(k, v))
                     .collect::<Vec<_>>()
                     .join(" and ")
             })
@@ -476,7 +506,7 @@ fn variant_title(context: &str, pins: &Map<String, Value>) -> String {
     parts.extend(
         pins.iter()
             .filter(|(k, _)| k.as_str() != design_data_core::scope::ANY_OF)
-            .filter_map(|(k, v)| pin_words(k, v)),
+            .map(|(k, v)| pin_words(k, v)),
     );
     if parts.is_empty() {
         return context.to_string();
@@ -1069,6 +1099,16 @@ impl Ctx<'_> {
                 "badges": badges,
             }));
         }
+        // Two variants whose titles read the same must still have distinct ids.
+        let mut seen: BTreeMap<String, usize> = BTreeMap::new();
+        for b in &mut blocks {
+            let id = b["id"].as_str().unwrap_or_default().to_string();
+            let n = seen.entry(id.clone()).or_default();
+            *n += 1;
+            if *n > 1 {
+                b["id"] = json!(format!("{id}--{n}"));
+            }
+        }
         Ok(blocks)
     }
 }
@@ -1344,4 +1384,71 @@ pub fn run(
         None => println!("{text}"),
     }
     Ok(ExitCode::SUCCESS)
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::*;
+
+    fn obj(v: Value) -> Map<String, Value> {
+        v.as_object().cloned().unwrap_or_default()
+    }
+
+    fn declared() -> Map<String, Value> {
+        obj(json!({
+            "isSelected": {"type": "boolean"},
+            "isEmphasized": {"type": "boolean"},
+            "isDisabled": {"type": "boolean"},
+            "variant": {"type": "string"},
+        }))
+    }
+
+    fn pins(options: Value) -> Map<String, Value> {
+        variant_pins(Some(&declared()), Some(&obj(options)))
+    }
+
+    #[test]
+    fn pins_in_another_key_order_are_one_variant() {
+        let a = pins(json!({"isSelected": true, "isEmphasized": true}));
+        let b = pins(json!({"isEmphasized": true, "isSelected": true}));
+        assert_eq!(Value::Object(a).to_string(), Value::Object(b).to_string());
+        let x = pins(
+            json!({"anyOf": [{"isSelected": true, "isDisabled": true}, {"isEmphasized": true}]}),
+        );
+        let y = pins(
+            json!({"anyOf": [{"isEmphasized": true}, {"isDisabled": true, "isSelected": true}]}),
+        );
+        assert_eq!(Value::Object(x).to_string(), Value::Object(y).to_string());
+    }
+
+    #[test]
+    fn false_pins_strings_and_undeclared_keys_do_not_split() {
+        assert!(
+            pins(json!({"isSelected": false, "variant": "a", "size": "m", "from": "top"}))
+                .is_empty()
+        );
+        assert_eq!(
+            pins(json!({"isSelected": true, "isDisabled": false})).len(),
+            1
+        );
+    }
+
+    #[test]
+    fn an_any_of_alternative_reads_its_false_and_string_pins() {
+        let p =
+            pins(json!({"anyOf": [{"isSelected": true, "variant": "a"}, {"isDisabled": false}]}));
+        assert_eq!(
+            variant_title("Control", &p),
+            "Control (not disabled or selected and a)"
+        );
+        let q = pins(
+            json!({"isEmphasized": true, "anyOf": [{"isSelected": true}, {"isDisabled": true}]}),
+        );
+        assert_eq!(
+            variant_title("Control (border)", &q),
+            "Control (border, disabled or selected, emphasized)"
+        );
+    }
 }

@@ -627,10 +627,10 @@ fn a_context_with_boolean_variants_is_one_block_per_variant_rendered_with_its_pi
             .unwrap_or_else(|| panic!("no block titled {title}"))
     };
 
-    // The any-of reads as words, and the block renders with its first alternative.
-    let emphasized = block("Control (selected or indeterminate, emphasized)");
+    // The any-of reads as words (alternatives sorted), and the block renders with its first one.
+    let emphasized = block("Control (indeterminate or selected, emphasized)");
     let options = &emphasized["render"]["request"]["options"];
-    assert_eq!(options["isSelected"], true);
+    assert_eq!(options["isIndeterminate"], true);
     assert_eq!(options["isEmphasized"], true);
     assert_eq!(emphasized["rows"][0]["conditions"], serde_json::json!({}));
 
@@ -638,6 +638,6 @@ fn a_context_with_boolean_variants_is_one_block_per_variant_rendered_with_its_pi
     let base = block("Control");
     assert!(base["render"]["request"]["options"]["isSelected"].is_null());
 
-    let disabled = block("Control (selected or indeterminate, disabled)");
+    let disabled = block("Control (indeterminate or selected, disabled)");
     assert_eq!(disabled["render"]["request"]["options"]["isDisabled"], true);
 }
