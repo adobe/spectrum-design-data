@@ -596,7 +596,7 @@ fn extract_tarball_inner_with_limits(
 /// Version of the extraction filter, stored in `.complete`. Bump it whenever
 /// [`should_extract`] changes so immutable (tag/sha) caches built by older
 /// binaries are refetched instead of served incomplete.
-const EXTRACT_LAYOUT: &str = "2";
+const EXTRACT_LAYOUT: &str = "3";
 
 /// True when `root` was extracted by the current [`EXTRACT_LAYOUT`].
 fn cache_is_current(root: &Path) -> bool {
@@ -619,27 +619,9 @@ fn should_extract(rel: &Path) -> bool {
         // data itself now lives under packages/design-data/tokens (arm below), but
         // schemas and metadata still live here — so the whole parent is kept by design.
         (Some("packages"), Some("tokens")) => true,
-        (Some("packages"), Some("design-data")) => {
-            // tokens/ — cascade-format token data; components/, fields/, mode-sets/ — Spectrum catalog;
-            // relationships/, visuals/, icons/ — render inputs; registry/ — platform-implementations
-            // advisory; guidelines/ — `catalog export`.
-            let third = components
-                .next()
-                .map(|c| c.as_os_str().to_string_lossy().into_owned());
-            matches!(
-                third.as_deref(),
-                Some("tokens")
-                    | Some("components")
-                    | Some("fields")
-                    | Some("mode-sets")
-                    | Some("naming-exceptions.json")
-                    | Some("relationships")
-                    | Some("visuals")
-                    | Some("icons")
-                    | Some("registry")
-                    | Some("guidelines")
-            )
-        }
+        // The whole dataset (8.7 MB): a hand-kept subfolder list dropped `dataset.json`, so a
+        // fetched dataset read as layout revision 0.
+        (Some("packages"), Some("design-data")) => true,
         (Some("packages"), Some("design-data-spec")) => {
             // schemas/ — Layer-1 spec schemas (manifest.schema.json et al.) used to
             // validate a fetched foundation. Other subdirs (docs, audits, scripts…) are not needed.
@@ -721,10 +703,9 @@ mod tests {
         assert!(should_extract(Path::new(
             "packages/design-data/tokens/layout.tokens.json"
         )));
-        // Other design-data paths are NOT extracted.
-        assert!(!should_extract(Path::new("packages/design-data/README.md")));
-        assert!(!should_extract(Path::new(
-            "packages/design-data/package.json"
+        // The whole dataset is extracted, including the root `dataset.json` (layoutRevision).
+        assert!(should_extract(Path::new(
+            "packages/design-data/dataset.json"
         )));
     }
 
@@ -749,12 +730,10 @@ mod tests {
             "packages/design-data/icons/ui.json",
             "packages/design-data/registry/platform-implementations.json",
             "packages/design-data/guidelines/manifest.json",
+            "packages/design-data/changelog/action-button.json",
         ] {
             assert!(should_extract(Path::new(p)), "{p}");
         }
-        assert!(!should_extract(Path::new(
-            "packages/design-data/scripts/build.js"
-        )));
     }
 
     #[test]
