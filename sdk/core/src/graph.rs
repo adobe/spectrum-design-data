@@ -3842,6 +3842,23 @@ mod tests {
     }
 
     #[test]
+    fn loading_relationships_refuses_an_unknown_scope_field() {
+        let dir = std::env::temp_dir().join(format!("ddscope-field-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let bad = json!([{"scope": {"component": "x", "property": "y", "between": {"from": "top", "to": "text"}}, "uuid": "b", "$ref": "t"}]);
+        std::fs::write(dir.join("bad.json"), bad.to_string()).unwrap();
+        let err = TokenGraph::load_spec_relationships(&dir)
+            .unwrap_err()
+            .to_string();
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert!(
+            err.contains("scope.between") && err.contains("record 0"),
+            "{err}"
+        );
+        assert!(err.contains("upgrade the CLI"), "{err}");
+    }
+
+    #[test]
     fn manifest_relationship_add_and_override_refuse_an_unsupported_shape() {
         let any_of = json!({"scope": {"component": "button", "property": "color",
             "options": {"future": {"min": 1}}}, "value": "#fff", "uuid": "u-new"});
