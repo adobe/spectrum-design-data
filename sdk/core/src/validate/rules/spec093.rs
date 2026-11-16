@@ -21,7 +21,7 @@
 //!
 //! Interaction states (`down`, `focus`) are not options and are not checked.
 //!
-//! Warning, held at a baseline by `tests/recipe_lint_baseline.rs`.
+//! Error.
 
 use std::collections::{HashMap, HashSet};
 
@@ -240,7 +240,7 @@ impl Rule {
             file: rel.file.clone(),
             token: None,
             rule_id: Some(self.id().to_string()),
-            severity: Severity::Warning,
+            severity: Severity::Error,
             message: format!("Relationship context '{context}' {what}"),
             instance_path: Some(format!("/{}", rel.index)),
             schema_path: None,
