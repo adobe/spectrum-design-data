@@ -45,6 +45,14 @@ to `.design-data.toml`. See the [CLI README](https://github.com/adobe/spectrum-d
 The catalog commands in this guide (`catalog export`, and `component` with a
 platform selected) need a CLI newer than 0.12.1.
 
+A data release can also say which CLI it needs. If a dataset's `dataset.json` has
+`requires.cli` (for example `"0.40.0"`), or a `layoutRevision` newer than your
+CLI's, the CLI stops with an error that names the version to install, instead
+of reading the data wrongly. Pin an older data release, or update the CLI.
+`--ignore-data-requirements` reads it anyway and warns on every run; it is only
+a flag, not a config setting. Data released before this field existed isn't
+checked.
+
 ## Describe your platform
 
 A platform manifest is a directory shaped like this:

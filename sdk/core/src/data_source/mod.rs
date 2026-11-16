@@ -41,6 +41,7 @@ pub(crate) mod embedded;
 pub use embedded::EMBEDDED_DATA_VERSION;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
+pub mod requirements;
 #[cfg(test)]
 pub(crate) mod test_support;
 

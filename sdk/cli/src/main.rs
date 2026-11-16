@@ -82,6 +82,11 @@ struct Cli {
     /// optional positional flattened in via `TuiArgs`.
     #[arg(long, global = true)]
     platform: Option<String>,
+    /// Read a dataset even when its `dataset.json` says this CLI is too old for it
+    /// (`requires.cli`, or a newer `layoutRevision`). Results may be wrong. There is no
+    /// config-file or environment equivalent, and every run warns while it is in use.
+    #[arg(long, global = true)]
+    ignore_data_requirements: bool,
 }
 
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
@@ -1073,10 +1078,22 @@ enum QueryFormat {
 /// equivalent — [`data_source::resolve`] already reads that env var directly.
 static GLOBAL_PLATFORM_ID: OnceLock<Option<String>> = OnceLock::new();
 
+/// `--ignore-data-requirements`, set once in `main`. Command line only, on purpose: a config
+/// or environment setting would make the escape the permanent default.
+static IGNORE_DATA_REQUIREMENTS: OnceLock<bool> = OnceLock::new();
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
-fn resolve_data_source(
+fn resolve_data_source(overrides: CliPathOverrides) -> miette::Result<data_source::ResolvedData> {
+    let resolved = resolve_data_source_unchecked(overrides)?;
+    enforce_data_requirements(&resolved)?;
+    Ok(resolved)
+}
+
+/// [`resolve_data_source`] without the `dataset.json` requirements check, for a command that
+/// reports them (`platform show`) instead of refusing to run.
+fn resolve_data_source_unchecked(
     mut overrides: CliPathOverrides,
 ) -> miette::Result<data_source::ResolvedData> {
     if overrides.platform_id.is_none() {
@@ -1084,6 +1101,61 @@ fn resolve_data_source(
     }
     let cwd = std::env::current_dir().into_diagnostic()?;
     data_source::resolve(&cwd, &overrides).into_diagnostic()
+}
+
+/// What the resolved dataset's `dataset.json` needs that this CLI does not meet. It reads
+/// `<tokens root>/../dataset.json`, which is the dataset's own only when `tokens/` sits where
+/// the standard layout puts it: a dataset that moved it (`paths.tokens`, or a custom `--path`)
+/// is not checked rather than risk reading an unrelated file.
+fn data_requirements(resolved: &data_source::ResolvedData) -> data_source::requirements::Unmet {
+    let root = resolved.tokens_root.parent().filter(|_| {
+        resolved
+            .tokens_root
+            .file_name()
+            .is_some_and(|n| n == "tokens")
+    });
+    match root {
+        Some(root) => data_source::requirements::unmet_requirements(
+            root,
+            env!("CARGO_PKG_VERSION"),
+            design_data_core::visual::LAYOUT_REVISION,
+        ),
+        None => Default::default(),
+    }
+}
+
+/// Set once the requirements warnings have been printed: a command may resolve its data more
+/// than once, and each warning belongs to the run, not to each resolve.
+static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
+    std::sync::atomic::AtomicBool::new(false);
+
+/// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
+/// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
+fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
+    let unmet = data_requirements(resolved);
+    let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
+    if first {
+        for w in &unmet.warnings {
+            eprintln!("warning: {w}");
+        }
+    }
+    if unmet.errors.is_empty() {
+        return Ok(());
+    }
+    if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
+        if first {
+            for e in &unmet.errors {
+                eprintln!(
+                    "warning: {e} Continuing because --ignore-data-requirements is set; results may be wrong."
+                );
+            }
+        }
+        return Ok(());
+    }
+    miette::bail!(
+        "{}\nPass --ignore-data-requirements to read it anyway; results may be wrong.",
+        unmet.errors.join("\n")
+    )
 }
 
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
@@ -2174,10 +2246,13 @@ fn run_platform_impact(
 /// entry (fetching it if remote), and report its location, identity fields,
 /// and an advisory `foundationVersion`-vs-this-build drift check.
 fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
-    let resolved = resolve_data_source(CliPathOverrides {
+    // `show` only prints identity and pin information, so a dataset this CLI is too old for is
+    // a finding here, not a reason to refuse to run.
+    let resolved = resolve_data_source_unchecked(CliPathOverrides {
         platform_id: Some(id.to_string()),
         ..Default::default()
     })?;
+    let requirements = data_requirements(&resolved);
     let Some(manifest_path) = resolved.platform_manifest.clone() else {
         eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
         return Ok(ExitCode::from(2));
@@ -2252,6 +2327,7 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
                     "foundationVersion": foundation_version,
                     "pin": pin,
                     "drift": drift,
+                    "requirements": requirements,
                 })
             );
         }
@@ -2272,6 +2348,9 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
             }
             if let Some(d) = &drift {
                 println!("  foundation: {d}");
+            }
+            for finding in requirements.errors.iter().chain(&requirements.warnings) {
+                println!("  requirements: {finding}");
             }
         }
     }
@@ -4854,6 +4933,9 @@ fn main() -> ExitCode {
     GLOBAL_PLATFORM_ID
         .set(cli.platform.clone())
         .expect("main runs exactly once; GLOBAL_PLATFORM_ID is set exactly once here");
+    IGNORE_DATA_REQUIREMENTS
+        .set(cli.ignore_data_requirements)
+        .expect("main runs exactly once; IGNORE_DATA_REQUIREMENTS is set exactly once here");
 
     // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
     let command = match cli.command {
