@@ -318,6 +318,10 @@ enum Commands {
         /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
+        /// Exit 1 when the render reports any diagnostic, such as a binding that does not resolve (a part drawn without its colour or type).
+        /// Output is still written; the warnings are on stderr
+        #[arg(long)]
+        strict: bool,
     },
     /// Check which font draws text in PNG previews (Adobe Clean Spectrum VF) and how to install it.
     /// Exits 0 when the font is found and 1 when the bundled fallback would be used.
@@ -1482,6 +1486,7 @@ fn run_render(
     fonts: Vec<PathBuf>,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
+    strict: bool,
 ) -> miette::Result<ExitCode> {
     if format == "png" && output.is_none() {
         miette::bail!("--format png writes binary data: pass --output <FILE>");
@@ -1526,7 +1531,7 @@ fn run_render(
         }
     }
     if let (Some(file), Some(dir)) = (&batch, &out) {
-        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
+        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics, strict);
     }
     let component = component.expect("clap requires COMPONENT without --batch");
     let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
@@ -1564,6 +1569,15 @@ fn run_render(
         width,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
+    let exit = if strict && !scene.diagnostics.is_empty() {
+        eprintln!(
+            "error: --strict: {} render diagnostic(s), see the warnings above",
+            scene.diagnostics.len()
+        );
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
+    };
     for d in &scene.diagnostics {
         match &platform {
             Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
@@ -1587,7 +1601,7 @@ fn run_render(
         std::fs::write(&p, out.png)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to write {}", p.display()))?;
-        return Ok(ExitCode::SUCCESS);
+        return Ok(exit);
     }
     let svg = if format == "scene" {
         serde_json::to_string_pretty(&scene).into_diagnostic()?
@@ -1600,7 +1614,7 @@ fn run_render(
             .wrap_err_with(|| format!("failed to write {}", p.display()))?,
         None => println!("{svg}"),
     }
-    Ok(ExitCode::SUCCESS)
+    Ok(exit)
 }
 
 fn run_resolve(
@@ -4713,6 +4727,7 @@ fn main() -> ExitCode {
             fonts,
             output,
             text_metrics,
+            strict,
         } => run_render(
             component,
             batch,
@@ -4732,6 +4747,7 @@ fn main() -> ExitCode {
             fonts,
             output,
             text_metrics,
+            strict,
         ),
         Commands::SpecSheet {
             component,
