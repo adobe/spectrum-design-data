@@ -769,6 +769,58 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
     }
 }
 
+/// h890.36.5: `render --strict` turns an unresolved binding into exit 1 (output is still
+/// written); without it the same render exits 0, and a clean render passes `--strict`.
+#[test]
+fn render_strict_fails_on_an_unresolved_binding() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "fixture-drop",
+            "exclude": ["property=component-height-100"]
+        })
+        .to_string(),
+    )
+    .expect("write manifest");
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n[platforms]\nfixture-drop = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("write config");
+    let render = |strict: bool| {
+        let mut cmd = Command::cargo_bin("design-data").expect("design-data binary");
+        cmd.current_dir(project.path()).args([
+            "render",
+            "button",
+            "--platform",
+            "fixture-drop",
+            "--format",
+            "scene",
+        ]);
+        if strict {
+            cmd.arg("--strict");
+        }
+        cmd.assert()
+    };
+    render(false).success();
+    render(true)
+        .code(1)
+        .stderr(contains("--strict:"))
+        .stdout(contains("\"nodes\""));
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(repo_root())
+        .args(["render", "button", "--format", "scene", "--strict"])
+        .assert()
+        .success();
+}
+
 /// p6ga.8.37: a platform with `componentAliases` (button -> button-ios) and its own recipe.
 /// The data is a fixture so the test does not depend on the real iOS button data.
 fn alias_fixture_project() -> tempfile::TempDir {
