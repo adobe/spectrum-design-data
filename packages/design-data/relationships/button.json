@@ -2372,57 +2372,6 @@
         "isLabelHidden": [false, true],
         "isPending": [false, true],
         "style": "fill",
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
-    "uuid": "ba06a85c-faaa-53e6-bd5f-5f54f8cdc84a"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
-    "uuid": "21277a00-0e2a-533e-a458-0d4c532e26ef"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
-    "uuid": "30aaddab-687e-51df-9d29-87f770c8fcc1"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
         "variant": ["accent", "negative", "primary", "secondary"]
       }
     },
@@ -3661,57 +3610,6 @@
         "isLabelHidden": [false, true],
         "isPending": false,
         "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Icon",
-    "contextRole": ["icon"],
-    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
-    "uuid": "3229c540-1859-5ff2-99ae-a8acef67eb7c"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Icon",
-    "contextRole": ["icon"],
-    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
-    "uuid": "e79ad143-a8cd-5da8-854e-15ad18508a91"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Icon",
-    "contextRole": ["icon"],
-    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
-    "uuid": "04aaa069-8147-5f9b-8077-7c34c8860267"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": [false, true],
-        "isPending": false,
-        "style": ["fill", "outline"],
         "variant": ["accent", "negative", "primary", "secondary"]
       }
     },
@@ -4391,57 +4289,6 @@
     "contextRole": ["label"],
     "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
     "uuid": "ba45b925-3ecf-509a-bd45-8b23a5ae6ecd"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": false,
-        "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Label",
-    "contextRole": ["label"],
-    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
-    "uuid": "aa61d2f4-911e-5d10-9905-c46e58e732c5"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": false,
-        "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Label",
-    "contextRole": ["label"],
-    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
-    "uuid": "59d3c0ad-0892-52e1-b839-2d6876dd69e5"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": true,
-        "isLabelHidden": false,
-        "isPending": false,
-        "style": ["fill", "outline"],
-        "variant": ["accent", "negative"]
-      }
-    },
-    "context": "Label",
-    "contextRole": ["label"],
-    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
-    "uuid": "ea0ea52e-5ed0-512b-bb3c-6b971e726184"
   },
   {
     "scope": {

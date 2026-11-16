@@ -49,6 +49,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-097` | SPEC-097 | An `anyOf` alternative repeats a pin or is covered by another (warning). |
 | `invalid/SPEC-098` | SPEC-098 | An `anyOf` alternative pins no declared option (warning).                |
 | `invalid/SPEC-099` | SPEC-099 | A relationship with a `legacyKey` uses an `anyOf` (error).               |
+| `invalid/SPEC-100` | SPEC-100 | Records that differ only in one declared option's value (warning).       |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 
