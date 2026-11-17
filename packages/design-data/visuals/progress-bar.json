@@ -29,7 +29,7 @@
         },
         "gap": {
           "relationship": {
-            "property": "spacing",
+            "property": "gap",
             "context": "Spacing (field label to progress bar)"
           }
         }

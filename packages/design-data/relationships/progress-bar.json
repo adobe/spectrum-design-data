@@ -22,13 +22,58 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "spacing"
+      "property": "gap",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (field label to progress bar)",
     "contextRole": ["spacing"],
     "contextQualifier": "field label to progress bar",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
-    "uuid": "301c2476-d7ac-50d1-9b9e-0cf88a332cea"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "e2b5b880-8918-5ac2-bcf9-8ed7f71cad81"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "e22bd77e-50e6-5a01-b25e-e31a2dc87c58"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "79605781-c82e-5d8b-ba47-174bfdcc78ed"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "1057e470-3436-5bbe-abcb-1cbe58ec29fc"
   },
   {
     "scope": {
