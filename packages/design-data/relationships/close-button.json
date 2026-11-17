@@ -397,7 +397,7 @@
     "context": "Cross icon (static white)",
     "contextRole": ["icon"],
     "contextQualifier": "static white",
-    "$ref": "fbd40c55-bb12-43ff-9fa6-c93884befc89",
+    "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1",
     "uuid": "d851324a-bee9-5a2e-a2d5-230bb5232c66"
   },
   {
@@ -425,7 +425,7 @@
     "context": "Background (static white)",
     "contextRole": ["background"],
     "contextQualifier": "static white",
-    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca",
+    "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
     "uuid": "b4213fe6-f8f9-5446-83c2-7054df5e67b0"
   },
   {
@@ -499,7 +499,7 @@
     "context": "Cross icon (static black)",
     "contextRole": ["icon"],
     "contextQualifier": "static black",
-    "$ref": "579e401c-de49-41af-a8c7-a0a070c31979",
+    "$ref": "b769453b-586c-4dd2-b3a1-ddf5964160bc",
     "uuid": "ea9a8a5e-298a-5dbe-b4bb-e0a870585c5b"
   },
   {
@@ -527,7 +527,7 @@
     "context": "Background (static black)",
     "contextRole": ["background"],
     "contextQualifier": "static black",
-    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a",
+    "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
     "uuid": "df2cf738-5a42-5946-a101-9180e1d9fb5e"
   }
 ]
