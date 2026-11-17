@@ -1,5 +1,41 @@
 # @adobe/design-data-mcp
 
+## 1.14.0
+
+### Minor Changes
+
+- [#1892](https://github.com/adobe/spectrum-design-data/pull/1892) [`7e03e89`](https://github.com/adobe/spectrum-design-data/commit/7e03e8989899c867205be26e7beb74796d2a50fd) Thanks [@GarthDB](https://github.com/GarthDB)! - PNG rendering now falls back to Adobe Clean VF (Roman .ttf) before the bundled Source Sans 3
+  when Adobe Clean Spectrum VF is not installed.
+  - Adobe Clean Serif VF, Italic and .otf files are never used.
+  - `fallback` stays true for any font other than Spectrum VF, and `found` still means
+    "Spectrum VF or a font you chose". The status gains `family` and `installed`.
+  - The help text names the font used and warns that metrics, spacing and wrapping may differ.
+  - `DESIGN_DATA_FONT` and `fontPath` behave as before.
+
+- [#1891](https://github.com/adobe/spectrum-design-data/pull/1891) [`7f9c0ed`](https://github.com/adobe/spectrum-design-data/commit/7f9c0ed0b64d8105e72c6d2638b878af80d982ef) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-query` and `design-data-suggest` now return compact, bounded output with final
+  values. An agent run against these tools spent most of its tokens on tool output: `query
+component=button` returned about 108,000 characters (146 full token objects, each named by a CI
+  file path) and `property=*color*` about 1.3 million.
+
+  `design-data-query` returns `{ total, shown, tokens }`, at most 25 tokens by default (`limit`,
+  max 200), active before deprecated, with a hint to narrow the filter when more match. Each token
+  has `name`, `value`, `layer`, `uuid` and its modes. `value` is the end of the alias chain, so
+  `container-padding-small` shows `12px` and nothing needs a follow-up `uuid=` query. When the
+  value differs by a mode the name does not pin (`accent-content-color-default` is a different
+  colour in dark), the token has `values` by mode instead of `value`. `detail:
+"full"` returns the old complete token objects. `design-data-suggest` returns the same compact
+  shape plus `confidence`, with no `file` path.
+
+  Breaking for callers that read the old array: `query` now returns an object, and `suggest`
+  returns `name` instead of `tokenName`. The two sizes above become about 4,000 characters.
+
+### Patch Changes
+
+- Updated dependencies [[`7e03e89`](https://github.com/adobe/spectrum-design-data/commit/7e03e8989899c867205be26e7beb74796d2a50fd), [`fd1c1c3`](https://github.com/adobe/spectrum-design-data/commit/fd1c1c3662fefbf6d6f0a84c010d707c8db2f4ba), [`20035e0`](https://github.com/adobe/spectrum-design-data/commit/20035e0e291e73d48509f255c52c0d2daafbceb3)]:
+  - @adobe/design-data-wasm@0.26.0
+  - @adobe/spectrum-design-data@3.17.0
+  - @adobe/design-data@3.3.22
+
 ## 1.13.6
 
 ### Patch Changes

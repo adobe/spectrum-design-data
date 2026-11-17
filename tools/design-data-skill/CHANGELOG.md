@@ -1,5 +1,34 @@
 # @adobe/design-data-skill
 
+## 2.2.9
+
+### Patch Changes
+
+- [#1891](https://github.com/adobe/spectrum-design-data/pull/1891) [`7f9c0ed`](https://github.com/adobe/spectrum-design-data/commit/7f9c0ed0b64d8105e72c6d2638b878af80d982ef) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-query` and `design-data-suggest` now return compact, bounded output with final
+  values. An agent run against these tools spent most of its tokens on tool output: `query
+component=button` returned about 108,000 characters (146 full token objects, each named by a CI
+  file path) and `property=*color*` about 1.3 million.
+
+  `design-data-query` returns `{ total, shown, tokens }`, at most 25 tokens by default (`limit`,
+  max 200), active before deprecated, with a hint to narrow the filter when more match. Each token
+  has `name`, `value`, `layer`, `uuid` and its modes. `value` is the end of the alias chain, so
+  `container-padding-small` shows `12px` and nothing needs a follow-up `uuid=` query. When the
+  value differs by a mode the name does not pin (`accent-content-color-default` is a different
+  colour in dark), the token has `values` by mode instead of `value`. `detail:
+"full"` returns the old complete token objects. `design-data-suggest` returns the same compact
+  shape plus `confidence`, with no `file` path.
+
+  Breaking for callers that read the old array: `query` now returns an object, and `suggest`
+  returns `name` instead of `tokenName`. The two sizes above become about 4,000 characters.
+
+- [#1887](https://github.com/adobe/spectrum-design-data/pull/1887) [`92e77eb`](https://github.com/adobe/spectrum-design-data/commit/92e77eb81d9388f4f8cadafcde8d45a5bc1ee747) Thanks [@GarthDB](https://github.com/GarthDB)! - The plugin README and AI docs now say to install the plugin once, from one marketplace, and how
+  to update it. A second copy (the Design AI Marketplace and this repository's marketplace both
+  publish one) or a repo `mcp.json` entry registers a second `design-data` server and skill, and
+  the client may expose none of them. They also list the Copilot app, Copilot CLI and Claude Code
+  update steps; plugins do not update themselves.
+- Updated dependencies [[`7e03e89`](https://github.com/adobe/spectrum-design-data/commit/7e03e8989899c867205be26e7beb74796d2a50fd), [`7f9c0ed`](https://github.com/adobe/spectrum-design-data/commit/7f9c0ed0b64d8105e72c6d2638b878af80d982ef)]:
+  - @adobe/design-data-mcp@1.14.0
+
 ## 2.2.8
 
 ### Patch Changes
