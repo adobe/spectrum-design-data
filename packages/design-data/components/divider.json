@@ -49,41 +49,17 @@
     "size": {
       "type": "string",
       "default": "s",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
     "staticColor": {
       "type": "string",
       "description": "Static color for use on colored backgrounds. White draws a light line, black a dark one. Unset is the regular gray line.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
   "anatomy": [
@@ -98,10 +74,6 @@
     "reviewedIn": "1.0.0-draft",
     "notes": "Single part, named line for its role (a mark that divides), not track (no moving fill) or the component name. Not focusable, no states, no label. staticColor is declared as white and black (unset is React Spectrum's and Figma's auto)."
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }
