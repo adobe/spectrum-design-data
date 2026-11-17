@@ -75,6 +75,28 @@
       "description": "Help text cannot be both disabled and negative variant."
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row holding the icon and the text.",
+      "required": true,
+      "contains": ["icon", "text"]
+    },
+    {
+      "name": "icon",
+      "description": "Alert icon shown with the error variant. Hidden by hideIcon."
+    },
+    {
+      "name": "text",
+      "description": "Help or error message text.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Help text; Show error icon prop). Figma dump shows only the text in the default tree. Container is a visual row only for spacing; reconsider if it has no own styling."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

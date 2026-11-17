@@ -68,6 +68,29 @@
     },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular hit-surface background. Fills on hover and down.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Cross mark, with static white and black variants.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web close button page (Icon frame with UICross only; no explicit background layer, so container rests on relationship contexts and React Spectrum). Unsure container is drawn in default state."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

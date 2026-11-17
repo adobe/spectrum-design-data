@@ -140,6 +140,65 @@
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "necessity-indicator",
+      "description": "Mark or text after the label that shows the field is required or optional."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the value and the disclosure icon.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "error-icon",
+        "disclosure-icon"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text shown before the value or placeholder."
+    },
+    { "name": "value", "description": "Currently selected item." },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown when nothing is selected."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown when the field is invalid."
+    },
+    {
+      "name": "disclosure-icon",
+      "description": "Chevron at the end of the field that shows the picker opens a menu.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Picker page (label, value, End container chevron) and relationship contexts. The popup menu is left out as its own component."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "combobox",

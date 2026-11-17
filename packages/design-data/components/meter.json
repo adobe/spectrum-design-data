@@ -88,6 +88,42 @@
     "value": { "type": "number", "minimum": 0, "maximum": 1 },
     "helpText": { "type": "string" }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Whole meter: header row, track and optional help text.",
+      "required": true,
+      "contains": ["label", "value", "track", "help-text"]
+    },
+    {
+      "name": "label",
+      "description": "Field label above or beside the track. Hidden by hideLabel."
+    },
+    {
+      "name": "value",
+      "description": "Percentage or value text at the end of the header. Hidden when no value label."
+    },
+    {
+      "name": "track",
+      "description": "Rounded bar behind the fill.",
+      "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "Filled portion of the track, colored by variant.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Optional supporting text below the track."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Meter + .Meter fill). Used label (not field-label) to match label contexts; fill required though empty at 0%. Unsure whether help-text is styled by this component or the help-text component."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "meter",

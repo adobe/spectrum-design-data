@@ -52,6 +52,18 @@
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Teardrop magnifier shape with its borders and shadow, filled with the sampled color.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (.Color loupe elements: inner fill, inner border, outer border). One part: nothing else is styled separately. Shadow contexts unresolved."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

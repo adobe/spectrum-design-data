@@ -80,6 +80,43 @@
     "length": { "type": "number", "default": 192, "description": "units: px" },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Track surface with fill and border, plus the label row.",
+      "required": true,
+      "contains": ["label", "value", "track"]
+    },
+    {
+      "name": "label",
+      "description": "Field label above the track."
+    },
+    {
+      "name": "value",
+      "description": "Current channel value shown beside the label."
+    },
+    {
+      "name": "track",
+      "description": "Gradient track holding the handle.",
+      "required": true,
+      "contains": ["color-handle"]
+    },
+    {
+      "name": "color-handle",
+      "description": "Handle marking the selected channel value.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Label, Value, track, Color handle). Checkerboard shown for the opacity background left out (own component). Container enclosing label and track is a judgement call."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

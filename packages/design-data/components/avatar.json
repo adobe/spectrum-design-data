@@ -86,6 +86,50 @@
     "isDisabled": { "type": "boolean", "default": false },
     "showStroke": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular frame of the avatar.",
+      "required": true,
+      "contains": [
+        "user-image",
+        "gradient-image",
+        "initials",
+        "guest-icon",
+        "stroke"
+      ]
+    },
+    {
+      "name": "user-image",
+      "description": "Profile photo shown for the User image style."
+    },
+    {
+      "name": "gradient-image",
+      "description": "Generated gradient artwork shown for the Gradient image style."
+    },
+    {
+      "name": "initials",
+      "description": "Text initials shown for the Initials style."
+    },
+    {
+      "name": "guest-icon",
+      "description": "Guest glyph shown for the Guest style."
+    },
+    {
+      "name": "stroke",
+      "description": "Outline drawn when Show stroke is on, which separates overlapping avatars."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web avatar page (Style variants user image, gradient image, initials, guest; Stroke layer). Relationship 'Text' context mapped to initials; gradient-image and stroke are new names."
+  },
   "states": [
     { "name": "down", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" },

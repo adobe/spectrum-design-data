@@ -9,5 +9,23 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/floating-action-button/"
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular surface that floats above content.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Icon naming the action.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma page, no React Spectrum or SWC component found. Parts inferred from the description. Drop shadow context left without a part."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

@@ -79,6 +79,23 @@
     },
     "isIndeterminate": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "track",
+      "description": "Circular ring behind the progress arc.",
+      "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "Arc showing progress; spins when indeterminate. Not drawn at 0%."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Progress circle page shared with in-field-progress-circle). No container: the track is the outermost drawn element. fill left optional because it is absent at 0%."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "progressbar",

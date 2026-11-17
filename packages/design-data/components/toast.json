@@ -107,6 +107,36 @@
     },
     "isAutoDismissible": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded surface holding the message and actions.",
+      "required": true,
+      "contains": ["icon", "text", "button", "close-button"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon chosen by variant."
+    },
+    {
+      "name": "text",
+      "description": "Message text.",
+      "required": true
+    },
+    {
+      "name": "button",
+      "description": "Optional action button, shown with actionLabel."
+    },
+    {
+      "name": "close-button",
+      "description": "Button that dismisses the toast."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Toast; Icon + Text frame, Button + Close button frame). Spacing contexts only name button and close-button. Unsure whether close-button is always drawn or tied to isAutoDismissible."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["dismiss"],

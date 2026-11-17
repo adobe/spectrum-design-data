@@ -179,6 +179,73 @@
     },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "necessity-indicator",
+      "description": "Mark or text after the label that shows the field is required or optional."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the text entry and the field button.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "error-icon",
+        "in-field-progress-circle",
+        "field-button"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text shown before the value or placeholder."
+    },
+    {
+      "name": "value",
+      "description": "Text the user entered or the selected item."
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown when the field is invalid."
+    },
+    {
+      "name": "in-field-progress-circle",
+      "description": "Progress circle shown in the field while options load."
+    },
+    {
+      "name": "field-button",
+      "description": "Chevron button at the end of the field that opens the menu.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Combo box page (default tree: label, value, End container with in-field button + chevron) and relationship contexts. The popup menu is left out as its own component."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "combobox",

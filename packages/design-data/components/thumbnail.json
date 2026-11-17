@@ -62,6 +62,31 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded frame that clips and outlines the thumbnail.",
+      "required": true,
+      "contains": ["square", "image", "border"]
+    },
+    {
+      "name": "square",
+      "description": "Checkerboard tile pattern shown behind transparent image areas."
+    },
+    {
+      "name": "image",
+      "description": "The picture shown in the thumbnail; optional via Show image."
+    },
+    {
+      "name": "border",
+      "description": "Thin outline drawn around the thumbnail."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web thumbnail page (Checkerboard, Image, Border). Relationship part 'square' is read as the checkerboard tile instead of adding opacity-checkerboard; border is a new name."
+  },
   "states": [{ "name": "disabled", "trigger": "prop" }],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

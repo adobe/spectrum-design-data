@@ -117,5 +117,35 @@
       { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Dialog surface.",
+      "required": true,
+      "contains": [
+        "title",
+        "description",
+        "primary-action",
+        "secondary-action",
+        "cancel-action"
+      ]
+    },
+    { "name": "title", "description": "Dialog title.", "required": true },
+    {
+      "name": "description",
+      "description": "Explanatory text under the title."
+    },
+    { "name": "primary-action", "description": "Main confirmation button." },
+    { "name": "secondary-action", "description": "Alternative action button." },
+    {
+      "name": "cancel-action",
+      "description": "Button that dismisses without acting."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web alert dialog; no icon or overlay drawn in the Figma tree, though suggest.md lists icon/overlay. Unsure: icon per variant."
   }
 }

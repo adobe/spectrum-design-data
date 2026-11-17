@@ -64,6 +64,29 @@
     "height": { "type": "number", "default": 192, "description": "units: px" },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Two-dimensional gradient surface with its inner and outer border.",
+      "required": true,
+      "contains": ["color-handle"]
+    },
+    {
+      "name": "color-handle",
+      "description": "Circular handle marking the selected color position.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (fill, border). Focus ring placement unconfirmed; assumed on the handle, drawn presentIn keyboard-focus."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

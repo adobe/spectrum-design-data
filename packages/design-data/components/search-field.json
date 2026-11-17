@@ -109,6 +109,45 @@
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "label",
+      "description": "Text label for the field; hidden with hideLabel."
+    },
+    {
+      "name": "container",
+      "description": "Rounded box that frames the search icon, value and clear button.",
+      "required": true,
+      "contains": ["icon", "value", "placeholder", "in-field-button"]
+    },
+    {
+      "name": "icon",
+      "description": "Magnifying-glass search icon at the start of the field."
+    },
+    { "name": "value", "description": "Text the user entered." },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "in-field-button",
+      "description": "Clear button at the end of the field, shown when there is a value."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Search field page (icon + text only in default tree), relationship contexts. in-field-button (clear) comes from React Spectrum SearchField, absent from the Figma dump."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "textbox",

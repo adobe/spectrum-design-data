@@ -108,6 +108,28 @@
       "description": "pixel measurement"
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Surface that holds the content.",
+      "required": true,
+      "contains": ["content"]
+    },
+    {
+      "name": "content",
+      "description": "Content placed in the popover.",
+      "required": true
+    },
+    {
+      "name": "tip",
+      "description": "Arrow pointing at the source; hidden when the tip is off."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Popover content, Popover tip). Tip placed outside container; drop-shadow and spacing contexts unresolved."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["dismiss"],

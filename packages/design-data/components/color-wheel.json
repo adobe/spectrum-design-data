@@ -57,6 +57,29 @@
     "size": { "type": "number", "default": 192, "description": "units: px" },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "color-area",
+      "description": "Circular hue ring with inner and outer border.",
+      "required": true,
+      "contains": ["color-handle"]
+    },
+    {
+      "name": "color-handle",
+      "description": "Handle marking the selected hue.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (fill, borders, Color handle). Relationship part color-area is interpreted as the ring itself; no separate container."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

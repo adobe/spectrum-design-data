@@ -79,5 +79,49 @@
       { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Dialog surface.",
+      "required": true,
+      "contains": [
+        "cover-image",
+        "title",
+        "header-content",
+        "body",
+        "footer-content",
+        "primary-action",
+        "secondary-action",
+        "cancel-action",
+        "close-button"
+      ]
+    },
+    { "name": "cover-image", "description": "Optional image at the top." },
+    { "name": "title", "description": "Dialog title.", "required": true },
+    {
+      "name": "header-content",
+      "description": "Optional content beside or below the title."
+    },
+    { "name": "body", "description": "Description text." },
+    {
+      "name": "footer-content",
+      "description": "Optional content at the start of the footer, such as a checkbox."
+    },
+    { "name": "primary-action", "description": "Main confirmation button." },
+    { "name": "secondary-action", "description": "Alternative action button." },
+    {
+      "name": "cancel-action",
+      "description": "Button that dismisses without acting."
+    },
+    {
+      "name": "close-button",
+      "description": "Button in the top corner that dismisses the dialog."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web standard dialog and relationships (body, title). Unsure: overlay backdrop is not in the Figma tree, so left out."
   }
 }

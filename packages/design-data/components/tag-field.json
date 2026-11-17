@@ -82,6 +82,44 @@
     "isDisabled": { "type": "boolean", "default": false },
     "hideLabel": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Label above the field."
+    },
+    {
+      "name": "field",
+      "description": "Bordered input area that holds the tags and the text area.",
+      "required": true,
+      "contains": ["tag", "text-area", "error-icon"]
+    },
+    {
+      "name": "tag",
+      "description": "One removable tag; repeated."
+    },
+    {
+      "name": "text-area",
+      "description": "Text input after the tags."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown for the invalid state."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message under the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tag field page (Field label, Field with tags, help text). text-area and error-icon taken from relationships and React Spectrum, not the default Figma tree; relationship 'Alert icon' mapped to error-icon."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "focus-+-hover", "trigger": "prop" },

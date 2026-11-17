@@ -64,6 +64,28 @@
     },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular handle with its outer and inner border.",
+      "required": true,
+      "contains": ["fill", "ring"]
+    },
+    {
+      "name": "fill",
+      "description": "Selected color shown inside the handle; hidden when the handle fill is off."
+    },
+    {
+      "name": "ring",
+      "description": "Ring drawn around the handle fill.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (outer border, fill, ring, inner border). Drop shadow context left without a part; checkerboard omitted as its own component."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["choose"],

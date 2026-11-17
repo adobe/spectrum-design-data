@@ -136,6 +136,35 @@
       }
     }
   },
+  "anatomy": [
+    {
+      "name": "tab-item",
+      "description": "One tab; repeated.",
+      "required": true,
+      "contains": ["icon", "label", "indicator"]
+    },
+    {
+      "name": "icon",
+      "description": "Icon in a tab; optional."
+    },
+    {
+      "name": "label",
+      "description": "Text in a tab; optional."
+    },
+    {
+      "name": "indicator",
+      "description": "Underline marking the selected tab."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused tab."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tabs page (Tab: Content stack and Underline). No container drawn; selected and selected-with-keyboard-focus relationship contexts are states, not parts. No states declared, so focus-indicator has no presentIn."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
