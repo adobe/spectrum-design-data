@@ -162,7 +162,7 @@ pub fn ensure_cached(
         } => {
             let git_ref =
                 GithubRef::from_fields(tag.as_deref(), branch.as_deref(), sha.as_deref())?;
-            fetch_github(&base, repo, &git_ref)
+            fetch_github(&base, repo, &git_ref, true)
         }
         SourceConfig::Npm { .. } => Err(FetchError::NotYetSupported {
             source_type: "npm",
@@ -181,6 +181,19 @@ pub fn ensure_cached(
         // `Path` is handled by the resolver directly and never reaches fetch.
         SourceConfig::Path { .. } => unreachable!("path source does not go through fetch"),
     }
+}
+
+/// Fetch (or find cached) the foundation published at `tag` on `repo`, **keeping** every other
+/// cached version. For a release fetched only to read (`platform impact --to`): the project's own
+/// pinned version is another cache entry, and must survive.
+pub fn ensure_cached_keeping_others(
+    repo: &str,
+    tag: &str,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, FetchError> {
+    let base = resolve_cache_base(cache_dir_override)?;
+    let git_ref = GithubRef::from_fields(Some(tag), None, None)?;
+    fetch_github(&base, repo, &git_ref, false)
 }
 
 /// Ensure a **platform-manifest** repo is fetched/cached (h890.27.5), and return
@@ -312,7 +325,15 @@ fn fetch_platform_repo(
     Ok(root)
 }
 
-fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf, FetchError> {
+/// `evict`: after a download, delete this repo's other cached refs. The project's own source does
+/// (the cache stays one version deep); fetching a release only to read it must not, or it deletes
+/// the version the project is pinned to.
+fn fetch_github(
+    base: &Path,
+    repo: &str,
+    git_ref: &GithubRef,
+    evict: bool,
+) -> Result<PathBuf, FetchError> {
     // Sanitize repo for use as a filesystem path component. Keep an `@` separator
     // between the repo slug and the kind-prefixed ref segment so that distinct
     // refs (and repos) never collide after sanitization.
@@ -334,10 +355,7 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
 
     let bytes = download_bytes(&url)?;
     extract_github_tarball(&bytes, &url, &root, should_extract)?;
-    // Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir
-    // and prune only *this repo's* other refs — the `{safe_repo}@` prefix keeps a
-    // fetch of one repo from evicting another repo's cache.
-    evict_stale_versions(&root, &base.join("github"), &format!("{safe_repo}@"));
+    prune_after_fetch(&root, base, &safe_repo, evict);
 
     Ok(root)
 }
@@ -397,6 +415,15 @@ pub(crate) fn latest_release(
         repo: repo.to_string(),
         checked,
     })
+}
+
+/// Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir and prune only
+/// *this repo's* other refs: the `{safe_repo}@` prefix keeps a fetch of one repo from evicting
+/// another repo's cache. Not at all when `evict` is false.
+fn prune_after_fetch(root: &Path, base: &Path, safe_repo: &str, evict: bool) {
+    if evict {
+        evict_stale_versions(root, &base.join("github"), &format!("{safe_repo}@"));
+    }
 }
 
 /// Download `url` and return the response body as bytes.
@@ -892,6 +919,32 @@ mod tests {
         assert!(current.is_dir(), "current ref must be kept");
         assert!(!stale.is_dir(), "same-repo stale ref must be pruned");
         assert!(other.is_dir(), "another repo's cache must be untouched");
+    }
+
+    /// `platform impact --to` fetches a release only to read it. Pruning after that fetch deleted
+    /// the version the project is pinned to, so the command could not load the project.
+    #[test]
+    fn a_fetch_that_does_not_evict_keeps_the_pinned_version() {
+        let tmp = tempfile::TempDir::new().unwrap();
+        let gh = tmp.path().join("github");
+        let pinned = gh.join("adobe-spectrum-design-data@tag-pinned");
+        let fetched = gh.join("adobe-spectrum-design-data@tag-fetched");
+        for d in [&pinned, &fetched] {
+            std::fs::create_dir_all(d).unwrap();
+        }
+
+        prune_after_fetch(&fetched, tmp.path(), "adobe-spectrum-design-data", false);
+        assert!(
+            pinned.is_dir(),
+            "a fetch that does not evict keeps the pinned version"
+        );
+
+        prune_after_fetch(&fetched, tmp.path(), "adobe-spectrum-design-data", true);
+        assert!(
+            !pinned.is_dir(),
+            "the project's own fetch still prunes older versions"
+        );
+        assert!(fetched.is_dir());
     }
 
     #[test]

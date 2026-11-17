@@ -24,6 +24,15 @@ tools/design-data-skill/
 
 ## Installation
 
+**Install it once, from one place.** The plugin is published in two marketplaces: the Design AI
+Marketplace and `adobe/spectrum-design-data`. Use one. Every copy registers an MCP server and a
+skill both called `design-data`, so a second copy (or a `design-data` entry in a repo's
+`mcp.json` or `.github/mcp.json`) gives the client duplicates, and it may expose none of them.
+If the assistant says it has no `design-data` tools, check **Customize → Installed** (Copilot app)
+or `copilot plugin list` for more than one `design-data` or `spectrum-design-data` plugin, remove
+the extras, and start a new session. If you install the plugin, remove any `design-data`
+entry you added by hand from an MCP config.
+
 ### Claude Code
 
 ```
@@ -83,6 +92,21 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   }
 }
 ```
+
+## Updating
+
+Plugins do not update themselves. After a new release, update by hand and start a new session
+(Claude Code needs a restart):
+
+* **Copilot app:** Customize → Installed → the plugin's menu → Update, or **Update all**.
+* **Copilot CLI:** `copilot plugin marketplace update spectrum-design-data`, then
+  `copilot plugin update spectrum-design-data@spectrum-design-data`. A copy installed from the
+  Design AI Marketplace uses `@design-marketplace` instead.
+* **Claude Code:** `claude plugin marketplace update spectrum-design-data`, then
+  `claude plugin update spectrum-design-data@spectrum-design-data`.
+
+The installed version shows next to the plugin's name. The current one is in
+[`package.json`](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/package.json).
 
 ## What the plugin includes
 
