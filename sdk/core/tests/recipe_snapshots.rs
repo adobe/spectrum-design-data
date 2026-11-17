@@ -257,22 +257,6 @@ fn recipe_names() -> Vec<String> {
     names
 }
 
-/// One test per recipe, so nextest runs them in parallel instead of one long test.
-/// `every_recipe_has_a_test` fails when `visuals/` and this list disagree.
-const RECIPES: &[&str] = &[
-    "accordion",
-    "action-button",
-    "badge",
-    "button",
-    "checkbox",
-    "divider",
-    "field-label",
-    "meter",
-    "progress-bar",
-    "radio-button",
-    "switch",
-];
-
 fn updating() -> bool {
     std::env::var_os("UPDATE_RECIPE_SNAPSHOTS").is_some()
 }
@@ -339,8 +323,12 @@ fn check_recipe(name: &str) {
     );
 }
 
+/// One test per recipe, so nextest runs them in parallel instead of one long test. The macro
+/// also builds `RECIPES`, so a recipe cannot be listed without being tested.
+/// `every_recipe_has_a_test` fails when `visuals/` and this list disagree.
 macro_rules! recipe_tests {
     ($($test:ident => $name:literal),* $(,)?) => {
+        const RECIPES: &[&str] = &[$($name),*];
         $(
             #[test]
             fn $test() {
@@ -369,8 +357,11 @@ fn every_recipe_has_a_test() {
     assert_eq!(
         recipe_names(),
         RECIPES,
-        "visuals/ and RECIPES (with a recipe_tests! entry each) must list the same recipes"
+        "visuals/ and the recipe_tests! list must name the same recipes"
     );
+    if updating() {
+        return; // update_recipe_snapshots is rewriting the fixture
+    }
     let expected = read_snapshots();
     let stale: Vec<&String> = expected
         .keys()
