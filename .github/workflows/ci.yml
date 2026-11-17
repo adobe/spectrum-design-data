@@ -108,7 +108,10 @@ jobs:
         uses: ./.github/actions/cache-pnpm-store
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      # PRs only test the wasm output, so skip wasm-opt (about 2 minutes). Releases still run it.
       - name: Run Rust CI tasks
+        env:
+          WASM_NO_OPT: "1"
         run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()

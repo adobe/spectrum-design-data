@@ -33,6 +33,9 @@ jobs:
   warm:
     name: Warm Rust cache
     runs-on: ubuntu-latest
+    # Only the Cargo cache is kept, so wasm-opt output is not needed.
+    env:
+      WASM_NO_OPT: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.88.0

@@ -70,6 +70,8 @@ tasks:
       - "/packages/design-data/visuals/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
+      # Changes the output (wasm-opt skipped), so it must change the task hash.
+      - "$WASM_NO_OPT"
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
