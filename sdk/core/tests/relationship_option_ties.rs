@@ -348,6 +348,56 @@ fn records_that_differ_in_between_are_not_ties() {
 }
 
 #[test]
+fn descriptive_fields_separate_ties_and_the_old_place_does_not() {
+    let component = serde_json::json!({"options": {
+        "size": {"values": [{"value": "s"}, {"value": "m"}]},
+        "isQuiet": {"type": "boolean"}}});
+    let rec = |scope_extra: Value, options: Value, rf: &str| {
+        let mut r = serde_json::json!({"scope": {"component": "x", "property": "gap",
+            "options": options}, "context": "Spacing", "$ref": rf});
+        for (k, v) in scope_extra.as_object().unwrap() {
+            r["scope"][k] = v.clone();
+        }
+        r
+    };
+    let s = |extra: Value| rec(extra, serde_json::json!({"size": "s"}), "a");
+    let q = |extra: Value| rec(extra, serde_json::json!({"isQuiet": true}), "b");
+    for field in ["object", "position", "structure", "qualifier", "icon"] {
+        let same = [
+            s(serde_json::json!({field: "x"})),
+            q(serde_json::json!({field: "x"})),
+        ];
+        let apart = [
+            s(serde_json::json!({field: "x"})),
+            q(serde_json::json!({field: "y"})),
+        ];
+        assert_eq!(tied_groups(&component, &same).0.len(), 1, "{field}");
+        assert!(tied_groups(&component, &apart).0.is_empty(), "{field}");
+    }
+    // Keys still in `scope.options` are not identity here, so the baseline does not move.
+    let old = |to: &str| {
+        rec(
+            serde_json::json!({}),
+            serde_json::json!({"size": "s", "to": to}),
+            "a",
+        )
+    };
+    let old_q = |to: &str| {
+        rec(
+            serde_json::json!({}),
+            serde_json::json!({"isQuiet": true, "to": to}),
+            "b",
+        )
+    };
+    assert_eq!(
+        tied_groups(&component, &[old("label"), old_q("icon")])
+            .0
+            .len(),
+        1
+    );
+}
+
+#[test]
 fn relationship_option_ties_match_the_baseline() {
     let (actual, detail, too_big) = actual();
     assert!(
