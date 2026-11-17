@@ -344,6 +344,7 @@ recipe_tests! {
     badge => "badge",
     button => "button",
     checkbox => "checkbox",
+    close_button => "close-button",
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
