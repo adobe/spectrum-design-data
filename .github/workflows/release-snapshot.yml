@@ -67,11 +67,13 @@ jobs:
           targets: wasm32-unknown-unknown
       - name: Install lld
         run: sudo apt-get update && sudo apt-get install -y lld
+      # Restore-only: rust-cache-warm.yml saves this cache on main. The key hashes sdk/Cargo.toml.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "sdk -> sdk/target"
-          key: wasm
+          workspaces: sdk
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
+          save-if: false
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
