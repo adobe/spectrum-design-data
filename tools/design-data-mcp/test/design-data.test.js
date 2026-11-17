@@ -486,9 +486,10 @@ test("design-data-query gives per-mode values when an alias depends on a mode it
   t.is(padding.values, undefined);
 });
 
-test("no alias varies by more than one mode-set", async (t) => {
-  // tokenValue varies one mode-set at a time. That is only complete while no token's value
-  // depends on a combination of mode-sets; a token that does would show a wrong value.
+test("every alias value is explained by at most one mode-set", async (t) => {
+  // tokenValue varies one mode-set at a time. That is complete only while a token's value
+  // depends on a single mode-set. A token that needs a combination (a high-contrast value
+  // that differs only in dark, say) would show a wrong value, so check every combination.
   const wasm = await import("@adobe/design-data-wasm");
   const ds = wasm.Dataset.embedded();
   const sets = ds.primer().modeSets;
@@ -496,27 +497,37 @@ test("no alias varies by more than one mode-set", async (t) => {
   for (const token of ds.query("")) {
     const name = token.raw.name ?? {};
     if (token.raw.value !== undefined || !name.legacyKey) continue;
+    const ref = `{${name.legacyKey}}`;
     const pinned = {};
     for (const { name: set } of sets) if (name[set]) pinned[set] = name[set];
-    const ref = `{${name.legacyKey}}`;
-    const varying = sets
-      .filter(({ name: set }) => !pinned[set])
-      .filter(({ name: set, modes }) => {
-        const values = modes.map(
-          (mode) => ds.resolveReference(ref, { ...pinned, [set]: mode })?.value,
-        );
-        return new Set(values).size > 1;
-      });
-    if (varying.length > 1) {
-      offenders.push(
-        `${name.legacyKey}: ${varying.map((v) => v.name).join(", ")}`,
+    const free = sets.filter(({ name: set }) => !pinned[set]);
+    const valueOf = (context) =>
+      ds.resolveReference(ref, { ...pinned, ...context })?.value;
+    const varying = free.filter(
+      ({ name: set, modes }) =>
+        new Set(modes.map((mode) => valueOf({ [set]: mode }))).size > 1,
+    );
+    // Every combination of the free mode-sets must match the value from changing
+    // only the one varying set (or the default when none varies).
+    let combos = [{}];
+    for (const { name: set, modes } of free) {
+      combos = combos.flatMap((c) =>
+        modes.map((mode) => ({ ...c, [set]: mode })),
       );
     }
+    const only = varying.length === 1 ? varying[0].name : undefined;
+    const bad =
+      varying.length > 1 ||
+      combos.some(
+        (combo) =>
+          valueOf(combo) !== valueOf(only ? { [only]: combo[only] } : {}),
+      );
+    if (bad) offenders.push(name.legacyKey);
   }
   t.deepEqual(
     offenders,
     [],
-    "these tokens vary by several mode-sets at once: tokenValue in src/tools/design-data.js must resolve combinations",
+    "these tokens depend on a combination of mode-sets: tokenValue in src/tools/design-data.js must resolve combinations",
   );
 });
 
