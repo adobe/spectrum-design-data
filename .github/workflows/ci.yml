@@ -92,10 +92,14 @@ jobs:
       # Persist the Cargo build cache (sdk/target/) across PR runs.
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
+      # Only main saves the cache (rust-cache-warm.yml); PRs restore it.
+      # The workspace is sdk/, so its target dir is "target" relative to it.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "sdk -> sdk/target"
+          workspaces: sdk
+          shared-key: rust-ci
+          save-if: false
       # wasm-pack is pinned in .prototools and installed by setup-toolchain below.
       - uses: moonrepo/setup-toolchain@v0
         with:
