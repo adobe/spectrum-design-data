@@ -83,6 +83,27 @@
       "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
+  "anatomy": [
+    {
+      "name": "text",
+      "description": "Link text, underlined according to quiet and placement.",
+      "required": true
+    },
+    {
+      "name": "icon",
+      "description": "Optional icon shown with the link."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Ring drawn around the link for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Link; Show icon prop). Figma has no focus state; focus-indicator from the Focus ring contexts and states. Icon is in Figma but not in the options list."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

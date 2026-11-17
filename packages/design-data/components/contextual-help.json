@@ -136,6 +136,39 @@
     "popoverCrossOffset": { "type": "number", "default": 0 },
     "containerPadding": { "type": "number", "default": 8 }
   },
+  "anatomy": [
+    {
+      "name": "action-button",
+      "description": "Help or info button that opens the popover.",
+      "required": true
+    },
+    {
+      "name": "popover",
+      "description": "Popover shown when open.",
+      "presentIn": ["open"],
+      "contains": ["title", "body", "link"]
+    },
+    {
+      "name": "title",
+      "description": "Heading of the popover.",
+      "presentIn": ["open"]
+    },
+    {
+      "name": "body",
+      "description": "Description text in the popover.",
+      "presentIn": ["open"]
+    },
+    {
+      "name": "link",
+      "description": "Optional link at the end of the popover.",
+      "presentIn": ["open"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (.Contextual help action button, Popover, Text, Link). Popover internals assumed present only while open."
+  },
   "states": [
     { "name": "down", "trigger": "interaction" },
     { "name": "open", "trigger": "prop" },

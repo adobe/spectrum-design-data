@@ -107,6 +107,37 @@
     },
     "isAutoDismissible": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded surface holding the message and actions.",
+      "required": true,
+      "contains": ["icon", "text", "button", "close-button"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon chosen by variant; optional (neutral has none)."
+    },
+    {
+      "name": "text",
+      "description": "Message text.",
+      "required": true
+    },
+    {
+      "name": "button",
+      "description": "Optional action button, shown with actionLabel."
+    },
+    {
+      "name": "close-button",
+      "description": "Button that dismisses the toast; always drawn.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). Figma S2 Web toast frames."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["dismiss"],

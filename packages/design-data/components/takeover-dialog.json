@@ -74,5 +74,40 @@
       { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Large dialog surface.",
+      "required": true,
+      "contains": [
+        "title",
+        "header-content",
+        "primary-action",
+        "secondary-action"
+      ]
+    },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
+    {
+      "name": "header-content",
+      "description": "Optional custom content in the header."
+    },
+    {
+      "name": "primary-action",
+      "description": "Main action button in the header."
+    },
+    {
+      "name": "secondary-action",
+      "description": "Secondary action button in the header."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web takeover dialog. Body slot left out (no own styling); unsure whether overlay and cancel action apply to the Dialog variant."
   }
 }

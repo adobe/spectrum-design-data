@@ -72,6 +72,29 @@
       "description": "If undefined, this button does not appear."
     }
   },
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Label above or beside the tags."
+    },
+    {
+      "name": "tag",
+      "description": "One removable tag; repeated."
+    },
+    {
+      "name": "action-button",
+      "description": "Show all / collapse button after the tags."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message under the tags."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tag group page (Field label, Tag wrapper of Tags, Action button, Help text). Wrapper omitted as layout; no container drawn."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["select"],

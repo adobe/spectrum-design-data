@@ -116,6 +116,32 @@
       "description": "Label for the secondary action button. If undefined, no secondary action is shown."
     }
   },
+  "anatomy": [
+    {
+      "name": "illustration",
+      "description": "Illustration or icon above or beside the text.",
+      "required": true
+    },
+    {
+      "name": "title",
+      "description": "Title text.",
+      "required": true
+    },
+    {
+      "name": "body",
+      "description": "Description text.",
+      "required": true
+    },
+    {
+      "name": "actions",
+      "description": "Button group below the description."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Icon, Content, Button group). No container: the component has no surface of its own. Wrapper frames not parts."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

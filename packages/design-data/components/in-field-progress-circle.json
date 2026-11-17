@@ -40,6 +40,23 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "track",
+      "description": "Circular ring behind the progress arc.",
+      "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "Arc showing progress; spins when indeterminate. Not drawn at 0%."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma page shared with progress-circle (no in-field specific page). Relationship contexts only name height and track. Assumes same two parts as progress-circle."
+  },
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },

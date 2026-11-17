@@ -86,6 +86,46 @@
     "isDisabled": { "type": "boolean", "default": false },
     "showStroke": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular frame of the avatar.",
+      "required": true,
+      "contains": [
+        "user-image",
+        "image",
+        "initials",
+        "guest-icon",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "user-image",
+      "description": "Profile photo shown for the User image style."
+    },
+    {
+      "name": "image",
+      "description": "Generated gradient artwork shown for the Gradient image style."
+    },
+    {
+      "name": "initials",
+      "description": "Text initials shown for the Initials style."
+    },
+    {
+      "name": "guest-icon",
+      "description": "Guest glyph shown for the Guest style."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web avatar page (Photo, .Gradient image subcomponent, initials, guest, Stroke layer). stroke removed as container styling (RSP Avatar.tsx:71-79); gradient-image folded into registry term image."
+  },
   "states": [
     { "name": "down", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" },

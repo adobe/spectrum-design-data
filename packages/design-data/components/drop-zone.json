@@ -84,6 +84,37 @@
       "description": "Callback function called when a file is dragged out of the drop zone."
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Dashed bordered area that receives dropped files.",
+      "required": true,
+      "contains": ["illustration", "title", "body", "action"]
+    },
+    {
+      "name": "illustration",
+      "description": "Drop-to-upload illustration.",
+      "required": true
+    },
+    {
+      "name": "title",
+      "description": "Title text.",
+      "required": true
+    },
+    {
+      "name": "body",
+      "description": "Description text."
+    },
+    {
+      "name": "action",
+      "description": "Button for choosing a file."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (illustration asset, Content, Text, Button). Container border not visible in dump; inferred from the component role."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["input"],

@@ -108,6 +108,23 @@
       "description": "pixel measurement"
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Surface holding the content; border and drop shadow are container styling.",
+      "required": true,
+      "contains": ["tip"]
+    },
+    {
+      "name": "tip",
+      "description": "Arrow pointing at the source; shares the surface fill and border; hidden when the tip is off."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP Popover.tsx:165-271 and gen2 popover.css:183-200 (tip shares surface fill/border, shadow on container); content dropped (no own style); relationship part tip kept."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["dismiss"],

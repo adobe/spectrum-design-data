@@ -57,6 +57,18 @@
       "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Thin bar that separates content. Horizontal or vertical by orientation.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web has one Bar layer; no other parts. Relationship contexts (Fill, Thickness, Horizontal) name no part, so a single container stands for the whole line."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

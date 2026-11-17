@@ -45,6 +45,18 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "text",
+      "description": "Text run styled by the typography token set.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma component; text style only (React Spectrum / relationship label contexts). One minimal text part. 'Margins' spacing contexts are layout, not a part."
+  },
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },

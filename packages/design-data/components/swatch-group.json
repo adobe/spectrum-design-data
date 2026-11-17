@@ -78,6 +78,18 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "swatch",
+      "description": "One color swatch in the grid; repeated.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web swatch group page (Swatch instances in rows). Group draws nothing itself; no container."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "group",

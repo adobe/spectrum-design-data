@@ -68,6 +68,29 @@
     },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular hit-surface background; transparent at rest, fills on hover and down.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Cross mark, with static white and black variants.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP CloseButton.tsx:43,67-71: container always present, its transparent-at-rest fill is styling. Figma S2 Web close button page draws only the icon frame."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

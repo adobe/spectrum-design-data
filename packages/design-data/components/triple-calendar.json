@@ -9,5 +9,49 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "popover",
+      "description": "Surface that holds the month navigation, weekday labels and day grid.",
+      "required": true,
+      "contains": [
+        "month-button",
+        "month-label",
+        "weekday-label",
+        "day",
+        "range-fill",
+        "help-text"
+      ]
+    },
+    {
+      "name": "month-button",
+      "description": "Chevron button that moves to the previous or next month."
+    },
+    {
+      "name": "month-label",
+      "description": "Month and year text."
+    },
+    {
+      "name": "weekday-label",
+      "description": "Single-letter weekday heading above the day grid."
+    },
+    {
+      "name": "day",
+      "description": "One date cell. Styled for selected, error, unavailable and current-day."
+    },
+    {
+      "name": "range-fill",
+      "description": "Highlight band behind the days of a selected range."
+    },
+    {
+      "name": "help-text",
+      "description": "Error message shown below the calendar when the selection is invalid."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web .Calendar popover (Type=Triple), same parts as single; relationship part popover."
+  }
 }

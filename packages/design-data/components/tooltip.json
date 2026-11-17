@@ -121,6 +121,32 @@
       "description": "units: pixels"
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded bubble holding the text.",
+      "required": true,
+      "contains": ["label", "icon"]
+    },
+    {
+      "name": "label",
+      "description": "Tooltip message text.",
+      "required": true
+    },
+    {
+      "name": "icon",
+      "description": "Optional status icon, shown with hasIcon."
+    },
+    {
+      "name": "tip",
+      "description": "Small pointer on the bubble edge toward the source. Absent with no tip placement."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Tooltip: text plus Tip vector). Icon (hasIcon option, not in Figma) is tracked by a separate bead (Spectrum-1-only check). Tip is drawn outside the bubble, so container does not enclose it."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "tooltip",

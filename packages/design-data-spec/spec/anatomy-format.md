@@ -129,6 +129,7 @@ The following **MUST NOT** be declared as parts:
 * Platform wrappers and hosts.
 * Layout helpers: gaps, spacers, alignment boxes, stacks.
 * Hit areas and accessibility-only elements: hidden inputs, live regions, hidden text.
+* Shadows, borders and strokes. They are styling on the part that carries them (for example the container's border, or the elevation of a popover), not parts. A focus indicator is the exception because it is drawn apart from the edge and has its own gap.
 * Elements that exist only so one renderer works: clip layers, pseudo-elements, a second element used to fake a border.
 * A grouping that has no style of its own, such as a `control` that only wraps a `box` and a `checkmark`.
 

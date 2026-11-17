@@ -9,5 +9,20 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/form-item/"
   },
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Field label page plus the label/field/help-text spacing relationship; RSP Field.tsx:118-166 (asterisk inside field-label). The field itself is another component, not a part."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

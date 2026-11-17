@@ -57,6 +57,28 @@
     "size": { "type": "number", "default": 192, "description": "units: px" },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "track",
+      "description": "Circular hue ring; border is track styling.",
+      "required": true,
+      "contains": ["color-handle"]
+    },
+    {
+      "name": "color-area",
+      "description": "Optional nested color area inside the ring."
+    },
+    {
+      "name": "color-handle",
+      "description": "Handle marking the selected hue.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP ColorWheel.tsx:75-115 (ColorWheelTrack); relationship part color-area (Margin to color area) is the nested color area, ring is track; focus-indicator dropped."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
