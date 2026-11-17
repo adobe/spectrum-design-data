@@ -1,5 +1,29 @@
 # @adobe/design-data-wasm
 
+## 0.26.1
+
+### Patch Changes
+
+- [#1896](https://github.com/adobe/spectrum-design-data/pull/1896) [`12ddd7e`](https://github.com/adobe/spectrum-design-data/commit/12ddd7e78e685a853d7a1afb4ba837ab13a9660b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added draft anatomy (`anatomyReview.status: draft`) to the 63 components that had relationships
+  but no anatomy. Parts follow the S2 Web Figma file, with relationship contexts, React Spectrum
+  and Spectrum Web Components as fallbacks. Shadows, borders and strokes are styling on a part,
+  not parts (new line in the anatomy format chapter). Added the `prefix` and `opacity-checkerboard`
+  anatomy terms. The required-field indicator is declared only on `field-label`. `tabs` and
+  `segmented-control` declare a `keyboard-focus` state, and `segmented-control` a `disabled`
+  state. A reviewer still has to confirm each component before a visual recipe depends on it.
+
+- [#1895](https://github.com/adobe/spectrum-design-data/pull/1895) [`42efcfe`](https://github.com/adobe/spectrum-design-data/commit/42efcfe2c90937f421fd9b2f0aa2666505179939) Thanks [@GarthDB](https://github.com/GarthDB)! - Added a visual recipe for `field-label`: a label with an optional required-field indicator,
+  bound through the component's relationships. The component now declares `container` and
+  `label` anatomy parts, and its indicator part is renamed from `asterisk` to the registered
+  `necessity-indicator` (draft anatomy, no known consumers). The asterisk size relationships are
+  pinned by `size`, so each size resolves to one token.
+
+- [#1894](https://github.com/adobe/spectrum-design-data/pull/1894) [`640ae79`](https://github.com/adobe/spectrum-design-data/commit/640ae7915659ed8d6977ba7aafd1ee7c20e516c1) Thanks [@GarthDB](https://github.com/GarthDB)! - Read `scope.between` and the descriptive scope fields (`object`, `position`, `structure`,
+  `qualifier`, `icon`) wherever a reader looked at `from`, `to`, `object` and the like in
+  `scope.options`: legacy token conversion and context suggestions. A record gives the same result
+  in either place, and the new place wins when both are set. The tie ratchet and SPEC-100 treat
+  records that differ only in those fields as different. The committed data is unchanged.
+
 ## 0.26.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @adobe/design-data-spec
 
+## 4.23.0
+
+### Minor Changes
+
+- [#1896](https://github.com/adobe/spectrum-design-data/pull/1896) [`12ddd7e`](https://github.com/adobe/spectrum-design-data/commit/12ddd7e78e685a853d7a1afb4ba837ab13a9660b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added draft anatomy (`anatomyReview.status: draft`) to the 63 components that had relationships
+  but no anatomy. Parts follow the S2 Web Figma file, with relationship contexts, React Spectrum
+  and Spectrum Web Components as fallbacks. Shadows, borders and strokes are styling on a part,
+  not parts (new line in the anatomy format chapter). Added the `prefix` and `opacity-checkerboard`
+  anatomy terms. The required-field indicator is declared only on `field-label`. `tabs` and
+  `segmented-control` declare a `keyboard-focus` state, and `segmented-control` a `disabled`
+  state. A reviewer still has to confirm each component before a visual recipe depends on it.
+
 ## 4.22.0
 
 ### Minor Changes

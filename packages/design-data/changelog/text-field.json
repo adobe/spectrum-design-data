@@ -311,6 +311,35 @@
           "metadata": {"count":5,"fields":["contextQualifier","scope.options.isError"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/character-count","name":"character-count","fields":[],"after":{"name":"character-count","description":"Running count of characters entered."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Bordered box that frames the value and its in-field icons.","required":true,"contains":["leading-icon","prefix","value","placeholder","error-icon","validation-marker"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon shown at the end of the field when it is invalid."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Text label that names the field, placed above or beside it."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the field for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message shown below the field."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/leading-icon","name":"leading-icon","fields":[],"after":{"name":"leading-icon","description":"Icon at the start of the field."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/placeholder","name":"placeholder","fields":[],"after":{"name":"placeholder","description":"Hint text shown while the field is empty."}},
+            {"id":"12ddd7e7-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/prefix","name":"prefix","fields":[],"after":{"name":"prefix","description":"Short fixed text such as # shown before the value or placeholder."}},
+            {"id":"12ddd7e7-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/validation-marker","name":"validation-marker","fields":[],"after":{"name":"validation-marker","description":"Checkmark shown at the end of the field when the value is valid."}},
+            {"id":"12ddd7e7-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Text the user entered."}},
+            {"id":"12ddd7e7-11","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"text-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Text field page, relationship contexts; RSP Field.tsx:118-166 (asterisk inside field-label), Field.tsx:201-241 (FieldGroup border is styling on container). validation-marker and character-count are tracked by a separate bead (Spectrum-1-only check)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

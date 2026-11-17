@@ -3,5 +3,31 @@
   "specVersion": "1.0.0-draft",
   "component": "card-horizontal",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"Action button, in the basic variant."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Selection checkbox."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Card surface.","required":true,"contains":["preview","checkbox","thumbnail","title","description","action-button"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Card description."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/preview","name":"preview","fields":[],"after":{"name":"preview","description":"Image area at the start."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/thumbnail","name":"thumbnail","fields":[],"after":{"name":"thumbnail","description":"Small image, in the basic variant."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Card title."}},
+            {"id":"12ddd7e7-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"card-horizontal/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Card (Horizontal) and Horizontal basic, merged. Unsure: which parts belong to which variant."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    }
+  ]
 }

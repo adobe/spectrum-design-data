@@ -94,6 +94,28 @@
           "metadata": {"count":4,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"Show all / collapse button after the tags."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label above or beside the tags."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message under the tags."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/tag","name":"tag","fields":[],"after":{"name":"tag","description":"One removable tag; repeated."}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web tag group page (Field label, Tag wrapper of Tags, Action button, Help text). Wrapper omitted as layout; no container drawn."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

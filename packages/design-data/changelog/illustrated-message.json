@@ -109,6 +109,28 @@
           "metadata": {"count":2,"fields":["contextQualifier","scope.options.orientation"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Button group below the description."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/body","name":"body","fields":[],"after":{"name":"body","description":"Description text.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/illustration","name":"illustration","fields":[],"after":{"name":"illustration","description":"Illustration or icon above or beside the text.","required":true}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Title text.","required":true}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Icon, Content, Button group). No container: the component has no surface of its own. Wrapper frames not parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

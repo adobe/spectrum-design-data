@@ -60,6 +60,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Row of action buttons at the end of the item."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Selection checkbox shown in a selection mode."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row background; fills when the item is selected or highlighted.","required":true,"contains":["drag-handle","checkbox","visual","header","actions","disclosure-indicator"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/disclosure-indicator","name":"disclosure-indicator","fields":[],"after":{"name":"disclosure-indicator","description":"Chevron that marks the item as navigable."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip for reordering the item."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the row for keyboard focus.","presentIn":["keyboard-focus","selected-keyboard-focus"]}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Text of the item; the relationships set its minimum width."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/visual","name":"visual","fields":[],"after":{"name":"visual","description":"Icon or thumbnail at the start of the content."}},
+            {"id":"12ddd7e7-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

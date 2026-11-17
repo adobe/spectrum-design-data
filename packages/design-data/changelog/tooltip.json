@@ -166,6 +166,28 @@
           "metadata": {"count":7,"fields":["contextQualifier","scope.options.variant"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Rounded bubble holding the text.","required":true,"contains":["label","icon"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Optional status icon, shown with hasIcon."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Tooltip message text.","required":true}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip","name":"tip","fields":[],"after":{"name":"tip","description":"Small pointer on the bubble edge toward the source. Absent with no tip placement."}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Tooltip: text plus Tip vector). Icon (hasIcon option, not in Figma) is tracked by a separate bead (Spectrum-1-only check). Tip is drawn outside the bubble, so container does not enclose it."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

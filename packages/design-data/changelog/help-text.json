@@ -200,6 +200,26 @@
           "metadata": {"count":1,"fields":["contextQualifier","scope.options.isDisabled"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"help-text/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon shown only for the error (negative) variant. Hidden by hideIcon."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"help-text/anatomy/text","name":"text","fields":[],"after":{"name":"text","description":"Help or error message text.","required":true}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"help-text/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Field.tsx:374 (no background of its own, so no container) and Field.tsx:446-448 (icon only for errors). Figma S2 Web (Show error icon prop)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }
