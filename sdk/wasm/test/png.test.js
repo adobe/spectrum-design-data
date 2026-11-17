@@ -225,7 +225,8 @@ test("chooseFont falls back to Adobe Clean VF, never Serif, Italic or CFF", (t) 
   t.true(mid.installed);
   t.is(mid.using, "clean.ttf");
   t.is(mid.family, "Adobe Clean VF");
-  t.is(mid.rejected.length, 2);
+  t.is(mid.rejected.length, 0);
+  t.false(mid.help.includes("Italic"));
   const both = chooseFont(
     [
       c("clean.ttf", "Adobe Clean VF", "Regular"),
