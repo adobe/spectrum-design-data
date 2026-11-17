@@ -1131,6 +1131,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
+      "id": "line",
+      "label": "Line",
+      "description": "A one-dimensional mark that divides adjacent content (divider)",
+      "usedIn": ["tokens"],
+      "standaloneScope": true
+    },
+    {
       "id": "checkmark",
       "label": "Checkmark",
       "description": "Check or confirmation icon element within a component",
