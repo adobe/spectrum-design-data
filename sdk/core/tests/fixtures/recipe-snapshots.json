@@ -580,6 +580,24 @@
     "isDisabled=true,isRequired=true,necessityIndicator=\"icon\"": "e3635d3c924bd4a9",
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "8e91c518610e4d10"
   },
+  "meter": {
+    "hideLabel=false,staticColor=\"black\",variant=\"informative\"": "ac9c4f7925565879",
+    "hideLabel=false,staticColor=\"black\",variant=\"negative\"": "1335e3ea9aed92ad",
+    "hideLabel=false,staticColor=\"black\",variant=\"notice\"": "641b02bb451db85b",
+    "hideLabel=false,staticColor=\"black\",variant=\"positive\"": "94675cb8718e80a9",
+    "hideLabel=false,staticColor=\"white\",variant=\"informative\"": "9b7f1b519bd7f54b",
+    "hideLabel=false,staticColor=\"white\",variant=\"negative\"": "5bfbfe3cae10f053",
+    "hideLabel=false,staticColor=\"white\",variant=\"notice\"": "a37fcf0392321815",
+    "hideLabel=false,staticColor=\"white\",variant=\"positive\"": "d9ff2cdd51d31da7",
+    "hideLabel=true,staticColor=\"black\",variant=\"informative\"": "0385099b679a98db",
+    "hideLabel=true,staticColor=\"black\",variant=\"negative\"": "382dbe43d29eb335",
+    "hideLabel=true,staticColor=\"black\",variant=\"notice\"": "c122a0bdeaaffb0b",
+    "hideLabel=true,staticColor=\"black\",variant=\"positive\"": "d6eb8250398d47bd",
+    "hideLabel=true,staticColor=\"white\",variant=\"informative\"": "d16efa2f9bddbccb",
+    "hideLabel=true,staticColor=\"white\",variant=\"negative\"": "2c6729ef1b898c5d",
+    "hideLabel=true,staticColor=\"white\",variant=\"notice\"": "22701d21782df0f3",
+    "hideLabel=true,staticColor=\"white\",variant=\"positive\"": "68225eea3865bce5"
+  },
   "progress-bar": {
     "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "d225fa6b883cf25f",
     "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "b18cb809f3b141f9",

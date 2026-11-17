@@ -61,6 +61,11 @@
     }
   ],
   "options": {
+    "staticColor": {
+      "type": "string",
+      "description": "Static color for use on colored backgrounds. White draws a light bar, black a dark one. Unset is the regular bar.",
+      "values": [{ "value": "white" }, { "value": "black" }]
+    },
     "variant": {
       "type": "string",
       "default": "informative",
@@ -72,6 +77,11 @@
       ]
     },
     "label": { "type": "string" },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [{ "value": "top" }, { "value": "side" }]
+    },
     "hideLabel": { "type": "boolean", "default": false },
     "valueLabel": { "type": "string" },
     "width": { "type": "number" },
@@ -85,7 +95,9 @@
         { "value": "xl" }
       ]
     },
-    "value": { "type": "number", "minimum": 0, "maximum": 1 },
+    "value": { "type": "number" },
+    "minValue": { "type": "number", "default": 0 },
+    "maxValue": { "type": "number", "default": 1 },
     "helpText": { "type": "string" }
   },
   "anatomy": [
@@ -93,7 +105,12 @@
       "name": "container",
       "description": "Whole meter: header row, track and optional help text.",
       "required": true,
-      "contains": ["label", "value", "track", "help-text"]
+      "contains": ["header", "track", "help-text"]
+    },
+    {
+      "name": "header",
+      "description": "Row that holds the label and the value text above the track. Not drawn when the label is hidden.",
+      "contains": ["label", "value"]
     },
     {
       "name": "label",
@@ -120,9 +137,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Meter (Show help text prop, Header with Field label and value, Track, .Meter fill); help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."
+    "notes": "Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts. With labelPosition side the label and value flank the track; the parts are the same."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

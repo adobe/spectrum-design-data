@@ -307,78 +307,80 @@
   {
     "scope": {
       "component": "meter",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51",
+    "uuid": "18982f28-2e9d-5b18-9aaf-afeb1c7b96e1"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color",
+      "options": {
+        "staticColor": "black"
+      }
     },
     "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
-    "uuid": "4e24bf35-1be0-516c-8fcc-07d8d9c02914"
-  },
-  {
-    "scope": {
-      "component": "meter",
-      "property": "color"
-    },
-    "context": "Text (black)",
-    "contextRole": ["label"],
-    "contextQualifier": "black",
-    "$ref": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51",
-    "uuid": "10499b7b-90ea-566b-b734-b73b364f0aa9"
-  },
-  {
-    "scope": {
-      "component": "meter",
-      "property": "color"
-    },
-    "context": "Track and indicator (black)",
-    "contextRole": ["track", "control"],
-    "contextQualifier": "black",
     "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0",
-    "uuid": "d8f2fae9-afd0-50b4-90e1-5bd1c0e3a93b"
+    "uuid": "84879e68-36b6-5a7f-bc6e-56c51cc1d6fb"
   },
   {
     "scope": {
       "component": "meter",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
     },
-    "context": "Track and indicator (black)",
+    "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "contextQualifier": "black",
     "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
-    "uuid": "04cbd0ed-b73d-5a4c-a8aa-b9e8a97ba7da"
+    "uuid": "735baec9-cb2d-554a-b3b7-3c613671814c"
   },
   {
     "scope": {
       "component": "meter",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Text (white)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "white",
     "$ref": "13ee65f0-4bb9-4213-905d-92c1b788a702",
-    "uuid": "4453b5e1-b718-582b-9874-5af9f4d06846"
+    "uuid": "165efbcb-9d6f-5633-b2d9-42f00e39a214"
   },
   {
     "scope": {
       "component": "meter",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
+    "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "contextQualifier": "white",
     "$ref": "23791534-8963-4ff8-bfb4-15108da47103",
-    "uuid": "0596533f-a426-5349-b0c7-7827136b02f3"
+    "uuid": "6847ebc2-2a44-5dbd-85e6-f0655e27cee9"
   },
   {
     "scope": {
       "component": "meter",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
+    "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "contextQualifier": "white",
     "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
-    "uuid": "aa44e42d-4979-5a08-95d3-a309a2f6d5eb"
+    "uuid": "428576e3-2e68-54f2-99f5-5a2696b87f15"
   },
   {
     "scope": {
@@ -581,5 +583,191 @@
     "legacyKey": "meter-width",
     "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-family"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "d254668c-009d-536b-99ee-d33730dbf12b"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-weight"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "6ddaad3d-e8ca-5460-8fd3-8d21c76f7c6f"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "1e6dee54-af68-56c4-aa51-528563ca6c5a"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "informative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f",
+    "uuid": "aa1129a2-2b65-5af5-b1d2-edbb31013df5"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "informative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5",
+    "uuid": "d6f11ab7-5984-5314-98d4-1696cc6dbbda"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "informative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae",
+    "uuid": "c04f1127-96dd-54b0-a1b8-e600b5747737"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "positive"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2",
+    "uuid": "e05df132-36b4-5687-be50-7fcf9b3d52c8"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "positive"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "25e8289f-6c82-4485-8920-a187f790cd47",
+    "uuid": "703a9e32-7547-5227-bc99-d52ec201beef"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "positive"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3",
+    "uuid": "8430cb9d-a6d3-50b4-abc4-d5387eab7ab0"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "notice"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8",
+    "uuid": "73039150-b30d-58d3-b1b6-ac041f9f6465"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "notice"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d",
+    "uuid": "ef95e338-1f0d-530d-b28f-c3c3fce23046"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "notice"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2",
+    "uuid": "9f8ebb36-ecdc-53a1-8e5c-a09ecbaa2df6"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "negative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
+    "uuid": "c4c6bacc-673d-5362-ae2a-8cebee5480fb"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "negative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
+    "uuid": "2c734bf7-acc0-59f5-9617-e2e439012907"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color",
+      "options": {
+        "variant": "negative"
+      }
+    },
+    "context": "Control",
+    "contextRole": ["control"],
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
+    "uuid": "da4f1c8a-4dcb-5805-bb60-203188cda63e"
   }
 ]
