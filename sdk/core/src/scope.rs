@@ -156,6 +156,49 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
     None
 }
 
+/// The descriptive keys of a record as the name-object fields they stand for: `between.from`
+/// and `between.to` as `from` and `to`, and `object`, `position`, `structure`, `qualifier` and
+/// `icon` as themselves. A record keeps them either in `scope` (the new place) or, until the
+/// data is moved, inside `scope.options`; `scope` wins when both hold one.
+pub fn descriptive(scope: &Map<String, Value>) -> Map<String, Value> {
+    let mut out = Map::new();
+    let options = scope.get("options").and_then(Value::as_object);
+    for key in ["from", "to"]
+        .into_iter()
+        .chain(DESCRIPTIVE_FIELDS.iter().copied())
+    {
+        if let Some(v) = options.and_then(|o| o.get(key)) {
+            out.insert(key.to_string(), v.clone());
+        }
+    }
+    if let Some(between) = scope.get("between").and_then(Value::as_object) {
+        for end in ["from", "to"] {
+            if let Some(v) = between.get(end) {
+                out.insert(end.to_string(), v.clone());
+            }
+        }
+    }
+    for key in DESCRIPTIVE_FIELDS {
+        if let Some(v) = scope.get(*key) {
+            out.insert(key.to_string(), v.clone());
+        }
+    }
+    out
+}
+
+/// `scope.options` plus the descriptive keys from [`descriptive`], new place winning. This is
+/// what a reader that treats `from`, `to`, `object` ... like any other key of the old
+/// `scope.options` should iterate while records are in both places.
+pub fn options_with_descriptive(scope: &Map<String, Value>) -> Map<String, Value> {
+    let mut out = scope
+        .get("options")
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default();
+    out.extend(descriptive(scope));
+    out
+}
+
 fn non_empty_string(v: &Value) -> bool {
     v.as_str().is_some_and(|s| !s.is_empty())
 }
@@ -579,6 +622,25 @@ mod tests {
         // Without an options object the field is still seen.
         let bare = json!({"scope": {"component": "x", "property": "y", "slot": "a"}});
         assert!(unsupported_shape(&bare).unwrap().contains("scope.slot"));
+    }
+
+    #[test]
+    fn descriptive_reads_both_places_and_the_new_one_wins() {
+        let old = json!({"options": {"from": "top", "to": "control", "object": "a", "size": "m"}});
+        let new = json!({"between": {"from": "top", "to": "control"}, "object": "a",
+            "options": {"size": "m"}});
+        let both = json!({"between": {"from": "top"}, "options": {"from": "edge", "to": "x"}});
+        let (old, new, both) = (
+            old.as_object().unwrap(),
+            new.as_object().unwrap(),
+            both.as_object().unwrap(),
+        );
+        assert_eq!(descriptive(old), descriptive(new));
+        assert_eq!(options_with_descriptive(old), options_with_descriptive(new));
+        assert_eq!(descriptive(both)["from"], "top");
+        assert_eq!(descriptive(both)["to"], "x");
+        // `size` is a condition, not a descriptive key.
+        assert!(!descriptive(old).contains_key("size"));
     }
 
     #[test]
