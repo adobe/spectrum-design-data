@@ -21,9 +21,6 @@
         "align": {
           "value": "center"
         },
-        "width": {
-          "value": 204
-        },
         "minWidth": {
           "relationship": {
             "property": "minimum-width",

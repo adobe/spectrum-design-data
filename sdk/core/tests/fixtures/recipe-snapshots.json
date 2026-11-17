@@ -575,14 +575,14 @@
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "8e91c518610e4d10"
   },
   "progress-bar": {
-    "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "a40b6a9eeab84c20",
-    "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "b8100ea6451b28e4",
-    "hideLabel=false,isIndeterminate=true,staticColor=\"black\"": "dfbbad14f2c00a49",
-    "hideLabel=false,isIndeterminate=true,staticColor=\"white\"": "ae70214dc4c563fd",
-    "hideLabel=true,isIndeterminate=false,staticColor=\"black\"": "1bba38a5c391a409",
-    "hideLabel=true,isIndeterminate=false,staticColor=\"white\"": "dd389804a8e2cf3d",
-    "hideLabel=true,isIndeterminate=true,staticColor=\"black\"": "9b43d1e326f5dc56",
-    "hideLabel=true,isIndeterminate=true,staticColor=\"white\"": "89106a0069e31012"
+    "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "d225fa6b883cf25f",
+    "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "b18cb809f3b141f9",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"black\"": "1ed946c1425e8331",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"white\"": "c6ba2fe4629656d5",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"black\"": "5231de3eb3a6ac23",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"white\"": "3cd7f63406681dc7",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"black\"": "a89793b3e6cec47a",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"white\"": "acabdc423581fd7a"
   },
   "radio-button": {
     "isDisabled=false,isEmphasized=false,isSelected=false": "d93bd40b67688387",
