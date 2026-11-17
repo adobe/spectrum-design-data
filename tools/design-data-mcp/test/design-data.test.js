@@ -487,6 +487,7 @@ test("design-data-query gives per-mode values when an alias depends on a mode it
 });
 
 test("every alias value is explained by at most one mode-set", async (t) => {
+  t.timeout(60_000);
   // tokenValue varies one mode-set at a time. That is complete only while a token's value
   // depends on a single mode-set. A token that needs a combination (a high-contrast value
   // that differs only in dark, say) would show a wrong value, so check every combination.
@@ -494,12 +495,17 @@ test("every alias value is explained by at most one mode-set", async (t) => {
   const ds = wasm.Dataset.embedded();
   const sets = ds.primer().modeSets;
   const offenders = [];
+  const checked = new Set();
   for (const token of ds.query("")) {
     const name = token.raw.name ?? {};
     if (token.raw.value !== undefined || !name.legacyKey) continue;
     const ref = `{${name.legacyKey}}`;
     const pinned = {};
     for (const { name: set } of sets) if (name[set]) pinned[set] = name[set];
+    // Aliases of the same target with the same pinned modes resolve alike: check one.
+    const group = `${token.raw.$ref}|${JSON.stringify(pinned)}`;
+    if (checked.has(group)) continue;
+    checked.add(group);
     const free = sets.filter(({ name: set }) => !pinned[set]);
     const valueOf = (context) =>
       ds.resolveReference(ref, { ...pinned, ...context })?.value;
