@@ -1926,6 +1926,23 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             }
                         }
                     }
+                    // A `fraction` reads the options it names; a text part's `text.option` too.
+                    let named: Vec<&str> = match (k.as_str(), x) {
+                        ("fraction", Value::Object(f)) => {
+                            f.values().filter_map(Value::as_str).collect()
+                        }
+                        ("text", t) => t
+                            .get("option")
+                            .and_then(Value::as_str)
+                            .into_iter()
+                            .collect(),
+                        _ => Vec::new(),
+                    };
+                    for name in named {
+                        if !used.iter().any(|u| u == name) {
+                            used.push(name.to_string());
+                        }
+                    }
                     if k == "with" {
                         // A `component` part binds a nested option to a host option.
                         let hosts = x.as_object().into_iter().flat_map(|w| w.values());
@@ -4512,6 +4529,10 @@ mod tests {
                     "width": { "fraction": frac }, "justify": lit("end".into()) } }
             }
         });
+        let (read, _) = recipe_options(&recipe);
+        for name in ["value", "minValue", "maxValue", "valueLabel"] {
+            assert!(read.iter().any(|r| r == name), "{name} is read: {read:?}");
+        }
         let at = |opts: &[(&str, Value)]| {
             let (g, _) = load();
             let mut r = req(&[]);
