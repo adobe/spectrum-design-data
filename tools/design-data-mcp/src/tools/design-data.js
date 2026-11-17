@@ -150,29 +150,52 @@ function uuidIndex(ds) {
 
 const isDeprecated = (token) => Boolean(token.raw?.lifecycle?.deprecatedIn);
 
+let _modeSets;
+/** The dataset's mode-sets as [{ name, modes }], read once. */
+function modeSets(ds) {
+  if (!_modeSets) _modeSets = ds.primer().modeSets;
+  return _modeSets;
+}
+
 /**
- * The final value of a token: its own value, else the end of its alias chain
- * in the token's own modes. Without it an agent has to follow `$ref` uuids with
- * one query per hop.
+ * The final value of a token, as `{ value }`, or `{ values }` when it depends on a mode the
+ * token's own name does not pin. Following the alias chain saves an agent one query per hop,
+ * but an alias like `accent-content-color-default` has no `colorScheme` of its own while its
+ * target does: a single value would silently be the light one.
  */
 function tokenValue(ds, token) {
-  if (token.raw.value !== undefined) return token.raw.value;
+  if (token.raw.value !== undefined) return { value: token.raw.value };
   const name = token.raw.name ?? {};
   if (name.legacyKey) {
-    const context = {};
-    for (const mode of MODE_FIELDS) if (name[mode]) context[mode] = name[mode];
-    const resolved = ds.resolveReference(`{${name.legacyKey}}`, context);
-    if (resolved?.value !== undefined) return resolved.value;
+    const ref = `{${name.legacyKey}}`;
+    const pinned = {};
+    for (const mode of MODE_FIELDS) if (name[mode]) pinned[mode] = name[mode];
+    const base = ds.resolveReference(ref, pinned);
+    if (base?.value !== undefined) {
+      const values = {};
+      for (const { name: set, modes } of modeSets(ds)) {
+        if (pinned[set]) continue;
+        const byMode = {};
+        for (const mode of modes) {
+          byMode[mode] = ds.resolveReference(ref, {
+            ...pinned,
+            [set]: mode,
+          })?.value;
+        }
+        if (new Set(Object.values(byMode)).size > 1) values[set] = byMode;
+      }
+      return Object.keys(values).length ? { values } : { value: base.value };
+    }
   }
   let current = token;
   for (let hop = 0; hop < 8; hop++) {
     const ref = current.aliasTarget ?? current.raw.$ref;
     const next = ref && uuidIndex(ds).get(ref);
-    if (!next) return undefined;
-    if (next.raw.value !== undefined) return next.raw.value;
+    if (!next) return {};
+    if (next.raw.value !== undefined) return { value: next.raw.value };
     current = next;
   }
-  return undefined;
+  return {};
 }
 
 /** Name, final value, layer and modes: what an agent needs, without `raw` or file paths. */
@@ -184,7 +207,7 @@ function compactToken(ds, token) {
       Object.entries(fields)
         .map(([key, value]) => `${key}=${[value].flat().join("+")}`)
         .join(" "),
-    value: tokenValue(ds, token),
+    ...tokenValue(ds, token),
     layer: token.layer,
     uuid: token.uuid,
   };
@@ -282,7 +305,8 @@ export function createDesignDataTools() {
         "Property names are exact or wildcard (e.g. `*color*`); variant values are " +
         "listed in the dataset, so `variant=accent` matches nothing. " +
         "Returns { total, shown, tokens }: each token has its name, final value (aliases " +
-        "already followed), layer, uuid and modes, active tokens first. At most `limit` " +
+        "already followed; `values` by mode instead when it differs by colorScheme, scale or " +
+        "contrast), layer, uuid and modes, active tokens first. At most `limit` " +
         "(default 25) are shown; when `total` is larger, narrow the filter " +
         "(state=, property=, colorScheme=) instead of raising the limit. " +
         'Pass detail "full" for the complete token objects.',
@@ -323,7 +347,11 @@ export function createDesignDataTools() {
           ...matches.filter((t) => !isDeprecated(t)),
           ...matches.filter(isDeprecated),
         ];
-        const shown = ordered.slice(0, Math.min(limit, MAX_QUERY_LIMIT));
+        const cap = Math.min(
+          Math.max(Math.trunc(Number(limit)) || DEFAULT_QUERY_LIMIT, 1),
+          MAX_QUERY_LIMIT,
+        );
+        const shown = ordered.slice(0, cap);
         const out = {
           total: matches.length,
           shown: shown.length,
@@ -351,7 +379,7 @@ export function createDesignDataTools() {
         "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
         "scoring over token name segments, name-object fields, and description text. " +
         "Returns matches ranked by confidence, each with its token name, final value (aliases " +
-        "already followed), layer, uuid and modes. " +
+        "already followed; `values` by mode when it differs by mode), layer, uuid and modes. " +
         "Use when the user describes what they need rather than knowing the token name.",
       inputSchema: {
         type: "object",

@@ -74,6 +74,9 @@ Optional: `limit` (integer, default 25, max 200) and `detail` (`compact`, the de
 `full`). Returns `{ total, shown, tokens }`. Each compact token has `name`, `value` (aliases
 already followed, so there is nothing to look up by uuid), `layer`, `uuid`, and its
 `colorScheme`/`scale`/`contrast` when it has them; active tokens come before deprecated ones.
+When a token's value differs by a mode its name does not pin, it has `values` instead of
+`value`, keyed by mode-set then mode (`values.colorScheme.dark`): use the one for the user's
+mode, never the first.
 When `total` is larger than `shown`, add `state=`, `property=` or `colorScheme=` to the filter
 instead of raising `limit`. `detail: "full"` returns the complete token objects and is large.
 

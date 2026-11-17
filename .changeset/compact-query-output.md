@@ -11,7 +11,9 @@ file path) and `property=*color*` about 1.3 million.
 `design-data-query` returns `{ total, shown, tokens }`, at most 25 tokens by default (`limit`,
 max 200), active before deprecated, with a hint to narrow the filter when more match. Each token
 has `name`, `value`, `layer`, `uuid` and its modes. `value` is the end of the alias chain, so
-`container-padding-small` shows `12px` and nothing needs a follow-up `uuid=` query. `detail:
+`container-padding-small` shows `12px` and nothing needs a follow-up `uuid=` query. When the
+value differs by a mode the name does not pin (`accent-content-color-default` is a different
+colour in dark), the token has `values` by mode instead of `value`. `detail:
 "full"` returns the old complete token objects. `design-data-suggest` returns the same compact
 shape plus `confidence`, with no `file` path.
 

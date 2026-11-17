@@ -458,6 +458,46 @@ test("design-data-query follows aliases to a final value", async (t) => {
   t.is(unresolved.length, 0, JSON.stringify(unresolved.slice(0, 2)));
 });
 
+test("design-data-query gives per-mode values when an alias depends on a mode it does not name", async (t) => {
+  const query = byName()["design-data-query"];
+  const find = async (filter, key) =>
+    (await query.handler({ filter, limit: 200 })).tokens.find(
+      (tok) => tok.name === key,
+    );
+  // No colorScheme in its own name, but its target differs by colorScheme.
+  const content = await find(
+    "property=content-color",
+    "accent-content-color-default",
+  );
+  t.is(content.value, undefined);
+  t.deepEqual(Object.keys(content.values.colorScheme).sort(), [
+    "dark",
+    "light",
+    "wireframe",
+  ]);
+  t.not(content.values.colorScheme.light, content.values.colorScheme.dark);
+  const shadow = await find("property=color", "drop-shadow-dragged-color");
+  t.is(shadow.values.colorScheme.dark, "rgba(0, 0, 0, 0.6)");
+  // A value that is the same in every mode stays a single value.
+  const padding = await find("property=padding", "container-padding-small");
+  t.is(padding.value, "12px");
+  t.is(padding.values, undefined);
+});
+
+test("design-data-query clamps limit at both ends", async (t) => {
+  const query = byName()["design-data-query"];
+  for (const [limit, shown] of [
+    [-1, 1],
+    [0, 25],
+    [null, 25],
+    ["abc", 25],
+    [1000, 200],
+  ]) {
+    const result = await query.handler({ filter: "property=*color*", limit });
+    t.is(result.shown, shown, `limit ${limit}`);
+  }
+});
+
 test("design-data-query lists active tokens before deprecated ones", async (t) => {
   const { tokens } = await byName()["design-data-query"].handler({
     filter: "property=size",
