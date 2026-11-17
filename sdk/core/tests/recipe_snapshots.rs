@@ -257,30 +257,16 @@ fn recipe_names() -> Vec<String> {
     names
 }
 
-#[test]
-fn recipe_renders_match_the_snapshots() {
-    let graph = load_graph();
-    let cache = SceneCache::default();
-    let mut actual = Snapshots::new();
-    let mut diagnostics = Vec::new();
-    let mut total = 0;
-    for name in recipe_names() {
-        let started = std::time::Instant::now();
-        let run = render_recipe(&graph, &cache, &name);
-        eprintln!(
-            "{name}: {} combinations in {:.1}s",
-            run.combinations,
-            started.elapsed().as_secs_f64()
-        );
-        total += run.combinations;
-        diagnostics.extend(run.diagnostics);
-        actual.insert(name, run.snapshots);
-    }
-    eprintln!(
-        "rendered {total} combinations across {} recipes",
-        actual.len()
-    );
+fn updating() -> bool {
+    std::env::var_os("UPDATE_RECIPE_SNAPSHOTS").is_some()
+}
 
+fn read_snapshots() -> Snapshots {
+    serde_json::from_str(&std::fs::read_to_string(fixture_path()).expect("read snapshots"))
+        .expect("parse snapshots")
+}
+
+fn assert_no_diagnostics(diagnostics: &[String]) {
     assert!(
         diagnostics.is_empty(),
         "render diagnostics ({}):\n{}",
@@ -292,48 +278,42 @@ fn recipe_renders_match_the_snapshots() {
             .collect::<Vec<_>>()
             .join("\n")
     );
+}
 
-    if std::env::var_os("UPDATE_RECIPE_SNAPSHOTS").is_some() {
-        let json = serde_json::to_string_pretty(&actual).unwrap() + "\n";
-        std::fs::write(fixture_path(), json).expect("write snapshots");
-        return;
+fn check_recipe(name: &str) {
+    if updating() {
+        return; // `update_recipe_snapshots` rewrites the whole fixture
     }
+    let graph = load_graph();
+    let run = render_recipe(&graph, &SceneCache::default(), name);
+    assert_no_diagnostics(&run.diagnostics);
 
-    let expected: Snapshots =
-        serde_json::from_str(&std::fs::read_to_string(fixture_path()).expect("read snapshots"))
-            .expect("parse snapshots");
-
-    let mut problems = Vec::new();
-    let recipes: std::collections::BTreeSet<&String> =
-        actual.keys().chain(expected.keys()).collect();
-    for recipe in recipes {
-        let empty = BTreeMap::new();
-        let (a, e) = (
-            actual.get(recipe).unwrap_or(&empty),
-            expected.get(recipe).unwrap_or(&empty),
-        );
-        let sets: std::collections::BTreeSet<&String> = a.keys().chain(e.keys()).collect();
-        let (mut changed, mut added, mut removed) = (Vec::new(), Vec::new(), Vec::new());
-        for set in sets {
-            match (a.get(set), e.get(set)) {
-                (Some(x), Some(y)) if x != y => changed.push(set.as_str()),
-                (Some(_), None) => added.push(set.as_str()),
-                (None, Some(_)) => removed.push(set.as_str()),
-                _ => {}
-            }
+    let expected = read_snapshots();
+    let empty = BTreeMap::new();
+    let e = expected.get(name).unwrap_or(&empty);
+    let a = &run.snapshots;
+    let sets: std::collections::BTreeSet<&String> = a.keys().chain(e.keys()).collect();
+    let (mut changed, mut added, mut removed) = (Vec::new(), Vec::new(), Vec::new());
+    for set in sets {
+        match (a.get(set), e.get(set)) {
+            (Some(x), Some(y)) if x != y => changed.push(set.as_str()),
+            (Some(_), None) => added.push(set.as_str()),
+            (None, Some(_)) => removed.push(set.as_str()),
+            _ => {}
         }
-        for (what, list) in [
-            ("changed", &changed),
-            ("new", &added),
-            ("removed", &removed),
-        ] {
-            if !list.is_empty() {
-                problems.push(format!(
-                    "{recipe}: {} option set(s) {what}, for example [{}]",
-                    list.len(),
-                    list.iter().take(3).copied().collect::<Vec<_>>().join(" | ")
-                ));
-            }
+    }
+    let mut problems = Vec::new();
+    for (what, list) in [
+        ("changed", &changed),
+        ("new", &added),
+        ("removed", &removed),
+    ] {
+        if !list.is_empty() {
+            problems.push(format!(
+                "{name}: {} option set(s) {what}, for example [{}]",
+                list.len(),
+                list.iter().take(3).copied().collect::<Vec<_>>().join(" | ")
+            ));
         }
     }
     assert!(
@@ -341,4 +321,74 @@ fn recipe_renders_match_the_snapshots() {
         "\nRendered output differs from tests/fixtures/recipe-snapshots.json:\n{}\n\nIf the change is intended, review it with `design-data render <component> --option name=value ...` and regenerate with UPDATE_RECIPE_SNAPSHOTS=1.\n",
         problems.join("\n")
     );
+}
+
+/// One test per recipe, so nextest runs them in parallel instead of one long test. The macro
+/// also builds `RECIPES`, so a recipe cannot be listed without being tested.
+/// `every_recipe_has_a_test` fails when `visuals/` and this list disagree.
+macro_rules! recipe_tests {
+    ($($test:ident => $name:literal),* $(,)?) => {
+        const RECIPES: &[&str] = &[$($name),*];
+        $(
+            #[test]
+            fn $test() {
+                check_recipe($name);
+            }
+        )*
+    };
+}
+
+recipe_tests! {
+    accordion => "accordion",
+    action_button => "action-button",
+    badge => "badge",
+    button => "button",
+    checkbox => "checkbox",
+    divider => "divider",
+    field_label => "field-label",
+    meter => "meter",
+    progress_bar => "progress-bar",
+    radio_button => "radio-button",
+    switch => "switch",
+}
+
+#[test]
+fn every_recipe_has_a_test() {
+    assert_eq!(
+        recipe_names(),
+        RECIPES,
+        "visuals/ and the recipe_tests! list must name the same recipes"
+    );
+    if updating() {
+        return; // update_recipe_snapshots is rewriting the fixture
+    }
+    let expected = read_snapshots();
+    let stale: Vec<&String> = expected
+        .keys()
+        .filter(|k| !RECIPES.contains(&k.as_str()))
+        .collect();
+    assert!(
+        stale.is_empty(),
+        "tests/fixtures/recipe-snapshots.json has snapshots for recipes that no longer exist: {stale:?}"
+    );
+}
+
+/// Rewrites the fixture; does nothing unless UPDATE_RECIPE_SNAPSHOTS is set.
+#[test]
+fn update_recipe_snapshots() {
+    if !updating() {
+        return;
+    }
+    let graph = load_graph();
+    let cache = SceneCache::default();
+    let mut actual = Snapshots::new();
+    let mut diagnostics = Vec::new();
+    for name in recipe_names() {
+        let run = render_recipe(&graph, &cache, &name);
+        diagnostics.extend(run.diagnostics);
+        actual.insert(name, run.snapshots);
+    }
+    assert_no_diagnostics(&diagnostics);
+    let json = serde_json::to_string_pretty(&actual).unwrap() + "\n";
+    std::fs::write(fixture_path(), json).expect("write snapshots");
 }
