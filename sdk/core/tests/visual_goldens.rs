@@ -286,6 +286,19 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
+        // Disabled wins over a state for the static cross colour: both records pin two options.
+        out.push((
+            "static-black-disabled-hover",
+            req(
+                vec!["hover".into()],
+                HashMap::from([
+                    ("staticColor".to_string(), Value::String("black".into())),
+                    ("isDisabled".to_string(), Value::Bool(true)),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
         out.push((
             "static-white-hover",
             req(
