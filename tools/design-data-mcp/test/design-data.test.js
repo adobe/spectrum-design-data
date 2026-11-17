@@ -42,7 +42,7 @@ const EXPECTED_TOOLS = [
 
 // ── design-data-suggest (wasm-backed) ────────────────────────────────────────
 
-test("design-data-suggest returns ranked results in richer Rust shape", async (t) => {
+test("design-data-suggest returns ranked compact results with final values", async (t) => {
   const tools = Object.fromEntries(
     createDesignDataTools().map((tool) => [tool.name, tool]),
   );
@@ -53,18 +53,21 @@ test("design-data-suggest returns ranked results in richer Rust shape", async (t
   t.true(Array.isArray(results));
   t.true(results.length > 0);
   for (const r of results) {
-    t.true(Object.hasOwn(r, "tokenName"), "result has tokenName");
+    t.true(Object.hasOwn(r, "name"), "result has name");
     t.true(Object.hasOwn(r, "confidence"), "result has confidence");
     t.true(Object.hasOwn(r, "layer"), "result has layer");
     t.is(typeof r.confidence, "number");
     t.true(r.confidence > 0 && r.confidence <= 1);
-    // tokenName must be a resolved name (e.g. legacyKey), never the raw
-    // "<file>:<index>" cascade graph key.
+    // name must be a resolved name (e.g. legacyKey), never the raw
+    // "<file>:<index>" cascade graph key, and no file paths are sent.
     t.false(
-      /\.json:\d+$/.test(r.tokenName),
-      `tokenName "${r.tokenName}" looks like a raw graph key, not a resolved name`,
+      /\.json:\d+$/.test(r.name),
+      `name "${r.name}" looks like a raw graph key, not a resolved name`,
     );
+    t.false(Object.hasOwn(r, "file"));
   }
+  // Aliases are followed: a suggested token always carries its final value.
+  t.true(results.some((r) => typeof r.value === "string"));
 });
 
 test("design-data-suggest respects limit", async (t) => {
@@ -412,12 +415,57 @@ test("design-data-query component=button returns tokens bound to the component",
   const results = await byName()["design-data-query"].handler({
     filter: "component=button",
   });
-  t.true(results.length > 0);
+  t.true(results.total > 0);
   const narrowed = await byName()["design-data-query"].handler({
     filter: "component=button,state=hover",
   });
-  t.true(narrowed.length > 0);
-  t.true(narrowed.length < results.length);
+  t.true(narrowed.total > 0);
+  t.true(narrowed.total < results.total);
+});
+
+test("design-data-query is capped, compact and says how to narrow", async (t) => {
+  const query = byName()["design-data-query"];
+  const wide = await query.handler({ filter: "property=*color*" });
+  t.true(wide.total > 25);
+  t.is(wide.shown, 25);
+  t.is(wide.tokens.length, 25);
+  t.regex(wide.hint, /Showing 25 of \d+/);
+  // The point of the cap: a broad query stays small enough to read.
+  t.true(JSON.stringify(wide).length < 12_000);
+  for (const token of wide.tokens) {
+    t.false(Object.hasOwn(token, "raw"));
+    t.false(/\.json:\d+$/.test(token.name));
+  }
+  const raised = await query.handler({ filter: "component=button", limit: 3 });
+  t.is(raised.shown, 3);
+  const full = await query.handler({
+    filter: "component=button",
+    limit: 2,
+    detail: "full",
+  });
+  t.true(Object.hasOwn(full.tokens[0], "raw"));
+});
+
+test("design-data-query follows aliases to a final value", async (t) => {
+  const { tokens } = await byName()["design-data-query"].handler({
+    filter: "property=padding",
+    limit: 200,
+  });
+  const small = tokens.find((tok) => tok.name === "container-padding-small");
+  t.is(small?.value, "12px");
+  // Every shown token with a name has a value or is a composite we cannot flatten.
+  const unresolved = tokens.filter((tok) => tok.value === undefined);
+  t.is(unresolved.length, 0, JSON.stringify(unresolved.slice(0, 2)));
+});
+
+test("design-data-query lists active tokens before deprecated ones", async (t) => {
+  const { tokens } = await byName()["design-data-query"].handler({
+    filter: "property=size",
+    limit: 200,
+  });
+  const firstDeprecated = tokens.findIndex((tok) => tok.deprecated);
+  t.true(firstDeprecated > 0);
+  t.true(tokens.slice(firstDeprecated).every((tok) => tok.deprecated));
 });
 
 test("design-data-query description lists only filterable fields", (t) => {

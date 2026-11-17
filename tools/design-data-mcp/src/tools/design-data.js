@@ -137,6 +137,62 @@ export function fontSummary(status, full = false) {
 
 const RELATED_SHOWN = 5;
 
+const DEFAULT_QUERY_LIMIT = 25;
+const MAX_QUERY_LIMIT = 200;
+const MODE_FIELDS = ["colorScheme", "scale", "contrast"];
+
+let _uuidIndex;
+/** uuid -> token record, built once; used to follow alias chains by $ref. */
+function uuidIndex(ds) {
+  if (!_uuidIndex) _uuidIndex = new Map(ds.query("").map((t) => [t.uuid, t]));
+  return _uuidIndex;
+}
+
+const isDeprecated = (token) => Boolean(token.raw?.lifecycle?.deprecatedIn);
+
+/**
+ * The final value of a token: its own value, else the end of its alias chain
+ * in the token's own modes. Without it an agent has to follow `$ref` uuids with
+ * one query per hop.
+ */
+function tokenValue(ds, token) {
+  if (token.raw.value !== undefined) return token.raw.value;
+  const name = token.raw.name ?? {};
+  if (name.legacyKey) {
+    const context = {};
+    for (const mode of MODE_FIELDS) if (name[mode]) context[mode] = name[mode];
+    const resolved = ds.resolveReference(`{${name.legacyKey}}`, context);
+    if (resolved?.value !== undefined) return resolved.value;
+  }
+  let current = token;
+  for (let hop = 0; hop < 8; hop++) {
+    const ref = current.aliasTarget ?? current.raw.$ref;
+    const next = ref && uuidIndex(ds).get(ref);
+    if (!next) return undefined;
+    if (next.raw.value !== undefined) return next.raw.value;
+    current = next;
+  }
+  return undefined;
+}
+
+/** Name, final value, layer and modes: what an agent needs, without `raw` or file paths. */
+function compactToken(ds, token) {
+  const { legacyKey, ...fields } = token.raw.name ?? {};
+  const out = {
+    name:
+      legacyKey ??
+      Object.entries(fields)
+        .map(([key, value]) => `${key}=${[value].flat().join("+")}`)
+        .join(" "),
+    value: tokenValue(ds, token),
+    layer: token.layer,
+    uuid: token.uuid,
+  };
+  for (const mode of MODE_FIELDS) if (fields[mode]) out[mode] = fields[mode];
+  if (isDeprecated(token)) out.deprecated = true;
+  return out;
+}
+
 export function createDesignDataTools() {
   return [
     // ── primer ─────────────────────────────────────────────────────────────
@@ -225,7 +281,11 @@ export function createDesignDataTools() {
         "`property=*color*`, `colorScheme=dark`. " +
         "Property names are exact or wildcard (e.g. `*color*`); variant values are " +
         "listed in the dataset, so `variant=accent` matches nothing. " +
-        "Returns an array of matching token objects.",
+        "Returns { total, shown, tokens }: each token has its name, final value (aliases " +
+        "already followed), layer, uuid and modes, active tokens first. At most `limit` " +
+        "(default 25) are shown; when `total` is larger, narrow the filter " +
+        "(state=, property=, colorScheme=) instead of raising the limit. " +
+        'Pass detail "full" for the complete token objects.',
       inputSchema: {
         type: "object",
         properties: {
@@ -234,13 +294,48 @@ export function createDesignDataTools() {
             description:
               'Query expression, e.g. "component=button" or "property=color-*,component=action-button"',
           },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: MAX_QUERY_LIMIT,
+            description: `Maximum tokens to return (default ${DEFAULT_QUERY_LIMIT}, max ${MAX_QUERY_LIMIT})`,
+            default: DEFAULT_QUERY_LIMIT,
+          },
+          detail: {
+            type: "string",
+            enum: ["compact", "full"],
+            description:
+              "compact (default): name, value, layer, uuid, modes. full: the complete token objects (large).",
+            default: "compact",
+          },
         },
         required: ["filter"],
         additionalProperties: false,
       },
-      async handler({ filter }) {
+      async handler({
+        filter,
+        limit = DEFAULT_QUERY_LIMIT,
+        detail = "compact",
+      }) {
         const ds = await getDataset();
-        return ds.query(filter);
+        const matches = ds.query(filter);
+        const ordered = [
+          ...matches.filter((t) => !isDeprecated(t)),
+          ...matches.filter(isDeprecated),
+        ];
+        const shown = ordered.slice(0, Math.min(limit, MAX_QUERY_LIMIT));
+        const out = {
+          total: matches.length,
+          shown: shown.length,
+          tokens:
+            detail === "full" ? shown : shown.map((t) => compactToken(ds, t)),
+        };
+        if (matches.length > shown.length) {
+          out.hint =
+            `Showing ${shown.length} of ${matches.length}. Narrow the filter ` +
+            "(state=, property=, colorScheme=, scale=) instead of raising limit.";
+        }
+        return out;
       },
     },
 
@@ -255,7 +350,8 @@ export function createDesignDataTools() {
       description:
         "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
         "scoring over token name segments, name-object fields, and description text. " +
-        "Returns matches ranked by confidence with token name, layer, value, and name object. " +
+        "Returns matches ranked by confidence, each with its token name, final value (aliases " +
+        "already followed), layer, uuid and modes. " +
         "Use when the user describes what they need rather than knowing the token name.",
       inputSchema: {
         type: "object",
@@ -276,7 +372,13 @@ export function createDesignDataTools() {
       },
       async handler({ intent, limit = 5 }) {
         const ds = await getDataset();
-        return ds.suggest(intent, undefined, limit);
+        return ds.suggest(intent, undefined, limit).map((match) => {
+          const token = uuidIndex(ds).get(match.tokenUuid);
+          return {
+            ...(token ? compactToken(ds, token) : { name: match.tokenName }),
+            confidence: match.confidence,
+          };
+        });
       },
     },
 

@@ -69,15 +69,11 @@ for (const scenario of scenarios) {
         scenario.id === "container-token-lookup" &&
         item.tool === "design-data-query"
       ) {
-        const matches = result.filter(
-          (token) => token.raw.name.scaleIndex === 300,
+        const matches = result.tokens.filter(
+          (token) => token.name === "property=spacing scaleIndex=300",
         );
         t.is(matches.length, 1);
-        t.deepEqual(matches[0].raw.name, {
-          property: "spacing",
-          scaleIndex: 300,
-        });
-        t.is(matches[0].raw.value, "16px");
+        t.is(matches[0].value, "16px");
       }
       if (item.source) t.is(result.sourceUrl, item.source);
       const text = normalize(JSON.stringify(result));
