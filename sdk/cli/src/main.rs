@@ -17,6 +17,7 @@ use chrono::Utc;
 mod authoring;
 mod changelog;
 mod data;
+mod doctor;
 mod format;
 mod lifecycle;
 mod render_batch;
@@ -707,6 +708,21 @@ enum PlatformSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Check a platform repo's health in one go: the manifest applies and every recipe binding
+    /// resolves, the `foundationVersion` and `[source]` pins agree, this CLI meets what the
+    /// dataset and the project ask of it, the platform is registered, and which extensions
+    /// replace a foundation artifact. Reports every finding, never refuses. Exits 1 on an error.
+    /// `--latest` also asks GitHub how far behind the newest release the pin is
+    Doctor {
+        /// Platform id (default: the configured `default_platform`)
+        id: Option<String>,
+        /// Ask GitHub for the newest foundation release and compare (needs the network)
+        #[arg(long)]
+        latest: bool,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Which data changes between two foundation releases hit what a platform binds: the
     /// relationship contexts and tokens its recipes name, the options they read, and the
     /// relationships its manifest overrides. Reads the `--to` release's component changelogs.
@@ -1157,12 +1173,12 @@ fn project_cli_range_finding() -> miette::Result<Option<String>> {
 /// Hold this CLI to the project's `cli_version`, once, before any command runs: a command that
 /// never resolves a dataset (`render-compare` reads scenes and a measured file) still produces
 /// output the project commits. An error for a command that writes committed output, a warning
-/// for the rest. `platform show` is skipped: it reports the range as a finding itself.
+/// for the rest. `platform show` and `platform doctor` are skipped: they report it themselves.
 fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
     if matches!(
         command,
         Commands::Platform {
-            sub: PlatformSub::Show { .. }
+            sub: PlatformSub::Show { .. } | PlatformSub::Doctor { .. }
         }
     ) {
         return Ok(());
@@ -5035,6 +5051,7 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Doctor { id, latest, format } => doctor::run(id, latest, format),
             PlatformSub::Impact {
                 id,
                 from,

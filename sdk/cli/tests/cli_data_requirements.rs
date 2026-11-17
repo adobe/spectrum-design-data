@@ -349,3 +349,33 @@ fn the_escape_flag_warns_once_per_message_on_an_output_command() {
     );
     assert_eq!(count(&stderr, "Continuing because"), 2, "{stderr}");
 }
+
+/// `platform doctor` has to run when the dataset needs a newer CLI than this one, which is when a
+/// platform team needs it: the requirement is a finding, not a refusal.
+#[test]
+fn platform_doctor_reports_unmet_dataset_requirements_and_still_runs() {
+    let p = project_with_dataset_json(r#"{"requires":{"cli":"99.0.0"}}"#);
+    fs::write(
+        p.path().join("manifest.json"),
+        r#"{"specVersion":"1.0.0-draft","foundationVersion":"1.0.0","platform":"ios"}"#,
+    )
+    .unwrap();
+    fs::write(
+        p.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nfixture = \"manifest.json\"\n",
+            p.path().join("data").display()
+        ),
+    )
+    .unwrap();
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(p.path())
+        .args(["platform", "doctor", "fixture"])
+        .assert()
+        .code(1)
+        .stdout(contains("FAIL cli"))
+        .stdout(contains("99.0.0"))
+        .stdout(contains("ok   manifest"))
+        .stderr(contains("--ignore-data-requirements").not());
+}
