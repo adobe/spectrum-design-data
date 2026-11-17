@@ -153,6 +153,27 @@ mod tests {
     }
 
     #[test]
+    fn qualifier_and_icon_are_checked_against_their_registries() {
+        let r = RegistryData::embedded();
+        let q = r
+            .for_field("qualifier")
+            .expect("qualifier registry")
+            .iter()
+            .next()
+            .unwrap()
+            .clone();
+        let i = r
+            .for_field("icon")
+            .expect("icon registry")
+            .iter()
+            .next()
+            .unwrap()
+            .clone();
+        assert!(run(json!({"qualifier": q, "icon": i})).is_empty());
+        assert_eq!(run(json!({"qualifier": "nope", "icon": "nope"})).len(), 2);
+    }
+
+    #[test]
     fn a_one_ended_between_is_checked_on_the_end_it_has() {
         assert!(run(json!({"between": {"from": "top"}})).is_empty());
         assert_eq!(run(json!({"between": {"to": "nope"}})).len(), 1);
