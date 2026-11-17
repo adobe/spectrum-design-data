@@ -264,7 +264,7 @@ export function findFont(
           target: TARGET_FAMILY,
           found: true,
           using: font.origin,
-          family: null,
+          family: readFontInfo(font.origin, wasm)?.family ?? "",
           installed: true,
           fallback: false,
           rejected: [],
@@ -293,7 +293,7 @@ export function findFont(
   };
   let { status, age } = attempt(false);
   // A remembered "not found" goes stale: the user installs the font and asks again.
-  if (!status.installed && age > NOT_FOUND_TTL_MS) ({ status } = attempt(true));
+  if (!status.found && age > NOT_FOUND_TTL_MS) ({ status } = attempt(true));
   let data;
   // A chosen file can have gone away since the scan (the font was uninstalled): note it,
   // skip it and scan again, a couple of times at most.

@@ -382,3 +382,35 @@ test("an explicit font beats an installed Adobe Clean VF", (t) => {
   });
   t.is(viaEnv.status.using, mine);
 });
+
+test("a scan that settled on the fallback is repeated so a later Spectrum VF is found", (t) => {
+  const dir = join(tmp(), "Fonts");
+  copyFont(join(dir, "clean-vf.ttf"));
+  const opts = {
+    dirs: [dir],
+    target: "Wanted Family",
+    intermediate: TARGET,
+    env: {},
+  };
+  const first = findFont(wasm, opts).status;
+  t.true(first.installed);
+  t.false(first.found);
+  put(join(dir, "wanted.ttf"), fakeFont("\0\x01\0\0", "Wanted Family"));
+  t.false(findFont(wasm, opts).status.found, "still remembered");
+  const real = Date.now;
+  Date.now = () => real() + 60_000;
+  try {
+    const later = findFont(wasm, opts).status;
+    t.true(later.found);
+    t.true(later.using.endsWith("wanted.ttf"));
+  } finally {
+    Date.now = real;
+  }
+});
+
+test("a named font reports its family", (t) => {
+  const mine = join(tmp(), "mine.ttf");
+  copyFont(mine);
+  const { status } = findFont(wasm, { fontPath: mine, dirs: [], env: {} });
+  t.is(status.family, TARGET);
+});
