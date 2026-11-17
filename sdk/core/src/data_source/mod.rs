@@ -41,6 +41,7 @@ pub(crate) mod embedded;
 pub use embedded::EMBEDDED_DATA_VERSION;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
+pub mod requirements;
 #[cfg(test)]
 pub(crate) mod test_support;
 
@@ -905,6 +906,29 @@ fn resolve_schema_root(
                 .map(PathBuf::from)
         })
         .unwrap_or_else(fallback)
+}
+
+/// The `packages/design-data` directory of the foundation published as
+/// `@adobe/spectrum-design-data@<version>` on `repo`, fetched into the cache on first use.
+/// `platform impact` reads that release's `changelog/`.
+pub fn foundation_dataset_dir(
+    repo: &str,
+    version: &str,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let tag = format!("@adobe/spectrum-design-data@{version}");
+        let root = fetch::ensure_cached_keeping_others(repo, &tag, cache_dir_override)?;
+        Ok(root.join("packages/design-data"))
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = (repo, version, cache_dir_override);
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
 }
 
 /// Dispatch a remote-fetch source through the fetch module (tier 2, config-driven).

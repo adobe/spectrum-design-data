@@ -579,7 +579,8 @@ export function createDesignDataTools() {
         "Render a Spectrum component from its visual recipe, resolving token values for the " +
         "given size, states, options, and mode. Returns SVG markup as text by default, or " +
         'a PNG image with format "png". Only components with a recipe can be rendered ' +
-        "(see design-data-visual-recipe). PNG text uses Adobe Clean Spectrum VF when it is " +
+        "(see design-data-visual-recipe). SVG label boxes are sized with Adobe Clean Spectrum VF when " +
+        "it is installed on this machine (not with fontPath), otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
         "installed on this machine (found automatically, or set with the fontPath argument " +
         "or the DESIGN_DATA_FONT environment variable), else Adobe Clean VF (Roman .ttf), " +
         "else a bundled open font. The result includes a font status: when font.fallback is " +
@@ -696,7 +697,25 @@ export function createDesignDataTools() {
         };
         if (width !== undefined) request.width = width;
         if (icon !== undefined) request.icon = icon;
-        if (format === "svg") return ds.renderComponentSvg(request);
+        if (format === "svg") {
+          // Size the layout with the installed Adobe Clean Spectrum VF when there is one, so
+          // the boxes fit the text a viewer with that font draws. A font named with fontPath
+          // or DESIGN_DATA_FONT is not used: the SVG stack still asks for Adobe Clean, so
+          // sizing for another font would mismatch. Source Sans 3 is the built-in table.
+          const { fonts } = findFont(await getWasm(), {
+            env: { ...process.env, DESIGN_DATA_FONT: undefined },
+          });
+          try {
+            return ds.renderComponentSvg(
+              request,
+              fonts.filter((f) => !f.fallback),
+            );
+          } catch (e) {
+            // A font found on the machine that will not parse must not stop the SVG.
+            if (!/^font /.test(String(e?.message ?? e))) throw e;
+            return ds.renderComponentSvg(request);
+          }
+        }
 
         if (!(pixelRatio >= 1 && pixelRatio <= 4)) {
           throw new Error("pixelRatio must be between 1 and 4");

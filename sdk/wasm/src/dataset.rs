@@ -299,17 +299,44 @@ impl Dataset {
 
     /// Render a component to SVG using the dataset's own recipe for `request.component`.
     /// Throws when the component has no recipe.
+    ///
+    /// `fonts` is optional, in the shape `renderComponentPng` takes. The first font not marked
+    /// `fallback` supplies the layout text widths, so boxes fit the text the viewer will draw
+    /// when it has that font. Without one, the committed Source Sans 3 table is used.
     #[wasm_bindgen(js_name = "renderComponentSvg")]
-    pub fn render_component_svg(&self, request: JsValue) -> Result<String, JsValue> {
-        let name = js_sys::Reflect::get(&request, &JsValue::from_str("component"))?
-            .as_string()
-            .unwrap_or_default();
+    pub fn render_component_svg(
+        &self,
+        request: JsValue,
+        fonts: Option<JsValue>,
+    ) -> Result<String, JsValue> {
+        use design_data_core::raster::font::Font;
+        let fonts = fonts.unwrap_or(JsValue::UNDEFINED);
+        let mut request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
         let recipe = self
             .graph
-            .visual_recipe(&name)
-            .ok_or_else(|| js_err(format!("no visual recipe for '{name}'")))?;
-        let recipe = serde_wasm_bindgen::to_value(&recipe.raw).map_err(js_err)?;
-        self.render_svg(recipe, request)
+            .visual_recipe(&request.component)
+            .ok_or_else(|| js_err(format!("no visual recipe for '{}'", request.component)))?;
+        if request.text_metrics.is_none() {
+            let (sources, layout_from) = read_fonts(&fonts)?;
+            if let Some(i) = layout_from {
+                let font = Font::parse(sources[i].data.clone())
+                    .map_err(|e| js_err(format!("font {}: {e}", sources[i].origin)))?;
+                request.text_metrics = Some(font.text_metrics().map_err(js_err)?);
+            }
+        }
+        let scene = design_data_core::visual::build_scene_cached(
+            &self.graph,
+            &recipe.raw,
+            &request,
+            &self.scenes,
+        )
+        .map_err(js_err)?;
+        Ok(design_data_core::visual::scene_to_svg(&scene))
     }
 
     /// Render a component to PNG using the dataset's own recipe for `request.component`.

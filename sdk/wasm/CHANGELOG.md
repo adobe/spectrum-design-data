@@ -1,5 +1,20 @@
 # @adobe/design-data-wasm
 
+## 0.25.0
+
+### Minor Changes
+
+- [#1865](https://github.com/adobe/spectrum-design-data/pull/1865) [`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31) Thanks [@GarthDB](https://github.com/GarthDB)! - SVG label text now uses the font stack `'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,
+'Adobe Clean', 'Source Sans 3', sans-serif`. Browsers match family names exactly, so the old
+  lead name `adobe-clean-spectrum-vf` missed an installed Adobe Clean Spectrum VF and the label
+  fell to the generic sans-serif, about 18 % wider: "Save changes" (700, 16 px) measured
+  106.73 px against about 90 px and overran the button's right padding.
+
+  `renderComponentSvg(request, fonts?)` takes the same font list as `renderComponentPng` and
+  sizes the layout with the first non-fallback font. `design-data-render` passes the installed
+  Adobe Clean Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font
+  draws. Without it the Source Sans 3 table is used, as before.
+
 ## 0.24.0
 
 ### Minor Changes

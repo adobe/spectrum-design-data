@@ -288,3 +288,56 @@ fn render_works_from_the_embedded_snapshot_outside_a_checkout() {
     let svg = String::from_utf8(out.get_output().stdout.clone()).unwrap();
     assert!(svg.starts_with("<svg"), "{svg}");
 }
+
+/// h890.36.5: with `--strict`, a batch state whose scene reports a diagnostic makes the run
+/// exit 1 (every output is still written); without it the same batch exits 0.
+#[test]
+fn batch_strict_fails_when_a_state_reports_a_diagnostic() {
+    let project = tempfile::tempdir().unwrap();
+    std::fs::write(
+        project.path().join("manifest.json"),
+        json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "fixture-drop",
+            "exclude": ["property=component-height-100"]
+        })
+        .to_string(),
+    )
+    .unwrap();
+    std::fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n[platforms]\nfixture-drop = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let states = project.path().join("states.json");
+    std::fs::write(
+        &states,
+        json!([{ "id": "bad", "component": "button", "platform": "fixture-drop" }]).to_string(),
+    )
+    .unwrap();
+    let out = project.path().join("renders");
+    let run = |strict: bool| {
+        let mut cmd = Command::cargo_bin("design-data").unwrap();
+        cmd.current_dir(project.path()).args([
+            "render",
+            "--batch",
+            states.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        if strict {
+            cmd.arg("--strict");
+        }
+        cmd.assert()
+    };
+    run(false).success();
+    run(true)
+        .code(1)
+        .stderr(contains("error: bad:"))
+        .stderr(contains("--strict: 1 state(s) reported diagnostics"));
+    assert!(out.join("bad.svg").is_file());
+}

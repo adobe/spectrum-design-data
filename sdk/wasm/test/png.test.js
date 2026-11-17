@@ -238,3 +238,32 @@ test("chooseFont falls back to Adobe Clean VF, never Serif, Italic or CFF", (t) 
   t.true(both.found);
   t.is(both.using, "spectrum.ttf");
 });
+
+test("renderComponentSvg sizes the layout with the first non-fallback font", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    const req = request("button", "AVAVAV To Ty");
+    const plain = ds.renderComponentSvg(req);
+    const fallback = [{ data: fontBytes(), origin: "f.ttf", fallback: true }];
+    t.is(
+      ds.renderComponentSvg(req, fallback),
+      plain,
+      "a fallback font is ignored",
+    );
+    t.is(ds.renderComponentSvg(req, []), plain);
+    const used = ds.renderComponentSvg(req, [
+      { data: fontBytes(), origin: "f.ttf" },
+    ]);
+    t.true(used.startsWith("<svg"));
+    t.not(used, plain, "the font's unkerned widths change the layout");
+    t.throws(
+      () =>
+        ds.renderComponentSvg(req, [
+          { data: new Uint8Array([1, 2, 3]), origin: "bad.ttf" },
+        ]),
+      { message: /^font bad\.ttf/ },
+    );
+  } finally {
+    ds.free();
+  }
+});
