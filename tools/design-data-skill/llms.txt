@@ -22,6 +22,7 @@ Also published on npm as `@adobe/design-data-skill` for versioned installs.
 - [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md): usage and API overview
 - [Structure](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#structure)
 - [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#installation)
+- [Updating](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#updating)
 - [What the plugin includes](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#what-the-plugin-includes)
 - [Data and freshness](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#data-and-freshness)
 - [Not included](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#not-included)
