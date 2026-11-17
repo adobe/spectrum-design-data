@@ -220,6 +220,28 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.19.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-17",
+      "commit": "3ed6e984292bbcb3a5193cf474148290138fef4a",
+      "commits": [
+        {
+          "commit": "004414b89fe24cf5af1bc0b357cc30f0a9764b9f",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1907,"title":"feat(design-data): help text visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1907"},
+          "entries": [
+            {"id":"004414b8-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"help-text/anatomy/error-icon","name":"error-icon","fields":[],"before":{"name":"error-icon","description":"Alert icon shown only for the error (negative) variant. Hidden by hideIcon."}},
+            {"id":"004414b8-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"help-text/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row that holds the status icon and the text.","required":true,"contains":["icon","text"]}},
+            {"id":"004414b8-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"help-text/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Alert icon shown for the negative variant. Hidden by hideIcon."}},
+            {"id":"004414b8-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"help-text/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP Field.tsx:374 (no background of its own, so no container) and Field.tsx:446-448 (icon only for errors). Figma S2 Web (Show error icon prop).","after":"Matches Figma S2 Web (Help text): a row with an optional AlertTriangle instance and the text. React Spectrum has no separate container (Field.tsx:374 styles the row itself); container is kept as the recipe root. Icon shown only for the negative variant (Field.tsx:446-448). Renamed error-icon to icon."}]},
+            {"id":"004414b8-4","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"help-text/visual","name":"help-text","fields":[]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.options.variant"]}
+        }
+      ]
     }
   ]
 }
