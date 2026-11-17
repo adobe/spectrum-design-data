@@ -26,7 +26,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel: a cancelled run saves no cache, and back-to-back merges would cancel each other.
+  cancel-in-progress: false
 
 jobs:
   warm:
@@ -48,6 +49,8 @@ jobs:
         with:
           workspaces: sdk
           shared-key: rust-ci
+          # Save even if a flaky test fails the job; the compiled output is still valid.
+          cache-on-failure: true
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
