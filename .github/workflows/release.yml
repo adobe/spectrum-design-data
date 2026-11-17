@@ -52,9 +52,15 @@ jobs:
       hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
       cliReleaseNeeded: ${{ steps.cli.outputs.cliReleaseNeeded }}
     steps:
+      # The checkout token is git's push credential. The default GITHUB_TOKEN is a GitHub App
+      # and cannot push workflow files, so a version-branch or tag push is rejected whenever
+      # main's .github/workflows changed since that commit. GH_TOKEN is a PAT with `workflow` scope.
+      # See the changesets job: pushes tags, so it needs the PAT with `workflow` scope too.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Detect CLI release
         id: cli
