@@ -71,8 +71,7 @@
     },
     "isDisabled": {
       "type": "boolean",
-      "default": false,
-      "description": "Help text cannot be both disabled and negative variant."
+      "default": false
     }
   },
   "anatomy": [
